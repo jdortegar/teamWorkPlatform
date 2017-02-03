@@ -1,0 +1,157 @@
+.search_bar {
+  margin: 0 auto; }
+
+input {
+  float: left;
+  font-size: 80%;
+  height: 40px;
+  border: none;
+	width: 80%;
+  overflow: hidden;
+  padding: 0 7px; }
+
+::-webkit-input-placeholder {
+   font-style: italic;
+}
+:-moz-placeholder {
+   font-style: italic;  
+}
+::-moz-placeholder {
+   font-style: italic;  
+}
+:-ms-input-placeholder {  
+   font-style: italic; 
+}
+
+.search_btn {
+		text-align: center;
+    float: left;
+    height: 40px;
+    width:20%;
+    background-color: #ff8d27;
+    border: none;
+    -webkit-transition:background-color 0.2s linear;
+    transition: background-color 0.2s linear;
+}
+
+.search_btn:hover {
+    cursor: pointer;
+    background-color: #ffa759;
+}
+
+.ion-ios-search-strong {
+  font-size: 30px;
+  color: white;
+}
+
+.nav_tab {
+/*	display: inline-block;*/
+	height: 40px;
+	background : #e2e2e2;
+	
+}
+
+.ion-ios-arrow-back, 
+.ion-ios-arrow-forward,
+.ion-document,
+.ion-ios-people-outline,
+.ion-paper-airplane,
+.ion-grid,
+.ion-ios-list-outline {
+	float: left;
+	margin-top:2px;
+	margin-bottom: 2px;
+	padding-top: 5px;
+	background: #e2e2e2;
+	height: 36px;
+	width: 60px;
+	font-size: 28px;
+	text-align: center;
+	color: #999;
+
+}
+
+.ion-grid,
+.ion-ios-list-outline {
+	float: right;
+}
+
+.ion-ios-arrow-back:hover, 
+.ion-ios-arrow-forward:hover,
+.ion-document:hover,
+.ion-ios-people-outline:hover,
+.ion-paper-airplane:hover,
+.ion-grid:hover,
+.ion-ios-list-outline:hover{
+	cursor: pointer;
+	background: #f8f8f8;
+	color: #000;
+}
+
+.selected {
+	background: #f8f8f8;
+	color: #000;
+}
+
+#frame {
+	background : white;
+	height: 500px;
+	overflow-y: scroll;
+}
+
+.file-icon {
+	float: left;
+	margin: 30px 20px 0px 20px;
+	text-align: center;
+	height: 80px;
+	width: 60px;
+	overflow-y: hidden;
+}
+
+.file-icon:hover {
+	cursor: pointer;
+}
+
+.single_clicked {
+	background: #b6ddff;
+	border-radius: 3px;
+}
+
+.file-heat-number {
+	margin: auto;
+	width: 40px;
+	height: 40px;
+	padding-top:8px;
+	border-radius: 50%;
+	color: white;
+}
+
+.five {
+	background: grey;
+}
+
+.ten {
+	background: #1abc9c;
+}
+
+.twenty {
+	background: #3498db;
+}
+
+.fifty {
+	background: #f1c40f;
+}
+
+.hundred {
+	background: #ff8d27;
+}
+.file-name {
+	margin-top: 5px;
+}
+.file-name p {
+	word-wrap: break-word;
+	font-size: 12px;
+/*	overflow-y: hidden;*/
+}
+
+/*# sourceMappingURL=graph.css.map */
