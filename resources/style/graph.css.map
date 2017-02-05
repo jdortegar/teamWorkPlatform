@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAEA,WAAY;EACX,MAAM,EAAE,MAAM;;AAIf,KAAM;EACF,KAAK,EAAE,IAAI;EACX,SAAS,EAAE,GAAG;EACd,MAAM,EAAE,IAAI;EACZ,MAAM,EAAE,IAAI;EAEZ,QAAQ,EAAE,MAAM;EAChB,OAAO,EAAE,KAAK",
-"sources": ["graph.scss"],
-"names": [],
-"file": "graph.css"
-}
