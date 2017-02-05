@@ -17,12 +17,31 @@ p {
   font-size: 18px; }
 
 a {
-  text-decoration: none !important;
+  text-decoration: none;
   color: white; }
 
 /*-----------------------------------------*/
 /* REUSABLE
 /*-----------------------------------------*/
+h1, h2, h3 {
+  text-align: center;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 1px; }
+
+h1 {
+  color: white;
+  font-weight: 200;
+  word-spacing: 4px;
+  font-size: 300%; }
+
+
+h2 {
+  font-size: 200%;
+  word-spacing: 2px;
+  margin-bottom: 30px; 
+}
+
 .odd {
   background-color: #e6e6e6; }
 
@@ -69,22 +88,56 @@ section {
 
 header {
   height: 100vh;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)), url(/resources/img/header5.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.6)), url(/resources/img/header5.jpg);
   background-size: cover;
   background-attachment: fixed;
   overflow: hidden; 
 }
 
-.group_logo {
-  width: 100%;
-  display: inline-block;
-  width: 300px;
+.main-nav {
+  float: right;
+  list-style: none;
+  color: #f0f0f0; }
+
+.navbar-right li {
+  margin-top: 0px }
+
+nav.navbar-inverse {
+  border-radius: 0px;
+  height: 100px;
+  background: rgba(0, 0, 0, 0.8);
+  border: none; 
 }
 
+.navbar-brand {
+  color: #f0f0f0 }
+
+.navbar ul {
+  padding-top: 10px;
+  padding-right: 20px;
+}
+
+.navbar li a:link,
+.navbar li a:visited {
+  border-bottom: 2px solid rgba(0,0,0,0);
+  font-size: 100% ;
+  color: #f0f0f0; 
+}
+
+.navbar li a:active,
+.navbar li a:hover {
+  border-bottom: 2px solid #e67e23;
+  color:white;
+  background: black;
+ 
+}
+
+.logo-text {
+  text-align: center;
+  margin-top: 10%; }
+
 .logo {
-  float:left;
-  margin-left:20px;
-  margin-top: 20px;
+
   width: 30px;
   height: 30px; 
 }
@@ -92,45 +145,15 @@ header {
 .logo-habla {
   position: relative;
   float:left;
-  color: white;
-  font-family: 'Arima Madurai';
-  font-weight: 500;
+  color: #f0f0f0;
+  /*font-family: 'Arima Madurai';*/
+  font-weight: 200;
   font-size: 20px; 
-  margin-left:10px;
-  margin-top: 20px;
+  /*margin-left:10px;*/
+  margin-top: 15px;
 }
 
-.navbar {
-  position: absolute;
-  right: 10px;
-  top:20px;
-  height: 50px;
-}
 
-.navbar ul {
-  /*float: right;*/
-  list-style: none;
-  padding-top: 10px;
-  padding-right: 20px; }
-
-.navbar li {
-  position: relative;
-  float: right;
-  /*background: white;*/
- /* width: 80px;*/
-  
-}  
-
-.navbar li a:link,
-.navbar li a:visited {
-  padding : 20px;
-  color: white; }
-
-.navbar li a:active,
-.navbar li a:hover {
-  /*    border-bottom: 2px solid #e67e23;*/
-  background: black ;
-  border-radius: 5px; }
 
 .logo-text {
   text-align: center;
@@ -138,18 +161,19 @@ header {
 }
 
 .slogan {
-  font-family: 'Arima Madurai';
-  font-weight: 900;
+  /*font-family: 'Arima Madurai';*/
+  font-weight: 400;
   font-size: 50px;
-  color: white;
+  color: #f0f0f0;
   letter-spacing: 1px;
-  word-spacing: 5px; }
+  word-spacing: 5px; 
+}
 
 .slogan-small {
-  font-family: 'Arima Madurai';
+  /*font-family: 'Arima Madurai';*/
   font-size: 30px;
   color: white;
-  font-weight: 400;
+  font-weight: 100;
   word-spacing: 3px; }
 
 .fast-register {
@@ -188,7 +212,7 @@ header {
   color: white; }
 
 .form-control {
-  color: #acabab !important; }
+  color: #acabab; }
 
 .scroll-mouse {
   position: absolute;

@@ -10,7 +10,7 @@ const HeaderSlogan = () => {
                 NEVER SWIM THROUGH LOST FILES AGAIN
             </p>
             <p className="slogan-small">
-            	Keep goals in clear focus!
+            	Keep your goals in clear focus!
             </p>
  			<HeaderFastRegister />
  			<HeaderScrollMouse />          
