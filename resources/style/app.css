@@ -1,0 +1,243 @@
+/*-----------------------------------------*/
+/* OVEWRITE WHOLE STRUCTURE/TAGS Testing scss
+/*-----------------------------------------*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+html {
+  background-color: white;
+  font-family: 'Lato','Arial',sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  text-rendering: optimizeLegibility; }
+
+p {
+  font-size: 18px; }
+
+a {
+  text-decoration: none;
+  color: white; }
+
+/*-----------------------------------------*/
+/* REUSABLE
+/*-----------------------------------------*/
+h1, h2, h3 {
+  text-align: center;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 1px; }
+
+h1 {
+  color: white;
+  font-weight: 200;
+  word-spacing: 4px;
+  font-size: 300%; }
+
+
+h2 {
+  font-size: 200%;
+  word-spacing: 2px;
+  margin-bottom: 30px; 
+}
+
+.odd {
+  background-color: #e6e6e6; }
+
+section {
+  padding: 80px 0; }
+
+.row-half {
+  background-color: black;
+  display: inline-block;
+  width: 50%;
+  float: left; }
+
+.submit {
+  margin: 0 auto; }
+
+.row-full {
+  text-align: center;
+  width: 90%;
+  height: auto;
+  margin: 0 auto; }
+
+.fixed-top {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 2; }
+
+.invi {
+  display: none; }
+
+.clearfix {
+  zoom: 1; }
+
+.clearfix::after {
+  content: " ";
+  clear: both;
+  display: block;
+  height: 0;
+  visibility: hidden; }
+
+/*-----------------------------------------*/
+/* HEADER
+/*-----------------------------------------*/
+
+header {
+  height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.6)), url(/resources/img/header5.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+  overflow: hidden; 
+}
+
+.main-nav {
+  float: right;
+  list-style: none;
+  color: #f0f0f0; }
+
+.navbar-right li {
+  margin-top: 0px }
+
+nav.navbar-inverse {
+  border-radius: 0px;
+  height: 100px;
+  background: rgba(0, 0, 0, 0.8);
+  border: none; 
+}
+
+.navbar-brand {
+  color: #f0f0f0 }
+
+.navbar ul {
+  padding-top: 10px;
+  padding-right: 20px;
+}
+
+.navbar li a:link,
+.navbar li a:visited {
+  border-bottom: 2px solid rgba(0,0,0,0);
+  font-size: 100% ;
+  color: #f0f0f0; 
+}
+
+.navbar li a:active,
+.navbar li a:hover {
+  border-bottom: 2px solid #e67e23;
+  color:white;
+  background: black;
+ 
+}
+
+.logo-text {
+  text-align: center;
+  margin-top: 10%; }
+
+.logo {
+
+  width: 30px;
+  height: 30px; 
+}
+
+.logo-habla {
+  position: relative;
+  float:left;
+  color: #f0f0f0;
+  /*font-family: 'Arima Madurai';*/
+  font-weight: 200;
+  font-size: 20px; 
+  /*margin-left:10px;*/
+  margin-top: 15px;
+}
+
+
+
+.logo-text {
+  text-align: center;
+  margin-top: 10%; 
+}
+
+.slogan {
+  /*font-family: 'Arima Madurai';*/
+  font-weight: 400;
+  font-size: 50px;
+  color: #f0f0f0;
+  letter-spacing: 1px;
+  word-spacing: 5px; 
+}
+
+.slogan-small {
+  /*font-family: 'Arima Madurai';*/
+  font-size: 30px;
+  color: white;
+  font-weight: 100;
+  word-spacing: 3px; }
+
+.fast-register {
+  margin: auto;
+  width: 400px;
+  height: 150px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 10px; }
+
+.register-first {
+  padding-top: 30px; }
+
+.register-second p {
+  color: #cecece;
+  font-weight: 200;
+  font-size: 12px;
+  margin-top: 20px;
+  letter-spacing: 1px; }
+.register-second a:link,
+.register-second a:visited {
+  color: #1580c7;
+}
+
+.register-second a:active,
+.register-second a:hover {
+  color: #115e91;
+}
+.create-new-team {
+  width: 180px;
+  background: #3498db;
+  color: #f7f7f7;
+  border-radius: 5px; }
+
+.create-new-team:hover {
+  background: #1580c7;
+  color: white; }
+
+.form-control {
+  color: #acabab; }
+
+.scroll-mouse {
+  position: absolute;
+  left: 48%;
+  bottom: 5%;
+  height: 50px;
+  width: 35px;
+  border: 2px solid white;
+  border-radius: 23px; }
+
+.wheel {
+  position: inherit;
+  display: block;
+  left: 38%;
+  top: 10%;
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  animation-name: scrolling;
+  animation-duration: 1.2s;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite; }
+
+
+
+
+
