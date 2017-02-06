@@ -14,7 +14,7 @@ const Who = () => {
 					<p>Finance</p>
 				</div>
 				<div className="col-md-6">
-					<h2 className="col-md-6">Illustration of different users</h2>
+					<h2>Illustration of different users</h2>
 				</div>
 			</div>
 		</section>

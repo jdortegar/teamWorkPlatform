@@ -11,7 +11,7 @@ const How = () => {
 					<p>Habla anticipates what documents you are looking for</p>
 				</div>
 				<div className="col-md-6">
-					<h2 className="col-md-6">Not sure what this visual ought to be</h2>
+					<h2>Not sure what this visual ought to be</h2>
 				</div>
 			</div>  
 		</section>

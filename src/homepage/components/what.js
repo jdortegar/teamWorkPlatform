@@ -11,7 +11,7 @@ const What = () => {
 					<p>Habla remove the pain of searching for data and documents</p>
 				</div>
 				<div className="col-md-6">
-					<h2 className="col-md-6">DIAGRAM</h2>
+					<h2>DIAGRAM</h2>
 				</div>
 			</div>     
 		</section>
