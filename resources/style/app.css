@@ -99,23 +99,12 @@ header {
   overflow: hidden; 
 }
 
-.main-nav {
-  float: right;
-  list-style: none;
-  color: #f0f0f0; }
-
-.navbar-right li {
-  margin-top: 0px }
 
 nav.navbar-inverse {
   border-radius: 0px;
-  height: 100px;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0);
   border: none; 
 }
-
-.navbar-brand {
-  color: #f0f0f0 }
 
 .navbar ul {
   padding-top: 10px;
@@ -142,20 +131,23 @@ nav.navbar-inverse {
   margin-top: 10%; }
 
 .logo {
-
+  position: absolute;
+  float:left;
+  left: 20px;
   width: 30px;
   height: 30px; 
 }
 
 .logo-habla {
-  position: relative;
+  position: absolute;
+  left: 50px;
   float:left;
   color: #f0f0f0;
   /*font-family: 'Arima Madurai';*/
   font-weight: 200;
   font-size: 20px; 
-  /*margin-left:10px;*/
-  margin-top: 15px;
+  margin-left:10px;
+  margin-top: 5px;
 }
 
 
@@ -218,8 +210,8 @@ nav.navbar-inverse {
 
 .form-control {
   color: #acabab; 
-  box-shadow: inset 0 0 10px black;
-  border: none;
+  /*box-shadow: inset 0 0 10px black;*/
+  /*border: none;*/
 }
 
 .scroll-mouse {
@@ -245,6 +237,14 @@ nav.navbar-inverse {
   animation-timing-function: ease-in;
   animation-iteration-count: infinite; }
 
+  @keyframes scrolling {
+  from {
+    top: 10%;
+    opacity: 1; }
+  to {
+    top: 60%;
+    opacity: 0.0; } }
+
 /*-----------------------------------------*/
 /* BODY
 /*-----------------------------------------*/
@@ -266,7 +266,6 @@ footer {
 
 .footer-title {
   color: black;
-  font-weight: bold;
 }
 
 .footer-link {

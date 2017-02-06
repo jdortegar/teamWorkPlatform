@@ -6,7 +6,7 @@ const HeaderSlogan = () => {
 	return (
 		<div className="logo-text">
 			<p className="slogan">
-                NAVIGATE YOUR DARK DATA<br />
+                NAVIGATE YOUR DARK DATA,<br />
                 NEVER SWIM THROUGH LOST FILES AGAIN
             </p>
             <p className="slogan-small">
