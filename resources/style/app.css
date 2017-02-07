@@ -177,7 +177,7 @@ nav.navbar-inverse {
   margin: auto;
   width: 400px;
   height: 150px;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.7);
   border-radius: 10px; }
 
 .register-first {
@@ -208,11 +208,6 @@ nav.navbar-inverse {
   background: #1580c7;
   color: white; }
 
-.form-control {
-  color: #acabab; 
-  /*box-shadow: inset 0 0 10px black;*/
-  /*border: none;*/
-}
 
 .scroll-mouse {
   position: absolute;

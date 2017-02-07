@@ -1,5 +1,6 @@
 import React from 'react';
-
+import FormGroup from 'react-bootstrap/lib/FormGroup';
+import FormControl from 'react-bootstrap/lib/FormControl';
 //This should be in Class module when we have a 
 //transfer state for Create Team
 const HeaderFastRegister = () => {
@@ -7,7 +8,9 @@ const HeaderFastRegister = () => {
 		<div className="fast-register">
 	    	<div className="register-first">
 				<div className="col-xs-6">
-					<input className="form-control" type="email" placeholder="Email address" />
+					<FormGroup>
+						<FormControl type="email" placeholder="Email address" />
+					</FormGroup>
 				</div>
 				<a href="#" className="btn create-new-team">
 					Create New Team
