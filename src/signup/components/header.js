@@ -27,16 +27,18 @@ const Header = () => {
 						id="password"
 						type="Password"
 						placeholder="password"
-						help={<Link to="/" className="forgot-password">Forgot Password?</Link>}
+						help={<Link to="/forgotpass" className="forgot-password">Forgot Password?</Link>}
 						classn="col-md-4 form-login"
 					/>
 					
 					<Button 
 						type="submit" 
 						bsStyle="primary" 
-						className="col-md-4 login-submit" >
+						className="col-md-2 login-submit" >
 							Log In
 					</Button>
+					<i className="col-md-2 ion-help-circled">
+					</i>
 					
 				
 				</form>

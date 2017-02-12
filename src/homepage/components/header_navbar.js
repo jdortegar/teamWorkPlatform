@@ -19,7 +19,9 @@ const HeaderNavbar = () => {
                 <Nav pullRight>
                     <NavItem eventKey={1} href="#/">Product</NavItem>
                     <NavItem eventKey={2} href="#/">Pricing</NavItem>
-                    <NavItem eventKey={3} href="#/">Your Teams</NavItem>
+                    <LinkContainer to="/team">
+                        <NavItem eventKey={3} >Your Teams</NavItem>
+                    </LinkContainer>
                     <LinkContainer to="/signup">
                         <NavItem eventKey={4} >Sign Up</NavItem>
                     </LinkContainer>

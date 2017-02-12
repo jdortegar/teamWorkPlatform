@@ -314,15 +314,17 @@ footer {
   font-size: 12px; }
 
 .login-submit {
-  margin: 10px 0 0 0px; }
+  margin: 10px 0 20px 0px; }
 
 .forgot-password {
-  color: #3498db; }
+  color: #999; }
 
 .signup-guide {
-  padding: 80px 50px 0 0; }
+  padding: 80px 50px 0 10px; }
   .signup-guide p {
     font-size: 14px; }
+  .signup-guide h5 {
+    color: #999; }
 
 .signup-fill h1 {
   color: black;
@@ -330,6 +332,16 @@ footer {
   font-weight: 400;
   text-align: left;
   margin-bottom: 20px; }
+
+.ion-help-circled {
+  font-size: 30px;
+  margin: 0;
+  color: white;
+  padding-top: 6px; }
+
+.ion-help-circled:hover {
+  color: #1580c7;
+  cursor: pointer; }
 
 .signup-small {
   margin: 0;
@@ -340,11 +352,68 @@ footer {
 .delheight {
   display: none; }
 
-.clearpadding {
+.clearpadding, .reset-password-button {
   padding: 0;
   margin: 0; }
 
 .signup-submit {
   margin-top: 30px; }
+
+.forgot-notice {
+  margin-top: 20px; }
+  .forgot-notice p {
+    font-size: 14px;
+    color: #999; }
+
+.fill-vertical {
+  height: 300px; }
+
+.reset-password-button {
+  padding-right: 5px; }
+
+.reset-cancel {
+  background-color: #e6e6e6; }
+
+.reset-cancel:hover {
+  background-color: #999; }
+
+.team-search {
+  margin-top: 20px; }
+
+.search-button {
+  margin: 0;
+  padding: 0;
+  width: 60px;
+  background: #ff9000;
+  border: none; }
+
+.search-button:hover {
+  background-color: #e67e23; }
+
+.ion-ios-search-strong {
+  margin: 0;
+  padding: 0;
+  font-size: 24px; }
+
+.team-header-icons {
+  margin-top: 16px;
+  padding-left: 20px; }
+
+.ion-ios-calendar-outline,
+.ion-chatbubbles,
+.ion-earth,
+.ion-ios-gear,
+.team-question-icon {
+  font-size: 30px;
+  padding-right: 30px;
+  color: white; }
+
+.ion-ios-calendar-outline:hover,
+.ion-chatbubbles:hover,
+.ion-earth:hover,
+.ion-ios-gear:hover,
+.team-question-icon:hover {
+  color: #1580c7;
+  cursor: pointer; }
 
 /*# sourceMappingURL=app.css.map */
