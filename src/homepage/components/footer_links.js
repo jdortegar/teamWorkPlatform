@@ -4,7 +4,7 @@ const FooterLinks = () => {
 	return (
 		<div className = "row">
            	
-            <div className="col-xs-3">
+            <div className="col-md-2 col-md-offset-2">
                 <div className="footer-nav">
                    		<p className="footer-title">USING HABLA</p>
                     	<p><a href="#/" className="footer-link">Product</a></p>
@@ -16,7 +16,7 @@ const FooterLinks = () => {
                 </div>
             </div>
             
-            <div className="col-xs-3">
+            <div className="col-md-2">
                 <div className="footer-nav">
                    		<p className="footer-title">HABLA</p>
                     	<p><a href="#/" className="footer-link">Jobs</a></p>
@@ -30,7 +30,7 @@ const FooterLinks = () => {
                 </div>
             </div>
             
-            <div className="col-xs-3">
+            <div className="col-md-2">
                 <div className="footer-nav">
                    		<p className="footer-title">LEGAL</p>
                     	<p><a href="#/" className="footer-link">Privacy</a></p>
@@ -42,7 +42,7 @@ const FooterLinks = () => {
                 </div>
             </div>
             
-            <div className="col-xs-3">
+            <div className="col-md-2">
                 <div className="footer-nav">
                    		<p className="footer-title">GETTING STARTED</p>
                     	<p><a href="#/" className="footer-link">Download desktop app</a></p>

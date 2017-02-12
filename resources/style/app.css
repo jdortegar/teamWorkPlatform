@@ -8,7 +8,7 @@
 
 html {
   background-color: white;
-  font-family: 'Lato','Arial',sans-serif;
+  font-family: "Lato", "Arial", sans-serif;
   font-size: 20px;
   font-weight: 400;
   text-rendering: optimizeLegibility; }
@@ -19,6 +19,9 @@ p {
 a {
   text-decoration: none !important;
   color: white; }
+
+a:hover {
+  cursor: pointer; }
 
 /*-----------------------------------------*/
 /* REUSABLE
@@ -35,12 +38,10 @@ h1 {
   word-spacing: 4px;
   font-size: 300%; }
 
-
 h2 {
   font-size: 200%;
   word-spacing: 2px;
-  margin-bottom: 30px; 
-}
+  margin-bottom: 30px; }
 
 .odd {
   background-color: #e6e6e6; }
@@ -55,9 +56,8 @@ section {
   float: left; }
 
 .row {
-  padding-left:10%;
-  padding-right:10%;
-}
+  margin: 0;
+  padding: 0; }
 
 .submit {
   margin: 0 auto; }
@@ -74,6 +74,10 @@ section {
   top: 0;
   z-index: 2; }
 
+.container-fluid {
+  margin: 0;
+  padding: 0; }
+
 .invi {
   display: none; }
 
@@ -87,44 +91,43 @@ section {
   height: 0;
   visibility: hidden; }
 
+.test1 {
+  background-color: blue; }
+
+.test2 {
+  background-color: green; }
+
+.test3 {
+  background-color: yellow; }
+
 /*-----------------------------------------*/
 /* HEADER
 /*-----------------------------------------*/
-
 header {
   height: 100vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.6)), url(/resources/img/header5.jpg);
   background-size: cover;
   background-attachment: fixed;
-  overflow: hidden; 
-}
-
+  overflow: hidden; }
 
 nav.navbar-inverse {
-  border-radius: 0px;
-  background: rgba(0, 0, 0, 0);
-  border: none; 
-}
+  background: transparent;
+  border: none; }
 
 .navbar ul {
   padding-top: 10px;
-  padding-right: 20px;
-}
-
-.navbar li a:link,
-.navbar li a:visited {
-  border-bottom: 2px solid rgba(0,0,0,0);
-  font-size: 100% ;
-  color: #f0f0f0; 
-}
-
-.navbar li a:active,
-.navbar li a:hover {
+  padding-right: 20px; }
+.navbar li a:link, .navbar li a:visited {
+  border-bottom: 2px solid transparent;
+  font-size: 100%;
+  color: #f0f0f0; }
+.navbar li a:active, .navbar li a:hover {
   border-bottom: 2px solid #e67e23;
-  color:white;
-  background: black;
- 
-}
+  color: white;
+  background: black; }
+
+.nodecoration a:link {
+  text-decoration: none; }
 
 .logo-text {
   text-align: center;
@@ -132,42 +135,29 @@ nav.navbar-inverse {
 
 .logo {
   position: absolute;
-  float:left;
+  float: left;
   left: 20px;
   width: 30px;
-  height: 30px; 
-}
+  height: 30px; }
 
 .logo-habla {
   position: absolute;
   left: 50px;
-  float:left;
+  float: left;
   color: #f0f0f0;
-  /*font-family: 'Arima Madurai';*/
   font-weight: 200;
-  font-size: 20px; 
-  margin-left:10px;
-  margin-top: 5px;
-}
-
-
-
-.logo-text {
-  text-align: center;
-  margin-top: 10%; 
-}
+  font-size: 20px;
+  margin-left: 10px;
+  margin-top: 5px; }
 
 .slogan {
-  /*font-family: 'Arima Madurai';*/
   font-weight: 400;
   font-size: 50px;
   color: #f0f0f0;
   letter-spacing: 1px;
-  word-spacing: 5px; 
-}
+  word-spacing: 5px; }
 
 .slogan-small {
-  /*font-family: 'Arima Madurai';*/
   font-size: 30px;
   color: white;
   font-weight: 100;
@@ -178,36 +168,39 @@ nav.navbar-inverse {
   width: 400px;
   height: 150px;
   background: rgba(0, 0, 0, 0.7);
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
   border-radius: 10px; }
 
 .register-first {
   padding-top: 30px; }
 
 .register-second p {
-  color: #cecece;
+  color: #f0f0f0;
   font-weight: 200;
   font-size: 12px;
   margin-top: 20px;
   letter-spacing: 1px; }
-.register-second a:link,
-.register-second a:visited {
-  color: #1580c7;
-}
+.register-second a:link, .register-second a:visited {
+  color: #3498db; }
+.register-second a:active, .register-second a:hover {
+  color: #1580c7; }
 
-.register-second a:active,
-.register-second a:hover {
-  color: #115e91;
-}
 .create-new-team {
   width: 180px;
   background: #3498db;
-  color: #f7f7f7;
+  color: #f0f0f0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
   border-radius: 5px; }
 
 .create-new-team:hover {
   background: #1580c7;
   color: white; }
-
 
 .scroll-mouse {
   position: absolute;
@@ -216,6 +209,10 @@ nav.navbar-inverse {
   height: 50px;
   width: 35px;
   border: 2px solid white;
+  -webkit-border-radius: 23px;
+  -moz-border-radius: 23px;
+  -ms-border-radius: 23px;
+  -o-border-radius: 23px;
   border-radius: 23px; }
 
 .wheel {
@@ -226,32 +223,32 @@ nav.navbar-inverse {
   width: 8px;
   height: 8px;
   background: white;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
   border-radius: 50%;
   animation-name: scrolling;
   animation-duration: 1.2s;
   animation-timing-function: ease-in;
   animation-iteration-count: infinite; }
 
-  @keyframes scrolling {
+@keyframes scrolling {
   from {
     top: 10%;
     opacity: 1; }
   to {
     top: 60%;
     opacity: 0.0; } }
-
 /*-----------------------------------------*/
 /* BODY
 /*-----------------------------------------*/
-
 .bottom-register {
-  text-align: center;
-}
+  text-align: center; }
 
 /*-----------------------------------------*/
 /* FOOTER
 /*-----------------------------------------*/
-
 footer {
   background-color: #d8d8d8;
   padding-top: 80px;
@@ -260,8 +257,7 @@ footer {
   padding-bottom: 50px; }
 
 .footer-title {
-  color: black;
-}
+  color: black; }
 
 .footer-link {
   color: #999;
@@ -292,12 +288,63 @@ footer {
   color: #999; }
 
 .social {
-  margin-top: 20px;
-}
-.social a {
-  margin: 10px; 
+  margin-top: 20px; }
+  .social a {
+    margin: 10px; }
 
-}
+.header-login {
+  height: auto;
+  background-color: #d8d8d8;
+  margin: 0;
+  padding: 0; }
 
+.logo-login {
+  margin-top: 15px;
+  margin-left: 0;
+  width: 40px;
+  height: 40px; }
 
+.form-login {
+  margin: 10px 0px 0 0px;
+  padding: 0;
+  padding-right: 5px;
+  height: 60px; }
 
+.help-block {
+  font-size: 12px; }
+
+.login-submit {
+  margin: 10px 0 0 0px; }
+
+.forgot-password {
+  color: #3498db; }
+
+.signup-guide {
+  padding: 80px 50px 0 0; }
+  .signup-guide p {
+    font-size: 14px; }
+
+.signup-fill h1 {
+  color: black;
+  text-transform: none;
+  font-weight: 400;
+  text-align: left;
+  margin-bottom: 20px; }
+
+.signup-small {
+  margin: 0;
+  padding: 0;
+  height: 60px;
+  padding-right: 5px; }
+
+.delheight {
+  display: none; }
+
+.clearpadding {
+  padding: 0;
+  margin: 0; }
+
+.signup-submit {
+  margin-top: 30px; }
+
+/*# sourceMappingURL=app.css.map */
