@@ -5,3 +5,9 @@
 	     -o-border-radius: $radius;
 	    	border-radius: $radius;
 }
+
+@mixin box-shadow($x,$y,$blur) {
+	-webkit-box-shadow: $x $y $blur 0px rgba(184,184,184,1);
+	   -moz-box-shadow: $x $y $blur 0px rgba(184,184,184,1);
+		    box-shadow: $x $y $blur 0px rgba(184,184,184,1);
+}

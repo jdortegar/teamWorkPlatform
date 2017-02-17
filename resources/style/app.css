@@ -100,6 +100,12 @@ section {
 .test3 {
   background-color: yellow; }
 
+.thin-text {
+  font-weight: 200; }
+
+.inline-block {
+  display: inline-block; }
+
 /*-----------------------------------------*/
 /* HEADER
 /*-----------------------------------------*/
@@ -352,7 +358,7 @@ footer {
 .delheight {
   display: none; }
 
-.clearpadding, .reset-password-button {
+.clearpadding, .reset-password-button, .body-middle {
   padding: 0;
   margin: 0; }
 
@@ -413,7 +419,175 @@ footer {
 .ion-earth:hover,
 .ion-ios-gear:hover,
 .team-question-icon:hover {
-  color: #1580c7;
+  color: #3498db;
   cursor: pointer; }
+
+.body-left {
+  border: 2px solid #f0f0f0; }
+
+.mainuser {
+  height: 90px;
+  border-bottom: 1px solid black; }
+
+.mainuser-avatar-container {
+  height: 90px;
+  margin: 0;
+  padding: 0; }
+
+.mainuser-avatar, .team-member-avatar {
+  padding: 0;
+  margin: 0;
+  width: 40px;
+  height: 40px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  margin-top: 20px; }
+
+.mainuser-info {
+  height: 90px;
+  padding-top: 15px; }
+  .mainuser-info .mainuser-name p, .mainuser-info .team-user-name p {
+    padding: 0;
+    margin: 0;
+    font-style: bold;
+    font-weight: 400;
+    font-size: 16px; }
+  .mainuser-info .mainuser-email, .mainuser-info .team-user-email {
+    font-size: 14px;
+    color: #999; }
+  .mainuser-info .mainuser-phone {
+    font-size: 14px;
+    color: #999; }
+
+.team-members {
+  overflow-y: scroll;
+  height: 500px; }
+
+.team-member {
+  height: 70px; }
+
+.team-member-avatar-container {
+  margin: 0;
+  padding: 0; }
+
+.team-member-avatar {
+  margin-top: 0; }
+
+.member-message-time {
+  color: #999; }
+
+.team-nav-bottom {
+  margin-top: 20px; }
+
+.nav-horizontal {
+  margin: 0;
+  padding: 0;
+  height: 400px;
+  background-color: #e6e6e6;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px; }
+
+.nav-horizontal-icon-container {
+  margin-top: 15px;
+  margin-left: 12px;
+  width: 30px;
+  height: 30px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  background-color: #999;
+  text-align: center; }
+
+.nav-horizontal-icon-container:hover {
+  cursor: pointer;
+  background-color: #3498db; }
+
+.fa-user-o,
+.fa-bar-chart,
+.fa-search,
+.fa-star-o {
+  margin: 0;
+  padding: 0;
+  padding-top: 4px;
+  font-size: 20px;
+  color: white; }
+
+.team-nav-links a {
+  color: black;
+  margin-left: 10px; }
+
+.team-nav-links-indent a {
+  color: black;
+  margin-left: 15px; }
+
+.team-nav-links-indent-indent a {
+  color: black;
+  margin-left: 20px; }
+
+.team-nav-links a:hover,
+.team-nav-links-indent a:hover,
+.team-nav-links-indent-indent a:hover {
+  color: #3498db; }
+
+.body-middle {
+  border: 2px solid #f0f0f0;
+  background-color: #f0f0f0; }
+
+.team-middle-header {
+  height: 50px;
+  border-bottom: 1px solid black; }
+  .team-middle-header h3 {
+    margin: 0;
+    padding: 0;
+    padding-top: 10px;
+    text-transform: none;
+    font-weight: 600; }
+
+.team-middle-header-middle {
+  height: 50px;
+  text-align: center; }
+
+.team-middle-header-middle-text {
+  line-height: 50px;
+  font-size: 16px; }
+
+.team-middle-header-right p {
+  text-align: right;
+  height: 50px;
+  line-height: 50px;
+  font-size: 16px; }
+
+.fa-angle-down {
+  padding-left: 5px;
+  font-size: 30px; }
+
+.team-middle-post {
+  padding-top: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #999; }
+  .team-middle-post a {
+    color: #999; }
+
+.team-user-name {
+  font-size: 20px; }
+
+.team-user-email {
+  font-weight: 200; }
+
+.team-user-message-content p {
+  font-size: 14px; }
+
+.fa-comment-o:hover,
+.fa-share-square-o:hover,
+.fa-thumbs-o-up:hover {
+  color: #3498db; }
 
 /*# sourceMappingURL=app.css.map */

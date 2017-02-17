@@ -8,7 +8,7 @@ import ResetPass from './resetpass/resetpass';
 import Team from './team/team';
 
 export default (
-	<Route path="/" component={Team}>
+	<Route path="/" component={Habla}>
 		<IndexRoute component={Homepage} />
 		<Route path="/signup" component={SignUp} />
 		<Route path="/forgotpass" component={ForgotPass} />
