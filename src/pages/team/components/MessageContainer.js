@@ -59,7 +59,7 @@ class MessageContainer extends Component {
 						level={parent.props.level+1} 
 						color="" 
 						content={node.text} 
-						time={moment(node.created).format('h:mm A')}
+						time={moment(node.created).fromNow()}
 						children={[]}
 					/>
 				)
@@ -95,7 +95,7 @@ class MessageContainer extends Component {
 								level={0} 
 								color="" 
 								content={event.text} 
-								time={moment(event.created).add(1, 'day').format('h:mm A')}
+								time={moment(event.created).fromNow()}
 								children={[]}
 							/>
 						)
@@ -158,7 +158,7 @@ class MessageContainer extends Component {
 					level={0} 
 					color=""
 					content={message.text} 
-					time={moment(message.created).format('h:mm A')}
+					time={moment(message.created).fromNow()}
 					children={[]}
 				/>
 			);
@@ -256,7 +256,7 @@ class MessageContainer extends Component {
 								level={parent.depth+1 }
 								color={post["color"]}
 								content={post["text"]}
-								time={moment(post["time"]).format('h:mm A')}
+								time={moment(post["time"]).fromNow()}
 								children={post["child"]} ////1
 							/>
 						)
@@ -273,7 +273,7 @@ class MessageContainer extends Component {
 						level={0} 
 						color={post["color"]} 
 						content={post["text"]} 
-						time={moment(post["time"]).format('h:mm A')}
+						time={moment(post["time"]).fromNow()}
 						children={post["child"]}
 					/>
 				)

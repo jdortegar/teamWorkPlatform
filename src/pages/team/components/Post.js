@@ -51,7 +51,7 @@ class Post extends Component {
 						level={this.props.level+1} 
 						color={this.props.color}
 						children={[]}
-						time={moment(message.created).add(1, 'day').format('LLL')}
+						time={moment(message.created).fromNow()}
 						content={message.text} 
 						shortname={shortname} 
 						key={message.messageId} 
@@ -67,7 +67,7 @@ class Post extends Component {
 						level={this.props.level+1} 
 						color={this.props.color}
 						children={[]}
-						time={moment(message.created).add(1, 'day').format('LLL')}
+						time={moment(message.created).fromNow()}
 						content={message.text} 
 						shortname={shortname} 
 						key={message.messageId} 
