@@ -21,9 +21,9 @@ class Register extends Component {
 		event.preventDefault();
 		if (validateEmail(this.props.email_in)) {
 			this.props.submitEmail(this.props.email_in)
-			.then(() => {
+			// .then(() => {
 				this.context.router.push('/successful');
-			});
+			// });
 		}
 	}
 

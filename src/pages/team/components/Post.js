@@ -6,11 +6,12 @@ import ShortName from './ShortName';
 import config from '../../../config/env';
 import { sendMessage } from '../../../actions/index';
 import axios from 'axios';
+import moment from 'moment-timezone';
 
 class Post extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {user_input : '', flag: 0, post:[], content: '', key: -1, callbackMessage: {}};
+		this.state = {user_input : '', flag: 0, post:[], content: '', key: -1, focus: 'active'};
 		this.addChild = this.addChild.bind(this);
 		this.handleKeyPressed = this.handleKeyPressed.bind(this);
 		this.sendMessage = this.sendMessage.bind(this);
@@ -20,6 +21,11 @@ class Post extends Component {
 	componentDidUpdate() {
 	    autosize(document.querySelectorAll('textarea'));
 	}
+
+	componentDidMount() {
+		
+	}
+
 
 	sendMessage(text,replyTo,shortname) {
 		const teamRoomId = this.props.room.teamRoomId;
@@ -45,7 +51,7 @@ class Post extends Component {
 						level={this.props.level+1} 
 						color={this.props.color}
 						children={[]}
-						time={message.created}
+						time={moment(message.created).add(1, 'day').format('LLL')}
 						content={message.text} 
 						shortname={shortname} 
 						key={message.messageId} 
@@ -61,7 +67,7 @@ class Post extends Component {
 						level={this.props.level+1} 
 						color={this.props.color}
 						children={[]}
-						time={message.created}
+						time={moment(message.created).add(1, 'day').format('LLL')}
 						content={message.text} 
 						shortname={shortname} 
 						key={message.messageId} 
@@ -107,10 +113,11 @@ class Post extends Component {
 
 	
 
-	openReply(flag,level) {	
+	openReply(flag,level) {
 		if (flag==0) {
 			this.flag=1
-			this.setState({flag: 1, user_input: this.reply()}); //this.addChild(content)
+			// this.setState({focus: 'active'}); //set focus before open reply
+			this.setState({flag: 1, user_input: this.reply()}); 
 		}
 		else {
 			this.flag=0;
@@ -166,7 +173,7 @@ class Post extends Component {
 									Reply
 								</a>
 							</div>
-							<div id={id} >
+							<div id={id}>
 								{this.state.user_input}
 							</div>
 							<div className="post-sub">

@@ -32,8 +32,8 @@ export const submitEmail = (email) => {
 */
 
 export const submitEmail = (email) => {
-	return (dispatch) => {
-		axios({
+	
+	const request=axios({
 			method: 'post',
 			url: url,
 			body: {
@@ -43,11 +43,12 @@ export const submitEmail = (email) => {
 				email:email
 			}
 		})
-		.then(request => {
+	return (dispatch) => {
+		request.then(({data}) => {
 			dispatch({
 				type: 'submitEmail',
-				payload: request
-			})
+				payload: data
+			});
 		})
 	}
 };

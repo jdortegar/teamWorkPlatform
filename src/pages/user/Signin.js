@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import Button from 'react-bootstrap/lib/Button';
 import { Link } from 'react-router';
@@ -21,6 +22,7 @@ class SignIn extends Component {
 		this.state = {email: '', password: ''};
 		this.storeUser = this.storeUser.bind(this);
 		this.storeTeams = this.storeTeams.bind(this);
+		this.logIn = this.logIn.bind(this);
 	}
 
 	storeTeams(teams) {
@@ -35,7 +37,9 @@ class SignIn extends Component {
 		this.props.user(user);
 	}
 
-	logIn() {
+	logIn(event) {
+		event.preventDefault();
+		console.log("Executing...");
 		axios({
   		method: 'post',
   		url: `${config.hablaApiBaseUri}/auth/login`,
@@ -113,12 +117,12 @@ class SignIn extends Component {
 								Login
 							</h1>
 						</div>
-						<form>
+						<form onSubmit={this.logIn}>
 							<div className="row">
 								<FieldGroup
 									onChange={event => this.setState({email:event.target.value})}
 									label="Email"
-									type="email"
+									type="input"
 									placeholder="email"
 									classn="col-md-12 clearpadding"
 								/>
@@ -131,25 +135,26 @@ class SignIn extends Component {
 									placeholder="password"
 									help=""
 									classn="col-md-12 clearpadding"
+									
 								/>
 							</div>
 							<br />
 							<div className="row">
 
 									<Button
-										onClick={this.logIn.bind(this)}
 										bsStyle="primary"
+										type="submit"
 										className="col-md-12" >
 											LOGIN
 									</Button>
 
-						</div>
+							</div>
+						</form>
 						<div className="row center-link">
 							<Link to="/register" className="blue-link">
-								NEW USER? SIGN UP HERE
+								NEW USER? &nbsp; SIGN UP HERE
 							</Link>
 						</div>
-						</form>
 						<div className="fill-vertical">
 						</div>
 					</div>

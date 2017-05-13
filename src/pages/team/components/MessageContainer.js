@@ -10,7 +10,7 @@ import { getPosts } from '../../../actions/index';
 import config from '../../../config/env';
 import io from 'socket.io-client';
 import messaging, { EventTypes } from '../../../actions/messaging';
-
+import moment from 'moment-timezone';
 
 
 class MessageContainer extends Component {
@@ -95,7 +95,7 @@ class MessageContainer extends Component {
 								level={0} 
 								color="" 
 								content={event.text} 
-								time={event.created}
+								time={moment(event.created).add(1, 'day').format('LLL')}
 								children={[]}
 							/>
 						)
@@ -158,7 +158,7 @@ class MessageContainer extends Component {
 					level={0} 
 					color=""
 					content={message.text} 
-					time={message.created}
+					time={moment(message.created).add(1, 'day').format('LLL')}
 					children={[]}
 				/>
 			);
@@ -256,7 +256,7 @@ class MessageContainer extends Component {
 								level={parent.depth+1 }
 								color={post["color"]}
 								content={post["text"]}
-								time={post["time"]}
+								time={moment(post["time"]).add(1, 'day').format('LLL')}
 								children={post["child"]} ////1
 							/>
 						)
@@ -273,7 +273,7 @@ class MessageContainer extends Component {
 						level={0} 
 						color={post["color"]} 
 						content={post["text"]} 
-						time={post["time"]}
+						time={moment(post["time"]).add(1, 'day').format('LLL')}
 						children={post["child"]}
 					/>
 				)
