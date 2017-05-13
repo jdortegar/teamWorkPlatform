@@ -1,14 +1,21 @@
+@media only screen and (max-width: 1200px) {
+  HeaderNavBar {
+    width: 50%; } }
+@media only screen and (max-width: 1023px) {
+  .slogan {
+    font-size: 20px; } }
 /*-----------------------------------------*/
-/* GENERAL SETTINGS 
+/* GENERAL SETTINGS
 /*-----------------------------------------*/
 * {
   margin: 0;
   padding: 0;
+  font-family: "Lato", sans-serif;
   box-sizing: border-box; }
 
 html {
   background-color: white;
-  font-family: "Lato", "Arial", sans-serif;
+  font-family: "Lato", sans-serif;
   font-size: 20px;
   font-weight: 400;
   text-rendering: optimizeLegibility; }
@@ -36,6 +43,7 @@ h1 {
   color: white;
   font-weight: 200;
   word-spacing: 4px;
+  font-size: 2vw;
   font-size: 300%; }
 
 h2 {
@@ -43,11 +51,14 @@ h2 {
   word-spacing: 2px;
   margin-bottom: 30px; }
 
-.odd {
-  background-color: #e6e6e6; }
+.odd, .odd-column {
+  background-color: #f0f0f0; }
+
+.even {
+  background-color: white; }
 
 section {
-  padding: 80px 0; }
+  padding: 50px 0; }
 
 .row-half {
   background-color: black;
@@ -68,6 +79,13 @@ section {
   height: auto;
   margin: 0 auto; }
 
+.header h1 {
+  color: black;
+  text-transform: none;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 20px; }
+
 .fixed-top {
   width: 100%;
   position: fixed;
@@ -77,6 +95,10 @@ section {
 .container-fluid {
   margin: 0;
   padding: 0; }
+
+.clearpadding, .row-two-input-left, .row-two-input-right, .reset-password-button {
+  padding: 0;
+  margin: 0; }
 
 .invi {
   display: none; }
@@ -92,7 +114,7 @@ section {
   visibility: hidden; }
 
 .test1 {
-  background-color: blue; }
+  background-color: #222; }
 
 .test2 {
   background-color: green; }
@@ -106,34 +128,113 @@ section {
 .inline-block {
   display: inline-block; }
 
+.normal-size, .normal {
+  font-size: 14px;
+  font-weight: normal; }
+
+.normal {
+  margin-left: 13px; }
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center; }
+
+.row-two-input-left {
+  width: 50%;
+  padding-right: 2px; }
+
+.row-two-input-right {
+  width: 50%;
+  padding-left: 2px; }
+
+.blue-link {
+  color: #3498db; }
+
+.fill-vertical {
+  height: 40vh; }
+
+.app-directory {
+  width: 80vw;
+  margin: auto; }
+  .app-directory p {
+    text-align: left;
+    text-indent: 50px;
+    line-height: 30px;
+    font-size: 17px; }
+
+.privacy, .security {
+  line-height: 30px;
+  width: 80vw;
+  margin: auto; }
+  .privacy h4, .security h4 {
+    font-weight: 600; }
+  .privacy h3, .security h3 {
+    margin-top: 30px;
+    margin-bottom: 30px; }
+  .privacy p, .security p {
+    line-height: 30px;
+    font-size: 17px;
+    text-indent: 50px;
+    font-weight: normal; }
+
+ul.privacy-list {
+  list-style-position: inside;
+  font-size: 17px;
+  font-weight: normal; }
+  ul.privacy-list li {
+    list-style-position: inside; }
+
+ul.security-list {
+  list-style-position: inside;
+  font-size: 17px;
+  font-weight: normal; }
+  ul.security-list li {
+    list-style-position: inside;
+    padding-left: 50px; }
+
+ul.privacy-list-sub {
+  list-style-position: inside;
+  padding-left: 50px; }
+
+.delwidth {
+  display: none;
+  width: 0px !important; }
+
 /*-----------------------------------------*/
 /* HEADER
 /*-----------------------------------------*/
 header {
+  width: 100%;
   height: 100vh;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.6)), url(/resources/img/header5.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.6)), url("https://c1.staticflickr.com/4/3727/33536825540_319eebaeac_o.jpg");
   background-size: cover;
   background-attachment: fixed;
   overflow: hidden; }
 
 nav.navbar-inverse {
-  background: transparent;
+  background: black;
   border: none; }
 
-.navbar ul {
-  padding-top: 10px;
-  padding-right: 20px; }
-.navbar li a:link, .navbar li a:visited {
-  border-bottom: 2px solid transparent;
-  font-size: 100%;
-  color: #f0f0f0; }
-.navbar li a:active, .navbar li a:hover {
-  border-bottom: 2px solid #e67e23;
-  color: white;
-  background: black; }
+.navbar {
+  border-radius: 0; }
+  .navbar ul {
+    padding-top: 10px;
+    padding-right: 10px; }
+  .navbar li a:link, .navbar li a:visited {
+    border-bottom: 2px solid transparent;
+    font-size: 100%;
+    color: #f0f0f0; }
+  .navbar li a:active, .navbar li a:hover {
+    border-bottom: 2px solid #e67e23;
+    color: white;
+    background: black; }
 
 .nodecoration a:link {
   text-decoration: none; }
+
+.homepage-header-login {
+  margin-top: 10px; }
 
 .logo-text {
   text-align: center;
@@ -158,21 +259,23 @@ nav.navbar-inverse {
 
 .slogan {
   font-weight: 400;
-  font-size: 50px;
+  font-size: 2.5vw;
   color: #f0f0f0;
   letter-spacing: 1px;
-  word-spacing: 5px; }
+  word-spacing: 5px;
+  margin-bottom: 30px; }
 
 .slogan-small {
-  font-size: 30px;
+  font-size: 3vw;
   color: white;
   font-weight: 100;
   word-spacing: 3px; }
 
 .fast-register {
   margin: auto;
-  width: 400px;
-  height: 150px;
+  margin-bottom: 20px;
+  width: 360px;
+  height: 130px;
   background: rgba(0, 0, 0, 0.7);
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -195,7 +298,7 @@ nav.navbar-inverse {
   color: #1580c7; }
 
 .create-new-team {
-  width: 180px;
+  width: 160px;
   background: #3498db;
   color: #f0f0f0;
   -webkit-border-radius: 5px;
@@ -207,6 +310,18 @@ nav.navbar-inverse {
 .create-new-team:hover {
   background: #1580c7;
   color: white; }
+
+.home-yourteam {
+  background-color: grey; }
+
+.home-yourteam-item a {
+  color: black !important;
+  border-bottom: none !important; }
+.home-yourteam-item a:hover {
+  background-color: white !important;
+  border: none !important;
+  border-bottom: none !important;
+  color: #1580c7 !important; }
 
 .scroll-mouse {
   position: absolute;
@@ -280,13 +395,16 @@ footer {
   color: #999; }
 
 .ion-social-facebook:hover {
-  color: #3b5998; }
+  color: #3b5998;
+  cursor: pointer; }
 
 .ion-social-twitter:hover {
-  color: #55acee; }
+  color: #55acee;
+  cursor: pointer; }
 
 .ion-social-youtube:hover {
-  color: #e73c2f; }
+  color: #e73c2f;
+  cursor: pointer; }
 
 .ion-social-facebook,
 .ion-social-twitter,
@@ -298,9 +416,13 @@ footer {
   .social a {
     margin: 10px; }
 
+.homepage-who {
+  max-width: 100%;
+  height: auto; }
+
 .header-login {
   height: auto;
-  background-color: #d8d8d8;
+  background-color: #e6e6e6;
   margin: 0;
   padding: 0; }
 
@@ -349,18 +471,8 @@ footer {
   color: #1580c7;
   cursor: pointer; }
 
-.signup-small {
-  margin: 0;
-  padding: 0;
-  height: 60px;
-  padding-right: 5px; }
-
 .delheight {
   display: none; }
-
-.clearpadding, .reset-password-button, .body-middle {
-  padding: 0;
-  margin: 0; }
 
 .signup-submit {
   margin-top: 30px; }
@@ -371,9 +483,6 @@ footer {
     font-size: 14px;
     color: #999; }
 
-.fill-vertical {
-  height: 300px; }
-
 .reset-password-button {
   padding-right: 5px; }
 
@@ -383,211 +492,324 @@ footer {
 .reset-cancel:hover {
   background-color: #999; }
 
-.team-search {
+.preview-image {
+  width: 100px;
+  height: 100px;
+  border: grey solid 2px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 70px;
+  color: grey; }
+
+.dropdown-list {
+  z-index: 5;
+  overflow: scroll;
+  background: white; }
+
+.selected {
+  color: #3498db; }
+
+.placeholder_search {
+  font-family: Arial, fontAwesome; }
+
+.notify-link {
+  color: #3498db;
+  font-size: 14px;
+  margin-top: 40px;
+  text-align: center; }
+
+.fa-plus-circle {
+  font-size: 40px;
+  color: #3498db; }
+
+.fa-plus-circle:hover {
+  color: #1580c7; }
+
+.overwrite-button {
+  margin-top: 20px;
+  text-align: center;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px; }
+
+.overwrite-button:hover {
+  background-color: transparent; }
+
+.country-selector {
+  margin-top: 10px; }
+
+.header-account {
+  height: 70px;
+  text-align: right;
+  margin-right: 20px;
+  padding-top: 20px;
+  color: #1580c7; }
+
+.center-link {
+  text-align: center;
   margin-top: 20px; }
 
-.search-button {
-  margin: 0;
-  padding: 0;
-  width: 60px;
-  background: #ff9000;
-  border: none; }
+.info-alert {
+  text-align: center;
+  color: red;
+  font-size: 14px; }
 
-.search-button:hover {
-  background-color: #e67e23; }
+#homepage {
+  width: 100%;
+  height: 100vh; }
 
-.ion-ios-search-strong {
-  margin: 0;
-  padding: 0;
-  font-size: 24px; }
+.pricing {
+  margin-top: 30px; }
+  .pricing th {
+    text-align: center;
+    font-size: 20px;
+    height: 70px; }
+  .pricing td {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+    height: 70px;
+    color: grey; }
+  .pricing .pricing-amount {
+    font-size: 50px;
+    font-weight: 800;
+    color: black; }
+  .pricing .dollar {
+    font-size: 30px;
+    color: grey;
+    vertical-align: top; }
+  .pricing .pricing-first-column {
+    color: black; }
+  .pricing .space {
+    border-bottom: none; }
 
-.team-header-icons {
-  margin-top: 16px;
-  padding-left: 20px; }
+table {
+  width: 100% !important; }
 
-.ion-ios-calendar-outline,
-.ion-chatbubbles,
-.ion-earth,
-.ion-ios-gear,
-.team-question-icon {
-  font-size: 30px;
-  padding-right: 30px;
-  color: white; }
+.logo-header {
+  width: 30px;
+  height: 30px;
+  margin-top: 10px !important; }
 
-.ion-ios-calendar-outline:hover,
-.ion-chatbubbles:hover,
-.ion-earth:hover,
-.ion-ios-gear:hover,
-.team-question-icon:hover {
-  color: #3498db;
-  cursor: pointer; }
-
-.body-left {
-  border: 2px solid #f0f0f0; }
-
-.mainuser {
-  height: 90px;
-  border-bottom: 1px solid black; }
-
-.mainuser-avatar-container {
-  height: 90px;
+.teamroom-header-login {
+  height: auto;
+  background-color: #e6e6e6;
   margin: 0;
   padding: 0; }
 
-.mainuser-avatar, .team-member-avatar {
-  padding: 0;
-  margin: 0;
-  width: 40px;
-  height: 40px;
+.team-header-icon {
+  display: inline-block;
+  text-align: center;
+  width: 100px; }
+
+.team-header-icons-nav {
+  text-align: center;
+  padding-bottom: 5px; }
+
+.team-header-nav-text {
+  color: grey;
+  font-size: 12px; }
+
+.fa-newspaper-o,
+.fa-bolt,
+.fa-comments,
+.fa-calendar-o {
+  text-align: center;
+  font-size: 20px;
+  color: white;
+  padding-top: 10px; }
+
+.fa-newspaper-o:hover,
+.fa-bolt:hover,
+.fa-comments:hover,
+.fa-calendar-o:hover,
+.fa-newspaper-o:active,
+.fa-bolt:active,
+.fa-comments:active,
+.fa-calendar-o:active {
+  color: #3498db;
+  cursor: pointer; }
+
+.user-avatar {
+  width: 30px;
+  height: 30px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
   border-radius: 10px;
-  margin-top: 20px; }
-
-.mainuser-info {
-  height: 90px;
-  padding-top: 15px; }
-  .mainuser-info .mainuser-name p, .mainuser-info .team-user-name p {
-    padding: 0;
-    margin: 0;
-    font-style: bold;
-    font-weight: 400;
+  background-color: #3498db;
+  text-align: center;
+  margin-top: 10px; }
+  .user-avatar p {
+    padding-top: 5px;
+    color: white;
+    font-weight: 600;
     font-size: 16px; }
-  .mainuser-info .mainuser-email, .mainuser-info .team-user-email {
-    font-size: 14px;
-    color: #999; }
-  .mainuser-info .mainuser-phone {
-    font-size: 14px;
-    color: #999; }
 
-.team-members {
-  overflow-y: scroll;
-  height: 500px; }
+.teamroom-body-nav {
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid #f0f0f0; }
 
-.team-member {
-  height: 70px; }
+.teamroom-body-nav-links {
+  padding: 10px 5px 10px 5px;
+  padding-left: 10%; }
+  .teamroom-body-nav-links .passive {
+    color: grey; }
+  .teamroom-body-nav-links .active {
+    color: black; }
 
-.team-member-avatar-container {
+.teamroom-body-nav-link {
+  display: inline-block;
+  padding-left: 5px; }
+
+.teamroom-lobby {
+  width: 80%;
+  position: absolute;
+  top: 95px;
+  left: 210px;
+  right: 0;
+  bottom: 65px;
+  overflow-y: scroll; }
+
+.teamroom-header-menu {
+  line-height: 40px; }
+
+.teamroom-name {
+  color: #3498db;
+  font-weight: 800;
+  font-size: 20px;
+  text-align: left; }
+
+.number-user-active {
+  color: #3498db; }
+
+.user-input {
+  max-height: 100px !important;
+  width: 80% !important;
+  position: fixed !important;
+  bottom: 10px !important;
+  left: 220px;
+  border: 2px solid grey;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-top: 10px;
+  resize: vertical; }
+
+.clearmargin {
   margin: 0;
-  padding: 0; }
+  padding-top: 0; }
 
-.team-member-avatar {
-  margin-top: 0; }
+.date-item {
+  display: inline-block;
+  vertical-align: middle; }
 
-.member-message-time {
+.chat-date {
+  color: #999;
+  text-align: center;
+  border: solid 1px #e6e6e6;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px; }
+
+.line-break {
+  border-bottom: dashed 1px #e6e6e6; }
+
+.fa-plus-square-o,
+.fa-minus-square-o,
+.fa-star-o,
+.fa-folder,
+.post-time,
+.post-start,
+.post-folder {
   color: #999; }
 
-.team-nav-bottom {
+.post-header-right {
+  float: right;
+  margin-right: 20px; }
+
+.teamroom-container {
+  height: auto;
   margin-top: 20px; }
 
-.nav-horizontal {
-  margin: 0;
-  padding: 0;
-  height: 400px;
-  background-color: #e6e6e6;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-  border-radius: 10px; }
+.post-header {
+  line-height: 25px; }
 
-.nav-horizontal-icon-container {
-  margin-top: 15px;
-  margin-left: 12px;
-  width: 30px;
-  height: 30px;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  -o-border-radius: 50%;
-  border-radius: 50%;
-  background-color: #999;
-  text-align: center; }
+.post-name {
+  font-weight: bold; }
 
-.nav-horizontal-icon-container:hover {
-  cursor: pointer;
+.post-avatar {
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
   background-color: #3498db; }
 
-.fa-user-o,
-.fa-bar-chart,
-.fa-search,
-.fa-star-o {
-  margin: 0;
-  padding: 0;
-  padding-top: 4px;
-  font-size: 20px;
-  color: white; }
+.post-header-item {
+  display: inline-block;
+  margin-left: 15px;
+  vertical-align: middle; }
 
-.team-nav-links a {
-  color: black;
-  margin-left: 10px; }
+.post-footer {
+  margin-top: 10px;
+  padding-bottom: 0px; }
 
-.team-nav-links-indent a {
-  color: black;
-  margin-left: 15px; }
+.post-body-vote {
+  vertical-align: top;
+  text-align: center;
+  width: 5%;
+  color: #999; }
 
-.team-nav-links-indent-indent a {
-  color: black;
-  margin-left: 20px; }
+.post-content {
+  width: 95%; }
 
-.team-nav-links a:hover,
-.team-nav-links-indent a:hover,
-.team-nav-links-indent-indent a:hover {
-  color: #3498db; }
+.clearall {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100%; }
 
-.body-middle {
-  border: 2px solid #f0f0f0;
-  background-color: #f0f0f0; }
+.post-body-item {
+  display: inline-block !important;
+  margin-top: 10px; }
 
-.team-middle-header {
-  height: 50px;
-  border-bottom: 1px solid black; }
-  .team-middle-header h3 {
-    margin: 0;
-    padding: 0;
-    padding-top: 10px;
-    text-transform: none;
-    font-weight: 600; }
-
-.team-middle-header-middle {
-  height: 50px;
-  text-align: center; }
-
-.team-middle-header-middle-text {
-  line-height: 50px;
-  font-size: 16px; }
-
-.team-middle-header-right p {
-  text-align: right;
-  height: 50px;
-  line-height: 50px;
-  font-size: 16px; }
-
-.fa-angle-down {
-  padding-left: 5px;
-  font-size: 30px; }
-
-.team-middle-post {
+.post-seperator {
   padding-top: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #999; }
-  .team-middle-post a {
-    color: #999; }
+  border-bottom: solid 1px #e6e6e6; }
 
-.team-user-name {
-  font-size: 20px; }
+.teamroom-left-nav {
+  width: 200px;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  overflow-y: scroll;
+  background-color: #263238; }
 
-.team-user-email {
-  font-weight: 200; }
+.message-reply {
+  max-height: 100px !important;
+  border-radius: 3px;
+  border: 2px solid grey;
+  margin-bottom: 0px;
+  margin-top: 5px;
+  width: 90%;
+  resize: vertical;
+  padding-left: 10px; }
 
-.team-user-message-content p {
-  font-size: 14px; }
+.message-content {
+  white-space: pre; }
 
-.fa-comment-o:hover,
-.fa-share-square-o:hover,
-.fa-thumbs-o-up:hover {
-  color: #3498db; }
+.post-sub {
+  margin-top: 10px; }
 
 /*# sourceMappingURL=app.css.map */

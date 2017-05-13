@@ -1,0 +1,57 @@
+.preview-image {
+	width: 100px;
+	height: 100px;
+	border: grey solid 2px;
+	border-radius: 5px;
+	text-align: center;
+	font-size: 70px;
+	color: grey;
+}
+
+.dropdown-list {
+	z-index: 5;
+	overflow: scroll;
+	background: white;
+}
+
+.selected {
+	color: $blue;
+}
+
+.placeholder_search {
+	font-family: Arial, fontAwesome
+}
+
+.notify-link {
+	color: $blue;
+	font-size: 14px;
+	margin-top: 40px;
+	text-align: center;
+}
+
+.fa-plus-circle {
+	font-size: 40px;
+	color: $blue;
+}
+
+.fa-plus-circle:hover {
+	
+	color: $blue-dark;
+	
+}
+
+.overwrite-button {
+	margin-top: 20px;
+	text-align: center;
+	// background-color: $blue;
+	
+	border: none;
+	border-radius: 50%;
+	width: 60px;
+	height: 60px;
+}
+
+.overwrite-button:hover {
+	background-color: rgba(0,0,0,0);
+	
+}

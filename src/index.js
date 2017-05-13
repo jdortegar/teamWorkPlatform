@@ -1,6 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, browserHistory } from 'react-router';
-import routes from './routes';
+import { Router, browserHistory, hashHistory } from 'react-router';
+import Routes from './routes';
+import reducers from './reducers';
+import { Provider } from 'react-redux';
+import promise from 'redux-promise';
+import ReduxThunk from 'redux-thunk';
+import { createStore, applyMiddleware } from 'redux';
+import '../resources/style/app.css';
 
-ReactDOM.render(<Router history={browserHistory} routes={routes} />, document.querySelector('.homepage'));
+
+/* redux-promise
+
+const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
+ReactDOM.render(
+	<Provider store={createStoreWithMiddleware(reducers)}>
+		<Routes />
+	</Provider>
+	, document.querySelector('.homepage'));
+*/
+
+//redux-thunk
+const createStoreWithMiddleware = createStore(reducers,{},applyMiddleware(ReduxThunk));
+ReactDOM.render(
+	<Provider store={createStoreWithMiddleware}>
+		<Routes />
+	</Provider>
+	, document.querySelector('.homepage'));
