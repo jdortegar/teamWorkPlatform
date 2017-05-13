@@ -39,7 +39,6 @@ class SignIn extends Component {
 
 	logIn(event) {
 		event.preventDefault();
-		console.log("Executing...");
 		axios({
   		method: 'post',
   		url: `${config.hablaApiBaseUri}/auth/login`,
