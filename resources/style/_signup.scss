@@ -1,6 +1,6 @@
 .header-login {
 	height: auto; //90px;
-	background-color: $bgfooter;
+	background-color: $color-odd;
 	margin:0;
 	padding:0;
 }
@@ -51,6 +51,8 @@
 	}
 }
 
+
+
 .ion-help-circled {
 	font-size: 30px;
 	margin:0;
@@ -63,20 +65,8 @@
 	cursor: pointer;
 }
 
-.signup-small {
-	margin: 0;
-	padding: 0;
-	height: 60px;
-	padding-right: 5px;
-}
-
 .delheight {
 	display: none;
-}
-
-.clearpadding {
-	padding: 0;
-	margin: 0;
 }
 
 .signup-submit {
@@ -89,10 +79,6 @@
 		font-size: 14px;
 		color: $grey;
 	}
-}
-
-.fill-vertical {
-	height: 300px;
 }
 
 .reset-password-button {

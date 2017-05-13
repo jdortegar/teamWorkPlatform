@@ -68,7 +68,9 @@ $left-mainuser: 90px;
 	margin:0;
 	width: 40px;
 	height: 40px;
-	@include border-radius(10px);
+	// @include border-radius(10px);
+	border-radius: 50%;
+	border: 2px solid white;
 	margin-top: 20px;
 
 }
@@ -247,4 +249,10 @@ $middle-header: 50px;
 	color: $blue;
 }
 
+// TEAMS
+
+.team-public, .team-private {
+	display:inline-block;
+
+}
 

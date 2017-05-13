@@ -1,4 +1,27 @@
 node_modules/
+#src/pages/ccg/
 npm-debug.log
 bundle.js
+dist/
+vendor/
 .sass-cache/
+.eslintrc
+db.json
+resources/style/*.scss
+resources/style/app.css.map
+resources/img/
+
+
+# IDE
+.idea
+.vscode
+
+# Temp files
+*.swp
+*.bak
+
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
