@@ -31,7 +31,12 @@ class MessageContainer extends Component {
 		this.memberName = this.memberName.bind(this);
 		this.memberIcon = this.memberIcon.bind(this);
 		this.addRealTimeThreaded = this.addRealTimeThreaded.bind(this);
+		this.membersConnectionListener = this.membersConnectionListener.bind(this);
 		
+	}
+
+	membersConnectionListener(online) {
+		console.log(`AD: online=${online}`);
 	}
 
 	memberName(memberId) {
@@ -232,6 +237,7 @@ class MessageContainer extends Component {
 	    this.scrollToBottom();
 	    autosize(document.querySelectorAll('textarea'));
 	    messaging().addEventListener(this.myEventListener);
+	    messaging().addOnlineOfflineListener(this.membersConnectionListener);
 	}
 
 	componentDidUpdate() {
@@ -250,7 +256,6 @@ class MessageContainer extends Component {
 		// const shortname = "SD";
 		const shortname = ShortName(this.props.user.user.displayName);
 		const name = this.props.user.user.displayName;
-		console.log(name);
 		if (msg != "") {
 			if (msg.replace(/ /g,'') != "") {
 				this.sendMessage(msg,"",shortname,name);
