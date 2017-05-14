@@ -50,6 +50,7 @@ class Post extends Component {
 					<Post 
 						level={this.props.level+1} 
 						color={this.props.color}
+						icon={this.props.icon}
 						children={[]}
 						time={moment(message.created).fromNow()}
 						content={message.text} 
@@ -67,6 +68,7 @@ class Post extends Component {
 					<Post 
 						level={this.props.level+1} 
 						color={this.props.color}
+						icon={this.props.icon}
 						children={[]}
 						time={moment(message.created).fromNow()}
 						content={message.text} 
@@ -100,7 +102,6 @@ class Post extends Component {
 	addChild() {
 		const shortname = ShortName(this.props.user.user.displayName);
 		const name = this.props.user.user.displayName;
-		console.log(name);
 		var msg = this.state.content;
 		if (msg != "") {
 			if (msg.replace(/ /g,'') != "") {			
@@ -136,8 +137,7 @@ class Post extends Component {
 		const {level, id, color, name, shortname, time, vote, icon, content} = this.props;
 		var str = level % 2 == 0 ? "row even" : "row odd"
 		var self = this;
-		// console.log(this.props);
-		// 
+		 
 		return (
 			<div className={str} >
 				<div className="row teamroom-container">

@@ -185,7 +185,7 @@ class MessageContainer extends Component {
 	}
 
 	translateData(messages) {	//TODO : reduce time by skipping translateData
-		// console.log(messages);
+		// console.log(messages.length);
   		var findDepth = function(message) {
   			if (!message.hasOwnProperty("replyTo")) 
   				message["depth"] = 0;
