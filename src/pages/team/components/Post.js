@@ -134,6 +134,7 @@ class Post extends Component {
 	}
 
 	manageChildren() {
+		if (this.state.post.length == 0) return;
 		if (this.state.extend == -1) {
 			this.setState({displayChildren: "fa fa-plus-square-o post-header-item", children: "post-sub-hide", extend: -this.state.extend});
 		}
