@@ -29,6 +29,7 @@ class MessageContainer extends Component {
 		this.members=[];
 		this.myEventListener = this.myEventListener.bind(this);
 		this.memberName = this.memberName.bind(this);
+		this.memberIcon = this.memberIcon.bind(this);
 		this.addRealTimeThreaded = this.addRealTimeThreaded.bind(this);
 		
 	}
@@ -41,6 +42,16 @@ class MessageContainer extends Component {
 			}
 		});
 		return name;
+	}
+
+	memberIcon(memberId) {
+		var icon = ""
+		this.members.map(member => {
+			if (member.userId == memberId) {
+				icon = member.icon == null ? null : "data:image/jpg;base64," + member.icon;
+			}
+		});
+		return icon;
 	}
 
 	addRealTimeThreaded(family,node) {
@@ -56,7 +67,9 @@ class MessageContainer extends Component {
 						id={node.messageId} 
 						key={node.messageId} 
 						shortname={shortname} 
+						name={this.memberName(node.createdBy)}
 						level={parent.props.level+1} 
+						icon={this.memberIcon(node.createdBy)}
 						color="" 
 						content={node.text} 
 						time={moment(node.created).fromNow()}
@@ -92,8 +105,10 @@ class MessageContainer extends Component {
 								id={event.messageId} 
 								key={event.messageId} 
 								shortname={shortname} 
+								name={this.memberName(event.createdBy)}
 								level={0} 
 								color="" 
+								icon={this.memberIcon(event.createdBy)}
 								content={event.text} 
 								time={moment(event.created).fromNow()}
 								children={[]}
@@ -137,7 +152,7 @@ class MessageContainer extends Component {
    		})
 	}
 
-	sendMessage(text,replyTo,shortname) {
+	sendMessage(text,replyTo,shortname,name) {
 		const url = `${config.hablaApiBaseUri}/conversations/${this.conId}/createMessage`;
         let body;
         if (replyTo) body = { messageType: "text", text, replyTo };
@@ -155,8 +170,10 @@ class MessageContainer extends Component {
 					id={message.messageId}
 					key={message.messageId} 
 					shortname={shortname}
+					name={name}
 					level={0} 
 					color=""
+					icon={this.memberIcon(message.createdBy)}
 					content={message.text} 
 					time={moment(message.created).fromNow()}
 					children={[]}
@@ -192,8 +209,10 @@ class MessageContainer extends Component {
 				
 				if (message.createdBy == member.userId) {
 					message["from"] = ShortName(member.displayName);
+					message["icon"] = member.icon == null ? null : "data:image/jpg;base64," + member.icon;
 				}
 			});
+			message["name"] = this.memberName(message.createdBy);
 			message["time"] = message.created;
 			message["child"] = [];
 			findDepth(message);
@@ -230,9 +249,11 @@ class MessageContainer extends Component {
 		var msg = this.state.content;
 		// const shortname = "SD";
 		const shortname = ShortName(this.props.user.user.displayName);
+		const name = this.props.user.user.displayName;
+		console.log(name);
 		if (msg != "") {
 			if (msg.replace(/ /g,'') != "") {
-				this.sendMessage(msg,"",shortname);
+				this.sendMessage(msg,"",shortname,name);
 			}
 			else {
 				this.setState({key: -this.state.key, content:''});
@@ -253,6 +274,8 @@ class MessageContainer extends Component {
 								id={post["messageId"]}
 								key={post["messageId"]}
 								shortname={post["from"]}
+								name={post["name"]}
+								icon={post["icon"]}
 								level={parent.depth+1 }
 								color={post["color"]}
 								content={post["text"]}
@@ -270,7 +293,9 @@ class MessageContainer extends Component {
 						id={post["messageId"]} 
 						key={post["messageId"]} 
 						shortname={post["from"]} 
+						name={post["name"]}
 						level={0} 
+						icon={post["icon"]}
 						color={post["color"]} 
 						content={post["text"]} 
 						time={moment(post["time"]).fromNow()}
@@ -285,7 +310,7 @@ class MessageContainer extends Component {
 	render() {
 		return (
 			<div className="row teamroom-lobby" id="lobby">
-				<div className="row teamroom-seperator-line">
+			{/*	<div className="row teamroom-seperator-line">
 					<div className="col-md-5 col-xs-0 date-item line-break">
 						&nbsp;
 					</div>
@@ -296,6 +321,7 @@ class MessageContainer extends Component {
 						&nbsp;
 					</div>
 				</div>					
+			*/}	
 					{this.state.posts}
 									
 				<div ref="end"></div>

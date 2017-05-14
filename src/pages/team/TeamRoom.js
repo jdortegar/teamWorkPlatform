@@ -11,8 +11,10 @@ import Perf from 'react-addons-perf';
 class TeamRoom extends Component {
 
 	render() {
+		const user = this.props.user.icon == null ? ShortName(this.props.user.displayName) : "data:image/jpg;base64," + this.props.user.icon;
+		
+	
 
-		const user = (ShortName(this.props.user.displayName));
 		// const user="SD"
 		return (
 			<div className="row">
@@ -49,11 +51,21 @@ class TeamRoom extends Component {
 							</div>
 						</div>	
 					</div>
-					<div className="col-md-1 col-md-offset-2 user-avatar-container">
+
+					<div className="col-md-2 col-md-offset-1 user-avatar-container">
 						<div className="user-avatar">
-							<p>{user}</p>
+							{this.props.user.icon == null ? 
+								(<p>{user}</p>)
+								:
+								(<div className="user-avatar-image-text">
+									<img src={user} className="user-avatar-image user-avatar-item"></img>
+									<div className="user-avatar-text user-avatar-item">{this.props.user.displayName}</div>
+								</div>
+								)
+							}
 						</div>
 					</div>
+
 				</div>
 				<div className="row teamroom-body-nav">
 					<div className="teamroom-body-nav-links">

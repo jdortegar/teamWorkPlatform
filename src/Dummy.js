@@ -127,6 +127,7 @@ const Dummy = () => {
 				"text": "How are you?",//
 				"messageId": 1,//
 				"from": "SD", //x
+				"name": "Son Dao"
 				"time": "4:20 PM", //x
 				"depth": 0,//x
 				"color":"#e67e22",//x

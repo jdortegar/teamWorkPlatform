@@ -27,7 +27,7 @@ class Post extends Component {
 	}
 
 
-	sendMessage(text,replyTo,shortname) {
+	sendMessage(text,replyTo,shortname, name) {
 		const teamRoomId = this.props.room.teamRoomId;
 		const token = `Bearer ${this.props.user.token}`;
 		const urlCon = `${config.hablaApiBaseUri}/conversations/getConversations?teamRoomId=${teamRoomId}`;
@@ -54,6 +54,7 @@ class Post extends Component {
 						time={moment(message.created).fromNow()}
 						content={message.text} 
 						shortname={shortname} 
+						name={name}
 						key={message.messageId} 
 						id={message.messageId}
 						room={this.props.room}
@@ -70,6 +71,7 @@ class Post extends Component {
 						time={moment(message.created).fromNow()}
 						content={message.text} 
 						shortname={shortname} 
+						name={name}
 						key={message.messageId} 
 						id={message.messageId}
 						room={this.props.room}
@@ -97,10 +99,12 @@ class Post extends Component {
 
 	addChild() {
 		const shortname = ShortName(this.props.user.user.displayName);
+		const name = this.props.user.user.displayName;
+		console.log(name);
 		var msg = this.state.content;
 		if (msg != "") {
 			if (msg.replace(/ /g,'') != "") {			
-				this.sendMessage(msg,this.props.id,shortname);
+				this.sendMessage(msg,this.props.id,shortname, name);
 			}
 			else {
 				this.setState({user_input:'', key: -this.state.key});
@@ -129,19 +133,29 @@ class Post extends Component {
 		if (this.props.children != undefined && this.props.children.length > 0 && this.state.post.length == 0) {
 			this.props.children.map((child) => this.state.post.push(child));
 		}
-		const {level, id, color, name, shortname, time, vote, content} = this.props;
+		const {level, id, color, name, shortname, time, vote, icon, content} = this.props;
 		var str = level % 2 == 0 ? "row even" : "row odd"
 		var self = this;
 		// console.log(this.props);
+		// 
 		return (
 			<div className={str} >
 				<div className="row teamroom-container">
 					<div className="row post-header">
 						<i className="fa fa-minus-square-o post-header-item" />
-						<div className="post-avatar post-header-item" style={{backgroundColor: color}}>
+						{ icon == null ? 
+						(<div className="post-avatar post-header-item" style={{backgroundColor: color}}>
 							<div>{shortname}</div>
-						</div>
-						<div className="post-header-item post-name">
+						</div>)
+						:(
+							<div className="post-avatar-image post-header-item">
+								<img src={icon} className="post-avatar-image post-avatar-item"></img>
+							</div>
+								
+						)
+
+						}
+						<div className="post-header-item post-name post-avatar-item">
 							{name}
 						</div>
 						<div className="post-header-right">
@@ -157,6 +171,7 @@ class Post extends Component {
 						</div>
 					</div>
 					<div className="row post-body">
+
 						<div className="post-body-vote post-body-item">
 							<i className="fa fa-arrow-up vote-body-item" />
 							<div className="vote-number vote-body-item">
@@ -164,6 +179,8 @@ class Post extends Component {
 							</div>
 							<i className="fa fa-arrow-down vote-body-item" />
 						</div>
+
+
 						<div className="post-content post-body-item">
 							<div className="clearpadding message-content">
 								{content}
@@ -172,6 +189,11 @@ class Post extends Component {
 								<a href="#" className="blue-link" onClick={() => this.openReply(self.flag, level)}>
 									Reply
 								</a>
+								<div className="post-header-right">
+									<i className="fa fa-thumbs-o-up vote-bottom-item" />
+									<div className="vote-bottom-item">{0}</div>
+									<i className="fa fa-thumbs-o-down vote-bottom-item" />
+								</div>
 							</div>
 							<div id={id}>
 								{this.state.user_input}
