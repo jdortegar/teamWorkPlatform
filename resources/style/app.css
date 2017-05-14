@@ -732,15 +732,24 @@ table {
   border-bottom: dashed 1px #e6e6e6; }
 
 .fa-star-o,
-.fa-folder,
+.fa-folder-o,
 .post-start,
 .post-folder {
   color: #dadada; }
 
-.fa-plus-square-o,
+.fa-plus-square-o {
+  color: #ff9000; }
+
 .fa-minus-square-o,
 .post-time {
   color: #999; }
+
+.fa-minus-square-o:hover,
+.fa-plus-square-o:hover,
+.fa-plus-square-o:active,
+.fa-minus-square-o:active {
+  color: #3498db;
+  cursor: pointer; }
 
 .post-header-right {
   float: right;
@@ -777,11 +786,11 @@ table {
   visibility: hidden;
   vertical-align: top;
   text-align: center;
-  width: 5%;
+  width: 3%;
   color: #999; }
 
 .post-content {
-  width: 95%; }
+  width: 97%; }
 
 .clearall {
   padding: 0 !important;
@@ -793,7 +802,7 @@ table {
   margin-top: 10px; }
 
 .post-seperator {
-  padding-top: 20px;
+  padding-top: 5px;
   border-bottom: solid 1px #e6e6e6; }
 
 .teamroom-left-nav {
@@ -821,6 +830,9 @@ table {
 
 .post-sub {
   margin-top: 10px; }
+
+.post-sub-hide {
+  display: none !important; }
 
 .vote-bottom-item {
   display: inline-block;

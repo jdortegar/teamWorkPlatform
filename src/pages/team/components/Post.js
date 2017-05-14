@@ -11,11 +11,12 @@ import moment from 'moment-timezone';
 class Post extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {user_input : '', flag: 0, post:[], content: '', key: -1, focus: 'active'};
+		this.state = {user_input : '', flag: 0, post:[], content: '', key: -1, displayChildren: "fa fa-minus-square-o post-header-item", children: "post-sub", extend: -1};
 		this.addChild = this.addChild.bind(this);
 		this.handleKeyPressed = this.handleKeyPressed.bind(this);
 		this.sendMessage = this.sendMessage.bind(this);
 		this.flag=0;
+		this.manageChildren = this.manageChildren.bind(this);
 	}
 
 	componentDidUpdate() {
@@ -25,6 +26,8 @@ class Post extends Component {
 	componentDidMount() {
 		
 	}
+
+	
 
 
 	sendMessage(text,replyTo,shortname, name) {
@@ -130,6 +133,15 @@ class Post extends Component {
 		}
 	}
 
+	manageChildren() {
+		if (this.state.extend == -1) {
+			this.setState({displayChildren: "fa fa-plus-square-o post-header-item", children: "post-sub-hide", extend: -this.state.extend});
+		}
+		else {
+			this.setState({displayChildren: "fa fa-minus-square-o post-header-item", children: "post-sub", extend: -this.state.extend});
+		}
+	}
+
 	render() {
 		if (this.props.children != undefined && this.props.children.length > 0 && this.state.post.length == 0) {
 			this.props.children.map((child) => this.state.post.push(child));
@@ -142,7 +154,8 @@ class Post extends Component {
 			<div className={str} >
 				<div className="row teamroom-container">
 					<div className="row post-header">
-						<i className="fa fa-minus-square-o post-header-item" />
+						<i className={this.state.displayChildren} onClick={() => this.manageChildren()} />
+
 						{ icon == null ? 
 						(<div className="post-avatar post-header-item" style={{backgroundColor: color}}>
 							<div>{shortname}</div>
@@ -166,12 +179,12 @@ class Post extends Component {
 								<i className="fa fa-star-o" />
 							</div>
 							<div className="post-header-item post-folder">
-								<i className="fa fa-folder" />
+								<i className="fa fa-folder-o" />
 							</div>
 						</div>
 					</div>
 					<div className="row post-body">
-
+					 {/* hidden vertical voting*/}
 						<div className="post-body-vote post-body-item">
 							<i className="fa fa-arrow-up vote-body-item" />
 							<div className="vote-number vote-body-item">
@@ -198,7 +211,7 @@ class Post extends Component {
 							<div id={id}>
 								{this.state.user_input}
 							</div>
-							<div className="post-sub">
+							<div className={this.state.children}>
 								{this.state.post}
 							</div>
 						</div>
