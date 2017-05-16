@@ -23,13 +23,6 @@ class Post extends Component {
 	    autosize(document.querySelectorAll('textarea'));
 	}
 
-	componentDidMount() {
-		
-	}
-
-	
-
-
 	sendMessage(text,replyTo,shortname, name) {
 		const teamRoomId = this.props.room.teamRoomId;
 		const token = `Bearer ${this.props.user.token}`;
@@ -158,16 +151,15 @@ class Post extends Component {
 						<i className={this.state.displayChildren} onClick={() => this.manageChildren()} />
 
 						{ icon == null ? 
-						(<div className="post-avatar post-header-item" style={{backgroundColor: color}}>
-							<div>{shortname}</div>
-						</div>)
-						:(
-							<div className="post-avatar-image post-header-item">
-								<img src={icon} className="post-avatar-image post-avatar-item"></img>
-							</div>
-								
-						)
-
+							(<div className="post-avatar post-header-item" style={{backgroundColor: color}}>
+								<div>{shortname}</div>
+							</div>)
+							:(
+								<div className="post-avatar-image post-header-item">
+									<img src={icon} className="post-avatar-image post-avatar-item"></img>
+								</div>
+									
+							)
 						}
 						<div className="post-header-item post-name post-avatar-item">
 							{name}

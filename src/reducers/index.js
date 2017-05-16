@@ -8,6 +8,7 @@ import Posts from './Posts';
 import Room from './Room';
 import Rooms from './Rooms';
 import Message from './Message';
+import TrackingMembersStatus from './TrackingMembersStatus';
 
 export default combineReducers({
 	form: formReducer,
@@ -18,5 +19,6 @@ export default combineReducers({
 	messages: Posts,
 	room: Room,
 	rooms: Rooms,
-	message: Message
+	message: Message,
+	memberStatus : TrackingMembersStatus,
 });

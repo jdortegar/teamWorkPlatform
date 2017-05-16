@@ -6,7 +6,7 @@ import Post from './Post';
 import autosize from 'autosize';
 import ShortName from './ShortName';
 import axios from 'axios';
-import { getPosts } from '../../../actions/index';
+import { getPosts, trackingMembersStatus } from '../../../actions/index';
 import config from '../../../config/env';
 import io from 'socket.io-client';
 import messaging, { EventTypes } from '../../../actions/messaging';
@@ -36,7 +36,8 @@ class MessageContainer extends Component {
 	}
 
 	membersConnectionListener(online) {
-		console.log(`AD: online=${online}`);
+		// console.log(`AD: online=${online}`);
+		// console.log(online);
 	}
 
 	memberName(memberId) {
@@ -130,6 +131,15 @@ class MessageContainer extends Component {
 					}
 				}
 			}
+			case EventTypes.presenceChanged : {
+				console.log(event);
+				trackingMembersStatus(this.members,event)
+				// address:"::ffff:127.0.0.1"
+				// presenceStatus:"available"/"away"
+				// userAgent:"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+				// userId:"ea794510-cea6-4132-ae22-a7ae1d32abb5"
+
+			}
 		}
 	}
 
@@ -140,6 +150,7 @@ class MessageContainer extends Component {
         axios.get(url, { headers: { Authorization: this.token } })
         .then( response => {
         	this.members = response.data.teamRoomMembers;
+        	this.props.trackingMembersStatus(this.members, '');
         })
   
        	const urlCon = `${config.hablaApiBaseUri}/conversations/getConversations?teamRoomId=${teamRoomId}`;    
@@ -236,6 +247,13 @@ class MessageContainer extends Component {
 	componentDidMount() {
 	    this.scrollToBottom();
 	    autosize(document.querySelectorAll('textarea'));
+
+//This is use for offline edit teamroom page only => bypass login and teams page
+	    messaging(this.props.user.websocketUrl).connect(this.props.user.token)
+		.then(() => {
+			console.log("connect successfully!");
+		});
+//
 	    messaging().addEventListener(this.myEventListener);
 	    messaging().addOnlineOfflineListener(this.membersConnectionListener);
 	}
@@ -354,7 +372,7 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, {getPosts})(MessageContainer);
+export default connect(mapStateToProps, {getPosts, trackingMembersStatus})(MessageContainer);
 
 // conversations = [ {conversationId:"dfsdf", participants: [{country:"US", displayName: "Rob", icon: null, lastName: "Abbott", preferences : {}, timeZone: "America/Los_Angeles", userId: "sdfsdfds"},{},{}] },{...}]
 

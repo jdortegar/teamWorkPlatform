@@ -7,15 +7,13 @@ import axios from 'axios';
 import config from '../../config/env';
 import { getPosts } from '../../actions/index';
 import Perf from 'react-addons-perf';
+import LeftNav from './components/LeftNav';
 
 class TeamRoom extends Component {
 
 	render() {
 		const user = this.props.user.icon == null ? ShortName(this.props.user.displayName) : "data:image/jpg;base64," + this.props.user.icon;
-		
-	
 
-		// const user="SD"
 		return (
 			<div className="row">
 				<div className="row teamroom-header-login">
@@ -74,18 +72,15 @@ class TeamRoom extends Component {
 						<Link to="/#" className="teamroom-body-nav-link active">{this.props.room.name.toUpperCase()}</Link>
 					</div>
 				</div>
-				<div className="teamroom-left-nav">
-
-				</div>
-				<MessageContainer />
+				<LeftNav />
+			{/*	<MessageContainer /> */}
 
 			</div>
 		);
-
 	}
-	
 } 
 function mapStateToProps(state) {
+	// console.log(state);
 	return {
 		user: state.user.user.user,
 		room: state.room.room

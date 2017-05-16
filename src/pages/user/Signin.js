@@ -166,6 +166,7 @@ class SignIn extends Component {
 }
 
 function mapStateToProps(state) {
+	// console.log(state);
 	return {
 		active_user: state.user.user
 	};

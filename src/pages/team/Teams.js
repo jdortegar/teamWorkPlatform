@@ -15,6 +15,7 @@ class Teams extends Component {
 
 	render() {
 		var user = this.props.user;
+
 		// var teams = this.props.teams;
 		var rooms = this.props.rooms;
 		return (
@@ -69,6 +70,7 @@ class Teams extends Component {
 }
 
 function mapStateToProps(state) {
+	// console.log(state);
 	return {
 		user: state.user.user.user,
 		teams: state.teams.teams,

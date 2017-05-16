@@ -97,40 +97,11 @@ export const getPosts = (posts) => {
 	}
 }
 
-export const sendMessage = (roomId, token, text, replyTo) => {
-	return (dispatch) => {
-		let urlConversation = `${config.hablaApiBaseUri}/conversations/getConversations?teamRoomId=${roomId}`;
-		axios.get(urlConversation, { headers : { Authorization: token}})
-   		//Get teamroom success
-		.then(response => {
-			if (response.status == 200) {
-				// conversations = [ {conversationId:"dfsdf", participants: [{country:"US", displayName: "Rob", icon: null, lastName: "Abbott", preferences : {}, timeZone: "America/Los_Angeles", userId: "sdfsdfds"},{},{}] },{...}]
-				let conId = response.data.conversations[0].conversationId;
-				let urlSend = `${config.hablaApiBaseUri}/conversations/${conId}/createMessage`;
-	         let body;
-	         if (replyTo) {
-	            body = { messageType: "text", text, replyTo };
-	         }
-	         else {
-	            body = { messageType: "text", text };
-	         }
-	         const headers = {
-	            content_type: 'application/json',
-	            Authorization: token
-	         };
-
-	         axios.post(urlSend, body, { headers })
-	         .then( (response) => {
-	            // console.log(response.data.message);
-	            // message = response.data.message;
-	            dispatch({
-	            	type: 'send-message',
-					payload: response
-	            })
-	          })  
-	         // .catch(error => console.log(error))
-	   		}
-	 	})
-		// .catch(error => console.log(error))
+export const trackingMembersStatus (members, event) {
+	return {
+		type: 'tracking-members-status',
+		payload: {members, event}
 	}
 }
+
+
