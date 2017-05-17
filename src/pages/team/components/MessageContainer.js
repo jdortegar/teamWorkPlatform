@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { FieldGroup } from '../../../components';
@@ -6,7 +6,7 @@ import Post from './Post';
 import autosize from 'autosize';
 import ShortName from './ShortName';
 import axios from 'axios';
-import { getPosts } from '../../../actions/index';
+import { saveMembersTeamRoom } from '../../../actions/index';
 import config from '../../../config/env';
 import io from 'socket.io-client';
 import messaging, { EventTypes } from '../../../actions/messaging';
@@ -14,9 +14,7 @@ import moment from 'moment-timezone';
 
 
 class MessageContainer extends Component {
-	static contextTypes = {
-		router: PropTypes.object
-	};
+
 	constructor(props) {
 		super(props);
 		this.state={posts: [], content: '', key: -1}; //key for refresh textarea after each enter since value of key will changed every time textarea changed value and enter
@@ -32,6 +30,7 @@ class MessageContainer extends Component {
 		this.memberIcon = this.memberIcon.bind(this);
 		this.addRealTimeThreaded = this.addRealTimeThreaded.bind(this);
 		this.membersConnectionListener = this.membersConnectionListener.bind(this);
+		this.scrollToBottom = this.scrollToBottom.bind(this);
 		
 	}
 
@@ -132,7 +131,10 @@ class MessageContainer extends Component {
 				}
 			}
 			case EventTypes.presenceChanged : {
-				console.log(event);
+				// console.log(event);
+				 const key = event.userId;
+    			this.state[key] = `member-status-${event.presenceStatus}`;
+    			this.forceUpdate();
 				// trackingMembersStatus(this.members,event)
 				// address:"::ffff:127.0.0.1"
 				// presenceStatus:"available"/"away"
@@ -149,8 +151,13 @@ class MessageContainer extends Component {
         this.token = `Bearer ${this.props.user.token}`;
         axios.get(url, { headers: { Authorization: this.token } })
         .then( response => {
-        	this.members = response.data.teamRoomMembers;
-        	this.props.trackingMembersStatus(this.members, '');
+        	this.members = response.data.teamRoomMembers;    	
+        	// this.props.saveMembersTeamRoom(this.members);
+        	this.members.map(member => {
+		      const key = member.userId;
+		      if (key == this.props.user.user.userId) this.state[key] = "member-status-available";
+		      else this.state[key] = "member-status-away";
+		    })
         })
   
        	const urlCon = `${config.hablaApiBaseUri}/conversations/getConversations?teamRoomId=${teamRoomId}`;    
@@ -255,7 +262,8 @@ class MessageContainer extends Component {
 		});
 //
 	    messaging().addEventListener(this.myEventListener);
-	    messaging().addOnlineOfflineListener(this.membersConnectionListener);
+	    // messaging().addOnlineOfflineListener(this.membersConnectionListener);
+
 	}
 
 	componentDidUpdate() {
@@ -331,48 +339,72 @@ class MessageContainer extends Component {
 	}
 
 	render() {
+		
 		return (
-			<div className="row teamroom-lobby" id="lobby">
-			{/*	<div className="row teamroom-seperator-line">
-					<div className="col-md-5 col-xs-0 date-item line-break">
-						&nbsp;
+			<div>
+				<div className="teamroom-left-nav">
+					<div className="teamroom-left-nav-title-status">
+						Members
 					</div>
-					<div className="col-md-2 col-xs-12 date-item chat-date">
-						Today
+					<div className="teamroom-member-status-container">
+			      {
+			        this.members.map(member => {
+			        	var icon = "data:image/jpg;base64," + member.icon;
+			          const key = member.userId;
+			          // var icon = "data:image/jpg;base64," + member.icon;
+			          return (
+			            <div className={this.state[key]} key={key}>
+			              <img src={icon} className="" ></img>
+			              <span className="member-status-name"> {member.displayName}</span>
+			            </div>
+			          )
+			        })
+			      }
+			      </div>
+	    
+	   			 </div>
+				<div className="row teamroom-lobby" id="lobby">
+				{/*	<div className="row teamroom-seperator-line">
+						<div className="col-md-5 col-xs-0 date-item line-break">
+							&nbsp;
+						</div>
+						<div className="col-md-2 col-xs-12 date-item chat-date">
+							Today
+						</div>
+						<div className="col-md-5 col-xs-0 date-item line-break">
+							&nbsp;
+						</div>
+					</div>					
+				*/}	
+						{this.state.posts}
+
+										
+					<div ref="end"></div>
+					<div className="row">
+						<form>
+							<textarea 
+								className="user-input" 
+								placeholder="What you want to tell your team..." 
+								onKeyPress={this.handleKeyPressed} 
+								onChange={event => this.setState({content: event.target.value})} 
+								key={this.state.key} 
+							/>
+						</form>
 					</div>
-					<div className="col-md-5 col-xs-0 date-item line-break">
-						&nbsp;
-					</div>
-				</div>					
-			*/}	
-					{this.state.posts}
-									
-				<div ref="end"></div>
-				<div className="row">
-					<form>
-						<textarea 
-							className="user-input" 
-							placeholder="What you want to tell your team..." 
-							onKeyPress={this.handleKeyPressed} 
-							onChange={event => this.setState({content: event.target.value})} 
-							key={this.state.key} 
-						/>
-					</form>
 				</div>
-			</div>
+		</div>
 		);
 	}
 }
 
 function mapStateToProps(state) {
 	return {
-		reducer_posts: state.messages.posts,
 		user: state.user.user,
 		room: state.room.room
 	};
 }
 
-export default connect(mapStateToProps, {getPosts})(MessageContainer);
+export default connect(mapStateToProps, {saveMembersTeamRoom})(MessageContainer);
 
 // conversations = [ {conversationId:"dfsdf", participants: [{country:"US", displayName: "Rob", icon: null, lastName: "Abbott", preferences : {}, timeZone: "America/Los_Angeles", userId: "sdfsdfds"},{},{}] },{...}]
 

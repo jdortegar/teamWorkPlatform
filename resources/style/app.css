@@ -813,8 +813,8 @@ table {
   left: 0;
   z-index: 5;
   overflow-y: scroll;
-  background-color: #263238;
-  color: white; }
+  border: solid 2px #999;
+  border-radius: 10px; }
 
 .message-reply {
   max-height: 100px !important;
@@ -871,5 +871,45 @@ table {
 .post-avatar-item {
   display: inline-block;
   margin-right: 20px; }
+
+.member-status-away {
+  margin-top: 5px;
+  margin-left: 10px;
+  color: #999;
+  font-style: italic;
+  font-size: 14px; }
+  .member-status-away img {
+    border-radius: 5px;
+    width: 25px;
+    height: 25px;
+    opacity: 0.4;
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    filter: grayscale(100%); }
+
+.member-status-available {
+  margin-top: 5px;
+  margin-left: 10px;
+  color: black;
+  font-weight: bold;
+  font-size: 14px; }
+  .member-status-available img {
+    border-radius: 5px;
+    width: 25px;
+    height: 25px; }
+
+.member-status-name {
+  margin-left: 5px; }
+
+.teamroom-left-nav-title-status {
+  margin-top: 10px;
+  text-align: center;
+  font-weight: bold; }
+
+.teamroom-member-status-container {
+  height: 80%;
+  overflow: scroll; }
 
 /*# sourceMappingURL=app.css.map */

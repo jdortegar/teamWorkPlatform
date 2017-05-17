@@ -89,19 +89,11 @@ export const teammembers = (room) => { //use axios to get member, this is for du
 	}
 }
 
-
-export const getPosts = (posts) => {
+export const saveMembersTeamRoom = (members) => {
 	return {
-		type: 'store-posts',
-		payload: posts
+		type: 'save-members-teamroom',
+		payload: members
 	}
 }
-
-// export const trackingMembersStatus = (members, event) => {
-// 	return {
-// 		type: 'tracking-members-status',
-// 		payload: {members, event}
-// 	}
-// }
 
 

@@ -72,8 +72,9 @@ class TeamRoom extends Component {
 						<Link to="/#" className="teamroom-body-nav-link active">{this.props.room.name.toUpperCase()}</Link>
 					</div>
 				</div>
-				<LeftNav />
-			{/*	<MessageContainer /> */}
+			
+				<MessageContainer /> 
+				 {/*since message.connect called at messagecontainer, to use messaging in LeftNav, it should be called after messagecontainer*/}
 
 			</div>
 		);

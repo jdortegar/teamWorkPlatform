@@ -10,8 +10,8 @@ const init = {
 }
 
 
-// export default function(state={room: ''}, action) {
-export default function(state=init, action) {
+export default function(state={room: ''}, action) {
+// export default function(state=init, action) {
   switch (action.type) {
     case 'get-room' :
       	return {...state, room : action.payload };
