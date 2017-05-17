@@ -97,11 +97,11 @@ export const getPosts = (posts) => {
 	}
 }
 
-export const trackingMembersStatus (members, event) {
-	return {
-		type: 'tracking-members-status',
-		payload: {members, event}
-	}
-}
+// export const trackingMembersStatus = (members, event) => {
+// 	return {
+// 		type: 'tracking-members-status',
+// 		payload: {members, event}
+// 	}
+// }
 
 

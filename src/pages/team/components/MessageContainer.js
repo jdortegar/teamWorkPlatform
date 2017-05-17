@@ -6,7 +6,7 @@ import Post from './Post';
 import autosize from 'autosize';
 import ShortName from './ShortName';
 import axios from 'axios';
-import { getPosts, trackingMembersStatus } from '../../../actions/index';
+import { getPosts } from '../../../actions/index';
 import config from '../../../config/env';
 import io from 'socket.io-client';
 import messaging, { EventTypes } from '../../../actions/messaging';
@@ -133,7 +133,7 @@ class MessageContainer extends Component {
 			}
 			case EventTypes.presenceChanged : {
 				console.log(event);
-				trackingMembersStatus(this.members,event)
+				// trackingMembersStatus(this.members,event)
 				// address:"::ffff:127.0.0.1"
 				// presenceStatus:"available"/"away"
 				// userAgent:"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
@@ -372,7 +372,7 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, {getPosts, trackingMembersStatus})(MessageContainer);
+export default connect(mapStateToProps, {getPosts})(MessageContainer);
 
 // conversations = [ {conversationId:"dfsdf", participants: [{country:"US", displayName: "Rob", icon: null, lastName: "Abbott", preferences : {}, timeZone: "America/Los_Angeles", userId: "sdfsdfds"},{},{}] },{...}]
 
