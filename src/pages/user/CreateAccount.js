@@ -104,8 +104,8 @@ class CreateAccount extends Component {
 
     if (fullname.length < 2)
       notify("Full Name must have at least 2 words");
-    if (this.state.displayName == "" || displayname.length != 1)
-      notify("Display Name must be 1 word");
+    // if (this.state.displayName == "" || displayname.length != 1)
+    //   notify("Display Name must be 1 word");
     if (password.length < 6)
       notify("Password must have at least 6 characters")
     if (rePassword != this.state.password)

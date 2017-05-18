@@ -31,12 +31,59 @@ class MessageContainer extends Component {
 		this.addRealTimeThreaded = this.addRealTimeThreaded.bind(this);
 		this.membersConnectionListener = this.membersConnectionListener.bind(this);
 		this.scrollToBottom = this.scrollToBottom.bind(this);
-		
+	}
+
+	componentWillMount() {
+		const teamRoomId = this.props.room.teamRoomId;
+		const url = `${config.hablaApiBaseUri}/teamRooms/getMembers/${teamRoomId}`;
+        this.token = `Bearer ${this.props.user.token}`;
+        axios.get(url, { headers: { Authorization: this.token } })
+        .then( response => {
+        	this.members = response.data.teamRoomMembers;    	
+        	// this.props.saveMembersTeamRoom(this.members);
+        	this.members.map(member => {
+		      const key = member.userId;
+		      if (key == this.props.user.user.userId) this.state[key] = "member-status-available";
+		      else this.state[key] = "member-status-away";
+		    })
+        })
+  
+       	const urlCon = `${config.hablaApiBaseUri}/conversations/getConversations?teamRoomId=${teamRoomId}`;    
+   		axios.get(urlCon, { headers : { Authorization: this.token}})
+   		.then(response => {
+   			// console.log(response);
+   			const conversations = response.data.conversations;
+   			// console.log(conversations);
+   			this.conId = conversations[0].conversationId;
+   			const urlTranscript = `${config.hablaApiBaseUri}/conversations/getTranscript/${this.conId}`;
+            axios.get(urlTranscript, { headers: { Authorization: this.token } })
+            .then( (responseTranscript) => {
+                this.translateData(responseTranscript.data.messages);      	
+            })
+   		})
+	}
+
+	componentDidMount() {
+	    this.scrollToBottom();
+	    autosize(document.querySelectorAll('textarea'));
+
+//This is use for offline edit teamroom page only => bypass login and teams page
+	    messaging(this.props.user.websocketUrl).connect(this.props.user.token)
+		.then(() => {
+			console.log("connect successfully!");
+		});
+	    messaging().addEventListener(this.myEventListener);
+	    // messaging().addOnlineOfflineListener(this.membersConnectionListener);
+
+	}
+
+	componentDidUpdate() {
+	    this.scrollToBottom();
+	    autosize(document.querySelectorAll('textarea'));
 	}
 
 	membersConnectionListener(online) {
 		// console.log(`AD: online=${online}`);
-		// console.log(online);
 	}
 
 	memberName(memberId) {
@@ -62,8 +109,6 @@ class MessageContainer extends Component {
 	addRealTimeThreaded(family,node) {
 		//<Post >  ...: key, props : { children : [], color, content, id, level, shortname, time}
 		//this method traverse the tree of Post to find parent of "node" in "family"
-
-		
 		family.map(parent => {
 			if (node.replyTo == parent.props.id) {
 				var shortname = ShortName(this.memberName(node.createdBy));
@@ -131,8 +176,7 @@ class MessageContainer extends Component {
 				}
 			}
 			case EventTypes.presenceChanged : {
-				// console.log(event);
-				 const key = event.userId;
+				const key = event.userId;
     			this.state[key] = `member-status-${event.presenceStatus}`;
     			this.forceUpdate();
 				// trackingMembersStatus(this.members,event)
@@ -143,36 +187,6 @@ class MessageContainer extends Component {
 
 			}
 		}
-	}
-
-	componentWillMount() {
-		const teamRoomId = this.props.room.teamRoomId;
-		const url = `${config.hablaApiBaseUri}/teamRooms/getMembers/${teamRoomId}`;
-        this.token = `Bearer ${this.props.user.token}`;
-        axios.get(url, { headers: { Authorization: this.token } })
-        .then( response => {
-        	this.members = response.data.teamRoomMembers;    	
-        	// this.props.saveMembersTeamRoom(this.members);
-        	this.members.map(member => {
-		      const key = member.userId;
-		      if (key == this.props.user.user.userId) this.state[key] = "member-status-available";
-		      else this.state[key] = "member-status-away";
-		    })
-        })
-  
-       	const urlCon = `${config.hablaApiBaseUri}/conversations/getConversations?teamRoomId=${teamRoomId}`;    
-   		axios.get(urlCon, { headers : { Authorization: this.token}})
-   		.then(response => {
-   			// console.log(response);
-   			const conversations = response.data.conversations;
-   			// console.log(conversations);
-   			this.conId = conversations[0].conversationId;
-   			const urlTranscript = `${config.hablaApiBaseUri}/conversations/getTranscript/${this.conId}`;
-            axios.get(urlTranscript, { headers: { Authorization: this.token } })
-            .then( (responseTranscript) => {
-                this.translateData(responseTranscript.data.messages);      	
-            })
-   		})
 	}
 
 	sendMessage(text,replyTo,shortname,name) {
@@ -203,12 +217,11 @@ class MessageContainer extends Component {
 				/>
 			);
         	this.setState({content: '', key: -this.state.key});
-        	// console.log(response.data.message);  // { conversationId, created, createdBy, messageId, messageType, text }  
+        	// { conversationId, created, createdBy, messageId, messageType, text }  
         })   
 	}
 
 	translateData(messages) {	//TODO : reduce time by skipping translateData
-		// console.log(messages.length);
   		var findDepth = function(message) {
   			if (!message.hasOwnProperty("replyTo")) 
   				message["depth"] = 0;
@@ -240,35 +253,13 @@ class MessageContainer extends Component {
 			message["child"] = [];
 			findDepth(message);
 		});
-		this.rawMessages = messages;  //assign data messages to reducer_posts
+		this.rawMessages = messages;  
 		this.displayAllPosts();
 	}
 
 	scrollToBottom = () => {
     	const node = ReactDOM.findDOMNode(this.refs.end);
     	node.scrollIntoView({behavior: "smooth"});
-	}
-
-   
-
-	componentDidMount() {
-	    this.scrollToBottom();
-	    autosize(document.querySelectorAll('textarea'));
-
-//This is use for offline edit teamroom page only => bypass login and teams page
-	    messaging(this.props.user.websocketUrl).connect(this.props.user.token)
-		.then(() => {
-			console.log("connect successfully!");
-		});
-//
-	    messaging().addEventListener(this.myEventListener);
-	    // messaging().addOnlineOfflineListener(this.membersConnectionListener);
-
-	}
-
-	componentDidUpdate() {
-	    this.scrollToBottom();
-	    autosize(document.querySelectorAll('textarea'));
 	}
 
 	handleKeyPressed(target) {		
@@ -347,41 +338,24 @@ class MessageContainer extends Component {
 						Members
 					</div>
 					<div className="teamroom-member-status-container">
-			      {
-			        this.members.map(member => {
-			        	var icon = "data:image/jpg;base64," + member.icon;
-			          const key = member.userId;
-			          const dot = this.state[key] == "member-status-away" ? "fa fa-circle dot-status-yellow" : "fa fa-circle dot-status-green";
-			          // var icon = "data:image/jpg;base64," + member.icon;
-			          return (
-			            <div className={this.state[key]} key={key}>
-			            	<i className={dot} />
-			              <img src={icon} className="" ></img>
-			              <span className="member-status-name"> {member.displayName}</span>
-			              
-			            </div>
-			          )
-			        })
-			      }
-			      </div>
-	    
-	   			 </div>
+			      	{
+			        	this.members.map(member => {
+			        		const icon = "data:image/jpg;base64," + member.icon;
+			          		const key = member.userId;
+			          		const dot = this.state[key] == "member-status-away" ? "fa fa-circle dot-status-yellow" : "fa fa-circle dot-status-green";
+			          		return (
+			            		<div className={this.state[key]} key={key}>
+				            		<i className={dot} />
+				              		<img src={icon} className="" ></img>
+				              		<span className="member-status-name"> {member.displayName}</span>
+			            		</div>
+			          		)
+			        	})
+			      	}
+			      	</div>
+	   			</div>
 				<div className="row teamroom-lobby" id="lobby">
-				{/*	<div className="row teamroom-seperator-line">
-						<div className="col-md-5 col-xs-0 date-item line-break">
-							&nbsp;
-						</div>
-						<div className="col-md-2 col-xs-12 date-item chat-date">
-							Today
-						</div>
-						<div className="col-md-5 col-xs-0 date-item line-break">
-							&nbsp;
-						</div>
-					</div>					
-				*/}	
-						{this.state.posts}
-
-										
+					{this.state.posts}					
 					<div ref="end"></div>
 					<div className="row">
 						<form>
@@ -395,7 +369,7 @@ class MessageContainer extends Component {
 						</form>
 					</div>
 				</div>
-		</div>
+			</div>
 		);
 	}
 }
