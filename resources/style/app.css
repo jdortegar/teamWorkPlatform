@@ -816,6 +816,16 @@ table {
   border: solid 2px #999;
   border-radius: 10px; }
 
+.fa-circle {
+  font-size: 10px;
+  margin-right: 5px; }
+
+.dot-status-yellow {
+  color: #f39c12; }
+
+.dot-status-green {
+  color: #2ec866; }
+
 .message-reply {
   max-height: 100px !important;
   border-radius: 3px;

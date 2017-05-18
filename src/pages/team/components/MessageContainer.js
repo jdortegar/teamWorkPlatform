@@ -351,11 +351,14 @@ class MessageContainer extends Component {
 			        this.members.map(member => {
 			        	var icon = "data:image/jpg;base64," + member.icon;
 			          const key = member.userId;
+			          const dot = this.state[key] == "member-status-away" ? "fa fa-circle dot-status-yellow" : "fa fa-circle dot-status-green";
 			          // var icon = "data:image/jpg;base64," + member.icon;
 			          return (
 			            <div className={this.state[key]} key={key}>
+			            	<i className={dot} />
 			              <img src={icon} className="" ></img>
 			              <span className="member-status-name"> {member.displayName}</span>
+			              
 			            </div>
 			          )
 			        })
