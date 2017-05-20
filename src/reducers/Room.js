@@ -6,12 +6,13 @@ const init = {
 		purpose:"UI sprint planning.",
 		teamId:"ea794510-cea6-4132-0008-a7ae1d32abb5",
 		teamRoomId:"ea794510-cea6-4132-0016-a7ae1d32abb5"
+				
 	}
 }
 
 
-// export default function(state={room: ''}, action) {
-export default function(state=init, action) {
+export default function(state={room: ''}, action) {
+// export default function(state=init, action) {
   switch (action.type) {
     case 'get-room' :
       	return {...state, room : action.payload };

@@ -1,5 +1,6 @@
 import config from '../config/env';
 import axios from 'axios';
+import messaging from '../actions/messaging';
 
 export default class Helper{
 	constructor(user) {
@@ -9,6 +10,7 @@ export default class Helper{
 		this.getTeamRoomMembers = this.getTeamRoomMembers.bind(this);
 		this.getConversations = this.getConversations.bind(this);
 		this.getMessages = this.getMessages.bind(this);
+		this.getTeams = this.getTeams.bind(this);
 	}
 
 	static getShortName(fullname) {
@@ -52,6 +54,50 @@ export default class Helper{
 		})
 	}
 
+	static getRandomIntNumber (min, max) {
+    	return Math.floor(Math.random()*(Math.floor(max)-Math.ceil(min)))+Math.ceil(min);
+  	}
+
+  	static loginAuth(username, password) {
+		return new Promise((resolve, reject) => {
+			axios({
+  				method: 'post',
+  				url: `${config.hablaApiBaseUri}/auth/login`,
+  				body: {
+  					'content-type': 'application/x-www-form-urlencoded'
+		  		},
+		  		data: {
+			        username: username,
+			        password: password,
+		  		}
+		  	})
+		    .then(response => {
+		    	resolve(response);
+			})
+			.catch(error => resolve(error))
+		})
+	}
+
+	static getTeamRooms(userToken) {
+		const httpToken = `Bearer ${userToken}`;
+		return new Promise((resolve, reject) => {
+			const urlRooms = `${config.hablaApiBaseUri}/teamRooms/getTeamRooms`;
+			axios.get(urlRooms, { headers: { Authorization: httpToken}})
+       		.then(response => {
+       			resolve(response.data.teamRooms);
+       		})
+		})
+	}
+
+	static connectWebSocket(websocketUrl, token) {
+		
+		messaging(websocketUrl).connect(token)
+   		.then(() => {
+   			console.log("connect successfully!");
+   		})
+   		.catch(error => console.log(error));
+	}
+
 	getResponseMessage(teamRoomId, text, replyTo) {
 		return new Promise((resolve, reject) => {
 			this.getConversations(teamRoomId)
@@ -92,6 +138,7 @@ export default class Helper{
 			const urlCon = `${config.hablaApiBaseUri}/conversations/getConversations?teamRoomId=${teamRoomId}`;    
    			axios.get(urlCon, { headers : { Authorization: this.token}})
    			.then(response => {
+   				// console.log(response);
    				resolve(response.data.conversations);
    				return;
    			})
@@ -109,7 +156,7 @@ export default class Helper{
 				const urlTranscript = `${config.hablaApiBaseUri}/conversations/getTranscript/${conId}`;
 				axios.get(urlTranscript, { headers: { Authorization: this.token } })
 	        	.then( (response) => {
-	            	resolve(response.data.messages)
+	            	resolve(response.data.messages);
 	         	});
 			})
 			.catch(error => {
@@ -117,4 +164,20 @@ export default class Helper{
 			})
 		})     
 	}
+
+	getTeams() {
+		return new Promise((resolve, reject) => {
+			const url = `${config.hablaApiBaseUri}/teams/getTeams`;
+			axios.get(url, { headers : { Authorization: this.token}})
+			.then(response => {
+				resolve(response.data.teams)
+			})
+		}) 		
+	}
+
 }
+
+
+
+
+

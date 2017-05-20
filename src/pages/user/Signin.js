@@ -8,8 +8,9 @@ import config from '../../config/env';
 import { Header, Footer, FieldGroup } from '../../components';
 import { user, teams, rooms } from '../../actions/index';
 import HeaderNavbar from '../homepage/components/header_navbar';
-import messaging from '../../actions/messaging';
+// import messaging from '../../actions/messaging';
 import example from '../../actions/example';
+import Helper from '../../components/Helper';
 
 class SignIn extends Component {
 
@@ -39,69 +40,84 @@ class SignIn extends Component {
 
 	logIn(event) {
 		event.preventDefault();
-		axios({
-  		method: 'post',
-  		url: `${config.hablaApiBaseUri}/auth/login`,
-  		body: {
-  			'content-type': 'application/x-www-form-urlencoded'
-  		},
-  		data: {
-	        username: this.state.email,
-	        password: this.state.password,
-  		}
-  	})
+		Helper.loginAuth(this.state.email, this.state.password)
+		.then(response => {
+			this.setState({password: ''});  //for security
+			this.storeUser(response.data);
+			Helper.connectWebSocket(response.data.websocketUrl, response.data.token);
+			Helper.getTeamRooms(response.data.token)
+			.then(response => {
+				this.storeRooms(response);
+				this.context.router.push('/teams');
+			})
+		})
+		.catch(error => console.log(error));
 
 
-      .then(response => {
 
-       	if (response.status == 200) {
-       		//Login success
-       		this.setState({password:''});  //for security
-       		this.storeUser(response.data);
-       		const token = `Bearer ${this.props.active_user.token}`;
-       		const url = `${config.hablaApiBaseUri}/teams/getTeams`;
-       		const urlRooms = `${config.hablaApiBaseUri}/teamRooms/getTeamRooms`;
-    		//this is get teams
-       		axios.get(url, { headers : { Authorization: token}})
-       		//Get teamroom success
-       		.then(response => {
-       			if (response.status == 200) {
-       				messaging(this.props.active_user.websocketUrl).connect(this.props.active_user.token)
-               		.then(() => {
-               			example();
-               			console.log("connect successfully!");
-               		});
+		// axios({
+  // 		method: 'post',
+  // 		url: `${config.hablaApiBaseUri}/auth/login`,
+  // 		body: {
+  // 			'content-type': 'application/x-www-form-urlencoded'
+  // 		},
+  // 		data: {
+	 //        username: this.state.email,
+	 //        password: this.state.password,
+  // 		}
+  // 	})
+
+
+  //     .then(response => {
+
+  //      	if (response.status == 200) {
+  //      		//Login success
+  //      		this.setState({password:''});  //for security
+  //      		this.storeUser(response.data);
+  //      		const token = `Bearer ${this.props.active_user.token}`;
+  //      		const url = `${config.hablaApiBaseUri}/teams/getTeams`;
+  //      		const urlRooms = `${config.hablaApiBaseUri}/teamRooms/getTeamRooms`;
+  //   		//this is get teams
+  //      		axios.get(url, { headers : { Authorization: token}})
+  //      		//Get teamroom success
+  //      		.then(response => {
+  //      			if (response.status == 200) {
+  //      				messaging(this.props.active_user.websocketUrl).connect(this.props.active_user.token)
+  //              		.then(() => {
+  //              			// example();
+  //              			console.log("connect successfully!");
+  //              		});
     
-       				this.storeTeams(response.data.teams);
-       				// this.context.router.push('/teams');
+  //      				this.storeTeams(response.data.teams);
+  //      				// this.context.router.push('/teams');
 
-       			}
+  //      			}
 
-       		})
-       		.catch(error => console.log(error))
+  //      		})
+  //      		.catch(error => console.log(error))
 
-       		//this is get rooms
+  //      		//this is get rooms
 
-       		axios.get(urlRooms, { headers: { Authorization: token}})
-       		.then(response => {
-       			if (response.status == 200) {
-       				this.storeRooms(response.data.teamRooms);
-       				this.context.router.push('/teams');
-       			}
-       		})
-       		.catch(error => console.log(error));
+  //      		axios.get(urlRooms, { headers: { Authorization: token}})
+  //      		.then(response => {
+  //      			if (response.status == 200) {
+  //      				this.storeRooms(response.data.teamRooms);
+  //      				this.context.router.push('/teams');
+  //      			}
+  //      		})
+  //      		.catch(error => console.log(error));
 
-            // Initialize messaging.
+  //           // Initialize messaging.
             
-       	}
+  //      	}
 
 
 
-      })
+  //     })
 
 
 
-      .catch(error => console.log(error.status))
+  //     .catch(error => console.log(error.status))
 	}
 
 	render() {
@@ -146,7 +162,6 @@ class SignIn extends Component {
 										className="col-md-12" >
 											LOGIN
 									</Button>
-
 							</div>
 						</form>
 						<div className="row center-link">

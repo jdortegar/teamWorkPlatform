@@ -6,6 +6,7 @@ import { Header, Footer, FieldGroup } from '../../components';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import axios from 'axios';
 import config from '../../config/env';
+import Helper from '../../components/Helper';
 import TimezonePicker from 'react-bootstrap-timezone-picker';
 
 class CreateAccount extends Component {
@@ -19,24 +20,31 @@ class CreateAccount extends Component {
   }
 
   getEmail(rid) {
-    var that = this;
-    axios({
-       method: 'get',
-       url: `${config.hablaApiBaseUri}/users/validateEmail/${rid}`,
-       body: {
-          'content-type': 'application/json'
-       }
+    Helper.validateEmail(rid)
+    .then(response => {
+      this.setState({email: response.data.email});
     })
-      .then((response) => {
-        if (response.status === 200) {
-          that.setState({email: response.data.email});
-          console.log(that.state.email);
-        } else {
+    .catch(error => this.context.router.push('/register'));
 
-      }
-    })
-       //TODO: Create a notification above register to notify if validation link is expired
-       .catch((err) => this.context.router.push('/register'));
+
+    // var that = this;
+    // axios({
+    //    method: 'get',
+    //    url: `${config.hablaApiBaseUri}/users/validateEmail/${rid}`,
+    //    body: {
+    //       'content-type': 'application/json'
+    //    }
+    // })
+    //   .then((response) => {
+    //     if (response.status === 200) {
+    //       that.setState({email: response.data.email});
+    //       console.log(that.state.email);
+    //     } else {
+
+    //   }
+    // })
+    //    //TODO: Create a notification above register to notify if validation link is expired
+    //    .catch((err) => this.context.router.push('/register'));
   }
 
 	constructor(props) {
@@ -65,11 +73,11 @@ class CreateAccount extends Component {
 		this.setState({ region: val });
 	}
 
-  getRandomColor (min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random()*(max-min))+min;
-  }
+  // getRandomColor (min, max) {
+  //   min = Math.ceil(min);
+  //   max = Math.floor(max);
+  //   return Math.floor(Math.random()*(max-min))+min;
+  // }
 
   splitFullname(fullname) {
     var name = fullname.split(' ');
@@ -92,7 +100,7 @@ class CreateAccount extends Component {
                            '#2ecc71','#1abc9c','#f1c40f',
                            '#e67e22','#e74c3c','#7f8c8d',
                            '#e91e63','#795548','#607d8b','#2196f3'];
-    var avatar_color = avatar_colors[this.getRandomColor(0, avatar_colors.length-1)];
+    var avatar_color = avatar_colors[Helper.getRandomNumber(0, avatar_colors.length-1)];
     
     // this.state["icon"]=avatar_color;
     const notify = (text) => {

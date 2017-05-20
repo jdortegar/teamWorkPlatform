@@ -2,7 +2,8 @@
 const init = {
 	user : {
 		status: "SUCCESS",
-		token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiJlYTc5NDUxMC1jZWE2LTQxMzItMDAwMC1hYThlMWQzMmFiYjUiLCJlbWFpbCI6InNvbi5kYW9AaGFibGEuYWkiLCJpYXQiOjE0OTQ4MjkwNzl9.4ysBhM4VX10s0IWAWSrfGDVQzfJXtx57oa_Bv2-t84Y",
+		token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiJlYTc5NDUxMC1jZWE2LTQxMzItMDAwMC1hYThlMWQzMmFiYjUiLCJlbWFpbCI6InNvbi5kYW9AaGFibGEuYWkiLCJpYXQiOjE0OTUyOTY1NTV9.58WbtMq7CgGAYnY33iu58Eids952SpIP_0CZ2tby820",
+				
 		websocketUrl:"http://habla-fe-api-dev.habla.ai",
 		user: {
 			country: "US",
@@ -18,8 +19,8 @@ const init = {
 	}
 }	
 
-// export default function(state={user: null}, action) {
-export default function(state=init, action) {	
+export default function(state={user: null}, action) {
+// export default function(state=init, action) {	
   switch (action.type) {
     case 'save-user' :
       	return {...state, user: action.payload }; //tweak login
