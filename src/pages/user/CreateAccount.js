@@ -25,26 +25,7 @@ class CreateAccount extends Component {
       this.setState({email: response.data.email});
     })
     .catch(error => this.context.router.push('/register'));
-
-
-    // var that = this;
-    // axios({
-    //    method: 'get',
-    //    url: `${config.hablaApiBaseUri}/users/validateEmail/${rid}`,
-    //    body: {
-    //       'content-type': 'application/json'
-    //    }
-    // })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       that.setState({email: response.data.email});
-    //       console.log(that.state.email);
-    //     } else {
-
-    //   }
-    // })
-    //    //TODO: Create a notification above register to notify if validation link is expired
-    //    .catch((err) => this.context.router.push('/register'));
+    //TODO: Create a notification above register to notify if validation link is expired
   }
 
 	constructor(props) {
@@ -60,7 +41,7 @@ class CreateAccount extends Component {
       timezone: '',
       icon: '' };
     this.splitFullname = this.splitFullname.bind(this);
-    this.getRandomColor = this.getRandomColor.bind(this);
+
 	}
 
   handleChange = (value) => this.setState({timezone: value})
@@ -89,20 +70,7 @@ class CreateAccount extends Component {
     //---------------validation---------------
     var region = document.getElementById('info-alert');
     region.innerHTML='';
-    const fullname = this.state.fullName.split(' ');
-    const displayname = this.state.displayName.split(' ');
-    const password = this.state.password;
-    const rePassword = this.state.rePassword;
-    const checkbox = this.state.checkbox;
-    const country = this.state.country;
-    const timezone = this.state.timezone;
-    const avatar_colors = ['#e67e22','#3498db','#9b59b6',
-                           '#2ecc71','#1abc9c','#f1c40f',
-                           '#e67e22','#e74c3c','#7f8c8d',
-                           '#e91e63','#795548','#607d8b','#2196f3'];
-    var avatar_color = avatar_colors[Helper.getRandomNumber(0, avatar_colors.length-1)];
-    
-    // this.state["icon"]=avatar_color;
+    const {firstName, lastName, displayName, email, password, rePassword, country, timezone, checkbox, fullName} = this.state;
     const notify = (text) => {
       var alertTerm = document.createElement("div");
       var text = document.createTextNode(text);
@@ -110,13 +78,16 @@ class CreateAccount extends Component {
       region.appendChild(alertTerm);
     };
 
-    if (fullname.length < 2)
+    if (fullName.split(' ').length < 2)
       notify("Full Name must have at least 2 words");
+    else { 
+      this.splitFullname(fullName);
+    }
     // if (this.state.displayName == "" || displayname.length != 1)
     //   notify("Display Name must be 1 word");
-    if (password.length < 6)
-      notify("Password must have at least 6 characters")
-    if (rePassword != this.state.password)
+    // if (password.length < 6)
+    //   notify("Password must have at least 6 characters")
+    if (rePassword != password)
       notify("Confirm Password is not matched");
     if (country == "")
       notify("You must select your country");
@@ -124,33 +95,9 @@ class CreateAccount extends Component {
       notify("You must select your timezone");
     if (!checkbox)
       notify("You must read 'term of service' and check the box");
+
     if (region.innerHTML == "") {
-      this.splitFullname(this.state.fullName);
-     
-      axios({
-    		method: 'post',
-    		url: `${config.hablaApiBaseUri}/users/createUser`,
-    		body: {
-    			'content-type': 'application/json'
-    		},
-    		data: {
-    			firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          displayName: this.state.displayName,
-          email: this.state.email,
-          password: this.state.password,
-          country: this.state.country,
-          timeZone: this.state.timezone,
-          // icon: this.state.icon
-    		}
-    	})
-        .then(response => {
-          console.log(response);
-          this.context.router.push('/signin');
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      Helper.createUser(this.state.firstName, this.state.lastName, displayName, email, password, country, timezone);
     }
 	}
 
@@ -188,7 +135,7 @@ class CreateAccount extends Component {
 								<FieldGroup
                   onChange = {(event) => this.setState({displayName: event.target.value})}
 									type="text"
-									placeholder="BobJones"
+									placeholder="Bob Jones"
 									label="Display Name"
 									classn="col-md-12 clearpadding"
 								/>
@@ -236,7 +183,7 @@ class CreateAccount extends Component {
 
 							<div className="row">
 	 							<Checkbox className="col-md-12 clearpadding" onChange={() => this.setState({checkbox:true})}>
-	 								I have read and understand the privacy policy and <Link to="#" className="forgot-password">term of service</Link>
+	 								I have read and understand the privacy policy and <Link to="/terms-of-service" className="forgot-password" target="_blank">term of service</Link>
 	 							</Checkbox>
 	 						</div>
 	 						<br />

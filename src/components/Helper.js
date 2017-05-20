@@ -14,8 +14,8 @@ export default class Helper{
 	}
 
 	static getShortName(fullname) {
-		const arrayName = fullname.split(' ');
-		return arrayName[0].charAt(0)+arrayName[arrayName.length-1].charAt(0);
+		const arrayName = fullname.split(' ');	
+		return arrayName.length > 1 ? arrayName[0].charAt(0)+arrayName[arrayName.length-1].charAt(0) : fullname;
 	}
 
 	static getMemberIcon(members, memberId){
@@ -78,6 +78,16 @@ export default class Helper{
 		})
 	}
 
+	static getTeams(userToken) {
+		return new Promise((resolve, reject) => {
+			const url = `${config.hablaApiBaseUri}/teams/getTeams`;
+			axios.get(url, { headers : { Authorization: userToken}})
+			.then(response => {
+				resolve(response.data.teams)
+			})
+		}) 		
+	}
+
 	static getTeamRooms(userToken) {
 		const httpToken = `Bearer ${userToken}`;
 		return new Promise((resolve, reject) => {
@@ -96,6 +106,44 @@ export default class Helper{
    			console.log("connect successfully!");
    		})
    		.catch(error => console.log(error));
+	}
+
+	static randomColor() {
+		const avatar_colors = ['#e67e22','#3498db','#9b59b6',
+	                           '#2ecc71','#1abc9c','#f1c40f',
+	                           '#e67e22','#e74c3c','#7f8c8d',
+	                           '#e91e63','#795548','#607d8b','#2196f3'];
+    	return avatar_colors[Helper.getRandomIntNumber(0, avatar_colors.length-1)];
+	}
+
+	static createUser(firstName, lastName, displayName, email, password, country, timeZone) {
+		console.log(firstName);
+		console.log(lastName);
+		return new Promise((response, reject) => {
+			axios({
+	    		method: 'post',
+	    		url: `${config.hablaApiBaseUri}/users/createUser`,
+	    		body: {
+	    			'content-type': 'application/json'
+	    		},
+	    		data: {
+	    			firstName,
+					lastName,
+					displayName,
+					email,
+					password,
+					country,
+					timeZone,
+					preferences: {
+						iconColor: Helper.randomColor(),
+					}
+	    		}
+	    	})
+	        .then(response => {
+	        	resolve(response)
+	        })
+	        .catch(error => reject(error))
+		});
 	}
 
 	getResponseMessage(teamRoomId, text, replyTo) {
@@ -165,15 +213,7 @@ export default class Helper{
 		})     
 	}
 
-	getTeams() {
-		return new Promise((resolve, reject) => {
-			const url = `${config.hablaApiBaseUri}/teams/getTeams`;
-			axios.get(url, { headers : { Authorization: this.token}})
-			.then(response => {
-				resolve(response.data.teams)
-			})
-		}) 		
-	}
+	
 
 }
 

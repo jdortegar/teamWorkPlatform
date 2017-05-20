@@ -17,12 +17,14 @@ const Header = (user) => {
 				(
 					<div className = "header-account">
 						{user.user}
+						{/*
 						<div>
 							<Link to="/">
-							{/* TODO: Create section login in redux, then clear when user click on Logout */}
+							 TODO: Create section login in redux, then clear when user click on Logout 
 								Logout
 							</Link>
 						</div>
+						*/}
 					</div>
 				):(
 					<div className="col-md-6 col-md-offset-5">
