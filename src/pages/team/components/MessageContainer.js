@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { FieldGroup } from '../../../components';
 import Post from './Post';
 import autosize from 'autosize';
-import ShortName from './ShortName';
 import axios from 'axios';
 import { saveMembersTeamRoom } from '../../../actions/index';
 import config from '../../../config/env';
 import io from 'socket.io-client';
 import messaging, { EventTypes } from '../../../actions/messaging';
 import moment from 'moment-timezone';
+import Helper from '../../../components/Helper';
 
 
 class MessageContainer extends Component {
@@ -26,41 +26,27 @@ class MessageContainer extends Component {
 		this.renderPosts = [];
 		this.members=[];
 		this.myEventListener = this.myEventListener.bind(this);
-		this.memberName = this.memberName.bind(this);
-		this.memberIcon = this.memberIcon.bind(this);
 		this.addRealTimeThreaded = this.addRealTimeThreaded.bind(this);
 		this.membersConnectionListener = this.membersConnectionListener.bind(this);
 		this.scrollToBottom = this.scrollToBottom.bind(this);
 	}
 
 	componentWillMount() {
+		const helper = new Helper(this.props.user);
 		const teamRoomId = this.props.room.teamRoomId;
-		const url = `${config.hablaApiBaseUri}/teamRooms/getMembers/${teamRoomId}`;
-        this.token = `Bearer ${this.props.user.token}`;
-        axios.get(url, { headers: { Authorization: this.token } })
-        .then( response => {
-        	this.members = response.data.teamRoomMembers;    	
-        	// this.props.saveMembersTeamRoom(this.members);
-        	this.members.map(member => {
-		      const key = member.userId;
-		      if (key == this.props.user.user.userId) this.state[key] = "member-status-available";
-		      else this.state[key] = "member-status-away";
+		helper.getTeamRoomMembers(teamRoomId)
+		.then(result => {
+			this.members = result;
+			this.members.map(member => {
+		    	const key = member.userId;
+		    	if (key == this.props.user.user.userId) this.state[key] = "member-status-available";
+		    	else this.state[key] = "member-status-away";
 		    })
-        })
-  
-       	const urlCon = `${config.hablaApiBaseUri}/conversations/getConversations?teamRoomId=${teamRoomId}`;    
-   		axios.get(urlCon, { headers : { Authorization: this.token}})
-   		.then(response => {
-   			// console.log(response);
-   			const conversations = response.data.conversations;
-   			// console.log(conversations);
-   			this.conId = conversations[0].conversationId;
-   			const urlTranscript = `${config.hablaApiBaseUri}/conversations/getTranscript/${this.conId}`;
-            axios.get(urlTranscript, { headers: { Authorization: this.token } })
-            .then( (responseTranscript) => {
-                this.translateData(responseTranscript.data.messages);      	
-            })
-   		})
+		})
+		helper.getMessages(teamRoomId)
+		.then(response => {
+			this.translateData(response); 
+		})
 	}
 
 	componentDidMount() {
@@ -86,40 +72,20 @@ class MessageContainer extends Component {
 		// console.log(`AD: online=${online}`);
 	}
 
-	memberName(memberId) {
-		var name = ""
-		this.members.map(member => {
-			if (member.userId == memberId) {
-				name = member.displayName; //TODO : figure out why I can't return here?
-			}
-		});
-		return name;
-	}
-
-	memberIcon(memberId) {
-		var icon = ""
-		this.members.map(member => {
-			if (member.userId == memberId) {
-				icon = member.icon == null ? null : "data:image/jpg;base64," + member.icon;
-			}
-		});
-		return icon;
-	}
-
 	addRealTimeThreaded(family,node) {
 		//<Post >  ...: key, props : { children : [], color, content, id, level, shortname, time}
 		//this method traverse the tree of Post to find parent of "node" in "family"
 		family.map(parent => {
 			if (node.replyTo == parent.props.id) {
-				var shortname = ShortName(this.memberName(node.createdBy));
+				var shortname = Helper.getShortName(Helper.getMemberName(this.members,node.createdBy));
 				parent.props.children.push(
 					<Post 
 						id={node.messageId} 
 						key={node.messageId} 
 						shortname={shortname} 
-						name={this.memberName(node.createdBy)}
+						name={Helper.getMemberName(this.members,node.createdBy)}
 						level={parent.props.level+1} 
-						icon={this.memberIcon(node.createdBy)}
+						icon={Helper.getMemberIcon(this.members,node.createdBy)}
 						color="" 
 						content={node.text} 
 						time={moment(node.created).fromNow()}
@@ -148,17 +114,17 @@ class MessageContainer extends Component {
 
 					if (!event.hasOwnProperty("replyTo")) {
 						// console.log(event.createdBy);
-						var shortname = ShortName(this.memberName(event.createdBy));
+						var shortname = Helper.getShortName(Helper.getMemberName(this.members,event.createdBy));
 						
 						this.renderPosts.push(
 							<Post 
 								id={event.messageId} 
 								key={event.messageId} 
 								shortname={shortname} 
-								name={this.memberName(event.createdBy)}
+								name={Helper.getMemberName(this.members, event.createdBy)}
 								level={0} 
 								color="" 
-								icon={this.memberIcon(event.createdBy)}
+								icon={Helper.getMemberIcon(this.members, event.createdBy)}
 								content={event.text} 
 								time={moment(event.created).fromNow()}
 								children={[]}
@@ -189,19 +155,11 @@ class MessageContainer extends Component {
 		}
 	}
 
-	sendMessage(text,replyTo,shortname,name) {
-		const url = `${config.hablaApiBaseUri}/conversations/${this.conId}/createMessage`;
-        let body;
-        if (replyTo) body = { messageType: "text", text, replyTo };
-        else body = { messageType: "text", text };
-        const headers = {
-        	content_type: 'application/json',
-            Authorization: this.token
-        };
-        axios.post(url, body, { headers })
-        .then( (response) => {
 
-        	const message = response.data.message;
+	sendMessage(text,replyTo,shortname,name) {
+		helper.getResponseMessage(this.props.room.teamRoomId,text, replyTo)
+		.then(response => {
+			const message = response.data.message;
         	this.renderPosts.push(	
 				<Post 
 					id={message.messageId}
@@ -210,15 +168,14 @@ class MessageContainer extends Component {
 					name={name}
 					level={0} 
 					color=""
-					icon={this.memberIcon(message.createdBy)}
+					icon={Helper.getMemberIcon(this.members, message.createdBy)}
 					content={message.text} 
 					time={moment(message.created).fromNow()}
 					children={[]}
 				/>
 			);
         	this.setState({content: '', key: -this.state.key});
-        	// { conversationId, created, createdBy, messageId, messageType, text }  
-        })   
+		})  
 	}
 
 	translateData(messages) {	//TODO : reduce time by skipping translateData
@@ -244,11 +201,11 @@ class MessageContainer extends Component {
 			this.members.map(member => {
 				
 				if (message.createdBy == member.userId) {
-					message["from"] = ShortName(member.displayName);
+					message["from"] = Helper.getShortName(member.displayName);
 					message["icon"] = member.icon == null ? null : "data:image/jpg;base64," + member.icon;
 				}
 			});
-			message["name"] = this.memberName(message.createdBy);
+			message["name"] = Helper.getMemberName(this.members,message.createdBy);
 			message["time"] = message.created;
 			message["child"] = [];
 			findDepth(message);
@@ -270,8 +227,7 @@ class MessageContainer extends Component {
 
 	addChild() {
 		var msg = this.state.content;
-		// const shortname = "SD";
-		const shortname = ShortName(this.props.user.user.displayName);
+		const shortname = Helper.getShortName(this.props.user.user.displayName);
 		const name = this.props.user.user.displayName;
 		if (msg != "") {
 			if (msg.replace(/ /g,'') != "") {

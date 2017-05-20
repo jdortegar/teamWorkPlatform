@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import MessageContainer from './components/MessageContainer';
-import ShortName from './components/ShortName';
+import Helper from '../../components/Helper';
 import axios from 'axios';
 import config from '../../config/env';
 import { getPosts } from '../../actions/index';
@@ -12,7 +12,7 @@ import LeftNav from './components/LeftNav';
 class TeamRoom extends Component {
 
 	render() {
-		const user = this.props.user.icon == null ? ShortName(this.props.user.displayName) : "data:image/jpg;base64," + this.props.user.icon;
+		const user = this.props.user.icon == null ? Helper.getShortName(this.props.user.displayName) : "data:image/jpg;base64," + this.props.user.icon;
 
 		return (
 			<div className="row">
