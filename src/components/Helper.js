@@ -10,7 +10,6 @@ export default class Helper{
 		this.getTeamRoomMembers = this.getTeamRoomMembers.bind(this);
 		this.getConversations = this.getConversations.bind(this);
 		this.getMessages = this.getMessages.bind(this);
-		this.getTeams = this.getTeams.bind(this);
 	}
 
 	static getShortName(fullname) {
@@ -117,8 +116,6 @@ export default class Helper{
 	}
 
 	static createUser(firstName, lastName, displayName, email, password, country, timeZone) {
-		console.log(firstName);
-		console.log(lastName);
 		return new Promise((response, reject) => {
 			axios({
 	    		method: 'post',

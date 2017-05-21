@@ -33,8 +33,8 @@ const init = [
 		userId:"ea794510-cea6-4132-ae22-a7ae1d32abb2",
 	}
 ]
-export default function(state={members:[]}, action) {
-// export default function(state=init, action) {
+// export default function(state={members:[]}, action) {
+export default function(state=init, action) {
   switch (action.type) {
     case 'save-members-teamroom' : {
     	console.log(action.payload);

@@ -5,7 +5,8 @@ import Checkbox from 'react-bootstrap/lib/Checkbox';
 import { Header, Footer, FieldGroup } from '../../components';
 import { CountryDropdown } from 'react-country-region-selector';
 import TimezonePicker from 'react-bootstrap-timezone-picker';
-
+import { connect } from 'react-redux';
+import LogedHeader from '../../components/LogedHeader';
 
 
 
@@ -31,7 +32,7 @@ class ProfileEdit extends Component {
 		const country = this.state.country;
 		return (
 			<div className="container-fluid">
-				<Header />
+				<LogedHeader />
 				<section>
 
 				<div className="row">
@@ -156,5 +157,10 @@ class ProfileEdit extends Component {
 		);
 	}
 }
+function mapStateToProps(state) {
+	return {
+		user: state.user.user
+	}
+}
 
-export default ProfileEdit;
+export default connect(mapStateToProps,null)(ProfileEdit);

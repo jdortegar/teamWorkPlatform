@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/lib/Button';
 import config from '../../config/env';
 import { Header, Footer, FieldGroup } from '../../components';
 import { selectRoom, teammembers } from '../../actions/index';
+import LogedHeader from '../../components/LogedHeader';
 
 class Teams extends Component {
 	
@@ -20,7 +21,7 @@ class Teams extends Component {
 		var rooms = this.props.rooms;
 		return (
 			<div>
-				<Header user={user.displayName} />
+				<LogedHeader />
 					<form>
 						<div className="row">
 							<div className="header">

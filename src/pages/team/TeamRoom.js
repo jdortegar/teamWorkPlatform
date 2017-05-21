@@ -3,68 +3,28 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import MessageContainer from './components/MessageContainer';
 import Helper from '../../components/Helper';
+import BreadCrumb from '../../components/BreadCrumb';
 import axios from 'axios';
 import config from '../../config/env';
 import { getPosts } from '../../actions/index';
 import Perf from 'react-addons-perf';
 import LeftNav from './components/LeftNav';
+import LogedHeader from '../../components/LogedHeader';
 
 class TeamRoom extends Component {
 
 	render() {
-		const user = this.props.user.icon == null ? Helper.getShortName(this.props.user.displayName) : "data:image/jpg;base64," + this.props.user.icon;
-
+		const items=[];
+		items.push({'team rooms':'/teams'});
+		const key = this.props.room.name;
+		let obj = {};
+		obj[key] = '#';
+		items.push(obj)
 		return (
 			<div className="row">
-				<div className="row teamroom-header-login">
-					<div className="col-md-1">
-						<Link to="/">
-						{/*	<img className="logo-login" src='/resources/img/logo.png' /> */}
-							<img className="logo-header" src='https://c2.staticflickr.com/4/3955/33078312014_f6f8c759db_o.png' /> 
-						</Link>
-					</div>
-					<div className="col-md-6 col-xs-12 col-md-offset-2 team-header-icons-nav">
-						<div className="team-header-icon">
-							<i className="fa fa-newspaper-o" />
-							<div className="team-header-nav-text">
-								TEAM
-							</div>
-						</div>
-						<div className="team-header-icon">
-							<i className="fa fa-bolt" />
-							<div className="team-header-nav-text"> 
-								CCG
-							</div>
-						</div>
-						<div className="team-header-icon">
-							<i className="fa fa-comments" />
-							<div className="team-header-nav-text">
-								MESSAGING
-							</div>
-						</div>
-						<div className="team-header-icon">
-							<i className="fa fa-calendar-o" />
-							<div className="team-header-nav-text">
-								CALENDAR
-							</div>
-						</div>	
-					</div>
-
-					<div className="col-md-2 col-md-offset-1 user-avatar-container">
-						<div className="user-avatar">
-							{this.props.user.icon == null ? 
-								(<p>{user}</p>)
-								:
-								(<div className="user-avatar-image-text">
-									<img src={user} className="user-avatar-image user-avatar-item"></img>
-									<div className="user-avatar-text user-avatar-item">{this.props.user.displayName}</div>
-								</div>
-								)
-							}
-						</div>
-					</div>
-
-				</div>
+				<LogedHeader />
+				<BreadCrumb items={items} />
+				{/*
 				<div className="row teamroom-body-nav">
 					<div className="teamroom-body-nav-links">
 						<Link to="/teams" className="teamroom-body-nav-link passive">TEAM ROOMS</Link>
@@ -72,7 +32,8 @@ class TeamRoom extends Component {
 						<Link to="/#" className="teamroom-body-nav-link active">{this.props.room.name.toUpperCase()}</Link>
 					</div>
 				</div>
-			
+				*/}
+
 				<MessageContainer /> 
 				 {/*since message.connect called at messagecontainer, to use messaging in LeftNav, it should be called after messagecontainer*/}
 
