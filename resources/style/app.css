@@ -621,7 +621,7 @@ table {
 .team-header-icon {
   display: inline-block;
   text-align: center;
-  width: 100px; }
+  width: 80px; }
 
 .team-header-icons-nav {
   text-align: center;
@@ -867,13 +867,20 @@ table {
   vertical-align: middle;
   color: #dadada; }
 
+.user-avatar-container {
+  margin-bottom: 10px; }
+
+.user-avatar-image-text {
+  position: absolute;
+  right: 10px; }
+
 .user-avatar-item {
   display: inline-block;
   width: 60px; }
 
 .user-avatar-text {
   font-size: 14px;
-  margin-left: 5px;
+  margin-left: 0px;
   width: 100px; }
 
 .user-avatar-image-text {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes} from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import { Link } from 'react-router';
 import Checkbox from 'react-bootstrap/lib/Checkbox';
@@ -12,6 +12,10 @@ import DropzoneComponent from 'react-dropzone-component';
 
 
 class ProfileEdit extends Component {
+
+	static contextTypes = {
+		router: PropTypes.object
+	}
 
 	constructor(props) {
 		super(props);
@@ -35,6 +39,10 @@ class ProfileEdit extends Component {
 			addedfile: (file) => console.log(file)
 		}
 		this.myDropzone='';
+	}
+
+	componentWillMount() {
+		if (this.props.user == null) this.context.router.push('/signin'); //forward user to login
 	}
 
 	handleChange = (value) => this.setState({timezone: value})
@@ -201,6 +209,7 @@ class ProfileEdit extends Component {
 	}
 }
 function mapStateToProps(state) {
+	if (state.user.user != null)
 	return {
 		user: state.user.user
 	}

@@ -22,6 +22,7 @@ class MessageContainer extends Component {
 		this.displayAllPosts = this.displayAllPosts.bind(this);
 		this.translateData = this.translateData.bind(this);
 		this.sendMessage = this.sendMessage.bind(this);
+		this.helper = '';
 		this.rawMessages =[];
 		this.renderPosts = [];
 		this.members=[];
@@ -32,9 +33,9 @@ class MessageContainer extends Component {
 	}
 
 	componentWillMount() {
-		const helper = new Helper(this.props.user);
+		this.helper = new Helper(this.props.user);
 		const teamRoomId = this.props.room.teamRoomId;
-		helper.getTeamRoomMembers(teamRoomId)
+		this.helper.getTeamRoomMembers(teamRoomId)
 		.then(result => {
 			this.members = result;
 			this.members.map(member => {
@@ -43,7 +44,7 @@ class MessageContainer extends Component {
 		    	else this.state[key] = "member-status-away";
 		    })
 		})
-		helper.getMessages(teamRoomId)
+		this.helper.getMessages(teamRoomId)
 		.then(response => {
 			this.translateData(response); 
 		})
@@ -157,7 +158,8 @@ class MessageContainer extends Component {
 
 
 	sendMessage(text,replyTo,shortname,name) {
-		helper.getResponseMessage(this.props.room.teamRoomId,text, replyTo)
+
+		this.helper.getResponseMessage(this.props.room.teamRoomId,text, replyTo)
 		.then(response => {
 			const message = response.data.message;
         	this.renderPosts.push(	
