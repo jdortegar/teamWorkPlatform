@@ -8,7 +8,6 @@ import axios from 'axios';
 import config from '../../config/env';
 import { getPosts } from '../../actions/index';
 import Perf from 'react-addons-perf';
-import LeftNav from './components/LeftNav';
 import LogedHeader from '../../components/LogedHeader';
 
 class TeamRoom extends Component {
@@ -16,24 +15,13 @@ class TeamRoom extends Component {
 	render() {
 		const items=[];
 		items.push({'team rooms':'/teams'});
-		const key = this.props.room.name;
 		let obj = {};
-		obj[key] = '#';
+		obj[this.props.room.name] = '#';
 		items.push(obj)
 		return (
 			<div className="row">
 				<LogedHeader />
 				<BreadCrumb items={items} />
-				{/*
-				<div className="row teamroom-body-nav">
-					<div className="teamroom-body-nav-links">
-						<Link to="/teams" className="teamroom-body-nav-link passive">TEAM ROOMS</Link>
-						<i className="fa fa-chevron-right teamroom-body-nav-link" />
-						<Link to="/#" className="teamroom-body-nav-link active">{this.props.room.name.toUpperCase()}</Link>
-					</div>
-				</div>
-				*/}
-
 				<MessageContainer /> 
 				 {/*since message.connect called at messagecontainer, to use messaging in LeftNav, it should be called after messagecontainer*/}
 

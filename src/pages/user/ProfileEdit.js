@@ -7,7 +7,7 @@ import { CountryDropdown } from 'react-country-region-selector';
 import TimezonePicker from 'react-bootstrap-timezone-picker';
 import { connect } from 'react-redux';
 import LogedHeader from '../../components/LogedHeader';
-
+import DropzoneComponent from 'react-dropzone-component';
 
 
 
@@ -16,6 +16,25 @@ class ProfileEdit extends Component {
 	constructor(props) {
 		super(props);
 		this.state = { country: 'United States', timezone:''};
+
+		this.dropzoneConfig = {
+			iconFiletypes: ['.jpg','.png','.gif'],
+			showFiletypeIcon: true,
+			postUrl: 'no-url'
+		}
+		this.djsConfig = { 
+			dictDefaultMessage: 'Drop your avatar image here...',
+			autoProcessQueue: false, 
+			addRemoveLinks: true,
+			maxFilesize: 0.5,   //max filesize = 0.5MB
+			maxFiles: 1,
+			dictMaxFilesExceeded: 'Only 1 image is accepted!',
+			dictFileTooBig: 'Max size is 0.5MB',
+		}
+		this.eventHandler = {
+			addedfile: (file) => console.log(file)
+		}
+		this.myDropzone='';
 	}
 
 	handleChange = (value) => this.setState({timezone: value})
@@ -24,9 +43,22 @@ class ProfileEdit extends Component {
 		this.setState({ country: val });
 	}
 
+	
+
+	initCallback (dropzone) {
+    	myDropzone = dropzone;
+	}
+
+	removeFile () {
+    	if (myDropzone) {
+        	myDropzone.removeFile();
+    	}
+	}
 	whenSubmit(event) {
 
 	}
+
+	
 
 	render() {
 		const country = this.state.country;
@@ -112,6 +144,17 @@ class ProfileEdit extends Component {
 								/>
 							</div>
 							<br />
+
+							<div className="avatar-dropzone-container clearpadding">
+								<div className="user-avatar-title">User Avatar</div>
+								<DropzoneComponent config={this.dropzoneConfig}
+													djsConfig={this.djsConfig}
+													eventHandler={this.eventHandler}
+								/>
+							</div>
+
+
+							{/*
 							<div>
 								<div className="preview-image">
 									<i className="fa fa-user" />
@@ -125,7 +168,7 @@ class ProfileEdit extends Component {
 									 >Upload</button>
 								</span>
 							</div>
-
+							*/}
 
 	 						<br />
 							<div className="row">
