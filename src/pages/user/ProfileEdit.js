@@ -32,15 +32,35 @@ class ProfileEdit extends Component {
 			addRemoveLinks: true,
 			maxFilesize: 0.5,   //max filesize = 0.5MB
 			maxFiles: 1,
+			// resize: this.reducesize,
 			dictMaxFilesExceeded: 'Only 1 image is accepted!',
 			dictFileTooBig: 'Max size is 0.5MB',
+			dictCancelUpload: 'Cancel uploading'
 		}
-		this.eventHandler = {
-			addedfile: (file) => console.log(file)
-		}
+		this.handleMaxFileExceeded = this.handleMaxFileExceeded.bind(this);
+		this.reducesize = this.reducesize.bind(this);
 		this.myDropzone='';
+
+		this.eventHandlers = {
+			maxfilesexceeded: () => console.log("Hello"),
+			maxfilesreached: () => console.log("hola"),
+
+		}
 	}
 
+	handleMaxFileReached() {
+		console.log("Maxfile reached");
+	}
+
+	handleMaxFileExceeded() {
+		console.log("Maxfile exceeded");
+	}
+
+	reducesize() {
+		console.log();
+	}
+
+	
 	componentWillMount() {
 		if (this.props.user == null) this.context.router.push('/signin'); //forward user to login
 	}
@@ -54,6 +74,7 @@ class ProfileEdit extends Component {
 	
 
 	initCallback (dropzone) {
+		console.log(dropzone);
     	myDropzone = dropzone;
 	}
 
@@ -70,6 +91,11 @@ class ProfileEdit extends Component {
 
 	render() {
 		const country = this.state.country;
+		const eventHandlers = {
+			maxfilesexceeded: () => console.log("Hello"),
+			maxfilesreached: () => console.log("hola"),
+
+		}
 		return (
 			<div className="container-fluid">
 				<LogedHeader />
@@ -157,7 +183,7 @@ class ProfileEdit extends Component {
 								<div className="user-avatar-title">User Avatar</div>
 								<DropzoneComponent config={this.dropzoneConfig}
 													djsConfig={this.djsConfig}
-													eventHandler={this.eventHandler}
+													eventHandlers={eventHandlers}
 								/>
 							</div>
 
