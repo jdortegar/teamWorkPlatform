@@ -143,6 +143,25 @@ export default class Helper{
 		});
 	}
 
+	static updateUserProfile({country, displayName, email, firstName, fullName, icon, lastName, timeZone}) { // {country, displayName, email, firstName, fullName, icon, lastName, timeZone}
+		
+		return new Promise((resolve, reject) => {
+			const url = `${config.hablaApiBaseUri}/users/updateUser`;
+			axios.patch(url, {
+				firstName,
+				lastName,
+				displayName,
+				country,
+				timeZone,
+				icon,
+				email
+			},
+			{content_type: 'application/json'})
+			.then(() => resolve())
+			.catch(error => reject(error))
+		})
+	}
+
 	getResponseMessage(teamRoomId, text, replyTo) {
 		return new Promise((resolve, reject) => {
 			this.getConversations(teamRoomId)

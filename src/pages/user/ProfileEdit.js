@@ -1,6 +1,7 @@
 import React, { Component, PropTypes} from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import { Link } from 'react-router';
+import countryList from 'iso-3166-country-list';
 import Checkbox from 'react-bootstrap/lib/Checkbox';
 import { Header, Footer, FieldGroup } from '../../components';
 import { CountryDropdown } from 'react-country-region-selector';
@@ -8,6 +9,7 @@ import TimezonePicker from 'react-bootstrap-timezone-picker';
 import { connect } from 'react-redux';
 import LogedHeader from '../../components/LogedHeader';
 import DropzoneComponent from 'react-dropzone-component';
+import Helper from '../../components/Helper';
 
 
 
@@ -19,8 +21,8 @@ class ProfileEdit extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { country: 'United States', timezone:''};
-
+		this.state = {};
+		this.handleSubmit = this.handleSubmit.bind(this);
 		this.dropzoneConfig = {
 			iconFiletypes: ['.jpg','.png','.gif'],
 			showFiletypeIcon: true,
@@ -37,9 +39,9 @@ class ProfileEdit extends Component {
 			dictFileTooBig: 'Max size is 0.5MB',
 			dictCancelUpload: 'Cancel uploading'
 		}
-		this.handleMaxFileExceeded = this.handleMaxFileExceeded.bind(this);
-		this.reducesize = this.reducesize.bind(this);
-		this.myDropzone='';
+		// this.handleMaxFileExceeded = this.handleMaxFileExceeded.bind(this);
+		// this.reducesize = this.reducesize.bind(this);
+		// this.myDropzone='';
 
 		this.eventHandlers = {
 			maxfilesexceeded: () => console.log("Hello"),
@@ -48,54 +50,65 @@ class ProfileEdit extends Component {
 		}
 	}
 
-	handleMaxFileReached() {
-		console.log("Maxfile reached");
+	handleSubmit (event){
+		event.preventDefault();
+		// console.log(this.state);
+		const names = this.state.fullName.split(' ');
+		this.state["firstName"] = names[0];
+		this.state["lastName"] = names[names.length-1];
+		Helper.updateUserProfile(this.state)
+		.then(() => this.context.router.push('/profile-notify'))
+		.catch(error => console.log(error))
 	}
 
-	handleMaxFileExceeded() {
-		console.log("Maxfile exceeded");
-	}
+	// handleMaxFileReached() {
+	// 	console.log("Maxfile reached");
+	// }
 
-	reducesize() {
-		console.log();
-	}
+	// handleMaxFileExceeded() {
+	// 	console.log("Maxfile exceeded");
+	// }
+
+	// reducesize() {
+	// 	console.log();
+	// }
 
 	
 	componentWillMount() {
 		if (this.props.user == null) this.context.router.push('/signin'); //forward user to login
+		const { country, displayName, email, timeZone, icon, firstName, lastName} = this.props.user.user;
+		const fullName = firstName+' '+lastName;
+		this.setState({country, displayName, email, timeZone, icon, firstName, lastName, fullName});
 	}
 
-	handleChange = (value) => this.setState({timezone: value})
+	handleChange = (value) => this.setState({timeZone: value})
 
 	selectCountry (val) {
-		this.setState({ country: val });
+		const code = countryList.code(val);
+		this.setState({ country: code });
 	}
 
 	
 
-	initCallback (dropzone) {
-		console.log(dropzone);
-    	myDropzone = dropzone;
-	}
+	// initCallback (dropzone) {
+	// 	console.log(dropzone);
+ //    	myDropzone = dropzone;
+	// }
 
-	removeFile () {
-    	if (myDropzone) {
-        	myDropzone.removeFile();
-    	}
-	}
-	whenSubmit(event) {
+	// removeFile () {
+ //    	if (myDropzone) {
+ //        	myDropzone.removeFile();
+ //    	}
+	// }
+	// whenSubmit(event) {
 
-	}
+	// }
 
 	
 
 	render() {
-		const country = this.state.country;
-		const eventHandlers = {
-			maxfilesexceeded: () => console.log("Hello"),
-			maxfilesreached: () => console.log("hola"),
-
-		}
+		
+		
 		return (
 			<div className="container-fluid">
 				<LogedHeader />
@@ -113,10 +126,11 @@ class ProfileEdit extends Component {
 							</p>
 						</div>
 						<br />
-						<form>
+						<form onSubmit={this.handleSubmit} >
 							<div className="row">
 								<FieldGroup
-
+									value={this.state.fullName}
+									onChange={event => this.setState({fullName: event.target.value})}
 									type="text"
 									placeholder="Robert J.Jones"
 									label="Full Name"
@@ -126,7 +140,8 @@ class ProfileEdit extends Component {
 
 							<div className="row">
 								<FieldGroup
-
+									value={this.state.displayName}
+									onChange={event => this.setState({displayName: event.target.value})}
 									type="text"
 									placeholder="Bob Jones"
 									label="Display Name"
@@ -136,7 +151,8 @@ class ProfileEdit extends Component {
 
 							<div className="row">
 								<FieldGroup
-
+									value={this.state.email}
+									onChange={event => this.setState({email: event.target.value})}
 									type="email"
 									placeholder="bob.jones@corporation.com"
 									label="Email"
@@ -145,24 +161,12 @@ class ProfileEdit extends Component {
 							</div>
 
 							<div className="row">
-								<FieldGroup
-
-									type="text"
-									placeholder="Accounting"
-									label="Department"
-									classn="col-md-12 clearpadding"
-								/>
-							</div>
-
-
-
-							<div className="row">
 								<div><label>Timezone</label></div>
 								<TimezonePicker
-									defaultValue="(GMT-08:00) Pacific Time"
+									value={this.state.timeZone}
 									placeholder="Select Timezone..."
 									onChange = {this.handleChange}
-									value= {this.state.timezone}
+					
 									className="col-md-12 clearpadding"
 								/>
 							</div>
@@ -170,9 +174,8 @@ class ProfileEdit extends Component {
 							<div className="row form-group">
 								<div className="country-selector"><label>Country</label></div>
 								<CountryDropdown
-									value={country}
+									value={countryList.name(this.state.country)}
 									onChange={(val) => this.selectCountry(val)}
-
 									defaultOptionLabel="Select Country"
 									classes="form-control col-md-12 clearpadding"
 								/>
@@ -183,7 +186,7 @@ class ProfileEdit extends Component {
 								<div className="user-avatar-title">User Avatar</div>
 								<DropzoneComponent config={this.dropzoneConfig}
 													djsConfig={this.djsConfig}
-													eventHandlers={eventHandlers}
+													eventHandlers={this.eventHandlers}
 								/>
 							</div>
 
@@ -206,20 +209,21 @@ class ProfileEdit extends Component {
 
 	 						<br />
 							<div className="row">
-								<Link to="/profile-notify">
+								
 									<Button
 										type="submit"
+										onClick={() => this.handleSubmit}
 										bsStyle="primary"
 										className="col-md-12" >
 											UPDATE PROFILE
 									</Button>
-								</Link>
+								
 							</div>
 							<br />
 							<div className="row">
 								<Link to="/org-profile">
 									<Button
-										type="submit"
+										
 										className="col-md-12" >
 											MANAGE YOUR ORGS
 									</Button>
