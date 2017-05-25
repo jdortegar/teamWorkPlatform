@@ -22,6 +22,7 @@ class ProfileEdit extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
+		this.helper = '';
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.dropzoneConfig = {
 			iconFiletypes: ['.jpg','.png','.gif'],
@@ -56,7 +57,7 @@ class ProfileEdit extends Component {
 		const names = this.state.fullName.split(' ');
 		this.state["firstName"] = names[0];
 		this.state["lastName"] = names[names.length-1];
-		Helper.updateUserProfile(this.state)
+		this.helper.updateUserProfile(this.state)
 		.then(() => this.context.router.push('/profile-notify'))
 		.catch(error => console.log(error))
 	}
@@ -75,10 +76,11 @@ class ProfileEdit extends Component {
 
 	
 	componentWillMount() {
-		if (this.props.user == null) this.context.router.push('/signin'); //forward user to login
+		// if (this.props.user == null) this.context.router.push('/signin'); //forward user to login
 		const { country, displayName, email, timeZone, icon, firstName, lastName} = this.props.user.user;
 		const fullName = firstName+' '+lastName;
 		this.setState({country, displayName, email, timeZone, icon, firstName, lastName, fullName});
+		this.helper = new Helper(this.props.user);
 	}
 
 	handleChange = (value) => this.setState({timeZone: value})
@@ -151,10 +153,9 @@ class ProfileEdit extends Component {
 
 							<div className="row">
 								<FieldGroup
-									value={this.state.email}
-									onChange={event => this.setState({email: event.target.value})}
+									defaultValue={this.state.email}
+									readOnly
 									type="email"
-									placeholder="bob.jones@corporation.com"
 									label="Email"
 									classn="col-md-12 clearpadding"
 								/>

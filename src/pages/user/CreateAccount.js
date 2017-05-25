@@ -5,6 +5,7 @@ import Checkbox from 'react-bootstrap/lib/Checkbox';
 import { Header, Footer, FieldGroup } from '../../components';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import axios from 'axios';
+import countryList from 'iso-3166-country-list';
 import config from '../../config/env';
 import Helper from '../../components/Helper';
 import TimezonePicker from 'react-bootstrap-timezone-picker';
@@ -38,16 +39,16 @@ class CreateAccount extends Component {
       password:'',
       rePassword: '',
       country: '',
-      timezone: '',
+      timeZone: '',
       icon: '' };
     this.splitFullname = this.splitFullname.bind(this);
 
 	}
 
-  handleChange = (value) => this.setState({timezone: value})
+  handleChange = (value) => this.setState({timeZone: value})
 
 	selectCountry (val) {
-		this.setState({ country: val });
+		this.setState({ country: countryList.code(val) });
 	}
 
 	selectRegion (val) {
@@ -91,7 +92,9 @@ class CreateAccount extends Component {
       notify("You must read 'term of service' and check the box");
 
     if (region.innerHTML == "") {
-      Helper.createUser(this.state.firstName, this.state.lastName, displayName, email, password, country, timezone);
+      Helper.createUser(this.state)
+      .then(() => this.context.router.push('./signin'))
+      .catch(error => console.log(error))
     }
 	}
 
@@ -169,7 +172,7 @@ class CreateAccount extends Component {
                 <TimezonePicker
                   placeholder="Select Timezone..."
                   onChange = {this.handleChange}
-                  value= {this.state.timezone}
+                  value= {this.state.timeZone}
                   className="col-md-12 clearpadding"
                 />
               </div>

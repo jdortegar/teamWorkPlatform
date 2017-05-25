@@ -115,7 +115,9 @@ export default class Helper{
     	return avatar_colors[Helper.getRandomIntNumber(0, avatar_colors.length-1)];
 	}
 
-	static createUser(firstName, lastName, displayName, email, password, country, timeZone) {
+	static createUser({firstName, lastName, displayName, email, password, country, timeZone}) {
+
+		console.log({timeZone});
 		return new Promise((response, reject) => {
 			axios({
 	    		method: 'post',
@@ -129,6 +131,7 @@ export default class Helper{
 					displayName,
 					email,
 					password,
+					icon: null,
 					country,
 					timeZone,
 					preferences: {
@@ -143,9 +146,14 @@ export default class Helper{
 		});
 	}
 
-	static updateUserProfile({country, displayName, email, firstName, fullName, icon, lastName, timeZone}) { // {country, displayName, email, firstName, fullName, icon, lastName, timeZone}
-		
+	updateUserProfile({country, displayName, email, firstName, fullName, icon, lastName, timeZone}) { // {country, displayName, email, firstName, fullName, icon, lastName, timeZone}
+
 		return new Promise((resolve, reject) => {
+			self = this;
+			const headers = {
+				content_type: 'application/json',
+				Authorization: self.token
+			} 
 			const url = `${config.hablaApiBaseUri}/users/updateUser`;
 			axios.patch(url, {
 				firstName,
@@ -154,9 +162,8 @@ export default class Helper{
 				country,
 				timeZone,
 				icon,
-				email
 			},
-			{content_type: 'application/json'})
+			{headers})
 			.then(() => resolve())
 			.catch(error => reject(error))
 		})
