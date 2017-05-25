@@ -71,7 +71,7 @@ class Teams extends Component {
 }
 
 function mapStateToProps(state) {
-	// console.log(state);
+	console.log(state);
 	return {
 		user: state.user.user.user,
 		teams: state.teams.teams,

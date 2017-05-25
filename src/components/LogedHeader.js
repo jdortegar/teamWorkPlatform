@@ -11,7 +11,7 @@ class LogedHeader extends Component {
 	}
 	componentWillMount() {
 		if (this.props.user == null) this.context.router.push('/signin');
-		console.log(this.props.user);
+		// console.log(this.props.user);
 	}
 
 	render() {

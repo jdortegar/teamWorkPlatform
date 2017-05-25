@@ -190,6 +190,7 @@ export default class Helper{
 		return new Promise((resolve, reject) => {
 			this.getConversations(teamRoomId)
 			.then(conversations => {
+
 				const conId = conversations[0].conversationId;
 				const url = `${config.hablaApiBaseUri}/conversations/${conId}/createMessage`;
 		        let body;

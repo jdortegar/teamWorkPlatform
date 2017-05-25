@@ -161,7 +161,7 @@ class MessageContainer extends Component {
 
 		this.helper.getResponseMessage(this.props.room.teamRoomId,text, replyTo)
 		.then(response => {
-			const message = response.data.message;
+			const message = response;
         	this.renderPosts.push(	
 				<Post 
 					id={message.messageId}
