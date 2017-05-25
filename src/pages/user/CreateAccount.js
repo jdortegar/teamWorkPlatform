@@ -93,7 +93,7 @@ class CreateAccount extends Component {
 
     if (region.innerHTML == "") {
       Helper.createUser(this.state)
-      .then(() => this.context.router.push('./signin'))
+      .then(() => this.context.router.push('/signin'))
       .catch(error => console.log(error))
     }
 	}

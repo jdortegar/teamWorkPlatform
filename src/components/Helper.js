@@ -12,6 +12,25 @@ export default class Helper{
 		this.getMessages = this.getMessages.bind(this);
 	}
 
+	static register(email) {
+		return new Promise((resolve, reject) => {
+			const url = `${config.hablaApiBaseUri}/users/registerUser`;
+			const url_type = 'application/x-www-form-urlencoded';
+			axios({
+				method: 'post',
+				url: url,
+				body: {
+					'content-type': url_type
+				},
+				data: {
+					email: email,
+				}
+			})
+			.then(response => resolve(response))
+			.catch(error => reject(error))
+		})
+	}
+
 	static getShortName(fullname) {
 		const arrayName = fullname.split(' ');	
 		return arrayName.length > 1 ? arrayName[0].charAt(0)+arrayName[arrayName.length-1].charAt(0) : fullname;
@@ -116,9 +135,7 @@ export default class Helper{
 	}
 
 	static createUser({firstName, lastName, displayName, email, password, country, timeZone}) {
-
-		console.log({timeZone});
-		return new Promise((response, reject) => {
+		return new Promise((resolve, reject) => {
 			axios({
 	    		method: 'post',
 	    		url: `${config.hablaApiBaseUri}/users/createUser`,
@@ -146,7 +163,7 @@ export default class Helper{
 		});
 	}
 
-	updateUserProfile({country, displayName, email, firstName, fullName, icon, lastName, timeZone}) { // {country, displayName, email, firstName, fullName, icon, lastName, timeZone}
+	updateUserProfile({country, displayName, email, firstName, fullName, icon, lastName, timeZone}) { 
 
 		return new Promise((resolve, reject) => {
 			self = this;

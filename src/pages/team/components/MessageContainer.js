@@ -298,13 +298,22 @@ class MessageContainer extends Component {
 					<div className="teamroom-member-status-container">
 			      	{
 			        	this.members.map(member => {
-			        		const icon = "data:image/jpg;base64," + member.icon;
+			        		const icon = member.icon == null ? Helper.getShortName(member.displayName): "data:image/jpg;base64," + member.icon;
 			          		const key = member.userId;
 			          		const dot = this.state[key] == "member-status-away" ? "fa fa-circle dot-status-yellow" : "fa fa-circle dot-status-green";
 			          		return (
 			            		<div className={this.state[key]} key={key}>
 				            		<i className={dot} />
-				              		<img src={icon} className="" ></img>
+				            		{member.icon == null ? 
+				            			(
+				            				<span style={{paddingTop: "3px", display: "inline-block", backgroundColor: member.preferences.iconColor ,height: "25px", width: "25px", borderRadius: "5px", color: "white", textAlign: "center"}}>
+				            					{icon}
+				            				</span>
+				            			)
+				            			:
+				            			(<img src={icon} className="" ></img>)
+				            		}
+				              		
 				              		<span className="member-status-name"> {member.displayName}</span>
 			            		</div>
 			          		)
@@ -312,6 +321,7 @@ class MessageContainer extends Component {
 			      	}
 			      	</div>
 	   			</div>
+
 				<div className="row teamroom-lobby" id="lobby">
 					{this.state.posts}					
 					<div ref="end"></div>

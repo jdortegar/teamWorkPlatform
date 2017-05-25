@@ -11,6 +11,7 @@ class LogedHeader extends Component {
 	}
 	componentWillMount() {
 		if (this.props.user == null) this.context.router.push('/signin');
+		console.log(this.props.user);
 	}
 
 	render() {
@@ -53,15 +54,17 @@ class LogedHeader extends Component {
 
 					<div className="col-md-3 user-avatar-container">
 						<div className="user-avatar">
-							{this.props.user.icon == null ? 
-								(<p>{user}</p>)
-								:
-								(<div className="user-avatar-image-text">
+							<div className="user-avatar-image-text">
 									
 									<DropdownButton 
 								      id="avatar-dropdown"
-								      title={
-								        <img src={user} className="user-avatar-image user-avatar-item" data-toggle="dropdown"></img>
+								      title={this.props.user.icon == null ? 
+								      	(<div className="user-avatar-image user-avatar-item" style={{backgroundColor: this.props.user.preferences.iconColor, borderRadius: "5px", width: "30px", height: "30px", color: "white", fontWeight: "bold", fontSize: "14px"}}>
+												<p>{user}</p>
+												
+										</div>
+										)
+								        :(<img src={user} className="user-avatar-image user-avatar-item" data-toggle="dropdown"></img>)
 								      }
 
 								      noCaret
@@ -79,15 +82,13 @@ class LogedHeader extends Component {
 
 
 									<div className="user-avatar-text user-avatar-item">{this.props.user.displayName}</div>
-								</div>
+							</div>
 
 
 
 
 
 
-								)
-							}
 						</div>
 					</div>
 
