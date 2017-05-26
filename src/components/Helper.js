@@ -10,6 +10,7 @@ export default class Helper{
 		this.getTeamRoomMembers = this.getTeamRoomMembers.bind(this);
 		this.getConversations = this.getConversations.bind(this);
 		this.getMessages = this.getMessages.bind(this);
+		this.updateUserPreferences = this.updateUserPreferences.bind(this);
 	}
 
 	static register(email) {
@@ -163,8 +164,21 @@ export default class Helper{
 		});
 	}
 
-	updateUserProfile({country, displayName, email, firstName, fullName, icon, lastName, timeZone}) { 
+	updateUserPreferences() {
+		const url = `${config.hablaApiBaseUri}/users/updatePublicPreferences/${this.user.user.userId}`;
+		const headers = {
+				content_type: 'application/json',
+				Authorization: this.token
+			};
+		axios.patch(url, {preferences: { iconColor: Helper.randomColor()}}, { headers: headers })
+		.then(() => console.log("Updated iconColor"))
+		.catch(error => console.log(error))
+	}
 
+	updateUserProfile({country, displayName, email, firstName, fullName, icon, lastName, timeZone}) { 
+		if (!this.user.user.preferences.hasOwnProperty('iconColor')) { //use to update icon color for previous account which do not have iconColo property
+			this.updateUserPreferences();
+		}
 		return new Promise((resolve, reject) => {
 			self = this;
 			const headers = {

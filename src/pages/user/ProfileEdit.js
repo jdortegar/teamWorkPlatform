@@ -77,7 +77,8 @@ class ProfileEdit extends Component {
 	
 	componentWillMount() {
 		// if (this.props.user == null) this.context.router.push('/signin'); //forward user to login
-		const { country, displayName, email, timeZone, icon, firstName, lastName} = this.props.user.user;
+		console.log(this.props.user);
+		const { country, displayName, email, timeZone, icon, firstName, lastName, preferences } = this.props.user.user;
 		const fullName = firstName+' '+lastName;
 		this.setState({country, displayName, email, timeZone, icon, firstName, lastName, fullName});
 		this.helper = new Helper(this.props.user);
