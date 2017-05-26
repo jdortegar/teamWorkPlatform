@@ -41,11 +41,11 @@ class Post extends Component {
 	        axios.post(url, body, { headers })
 	        .then( (response) => {
 	        	const message = response.data.message;
-	        	var icon = "data:image/jpg;base64," + this.props.user.user.icon;
+	        	var icon = this.props.icon == null? null : "data:image/jpg;base64," + this.props.user.user.icon;
 	        	this.state.post.push(
 					<Post 
 						level={this.props.level+1} 
-						color={this.props.color}
+						color={this.props.user.user.preferences.iconColor}
 						icon={icon}
 						children={[]}
 						time={moment(message.created).fromNow()}
@@ -63,7 +63,7 @@ class Post extends Component {
 	            this.props.children.push(
 					<Post 
 						level={this.props.level+1} 
-						color={this.props.color}
+						color={this.props.user.user.preferences.iconColor}
 						icon={icon}
 						children={[]}
 						time={moment(message.created).fromNow()}

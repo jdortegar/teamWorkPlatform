@@ -87,7 +87,7 @@ class MessageContainer extends Component {
 						name={Helper.getMemberName(this.members,node.createdBy)}
 						level={parent.props.level+1} 
 						icon={Helper.getMemberIcon(this.members,node.createdBy)}
-						color="" 
+						color={Helper.getMemberColor(this.members,node.createdBy)} 
 						content={node.text} 
 						time={moment(node.created).fromNow()}
 						children={[]}
@@ -124,7 +124,7 @@ class MessageContainer extends Component {
 								shortname={shortname} 
 								name={Helper.getMemberName(this.members, event.createdBy)}
 								level={0} 
-								color="" 
+								color={Helper.getMemberColor(this.members, event.createdBy)} 
 								icon={Helper.getMemberIcon(this.members, event.createdBy)}
 								content={event.text} 
 								time={moment(event.created).fromNow()}
@@ -169,7 +169,7 @@ class MessageContainer extends Component {
 					shortname={shortname}
 					name={name}
 					level={0} 
-					color=""
+					color={Helper.getMemberColor(this.members, message.createdBy)}
 					icon={Helper.getMemberIcon(this.members, message.createdBy)}
 					content={message.text} 
 					time={moment(message.created).fromNow()}
@@ -210,6 +210,7 @@ class MessageContainer extends Component {
 			message["name"] = Helper.getMemberName(this.members,message.createdBy);
 			message["time"] = message.created;
 			message["child"] = [];
+			message["color"] = Helper.getMemberColor(this.members, message.createdBy);
 			findDepth(message);
 		});
 		this.rawMessages = messages;  

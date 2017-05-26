@@ -47,6 +47,16 @@ export default class Helper{
 		return icon;
 	}
 
+	static getMemberColor(members, memberId) {
+		let color = "";
+		members.map(member => {
+			if (member.userId == memberId) {
+				color = member.preferences.iconColor;
+			}
+		});
+		return color;
+	}
+
 	static getMemberName(members, memberId) {
 		let name = "";
 		members.map(member => {
