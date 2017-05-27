@@ -842,6 +842,41 @@ table {
 .dot-status-green {
   color: #2ec866; }
 
+.fa-clock-o {
+  font-size: 18px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%); }
+
+.status-avatar-container {
+  width: 40px;
+  height: 40px;
+  position: relative; }
+
+.status-avatar-icon {
+  width: 15px;
+  height: 15px;
+  background-color: #e67e23;
+  position: absolute;
+  border-radius: 50%;
+  right: 0px;
+  top: 0px;
+  text-align: center;
+  z-index: 2; }
+
+.status-avatar-item {
+  display: inline-block; }
+
+.status-avatar-background {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: auto;
+  display: block; }
+
+.status-avatar-container-item {
+  display: inline-block; }
+
 .message-reply {
   max-height: 100px !important;
   border-radius: 3px;
@@ -881,7 +916,7 @@ table {
 .user-avatar-text {
   font-size: 14px;
   margin-left: 0px;
-  width: 100px; }
+  width: 60px; }
 
 .user-avatar-image-text {
   width: 160px; }
