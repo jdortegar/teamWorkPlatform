@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import { Link } from 'react-router';
-import { Header, Footer, FieldGroup } from '../../components';
+import { Footer, FieldGroup } from '../../components';
+import LogedHeader from '../../components/LogedHeader';
 
 
 
@@ -25,7 +26,7 @@ class OrgUpdate extends Component {
 		const country = this.state.country;
 		return (
 			<div className="container-fluid">
-				<Header />
+				<LogedHeader />
 				<section>
 
 				<div className="row">

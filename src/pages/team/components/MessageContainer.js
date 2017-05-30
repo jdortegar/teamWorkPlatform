@@ -304,29 +304,18 @@ class MessageContainer extends Component {
 			          		const dot = this.state[key] == "member-status-away" ? "fa fa-circle dot-status-yellow" : "fa fa-circle dot-status-green";
 			          		return (
 			            		<div className={this.state[key]} key={key}>
-				            {/*		<i className={dot} /> */}
+				            		<i className={dot} />
 				            		{member.icon == null ? 
-				            			(	<div className="status-avatar-container status-avatar-container-item">
-				            				<span className="status-avatar-background status-avatar-item" style={{paddingTop: "3px", backgroundColor: member.preferences.iconColor ,height: "25px", width: "25px", borderRadius: "5px", color: "white", textAlign: "center"}}>
+				            			(
+				            				<span style={{paddingTop: "3px", display: "inline-block", backgroundColor: member.preferences.iconColor ,height: "25px", width: "25px", borderRadius: "5px", color: "white", textAlign: "center"}}>
 				            					{icon}
 				            				</span>
-				            				<div className="status-avatar-icon status-avatar-item">
-				            						<i className = "fa fa-clock-o"></i>
-				            				</div>
-				            				</div>
 				            			)
 				            			:
-				            			(
-				            				<div className="status-avatar-container status-avatar-container-item">
-				            					<img src={icon} className="status-avatar-background status-avatar-item" ></img>
-				            					<div className="status-avatar-icon status-avatar-item">
-				            						<i className = "fa fa-clock-o"></i>
-				            					</div>
-				            				</div>
-				            			)
+				            			(<img src={icon} className="" ></img>)
 				            		}
 				              		
-				              		<span className="member-status-name status-avatar-container-item"> {member.displayName}</span>
+				              		<span className="member-status-name"> {member.displayName}</span>
 			            		</div>
 			          		)
 			        	})
