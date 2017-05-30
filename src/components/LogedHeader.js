@@ -25,7 +25,7 @@ class LogedHeader extends Component {
 							<img className="logo-header" src='https://c2.staticflickr.com/4/3955/33078312014_f6f8c759db_o.png' /> 
 						</Link>
 					</div>
-					<div className="col-md-5 team-header-icons-nav">
+					<div className="col-md-6 team-header-icons-nav">
 						<div className="team-header-icon">
 							<i className="fa fa-newspaper-o" />
 							<div className="team-header-nav-text">
@@ -52,7 +52,7 @@ class LogedHeader extends Component {
 						</div>	
 					</div>
 
-					<div className="col-md-4 user-avatar-container">
+					<div className="col-md-3 user-avatar-container">
 						<div className="user-avatar">
 							<div className="user-avatar-image-text">
 									

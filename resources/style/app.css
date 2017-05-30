@@ -651,26 +651,6 @@ table {
   color: #3498db;
   cursor: pointer; }
 
-.user-avatar {
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  margin-top: 10px;
-  color: white; }
-  .user-avatar p {
-    padding-top: 5px;
-    color: white;
-    font-weight: 600;
-    font-size: 16px; }
-  .user-avatar img {
-    width: 30px;
-    height: 30px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
-    border-radius: 5px; }
-
 .teamroom-body-nav {
   width: 100%;
   height: auto;
@@ -903,26 +883,36 @@ table {
   color: #dadada; }
 
 .user-avatar-container {
+  text-align: center;
+  margin-top: 10px;
+  color: white;
   margin-bottom: 10px; }
+  .user-avatar-container p {
+    padding-top: 5px;
+    color: white;
+    font-weight: 600;
+    font-size: 16px; }
+  .user-avatar-container img {
+    width: 30px;
+    height: 30px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px; }
 
 .user-avatar-image-text {
-  position: absolute;
   right: 10px; }
 
 .user-avatar-item {
-  display: inline-block;
-  width: 60px; }
+  display: inline-block; }
 
 .user-avatar-text {
   font-size: 14px;
-  margin-left: 0px;
-  width: 60px; }
+  margin-left: 10px; }
 
 .user-avatar-image-text {
-  width: 160px; }
-
-.post-avatar-image-text {
-  width: 100px; }
+  width: 100%; }
 
 .post-avatar-image {
   width: 30px;
