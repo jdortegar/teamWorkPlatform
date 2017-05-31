@@ -5,20 +5,23 @@ import axios from 'axios';
 import Button from 'react-bootstrap/lib/Button';
 import config from '../../config/env';
 import { Header, Footer, FieldGroup } from '../../components';
-import { selectRoom, teammembers } from '../../actions/index';
+import { selectTeam, inviteTeamMembers, teammembers } from '../../actions/index';
 import LogedHeader from '../../components/LogedHeader';
 
 class Teams extends Component {
 	
-	selectedRoom(team) {
-		this.props.selectRoom(team);	
+	selectedTeam(team) {
+		this.props.selectTeam(team);	
 	}
+
+   inviteTeamMembers(team) {
+      this.props.inviteTeamMembers(team);
+      this.context.router.push('/teams');
+   }
 
 	render() {
 		var user = this.props.user;
-
-		// var teams = this.props.teams;
-		var rooms = this.props.rooms;
+		var teams = this.props.teams;
 		return (
 			<div>
 				<LogedHeader />
@@ -27,31 +30,15 @@ class Teams extends Component {
 							<div className="header">
 								<h1>Teams</h1>
 							</div>
-							<FieldGroup
-								type="text"
-								onChange={event => this.handleChange(event.target.value)}
-								placeholder="&#xf002; Search"
-								classn="col-md-8 col-md-offset-2 placeholder_search"
-							/>
-						<div className = "row">
-							<div className="col-md-4 col-md-offset-2 team-public">
-								<h2>Public</h2>
-								<div className="team-public-child">
-								</div>
-							</div>
-							<div className="col-md-4 team-private odd">
-								<h2>Private</h2>
-								<div className="team-private-child">
-								</div>
-							</div>					
-						</div>
 							{
-								// this.props.teams.map((team,i) => {
-								this.props.rooms.map((team,i) => {
-									// console.log(team);
+								this.props.teams.map((team,i) => {
 									return (
 										<div className="col-md-8 col-md-offset-2" key={Math.random()}>
-											<Link to={"/team/teamroom/"+team.name.toLowerCase()} className="col-md-4 blue-link" onClick={() => this.selectedRoom(team)}>{team.name} </Link>
+											<Link 
+                                    to={"/team/invite-members/"+team.name.toLowerCase()}
+                                    className="col-md-4 blue-link"
+                                    onClick={() => this.inviteTeamMembers()}>{team.name}
+                                 </Link>
 										</div>
 									);
 								})
@@ -71,7 +58,6 @@ class Teams extends Component {
 }
 
 function mapStateToProps(state) {
-
 	return {
 		user: state.user.user.user,
 		teams: state.teams.teams,
@@ -79,7 +65,7 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, {selectRoom})(Teams);
+export default connect(mapStateToProps, {selectTeam, inviteTeamMembers})(Teams);
 
  // user={this.props.user.user.displayName}
 
