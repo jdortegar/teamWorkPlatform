@@ -7,7 +7,7 @@ import { Header, Footer, FieldGroup } from '../../components';
 import { CountryDropdown } from 'react-country-region-selector';
 import TimezonePicker from 'react-bootstrap-timezone-picker';
 import { connect } from 'react-redux';
-import LogedHeader from '../../components/LogedHeader';
+import LoggedHeader from '../../components/LoggedHeader';
 import DropzoneComponent from 'react-dropzone-component';
 import Helper from '../../components/Helper';
 
@@ -114,7 +114,7 @@ class ProfileEdit extends Component {
 		
 		return (
 			<div className="container-fluid">
-				<LogedHeader />
+				<LoggedHeader />
 				<section>
 
 				<div className="row">

@@ -8,7 +8,7 @@ import axios from 'axios';
 import config from '../../config/env';
 import { getPosts } from '../../actions/index';
 import Perf from 'react-addons-perf';
-import LogedHeader from '../../components/LogedHeader';
+import LoggedHeader from '../../components/LoggedHeader';
 
 class TeamRoom extends Component {
 
@@ -20,7 +20,7 @@ class TeamRoom extends Component {
 		items.push(obj)
 		return (
 			<div className="row">
-				<LogedHeader />
+				<LoggedHeader />
 				<BreadCrumb items={items} />
 				<MessageContainer /> 
 				 {/*since message.connect called at messagecontainer, to use messaging in LeftNav, it should be called after messagecontainer*/}

@@ -277,9 +277,6 @@ export default class Helper{
 			})
 		})     
 	}
-
-	
-
 }
 
 

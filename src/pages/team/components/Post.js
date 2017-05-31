@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import autosize from 'autosize';
 import { Button } from 'react-bootstrap/lib';
 import { connect } from 'react-redux';
-import ShortName from './ShortName';
 import config from '../../../config/env';
 import { sendMessage } from '../../../actions/index';
 import axios from 'axios';
@@ -143,7 +142,7 @@ class Post extends Component {
 		const {level, id, color, name, shortname, time, vote, icon, content} = this.props;
 		var str = level % 2 == 0 ? "row even" : "row odd"
 		var self = this;
-		 
+
 		return (
 			<div className={str} >
 				<div className="row teamroom-container">
