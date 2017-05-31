@@ -60,6 +60,27 @@ export const user = (user) => {
 	}
 };
 
+export const organization = (organization) => {
+	return {
+		type: 'store-organization',
+		payload: organization
+	}
+};
+
+export const orgs = (orgs) => {
+	return {
+		type: 'store-orgs',
+		payload: orgs
+	}
+};
+
+export const team = (team) => {
+	return {
+		type: 'store-team',
+		payload: team
+	}
+}
+
 export const teams = (teams) => {
 	return {
 		type: 'store-teams',
@@ -76,9 +97,15 @@ export const rooms = (rooms) => {
 
 export const selectRoom = (room) => {
 	return {
-
 		type: 'get-room',
 		payload: room
+	}
+}
+
+export const inviteTeamMembers = (team) => {
+	return {
+		type: 'invite-team-members',
+		payload: team
 	}
 }
 

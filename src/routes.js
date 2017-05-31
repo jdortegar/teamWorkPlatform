@@ -129,6 +129,13 @@ const componentRoutes = {
 			}
 		},
 		{
+			path: 'rooms',
+			getComponent(location, cb) {
+				System.import('./pages/team/TeamRooms')
+					.then(module => cb(null, module.default))
+			}
+		},
+		{
 			path: 'privacy',
 			getComponent(location, cb) {
 				System.import('./pages/general/Privacy')

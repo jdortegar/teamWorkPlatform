@@ -107,24 +107,81 @@ export default class Helper{
 		})
 	}
 
-	static getTeams(userToken) {
+	static getOrgs(userToken) {
 		return new Promise((resolve, reject) => {
-			const url = `${config.hablaApiBaseUri}/teams/getTeams`;
-			axios.get(url, { headers : { Authorization: userToken}})
-			.then(response => {
-				resolve(response.data.teams)
+			const url = `${config.hablaApiBaseUri}/subscriberOrgs/getSubscriberOrgs`;
+
+			axios.get(url, { headers: { Authorization: `Bearer ${userToken}`}})
+			.then(respOrgs => {
+            const orgs = respOrgs.data.subscriberOrgs;
+            // for the first org, get the subscribers
+            if (orgs.length == 0) {
+               reject("No organizations for this user.");
+            }
+
+            let numRetrieved = 0;
+            orgs.forEach(org => {
+               // get subscribers for the organization
+               Helper.getOrgSubscribers(org, userToken)
+               .then(subscribers => {
+                  org.subscribers = subscribers;
+                  console.log(`${org.name} has ${org.subscribers.length} subscribers`);
+                  numRetrieved += 1;
+                  if (numRetrieved === orgs.length) {
+                     resolve(orgs);
+                  }
+               })
+               .catch(error => {
+                  console.log("*** getOrgs - getOrgSubscribers failed for org: " + org.name + " - " + JSON.stringify(error));
+                  reject(error);
+               })
+            });
 			})
+         .catch(error => {
+            console.log("*** getOrgs - getOrgs failed - " + JSON.stringify(error));
+            reject(error);
+         })
 		}) 		
 	}
 
-	static getTeamRooms(userToken) {
+	static getOrgSubscribers(org, userToken) {
+		return new Promise((resolve, reject) => {
+			const url = `${config.hablaApiBaseUri}/subscriberOrgs/getSubscribers/${org.subscriberOrgId}`;
+			axios.get(url, { headers: { Authorization: `Bearer ${userToken}`}})
+			.then(response => {
+				resolve(response.data.subscribers)
+			})
+         .catch(error => {
+            reject(error);
+         })
+		}) 		
+	}
+
+	static getTeams(subscriberOrg, userToken) {
 		const httpToken = `Bearer ${userToken}`;
 		return new Promise((resolve, reject) => {
-			const urlRooms = `${config.hablaApiBaseUri}/teamRooms/getTeamRooms`;
+			const url = `${config.hablaApiBaseUri}/teams/getTeams?subscriberOrgId=${subscriberOrg.subscriberOrgId}`;
+			axios.get(url, { headers : { Authorization: httpToken}})
+			.then(response => {
+				resolve(response.data.teams)
+			})
+         .catch(error => {
+            reject(error);
+         })
+		}) 		
+	}
+
+	static getTeamRooms(team, userToken) {
+		const httpToken = `Bearer ${userToken}`;
+		return new Promise((resolve, reject) => {
+			const urlRooms = `${config.hablaApiBaseUri}/teamRooms/getTeamRooms?teamId={team.teamId}`;
 			axios.get(urlRooms, { headers: { Authorization: httpToken}})
        		.then(response => {
        			resolve(response.data.teamRooms);
        		})
+            .catch(error => {
+               reject(error);
+            })
 		})
 	}
 
