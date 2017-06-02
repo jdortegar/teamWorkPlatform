@@ -46,7 +46,7 @@ class TeamRooms extends Component {
 							{
 								this.props.rooms.map((room,i) => {
 									return (
-										<div className="col-md-8 col-md-offset-2" key={Math.random()}>
+										<div className="col-md-8 col-md-offset-2" key={room.roomId}>
 											<Link 
                                     to={"/team/teamroom/"+room.name.toLowerCase()}
                                     className="col-md-4 blue-link"
