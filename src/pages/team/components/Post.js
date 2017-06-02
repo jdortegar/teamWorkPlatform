@@ -6,6 +6,7 @@ import config from '../../../config/env';
 import { sendMessage } from '../../../actions/index';
 import axios from 'axios';
 import moment from 'moment-timezone';
+import Helper from '../../../components/Helper';
 
 class Post extends Component {
 	constructor(props) {
@@ -22,62 +23,108 @@ class Post extends Component {
 	    autosize(document.querySelectorAll('textarea'));
 	}
 
+
+
 	sendMessage(text,replyTo,shortname, name) {
-		const teamRoomId = this.props.room.teamRoomId;
-		const token = `Bearer ${this.props.user.token}`;
-		const urlCon = `${config.hablaApiBaseUri}/conversations/getConversations?teamRoomId=${teamRoomId}`;
-   		axios.get(urlCon, { headers : { Authorization: token}})   		
-   		.then(response => {
-			const conId = response.data.conversations[0].conversationId;
-			const url = `${config.hablaApiBaseUri}/conversations/${conId}/createMessage`;
-	        let body;
-	        if (replyTo) body = { messageType: "text", text, replyTo };
-	        else body = { messageType: "text", text }; 
-	        const headers = {
-	        	content_type: 'application/json',
-	            Authorization: token
-	        };
-	        axios.post(url, body, { headers })
-	        .then( (response) => {
-	        	const message = response.data.message;
-	        	var icon = this.props.icon == null? null : "data:image/jpg;base64," + this.props.user.user.icon;
-	        	this.state.post.push(
-					<Post 
-						level={this.props.level+1} 
-						color={this.props.user.user.preferences.iconColor}
-						icon={icon}
-						children={[]}
-						time={moment(message.created).fromNow()}
-						content={message.text} 
-						shortname={shortname} 
-						name={name}
-						key={message.messageId} 
-						id={message.messageId}
-						room={this.props.room}
-						user={this.props.user} //past all props name from parent to child
-					/>
-				);
 
-	            this.setState({post: this.state.post, user_input: '', key: -this.state.key});
-	            this.props.children.push(
-					<Post 
-						level={this.props.level+1} 
-						color={this.props.user.user.preferences.iconColor}
-						icon={icon}
-						children={[]}
-						time={moment(message.created).fromNow()}
-						content={message.text} 
-						shortname={shortname} 
-						name={name}
-						key={message.messageId} 
-						id={message.messageId}
-						room={this.props.room}
-						user={this.props.user} //past all props name from parent to child
-					/>
-				);
+		const helper = new Helper(this.props.user);
+		helper.getResponseMessage(this.props.room.teamRoomId,text, replyTo)
+		.then(response => {
+			const message = response;
+        	var icon = this.props.icon == null? null : "data:image/jpg;base64," + this.props.user.user.icon;
+        	this.state.post.push(
+				<Post 
+					level={this.props.level+1} 
+					color={this.props.user.user.preferences.iconColor}
+					icon={icon}
+					children={[]}
+					time={moment(message.created).fromNow()}
+					content={message.text} 
+					shortname={shortname} 
+					name={name}
+					key={message.messageId} 
+					id={message.messageId}
+					room={this.props.room}
+					user={this.props.user} //past all props name from parent to child
+				/>
+			);
 
-	        })  	   	
-		 })
+            this.setState({post: this.state.post, user_input: '', key: -this.state.key});
+            this.props.children.push(
+				<Post 
+					level={this.props.level+1} 
+					color={this.props.user.user.preferences.iconColor}
+					icon={icon}
+					children={[]}
+					time={moment(message.created).fromNow()}
+					content={message.text} 
+					shortname={shortname} 
+					name={name}
+					key={message.messageId} 
+					id={message.messageId}
+					room={this.props.room}
+					user={this.props.user} //past all props name from parent to child
+				/>
+			);
+		})
+
+
+
+		// const teamRoomId = this.props.room.teamRoomId;
+		// const token = `Bearer ${this.props.user.token}`;
+		// const urlCon = `${config.hablaApiBaseUri}/conversations/getConversations?teamRoomId=${teamRoomId}`;
+  //  		axios.get(urlCon, { headers : { Authorization: token}})   		
+  //  		.then(response => {
+		// 	const conId = response.data.conversations[0].conversationId;
+		// 	const url = `${config.hablaApiBaseUri}/conversations/${conId}/createMessage`;
+	 //        let body;
+	 //        if (replyTo) body = { messageType: "text", text, replyTo };
+	 //        else body = { messageType: "text", text }; 
+	 //        const headers = {
+	 //        	content_type: 'application/json',
+	 //            Authorization: token
+	 //        };
+	 //        axios.post(url, body, { headers })
+	 //        .then( (response) => {
+	 //        	const message = response.data.message;
+	 //        	var icon = this.props.icon == null? null : "data:image/jpg;base64," + this.props.user.user.icon;
+	 //        	this.state.post.push(
+		// 			<Post 
+		// 				level={this.props.level+1} 
+		// 				color={this.props.user.user.preferences.iconColor}
+		// 				icon={icon}
+		// 				children={[]}
+		// 				time={moment(message.created).fromNow()}
+		// 				content={message.text} 
+		// 				shortname={shortname} 
+		// 				name={name}
+		// 				key={message.messageId} 
+		// 				id={message.messageId}
+		// 				room={this.props.room}
+		// 				user={this.props.user} //past all props name from parent to child
+		// 			/>
+		// 		);
+
+	 //            this.setState({post: this.state.post, user_input: '', key: -this.state.key});
+	 //            this.props.children.push(
+		// 			<Post 
+		// 				level={this.props.level+1} 
+		// 				color={this.props.user.user.preferences.iconColor}
+		// 				icon={icon}
+		// 				children={[]}
+		// 				time={moment(message.created).fromNow()}
+		// 				content={message.text} 
+		// 				shortname={shortname} 
+		// 				name={name}
+		// 				key={message.messageId} 
+		// 				id={message.messageId}
+		// 				room={this.props.room}
+		// 				user={this.props.user} //past all props name from parent to child
+		// 			/>
+		// 		);
+
+	 //        })  	   	
+		 // })
 	}
 
 	reply() {
