@@ -181,7 +181,7 @@ class Helper{
 
 	getTeamRooms(team) {
 		return new Promise((resolve, reject) => {
-			const urlRooms = `${config.hablaApiBaseUri}/teamRooms/getTeamRooms?teamId={team.teamId}`;
+			const urlRooms = `${config.hablaApiBaseUri}/teamRooms/getTeamRooms?teamId=${team.teamId}`;
 			axios.get(urlRooms, { headers: { Authorization: this.token}})
        		.then(response => {
                response.data.teamRooms.forEach(room => { room.team = team; })
