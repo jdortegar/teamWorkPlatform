@@ -70,7 +70,7 @@ class SignIn extends Component {
                helper.getTeamRooms(teams[0])
                .then(rooms => {
                   this.storeRooms(rooms);
-                  this.context.router.push('/teams');
+                  this.context.router.push('/rooms');
                })
                .catch(error => {
                   console.log("getTeamRooms failed: " + JSON.stringify(error));
