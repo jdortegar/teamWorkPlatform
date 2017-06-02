@@ -7,7 +7,7 @@ import { Checkbox, Button } from 'react-bootstrap/lib';
 import { Header, Footer, FieldGroup } from '../../components';
 import { email_changed} from '../../actions/index';
 import HeaderNavbar from '../homepage/components/header_navbar';
-import Helper from '../../components/Helper';
+import helper from '../../components/Helper';
 
 
 
@@ -20,7 +20,7 @@ class Register extends Component {
 	whenPressSubmit(event) {
 		event.preventDefault();
 		if (validateEmail(this.props.email_in)) {
-			Helper.register(this.props.email_in)
+			helper.register(this.props.email_in)
 			.then(response => {
 				this.context.router.push('/successful');
 			})

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import MessageContainer from './components/MessageContainer';
-import Helper from '../../components/Helper';
 import BreadCrumb from '../../components/BreadCrumb';
 import axios from 'axios';
 import config from '../../config/env';

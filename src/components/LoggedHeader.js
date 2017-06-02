@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import Helper from './Helper';
+import helper from './Helper';
 import { DropdownButton, MenuItem } from 'react-bootstrap/lib';
 import { LinkContainer } from 'react-router-bootstrap';
 
@@ -15,7 +15,7 @@ class LogedHeader extends Component {
 	}
 
 	render() {
-		const user = this.props.user.icon == null ? Helper.getShortName(this.props.user.displayName) : "data:image/jpg;base64," + this.props.user.icon;
+		const user = this.props.user.icon == null ? helper.getShortName(this.props.user.displayName) : "data:image/jpg;base64," + this.props.user.icon;
 		return (
 			<div className="row">
 				<div className="row teamroom-header-login">

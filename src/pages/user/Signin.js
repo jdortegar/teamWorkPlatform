@@ -6,11 +6,11 @@ import { Link } from 'react-router';
 import axios from 'axios';
 import config from '../../config/env';
 import { Header, Footer, FieldGroup } from '../../components';
-import { user, organization, orgs, team, teams, rooms } from '../../actions/index';
+import { user, organization, orgs, teams, rooms } from '../../actions/index';
 import HeaderNavbar from '../homepage/components/header_navbar';
 // import messaging from '../../actions/messaging';
 import example from '../../actions/example';
-import Helper from '../../components/Helper';
+import helper from '../../components/Helper';
 
 class SignIn extends Component {
 
@@ -24,7 +24,6 @@ class SignIn extends Component {
 		this.storeUser = this.storeUser.bind(this);
 		this.storeOrganization = this.storeOrganization.bind(this);
 		this.storeOrgs = this.storeOrgs.bind(this);
-		this.storeTeam = this.storeTeam.bind(this);
 		this.storeTeams = this.storeTeams.bind(this);
 		this.storeRooms = this.storeRooms.bind(this);
 		this.logIn = this.logIn.bind(this);
@@ -39,12 +38,8 @@ class SignIn extends Component {
 		this.props.orgs(orgs);
 	}
 
-	storeTeam(team) {
-		this.props.team(team);
-	}
-
 	storeTeams(teams) {
-      console.log("storeTeams count: " + rooms.length);
+      console.log("storeTeams count: " + teams.length);
 		this.props.teams(teams);
 	}
 
@@ -59,22 +54,20 @@ class SignIn extends Component {
 
 	logIn(event) {
 		event.preventDefault();
-		Helper.loginAuth(this.state.email, this.state.password)
+		helper.loginAuth(this.state.email, this.state.password)
 		.then(response => {
 			this.setState({password: ''});  //for security
 			this.storeUser(response.data);
-			Helper.connectWebSocket(response.data.websocketUrl, response.data.token);
+			helper.connectWebSocket(response.data.websocketUrl);
 
-         const token = response.data.token;
-			Helper.getOrgs(token)
+			helper.getOrgs()
 			.then(orgs => {
 				this.storeOrgs(orgs);
-            // this.storeOrganization(orgs[0]);
-            Helper.getTeams(orgs[0], token)
+            this.storeOrganization(orgs[0]);
+            helper.getTeams(orgs[0])
             .then(teams => {
                this.storeTeams(teams);
-               // this.storeTeam(teams[0]);
-               Helper.getTeamRooms(teams[0], token)
+               helper.getTeamRooms(teams[0])
                .then(rooms => {
                   this.storeRooms(rooms);
                   this.context.router.push('/teams');
@@ -161,5 +154,5 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, { user, orgs, teams, rooms })(SignIn);
+export default connect(mapStateToProps, { user, orgs, organization, teams, rooms })(SignIn);
 

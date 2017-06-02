@@ -2,10 +2,9 @@ import config from '../config/env';
 import axios from 'axios';
 import messaging from '../actions/messaging';
 
-export default class Helper{
+class Helper{
 	constructor(user) {
-		this.user = user;
-		this.token = `Bearer ${this.user.token}`;
+      this.setUser(user);
 		this.getResponseMessage = this.getResponseMessage.bind(this);
 		this.getTeamRoomMembers = this.getTeamRoomMembers.bind(this);
 		this.getConversations = this.getConversations.bind(this);
@@ -13,7 +12,14 @@ export default class Helper{
 		this.updateUserPreferences = this.updateUserPreferences.bind(this);
 	}
 
-	static register(email) {
+   setUser(user) {
+		this.user = user;
+      if (user && user.token) {
+   		this.token = `Bearer ${this.user.token}`;
+      }
+   }
+
+	register(email) {
 		return new Promise((resolve, reject) => {
 			const url = `${config.hablaApiBaseUri}/users/registerUser`;
 			const url_type = 'application/x-www-form-urlencoded';
@@ -32,12 +38,12 @@ export default class Helper{
 		})
 	}
 
-	static getShortName(fullname) {
+	getShortName(fullname) {
 		const arrayName = fullname.split(' ');	
 		return arrayName.length > 1 ? arrayName[0].charAt(0)+arrayName[arrayName.length-1].charAt(0) : fullname;
 	}
 
-	static getMemberIcon(members, memberId){
+	getMemberIcon(members, memberId){
 		let icon = "";
 		members.map(member => {
 			if (member.userId == memberId) {
@@ -47,7 +53,7 @@ export default class Helper{
 		return icon;
 	}
 
-	static getMemberColor(members, memberId) {
+	getMemberColor(members, memberId) {
 		let color = "";
 		members.map(member => {
 			if (member.userId == memberId) {
@@ -57,7 +63,7 @@ export default class Helper{
 		return color;
 	}
 
-	static getMemberName(members, memberId) {
+	getMemberName(members, memberId) {
 		let name = "";
 		members.map(member => {
 			if (member.userId == memberId) {
@@ -67,7 +73,7 @@ export default class Helper{
 		return name;
 	}
 
-	static validateEmail(rid) {
+	validateEmail(rid) {
 		return new Promise((resolve, reject) => {
 			axios({
 		       method: 'get',
@@ -83,11 +89,11 @@ export default class Helper{
 		})
 	}
 
-	static getRandomIntNumber (min, max) {
+	getRandomIntNumber (min, max) {
     	return Math.floor(Math.random()*(Math.floor(max)-Math.ceil(min)))+Math.ceil(min);
   	}
 
-  	static loginAuth(username, password) {
+  	loginAuth(username, password) {
 		return new Promise((resolve, reject) => {
 			axios({
   				method: 'post',
@@ -101,17 +107,18 @@ export default class Helper{
 		  		}
 		  	})
 		    .then(response => {
+            this.token = `Bearer ${response.data.token}`;
 		    	resolve(response);
 			})
 			.catch(error => resolve(error))
 		})
 	}
 
-	static getOrgs(userToken) {
+	getOrgs() {
 		return new Promise((resolve, reject) => {
 			const url = `${config.hablaApiBaseUri}/subscriberOrgs/getSubscriberOrgs`;
 
-			axios.get(url, { headers: { Authorization: `Bearer ${userToken}`}})
+			axios.get(url, { headers: { Authorization: this.token}})
 			.then(respOrgs => {
             const orgs = respOrgs.data.subscriberOrgs;
             // for the first org, get the subscribers
@@ -122,7 +129,7 @@ export default class Helper{
             let numRetrieved = 0;
             orgs.forEach(org => {
                // get subscribers for the organization
-               Helper.getOrgSubscribers(org, userToken)
+               this.getOrgSubscribers(org)
                .then(subscribers => {
                   org.subscribers = subscribers;
                   console.log(`${org.name} has ${org.subscribers.length} subscribers`);
@@ -144,11 +151,12 @@ export default class Helper{
 		}) 		
 	}
 
-	static getOrgSubscribers(org, userToken) {
+	getOrgSubscribers(org) {
 		return new Promise((resolve, reject) => {
 			const url = `${config.hablaApiBaseUri}/subscriberOrgs/getSubscribers/${org.subscriberOrgId}`;
-			axios.get(url, { headers: { Authorization: `Bearer ${userToken}`}})
+			axios.get(url, { headers: { Authorization: this.token}})
 			.then(response => {
+            response.data.subscribers.forEach(subscriber => { subscriber.org = org; })
 				resolve(response.data.subscribers)
 			})
          .catch(error => {
@@ -157,12 +165,12 @@ export default class Helper{
 		}) 		
 	}
 
-	static getTeams(subscriberOrg, userToken) {
-		const httpToken = `Bearer ${userToken}`;
+	getTeams(subscriberOrg) {
 		return new Promise((resolve, reject) => {
 			const url = `${config.hablaApiBaseUri}/teams/getTeams?subscriberOrgId=${subscriberOrg.subscriberOrgId}`;
-			axios.get(url, { headers : { Authorization: httpToken}})
+			axios.get(url, { headers : { Authorization: this.token}})
 			.then(response => {
+            response.data.teams.forEach(team => { team.org = subscriberOrg; })
 				resolve(response.data.teams)
 			})
          .catch(error => {
@@ -171,12 +179,12 @@ export default class Helper{
 		}) 		
 	}
 
-	static getTeamRooms(team, userToken) {
-		const httpToken = `Bearer ${userToken}`;
+	getTeamRooms(team) {
 		return new Promise((resolve, reject) => {
 			const urlRooms = `${config.hablaApiBaseUri}/teamRooms/getTeamRooms?teamId={team.teamId}`;
-			axios.get(urlRooms, { headers: { Authorization: httpToken}})
+			axios.get(urlRooms, { headers: { Authorization: this.token}})
        		.then(response => {
+               response.data.teamRooms.forEach(room => { room.team = team; })
        			resolve(response.data.teamRooms);
        		})
             .catch(error => {
@@ -185,24 +193,43 @@ export default class Helper{
 		})
 	}
 
-	static connectWebSocket(websocketUrl, token) {
+   inviteSubscribersToOrg(org, userIdOrEmails) {
+		return new Promise((resolve, reject) => {
+         const url = `${config.hablaApiBaseUri}/subscriberOrgs/inviteSubscribers/${org.subscriberOrgId}`;
+         const headers = {
+            content_type: 'application/json',
+            Authorization: this.token
+         };
+         const body = { userIdOrEmails };
+
+         axios.post(url, body, { headers })
+         .then((response) => {
+            resolve(response);
+         })
+         .catch((error) => {
+            reject(error);
+         })
+      });
+   }
+
+	connectWebSocket(websocketUrl) {
 		
-		messaging(websocketUrl).connect(token)
+		messaging(websocketUrl).connect(this.token)
    		.then(() => {
    			console.log("connect successfully!");
    		})
    		.catch(error => console.log(error));
 	}
 
-	static randomColor() {
+	randomColor() {
 		const avatar_colors = ['#e67e22','#3498db','#9b59b6',
 	                           '#2ecc71','#1abc9c','#f1c40f',
 	                           '#e67e22','#e74c3c','#7f8c8d',
 	                           '#e91e63','#795548','#607d8b','#2196f3'];
-    	return avatar_colors[Helper.getRandomIntNumber(0, avatar_colors.length-1)];
+    	return avatar_colors[this.getRandomIntNumber(0, avatar_colors.length-1)];
 	}
 
-	static createUser({firstName, lastName, displayName, email, password, country, timeZone}) {
+	createUser({firstName, lastName, displayName, email, password, country, timeZone}) {
 		return new Promise((resolve, reject) => {
 			axios({
 	    		method: 'post',
@@ -220,7 +247,7 @@ export default class Helper{
 					country,
 					timeZone,
 					preferences: {
-						iconColor: Helper.randomColor(),
+						iconColor: this.randomColor(),
 					}
 	    		}
 	    	})
@@ -237,7 +264,7 @@ export default class Helper{
 				content_type: 'application/json',
 				Authorization: this.token
 			};
-		axios.patch(url, {preferences: { iconColor: Helper.randomColor()}}, { headers: headers })
+		axios.patch(url, {preferences: { iconColor: this.randomColor()}}, { headers: headers })
 		.then(() => console.log("Updated iconColor"))
 		.catch(error => console.log(error))
 	}
@@ -250,7 +277,7 @@ export default class Helper{
 			self = this;
 			const headers = {
 				content_type: 'application/json',
-				Authorization: self.token
+				Authorization: this.token
 			} 
 			const url = `${config.hablaApiBaseUri}/users/updateUser`;
 			axios.patch(url, {
@@ -290,6 +317,19 @@ export default class Helper{
 			.catch(error => reject(error))	
 		})
 	}
+
+	getTeamMembers(teamId) {
+		return new Promise((resolve, reject) => {
+			const url = `${config.hablaApiBaseUri}/teams/getMembers/${teamId}`;
+        	axios.get(url, { headers: { Authorization: this.token } })
+        	.then( response => {
+        		resolve(response.data.teamMembers)
+        		return;
+        	})
+        	.catch(error => reject(error))
+		})		
+	}
+
 
 	getTeamRoomMembers(teamRoomId) {
 		return new Promise((resolve, reject) => {
@@ -336,7 +376,5 @@ export default class Helper{
 	}
 }
 
-
-
-
-
+const helper = new Helper();
+export default helper;

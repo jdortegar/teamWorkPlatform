@@ -7,7 +7,7 @@ import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import axios from 'axios';
 import countryList from 'iso-3166-country-list';
 import config from '../../config/env';
-import Helper from '../../components/Helper';
+import helper from '../../components/Helper';
 import TimezonePicker from 'react-bootstrap-timezone-picker';
 
 class CreateAccount extends Component {
@@ -21,7 +21,7 @@ class CreateAccount extends Component {
   }
 
   getEmail(rid) {
-    Helper.validateEmail(rid)
+    helper.validateEmail(rid)
     .then(response => {
       this.setState({email: response.data.email});
     })
@@ -92,7 +92,7 @@ class CreateAccount extends Component {
       notify("You must read 'term of service' and check the box");
 
     if (region.innerHTML == "") {
-      Helper.createUser(this.state)
+      helper.createUser(this.state)
       .then(() => this.context.router.push('/signin'))
       .catch(error => console.log(error))
     }

@@ -9,7 +9,7 @@ import TimezonePicker from 'react-bootstrap-timezone-picker';
 import { connect } from 'react-redux';
 import LoggedHeader from '../../components/LoggedHeader';
 import DropzoneComponent from 'react-dropzone-component';
-import Helper from '../../components/Helper';
+import helper from '../../components/Helper';
 
 
 
@@ -22,7 +22,6 @@ class ProfileEdit extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
-		this.helper = '';
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.dropzoneConfig = {
 			iconFiletypes: ['.jpg','.png','.gif'],
@@ -57,7 +56,7 @@ class ProfileEdit extends Component {
 		const names = this.state.fullName.split(' ');
 		this.state["firstName"] = names[0];
 		this.state["lastName"] = names[names.length-1];
-		this.helper.updateUserProfile(this.state)
+		helper.updateUserProfile(this.state)
 		.then(() => this.context.router.push('/profile-notify'))
 		.catch(error => console.log(error))
 	}
@@ -81,7 +80,7 @@ class ProfileEdit extends Component {
 		const { country, displayName, email, timeZone, icon, firstName, lastName, preferences } = this.props.user.user;
 		const fullName = firstName+' '+lastName;
 		this.setState({country, displayName, email, timeZone, icon, firstName, lastName, fullName});
-		this.helper = new Helper(this.props.user);
+		helper.setUser(this.props.user);
 	}
 
 	handleChange = (value) => this.setState({timeZone: value})
