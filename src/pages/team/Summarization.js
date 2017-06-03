@@ -5,7 +5,7 @@ import axios from 'axios';
 import Button from 'react-bootstrap/lib/Button';
 import config from '../../config/env';
 import { Header, Footer, FieldGroup } from '../../components';
-import { selectTeam, inviteTeamMembers, teammembers } from '../../actions/index';
+import { selectTeam, teammembers } from '../../actions/index';
 import LoggedHeader from '../../components/LoggedHeader';
 import helper from '../../components/Helper';
 
@@ -19,31 +19,40 @@ class Summarization extends Component {
       helper.getOrgs()
       .then(orgs => {
          this._orgs = orgs;
-         this.setState({ isReady: true })
+
+         this._orgs.forEach(org => {
+            helper.getTeams(org)
+            .then(teams => {
+               org.teams = teams;
+               teams.forEach(team => {
+                  helper.getTeamRooms(team)
+                  .then(rooms => {
+                     team.rooms = rooms;
+                     this.setState({ isReady: true })
+                  })
+                  .catch(error => {
+                     console.log("getTeamRooms failed: " + JSON.stringify(error));
+                  })
+
+                  helper.getTeamMembers(team.teamId)
+                  .then(members => {
+                     team.members = members;
+                     this.setState({ isReady: true })
+                  })
+                  .catch(error => {
+                     console.log("getTeamMembers failed: " + JSON.stringify(error));
+                  });
+               });
+            })
+            .catch(error => {
+               console.log("getTeams failed: " + JSON.stringify(error));
+            })
+         })
+            this.setState({ isReady: true })
       })
       .catch(error => {
          debugger;
          console.log("getOrgs failed: " + JSON.stringify(error));
-      });
-      
-      this.props.teams.forEach(team => {
-         helper.getTeamRooms(team)
-         .then(rooms => {
-            team.rooms = rooms;
-            this.setState({ isReady: true })
-         })
-         .catch(error => {
-            console.log("getTeamRooms failed: " + JSON.stringify(error));
-         })
-
-         helper.getTeamMembers(team.teamId)
-         .then(members => {
-            team.members = members;
-            this.setState({ isReady: true })
-         })
-         .catch(error => {
-            console.log("getTeamMembers failed: " + JSON.stringify(error));
-         });
       });
    }
 
@@ -51,17 +60,11 @@ class Summarization extends Component {
 		this.props.selectTeam(team);	
 	}
 
-   inviteTeamMembers(team) {
-      // TODO: Use Redux
-      // this.props.inviteTeamMembers(team);
-   }
-
    renderTeamRooms(team) {
       if (team.rooms) {
-         return team.rooms.map((room) => {
-            console.log("renderTeamRooms key = " + room.roomId);
+         return team.rooms.map((room, i) => {
             return (
-               <tr key={room.roomId}>{room.name}</tr>
+               <tr key={i}><td>{room.name}</td></tr>
             );
          });
       }
@@ -71,9 +74,8 @@ class Summarization extends Component {
       if (members === undefined) {
          return;
       }
-      return members.map(member => {
-         console.log("renderTeamMembers key = " + member.userId);
-         return ( <tr key={member.userId}>{member.displayName}</tr> );
+      return members.map((member, i) => {
+         return ( <tr key={i}><td>{member.displayName}</td></tr> );
       });
    }
 
@@ -106,20 +108,22 @@ class Summarization extends Component {
       });
    }
 
-   renderTeams() {
-      if (this.props.teams) {
-         return this.props.teams.map((team,i) => {
+   renderTeams(teams) {
+      if (teams) {
+         return teams.map((team,i) => {
             const editField = `editField_${team.teamId}`;
             const statusField = `statusField_${team.teamId}`;
-            const backgroundColor = (i % 2 === 0) ? '#EEE' : '#FFF';
-            console.log("renderTeams key = " + team.teamId);
             return (
-               <tr key={team.teamId} style={{ backgroundColor, paddingLeft: 10, paddingRight: 10 }}>
-                  <td style={{ valign:"top", paddingLeft: 10 }}>
+               <tr key={i}>
+                  <td style={{ valign:"top" }}>
                      {team.name}
                   </td>
                   <td style={{ paddingTop: 10, paddingBottom: 20 }}>
-                     {this.renderTeamMembers(team.members)}
+                     <table>
+                        <tbody>
+                           {this.renderTeamMembers(team.members)}
+                        </tbody>
+                     </table>
                   </td>
                   <td style={{ paddingBottom: 50 }}>
                      <table>
@@ -140,9 +144,8 @@ class Summarization extends Component {
          const editField = `editField_${id}`;
          const statusField = `statusField_${id}`;
          const backgroundColor = (i % 2 === 0) ? '#EEE' : '#FFF';
-         console.log("renderOrgs key = " + id);
          return (
-            <tr key={id} style={{ backgroundColor, paddingLeft: 10, paddingRight: 10 }}>
+            <tr key={i} style={{ backgroundColor, paddingLeft: 10, paddingRight: 10 }}>
                <td style={{ valign:"top", paddingLeft: 10 }}>
                   {org.name}
                </td>
@@ -150,9 +153,8 @@ class Summarization extends Component {
                   <table>
                      <tbody>
                         {
-                           org.subscribers.map((member) => {
-                              console.log("org.subscribers.map key = " + member.userId);
-                              return ( <tr key={member.userId}><td>{member.displayName}</td></tr> );
+                           org.subscribers.map((member, i) => {
+                              return ( <tr key={i}><td>{member.displayName}</td></tr> );
                            })
                         }
                         <tr style={{ height: 10 }}/>
@@ -168,11 +170,23 @@ class Summarization extends Component {
                                     type="submit"
                                     value="Invite" 
                                     style={{ marginLeft: 10, paddingLeft: 20, paddingRight: 20, borderRadius: 10 }} />
-                                 <label style={{ marginLeft: 20, color: '#00F', width: 300 }} ref={statusField}>
+                                 <label style={{ marginLeft: 20, color: '#00F' }} ref={statusField}>
                                     {this._statusMap[id]}
                                  </label>
                               </form>
-                           </td>                               
+                           </td>
+                           <td>
+                              <table>
+                                 <tbody>
+                                    <tr>
+                                       <th>Team Name</th>
+                                       <th>Team Members</th>
+                                       <th>Team Rooms</th>
+                                    </tr>
+                                    {this.renderTeams(org.teams)}
+                                 </tbody>
+                              </table>
+                           </td>                            
                         </tr>
                      </tbody>
                   </table>
@@ -184,7 +198,6 @@ class Summarization extends Component {
 
 	render() {
 		var user = this.props.user;
-		var teams = this.props.teams;
 		return (
 			<div>
 				<LoggedHeader />
@@ -197,19 +210,6 @@ class Summarization extends Component {
                         <th>Organization Members</th>
                      </tr>
                      {this.renderOrgs()}
-               </tbody>
-               </table>
-            </div>
-            <div style={{ align: 'center', marginLeft: 40, marginRight: 40 }}>
-               <h2>Teams</h2>
-               <table>
-                  <tbody>
-                     <tr>
-                        <th style={{ paddingLeft: 10 }}>Team Name</th>
-                        <th>Team Members</th>
-                        <th>Rooms</th>
-                     </tr>
-                     {this.renderTeams()}
                </tbody>
                </table>
             </div>
@@ -231,4 +231,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, {selectTeam, inviteTeamMembers})(Summarization);
+export default connect(mapStateToProps, {selectTeam})(Summarization);
