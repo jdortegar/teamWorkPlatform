@@ -20,7 +20,6 @@ class Summarization extends Component {
       .then(orgs => {
          this._orgs = orgs;
          this.setState({ isReady: true })
-         console.log("orgs.length = " + orgs.length);
       })
       .catch(error => {
          debugger;
@@ -32,7 +31,6 @@ class Summarization extends Component {
          .then(rooms => {
             team.rooms = rooms;
             this.setState({ isReady: true })
-            console.log("retrieved " + rooms.length + " rooms for team" + team.name);
          })
          .catch(error => {
             console.log("getTeamRooms failed: " + JSON.stringify(error));
@@ -61,6 +59,7 @@ class Summarization extends Component {
    renderTeamRooms(team) {
       if (team.rooms) {
          return team.rooms.map((room) => {
+            console.log("renderTeamRooms key = " + room.roomId);
             return (
                <tr key={room.roomId}>{room.name}</tr>
             );
@@ -73,6 +72,7 @@ class Summarization extends Component {
          return;
       }
       return members.map(member => {
+         console.log("renderTeamMembers key = " + member.userId);
          return ( <tr key={member.userId}>{member.displayName}</tr> );
       });
    }
@@ -112,6 +112,7 @@ class Summarization extends Component {
             const editField = `editField_${team.teamId}`;
             const statusField = `statusField_${team.teamId}`;
             const backgroundColor = (i % 2 === 0) ? '#EEE' : '#FFF';
+            console.log("renderTeams key = " + team.teamId);
             return (
                <tr key={team.teamId} style={{ backgroundColor, paddingLeft: 10, paddingRight: 10 }}>
                   <td style={{ valign:"top", paddingLeft: 10 }}>
@@ -139,6 +140,7 @@ class Summarization extends Component {
          const editField = `editField_${id}`;
          const statusField = `statusField_${id}`;
          const backgroundColor = (i % 2 === 0) ? '#EEE' : '#FFF';
+         console.log("renderOrgs key = " + id);
          return (
             <tr key={id} style={{ backgroundColor, paddingLeft: 10, paddingRight: 10 }}>
                <td style={{ valign:"top", paddingLeft: 10 }}>
@@ -149,25 +151,28 @@ class Summarization extends Component {
                      <tbody>
                         {
                            org.subscribers.map((member) => {
-                              return ( <tr key={member.userId}>{member.displayName}</tr> );
+                              console.log("org.subscribers.map key = " + member.userId);
+                              return ( <tr key={member.userId}><td>{member.displayName}</td></tr> );
                            })
                         }
                         <tr style={{ height: 10 }}/>
                         <tr>
-                           <form onSubmit={event => this.submitInviteEmailToOrg(event, org) }>
-                              <input
-                                 ref={editField}
-                                 type="text"
-                                 placeholder="Add by Email"
-                              />
-                              <input 
-                                 type="submit"
-                                 value="Invite" 
-                                 style={{ marginLeft: 10, paddingLeft: 20, paddingRight: 20, borderRadius: 10 }} />
-                              <label style={{ marginLeft: 20, color: '#00F', width: 300 }} ref={statusField}>
-                                 {this._statusMap[id]}
-                              </label>
-                           </form>                                 
+                           <td>
+                              <form onSubmit={event => this.submitInviteEmailToOrg(event, org) }>
+                                 <input
+                                    ref={editField}
+                                    type="text"
+                                    placeholder="Add by Email"
+                                 />
+                                 <input 
+                                    type="submit"
+                                    value="Invite" 
+                                    style={{ marginLeft: 10, paddingLeft: 20, paddingRight: 20, borderRadius: 10 }} />
+                                 <label style={{ marginLeft: 20, color: '#00F', width: 300 }} ref={statusField}>
+                                    {this._statusMap[id]}
+                                 </label>
+                              </form>
+                           </td>                               
                         </tr>
                      </tbody>
                   </table>
