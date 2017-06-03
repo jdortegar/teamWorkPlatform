@@ -13,7 +13,7 @@ class TeamRoom extends Component {
 
 	render() {
 		const items=[];
-		items.push({'team rooms':'/teams'});
+		items.push({'team rooms':'/teams/:team'});  //TODO: fix this link path so that it can go back to select
 		let obj = {};
 		obj[this.props.room.name] = '#';
 		items.push(obj)
