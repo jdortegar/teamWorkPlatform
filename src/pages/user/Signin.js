@@ -34,17 +34,17 @@ class SignIn extends Component {
 	}
 
 	storeOrgs(orgs) {
-      console.log("storeOrgs count: " + orgs.length);
+      // console.log("storeOrgs count: " + orgs.length);
 		this.props.orgs(orgs);
 	}
 
 	storeTeams(teams) {
-      console.log("storeTeams count: " + teams.length);
+      // console.log("storeTeams count: " + teams.length);
 		this.props.teams(teams);
 	}
 
 	storeRooms(rooms) {
-      console.log("storeRooms count: " + rooms.length);
+      // console.log("storeRooms count: " + rooms.length);
 		this.props.rooms(rooms);
 	}
 
@@ -60,29 +60,37 @@ class SignIn extends Component {
 			this.storeUser(response.data);
 			helper.connectWebSocket(response.data.websocketUrl);
 
+
 			helper.getOrgs()
 			.then(orgs => {
+				// console.log(orgs);
 				this.storeOrgs(orgs);
-            this.storeOrganization(orgs[0]);
-            helper.getTeams(orgs[0])
-            .then(teams => {
-               this.storeTeams(teams);
-               helper.getTeamRooms(teams[0])
-               .then(rooms => {
-                  this.storeRooms(rooms);
-                  this.context.router.push('/rooms');
-               })
-               .catch(error => {
-                  console.log("getTeamRooms failed: " + JSON.stringify(error));
-               })
-            })
-            .catch(error => {
-               console.log("getTeams failed: " + JSON.stringify(error));
-            })
-         })
-         .catch(error => {
-            console.log("getOrgs failed: " + JSON.stringify(error));
-         })
+				this.context.router.push('/organizations');
+            	// this.storeOrganization(orgs[0]);
+
+            	// helper.getTeams(orgs[0])
+            	// .then(teams => {
+            	// 	console.log(teams)
+
+             //   		this.storeTeams(teams);
+             //   		helper.getTeamRooms(teams[0])
+             //   		.then(rooms => {
+             //   			console.log(rooms)
+
+             //      		this.storeRooms(rooms);
+             //      		this.context.router.push('/teams');
+             //   		})
+             //   		.catch(error => {
+             //      		console.log("getTeamRooms failed: " + JSON.stringify(error));
+             //   		})
+            	// })
+            	// .catch(error => {
+             //   		console.log("getTeams failed: " + JSON.stringify(error));
+            	// })
+         	})
+         	.catch(error => {
+            	console.log("getOrgs failed: " + JSON.stringify(error));
+         	})
 		})
 		.catch(error => console.log(error));
 	}

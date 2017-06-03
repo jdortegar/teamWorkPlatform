@@ -10,7 +10,7 @@ import config from '../../../config/env';
 import io from 'socket.io-client';
 import messaging, { EventTypes } from '../../../actions/messaging';
 import moment from 'moment-timezone';
-import Helper from '../../../components/Helper';
+import helper from '../../../components/Helper';
 
 
 class MessageContainer extends Component {
@@ -22,7 +22,6 @@ class MessageContainer extends Component {
 		this.displayAllPosts = this.displayAllPosts.bind(this);
 		this.translateData = this.translateData.bind(this);
 		this.sendMessage = this.sendMessage.bind(this);
-		this.helper = '';
 		this.rawMessages =[];
 		this.renderPosts = [];
 		this.members=[];
@@ -33,9 +32,9 @@ class MessageContainer extends Component {
 	}
 
 	componentWillMount() {
-		this.helper = new Helper(this.props.user);
+		helper.setUser(this.props.user);
 		const teamRoomId = this.props.room.teamRoomId;
-		this.helper.getTeamRoomMembers(teamRoomId)
+		helper.getTeamRoomMembers(teamRoomId)
 		.then(result => {
 			this.members = result;
 			this.members.map(member => {
@@ -44,7 +43,7 @@ class MessageContainer extends Component {
 		    	else this.state[key] = "member-status-away";
 		    })
 		})
-		this.helper.getMessages(teamRoomId)
+		helper.getMessages(teamRoomId)
 		.then(response => {
 			this.translateData(response); 
 		})
@@ -78,16 +77,16 @@ class MessageContainer extends Component {
 		//this method traverse the tree of Post to find parent of "node" in "family"
 		family.map(parent => {
 			if (node.replyTo == parent.props.id) {
-				var shortname = Helper.getShortName(Helper.getMemberName(this.members,node.createdBy));
+				var shortname = helper.getShortName(helper.getMemberName(this.members,node.createdBy));
 				parent.props.children.push(
 					<Post 
 						id={node.messageId} 
 						key={node.messageId} 
 						shortname={shortname} 
-						name={Helper.getMemberName(this.members,node.createdBy)}
+						name={helper.getMemberName(this.members,node.createdBy)}
 						level={parent.props.level+1} 
-						icon={Helper.getMemberIcon(this.members,node.createdBy)}
-						color={Helper.getMemberColor(this.members,node.createdBy)} 
+						icon={helper.getMemberIcon(this.members,node.createdBy)}
+						color={helper.getMemberColor(this.members,node.createdBy)} 
 						content={node.text} 
 						time={moment(node.created).fromNow()}
 						children={[]}
@@ -115,17 +114,17 @@ class MessageContainer extends Component {
 
 					if (!event.hasOwnProperty("replyTo")) {
 						// console.log(event.createdBy);
-						var shortname = Helper.getShortName(Helper.getMemberName(this.members,event.createdBy));
+						var shortname = helper.getShortName(helper.getMemberName(this.members,event.createdBy));
 						
 						this.renderPosts.push(
 							<Post 
 								id={event.messageId} 
 								key={event.messageId} 
 								shortname={shortname} 
-								name={Helper.getMemberName(this.members, event.createdBy)}
+								name={helper.getMemberName(this.members, event.createdBy)}
 								level={0} 
-								color={Helper.getMemberColor(this.members, event.createdBy)} 
-								icon={Helper.getMemberIcon(this.members, event.createdBy)}
+								color={helper.getMemberColor(this.members, event.createdBy)} 
+								icon={helper.getMemberIcon(this.members, event.createdBy)}
 								content={event.text} 
 								time={moment(event.created).fromNow()}
 								children={[]}
@@ -159,7 +158,7 @@ class MessageContainer extends Component {
 
 	sendMessage(text,replyTo,shortname,name) {
 
-		this.helper.getResponseMessage(this.props.room.teamRoomId,text, replyTo)
+		helper.getResponseMessage(this.props.room.teamRoomId,text, replyTo)
 		.then(response => {
 			const message = response;
         	this.renderPosts.push(	
@@ -169,8 +168,8 @@ class MessageContainer extends Component {
 					shortname={shortname}
 					name={name}
 					level={0} 
-					color={Helper.getMemberColor(this.members, message.createdBy)}
-					icon={Helper.getMemberIcon(this.members, message.createdBy)}
+					color={helper.getMemberColor(this.members, message.createdBy)}
+					icon={helper.getMemberIcon(this.members, message.createdBy)}
 					content={message.text} 
 					time={moment(message.created).fromNow()}
 					children={[]}
@@ -203,14 +202,14 @@ class MessageContainer extends Component {
 			this.members.map(member => {
 				
 				if (message.createdBy == member.userId) {
-					message["from"] = Helper.getShortName(member.displayName);
+					message["from"] = helper.getShortName(member.displayName);
 					message["icon"] = member.icon == null ? null : "data:image/jpg;base64," + member.icon;
 				}
 			});
-			message["name"] = Helper.getMemberName(this.members,message.createdBy);
+			message["name"] = helper.getMemberName(this.members,message.createdBy);
 			message["time"] = message.created;
 			message["child"] = [];
-			message["color"] = Helper.getMemberColor(this.members, message.createdBy);
+			message["color"] = helper.getMemberColor(this.members, message.createdBy);
 			findDepth(message);
 		});
 		this.rawMessages = messages;  
@@ -230,7 +229,7 @@ class MessageContainer extends Component {
 
 	addChild() {
 		var msg = this.state.content;
-		const shortname = Helper.getShortName(this.props.user.user.displayName);
+		const shortname = helper.getShortName(this.props.user.user.displayName);
 		const name = this.props.user.user.displayName;
 		if (msg != "") {
 			if (msg.replace(/ /g,'') != "") {
@@ -299,7 +298,7 @@ class MessageContainer extends Component {
 					<div className="teamroom-member-status-container">
 			      	{
 			        	this.members.map(member => {
-			        		const icon = member.icon == null ? Helper.getShortName(member.displayName): "data:image/jpg;base64," + member.icon;
+			        		const icon = member.icon == null ? helper.getShortName(member.displayName): "data:image/jpg;base64," + member.icon;
 			          		const key = member.userId;
 			          		const dot = this.state[key] == "member-status-away" ? "fa fa-circle dot-status-yellow" : "fa fa-circle dot-status-green";
 			          		return (

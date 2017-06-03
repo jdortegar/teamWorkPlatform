@@ -132,7 +132,7 @@ class Helper{
                this.getOrgSubscribers(org)
                .then(subscribers => {
                   org.subscribers = subscribers;
-                  console.log(`${org.name} has ${org.subscribers.length} subscribers`);
+                  // console.log(`${org.name} has ${org.subscribers.length} subscribers`);
                   numRetrieved += 1;
                   if (numRetrieved === orgs.length) {
                      resolve(orgs);
@@ -183,8 +183,7 @@ class Helper{
 		return new Promise((resolve, reject) => {
 			const urlRooms = `${config.hablaApiBaseUri}/teamRooms/getTeamRooms?teamId=${team.teamId}`;
 			axios.get(urlRooms, { headers: { Authorization: this.token}})
-       		.then(response => {
-               response.data.teamRooms.forEach(room => { room.team = team; })
+       		.then(response => {            
        			resolve(response.data.teamRooms);
        		})
             .catch(error => {

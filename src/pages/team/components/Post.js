@@ -6,7 +6,7 @@ import config from '../../../config/env';
 import { sendMessage } from '../../../actions/index';
 import axios from 'axios';
 import moment from 'moment-timezone';
-import Helper from '../../../components/Helper';
+import helper from '../../../components/Helper';
 
 class Post extends Component {
 	constructor(props) {
@@ -27,7 +27,7 @@ class Post extends Component {
 
 	sendMessage(text,replyTo,shortname, name) {
 
-		const helper = new Helper(this.props.user);
+		helper.setUser(this.props.user);
 		helper.getResponseMessage(this.props.room.teamRoomId,text, replyTo)
 		.then(response => {
 			const message = response;
@@ -142,7 +142,7 @@ class Post extends Component {
 	}
 
 	addChild() {
-		const shortname = ShortName(this.props.user.user.displayName);
+		const shortname = helper.getShortName(this.props.user.user.displayName);
 		const name = this.props.user.user.displayName;
 		var msg = this.state.content;
 		if (msg != "") {
