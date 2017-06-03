@@ -71,7 +71,8 @@ class LogedHeader extends Component {
 								      className="avatar-button clearpadding"
 								    >
 								      <LinkContainer to="/profile-edit"><MenuItem eventKey='1'><i className="fa fa-envelope fa-fw"></i> User Profile</MenuItem></LinkContainer>
-								      <LinkContainer to="/org-update"><MenuItem eventKey='2'><i className="fa fa-sitemap"></i>Your Organization</MenuItem></LinkContainer>
+								      <LinkContainer to="/org-update"><MenuItem eventKey='2'><i className="fa fa-sitemap"></i> Your Organization</MenuItem></LinkContainer>
+								      <LinkContainer to="/summarization"><MenuItem eventKey='3'><i className="fa fa-snowflake-o"></i> Summarization</MenuItem></LinkContainer>
 								      <MenuItem eventKey='3'><i className="fa fa-gear fa-fw"></i> Settings</MenuItem>
 								      <MenuItem divider />
 								      <MenuItem eventKey='4'><i className="fa fa-sign-out fa-fw"></i> Logout</MenuItem>

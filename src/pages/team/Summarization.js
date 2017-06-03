@@ -9,12 +9,13 @@ import { selectTeam, inviteTeamMembers, teammembers } from '../../actions/index'
 import LoggedHeader from '../../components/LoggedHeader';
 import helper from '../../components/Helper';
 
-class Teams extends Component {
+class Summarization extends Component {
 
    _statusMap = {};
    _orgs = [];
 
    componentWillMount() {
+
       helper.getOrgs()
       .then(orgs => {
          this._orgs = orgs;
@@ -225,4 +226,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, {selectTeam, inviteTeamMembers})(Teams);
+export default connect(mapStateToProps, {selectTeam, inviteTeamMembers})(Summarization);

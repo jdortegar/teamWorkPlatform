@@ -122,9 +122,9 @@ const componentRoutes = {
 			}
 		},
 		{
-			path: 'teams',
+			path: 'summarization',
 			getComponent(location, cb) {
-				System.import('./pages/team/Teams')
+				System.import('./pages/team/Summarization')
 					.then(module => cb(null, module.default))
 			}
 		},
