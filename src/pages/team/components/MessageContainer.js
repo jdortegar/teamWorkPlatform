@@ -1,22 +1,20 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { FieldGroup } from '../../../components';
 import Post from './Post';
 import autosize from 'autosize';
-import ShortName from './ShortName';
 import axios from 'axios';
-import { getPosts } from '../../../actions/index';
+import { saveMembersTeamRoom } from '../../../actions/index';
 import config from '../../../config/env';
 import io from 'socket.io-client';
 import messaging, { EventTypes } from '../../../actions/messaging';
-
+import moment from 'moment-timezone';
+import helper from '../../../components/Helper';
 
 
 class MessageContainer extends Component {
-	static contextTypes = {
-		router: PropTypes.object
-	};
+
 	constructor(props) {
 		super(props);
 		this.state={posts: [], content: '', key: -1}; //key for refresh textarea after each enter since value of key will changed every time textarea changed value and enter
@@ -28,38 +26,69 @@ class MessageContainer extends Component {
 		this.renderPosts = [];
 		this.members=[];
 		this.myEventListener = this.myEventListener.bind(this);
-		this.memberName = this.memberName.bind(this);
 		this.addRealTimeThreaded = this.addRealTimeThreaded.bind(this);
-		
+		this.membersConnectionListener = this.membersConnectionListener.bind(this);
+		this.scrollToBottom = this.scrollToBottom.bind(this);
 	}
 
-	memberName(memberId) {
-		var name = ""
-		this.members.map(member => {
-			if (member.userId == memberId) {
-				name = member.displayName; //TODO : figure out why I can't return here?
-			}
+	componentWillMount() {
+		helper.setUser(this.props.user);
+		const teamRoomId = this.props.room.teamRoomId;
+		helper.getTeamRoomMembers(teamRoomId)
+		.then(result => {
+			this.members = result;
+			this.members.map(member => {
+		    	const key = member.userId;
+		    	if (key == this.props.user.user.userId) this.state[key] = "member-status-available";
+		    	else this.state[key] = "member-status-away";
+		    })
+		})
+		helper.getMessages(teamRoomId)
+		.then(response => {
+			this.translateData(response); 
+		})
+	}
+
+	componentDidMount() {
+	    this.scrollToBottom();
+	    autosize(document.querySelectorAll('textarea'));
+
+//This is use for offline edit teamroom page only => bypass login and teams page
+	    messaging(this.props.user.websocketUrl).connect(this.props.user.token)
+		.then(() => {
+			console.log("connect successfully!");
 		});
-		return name;
+	    messaging().addEventListener(this.myEventListener);
+	    // messaging().addOnlineOfflineListener(this.membersConnectionListener);
+
+	}
+
+	componentDidUpdate() {
+	    this.scrollToBottom();
+	    autosize(document.querySelectorAll('textarea'));
+	}
+
+	membersConnectionListener(online) {
+		// console.log(`AD: online=${online}`);
 	}
 
 	addRealTimeThreaded(family,node) {
 		//<Post >  ...: key, props : { children : [], color, content, id, level, shortname, time}
 		//this method traverse the tree of Post to find parent of "node" in "family"
-
-		
 		family.map(parent => {
 			if (node.replyTo == parent.props.id) {
-				var shortname = ShortName(this.memberName(node.createdBy));
+				var shortname = helper.getShortName(helper.getMemberName(this.members,node.createdBy));
 				parent.props.children.push(
 					<Post 
 						id={node.messageId} 
 						key={node.messageId} 
 						shortname={shortname} 
+						name={helper.getMemberName(this.members,node.createdBy)}
 						level={parent.props.level+1} 
-						color="" 
+						icon={helper.getMemberIcon(this.members,node.createdBy)}
+						color={helper.getMemberColor(this.members,node.createdBy)} 
 						content={node.text} 
-						time={node.created}
+						time={moment(node.created).fromNow()}
 						children={[]}
 					/>
 				)
@@ -85,17 +114,19 @@ class MessageContainer extends Component {
 
 					if (!event.hasOwnProperty("replyTo")) {
 						// console.log(event.createdBy);
-						var shortname = ShortName(this.memberName(event.createdBy));
+						var shortname = helper.getShortName(helper.getMemberName(this.members,event.createdBy));
 						
 						this.renderPosts.push(
 							<Post 
 								id={event.messageId} 
 								key={event.messageId} 
 								shortname={shortname} 
+								name={helper.getMemberName(this.members, event.createdBy)}
 								level={0} 
-								color="" 
+								color={helper.getMemberColor(this.members, event.createdBy)} 
+								icon={helper.getMemberIcon(this.members, event.createdBy)}
 								content={event.text} 
-								time={event.created}
+								time={moment(event.created).fromNow()}
 								children={[]}
 							/>
 						)
@@ -110,65 +141,45 @@ class MessageContainer extends Component {
 					}
 				}
 			}
+			case EventTypes.presenceChanged : {
+				const key = event.userId;
+    			this.state[key] = `member-status-${event.presenceStatus}`;
+    			this.forceUpdate();
+				// trackingMembersStatus(this.members,event)
+				// address:"::ffff:127.0.0.1"
+				// presenceStatus:"available"/"away"
+				// userAgent:"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+				// userId:"ea794510-cea6-4132-ae22-a7ae1d32abb5"
+
+			}
 		}
 	}
 
-	componentWillMount() {
-		const teamRoomId = this.props.room.teamRoomId;
-		const url = `${config.hablaApiBaseUri}/teamRooms/getMembers/${teamRoomId}`;
-        this.token = `Bearer ${this.props.user.token}`;
-        axios.get(url, { headers: { Authorization: this.token } })
-        .then( response => {
-        	this.members = response.data.teamRoomMembers;
-        })
-  
-       	const urlCon = `${config.hablaApiBaseUri}/conversations/getConversations?teamRoomId=${teamRoomId}`;    
-   		axios.get(urlCon, { headers : { Authorization: this.token}})
-   		.then(response => {
-   			// console.log(response);
-   			const conversations = response.data.conversations;
-   			// console.log(conversations);
-   			this.conId = conversations[0].conversationId;
-   			const urlTranscript = `${config.hablaApiBaseUri}/conversations/getTranscript/${this.conId}`;
-            axios.get(urlTranscript, { headers: { Authorization: this.token } })
-            .then( (responseTranscript) => {
-                this.translateData(responseTranscript.data.messages);      	
-            })
-   		})
-	}
 
-	sendMessage(text,replyTo,shortname) {
-		const url = `${config.hablaApiBaseUri}/conversations/${this.conId}/createMessage`;
-        let body;
-        if (replyTo) body = { messageType: "text", text, replyTo };
-        else body = { messageType: "text", text };
-        const headers = {
-        	content_type: 'application/json',
-            Authorization: this.token
-        };
-        axios.post(url, body, { headers })
-        .then( (response) => {
+	sendMessage(text,replyTo,shortname,name) {
 
-        	const message = response.data.message;
+		helper.getResponseMessage(this.props.room.teamRoomId,text, replyTo)
+		.then(response => {
+			const message = response;
         	this.renderPosts.push(	
 				<Post 
 					id={message.messageId}
 					key={message.messageId} 
 					shortname={shortname}
+					name={name}
 					level={0} 
-					color=""
+					color={helper.getMemberColor(this.members, message.createdBy)}
+					icon={helper.getMemberIcon(this.members, message.createdBy)}
 					content={message.text} 
-					time={message.created}
+					time={moment(message.created).fromNow()}
 					children={[]}
 				/>
 			);
         	this.setState({content: '', key: -this.state.key});
-        	// console.log(response.data.message);  // { conversationId, created, createdBy, messageId, messageType, text }  
-        })   
+		})  
 	}
 
 	translateData(messages) {	//TODO : reduce time by skipping translateData
-		// console.log(messages);
   		var findDepth = function(message) {
   			if (!message.hasOwnProperty("replyTo")) 
   				message["depth"] = 0;
@@ -191,33 +202,23 @@ class MessageContainer extends Component {
 			this.members.map(member => {
 				
 				if (message.createdBy == member.userId) {
-					message["from"] = ShortName(member.displayName);
+					message["from"] = helper.getShortName(member.displayName);
+					message["icon"] = member.icon == null ? null : "data:image/jpg;base64," + member.icon;
 				}
 			});
+			message["name"] = helper.getMemberName(this.members,message.createdBy);
 			message["time"] = message.created;
 			message["child"] = [];
+			message["color"] = helper.getMemberColor(this.members, message.createdBy);
 			findDepth(message);
 		});
-		this.rawMessages = messages;  //assign data messages to reducer_posts
+		this.rawMessages = messages;  
 		this.displayAllPosts();
 	}
 
 	scrollToBottom = () => {
     	const node = ReactDOM.findDOMNode(this.refs.end);
     	node.scrollIntoView({behavior: "smooth"});
-	}
-
-   
-
-	componentDidMount() {
-	    this.scrollToBottom();
-	    autosize(document.querySelectorAll('textarea'));
-	    messaging().addEventListener(this.myEventListener);
-	}
-
-	componentDidUpdate() {
-	    this.scrollToBottom();
-	    autosize(document.querySelectorAll('textarea'));
 	}
 
 	handleKeyPressed(target) {		
@@ -228,11 +229,11 @@ class MessageContainer extends Component {
 
 	addChild() {
 		var msg = this.state.content;
-		// const shortname = "SD";
-		const shortname = ShortName(this.props.user.user.displayName);
+		const shortname = helper.getShortName(this.props.user.user.displayName);
+		const name = this.props.user.user.displayName;
 		if (msg != "") {
 			if (msg.replace(/ /g,'') != "") {
-				this.sendMessage(msg,"",shortname);
+				this.sendMessage(msg,"",shortname,name);
 			}
 			else {
 				this.setState({key: -this.state.key, content:''});
@@ -253,10 +254,12 @@ class MessageContainer extends Component {
 								id={post["messageId"]}
 								key={post["messageId"]}
 								shortname={post["from"]}
+								name={post["name"]}
+								icon={post["icon"]}
 								level={parent.depth+1 }
 								color={post["color"]}
 								content={post["text"]}
-								time={post["time"]}
+								time={moment(post["time"]).fromNow()}
 								children={post["child"]} ////1
 							/>
 						)
@@ -270,10 +273,12 @@ class MessageContainer extends Component {
 						id={post["messageId"]} 
 						key={post["messageId"]} 
 						shortname={post["from"]} 
+						name={post["name"]}
 						level={0} 
+						icon={post["icon"]}
 						color={post["color"]} 
 						content={post["text"]} 
-						time={post["time"]}
+						time={moment(post["time"]).fromNow()}
 						children={post["child"]}
 					/>
 				)
@@ -283,32 +288,54 @@ class MessageContainer extends Component {
 	}
 
 	render() {
+		
 		return (
-			<div className="row teamroom-lobby" id="lobby">
-				<div className="row teamroom-seperator-line">
-					<div className="col-md-5 col-xs-0 date-item line-break">
-						&nbsp;
+			<div>
+				<div className="teamroom-left-nav">
+					<div className="teamroom-left-nav-title-status">
+						Members
 					</div>
-					<div className="col-md-2 col-xs-12 date-item chat-date">
-						Today
+					<div className="teamroom-member-status-container">
+			      	{
+			        	this.members.map(member => {
+			        		const icon = member.icon == null ? helper.getShortName(member.displayName): "data:image/jpg;base64," + member.icon;
+			          		const key = member.userId;
+			          		const dot = this.state[key] == "member-status-away" ? "fa fa-circle dot-status-yellow" : "fa fa-circle dot-status-green";
+			          		return (
+			            		<div className={this.state[key]} key={key}>
+				            		<i className={dot} />
+				            		{member.icon == null ? 
+				            			(
+				            				<span style={{paddingTop: "3px", display: "inline-block", backgroundColor: member.preferences.iconColor ,height: "25px", width: "25px", borderRadius: "5px", color: "white", textAlign: "center"}}>
+				            					{icon}
+				            				</span>
+				            			)
+				            			:
+				            			(<img src={icon} className="" ></img>)
+				            		}
+				              		
+				              		<span className="member-status-name"> {member.displayName}</span>
+			            		</div>
+			          		)
+			        	})
+			      	}
+			      	</div>
+	   			</div>
+
+				<div className="row teamroom-lobby" id="lobby">
+					{this.state.posts}					
+					<div ref="end"></div>
+					<div className="row">
+						<form>
+							<textarea 
+								className="user-input" 
+								placeholder="What you want to tell your team..." 
+								onKeyPress={this.handleKeyPressed} 
+								onChange={event => this.setState({content: event.target.value})} 
+								key={this.state.key} 
+							/>
+						</form>
 					</div>
-					<div className="col-md-5 col-xs-0 date-item line-break">
-						&nbsp;
-					</div>
-				</div>					
-					{this.state.posts}
-									
-				<div ref="end"></div>
-				<div className="row">
-					<form>
-						<textarea 
-							className="user-input" 
-							placeholder="What you want to tell your team..." 
-							onKeyPress={this.handleKeyPressed} 
-							onChange={event => this.setState({content: event.target.value})} 
-							key={this.state.key} 
-						/>
-					</form>
 				</div>
 			</div>
 		);
@@ -317,13 +344,12 @@ class MessageContainer extends Component {
 
 function mapStateToProps(state) {
 	return {
-		reducer_posts: state.messages.posts,
 		user: state.user.user,
 		room: state.room.room
 	};
 }
 
-export default connect(mapStateToProps, {getPosts})(MessageContainer);
+export default connect(mapStateToProps, {saveMembersTeamRoom})(MessageContainer);
 
 // conversations = [ {conversationId:"dfsdf", participants: [{country:"US", displayName: "Rob", icon: null, lastName: "Abbott", preferences : {}, timeZone: "America/Los_Angeles", userId: "sdfsdfds"},{},{}] },{...}]
 

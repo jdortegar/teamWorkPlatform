@@ -122,9 +122,16 @@ const componentRoutes = {
 			}
 		},
 		{
-			path: 'teams',
+			path: 'summarization',
 			getComponent(location, cb) {
-				System.import('./pages/team/Teams')
+				System.import('./pages/team/Summarization')
+					.then(module => cb(null, module.default))
+			}
+		},
+		{
+			path: 'teams/:team',
+			getComponent(location, cb) {
+				System.import('./pages/team/RoomsList')
 					.then(module => cb(null, module.default))
 			}
 		},
@@ -157,6 +164,13 @@ const componentRoutes = {
 			}
 		},
 		{
+			path: 'organizations/:organization',
+			getComponent(location, cb) {
+				System.import('./pages/team/TeamsList')
+					.then(module => cb(null, module.default))
+			}
+		},
+		{
 			path: 'mprivacy',
 			getComponent(location, cb) {
 				System.import('./pages/general/mPrivacy')
@@ -174,6 +188,13 @@ const componentRoutes = {
 			path: 'msecurity',
 			getComponent(location, cb) {
 				System.import('./pages/general/mSecurity')
+					.then(module => cb(null, module.default))
+			}
+		},
+		{
+			path: 'organizations',
+			getComponent(location, cb) {
+				System.import('./pages/org/OrgsList')
 					.then(module => cb(null, module.default))
 			}
 		},

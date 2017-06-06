@@ -24,8 +24,7 @@ p {
   font-size: 18px; }
 
 a {
-  text-decoration: none !important;
-  color: white; }
+  text-decoration: none !important; }
 
 a:hover {
   cursor: pointer; }
@@ -496,7 +495,6 @@ footer {
   width: 100px;
   height: 100px;
   border: grey solid 2px;
-  border-radius: 5px;
   text-align: center;
   font-size: 70px;
   color: grey; }
@@ -535,6 +533,27 @@ footer {
 
 .overwrite-button:hover {
   background-color: transparent; }
+
+.user-avatar-title {
+  font-weight: bold;
+  padding-bottom: 5px; }
+
+.dz-preview {
+  background-color: white !important;
+  border-radius: 0px !important; }
+
+.dz-file-preview {
+  background-color: white !important;
+  border-radius: 0px !important; }
+
+.dz-details {
+  background-color: white !important; }
+
+.dropzone-previews {
+  border-radius: none; }
+
+.dz-max-files-reached {
+  background-color: blue; }
 
 .country-selector {
   margin-top: 10px; }
@@ -595,14 +614,14 @@ table {
 
 .teamroom-header-login {
   height: auto;
-  background-color: #e6e6e6;
+  background-color: #000;
   margin: 0;
   padding: 0; }
 
 .team-header-icon {
   display: inline-block;
   text-align: center;
-  width: 100px; }
+  width: 80px; }
 
 .team-header-icons-nav {
   text-align: center;
@@ -632,35 +651,19 @@ table {
   color: #3498db;
   cursor: pointer; }
 
-.user-avatar {
-  width: 30px;
-  height: 30px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-  border-radius: 10px;
-  background-color: #3498db;
-  text-align: center;
-  margin-top: 10px; }
-  .user-avatar p {
-    padding-top: 5px;
-    color: white;
-    font-weight: 600;
-    font-size: 16px; }
-
 .teamroom-body-nav {
   width: 100%;
   height: auto;
   border-bottom: 1px solid #f0f0f0; }
 
 .teamroom-body-nav-links {
-  padding: 10px 5px 10px 5px;
-  padding-left: 10%; }
-  .teamroom-body-nav-links .passive {
-    color: grey; }
-  .teamroom-body-nav-links .active {
-    color: black; }
+  padding: 10px 5px 10px 10px; }
+
+.breadcrumb-passive {
+  color: #999 !important; }
+
+.breadcrumb-active {
+  color: #3498db !important; }
 
 .teamroom-body-nav-link {
   display: inline-block;
@@ -669,7 +672,7 @@ table {
 .teamroom-lobby {
   width: 80%;
   position: absolute;
-  top: 95px;
+  top: 96px;
   left: 210px;
   right: 0;
   bottom: 65px;
@@ -724,14 +727,25 @@ table {
 .line-break {
   border-bottom: dashed 1px #e6e6e6; }
 
-.fa-plus-square-o,
-.fa-minus-square-o,
 .fa-star-o,
-.fa-folder,
-.post-time,
+.fa-folder-o,
 .post-start,
 .post-folder {
+  color: #dadada; }
+
+.fa-plus-square-o {
+  color: #ff9000; }
+
+.fa-minus-square-o,
+.post-time {
   color: #999; }
+
+.fa-minus-square-o:hover,
+.fa-plus-square-o:hover,
+.fa-plus-square-o:active,
+.fa-minus-square-o:active {
+  color: #3498db;
+  cursor: pointer; }
 
 .post-header-right {
   float: right;
@@ -765,13 +779,14 @@ table {
   padding-bottom: 0px; }
 
 .post-body-vote {
+  visibility: hidden;
   vertical-align: top;
   text-align: center;
-  width: 5%;
+  width: 3%;
   color: #999; }
 
 .post-content {
-  width: 95%; }
+  width: 97%; }
 
 .clearall {
   padding: 0 !important;
@@ -783,18 +798,64 @@ table {
   margin-top: 10px; }
 
 .post-seperator {
-  padding-top: 20px;
+  padding-top: 5px;
   border-bottom: solid 1px #e6e6e6; }
 
 .teamroom-left-nav {
   width: 200px;
-  height: 100vh;
+  height: calc(100vh - 96px);
   position: absolute;
-  top: 0;
+  top: 500;
   left: 0;
-  z-index: -1;
+  z-index: 5;
   overflow-y: scroll;
-  background-color: #263238; }
+  border: solid 2px #999;
+  border-radius: 10px; }
+
+.fa-circle {
+  font-size: 10px;
+  margin-right: 5px; }
+
+.dot-status-yellow {
+  color: #f39c12; }
+
+.dot-status-green {
+  color: #2ec866; }
+
+.fa-clock-o {
+  font-size: 18px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%); }
+
+.status-avatar-container {
+  width: 40px;
+  height: 40px;
+  position: relative; }
+
+.status-avatar-icon {
+  width: 15px;
+  height: 15px;
+  background-color: #e67e23;
+  position: absolute;
+  border-radius: 50%;
+  right: 0px;
+  top: 0px;
+  text-align: center;
+  z-index: 2; }
+
+.status-avatar-item {
+  display: inline-block; }
+
+.status-avatar-background {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: auto;
+  display: block; }
+
+.status-avatar-container-item {
+  display: inline-block; }
 
 .message-reply {
   max-height: 100px !important;
@@ -811,5 +872,105 @@ table {
 
 .post-sub {
   margin-top: 10px; }
+
+.post-sub-hide {
+  display: none !important; }
+
+.vote-bottom-item {
+  display: inline-block;
+  margin-left: 20px;
+  vertical-align: middle;
+  color: #dadada; }
+
+.user-avatar-container {
+  text-align: center;
+  margin-top: 10px;
+  color: white;
+  margin-bottom: 10px; }
+  .user-avatar-container p {
+    padding-top: 5px;
+    color: white;
+    font-weight: 600;
+    font-size: 16px; }
+  .user-avatar-container img {
+    width: 30px;
+    height: 30px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px; }
+
+.user-avatar-image-text {
+  right: 10px; }
+
+.user-avatar-item {
+  display: inline-block; }
+
+.user-avatar-text {
+  font-size: 14px;
+  margin-left: 10px; }
+
+.user-avatar-image-text {
+  width: 100%; }
+
+.post-avatar-image {
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  text-align: center; }
+
+.post-avatar-text {
+  width: 60px;
+  font-weight: bold;
+  font-size: 14px; }
+
+.post-avatar-item {
+  display: inline-block;
+  margin-right: 20px; }
+
+.member-status-away {
+  margin-top: 5px;
+  margin-left: 10px;
+  color: #999;
+  font-style: italic;
+  font-size: 14px; }
+  .member-status-away img {
+    border-radius: 5px;
+    width: 25px;
+    height: 25px;
+    opacity: 0.4;
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    filter: grayscale(100%); }
+
+.member-status-available {
+  margin-top: 5px;
+  margin-left: 10px;
+  color: black;
+  font-weight: bold;
+  font-size: 14px; }
+  .member-status-available img {
+    border-radius: 5px;
+    width: 25px;
+    height: 25px; }
+
+.member-status-name {
+  margin-left: 5px; }
+
+.teamroom-left-nav-title-status {
+  margin-top: 10px;
+  text-align: center;
+  font-weight: bold; }
+
+.teamroom-member-status-container {
+  height: 80%;
+  overflow: scroll; }
+
+.avatar-button {
+  border-radius: 10px !important;
+  border: none; }
 
 /*# sourceMappingURL=app.css.map */

@@ -2,78 +2,34 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import MessageContainer from './components/MessageContainer';
-import ShortName from './components/ShortName';
+import BreadCrumb from '../../components/BreadCrumb';
 import axios from 'axios';
 import config from '../../config/env';
 import { getPosts } from '../../actions/index';
 import Perf from 'react-addons-perf';
+import LoggedHeader from '../../components/LoggedHeader';
 
 class TeamRoom extends Component {
 
 	render() {
-
-		const user = (ShortName(this.props.user.displayName));
-		// const user="SD"
+		const items=[];
+		items.push({'team rooms':'/teams/:team'});  //TODO: fix this link path so that it can go back to select
+		let obj = {};
+		obj[this.props.room.name] = '#';
+		items.push(obj)
 		return (
 			<div className="row">
-				<div className="row teamroom-header-login">
-					<div className="col-md-1">
-						<Link to="/">
-						{/*	<img className="logo-login" src='/resources/img/logo.png' /> */}
-							<img className="logo-header" src='https://c2.staticflickr.com/4/3955/33078312014_f6f8c759db_o.png' /> 
-						</Link>
-					</div>
-					<div className="col-md-6 col-xs-12 col-md-offset-2 team-header-icons-nav">
-						<div className="team-header-icon">
-							<i className="fa fa-newspaper-o" />
-							<div className="team-header-nav-text">
-								TEAM
-							</div>
-						</div>
-						<div className="team-header-icon">
-							<i className="fa fa-bolt" />
-							<div className="team-header-nav-text"> 
-								CCG
-							</div>
-						</div>
-						<div className="team-header-icon">
-							<i className="fa fa-comments" />
-							<div className="team-header-nav-text">
-								MESSAGING
-							</div>
-						</div>
-						<div className="team-header-icon">
-							<i className="fa fa-calendar-o" />
-							<div className="team-header-nav-text">
-								CALENDAR
-							</div>
-						</div>	
-					</div>
-					<div className="col-md-1 col-md-offset-2 user-avatar-container">
-						<div className="user-avatar">
-							<p>{user}</p>
-						</div>
-					</div>
-				</div>
-				<div className="row teamroom-body-nav">
-					<div className="teamroom-body-nav-links">
-						<Link to="/teams" className="teamroom-body-nav-link passive">TEAM ROOMS</Link>
-						<i className="fa fa-chevron-right teamroom-body-nav-link" />
-						<Link to="/#" className="teamroom-body-nav-link active">{this.props.room.name.toUpperCase()}</Link>
-					</div>
-				</div>
-				<div className="teamroom-left-nav">
-
-				</div>
-				<MessageContainer />
+				<LoggedHeader />
+				<BreadCrumb items={items} />
+				<MessageContainer /> 
+				 {/*since message.connect called at messagecontainer, to use messaging in LeftNav, it should be called after messagecontainer*/}
 
 			</div>
 		);
-
 	}
-	
 } 
 function mapStateToProps(state) {
+	// console.log(state);
 	return {
 		user: state.user.user.user,
 		room: state.room.room

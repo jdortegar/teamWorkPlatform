@@ -1,25 +1,42 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import axios from 'axios';
 import Button from 'react-bootstrap/lib/Button';
 import config from '../../config/env';
 import { Header, Footer, FieldGroup } from '../../components';
-import { selectRoom, teammembers } from '../../actions/index';
+import { selectTeam, teams, rooms } from '../../actions/index';
+import LoggedHeader from '../../components/LoggedHeader';
+import helper from '../../components/Helper';
 
-class Teams extends Component {
+class TeamsList extends Component {
+
+	constructor(props) {
+		super(props);
+		this.teams = [];
+	}
 	
-	selectedRoom(team) {
-		this.props.selectRoom(team);	
+	selectedTeam(team) {
+		this.props.selectTeam(team);
+		helper.getTeamRooms(team)
+		.then(rooms => {
+			this.props.rooms(rooms);
+			// console.log(this.props.rooms);
+		})
+		.catch(error => console.log("This team does not have any chat room"))	
+	}
+
+	componentWillMount() {
+		helper.getTeams(this.props.org)
+		.then(teams => this.props.teams(teams))
+		.catch(error => console.log("This organizations does not have any team"))
 	}
 
 	render() {
 		var user = this.props.user;
-		// var teams = this.props.teams;
-		var rooms = this.props.rooms;
+		var teams = this.props.teamsInOrg;
 		return (
 			<div>
-				<Header user={user.displayName} />
+				<LoggedHeader />
 					<form>
 						<div className="row">
 							<div className="header">
@@ -44,12 +61,14 @@ class Teams extends Component {
 							</div>					
 						</div>
 							{
-								// this.props.teams.map((team,i) => {
-								this.props.rooms.map((team,i) => {
-									// console.log(team);
+								this.props.teamsInOrg.map((team,i) => {
 									return (
-										<div className="col-md-8 col-md-offset-2" key={Math.random()}>
-											<Link to={"/team/teamroom/"+team.name.toLowerCase()} className="col-md-4 blue-link" onClick={() => this.selectedRoom(team)}>{team.name} </Link>
+										<div className="col-md-8 col-md-offset-2" key={i}> {/* organizations have bug with 2 orgs have the same Id */}
+											<Link 
+                                    to={"/teams/"+team.name.toLowerCase()}
+                                    className="col-md-4 blue-link"
+                                    onClick={() => this.selectedTeam(team)}>{team.name}
+                                 </Link>
 										</div>
 									);
 								})
@@ -71,20 +90,9 @@ class Teams extends Component {
 function mapStateToProps(state) {
 	return {
 		user: state.user.user.user,
-		teams: state.teams.teams,
-		rooms: state.rooms.rooms
+		org: state.org.org,
+		teamsInOrg: state.teams.teams
 	}
 }
 
-export default connect(mapStateToProps, {selectRoom})(Teams);
-
- // user={this.props.user.user.displayName}
-
-//  this.props.teams.map((team,i) => {
-// 	return (
-// 		<div className="col-md-8 col-md-offset-2" key={i}>
-// 			<Button onClick={() => {this.chooseTeam(team)}} className="col-md-4">{team.name} </Button>
-// 		</div>
-// 	);
-// })
-
+export default connect(mapStateToProps, {selectTeam, teams, rooms})(TeamsList);

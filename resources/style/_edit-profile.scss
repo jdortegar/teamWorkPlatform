@@ -2,7 +2,7 @@
 	width: 100px;
 	height: 100px;
 	border: grey solid 2px;
-	border-radius: 5px;
+	// border-radius: 5px;
 	text-align: center;
 	font-size: 70px;
 	color: grey;
@@ -55,3 +55,34 @@
 	background-color: rgba(0,0,0,0);
 	
 }
+
+.user-avatar-title {
+	font-weight: bold;
+	padding-bottom: 5px;
+}
+
+.dz-preview {
+	background-color: white !important;
+	border-radius: 0px !important;
+}
+.dz-file-preview {
+	background-color: white !important;
+	border-radius: 0px !important;
+}
+.dz-details {
+	background-color: white !important;
+}
+
+.dropzone-previews {
+	border-radius: none;
+}
+
+.dz-max-files-reached {
+	background-color: blue;
+}
+// .dropimage {
+// 	border-radius: 10px;
+// 	width: 200px;
+// 	height: 100px;
+// 	border: dashed 2px grey;
+// }

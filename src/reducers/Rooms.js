@@ -1,4 +1,5 @@
 export default function(state={rooms: ''}, action) {
+	
   switch (action.type) {
     case 'store-rooms' :
       	return {...state, rooms : action.payload };

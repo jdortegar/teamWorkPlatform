@@ -1,37 +1,119 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes} from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import { Link } from 'react-router';
+import countryList from 'iso-3166-country-list';
 import Checkbox from 'react-bootstrap/lib/Checkbox';
 import { Header, Footer, FieldGroup } from '../../components';
 import { CountryDropdown } from 'react-country-region-selector';
 import TimezonePicker from 'react-bootstrap-timezone-picker';
-
-
+import { connect } from 'react-redux';
+import LoggedHeader from '../../components/LoggedHeader';
+import DropzoneComponent from 'react-dropzone-component';
+import helper from '../../components/Helper';
 
 
 
 class ProfileEdit extends Component {
 
+	static contextTypes = {
+		router: PropTypes.object
+	}
+
 	constructor(props) {
 		super(props);
-		this.state = { country: 'United States', timezone:''};
+		this.state = {};
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.dropzoneConfig = {
+			iconFiletypes: ['.jpg','.png','.gif'],
+			showFiletypeIcon: true,
+			postUrl: 'no-url'
+		}
+		this.djsConfig = { 
+			dictDefaultMessage: 'Drop your avatar image here...',
+			autoProcessQueue: false, 
+			addRemoveLinks: true,
+			maxFilesize: 0.5,   //max filesize = 0.5MB
+			maxFiles: 1,
+			// resize: this.reducesize,
+			dictMaxFilesExceeded: 'Only 1 image is accepted!',
+			dictFileTooBig: 'Max size is 0.5MB',
+			dictCancelUpload: 'Cancel uploading'
+		}
+		// this.handleMaxFileExceeded = this.handleMaxFileExceeded.bind(this);
+		// this.reducesize = this.reducesize.bind(this);
+		// this.myDropzone='';
+
+		this.eventHandlers = {
+			maxfilesexceeded: () => console.log("Hello"),
+			maxfilesreached: () => console.log("hola"),
+
+		}
 	}
 
-	handleChange = (value) => this.setState({timezone: value})
+	handleSubmit (event){
+		event.preventDefault();
+		// console.log(this.state);
+		const names = this.state.fullName.split(' ');
+		this.state["firstName"] = names[0];
+		this.state["lastName"] = names[names.length-1];
+		helper.updateUserProfile(this.state)
+		.then(() => this.context.router.push('/profile-notify'))
+		.catch(error => console.log(error))
+	}
+
+	// handleMaxFileReached() {
+	// 	console.log("Maxfile reached");
+	// }
+
+	// handleMaxFileExceeded() {
+	// 	console.log("Maxfile exceeded");
+	// }
+
+	// reducesize() {
+	// 	console.log();
+	// }
+
+	
+	componentWillMount() {
+		// if (this.props.user == null) this.context.router.push('/signin'); //forward user to login
+		console.log(this.props.user);
+		const { country, displayName, email, timeZone, icon, firstName, lastName, preferences } = this.props.user.user;
+		const fullName = firstName+' '+lastName;
+		this.setState({country, displayName, email, timeZone, icon, firstName, lastName, fullName});
+		helper.setUser(this.props.user);
+	}
+
+	handleChange = (value) => this.setState({timeZone: value})
 
 	selectCountry (val) {
-		this.setState({ country: val });
+		const code = countryList.code(val);
+		this.setState({ country: code });
 	}
 
-	whenSubmit(event) {
+	
 
-	}
+	// initCallback (dropzone) {
+	// 	console.log(dropzone);
+ //    	myDropzone = dropzone;
+	// }
+
+	// removeFile () {
+ //    	if (myDropzone) {
+ //        	myDropzone.removeFile();
+ //    	}
+	// }
+	// whenSubmit(event) {
+
+	// }
+
+	
 
 	render() {
-		const country = this.state.country;
+		
+		
 		return (
 			<div className="container-fluid">
-				<Header />
+				<LoggedHeader />
 				<section>
 
 				<div className="row">
@@ -46,10 +128,11 @@ class ProfileEdit extends Component {
 							</p>
 						</div>
 						<br />
-						<form>
+						<form onSubmit={this.handleSubmit} >
 							<div className="row">
 								<FieldGroup
-
+									value={this.state.fullName}
+									onChange={event => this.setState({fullName: event.target.value})}
 									type="text"
 									placeholder="Robert J.Jones"
 									label="Full Name"
@@ -59,7 +142,8 @@ class ProfileEdit extends Component {
 
 							<div className="row">
 								<FieldGroup
-
+									value={this.state.displayName}
+									onChange={event => this.setState({displayName: event.target.value})}
 									type="text"
 									placeholder="Bob Jones"
 									label="Display Name"
@@ -69,33 +153,21 @@ class ProfileEdit extends Component {
 
 							<div className="row">
 								<FieldGroup
-
+									defaultValue={this.state.email}
+									readOnly
 									type="email"
-									placeholder="bob.jones@corporation.com"
 									label="Email"
 									classn="col-md-12 clearpadding"
 								/>
 							</div>
 
 							<div className="row">
-								<FieldGroup
-
-									type="text"
-									placeholder="Accounting"
-									label="Department"
-									classn="col-md-12 clearpadding"
-								/>
-							</div>
-
-
-
-							<div className="row">
 								<div><label>Timezone</label></div>
 								<TimezonePicker
-									defaultValue="(GMT-08:00) Pacific Time"
+									value={this.state.timeZone}
 									placeholder="Select Timezone..."
 									onChange = {this.handleChange}
-									value= {this.state.timezone}
+					
 									className="col-md-12 clearpadding"
 								/>
 							</div>
@@ -103,14 +175,24 @@ class ProfileEdit extends Component {
 							<div className="row form-group">
 								<div className="country-selector"><label>Country</label></div>
 								<CountryDropdown
-									value={country}
+									value={countryList.name(this.state.country)}
 									onChange={(val) => this.selectCountry(val)}
-
 									defaultOptionLabel="Select Country"
 									classes="form-control col-md-12 clearpadding"
 								/>
 							</div>
 							<br />
+
+							<div className="avatar-dropzone-container clearpadding">
+								<div className="user-avatar-title">User Avatar</div>
+								<DropzoneComponent config={this.dropzoneConfig}
+													djsConfig={this.djsConfig}
+													eventHandlers={this.eventHandlers}
+								/>
+							</div>
+
+
+							{/*
 							<div>
 								<div className="preview-image">
 									<i className="fa fa-user" />
@@ -124,24 +206,25 @@ class ProfileEdit extends Component {
 									 >Upload</button>
 								</span>
 							</div>
-
+							*/}
 
 	 						<br />
 							<div className="row">
-								<Link to="/profile-notify">
+								
 									<Button
 										type="submit"
+										onClick={() => this.handleSubmit}
 										bsStyle="primary"
 										className="col-md-12" >
 											UPDATE PROFILE
 									</Button>
-								</Link>
+								
 							</div>
 							<br />
 							<div className="row">
 								<Link to="/org-profile">
 									<Button
-										type="submit"
+										
 										className="col-md-12" >
 											MANAGE YOUR ORGS
 									</Button>
@@ -156,5 +239,11 @@ class ProfileEdit extends Component {
 		);
 	}
 }
+function mapStateToProps(state) {
+	if (state.user.user != null)
+	return {
+		user: state.user.user
+	}
+}
 
-export default ProfileEdit;
+export default connect(mapStateToProps,null)(ProfileEdit);

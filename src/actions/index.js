@@ -32,8 +32,8 @@ export const submitEmail = (email) => {
 */
 
 export const submitEmail = (email) => {
-	return (dispatch) => {
-		axios({
+	
+	const request=axios({
 			method: 'post',
 			url: url,
 			body: {
@@ -43,11 +43,12 @@ export const submitEmail = (email) => {
 				email:email
 			}
 		})
-		.then(request => {
+	return (dispatch) => {
+		request.then(({data}) => {
 			dispatch({
 				type: 'submitEmail',
-				payload: request
-			})
+				payload: data
+			});
 		})
 	}
 };
@@ -59,6 +60,22 @@ export const user = (user) => {
 	}
 };
 
+
+
+export const orgs = (orgs) => {
+	return {
+		type: 'store-orgs',
+		payload: orgs
+	}
+};
+
+export const selectTeam = (team) => {
+	return {
+		type: 'store-team',
+		payload: team
+	}
+}
+
 export const teams = (teams) => {
 	return {
 		type: 'store-teams',
@@ -67,6 +84,7 @@ export const teams = (teams) => {
 }
 
 export const rooms = (rooms) => {
+	// console.log(rooms);
 	return {
 		type: 'store-rooms',
 		payload: rooms
@@ -75,9 +93,15 @@ export const rooms = (rooms) => {
 
 export const selectRoom = (room) => {
 	return {
-
 		type: 'get-room',
 		payload: room
+	}
+}
+
+export const inviteTeamMembers = (team) => {
+	return {
+		type: 'invite-team-members',
+		payload: team
 	}
 }
 
@@ -88,48 +112,18 @@ export const teammembers = (room) => { //use axios to get member, this is for du
 	}
 }
 
-
-export const getPosts = (posts) => {
+export const saveMembersTeamRoom = (members) => {
 	return {
-		type: 'store-posts',
-		payload: posts
+		type: 'save-members-teamroom',
+		payload: members
 	}
 }
 
-export const sendMessage = (roomId, token, text, replyTo) => {
-	return (dispatch) => {
-		let urlConversation = `${config.hablaApiBaseUri}/conversations/getConversations?teamRoomId=${roomId}`;
-		axios.get(urlConversation, { headers : { Authorization: token}})
-   		//Get teamroom success
-		.then(response => {
-			if (response.status == 200) {
-				// conversations = [ {conversationId:"dfsdf", participants: [{country:"US", displayName: "Rob", icon: null, lastName: "Abbott", preferences : {}, timeZone: "America/Los_Angeles", userId: "sdfsdfds"},{},{}] },{...}]
-				let conId = response.data.conversations[0].conversationId;
-				let urlSend = `${config.hablaApiBaseUri}/conversations/${conId}/createMessage`;
-	         let body;
-	         if (replyTo) {
-	            body = { messageType: "text", text, replyTo };
-	         }
-	         else {
-	            body = { messageType: "text", text };
-	         }
-	         const headers = {
-	            content_type: 'application/json',
-	            Authorization: token
-	         };
-
-	         axios.post(urlSend, body, { headers })
-	         .then( (response) => {
-	            // console.log(response.data.message);
-	            // message = response.data.message;
-	            dispatch({
-	            	type: 'send-message',
-					payload: response
-	            })
-	          })  
-	         // .catch(error => console.log(error))
-	   		}
-	 	})
-		// .catch(error => console.log(error))
+export const selectOrg = (org) => {
+	return {
+		type: 'store-org',
+		payload: org
 	}
 }
+
+

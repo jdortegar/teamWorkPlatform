@@ -122,7 +122,7 @@ export class Messaging {
             if (this.verbose) {
                console.log(`\n\t\t\tMessaging connect_error: ${JSON.stringify(err)}  [${new Date()}]`);
             }
-            this.notifyOnlineOfflineListener(false);
+            this._notifyOnlineOfflineListener(false);
          });
          this.socket.on('reconnect_error', (err) => {
             if (this.verbose) {
@@ -199,10 +199,7 @@ export class Messaging {
                      console.log(`\n\t\t\tMessaging authenticated.  [${new Date()}]`);
                   }
 
-
-                  if (this.onlineOfflineListener) {
-                     this.onlineOfflineListener(true);
-                  }
+                  this._notifyOnlineOfflineListener(true);
                   resolve();
                });
             }

@@ -26,13 +26,13 @@ class OrgProfile extends Component {
 				<div className="row">
 					<div className="col-md-4 col-md-offset-4 ">
 						<div className="header">
-							<h1> Your Orgs </h1>
+							<h1> Your Organizations </h1>
 						</div>
 						<div className="clearpadding">
 
 							<p className="normal-size clearpadding">
 								Within the Hablasphere everything is organized. {'\n'}
-								Here is a list of Orgs you are currently the admin for
+								Here is a list of Organizations you are currently the admin for
 							</p>
 						</div>
 						<br />
@@ -49,15 +49,15 @@ class OrgProfile extends Component {
 							<div className="clearpadding">
 								<hr />
 								<div className="selected">
-									BobJones_Org
+									BobJones_Organization
 								</div>
 								<hr />
 								<div>
-									Cathode_Ray_Org
+									Cathode_Ray_Organization
 								</div>
 								<hr />
 								<div>
-									Osboume_Computing_Org
+									Osboume_Computing_Organization
 								</div>
 
 							</div>
@@ -70,7 +70,7 @@ class OrgProfile extends Component {
 										type="submit"
 										bsStyle="primary"
 										className="col-md-12" >
-											SWITCH ORG
+											SWITCH ORGANIZATION
 									</Button>
 								</Link>
 							</div>
@@ -93,7 +93,7 @@ class OrgProfile extends Component {
 									<Button
 										type="submit"
 										className="col-md-12" >
-											EDIT ORG PROFILE
+											EDIT ORGANIZATION PROFILE
 									</Button>
 								</Link>
 							</div>
