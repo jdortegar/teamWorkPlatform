@@ -11,11 +11,8 @@ resources/style/*.scss
 resources/style/app.css.map
 resources/img/
 
-<<<<<<< HEAD
-.sh
-=======
 *.sh
->>>>>>> teamroom
+
 
 # IDE
 .idea
