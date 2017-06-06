@@ -37,7 +37,7 @@ class MessageContainer extends Component {
 		helper.getTeamRoomMembers(teamRoomId)
 		.then(result => {
 			this.members = result;
-			this.members.map(member => {
+			this.members.forEach(member => {
 		    	const key = member.userId;
 		    	if (key == this.props.user.user.userId) this.state[key] = "member-status-available";
 		    	else this.state[key] = "member-status-away";
@@ -75,7 +75,7 @@ class MessageContainer extends Component {
 	addRealTimeThreaded(family,node) {
 		//<Post >  ...: key, props : { children : [], color, content, id, level, shortname, time}
 		//this method traverse the tree of Post to find parent of "node" in "family"
-		family.map(parent => {
+		family.forEach(parent => {
 			if (node.replyTo == parent.props.id) {
 				var shortname = helper.getShortName(helper.getMemberName(this.members,node.createdBy));
 				parent.props.children.push(
@@ -187,7 +187,7 @@ class MessageContainer extends Component {
   				var depth = 0;
   				var clone = message;
   				while (clone.hasOwnProperty("replyTo")) {
-  					messages.map( m => {
+  					messages.forEach( m => {
   						if (clone.replyTo == m.messageId) { 
   							clone = m;
   							depth = depth+1;
@@ -198,8 +198,8 @@ class MessageContainer extends Component {
   				message["depth"] = depth;
   			}
   		}
-		messages.map(message => {
-			this.members.map(member => {
+		messages.forEach(message => {
+			this.members.forEach(member => {
 				
 				if (message.createdBy == member.userId) {
 					message["from"] = helper.getShortName(member.displayName);
@@ -245,9 +245,9 @@ class MessageContainer extends Component {
 	}
 
 	displayAllPosts() {		
-		this.rawMessages.map((post) =>  {
+		this.rawMessages.forEach((post) =>  {
 			if (post.hasOwnProperty('replyTo')) {
-				this.rawMessages.map((parent) => {	
+				this.rawMessages.forEach((parent) => {	
 					if (parent.messageId == post["replyTo"]) {
 						parent.child.push(
 							<Post
@@ -297,7 +297,7 @@ class MessageContainer extends Component {
 					</div>
 					<div className="teamroom-member-status-container">
 			      	{
-			        	this.members.map(member => {
+			        	this.members.forEach(member => {
 			        		const icon = member.icon == null ? helper.getShortName(member.displayName): "data:image/jpg;base64," + member.icon;
 			          		const key = member.userId;
 			          		const dot = this.state[key] == "member-status-away" ? "fa fa-circle dot-status-yellow" : "fa fa-circle dot-status-green";
