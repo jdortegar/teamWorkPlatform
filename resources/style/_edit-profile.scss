@@ -2,7 +2,7 @@
 	width: 100px;
 	height: 100px;
 	border: grey solid 2px;
-	// border-radius: 5px;
+	border-radius: 5px;
 	text-align: center;
 	font-size: 70px;
 	color: grey;
@@ -75,6 +75,13 @@
 
 .dropzone-previews {
 	border-radius: none;
+}
+
+.user-avatar-preview {
+	width: 100px;
+	height: 100px;
+	border: grey solid 2px;
+	border-radius: 5px;
 }
 
 .dz-max-files-reached {
