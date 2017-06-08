@@ -198,6 +198,14 @@ const componentRoutes = {
 					.then(module => cb(null, module.default))
 			}
 		},
+		{
+			path: 'testing',
+			getComponent(location, cb) {
+				System.import('../vendors/ReactDropZoneComponent')
+					.then(module => cb(null, module.default))
+			}
+		},
+
 
 	]
 }
