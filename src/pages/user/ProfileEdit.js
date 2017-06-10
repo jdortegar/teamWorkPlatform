@@ -10,6 +10,9 @@ import { connect } from 'react-redux';
 import LoggedHeader from '../../components/LoggedHeader';
 import DropzoneComponent from 'react-dropzone-component';
 import helper from '../../components/Helper';
+import FileReaderInput from 'react-file-reader-input';
+// import base64 from 'base-64';
+// import utf8 from 'utf8';
 
 
 
@@ -21,7 +24,7 @@ class ProfileEdit extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {image: ''};
+		this.state = {image: "data:image/jpg;base64," + this.props.user.user.icon, file:''};
 		this.handleSubmit = this.handleSubmit.bind(this);
 		// this.dropzoneConfig = {
 		// 	iconFiletypes: ['.jpg','.png','.gif'],
@@ -90,26 +93,27 @@ class ProfileEdit extends Component {
 		this.setState({ country: code });
 	}
 
-	uploadImage (event) {
+	handleImageChanged (event, results) {
+		const file = results[0][0];
+		const info = results[0][1];
+		const base64 = btoa(file.target.result);
+		const encoded = 'data:image/jpeg;base64,'+ base64;
+		this.props.user.user.icon = base64;
+		this.setState({image: encoded, icon: base64});
+
+		
+	}
+
+	handleUpload (event) {
 		event.preventDefault();
-		console.log(event);
-		let reader = new FileReader();
-		let image = event.target.files[0];
-		reader.onloadend = () => {
-			this.setState({image});
-			console.log(image);
-			console.log(reader.result);
-			this.props.user.user.icon = reader.result;
-		}
 	}
 
 	render() {
 		let imageProfile = null;
 		if (this.props.user.user.icon == null) 
-			imageProfile = (<div className="preview-image"><i className="fa fa-user" /></div>)
+			imageProfile = (<div className="preview-image" style={{backgroundColor: this.props.user.user.preferences.iconColor, color:"white", fontSize: "70px"}}>{ helper.getShortName(this.props.user.user.displayName) }</div>)
 		else {
-			const src = "data:image/jpg;base64," + this.props.user.user.icon;
-			imageProfile = (<div><img src={src} className="user-avatar-preview clearpadding" /></div>);
+			imageProfile = (<div><img src={this.state.image} className="user-avatar-preview clearpadding" /></div>);
 		}
 		
 		return (
@@ -190,16 +194,23 @@ class ProfileEdit extends Component {
 									{ imageProfile }
 								
 								<br />
-								<div><input className="file-input"
-									type="file"
-									 />
+								<div>
+									<FileReaderInput
+										as="binary"
+										className="file-input"
+										onChange={(event, result) => this.handleImageChanged(event,result)}
+									 >
 
-								<button 
-									className="btn btn-large"
-									type="button"
-									onChange={(e) => this.uploadImage(e)}
-								>Upload
-								</button>
+									 	<button 
+											className="btn btn-large"
+											type="button"
+											
+										>
+											Select your image
+										</button>
+									 </FileReaderInput>
+
+								
 								</div>
 							</div>
 						
