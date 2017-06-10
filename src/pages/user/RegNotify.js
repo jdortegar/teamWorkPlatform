@@ -1,6 +1,6 @@
 import React from 'react';
 import HeaderNavbar from '../homepage/components/header_navbar';
-import { Header, Footer } from '../../components';
+import { Footer } from '../../components';
 
 
 const RegNotify = () => {

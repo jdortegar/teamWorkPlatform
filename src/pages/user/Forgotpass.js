@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import { Link } from 'react-router';
-import { Header, Footer, FieldGroup } from '../../components';
+import { Footer, FieldGroup } from '../../components';
 import HeaderNavbar from '../homepage/components/header_navbar';
 
 

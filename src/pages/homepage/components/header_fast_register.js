@@ -2,8 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
-//This should be in Class module when we have a 
-//transfer state for Create Team
+
 const HeaderFastRegister = () => {
 	return (
 		<div className="fast-register">

@@ -3,18 +3,13 @@ import Button from 'react-bootstrap/lib/Button';
 import { Link } from 'react-router';
 import countryList from 'iso-3166-country-list';
 import Checkbox from 'react-bootstrap/lib/Checkbox';
-import { Header, Footer, FieldGroup } from '../../components';
+import {Footer, FieldGroup } from '../../components';
 import { CountryDropdown } from 'react-country-region-selector';
 import TimezonePicker from 'react-bootstrap-timezone-picker';
 import { connect } from 'react-redux';
 import LoggedHeader from '../../components/LoggedHeader';
-import DropzoneComponent from 'react-dropzone-component';
 import helper from '../../components/Helper';
 import FileReaderInput from 'react-file-reader-input';
-// import base64 from 'base-64';
-// import utf8 from 'utf8';
-
-
 
 class ProfileEdit extends Component {
 
@@ -26,36 +21,10 @@ class ProfileEdit extends Component {
 		super(props);
 		this.state = {image: "data:image/jpg;base64," + this.props.user.user.icon, file:'', notification: '', notification_color: "black"};
 		this.handleSubmit = this.handleSubmit.bind(this);
-		// this.dropzoneConfig = {
-		// 	iconFiletypes: ['.jpg','.png','.gif'],
-		// 	showFiletypeIcon: true,
-		// 	postUrl: 'no-url'
-		// }
-		// this.djsConfig = { 
-		// 	dictDefaultMessage: 'Drop your avatar image here...',
-		// 	autoProcessQueue: false, 
-		// 	addRemoveLinks: true,
-		// 	maxFilesize: 0.5,   //max filesize = 0.5MB
-		// 	maxFiles: 1,
-		// 	// resize: this.reducesize,
-		// 	dictMaxFilesExceeded: 'Only 1 image is accepted!',
-		// 	dictFileTooBig: 'Max size is 0.5MB',
-		// 	dictCancelUpload: 'Cancel uploading'
-		// }
-		// // this.handleMaxFileExceeded = this.handleMaxFileExceeded.bind(this);
-		// // this.reducesize = this.reducesize.bind(this);
-		// // this.myDropzone='';
-
-		// this.eventHandlers = {
-		// 	maxfilesexceeded: () => console.log("Hello"),
-		// 	maxfilesreached: () => console.log("hola"),
-
-		// }
 	}
 
 	handleSubmit (event){
 		event.preventDefault();
-		// console.log(this.state);
 		const names = this.state.fullName.split(' ');
 		this.state["firstName"] = names[0];
 		this.state["lastName"] = names[names.length-1];
@@ -63,23 +32,8 @@ class ProfileEdit extends Component {
 		.then(() => this.context.router.push('/profile-notify'))
 		.catch(error => console.log(error))
 	}
-
-	// handleMaxFileReached() {
-	// 	console.log("Maxfile reached");
-	// }
-
-	// handleMaxFileExceeded() {
-	// 	console.log("Maxfile exceeded");
-	// }
-
-	// reducesize() {
-	// 	console.log();
-	// }
-
 	
 	componentWillMount() {
-		// if (this.props.user == null) this.context.router.push('/signin'); //forward user to login
-		// console.log(this.props.user);
 		const { country, displayName, email, timeZone, icon, firstName, lastName, preferences } = this.props.user.user;
 		const fullName = firstName+' '+lastName;
 		this.setState({country, displayName, email, timeZone, icon, firstName, lastName, fullName});
@@ -99,8 +53,10 @@ class ProfileEdit extends Component {
 		const imageType = ["image/jpeg", "image/png", "image/jpg"];
 		const te = imageType.some( a => a==info.type);
 		
-		if (!imageType.some(type => type===info.type)) this.setState({notification: "Only .jpeg .jpg .png can be uploaded", notification_color: "red"});
-		else if (info.size > 50000) this.setState({notification: "Image size :"+info.size+" bytes. The maximum size for image is 50KB", notification_color: "red"});
+		if (!imageType.some(type => type===info.type)) 
+			this.setState({notification: "Only .jpeg .jpg .png can be uploaded", notification_color: "red"});
+		else if (info.size > 50000) 
+			this.setState({notification: "Image size :"+info.size+" bytes. The maximum size for image is 50KB", notification_color: "red"});
 		else {
 			const base64 = btoa(file.target.result);
 			const encoded = 'data:image/jpeg;base64,'+ base64;
@@ -109,16 +65,18 @@ class ProfileEdit extends Component {
 		}
 	}
 
-	handleUpload (event) {
-		event.preventDefault();
-	}
-
 	render() {
 		let imageProfile = null;
 		if (this.props.user.user.icon == null) 
-			imageProfile = (<div className="preview-image" style={{backgroundColor: this.props.user.user.preferences.iconColor, color:"white", fontSize: "70px"}}>{ helper.getShortName(this.props.user.user.displayName) }</div>)
+			imageProfile = (<div 
+								className="preview-image" 
+								style={{backgroundColor: this.props.user.user.preferences.iconColor, color:"white", fontSize: "70px"}}>
+									{ helper.getShortName(this.props.user.user.displayName) }
+							</div>)
 		else {
-			imageProfile = (<div><img src={this.state.image} className="user-avatar-preview clearpadding" /></div>);
+			imageProfile = (<div>
+								<img src={this.state.image} className="user-avatar-preview clearpadding" />
+							</div>);
 		}
 		
 		return (
@@ -132,7 +90,6 @@ class ProfileEdit extends Component {
 							<h1> Your Profile </h1>
 						</div>
 						<div className="clearpadding">
-
 							<p className="normal-size clearpadding">
 								Your profile is viewable by members of your team
 							</p>
@@ -149,7 +106,6 @@ class ProfileEdit extends Component {
 									classn="col-md-12 clearpadding"
 								/>
 							</div>
-
 							<div className="row">
 								<FieldGroup
 									value={this.state.displayName}
@@ -160,7 +116,6 @@ class ProfileEdit extends Component {
 									classn="col-md-12 clearpadding"
 								/>
 							</div>
-
 							<div className="row">
 								<FieldGroup
 									defaultValue={this.state.email}
@@ -181,7 +136,6 @@ class ProfileEdit extends Component {
 									className="col-md-12 clearpadding"
 								/>
 							</div>
-
 							<div className="row form-group">
 								<div className="country-selector"><label>Country</label></div>
 								<CountryDropdown
@@ -192,12 +146,9 @@ class ProfileEdit extends Component {
 								/>
 							</div>
 							<br />
-
 							<div>
-								<div className="user-avatar-title">User Avatar</div>
-								
+								<div className="user-avatar-title">User Avatar</div>						
 									{ imageProfile }
-								
 								<br />
 								<div>
 									<FileReaderInput
@@ -205,7 +156,6 @@ class ProfileEdit extends Component {
 										className="file-input"
 										onChange={(event, result) => this.handleImageChanged(event,result)}
 									 >
-
 									 	<button 
 											className="btn btn-large"
 											type="button"
@@ -219,25 +169,20 @@ class ProfileEdit extends Component {
 									</div>
 								</div>
 							</div>
-						
-
 	 						<br />
 							<div className="row">
-								
-									<Button
-										type="submit"
-										onClick={() => this.handleSubmit}
-										bsStyle="primary"
-										className="col-md-12" >
-											UPDATE PROFILE
-									</Button>
-								
+								<Button
+									type="submit"
+									onClick={() => this.handleSubmit}
+									bsStyle="primary"
+									className="col-md-12" >
+										UPDATE PROFILE
+								</Button>
 							</div>
 							<br />
 							<div className="row">
 								<Link to="/org-profile">
-									<Button
-										
+									<Button						
 										className="col-md-12" >
 											MANAGE YOUR ORGS
 									</Button>

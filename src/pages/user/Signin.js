@@ -4,12 +4,9 @@ import { connect } from 'react-redux';
 import Button from 'react-bootstrap/lib/Button';
 import { Link } from 'react-router';
 import axios from 'axios';
-import config from '../../config/env';
-import { Header, Footer, FieldGroup } from '../../components';
+import { Footer, FieldGroup } from '../../components';
 import { user, organization, orgs, teams, rooms } from '../../actions/index';
 import HeaderNavbar from '../homepage/components/header_navbar';
-// import messaging from '../../actions/messaging';
-import example from '../../actions/example';
 import helper from '../../components/Helper';
 
 class SignIn extends Component {
@@ -63,7 +60,6 @@ class SignIn extends Component {
 
 			helper.getOrgs()
 			.then(orgs => {
-				// console.log(orgs);
 				this.storeOrgs(orgs);
 				this.context.router.push('/organizations');
             	// this.storeOrganization(orgs[0]);
@@ -124,13 +120,11 @@ class SignIn extends Component {
 									type="password"
 									placeholder="password"
 									help=""
-									classn="col-md-12 clearpadding"
-									
+									classn="col-md-12 clearpadding"						
 								/>
 							</div>
 							<br />
 							<div className="row">
-
 									<Button
 										bsStyle="primary"
 										type="submit"
@@ -156,7 +150,6 @@ class SignIn extends Component {
 }
 
 function mapStateToProps(state) {
-	// console.log(state);
 	return {
 		active_user: state.user.user
 	};

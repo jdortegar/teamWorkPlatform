@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import axios from 'axios';
 import Button from 'react-bootstrap/lib/Button';
 import config from '../../config/env';
-import { Header, Footer, FieldGroup } from '../../components';
+import { Footer, FieldGroup } from '../../components';
 import { selectRoom, selectTeam, rooms } from '../../actions/index';
 import LoggedHeader from '../../components/LoggedHeader';
 import helper from '../../components/Helper';
@@ -30,9 +30,7 @@ class RoomsList extends Component {
 		this.props.selectRoom(room);	
 	}
 
-
 	render() {
-
 		return (
 			<div>
 				<LoggedHeader />
@@ -72,10 +70,7 @@ class RoomsList extends Component {
                                  </Link>
 										</div>
 									);
-								})
-								
-
-								
+								})								
 							}
 
 							<div className="fill-vertical"></div>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Button from 'react-bootstrap/lib/Button';
 import config from '../../config/env';
-import { Header, Footer, FieldGroup } from '../../components';
+import { Footer, FieldGroup } from '../../components';
 import { selectTeam, teams, rooms } from '../../actions/index';
 import LoggedHeader from '../../components/LoggedHeader';
 import helper from '../../components/Helper';
@@ -20,7 +20,6 @@ class TeamsList extends Component {
 		helper.getTeamRooms(team)
 		.then(rooms => {
 			this.props.rooms(rooms);
-			// console.log(this.props.rooms);
 		})
 		.catch(error => console.log("This team does not have any chat room"))	
 	}
@@ -73,10 +72,8 @@ class TeamsList extends Component {
 									);
 								})
 							}
-
 							<div className="fill-vertical"></div>
 							<div className="fill-vertical"></div>
-
 						</div>
 					</form>
 

@@ -15,8 +15,6 @@ const BreadCrumb = ({items}) => {  //items is array of objects [{ term : link },
 	 	else subs.push(<Breadcrumb.Item href={value} key={i} className="teamroom-body-nav-link"><span className="breadcrumb-passive">{k.toUpperCase()}</span></Breadcrumb.Item>)
 
 	 })
-
-		
 	
 	return (
 		<div className="row teamroom-body-nav">

@@ -1,12 +1,12 @@
 import React from 'react';
-import HeaderLogo from './header_logo.js';
+import HeaderNavbar from './header_navbar.js'
 import HeaderSlogan from './header_slogan.js';
 
 
 const Header = () => {
 	return (
 		<header>
-			<HeaderLogo />
+			<HeaderNavbar />
 			<HeaderSlogan />
 		</header>
 	);

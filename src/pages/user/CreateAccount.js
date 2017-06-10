@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import { Link } from 'react-router';
 import Checkbox from 'react-bootstrap/lib/Checkbox';
-import { Header, Footer, FieldGroup } from '../../components';
+import { Footer, FieldGroup } from '../../components';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import axios from 'axios';
 import countryList from 'iso-3166-country-list';
