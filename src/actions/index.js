@@ -1,56 +1,11 @@
 import axios from 'axios';
 import config from '../config/env';
 
-const url = `${config.hablaApiBaseUri}/users/registerUser`;
-const url_type = 'application/x-www-form-urlencoded';
-
 export const email_changed = (input) => {
 	return {
 		type: 'email_changed',
 		payload: input
 	};
-};
-
-/*
-export const submitEmail = (email) => {
-	const request = axios({
-		method: 'post',
-		url: url,
-		body: {
-			'content-type': url_type
-		},
-		data: {
-			email:email
-		}
-	});
-
-	return {
-		type: 'submitEmail',
-		payload: request
-	}
-};
-*/
-
-export const submitEmail = (email) => {
-	
-	const request=axios({
-			method: 'post',
-			url: url,
-			body: {
-				'content-type': url_type
-			},
-			data: {
-				email:email
-			}
-		})
-	return (dispatch) => {
-		request.then(({data}) => {
-			dispatch({
-				type: 'submitEmail',
-				payload: data
-			});
-		})
-	}
 };
 
 export const user = (user) => {
@@ -59,8 +14,6 @@ export const user = (user) => {
 		payload: user
 	}
 };
-
-
 
 export const orgs = (orgs) => {
 	return {
@@ -84,7 +37,6 @@ export const teams = (teams) => {
 }
 
 export const rooms = (rooms) => {
-	// console.log(rooms);
 	return {
 		type: 'store-rooms',
 		payload: rooms
@@ -101,13 +53,6 @@ export const selectRoom = (room) => {
 export const inviteTeamMembers = (team) => {
 	return {
 		type: 'invite-team-members',
-		payload: team
-	}
-}
-
-export const teammembers = (room) => { //use axios to get member, this is for dummy data
-	return {
-		type: 'get-members',
 		payload: team
 	}
 }

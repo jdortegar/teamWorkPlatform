@@ -101,13 +101,6 @@ const componentRoutes = {
 			}
 		},
 		{
-			path: 'team/createTeamRoom',
-			getComponent(location, cb) {
-				System.import('./pages/team/CreateTeamRoom')
-					.then(module => cb(null, module.default))
-			}
-		},
-		{
 			path: 'pricing',
 			getComponent(location, cb) {
 				System.import('./pages/general/Pricing')
@@ -198,13 +191,7 @@ const componentRoutes = {
 					.then(module => cb(null, module.default))
 			}
 		},
-		{
-			path: 'testing',
-			getComponent(location, cb) {
-				System.import('../vendors/ReactDropZoneComponent')
-					.then(module => cb(null, module.default))
-			}
-		},
+	
 
 
 	]

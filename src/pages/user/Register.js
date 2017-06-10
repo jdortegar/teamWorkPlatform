@@ -4,12 +4,10 @@ import { Link } from 'react-router';
 import axios from 'axios';
 import { reduxForm } from 'redux-form';
 import { Checkbox, Button } from 'react-bootstrap/lib';
-import { Header, Footer, FieldGroup } from '../../components';
+import { Footer, FieldGroup } from '../../components';
 import { email_changed} from '../../actions/index';
 import HeaderNavbar from '../homepage/components/header_navbar';
 import helper from '../../components/Helper';
-
-
 
 class Register extends Component {
 
@@ -32,7 +30,6 @@ class Register extends Component {
 		this.props.email_changed(input)
 	}
 	render() {
-		// const { fields: emailcheck, handleSubmit } = this.props;
 		return (
 			<div className="container-fluid">
 				<HeaderNavbar />

@@ -11,7 +11,6 @@ class LogedHeader extends Component {
 	}
 	componentWillMount() {
 		if (this.props.user == null) this.context.router.push('/signin');
-		// console.log(this.props.user);
 	}
 
 	render() {
@@ -21,7 +20,6 @@ class LogedHeader extends Component {
 				<div className="row teamroom-header-login">
 					<div className="col-md-3">
 						<Link to="/">
-						{/*	<img className="logo-login" src='/resources/img/logo.png' /> */}
 							<img className="logo-header" src='https://c2.staticflickr.com/4/3955/33078312014_f6f8c759db_o.png' /> 
 						</Link>
 					</div>

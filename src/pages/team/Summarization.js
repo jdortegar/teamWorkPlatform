@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import axios from 'axios';
 import Button from 'react-bootstrap/lib/Button';
 import config from '../../config/env';
-import { Header, Footer, FieldGroup } from '../../components';
+import { Footer, FieldGroup } from '../../components';
 import { selectTeam, teammembers } from '../../actions/index';
 import LoggedHeader from '../../components/LoggedHeader';
 import helper from '../../components/Helper';

@@ -4,10 +4,6 @@ import { Link } from 'react-router';
 import { Footer, FieldGroup } from '../../components';
 import LoggedHeader from '../../components/LoggedHeader';
 
-
-
-
-
 class ProfileNotify extends Component {
 
 	constructor(props) {
@@ -17,8 +13,6 @@ class ProfileNotify extends Component {
 
 	handleChange(term) {
 		this.setState({term});
-
-		// Todo: Implement Autocomplete function
 	}
 
 	render() {
