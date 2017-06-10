@@ -10,6 +10,9 @@ import { connect } from 'react-redux';
 import LoggedHeader from '../../components/LoggedHeader';
 import DropzoneComponent from 'react-dropzone-component';
 import helper from '../../components/Helper';
+import FileReaderInput from 'react-file-reader-input';
+// import base64 from 'base-64';
+// import utf8 from 'utf8';
 
 
 
@@ -21,33 +24,33 @@ class ProfileEdit extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {image: "data:image/jpg;base64," + this.props.user.user.icon, file:''};
 		this.handleSubmit = this.handleSubmit.bind(this);
-		this.dropzoneConfig = {
-			iconFiletypes: ['.jpg','.png','.gif'],
-			showFiletypeIcon: true,
-			postUrl: 'no-url'
-		}
-		this.djsConfig = { 
-			dictDefaultMessage: 'Drop your avatar image here...',
-			autoProcessQueue: false, 
-			addRemoveLinks: true,
-			maxFilesize: 0.5,   //max filesize = 0.5MB
-			maxFiles: 1,
-			// resize: this.reducesize,
-			dictMaxFilesExceeded: 'Only 1 image is accepted!',
-			dictFileTooBig: 'Max size is 0.5MB',
-			dictCancelUpload: 'Cancel uploading'
-		}
-		// this.handleMaxFileExceeded = this.handleMaxFileExceeded.bind(this);
-		// this.reducesize = this.reducesize.bind(this);
-		// this.myDropzone='';
+		// this.dropzoneConfig = {
+		// 	iconFiletypes: ['.jpg','.png','.gif'],
+		// 	showFiletypeIcon: true,
+		// 	postUrl: 'no-url'
+		// }
+		// this.djsConfig = { 
+		// 	dictDefaultMessage: 'Drop your avatar image here...',
+		// 	autoProcessQueue: false, 
+		// 	addRemoveLinks: true,
+		// 	maxFilesize: 0.5,   //max filesize = 0.5MB
+		// 	maxFiles: 1,
+		// 	// resize: this.reducesize,
+		// 	dictMaxFilesExceeded: 'Only 1 image is accepted!',
+		// 	dictFileTooBig: 'Max size is 0.5MB',
+		// 	dictCancelUpload: 'Cancel uploading'
+		// }
+		// // this.handleMaxFileExceeded = this.handleMaxFileExceeded.bind(this);
+		// // this.reducesize = this.reducesize.bind(this);
+		// // this.myDropzone='';
 
-		this.eventHandlers = {
-			maxfilesexceeded: () => console.log("Hello"),
-			maxfilesreached: () => console.log("hola"),
+		// this.eventHandlers = {
+		// 	maxfilesexceeded: () => console.log("Hello"),
+		// 	maxfilesreached: () => console.log("hola"),
 
-		}
+		// }
 	}
 
 	handleSubmit (event){
@@ -76,7 +79,7 @@ class ProfileEdit extends Component {
 	
 	componentWillMount() {
 		// if (this.props.user == null) this.context.router.push('/signin'); //forward user to login
-		console.log(this.props.user);
+		// console.log(this.props.user);
 		const { country, displayName, email, timeZone, icon, firstName, lastName, preferences } = this.props.user.user;
 		const fullName = firstName+' '+lastName;
 		this.setState({country, displayName, email, timeZone, icon, firstName, lastName, fullName});
@@ -90,26 +93,28 @@ class ProfileEdit extends Component {
 		this.setState({ country: code });
 	}
 
-	
+	handleImageChanged (event, results) {
+		const file = results[0][0];
+		const info = results[0][1];
+		const base64 = btoa(file.target.result);
+		const encoded = 'data:image/jpeg;base64,'+ base64;
+		this.props.user.user.icon = base64;
+		this.setState({image: encoded, icon: base64});
 
-	// initCallback (dropzone) {
-	// 	console.log(dropzone);
- //    	myDropzone = dropzone;
-	// }
+		
+	}
 
-	// removeFile () {
- //    	if (myDropzone) {
- //        	myDropzone.removeFile();
- //    	}
-	// }
-	// whenSubmit(event) {
-
-	// }
-
-	
+	handleUpload (event) {
+		event.preventDefault();
+	}
 
 	render() {
-		
+		let imageProfile = null;
+		if (this.props.user.user.icon == null) 
+			imageProfile = (<div className="preview-image" style={{backgroundColor: this.props.user.user.preferences.iconColor, color:"white", fontSize: "70px"}}>{ helper.getShortName(this.props.user.user.displayName) }</div>)
+		else {
+			imageProfile = (<div><img src={this.state.image} className="user-avatar-preview clearpadding" /></div>);
+		}
 		
 		return (
 			<div className="container-fluid">
@@ -183,30 +188,32 @@ class ProfileEdit extends Component {
 							</div>
 							<br />
 
-							<div className="avatar-dropzone-container clearpadding">
-								<div className="user-avatar-title">User Avatar</div>
-								<DropzoneComponent config={this.dropzoneConfig}
-													djsConfig={this.djsConfig}
-													eventHandlers={this.eventHandlers}
-								/>
-							</div>
-
-
-							{/*
 							<div>
-								<div className="preview-image">
-									<i className="fa fa-user" />
-								</div>
-								<span><input className="file-input"
-									type="file"
-									 />
+								<div className="user-avatar-title">User Avatar</div>
+								
+									{ imageProfile }
+								
+								<br />
+								<div>
+									<FileReaderInput
+										as="binary"
+										className="file-input"
+										onChange={(event, result) => this.handleImageChanged(event,result)}
+									 >
 
-								<button className="btn btn-large"
-									type="button"
-									 >Upload</button>
-								</span>
+									 	<button 
+											className="btn btn-large"
+											type="button"
+											
+										>
+											Select your image
+										</button>
+									 </FileReaderInput>
+
+								
+								</div>
 							</div>
-							*/}
+						
 
 	 						<br />
 							<div className="row">
