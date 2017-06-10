@@ -10,3 +10,4 @@ git merge --no-ff $BRANCH
 git add .
 git commit -m "$COMMENT"
 git push origin development
+git checkout $BRANCH
