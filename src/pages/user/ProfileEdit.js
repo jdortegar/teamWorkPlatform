@@ -24,7 +24,7 @@ class ProfileEdit extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {image: "data:image/jpg;base64," + this.props.user.user.icon, file:''};
+		this.state = {image: "data:image/jpg;base64," + this.props.user.user.icon, file:'', notification: '', notification_color: "black"};
 		this.handleSubmit = this.handleSubmit.bind(this);
 		// this.dropzoneConfig = {
 		// 	iconFiletypes: ['.jpg','.png','.gif'],
@@ -96,12 +96,17 @@ class ProfileEdit extends Component {
 	handleImageChanged (event, results) {
 		const file = results[0][0];
 		const info = results[0][1];
-		const base64 = btoa(file.target.result);
-		const encoded = 'data:image/jpeg;base64,'+ base64;
-		this.props.user.user.icon = base64;
-		this.setState({image: encoded, icon: base64});
-
+		const imageType = ["image/jpeg", "image/png", "image/jpg"];
+		const te = imageType.some( a => a==info.type);
 		
+		if (!imageType.some(type => type===info.type)) this.setState({notification: "Only .jpeg .jpg .png can be uploaded", notification_color: "red"});
+		else if (info.size > 50000) this.setState({notification: "Image size :"+info.size+" bytes. The maximum size for image is 50KB", notification_color: "red"});
+		else {
+			const base64 = btoa(file.target.result);
+			const encoded = 'data:image/jpeg;base64,'+ base64;
+			this.props.user.user.icon = base64;
+			this.setState({image: encoded, icon: base64, notification: "Update avatar successfully!", notification_color: "green"});
+		}
 	}
 
 	handleUpload (event) {
@@ -209,8 +214,9 @@ class ProfileEdit extends Component {
 											Select your image
 										</button>
 									 </FileReaderInput>
-
-								
+									<div style={{color: this.state.notification_color}} >
+										{this.state.notification}
+									</div>
 								</div>
 							</div>
 						
