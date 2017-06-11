@@ -1,0 +1,36 @@
+import React, { Component } from 'react';
+import Button from 'react-bootstrap/lib/Button';
+import { Link } from 'react-router';
+import { Footer, FieldGroup } from '../../components';
+import LoggedHeader from '../../components/LoggedHeader';
+import { connect } from 'react-redux';
+import helper from '../../components/Helper';
+
+const Integrations = () => {
+	return (
+		<div>
+			<LoggedHeader />
+			<section>
+
+				<div className="row">
+					<div className="col-md-12">
+						<div className="header">
+							<h1> Integrations </h1>
+						</div>
+						<div className="center">
+							<img src="https://c1.staticflickr.com/5/4240/35080287162_0d6aef000a_o.png" style={{width: "200px", height: "200px"}} />
+							<br />
+							<img src="https://c1.staticflickr.com/5/4220/34858435850_3ff5486f73_o.png" style={{width: "200px", height: "200px"}} />
+						</div>
+					</div>
+				</div>
+			</section>
+			<Footer />
+		</div>
+	)
+}
+
+export default Integrations;
+
+// [url=https://flic.kr/p/VrVDch][img]https://c1.staticflickr.com/5/4240/35080287162_0d6aef000a_o.png[/img][/url][url=https://flic.kr/p/VrVDch]googledrive[/url] by [url=https://www.flickr.com/photos/thotruong/]Tho Truong[/url], on Flickr
+// [url=https://flic.kr/p/V7jAwE][img]https://c1.staticflickr.com/5/4220/34858435850_3ff5486f73_o.png[/img][/url][url=https://flic.kr/p/V7jAwE]box[/url] by [url=https://www.flickr.com/photos/thotruong/]Tho Truong[/url], on Flickr
