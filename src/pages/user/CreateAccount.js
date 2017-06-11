@@ -9,6 +9,7 @@ import countryList from 'iso-3166-country-list';
 import config from '../../config/env';
 import helper from '../../components/Helper';
 import TimezonePicker from 'react-bootstrap-timezone-picker';
+import HeaderNavbar from '../homepage/components/header_navbar.js'
 
 class CreateAccount extends Component {
 
@@ -102,7 +103,7 @@ class CreateAccount extends Component {
     const { country } = this.state;
 		return (
 			<div className="container-fluid">
-				<Header user={this.state.email} />
+				<HeaderNavbar />
 				<section>
 				<div className="row">
 					<div className="col-md-4 col-md-offset-4 ">
