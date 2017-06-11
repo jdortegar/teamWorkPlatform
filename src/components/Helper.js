@@ -373,6 +373,22 @@ class Helper{
 			})
 		})     
 	}
+
+	callGoogleDriveApi() {
+		return new Promise((resolve, reject) =>{
+			//TODO: Anthony GoogleDrive axios call
+		})
+	}
+
+	callBoxApi() {
+		return new Promise((resolve, reject) => {
+			//TODO: Anthony BOX axios call
+		})
+	}
+
+
+
+
 }
 
 const helper = new Helper();

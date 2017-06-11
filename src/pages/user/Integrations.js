@@ -6,28 +6,45 @@ import LoggedHeader from '../../components/LoggedHeader';
 import { connect } from 'react-redux';
 import helper from '../../components/Helper';
 
-const Integrations = () => {
-	return (
-		<div>
-			<LoggedHeader />
-			<section>
+class Integrations extends Component {
 
-				<div className="row">
-					<div className="col-md-12">
-						<div className="header">
-							<h1> Integrations </h1>
-						</div>
-						<div className="center">
-							<img src="https://c1.staticflickr.com/5/4240/35080287162_0d6aef000a_o.png" style={{width: "200px", height: "200px"}} />
-							<br />
-							<img src="https://c1.staticflickr.com/5/4220/34858435850_3ff5486f73_o.png" style={{width: "200px", height: "200px"}} />
+	handleGoogleDrive() {
+		console.log("GOOGLE DRIVE ICON CLICKED");
+		helper.callGoogleDriveApi()
+		.then(result => {})
+		.catch(error => {})
+	}
+
+	handleBox() {
+		console.log("BOX ICON CLICKED");
+		helper.callBoxApi()
+		.then(result => {})
+		.catch(error => {})
+	}
+
+	render() {
+		return (
+			<div>
+				<LoggedHeader />
+				<section>
+
+					<div className="row">
+						<div className="col-md-12">
+							<div className="header">
+								<h1> Integrations </h1>
+							</div>
+							<div className="center">
+								<img onClick={() => this.handleGoogleDrive() } src="https://c1.staticflickr.com/5/4240/35080287162_0d6aef000a_o.png" style={{width: "200px", height: "200px"}} />
+								<br />
+								<img onClick={() => this.handleBox() } src="https://c1.staticflickr.com/5/4220/34858435850_3ff5486f73_o.png" style={{width: "200px", height: "200px"}} />
+							</div>
 						</div>
 					</div>
-				</div>
-			</section>
-			<Footer />
-		</div>
-	)
+				</section>
+				<Footer />
+			</div>
+		)
+	}
 }
 
 export default Integrations;
