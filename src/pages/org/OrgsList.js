@@ -70,6 +70,7 @@ class OrgsList extends Component {
 }
 
 function mapStateToProps(state) {
+	// console.log(state.orgs.orgs);
 	return {
 		user: state.user.user.user,
 		orgs: state.orgs.orgs,

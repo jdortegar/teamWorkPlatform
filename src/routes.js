@@ -191,6 +191,14 @@ const componentRoutes = {
 					.then(module => cb(null, module.default))
 			}
 		},
+
+		{
+			path: 'integrations',
+			getComponent(location, cb) {
+				System.import('./pages/user/Integrations')
+					.then(module => cb(null, module.default))
+			}
+		},
 	
 
 

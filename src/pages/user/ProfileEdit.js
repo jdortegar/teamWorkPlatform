@@ -61,7 +61,7 @@ class ProfileEdit extends Component {
 			const base64 = btoa(file.target.result);
 			const encoded = 'data:image/jpeg;base64,'+ base64;
 			this.props.user.user.icon = base64;
-			this.setState({image: encoded, icon: base64, notification: "Update avatar successfully!", notification_color: "green"});
+			this.setState({image: encoded, icon: base64, notification: "This image is accepted !!!", notification_color: "green"});
 		}
 	}
 
