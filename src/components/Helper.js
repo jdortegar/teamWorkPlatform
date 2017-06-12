@@ -39,7 +39,7 @@ class Helper{
 	}
 
 	getShortName(fullname) {
-		const arrayName = fullname.split(' ');	
+		const arrayName = fullname.split(' ');
 		return arrayName.length > 1 ? arrayName[0].charAt(0)+arrayName[arrayName.length-1].charAt(0) : fullname;
 	}
 
@@ -148,7 +148,7 @@ class Helper{
             console.log("*** getOrgs - getOrgs failed - " + JSON.stringify(error));
             reject(error);
          })
-		}) 		
+		})
 	}
 
 	getOrgSubscribers(org) {
@@ -162,7 +162,7 @@ class Helper{
          .catch(error => {
             reject(error);
          })
-		}) 		
+		})
 	}
 
 	getTeams(subscriberOrg) {
@@ -176,14 +176,14 @@ class Helper{
          .catch(error => {
             reject(error);
          })
-		}) 		
+		})
 	}
 
 	getTeamRooms(team) {
 		return new Promise((resolve, reject) => {
 			const urlRooms = `${config.hablaApiBaseUri}/teamRooms/getTeamRooms?teamId=${team.teamId}`;
 			axios.get(urlRooms, { headers: { Authorization: this.token}})
-       		.then(response => {            
+       		.then(response => {
        			resolve(response.data.teamRooms);
        		})
             .catch(error => {
@@ -212,7 +212,7 @@ class Helper{
    }
 
 	connectWebSocket(websocketUrl) {
-		
+
 		messaging(websocketUrl).connect(this.token)
    		.then(() => {
    			console.log("connect successfully!");
@@ -268,7 +268,7 @@ class Helper{
 		.catch(error => console.log(error))
 	}
 
-	updateUserProfile({country, displayName, email, firstName, fullName, icon, lastName, timeZone}) { 
+	updateUserProfile({country, displayName, email, firstName, fullName, icon, lastName, timeZone}) {
 		if (!this.user.user.preferences.hasOwnProperty('iconColor')) { //use to update icon color for previous account which do not have iconColo property
 			this.updateUserPreferences();
 		}
@@ -277,7 +277,7 @@ class Helper{
 			const headers = {
 				content_type: 'application/json',
 				Authorization: this.token
-			} 
+			}
 			const url = `${config.hablaApiBaseUri}/users/updateUser`;
 			axios.patch(url, {
 				firstName,
@@ -313,7 +313,7 @@ class Helper{
 		        	return;
 		        })
 			})
-			.catch(error => reject(error))	
+			.catch(error => reject(error))
 		})
 	}
 
@@ -326,7 +326,7 @@ class Helper{
         		return;
         	})
         	.catch(error => reject(error))
-		})		
+		})
 	}
 
 
@@ -339,12 +339,12 @@ class Helper{
         		return;
         	})
         	.catch(error => reject(error))
-		})		
+		})
 	}
 
 	getConversations(teamRoomId) {
 		return new Promise((resolve, reject) => {
-			const urlCon = `${config.hablaApiBaseUri}/conversations/getConversations?teamRoomId=${teamRoomId}`;    
+			const urlCon = `${config.hablaApiBaseUri}/conversations/getConversations?teamRoomId=${teamRoomId}`;
    			axios.get(urlCon, { headers : { Authorization: this.token}})
    			.then(response => {
    				// console.log(response);
@@ -354,7 +354,7 @@ class Helper{
    			.catch(error => {
    				reject(error);
    			})
-		})	
+		})
 	}
 
 	getMessages(teamRoomId) {
@@ -371,7 +371,7 @@ class Helper{
 			.catch(error => {
 				reject(error);
 			})
-		})     
+		})
 	}
 
 	callGoogleDriveApi() {
@@ -380,9 +380,23 @@ class Helper{
 		})
 	}
 
-	callBoxApi() {
+	callBoxApi(subscriberOrgId) {
 		return new Promise((resolve, reject) => {
-			//TODO: Anthony BOX axios call
+         axios.get(`${config.hablaApiBaseUri}/integrations/box/${subscriberOrgId}/integrate`, { headers: { Authorization: `Bearer ${this.token}` } })
+            .then( (response) => {
+               if (response.status === 302) { // Redirect.
+                  console.log(`AD: headers=${JSON.stringify(response.headers)}`);
+                  const redirectTo = response.headers['Location'];
+                  // TODO: Send user to 'redirectTo'.
+               } else if (response.status === 404) {
+                  // Bad subscriberOrgId.
+                  // TODO: show error.
+               } else if (response.status === 500) {
+                  // TODO: Server error.  Tell Anthony to fix his crap.
+               }
+
+               resolve(response.data.messages);
+            });
 		})
 	}
 
