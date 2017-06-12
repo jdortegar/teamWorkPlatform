@@ -8,16 +8,21 @@ import helper from '../../components/Helper';
 
 class Integrations extends Component {
 
+   constructor(props) {
+      super(props);
+      this.orgId = 'ea794510-cea6-4132-0003-a7ae1d32abb5';
+   }
+
 	handleGoogleDrive() {
 		console.log("GOOGLE DRIVE ICON CLICKED");
-		helper.callGoogleDriveApi()
+		helper.callGoogleDriveApi(this.orgId)
 		.then(result => {})
 		.catch(error => {})
 	}
 
 	handleBox() {
 		console.log("BOX ICON CLICKED");
-		helper.callBoxApi()
+		helper.callBoxApi(this.orgId)
 		.then(result => {})
 		.catch(error => {})
 	}

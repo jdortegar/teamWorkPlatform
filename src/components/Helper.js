@@ -382,9 +382,10 @@ class Helper{
 
 	callBoxApi(subscriberOrgId) {
 		return new Promise((resolve, reject) => {
-         axios.get(`${config.hablaApiBaseUri}/integrations/box/${subscriberOrgId}/integrate`, { headers: { Authorization: this.token } })
+         axios.get(`${config.hablaApiBaseUri}/integrations/box/${subscriberOrgId}/integrate`, { headers: { Authorization: `Bearer ${this.token}` } })
             .then( (response) => {
                if (response.status === 302) { // Redirect.
+                  console.log(`AD: headers=${JSON.stringify(response.headers)}`);
                   const redirectTo = response.headers['Location'];
                   // TODO: Send user to 'redirectTo'.
                } else if (response.status === 404) {
