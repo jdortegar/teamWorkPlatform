@@ -8,16 +8,21 @@ import helper from '../../components/Helper';
 
 class Integrations extends Component {
 
+	constructor(props) {
+		super(props);
+		this.orgId = "ea794510-cea6-4132-0003-a7ae1d32abb5";
+	}
+
 	handleGoogleDrive() {
 		console.log("GOOGLE DRIVE ICON CLICKED");
-		helper.callGoogleDriveApi()
+		helper.callGoogleDriveApi(this.orgId)
 		.then(result => {})
 		.catch(error => {})
 	}
 
 	handleBox() {
 		console.log("BOX ICON CLICKED");
-		helper.callBoxApi()
+		helper.callBoxApi(this.orgId)
 		.then(result => {})
 		.catch(error => {})
 	}
@@ -48,6 +53,3 @@ class Integrations extends Component {
 }
 
 export default Integrations;
-
-// [url=https://flic.kr/p/VrVDch][img]https://c1.staticflickr.com/5/4240/35080287162_0d6aef000a_o.png[/img][/url][url=https://flic.kr/p/VrVDch]googledrive[/url] by [url=https://www.flickr.com/photos/thotruong/]Tho Truong[/url], on Flickr
-// [url=https://flic.kr/p/V7jAwE][img]https://c1.staticflickr.com/5/4220/34858435850_3ff5486f73_o.png[/img][/url][url=https://flic.kr/p/V7jAwE]box[/url] by [url=https://www.flickr.com/photos/thotruong/]Tho Truong[/url], on Flickr

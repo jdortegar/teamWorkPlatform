@@ -10,8 +10,7 @@ class OrgProfile extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {orgs: []};
-		this.renderOrganizations = this.renderOrganizations.bind(this);
+		this.state = {orgs: null, teamsNumber:0};	
 	}
 
 	handleChange(term) {
@@ -19,12 +18,36 @@ class OrgProfile extends Component {
 	}
 
 	componentWillMount() {
-		this.state.orgs = this.props.orgs;
+		helper.setUser(this.props.user);
+		helper.getOrgs()
+		.then(orgs => {
+			// console.log(orgs);
+
+			const orgRows = orgs.map((org,i) => {
+
+				const logo = org.preferences.hasOwnProperty("icon") ? (<img src={org.preferences.icon} />) : 'empty';
+				let rowClass = i%2 == 0 ? "even" : "odd";
+				const members = org.subscribers.length;
+				helper.getTeams(org)
+				.then(teams => {
+					console.log(teams.length);
+					this.setState({teamsNumber: teams.length});
+				})
+				
+				return (
+					<tr className={rowClass} key={i}>
+						<td>{org.name}</td>
+						<td>{logo}</td>
+						<td>{this.state.teamsNumber}</td>
+						<td>{members}</td>
+					</tr>
+				);
+			})
+			this.setState({orgs: orgRows});
+		})
 	}
 
-	renderOrganizations() {
-		
-	}
+
 
 	render() {
 		const country = this.state.country;
@@ -49,32 +72,31 @@ class OrgProfile extends Component {
 
 						<table className="col-md-12">
 							<tbody>
-							<tr>
-								<th>
-									Organization
-								</th>
-								<th>
-									Teams
-								</th>
-								<th>
-									Members
-								</th>
-								<th>
-									Logo
-								</th>
-								<th>
-									Set current
-								</th>
-								<th>
-									Manage
-								</th>
-								<th>
-									Delete
-								</th>
-							</tr>
-							<tr>
-								{this.renderOrganizations()}
-							</tr>
+								<tr>
+									<th>
+										Organization
+									</th>
+									<th>
+										Logo
+									</th>
+									<th>
+										Teams
+									</th>
+									<th>
+										Members
+									</th>
+									
+									<th>
+										Set current
+									</th>
+									<th>
+										Manage
+									</th>
+									<th>
+										Delete
+									</th>
+								</tr>
+								{this.state.orgs}
 							</tbody>
 
 						</table>
