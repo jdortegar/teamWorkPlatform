@@ -10,7 +10,8 @@ class OrgProfile extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {orgs: null, teamsNumber:0};	
+		this.state = {orgs: null, rowClass: [], name: [], logo: [], teamsNumber:[], members: [], current: []};	
+		this.renderOrgs = this.renderOrgs.bind(this);
 	}
 
 	handleChange(term) {
@@ -22,34 +23,59 @@ class OrgProfile extends Component {
 		helper.getOrgs()
 		.then(orgs => {
 			// console.log(orgs);
-
-			const orgRows = orgs.map((org,i) => {
+			this.state.orgs = orgs;
+			orgs.map((org,i) => {
 
 				const logo = org.preferences.hasOwnProperty("icon") ? (<img src={org.preferences.icon} />) : 'empty';
+				this.state.logo.push(logo);
 				let rowClass = i%2 == 0 ? "even" : "odd";
+				this.state.rowClass.push(rowClass);
 				const members = org.subscribers.length;
+				this.state.name.push(org.name);
+				this.state.members.push(members);
+				this.state.current.push(true);
 				helper.getTeams(org)
 				.then(teams => {
-					console.log(teams.length);
-					this.setState({teamsNumber: teams.length});
+					this.state.teamsNumber.push(teams.length);
+					this.forceUpdate();
 				})
 				
-				return (
-					<tr className={rowClass} key={i}>
-						<td>{org.name}</td>
-						<td>{logo}</td>
-						<td>{this.state.teamsNumber}</td>
-						<td>{members}</td>
-					</tr>
-				);
+				
 			})
-			this.setState({orgs: orgRows});
+			
 		})
 	}
 
-
+	renderOrgs() {
+		if (this.state.orgs != null) { //this condition ensure that this function only execute the inside code when this.state.orgs already updated => solve time delay data flow
+			const result = this.state.orgs.map((org,i) => {
+				return (
+					<tr className={this.state.rowClass[i]} key={i}>
+						<td>{this.state.name[i]}</td>
+						<td>{this.state.logo[i]}</td>
+						<td>{this.state.teamsNumber[i]}</td>
+						<td>{this.state.members[i]}</td>
+						<td>Set</td>
+						<td>
+							<button>
+								Edit
+							</button>
+						</td>
+						<td>
+							<button>
+								Delete
+							</button>
+						</td>
+					</tr>
+				);
+			});
+			return result;
+		}
+		else return;
+	}
 
 	render() {
+		const organizations = this.renderOrgs();
 		const country = this.state.country;
 		return (
 			<div className="container-fluid">
@@ -96,12 +122,15 @@ class OrgProfile extends Component {
 										Delete
 									</th>
 								</tr>
-								{this.state.orgs}
+								{organizations}
 							</tbody>
 
 						</table>
-
-						
+						<div className="col-md-12 center">
+							<button className="btn btn-large center">
+								ADD NEW ORGANIZATION
+							</button>
+						</div>
 						<div className="fill-vertical">
 						</div>
 					</div>
