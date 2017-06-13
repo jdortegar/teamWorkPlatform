@@ -8,12 +8,11 @@ import helper from '../../components/Helper';
 
 class Integrations extends Component {
 
-
-	constructor(props) {
-		super(props);
-		this.orgId = "ea794510-cea6-4132-0003-a7ae1d32abb5";
-	}
-
+   constructor(props) {
+      super(props);
+      // TODO: Obtain working orgId.  This really should be somewhere else, because it changes as the user changes organization.
+      //this.orgId = ...;
+   }
 
 	handleGoogleDrive() {
 		console.log("GOOGLE DRIVE ICON CLICKED");
