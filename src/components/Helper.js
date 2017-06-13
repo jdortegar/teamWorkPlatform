@@ -108,7 +108,7 @@ class Helper{
 		  	})
 		    .then(response => {
             this.token = `Bearer ${response.data.token}`;
-             localStorage.setItem('jwt', response.data.token);
+             sessionStorage.setItem('jwt', response.data.token);
 		    	resolve(response);
 			})
 			.catch(error => resolve(error))
@@ -383,7 +383,7 @@ class Helper{
 
 	callBoxApi(subscriberOrgId) {
 	   // TODO: anthony, Move this to page load.  Have to retrieve from persistence if it doesn't exist.
-      this.token = this.token || `Bearer ${localStorage.getItem('jwt')}`;
+      this.token = this.token || `Bearer ${sessionStorage.getItem('jwt')}`;
 
 		return new Promise((resolve, reject) => {
 		   // TODO: remove getting first org from list once a valid subscriberOrgId parameter is passed in.  This is just a hack until we have the concept of current Org context.
