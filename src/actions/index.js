@@ -64,7 +64,7 @@ export const saveMembersTeamRoom = (members) => {
 	}
 }
 
-export const selectOrg = (org) => {
+export const selectedOrg = (org) => {
 	return {
 		type: 'store-org',
 		payload: org

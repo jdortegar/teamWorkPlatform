@@ -62,7 +62,7 @@ class OrgUpdate extends Component {
 				<div className="row">
 					<div className="col-md-4 col-md-offset-4 ">
 						<div className="header">
-							<h1> Your Organization </h1>
+							<h1> {this.props.org.name} Organization </h1>
 						</div>
 
 						<form>
@@ -94,20 +94,24 @@ class OrgUpdate extends Component {
 
 							<div className="row">
 								<FieldGroup
+									
 									type="text"
 									onChange={event => this.handleChange(event.target.value)}
 									label="Organization Name"
-									placeholder="bjones_org"
+									placeholder={this.props.org.name}
 									className="col-md-12"
 								/>
+
+
 							</div>
 
 							<div className="row">
 								<FieldGroup
+								
 									type="text"
 									onChange={event => this.handleChange(event.target.value)}
 									label="Web Address"
-									placeholder="www.bjones.com"
+									placeholder={this.props.org.preferences.webSite}
 									className="col-md-12"
 								/>
 							</div>
@@ -150,9 +154,9 @@ class OrgUpdate extends Component {
 }
 
 function mapStateToProps(state) {
-	if (state.user.user != null)
 	return {
-		user: state.user.user
+		user: state.user.user,
+		org: state.org.org
 	}
 }
 

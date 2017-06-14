@@ -1,21 +1,31 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import { Link } from 'react-router';
 import { Footer, FieldGroup } from '../../components';
 import LoggedHeader from '../../components/LoggedHeader';
 import { connect } from 'react-redux';
 import helper from '../../components/Helper';
+import { selectedOrg } from '../../actions/index';
 
 class OrgProfile extends Component {
 
+	static contextTypes = {
+		router: PropTypes.object
+	};
+
 	constructor(props) {
 		super(props);
-		this.state = {orgs: null, teams: [], rowClass: [], name: [], logo: [], teamsNumber:[], members: [], current: []};	
+		this.state = {orgs: null, orgId: [], prefer: [], teams: [], rowClass: [], subscribers:[], name: [], logo: [], teamsNumber:[], members: [], current: []};	
 		this.renderOrgs = this.renderOrgs.bind(this);
 	}
 
 	handleChange(term) {
 		this.setState({term});
+	}
+
+	handleEdit(orgData) {
+		this.props.selectedOrg(orgData);
+		this.context.router.push('/org-update');
 	}
 
 	componentWillMount() {
@@ -25,12 +35,14 @@ class OrgProfile extends Component {
 			// console.log(orgs);
 			this.state.orgs = orgs;
 			orgs.map((org,i) => {
-
+				this.state.orgId.push(org.subscriberOrgId);
+				this.state.prefer.push(org.preferences);
 				const logo = org.preferences.hasOwnProperty("icon") ? (<img src={org.preferences.icon} />) : 'empty';
 				this.state.logo.push(logo);
 				let rowClass = i%2 == 0 ? "even" : "odd";
 				this.state.rowClass.push(rowClass);
 				const members = org.subscribers.length;
+				this.state.subscribers.push(org.subscribers);
 				this.state.name.push(org.name);
 				this.state.members.push(members);
 				this.state.current.push(true);
@@ -54,8 +66,11 @@ class OrgProfile extends Component {
 				const orgData = {
 					name: this.state.name[i], 
 					logo: this.state.logo[i], 
-					teams: this.state.teams, 
-					members: this.state.members
+					teams: this.state.teams[i], 
+					members: this.state.subscribers[i],
+					orgId: this.state.orgId[i],
+					preferences: this.state.prefer[i],
+
 				}
 				return (
 					<tr className={rowClass} key={i}>
@@ -173,6 +188,7 @@ class OrgProfile extends Component {
 	}
 }
 
+
 function mapsStateToProps(state) {
 	return {
 		user: state.user.user,
@@ -180,4 +196,4 @@ function mapsStateToProps(state) {
 	}
 }
 
-export default connect(mapsStateToProps, null)(OrgProfile);
+export default connect(mapsStateToProps, {selectedOrg})(OrgProfile);
