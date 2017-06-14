@@ -10,7 +10,7 @@ class OrgProfile extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {orgs: null, rowClass: [], name: [], logo: [], teamsNumber:[], members: [], current: []};	
+		this.state = {orgs: null, teams: [], rowClass: [], name: [], logo: [], teamsNumber:[], members: [], current: []};	
 		this.renderOrgs = this.renderOrgs.bind(this);
 	}
 
@@ -37,6 +37,7 @@ class OrgProfile extends Component {
 				helper.getTeams(org)
 				.then(teams => {
 					this.state.teamsNumber.push(teams.length);
+					this.state.teams.push(teams);
 					this.forceUpdate();
 				})
 				
@@ -49,32 +50,45 @@ class OrgProfile extends Component {
 	renderOrgs() {
 		if (this.state.orgs != null) { //this condition ensure that this function only execute the inside code when this.state.orgs already updated => solve time delay data flow
 			const result = this.state.orgs.map((org,i) => {
+				const rowClass = `org-table-row ${this.state.rowClass[i]}`;
+				const orgData = {
+					name: this.state.name[i], 
+					logo: this.state.logo[i], 
+					teams: this.state.teams, 
+					members: this.state.members
+				}
 				return (
-					<tr className={this.state.rowClass[i]} key={i}>
-						<td>{this.state.name[i]}</td>
+					<tr className={rowClass} key={i}>
+						<td><b>{this.state.name[i]}</b></td>
 						<td>{this.state.logo[i]}</td>
 						<td>{this.state.teamsNumber[i]}</td>
 						<td>{this.state.members[i]}</td>
-						<td>Set</td>
 						<td>
-							<button>
+							<button className="btn color-blue">
+								Set
+							</button>
+						</td>
+						<td>
+							<button 
+								onClick={() => this.handleEdit(orgData)}
+								className="btn color-blue" >
 								Edit
 							</button>
 						</td>
 						<td>
-							<button>
+							<button className="btn color-green">
 								Invite Member
 							</button>
 						</td>
 						<td>
-							<button>
+							<button className="btn color-yellow">
 								Active
 							</button>
 						</td>
 						<td>
-							<button>
+							<button className="btn color-red">
 								Delete
-							</button>
+							</button >
 						</td>
 					</tr>
 				);
@@ -106,11 +120,11 @@ class OrgProfile extends Component {
 						
 						<br />
 
-						<table className="col-md-12">
+						<table className="col-md-12 org-table">
 							<tbody>
-								<tr>
+								<tr className="color-blue org-table-row">
 									<th>
-										Organization
+										Name
 									</th>
 									<th>
 										Logo
@@ -123,16 +137,16 @@ class OrgProfile extends Component {
 									</th>
 									
 									<th>
-										Set current
+										Set Default
 									</th>
 									<th>
-										Manage
+										Management
 									</th>
 									<th>
 										Invitation
 									</th>
 									<th>
-										Active/Inactive
+										Set Active/Inactive
 									</th>
 									<th>
 										Delete
@@ -143,7 +157,8 @@ class OrgProfile extends Component {
 
 						</table>
 						<div className="col-md-12 center">
-							<button className="btn btn-large center">
+							<br />
+							<button className="btn btn-large center color-blue">
 								ADD NEW ORGANIZATION
 							</button>
 						</div>

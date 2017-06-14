@@ -980,4 +980,31 @@ table {
   border-radius: 10px !important;
   border: none; }
 
+.org-table, th, td {
+  border: solid 1px #999;
+  text-align: center; }
+
+.org-table-row {
+  height: 50px; }
+
+.color-blue {
+  background-color: #3498db;
+  color: white; }
+
+.color-green {
+  background-color: #2ec866;
+  color: white; }
+
+.color-yellow {
+  background-color: #fbbc05;
+  color: white; }
+
+.color-red {
+  background-color: #e74c3c;
+  color: white; }
+
+.color-grey {
+  background-color: #e6e6e6;
+  color: white; }
+
 /*# sourceMappingURL=app.css.map */
