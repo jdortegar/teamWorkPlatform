@@ -63,6 +63,16 @@ class OrgProfile extends Component {
 						</td>
 						<td>
 							<button>
+								Invite Member
+							</button>
+						</td>
+						<td>
+							<button>
+								Active
+							</button>
+						</td>
+						<td>
+							<button>
 								Delete
 							</button>
 						</td>
@@ -117,6 +127,12 @@ class OrgProfile extends Component {
 									</th>
 									<th>
 										Manage
+									</th>
+									<th>
+										Invitation
+									</th>
+									<th>
+										Active/Inactive
 									</th>
 									<th>
 										Delete
