@@ -91,12 +91,12 @@ class OrgProfile extends Component {
 							</button>
 						</td>
 						<td>
-							<button className="btn color-green">
+							<button className="btn color-blue">
 								Invite Member
 							</button>
 						</td>
 						<td>
-							<button className="btn color-yellow">
+							<button className="btn color-blue">
 								Active
 							</button>
 						</td>
@@ -137,7 +137,7 @@ class OrgProfile extends Component {
 
 						<table className="col-md-12 org-table">
 							<tbody>
-								<tr className="color-blue org-table-row">
+								<tr className="color-grey org-table-row">
 									<th>
 										Name
 									</th>
