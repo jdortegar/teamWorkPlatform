@@ -108,6 +108,7 @@ class Helper{
 		  	})
 		    .then(response => {
             this.token = `Bearer ${response.data.token}`;
+             sessionStorage.setItem('jwt', response.data.token);
 		    	resolve(response);
 			})
 			.catch(error => resolve(error))
@@ -381,13 +382,35 @@ class Helper{
 	}
 
 	callBoxApi(subscriberOrgId) {
+	   // TODO: anthony, Move this to page load.  Have to retrieve from persistence if it doesn't exist.
+      this.token = this.token || `Bearer ${sessionStorage.getItem('jwt')}`;
+
 		return new Promise((resolve, reject) => {
-         axios.get(`${config.hablaApiBaseUri}/integrations/box/${subscriberOrgId}/integrate`, { headers: { Authorization: `Bearer ${this.token}` } })
+		   // TODO: remove getting first org from list once a valid subscriberOrgId parameter is passed in.  This is just a hack until we have the concept of current Org context.
+         Promise.all([])
+            .then(() => {
+               if (subscriberOrgId) {
+                  return Promise.resolve(subscriberOrgId);
+               }
+
+               return axios.get(`${config.hablaApiBaseUri}/subscriberOrgs/getSubscriberOrgs`, { headers: { Authorization: this.token } });
+            })
+            .then(subscriberOrgIdOrResponse => {
+               let subscriberOrgId;
+
+               if (subscriberOrgIdOrResponse.data) {
+                  // Will have at least 1 Org.
+                  subscriberOrgId = subscriberOrgIdOrResponse.data.subscriberOrgs[0].subscriberOrgId;
+               } else {
+                  subscriberOrgId = subscriberOrgIdOrResponse;
+               }
+
+               return axios.get(`${config.hablaApiBaseUri}/integrations/box/integrate/${subscriberOrgId}`, { headers: { Authorization: this.token } });
+            })
             .then( (response) => {
-               if (response.status === 302) { // Redirect.
-                  console.log(`AD: headers=${JSON.stringify(response.headers)}`);
-                  const redirectTo = response.headers['Location'];
-                  // TODO: Send user to 'redirectTo'.
+               if (response.status === 202) { // Redirect ourselves.
+                  const redirectTo = response.data.location;
+                  window.location.href = redirectTo;
                } else if (response.status === 404) {
                   // Bad subscriberOrgId.
                   // TODO: show error.
@@ -396,7 +419,8 @@ class Helper{
                }
 
                resolve(response.data.messages);
-            });
+            })
+            .catch(err => reject(err));
 		})
 	}
 

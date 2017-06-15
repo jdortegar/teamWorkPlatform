@@ -1,21 +1,31 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import { Link } from 'react-router';
 import { Footer, FieldGroup } from '../../components';
 import LoggedHeader from '../../components/LoggedHeader';
 import { connect } from 'react-redux';
 import helper from '../../components/Helper';
+import { selectedOrg } from '../../actions/index';
 
 class OrgProfile extends Component {
 
+	static contextTypes = {
+		router: PropTypes.object
+	};
+
 	constructor(props) {
 		super(props);
-		this.state = {orgs: null, rowClass: [], name: [], logo: [], teamsNumber:[], members: [], current: []};	
+		this.state = {orgs: null, orgId: [], prefer: [], teams: [], rowClass: [], subscribers:[], name: [], logo: [], teamsNumber:[], members: [], current: []};	
 		this.renderOrgs = this.renderOrgs.bind(this);
 	}
 
 	handleChange(term) {
 		this.setState({term});
+	}
+
+	handleEdit(orgData) {
+		this.props.selectedOrg(orgData);
+		this.context.router.push('/org-update');
 	}
 
 	componentWillMount() {
@@ -25,18 +35,21 @@ class OrgProfile extends Component {
 			// console.log(orgs);
 			this.state.orgs = orgs;
 			orgs.map((org,i) => {
-
+				this.state.orgId.push(org.subscriberOrgId);
+				this.state.prefer.push(org.preferences);
 				const logo = org.preferences.hasOwnProperty("icon") ? (<img src={org.preferences.icon} />) : 'empty';
 				this.state.logo.push(logo);
 				let rowClass = i%2 == 0 ? "even" : "odd";
 				this.state.rowClass.push(rowClass);
 				const members = org.subscribers.length;
+				this.state.subscribers.push(org.subscribers);
 				this.state.name.push(org.name);
 				this.state.members.push(members);
 				this.state.current.push(true);
 				helper.getTeams(org)
 				.then(teams => {
 					this.state.teamsNumber.push(teams.length);
+					this.state.teams.push(teams);
 					this.forceUpdate();
 				})
 				
@@ -49,22 +62,48 @@ class OrgProfile extends Component {
 	renderOrgs() {
 		if (this.state.orgs != null) { //this condition ensure that this function only execute the inside code when this.state.orgs already updated => solve time delay data flow
 			const result = this.state.orgs.map((org,i) => {
+				const rowClass = `org-table-row ${this.state.rowClass[i]}`;
+				const orgData = {
+					name: this.state.name[i], 
+					logo: this.state.logo[i], 
+					teams: this.state.teams[i], 
+					members: this.state.subscribers[i],
+					orgId: this.state.orgId[i],
+					preferences: this.state.prefer[i],
+
+				}
 				return (
-					<tr className={this.state.rowClass[i]} key={i}>
-						<td>{this.state.name[i]}</td>
+					<tr className={rowClass} key={i}>
+						<td><b>{this.state.name[i]}</b></td>
 						<td>{this.state.logo[i]}</td>
 						<td>{this.state.teamsNumber[i]}</td>
 						<td>{this.state.members[i]}</td>
-						<td>Set</td>
 						<td>
-							<button>
+							<button className="btn color-blue">
+								Set
+							</button>
+						</td>
+						<td>
+							<button 
+								onClick={() => this.handleEdit(orgData)}
+								className="btn color-blue" >
 								Edit
 							</button>
 						</td>
 						<td>
-							<button>
-								Delete
+							<button className="btn color-blue">
+								Invite Member
 							</button>
+						</td>
+						<td>
+							<button className="btn color-blue">
+								Active
+							</button>
+						</td>
+						<td>
+							<button className="btn color-red">
+								Delete
+							</button >
 						</td>
 					</tr>
 				);
@@ -96,11 +135,11 @@ class OrgProfile extends Component {
 						
 						<br />
 
-						<table className="col-md-12">
+						<table className="col-md-12 org-table">
 							<tbody>
-								<tr>
+								<tr className="color-grey org-table-row">
 									<th>
-										Organization
+										Name
 									</th>
 									<th>
 										Logo
@@ -113,10 +152,16 @@ class OrgProfile extends Component {
 									</th>
 									
 									<th>
-										Set current
+										Set Default
 									</th>
 									<th>
-										Manage
+										Management
+									</th>
+									<th>
+										Invitation
+									</th>
+									<th>
+										Set Active/Inactive
 									</th>
 									<th>
 										Delete
@@ -127,7 +172,8 @@ class OrgProfile extends Component {
 
 						</table>
 						<div className="col-md-12 center">
-							<button className="btn btn-large center">
+							<br />
+							<button className="btn btn-large center color-blue">
 								ADD NEW ORGANIZATION
 							</button>
 						</div>
@@ -142,6 +188,7 @@ class OrgProfile extends Component {
 	}
 }
 
+
 function mapsStateToProps(state) {
 	return {
 		user: state.user.user,
@@ -149,4 +196,4 @@ function mapsStateToProps(state) {
 	}
 }
 
-export default connect(mapsStateToProps, null)(OrgProfile);
+export default connect(mapsStateToProps, {selectedOrg})(OrgProfile);

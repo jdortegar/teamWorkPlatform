@@ -3,7 +3,7 @@ import { reducer as formReducer } from 'redux-form';
 import EmailAuth from './EmailAuth';
 import SubmitEmail from './SubmitEmail';
 import User from './User';
-import Org from './Org';
+import SelectedOrg from './SelectedOrg';
 import Team from './Team';
 import Teams from './Teams';
 import Room from './Room';
@@ -18,7 +18,7 @@ export default combineReducers({
 	email_auth: EmailAuth,
 	emailin: SubmitEmail,
 	orgs: Orgs,
-    org: Org,
+    org: SelectedOrg,
 	user: User,
     team: Team,
 	teams: Teams,

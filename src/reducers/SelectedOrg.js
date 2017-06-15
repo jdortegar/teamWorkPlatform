@@ -1,4 +1,4 @@
-export default function(state={org: null}, action) {
+export default function(state={org: ''}, action) {
   switch (action.type) {
     case 'store-org':
       	return {...state, org: action.payload };
