@@ -375,18 +375,12 @@ class Helper{
 		})
 	}
 
-	callGoogleDriveApi() {
-		return new Promise((resolve, reject) =>{
-			//TODO: Anthony GoogleDrive axios call
-		})
-	}
-
-	callBoxApi(subscriberOrgId) {
-	   // TODO: anthony, Move this to page load.  Have to retrieve from persistence if it doesn't exist.
+   _integrate(type, subscriberOrgId) {
+      // TODO: anthony, Move this to page load.  Have to retrieve from persistence if it doesn't exist.
       this.token = this.token || `Bearer ${sessionStorage.getItem('jwt')}`;
 
-		return new Promise((resolve, reject) => {
-		   // TODO: remove getting first org from list once a valid subscriberOrgId parameter is passed in.  This is just a hack until we have the concept of current Org context.
+      return new Promise((resolve, reject) => {
+         // TODO: remove getting first org from list once a valid subscriberOrgId parameter is passed in.  This is just a hack until we have the concept of current Org context.
          Promise.all([])
             .then(() => {
                if (subscriberOrgId) {
@@ -405,7 +399,7 @@ class Helper{
                   subscriberOrgId = subscriberOrgIdOrResponse;
                }
 
-               return axios.get(`${config.hablaApiBaseUri}/integrations/box/integrate/${subscriberOrgId}`, { headers: { Authorization: this.token } });
+               return axios.get(`${config.hablaApiBaseUri}/integrations/${type}/integrate/${subscriberOrgId}`, { headers: { Authorization: this.token } });
             })
             .then( (response) => {
                if (response.status === 202) { // Redirect ourselves.
@@ -421,6 +415,7 @@ class Helper{
                resolve(response.data.messages);
             })
             .catch(err => reject(err));
+<<<<<<< HEAD
 		})
 	}
 
@@ -440,8 +435,18 @@ class Helper{
 	}
 
 
+=======
+      })
+   }
+>>>>>>> 2700a5dd13754cc0f10ab1c97d7bb199e679a1b1
 
+	callGoogleDriveApi(subscriberOrgId = undefined) {
+		return this._integrate('google', subscriberOrgId);
+	}
 
+	callBoxApi(subscriberOrgId) {
+      return this._integrate('box', subscriberOrgId);
+	}
 }
 
 const helper = new Helper();
