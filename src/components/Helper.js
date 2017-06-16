@@ -424,6 +424,21 @@ class Helper{
 		})
 	}
 
+	createSubscriberOrg({name,preferences}) {
+		return new Promise((resolve, reject) =>{
+			const url = `${config.hablaApiBaseUri}/subscriberOrgs/createSubscriberOrg`;
+			const headers = {
+				content_type: 'application/json',
+				Authorization: this.token
+			};
+			const body = {name,preferences};
+			axios.post(url,body, {headers})
+			.then(result => resolve(result.data))
+			.catch(error => reject(error))
+		})
+		
+	}
+
 
 
 
