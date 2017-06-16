@@ -166,7 +166,7 @@ class OrgUpdate extends Component {
 				<div className="row">
 					<div className="col-md-12 center ">
 						<div className="header">
-							<h1> {this.props.org.name}</h1>
+							<h1> {this.props.org.name} </h1>
 						</div>
 
 						<form>
