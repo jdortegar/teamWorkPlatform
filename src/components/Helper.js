@@ -415,7 +415,7 @@ class Helper{
                resolve(response.data.messages);
             })
             .catch(err => reject(err));
-<<<<<<< HEAD
+
 		})
 	}
 
@@ -435,10 +435,7 @@ class Helper{
 	}
 
 
-=======
-      })
-   }
->>>>>>> 2700a5dd13754cc0f10ab1c97d7bb199e679a1b1
+
 
 	callGoogleDriveApi(subscriberOrgId = undefined) {
 		return this._integrate('google', subscriberOrgId);

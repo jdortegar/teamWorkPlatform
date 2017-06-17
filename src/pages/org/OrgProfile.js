@@ -54,6 +54,11 @@ class OrgProfile extends Component {
 		if (this.state.orgName == '') {
 			this.setState({notification: "Organization Name is required !", notification_color: "red"});
 		}
+		else if (this.state.icon == null) {
+			if (this.state.orgWebsite == '') {
+				this.setState({notification: "Organization Name is required !", notification_color: "red"});
+			}
+		}
 		else {
 			
 			const name = this.state.orgName;
@@ -67,7 +72,7 @@ class OrgProfile extends Component {
 				let rowClass = this.state.orgs.length % 2 == 0 ? "even" : "odd";
 				this.state.orgs.push(response);
 				this.state.name.push(response.name);
-				const logo = response.preferences.hasOwnProperty("icon") ? (<img src={response.preferences.icon} />) : 'empty';
+				const logo = (<img src={this.state.image} style={{width: "16px", height: "16px"}}/>);
 				this.state.logo.push(logo);
 				this.state.teamsNumber.push(0);
 				this.state.members.push(1);
@@ -94,9 +99,13 @@ class OrgProfile extends Component {
 
 	handleOrgWebsite(website) {
 		this.state.orgWebsite = website;
+		if (website != '')
+			this.setState({image :'https://www.google.com/s2/favicons?domain_url='+website });
 	}
 
 	handleImageChanged (event, results) {
+
+
 		const file = results[0][0];
 		const info = results[0][1];
 		const imageType = ["image/jpeg", "image/png", "image/jpg"];
@@ -118,13 +127,13 @@ class OrgProfile extends Component {
 		helper.setUser(this.props.user);
 		helper.getOrgs()
 		.then(orgs => {
-			console.log(orgs);
+			// console.log(orgs);
 			this.state.orgs = orgs;
 			orgs.map((org,i) => {
 				this.state.orgId.push(org.subscriberOrgId);
 				this.state.preferences.push(org.preferences);
-				const link = org.preferences.hasOwnProperty("icon") ? 'data:image/jpeg;base64,'+org.preferences.icon : '';
-				const logo = org.preferences.hasOwnProperty("icon") ? (<img src={link} />) : '';
+				const link = org.preferences.hasOwnProperty("icon") ? 'data:image/jpeg;base64,'+org.preferences.icon : 'https://www.google.com/s2/favicons?domain_url=a';
+				const logo = (<img src={link} />);
 				this.state.logo.push(logo);
 				let rowClass = i%2 == 0 ? "even" : "odd";
 				this.state.rowClass.push(rowClass);
