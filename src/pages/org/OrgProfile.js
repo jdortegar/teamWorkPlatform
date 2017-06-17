@@ -36,6 +36,7 @@ class OrgProfile extends Component {
 			orgName: '',
 			icon: null,
 			orgWebsite: '',
+			data: {},
 		};	
 		this.renderOrgs = this.renderOrgs.bind(this);
 		this.closeAddOrg = this.closeAddOrg.bind(this);
@@ -54,30 +55,45 @@ class OrgProfile extends Component {
 		if (this.state.orgName == '') {
 			this.setState({notification: "Organization Name is required !", notification_color: "red"});
 		}
-		else if (this.state.icon == null) {
-			if (this.state.orgWebsite == '') {
-				this.setState({notification: "Organization Name is required !", notification_color: "red"});
-			}
-		}
 		else {
 			
 			const name = this.state.orgName;
 			let preferences = {};
 			preferences["webSite"] = this.state.orgWebsite;
 			if (this.state.icon != null) preferences["icon"] = this.state.icon;
+			else preferences["iconUrl"] = this.state.image;
 			console.log({name,preferences});
-			helper.createSubscriberOrg({name,preferences})
+			this.state.data = {preferences};
+			// helper.createSubscriberOrg({name,preferences})
+			// .then(response => {
+			// 	console.log(response);
+			// 	let rowClass = this.state.orgs.length % 2 == 0 ? "even" : "odd";
+			// 	this.state.orgs.push(response);
+			// 	this.state.name.push(response.name);
+			// 	const logo = (<img src={this.state.image} style={{width: "16px", height: "16px"}}/>);
+			// 	this.state.logo.push(logo);
+			// 	this.state.teamsNumber.push(0);
+			// 	this.state.members.push(1);
+			// 	this.state.rowClass.push(rowClass);
+			// 	this.setState({addOrg: false});	
+			// })
+			// .catch(error => console.log(error))
+			helper.createSubscriberOrg({name})
 			.then(response => {
-				console.log(response);
-				let rowClass = this.state.orgs.length % 2 == 0 ? "even" : "odd";
-				this.state.orgs.push(response);
-				this.state.name.push(response.name);
-				const logo = (<img src={this.state.image} style={{width: "16px", height: "16px"}}/>);
-				this.state.logo.push(logo);
-				this.state.teamsNumber.push(0);
-				this.state.members.push(1);
-				this.state.rowClass.push(rowClass);
-				this.setState({addOrg: false});	
+				helper.updateSubscriberOrg(response.subscriberOrgId, this.state.data)
+				.then(response => {
+					console.log(response);
+					let rowClass = this.state.orgs.length % 2 == 0 ? "even" : "odd";
+					this.state.orgs.push(response);
+					this.state.name.push(response.name);
+					const logo = (<img src={this.state.image} style={{width: "16px", height: "16px"}}/>);
+					this.state.logo.push(logo);
+					this.state.teamsNumber.push(0);
+					this.state.members.push(1);
+					this.state.rowClass.push(rowClass);
+					this.setState({addOrg: false});	
+				})
+				.catch(error => console.log(error))
 			})
 			.catch(error => console.log(error))
 			
@@ -99,7 +115,7 @@ class OrgProfile extends Component {
 
 	handleOrgWebsite(website) {
 		this.state.orgWebsite = website;
-		if (website != '')
+		if (website != '' && this.state.icon == null)
 			this.setState({image :'https://www.google.com/s2/favicons?domain_url='+website });
 	}
 

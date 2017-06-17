@@ -434,7 +434,20 @@ class Helper{
 		
 	}
 
-
+	updateSubscriberOrg(OrgId, data) {
+		return new Promise((resolve, reject) =>{
+			const url = `${config.hablaApiBaseUri}/subscriberOrgs/updateSubscriberOrg/${OrgId}`;
+			const headers = {
+				content_type: 'application/json',
+				Authorization: this.token
+			};
+			console.log("data "+data);
+			const body = data;
+			axios.patch(url, body, { headers })
+			.then(result => resolve(result))
+			.catch(error => reject(error))
+		})
+	}
 
 
 	callGoogleDriveApi(subscriberOrgId = undefined) {
