@@ -10,34 +10,58 @@ import helper from '../../components/Helper';
 
 class TeamsList extends Component {
 
+	static contextTypes = {
+		router: PropTypes.object
+	}
+
 	constructor(props) {
 		super(props);
 		this.teams = [];
 	}
-	
+
 	selectedTeam(team) {
 		this.props.selectTeam(team);
-		helper.getTeamRooms(team)
-		.then(rooms => {
-			this.props.rooms(rooms);
-		})
-		.catch(error => console.log("This team does not have any chat room"))	
+		// console.log(team);
+		let preferences = {};
+		preferences["lastTeam"] = team.teamId;
+		helper.updateUserPreferences(preferences)
+		.then(result => {
+			console.log("Updated User Preferences with lastTeam");
+			helper.getTeamRooms(team)
+			.then(rooms => {
+				this.props.rooms(rooms);
+				this.context.router.push("/teams/"+team.name.toLowerCase());
+			})
+			.catch(error => console.log("This team does not have any chat room"))
+		})	
 	}
 
 	componentWillMount() {
-		helper.getTeams(this.props.org)
-		.then(teams => this.props.teams(teams))
-		.catch(error => console.log("This organizations does not have any team"))
+
+		if (!this.props.user.preferences.hasOwnProperty("lastTeam")) {
+			helper.getTeams(this.props.org)
+			.then(teams => this.props.teams(teams))
+			.catch(error => console.log("This organizations does not have any team"))
+		}
+		else {
+			const teamId = this.props.user.preferences.lastTeam;
+			helper.getTeams(this.props.org)
+			.then(teams => teams.map(team => {
+				if (team.teamId == teamId) {
+					this.props.selectTeam(team);
+					helper.getTeamRooms(team)
+					.then(rooms => {
+						this.props.rooms(rooms);
+						this.context.router.push("/teams/"+team.name.toLowerCase());
+					})
+				}
+			}))
+		}
 	}
 
 	render() {
 		var user = this.props.user;
-		const compare = (a,b) => {
-			if (a.name < b.name) return -1;
-			if (a.name > b.name) return 1;
-			return 0;
-		}
-		var teams = this.props.teamsInOrg.sort(compare);
+		var teams = helper.getSort(this.props.teamsInOrg, "name");
 		return (
 			<div>
 				<LoggedHeader />

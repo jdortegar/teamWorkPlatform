@@ -66,6 +66,7 @@ class ProfileEdit extends Component {
 	}
 
 	render() {
+		// console.log(this.props.user.user);
 		let imageProfile = null;
 		if (this.props.user.user.icon == null) 
 			imageProfile = (<div 
