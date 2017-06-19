@@ -25,6 +25,7 @@ class OrgProfile extends Component {
 			rowClass: [], 
 			subscribers:[], 
 			name: [], 
+			link: [],
 			logo: [], 
 			teamsNumber:[], 
 			members: [], 
@@ -36,7 +37,9 @@ class OrgProfile extends Component {
 			orgName: '',
 			icon: null,
 			orgWebsite: '',
+			data: {},
 		};	
+		this.compare = this.compare.bind(this);
 		this.renderOrgs = this.renderOrgs.bind(this);
 		this.closeAddOrg = this.closeAddOrg.bind(this);
 		this.submitAddOrg = this.submitAddOrg.bind(this);
@@ -60,14 +63,16 @@ class OrgProfile extends Component {
 			let preferences = {};
 			preferences["webSite"] = this.state.orgWebsite;
 			if (this.state.icon != null) preferences["icon"] = this.state.icon;
-			console.log({name,preferences});
+			else preferences["iconUrl"] = this.state.image;
+			preferences["private"] = {};
+			this.state.data = {preferences};
 			helper.createSubscriberOrg({name,preferences})
 			.then(response => {
 				console.log(response);
 				let rowClass = this.state.orgs.length % 2 == 0 ? "even" : "odd";
 				this.state.orgs.push(response);
 				this.state.name.push(response.name);
-				const logo = response.preferences.hasOwnProperty("icon") ? (<img src={response.preferences.icon} />) : 'empty';
+				const logo = (<img src={this.state.image} style={{width: "16px", height: "16px"}}/>);
 				this.state.logo.push(logo);
 				this.state.teamsNumber.push(0);
 				this.state.members.push(1);
@@ -75,7 +80,6 @@ class OrgProfile extends Component {
 				this.setState({addOrg: false});	
 			})
 			.catch(error => console.log(error))
-			
 		}
 	}
 
@@ -94,9 +98,13 @@ class OrgProfile extends Component {
 
 	handleOrgWebsite(website) {
 		this.state.orgWebsite = website;
+		if (website != '' && this.state.icon == null)
+			this.setState({image :'https://www.google.com/s2/favicons?domain_url='+website });
 	}
 
 	handleImageChanged (event, results) {
+
+
 		const file = results[0][0];
 		const info = results[0][1];
 		const imageType = ["image/jpeg", "image/png", "image/jpg"];
@@ -114,17 +122,24 @@ class OrgProfile extends Component {
 		}
 	}
 
+	compare(a,b) {
+		if (a.name < b.name) return -1;
+		if (a.name > b.name) return 1;
+		return 0;
+	}
+
 	componentWillMount() {
 		helper.setUser(this.props.user);
 		helper.getOrgs()
 		.then(orgs => {
-			console.log(orgs);
-			this.state.orgs = orgs;
-			orgs.map((org,i) => {
+			const orgs_sorted = orgs.sort(this.compare);
+			this.state.orgs = orgs_sorted;
+			orgs_sorted.map((org,i) => {
 				this.state.orgId.push(org.subscriberOrgId);
 				this.state.preferences.push(org.preferences);
-				const link = org.preferences.hasOwnProperty("icon") ? 'data:image/jpeg;base64,'+org.preferences.icon : '';
-				const logo = org.preferences.hasOwnProperty("icon") ? (<img src={link} />) : '';
+				const link = org.preferences.hasOwnProperty("icon") ? 'data:image/jpeg;base64,'+org.preferences.icon : 'https://www.google.com/s2/favicons?domain_url=a';
+				const logo = (<img src={link} style={{width: "16px", height: "16px"}} />);
+				this.state.link.push(link);
 				this.state.logo.push(logo);
 				let rowClass = i%2 == 0 ? "even" : "odd";
 				this.state.rowClass.push(rowClass);
@@ -152,7 +167,7 @@ class OrgProfile extends Component {
 				const rowClass = `org-table-row ${this.state.rowClass[i]}`;
 				const orgData = {
 					name: this.state.name[i], 
-					logo: this.state.logo[i], 
+					link: this.state.link[i], 
 					teams: this.state.teams[i], 
 					members: this.state.subscribers[i],
 					orgId: this.state.orgId[i],

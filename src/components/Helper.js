@@ -258,12 +258,28 @@ class Helper{
 		});
 	}
 
-	updateUserPreferences() {
-		const url = `${config.hablaApiBaseUri}/users/updatePublicPreferences/${this.user.user.userId}`;
-		const headers = {
+	updateUserPreferences(preferences) {
+		console.log({preferences});
+		return new Promise((resolve, reject) => {
+			const url = `${config.hablaApiBaseUri}/users/updatePublicPreferences/${this.user.user.userId}`;
+			const headers = {
 				content_type: 'application/json',
 				Authorization: this.token
 			};
+			axios.patch(url, {preferences }, { headers: headers })
+			.then(result => resolve(result))
+			.catch(error => reject(error))
+		})
+		
+		
+	}
+
+	updateUserColor() {
+		const url = `${config.hablaApiBaseUri}/users/updatePublicPreferences/${this.user.user.userId}`;
+		const headers = {
+			content_type: 'application/json',
+			Authorization: this.token
+		};
 		axios.patch(url, {preferences: { iconColor: this.randomColor()}}, { headers: headers })
 		.then(() => console.log("Updated iconColor"))
 		.catch(error => console.log(error))
@@ -271,7 +287,7 @@ class Helper{
 
 	updateUserProfile({country, displayName, email, firstName, fullName, icon, lastName, timeZone}) {
 		if (!this.user.user.preferences.hasOwnProperty('iconColor')) { //use to update icon color for previous account which do not have iconColo property
-			this.updateUserPreferences();
+			this.updateUserColor();
 		}
 		return new Promise((resolve, reject) => {
 			self = this;
@@ -375,18 +391,12 @@ class Helper{
 		})
 	}
 
-	callGoogleDriveApi() {
-		return new Promise((resolve, reject) =>{
-			//TODO: Anthony GoogleDrive axios call
-		})
-	}
-
-	callBoxApi(subscriberOrgId) {
-	   // TODO: anthony, Move this to page load.  Have to retrieve from persistence if it doesn't exist.
+   _integrate(type, subscriberOrgId) {
+      // TODO: anthony, Move this to page load.  Have to retrieve from persistence if it doesn't exist.
       this.token = this.token || `Bearer ${sessionStorage.getItem('jwt')}`;
 
-		return new Promise((resolve, reject) => {
-		   // TODO: remove getting first org from list once a valid subscriberOrgId parameter is passed in.  This is just a hack until we have the concept of current Org context.
+      return new Promise((resolve, reject) => {
+         // TODO: remove getting first org from list once a valid subscriberOrgId parameter is passed in.  This is just a hack until we have the concept of current Org context.
          Promise.all([])
             .then(() => {
                if (subscriberOrgId) {
@@ -405,7 +415,7 @@ class Helper{
                   subscriberOrgId = subscriberOrgIdOrResponse;
                }
 
-               return axios.get(`${config.hablaApiBaseUri}/integrations/box/integrate/${subscriberOrgId}`, { headers: { Authorization: this.token } });
+               return axios.get(`${config.hablaApiBaseUri}/integrations/${type}/integrate/${subscriberOrgId}`, { headers: { Authorization: this.token } });
             })
             .then( (response) => {
                if (response.status === 202) { // Redirect ourselves.
@@ -421,6 +431,7 @@ class Helper{
                resolve(response.data.messages);
             })
             .catch(err => reject(err));
+
 		})
 	}
 
@@ -439,9 +450,29 @@ class Helper{
 		
 	}
 
+	updateSubscriberOrg(OrgId, data) {
+		return new Promise((resolve, reject) =>{
+			const url = `${config.hablaApiBaseUri}/subscriberOrgs/updateSubscriberOrg/${OrgId}`;
+			const headers = {
+				content_type: 'application/json',
+				Authorization: this.token
+			};
+			console.log("data "+data);
+			const body = data;
+			axios.patch(url, body, { headers })
+			.then(result => resolve(result))
+			.catch(error => reject(error))
+		})
+	}
 
 
+	callGoogleDriveApi(subscriberOrgId = undefined) {
+		return this._integrate('google', subscriberOrgId);
+	}
 
+	callBoxApi(subscriberOrgId) {
+      return this._integrate('box', subscriberOrgId);
+	}
 }
 
 const helper = new Helper();

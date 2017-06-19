@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import { Link } from 'react-router';
-import { Footer, FieldGroup } from '../../components';
+import { FieldGroup } from '../../components';
 import LoggedHeader from '../../components/LoggedHeader';
 import FileReaderInput from 'react-file-reader-input';
 import { connect } from 'react-redux';
@@ -30,6 +30,9 @@ class OrgUpdate extends Component {
 		
 	}
 
+	componentWillMount() {
+	
+	}
 
 	handleImageChanged (event, results) {
 		const file = results[0][0];
@@ -144,21 +147,22 @@ class OrgUpdate extends Component {
 
 
 	render() {
-		console.log(this.props.org);
+	
 		const country = this.state.country;
 		const teams = this.renderTeams();
 		const members = this.renderMembers();
 		let imageProfile = null;
-		if (this.state.image == null) 
-			imageProfile = (<div className="preview-image center" >
-									<i className="fa fa-sitemap" />
-							</div>)
-		else {
-			imageProfile = (<div>
-								<img src={this.state.image} className="user-avatar-preview clearpadding" />
-							</div>);
-		}
 
+		// if (this.state.image == null) 
+		// 	imageProfile = (<div className="preview-image center" >
+		// 							<i className="fa fa-sitemap" />
+		// 					</div>)
+		// else {
+		// 	imageProfile = (<div>
+		// 						<img src={this.state.image} className="user-avatar-preview clearpadding" />
+		// 					</div>);
+		// }
+		imageProfile = (<div><img src={this.props.org.link} className="user-avatar-preview clearpadding" /></div>);
 		return (
 			<div className="container-fluid">
 				<LoggedHeader />
@@ -326,7 +330,7 @@ class OrgUpdate extends Component {
 					</div>
 				</div>
 				</section>
-				<Footer />
+				
 			</div>
 		);
 	}
