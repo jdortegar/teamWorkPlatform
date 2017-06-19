@@ -31,6 +31,12 @@ class RoomsList extends Component {
 	}
 
 	render() {
+		const compare = (a,b) => {
+			if (a.name < b.name) return -1;
+			if (a.name > b.name) return 1;
+			return 0;
+		}
+		const rooms = this.state.rooms.sort(compare);
 		return (
 			<div>
 				<LoggedHeader />
@@ -57,30 +63,25 @@ class RoomsList extends Component {
 								</div>
 							</div>					
 						</div>
-							
-							{
-								
-									this.state.rooms.map((room,i) => {
+							{			
+								rooms.map((room,i) => {
 									return (
 										<div className="col-md-8 col-md-offset-2" key={i}>
-											<Link 
-                                    to={"/team/teamroom/"+room.name.toLowerCase()}
-                                    className="col-md-4 blue-link"
-                                    onClick={() => this.selectedRoom(room)}>{room.name}
-                                 </Link>
+										<Link 
+                                    		to={"/team/teamroom/"+room.name.toLowerCase()}
+                                    		className="col-md-4 blue-link"
+                                    		onClick={() => this.selectedRoom(room)}>{room.name}
+                                 		</Link>
 										</div>
 									);
 								})								
 							}
-
 							<div className="fill-vertical"></div>
 							<div className="fill-vertical"></div>
 
 						</div>
 					</form>
-
 				<Footer />
-				
 			</div>
 		);
 	}

@@ -57,6 +57,8 @@ class SignIn extends Component {
 			this.storeUser(response.data);
 			helper.connectWebSocket(response.data.websocketUrl);
 
+			helper.setUser(response.data);
+
 
 			helper.getOrgs()
 			.then(orgs => {

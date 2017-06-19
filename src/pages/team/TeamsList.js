@@ -32,7 +32,12 @@ class TeamsList extends Component {
 
 	render() {
 		var user = this.props.user;
-		var teams = this.props.teamsInOrg;
+		const compare = (a,b) => {
+			if (a.name < b.name) return -1;
+			if (a.name > b.name) return 1;
+			return 0;
+		}
+		var teams = this.props.teamsInOrg.sort(compare);
 		return (
 			<div>
 				<LoggedHeader />
@@ -60,7 +65,7 @@ class TeamsList extends Component {
 							</div>					
 						</div>
 							{
-								this.props.teamsInOrg.map((team,i) => {
+								teams.map((team,i) => {
 									return (
 										<div className="col-md-8 col-md-offset-2" key={i}> {/* organizations have bug with 2 orgs have the same Id */}
 											<Link 

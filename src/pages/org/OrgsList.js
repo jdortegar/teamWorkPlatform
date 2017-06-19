@@ -4,18 +4,41 @@ import { Link } from 'react-router';
 import Button from 'react-bootstrap/lib/Button';
 import config from '../../config/env';
 import { Header, Footer, FieldGroup } from '../../components';
-import { selectOrg} from '../../actions/index';
+import { selectedOrg} from '../../actions/index';
 import LoggedHeader from '../../components/LoggedHeader';
+import helper from '../../components/Helper';
 
 class OrgsList extends Component {
 	
+	static contextTypes = {
+		router: PropTypes.object
+	};
+
+
 	selectedOrg(org) {
-		this.props.selectOrg(org);	
+		this.props.selectedOrg(org);	
+		console.log(this.props.user);
+		let preferences = {};
+		preferences["lastOrg"] = org.subscriberOrgId;
+		// console.log(preferences);
+		helper.updateUserPreferences(org)
+		.then(result => {
+			console.log(result);
+			// this.context.router.push("/organizations/"+org.name.toLowerCase());
+		})
+		.catch(error => console.log(error))
 	}
+
+
 
 	render() {
 		var user = this.props.user;
-		var orgs = this.props.orgs;
+		const compare = (a,b) => {
+			if (a.name < b.name) return -1;
+			if (a.name > b.name) return 1;
+			return 0;
+		}
+		var orgs = this.props.orgs.sort(compare);
 		return (
 			<div>
 				<LoggedHeader />
@@ -43,7 +66,7 @@ class OrgsList extends Component {
 							</div>					
 						</div>
 							{
-								this.props.orgs.map((org,i) => {
+								orgs.map((org,i) => {
 									return (
 										<div className="col-md-8 col-md-offset-2" key={i}> {/* organizations have bug with 2 orgs have the same Id */}
 											<Link 
@@ -70,11 +93,11 @@ class OrgsList extends Component {
 }
 
 function mapStateToProps(state) {
-	// console.log(state.orgs.orgs);
+	// console.log(state);
 	return {
 		user: state.user.user.user,
 		orgs: state.orgs.orgs,
 	}
 }
 
-export default connect(mapStateToProps, {selectOrg})(OrgsList);
+export default connect(mapStateToProps, {selectedOrg})(OrgsList);

@@ -258,12 +258,28 @@ class Helper{
 		});
 	}
 
-	updateUserPreferences() {
-		const url = `${config.hablaApiBaseUri}/users/updatePublicPreferences/${this.user.user.userId}`;
-		const headers = {
+	updateUserPreferences(preferences) {
+		console.log({preferences});
+		return new Promise((resolve, reject) => {
+			const url = `${config.hablaApiBaseUri}/users/updatePublicPreferences/${this.user.user.userId}`;
+			const headers = {
 				content_type: 'application/json',
 				Authorization: this.token
 			};
+			axios.patch(url, {preferences }, { headers: headers })
+			.then(result => resolve(result))
+			.catch(error => reject(error))
+		})
+		
+		
+	}
+
+	updateUserColor() {
+		const url = `${config.hablaApiBaseUri}/users/updatePublicPreferences/${this.user.user.userId}`;
+		const headers = {
+			content_type: 'application/json',
+			Authorization: this.token
+		};
 		axios.patch(url, {preferences: { iconColor: this.randomColor()}}, { headers: headers })
 		.then(() => console.log("Updated iconColor"))
 		.catch(error => console.log(error))
@@ -271,7 +287,7 @@ class Helper{
 
 	updateUserProfile({country, displayName, email, firstName, fullName, icon, lastName, timeZone}) {
 		if (!this.user.user.preferences.hasOwnProperty('iconColor')) { //use to update icon color for previous account which do not have iconColo property
-			this.updateUserPreferences();
+			this.updateUserColor();
 		}
 		return new Promise((resolve, reject) => {
 			self = this;
