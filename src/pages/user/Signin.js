@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/lib/Button';
 import { Link } from 'react-router';
 import axios from 'axios';
 import { Footer, FieldGroup } from '../../components';
-import { user, organization, orgs, teams, rooms } from '../../actions/index';
+import { user, organization, orgs, teams, rooms, selectedOrg } from '../../actions/index';
 import HeaderNavbar from '../homepage/components/header_navbar';
 import helper from '../../components/Helper';
 
@@ -58,37 +58,31 @@ class SignIn extends Component {
 			helper.connectWebSocket(response.data.websocketUrl);
 
 			helper.setUser(response.data);
+			if (!response.data.user.preferences.hasOwnProperty("lastOrg")) {
+				helper.getOrgs()
+				.then(orgs => {
+					this.storeOrgs(orgs);
+					this.context.router.push('/organizations');
+	         	})
+	         	.catch(error => {
+	            	console.log("getOrgs failed: " + JSON.stringify(error));
+	         	})
+	         }
+	         else {
+	         	const orgId = response.data.user.preferences.lastOrg;
+	         	helper.getOrgs()
+	         	.then(orgs => {
+	         		let result;
+	         		orgs.map(org => {
+	         			if (org.subscriberOrgId == orgId) {
+	         				this.props.selectedOrg(org);
+	         				result = org;
+	         			}
+	         		})
+	         		this.context.router.push('/organizations/'+result.name.toLowerCase());
+	         	})
+	         }
 
-
-			helper.getOrgs()
-			.then(orgs => {
-				this.storeOrgs(orgs);
-				this.context.router.push('/organizations');
-            	// this.storeOrganization(orgs[0]);
-
-            	// helper.getTeams(orgs[0])
-            	// .then(teams => {
-            	// 	console.log(teams)
-
-             //   		this.storeTeams(teams);
-             //   		helper.getTeamRooms(teams[0])
-             //   		.then(rooms => {
-             //   			console.log(rooms)
-
-             //      		this.storeRooms(rooms);
-             //      		this.context.router.push('/teams');
-             //   		})
-             //   		.catch(error => {
-             //      		console.log("getTeamRooms failed: " + JSON.stringify(error));
-             //   		})
-            	// })
-            	// .catch(error => {
-             //   		console.log("getTeams failed: " + JSON.stringify(error));
-            	// })
-         	})
-         	.catch(error => {
-            	console.log("getOrgs failed: " + JSON.stringify(error));
-         	})
 		})
 		.catch(error => console.log(error));
 	}
@@ -157,5 +151,5 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, { user, orgs, organization, teams, rooms })(SignIn);
+export default connect(mapStateToProps, { user, orgs, organization, teams, rooms, selectedOrg })(SignIn);
 

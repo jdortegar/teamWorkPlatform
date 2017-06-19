@@ -17,28 +17,19 @@ class OrgsList extends Component {
 
 	selectedOrg(org) {
 		this.props.selectedOrg(org);	
-		console.log(this.props.user);
 		let preferences = {};
 		preferences["lastOrg"] = org.subscriberOrgId;
-		// console.log(preferences);
-		helper.updateUserPreferences(org)
+		helper.updateUserPreferences(preferences)
 		.then(result => {
-			console.log(result);
-			// this.context.router.push("/organizations/"+org.name.toLowerCase());
+			console.log("Updated User Preferences with lastOrg !!!");
+			this.context.router.push("/organizations/"+org.name.toLowerCase());
 		})
 		.catch(error => console.log(error))
 	}
 
-
-
 	render() {
 		var user = this.props.user;
-		const compare = (a,b) => {
-			if (a.name < b.name) return -1;
-			if (a.name > b.name) return 1;
-			return 0;
-		}
-		var orgs = this.props.orgs.sort(compare);
+		var orgs = helper.getSort(this.props.orgs, "name");
 		return (
 			<div>
 				<LoggedHeader />
@@ -70,7 +61,7 @@ class OrgsList extends Component {
 									return (
 										<div className="col-md-8 col-md-offset-2" key={i}> {/* organizations have bug with 2 orgs have the same Id */}
 											<Link 
-                                    to={"/organizations/"+org.name.toLowerCase()}
+                                    to={""}
                                     className="col-md-4 blue-link"
                                     onClick={() => this.selectedOrg(org)}>{org.name}
                                  </Link>

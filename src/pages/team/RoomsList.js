@@ -31,12 +31,7 @@ class RoomsList extends Component {
 	}
 
 	render() {
-		const compare = (a,b) => {
-			if (a.name < b.name) return -1;
-			if (a.name > b.name) return 1;
-			return 0;
-		}
-		const rooms = this.state.rooms.sort(compare);
+		const rooms = helper.getSort(this.state.rooms, "name");
 		return (
 			<div>
 				<LoggedHeader />

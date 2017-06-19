@@ -16,10 +16,12 @@ class OrgUpdate extends Component {
 		super(props);
 		this.state = {
 			term: '', 
-			image: null, 
+			image: this.props.org.link, 
 			notification: '', 
 			notification_color: "black",
 			teams: this.props.org.teams,
+			orgName: '',
+			orgWebsite: '',
 
 		};
 		this.renderTeams = this.renderTeams.bind(this);
@@ -32,6 +34,20 @@ class OrgUpdate extends Component {
 
 	componentWillMount() {
 	
+	}
+
+	handleUpdateOrg() {
+		
+	}
+
+	handleOrgName(name) {
+		this.state.orgName = name;
+	}
+
+	handleOrgWebsite(website) {
+		this.state.orgWebsite = website;
+		if (website != '' && this.state.icon == null)
+			this.setState({image :'https://www.google.com/s2/favicons?domain_url='+website });
 	}
 
 	handleImageChanged (event, results) {
@@ -162,7 +178,7 @@ class OrgUpdate extends Component {
 		// 						<img src={this.state.image} className="user-avatar-preview clearpadding" />
 		// 					</div>);
 		// }
-		imageProfile = (<div><img src={this.props.org.link} className="user-avatar-preview clearpadding" /></div>);
+		imageProfile = (<div><img src={this.state.image} className="user-avatar-preview clearpadding" /></div>);
 		return (
 			<div className="container-fluid">
 				<LoggedHeader />
@@ -202,7 +218,7 @@ class OrgUpdate extends Component {
 								<FieldGroup
 									
 									type="text"
-									onChange={event => this.handleChange(event.target.value)}
+									onChange={event => this.handleOrgName(event.target.value)}
 									label="Organization Name"
 									placeholder={this.props.org.name}
 									className="col-md-12"
@@ -215,7 +231,7 @@ class OrgUpdate extends Component {
 								<FieldGroup
 								
 									type="text"
-									onChange={event => this.handleChange(event.target.value)}
+									onChange={event => this.handleOrgWebsite(event.target.value)}
 									label="Web Address"
 									placeholder={this.props.org.preferences.webSite}
 									className="col-md-12"
@@ -229,7 +245,7 @@ class OrgUpdate extends Component {
 								<br />
 								<Link to="/org-notify">
 									<Button
-										type="submit"
+										onClick={() => this.handleUpdateOrg()}
 										bsStyle="primary"
 										className="col-md-12" >
 											UPDATE ORGANIZATION

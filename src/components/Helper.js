@@ -10,6 +10,7 @@ class Helper{
 		this.getConversations = this.getConversations.bind(this);
 		this.getMessages = this.getMessages.bind(this);
 		this.updateUserPreferences = this.updateUserPreferences.bind(this);
+		this.getOrgs = this.getOrgs.bind(this);
 	}
 
    setUser(user) {
@@ -71,6 +72,15 @@ class Helper{
 			}
 		});
 		return name;
+	}
+
+	getSort(array, key) {
+		const compare = (a,b) => {
+			if (a[key] < b[key]) return -1;
+			if (a[key] > b[key]) return 1;
+			return 0;
+		}
+		return array.sort(compare);
 	}
 
 	validateEmail(rid) {
@@ -151,6 +161,7 @@ class Helper{
          })
 		})
 	}
+
 
 	getOrgSubscribers(org) {
 		return new Promise((resolve, reject) => {
@@ -266,8 +277,11 @@ class Helper{
 				content_type: 'application/json',
 				Authorization: this.token
 			};
-			axios.patch(url, {preferences }, { headers: headers })
-			.then(result => resolve(result))
+			axios.patch(url, {preferences}, { headers: headers })
+			.then(result => {
+				// console.log("Update last org successfully !!!")
+				resolve(result);
+			})
 			.catch(error => reject(error))
 		})
 		
@@ -280,13 +294,13 @@ class Helper{
 			content_type: 'application/json',
 			Authorization: this.token
 		};
-		axios.patch(url, {preferences: { iconColor: this.randomColor()}}, { headers: headers })
+		axios.patch(url, {preferences: { lastOrg: "test last org"}}, { headers: headers })
 		.then(() => console.log("Updated iconColor"))
 		.catch(error => console.log(error))
 	}
 
 	updateUserProfile({country, displayName, email, firstName, fullName, icon, lastName, timeZone}) {
-		if (!this.user.user.preferences.hasOwnProperty('iconColor')) { //use to update icon color for previous account which do not have iconColo property
+		if (!this.user.user.preferences.hasOwnProperty('lastOrg')) { //use to update icon color for previous account which do not have iconColo property
 			this.updateUserColor();
 		}
 		return new Promise((resolve, reject) => {

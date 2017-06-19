@@ -39,7 +39,6 @@ class OrgProfile extends Component {
 			orgWebsite: '',
 			data: {},
 		};	
-		this.compare = this.compare.bind(this);
 		this.renderOrgs = this.renderOrgs.bind(this);
 		this.closeAddOrg = this.closeAddOrg.bind(this);
 		this.submitAddOrg = this.submitAddOrg.bind(this);
@@ -68,7 +67,7 @@ class OrgProfile extends Component {
 			this.state.data = {preferences};
 			helper.createSubscriberOrg({name,preferences})
 			.then(response => {
-				console.log(response);
+			
 				let rowClass = this.state.orgs.length % 2 == 0 ? "even" : "odd";
 				this.state.orgs.push(response);
 				this.state.name.push(response.name);
@@ -122,22 +121,20 @@ class OrgProfile extends Component {
 		}
 	}
 
-	compare(a,b) {
-		if (a.name < b.name) return -1;
-		if (a.name > b.name) return 1;
-		return 0;
-	}
-
 	componentWillMount() {
 		helper.setUser(this.props.user);
+
+		console.log(this.props.user);
+
 		helper.getOrgs()
 		.then(orgs => {
-			const orgs_sorted = orgs.sort(this.compare);
+			const orgs_sorted = helper.getSort(orgs, "name");
 			this.state.orgs = orgs_sorted;
+			console.log(orgs_sorted);
 			orgs_sorted.map((org,i) => {
 				this.state.orgId.push(org.subscriberOrgId);
 				this.state.preferences.push(org.preferences);
-				const link = org.preferences.hasOwnProperty("icon") ? 'data:image/jpeg;base64,'+org.preferences.icon : 'https://www.google.com/s2/favicons?domain_url=a';
+				const link = org.preferences.hasOwnProperty("icon") ? 'data:image/jpeg;base64,'+org.preferences.icon : 'https://www.google.com/s2/favicons?domain_url='+org.preferences.webSite;
 				const logo = (<img src={link} style={{width: "16px", height: "16px"}} />);
 				this.state.link.push(link);
 				this.state.logo.push(logo);
@@ -153,17 +150,17 @@ class OrgProfile extends Component {
 					this.state.teamsNumber.push(teams.length);
 					this.state.teams.push(teams);
 					this.forceUpdate();
-				})
-				
-				
+				})		
 			})
 			
 		})
 	}
 
 	renderOrgs() {
+		
 		if (this.state.orgs != null) { //this condition ensure that this function only execute the inside code when this.state.orgs already updated => solve time delay data flow
 			const result = this.state.orgs.map((org,i) => {
+				const set = (this.props.user.user.preferences.lastOrg == org.subscriberOrgId) ? "Default" : (<button className="btn color-blue">Set</button>);
 				const rowClass = `org-table-row ${this.state.rowClass[i]}`;
 				const orgData = {
 					name: this.state.name[i], 
@@ -181,9 +178,7 @@ class OrgProfile extends Component {
 						<td>{this.state.teamsNumber[i]}</td>
 						<td>{this.state.members[i]}</td>
 						<td>
-							<button className="btn color-blue">
-								Set
-							</button>
+							{ set }	
 						</td>
 						<td>
 							<button 
