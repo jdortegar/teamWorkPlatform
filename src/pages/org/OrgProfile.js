@@ -121,16 +121,20 @@ class OrgProfile extends Component {
 		}
 	}
 
+	handleGo(org) {
+		
+	}
+
 	componentWillMount() {
 		helper.setUser(this.props.user);
 
-		console.log(this.props.user);
+		// console.log(this.props.user);
 
 		helper.getOrgs()
 		.then(orgs => {
 			const orgs_sorted = helper.getSort(orgs, "name");
 			this.state.orgs = orgs_sorted;
-			console.log(orgs_sorted);
+			// console.log(orgs_sorted);
 			orgs_sorted.map((org,i) => {
 				this.state.orgId.push(org.subscriberOrgId);
 				this.state.preferences.push(org.preferences);
@@ -179,6 +183,13 @@ class OrgProfile extends Component {
 						<td>{this.state.members[i]}</td>
 						<td>
 							{ set }	
+						</td>
+						<td>
+							<button 
+								onClick={() => this.handleGo(org)}
+								className="btn color-blue" >
+								Go
+							</button>
 						</td>
 						<td>
 							<button 
@@ -260,6 +271,9 @@ class OrgProfile extends Component {
 									
 									<th>
 										Set Default
+									</th>
+									<th>
+										Enter
 									</th>
 									<th>
 										Management
