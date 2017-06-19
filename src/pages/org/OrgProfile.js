@@ -124,7 +124,7 @@ class OrgProfile extends Component {
 	componentWillMount() {
 		helper.setUser(this.props.user);
 
-		// console.log(this.props.user);
+		console.log(this.props.user);
 
 		helper.getOrgs()
 		.then(orgs => {
@@ -150,17 +150,17 @@ class OrgProfile extends Component {
 					this.state.teamsNumber.push(teams.length);
 					this.state.teams.push(teams);
 					this.forceUpdate();
-				})
-				
-				
+				})		
 			})
 			
 		})
 	}
 
 	renderOrgs() {
+		
 		if (this.state.orgs != null) { //this condition ensure that this function only execute the inside code when this.state.orgs already updated => solve time delay data flow
 			const result = this.state.orgs.map((org,i) => {
+				const set = (this.props.user.user.preferences.lastOrg == org.subscriberOrgId) ? "Default" : (<button className="btn color-blue">Set</button>);
 				const rowClass = `org-table-row ${this.state.rowClass[i]}`;
 				const orgData = {
 					name: this.state.name[i], 
@@ -178,9 +178,7 @@ class OrgProfile extends Component {
 						<td>{this.state.teamsNumber[i]}</td>
 						<td>{this.state.members[i]}</td>
 						<td>
-							<button className="btn color-blue">
-								Set
-							</button>
+							{ set }	
 						</td>
 						<td>
 							<button 
