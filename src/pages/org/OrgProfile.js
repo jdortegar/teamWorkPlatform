@@ -45,7 +45,7 @@ class OrgProfile extends Component {
 		this.handleOrgName = this.handleOrgName.bind(this);
 		this.handleOrgWebsite = this.handleOrgWebsite.bind(this);
 		this.handleImageChanged = this.handleImageChanged.bind(this);
-
+		this.handleSetDefault = this.handleSetDefault.bind(this);
 	}
 
 	closeAddOrg() {
@@ -101,6 +101,19 @@ class OrgProfile extends Component {
 			this.setState({image :'https://www.google.com/s2/favicons?domain_url='+website });
 	}
 
+	handleSetDefault(org) {
+		this.props.selectedOrg(org);	
+		let preferences = {};
+		preferences["lastOrg"] = org.subscriberOrgId;
+		helper.updateUserPreferences(preferences)
+		.then(result => {
+			console.log("Updated User Preferences with lastOrg !!!");
+			// this.renderOrgs();
+			// this.forceUpdate();
+		})
+		.catch(error => console.log(error))
+	}
+
 	handleImageChanged (event, results) {
 
 
@@ -122,7 +135,16 @@ class OrgProfile extends Component {
 	}
 
 	handleGo(org) {
-		
+
+		this.props.selectedOrg(org);	
+		let preferences = {};
+		preferences["lastOrg"] = org.subscriberOrgId;
+		helper.updateUserPreferences(preferences)
+		.then(result => {
+			console.log("Updated User Preferences with lastOrg !!!");
+			this.context.router.push("/organizations/"+org.name.toLowerCase());
+		})
+		.catch(error => console.log(error))
 	}
 
 	componentWillMount() {
@@ -164,7 +186,7 @@ class OrgProfile extends Component {
 		
 		if (this.state.orgs != null) { //this condition ensure that this function only execute the inside code when this.state.orgs already updated => solve time delay data flow
 			const result = this.state.orgs.map((org,i) => {
-				const set = (this.props.user.user.preferences.lastOrg == org.subscriberOrgId) ? "Default" : (<button className="btn color-blue">Set</button>);
+				const set = (this.props.user.user.preferences.lastOrg == org.subscriberOrgId) ? "Default" : (<button className="btn color-blue" onClick={() => this.handleSetDefault(org)} >Set</button>);
 				const rowClass = `org-table-row ${this.state.rowClass[i]}`;
 				const orgData = {
 					name: this.state.name[i], 
@@ -250,7 +272,7 @@ class OrgProfile extends Component {
 							Within the Hablasphere everything is organized. {'\n'}
 							Here is a list of Organizations you are currently the admin for
 						</p>
-						
+
 						<br />
 
 						<table className="col-md-12 org-table">
