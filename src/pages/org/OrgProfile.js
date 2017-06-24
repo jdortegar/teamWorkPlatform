@@ -45,7 +45,7 @@ class OrgProfile extends Component {
 		this.handleOrgName = this.handleOrgName.bind(this);
 		this.handleOrgWebsite = this.handleOrgWebsite.bind(this);
 		this.handleImageChanged = this.handleImageChanged.bind(this);
-		this.handleSetDefault = this.handleSetDefault.bind(this);
+		
 	}
 
 	closeAddOrg() {
@@ -99,19 +99,6 @@ class OrgProfile extends Component {
 		this.state.orgWebsite = website;
 		if (website != '' && this.state.icon == null)
 			this.setState({image :'https://www.google.com/s2/favicons?domain_url='+website });
-	}
-
-	handleSetDefault(org) {
-		this.props.selectedOrg(org);	
-		let preferences = {};
-		preferences["lastOrg"] = org.subscriberOrgId;
-		helper.updateUserPreferences(preferences)
-		.then(result => {
-			console.log("Updated User Preferences with lastOrg !!!");
-			// this.renderOrgs();
-			// this.forceUpdate();
-		})
-		.catch(error => console.log(error))
 	}
 
 	handleImageChanged (event, results) {
@@ -186,7 +173,6 @@ class OrgProfile extends Component {
 		
 		if (this.state.orgs != null) { //this condition ensure that this function only execute the inside code when this.state.orgs already updated => solve time delay data flow
 			const result = this.state.orgs.map((org,i) => {
-				const set = (this.props.user.user.preferences.lastOrg == org.subscriberOrgId) ? "Default" : (<button className="btn color-blue" onClick={() => this.handleSetDefault(org)} >Set</button>);
 				const rowClass = `org-table-row ${this.state.rowClass[i]}`;
 				const orgData = {
 					name: this.state.name[i], 
@@ -203,9 +189,6 @@ class OrgProfile extends Component {
 						<td>{this.state.logo[i]}</td>
 						<td>{this.state.teamsNumber[i]}</td>
 						<td>{this.state.members[i]}</td>
-						<td>
-							{ set }	
-						</td>
 						<td>
 							<button 
 								onClick={() => this.handleGo(org)}
@@ -290,10 +273,7 @@ class OrgProfile extends Component {
 									<th>
 										Members
 									</th>
-									
-									<th>
-										Set Default
-									</th>
+			
 									<th>
 										Enter
 									</th>
