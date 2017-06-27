@@ -199,6 +199,13 @@ const componentRoutes = {
 					.then(module => cb(null, module.default))
 			}
 		},
+		{
+			path: 'spinning',
+			getComponent(location, cb) {
+				System.import('./components/Spinning')
+					.then(module => cb(null, module.default))
+			}
+		},
 	
 
 

@@ -8,6 +8,7 @@ import LoggedHeader from '../../components/LoggedHeader';
 import { connect } from 'react-redux';
 import helper from '../../components/Helper';
 import { selectedOrg } from '../../actions/index';
+import Spinning from '../../components/Spinning';
 
 class OrgProfile extends Component {
 
@@ -38,6 +39,8 @@ class OrgProfile extends Component {
 			icon: null,
 			orgWebsite: '',
 			data: {},
+			spinningClass: "spinning-show"
+			
 		};	
 		this.renderOrgs = this.renderOrgs.bind(this);
 		this.closeAddOrg = this.closeAddOrg.bind(this);
@@ -135,6 +138,7 @@ class OrgProfile extends Component {
 	}
 
 	componentWillMount() {
+		
 		helper.setUser(this.props.user);
 
 		// console.log(this.props.user);
@@ -163,11 +167,16 @@ class OrgProfile extends Component {
 					this.state.teamsNumber.push(teams.length);
 					this.state.teams.push(teams);
 					this.forceUpdate();
+					console.log("axios call done!");
+					this.setState({spinningClass: "spinning-hide"});
 				})		
+
 			})
+
 			
 		})
 	}
+
 
 	renderOrgs() {
 		
@@ -243,7 +252,7 @@ class OrgProfile extends Component {
 			<div className="container-fluid">
 				<LoggedHeader />
 				<section>
-
+				<Spinning classname={this.state.spinningClass} />
 				<div className="row">
 					<div className="col-md-12">
 						<div className="header">
