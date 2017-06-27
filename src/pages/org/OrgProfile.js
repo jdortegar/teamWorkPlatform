@@ -8,6 +8,7 @@ import LoggedHeader from '../../components/LoggedHeader';
 import { connect } from 'react-redux';
 import helper from '../../components/Helper';
 import { selectedOrg } from '../../actions/index';
+import Spinning from '../../components/Spinning';
 
 class OrgProfile extends Component {
 
@@ -38,6 +39,8 @@ class OrgProfile extends Component {
 			icon: null,
 			orgWebsite: '',
 			data: {},
+			spinningClass: "spinning-show"
+			
 		};	
 		this.renderOrgs = this.renderOrgs.bind(this);
 		this.closeAddOrg = this.closeAddOrg.bind(this);
@@ -45,7 +48,7 @@ class OrgProfile extends Component {
 		this.handleOrgName = this.handleOrgName.bind(this);
 		this.handleOrgWebsite = this.handleOrgWebsite.bind(this);
 		this.handleImageChanged = this.handleImageChanged.bind(this);
-
+		
 	}
 
 	closeAddOrg() {
@@ -121,16 +124,30 @@ class OrgProfile extends Component {
 		}
 	}
 
+	handleGo(org) {
+
+		this.props.selectedOrg(org);	
+		let preferences = {};
+		preferences["lastOrg"] = org.subscriberOrgId;
+		helper.updateUserPreferences(preferences)
+		.then(result => {
+			console.log("Updated User Preferences with lastOrg !!!");
+			this.context.router.push("/organizations/"+org.name.toLowerCase());
+		})
+		.catch(error => console.log(error))
+	}
+
 	componentWillMount() {
+		
 		helper.setUser(this.props.user);
 
-		console.log(this.props.user);
+		// console.log(this.props.user);
 
 		helper.getOrgs()
 		.then(orgs => {
 			const orgs_sorted = helper.getSort(orgs, "name");
 			this.state.orgs = orgs_sorted;
-			console.log(orgs_sorted);
+			// console.log(orgs_sorted);
 			orgs_sorted.map((org,i) => {
 				this.state.orgId.push(org.subscriberOrgId);
 				this.state.preferences.push(org.preferences);
@@ -150,17 +167,21 @@ class OrgProfile extends Component {
 					this.state.teamsNumber.push(teams.length);
 					this.state.teams.push(teams);
 					this.forceUpdate();
+					console.log("axios call done!");
+					this.setState({spinningClass: "spinning-hide"});
 				})		
+
 			})
+
 			
 		})
 	}
+
 
 	renderOrgs() {
 		
 		if (this.state.orgs != null) { //this condition ensure that this function only execute the inside code when this.state.orgs already updated => solve time delay data flow
 			const result = this.state.orgs.map((org,i) => {
-				const set = (this.props.user.user.preferences.lastOrg == org.subscriberOrgId) ? "Default" : (<button className="btn color-blue">Set</button>);
 				const rowClass = `org-table-row ${this.state.rowClass[i]}`;
 				const orgData = {
 					name: this.state.name[i], 
@@ -178,7 +199,11 @@ class OrgProfile extends Component {
 						<td>{this.state.teamsNumber[i]}</td>
 						<td>{this.state.members[i]}</td>
 						<td>
-							{ set }	
+							<button 
+								onClick={() => this.handleGo(org)}
+								className="btn color-blue" >
+								Go
+							</button>
 						</td>
 						<td>
 							<button 
@@ -227,7 +252,7 @@ class OrgProfile extends Component {
 			<div className="container-fluid">
 				<LoggedHeader />
 				<section>
-
+				<Spinning classname={this.state.spinningClass} />
 				<div className="row">
 					<div className="col-md-12">
 						<div className="header">
@@ -239,7 +264,7 @@ class OrgProfile extends Component {
 							Within the Hablasphere everything is organized. {'\n'}
 							Here is a list of Organizations you are currently the admin for
 						</p>
-						
+
 						<br />
 
 						<table className="col-md-12 org-table">
@@ -257,9 +282,9 @@ class OrgProfile extends Component {
 									<th>
 										Members
 									</th>
-									
+			
 									<th>
-										Set Default
+										Enter
 									</th>
 									<th>
 										Management

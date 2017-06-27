@@ -20,8 +20,8 @@ class OrgUpdate extends Component {
 			notification: '', 
 			notification_color: "black",
 			teams: this.props.org.teams,
-			orgName: '',
-			orgWebsite: '',
+			orgName: this.props.org.name,
+			orgWebsite: this.props.org.preferences.webSite,
 
 		};
 		this.renderTeams = this.renderTeams.bind(this);
@@ -186,7 +186,7 @@ class OrgUpdate extends Component {
 				<div className="row">
 					<div className="col-md-12 center ">
 						<div className="header">
-							<h1> {this.props.org.name} </h1>
+							<h1> {this.state.orgName} </h1>
 						</div>
 
 						<form>
@@ -220,7 +220,7 @@ class OrgUpdate extends Component {
 									type="text"
 									onChange={event => this.handleOrgName(event.target.value)}
 									label="Organization Name"
-									placeholder={this.props.org.name}
+									placeholder={this.state.orgName}
 									className="col-md-12"
 								/>
 
@@ -233,7 +233,7 @@ class OrgUpdate extends Component {
 									type="text"
 									onChange={event => this.handleOrgWebsite(event.target.value)}
 									label="Web Address"
-									placeholder={this.props.org.preferences.webSite}
+									placeholder={this.state.orgWebsite}
 									className="col-md-12"
 								/>
 							</div>

@@ -13,7 +13,12 @@ class LogedHeader extends Component {
 		if (this.props.user == null) this.context.router.push('/signin');
 	}
 
+	logout() {
+		
+	}
+
 	render() {
+		const iconWidth = "30px";
 		const user = this.props.user.icon == null ? helper.getShortName(this.props.user.displayName) : "data:image/jpg;base64," + this.props.user.icon;
 		return (
 			<div className="row">
@@ -68,12 +73,12 @@ class LogedHeader extends Component {
 								      noCaret
 								      className="avatar-button clearpadding"
 								    >
-								      <LinkContainer to="/profile-edit"><MenuItem eventKey='1'><i className="fa fa-envelope fa-fw"></i> User Profile</MenuItem></LinkContainer>
-								      <LinkContainer to="/org-profile"><MenuItem eventKey='2'><i className="fa fa-sitemap"></i> Your Organization</MenuItem></LinkContainer>
-								      <LinkContainer to="/summarization"><MenuItem eventKey='3'><i className="fa fa-snowflake-o"></i> Summarization</MenuItem></LinkContainer>
-								      <MenuItem eventKey='3'><i className="fa fa-gear fa-fw"></i> Settings</MenuItem>
+								      <LinkContainer to="/profile-edit"><MenuItem eventKey='1'><i className="fa fa-envelope fa-fw" style={{width: iconWidth, textAlign: "left"}}></i> User Profile</MenuItem></LinkContainer>
+								      <LinkContainer to="/org-profile"><MenuItem eventKey='2'><i className="fa fa-sitemap" style={{width: iconWidth, textAlign: "left"}}></i> Your Organizations</MenuItem></LinkContainer>
+								      <LinkContainer to="/summarization"><MenuItem eventKey='3'><i className="fa fa-snowflake-o" style={{width: iconWidth, textAlign: "left"}}></i> Summarization</MenuItem></LinkContainer>
+								      <MenuItem eventKey='3'><i className="fa fa-gear fa-fw" style={{width: iconWidth, textAlign: "left"}}></i> Settings</MenuItem>
 								      <MenuItem divider />
-								      <MenuItem eventKey='4'><i className="fa fa-sign-out fa-fw"></i> Logout</MenuItem>
+								      <MenuItem eventKey='4' onClick={() => this.logout} ><i className="fa fa-sign-out fa-fw" style={{width: iconWidth, textAlign: "left"}}></i> Logout</MenuItem>
 								    </DropdownButton>
 
 
