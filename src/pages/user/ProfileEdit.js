@@ -102,7 +102,7 @@ class ProfileEdit extends Component {
 									value={this.state.fullName}
 									onChange={event => this.setState({fullName: event.target.value})}
 									type="text"
-									placeholder="Robert J.Jones"
+									
 									label="Full Name"
 									classn="col-md-12 clearpadding"
 								/>
@@ -112,7 +112,7 @@ class ProfileEdit extends Component {
 									value={this.state.displayName}
 									onChange={event => this.setState({displayName: event.target.value})}
 									type="text"
-									placeholder="Bob Jones"
+									
 									label="Display Name"
 									classn="col-md-12 clearpadding"
 								/>
