@@ -39,7 +39,11 @@ class OrgProfile extends Component {
 			icon: null,
 			orgWebsite: '',
 			data: {},
-			spinningClass: "spinning-show"
+			spinningClass: "spinning-show",
+			inviteMember: false,
+			inviteToOrg: '',
+			memberEmail: '',
+			sentInvitationToMember: [],
 			
 		};	
 		this.renderOrgs = this.renderOrgs.bind(this);
@@ -47,13 +51,12 @@ class OrgProfile extends Component {
 		this.submitAddOrg = this.submitAddOrg.bind(this);
 		this.handleOrgName = this.handleOrgName.bind(this);
 		this.handleOrgWebsite = this.handleOrgWebsite.bind(this);
+		this.closeInviteMember = this.closeInviteMember.bind(this);
 		this.handleImageChanged = this.handleImageChanged.bind(this);
 		
 	}
 
-	closeAddOrg() {
-		this.setState({addOrg: false});
-	}
+	
 
 	submitAddOrg() {
 		if (this.state.orgName == '') {
@@ -83,6 +86,10 @@ class OrgProfile extends Component {
 			})
 			.catch(error => console.log(error))
 		}
+	}
+
+	closeAddOrg() {
+		this.setState({addOrg: false});
 	}
 
 	openAddOrg() {
@@ -137,6 +144,40 @@ class OrgProfile extends Component {
 		.catch(error => console.log(error))
 	}
 
+	openInviteMember(org) {
+		this.state.inviteToOrg = org;
+		this.setState({inviteMember: true});
+
+	}
+
+	closeInviteMember() {
+		this.setState({inviteMember: false});
+	}
+
+	sendInvitation() {
+		const org = this.state.inviteToOrg;
+		const members = this.state.sentInvitationToMember.push(this.state.memberEmail);
+		this.setState({sentInvitationToMember: members, memberEmail: ''});
+
+	}
+
+	handleMemberEmail(email) {
+		this.state.memberEmail = email;
+	}
+
+	renderSentToMembers() {
+		if (this.state.sentInvitationToMember.length > 0) {
+			const result = this.state.sentInvitationToMember.map((member,i) => {
+				return (
+					<div key={i}>{member}</div>
+				)
+			})
+			return result;
+		}
+		else return;
+
+	}
+
 	componentWillMount() {
 		
 		helper.setUser(this.props.user);
@@ -145,10 +186,13 @@ class OrgProfile extends Component {
 
 		helper.getOrgs()
 		.then(orgs => {
+			
 			const orgs_sorted = helper.getSort(orgs, "name");
+			// const orgs_sorted = orgs;
 			this.state.orgs = orgs_sorted;
-			// console.log(orgs_sorted);
-			orgs_sorted.map((org,i) => {
+			
+			orgs_sorted.forEach((org,i) => {
+				
 				this.state.orgId.push(org.subscriberOrgId);
 				this.state.preferences.push(org.preferences);
 				const link = org.preferences.hasOwnProperty("icon") ? 'data:image/jpeg;base64,'+org.preferences.icon : 'https://www.google.com/s2/favicons?domain_url='+org.preferences.webSite;
@@ -162,18 +206,17 @@ class OrgProfile extends Component {
 				this.state.name.push(org.name);
 				this.state.members.push(members);
 				this.state.current.push(true);
+
 				helper.getTeams(org)
 				.then(teams => {
-					this.state.teamsNumber.push(teams.length);
-					this.state.teams.push(teams);
+					
+					this.state.teamsNumber[i]=(teams.length);
+					this.state.teams[i]=(teams);
 					this.forceUpdate();
-					console.log("axios call done!");
 					this.setState({spinningClass: "spinning-hide"});
-				})		
-
-			})
-
-			
+					
+				})
+			});
 		})
 	}
 
@@ -213,7 +256,9 @@ class OrgProfile extends Component {
 							</button>
 						</td>
 						<td>
-							<button className="btn color-blue">
+							<button 
+								onClick={() => this.openInviteMember(org)}
+								className="btn color-blue">
 								Invite Member
 							</button>
 						</td>
@@ -368,6 +413,35 @@ class OrgProfile extends Component {
 						</div>
 					</Modal.Body>
 	
+				</Modal>
+
+				<Modal show={this.state.inviteMember} onHide={this.closeInviteMember}>
+					<Modal.Header closeButton>
+						<Modal.Title className="center"> INVITE NEW MEMBER TO {this.state.inviteToOrg.name}</Modal.Title>
+					</Modal.Header>
+					<Modal.Body>
+						<div className="center">
+							{this.renderSentToMembers()}
+						</div>
+						<FieldGroup		
+							type="text"
+							onChange={event => this.handleMemberEmail(event.target.value)}
+							label="Email"
+							
+							className=""
+						/>
+						
+						<div className="center">
+							<button 
+								onClick={() => this.sendInvitation()}
+								className="btn color-blue">
+								SEND INVITATION
+							</button>
+							
+						</div>
+						<br />
+						
+					</Modal.Body>
 				</Modal>
 
 				
