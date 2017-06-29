@@ -50,9 +50,11 @@ class OrgProfile extends Component {
 		this.closeAddOrg = this.closeAddOrg.bind(this);
 		this.submitAddOrg = this.submitAddOrg.bind(this);
 		this.handleOrgName = this.handleOrgName.bind(this);
+		this.sendInvitation = this.sendInvitation.bind(this);
 		this.handleOrgWebsite = this.handleOrgWebsite.bind(this);
 		this.closeInviteMember = this.closeInviteMember.bind(this);
 		this.handleImageChanged = this.handleImageChanged.bind(this);
+		this.renderSentToMembers = this.renderSentToMembers.bind(this);
 		
 	}
 
@@ -156,16 +158,21 @@ class OrgProfile extends Component {
 
 	sendInvitation() {
 		const org = this.state.inviteToOrg;
-		const members = this.state.sentInvitationToMember.push(this.state.memberEmail);
-		this.setState({sentInvitationToMember: members, memberEmail: ''});
-
+		this.state.sentInvitationToMember.push(this.state.memberEmail);
+		// console.log(this.state.sentInvitationToMember);
+		helper.inviteSubscribersToOrg(org, [ encodeURIComponent(this.state.memberEmail) ])
+		.then(response => console.log(response))
+		.catch(error => console.log(error))
+		this.setState({memberEmail : ''});
+		// this.forceUpdate();
 	}
 
 	handleMemberEmail(email) {
-		this.state.memberEmail = email;
+		this.setState({memberEmail:email});
 	}
 
 	renderSentToMembers() {
+		
 		if (this.state.sentInvitationToMember.length > 0) {
 			const result = this.state.sentInvitationToMember.map((member,i) => {
 				return (
@@ -282,6 +289,7 @@ class OrgProfile extends Component {
 
 	render() {
 		const organizations = this.renderOrgs();
+		const emails = this.renderSentToMembers();
 		const country = this.state.country;
 		let imageProfile = null;
 		if (this.state.image == null) 
@@ -420,11 +428,12 @@ class OrgProfile extends Component {
 						<Modal.Title className="center"> INVITE NEW MEMBER TO {this.state.inviteToOrg.name}</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
-						<div className="center">
-							{this.renderSentToMembers()}
+						<div className="center" style={{color: "#3498db"}}>
+							{emails}
 						</div>
 						<FieldGroup		
 							type="text"
+							value={this.state.memberEmail}
 							onChange={event => this.handleMemberEmail(event.target.value)}
 							label="Email"
 							
