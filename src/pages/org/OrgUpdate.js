@@ -5,8 +5,8 @@ import { FieldGroup } from '../../components';
 import LoggedHeader from '../../components/LoggedHeader';
 import FileReaderInput from 'react-file-reader-input';
 import { connect } from 'react-redux';
-
-
+import helper from '../../components/Helper';
+import { Modal, Header, Title, Body, Footer } from 'react-bootstrap/lib';
 
 
 
@@ -16,6 +16,7 @@ class OrgUpdate extends Component {
 		super(props);
 		this.state = {
 			term: '', 
+			icon: '',
 			image: this.props.org.link, 
 			notification: '', 
 			notification_color: "black",
@@ -37,7 +38,19 @@ class OrgUpdate extends Component {
 	}
 
 	handleUpdateOrg() {
-		
+		const name = this.state.orgName;
+		let preferences = {};
+		preferences["webSite"] = this.state.orgWebsite;
+		if (this.state.icon != null) preferences["icon"] = this.state.icon;
+		else preferences["iconUrl"] = this.state.image;
+		preferences["private"] = {};
+		const data = {name, preferences};
+		helper.updateSubscriberOrg(this.props.org.orgId, data)
+		.then(response => {
+			console.log(response);
+			this.forceUpdate();
+		})
+		.catch(error => console.log(error))
 	}
 
 	handleOrgName(name) {
@@ -243,14 +256,14 @@ class OrgUpdate extends Component {
 	 						<br />
 							<div className="col-md-4">
 								<br />
-								<Link to="/org-notify">
-									<Button
-										onClick={() => this.handleUpdateOrg()}
-										bsStyle="primary"
-										className="col-md-12" >
-											UPDATE ORGANIZATION
-									</Button>
-								</Link>
+								
+								<Button
+									onClick={() => this.handleUpdateOrg()}
+									bsStyle="primary"
+									className="col-md-12" >
+										UPDATE ORGANIZATION
+								</Button>
+							
 							</div>
 							<br />
 						</form>

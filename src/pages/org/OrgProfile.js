@@ -176,7 +176,7 @@ class OrgProfile extends Component {
 		if (this.state.sentInvitationToMember.length > 0) {
 			const result = this.state.sentInvitationToMember.map((member,i) => {
 				return (
-					<div key={i}>{member}</div>
+					<div key={i}>Sent to {member}</div>
 				)
 			})
 			return result;
@@ -425,7 +425,7 @@ class OrgProfile extends Component {
 
 				<Modal show={this.state.inviteMember} onHide={this.closeInviteMember}>
 					<Modal.Header closeButton>
-						<Modal.Title className="center"> INVITE NEW MEMBER TO {this.state.inviteToOrg.name}</Modal.Title>
+						<Modal.Title className="center"> INVITE NEW MEMBER TO <span style={{color: "#3498db"}}>{this.state.inviteToOrg.name}</span></Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
 						<div className="center" style={{color: "#3498db"}}>
