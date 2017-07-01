@@ -38,7 +38,7 @@ const init2 = {
 			lastName: "T.",
 			timeZone: "America/Los_Angeles",
 			userId: "c82acda2-5b99-45c1-9f69-cc69404d6905",
-			userType: "hablaUser",
+			userType: "admin",
 			username: "tho@habla.io",
 			preferences: {
 				iconColor: "#e67e22",
@@ -54,7 +54,7 @@ const init2 = {
 
 
 // export default function(state={user: null}, action) {
-export default function(state=init, action) {	
+export default function(state=init2, action) {	
   switch (action.type) {
     case 'save-user' :
       	return {...state, user: action.payload }; //tweak login

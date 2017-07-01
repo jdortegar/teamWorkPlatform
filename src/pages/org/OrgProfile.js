@@ -159,8 +159,7 @@ class OrgProfile extends Component {
 	sendInvitation() {
 		const org = this.state.inviteToOrg;
 		this.state.sentInvitationToMember.push(this.state.memberEmail);
-		// console.log(this.state.sentInvitationToMember);
-		helper.inviteSubscribersToOrg(org, [ encodeURIComponent(this.state.memberEmail) ])
+		helper.inviteSubscribersToOrg(org, [ this.state.memberEmail ])
 		.then(response => console.log(response))
 		.catch(error => console.log(error))
 		this.setState({memberEmail : ''});
@@ -168,7 +167,7 @@ class OrgProfile extends Component {
 	}
 
 	handleMemberEmail(email) {
-		this.setState({memberEmail:email});
+		this.setState({memberEmail:email.toString()});
 	}
 
 	renderSentToMembers() {

@@ -211,6 +211,7 @@ class Helper{
             content_type: 'application/json',
             Authorization: this.token
          };
+      
          const body = { userIdOrEmails };
 
          axios.post(url, body, { headers })
