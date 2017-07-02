@@ -215,10 +215,10 @@ class OrgProfile extends Component {
 
 				helper.getTeams(org)
 				.then(teams => {
-					
+					// console.log(teams);
 					this.state.teamsNumber[i]=(teams.length);
 					this.state.teams[i]=(teams);
-					this.forceUpdate();
+					// this.forceUpdate();
 					this.setState({spinningClass: "spinning-hide"});
 					
 				})
