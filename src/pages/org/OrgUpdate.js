@@ -5,8 +5,8 @@ import { FieldGroup } from '../../components';
 import LoggedHeader from '../../components/LoggedHeader';
 import FileReaderInput from 'react-file-reader-input';
 import { connect } from 'react-redux';
-
-
+import helper from '../../components/Helper';
+import { Modal, Header, Title, Body, Footer } from 'react-bootstrap/lib';
 
 
 
@@ -16,6 +16,7 @@ class OrgUpdate extends Component {
 		super(props);
 		this.state = {
 			term: '', 
+			icon: '',
 			image: this.props.org.link, 
 			notification: '', 
 			notification_color: "black",
@@ -33,11 +34,23 @@ class OrgUpdate extends Component {
 	}
 
 	componentWillMount() {
-	
+		//TODO: Load all data of this org
 	}
 
 	handleUpdateOrg() {
-		
+		const name = this.state.orgName;
+		let preferences = {};
+		preferences["webSite"] = this.state.orgWebsite;
+		if (this.state.icon != null) preferences["icon"] = this.state.icon;
+		else preferences["iconUrl"] = this.state.image;
+		preferences["private"] = {};
+		const data = {name, preferences};
+		helper.updateSubscriberOrg(this.props.org.orgId, data)
+		.then(response => {
+			console.log(response);
+			this.forceUpdate();
+		})
+		.catch(error => console.log(error))
 	}
 
 	handleOrgName(name) {
@@ -71,8 +84,10 @@ class OrgUpdate extends Component {
 	renderTeams() {
 		if (this.state.teams != null) { //this condition ensure that this function only execute the inside code when this.state.orgs already updated => solve time delay data flow
 			const result = this.props.org.teams.map((team,i) => {
+				// console.log(team);
 				const rowClass = "org-table-row even";//`org-table-row ${this.state.rowClass[i]}`;
-				const teamData = ''//{
+				let teamRoomsNum = [];
+				const teamData = '';//{
 				// 	name: this.state.name[i], 
 				// 	logo: this.state.logo[i], 
 				// 	teams: this.state.teams[i], 
@@ -81,41 +96,54 @@ class OrgUpdate extends Component {
 				// 	preferences: this.state.prefer[i],
 
 				// }
-				return (
-					<tr className={rowClass} key={i}>
-						<td><b>{team.name}</b></td>
-						
-						<td>{this.props.org.teams.length}</td>
-						<td>{10}</td>
-						<td>
-							<button className="btn color-blue">
-								Set
-							</button>
-						</td>
-						<td>
-							<button 
-								onClick={() => this.handleEdit(teamData)}
-								className="btn color-blue" >
-								Edit
-							</button>
-						</td>
-						<td>
-							<button className="btn color-blue">
-								Invite Member
-							</button>
-						</td>
-						<td>
-							<button className="btn color-blue">
-								Active
-							</button>
-						</td>
-						<td>
-							<button className="btn color-red">
-								Delete
-							</button >
-						</td>
-					</tr>
-				);
+
+				
+					// 
+					helper.getTeamRooms(team)
+					.then(teamRooms => {
+						// console.log(teamRooms);
+						teamRoomsNum=teamRooms
+					})
+					.catch(error => console.log(error));
+
+					return (
+						<tr className={rowClass} key={i}>
+							<td><b>{team.name}</b></td>
+							
+							<td>{this.props.org.teams.length}</td>
+							<td>{teamRoomsNum.length}</td>
+							<td>
+								<button className="btn color-blue">
+									Set
+								</button>
+							</td>
+							<td>
+								<button 
+									onClick={() => this.handleEdit(teamData)}
+									className="btn color-blue" >
+									Edit
+								</button>
+							</td>
+							<td>
+								<button className="btn color-blue">
+									Invite Member
+								</button>
+							</td>
+							<td>
+								<button className="btn color-blue">
+									Active
+								</button>
+							</td>
+							<td>
+								<button className="btn color-red">
+									Delete
+								</button >
+							</td>
+						</tr>
+					);
+					
+				
+				
 			});
 			return result;
 		}
@@ -124,6 +152,7 @@ class OrgUpdate extends Component {
 
 	renderMembers() {
 		const result = this.props.org.members.map((member,i) => {
+			console.log(member);
 			return (
 				<tr className="org-table-row" key={i}>
 					<td>
@@ -133,7 +162,7 @@ class OrgUpdate extends Component {
 						abc@cde.com
 					</td>
 					<td>
-						Not set yet
+						{member.hasOwnProperty("iconUrl") ? 'data:image/jpeg;base64,'+ member.iconUrl: ""} {/* TODO: Edit iconUrl to icon after update user profile works*/}
 					</td>
 					<td>
 						Joined
@@ -243,14 +272,14 @@ class OrgUpdate extends Component {
 	 						<br />
 							<div className="col-md-4">
 								<br />
-								<Link to="/org-notify">
-									<Button
-										onClick={() => this.handleUpdateOrg()}
-										bsStyle="primary"
-										className="col-md-12" >
-											UPDATE ORGANIZATION
-									</Button>
-								</Link>
+								
+								<Button
+									onClick={() => this.handleUpdateOrg()}
+									bsStyle="primary"
+									className="col-md-12" >
+										UPDATE ORGANIZATION
+								</Button>
+							
 							</div>
 							<br />
 						</form>
@@ -353,6 +382,7 @@ class OrgUpdate extends Component {
 }
 
 function mapStateToProps(state) {
+	// console.log(state);
 	return {
 		user: state.user.user,
 		org: state.org.org

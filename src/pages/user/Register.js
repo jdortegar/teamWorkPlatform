@@ -44,7 +44,6 @@ class Register extends Component {
 								<div className="row">
 									<FieldGroup
 										type="email"
-										placeholder="bob.jones@corporation.com"
 										label="Email"
 										classn="col-md-12 clearpadding"
 										onChange={(event) => this.type_email(event.target.value)}

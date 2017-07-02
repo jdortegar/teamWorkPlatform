@@ -23,6 +23,31 @@ const init = {
 	}
 }
 
+const aws_tho = {
+	user : {
+		status: "SUCCESS",
+		token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI0NmViMTNiZS0wN2RmLTRkZjItOGQ3ZC1lMzdkYTM4NTI4YjkiLCJlbWFpbCI6InRoby50cnVvbmdAaGFibGEuYWkiLCJpYXQiOjE0OTg5NzgwMjZ9.uBbbWKbMvAm_NcpPuYixJ-H237jFGBoIsNYcnXZ_0SE",
+				
+		websocketUrl:"http://habla-fe-api-dev.habla.ai",
+		user: {
+			country: "United States",
+			displayName: "Tho Truong",
+			email: "tho.truong@habla.ai",
+			firstName: "Tho",
+			icon: null,			
+			lastName: "Truong",
+			timeZone: "America/Los_Angeles",
+			userId: "46eb13be-07df-4df2-8d7d-e37da38528b9",
+			userType: "admin",
+			username: "tho.truong@habla.ai",
+			preferences: {
+				iconColor: "#1abc9c",
+				private: {}
+			}
+		}
+	}
+}
+
 const init2 = {
 	user : {
 		status: "SUCCESS",
@@ -38,7 +63,7 @@ const init2 = {
 			lastName: "T.",
 			timeZone: "America/Los_Angeles",
 			userId: "c82acda2-5b99-45c1-9f69-cc69404d6905",
-			userType: "hablaUser",
+			userType: "admin",
 			username: "tho@habla.io",
 			preferences: {
 				iconColor: "#e67e22",
@@ -54,7 +79,8 @@ const init2 = {
 
 
 // export default function(state={user: null}, action) {
-export default function(state=init, action) {	
+// export default function(state=init2, action) {	
+export default function(state=aws_tho, action) {	
   switch (action.type) {
     case 'save-user' :
       	return {...state, user: action.payload }; //tweak login

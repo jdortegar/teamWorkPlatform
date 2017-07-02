@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import { Link } from 'react-router';
-import { Header, Footer } from '../../components';
-
+import { Footer } from '../../components';
+import LoggedHeader from '../../components/LoggedHeader';
 
 
 
@@ -25,7 +25,7 @@ class OrgNotify extends Component {
 		const country = this.state.country;
 		return (
 			<div className="container-fluid">
-				<Header />
+				<LoggedHeader />
 				<section>
 
 				<div className="row">

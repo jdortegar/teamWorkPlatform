@@ -113,7 +113,7 @@ class CreateAccount extends Component {
             <div className="info-alert" id="info-alert">
             </div>
 						<div className="clearpadding">
-							<h5>HI, WELCOME TO HABLA</h5>
+							<h5>HI, WELCOME TO HABLA AI</h5>
 							<p className="normal-size clearpadding"> Your email is verified and your account is almost setup,
 							we just need you to complete your information below.</p>
 						</div>
@@ -123,7 +123,7 @@ class CreateAccount extends Component {
 								<FieldGroup
                   onChange = {(event) => this.setState({fullName: event.target.value})}
 									type="text"
-									placeholder="Robert J.Jones"
+									
 									label="Full Name"
 									classn="col-md-12 clearpadding"
 								/>
@@ -133,7 +133,7 @@ class CreateAccount extends Component {
 								<FieldGroup
                   onChange = {(event) => this.setState({displayName: event.target.value})}
 									type="text"
-									placeholder="Bob Jones"
+									
 									label="Display Name"
 									classn="col-md-12 clearpadding"
 								/>

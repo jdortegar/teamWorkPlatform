@@ -211,6 +211,7 @@ class Helper{
             content_type: 'application/json',
             Authorization: this.token
          };
+      
          const body = { userIdOrEmails };
 
          axios.post(url, body, { headers })
@@ -471,7 +472,6 @@ class Helper{
 				content_type: 'application/json',
 				Authorization: this.token
 			};
-			console.log("data "+data);
 			const body = data;
 			axios.patch(url, body, { headers })
 			.then(result => resolve(result))
