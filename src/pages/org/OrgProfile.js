@@ -460,6 +460,7 @@ class OrgProfile extends Component {
 
 
 function mapsStateToProps(state) {
+	console.log(state);
 	return {
 		user: state.user.user,
 		orgs: state.orgs.orgs,

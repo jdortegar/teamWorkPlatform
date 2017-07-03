@@ -41,13 +41,12 @@ class OrgUpdate extends Component {
 		const name = this.state.orgName;
 		let preferences = {};
 		preferences["webSite"] = this.state.orgWebsite;
-		if (this.state.icon != null) preferences["icon"] = this.state.icon;
+		if (this.state.icon != '') preferences["icon"] = this.state.icon;
 		else preferences["iconUrl"] = this.state.image;
-		preferences["private"] = {};
 		const data = {name, preferences};
 		helper.updateSubscriberOrg(this.props.org.orgId, data)
 		.then(response => {
-			console.log(response);
+			console.log("Update org successfully !!!");
 			this.forceUpdate();
 		})
 		.catch(error => console.log(error))
@@ -59,7 +58,7 @@ class OrgUpdate extends Component {
 
 	handleOrgWebsite(website) {
 		this.state.orgWebsite = website;
-		if (website != '' && this.state.icon == null)
+		if (website != '' && this.state.icon == '')
 			this.setState({image :'https://www.google.com/s2/favicons?domain_url='+website });
 	}
 
@@ -152,17 +151,15 @@ class OrgUpdate extends Component {
 
 	renderMembers() {
 		const result = this.props.org.members.map((member,i) => {
-			console.log(member);
+			// console.log(member);
 			return (
 				<tr className="org-table-row" key={i}>
 					<td>
 						<b>{member.displayName}</b>
 					</td>
+					
 					<td>
-						abc@cde.com
-					</td>
-					<td>
-						{member.hasOwnProperty("iconUrl") ? 'data:image/jpeg;base64,'+ member.iconUrl: ""} {/* TODO: Edit iconUrl to icon after update user profile works*/}
+						{member.hasOwnProperty("iconUrl") ? 'data:image/jpeg;base64,'+ member.iconUrl: ""} {/* TODO: Edit iconUrl to icon after update user profile works	*/}
 					</td>
 					<td>
 						Joined
@@ -339,9 +336,7 @@ class OrgUpdate extends Component {
 										<th>
 											Name
 										</th>
-										<th>
-											Email
-										</th>
+										
 										<th>
 											Avatar
 										</th>

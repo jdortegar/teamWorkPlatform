@@ -78,9 +78,9 @@ const init2 = {
 
 
 
-// export default function(state={user: null}, action) {
+export default function(state={user: null}, action) {
 // export default function(state=init2, action) {	
-export default function(state=aws_tho, action) {	
+// export default function(state=aws_tho, action) {	
   switch (action.type) {
     case 'save-user' :
       	return {...state, user: action.payload }; //tweak login

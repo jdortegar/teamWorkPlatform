@@ -980,7 +980,7 @@ table {
   border-radius: 10px !important;
   border: none; }
 
-.org-table, th, td {
+.org-table th, .org-table td {
   border: solid 1px #999;
   text-align: center; }
 

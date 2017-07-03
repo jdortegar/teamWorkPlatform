@@ -30,7 +30,7 @@ class OrgsList extends Component {
 
 	render() {
 		var user = this.props.user;
-		
+		console.log(user);
 		var orgs = helper.getSort(this.props.orgs, "name");
 		return (
 			<div>
