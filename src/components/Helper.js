@@ -351,7 +351,6 @@ class Helper{
 
 	getTeamMembers(teamId) {
 		return new Promise((resolve, reject) => {
-			const url = `${config.hablaApiBaseUri}/teams/getMembers/${teamId}`;
         	axios.get(url, { headers: { Authorization: this.token } })
         	.then( response => {
         		resolve(response.data.teamMembers)

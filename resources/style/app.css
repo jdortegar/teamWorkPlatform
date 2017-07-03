@@ -908,9 +908,6 @@ table {
     -o-border-radius: 5px;
     border-radius: 5px; }
 
-.user-avatar-image-text {
-  right: 10px; }
-
 .user-avatar-item {
   display: inline-block; }
 
@@ -919,6 +916,7 @@ table {
   margin-left: 10px; }
 
 .user-avatar-image-text {
+  right: 10px;
   width: 100%; }
 
 .post-avatar-image {

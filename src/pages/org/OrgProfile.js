@@ -27,7 +27,7 @@ class OrgProfile extends Component {
 			subscribers:[], 
 			name: [], 
 			link: [],
-			logo: [], 
+			logoOrg: [], 
 			teamsNumber:[], 
 			members: [], 
 			current: [],
@@ -36,7 +36,7 @@ class OrgProfile extends Component {
 			notification: '', 
 			image: null,
 			orgName: '',
-			icon: null,
+			logo: null,
 			orgWebsite: '',
 			data: {},
 			spinningClass: "spinning-show",
@@ -69,7 +69,7 @@ class OrgProfile extends Component {
 			const name = this.state.orgName;
 			let preferences = {};
 			preferences["webSite"] = this.state.orgWebsite;
-			if (this.state.icon != null) preferences["icon"] = this.state.icon;
+			if (this.state.logo != null) preferences["logo"] = this.state.logo;
 			else preferences["iconUrl"] = this.state.image;
 			preferences["private"] = {};
 			this.state.data = {preferences};
@@ -80,7 +80,7 @@ class OrgProfile extends Component {
 				this.state.orgs.push(response);
 				this.state.name.push(response.name);
 				const logo = (<img src={this.state.image} style={{width: "16px", height: "16px"}}/>);
-				this.state.logo.push(logo);
+				this.state.logoOrg.push(logo);
 				this.state.teamsNumber.push(0);
 				this.state.members.push(1);
 				this.state.rowClass.push(rowClass);
@@ -98,7 +98,7 @@ class OrgProfile extends Component {
 		this.setState({addOrg: true});
 	}
 
-	handleEdit(orgData) {
+	handleSetting(orgData) {
 		this.props.selectedOrg(orgData);
 		this.context.router.push('/org-update');
 	}
@@ -109,7 +109,7 @@ class OrgProfile extends Component {
 
 	handleOrgWebsite(website) {
 		this.state.orgWebsite = website;
-		if (website != '' && this.state.icon == null)
+		if (website != '' && this.state.logo == null)
 			this.setState({image :'https://www.google.com/s2/favicons?domain_url='+website });
 	}
 
@@ -128,8 +128,8 @@ class OrgProfile extends Component {
 		else {
 			const base64 = btoa(file.target.result);
 			const encoded = 'data:image/jpeg;base64,'+ base64;
-			this.props.user.user.icon = base64;
-			this.setState({image: encoded, icon: base64, notification: "This image is accepted !!!", notification_color: "green"});
+			// this.props.user.user.icon = base64;
+			this.setState({image: encoded, logo: base64, notification: "This image is accepted !!!", notification_color: "green"});
 		}
 	}
 
@@ -201,10 +201,10 @@ class OrgProfile extends Component {
 				
 				this.state.orgId.push(org.subscriberOrgId);
 				this.state.preferences.push(org.preferences);
-				const link = org.preferences.hasOwnProperty("icon") ? 'data:image/jpeg;base64,'+org.preferences.icon : 'https://www.google.com/s2/favicons?domain_url='+org.preferences.webSite;
+				const link = org.preferences.hasOwnProperty("logo") ? 'data:image/jpeg;base64,'+org.preferences.logo : 'https://www.google.com/s2/favicons?domain_url='+org.preferences.webSite;
 				const logo = (<img src={link} style={{width: "16px", height: "16px"}} />);
 				this.state.link.push(link);
-				this.state.logo.push(logo);
+				this.state.logoOrg.push(logo);
 				let rowClass = i%2 == 0 ? "even" : "odd";
 				this.state.rowClass.push(rowClass);
 				const members = org.subscribers.length;
@@ -244,7 +244,7 @@ class OrgProfile extends Component {
 				return (
 					<tr className={rowClass} key={i}>
 						<td><b>{this.state.name[i]}</b></td>
-						<td>{this.state.logo[i]}</td>
+						<td>{this.state.logoOrg[i]}</td>
 						<td>{this.state.teamsNumber[i]}</td>
 						<td>{this.state.members[i]}</td>
 						<td>
@@ -256,9 +256,9 @@ class OrgProfile extends Component {
 						</td>
 						<td>
 							<button 
-								onClick={() => this.handleEdit(orgData)}
+								onClick={() => this.handleSetting(orgData)}
 								className="btn color-blue" >
-								Edit
+								Setting
 							</button>
 						</td>
 						<td>
@@ -460,7 +460,7 @@ class OrgProfile extends Component {
 
 
 function mapsStateToProps(state) {
-	console.log(state);
+	// console.log(state);
 	return {
 		user: state.user.user,
 		orgs: state.orgs.orgs,

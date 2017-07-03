@@ -51,7 +51,7 @@ class ProfileEdit extends Component {
 		const file = results[0][0];
 		const info = results[0][1];
 		const imageType = ["image/jpeg", "image/png", "image/jpg"];
-		const te = imageType.some( a => a==info.type);
+		// const te = imageType.some( a => a==info.type);
 		
 		if (!imageType.some(type => type===info.type)) 
 			this.setState({notification: "Only .jpeg .jpg .png can be uploaded", notification_color: "red"});
