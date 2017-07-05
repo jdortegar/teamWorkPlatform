@@ -1,6 +1,5 @@
 #!/bin/sh
-export NODE_ENV=development
-export NODE_HOST=localhost
-export NODE_PORT=80
-npm start
+export NODE_ENV=production
+export PORT=80
+npm run start:prod
 exit 0

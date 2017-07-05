@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, IndexRoute, Router, browserHistory } from 'react-router';
 import Habla from './pages/route_container';
-import Homepage from './pages/homepage/Homepage';
+import Homepage from './pages/homepage/homepage';
 import TeamRoom from './pages/team/TeamRoom';
 
 const componentRoutes = {
@@ -19,14 +19,14 @@ const componentRoutes = {
 		{
 			path: 'forgotpass',
 			getComponent(location, cb) {
-				System.import('./pages/user/ForgotPass')
+				System.import('./pages/user/Forgotpass')
 					.then(module => cb(null, module.default))
 			}
 		},
 		{
 			path: 'resetpass',
 			getComponent(location, cb) {
-				System.import('./pages/user/ResetPass')
+				System.import('./pages/user/Resetpass')
 					.then(module => cb(null, module.default))
 			}
 		},
@@ -47,7 +47,7 @@ const componentRoutes = {
 		{
 			path: 'signin',
 			getComponent(location, cb) {
-				System.import('./pages/user/SignIn')
+				System.import('./pages/user/Signin')
 					.then(module => cb(null, module.default))
 			}
 		},
@@ -206,7 +206,7 @@ const componentRoutes = {
 					.then(module => cb(null, module.default))
 			}
 		},
-	
+
 
 
 	]

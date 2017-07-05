@@ -9,7 +9,7 @@ permissions:
 hooks:
   AfterInstall:
     - location: installAppModules.sh
-      timeout: 80
+      timeout: 100
   ApplicationStart:
     - location: startApp.sh
       timeout: 20
