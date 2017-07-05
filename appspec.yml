@@ -1,0 +1,15 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www
+permissions:
+  - object: /var/www/startApp.sh
+    mode: 777
+hooks:
+  AfterInstall:
+    - location: installAppModules.sh
+      timeout: 80
+  ApplicationStart:
+    - location: startApp.sh
+      timeout: 20

@@ -11,9 +11,6 @@ resources/style/*.scss
 resources/style/app.css.map
 resources/img/
 
-*.sh
-.sh
-
 # IDE
 .idea
 .vscode
