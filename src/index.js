@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import createBrowserHistory from 'history/createBrowserHistory';
-import './global-styles/index.global.scss';
 import App from './App';
+import { configureStore, history } from './store';
+import './global-styles/index.global.scss';
 
-const history = createBrowserHistory();
+const store = configureStore();
 
 // Render main React component.
 const render = (Component, props = {}) => {
@@ -16,11 +16,11 @@ const render = (Component, props = {}) => {
    , document.getElementById('app'));
 };
 
-render(App, { history });
+render(App, { store, history });
 
 // Hot Module Replacement API.
 if (module.hot) {
    module.hot.accept('./App', () => {
-      render(App, { history });
+      render(App, { store, history });
    });
 }
