@@ -10,6 +10,8 @@ hooks:
   AfterInstall:
     - location: installAppModules.sh
       timeout: 100
+      runas: ec2-user
   ApplicationStart:
     - location: startApp.sh
       timeout: 20
+      runas: ec2-user
