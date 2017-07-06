@@ -6,7 +6,6 @@ import BreadCrumb from '../../components/BreadCrumb';
 import axios from 'axios';
 import config from '../../config/env';
 import { getPosts } from '../../actions/index';
-import Perf from 'react-addons-perf';
 import LoggedHeader from '../../components/LoggedHeader';
 
 class TeamRoom extends Component {
@@ -21,21 +20,20 @@ class TeamRoom extends Component {
 			<div className="row">
 				<LoggedHeader />
 				<BreadCrumb items={items} />
-				<MessageContainer /> 
+				<MessageContainer />
 				 {/*since message.connect called at messagecontainer, to use messaging in LeftNav, it should be called after messagecontainer*/}
 
 			</div>
 		);
 	}
-} 
+}
 function mapStateToProps(state) {
 	// console.log(state);
 	return {
 		user: state.user.user.user,
 		room: state.room.room
-		
+
 	}
 }
 export default connect(mapStateToProps,{getPosts})(TeamRoom);
 // <Link to="/#" className="teamroom-body-nav-link active">LOBBY</Link>
-	
