@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import cssModules from "react-css-modules";
-import styles from "./styles.scss";
 import * as actions from "../../actions";
+import { registerUser } from "../../actions/auth";
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -27,8 +26,9 @@ class RegisterForm extends Component {
     );
   }
 
-  onSubmit({ email, password }) {
-    console.log(email, password);
+  onSubmit({ email }) {
+    console.log("RegisterForm onsubmit", { email });
+    registerUser({ email });
   }
 
   render() {
@@ -38,12 +38,6 @@ class RegisterForm extends Component {
       <div className="container">
         <form onSubmit={handleSubmit(this.onSubmit)}>
           <Field label="Email" name="email" component={this.renderField} />{" "}
-          <Field
-            label="Password"
-            name="password"
-            component={this.renderField}
-            placeholder="Password"
-          />{" "}
           <button type="submit" className="btn btn-primary">
             Register
           </button>

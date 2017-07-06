@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import cssModules from "react-css-modules";
-import styles from "./styles.scss";
 import * as actions from "../../actions";
+import { loginUser } from "../../actions/auth";
 
 class LoginForm extends Component {
   constructor(props) {
@@ -28,7 +27,8 @@ class LoginForm extends Component {
   }
 
   onSubmit({ email, password }) {
-    console.log(email, password);
+    console.log("Login", { email, password });
+    loginUser({ email, password });
   }
 
   render() {
