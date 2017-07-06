@@ -1,39 +1,59 @@
-import axios from 'axios';
+import axios from "axios";
 
-export const RECEIVE_HOME_DATA = 'RECEIVE_HOME_DATA';
-export const RECEIVE_SUBPAGE_DATA = 'RECEIVE_SUBPAGE_DATA';
+export const RECEIVE_HOME_DATA = "RECEIVE_HOME_DATA";
+export const RECEIVE_SUBPAGE_DATA = "RECEIVE_SUBPAGE_DATA";
 
 // TODO: AD: Move apiUrl/apiEndpoints elsewhere, once I get the connection to server working.
-const apiUrl = 'http://api.fixer.io';
+export const apiUrl = "http://api.fixer.io";
 const apiEndpoints = {
-   testAPIHomepage: `${apiUrl}/latest?base=USD`,
-   testAPISubpage: `${apiUrl}/latest?base=GBP`
+  testAPIHomepage: `${apiUrl}/latest?base=USD`,
+  testAPISubpage: `${apiUrl}/latest?base=GBP`
 };
 
-
 export function receiveHomeData(data) {
-   return {
-      type: RECEIVE_HOME_DATA,
-      data
-   };
+  return {
+    type: RECEIVE_HOME_DATA,
+    data
+  };
 }
 
 export function requestHomeData() {
-   return dispatch => axios.get(apiEndpoints.testAPIHomepage)
+  return dispatch =>
+    axios
+      .get(apiEndpoints.testAPIHomepage)
       .then(response => response.data)
       .then(json => dispatch(receiveHomeData(json)));
 }
 
-
 export function receiveSubpageData(data) {
-   return {
-      type: RECEIVE_SUBPAGE_DATA,
-      data
-   };
+  return {
+    type: RECEIVE_SUBPAGE_DATA,
+    data
+  };
 }
 
 export function requestSubpageData() {
-   return dispatch => axios.get(apiEndpoints.testAPISubpage)
+  return dispatch =>
+    axios
+      .get(apiEndpoints.testAPISubpage)
       .then(response => response.data)
       .then(json => dispatch(receiveSubpageData(json)));
+}
+
+export function errorHandler(dispatch, error, type) {
+  console.log("Error type: ", type);
+  console.log(error);
+
+  let errorMessage = error.response ? error.response.data : error;
+
+  // NOT AUTHENTICATED ERROR
+  if (error.status === 401 || error.response.status === 401) {
+    errorMessage = "You are not authorized to do this.";
+    return dispatch(logoutUser(errorMessage));
+  }
+
+  dispatch({
+    type,
+    payload: errorMessage
+  });
 }

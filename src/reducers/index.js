@@ -1,11 +1,12 @@
-import { combineReducers } from 'redux';
-import homeReducer from './homeReducer';
-import subpageReducer from './subpageReducer';
+import { combineReducers } from "redux";
+import homeReducer from "./homeReducer";
+import subpageReducer from "./subpageReducer";
+import { reducer as formReducer } from "redux-form";
 
 const mainReducer = combineReducers({
-   homeReducer,
-   subpageReducer
+  homeReducer,
+  subpageReducer,
+  form: formReducer
 });
 
 export default mainReducer;
-
