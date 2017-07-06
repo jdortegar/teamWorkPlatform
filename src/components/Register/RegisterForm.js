@@ -5,7 +5,7 @@ import cssModules from "react-css-modules";
 import styles from "./styles.scss";
 import * as actions from "../../actions";
 
-class LoginForm extends Component {
+class RegisterForm extends Component {
   constructor(props) {
     super(props);
 
@@ -45,7 +45,7 @@ class LoginForm extends Component {
             placeholder="Password"
           />{" "}
           <button type="submit" className="btn btn-primary">
-            Login
+            Register
           </button>
         </form>
       </div>
@@ -71,5 +71,5 @@ function validate(values) {
 
 export default reduxForm({
   validate,
-  form: "login"
-})(connect(null, actions)(LoginForm));
+  form: "register"
+})(connect(null, actions)(RegisterForm));

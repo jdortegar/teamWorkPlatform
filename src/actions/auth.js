@@ -37,7 +37,7 @@ export function registerUser({ email, firstName, lastName, password }) {
   console.log("auth.registerUser", email);
   return function(dispatch) {
     axios
-      .post(`${API_URL}/auth/register`, {
+      .post(`${API_URL}/register`, {
         email,
         firstName,
         lastName,
