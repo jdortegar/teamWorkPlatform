@@ -2,7 +2,7 @@ import axios from "axios";
 import { browserHistory } from "react-router";
 import cookie from "react-cookie";
 import config from "../config/env";
-import { errorHandler } from "./index";
+import { API_URL, CLIENT_ROOT_URL, errorHandler } from "./index";
 import {
   AUTH_USER,
   AUTH_ERROR,
@@ -15,32 +15,25 @@ import {
 //= ===============================
 // Authentication actions
 //= ===============================
-const API_URL = config.hablaApiBaseUri;
 // TO-DO: Add expiration to cookie
 export function loginUser({ email, password }) {
-  console.log("auth.loginUser:", { email, password });
-  return dispatch => {
-    axios
-      .post(`${API_URL}/auth/login`, {
-        email,
-        password
-      })
-      .then(response => {
-        cookie.save("token", response.data.token, {
-          path: "/"
-        });
-        cookie.save("user", response.data.user, {
-          path: "/"
-        });
-        dispatch({
-          type: AUTH_USER
-        });
-        window.location.href = `${CLIENT_ROOT_URL}/dashboard`;
-      })
-      .catch(error => {
-        errorHandler(dispatch, error.response, AUTH_ERROR);
-      });
-  };
+  const params = new URLSearchParams();
+  params.append("username", email);
+  params.append("password", password);
+
+  const loginURL = `${API_URL}/auth/login`;
+  console.log(`logging in to ${loginURL} with params: ${params}`);
+  axios
+    .post(loginURL, params)
+    .then(function(response) {
+      console.log(response);
+      cookie.save("token", response.data.token, { path: "/" });
+      cookie.save("user", response.data.user, { path: "/" });
+      window.location.href = `${CLIENT_ROOT_URL}/`;
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
 }
 
 export function registerUser({ email }) {

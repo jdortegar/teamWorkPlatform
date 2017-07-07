@@ -5,6 +5,8 @@ export const RECEIVE_SUBPAGE_DATA = "RECEIVE_SUBPAGE_DATA";
 
 // TODO: AD: Move apiUrl/apiEndpoints elsewhere, once I get the connection to server working.
 export const apiUrl = "http://api.fixer.io";
+export const API_URL = "http://localhost:3000/api";
+export const CLIENT_ROOT_URL = "http://localhost:8080";
 const apiEndpoints = {
   testAPIHomepage: `${apiUrl}/latest?base=USD`,
   testAPISubpage: `${apiUrl}/latest?base=GBP`
