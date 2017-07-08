@@ -16,20 +16,22 @@ class OrgUpdate extends Component {
 		super(props);
 		this.state = {
 			term: '', 
-			icon: '',
+			logo: '',
 			image: this.props.org.link, 
 			notification: '', 
 			notification_color: "black",
 			teams: this.props.org.teams,
 			orgName: this.props.org.name,
 			orgWebsite: this.props.org.preferences.webSite,
+			updateOrg: false,
 
 		};
 		this.renderTeams = this.renderTeams.bind(this);
 		this.renderMembers = this.renderMembers.bind(this);
+		this.closeUpdateOrgNotification = this.closeUpdateOrgNotification.bind(this);
 	}
 
-	handleEdit(teamData) {
+	handleSetting(teamData) {
 		
 	}
 
@@ -37,18 +39,22 @@ class OrgUpdate extends Component {
 		//TODO: Load all data of this org
 	}
 
+	closeUpdateOrgNotification() {
+		this.setState({updateOrg: false});
+	}
+
 	handleUpdateOrg() {
 		const name = this.state.orgName;
 		let preferences = {};
 		preferences["webSite"] = this.state.orgWebsite;
-		if (this.state.icon != null) preferences["icon"] = this.state.icon;
+		if (this.state.logo != '') preferences["logo"] = this.state.logo;
 		else preferences["iconUrl"] = this.state.image;
-		preferences["private"] = {};
 		const data = {name, preferences};
 		helper.updateSubscriberOrg(this.props.org.orgId, data)
 		.then(response => {
-			console.log(response);
-			this.forceUpdate();
+			console.log("Update org successfully !!!");
+			this.setState({updateOrg : true, notification: ''});
+
 		})
 		.catch(error => console.log(error))
 	}
@@ -59,7 +65,7 @@ class OrgUpdate extends Component {
 
 	handleOrgWebsite(website) {
 		this.state.orgWebsite = website;
-		if (website != '' && this.state.icon == null)
+		if (website != '' && this.state.logo == '')
 			this.setState({image :'https://www.google.com/s2/favicons?domain_url='+website });
 	}
 
@@ -67,7 +73,6 @@ class OrgUpdate extends Component {
 		const file = results[0][0];
 		const info = results[0][1];
 		const imageType = ["image/jpeg", "image/png", "image/jpg"];
-		const te = imageType.some( a => a==info.type);
 		
 		if (!imageType.some(type => type===info.type)) 
 			this.setState({notification: "Only .jpeg .jpg .png can be uploaded", notification_color: "red"});
@@ -76,8 +81,7 @@ class OrgUpdate extends Component {
 		else {
 			const base64 = btoa(file.target.result);
 			const encoded = 'data:image/jpeg;base64,'+ base64;
-			this.props.user.user.icon = base64;
-			this.setState({image: encoded, icon: base64, notification: "This image is accepted !!!", notification_color: "green"});
+			this.setState({image: encoded, logo: base64, notification: "This image is accepted !!!", notification_color: "green"});
 		}
 	}
 
@@ -119,9 +123,9 @@ class OrgUpdate extends Component {
 							</td>
 							<td>
 								<button 
-									onClick={() => this.handleEdit(teamData)}
+									onClick={() => this.handleSetting(teamData)}
 									className="btn color-blue" >
-									Edit
+									Setting
 								</button>
 							</td>
 							<td>
@@ -151,18 +155,18 @@ class OrgUpdate extends Component {
 	}
 
 	renderMembers() {
+		
 		const result = this.props.org.members.map((member,i) => {
-			console.log(member);
+			// console.log(member);
+			const imgSrc = member.icon != null ? 'data:image/jpeg;base64,'+ member.icon: "";
 			return (
 				<tr className="org-table-row" key={i}>
 					<td>
 						<b>{member.displayName}</b>
 					</td>
+					
 					<td>
-						abc@cde.com
-					</td>
-					<td>
-						{member.hasOwnProperty("iconUrl") ? 'data:image/jpeg;base64,'+ member.iconUrl: ""} {/* TODO: Edit iconUrl to icon after update user profile works*/}
+						<img src={imgSrc} style={{borderRadius: "5px", width: "30px", height: "30px"}} /> {/* TODO: Edit iconUrl to icon after update user profile works	*/}
 					</td>
 					<td>
 						Joined
@@ -339,9 +343,7 @@ class OrgUpdate extends Component {
 										<th>
 											Name
 										</th>
-										<th>
-											Email
-										</th>
+										
 										<th>
 											Avatar
 										</th>
@@ -376,6 +378,13 @@ class OrgUpdate extends Component {
 				</div>
 				</section>
 				
+				<Modal show={this.state.updateOrg} onHide={this.closeUpdateOrgNotification}>
+					<Modal.Header closeButton>
+						<Modal.Title className="center"> Update Organization Successfully !!!</Modal.Title>
+					</Modal.Header>
+				</Modal>
+
+
 			</div>
 		);
 	}

@@ -1,3 +1,6 @@
+/*-----------------------------------------*/
+/* SASS AT LOCAL
+/*-----------------------------------------*/
 @media only screen and (max-width: 1200px) {
   HeaderNavBar {
     width: 50%; } }
@@ -908,9 +911,6 @@ table {
     -o-border-radius: 5px;
     border-radius: 5px; }
 
-.user-avatar-image-text {
-  right: 10px; }
-
 .user-avatar-item {
   display: inline-block; }
 
@@ -919,6 +919,7 @@ table {
   margin-left: 10px; }
 
 .user-avatar-image-text {
+  right: 10px;
   width: 100%; }
 
 .post-avatar-image {
@@ -980,7 +981,7 @@ table {
   border-radius: 10px !important;
   border: none; }
 
-.org-table, th, td {
+.org-table th, .org-table td {
   border: solid 1px #999;
   text-align: center; }
 

@@ -30,7 +30,7 @@ class OrgsList extends Component {
 
 	render() {
 		var user = this.props.user;
-		
+		// console.log(user);
 		var orgs = helper.getSort(this.props.orgs, "name");
 		return (
 			<div>
@@ -86,7 +86,7 @@ class OrgsList extends Component {
 }
 
 function mapStateToProps(state) {
-	console.log(state);
+	// console.log(state);
 	return {
 		user: state.user.user.user,
 		orgs: state.orgs.orgs,
