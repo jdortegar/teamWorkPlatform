@@ -1,0 +1,17 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www
+permissions:
+  - object: /var/www/startApp.sh
+    mode: 777
+hooks:
+  AfterInstall:
+    - location: installAppModules.sh
+      timeout: 100
+      runas: ec2-user
+  ApplicationStart:
+    - location: startApp.sh
+      timeout: 100
+      runas: ec2-user

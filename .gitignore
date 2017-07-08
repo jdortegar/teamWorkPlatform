@@ -10,9 +10,8 @@ db.json
 resources/style/*.scss
 resources/style/app.css.map
 resources/img/
-
-*.sh
-.sh
+*.py
+package-lock.json
 
 # IDE
 .idea

@@ -6,8 +6,9 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "NODE_ENV=production npm run clean && webpack --progress --colors --profile",
-    "start": "webpack-dev-server --progress --colors --inline --history-api-fallback",
-    "start:prod": "npm run build && node server.js"
+    "start:dev": "webpack-dev-server --progress --colors --inline --history-api-fallback",
+    "start": "node server.js",
+    "prestart": "npm run build"
   },
   "author": "habla",
   "license": "ISC",
