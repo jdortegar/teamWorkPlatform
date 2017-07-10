@@ -9,7 +9,7 @@ import {
   RESET_PASSWORD_REQUEST,
   PROTECTED_TEST
 } from './types';
-import { login } from '../session';
+import { login, logout } from '../session';
 
 //= ===============================
 // Authentication actions
@@ -47,6 +47,8 @@ export function registerUser({ email }) {
 }
 
 export function logoutUser(error) {
+  logout();
+
   return dispatch => {
     dispatch({
       type: UNAUTH_USER,

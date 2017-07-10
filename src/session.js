@@ -1,7 +1,8 @@
 import axios from 'axios';
-import cookie from 'react-cookie';
+import Cookie from 'js-cookie';
 import config from './config/env';
 
+const TOKEN_COOKIE_NAME = 'token';
 let jwt;
 
 export function login(email, password) {
@@ -14,7 +15,7 @@ export function login(email, password) {
     axios.post(loginUrl, params)
       .then((response) => {
         jwt = response.data.token;
-        // TODO: cookie.save('token', jwt, { path: '/' });
+        Cookie.set(TOKEN_COOKIE_NAME, jwt);
         resolve();
       })
       .catch(err => reject(err));
@@ -23,8 +24,9 @@ export function login(email, password) {
 
 export function logout() {
   jwt = undefined;
-  // TODO: cookie.remove('token', jwt, { path: '/' });
-  // TODO: invoke logout on server.
+  Cookie.remove(TOKEN_COOKIE_NAME);
+
+  // TODO: ANT: axios call to logout... no need for promise here.
 }
 
 export function isAuthenticated() {
@@ -32,7 +34,6 @@ export function isAuthenticated() {
     return true;
   }
 
-  // Check cookie.
-  // TODO: jwt = cookie.load('token');
+  jwt = Cookie.get(TOKEN_COOKIE_NAME);
   return (jwt !== undefined);
 }

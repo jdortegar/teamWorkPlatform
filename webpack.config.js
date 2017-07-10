@@ -2,6 +2,7 @@ const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const nodePort = process.env.NODE_PORT || 8080;
 let nodeUrl = 'localhost';
@@ -33,6 +34,9 @@ module.exports = {
       template: './src/index.html',
       inject: true
     }),
+    new CopyWebpackPlugin([
+      { from: 'public', to: path.resolve(__dirname, 'dist') }
+    ]),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.optimize.UglifyJsPlugin({
