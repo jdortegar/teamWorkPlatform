@@ -96,7 +96,9 @@
     "redux": "^3.7.1",
     "redux-form": "^6.8.0",
     "redux-thunk": "^2.2.0",
-    "shx": "^0.2.2"
+    "shx": "^0.2.2",
+    "socket.io-client": "^2.0.3",
+    "socketio-wildcard": "^2.0.0"
   },
   "eslintConfig": {
     "parserOptions": {
