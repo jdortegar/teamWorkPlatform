@@ -1,23 +1,44 @@
-import React from "react";
-import { Route } from "react-router-dom";
-import HomeContainer from "./containers/Home";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import SubpageContainer from "./containers/Subpage";
-import Main from "./layouts/Main";
+import React from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import HomeContainer from './containers/Home';
+import Login from './containers/Login';
+import Register from './components/Register';
+import SubpageContainer from './containers/Subpage';
+import Main from './layouts/Main';
+import Integrations from './containers/user/Integrations';
+import ProtectedRoute from './ProtectedRoute';
 
 export const routesPaths = {
-  home: "/",
-  login: "/login",
-  register: "/Register",
-  subpage: "/subpage"
+  home: '/',
+  register: '/register',
+  login: '/login',
+  integrations: '/integrations/:subscriberOrgId',
+  subpage: '/subpage',
+  payment: '/payment'
 };
 
 export default (
-  <Main>
-    <Route exact path={routesPaths.home} component={HomeContainer} />
-    <Route exact path={routesPaths.login} component={Login} />
+  <Switch>
     <Route exact path={routesPaths.register} component={Register} />
-    <Route exact path={routesPaths.subpage} component={SubpageContainer} />
-  </Main>
+    <Route exact path={routesPaths.login} component={Login} />
+    <Main>
+      <Switch>
+        <ProtectedRoute exact path={routesPaths.home} component={HomeContainer} />
+        <ProtectedRoute exact path={routesPaths.integrations} component={Integrations} />
+        <ProtectedRoute exact path={routesPaths.subpage} component={SubpageContainer} />
+      </Switch>
+    </Main>
+  </Switch>
 );
+
+// export default (
+//   <Authenticated>
+//     <Route exact path={routesPaths.home} component={HomeContainer} />
+//     <Route exact path={routesPaths.register} component={Register} />
+//     <Route exact path={routesPaths.login} component={Login} />
+//     <Switch>
+//       <Route exact path={routesPaths.integrations} component={Integrations} />
+//       <Route exact path={routesPaths.subpage} component={SubpageContainer} />
+//     </Switch>
+//   </Authenticated>
+// );

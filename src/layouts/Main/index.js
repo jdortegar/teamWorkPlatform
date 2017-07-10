@@ -1,8 +1,8 @@
-import { arrayOf, element, oneOfType, object } from "prop-types";
-import React from "react";
-import cssModules from "react-css-modules";
-import Header from "../../components/Header";
-import styles from "./styles.scss";
+import React from 'react';
+import { arrayOf, element, oneOfType, object } from 'prop-types';
+import cssModules from 'react-css-modules';
+import Header from '../../components/Header';
+import styles from './styles.scss';
 
 const Main = ({ children }) =>
   <div styleName="main">

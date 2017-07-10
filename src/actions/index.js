@@ -1,11 +1,14 @@
 import axios from "axios";
+import config from '../config/env';
+
+export * from './auth';
 
 export const RECEIVE_HOME_DATA = "RECEIVE_HOME_DATA";
 export const RECEIVE_SUBPAGE_DATA = "RECEIVE_SUBPAGE_DATA";
 
 // TODO: AD: Move apiUrl/apiEndpoints elsewhere, once I get the connection to server working.
 export const apiUrl = "http://api.fixer.io";
-export const API_URL = "http://localhost:3000/api";
+export const API_URL = config.hablaApiBaseUri;
 export const CLIENT_ROOT_URL = "http://localhost:8080";
 const apiEndpoints = {
   testAPIHomepage: `${apiUrl}/latest?base=USD`,

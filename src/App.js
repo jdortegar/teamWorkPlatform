@@ -1,7 +1,7 @@
 import { object } from 'prop-types';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import routes from './routes';
 
 const App = ({ store, history }) => {
@@ -13,9 +13,9 @@ const App = ({ store, history }) => {
    return (
       <Provider store={store}>
          <div>
-            <Router history={history}>
+            <BrowserRouter history={history}>
                {routes}
-            </Router>
+            </BrowserRouter>
             {(!window.devToolsExtension) && (process.env.NODE_ENV !== 'production') && <DevTools />}
          </div>
       </Provider>

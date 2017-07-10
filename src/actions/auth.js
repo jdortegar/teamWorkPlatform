@@ -1,8 +1,6 @@
-import axios from "axios";
-import { browserHistory } from "react-router";
-import cookie from "react-cookie";
-import config from "../config/env";
-import { API_URL, CLIENT_ROOT_URL, errorHandler } from "./index";
+import axios from 'axios';
+import { browserHistory } from 'react-router-dom';
+import { API_URL, CLIENT_ROOT_URL, errorHandler } from './index';
 import {
   AUTH_USER,
   AUTH_ERROR,
@@ -10,55 +8,40 @@ import {
   FORGOT_PASSWORD_REQUEST,
   RESET_PASSWORD_REQUEST,
   PROTECTED_TEST
-} from "./types";
+} from './types';
+import { login } from '../session';
 
 //= ===============================
 // Authentication actions
 //= ===============================
-// TO-DO: Add expiration to cookie
 export function loginUser({ email, password }) {
-  const params = new URLSearchParams();
-  params.append("username", email);
-  params.append("password", password);
-
-  const loginURL = `${API_URL}/auth/login`;
-  console.log(`logging in to ${loginURL} with params: ${params}`);
-  axios
-    .post(loginURL, params)
-    .then(function(response) {
-      console.log(response);
-      cookie.save("token", response.data.token, { path: "/" });
-      cookie.save("user", response.data.user, { path: "/" });
-      window.location.href = `${CLIENT_ROOT_URL}/`;
+  // TODO: Tim, question, should this be a redux-thunk?
+  login(email, password)
+    .then(() => {
+      window.location.href = `${CLIENT_ROOT_URL}/`; // TODO: Use RR to route... history.push...?
     })
-    .catch(function(error) {
+    .catch((error) => {
       console.log(error);
     });
 }
 
 export function registerUser({ email }) {
-  console.log("auth.registerUser", { email });
+  console.log('auth.registerUser', { email });
   return dispatch => {
     axios
       .post(`${API_URL}/users/register`, { email })
       .then(response => {
-        console.log("auth.registerUser response:", response);
-        cookie.save("token", response.data.token, {
-          path: "/"
-        });
-        cookie.save("user", response.data.user, {
-          path: "/"
-        });
+        console.log('auth.registerUser response:', response);
         dispatch({
           type: AUTH_USER
         });
         window.location.href = `${CLIENT_ROOT_URL}/dashboard`;
-        console.log("auth.registerUser response:", response);
+        console.log('auth.registerUser response:', response);
       })
       .catch(error => {
         errorHandler(dispatch, error.response, AUTH_ERROR);
         console.log(error.response);
-        console.log("auth.registerUser response:", error);
+        console.log('auth.registerUser response:', error);
       });
   };
 }
@@ -67,13 +50,7 @@ export function logoutUser(error) {
   return dispatch => {
     dispatch({
       type: UNAUTH_USER,
-      payload: error || ""
-    });
-    cookie.remove("token", {
-      path: "/"
-    });
-    cookie.remove("user", {
-      path: "/"
+      payload: error || ''
     });
 
     window.location.href = `${CLIENT_ROOT_URL}/login`;
@@ -110,7 +87,7 @@ export function resetPassword(token, { password }) {
           payload: response.data.message
         });
         // Redirect to login page on successful password reset
-        // browserHistory.push("/login");
+        // browserHistory.push('/login');
       })
       .catch(error => {
         errorHandler(dispatch, error.response, AUTH_ERROR);
@@ -118,22 +95,22 @@ export function resetPassword(token, { password }) {
   };
 }
 
-export function protectedTest() {
-  return dispatch => {
-    axios
-      .get(`${API_URL}/protected`, {
-        headers: {
-          Authorization: cookie.load("token")
-        }
-      })
-      .then(response => {
-        dispatch({
-          type: PROTECTED_TEST,
-          payload: response.data.content
-        });
-      })
-      .catch(error => {
-        errorHandler(dispatch, error.response, AUTH_ERROR);
-      });
-  };
-}
+// export function protectedTest() {
+//   return dispatch => {
+//     axios
+//       .get(`${API_URL}/protected`, {
+//         headers: {
+//           Authorization: cookie.load('token')
+//         }
+//       })
+//       .then(response => {
+//         dispatch({
+//           type: PROTECTED_TEST,
+//           payload: response.data.content
+//         });
+//       })
+//       .catch(error => {
+//         errorHandler(dispatch, error.response, AUTH_ERROR);
+//       });
+//   };
+// }

@@ -9,18 +9,18 @@ const store = configureStore();
 
 // Render main React component.
 const render = (Component, props = {}) => {
-   ReactDOM.render(
-      <AppContainer>
-         <Component {...props} />
-      </AppContainer>
-   , document.getElementById('app'));
+  ReactDOM.render(
+    <AppContainer>
+      <Component {...props} />
+    </AppContainer>
+  , document.getElementById('app'));
 };
 
 render(App, { store, history });
 
 // Hot Module Replacement API.
 if (module.hot) {
-   module.hot.accept('./App', () => {
-      render(App, { store, history });
-   });
+  module.hot.accept('./App', () => {
+    render(App, { store, history });
+  });
 }
