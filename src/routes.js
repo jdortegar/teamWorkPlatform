@@ -206,6 +206,13 @@ const componentRoutes = {
 					.then(module => cb(null, module.default))
 			}
 		},
+		{
+			path: 'previewurl',
+			getComponent(location, cb) {
+				System.import('./pages/team/PreviewUrl')
+					.then(module => cb(null, module.default))
+			}
+		},
 
 
 
