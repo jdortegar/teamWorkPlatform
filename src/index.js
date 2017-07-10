@@ -1,29 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, browserHistory, hashHistory } from 'react-router';
-import Routes from './routes';
-import reducers from './reducers';
-import { Provider } from 'react-redux';
-import promise from 'redux-promise';
-import ReduxThunk from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
-import '../resources/style/app.css';
+import { AppContainer } from 'react-hot-loader';
+import App from './App';
+import { configureStore, history } from './store';
+import './global-styles/index.global.scss';
 
+const store = configureStore();
 
-/* redux-promise
+// Render main React component.
+const render = (Component, props = {}) => {
+  ReactDOM.render(
+    <AppContainer>
+      <Component {...props} />
+    </AppContainer>
+  , document.getElementById('app'));
+};
 
-const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
-ReactDOM.render(
-	<Provider store={createStoreWithMiddleware(reducers)}>
-		<Routes />
-	</Provider>
-	, document.querySelector('.homepage'));
-*/
+render(App, { store, history });
 
-//redux-thunk
-const createStoreWithMiddleware = createStore(reducers,{},applyMiddleware(ReduxThunk));
-ReactDOM.render(
-	<Provider store={createStoreWithMiddleware}>
-		<Routes />
-	</Provider>
-	, document.querySelector('.homepage'));
+// Hot Module Replacement API.
+if (module.hot) {
+  module.hot.accept('./App', () => {
+    render(App, { store, history });
+  });
+}
