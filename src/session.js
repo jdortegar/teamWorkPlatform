@@ -15,7 +15,11 @@ export function login(email, password) {
     axios.post(loginUrl, params)
       .then((response) => {
         jwt = response.data.token;
-        Cookie.set(TOKEN_COOKIE_NAME, jwt);
+        if (process.env.NODE_ENV === 'production') {
+          Cookie.set(TOKEN_COOKIE_NAME, jwt, { secure: true });
+        } else {
+          Cookie.set(TOKEN_COOKIE_NAME, jwt);
+        }
         resolve();
       })
       .catch(err => reject(err));
@@ -24,7 +28,11 @@ export function login(email, password) {
 
 export function logout() {
   jwt = undefined;
-  Cookie.remove(TOKEN_COOKIE_NAME);
+  if (process.env.NODE_ENV === 'production') {
+    Cookie.remove(TOKEN_COOKIE_NAME, { secure: true });
+  } else {
+    Cookie.remove(TOKEN_COOKIE_NAME);
+  }
 
   // TODO: ANT: axios call to logout... no need for promise here.
 }
