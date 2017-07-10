@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import cssModules from 'react-css-modules';
 import LoginForm from './LoginForm';
 import styles from './styles.scss';
-import cssModules from "react-css-modules";
 
-export default class Login extends Component {
+class Login extends Component {
   submit = values => {
     // print the form values to the console
     console.log("Login: ", values);
@@ -13,4 +13,4 @@ export default class Login extends Component {
   }
 }
 
-//export default cssModules(Login, styles, { allowMultiple: true });
+export default cssModules(Login, styles, { allowMultiple: true });
