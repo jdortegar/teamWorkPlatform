@@ -18,7 +18,7 @@ export function loginUser({ email, password }) {
   // TODO: Tim, question, should this be a redux-thunk?
   login(email, password)
     .then(() => {
-      window.location.href = `${CLIENT_ROOT_URL}/`; // TODO: Use RR to route... history.push...?
+      //window.location.href = `${CLIENT_ROOT_URL}/`; // TODO: Use RR to route... history.push...?
     })
     .catch((error) => {
       console.log(error);
