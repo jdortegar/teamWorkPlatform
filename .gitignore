@@ -2,7 +2,7 @@ node_modules/
 #src/pages/ccg/
 npm-debug.log
 bundle.js
-dist/
+dist/*
 vendor/
 .sass-cache/
 .eslintrc
