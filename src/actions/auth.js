@@ -19,13 +19,13 @@ export function loginUser({ email, password }) {
   return dispatch => {
     login(email, password)
       .then(() => {
-        //window.location.href = `${CLIENT_ROOT_URL}/`; // TODO: Use RR to route... history.push...?
         dispatch({
           type: AUTH_USER
         });
         dispatch(push(routesPaths.home));
       })
       .catch((error) => {
+        errorHandler(dispatch, error.response, AUTH_ERROR);
         console.log(error);
       });
   };
