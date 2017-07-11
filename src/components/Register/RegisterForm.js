@@ -27,8 +27,8 @@ class RegisterForm extends Component {
   }
 
   onSubmit({ email }) {
-    console.log("RegisterForm onsubmit", { email });
-    registerUser({ email });
+    this.props.registerUser({ email });
+    //console.log(this.props);
   }
 
   render() {

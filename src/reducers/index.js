@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { routerReducer } from "react-router-redux";
 import homeReducer from "./homeReducer";
 import subpageReducer from "./subpageReducer";
 import authReducer from "./authReducer";
@@ -8,7 +9,8 @@ const mainReducer = combineReducers({
   homeReducer,
   subpageReducer,
   authReducer,
-  form: formReducer
+  form: formReducer,
+  router: routerReducer
 });
 
 export default mainReducer;

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { browserHistory } from 'react-router-dom';
 import { API_URL, CLIENT_ROOT_URL, errorHandler } from './index';
 import {
   AUTH_USER,
@@ -10,6 +9,7 @@ import {
   PROTECTED_TEST
 } from './types';
 import { login } from '../session';
+import { push } from 'react-router-redux'
 
 //= ===============================
 // Authentication actions
@@ -26,17 +26,15 @@ export function loginUser({ email, password }) {
 }
 
 export function registerUser({ email }) {
-  console.log('auth.registerUser', { email });
   return dispatch => {
     axios
-      .post(`${API_URL}/users/register`, { email })
+      .post(`${API_URL}/users/registerUser`, { email })
       .then(response => {
-        console.log('auth.registerUser response:', response);
         dispatch({
           type: AUTH_USER
         });
-        window.location.href = `${CLIENT_ROOT_URL}/dashboard`;
-        console.log('auth.registerUser response:', response);
+        debugger;
+        dispatch(push('/dashboard'));
       })
       .catch(error => {
         errorHandler(dispatch, error.response, AUTH_ERROR);

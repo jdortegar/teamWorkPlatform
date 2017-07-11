@@ -2,7 +2,10 @@ import { object } from 'prop-types';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { ConnectedRouter } from 'react-router-redux';
 import routes from './routes';
+
+console.log(ConnectedRouter);
 
 const App = ({ store, history }) => {
    let DevTools = '';
@@ -13,9 +16,9 @@ const App = ({ store, history }) => {
    return (
       <Provider store={store}>
          <div>
-            <BrowserRouter history={history}>
+            <ConnectedRouter history={history}>
                {routes}
-            </BrowserRouter>
+            </ConnectedRouter>
             {(!window.devToolsExtension) && (process.env.NODE_ENV !== 'production') && <DevTools />}
          </div>
       </Provider>
