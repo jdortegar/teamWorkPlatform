@@ -1,5 +1,7 @@
 import axios from 'axios';
+import { push } from 'react-router-redux';
 import { API_URL, CLIENT_ROOT_URL, errorHandler } from './index';
+import { routesPaths } from '../routes';
 import {
   AUTH_USER,
   AUTH_ERROR,
@@ -9,20 +11,24 @@ import {
   PROTECTED_TEST
 } from './types';
 import { login, logout } from '../session';
-import { push } from 'react-router-redux'
 
 //= ===============================
 // Authentication actions
 //= ===============================
 export function loginUser({ email, password }) {
-  // TODO: Tim, question, should this be a redux-thunk?
-  login(email, password)
-    .then(() => {
-      //window.location.href = `${CLIENT_ROOT_URL}/`; // TODO: Use RR to route... history.push...?
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  return dispatch => {
+    login(email, password)
+      .then(() => {
+        //window.location.href = `${CLIENT_ROOT_URL}/`; // TODO: Use RR to route... history.push...?
+        dispatch({
+          type: AUTH_USER
+        });
+        dispatch(push(routesPaths.home));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 }
 
 export function registerUser({ email }) {

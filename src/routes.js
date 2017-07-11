@@ -15,7 +15,6 @@ export const routesPaths = {
   login: '/login',
   integrations: '/integrations/:subscriberOrgId',
   subpage: '/subpage',
-  payment: '/payment'
 };
 
 export default (
