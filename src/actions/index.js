@@ -1,5 +1,6 @@
 import axios from "axios";
 import config from '../config/env';
+import { SUBMIT_FORM } from './types';
 
 export * from './auth';
 
@@ -14,6 +15,13 @@ const apiEndpoints = {
   testAPIHomepage: `${apiUrl}/latest?base=USD`,
   testAPISubpage: `${apiUrl}/latest?base=GBP`
 };
+
+export function submitRegistrationForm(data) {
+  return {
+    type: SUBMIT_FORM,
+    data
+  }
+}
 
 export function receiveHomeData(data) {
   return {

@@ -8,7 +8,8 @@ import {
   UNAUTH_USER,
   FORGOT_PASSWORD_REQUEST,
   RESET_PASSWORD_REQUEST,
-  PROTECTED_TEST
+  PROTECTED_TEST,
+  SUBMIT_FORM
 } from './types';
 import { login, logout } from '../session';
 
@@ -33,15 +34,16 @@ export function loginUser({ email, password }) {
 
 export function registerUser({ email }) {
   return dispatch => {
+    dispatch({ type: SUBMIT_FORM, data: true });
     axios
       .post(`${API_URL}/users/registerUser`, { email })
       .then(response => {
-        dispatch({
-          type: AUTH_USER
-        });
+        dispatch({ type: AUTH_USER });
+        dispatch({ type: SUBMIT_FORM, data: false });
         dispatch(push('/dashboard'));
       })
       .catch(error => {
+        dispatch({ type: SUBMIT_FORM, data: false });
         errorHandler(dispatch, error.response, AUTH_ERROR);
         console.log(error.response);
         console.log('auth.registerUser response:', error);

@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import HomeContainer from './containers/Home';
 import Login from './containers/Login';
-import Register from './components/Register';
+import Register from './containers/Register';
 import SubpageContainer from './containers/Subpage';
 import Main from './layouts/Main';
 import Integrations from './containers/user/Integrations';

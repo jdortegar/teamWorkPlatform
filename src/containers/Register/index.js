@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { Card } from 'material-ui/Card';
-import cssModules from 'react-css-modules';
-import LoginForm from './LoginForm';
-import styles from './styles.scss';
+import RegisterForm from "./RegisterForm";
+import styles from "./styles.scss";
+import cssModules from "react-css-modules";
 
-class Login extends Component {
+class Register extends Component {
   render() {
     const { mainDiv, cardStyle, containerDiv } = inlineStyles;
 
@@ -13,7 +13,7 @@ class Login extends Component {
         <div style={containerDiv}>
           <div style={{ width: '100%' }}>
             <Card style={cardStyle}>
-              <LoginForm />
+              <RegisterForm />
             </Card>
           </div>
         </div>
@@ -42,4 +42,4 @@ const inlineStyles = {
   }
 }
 
-export default cssModules(Login, styles, { allowMultiple: true });
+export default cssModules(Register, styles, { allowMultiple: true });

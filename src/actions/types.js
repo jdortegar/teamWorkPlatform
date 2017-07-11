@@ -32,6 +32,11 @@ export const SEND_CONTACT_FORM = "send_contact_form",
   STATIC_ERROR = "static_error";
 
 //= =====================
+// Registration Actions
+//= =====================
+export const SUBMIT_FORM = "submit_form";
+
+//= =====================
 // Customer Actions
 //= =====================
 export const CREATE_CUSTOMER = "create_customer",
