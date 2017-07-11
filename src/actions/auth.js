@@ -8,7 +8,7 @@ import {
   RESET_PASSWORD_REQUEST,
   PROTECTED_TEST
 } from './types';
-import { login } from '../session';
+import { login, logout } from '../session';
 import { push } from 'react-router-redux'
 
 //= ===============================
@@ -45,6 +45,8 @@ export function registerUser({ email }) {
 }
 
 export function logoutUser(error) {
+  logout();
+
   return dispatch => {
     dispatch({
       type: UNAUTH_USER,

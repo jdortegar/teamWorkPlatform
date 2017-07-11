@@ -7,6 +7,7 @@ import SubpageContainer from './containers/Subpage';
 import Main from './layouts/Main';
 import Integrations from './containers/user/Integrations';
 import ProtectedRoute from './ProtectedRoute';
+import PublicRoute from './PublicRoute';
 
 export const routesPaths = {
   home: '/',
@@ -20,7 +21,7 @@ export const routesPaths = {
 export default (
   <Switch>
     <Route exact path={routesPaths.register} component={Register} />
-    <Route exact path={routesPaths.login} component={Login} />
+    <PublicRoute exact path={routesPaths.login} component={Login} />
     <Main>
       <Switch>
         <ProtectedRoute exact path={routesPaths.home} component={HomeContainer} />

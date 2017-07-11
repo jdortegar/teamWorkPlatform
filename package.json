@@ -77,6 +77,7 @@
     "classnames": "^2.2.5",
     "helmet": "^3.6.1",
     "history": "^4.6.3",
+    "js-cookie": "^2.1.4",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
@@ -95,7 +96,9 @@
     "redux": "^3.7.1",
     "redux-form": "^6.8.0",
     "redux-thunk": "^2.2.0",
-    "shx": "^0.2.2"
+    "shx": "^0.2.2",
+    "socket.io-client": "^2.0.3",
+    "socketio-wildcard": "^2.0.0"
   },
   "eslintConfig": {
     "parserOptions": {
