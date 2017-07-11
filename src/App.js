@@ -1,11 +1,9 @@
 import { object } from 'prop-types';
 import React from 'react';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
 import routes from './routes';
-
-console.log(ConnectedRouter);
 
 const App = ({ store, history }) => {
    let DevTools = '';
@@ -14,6 +12,7 @@ const App = ({ store, history }) => {
    }
 
    return (
+     <MuiThemeProvider>
       <Provider store={store}>
          <div>
             <ConnectedRouter history={history}>
@@ -22,6 +21,7 @@ const App = ({ store, history }) => {
             {(!window.devToolsExtension) && (process.env.NODE_ENV !== 'production') && <DevTools />}
          </div>
       </Provider>
+    </MuiThemeProvider>
    );
 };
 

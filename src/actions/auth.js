@@ -33,7 +33,6 @@ export function registerUser({ email }) {
         dispatch({
           type: AUTH_USER
         });
-        debugger;
         dispatch(push('/dashboard'));
       })
       .catch(error => {
