@@ -1,42 +1,28 @@
 import React, { Component } from 'react';
 import { FieldGroup } from '../../components';
-import Metascraper from 'metascraper';
-import axios from 'axios';
-// import opengraph from 'opengraph-io';
-
+import axios from 'axios'
 class PreviewUrl extends Component {
 
 	constructor(props) {
 		super(props);
-		// this.state = {
-		// 	input: '', 
-		// 	url: '', 
-		// 	words: 1000, 
-		// 	urlSend: '', 
-		// 	description: '',
-		// 	title: '',
-		// 	metaUrl: '',
-		// 	favicon: '',
-		// 	image: '',
-		// };
 		this.state = {
 			input: '', 
 			url: '', 
-			words: 1000, 
-			urlSend: '', 
-			description: 'Unforgettable trips start with Airbnb. Find adventures nearby or in faraway places and access unique homes, experiences, and places around the world.',
-			title: 'Vacation Rentals, Homes, Experiences & Places - Airbnb',
-			metaUrl: 'https://www.airbnb.com',
-			favicon: 'https://a0.muscache.com/airbnb/static/icons/android-icon-192x192-c0465f9f0380893768972a31a614b670.png',
-			siteName: 'Airbnb',
-			image: 'https://a0.muscache.com/airbnb/static/logos/trips-og-1280x630-9de9c338cc3fd9b5663fb80be0cbe8c2.jpg',
+			description: '',
+			title: '',
+			metaUrl: '',
+			favicon: '',
+			image: '',
+			content: '',
+			border: "none",
 		};
 		this.previewUrl = this.previewUrl.bind(this);
 		this.filterUrl = this.filterUrl.bind(this);
 	}
 
 	handleInput(input){
-		this.setState({input});
+		this.state.input = input;
+		this.previewUrl();
 	}
 
 	filterUrl(rawUrl) {
@@ -63,11 +49,56 @@ class PreviewUrl extends Component {
 	getMetaData(url) {
 		if (url) {
 			axios.get(url)
-			.then(meta => console.log(meta))
-			
+			.then(meta => {
+				console.log(meta);
+				const data = meta.data.hybridGraph;
+				if (!meta.data.hasOwnProperty("error")) {
+					this.state.description = data.hasOwnProperty("description") ? data.description : '';
+					this.state.title = data.hasOwnProperty("title") ? data.title : '';
+					this.state.metaUrl = data.hasOwnProperty("url") ? data.url : '';
+					this.state.favicon = data.hasOwnProperty("favicon") ? data.favicon : '';
+					this.state.image = data.hasOwnProperty("image") ? data.image : '';
+					this.state.siteName = data.hasOwnProperty("site_name") ? data.site_name : '';
+					this.state.border = "2px solid #e6e6e6";
+					this.state.content = (
+						<div>
+							<div >
+								<div className="web-item" style={{marginTop: "20px", width: "400px", textAlign: "left"}}>
+									<div className="web-item" style={{}}>
+										<img src={this.state.favicon} style={{width: "20px", height: "20px", marginBottom: "10px"}}/>
+									</div>
+									<div className="web-item" style={{color: "grey", fontSize: "20px", paddingLeft: "5px", marginTop: "5px"}}>
+										{this.state.siteName}
+									</div>
+									<div style={{fontSize: "16px", fontWeight: "bold"}}>
+										<a href={this.state.metaUrl} className="blue-link-underline"> {this.state.title}</a>
+									</div>
+									<div style={{fontSize: "16px"}}>
+										{this.state.description}
+									</div>
+								</div>
+								<div className="web-item" style={{height: "100%"}}>
+									<img src={this.state.image} style={{width: "100px", borderRadius: "5px", marginBottom: "80px", marginLeft: "25px"}} />
+								</div>
+							</div>
 
-			//error when meta.data.error.message = The provided url could not be found.  Please ensure it is valid and properly encoded.
-			//correct : meta.data no error property
+						</div>
+					)
+					this.forceUpdate();
+				}
+				else {
+					this.setState({
+						url: '', 
+						description: '',
+						title: '',
+						metaUrl: '',
+						favicon: '',
+						image: '',
+						content: '',
+						border: 'none',
+					})
+				}
+			})
 		}
 	}
 
@@ -78,23 +109,16 @@ class PreviewUrl extends Component {
 			const inputWords = splitWords.map(word => {
 				return this.filterUrl(word);
 			});
-			console.log(inputWords);
 			let wwwInit = inputWords.find(word => {
 				return word.substring(0,3) == "www" ? word : '';
 			})
-			// console.log(wwwInit);
+			
 			let httpInit = '' || inputWords.find(word => {
 				return word.substring(0,4) == "http" ? word : '';
 			})
 			const rawUrl = wwwInit == undefined ? (httpInit == undefined ? '' : httpInit) : "http://"+wwwInit;
-			// console.log(rawUrl);
+			
 			this.state.url = rawUrl;
-			// if (this.state.url != '') {
-			// 	console.log("Capturing");
-			// 	if (inputWords.length > this.state.words) this.state.urlSend = rawUrl;
-			// 	this.state.words = inputWords.length;
-			// }
-			console.log("FINAL URL: "+this.state.urlSend);
 			return rawUrl;
 		}
 		return;
@@ -104,36 +128,19 @@ class PreviewUrl extends Component {
 
 	previewUrl() {
 		const apiUrl = "https://opengraph.io/api/1.0/site/";
-		const encodedUrl = encodeURIComponent("https://www.airbnb.com");
+		const encodedUrl = encodeURIComponent(this.getUrl());
 		const apiKey = "?app_id=5962afe907efcb0b00a6cf49";
-		// this.getUrl();
-		// const metaData = this.getMetaData(apiUrl+encodedUrl+apiKey);
-		return (
-			<div className="center">
-				<div className="row">
-					<div className="col-md-6">
-						<img src={this.state.favicon} style={{width: "20px", height: "20px"}}/>
-						<span style={{color: "grey", fontSize: "20px"}}>{this.state.siteName}</span>
-						<div style={{}}>
-							<a href={this.state.metaUrl} className="blue-link"> {this.state.title}</a>
-						</div>
-						<div>
-							{this.state.description}
-						</div>
-					</div>
-					<div className="col-md-6">
-						<img src={this.state.image} style={{width: "100px", height: "100px", borderRadius: "5px"}} />
-					</div>
-				</div>
-
-			</div>
-		)
+		return this.getMetaData(apiUrl+encodedUrl+apiKey);
 	}
 
 	render() {
+		const bd = this.state.border;
 		return (
 			<div>
-				<div className="row">
+				<div>
+					<h3> PREVIEW URL </h3>
+				</div>
+				<div className="row" style={{marginTop: "20px"}}>
 					<form>
 						<div className="col-md-4 col-md-offset-4">
 							<FieldGroup
@@ -143,9 +150,11 @@ class PreviewUrl extends Component {
 						</div>
 					</form>
 				</div>
-			
-				<div className="row">
-					{this.previewUrl()}
+				<div>
+					{this.state.url}
+				</div>
+				<div className="center" style={{marginTop: "50px", border: `${bd}`, borderRadius: "5px", width: "600px", height: "auto"}}>
+					{this.state.content}
 				</div>
 			</div>
 		)

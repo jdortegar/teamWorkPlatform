@@ -1,6 +1,3 @@
-/*-----------------------------------------*/
-/* SASS AT LOCAL
-/*-----------------------------------------*/
 @media only screen and (max-width: 1200px) {
   HeaderNavBar {
     width: 50%; } }
@@ -153,6 +150,14 @@ section {
 .blue-link {
   color: #3498db; }
 
+.blue-link-underline {
+  color: #3498db; }
+
+.blue-link-underline:hover {
+  text-decoration: underline !important;
+  color: #1580c7;
+  cursor: pointer; }
+
 .fill-vertical {
   height: 40vh; }
 
@@ -202,6 +207,9 @@ ul.privacy-list-sub {
 .delwidth {
   display: none;
   width: 0px !important; }
+
+.web-item {
+  display: inline-block; }
 
 /*-----------------------------------------*/
 /* HEADER

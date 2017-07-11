@@ -169,6 +169,15 @@ section {
   color: $blue;
 }
 
+.blue-link-underline {
+  color: $blue;
+}
+
+.blue-link-underline:hover {
+  text-decoration: underline !important;
+  color: $blue-dark;
+  cursor: pointer;
+}
 
 .fill-vertical {
 	height: 40vh;
@@ -235,3 +244,6 @@ ul.privacy-list-sub {
   width: 0px !important;
 }
 
+.web-item {
+  display: inline-block;
+}
