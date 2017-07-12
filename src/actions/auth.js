@@ -40,7 +40,7 @@ export function registerUser({ email }) {
       .then(response => {
         dispatch({ type: AUTH_USER });
         dispatch({ type: SUBMIT_FORM, data: false });
-        dispatch(push('/dashboard'));
+        dispatch(push('/home'));
       })
       .catch(error => {
         dispatch({ type: SUBMIT_FORM, data: false });
