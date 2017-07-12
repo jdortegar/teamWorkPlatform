@@ -22,17 +22,22 @@ function initializeDependencies() {
   messaging(websocketUrl).connect(jwt);
 }
 
-export function getWebsocketUrl() {
-  if (websocketUrl) {
-    return websocketUrl;
-  }
-
-  websocketUrl = Cookie.get(WEBSOCKET_URL_COOKIE_NAME);
-  if (websocketUrl) {
-    initializeDependencies();
-  }
-  return websocketUrl;
+function disableDependencies() {
+  messaging().close();
 }
+
+// Try to keep websocketUrl private.
+// export function getWebsocketUrl() {
+//   if (websocketUrl) {
+//     return websocketUrl;
+//   }
+//
+//   websocketUrl = Cookie.get(WEBSOCKET_URL_COOKIE_NAME);
+//   if (websocketUrl) {
+//     initializeDependencies();
+//   }
+//   return websocketUrl;
+// }
 
 export function login(email, password) {
   return new Promise((resolve, reject) => {
@@ -54,7 +59,7 @@ export function login(email, password) {
         }
 
         initializeDependencies();
-        resolve();
+        resolve(response.data.user);
       })
       .catch(err => reject(err));
   });
@@ -70,7 +75,9 @@ export function logout() {
     Cookie.remove(WEBSOCKET_URL_COOKIE_NAME);
   }
 
-  // TODO: ANT: axios call to logout... no need for promise here.
+  // TODO: ANT: axios call to logout.  Caller should just log error and push to routerPaths.home.
+  disableDependencies();
+  return Promise.resolve();
 }
 
 export function isAuthenticated() {
