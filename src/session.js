@@ -5,9 +5,11 @@ import messaging from './messaging';
 
 const TOKEN_COOKIE_NAME = 'token';
 const WEBSOCKET_URL_COOKIE_NAME = 'websocketUrl';
+const COOKIE_USER = 'user';
 
 let jwt;
 let websocketUrl;
+let user;
 
 export function getJwt() {
   if (jwt) {
@@ -49,13 +51,16 @@ export function login(email, password) {
     axios.post(loginUrl, params)
       .then((response) => {
         jwt = response.data.token;
+        user = response.data.user;
         websocketUrl = response.data.websocketUrl;
         if (process.env.NODE_ENV === 'production') {
           Cookie.set(TOKEN_COOKIE_NAME, jwt, { secure: true });
           Cookie.set(WEBSOCKET_URL_COOKIE_NAME, websocketUrl, { secure: true });
+          Cookie.set(COOKIE_USER, user, { secure: true });
         } else {
           Cookie.set(TOKEN_COOKIE_NAME, jwt);
           Cookie.set(WEBSOCKET_URL_COOKIE_NAME, websocketUrl);
+          Cookie.set(COOKIE_USER, user);
         }
 
         initializeDependencies();
@@ -70,9 +75,11 @@ export function logout() {
   if (process.env.NODE_ENV === 'production') {
     Cookie.remove(TOKEN_COOKIE_NAME, { secure: true });
     Cookie.remove(WEBSOCKET_URL_COOKIE_NAME, { secure: true });
+    Cookie.remove(COOKIE_USER, { secure: true });
   } else {
     Cookie.remove(TOKEN_COOKIE_NAME);
     Cookie.remove(WEBSOCKET_URL_COOKIE_NAME);
+    Cookie.remove(COOKIE_USER);
   }
 
   disableDependencies();
