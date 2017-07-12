@@ -4,7 +4,9 @@ import HomeContainer from './containers/Home';
 import Login from './containers/Login';
 import Register from './containers/Register';
 import SubpageContainer from './containers/Subpage';
+import CreateAccount from './containers/CreateAccount';
 import Main from './layouts/Main';
+import SignUp from './layouts/SignUp';
 import Integrations from './containers/user/Integrations';
 import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
@@ -15,12 +17,16 @@ export const routesPaths = {
   login: '/login',
   integrations: '/integrations/:subscriberOrgId',
   subpage: '/subpage',
+  createAccount: '/createAccount'
 };
 
 export default (
   <Switch>
-    <Route exact path={routesPaths.register} component={Register} />
-    <PublicRoute exact path={routesPaths.login} component={Login} />
+    <SignUp>
+      <Route exact path={routesPaths.register} component={Register} />
+      <Route exact path={routesPaths.createAccount} component={CreateAccount} />
+      <PublicRoute exact path={routesPaths.login} component={Login} />
+    </SignUp>
     <Main>
       <Switch>
         <ProtectedRoute exact path={routesPaths.home} component={HomeContainer} />
