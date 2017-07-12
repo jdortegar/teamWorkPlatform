@@ -60,7 +60,7 @@ export function logoutUser(error) {
       payload: error || ''
     });
 
-    window.location.href = `${CLIENT_ROOT_URL}/login`;
+    dispatch(push(routesPaths.login));
   };
 }
 
