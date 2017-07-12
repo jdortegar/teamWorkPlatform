@@ -19,7 +19,7 @@ import { login, logout } from '../session';
 export function loginUser({ email, password }) {
   return dispatch => {
     login(email, password)
-      .then(() => {
+      .then((user) => {
         dispatch({
           type: AUTH_USER
         });
