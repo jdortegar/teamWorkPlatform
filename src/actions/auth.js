@@ -19,7 +19,7 @@ import { login, logout } from '../session';
 export function loginUser({ email, password }) {
   return dispatch => {
     login(email, password)
-      .then(() => {
+      .then((user) => {
         dispatch({
           type: AUTH_USER
         });
@@ -40,7 +40,7 @@ export function registerUser({ email }) {
       .then(response => {
         dispatch({ type: AUTH_USER });
         dispatch({ type: SUBMIT_FORM, data: false });
-        dispatch(push('/dashboard'));
+        dispatch(push('/home'));
       })
       .catch(error => {
         dispatch({ type: SUBMIT_FORM, data: false });
@@ -60,7 +60,7 @@ export function logoutUser(error) {
       payload: error || ''
     });
 
-    window.location.href = `${CLIENT_ROOT_URL}/login`;
+    dispatch(push(routesPaths.login));
   };
 }
 

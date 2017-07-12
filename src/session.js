@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookie from 'js-cookie';
+import _ from 'lodash';
 import config from './config/env';
 import messaging from './messaging';
 
@@ -22,17 +23,22 @@ function initializeDependencies() {
   messaging(websocketUrl).connect(jwt);
 }
 
-export function getWebsocketUrl() {
-  if (websocketUrl) {
-    return websocketUrl;
-  }
-
-  websocketUrl = Cookie.get(WEBSOCKET_URL_COOKIE_NAME);
-  if (websocketUrl) {
-    initializeDependencies();
-  }
-  return websocketUrl;
+function disableDependencies() {
+  messaging().close();
 }
+
+// Try to keep websocketUrl private.
+// export function getWebsocketUrl() {
+//   if (websocketUrl) {
+//     return websocketUrl;
+//   }
+//
+//   websocketUrl = Cookie.get(WEBSOCKET_URL_COOKIE_NAME);
+//   if (websocketUrl) {
+//     initializeDependencies();
+//   }
+//   return websocketUrl;
+// }
 
 export function login(email, password) {
   return new Promise((resolve, reject) => {
@@ -54,7 +60,9 @@ export function login(email, password) {
         }
 
         initializeDependencies();
-        resolve();
+        const user = _.cloneDeep(response.data.user);
+        delete user.email;
+        resolve(user);
       })
       .catch(err => reject(err));
   });
@@ -70,7 +78,8 @@ export function logout() {
     Cookie.remove(WEBSOCKET_URL_COOKIE_NAME);
   }
 
-  // TODO: ANT: axios call to logout... no need for promise here.
+  disableDependencies();
+  // TODO: ANT: axios call to logout.  No return promise necessary.
 }
 
 export function isAuthenticated() {
