@@ -2,7 +2,7 @@ node_modules/
 #src/pages/ccg/
 npm-debug.log
 bundle.js
-dist/
+dist/*
 vendor/
 .sass-cache/
 .eslintrc
@@ -26,3 +26,5 @@ package-lock.json
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+

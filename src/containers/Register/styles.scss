@@ -1,0 +1,25 @@
+@import '../../global-styles/settings.scss';
+
+.header {
+   padding: 25px 20px;
+   background-color: darken($color-main-light, 10%);
+   color: $color-main-dark;
+
+   a {
+      color: $color-main-dark;
+      padding: 0 10px;
+      text-decoration: none;
+   }
+}
+
+.body-signup {
+  z-index: -1;
+  content: ' ';
+  line-height: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #009688;
+  height: 220px;
+}
