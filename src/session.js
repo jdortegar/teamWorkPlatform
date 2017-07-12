@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookie from 'js-cookie';
+import _ from 'lodash';
 import config from './config/env';
 import messaging from './messaging';
 
@@ -59,7 +60,9 @@ export function login(email, password) {
         }
 
         initializeDependencies();
-        resolve(response.data.user);
+        const user = _.cloneDeep(response.data.user);
+        delete user.email;
+        resolve(user);
       })
       .catch(err => reject(err));
   });
