@@ -75,9 +75,8 @@ export function logout() {
     Cookie.remove(WEBSOCKET_URL_COOKIE_NAME);
   }
 
-  // TODO: ANT: axios call to logout.  Caller should just log error and push to routerPaths.home.
   disableDependencies();
-  return Promise.resolve();
+  // TODO: ANT: axios call to logout.  No return promise necessary.
 }
 
 export function isAuthenticated() {
