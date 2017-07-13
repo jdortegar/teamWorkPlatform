@@ -8,7 +8,7 @@ const SignUp = (props) => {
 
   return (
     <div style={mainDiv}>
-      <div style={containerDiv}>
+      <div className="cool-habla" style={containerDiv}>
         <div style={{ width: '100%' }}>
           <Card style={cardStyle}>
             {props.children}

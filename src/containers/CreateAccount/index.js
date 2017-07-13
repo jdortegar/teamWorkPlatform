@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import { func } from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { Field, reduxForm } from 'redux-form';
@@ -9,17 +10,16 @@ import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
 import CircularProgress from 'material-ui/CircularProgress';
 import { connect } from 'react-redux';
+import { countries } from '../../config/config.js';
+import { getAllCountries } from 'countries-and-timezones';
 
-const items = [
-  <MenuItem key={1} value={1} primaryText="United States" />,
-  <MenuItem key={2} value={2} primaryText="Canada" />,
-  <MenuItem key={3} value={3} primaryText="Mexico" />,
-];
+const timezonesByCountry = getAllCountries();
 
 class CreateAccount extends Component {
   constructor(props) {
     super(props);
 
+    this.state = { timezones: [] };
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -33,6 +33,31 @@ class CreateAccount extends Component {
     );
   }
 
+  renderCountries() {
+    return countries.map(({ code, name }) => {
+      return (
+        <MenuItem key={code} value={code} primaryText={name} />
+      );
+    });
+  }
+
+  renderTimezones() {
+    return this.state.timezones.map((timezone) => {
+      return (
+        <MenuItem key={timezone} value={timezone} primaryText={timezone} />
+      )
+    });
+  }
+
+  onCountryChange(value) {
+    console.log(this.props);
+    const code = `${value[0]}${value[1]}`; //get country code by joining value[0] and value[1]
+    const { timezones } = timezonesByCountry[code];
+
+    this.setState({ timezones });
+  }
+
+
   //renders select field used for countries and timezone
   renderSelectField({ input, label, meta: { touched, error }, children, ...custom }) {
     return(
@@ -40,7 +65,7 @@ class CreateAccount extends Component {
         floatingLabelText={label}
         errorText={touched && error}
         {...input}
-        onChange={(event, index, value) => input.onChange(value)}
+        onChange={(event, index, value) => { input.onChange(value) }}
         children={children}
         {...custom}
       />
@@ -54,8 +79,16 @@ class CreateAccount extends Component {
     return (
         <form onSubmit={handleSubmit(this.onSubmit)}>
           <div style={cardDivStyle}>
-            <img style={imageStyle} src="https://c2.staticflickr.com/4/3955/33078312014_f6f8c759db_o.png" />
-            <h2 style={h2Style}>Habla AI</h2>
+            <img style={imageStyle} src="http://i63.tinypic.com/2hg6clh.png" />
+          </div>
+          <div className="row">
+            <div className="col-xs-12 text-center">
+              <div className="col-xs-6 col-xs-offset-3 col-sm-offset-4 col-sm-4">
+              <RaisedButton fullWidth containerElement='label' label='Upload'>
+                <input type="file" style={{ display: 'none' }} />
+              </RaisedButton>
+              </div>
+            </div>
           </div>
           <div className="row">
             <div className="col-xs-12 col-sm-6">
@@ -83,24 +116,14 @@ class CreateAccount extends Component {
           </div>
           <div className="row">
             <div className="col-xs-12 col-sm-6">
-              <Field label="Country" name="country" fullWidth component={this.renderSelectField}>
-                {items}
+              <Field label="Country" name="country" onChange={this.onCountryChange.bind(this)} fullWidth component={this.renderSelectField}>
+                {this.renderCountries()}
               </Field>
             </div>
             <div className="col-xs-12 col-sm-6">
-              <Field label="Timezone" name="country" fullWidth component={this.renderSelectField}>
-                {items}
+              <Field label="Timezone" name="timezone" fullWidth component={this.renderSelectField}>
+                {this.renderTimezones()}
               </Field>
-            </div>
-          </div>
-          <div className="row" style={{ paddingTop: '24px' }}>
-            <div className="col-xs-12 col-sm-6">
-              <RaisedButton fullWidth containerElement='label' label='Upload Icon'>
-                <input type="file" style={{ display: 'none' }} />
-              </RaisedButton>
-            </div>
-            <div className="col-xs-12 col-sm-6">
-
             </div>
           </div>
           <div>
@@ -148,11 +171,20 @@ function validate(values) {
   if(!values.lastName) { //last name is required field
     errors.lastName = "Required"
   }
+  if(!values.country) { //country is required
+    errors.country = "Required"
+  }
+  if(!values.confirmPassword) { //password is required
+    errors.confirmPassword = "Required"
+  }
+  if(!values.timezone) { //timezone is required
+    errors.timezone = "Required"
+  }
   if(!values.password) { //password is required
     errors.password = "Required"
   }
-  else if(values.password.length <= 6) { //check password length > 6
-    errors.password = "Password must be longer than 6 characters"
+  else if(values.password.length <= 8) { //check password length > 6
+    errors.password = "Password must be longer than 8 characters"
   }
   else if(values.password !== values.confirmPassword) { //check if passwords match
     errors.password = "Passwords do not match"
