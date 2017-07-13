@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { func } from 'prop-types';
+import { func, object } from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { Field, reduxForm } from 'redux-form';
 import FlatButton from 'material-ui/FlatButton';
@@ -10,17 +10,18 @@ import { loginUser } from '../../actions';
 
 class LoginForm extends Component {
   static propTypes = {
+    history: object.isRequired,
     loginUser: func.isRequired
   };
 
   constructor(props) {
     super(props);
-
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   onSubmit({ email, password }) {
-    this.props.loginUser({ email, password });
+    const targetRoute = this.props.history.location.state.from.pathname;
+    this.props.loginUser({ email, password, targetRoute });
   }
 
   renderField({ input, label, meta: { touched, error }, ...custom }) {
@@ -92,7 +93,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   loginUser
 }, dispatch);
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return { submitting: state.registerReducer.submitting };
 }
 

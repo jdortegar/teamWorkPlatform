@@ -24,21 +24,11 @@ function initializeDependencies() {
 }
 
 function disableDependencies() {
-  messaging().close();
+  const messagingInstance = messaging();
+  if (messagingInstance) {
+    messagingInstance.close();
+  }
 }
-
-// Try to keep websocketUrl private.
-// export function getWebsocketUrl() {
-//   if (websocketUrl) {
-//     return websocketUrl;
-//   }
-//
-//   websocketUrl = Cookie.get(WEBSOCKET_URL_COOKIE_NAME);
-//   if (websocketUrl) {
-//     initializeDependencies();
-//   }
-//   return websocketUrl;
-// }
 
 export function login(email, password) {
   return new Promise((resolve, reject) => {

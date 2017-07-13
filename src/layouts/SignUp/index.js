@@ -1,7 +1,12 @@
-import React from "react";
+import React from 'react';
 import { Card } from 'material-ui/Card';
-import styles from "./styles.scss";
-import cssModules from "react-css-modules";
+import cssModules from 'react-css-modules';
+import { Route, Switch } from 'react-router-dom';
+import CreateAccount from '../../containers/CreateAccount';
+import Login from '../../containers/Login';
+import Register from '../../containers/Register';
+import { routesPaths } from '../../routes';
+import styles from './styles.scss';
 
 const SignUp = (props) => {
   const { mainDiv, cardStyle, containerDiv } = inlineStyles;
@@ -11,7 +16,11 @@ const SignUp = (props) => {
       <div className="cool-habla" style={containerDiv}>
         <div style={{ width: '100%' }}>
           <Card style={cardStyle}>
-            {props.children}
+            <Switch>
+              <Route exact path={routesPaths.register} component={Register} />
+              <Route exact path={routesPaths.createAccount} component={CreateAccount} />
+              <Route exact path={routesPaths.login} component={Login} />
+            </Switch>
           </Card>
         </div>
       </div>

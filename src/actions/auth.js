@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { push } from 'react-router-redux';
-import { API_URL, CLIENT_ROOT_URL, errorHandler } from './index';
+import { API_URL, errorHandler } from './index';
 import { routesPaths } from '../routes';
 import {
   AUTH_USER,
@@ -16,14 +16,15 @@ import { login, logout } from '../session';
 //= ===============================
 // Authentication actions
 //= ===============================
-export function loginUser({ email, password }) {
-  return dispatch => {
+export function loginUser({ email, password, targetRoute }) {
+  return (dispatch) => {
     login(email, password)
       .then((user) => {
         dispatch({
-          type: AUTH_USER
+          type: AUTH_USER,
+          payload: { user }
         });
-        dispatch(push(routesPaths.home));
+        dispatch(push(targetRoute));
       })
       .catch((error) => {
         errorHandler(dispatch, error.response, AUTH_ERROR);
@@ -54,7 +55,7 @@ export function registerUser({ email }) {
 export function logoutUser(error) {
   logout();
 
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: UNAUTH_USER,
       payload: error || ''
