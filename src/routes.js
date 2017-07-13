@@ -24,11 +24,9 @@ export const routesPaths = {
 
 export default (
   <Switch>
-    <SignUp>
-      <Route exact path={routesPaths.register} component={Register} />
-      <Route exact path={routesPaths.createAccount} component={CreateAccount} />
-      <PublicRoute exact path={routesPaths.login} component={Login} />
-    </SignUp>
+      <Route exact path={routesPaths.register} component={SignUp} />
+      <Route exact path={routesPaths.createAccount} component={SignUp} />
+      <PublicRoute exact path={routesPaths.login} component={SignUp} />
     <Main>
       <Switch>
         <ProtectedRoute exact path={routesPaths.home} component={HomeContainer} />
