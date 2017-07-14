@@ -7,6 +7,10 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Link } from 'react-router-dom';
 import FlatButton from 'material-ui/FlatButton';
 import AccessAlarmIcon from 'material-ui-icons/AccessAlarm';
+import { getUser } from '../../session';
+
+const { displayName, icon } = getUser;
+//console.log('displayName', displayName);
 
 class Header extends Component {
   render() {
@@ -33,8 +37,8 @@ class Header extends Component {
           href="logout"
           containerElement="label" >
         </FlatButton>
-
         <Avatar src="src/images/Thomas.jpg" />
+        <h1>user{displayName}</h1>
       </AppBar>
       </MuiThemeProvider>
     )

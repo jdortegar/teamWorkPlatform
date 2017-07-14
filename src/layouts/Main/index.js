@@ -1,8 +1,7 @@
 import React from 'react';
 import cssModules from 'react-css-modules';
 import { Route, Switch } from 'react-router-dom';
-//import Header from '../../components/Header';
-import Header from '../../components/Header2/Header';
+import Header from '../../components/Header/Header';
 import Logout from '../../components/Logout/Logout';
 import HomeContainer from '../../containers/Home';
 import Integrations from '../../containers/user/Integrations';

@@ -9,6 +9,7 @@ const WEBSOCKET_URL_COOKIE_NAME = 'websocketUrl';
 
 let jwt;
 let websocketUrl;
+let user;
 
 export function getJwt() {
   if (jwt) {
@@ -17,6 +18,15 @@ export function getJwt() {
 
   jwt = Cookie.get(TOKEN_COOKIE_NAME);
   return jwt;
+}
+
+export function getUser() {
+  if (user) {
+    console.log('user',user);
+    return user;
+  } else {
+    return {};
+  }
 }
 
 function initializeDependencies() {
@@ -51,6 +61,7 @@ export function login(email, password) {
 
         initializeDependencies();
         const user = _.cloneDeep(response.data.user);
+        console.log('user',user);
         delete user.email;
         resolve(user);
       })
