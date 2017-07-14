@@ -45,3 +45,14 @@ export const CREATE_CUSTOMER = "create_customer",
   UPDATE_BILLING = "update_billing",
   BILLING_ERROR = "billing_error",
   CHANGE_SUBSCRIPTION = "change_subscription";
+
+
+//= =====================
+// Integration Actions
+//= =====================
+export const RECEIVE_INTEGRATIONS = 'receive_integrations';
+export const INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG = 'integrate_error_bad_subscriber_org';
+export const INTEGRATE_ERROR = 'integrate_error'; // Catch-all error.
+export const INTEGRATE_GOOGLE = 'integrate_google';
+export const INTEGRATE_BOX = 'integrate_box';
+

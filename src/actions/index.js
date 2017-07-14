@@ -3,6 +3,7 @@ import config from '../config/env';
 import { SUBMIT_FORM } from './types';
 
 export * from './auth';
+export * from './integrations';
 
 export const RECEIVE_HOME_DATA = "RECEIVE_HOME_DATA";
 export const RECEIVE_SUBPAGE_DATA = "RECEIVE_SUBPAGE_DATA";

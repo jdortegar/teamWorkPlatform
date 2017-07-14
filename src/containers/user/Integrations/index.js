@@ -1,43 +1,51 @@
 import React, { Component } from 'react';
-import { object, bool, func, string } from 'prop-types';
+import { object, bool, func } from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { requestSubpageData } from '../../../actions';
+import { integrateBox, integrateGoogle, requestIntegrations, requestSubpageData } from '../../../actions';
 import Spinner from '../../../components/Spinner';
 import styles from './styles.scss';
 
 class Integrations extends Component {
   static propTypes = {
-    subscriberOrgId: string,
+    match: object.isRequired,
+    requestIntegrations: func.isRequired,
+    isFetching: bool,
+    integrations: object,
+    integrateGoogle: func.isRequired,
+    integrateBox: func.isRequired,
     subpageData: object,
     requestSubpageData: func.isRequired,
-    isFetching: bool
   };
 
   static defaultProps = {
-    subpageData: {},
-    isFetching: true
+    isFetching: true,
+    integrations: {},
+    subpageData: {}
   };
 
   componentDidMount() {
-    //this.props.getIntegrations();
     const { subscriberOrgId } = this.props.match.params;
+    this.props.requestIntegrations(subscriberOrgId);
     this.props.requestSubpageData();
   }
 
   handleGoogleDrive() {
-    console.log('AD: handleGoogleDrive()');
+    const { subscriberOrgId } = this.props.match.params;
+    this.props.integrateGoogle(subscriberOrgId);
   }
 
   handleBox() {
-    console.log('AD: handleBox()');
+    const { subscriberOrgId } = this.props.match.params;
+    this.props.integrateBox(subscriberOrgId);
   }
 
   content = () => {
     if (this.props.isFetching) {
       return <Spinner />;
     }
-    // TODO: remove return <Subpage data={this.props.subpageData} meta={meta} />;
+    const { integrations } = this.props.integrations;
+    const integrationsForOrg = integrations; // TODO:
 
     return (
       <div>
@@ -67,12 +75,15 @@ class Integrations extends Component {
 }
 
 const mapStateToProps = state => ({
-  isFetching: state.subpageReducer.isFetching,
+  isFetching: state.integrationsReducer.isFetching,
   subpageData: state.subpageReducer.items
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  requestSubpageData
+  requestIntegrations,
+  requestSubpageData,
+  integrateBox,
+  integrateGoogle
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Integrations);
