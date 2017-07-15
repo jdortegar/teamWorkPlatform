@@ -1,7 +1,11 @@
 import axios from 'axios';
 import Cookie from 'js-cookie';
 import _ from 'lodash';
+import {
+  requestSubscriberOrgs
+} from './actions';
 import config from './config/env';
+import { store } from './index';
 import messaging from './messaging';
 
 const TOKEN_COOKIE_NAME = 'token';
@@ -11,12 +15,37 @@ let jwt;
 let websocketUrl;
 let user;
 
+
+function initializeDependencies() {
+  store.dispatch(requestSubscriberOrgs())
+    .then(() => {
+      messaging(websocketUrl).connect(jwt);
+    });
+}
+
+function disableDependencies() {
+  const messagingInstance = messaging();
+  if (messagingInstance) {
+    messagingInstance.close();
+  }
+}
+
+window.onbeforeunload = () => {
+  disableDependencies();
+};
+
+
 export function getJwt() {
   if (jwt) {
     return jwt;
   }
 
   jwt = Cookie.get(TOKEN_COOKIE_NAME);
+  if (jwt) {
+    websocketUrl = Cookie.get(WEBSOCKET_URL_COOKIE_NAME);
+    // User came back and was still logged in.
+    initializeDependencies();
+  }
   return jwt;
 }
 
@@ -29,16 +58,6 @@ export function getUser() {
   }
 }
 
-function initializeDependencies() {
-  messaging(websocketUrl).connect(jwt);
-}
-
-function disableDependencies() {
-  const messagingInstance = messaging();
-  if (messagingInstance) {
-    messagingInstance.close();
-  }
-}
 
 export function login(email, password) {
   return new Promise((resolve, reject) => {

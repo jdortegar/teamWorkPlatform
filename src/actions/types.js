@@ -50,6 +50,14 @@ export const CREATE_CUSTOMER = "create_customer",
 //= =====================
 // Integration Actions
 //= =====================
+export const REQUEST_SUBSCRIBER_ORGS = 'request_subscriber_orgs';
+export const RECEIVE_SUBSCRIBER_ORGS = 'receive_subscriber_orgs';
+export const REQUEST_SUBSCRIBER_ORGS_ERROR = 'request_subscriber_orgs_error';
+
+
+//= =====================
+// Integration Actions
+//= =====================
 export const REQUEST_INTEGRATIONS = 'request_integrations';
 export const RECEIVE_INTEGRATIONS = 'receive_integrations';
 export const REQUEST_INTEGRATIONS_ERROR = 'request_integrations_error';

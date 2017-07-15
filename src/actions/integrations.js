@@ -30,7 +30,7 @@ export function requestIntegrations(subscriberOrgId) {
 
   return (dispatch) => {
     dispatch(requestingIntegrations());
-    axios.get(`${config.hablaApiBaseUri}/integrations/getIntegrations?subscriberOrgId=${subscriberOrgId}`, axiosOptions)
+    return axios.get(`${config.hablaApiBaseUri}/integrations/getIntegrations?subscriberOrgId=${subscriberOrgId}`, axiosOptions)
       .then(response => response.data.integrations)
       .then(integrations => dispatch(receiveIntegrations(integrations)))
       .catch(err => dispatch(requestIntegrationsError(err, subscriberOrgId)));
@@ -41,7 +41,7 @@ export function requestIntegrations(subscriberOrgId) {
 function integrate(dispatch, type, subscriberOrgId) {
   const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
 
-  axios.get(`${config.hablaApiBaseUri}/integrations/${type}/integrate/${subscriberOrgId}`, axiosOptions)
+  return axios.get(`${config.hablaApiBaseUri}/integrations/${type}/integrate/${subscriberOrgId}`, axiosOptions)
     .then((response) => {
       if (response.status === 202) { // Redirect ourselves to target OAuth approval.
         window.location.href = response.data.location;
@@ -76,12 +76,12 @@ function integrate(dispatch, type, subscriberOrgId) {
 
 export function integrateGoogle(subscriberOrgId) {
   return (dispatch) => {
-    integrate(dispatch, 'google', subscriberOrgId);
+    return integrate(dispatch, 'google', subscriberOrgId);
   };
 }
 
 export function integrateBox(subscriberOrgId) {
   return (dispatch) => {
-    integrate(dispatch, 'box', subscriberOrgId);
+    return integrate(dispatch, 'box', subscriberOrgId);
   };
 }

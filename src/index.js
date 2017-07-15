@@ -6,7 +6,7 @@ import App from './App';
 import { configureStore, history } from './store';
 import './global-styles/index.global.scss';
 
-const store = configureStore();
+export const store = configureStore(); // eslint-disable-line import/prefer-default-export
 
 injectTapEventPlugin();
 

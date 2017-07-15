@@ -1,8 +1,7 @@
-import _ from 'lodash';
 import {
-  REQUEST_INTEGRATIONS,
-  RECEIVE_INTEGRATIONS,
-  REQUEST_INTEGRATIONS_ERROR
+  REQUEST_SUBSCRIBER_ORGS,
+  RECEIVE_SUBSCRIBER_ORGS,
+  REQUEST_SUBSCRIBER_ORGS_ERROR
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -12,9 +11,9 @@ const INITIAL_STATE = {
   error: null
 };
 
-const integrationsReducer = (state = INITIAL_STATE, action) => {
+const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case REQUEST_INTEGRATIONS:
+    case REQUEST_SUBSCRIBER_ORGS:
       return {
         ...state,
         data: [],
@@ -22,16 +21,15 @@ const integrationsReducer = (state = INITIAL_STATE, action) => {
         requesting: true,
         error: null
       };
-    case RECEIVE_INTEGRATIONS:
+    case RECEIVE_SUBSCRIBER_ORGS:
       return {
         ...state,
-        data: _.merge(state.data, action.payload),
-        //data: action.payload,
+        data: action.payload,
         received: true,
         requesting: false,
         error: null
       };
-    case REQUEST_INTEGRATIONS_ERROR:
+    case REQUEST_SUBSCRIBER_ORGS_ERROR:
       return {
         ...state,
         data: [],
@@ -44,4 +42,4 @@ const integrationsReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default integrationsReducer;
+export default subscriberOrgsReducer;

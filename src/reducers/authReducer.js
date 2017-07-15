@@ -5,21 +5,21 @@ import {
   FORGOT_PASSWORD_REQUEST,
   RESET_PASSWORD_REQUEST,
   PROTECTED_TEST
-} from "../actions/types";
+} from '../actions/types';
 
 const INITIAL_STATE = {
-  error: "",
-  message: "",
-  content: "",
+  error: '',
+  message: '',
+  content: '',
   authenticated: false
 };
 
-export default function(state = INITIAL_STATE, action) {
+export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case AUTH_USER:
-      return { ...state, error: "", message: "", authenticated: true };
+      return { ...state, user: action.payload.user, error: '', message: '', authenticated: true };
     case UNAUTH_USER:
-      return { ...state, authenticated: false, error: action.payload };
+      return { ...state, user: null, authenticated: false, error: action.payload };
     case AUTH_ERROR:
       return { ...state, error: action.payload };
     case FORGOT_PASSWORD_REQUEST:
@@ -28,7 +28,7 @@ export default function(state = INITIAL_STATE, action) {
       return { ...state, message: action.payload.message };
     case PROTECTED_TEST:
       return { ...state, content: action.payload.message };
+    default:
+      return state;
   }
-
-  return state;
 }
