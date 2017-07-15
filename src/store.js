@@ -12,8 +12,8 @@ function composeMiddleware() {
     applyMiddleware(routerMiddleware(history))
   ];
 
-  if (process.env.NODE_ENV !== "production") {
-    const DevTools = require("./containers/DevTools").default; // eslint-disable-line global-require
+  if (process.env.NODE_ENV !== 'production') {
+    const DevTools = require('./containers/DevTools').default; // eslint-disable-line global-require
     middleware = [...middleware, DevTools.instrument()];
   }
 

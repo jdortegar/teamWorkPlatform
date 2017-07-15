@@ -1,18 +1,18 @@
-import { combineReducers } from "redux";
-import { routerReducer } from "react-router-redux";
-import homeReducer from "./homeReducer";
-import subpageReducer from "./subpageReducer";
-import registerReducer from "./registerReducer";
-import authReducer from "./authReducer";
+import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
+import { routerReducer } from 'react-router-redux';
+import homeReducer from './homeReducer';
+import subpageReducer from './subpageReducer';
+import registerReducer from './registerReducer';
+import authReducer from './authReducer';
 import integrationsReducer from './integrationsReducer';
-import { reducer as formReducer } from "redux-form";
 
 const mainReducer = combineReducers({
-  homeReducer,
+  home: homeReducer,
   subpageReducer,
   authReducer,
   registerReducer,
-  integrationsReducer,
+  integrations: integrationsReducer,
   form: formReducer,
   router: routerReducer
 });

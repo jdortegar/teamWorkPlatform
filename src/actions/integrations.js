@@ -3,10 +3,16 @@ import axios from 'axios';
 import config from '../config/env';
 import { getJwt } from '../session';
 import {
+  REQUEST_INTEGRATIONS,
   RECEIVE_INTEGRATIONS,
+  REQUEST_INTEGRATIONS_ERROR,
   INTEGRATE_ERROR,
   INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG
 } from './types';
+
+export function requestingIntegrations(subscriberOrgId) {
+  return { type: REQUEST_INTEGRATIONS, payload: { subscriberOrgId } };
+}
 
 export function receiveIntegrations(integrations) {
   return {
@@ -15,13 +21,20 @@ export function receiveIntegrations(integrations) {
   };
 }
 
+export function requestIntegrationsError(error, subscriberOrgId) {
+  return { type: REQUEST_INTEGRATIONS_ERROR, meta: { subscriberOrgId }, payload: error, error: true };
+}
+
 export function requestIntegrations(subscriberOrgId) {
   const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
 
-  return dispatch =>
+  return (dispatch) => {
+    dispatch(requestingIntegrations());
     axios.get(`${config.hablaApiBaseUri}/integrations/getIntegrations?subscriberOrgId=${subscriberOrgId}`, axiosOptions)
       .then(response => response.data.integrations)
-      .then(integrations => dispatch(receiveIntegrations(integrations)));
+      .then(integrations => dispatch(receiveIntegrations(integrations)))
+      .catch(err => dispatch(requestIntegrationsError(err, subscriberOrgId)));
+  };
 }
 
 

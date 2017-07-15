@@ -50,7 +50,9 @@ export const CREATE_CUSTOMER = "create_customer",
 //= =====================
 // Integration Actions
 //= =====================
+export const REQUEST_INTEGRATIONS = 'request_integrations';
 export const RECEIVE_INTEGRATIONS = 'receive_integrations';
+export const REQUEST_INTEGRATIONS_ERROR = 'request_integrations_error';
 export const INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG = 'integrate_error_bad_subscriber_org';
 export const INTEGRATE_ERROR = 'integrate_error'; // Catch-all error.
 export const INTEGRATE_GOOGLE = 'integrate_google';
