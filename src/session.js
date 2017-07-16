@@ -3,20 +3,16 @@ import Cookie from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import _ from 'lodash';
 import { persistStore } from 'redux-persist';
-import {
-  requestSubscriberOrgs
-} from './actions';
 import { AUTH_USER } from './actions/types';
 import config from './config/env';
 import messaging from './messaging';
 
 const TOKEN_COOKIE_NAME = 'token';
 const WEBSOCKET_URL_COOKIE_NAME = 'websocketUrl';
-const USER_COOKIE_NAME = 'user';
+const LAST_ROUTE_COOKIE_NAME = 'lastRoute';
 
 let jwt;
 let websocketUrl;
-let user;
 
 let store;
 let persistor;
@@ -35,6 +31,9 @@ function closeMessaging() {
 
 window.onbeforeunload = () => {
   closeMessaging();
+  const { location } = store.getState().router;
+  const { pathname, search } = location;
+  console.log(`AD: ${pathname}${search}`);
   persistStore(store);
 };
 
@@ -42,8 +41,6 @@ window.onbeforeunload = () => {
 function loadCookieData() {
   jwt = Cookie.get(TOKEN_COOKIE_NAME);
   websocketUrl = Cookie.get(WEBSOCKET_URL_COOKIE_NAME);
-  const userString = Cookie.get(USER_COOKIE_NAME);
-  user = (userString) ? JSON.parse(userString) : undefined;
 }
 
 export function sessionState(restoredState) {
@@ -77,11 +74,6 @@ export function getJwt() {
   return jwt;
 }
 
-// TODO: remove when refactor Header to use mapStateToProps.
-export function getUser() {
-  return user;
-}
-
 
 export function login(email, password) {
   return new Promise((resolve, reject) => {
@@ -94,17 +86,15 @@ export function login(email, password) {
       .then((response) => {
         jwt = response.data.token;
         websocketUrl = response.data.websocketUrl;
-        user = _.cloneDeep(response.data.user);
+        const user = _.cloneDeep(response.data.user);
         delete user.email;
 
         if (process.env.NODE_ENV === 'production') {
           Cookie.set(TOKEN_COOKIE_NAME, jwt, { secure: true });
           Cookie.set(WEBSOCKET_URL_COOKIE_NAME, websocketUrl, { secure: true });
-          Cookie.set(USER_COOKIE_NAME, user, { secure: true });
         } else {
           Cookie.set(TOKEN_COOKIE_NAME, jwt);
           Cookie.set(WEBSOCKET_URL_COOKIE_NAME, websocketUrl);
-          Cookie.set(USER_COOKIE_NAME, user);
         }
 
         store.dispatch({
@@ -123,14 +113,13 @@ export function login(email, password) {
 
 export function logout() {
   jwt = undefined;
+  websocketUrl = undefined;
   if (process.env.NODE_ENV === 'production') {
     Cookie.remove(TOKEN_COOKIE_NAME, { secure: true });
     Cookie.remove(WEBSOCKET_URL_COOKIE_NAME, { secure: true });
-    Cookie.remove(USER_COOKIE_NAME, { secure: true });
   } else {
     Cookie.remove(TOKEN_COOKIE_NAME);
     Cookie.remove(WEBSOCKET_URL_COOKIE_NAME);
-    Cookie.remove(USER_COOKIE_NAME);
   }
 
   closeMessaging();

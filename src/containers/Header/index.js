@@ -10,7 +10,7 @@ import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { requestSubscriberOrgs, setCurrentSubscriberOrg, logoutUser } from '../../actions';
+import { setCurrentSubscriberOrg, logoutUser } from '../../actions';
 import styles from './styles.scss';
 
 class Header extends Component {
@@ -19,7 +19,6 @@ class Header extends Component {
     user: object.isRequired,
     subscriberOrgs: arrayOf(object).isRequired,
     currentSubscriberOrg: object,
-    requestSubscriberOrgs: func.isRequired,
     setCurrentSubscriberOrg: func.isRequired,
     logoutUser: func.isRequired
   };
@@ -30,27 +29,16 @@ class Header extends Component {
 
   constructor(props) {
     super(props);
+    this.onSelectSubscriberOrg = this.onSelectSubscriberOrg.bind(this);
     this.onLogout = this.onLogout.bind(this);
   }
 
-  componentDidMount() {
-    if (this.props.subscriberOrgs.length === 0) {
-      this.props.requestSubscriberOrgs();
-    } else if (this.currentSubscriberOrg === null) {
-      // Default current subscriber org to first of list.
-      this.props.setCurrentSubscriberOrg(this.props.subscriberOrgs[0]);
-    }
+  onSelectSubscriberOrg() {
+    const subscriberOrg = null; // TODO: allow user to select.
+    this.props.setCurrentSubscriberOrg(subscriberOrg);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if ((nextProps.currentSubscriberOrg === null) && (nextProps.subscriberOrgs.length > 0)) {
-      // Default current subscriber org to first of list.
-      this.props.setCurrentSubscriberOrg(this.props.subscriberOrgs[0]);
-    }
-  }
-
-  onLogout(event) {
-    event.preventDefault();
+  onLogout() {
     this.props.logoutUser();
   }
 
@@ -99,7 +87,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  requestSubscriberOrgs,
   setCurrentSubscriberOrg,
   logoutUser
 }, dispatch);
