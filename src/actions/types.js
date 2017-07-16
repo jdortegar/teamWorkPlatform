@@ -48,21 +48,22 @@ export const CREATE_CUSTOMER = "create_customer",
 
 
 //= =====================
-// Integration Actions
+// SubscriberOrgs Actions
 //= =====================
 export const REQUEST_SUBSCRIBER_ORGS = 'request_subscriber_orgs';
 export const RECEIVE_SUBSCRIBER_ORGS = 'receive_subscriber_orgs';
 export const REQUEST_SUBSCRIBER_ORGS_ERROR = 'request_subscriber_orgs_error';
+export const SET_CURRENT_SUBSCRIBER_ORG = 'set_current_subscriber_org';
 
 
 //= =====================
-// Integration Actions
+// Integrations Actions
 //= =====================
 export const REQUEST_INTEGRATIONS = 'request_integrations';
 export const RECEIVE_INTEGRATIONS = 'receive_integrations';
 export const REQUEST_INTEGRATIONS_ERROR = 'request_integrations_error';
 export const INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG = 'integrate_error_bad_subscriber_org';
 export const INTEGRATE_ERROR = 'integrate_error'; // Catch-all error.
-export const INTEGRATE_GOOGLE = 'integrate_google';
-export const INTEGRATE_BOX = 'integrate_box';
+// export const INTEGRATE_GOOGLE = 'integrate_google'; // Doesn't change state directly, so not needed.
+// export const INTEGRATE_BOX = 'integrate_box'; // Doesn't change state directly, so not needed.
 

@@ -22,14 +22,11 @@ let store;
 let persistor;
 
 
-function initializeDependencies() {
-  store.dispatch(requestSubscriberOrgs())
-    .then(() => {
-      messaging(websocketUrl).connect(jwt);
-    });
+function initMessaging() {
+  messaging(websocketUrl).connect(jwt);
 }
 
-function disableDependencies() {
+function closeMessaging() {
   const messagingInstance = messaging();
   if (messagingInstance) {
     messagingInstance.close();
@@ -37,7 +34,7 @@ function disableDependencies() {
 }
 
 window.onbeforeunload = () => {
-  disableDependencies();
+  closeMessaging();
   persistStore(store);
 };
 
@@ -116,7 +113,7 @@ export function login(email, password) {
         });
         persistStore(store);
 
-        initializeDependencies();
+        initMessaging();
 
         resolve(user);
       })
@@ -136,7 +133,7 @@ export function logout() {
     Cookie.remove(USER_COOKIE_NAME);
   }
 
-  disableDependencies();
+  closeMessaging();
   persistor.purge();
 
   // TODO: ANT: axios call to logout.  No return promise necessary.

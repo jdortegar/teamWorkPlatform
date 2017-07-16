@@ -4,7 +4,8 @@ import { getJwt } from '../session';
 import {
   REQUEST_SUBSCRIBER_ORGS,
   RECEIVE_SUBSCRIBER_ORGS,
-  REQUEST_SUBSCRIBER_ORGS_ERROR
+  REQUEST_SUBSCRIBER_ORGS_ERROR,
+  SET_CURRENT_SUBSCRIBER_ORG
 } from './types';
 
 export function requestingSubscriberOrgs() {
@@ -31,5 +32,12 @@ export function requestSubscriberOrgs() {
       .then(response => response.data.subscriberOrgs)
       .then(subscriberOrgs => dispatch(receiveSubscriberOrgs(subscriberOrgs)))
       .catch(err => dispatch(requestSubscriberOrgsError(err)));
+  };
+}
+
+export function setCurrentSubscriberOrg(subscriberOrg) {
+  return {
+    type: SET_CURRENT_SUBSCRIBER_ORG,
+    payload: subscriberOrg
   };
 }
