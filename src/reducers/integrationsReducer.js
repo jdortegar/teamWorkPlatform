@@ -26,7 +26,6 @@ const integrationsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         data: _.merge(state.data, action.payload),
-        //data: action.payload,
         received: true,
         requesting: false,
         error: null

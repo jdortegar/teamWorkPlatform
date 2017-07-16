@@ -19,11 +19,7 @@ import { login, logout } from '../session';
 export function loginUser({ email, password, targetRoute }) {
   return (dispatch) => {
     login(email, password)
-      .then((user) => {
-        dispatch({
-          type: AUTH_USER,
-          payload: { user }
-        });
+      .then(() => {
         dispatch(push(targetRoute));
       })
       .catch((error) => {
@@ -53,13 +49,12 @@ export function registerUser({ email }) {
 }
 
 export function logoutUser(error) {
-  logout();
-
   return (dispatch) => {
     dispatch({
       type: UNAUTH_USER,
       payload: error || ''
     });
+    logout();
 
     dispatch(push(routesPaths.login));
   };

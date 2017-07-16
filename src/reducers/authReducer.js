@@ -1,3 +1,4 @@
+import { REHYDRATE } from 'redux-persist/constants';
 import {
   AUTH_USER,
   UNAUTH_USER,
@@ -8,6 +9,7 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
+  user: null,
   error: '',
   message: '',
   content: '',
@@ -21,7 +23,7 @@ export default function (state = INITIAL_STATE, action) {
     case UNAUTH_USER:
       return { ...state, user: null, authenticated: false, error: action.payload };
     case AUTH_ERROR:
-      return { ...state, error: action.payload };
+      return { ...state, user: null, error: action.payload };
     case FORGOT_PASSWORD_REQUEST:
       return { ...state, message: action.payload.message };
     case RESET_PASSWORD_REQUEST:
