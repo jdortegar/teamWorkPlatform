@@ -49,7 +49,7 @@ export function sessionState(restoredState) {
   if (jwt) {
     const decoded = jwtDecode(jwt);
     const userId = decoded._id;
-    const persistedUser = restoredState.auth.user;
+    const persistedUser = (restoredState.auth) ? restoredState.auth.user : undefined;
     if ((persistedUser) && (userId === persistedUser.userId)) {
       return restoredState;
     }

@@ -50,7 +50,7 @@ class Main extends Component {
           <Route exact path={routesPaths.integrations} component={Integrations} />
           <Route exact path={routesPaths.subpage} component={SubpageContainer} />
           <Route exact path={routesPaths.logout} component={Logout} />
-          <Route path="*" render={props => <Redirect to={{ pathname: '/', state: { from: props.location } }} />} />
+          <Route path="*" render={props => <Redirect to={{ pathname: routesPaths.home, state: { from: props.location } }} />} />
         </Switch>
       </div>
     );
