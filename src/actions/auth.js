@@ -19,8 +19,13 @@ import { login, logout } from '../session';
 export function loginUser({ email, password, targetRoute }) {
   return (dispatch) => {
     login(email, password)
-      .then(() => {
-        dispatch(push(targetRoute));
+      .then((lastRoute) => {
+        // If the user is just going to the home page, and their last route on logout was somewhere else, send them there.
+        let resolvedRoute = targetRoute;
+        if ((targetRoute === routesPaths.home) && (lastRoute)) {
+          resolvedRoute = lastRoute;
+        }
+        dispatch(push(resolvedRoute));
       })
       .catch((error) => {
         errorHandler(dispatch, error.response, AUTH_ERROR);

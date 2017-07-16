@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { arrayOf, func, object } from 'prop-types';
 import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { requestSubscriberOrgs, setCurrentSubscriberOrg } from '../../actions';
 import Logout from '../../components/Logout/Logout';
@@ -50,6 +50,7 @@ class Main extends Component {
           <Route exact path={routesPaths.integrations} component={Integrations} />
           <Route exact path={routesPaths.subpage} component={SubpageContainer} />
           <Route exact path={routesPaths.logout} component={Logout} />
+          <Route path="*" render={props => <Redirect to={{ pathname: '/', state: { from: props.location } }} />} />
         </Switch>
       </div>
     );

@@ -9,7 +9,7 @@ import messaging from './messaging';
 
 const TOKEN_COOKIE_NAME = 'token';
 const WEBSOCKET_URL_COOKIE_NAME = 'websocketUrl';
-const LAST_ROUTE_COOKIE_NAME = 'lastRoute';
+const LAST_ROUTE_COOKIE_NAME_PREFIX = 'lastRoute';
 
 let jwt;
 let websocketUrl;
@@ -31,9 +31,6 @@ function closeMessaging() {
 
 window.onbeforeunload = () => {
   closeMessaging();
-  const { location } = store.getState().router;
-  const { pathname, search } = location;
-  console.log(`AD: ${pathname}${search}`);
   persistStore(store);
 };
 
@@ -105,13 +102,22 @@ export function login(email, password) {
 
         initMessaging();
 
-        resolve(user);
+        // Get last know route if available.
+        const userSpecificLastRouteCookieName = `${LAST_ROUTE_COOKIE_NAME_PREFIX}__${user.userId}`;
+        const lastRoute = Cookie.get(userSpecificLastRouteCookieName);
+        if (lastRoute) {
+          Cookie.remove(userSpecificLastRouteCookieName);
+        }
+        resolve(lastRoute);
       })
       .catch(err => reject(err));
   });
 }
 
 export function logout() {
+  const decoded = jwtDecode(jwt);
+  const userId = decoded._id;
+
   jwt = undefined;
   websocketUrl = undefined;
   if (process.env.NODE_ENV === 'production') {
@@ -123,7 +129,16 @@ export function logout() {
   }
 
   closeMessaging();
+
   persistor.purge();
+
+  const { location } = store.getState().router;
+  const { pathname, search } = location;
+  if (process.env.NODE_ENV === 'production') {
+    Cookie.set(`${LAST_ROUTE_COOKIE_NAME_PREFIX}__${userId}`, `${pathname}${search}`, { secure: true, expires: 7 });
+  } else {
+    Cookie.set(`${LAST_ROUTE_COOKIE_NAME_PREFIX}__${userId}`, `${pathname}${search}`, { expires: 7 });
+  }
 
   // TODO: ANT: axios call to logout.  No return promise necessary.
 }
