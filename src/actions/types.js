@@ -34,7 +34,9 @@ export const SEND_CONTACT_FORM = "send_contact_form",
 //= =====================
 // Registration Actions
 //= =====================
-export const SUBMIT_FORM = "submit_form";
+export const SUBMIT_FORM = "submit_form",
+  FLIP_CARD = "flip_card",
+  VERIFY_EMAIL = "verify_email";
 
 //= =====================
 // Customer Actions
