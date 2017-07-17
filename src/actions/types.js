@@ -57,6 +57,24 @@ export const SET_CURRENT_SUBSCRIBER_ORG = 'set_current_subscriber_org';
 
 
 //= =====================
+// Teams Actions
+//= =====================
+export const REQUEST_TEAMS = 'request_teams';
+export const RECEIVE_TEAMS = 'receive_teams';
+export const REQUEST_TEAMS_ERROR = 'request_teams_error';
+export const SET_CURRENT_TEAM = 'set_current_team';
+
+
+//= =====================
+// Team Rooms Actions
+//= =====================
+export const REQUEST_TEAM_ROOMS = 'request_team_rooms';
+export const RECEIVE_TEAM_ROOMS = 'receive_team_rooms';
+export const REQUEST_TEAM_ROOMS_ERROR = 'request_team_rooms_error';
+export const SET_CURRENT_TEAM_ROOM = 'set_current_team_room';
+
+
+//= =====================
 // Integrations Actions
 //= =====================
 export const REQUEST_INTEGRATIONS = 'request_integrations';
