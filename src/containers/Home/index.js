@@ -38,8 +38,8 @@ class HomeContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-   isFetching: state.homeReducer.isFetching,
-   homeData: state.homeReducer.items
+   isFetching: state.home.isFetching,
+   homeData: state.home.items
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

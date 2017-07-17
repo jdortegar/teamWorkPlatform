@@ -8,6 +8,7 @@ import TextField from 'material-ui/TextField';
 import CircularProgress from 'material-ui/CircularProgress';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions';
+import { routesPaths } from '../../routes';
 
 class LoginForm extends Component {
   static propTypes = {
@@ -21,7 +22,13 @@ class LoginForm extends Component {
   }
 
   onSubmit({ email, password }) {
-    const targetRoute = this.props.history.location.state.from.pathname;
+    let targetRoute = routesPaths.home;
+    if (this.props.history.location.state) {
+      targetRoute = this.props.history.location.state.from.pathname;
+      if (this.props.history.location.state.from.search) {
+        targetRoute += this.props.history.location.state.from.search;
+      }
+    }
     this.props.loginUser({ email, password, targetRoute });
   }
 

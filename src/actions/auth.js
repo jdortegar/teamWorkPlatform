@@ -21,12 +21,13 @@ import { login, logout } from '../session';
 export function loginUser({ email, password, targetRoute }) {
   return (dispatch) => {
     login(email, password)
-      .then((user) => {
-        dispatch({
-          type: AUTH_USER,
-          payload: { user }
-        });
-        dispatch(push(targetRoute));
+      .then((lastRoute) => {
+        // If the user is just going to the home page, and their last route on logout was somewhere else, send them there.
+        let resolvedRoute = targetRoute;
+        if ((targetRoute === routesPaths.home) && (lastRoute)) {
+          resolvedRoute = lastRoute;
+        }
+        dispatch(push(resolvedRoute));
       })
       .catch((error) => {
         errorHandler(dispatch, error.response, AUTH_ERROR);
@@ -89,13 +90,12 @@ export function createAccount(form) {
 }
 
 export function logoutUser(error) {
-  logout();
-
   return (dispatch) => {
     dispatch({
       type: UNAUTH_USER,
       payload: error || ''
     });
+    logout();
 
     dispatch(push(routesPaths.login));
   };
