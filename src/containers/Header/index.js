@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import { AppBar } from 'material-ui';
 import Avatar from 'material-ui/Avatar';
 import FlatButton from 'material-ui/FlatButton';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import Divider from 'material-ui/Divider';
+import Drawer from 'material-ui/Drawer';
+import FileFileDownload from 'material-ui/svg-icons/file/file-download';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -31,6 +37,7 @@ class Header extends Component {
     super(props);
     this.onSelectSubscriberOrg = this.onSelectSubscriberOrg.bind(this);
     this.onLogout = this.onLogout.bind(this);
+    this.handleOnRequestChange = this.handleOnRequestChange.bind(this);
   }
 
   onSelectSubscriberOrg() {
@@ -42,41 +49,107 @@ class Header extends Component {
     this.props.logoutUser();
   }
 
+  state = {
+    valueSingle: '3',
+    valueMultiple: ['3', '5'],
+    drawerOpen: false,
+  };
+  handleOnRequestChange = (value) => {
+    this.setState({
+      openMenu: value,
+    });
+    console.log(value);
+  }
+
+  handleSelectValue(event, value) {
+    switch (value) {
+      case "4" : console.log("Logout");
+    }
+  }
+
+  handleOpenDrawer() {
+    this.setState({ drawerOpen: !this.state.drawerOpen})
+  }
+
   render() {
     const { user, subscriberOrgs, currentSubscriberOrg } = this.props;
     // TODO: remove print statements.  user will never be empty.  subscriberOrgs can have length = 0.  currentSubscriberOrg can be null.
-    console.log(`AD: user=${JSON.stringify(user)}`);
-    console.log(`AD: subscriberOrgs=${JSON.stringify(subscriberOrgs)}`);
-    console.log(`AD: currentSubscriberOrg=${JSON.stringify(currentSubscriberOrg)}`);
-
+    // console.log(`AD: user=${JSON.stringify(user)}`);
+    // console.log(`AD: subscriberOrgs=${JSON.stringify(subscriberOrgs)}`);
+    // console.log(`AD: currentSubscriberOrg=${JSON.stringify(currentSubscriberOrg)}`);
+    const width = "300px";
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-        <AppBar className="" title="">
-          <Link to="/">
-            <img
-              className="mui--text-left"
-              src="https://c2.staticflickr.com/4/3955/33078312014_f6f8c759db_o.png"
-              alt="Habla AI"
-              width="75"
-            />
-          </Link>
-          <FlatButton
-            label="Subpage"
-            labelPosition="before"
-            href="subpage"
-            containerElement="label"
-          />
-          <FlatButton
-            label="Logout"
-            labelPosition="before"
-            containerElement="label"
-            onTouchTap={this.onLogout}
-          />
-          <Avatar src="src/images/Thomas.jpg" />
-          <h1>{user.displayName}</h1>
-        </AppBar>
+      <MuiThemeProvider>
+      <AppBar 
+        style={{backgroundColor: "black"}}
+        iconElementLeft={
+          <div onClick={() => this.handleOpenDrawer()}>
+            <div style={{ height: "100%", padding: "0", margin: "0"}}>
+              <div style={{height: "50px", display: "inline-block", padding: "0"}}>
+                <img
+                  className="mui--text-left"
+                  src="https://c2.staticflickr.com/4/3955/33078312014_f6f8c759db_o.png"
+                  alt="Habla AI"
+                  style={{ width: "35px", height: "35px", margin: "0 0 6px 20px"}}
+                />
+              </div>
+              <div style={{height: "50px", color: "white", fontSize: "20px", margin: "0px 0 0 10px", display: "inline-block", fontWeight: "100", paddingTop: "5px"}}>Habla AI</div>
+            </div>
+          </div>
+        }
+        >
+        <div style={{margin: "0auto 0 auto", width: "80%", color: "white", textAlign: "center"}}>
+          <div className="team-header-icon" style={{display: "inline-block", marginTop: "0px", paddingLeft: "20px", width: "100px" }}>
+            <i className="fa fa-newspaper-o" style={{textAlign: "center", fontSize: "20px", paddingTop: "10px"}} />
+            <div className="team-header-nav-text" style={{color: "grey", fontSize: "12px"}}>
+              TEAM
+            </div>
+          </div>
+          <div className="team-header-icon" style={{display: "inline-block", marginTop: "0px", paddingLeft: "20px", width: "100px" }}>
+            <i className="fa fa-bolt" style={{textAlign: "center", fontSize: "20px", paddingTop: "10px"}} />
+            <div className="team-header-nav-text" style={{color: "grey", fontSize: "12px"}} > 
+              CCG
+            </div>
+          </div>
+          <div className="team-header-icon" style={{display: "inline-block", marginTop: "0px", paddingLeft: "20px", width: "100px" }}>
+            <i className="fa fa-comments" style={{textAlign: "center", fontSize: "20px", paddingTop: "10px"}} />
+            <div className="team-header-nav-text" style={{color: "grey", fontSize: "12px"}}>
+              MESSAGING
+            </div>
+          </div>
+          <div className="team-header-icon" style={{display: "inline-block", marginTop: "0px", paddingLeft: "20px", width: "100px" }}>
+            <i className="fa fa-calendar-o" style={{textAlign: "center", fontSize: "20px", paddingTop: "10px"}} />
+            <div className="team-header-nav-text" style={{color: "grey", fontSize: "12px"}}>
+              CALENDAR
+            </div>
+          </div>
+        </div>
+        <IconMenu
+          iconButtonElement={<IconButton><Avatar src="src/images/Thomas.jpg" /></IconButton>}
+          open={this.state.openMenu}
+          onRequestChange={this.handleOnRequestChange}
+          onChange={this.handleSelectValue}
+
+        >
+          <MenuItem value="1" primaryText="User Profile" />
+          <MenuItem value="2" primaryText="Your Organizations" />
+          <MenuItem value="3" primaryText="Setting" />
+          <Divider />
+          <MenuItem value="4" primaryText="Logout" href="logout" />
+        </IconMenu>
+
+        
+        <p style={{fontSize: "15px", margin: "20px 0 0 10px", color: "white"}}>{user.displayName}</p>
+         <Drawer open={this.state.drawerOpen} containerStyle={{marginTop: "65px", width: "auto"}}>
+          <MenuItem>Home Page</MenuItem>
+          <MenuItem>Organization 2</MenuItem>
+          <MenuItem>Organization 2</MenuItem>
+        </Drawer>
+      </AppBar>
+
       </MuiThemeProvider>
-    );
+     
+    )
   }
 }
 
