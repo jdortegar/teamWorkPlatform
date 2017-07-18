@@ -33,7 +33,7 @@ class CreateAccount extends Component {
       email = sessionStorage.getItem('habla-user-email');
     }
     const { file } = this.state;
-    const form = { ...obj, email, file, displayName: "marquezgon1" }
+    const form = { ...obj, email, file }
     this.props.createAccount(form);
   }
 
@@ -142,7 +142,10 @@ class CreateAccount extends Component {
               </div>
             </div>
             <div className="row">
-              <div className="col-xs-12 col-sm-12">
+              <div className="col-xs-12 col-sm-6">
+                <Field label="Username" name="displayName" hintText="jsmith" fullWidth component={this.renderField} />
+              </div>
+              <div className="col-xs-12 col-sm-6">
                 <Field label="Email" disabled name="email" hintText="jsmith@example.com" defaultValue={email} fullWidth component={this.renderField} />
               </div>
             </div>
