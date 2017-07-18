@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { func, object } from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { Field, reduxForm } from 'redux-form';
+import { Card } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -39,23 +40,27 @@ class LoginForm extends Component {
 
   render() {
     const { handleSubmit } = this.props;
-    const { buttonDivStyle, imageStyle, cardDivStyle, h2Style, pStyle } = styles;
+    const { buttonDivStyle, imageStyle, cardDivStyle, cardStyle, h2Style, pStyle } = styles;
 
     return (
-        <form onSubmit={handleSubmit(this.onSubmit)}>
-          <div style={cardDivStyle}>
-            <img style={imageStyle} src="https://c2.staticflickr.com/4/3955/33078312014_f6f8c759db_o.png" />
-            <h2 style={h2Style}>Habla AI</h2>
-          </div>
-          <Field label="Email" name="email" hintText="jsmith@example.com" fullWidth component={this.renderField} />
-          <Field label="Password" name="password" fullWidth component={this.renderField}/>
-          <div style={buttonDivStyle}>
-            { !this.props.submitting ?
-              <FlatButton type="submit" label="Log In" primary={true} /> :
-              <CircularProgress style={{ marginRight: '10px'}} />
-            }
-          </div>
-        </form>
+      <div style={{ width: '100%' }}>
+        <Card style={cardStyle}>
+          <form onSubmit={handleSubmit(this.onSubmit)}>
+            <div style={cardDivStyle}>
+              <img style={imageStyle} src="https://c2.staticflickr.com/4/3955/33078312014_f6f8c759db_o.png" />
+              <h2 style={h2Style}>Habla AI</h2>
+            </div>
+            <Field label="Email" name="email" hintText="jsmith@example.com" fullWidth component={this.renderField} />
+            <Field label="Password" name="password" fullWidth component={this.renderField}/>
+            <div style={buttonDivStyle}>
+              { !this.props.submitting ?
+                <FlatButton type="submit" label="Log In" primary={true} /> :
+                <CircularProgress style={{ marginRight: '10px'}} />
+              }
+            </div>
+          </form>
+        </Card>
+      </div>
     );
   }
 }
@@ -78,7 +83,10 @@ const styles = {
   cardDivStyle: {
     textAlign: 'center',
     padding: '24px 0px 10px'
-  }
+  },
+  cardStyle: {
+    padding: '0 20px 12px'
+  },
 };
 
 function validate(values) {

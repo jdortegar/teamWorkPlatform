@@ -7,6 +7,8 @@ import subpageReducer from './subpageReducer';
 import registerReducer from './registerReducer';
 import authReducer from './authReducer';
 import subscriberOrgsReducer from './subscriberOrgsReducer';
+import teamsReducer from './teamsReducer';
+import teamRoomsReducer from './teamRoomsReducer';
 import integrationsReducer from './integrationsReducer';
 
 const mainReducer = combineReducers({
@@ -15,6 +17,8 @@ const mainReducer = combineReducers({
   auth: authReducer,
   registerReducer,
   subscriberOrgs: subscriberOrgsReducer,
+  teams: teamsReducer,
+  teamRooms: teamRoomsReducer,
   integrations: integrationsReducer,
   form: formReducer,
   router: routerReducer

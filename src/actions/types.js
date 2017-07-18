@@ -34,7 +34,9 @@ export const SEND_CONTACT_FORM = "send_contact_form",
 //= =====================
 // Registration Actions
 //= =====================
-export const SUBMIT_FORM = "submit_form";
+export const SUBMIT_FORM = "submit_form",
+  FLIP_CARD = "flip_card",
+  VERIFY_EMAIL = "verify_email";
 
 //= =====================
 // Customer Actions
@@ -54,6 +56,24 @@ export const REQUEST_SUBSCRIBER_ORGS = 'request_subscriber_orgs';
 export const RECEIVE_SUBSCRIBER_ORGS = 'receive_subscriber_orgs';
 export const REQUEST_SUBSCRIBER_ORGS_ERROR = 'request_subscriber_orgs_error';
 export const SET_CURRENT_SUBSCRIBER_ORG = 'set_current_subscriber_org';
+
+
+//= =====================
+// Teams Actions
+//= =====================
+export const REQUEST_TEAMS = 'request_teams';
+export const RECEIVE_TEAMS = 'receive_teams';
+export const REQUEST_TEAMS_ERROR = 'request_teams_error';
+export const SET_CURRENT_TEAM = 'set_current_team';
+
+
+//= =====================
+// Team Rooms Actions
+//= =====================
+export const REQUEST_TEAM_ROOMS = 'request_team_rooms';
+export const RECEIVE_TEAM_ROOMS = 'receive_team_rooms';
+export const REQUEST_TEAM_ROOMS_ERROR = 'request_team_rooms_error';
+export const SET_CURRENT_TEAM_ROOM = 'set_current_team_room';
 
 
 //= =====================
