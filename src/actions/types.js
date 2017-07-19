@@ -56,13 +56,15 @@ export const REQUEST_SUBSCRIBER_ORGS = 'request_subscriber_orgs';
 export const RECEIVE_SUBSCRIBER_ORGS = 'receive_subscriber_orgs';
 export const REQUEST_SUBSCRIBER_ORGS_ERROR = 'request_subscriber_orgs_error';
 export const SET_CURRENT_SUBSCRIBER_ORG = 'set_current_subscriber_org';
-
+export const CREATE_SUBSCRIBER_ORG = 'create_subscriber_org';
+export const SUBMITTING_ORG_FORM = 'submitting_org_form';
 
 //= =====================
 // Teams Actions
 //= =====================
 export const REQUEST_TEAMS = 'request_teams';
 export const RECEIVE_TEAMS = 'receive_teams';
+export const GET_ALL_TEAMS = 'get_all_teams';
 export const REQUEST_TEAMS_ERROR = 'request_teams_error';
 export const SET_CURRENT_TEAM = 'set_current_team';
 
@@ -71,10 +73,16 @@ export const SET_CURRENT_TEAM = 'set_current_team';
 // Team Rooms Actions
 //= =====================
 export const REQUEST_TEAM_ROOMS = 'request_team_rooms';
+export const GET_ALL_TEAM_ROOMS = 'get_all_team_rooms';
 export const RECEIVE_TEAM_ROOMS = 'receive_team_rooms';
 export const REQUEST_TEAM_ROOMS_ERROR = 'request_team_rooms_error';
 export const SET_CURRENT_TEAM_ROOM = 'set_current_team_room';
 
+//= =====================
+// Modal Dialogs
+//= =====================
+export const SHOW_TEAM_DIALOG = 'show_team_dialog';
+export const SHOW_ORG_DIALOG = 'show_org_dialog';
 
 //= =====================
 // Integrations Actions
@@ -86,4 +94,3 @@ export const INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG = 'integrate_error_bad_subscribe
 export const INTEGRATE_ERROR = 'integrate_error'; // Catch-all error.
 // export const INTEGRATE_GOOGLE = 'integrate_google'; // Doesn't change state directly, so not needed.
 // export const INTEGRATE_BOX = 'integrate_box'; // Doesn't change state directly, so not needed.
-

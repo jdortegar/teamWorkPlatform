@@ -3,7 +3,8 @@ import {
   REQUEST_TEAM_ROOMS,
   RECEIVE_TEAM_ROOMS,
   REQUEST_TEAM_ROOMS_ERROR,
-  SET_CURRENT_TEAM_ROOM
+  SET_CURRENT_TEAM_ROOM,
+  GET_ALL_TEAM_ROOMS
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -11,7 +12,8 @@ const INITIAL_STATE = {
   received: false,
   requesting: false,
   error: null,
-  currentTeamRoom: {}
+  currentTeamRoom: {},
+  teamRooms: []
 };
 
 const teamRoomsReducer = (state = INITIAL_STATE, action) => {
@@ -49,6 +51,11 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
         requesting: false,
         error: action.payload
       };
+    case GET_ALL_TEAM_ROOMS:
+      return {
+        ...state,
+        teamRooms: action.payload
+      }
     case SET_CURRENT_TEAM_ROOM: {
       const { subscriberOrgId, teamId, teamRoom } = action.payload;
       const currentTeamRoom = _.cloneDeep(state.currentTeamRoom);

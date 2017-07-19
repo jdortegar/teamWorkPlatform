@@ -5,7 +5,8 @@ import {
   REQUEST_TEAM_ROOMS,
   RECEIVE_TEAM_ROOMS,
   REQUEST_TEAM_ROOMS_ERROR,
-  SET_CURRENT_TEAM_ROOM
+  SET_CURRENT_TEAM_ROOM,
+  GET_ALL_TEAM_ROOMS
 } from './types';
 
 export function requestingTeamRooms(subscriberOrgId, teamId) {
@@ -21,6 +22,17 @@ export function receiveTeamRooms(subscriberOrgId, teamId, teamRooms) {
 
 export function requestTeamRoomsError(error, subscriberOrgId, teamId) {
   return { type: REQUEST_TEAM_ROOMS_ERROR, payload: new Error(error, subscriberOrgId, teamId), error: true };
+}
+
+export function getAllTeamRooms() {
+  const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+  return (dispatch) => {
+    return axios.get(`${config.hablaApiBaseUri}/teamRooms/getTeamRooms`, axiosOptions)
+      .then((response) => {
+        dispatch({ type: GET_ALL_TEAM_ROOMS, payload: response.data.teamRooms })
+      })
+      .catch(err => dispatch(requestTeamsError(err)));
+  };
 }
 
 export function requestTeamRooms(subscriberOrgId, teamId) {

@@ -2,6 +2,7 @@ import _ from 'lodash';
 import {
   REQUEST_TEAMS,
   RECEIVE_TEAMS,
+  GET_ALL_TEAMS,
   REQUEST_TEAMS_ERROR,
   SET_CURRENT_TEAM
 } from '../actions/types';
@@ -11,7 +12,8 @@ const INITIAL_STATE = {
   received: false,
   requesting: false,
   error: null,
-  currentTeam: {}
+  currentTeam: {},
+  teams: []
 };
 
 const teamsReducer = (state = INITIAL_STATE, action) => {
@@ -23,6 +25,11 @@ const teamsReducer = (state = INITIAL_STATE, action) => {
         requesting: true,
         error: null
       };
+    case GET_ALL_TEAMS:
+      return {
+        ...state,
+        teams: action.payload
+      }
     case RECEIVE_TEAMS: {
       const { subscriberOrgId, teams } = action.payload;
       const stateData = _.cloneDeep(state.data);

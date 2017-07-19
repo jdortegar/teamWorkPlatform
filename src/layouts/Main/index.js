@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import { arrayOf, func, object } from 'prop-types';
-import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { requestSubscriberOrgs, setCurrentSubscriberOrg } from '../../actions';
+import { requestSubscriberOrgs, setCurrentSubscriberOrg, getAllTeams, getAllTeamRooms } from '../../actions';
 import Logout from '../../components/Logout/Logout';
 import Spinner from '../../components/Spinner';
 import Header from '../../containers/Header';
 import HomeContainer from '../../containers/Home';
 import Integrations from '../../containers/user/Integrations';
 import SubpageContainer from '../../containers/Subpage';
+import TeamDialog from '../../containers/TeamDialog';
+import OrgDialog from '../../containers/OrgDialog';
+import LeftNav from '../../containers/LeftNav';
 import { routesPaths } from '../../routes';
-import styles from './styles.scss';
 
 class Main extends Component {
   static propTypes = {
@@ -28,10 +29,12 @@ class Main extends Component {
     currentSubscriberOrg: null
   };
 
-  componentDidMount() {
+  componentDidMount() {;
     if (this.props.subscriberOrgs.length === 0) {
       this.props.requestSubscriberOrgs();
     }
+    this.props.getAllTeams();
+    this.props.getAllTeamRooms();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,10 +44,15 @@ class Main extends Component {
     }
   }
 
-  content = () => {
+  render() {
+    const { user, subscriberOrgs, currentSubscriberOrg } = this.props;
+    if ((user === null) || (subscriberOrgs.length === 0) || (currentSubscriberOrg === null)) {
+      return <Spinner />;
+    }
     return (
-      <div styleName="main">
+      <div>
         <Header />
+        <LeftNav />
         <Switch>
           <Route exact path={routesPaths.home} component={HomeContainer} />
           <Route exact path={routesPaths.integrations} component={Integrations} />
@@ -52,16 +60,10 @@ class Main extends Component {
           <Route exact path={routesPaths.logout} component={Logout} />
           <Route path="*" render={props => <Redirect to={{ pathname: routesPaths.home, state: { from: props.location } }} />} />
         </Switch>
+        <TeamDialog />
+        <OrgDialog />
       </div>
     );
-  }
-
-  render() {
-    const { user, subscriberOrgs, currentSubscriberOrg } = this.props;
-    if ((user === null) || (subscriberOrgs.length === 0) || (currentSubscriberOrg === null)) {
-      return <Spinner />;
-    }
-    return this.content();
   }
 }
 
@@ -73,7 +75,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   requestSubscriberOrgs,
-  setCurrentSubscriberOrg
+  setCurrentSubscriberOrg,
+  getAllTeams,
+  getAllTeamRooms
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(cssModules(Main, styles, { allowMultiple: true }));
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -10,6 +10,7 @@ import subscriberOrgsReducer from './subscriberOrgsReducer';
 import teamsReducer from './teamsReducer';
 import teamRoomsReducer from './teamRoomsReducer';
 import integrationsReducer from './integrationsReducer';
+import dialogReducer from './dialogsReducer';
 
 const mainReducer = combineReducers({
   home: homeReducer,
@@ -21,7 +22,8 @@ const mainReducer = combineReducers({
   teamRooms: teamRoomsReducer,
   integrations: integrationsReducer,
   form: formReducer,
-  router: routerReducer
+  router: routerReducer,
+  dialogs: dialogReducer
 });
 
 const initialState = mainReducer({}, {});

@@ -1,19 +1,17 @@
 import { object } from 'prop-types';
 import React from 'react';
-import cssModules from 'react-css-modules';
 import MetaTags from '../../components/MetaTags';
-import styles from './styles.scss';
 
 const Home = ({ meta, data }) => (
-   <div styleName="home-view" className="container">
+   <div className="container">
       <MetaTags meta={meta} />
       <h1>Home</h1>
-      <div><span styleName="label">Base currency:</span> {data.base}</div>
-      <div><span styleName="label">Date:</span> {data.date}</div>
-      <div styleName="currency-list">
+      <div><span>Base currency:</span> {data.base}</div>
+      <div><span>Date:</span> {data.date}</div>
+      <div>
          {Object.keys(data.rates).map(k => (
             <div key={k}>
-               <span styleName="label">{`${k}:`}</span> {data.rates[k]}
+               <span>{`${k}:`}</span> {data.rates[k]}
             </div>
          ))}
       </div>
@@ -25,4 +23,4 @@ Home.propTypes = {
    data: object.isRequired
 };
 
-export default cssModules(Home, styles, { allowMultiple: true });
+export default Home;

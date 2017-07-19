@@ -7,6 +7,7 @@ export * from './subscriberOrgs';
 export * from './teams';
 export * from './teamRooms';
 export * from './integrations';
+export * from './dialogs';
 
 export const RECEIVE_HOME_DATA = "RECEIVE_HOME_DATA";
 export const RECEIVE_SUBPAGE_DATA = "RECEIVE_SUBPAGE_DATA";

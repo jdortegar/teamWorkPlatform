@@ -2,7 +2,9 @@ import {
   REQUEST_SUBSCRIBER_ORGS,
   RECEIVE_SUBSCRIBER_ORGS,
   REQUEST_SUBSCRIBER_ORGS_ERROR,
-  SET_CURRENT_SUBSCRIBER_ORG
+  SET_CURRENT_SUBSCRIBER_ORG,
+  CREATE_SUBSCRIBER_ORG,
+  SUBMITTING_ORG_FORM
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -10,7 +12,8 @@ const INITIAL_STATE = {
   received: false,
   requesting: false,
   error: null,
-  currentSubscriberOrg: null
+  currentSubscriberOrg: null,
+  submittingOrgForm: false
 };
 
 const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
@@ -23,6 +26,18 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
         requesting: true,
         error: null
       };
+    case SUBMITTING_ORG_FORM: {
+      return {
+        ...state,
+        submittingOrgForm: action.payload
+      }
+    }
+    case CREATE_SUBSCRIBER_ORG: {
+      return {
+        ...state,
+        data: [...state.data, action.payload]
+      }
+    }
     case RECEIVE_SUBSCRIBER_ORGS: {
       let currentSubscriberOrg = state.currentSubscriberOrg;
       const data = action.payload;

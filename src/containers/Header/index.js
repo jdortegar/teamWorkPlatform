@@ -6,18 +6,15 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import Divider from 'material-ui/Divider';
-import Drawer from 'material-ui/Drawer';
 import FileFileDownload from 'material-ui/svg-icons/file/file-download';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { arrayOf, func, object } from 'prop-types';
-import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { setCurrentSubscriberOrg, logoutUser } from '../../actions';
-import styles from './styles.scss';
 
 class Header extends Component {
   static propTypes = {
@@ -52,7 +49,7 @@ class Header extends Component {
   state = {
     valueSingle: '3',
     valueMultiple: ['3', '5'],
-    drawerOpen: false,
+    drawerOpen: true,
   };
   handleOnRequestChange = (value) => {
     this.setState({
@@ -79,8 +76,7 @@ class Header extends Component {
     // console.log(`AD: currentSubscriberOrg=${JSON.stringify(currentSubscriberOrg)}`);
     const width = "300px";
     return (
-      <MuiThemeProvider>
-      <AppBar 
+      <AppBar
         style={{backgroundColor: "black"}}
         iconElementLeft={
           <div onClick={() => this.handleOpenDrawer()}>
@@ -91,9 +87,8 @@ class Header extends Component {
                   src="https://c2.staticflickr.com/4/3955/33078312014_f6f8c759db_o.png"
                   alt="Habla AI"
                   style={{ width: "35px", height: "35px", margin: "0 0 6px 20px"}}
-                />
+                /><span style={{ marginLeft: '6px', color: 'white', fontSize: '18px' }}>Habla AI</span>
               </div>
-              <div style={{height: "50px", color: "white", fontSize: "20px", margin: "0px 0 0 10px", display: "inline-block", fontWeight: "100", paddingTop: "5px"}}>Habla AI</div>
             </div>
           </div>
         }
@@ -107,7 +102,7 @@ class Header extends Component {
           </div>
           <div className="team-header-icon" style={{display: "inline-block", marginTop: "0px", paddingLeft: "20px", width: "100px" }}>
             <i className="fa fa-bolt" style={{textAlign: "center", fontSize: "20px", paddingTop: "10px"}} />
-            <div className="team-header-nav-text" style={{color: "grey", fontSize: "12px"}} > 
+            <div className="team-header-nav-text" style={{color: "grey", fontSize: "12px"}} >
               CCG
             </div>
           </div>
@@ -138,17 +133,9 @@ class Header extends Component {
           <MenuItem value="4" primaryText="Logout" href="logout" />
         </IconMenu>
 
-        
-        <p style={{fontSize: "15px", margin: "20px 0 0 10px", color: "white"}}>{user.displayName}</p>
-         <Drawer open={this.state.drawerOpen} containerStyle={{marginTop: "65px", width: "auto"}}>
-          <MenuItem>Home Page</MenuItem>
-          <MenuItem>Organization 2</MenuItem>
-          <MenuItem>Organization 2</MenuItem>
-        </Drawer>
-      </AppBar>
 
-      </MuiThemeProvider>
-     
+        <p style={{fontSize: "15px", margin: "20px 0 0 10px", color: "white"}}>{user.displayName}</p>
+      </AppBar>
     )
   }
 }
@@ -164,4 +151,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   logoutUser
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(cssModules(Header, styles, { allowMultiple: true }));
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

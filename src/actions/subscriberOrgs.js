@@ -5,7 +5,10 @@ import {
   REQUEST_SUBSCRIBER_ORGS,
   RECEIVE_SUBSCRIBER_ORGS,
   REQUEST_SUBSCRIBER_ORGS_ERROR,
-  SET_CURRENT_SUBSCRIBER_ORG
+  SET_CURRENT_SUBSCRIBER_ORG,
+  SUBMITTING_ORG_FORM,
+  CREATE_SUBSCRIBER_ORG,
+  SHOW_ORG_DIALOG
 } from './types';
 
 export function requestingSubscriberOrgs() {
@@ -32,6 +35,23 @@ export function requestSubscriberOrgs() {
       .then(response => response.data.subscriberOrgs)
       .then(subscriberOrgs => dispatch(receiveSubscriberOrgs(subscriberOrgs)))
       .catch(err => dispatch(requestSubscriberOrgsError(err)));
+  };
+}
+
+export function createSubscriberOrg(name) {
+  const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+
+  return (dispatch) => {
+    dispatch({ type: SUBMITTING_ORG_FORM, payload: true });
+    return axios.post(`${config.hablaApiBaseUri}/subscriberOrgs/createSubscriberOrg`, name, axiosOptions)
+      .then((response) => {
+        dispatch({ type: CREATE_SUBSCRIBER_ORG, payload: response.data })
+        dispatch({ type: SUBMITTING_ORG_FORM, payload: false });
+        dispatch({ type: SHOW_ORG_DIALOG, payload: false });
+      })
+      .catch(err => {
+        dispatch({ type: SUBMITTING_ORG_FORM, payload: false });
+      });
   };
 }
 
