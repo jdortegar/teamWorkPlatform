@@ -17,13 +17,32 @@ const INITIAL_STATE = {
   activeConversationId: null
 };
 
-function mergeTranscripts(receivedTranscript, existingTranscript) {
-  if (existingTranscript) {
-    return [...receivedTranscript, ...existingTranscript];
-  }
+const defaultExpanded = true;
 
-  return receivedTranscript;
+function addMessages(messages, transcript) {
+  const mergedTranscript = transcript || { messages: {}, flattenedTree: {} };
+
+  messages.forEach((message) => {
+    mergedTranscript.messages[message.messageId] = message;
+
+    if (message.replyTo) {
+      let parent = this.flattenedTree[message.replyTo];
+      if (!parent) {
+        parent = { expanded: defaultExpanded, children: [] };
+        mergedTranscript.flattenedTree[message.replyTo] = parent;
+      }
+      parent.children.push(message.messageId);
+    } else {
+      const existing = mergedTranscript.flattenedTree[message.messageId];
+      if (!existing) {
+        mergedTranscript.flattenedTree[message.messageId] = { expanded: defaultExpanded, children: [] };
+      }
+    }
+  });
+
+  return mergedTranscript;
 }
+
 
 const conversationsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -73,7 +92,7 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
 
       const conversation = stateData.conversations[conversationId] || {};
       const { transcript: existingTranscript } = conversation;
-      conversation.transcript = mergeTranscripts(transcript, existingTranscript);
+      conversation.transcript = addMessages(transcript, existingTranscript);
       stateData.conversations[conversationId] = conversation;
 
       return {

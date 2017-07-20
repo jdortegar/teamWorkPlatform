@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { requestTranscript } from '../../actions';
 import Spinner from '../../components/Spinner';
-import Messages from './Messages';
 import styles from './styles.scss'; // eslint-disable-line no-unused-vars
 
 class Transcript extends Component {
@@ -16,40 +15,26 @@ class Transcript extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {};
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { conversationId } = this.props.match.params;
+    this.setState({ conversationId });
+
     const { conversations } = this.props;
     if ((!conversations[conversationId]) || (!conversations[conversationId].transcript)) {
       this.props.requestTranscript(conversationId);
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { conversationId } = this.props.match.params;
-    const { conversations } = nextProps;
-
-    console.log(conversations);
-    if ((conversations[conversationId]) && (conversations[conversationId].transcript)) {
-      let { messages } = this.state;
-      if ((!messages) || (messages.conversationId !== conversationId)) {
-        messages = new Messages(conversationId, conversations[conversationId].transcript);
-        this.setState({ messages });
-      } else {
-        messages.addMessages(conversations[conversationId].transcript);
-      }
-    } else {
-      this.props.requestTranscript(conversationId);
-    }
-  }
-
   render() {
-    const { conversationId } = this.props.match.params;
-    const messages = this.state.messages;
-    if ((!messages) || (messages.conversationId !== conversationId)) {
+    const { conversationId } = this.state;
+    const { conversations } = this.props;
+    const conversation = conversations[conversationId];
+    const transcript = (conversation) ? conversation.transcript : undefined;
+
+    if (!transcript) {
       return <Spinner />;
     }
 

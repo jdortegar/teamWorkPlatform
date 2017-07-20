@@ -130,7 +130,7 @@ class Header extends Component {
           <MenuItem value="2" primaryText="Your Organizations" />
           <MenuItem value="3" primaryText="Setting" />
           <Divider />
-          <MenuItem value="4" primaryText="Logout" href="logout" />
+          <MenuItem value="4" primaryText="Logout" onTouchTap={this.onLogout} />
         </IconMenu>
 
 
