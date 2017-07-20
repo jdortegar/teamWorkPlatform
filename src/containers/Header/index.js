@@ -121,7 +121,7 @@ class Header extends Component {
           </div>
         </div>
         <IconMenu
-          iconButtonElement={<img src="src/images/Thomas.jpg" style={{width: "40px", height: "40px", borderRadius: "5px", marginTop: "10px"}} />}
+          iconButtonElement={<img className="header-avatar" src="src/images/Thomas.jpg" style={{width: "40px", height: "40px", borderRadius: "5px", marginTop: "10px"}} />}
           open={this.state.openMenu}
           onRequestChange={this.handleOnRequestChange}
           onChange={this.handleSelectValue}
