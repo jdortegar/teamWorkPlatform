@@ -78,6 +78,19 @@ export const RECEIVE_TEAM_ROOMS = 'receive_team_rooms';
 export const REQUEST_TEAM_ROOMS_ERROR = 'request_team_rooms_error';
 export const SET_CURRENT_TEAM_ROOM = 'set_current_team_room';
 
+
+//= =====================
+// Conversations Actions
+//= =====================
+export const REQUEST_CONVERSATIONS = 'request_conversations';
+export const RECEIVE_CONVERSATIONS = 'receive_conversations';
+export const REQUEST_CONVERSATIONS_ERROR = 'request_conversations_error';
+export const REQUEST_TRANSCRIPT = 'request_transcript';
+export const RECEIVE_TRANSCRIPT = 'receive_transcript';
+export const REQUEST_TRANSCRIPT_ERROR = 'request_transcript_error';
+export const SET_ACTIVE_CONVERSATION = 'set_active_conversation';
+
+
 //= =====================
 // Modal Dialogs
 //= =====================

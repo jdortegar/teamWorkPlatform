@@ -11,6 +11,7 @@ export const routesPaths = {
   register: '/register',
   login: '/login',
   logout: '/logout',
+  chat: '/chat/:conversationId',
   integrations: '/integrations/:subscriberOrgId',
   subpage: '/subpage',
   createAccount: '/createAccount',

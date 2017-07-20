@@ -6,6 +6,7 @@ export * from './auth';
 export * from './subscriberOrgs';
 export * from './teams';
 export * from './teamRooms';
+export * from './conversations';
 export * from './integrations';
 export * from './dialogs';
 

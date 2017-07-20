@@ -8,6 +8,7 @@ import Logout from '../../components/Logout/Logout';
 import Spinner from '../../components/Spinner';
 import Header from '../../containers/Header';
 import HomeContainer from '../../containers/Home';
+import Chat from '../Chat';
 import Integrations from '../../containers/user/Integrations';
 import SubpageContainer from '../../containers/Subpage';
 import TeamDialog from '../../containers/TeamDialog';
@@ -55,6 +56,7 @@ class Main extends Component {
         <LeftNav />
         <Switch>
           <Route exact path={routesPaths.home} component={HomeContainer} />
+          <Route exact path={routesPaths.chat} component={Chat} />
           <Route exact path={routesPaths.integrations} component={Integrations} />
           <Route exact path={routesPaths.subpage} component={SubpageContainer} />
           <Route exact path={routesPaths.logout} component={Logout} />
