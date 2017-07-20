@@ -1,0 +1,16 @@
+.fa-newspaper-o:hover,
+.fa-bolt:hover,
+.fa-comments:hover,
+.fa-calendar-o:hover,
+.fa-newspaper-o:active,
+.fa-bolt:active,
+.fa-comments:active,
+.fa-calendar-o:active 
+{
+	cursor: pointer;
+	color: #3498db;
+}
+
+.header-avatar {
+	cursor: pointer;
+}

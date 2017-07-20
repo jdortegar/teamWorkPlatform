@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { setCurrentSubscriberOrg, logoutUser } from '../../actions';
+import './style.css';
 
 class Header extends Component {
   static propTypes = {
@@ -81,7 +82,7 @@ class Header extends Component {
         iconElementLeft={
           <div onClick={() => this.handleOpenDrawer()}>
             <div style={{ height: "100%", padding: "0", margin: "0"}}>
-              <div style={{height: "50px", display: "inline-block", padding: "0"}}>
+              <div style={{height: "50px", display: "inline-block", padding: "0", marginTop: "5px"}}>
                 <img
                   className="mui--text-left"
                   src="https://c2.staticflickr.com/4/3955/33078312014_f6f8c759db_o.png"
@@ -120,17 +121,17 @@ class Header extends Component {
           </div>
         </div>
         <IconMenu
-          iconButtonElement={<IconButton><Avatar src="src/images/Thomas.jpg" /></IconButton>}
+          iconButtonElement={<img className="header-avatar" src="src/images/Thomas.jpg" style={{width: "40px", height: "40px", borderRadius: "5px", marginTop: "10px"}} />}
           open={this.state.openMenu}
           onRequestChange={this.handleOnRequestChange}
           onChange={this.handleSelectValue}
-
+          
         >
           <MenuItem value="1" primaryText="User Profile" />
           <MenuItem value="2" primaryText="Your Organizations" />
           <MenuItem value="3" primaryText="Setting" />
           <Divider />
-          <MenuItem value="4" primaryText="Logout" href="logout" />
+          <MenuItem value="4" primaryText="Logout" onTouchTap={this.onLogout} />
         </IconMenu>
 
 
