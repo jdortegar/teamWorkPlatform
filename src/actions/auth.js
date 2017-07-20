@@ -20,6 +20,7 @@ import { login, logout } from '../session';
 //= ===============================
 export function loginUser({ email, password, targetRoute }) {
   return (dispatch) => {
+    dispatch({ type: SUBMIT_FORM, data: true });
     login(email, password)
       .then((lastRoute) => {
         // If the user is just going to the home page, and their last route on logout was somewhere else, send them there.
@@ -27,9 +28,11 @@ export function loginUser({ email, password, targetRoute }) {
         if ((targetRoute === routesPaths.home) && (lastRoute)) {
           resolvedRoute = lastRoute;
         }
+        dispatch({ type: SUBMIT_FORM, data: false });
         dispatch(push(resolvedRoute));
       })
       .catch((error) => {
+        dispatch({ type: SUBMIT_FORM, data: false });
         errorHandler(dispatch, error.response, AUTH_ERROR);
         console.log(error);
       });
@@ -42,13 +45,11 @@ export function registerUser({ email }) {
     axios
       .post(`${API_URL}/users/registerUser`, { email })
       .then(response => {
-        dispatch({ type: AUTH_USER });
         dispatch({ type: FLIP_CARD, data: 'flip' });
         dispatch({ type: SUBMIT_FORM, data: false });
       })
       .catch(error => {
         dispatch({ type: SUBMIT_FORM, data: false });
-        errorHandler(dispatch, error.response, AUTH_ERROR);
         console.log(error.response);
         console.log('auth.registerUser response:', error);
       });
