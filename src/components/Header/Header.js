@@ -15,6 +15,7 @@ import FlatButton from 'material-ui/FlatButton';
 import AccessAlarmIcon from 'material-ui-icons/AccessAlarm';
 import { getUser } from '../../session';
 
+
 const { displayName, icon } = getUser;
 
 
