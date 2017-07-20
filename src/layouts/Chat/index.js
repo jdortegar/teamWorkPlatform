@@ -7,7 +7,7 @@ import styles from './styles.scss';
 class Chat extends Component {
   render() {
     return (
-      <div>
+      <div style={{ marginLeft: '320px' }}>
         <Route exact path={routesPaths.chat} component={Transcript} />
       </div>
     );

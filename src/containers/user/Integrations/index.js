@@ -68,7 +68,7 @@ class Integrations extends Component {
     });
 
     return (
-      <div>
+      <div style={{ marginLeft: '320px' }}>
         <section>
           <div className="row">
             <div className="col-md-12">
