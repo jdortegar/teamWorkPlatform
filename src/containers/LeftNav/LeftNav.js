@@ -7,7 +7,7 @@ import {List, ListItem} from 'material-ui/List';
 import GroupAdd from 'material-ui/svg-icons/social/group-add';
 import Add from 'material-ui/svg-icons/content/add';
 import Divider from 'material-ui/Divider';
-import { toggleTeamDialog, toggleOrgDialog } from '../../actions';
+import { toggleTeamDialog, toggleOrgDialog, toggleInviteDialog } from '../../actions';
 
 class LeftNav extends Component {
   constructor(props) {
@@ -55,7 +55,7 @@ class LeftNav extends Component {
         <Divider />
         <List>
           <ListItem rightIcon={<Add />} primaryText="New Organization" onTouchTap={this.props.toggleOrgDialog.bind(this, true)} />
-          <ListItem rightIcon={<GroupAdd />} primaryText="Invite People" onTouchTap={this.props.toggleTeamDialog.bind(this, true)} />
+          <ListItem rightIcon={<GroupAdd />} primaryText="Invite People" onTouchTap={this.props.toggleInviteDialog.bind(this, true)} />
         </List>
       </Drawer>
     )
@@ -68,14 +68,13 @@ function mapStateToProps(state) {
     teams: state.teams.teams,
     teamRooms: state.teamRooms.teamRooms,
     subscriberOrgs: state.subscriberOrgs.data,
-    currentSubscriberOrg: state.subscriberOrgs.currentSubscriberOrg,
-    showTeamDialog: state.dialogs.showTeamDialog,
+    currentSubscriberOrg: state.subscriberOrgs.currentSubscriberOrg
   }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  toggleTeamDialog,
-  toggleOrgDialog
+  toggleOrgDialog,
+  toggleInviteDialog
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(LeftNav);

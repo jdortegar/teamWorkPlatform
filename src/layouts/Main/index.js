@@ -11,7 +11,7 @@ import HomeContainer from '../../containers/Home';
 import Chat from '../Chat';
 import Integrations from '../../containers/user/Integrations';
 import SubpageContainer from '../../containers/Subpage';
-import TeamDialog from '../../containers/TeamDialog';
+import InviteDialog from '../../containers/InviteDialog';
 import OrgDialog from '../../containers/OrgDialog';
 import LeftNav from '../../containers/LeftNav';
 import { routesPaths } from '../../routes';
@@ -62,8 +62,8 @@ class Main extends Component {
           <Route exact path={routesPaths.logout} component={Logout} />
           <Route path="*" render={props => <Redirect to={{ pathname: routesPaths.home, state: { from: props.location } }} />} />
         </Switch>
-        <TeamDialog />
         <OrgDialog />
+        <InviteDialog />
       </div>
     );
   }

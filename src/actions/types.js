@@ -96,6 +96,7 @@ export const SET_ACTIVE_CONVERSATION = 'set_active_conversation';
 //= =====================
 export const SHOW_TEAM_DIALOG = 'show_team_dialog';
 export const SHOW_ORG_DIALOG = 'show_org_dialog';
+export const SHOW_INVITE_DIALOG = 'show_invite_dialog';
 
 //= =====================
 // Integrations Actions
