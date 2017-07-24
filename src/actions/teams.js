@@ -13,6 +13,13 @@ function requestingTeams(subscriberOrgId) {
   return { type: REQUESTING_TEAMS, payload: { subscriberOrgId } };
 }
 
+export function receiveTeams(teams, subscriberOrgId) {
+  return {
+    type: RECEIVE_TEAMS,
+    payload: { subscriberOrgId, teams }
+  };
+}
+
 export function requestTeamsError(error, subscriberOrgId) {
   return { type: REQUEST_TEAMS_ERROR, payload: new Error(error, subscriberOrgId), error: true };
 }
@@ -36,7 +43,7 @@ export function requestTeams(subscriberOrgId) {
       dispatch(requestingTeams(subscriberOrgId));
       const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
       return axios.get(`${config.hablaApiBaseUri}/teams/getTeams?subscriberOrgId=${subscriberOrgId}`, axiosOptions)
-        .then(response => dispatch({ type: RECEIVE_TEAMS, payload: { subscriberOrgId, teams: response.data.teams } }))
+        .then(response => dispatch(receiveTeams(response.data.teams, subscriberOrgId)))
         .catch(err => dispatch(requestTeamsError(err, subscriberOrgId)));
     }
     return Promise.resolve();
