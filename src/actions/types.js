@@ -9,3 +9,56 @@ export const LOGGING_IN = 'logging_in';
 // User Profile Actions
 //= =====================
 export const FETCH_USER = 'fetch_user';
+
+//= =====================
+// SubscriberOrgs Actions
+//= =====================
+export const REQUESTING_SUBSCRIBER_ORGS = 'requesting_subscriber_orgs';
+export const RECEIVE_SUBSCRIBER_ORGS = 'receive_subscriber_orgs';
+export const REQUEST_SUBSCRIBER_ORGS_ERROR = 'request_subscriber_orgs_error';
+export const SET_CURRENT_SUBSCRIBER_ORG_ID = 'set_current_subscriber_org_id';
+export const SHOW_ORG_DIALOG = 'show_org_dialog';
+export const CREATE_SUBSCRIBER_ORG = 'create_subscriber_org';
+export const SUBMITTING_ORG_FORM = 'submitting_org_form';
+
+//= =====================
+// Teams Actions
+//= =====================
+export const REQUESTING_TEAMS = 'request_teams';
+export const RECEIVE_ALL_TEAMS = 'receive_all_teams';
+export const RECEIVE_TEAMS = 'receive_teams';
+export const REQUEST_TEAMS_ERROR = 'request_teams_error';
+export const SET_CURRENT_TEAM_ID = 'set_current_team_id';
+
+
+//= =====================
+// Team Rooms Actions
+//= =====================
+export const REQUESTING_TEAM_ROOMS = 'requesting_team_rooms';
+export const RECEIVE_ALL_TEAM_ROOMS = 'receive_all_team_rooms';
+export const RECEIVE_TEAM_ROOMS = 'receive_team_rooms';
+export const REQUEST_TEAM_ROOMS_ERROR = 'request_team_rooms_error';
+export const SET_CURRENT_TEAM_ROOM_ID = 'set_current_team_room_id';
+
+
+//= =====================
+// Conversations Actions
+//= =====================
+export const REQUESTING_CONVERSATIONS = 'requesting_conversations';
+export const RECEIVE_CONVERSATIONS = 'receive_conversations';
+export const REQUEST_CONVERSATIONS_ERROR = 'request_conversations_error';
+export const REQUESTING_TRANSCRIPT = 'requesting_transcript';
+export const RECEIVE_TRANSCRIPT = 'receive_transcript';
+export const REQUEST_TRANSCRIPT_ERROR = 'request_transcript_error';
+export const SET_ACTIVE_CONVERSATION = 'set_active_conversation';
+
+//= =====================
+// Integrations Actions
+//= =====================
+export const REQUESTING_INTEGRATIONS = 'requesting_integrations';
+export const RECEIVE_INTEGRATIONS = 'receive_integrations';
+export const REQUEST_INTEGRATIONS_ERROR = 'request_integrations_error';
+export const INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG = 'integrate_error_bad_subscriber_org';
+export const INTEGRATE_ERROR = 'integrate_error'; // Catch-all error.
+// export const INTEGRATE_GOOGLE = 'integrate_google'; // Doesn't change state directly, so not needed.
+// export const INTEGRATE_BOX = 'integrate_box'; // Doesn't change state directly, so not needed.
