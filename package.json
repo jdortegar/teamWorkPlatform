@@ -1,8 +1,22 @@
 {
-  "name": "new-webapp",
+  "name": "webapp",
+  "description": "The Habla UI",
   "version": "1.0.0",
-  "description": "",
+  "private": true,
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Habla-Inc/webapp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Habla-Inc/webapp/issues"
+  },
+  "homepage": "https://habla.ai",
+  "author": "Tho Truong <tho.truong@habla.ai>, Anthony Daga <anthony.daga@habla.ai>, Mike Somlo <mike.somlo@habla.ai>, Gonzalo Marquez <gonzalo@techlabs.com>",
+  "license": "HABLA",
+  "engines": {
+    "node": ">=6"
+  },
   "scripts": {
     "start": "node server.js",
     "build": "cross-env NODE_ENV=production webpack -p --config webpack.config.prod.js",
@@ -12,11 +26,10 @@
     "clean": "shx rm -rf dist coverage",
     "pristine": "npm run clean && shx rm -rf node_modules"
   },
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^7.1.1",
     "babel-core": "^6.25.0",
+    "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.1",
     "babel-plugin-import": "^1.2.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
@@ -84,7 +97,8 @@
     "env": {
       "browser": true,
       "node": true,
-      "es6": true
+      "es6": true,
+      "jest": true
     },
     "rules": {
       "react/jsx-filename-extension": "off",
