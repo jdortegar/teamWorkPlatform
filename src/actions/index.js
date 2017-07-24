@@ -2,7 +2,7 @@ import { replace } from 'react-router-redux';
 
 // All actions here are [flux-standard-action](https://github.com/acdlite/flux-standard-action) compliant.
 export * from './auth';
-// TODO: is this needed?  export * from './dialogs';
+export * from './dialogs';
 export * from './subscriberOrgs';
 export * from './teams';
 export * from './teamRooms';

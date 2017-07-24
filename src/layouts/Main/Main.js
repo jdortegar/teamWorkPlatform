@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Layout, Breadcrumb } from 'antd';
 import Header from '../../components/Header';
-import Sidebar from '../../components/Sidebar';
+import Sidebar from '../../containers/Sidebar';
 import MainContent from '../../components/MainContent';
+import { AddOrgDialog } from '../../containers/dialogs';
 
 class Main extends Component {
   render() {
@@ -18,6 +19,7 @@ class Main extends Component {
               <Breadcrumb.Item>App</Breadcrumb.Item>
             </Breadcrumb>
             <MainContent />
+            <AddOrgDialog />
           </Layout>
         </Layout>
       </Layout>

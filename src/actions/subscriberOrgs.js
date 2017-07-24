@@ -56,8 +56,9 @@ export function createSubscriberOrg(name) {
       .then((response) => {
         dispatch({ type: CREATE_SUBSCRIBER_ORG, payload: response.data });
         dispatch({ type: SUBMITTING_ORG_FORM, payload: false });
-        dispatch({ type: SHOW_ORG_DIALOG, payload: false });
       })
-      .catch(err => dispatch({ type: SUBMITTING_ORG_FORM, payload: false }));
+      .catch(err =>  {
+        dispatch({ type: SUBMITTING_ORG_FORM, payload: false });
+      });
   };
 }
