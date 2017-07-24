@@ -29,6 +29,7 @@ export function requestAllTeams() {
     if (!getState().teams.requesting) {
       dispatch(requestingTeams());
       const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+
       return axios.get(`${config.hablaApiBaseUri}/teams/getTeams`, axiosOptions)
         .then(response => dispatch({ type: RECEIVE_ALL_TEAMS, payload: response.data.teams }))
         .catch(err => dispatch(requestTeamsError(err)));
