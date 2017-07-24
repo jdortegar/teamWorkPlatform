@@ -40,6 +40,13 @@ export function requestSubscriberOrgs() {
   };
 }
 
+export function setCurrentSubscriberOrgId(subscriberOrgId) {
+  return {
+    type: SET_CURRENT_SUBSCRIBER_ORG_ID,
+    payload: subscriberOrgId
+  };
+}
+
 export function createSubscriberOrg(name) {
   const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
 
@@ -52,12 +59,5 @@ export function createSubscriberOrg(name) {
         dispatch({ type: SHOW_ORG_DIALOG, payload: false });
       })
       .catch(err => dispatch({ type: SUBMITTING_ORG_FORM, payload: false }));
-  };
-}
-
-export function setCurrentSubscriberOrgId(subscriberOrgId) {
-  return {
-    type: SET_CURRENT_SUBSCRIBER_ORG_ID,
-    payload: subscriberOrgId
   };
 }

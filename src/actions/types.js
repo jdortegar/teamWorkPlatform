@@ -1,4 +1,11 @@
 //= =====================
+// Registration Actions
+//= =====================
+// TODO: is this needed? export const SUBMIT_FORM = 'submit_form';
+// TODO: is this needed? export const FLIP_CARD = 'flip_card';
+// TODO: is this needed? export const VERIFY_EMAIL = 'verify_email';
+
+//= =====================
 // Auth Actions
 //= =====================
 export const AUTH_USER = 'auth_user';
@@ -8,7 +15,7 @@ export const LOGGING_IN = 'logging_in';
 //= =====================
 // User Profile Actions
 //= =====================
-export const FETCH_USER = 'fetch_user';
+// TODO: is this needed?  export const FETCH_USER = 'fetch_user';
 
 //= =====================
 // SubscriberOrgs Actions
@@ -17,8 +24,9 @@ export const REQUESTING_SUBSCRIBER_ORGS = 'requesting_subscriber_orgs';
 export const RECEIVE_SUBSCRIBER_ORGS = 'receive_subscriber_orgs';
 export const REQUEST_SUBSCRIBER_ORGS_ERROR = 'request_subscriber_orgs_error';
 export const SET_CURRENT_SUBSCRIBER_ORG_ID = 'set_current_subscriber_org_id';
-export const SHOW_ORG_DIALOG = 'show_org_dialog';
 export const CREATE_SUBSCRIBER_ORG = 'create_subscriber_org';
+// TODO: is this needed? export const SHOW_INVITE_DIALOG = 'show_invite_dialog';
+export const SHOW_ORG_DIALOG = 'show_org_dialog';
 export const SUBMITTING_ORG_FORM = 'submitting_org_form';
 
 //= =====================
@@ -29,7 +37,7 @@ export const RECEIVE_ALL_TEAMS = 'receive_all_teams';
 export const RECEIVE_TEAMS = 'receive_teams';
 export const REQUEST_TEAMS_ERROR = 'request_teams_error';
 export const SET_CURRENT_TEAM_ID = 'set_current_team_id';
-
+// TODO: is this needed? export const SHOW_TEAM_DIALOG = 'show_team_dialog';
 
 //= =====================
 // Team Rooms Actions
