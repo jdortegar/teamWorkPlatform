@@ -11,7 +11,8 @@ if (process.env.NODE_ENV !== 'production') {
   server = new WebpackDevServer(webpack(config), {
     publicPath: config.output.publicPath,
     hot: true,
-    historyApiFallback: { disableDotRule: true }
+    historyApiFallback: { disableDotRule: true },
+    disableHostCheck: true
   });
 } else {
   server = express();
@@ -26,7 +27,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const nodePort = process.env.NODE_PORT || 8080;
-server.listen(nodePort, 'localhost', (err) => {
+server.listen(nodePort, (err) => {
   if (err) {
     // console.error(err);
   }
