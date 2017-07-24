@@ -2,11 +2,12 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Main from './layouts/Main';
 import SignUp from './layouts/SignUp';
-import VerifyAccount from './containers/VerifyAccount';
-import ProtectedRoute from './ProtectedRoute';
-import PublicRoute from './PublicRoute';
+import Login from './containers/Login';
+import Register from './containers/Register';
+import CreateAccount from './containers/CreateAccount';
 
 export const routesPaths = {
+  app: '/app',
   home: '/',
   register: '/register',
   login: '/login',
@@ -20,11 +21,11 @@ export const routesPaths = {
 
 export default (
   <Switch>
-    <Route exact path={routesPaths.register} component={SignUp} />
-    <Route exact path={routesPaths.verifyAccount} component={VerifyAccount} />
-    <Route exact path={routesPaths.createAccount} component={SignUp} />
-    <PublicRoute exact path={routesPaths.login} component={SignUp} />
-    <ProtectedRoute component={Main} />
-    <Main />
+    <Route exact path={routesPaths.app} component={Main} />
+    <SignUp>
+      <Route exact path={routesPaths.login} component={Login} />
+      <Route exact path={routesPaths.register} component={Register} />
+      <Route exact path={routesPaths.createAccount} component={CreateAccount} />
+    </SignUp>
   </Switch>
 );

@@ -1,14 +1,10 @@
-import { REHYDRATE } from 'redux-persist/constants';
 import {
-  AUTH_USER,
-  UNAUTH_USER,
-  AUTH_ERROR,
-  FORGOT_PASSWORD_REQUEST,
-  RESET_PASSWORD_REQUEST,
-  PROTECTED_TEST
+  LOGGING_IN,
+  AUTH_USER
 } from '../actions/types';
 
 const INITIAL_STATE = {
+  loggingIn: false,
   user: null,
   error: '',
   message: '',
@@ -18,18 +14,10 @@ const INITIAL_STATE = {
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
+    case LOGGING_IN:
+      return { ...state, loggingIn: action.payload };
     case AUTH_USER:
       return { ...state, user: action.payload.user, error: '', message: '', authenticated: true };
-    case UNAUTH_USER:
-      return { ...state, user: null, authenticated: false, error: action.payload };
-    case AUTH_ERROR:
-      return { ...state, user: null, error: action.payload };
-    case FORGOT_PASSWORD_REQUEST:
-      return { ...state, message: action.payload.message };
-    case RESET_PASSWORD_REQUEST:
-      return { ...state, message: action.payload.message };
-    case PROTECTED_TEST:
-      return { ...state, content: action.payload.message };
     default:
       return state;
   }

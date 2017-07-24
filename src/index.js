@@ -1,19 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import { BrowserRouter } from 'react-router-dom';
 import { AppContainer } from 'react-hot-loader';
 import App from './App';
 import { configureStore, history } from './store';
 
 configureStore()
   .then((store) => {
-    injectTapEventPlugin();
-
     // Render main React component.
     const render = (Component, props = {}) => {
       ReactDOM.render(
         <AppContainer>
-          <Component {...props} />
+          <BrowserRouter>
+            <Component {...props} />
+          </BrowserRouter>
         </AppContainer>
         , document.getElementById('app'));
     };

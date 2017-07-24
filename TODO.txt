@@ -1,4 +1,0 @@
-* favicon.ico - Make outer portion of logo transparent.
-
-* jest tests
-

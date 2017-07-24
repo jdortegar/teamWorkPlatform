@@ -45,19 +45,14 @@ export const EventTypes = Object.freeze({
 
 
 class Messaging {
-  url;
-  socket;
-
-  eventListeners = new Set();
-  onlineOfflineListeners = new Set();
-  unauthorizedListeners = new Set();
-
-  connectionListenersInitialized = false;
-
-  verbose = false;
-
   constructor(url) {
     this.url = url;
+    this.socket = null;
+    this.eventListeners = new Set();
+    this.onlineOfflineListeners = new Set();
+    this.unauthorizedListeners = new Set();
+    this.connectionListenersInitialized = false;
+    this.verbose = false;
   }
 
   /**
