@@ -6,6 +6,7 @@ import { persistStore } from 'redux-persist';
 import { AUTH_USER } from './actions/types';
 import config from './config/env';
 import messaging from './messaging';
+import messagingActionAdapter, { setStore as setAdapterStore } from './actions/messagingActionAdapter';
 
 const TOKEN_COOKIE_NAME = 'token';
 const WEBSOCKET_URL_COOKIE_NAME = 'websocketUrl';
@@ -20,6 +21,8 @@ let persistor;
 
 function initMessaging() {
   messaging(websocketUrl).connect(jwt);
+  setAdapterStore(store);
+  messaging().addEventListener(messagingActionAdapter);
 }
 
 function closeMessaging() {
