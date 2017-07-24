@@ -15,7 +15,8 @@ const propTypes = {
   placeholder: PropTypes.string,
   layout: PropTypes.object,
   required: PropTypes.bool.isRequired,
-  missingMessage: PropTypes.string
+  missingMessage: PropTypes.string,
+  validatePassword: PropTypes.bool
 };
 
 const defaultProps = {
@@ -25,23 +26,27 @@ const defaultProps = {
   initialValue: '',
   placeholder: null,
   required: true,
-  missingMessage: null
+  missingMessage: null,
+  validatePassword: true
 };
 
 function PasswordField(props) {
-  const { layout, label, missingMessage, placeholder, ...rest } = props;
+  const { layout, label, missingMessage, placeholder, validatePassword, ...rest } = props;
 
   const translatedPlaceHolder = placeholder || messages.password;
   const translatedMissingMessage = missingMessage || messages.passwordMissing;
+
+  const extraRules = [];
+  if(validatePassword) {
+    extraRules.push({ validator: antValidate(passwordRules()) });
+  }
 
   const decoratedInput = BaseInput({
     ...rest,
     placeholder: translatedPlaceHolder,
     missingMessage: translatedMissingMessage,
     type: 'password',
-    extraRules: [
-      { validator: antValidate(passwordRules()) }
-    ]
+    extraRules
   });
 
   return (

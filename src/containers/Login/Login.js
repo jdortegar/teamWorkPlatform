@@ -50,6 +50,7 @@ class Login extends React.Component {
           form={this.props.form}
           layout={layout}
           required
+          validatePassword={false}
         />
         <FormItem>
           {getFieldDecorator('remember', {
@@ -60,7 +61,7 @@ class Login extends React.Component {
           )}
           <a className="login-form-forgot" href="">Forgot password</a>
           {
-            !this.props.loggingIn ?
+            this.props.loggingIn ?
               <Spin size="large" style={{ width: '100%' }} /> :
               <Button type="primary" htmlType="submit" className="login-form-button">
                 Log in
