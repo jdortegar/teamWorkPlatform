@@ -38,7 +38,7 @@ const defaultProps = {
   initialValue: null,
   missingMessage: null,
   placeholder: null,
-  validateStatus: null
+  validateStatus: undefined
 };
 
 function TextField(props) {
