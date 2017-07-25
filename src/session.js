@@ -121,6 +121,7 @@ export function logout() {
   const decoded = jwtDecode(jwt);
   const userId = decoded._id;
 
+  const jwtForLogout = jwt;
   jwt = undefined;
   websocketUrl = undefined;
   if (process.env.NODE_ENV === 'production') {
@@ -143,7 +144,10 @@ export function logout() {
     Cookie.set(`${LAST_ROUTE_COOKIE_NAME_PREFIX}__${userId}`, `${pathname}${search}`, { expires: 7 });
   }
 
-  // TODO: ANT: axios call to logout.  No return promise necessary.
+  // Logout with server, just in case any backend cleanup is necessary.
+  const logoutUrl = `${config.hablaApiBaseUri}/auth/logout`;
+  const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+  axios.get(logoutUrl, axiosOptions);
 }
 
 export function isAuthenticated() {

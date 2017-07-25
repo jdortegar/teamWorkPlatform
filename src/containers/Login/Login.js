@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
+import { routesPaths } from '../../routes';
 import { formShape } from '../../propTypes';
 import EmailField from '../../components/formFields/EmailField';
 import PasswordField from '../../components/formFields/PasswordField';
@@ -32,8 +33,17 @@ class Login extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     const { email, password } = this.props.form.getFieldsValue();
+    let targetRoute = routesPaths.app;
+    const XXX = this.props;
+    if (this.props.history.location.state) { // Send user directly to requested URL, or app if cannot be deduced.
+      const { state } = this.props.history.location;
+      targetRoute = state.from.pathname;
+      if (state.from.search) {
+        targetRoute += state.from.search;
+      }
+    }
 
-    this.props.loginUser({ email, password, targetRoute: '/app' });
+    this.props.loginUser({ email, password, targetRoute });
   }
 
   render() {
