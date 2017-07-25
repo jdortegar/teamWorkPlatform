@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import _ from 'lodash';
 import EmailField from '../../../components/formFields/EmailField';
-import { toggleInvitePeopleDialog, inviteUser, submitInviteOrgForm } from '../../../actions';
+import { toggleInvitePeopleDialog, submitInviteOrgForm } from '../../../actions';
 import { formShape } from '../../../propTypes';
 import config from '../../../config/env';
 import { getJwt } from '../../../session';
@@ -14,7 +14,6 @@ import './styles/style.css';
 
 const propTypes = {
   form: formShape.isRequired,
-  inviteUser: PropTypes.func.isRequired,
   toggleInvitePeopleDialog: PropTypes.func.isRequired,
   submitInviteOrgForm: PropTypes.func.isRequired,
   submittingInviteOrgForm: PropTypes.bool.isRequired,
@@ -134,7 +133,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ toggleInvitePeopleDialog, inviteUser, submitInviteOrgForm }, dispatch);
+  return bindActionCreators({ toggleInvitePeopleDialog, submitInviteOrgForm }, dispatch);
 }
 
 InvitePeopleDialog.propTypes = propTypes;
