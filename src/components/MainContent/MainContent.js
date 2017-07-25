@@ -6,7 +6,7 @@ const { Content } = Layout;
 function MainContent() {
   return (
     <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-      Content
+      <h1>Content title</h1>
     </Content>
   );
 }

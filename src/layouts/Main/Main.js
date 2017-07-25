@@ -7,8 +7,8 @@ import Sidebar from '../../containers/Sidebar';
 import MainContent from '../../components/MainContent';
 import { AddOrgDialog } from '../../containers/dialogs';
 import { requestSubscriberOrgs, requestAllTeams } from '../../actions';
-import '../styles/habla-general.css';
 import './styles/main.css';
+import '../styles/habla-brand-styles.css';
 
 class Main extends Component {
   componentDidMount() {
@@ -23,10 +23,10 @@ class Main extends Component {
         <Layout className="ant-layout-has-sider">
           <Sidebar />
           <Layout style={{ padding: '0 24px 24px' }}>
-            <Breadcrumb style={{ margin: '12px 0' }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
+            <Breadcrumb separator=">" style={{ margin: '12px 0' }}>
+              <Breadcrumb.Item>Organization Name</Breadcrumb.Item>
+              <Breadcrumb.Item>Team Name</Breadcrumb.Item>
+              <Breadcrumb.Item>Team Room Name</Breadcrumb.Item>
             </Breadcrumb>
             <MainContent />
             <AddOrgDialog />
