@@ -5,6 +5,7 @@ import { routesPaths } from '../../routes';
 import Register from '../../containers/Register';
 import CreateAccount from '../../containers/CreateAccount';
 import Login from '../../containers/Login';
+import '../styles/habla-general.css';
 import './styles/signup.css';
 
 // TODO: add <Route exact path={routesPaths.verifyAccount} component={VerifyAccount} /> below.

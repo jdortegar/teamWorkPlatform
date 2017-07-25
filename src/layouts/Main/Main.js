@@ -7,6 +7,8 @@ import Sidebar from '../../containers/Sidebar';
 import MainContent from '../../components/MainContent';
 import { AddOrgDialog } from '../../containers/dialogs';
 import { requestSubscriberOrgs, requestAllTeams } from '../../actions';
+import '../styles/habla-general.css';
+import './styles/main.css';
 
 class Main extends Component {
   componentDidMount() {
