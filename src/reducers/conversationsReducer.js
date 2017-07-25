@@ -10,7 +10,9 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  data: { conversations: {}, teamRoomIds: {} },
+  conversations: {},
+  teamRoomIds: {},
+
   received: false,
   requesting: false,
   error: null,
@@ -26,7 +28,7 @@ function addMessages(messages, transcript) {
     mergedTranscript.messages[message.messageId] = message;
 
     if (message.replyTo) {
-      let parent = this.flattenedTree[message.replyTo];
+      let parent = mergedTranscript.flattenedTree[message.replyTo];
       if (!parent) {
         parent = { expanded: defaultExpanded, children: [] };
         mergedTranscript.flattenedTree[message.replyTo] = parent;
@@ -56,31 +58,35 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
       };
     case RECEIVE_CONVERSATIONS: {
       const { teamRoomId, conversations } = action.payload;
-      const stateData = _.cloneDeep(state.data);
+      let updateTeamRoomIds = state.teamRoomIds;
 
       if (teamRoomId) {
+        updateTeamRoomIds = _.cloneDeep(state.teamRoomIds)
         const conversationIds = [];
         conversations.forEach(conversation => conversationIds.push(conversation.conversationId));
-        stateData.teamRoomIds[teamRoomId] = { conversationIds };
+        updateTeamRoomIds[teamRoomId] = { conversationIds };
       }
 
+      const updateConversations = _.cloneDeep(state.conversations);
       conversations.forEach((conversation) => {
-        if (stateData.conversations[conversation.conversationId]) {
-          const stateDataConversation = stateData.conversations[conversation.conversationId];
-          stateDataConversation.participants = conversation.participants;
+        if (updateConversations[conversation.conversationId]) {
+          const updateConversation = updateConversations[conversation.conversationId];
+          updateConversation.participants = conversation.participants;
           if (conversation.teamRoomId) {
-            stateDataConversation.teamRoomId = conversation.teamRoomId;
+            updateConversation.teamRoomId = conversation.teamRoomId;
           } else {
-            delete stateDataConversation.teamRoomId;
+            delete updateConversation.teamRoomId;
           }
+          updateConversations[conversation.conversationId] = updateConversation;
         } else {
-          stateData.conversations[conversation.conversationId] = conversation;
+          updateConversations[conversation.conversationId] = conversation;
         }
       });
 
       return {
         ...state,
-        data: stateData,
+        conversations: updateConversations,
+        teamRoomIds: updateTeamRoomIds,
         received: true,
         requesting: false,
         error: null
@@ -88,16 +94,16 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
     }
     case RECEIVE_TRANSCRIPT: {
       const { conversationId, transcript } = action.payload;
-      const stateData = _.cloneDeep(state.data);
+      const updateConversations = _.cloneDeep(state.conversations);
 
-      const conversation = stateData.conversations[conversationId] || {};
+      const conversation = updateConversations[conversationId] || {};
       const { transcript: existingTranscript } = conversation;
       conversation.transcript = addMessages(transcript, existingTranscript);
-      stateData.conversations[conversationId] = conversation;
+      updateConversations[conversationId] = conversation;
 
       return {
         ...state,
-        data: stateData,
+        conversations: updateConversations,
         received: true,
         requesting: false,
         error: null

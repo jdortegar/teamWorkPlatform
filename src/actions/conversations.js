@@ -15,6 +15,13 @@ function requestingConversations({ teamRoomId }) {
   return { type: REQUESTING_CONVERSATIONS, payload: { teamRoomId } };
 }
 
+export function receiveConversations(conversations, teamRoomId) {
+  return {
+    type: RECEIVE_CONVERSATIONS,
+    payload: { teamRoomId, conversations }
+  };
+}
+
 export function requestConversationsError(error, { teamRoomId }) {
   return { type: REQUEST_CONVERSATIONS_ERROR, payload: new Error(error, { teamRoomId }), error: true };
 }
@@ -28,7 +35,7 @@ export function requestConversations({ teamRoomId }) {
     url += (teamRoomId) ? `?teamRoomId=${teamRoomId}` : url;
     return axios.get(url, axiosOptions)
       .then(response => response.data.conversations)
-      .then(conversations => dispatch({ type: RECEIVE_CONVERSATIONS, payload: { teamRoomId, conversations } }))
+      .then(conversations => dispatch(receiveConversations(conversations, teamRoomId)))
       .catch(err => dispatch(requestConversationsError(err, { teamRoomId })));
   };
 }
@@ -38,7 +45,7 @@ function requestingTranscript({ conversationId }) {
   return { type: REQUESTING_TRANSCRIPT, payload: { conversationId } };
 }
 
-export function receiveTranscript(conversationId, transcript) {
+export function receiveTranscript(transcript, conversationId) {
   return {
     type: RECEIVE_TRANSCRIPT,
     payload: { conversationId, transcript }
@@ -56,7 +63,7 @@ export function requestTranscript(conversationId) {
     dispatch(requestingTranscript(conversationId));
     return axios.get(`${config.hablaApiBaseUri}/conversations/getTranscript/${conversationId}`, axiosOptions)
       .then(response => response.data.messages)
-      .then(transcript => dispatch({ type: RECEIVE_TRANSCRIPT, payload: { conversationId, transcript } }))
+      .then(transcript => dispatch(receiveTranscript(transcript, conversationId)))
       .catch(err => dispatch(requestTranscriptError(err, conversationId)));
   };
 }

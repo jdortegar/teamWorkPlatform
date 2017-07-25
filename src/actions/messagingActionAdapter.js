@@ -2,6 +2,7 @@ import { EventTypes } from '../messaging';
 import { receiveSubscriberOrgs } from './subscriberOrgs';
 import { receiveTeams } from './teams';
 import { receiveTeamRooms } from './teamRooms';
+import { receiveConversations, receiveTranscript } from './conversations';
 
 let store;
 
@@ -19,6 +20,12 @@ export default function (eventType, event) {
       break;
     case EventTypes.teamRoomCreated:
       store.dispatch(receiveTeamRooms([event], event.teamId));
+      break;
+    case EventTypes.conversationCreated:
+      store.dispatch(receiveConversations([event], event.teamRoomId));
+      break;
+    case EventTypes.messageCreated:
+      store.dispatch(receiveTranscript([event], event.conversationId));
       break;
     default:
       console.log(`Unprocess messaging eventType=${eventType}`);

@@ -1,9 +1,12 @@
 import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import { Layout, Breadcrumb } from 'antd';
 import Header from '../../components/Header';
 import Sidebar from '../../containers/Sidebar';
 import MainContent from '../../components/MainContent';
 import { AddOrgDialog } from '../../containers/dialogs';
+import Chat from '../../containers/Chat';
+import { routesPaths } from '../../routes';
 
 function Main() {
   return (
@@ -17,7 +20,10 @@ function Main() {
             <Breadcrumb.Item>List</Breadcrumb.Item>
             <Breadcrumb.Item>App</Breadcrumb.Item>
           </Breadcrumb>
-          <MainContent />
+          <Switch>
+            <Route exact path={routesPaths.chat} component={Chat} />
+            <MainContent />
+          </Switch>
           <AddOrgDialog />
         </Layout>
       </Layout>

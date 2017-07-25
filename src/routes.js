@@ -5,16 +5,15 @@ import Main from './layouts/Main';
 import SignUp from './layouts/SignUp';
 
 export const routesPaths = {
-  app: '/app',
-  home: '/',
   register: '/register',
+  verifyAccount: '/verifyAccount/:uuid',
+  createAccount: '/createAccount',
   login: '/login',
   logout: '/logout',
-  chat: '/chat/:conversationId',
-  integrations: '/integrations/:subscriberOrgId',
-  subpage: '/subpage',
-  createAccount: '/createAccount',
-  verifyAccount: '/verifyAccount/:uuid'
+  home: '/',
+  app: '/app',
+  chat: '/app/chat/:conversationId',
+  integrations: '/app/integrations/:subscriberOrgId'
 };
 
 export default (
