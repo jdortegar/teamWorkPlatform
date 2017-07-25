@@ -4,7 +4,7 @@ import { Layout, Breadcrumb } from 'antd';
 import Header from '../../components/Header';
 import Sidebar from '../../containers/Sidebar';
 import MainContent from '../../components/MainContent';
-import { AddOrgDialog } from '../../containers/dialogs';
+import { AddOrgDialog, OrgSettingsDialog } from '../../containers/dialogs';
 import Chat from '../../containers/Chat';
 import { routesPaths } from '../../routes';
 
@@ -25,6 +25,7 @@ function Main() {
             <MainContent />
           </Switch>
           <AddOrgDialog />
+          <OrgSettingsDialog />
         </Layout>
       </Layout>
     </Layout>

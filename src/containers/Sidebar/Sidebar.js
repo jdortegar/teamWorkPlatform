@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Dropdown, Menu, Icon, Col, Row } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toggleOrgDialog, requestSubscriberOrgs, requestAllTeams } from '../../actions';
 
@@ -12,8 +13,8 @@ const propTypes = {
   requestSubscriberOrgs: PropTypes.func.isRequired,
   toggleOrgDialog: PropTypes.func.isRequired,
   requestAllTeams: PropTypes.func.isRequired,
-  subscriberOrgs: PropTypes.object.isRequired,
-  teams: PropTypes.object.isRequired
+  subscriberOrgs: PropTypes.array.isRequired,
+  teams: PropTypes.array.isRequired
 };
 
 const defaultProps = {
@@ -53,10 +54,32 @@ class Sidebar extends Component {
   }
 
   renderOrgs() {
-    return this.props.subscriberOrgs.map((org) => {
-      const teams = this.renderTeams(org.subscriberOrgId);
+    return this.props.subscriberOrgs.map(({ subscriberOrgId, name }) => {
+      const teams = this.renderTeams(subscriberOrgId);
+      const menu = (
+        <Menu>
+          <Menu.Item key="0">
+            <Link to={`/app/integrations/${subscriberOrgId}`}>Integrations</Link>
+          </Menu.Item>
+          <Menu.Item key="1">
+            <a>Invite People</a>
+          </Menu.Item>
+        </Menu>
+      );
+
       return (
-        <SubMenu key={org.subscriberOrgId} title={<span><Icon type="user" />{org.name}</span>}>
+        <SubMenu
+          key={subscriberOrgId}
+          title={
+            <Row gutter={16}>
+              <Col xs={{ span: 18 }}><span><Icon type="user" />{name}</span></Col>
+              <Col xs={{ span: 4 }}>
+                <Dropdown overlay={menu} trigger={['click']}>
+                  <a onClick={(e)=>e.stopPropagation()} title="Settings"><Icon type="setting" /></a>
+                </Dropdown>
+              </Col>
+            </Row>}
+        >
           {teams}
         </SubMenu>
       );
@@ -64,20 +87,18 @@ class Sidebar extends Component {
   }
 
   render() {
+    if (this.props.subscriberOrgs.length === 0) {
+      return null;
+    }
+
     return (
-      <Sider width={200} style={{ background: '#fff' }}>
+      <Sider width={225} style={{ background: '#fff' }}>
         <Menu
           mode="inline"
           style={{ height: '100%', borderRight: 0 }}
           onClick={this.handleClick}
         >
           { this.renderOrgs() }
-          <SubMenu key="sub1" title={<span><Icon type="user" />subnav 1</span>}>
-            <Menu.Item key="1">option1</Menu.Item>
-            <Menu.Item key="2">option2</Menu.Item>
-            <Menu.Item key="3">option3</Menu.Item>
-            <Menu.Item key="4">option4</Menu.Item>
-          </SubMenu>
           <Menu.Item key="add-org"><Icon type="plus" />Add Organization</Menu.Item>
         </Menu>
       </Sider>
