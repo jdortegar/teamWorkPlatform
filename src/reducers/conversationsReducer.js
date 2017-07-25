@@ -10,13 +10,13 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  conversations: {},
-  teamRoomIds: {},
+  conversationById: {},
+  conversationIdsByTeamRoomId: {},
+  activeConversationId: null,
 
   received: false,
   requesting: false,
-  error: null,
-  activeConversationId: null
+  error: null
 };
 
 const defaultExpanded = true;
@@ -58,35 +58,35 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
       };
     case RECEIVE_CONVERSATIONS: {
       const { teamRoomId, conversations } = action.payload;
-      let updateTeamRoomIds = state.teamRoomIds;
+      let updateConversationIdsByTeamRoomId = state.conversationIdsByTeamRoomId;
 
       if (teamRoomId) {
-        updateTeamRoomIds = _.cloneDeep(state.teamRoomIds)
+        updateConversationIdsByTeamRoomId = _.cloneDeep(state.conversationIdsByTeamRoomId);
         const conversationIds = [];
         conversations.forEach(conversation => conversationIds.push(conversation.conversationId));
-        updateTeamRoomIds[teamRoomId] = { conversationIds };
+        updateConversationIdsByTeamRoomId[teamRoomId] = { conversationIds };
       }
 
-      const updateConversations = _.cloneDeep(state.conversations);
+      const updateConversationById = _.cloneDeep(state.conversationById);
       conversations.forEach((conversation) => {
-        if (updateConversations[conversation.conversationId]) {
-          const updateConversation = updateConversations[conversation.conversationId];
+        if (updateConversationById[conversation.conversationId]) {
+          const updateConversation = updateConversationById[conversation.conversationId];
           updateConversation.participants = conversation.participants;
           if (conversation.teamRoomId) {
             updateConversation.teamRoomId = conversation.teamRoomId;
           } else {
             delete updateConversation.teamRoomId;
           }
-          updateConversations[conversation.conversationId] = updateConversation;
+          updateConversationById[conversation.conversationId] = updateConversation;
         } else {
-          updateConversations[conversation.conversationId] = conversation;
+          updateConversationById[conversation.conversationId] = conversation;
         }
       });
 
       return {
         ...state,
-        conversations: updateConversations,
-        teamRoomIds: updateTeamRoomIds,
+        conversationById: updateConversationById,
+        conversationIdsByTeamRoomId: updateConversationIdsByTeamRoomId,
         received: true,
         requesting: false,
         error: null
@@ -94,16 +94,16 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
     }
     case RECEIVE_TRANSCRIPT: {
       const { conversationId, transcript } = action.payload;
-      const updateConversations = _.cloneDeep(state.conversations);
+      const updateConversationById = _.cloneDeep(state.conversationById);
 
-      const conversation = updateConversations[conversationId] || {};
+      const conversation = updateConversationById[conversationId] || {};
       const { transcript: existingTranscript } = conversation;
       conversation.transcript = addMessages(transcript, existingTranscript);
-      updateConversations[conversationId] = conversation;
+      updateConversationById[conversationId] = conversation;
 
       return {
         ...state,
-        conversations: updateConversations,
+        conversationById: updateConversationById,
         received: true,
         requesting: false,
         error: null
