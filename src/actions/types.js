@@ -25,9 +25,10 @@ export const RECEIVE_SUBSCRIBER_ORGS = 'receive_subscriber_orgs';
 export const REQUEST_SUBSCRIBER_ORGS_ERROR = 'request_subscriber_orgs_error';
 export const SET_CURRENT_SUBSCRIBER_ORG_ID = 'set_current_subscriber_org_id';
 export const CREATE_SUBSCRIBER_ORG = 'create_subscriber_org';
-// TODO: is this needed? export const SHOW_INVITE_DIALOG = 'show_invite_dialog';
+export const SHOW_INVITE_DIALOG = 'show_invite_dialog';
 export const SHOW_ORG_DIALOG = 'show_org_dialog';
 export const SUBMITTING_ORG_FORM = 'submitting_org_form';
+export const SUBMITTING_INVITE_ORG_FORM = 'submitting_invite_org_form';
 
 //= =====================
 // Teams Actions

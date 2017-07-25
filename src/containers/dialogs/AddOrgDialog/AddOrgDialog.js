@@ -37,9 +37,9 @@ class AddOrgDialog extends Component {
     this.props.form.validateFields((err, name) => {
       if (!err) {
         this.props.createSubscriberOrg(name)
-        .then(() => {
-          this.props.toggleOrgDialog(false);
-        });
+          .then(() => {
+            this.props.toggleOrgDialog(false);
+          });
       }
     });
   }

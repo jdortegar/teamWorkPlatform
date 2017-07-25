@@ -22,7 +22,6 @@ class Register extends React.Component {
   }
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.props);
   }
 
   render() {

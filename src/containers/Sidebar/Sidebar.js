@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { toggleOrgDialog, requestSubscriberOrgs, requestAllTeams } from '../../actions';
+import { toggleOrgDialog,
+  requestSubscriberOrgs,
+  requestAllTeams,
+  toggleInvitePeopleDialog
+} from '../../actions';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -62,7 +66,7 @@ class Sidebar extends Component {
             <Link to={`/app/integrations/${subscriberOrgId}`}>Integrations</Link>
           </Menu.Item>
           <Menu.Item key="1">
-            <a>Invite People</a>
+            <a onClick={() => this.props.toggleInvitePeopleDialog(true, subscriberOrgId)}>Invite People</a>
           </Menu.Item>
         </Menu>
       );
@@ -118,7 +122,10 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ toggleOrgDialog, requestSubscriberOrgs, requestAllTeams }, dispatch);
+  return bindActionCreators({ toggleOrgDialog,
+    requestSubscriberOrgs,
+    requestAllTeams,
+    toggleInvitePeopleDialog }, dispatch);
 }
 
 Sidebar.propTypes = propTypes;

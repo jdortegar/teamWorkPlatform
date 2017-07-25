@@ -1,0 +1,6 @@
+.remove-field, .remove-field:hover {
+  color: #222;
+}
+.remove-field:hover {
+  text-decoration: underline;
+}
