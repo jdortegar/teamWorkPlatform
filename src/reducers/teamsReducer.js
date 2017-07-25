@@ -44,25 +44,25 @@ const teamsReducer = (state = INITIAL_STATE, action) => {
       const teamById = {};
       const teamIdsBySubscriberOrgId = {};
       const currentTeamIdBySubscriberOrgId = {};
-      action.payload.forEach((team) => {
-        teamById[team.teamId] = team;
-        let teamIds = teamIdsBySubscriberOrgId[team.subscriberOrgId];
-        if (!teamIds) {
-          teamIds = [];
-          teamIdsBySubscriberOrgId[team.subscriberOrgId] = teamIds;
-        }
-        teamIds.push(team.teamId);
-        if (team.teamId === state.currentTeamIdBySubscriberOrgId[team.subscriberOrgId]) {
-          currentTeamIdBySubscriberOrgId[team.subscriberOrgId] = team.teamId;
-        }
-      });
-
-      Object.keys(teamIdsBySubscriberOrgId).forEach((subscriberOrgId) => {
-        const currentTeamId = currentTeamIdBySubscriberOrgId[subscriberOrgId];
-        if ((!currentTeamId) || (currentTeamId === null)) {
-          currentTeamIdBySubscriberOrgId[subscriberOrgId] = defaultTeam(teamIdsBySubscriberOrgId[subscriberOrgId], teamById).teamId;
-        }
-      });
+      // action.payload.forEach((team) => {
+      //   teamById[team.teamId] = team;
+      //   let teamIds = teamIdsBySubscriberOrgId[team.subscriberOrgId];
+      //   if (!teamIds) {
+      //     teamIds = [];
+      //     teamIdsBySubscriberOrgId[team.subscriberOrgId] = teamIds;
+      //   }
+      //   teamIds.push(team.teamId);
+      //   if (team.teamId === state.currentTeamIdBySubscriberOrgId[team.subscriberOrgId]) {
+      //     currentTeamIdBySubscriberOrgId[team.subscriberOrgId] = team.teamId;
+      //   }
+      // });
+      //
+      // Object.keys(teamIdsBySubscriberOrgId).forEach((subscriberOrgId) => {
+      //   const currentTeamId = currentTeamIdBySubscriberOrgId[subscriberOrgId];
+      //   if ((!currentTeamId) || (currentTeamId === null)) {
+      //     currentTeamIdBySubscriberOrgId[subscriberOrgId] = defaultTeam(teamIdsBySubscriberOrgId[subscriberOrgId], teamById).teamId;
+      //   }
+      // });
 
       return {
         ...state,

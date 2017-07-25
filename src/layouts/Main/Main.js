@@ -3,7 +3,7 @@ import { Layout, Breadcrumb } from 'antd';
 import Header from '../../components/Header';
 import Sidebar from '../../containers/Sidebar';
 import MainContent from '../../components/MainContent';
-import { AddOrgDialog } from '../../containers/dialogs';
+import { AddOrgDialog, OrgSettingsDialog } from '../../containers/dialogs';
 
 function Main() {
   return (
@@ -19,6 +19,7 @@ function Main() {
           </Breadcrumb>
           <MainContent />
           <AddOrgDialog />
+          <OrgSettingsDialog />
         </Layout>
       </Layout>
     </Layout>

@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
-import { Form } from 'antd';
+import { Form, Modal } from 'antd';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Modal, Button } from 'antd';
+import PropTypes from 'prop-types';
 import TextField from '../../../components/formFields/TextField';
 import { createSubscriberOrg, toggleOrgDialog } from '../../../actions';
+import { formShape } from '../../../propTypes';
+
+const propTypes = {
+  form: formShape.isRequired,
+  createSubscriberOrg: PropTypes.func.isRequired,
+  toggleOrgDialog: PropTypes.func.isRequired,
+  submittingOrgForm: PropTypes.bool.isRequired,
+  showOrgDialog: PropTypes.bool.isRequired
+};
 
 class AddOrgDialog extends Component {
   constructor(props) {
@@ -65,11 +74,13 @@ function mapStateToProps(state) {
   return {
     showOrgDialog: state.dialogs.showOrgDialog,
     submittingOrgForm: state.subscriberOrgs.submittingOrgForm
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ createSubscriberOrg, toggleOrgDialog }, dispatch);
 }
+
+AddOrgDialog.propTypes = propTypes;
 
 export default Form.create()(connect(mapStateToProps, mapDispatchToProps)(AddOrgDialog));
