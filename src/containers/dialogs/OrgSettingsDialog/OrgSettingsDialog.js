@@ -14,7 +14,7 @@ class OrgSettingsDialog extends Component {
         title="Organization Settings"
         cancelText="Cancel"
         okText="OK"
-        visible
+        visible={false}
         onOk={null}
         afterClose={null}
         onCancel={null}

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Icon, Col, Row } from 'antd';
+import { Layout, Dropdown, Menu, Icon, Col, Row } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toggleOrgDialog, requestSubscriberOrgs, requestAllTeams } from '../../actions';
 
@@ -53,12 +54,31 @@ class Sidebar extends Component {
   }
 
   renderOrgs() {
-    return this.props.subscriberOrgs.map((org) => {
-      const teams = this.renderTeams(org.subscriberOrgId);
+    return this.props.subscriberOrgs.map(({ subscriberOrgId, name }) => {
+      const teams = this.renderTeams(subscriberOrgId);
+      const menu = (
+        <Menu>
+          <Menu.Item key="0">
+            <Link to={`/app/integrations/${subscriberOrgId}`}>Integrations</Link>
+          </Menu.Item>
+          <Menu.Item key="1">
+            <a>Invite People</a>
+          </Menu.Item>
+        </Menu>
+      );
+
       return (
         <SubMenu
-          key={org.subscriberOrgId}
-          title={<Row gutter={16}><Col xs={{ span: 18 }}><span><Icon type="user" />{org.name}</span></Col><Col xs={{ span: 4 }}><a onClick={(e)=>e.stopPropagation()} title="Invite People"><Icon type="setting" /></a></Col></Row>}
+          key={subscriberOrgId}
+          title={
+            <Row gutter={16}>
+              <Col xs={{ span: 18 }}><span><Icon type="user" />{name}</span></Col>
+              <Col xs={{ span: 4 }}>
+                <Dropdown overlay={menu} trigger={['click']}>
+                  <a onClick={(e)=>e.stopPropagation()} title="Settings"><Icon type="setting" /></a>
+                </Dropdown>
+              </Col>
+            </Row>}
         >
           {teams}
         </SubMenu>
