@@ -9,6 +9,7 @@ import { toggleOrgDialog,
   requestAllTeams,
   toggleInvitePeopleDialog
 } from '../../actions';
+import './styles/style.css';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -97,13 +98,16 @@ class Sidebar extends Component {
 
     return (
       <Sider width={225} style={{ background: '#fff' }}>
+        <div className="sidebar-menu-item-label">Your Organizations</div>
         <Menu
           mode="inline"
           style={{ height: '100%', borderRight: 0 }}
           onClick={this.handleClick}
         >
           { this.renderOrgs() }
-          <Menu.Item key="add-org"><Icon type="plus" />Add Organization</Menu.Item>
+          <Menu.Item key="add-org">
+            <div className="add-organization-button"><Icon type="plus" />Add Organization</div>
+          </Menu.Item>
         </Menu>
       </Sider>
     );
