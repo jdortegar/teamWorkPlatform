@@ -17,8 +17,8 @@ const propTypes = {
 };
 
 const defaultProps = {
-  subscriberOrgs: {},
-  teams: {}
+  subscriberOrgs: [],
+  teams: []
 };
 
 class Sidebar extends Component {
