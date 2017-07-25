@@ -3,17 +3,21 @@ import { Col, Row, Form, Modal, Icon } from 'antd';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import _ from 'lodash';
 import EmailField from '../../../components/formFields/EmailField';
-import { toggleInvitePeopleDialog, inviteUser } from '../../../actions';
+import { toggleInvitePeopleDialog, inviteUser, submitInviteOrgForm } from '../../../actions';
 import { formShape } from '../../../propTypes';
+import config from '../../../config/env';
+import { getJwt } from '../../../session';
 import './styles/style.css';
 
 const propTypes = {
   form: formShape.isRequired,
   inviteUser: PropTypes.func.isRequired,
   toggleInvitePeopleDialog: PropTypes.func.isRequired,
-  submittingOrgForm: PropTypes.bool.isRequired,
+  submitInviteOrgForm: PropTypes.func.isRequired,
+  submittingInviteOrgForm: PropTypes.bool.isRequired,
   showInvitePeopleDialog: PropTypes.bool.isRequired,
   currentInviteSubscriberOrg: PropTypes.string
 };
@@ -54,6 +58,7 @@ class InvitePeopleDialog extends Component {
   }
 
   resetForm() {
+    this.setState({ invitees: 0, inviteesArr: [0] });
     this.props.form.resetFields();
   }
 
@@ -61,8 +66,18 @@ class InvitePeopleDialog extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, emails) => {
       if (!err) {
+        const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
         const users = _.values(emails);
-        this.props.inviteUser(users, this.props.currentInviteSubscriberOrg);
+        const { currentInviteSubscriberOrg } = this.props;
+
+        this.props.submitInviteOrgForm(true);
+
+        axios.post(`${config.hablaApiBaseUri}/subscriberOrgs/inviteSubscribers/${currentInviteSubscriberOrg}`,
+          { userIdOrEmails: users }, axiosOptions)
+          .then(() => {
+            this.props.submitInviteOrgForm(false);
+            this.hideDialog();
+          });
       }
     });
   }
@@ -97,7 +112,7 @@ class InvitePeopleDialog extends Component {
         okText="Send Invitations"
         visible={this.props.showInvitePeopleDialog}
         onOk={this.handleSubmit}
-        confirmLoading={this.props.submittingOrgForm}
+        confirmLoading={this.props.submittingInviteOrgForm}
         afterClose={this.resetForm}
         onCancel={this.hideDialog}
       >
@@ -119,7 +134,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ toggleInvitePeopleDialog, inviteUser }, dispatch);
+  return bindActionCreators({ toggleInvitePeopleDialog, inviteUser, submitInviteOrgForm }, dispatch);
 }
 
 InvitePeopleDialog.propTypes = propTypes;
