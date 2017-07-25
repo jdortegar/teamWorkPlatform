@@ -2,10 +2,24 @@ import React, { Component } from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { toggleOrgDialog } from '../../actions';
+import PropTypes from 'prop-types';
+import { toggleOrgDialog, requestSubscriberOrgs, requestAllTeams } from '../../actions';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
+
+const propTypes = {
+  requestSubscriberOrgs: PropTypes.func.isRequired,
+  toggleOrgDialog: PropTypes.func.isRequired,
+  requestAllTeams: PropTypes.func.isRequired,
+  subscriberOrgs: PropTypes.object.isRequired,
+  teams: PropTypes.object.isRequired
+};
+
+const defaultProps = {
+  subscriberOrgs: {},
+  teams: {}
+};
 
 class Sidebar extends Component {
   constructor(props) {
@@ -14,18 +28,23 @@ class Sidebar extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
+  componentDidMount() {
+    this.props.requestSubscriberOrgs();
+    this.props.requestAllTeams();
+  }
+
   handleClick({ key }) {
     switch (key) {
-      case "add-org":
+      case 'add-org':
         return this.props.toggleOrgDialog(true);
       default:
-        return;
+        return null;
     }
   }
 
   renderTeams(orgId) {
     return this.props.teams.reduce((acc, team) => {
-      if(team.subscriberOrgId === orgId) {
+      if (team.subscriberOrgId === orgId) {
         acc.push(<Menu.Item key={team.teamId}>{team.name}</Menu.Item>);
       }
 
@@ -34,7 +53,7 @@ class Sidebar extends Component {
   }
 
   renderOrgs() {
-    return this.props.subscriberOrgs.map((org, index) => {
+    return this.props.subscriberOrgs.map((org) => {
       const teams = this.renderTeams(org.subscriberOrgId);
       return (
         <SubMenu key={org.subscriberOrgId} title={<span><Icon type="user" />{org.name}</span>}>
@@ -69,12 +88,19 @@ class Sidebar extends Component {
 function mapStateToProps(state) {
   return {
     subscriberOrgs: state.subscriberOrgs.raw,
-    teams: state.teams.raw
-  }
+    currentSubscriberOrgId: state.subscriberOrgs.currentSubscriberOrgId,
+    teams: state.teams.raw,
+    teamById: state.teams.teamById,
+    teamIdsBySubscriberOrgId: state.teams.teamIdsBySubscriberOrgId,
+    currentTeamIdBySubscriberOrgId: state.teams.currentTeamIdBySubscriberOrgId
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ toggleOrgDialog }, dispatch);
+  return bindActionCreators({ toggleOrgDialog, requestSubscriberOrgs, requestAllTeams }, dispatch);
 }
+
+Sidebar.propTypes = propTypes;
+Sidebar.defaultProps = defaultProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
