@@ -45,26 +45,15 @@ class Integrations extends Component {
 
     const { subscriberOrgId } = this.props.match.params;
     const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || [];
+
     // TODO: using data, see which ones are integrated, not integrated, and expired.
     // Expired only makes sense if integrated = true.
     // Render accordingly.
-    console.log(`AD: data=${JSON.stringify(data)}`);
-    let googleIntegrated = false;
-    let googleExpired = false;
-    let boxIntegrated = false;
-    let boxExpired = false;
-    integrations.forEach((org) => {
-      if (org.subscriberOrgId === subscriberOrgId) {
-        if (org.google) {
-          googleIntegrated = true;
-          googleExpired = org.google.expired || false;
-        }
-        if (org.box) {
-          boxIntegrated = true;
-          boxExpired = org.box.expired || false;
-        }
-      }
-    });
+    const { google, box } = integrations;
+    const googleIntegrated = (google) ? true : false;
+    const googleExpired = (google) ? google.expired : undefined;
+    const boxIntegrated = (box) ? true : false;
+    const boxExpired = (box) ? box.expired : undefined;
 
     return (
       <div style={{ marginLeft: '320px' }}>
@@ -76,8 +65,10 @@ class Integrations extends Component {
               </div>
               <div className="center">
                 <a onClick={() => this.handleGoogleDrive()}><img alt="Google" src="https://c1.staticflickr.com/5/4240/35080287162_0d6aef000a_o.png" style={{ width: '200px', height: '200px' }} /></a>
+                <div>Google Drive{(googleIntegrated) ? ' Integrated ' : ''}{(googleExpired) ? ' (Expired)' : ''}</div>
                 <br />
                 <a onClick={() => this.handleBox()}><img alt="Box" src="https://c1.staticflickr.com/5/4220/34858435850_3ff5486f73_o.png" style={{ width: '200px', height: '200px' }} /></a>
+                <div>Box{(boxIntegrated) ? ' Integrated' : ''}{(boxExpired) ? ' (Expired)' : ''}</div>
               </div>
             </div>
           </div>
