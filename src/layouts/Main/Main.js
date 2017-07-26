@@ -6,6 +6,7 @@ import Sidebar from '../../containers/Sidebar';
 import MainContent from '../../components/MainContent';
 import { AddOrgDialog, OrgSettingsDialog, InvitePeopleDialog } from '../../containers/dialogs';
 import Chat from '../../containers/Chat';
+import Integrations from '../../containers/Integrations';
 import { routesPaths } from '../../routes';
 import './styles/main.css';
 import '../styles/habla-brand-styles.css';
@@ -24,6 +25,7 @@ function Main() {
           </Breadcrumb>
           <Switch>
             <Route exact path={routesPaths.chat} component={Chat} />
+            <Route exact path={routesPaths.integrations} component={Integrations} />
             <MainContent />
           </Switch>
           <AddOrgDialog />

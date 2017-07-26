@@ -94,16 +94,17 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
     }
     case RECEIVE_TRANSCRIPT: {
       const { conversationId, transcript } = action.payload;
-      const updateConversationById = _.cloneDeep(state.conversationById);
+      const updateConversations = _.cloneDeep(state.conversations);
 
-      const conversation = updateConversationById[conversationId] || {};
+
+      const conversation = updateConversations[conversationId] || {};
       const { transcript: existingTranscript } = conversation;
       conversation.transcript = addMessages(transcript, existingTranscript);
-      updateConversationById[conversationId] = conversation;
+      updateConversations[conversationId] = conversation;
 
       return {
         ...state,
-        conversationById: updateConversationById,
+        conversationById: updateConversations,
         received: true,
         requesting: false,
         error: null
