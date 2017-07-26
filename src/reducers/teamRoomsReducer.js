@@ -48,25 +48,25 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
       const teamRoomById = {};
       const teamRoomIdsByTeamId = {};
       const currentTeamRoomIdByTeamId = {};
-      action.payload.forEach((teamRoom) => {
-        teamRoomById[teamRoom.teamRoomId] = teamRoom;
-        let teamRoomIds = teamRoomIdsByTeamId[teamRoom.teamId];
-        if (!teamRoomIds) {
-          teamRoomIds = [];
-          teamRoomIdsByTeamId[teamRoom.teamId] = teamRoomIds;
-        }
-        teamRoomIds.push(teamRoom.teamRoomId);
-        if (teamRoom.teamRoomId === state.currentTeamRoomIdByTeamId[teamRoom.teamId]) {
-          currentTeamRoomIdByTeamId[teamRoom.teamId] = teamRoom.teamRoomId;
-        }
-      });
-
-      Object.keys(teamRoomIdsByTeamId).forEach((teamId) => {
-        const currentTeamRoomId = currentTeamRoomIdByTeamId[teamId];
-        if ((!currentTeamRoomId) || (currentTeamRoomId === null)) {
-          currentTeamRoomIdByTeamId[teamId] = defaultTeamRoom(teamRoomIdsByTeamId[teamId], teamRoomById).teamRoomId;
-        }
-      });
+      // action.payload.forEach((teamRoom) => {
+      //   teamRoomById[teamRoom.teamRoomId] = teamRoom;
+      //   let teamRoomIds = teamRoomIdsByTeamId[teamRoom.teamId];
+      //   if (!teamRoomIds) {
+      //     teamRoomIds = [];
+      //     teamRoomIdsByTeamId[teamRoom.teamId] = teamRoomIds;
+      //   }
+      //   teamRoomIds.push(teamRoom.teamRoomId);
+      //   if (teamRoom.teamRoomId === state.currentTeamRoomIdByTeamId[teamRoom.teamId]) {
+      //     currentTeamRoomIdByTeamId[teamRoom.teamId] = teamRoom.teamRoomId;
+      //   }
+      // });
+      //
+      // Object.keys(teamRoomIdsByTeamId).forEach((teamId) => {
+      //   const currentTeamRoomId = currentTeamRoomIdByTeamId[teamId];
+      //   if ((!currentTeamRoomId) || (currentTeamRoomId === null)) {
+      //     currentTeamRoomIdByTeamId[teamId] = defaultTeamRoom(teamRoomIdsByTeamId[teamId], teamRoomById).teamRoomId;
+      //   }
+      // });
 
       return {
         ...state,

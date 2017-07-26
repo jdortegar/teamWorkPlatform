@@ -71,12 +71,14 @@ class InvitePeopleDialog extends Component {
 
         this.props.submitInviteOrgForm(true);
 
-        axios.post(`${config.hablaApiBaseUri}/subscriberOrgs/inviteSubscribers/${currentInviteSubscriberOrg}`,
-          { userIdOrEmails: users }, axiosOptions)
-          .then(() => {
-            this.props.submitInviteOrgForm(false);
-            this.hideDialog();
-          });
+        axios.post(
+          `${config.hablaApiBaseUri}/subscriberOrgs/inviteSubscribers/${currentInviteSubscriberOrg}`,
+          { userIdOrEmails: users },
+          axiosOptions)
+        .then(() => {
+          this.props.submitInviteOrgForm(false);
+          this.hideDialog();
+        });
       }
     });
   }

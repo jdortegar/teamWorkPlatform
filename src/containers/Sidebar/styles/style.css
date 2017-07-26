@@ -16,11 +16,6 @@
 	color: #557dbf;
 	background: #f6f6f6;
 }
-.ant-menu-submenu-open
-, .ant-menu-submenu-open .ant-menu-submenu-title:hover  {
-	color: #fff;
-	background: #5b86ce;
-}
 .add-organization-button {
 	background: #36b659;
 	color: #fff;

@@ -7,7 +7,9 @@ import PropTypes from 'prop-types';
 import { toggleOrgDialog,
   requestSubscriberOrgs,
   requestAllTeams,
-  toggleInvitePeopleDialog
+  requestAllTeamRooms,
+  toggleInvitePeopleDialog,
+  toggleOrgSettingsDialog
 } from '../../actions';
 import './styles/style.css';
 
@@ -17,14 +19,19 @@ const { SubMenu } = Menu;
 const propTypes = {
   requestSubscriberOrgs: PropTypes.func.isRequired,
   toggleOrgDialog: PropTypes.func.isRequired,
+  toggleInvitePeopleDialog: PropTypes.func.isRequired,
+  toggleOrgSettingsDialog: PropTypes.func.isRequired,
+  requestAllTeamRooms: PropTypes.func.isRequired,
   requestAllTeams: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.array.isRequired,
-  teams: PropTypes.array.isRequired
+  teams: PropTypes.array.isRequired,
+  teamRooms: PropTypes.array.isRequired
 };
 
 const defaultProps = {
   subscriberOrgs: [],
-  teams: []
+  teams: [],
+  teamRooms: []
 };
 
 class Sidebar extends Component {
@@ -37,6 +44,7 @@ class Sidebar extends Component {
   componentDidMount() {
     this.props.requestSubscriberOrgs();
     this.props.requestAllTeams();
+    this.props.requestAllTeamRooms();
   }
 
   handleClick({ key }) {
@@ -48,10 +56,22 @@ class Sidebar extends Component {
     }
   }
 
+  renderTeamRooms(teamId) {
+    return this.props.teamRooms.reduce((acc, teamRoom) => {
+      if (teamId === teamRoom.teamId) {
+        acc.push(<Menu.Item key={teamRoom.teamRoomId}>{teamRoom.name}</Menu.Item>);
+      }
+
+      return acc;
+    }, []);
+  }
+
   renderTeams(orgId) {
     return this.props.teams.reduce((acc, team) => {
       if (team.subscriberOrgId === orgId) {
-        acc.push(<Menu.Item key={team.teamId}>{team.name}</Menu.Item>);
+        const teamRooms = this.renderTeamRooms(team.teamId);
+
+        acc.push(<SubMenu key={team.teamId} title={team.name}>{ teamRooms }</SubMenu>);
       }
 
       return acc;
@@ -69,6 +89,9 @@ class Sidebar extends Component {
           <Menu.Item key="1">
             <a onClick={() => this.props.toggleInvitePeopleDialog(true, subscriberOrgId)}>Invite People</a>
           </Menu.Item>
+          <Menu.Item key="2">
+            <a onClick={() => this.props.toggleOrgSettingsDialog(true, subscriberOrgId)}>Settings</a>
+          </Menu.Item>
         </Menu>
       );
 
@@ -80,7 +103,7 @@ class Sidebar extends Component {
               <Col xs={{ span: 18 }}><span><Icon type="user" />{name}</span></Col>
               <Col xs={{ span: 4 }}>
                 <Dropdown overlay={menu} trigger={['click']}>
-                  <a onClick={(e)=>e.stopPropagation()} title="Settings"><Icon type="setting" /></a>
+                  <a onClick={e => e.stopPropagation()} title="Settings"><Icon type="setting" /></a>
                 </Dropdown>
               </Col>
             </Row>}
@@ -121,6 +144,7 @@ function mapStateToProps(state) {
     teams: state.teams.raw,
     teamById: state.teams.teamById,
     teamIdsBySubscriberOrgId: state.teams.teamIdsBySubscriberOrgId,
+    teamRooms: state.teamRooms.raw,
     currentTeamIdBySubscriberOrgId: state.teams.currentTeamIdBySubscriberOrgId
   };
 }
@@ -129,7 +153,9 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ toggleOrgDialog,
     requestSubscriberOrgs,
     requestAllTeams,
-    toggleInvitePeopleDialog }, dispatch);
+    toggleInvitePeopleDialog,
+    requestAllTeamRooms,
+    toggleOrgSettingsDialog }, dispatch);
 }
 
 Sidebar.propTypes = propTypes;
