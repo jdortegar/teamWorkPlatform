@@ -19,20 +19,20 @@ const INITIAL_STATE = {
 };
 
 function defaultTeamRoom(teamRoomIds, teamRoomById) {
-  // The primary team room.
-  let selectedTeamRoom = null;
+  // The primary team room, or first active, or first.
+  let primaryTeamRoom;
+  let activeTeamRoom;
   for (const teamRoomId of teamRoomIds) {
     const teamRoom = teamRoomById[teamRoomId];
     if (teamRoom.primary === true) {
-      selectedTeamRoom = teamRoom;
+      primaryTeamRoom = teamRoom;
       break;
     }
+    if ((!activeTeamRoom) && (teamRoom.active)) {
+      activeTeamRoom = teamRoom;
+    }
   }
-  if ((selectedTeamRoom === null) && (teamRoomIds.length > 0)) { // TODO: remove.  temporary hack.
-    selectedTeamRoom = teamRoomById[teamRoomIds[0]];
-    selectedTeamRoom.primary = true;
-  }
-  return selectedTeamRoom;
+  return primaryTeamRoom || activeTeamRoom || teamRoomById[teamRoomIds[0]];
 }
 
 const teamRoomsReducer = (state = INITIAL_STATE, action) => {
@@ -67,7 +67,6 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
       //     currentTeamRoomIdByTeamId[teamId] = defaultTeamRoom(teamRoomIdsByTeamId[teamId], teamRoomById).teamRoomId;
       //   }
       // });
-
       return {
         ...state,
         raw: action.payload,

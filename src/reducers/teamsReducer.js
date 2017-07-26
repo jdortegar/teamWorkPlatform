@@ -19,16 +19,20 @@ const INITIAL_STATE = {
 };
 
 function defaultTeam(teamIds, teamById) {
-  // The primary team.
-  let selectedTeam = null;
+  // The primary team, or first active, or first.
+  let primaryTeam;
+  let activeTeam;
   for (const teamId of teamIds) {
     const team = teamById[teamId];
     if (team.primary === true) {
-      selectedTeam = team;
+      primaryTeam = team;
       break;
     }
+    if ((!activeTeam) && (team.active === true)) {
+      activeTeam = team;
+    }
   }
-  return selectedTeam;
+  return primaryTeam || activeTeam || teamById[teamIds[0]];
 }
 
 const teamsReducer = (state = INITIAL_STATE, action) => {
@@ -44,25 +48,26 @@ const teamsReducer = (state = INITIAL_STATE, action) => {
       const teamById = {};
       const teamIdsBySubscriberOrgId = {};
       const currentTeamIdBySubscriberOrgId = {};
-      // action.payload.forEach((team) => {
-      //   teamById[team.teamId] = team;
-      //   let teamIds = teamIdsBySubscriberOrgId[team.subscriberOrgId];
-      //   if (!teamIds) {
-      //     teamIds = [];
-      //     teamIdsBySubscriberOrgId[team.subscriberOrgId] = teamIds;
-      //   }
-      //   teamIds.push(team.teamId);
-      //   if (team.teamId === state.currentTeamIdBySubscriberOrgId[team.subscriberOrgId]) {
-      //     currentTeamIdBySubscriberOrgId[team.subscriberOrgId] = team.teamId;
-      //   }
-      // });
-      //
-      // Object.keys(teamIdsBySubscriberOrgId).forEach((subscriberOrgId) => {
-      //   const currentTeamId = currentTeamIdBySubscriberOrgId[subscriberOrgId];
-      //   if ((!currentTeamId) || (currentTeamId === null)) {
-      //     currentTeamIdBySubscriberOrgId[subscriberOrgId] = defaultTeam(teamIdsBySubscriberOrgId[subscriberOrgId], teamById).teamId;
-      //   }
-      // });
+      action.payload.forEach((team) => {
+        teamById[team.teamId] = team;
+        let teamIds = teamIdsBySubscriberOrgId[team.subscriberOrgId];
+        if (!teamIds) {
+          teamIds = [];
+          teamIdsBySubscriberOrgId[team.subscriberOrgId] = teamIds;
+        }
+        teamIds.push(team.teamId);
+        if (team.teamId === state.currentTeamIdBySubscriberOrgId[team.subscriberOrgId]) {
+          currentTeamIdBySubscriberOrgId[team.subscriberOrgId] = team.teamId;
+        }
+      });
+
+      Object.keys(teamIdsBySubscriberOrgId).forEach((subscriberOrgId) => {
+        const currentTeamId = currentTeamIdBySubscriberOrgId[subscriberOrgId];
+        if ((!currentTeamId) || (currentTeamId === null)) {
+          const selectedTeam = defaultTeam(teamIdsBySubscriberOrgId[subscriberOrgId], teamById);
+          currentTeamIdBySubscriberOrgId[subscriberOrgId] = (selectedTeam) ? selectedTeam.teamId : null;
+        }
+      });
 
       return {
         ...state,

@@ -6,7 +6,7 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  data: [],
+  integrationsBySubscriberOrgId: {},
   received: false,
   requesting: false,
   error: null
@@ -17,23 +17,28 @@ const integrationsReducer = (state = INITIAL_STATE, action) => {
     case REQUESTING_INTEGRATIONS:
       return {
         ...state,
-        data: [],
         received: false,
         requesting: true,
         error: null
       };
-    case RECEIVE_INTEGRATIONS:
+    case RECEIVE_INTEGRATIONS: {
+      const updateIntegrationsBySubscriberOrgId = _.cloneDeep(state.integrationsBySubscriberOrgId);
+      action.payload.forEach((integration) => {
+        const { subscriberOrgId, box, google } = integration;
+        const updateIntegration = { box, google };
+        updateIntegrationsBySubscriberOrgId[subscriberOrgId] = updateIntegration;
+      });
       return {
         ...state,
-        data: _.merge(state.data, action.payload),
+        integrationsBySubscriberOrgId: updateIntegrationsBySubscriberOrgId,
         received: true,
         requesting: false,
         error: null
       };
+    }
     case REQUEST_INTEGRATIONS_ERROR:
       return {
         ...state,
-        data: [],
         received: false,
         requesting: false,
         error: action.payload
