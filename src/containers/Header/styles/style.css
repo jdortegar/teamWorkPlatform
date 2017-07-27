@@ -34,4 +34,8 @@
 .ant-menu-horizontal > .ant-menu-item, .ant-menu-horizontal > .ant-menu-submenu {
 	float: right;
 }
+.ant-dropdown-menu-item {
+	background-color: #000!important;
+}
+
 

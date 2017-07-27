@@ -1,3 +1,28 @@
+/* General CSS Styles for Habla Web App */
 body {
 	font-family: 'Lato', sans-serif;
+}
+
+/* General CSS Styles for Habla Web App Modal Windows */
+.ant-modal-footer {
+	border: none;
+}
+.ant-modal-title {
+	font-weight: bold;
+}
+
+
+
+
+/* General CSS Styles for Habla Web App Responsive Items */
+@media only screen and (max-width: 800px) {
+    .header .ant-menu span {
+        display: none;
+    }
+    .header .ant-menu-item {
+        padding: 0 10px;
+    }
+    .header .ant-menu li i {
+	    margin: 0;
+    }
 }
