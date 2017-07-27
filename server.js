@@ -26,10 +26,10 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
-const nodePort = process.env.NODE_PORT || 8080;
+const nodePort = process.env.NODE_PORT || 8081;
 server.listen(nodePort, (err) => {
   if (err) {
     // console.error(err);
   }
-  // console.log(`Listening at localhost:${nodePort}`);
+  console.log(`Listening at localhost:${nodePort}`);
 });
