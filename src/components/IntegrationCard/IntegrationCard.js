@@ -12,7 +12,7 @@ function IntegrationCard(props) {
       return (<a onClick={handleIntegration}>Reauthorize</a>);
     }
 
-    return (<a onClick={handleIntegration}>Add Integration</a>);
+    return (<a onClick={handleIntegration}>Authorize</a>);
   }
 
   return (
