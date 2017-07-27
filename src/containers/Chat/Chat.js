@@ -41,11 +41,11 @@ class Chat extends Component {
   }
 
   render() {
-    const { activeConversationId, conversationById } = this.props;
-    console.log(this.props);
-    if ((activeConversationId === null) || (!conversationById) || (!conversationById[activeConversationId])) {
-      return null;
-    }
+    // const { activeConversationId, conversationById } = this.props;
+    //
+    // if ((activeConversationId === null) || (!conversationById) || (!conversationById[activeConversationId])) {
+    //   return null;
+    // }
 
     return (
       <div>Chat page</div>

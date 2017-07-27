@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
+import { Card, Row, Col } from 'antd';
 import { object, func } from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import IntegrationCard from '../../components/IntegrationCard';
 import { integrateBox, integrateGoogle, requestIntegrations } from '../../actions';
-import './styles/integrations.css';
+import './styles/style.css';
+
+const propTypes = {
+  match: object.isRequired,
+  requestIntegrations: func.isRequired,
+  integrations: object.isRequired,
+  integrateGoogle: func.isRequired,
+  integrateBox: func.isRequired
+}
 
 class Integrations extends Component {
-  static propTypes = {
-    match: object.isRequired,
-    requestIntegrations: func.isRequired,
-    integrations: object.isRequired,
-    integrateGoogle: func.isRequired,
-    integrateBox: func.isRequired
-  };
-
   componentDidMount() {
     const { subscriberOrgId } = this.props.match.params;
     this.props.requestIntegrations(subscriberOrgId);
@@ -56,24 +58,46 @@ class Integrations extends Component {
     const boxExpired = (box) ? box.expired : undefined;
 
     return (
-      <div style={{ marginLeft: '320px' }}>
-        <section>
-          <div className="row">
-            <div className="col-md-12">
-              <div className="header">
-                <h1> Integrations </h1>
-              </div>
-              <div className="center">
-                <a onClick={() => this.handleGoogleDrive()}><img alt="Google" src="https://c1.staticflickr.com/5/4240/35080287162_0d6aef000a_o.png" style={{ width: '200px', height: '200px' }} /></a>
-                <div>Google Drive{(googleIntegrated) ? ' Integrated ' : ''}{(googleExpired) ? ' (Expired)' : ''}</div>
-                <br />
-                <a onClick={() => this.handleBox()}><img alt="Box" src="https://c1.staticflickr.com/5/4220/34858435850_3ff5486f73_o.png" style={{ width: '200px', height: '200px' }} /></a>
-                <div>Box{(boxIntegrated) ? ' Integrated' : ''}{(boxExpired) ? ' (Expired)' : ''}</div>
-              </div>
-            </div>
-          </div>
-        </section>
+      <div>
+        <h1 style={{ textAlign: 'center' }}> Integrations </h1>
+        <Row style={{ marginTop: '30px' }} type="flex" justify="space-around">
+          <Col className="gutter-row" span={5}>
+            <IntegrationCard
+              name="Google Drive"
+              img="https://c1.staticflickr.com/5/4240/35080287162_0d6aef000a_o.png"
+              integrated={googleIntegrated}
+              expired={googleExpired}
+              handleIntegration={() => this.handleGoogleDrive()}
+            />
+          </Col>
+          <Col className="gutter-row" span={5}>
+            <IntegrationCard
+              name="Box"
+              img="https://c1.staticflickr.com/5/4220/34858435850_3ff5486f73_o.png"
+              integrated={boxIntegrated}
+              expired={boxExpired}
+              handleIntegration={() => this.handleBox()}
+            />
+          </Col>
+        </Row>
       </div>
+      // <div style={{ marginLeft: '320px' }}>
+      //   <section>
+      //     <div className="row">
+      //       <div className="col-md-12">
+      //         <div className="header">
+      //
+      //         </div>
+      //         <div className="center">
+      //           <div>Google Drive</div>
+      //           <br />
+      //           <a onClick={() => this.handleBox()}><img alt="Box" src="" style={{ width: '200px', height: '200px' }} /></a>
+      //           <div>Box{(boxIntegrated) ? ' Integrated' : ''}{(boxExpired) ? ' (Expired)' : ''}</div>
+      //         </div>
+      //       </div>
+      //     </div>
+      //   </section>
+      // </div>
     );
   }
 }
@@ -87,5 +111,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   integrateBox,
   integrateGoogle
 }, dispatch);
+
+Integrations.propTypes = propTypes;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Integrations);
