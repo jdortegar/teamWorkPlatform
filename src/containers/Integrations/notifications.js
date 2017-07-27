@@ -1,7 +1,7 @@
 function selectProvider(integration) {
-  if(integration === 'google') {
+  if (integration === 'google') {
     return 'Google Drive';
-  } else if(integration === 'box') {
+  } else if (integration === 'box') {
     return 'Box';
   }
 }
@@ -12,11 +12,30 @@ export function successfulIntegration(integration) {
   return {
     message: 'Successful Integration',
     description: `You have successfully authorized ${provider} access.`,
-    icon: <Icon type="check" style={{ color: '#00a854' }} />,
-    duration: 4,
+    duration: 4
   };
 }
 
-export function badIntegration(integration, status) {
+export function badIntegration({ integration, status }) {
   const provider = selectProvider(integration);
+
+  if (status === 'FORBIDDEN') {
+    return {
+      message: 'Something Wrong',
+      description: `You did not authorize ${provider} access`,
+      duration: 4,
+    };
+  } else if (status === 'NOT_FOUND') {
+    return {
+      message: 'Something Wrong',
+      description: `You don't have permission to do add a provider`,
+      duration: 4,
+    };
+  } else if (status === 'INTERNAL_SERVER_ERROR') {
+    return {
+      message: 'Something Wrong',
+      description: `We were unable to add your provider`,
+      duration: 4,
+    };
+  }
 }

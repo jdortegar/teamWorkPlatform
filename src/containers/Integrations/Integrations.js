@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { extractQueryParams } from '../../routes';
 import IntegrationCard from '../../components/IntegrationCard';
+import { badIntegration, successfulIntegration } from './notifications';
 import { integrateBox, integrateGoogle, requestIntegrations } from '../../actions';
 import './styles/style.css';
 
@@ -20,6 +21,25 @@ class Integrations extends Component {
   componentDidMount() {
     const { subscriberOrgId } = this.props.match.params;
     this.props.requestIntegrations(subscriberOrgId);
+
+    const notifyInfo = this.notifyInfo();
+    let args = {};
+    if (notifyInfo) {
+      if(notifyInfo.status !== 'CREATED') {
+        args = badIntegration(notifyInfo);
+        args.icon = (<Icon type="close" style={{ color: '#f04134' }} />);
+      } else {
+        args = successfulIntegration(notifyInfo.integration);
+        args.icon = (<Icon type="check" style={{ color: '#00a854' }} />);
+      }
+      // TODO: show notification.
+      // ex. notifyInfo = { integration: 'google', status: 'CREATED' } will say something like "You have successfully authorized Google Drive access."
+      // Also statuses FORBIDDEN = "You did not authorize Google Drive access."
+      // NOT_FOUND, subscriberOrg doesn't exist, which should almost never happen, since they have access or we have a bug in our code.
+      // INTERNAL_SERVER_ERROR,  don't know, display something appropriate...
+      // Same for box.
+      notification.open(args);
+    }
   }
 
   notifyInfo() {
@@ -36,25 +56,6 @@ class Integrations extends Component {
   handleBox() {
     const { subscriberOrgId } = this.props.match.params;
     this.props.integrateBox(subscriberOrgId);
-  }
-
-  renderNotification(info) {
-    const { integration, status } = info;
-    if(integration === 'google' && status === 'CREATED') {
-      return {
-        message: 'Successful Integration',
-        description: 'You have successfully authorized Google Drive access.',
-        icon: <Icon type="check" style={{ color: '#00a854' }} />,
-        duration: 4,
-      };
-    } else if(integration === 'box' && status === 'CREATED') {
-      return {
-        message: 'Successful Integration',
-        description: 'You have successfully authorized Box access.',
-        icon: <Icon type="check" style={{ color: '#00a854' }} />,
-        duration: 4,
-      };
-    }
   }
 
   render() {
@@ -82,26 +83,6 @@ class Integrations extends Component {
     const googleExpired = (google) ? google.expired : undefined;
     const boxIntegrated = (box) ? true : false;
     const boxExpired = (box) ? box.expired : undefined;
-
-    const notifyInfo = this.notifyInfo();
-    if (notifyInfo) {
-
-      // TODO: show notification.
-      // ex. notifyInfo = { integration: 'google', status: 'CREATED' } will say something like "You have successfully authorized Google Drive access."
-      // Also statuses FORBIDDEN = "You did not authorize Google Drive access."
-      // NOT_FOUND, subscriberOrg doesn't exist, which should almost never happen, since they have access or we have a bug in our code.
-      // INTERNAL_SERVER_ERROR,  don't know, display something appropriate...
-      // Same for box.
-    }
-
-    const args = {
-      message: 'Successful Integration',
-      description: 'You have successfully authorized Google Drive access.',
-      icon: <Icon type="check" style={{ color: '#00a854' }} />,
-      duration: 4,
-    };
-
-    notification.open(args);
 
     return (
       <div>
