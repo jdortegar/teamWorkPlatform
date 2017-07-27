@@ -3,7 +3,12 @@ import { Layout, Breadcrumb } from 'antd';
 import Header from '../../components/Header';
 import Sidebar from '../../containers/Sidebar';
 import MainContent from '../../components/MainContent';
-import { AddOrgDialog, OrgSettingsDialog, InvitePeopleDialog } from '../../containers/dialogs';
+import { AddOrgDialog,
+  OrgSettingsDialog,
+  InvitePeopleDialog,
+  AddTeamDialog,
+  AddTeamRoomDialog
+} from '../../containers/dialogs';
 import './styles/main.css';
 import '../styles/habla-brand-styles.css';
 
@@ -21,8 +26,10 @@ function Main() {
           </Breadcrumb>
           <MainContent />
           <AddOrgDialog />
+          <AddTeamDialog />
           <InvitePeopleDialog />
           <OrgSettingsDialog />
+          <AddTeamRoomDialog />
         </Layout>
       </Layout>
     </Layout>
