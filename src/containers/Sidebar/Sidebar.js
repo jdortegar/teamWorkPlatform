@@ -6,10 +6,9 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toggleOrgDialog,
   requestSubscriberOrgs,
-  requestAllTeams,
-  requestAllTeamRooms,
-  toggleInvitePeopleDialog,
-  toggleOrgSettingsDialog
+  requestAllTeams, requestAllTeamRooms,
+  toggleInvitePeopleDialog, toggleOrgSettingsDialog,
+  toggleTeamDialog, toggleTeamRoomDialog
 } from '../../actions';
 import './styles/style.css';
 
@@ -20,7 +19,9 @@ const propTypes = {
   requestSubscriberOrgs: PropTypes.func.isRequired,
   toggleOrgDialog: PropTypes.func.isRequired,
   toggleInvitePeopleDialog: PropTypes.func.isRequired,
+  toggleTeamRoomDialog: PropTypes.func.isRequired,
   toggleOrgSettingsDialog: PropTypes.func.isRequired,
+  toggleTeamDialog: PropTypes.func.isRequired,
   requestAllTeamRooms: PropTypes.func.isRequired,
   requestAllTeams: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.array.isRequired,
@@ -56,6 +57,16 @@ class Sidebar extends Component {
     }
   }
 
+  showTeamDialog(e, orgId) {
+    e.stopPropagation();
+    this.props.toggleTeamDialog(true, orgId);
+  }
+
+  showTeamRoomDialog(e, teamId) {
+    e.stopPropagation();
+    this.props.toggleTeamRoomDialog(true, teamId);
+  }
+
   renderTeamRooms(teamId) {
     return this.props.teamRooms.reduce((acc, teamRoom) => {
       if (teamId === teamRoom.teamId) {
@@ -67,11 +78,23 @@ class Sidebar extends Component {
   }
 
   renderTeams(orgId) {
-    return this.props.teams.reduce((acc, team) => {
-      if (team.subscriberOrgId === orgId) {
-        const teamRooms = this.renderTeamRooms(team.teamId);
+    return this.props.teams.reduce((acc, { name, teamId, subscriberOrgId }) => {
+      if (subscriberOrgId === orgId) {
+        const teamRooms = this.renderTeamRooms(teamId);
 
-        acc.push(<SubMenu key={team.teamId} title={team.name}>{ teamRooms }</SubMenu>);
+        acc.push(
+          <SubMenu
+            key={teamId}
+            title={<Row gutter={16}>
+              <Col xs={{ span: 18 }}><span>{name}</span></Col>
+              <Col xs={{ span: 3 }}>
+                <a title="Add Team Room" onClick={e => this.showTeamRoomDialog(e, teamId)}><Icon type="plus" /></a>
+              </Col>
+            </Row>}
+          >
+            { teamRooms }
+          </SubMenu>
+        );
       }
 
       return acc;
@@ -100,8 +123,11 @@ class Sidebar extends Component {
           key={subscriberOrgId}
           title={
             <Row gutter={16}>
-              <Col xs={{ span: 18 }}><span><Icon type="user" />{name}</span></Col>
-              <Col xs={{ span: 4 }}>
+              <Col xs={{ span: 17 }}><span><Icon type="user" />{name}</span></Col>
+              <Col xs={{ span: 2 }}>
+                <a title="Add Team" onClick={e => this.showTeamDialog(e, subscriberOrgId)}><Icon type="plus" /></a>
+              </Col>
+              <Col xs={{ span: 3 }}>
                 <Dropdown overlay={menu} trigger={['click']}>
                   <a onClick={e => e.stopPropagation()} title="Settings"><Icon type="setting" /></a>
                 </Dropdown>
@@ -120,7 +146,7 @@ class Sidebar extends Component {
     }
 
     return (
-      <Sider width={225} style={{ background: '#fff' }}>
+      <Sider width={235} style={{ background: '#fff' }}>
         <div className="sidebar-menu-item-label">Your Organizations</div>
         <Menu
           mode="inline"
@@ -155,7 +181,9 @@ function mapDispatchToProps(dispatch) {
     requestAllTeams,
     toggleInvitePeopleDialog,
     requestAllTeamRooms,
-    toggleOrgSettingsDialog }, dispatch);
+    toggleOrgSettingsDialog,
+    toggleTeamDialog,
+    toggleTeamRoomDialog }, dispatch);
 }
 
 Sidebar.propTypes = propTypes;
