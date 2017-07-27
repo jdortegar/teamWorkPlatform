@@ -1,0 +1,29 @@
+.sidebar-menu-item-label {
+	padding: 8px 18px;
+	border-bottom: 1px solid #ddd;
+	font-weight: bold;
+	color: #999;
+}
+.ant-menu li i {
+	margin-right: 5px;
+	position: relative;
+	top: 3px;
+}
+.ant-menu.ant-menu-dark .ant-menu-item-selected {
+	background-color: #333333;
+}
+.ant-menu-submenu-title:hover {
+	color: #557dbf;
+	background: #f6f6f6;
+}
+.add-organization-button {
+	background: #36b659;
+	color: #fff;
+	padding: 0 10px;
+	margin: 10px 0;
+	border-radius: 2px;
+	height: auto!important;
+}
+.ant-menu-vertical .ant-menu-item, .ant-menu-inline .ant-menu-item, .ant-menu-vertical .ant-menu-submenu-title, .ant-menu-inline .ant-menu-submenu-title {
+	height: auto;
+}

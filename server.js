@@ -1,20 +1,35 @@
+require('babel-polyfill');
+const webpack = require('webpack');
+const WebpackDevServer = require('webpack-dev-server');
+const config = require('./webpack.config');
 const express = require('express');
-const app = express();
-const path = require('path');
+const Helmet = require('helmet');
+
+let server;
 
 if (process.env.NODE_ENV !== 'production') {
-  const webpackMiddleware = require('webpack-dev-middleware');
-  const webpack = require('webpack');
-  const webpackConfig = require('./webpack.config.js');
-  app.use(webpackMiddleware(webpack(webpackConfig)));
-}
-else {
-  app.use(express.static('dist'));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist/index.html'));
+  server = new WebpackDevServer(webpack(config), {
+    publicPath: config.output.publicPath,
+    hot: true,
+    historyApiFallback: { disableDotRule: true },
+    disableHostCheck: true
+  });
+} else {
+  server = express();
+
+  server.set('trust proxy', 1); // Allow http proxying.
+  server.use(new Helmet()); // Add secure HTTP headers.
+
+  server.use(express.static('dist', { fallthrough: true }));
+  server.use('/', (req, res) => {
+    res.sendFile(`${__dirname}/dist/index.html`);
   });
 }
 
-
-const port = 8080;
-app.listen(process.env.PORT || port, () => console.log('Listening on port: ',port));
+const nodePort = process.env.NODE_PORT || 8080;
+server.listen(nodePort, (err) => {
+  if (err) {
+    // console.error(err);
+  }
+  // console.log(`Listening at localhost:${nodePort}`);
+});

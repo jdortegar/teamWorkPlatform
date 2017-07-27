@@ -1,30 +1,36 @@
 import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
-import EmailAuth from './EmailAuth';
-import SubmitEmail from './SubmitEmail';
-import User from './User';
-import SelectedOrg from './SelectedOrg';
-import Team from './Team';
-import Teams from './Teams';
-import Room from './Room';
-import Rooms from './Rooms';
-import Message from './Message';
-import MembersTeamRoom from './MembersTeamRoom';
-import Orgs from './Orgs';
-// import TrackingMembersStatus from './TrackingMembersStatus';
+import { routerReducer } from 'react-router-redux';
+import { UNAUTH_USER } from '../actions/types';
+// TODO: is this needed?  import registerReducer from './registerReducer';
+import authReducer from './authReducer';
+import subscriberOrgsReducer from './subscriberOrgsReducer';
+import teamsReducer from './teamsReducer';
+import teamRoomsReducer from './teamRoomsReducer';
+import conversationsReducer from './conversationsReducer';
+import integrationsReducer from './integrationsReducer';
+import dialogsReducer from './dialogsReducer';
 
-export default combineReducers({
-	form: formReducer,
-	email_auth: EmailAuth,
-	emailin: SubmitEmail,
-	orgs: Orgs,
-    org: SelectedOrg,
-	user: User,
-    team: Team,
-	teams: Teams,
-	room: Room,
-	rooms: Rooms,
-	message: Message,
-	members: MembersTeamRoom
-	// memberStatus : TrackingMembersStatus,
+const mainReducer = combineReducers({
+  // TODO: is this needed?  register: registerReducer,
+  // TODO: is this needed?  register: registerReducer,
+  auth: authReducer,
+  dialogs: dialogsReducer,
+  subscriberOrgs: subscriberOrgsReducer,
+  teams: teamsReducer,
+  teamRooms: teamRoomsReducer,
+  conversations: conversationsReducer,
+  integrations: integrationsReducer,
+  router: routerReducer
 });
+
+const initialState = mainReducer({}, {});
+
+// Clear out redux store upon logout.
+const rootReducer = (state, action) => {
+  if (action.type === UNAUTH_USER) {
+    return mainReducer({ ...initialState, router: state.router }, action);
+  }
+  return mainReducer(state, action);
+};
+
+export default rootReducer;

@@ -1,74 +1,15 @@
-import axios from 'axios';
-import config from '../config/env';
+import { replace } from 'react-router-redux';
 
-export const email_changed = (input) => {
-	return {
-		type: 'email_changed',
-		payload: input
-	};
-};
+// All actions here are [flux-standard-action](https://github.com/acdlite/flux-standard-action) compliant.
+export * from './auth';
+export * from './dialogs';
+export * from './subscriberOrgs';
+export * from './teams';
+export * from './teamRooms';
+export * from './conversations';
+export * from './invitations';
+export * from './integrations';
 
-export const user = (user) => {
-	return {
-		type: 'save-user',
-		payload: user
-	}
-};
-
-export const orgs = (orgs) => {
-	return {
-		type: 'store-orgs',
-		payload: orgs
-	}
-};
-
-export const selectTeam = (team) => {
-	return {
-		type: 'store-team',
-		payload: team
-	}
+export function replaceRoute(newRoute) {
+  return dispatch => dispatch(replace(newRoute));
 }
-
-export const teams = (teams) => {
-	return {
-		type: 'store-teams',
-		payload: teams
-	}
-}
-
-export const rooms = (rooms) => {
-	return {
-		type: 'store-rooms',
-		payload: rooms
-	}
-}
-
-export const selectRoom = (room) => {
-	return {
-		type: 'get-room',
-		payload: room
-	}
-}
-
-export const inviteTeamMembers = (team) => {
-	return {
-		type: 'invite-team-members',
-		payload: team
-	}
-}
-
-export const saveMembersTeamRoom = (members) => {
-	return {
-		type: 'save-members-teamroom',
-		payload: members
-	}
-}
-
-export const selectedOrg = (org) => {
-	return {
-		type: 'store-org',
-		payload: org
-	}
-}
-
-
