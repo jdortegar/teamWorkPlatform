@@ -57,82 +57,17 @@ config.module.rules = [{
   test: /\.js$/,
   exclude: /(node_modules)/,
   use: [
-    { loader: 'babel-loader' },
-  ],
+    { loader: 'babel-loader' }
+  ]
 }, {
   test: /\.css$/,
-  use: extractCSSLibs.extract({
-    fallback: 'style-loader',
-    use: [
-      {
-        loader: 'css-loader',
-        options: {
-          modules: false,
-          sourceMap: true,
-          importLoaders: 1,
-        },
-      },
-      {
-        loader: 'postcss-loader',
-        options: {
-          plugins: () => [autoprefixer({ browsers: ['last 4 versions'] })],
-        },
-      },
-    ],
-  }),
-}, {
-  test: /\.global\.scss$/,
-  exclude: /(node_modules)/,
-  use: extractSCSSGlobals.extract({
-    fallback: 'style-loader',
-    use: [
-      {
-        loader: 'css-loader',
-        options: {
-          modules: false,
-          sourceMap: true,
-          importLoaders: 1,
-        },
-      },
-      {
-        loader: 'postcss-loader',
-        options: {
-          plugins: () => [autoprefixer({ browsers: ['last 4 versions'] })],
-        },
-      },
-      'sass-loader',
-    ],
-  }),
-}, {
-  test: /^((?!\.global).)*scss$/,
-  exclude: /(node_modules)/,
-  use: extractSCSSModules.extract({
-    fallback: 'style-loader',
-    use: [
-      {
-        loader: 'css-loader',
-        options: {
-          modules: true,
-          sourceMap: true,
-          importLoaders: 1,
-          localIdentName: '[name]__[local]__[hash:base64:5]',
-        },
-      },
-      {
-        loader: 'postcss-loader',
-        options: {
-          plugins: () => [autoprefixer({ browsers: ['last 4 versions'] })],
-        },
-      },
-      'sass-loader',
-    ],
-  }),
+  use: ['style-loader', 'css-loader']
 }, {
   test: /\.(png|svg|jpg|gif)$/,
   exclude: /(node_modules)/,
   use: [{
-    loader: 'url-loader?name=images/[name].[ext]&limit=8192',
-  }],
+    loader: 'url-loader?name=images/[name].[ext]&limit=8192'
+  }]
 }, {
   test: /\.(woff|woff2|eot|ttf|otf)$/,
   use: ['file-loader']
