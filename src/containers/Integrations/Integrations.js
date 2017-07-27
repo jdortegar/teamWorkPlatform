@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Row, Col } from 'antd';
+import { Card, Row, Col, Icon, notification } from 'antd';
 import { object, func } from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -38,6 +38,25 @@ class Integrations extends Component {
     this.props.integrateBox(subscriberOrgId);
   }
 
+  renderNotification(info) {
+    const { integration, status } = info;
+    if(integration === 'google' && status === 'CREATED') {
+      return {
+        message: 'Successful Integration',
+        description: 'You have successfully authorized Google Drive access.',
+        icon: <Icon type="check" style={{ color: '#00a854' }} />,
+        duration: 4,
+      };
+    } else if(integration === 'box' && status === 'CREATED') {
+      return {
+        message: 'Successful Integration',
+        description: 'You have successfully authorized Box access.',
+        icon: <Icon type="check" style={{ color: '#00a854' }} />,
+        duration: 4,
+      };
+    }
+  }
+
   render() {
     const { integrationsBySubscriberOrgId, received, requesting, error } = this.props.integrations;
 
@@ -66,6 +85,7 @@ class Integrations extends Component {
 
     const notifyInfo = this.notifyInfo();
     if (notifyInfo) {
+
       // TODO: show notification.
       // ex. notifyInfo = { integration: 'google', status: 'CREATED' } will say something like "You have successfully authorized Google Drive access."
       // Also statuses FORBIDDEN = "You did not authorize Google Drive access."
@@ -73,6 +93,15 @@ class Integrations extends Component {
       // INTERNAL_SERVER_ERROR,  don't know, display something appropriate...
       // Same for box.
     }
+
+    const args = {
+      message: 'Successful Integration',
+      description: 'You have successfully authorized Google Drive access.',
+      icon: <Icon type="check" style={{ color: '#00a854' }} />,
+      duration: 4,
+    };
+
+    notification.open(args);
 
     return (
       <div>
