@@ -8,6 +8,7 @@ import {
   REQUEST_TEAMS_ERROR,
   SET_CURRENT_TEAM_ID
 } from './types';
+import { requestAllTeamRooms } from './teamRooms';
 
 function requestingTeams(subscriberOrgId) {
   return { type: REQUESTING_TEAMS, payload: { subscriberOrgId } };
@@ -48,6 +49,19 @@ export function requestTeams(subscriberOrgId) {
         .catch(err => dispatch(requestTeamsError(err, subscriberOrgId)));
     }
     return Promise.resolve();
+  };
+}
+
+export function createTeam(name, orgId) {
+  const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+
+  return (dispatch) => {
+    return axios.post(`${config.hablaApiBaseUri}/teams/createTeam/${orgId}`, name, axiosOptions)
+      .then(() => {
+        dispatch(requestAllTeams());
+        dispatch(requestAllTeamRooms());
+      })
+      .catch(err => dispatch(requestTeamsError(err, orgId)));
   };
 }
 

@@ -59,3 +59,15 @@ export function setCurrentTeamRoomId(teamId, teamRoomId) {
     payload: { teamId, teamRoomId }
   };
 }
+
+export function createTeamRoom({ name }, teamId) {
+  const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+
+  return (dispatch) => {
+    return axios.post(`${config.hablaApiBaseUri}/teamRooms/createTeamRoom/${teamId}`, { name, publish: true, active: true }, axiosOptions)
+      .then(() => {
+        dispatch(requestAllTeamRooms());
+      })
+      .catch(err => dispatch(requestTeamRoomsError(err, teamId)));
+  };
+}

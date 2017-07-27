@@ -30,6 +30,7 @@ export const SHOW_ORG_DIALOG = 'show_org_dialog';
 export const SHOW_ORG_SETTINGS_DIALOG = 'show_org_settings_dialog';
 export const SUBMITTING_ORG_FORM = 'submitting_org_form';
 export const SUBMITTING_INVITE_ORG_FORM = 'submitting_invite_org_form';
+export const SET_CURRENT_DIALOG_ORG_ID = 'set_current_dialog_org_id';
 
 //= =====================
 // Teams Actions
@@ -39,7 +40,9 @@ export const RECEIVE_ALL_TEAMS = 'receive_all_teams';
 export const RECEIVE_TEAMS = 'receive_teams';
 export const REQUEST_TEAMS_ERROR = 'request_teams_error';
 export const SET_CURRENT_TEAM_ID = 'set_current_team_id';
-// TODO: is this needed? export const SHOW_TEAM_DIALOG = 'show_team_dialog';
+export const SHOW_TEAM_DIALOG = 'show_team_dialog';
+export const SUBMITTING_TEAM_FORM = 'submitting_team_form';
+export const SET_CURRENT_DIALOG_TEAM_ID = 'set_current_dialog_team_id';
 
 //= =====================
 // Team Rooms Actions
@@ -49,6 +52,8 @@ export const RECEIVE_ALL_TEAM_ROOMS = 'receive_all_team_rooms';
 export const RECEIVE_TEAM_ROOMS = 'receive_team_rooms';
 export const REQUEST_TEAM_ROOMS_ERROR = 'request_team_rooms_error';
 export const SET_CURRENT_TEAM_ROOM_ID = 'set_current_team_room_id';
+export const SHOW_TEAM_ROOM_DIALOG = 'show_team_room_dialog';
+export const SUBMITTING_TEAM_ROOM_FORM = 'submitting_team_room_form';
 
 
 //= =====================
