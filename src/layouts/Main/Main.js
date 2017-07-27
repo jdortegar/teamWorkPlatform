@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Breadcrumb } from 'antd';
-import Header from '../../components/Header';
+import Header from '../../containers/Header';
 import Sidebar from '../../containers/Sidebar';
 import MainContent from '../../components/MainContent';
 import { AddOrgDialog,
