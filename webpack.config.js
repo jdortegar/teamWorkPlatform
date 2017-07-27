@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const nodePort = process.env.NODE_PORT || 8080;
+const nodePort = process.env.NODE_PORT || 8081;
 let nodeUrl = 'localhost';
 if (nodePort === 80) {
   nodeUrl = `http:// ${nodeUrl}`;
