@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { object, func } from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { extractQueryParams } from '../../routes';
 import { integrateBox, integrateGoogle, requestIntegrations } from '../../actions';
 import './styles/integrations.css';
 
@@ -17,6 +18,12 @@ class Integrations extends Component {
   componentDidMount() {
     const { subscriberOrgId } = this.props.match.params;
     this.props.requestIntegrations(subscriberOrgId);
+  }
+
+  notifyInfo() {
+    const queryParams = extractQueryParams(this.props);
+    const { integration, status } = queryParams;
+    return ((integration) && (status)) ? queryParams : undefined;
   }
 
   handleGoogleDrive() {
@@ -54,6 +61,16 @@ class Integrations extends Component {
     const googleExpired = (google) ? google.expired : undefined;
     const boxIntegrated = (box) ? true : false;
     const boxExpired = (box) ? box.expired : undefined;
+
+    const notifyInfo = this.notifyInfo();
+    if (notifyInfo) {
+      // TODO: show notification.
+      // ex. notifyInfo = { integration: 'google', status: 'CREATED' } will say something like "You have successfully authorized Google Drive access."
+      // Also statuses FORBIDDEN = "You did not authorize Google Drive access."
+      // NOT_FOUND, subscriberOrg doesn't exist, which should almost never happen, since they have access or we have a bug in our code.
+      // INTERNAL_SERVER_ERROR,  don't know, display something appropriate...
+      // Same for box.
+    }
 
     return (
       <div style={{ marginLeft: '320px' }}>

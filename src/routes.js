@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
+import _ from 'lodash';
 import { ProtectedRoute, PublicRoute } from './routing';
 import Main from './layouts/Main';
 import SignUp from './layouts/SignUp';
@@ -26,3 +27,12 @@ export default (
     <ProtectedRoute component={Main} />
   </Switch>
 );
+
+export function extractQueryParams(props) {
+  const { search } = props.location;
+  if ((search) && (search.length > 0)) {
+    const searchParams = new URLSearchParams(search.slice(1));
+    return searchParams ? _.fromPairs(Array.from(searchParams.entries())) : {};
+  }
+  return {};
+}
