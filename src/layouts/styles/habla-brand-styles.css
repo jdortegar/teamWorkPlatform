@@ -1,6 +1,13 @@
 /* General CSS Styles for Habla Web App */
+.clear {
+	clear: both;
+}
 body {
 	font-family: 'Lato', sans-serif;
+	background: #ececec;
+}
+.ant-layout-content h1 {
+	margin-bottom: 30px;
 }
 
 /* General CSS Styles for Habla Web App Modal Windows */
@@ -11,8 +18,23 @@ body {
 	font-weight: bold;
 }
 
-
-
+/* General CSS Styles for Habla Web App Dopdown Menus */
+.ant-dropdown-menu-item {
+	background-color: #000!important;
+	color: #ddd!important;
+}
+.ant-dropdown-menu-item a {
+	color: #fff!important;
+}
+.ant-dropdown-menu-item-selected, .ant-dropdown-menu-submenu-title-selected, .ant-dropdown-menu-item-selected > a, .ant-dropdown-menu-submenu-title-selected > a {
+	background: #333;
+}
+.ant-dropdown-menu-item a:hover {
+	background: #333;
+}
+.ant-dropdown-menu-item > a, .ant-dropdown-menu-submenu-title > a {
+	padding: 10px 20px;
+}
 
 /* General CSS Styles for Habla Web App Responsive Items */
 @media only screen and (max-width: 800px) {
@@ -24,5 +46,8 @@ body {
     }
     .header .ant-menu li i {
 	    margin: 0;
+    }
+    .user-avatar {
+	    height: 67px;
     }
 }
