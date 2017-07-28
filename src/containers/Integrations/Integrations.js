@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Row, Col, Icon, notification } from 'antd';
+import { Row, Col, Icon, notification } from 'antd';
 import { object, func } from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -15,7 +15,7 @@ const propTypes = {
   integrations: object.isRequired,
   integrateGoogle: func.isRequired,
   integrateBox: func.isRequired
-}
+};
 
 class Integrations extends Component {
   componentDidMount() {
@@ -25,7 +25,7 @@ class Integrations extends Component {
     const notifyInfo = this.notifyInfo();
     let args = {};
     if (notifyInfo) {
-      if(notifyInfo.status !== 'CREATED') {
+      if (notifyInfo.status !== 'CREATED') {
         args = badIntegration(notifyInfo);
         args.icon = (<Icon type="close" style={{ color: '#f04134' }} />);
       } else {
@@ -79,9 +79,9 @@ class Integrations extends Component {
     // Expired only makes sense if integrated = true.
     // Render accordingly.
     const { google, box } = integrations;
-    const googleIntegrated = (google) ? true : false;
+    const googleIntegrated = google === 1;
     const googleExpired = (google) ? google.expired : undefined;
-    const boxIntegrated = (box) ? true : false;
+    const boxIntegrated = box === 1;
     const boxExpired = (box) ? box.expired : undefined;
 
     return (
@@ -95,6 +95,7 @@ class Integrations extends Component {
               integrated={googleIntegrated}
               expired={googleExpired}
               handleIntegration={() => this.handleGoogleDrive()}
+              onRevoke={() => console.log()}
             />
           </Col>
           <Col className="gutter-row">
@@ -104,6 +105,7 @@ class Integrations extends Component {
               integrated={boxIntegrated}
               expired={boxExpired}
               handleIntegration={() => this.handleBox()}
+              onRevoke={() => console.log()}
             />
           </Col>
         </Row>
