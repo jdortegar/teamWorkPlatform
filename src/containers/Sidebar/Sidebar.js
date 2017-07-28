@@ -12,6 +12,7 @@ import { toggleOrgDialog,
 } from '../../actions';
 import './styles/style.css';
 
+
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -34,6 +35,7 @@ const defaultProps = {
   teams: [],
   teamRooms: []
 };
+
 
 class Sidebar extends Component {
   constructor(props) {
@@ -147,6 +149,7 @@ class Sidebar extends Component {
 
     return (
       <Sider width={235} style={{ background: '#fff' }}>
+            
         <div className="sidebar-menu-item-label">Your Organizations</div>
         <Menu
           mode="inline"

@@ -20,7 +20,7 @@ class Header extends Component {
 
   render() {
     const menu = (
-      <Menu>
+      <Menu >
         <Menu.Item key="logout">
           <a onClick={this.logOut}>Log Out</a>
         </Menu.Item>
@@ -39,13 +39,13 @@ class Header extends Component {
           <Menu.Item key="1">
             <Dropdown overlay={menu} trigger={['click']}>
               <a className="ant-dropdown-link" href="#">
-                <div className="user-avatar"></div> User Name
+                <div className="user-avatar"></div><span>User Name</span><div className="clear" />
               </a>
             </Dropdown>
           </Menu.Item>
-          <Menu.Item key="2"><i className="fa fa-globe fa-2x" aria-hidden="true"></i>Notifications</Menu.Item>
-          <Menu.Item key="3"><i className="fa fa-area-chart fa-2x" aria-hidden="true"></i>CKG</Menu.Item>
-          <Menu.Item key="4"><i className="fa fa-search fa-2x" aria-hidden="true"></i>Search</Menu.Item>
+          <Menu.Item key="2"><i className="fa fa-globe fa-2x" aria-hidden="true"></i><span>Notifications</span></Menu.Item>
+          <Menu.Item key="3"><i className="fa fa-area-chart fa-2x" aria-hidden="true"></i><span>CKG</span></Menu.Item>
+          <Menu.Item key="4"><i className="fa fa-search fa-2x" aria-hidden="true"></i><span>Search</span></Menu.Item>
         </Menu>
       </AntdHeader>
     );

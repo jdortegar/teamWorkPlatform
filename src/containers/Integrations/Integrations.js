@@ -86,9 +86,9 @@ class Integrations extends Component {
 
     return (
       <div>
-        <h1 style={{ textAlign: 'center' }}> Integrations </h1>
-        <Row style={{ marginTop: '30px' }} type="flex" justify="space-around">
-          <Col className="gutter-row" span={5}>
+        <h1> Integrations </h1>
+        <Row type="flex">
+          <Col className="gutter-row">
             <IntegrationCard
               name="Google Drive"
               img="https://c1.staticflickr.com/5/4240/35080287162_0d6aef000a_o.png"
@@ -97,7 +97,7 @@ class Integrations extends Component {
               handleIntegration={() => this.handleGoogleDrive()}
             />
           </Col>
-          <Col className="gutter-row" span={5}>
+          <Col className="gutter-row">
             <IntegrationCard
               name="Box"
               img="https://c1.staticflickr.com/5/4220/34858435850_3ff5486f73_o.png"
