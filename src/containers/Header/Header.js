@@ -39,7 +39,7 @@ class Header extends Component {
           <Menu.Item key="1">
             <Dropdown overlay={menu} trigger={['click']}>
               <a className="ant-dropdown-link" href="#">
-                <div className="user-avatar"></div><span>User Name</span><div className="clear" />
+                <div className="user-avatar"></div><span>Thomas Knapp</span><div className="clear" />
               </a>
             </Dropdown>
           </Menu.Item>
