@@ -91,7 +91,7 @@ class Integrations extends Component {
           <Col className="gutter-row">
             <IntegrationCard
               name="Google Drive"
-              img="https://c1.staticflickr.com/5/4240/35080287162_0d6aef000a_o.png"
+              img="https://s3-us-west-2.amazonaws.com/habla-ai-images/google-drive-logo.png"
               integrated={googleIntegrated}
               expired={googleExpired}
               handleIntegration={() => this.handleGoogleDrive()}
@@ -101,7 +101,7 @@ class Integrations extends Component {
           <Col className="gutter-row">
             <IntegrationCard
               name="Box"
-              img="https://c1.staticflickr.com/5/4220/34858435850_3ff5486f73_o.png"
+              img="https://s3-us-west-2.amazonaws.com/habla-ai-images/box-logo.png"
               integrated={boxIntegrated}
               expired={boxExpired}
               handleIntegration={() => this.handleBox()}

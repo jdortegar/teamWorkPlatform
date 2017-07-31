@@ -1,7 +1,7 @@
 //= =====================
 // Registration Actions
 //= =====================
-// TODO: is this needed? export const SUBMIT_FORM = 'submit_form';
+export const SUBMIT_REGISTRATION_FORM = 'submit_registration_form';
 // TODO: is this needed? export const FLIP_CARD = 'flip_card';
 // TODO: is this needed? export const VERIFY_EMAIL = 'verify_email';
 
