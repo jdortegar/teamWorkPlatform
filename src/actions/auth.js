@@ -2,7 +2,8 @@ import { push } from 'react-router-redux';
 import { routesPaths } from '../routes';
 import {
   LOGGING_IN,
-  UNAUTH_USER
+  UNAUTH_USER,
+  SUBMIT_REGISTRATION_FORM
 } from './types';
 import { login, logout } from '../session';
 
@@ -34,5 +35,12 @@ export function logoutUser(error) {
     logout();
 
     dispatch(push(routesPaths.login));
+  };
+}
+
+export function submitRegistrationForm(status) {
+  return {
+    type: SUBMIT_REGISTRATION_FORM,
+    payload: status
   };
 }
