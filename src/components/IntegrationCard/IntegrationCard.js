@@ -8,7 +8,12 @@ const propTypes = {
   name: PropTypes.string.isRequired,
   img: PropTypes.string.isRequired,
   handleIntegration: PropTypes.func.isRequired,
-  onRevoke: PropTypes.func.isRequired
+  onRevoke: PropTypes.func.isRequired,
+  expired: PropTypes.object
+};
+
+const defaultProps = {
+  expired: undefined
 };
 
 function IntegrationCard(props) {
@@ -16,9 +21,9 @@ function IntegrationCard(props) {
 
   const renderCard = () => {
     if (integrated && !expired) {
-      return (<p>Integrated (<a onClick={onRevoke}>Revoke</a>)</p>);
+      return (<a onClick={onRevoke}>Revoke</a>);
     } else if (integrated && expired) {
-      return (<a onClick={handleIntegration}>Reauthorize</a>);
+      return (<p>Expired (<a onClick={handleIntegration}>Reauthorize)</a></p>);
     }
 
     return (<a onClick={handleIntegration}>Authorize</a>);
@@ -26,29 +31,38 @@ function IntegrationCard(props) {
 
   const renderIcon = () => {
     if (integrated && !expired) {
-      return (<Icon type="close" style={{ color: '#f04134' }} />);
+      return (
+        <div className="img-status">
+          <i className="fa fa-check-circle" style={{ color: '#00a854' }} aria-hidden="true" />
+          <img alt={name} src={img} />
+        </div>
+      );
     } else if (integrated && expired) {
-      return (<Icon type="check" style={{ color: '#00a854' }} />);
+      return (
+        <div className="img-status">
+          <i className="fa fa-exclamation-triangle" style={{ color: '#f04134 ' }} aria-hidden="true" />
+          <a onClick={handleIntegration}>
+            <img className="desaturate" alt={name} src={img} />
+          </a>
+        </div>
+      );
     }
 
-    return '';
+    return (
+      <div className="img-status">
+        <a onClick={handleIntegration}>
+          <img className="desaturate" alt={name} src={img} />
+        </a>
+      </div>
+    );
   };
 
   return (
     <Card style={{ width: 220 }} bodyStyle={{ padding: 0 }}>
       <div className="custom-image">
-        {
-          integrated && !expired ?
-            <img alt={name} src={img} /> :
-            <a onClick={handleIntegration}>
-              <img alt={name} src={img} />
-            </a>
-        }
+        {renderIcon()}
       </div>
       <div className="custom-card">
-        <div style={{ textAlign: 'right', fontSize: '16px' }}>
-          {renderIcon()}
-        </div>
         <h3 style={{ paddingBottom: '4px' }}>{name}</h3>
         {renderCard()}
       </div>
@@ -57,5 +71,6 @@ function IntegrationCard(props) {
 }
 
 IntegrationCard.propTypes = propTypes;
+IntegrationCard.defaultProps = defaultProps;
 
 export default IntegrationCard;

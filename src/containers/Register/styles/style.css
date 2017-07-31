@@ -1,0 +1,8 @@
+.registration-success, .registration-success > div {
+  text-align: center;
+}
+.registration-success > div {
+  font-size: 35px;
+  padding-bottom: 8px;
+  color: #00a854;
+}

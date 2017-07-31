@@ -1,6 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Icon, Form } from 'antd';
+import PropTypes from 'prop-types';
+import { formShape } from '../../../propTypes';
 import { antValidate, email as emailRules } from '../../../validations';
 import BaseInput from '../BaseInput';
 import messages from './messages';
@@ -8,7 +9,7 @@ import messages from './messages';
 const FormItem = Form.Item;
 
 const propTypes = {
-  form: PropTypes.object.isRequired,
+  form: formShape.isRequired,
   componentKey: PropTypes.string,
   initialValue: PropTypes.string,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),

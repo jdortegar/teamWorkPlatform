@@ -16,7 +16,8 @@ const FormItem = Form.Item;
 const propTypes = {
   form: formShape.isRequired,
   loginUser: PropTypes.func.isRequired,
-  loggingIn: PropTypes.bool.isRequired
+  loggingIn: PropTypes.bool.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 const layout = {
@@ -32,18 +33,21 @@ class Login extends React.Component {
   }
   handleSubmit(e) {
     e.preventDefault();
-    const { email, password } = this.props.form.getFieldsValue();
-    let targetRoute = routesPaths.app;
-    const XXX = this.props;
-    if (this.props.history.location.state) { // Send user directly to requested URL, or app if cannot be deduced.
-      const { state } = this.props.history.location;
-      targetRoute = state.from.pathname;
-      if (state.from.search) {
-        targetRoute += state.from.search;
-      }
-    }
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const { email, password } = values;
+        let targetRoute = routesPaths.app;
+        if (this.props.history.location.state) { // Send user directly to requested URL, or app if cannot be deduced.
+          const { state } = this.props.history.location;
+          targetRoute = state.from.pathname;
+          if (state.from.search) {
+            targetRoute += state.from.search;
+          }
+        }
 
-    this.props.loginUser({ email, password, targetRoute });
+        this.props.loginUser({ email, password, targetRoute });
+      }
+    });
   }
 
   render() {
