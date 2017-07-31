@@ -4,10 +4,9 @@
 	font-weight: bold;
 	color: #999;
 }
-.ant-menu li i {
+.sidebar__i {
 	margin-right: 5px;
 	position: relative;
-	top: 3px;
 }
 .ant-menu.ant-menu-dark .ant-menu-item-selected {
 	background-color: #333333;

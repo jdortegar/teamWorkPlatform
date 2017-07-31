@@ -34,7 +34,7 @@ class Register extends React.Component {
         />
         <FormItem>
           <Button type="primary" htmlType="submit" className="login-form-button">
-            Log in
+            Register
           </Button>
         </FormItem>
       </Form>

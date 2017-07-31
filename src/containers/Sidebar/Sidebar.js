@@ -72,7 +72,9 @@ class Sidebar extends Component {
   renderTeamRooms(teamId) {
     return this.props.teamRooms.reduce((acc, teamRoom) => {
       if (teamId === teamRoom.teamId) {
-        acc.push(<Menu.Item key={teamRoom.teamRoomId}>{teamRoom.name}</Menu.Item>);
+        acc.push(<Menu.Item key={teamRoom.teamRoomId}>
+          <i className="sidebar__i fa fa-comments" aria-hidden="true" />{teamRoom.name}
+        </Menu.Item>);
       }
 
       return acc;
@@ -88,9 +90,11 @@ class Sidebar extends Component {
           <SubMenu
             key={teamId}
             title={<Row gutter={16}>
-              <Col xs={{ span: 18 }}><span>{name}</span></Col>
+              <Col xs={{ span: 18 }}><span><i className="sidebar__i fa fa-users" aria-hidden="true" />{name}</span></Col>
               <Col xs={{ span: 3 }}>
-                <a title="Add Team Room" onClick={e => this.showTeamRoomDialog(e, teamId)}><Icon type="plus" /></a>
+                <a title="Add Team Room" onClick={e => this.showTeamRoomDialog(e, teamId)}>
+                  <i className="fa fa-plus" aria-hidden="true" />
+                </a>
               </Col>
             </Row>}
           >
@@ -112,7 +116,9 @@ class Sidebar extends Component {
             <Link to={`/app/integrations/${subscriberOrgId}`}>Integrations</Link>
           </Menu.Item>
           <Menu.Item key="1">
-            <a onClick={() => this.props.toggleInvitePeopleDialog(true, subscriberOrgId)}>Invite People</a>
+            <a onClick={() => this.props.toggleInvitePeopleDialog(true, subscriberOrgId)}>
+              <i className="fa fa-user-plus" aria-hidden="true" /> Invite People
+            </a>
           </Menu.Item>
           <Menu.Item key="2">
             <a onClick={() => this.props.toggleOrgSettingsDialog(true, subscriberOrgId)}>Settings</a>
@@ -125,13 +131,17 @@ class Sidebar extends Component {
           key={subscriberOrgId}
           title={
             <Row gutter={16}>
-              <Col xs={{ span: 17 }}><span><Icon type="user" />{name}</span></Col>
+              <Col xs={{ span: 17 }}><span><i className="sidebar__i fa fa-building" aria-hidden="true" />{name}</span></Col>
               <Col xs={{ span: 2 }}>
-                <a title="Add Team" onClick={e => this.showTeamDialog(e, subscriberOrgId)}><Icon type="plus" /></a>
+                <a title="Add Team" onClick={e => this.showTeamDialog(e, subscriberOrgId)}>
+                  <i className="fa fa-plus" aria-hidden="true" />
+                </a>
               </Col>
               <Col xs={{ span: 3 }}>
                 <Dropdown overlay={menu} trigger={['click']}>
-                  <a onClick={e => e.stopPropagation()} title="Settings"><Icon type="setting" /></a>
+                  <a onClick={e => e.stopPropagation()} title="Settings">
+                    <i className="sidebar__i fa fa-cog" aria-hidden="true" />
+                  </a>
                 </Dropdown>
               </Col>
             </Row>}
@@ -149,7 +159,7 @@ class Sidebar extends Component {
 
     return (
       <Sider width={235} style={{ background: '#fff' }}>
-            
+
         <div className="sidebar-menu-item-label">Your Organizations</div>
         <Menu
           mode="inline"
@@ -158,7 +168,9 @@ class Sidebar extends Component {
         >
           { this.renderOrgs() }
           <Menu.Item key="add-org">
-            <div className="add-organization-button"><Icon type="plus" />Add Organization</div>
+            <div className="add-organization-button">
+              <i className="sidebar__i fa fa-plus" aria-hidden="true" /> Add Organization
+            </div>
           </Menu.Item>
         </Menu>
       </Sider>
