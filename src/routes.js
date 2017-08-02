@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { ProtectedRoute, PublicRoute } from './routing';
 import Main from './layouts/Main';
 import SignUp from './layouts/SignUp';
+import Robots from './layouts/Robots';
 
 export const routesPaths = {
   register: '/register',
@@ -14,7 +15,8 @@ export const routesPaths = {
   home: '/',
   app: '/app',
   chat: '/app/chat/:conversationId',
-  integrations: '/app/integrations/:subscriberOrgId'
+  integrations: '/app/integrations/:subscriberOrgId',
+  robots: '/robots.txt'
 };
 
 export default (
@@ -24,6 +26,7 @@ export default (
     <Route exact path={routesPaths.verifyAccount} component={SignUp} />
     <Route exact path={routesPaths.createAccount} component={SignUp} />
     <PublicRoute exact path={routesPaths.login} component={SignUp} />
+    <PublicRoute exact path={routesPaths.robots} component={Robots} />
     <ProtectedRoute component={Main} />
   </Switch>
 );
