@@ -14,7 +14,8 @@ export const routesPaths = {
   home: '/',
   app: '/app',
   chat: '/app/chat/:conversationId',
-  integrations: '/app/integrations/:subscriberOrgId'
+  integrations: '/app/integrations/:subscriberOrgId',
+  organization: '/app/organization'
 };
 
 export default (

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Dropdown, Menu, Icon, Col, Row } from 'antd';
+import { Layout, Dropdown, Menu, Col, Row } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
