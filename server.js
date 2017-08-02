@@ -20,6 +20,10 @@ if (process.env.NODE_ENV !== 'production') {
   server.set('trust proxy', 1); // Allow http proxying.
   server.use(new Helmet()); // Add secure HTTP headers.
 
+  server.use('/robots.txt', (req, res) => {
+    res.sendFile(`${__dirname}/robots.txt`);
+  });
+
   server.use(express.static('dist', { fallthrough: true }));
   server.use('/', (req, res) => {
     res.sendFile(`${__dirname}/dist/index.html`);
