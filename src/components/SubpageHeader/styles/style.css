@@ -1,12 +1,13 @@
 .subpage-header-block {
-  border-bottom: 3px solid #ececec;
   padding: 0 24px;
 }
 .subpage-header__top {
   height: 75px;
+  border-bottom: 3px solid #ececec;
 }
 .subpage-header__bottom {
   height: 55px;
+  border-bottom: 3px solid #ececec;
 }
 .subpage-header__row {
   height: 100%;
