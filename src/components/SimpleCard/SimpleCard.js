@@ -1,12 +1,10 @@
 import React from 'react';
 import { Card } from 'antd';
 
-function SimpleCard() {
+function SimpleCard(props) {
   return (
     <Card>
-      <p>Card content</p>
-      <p>Card content</p>
-      <p>Card content</p>
+      {props.children}
     </Card>
   );
 }
