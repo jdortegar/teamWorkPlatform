@@ -65,8 +65,10 @@ class OrganizationPage extends Component {
 
   renderIntegrations() {
     const integrations = [];
-    if(!_.isEmpty(this.props.integrations)) {
-      if('box' in this.props.integrations) {
+    const subscriberOrgId = this.props.match.params.subscriberOrgId;
+
+    if(!_.isEmpty(this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId])) {
+      if('box' in this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId]) {
         integrations.push(
           <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
             <a>
@@ -75,7 +77,7 @@ class OrganizationPage extends Component {
           </Col>
         )
       }
-      if('google' in this.props.integrations) {
+      if('google' in this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId]) {
         integrations.push(
           <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
             <a>
@@ -104,18 +106,20 @@ class OrganizationPage extends Component {
 
   render() {
     const subscriberOrgId = this.props.match.params.subscriberOrgId;
+    const numberOfTeams = this.props.teams.teamIdsBySubscriberOrgId[subscriberOrgId].length;
+    const numberOfIntegrations = _.size(this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId]);
 
     return (
       <div>
         <SubpageHeader />
-        <SimpleHeader text="Your Integrations (2)" />
+        <SimpleHeader text={`Your Integrations (${numberOfIntegrations})`} />
         <SimpleCardContainer className="subpage-block">
           <Row type="flex" justify="start" gutter={20}>
             { this.renderAddCard('Add a New Integration', `/app/integrations/${subscriberOrgId}`) }
             { this.renderIntegrations() }
           </Row>
         </SimpleCardContainer>
-        <SimpleHeader text="Your Teams" />
+        <SimpleHeader text={`Your Teams (${numberOfTeams})`} />
         <SimpleCardContainer className="subpage-block">
           <Row type="flex" justify="start" gutter={20}>
             { this.renderAddCard('Add a New Team', `/app/integrations/${subscriberOrgId}`) }
