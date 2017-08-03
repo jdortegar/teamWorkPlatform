@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleHeader from '../../components/SimpleHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
@@ -9,7 +10,9 @@ import { IconCard } from '../../components/cards';
 import './styles/style.css';
 
 const propTypes = {
-  integrations: PropTypes.array,
+  integrations: PropTypes.PropTypes.shape({
+    integrationsBySubscriberOrgId: PropTypes.object
+  }).isRequired,
   requestIntegrations: PropTypes.func.isRequired,
   currentSubscriberOrgId: PropTypes.string.isRequired,
   setCurrentSubscriberOrgId: PropTypes.func.isRequired,
@@ -32,7 +35,6 @@ const propTypes = {
 };
 
 const defaultProps = {
-  integrations: [1, 2, 3, 4, 5, 6, 7, 8],
   teams: {
     teamIdsBySubscriberOrgId: {
       ids: []
@@ -48,6 +50,7 @@ class OrganizationPage extends Component {
     if(subscriberOrgId !== this.props.currentSubscriberOrgId) {
       this.props.setCurrentSubscriberOrgId(subscriberOrgId);
     }
+    console.log(this.props);
   }
 
   renderAddCard(text, url) {
@@ -61,15 +64,27 @@ class OrganizationPage extends Component {
   }
 
   renderIntegrations() {
-    return this.props.integrations.map(() => {
-      return (
-        <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
-          <a>
-            <IconCard text="Name" />
-          </a>
-        </Col>
-      );
-    });
+    const integrations = [];
+    if(!_.isEmpty(this.props.integrations)) {
+      if('box' in this.props.integrations) {
+        integrations.push(
+          <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
+            <a>
+              <IconCard text="Box" />
+            </a>
+          </Col>
+        )
+      }
+      if('google' in this.props.integrations) {
+        integrations.push(
+          <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
+            <a>
+              <IconCard text="Google" />
+            </a>
+          </Col>
+        )
+      }
+    }
   }
 
   renderTeams(subscriberOrgId) {

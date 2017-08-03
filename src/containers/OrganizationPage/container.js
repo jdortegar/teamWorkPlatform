@@ -6,7 +6,8 @@ import { requestIntegrations, setCurrentSubscriberOrgId } from '../../actions';
 function mapStateToProps(state) {
   return {
     teams: state.teams,
-    currentSubscriberOrgId: state.subscriberOrgs.currentSubscriberOrgId
+    currentSubscriberOrgId: state.subscriberOrgs.currentSubscriberOrgId,
+    integrations: state.integrations
   };
 }
 
