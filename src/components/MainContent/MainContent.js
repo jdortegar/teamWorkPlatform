@@ -3,7 +3,7 @@ import { Layout } from 'antd';
 import { Route, Switch } from 'react-router-dom';
 import Chat from '../../containers/Chat';
 import Integrations from '../../containers/Integrations';
-import OrganizationPage from '../../pages/OrganizationPage';
+import OrganizationPage from '../../containers/OrganizationPage';
 import { routesPaths } from '../../routes';
 
 const { Content } = Layout;
