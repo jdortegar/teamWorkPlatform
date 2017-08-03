@@ -60,7 +60,7 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
       action.payload.subscriberOrgs.forEach((subscriberOrg) => { subscriberOrgById[subscriberOrg.subscriberOrgId] = subscriberOrg; });
       const data = action.payload;
       const notInList = (currentSubscriberOrgId === null) || data.every(subscriberOrg => (currentSubscriberOrgId !== subscriberOrg.subscriberOrgId));
-      currentSubscriberOrgId = (notInList) ? defaultSubscriberOrg(action.payload).subscriberOrgId : currentSubscriberOrgId;
+      currentSubscriberOrgId = (notInList) ? defaultSubscriberOrg(action.payload.subscriberOrgs).subscriberOrgId : currentSubscriberOrgId;
       return {
         ...state,
         raw,
