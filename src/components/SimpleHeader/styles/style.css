@@ -1,11 +1,11 @@
-.subpage-header-block {
+.simple-header-block {
   padding: 0 24px;
 }
-.subpage-header__top {
-  height: 75px;
+.simple-header__container {
+  height: 55px;
   border-bottom: 3px solid #ececec;
 }
-.subpage-header__row {
+.simple-header__row {
   height: 100%;
   width: 100%;
 }
