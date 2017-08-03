@@ -8,7 +8,7 @@ import { toggleOrgDialog,
   requestSubscriberOrgs,
   requestAllTeams, requestAllTeamRooms,
   toggleInvitePeopleDialog, toggleOrgSettingsDialog,
-  toggleTeamDialog, toggleTeamRoomDialog
+  toggleTeamDialog, toggleTeamRoomDialog, setCurrentSubscriberOrgId
 } from '../../actions';
 import './styles/style.css';
 
@@ -42,7 +42,7 @@ class Sidebar extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { hovered: null, selected: null };
+    this.state = { hovered: null };
 
     this.handleClick = this.handleClick.bind(this);
     this.onClickEditOrg = this.onClickEditOrg.bind(this);
@@ -57,6 +57,7 @@ class Sidebar extends Component {
   onClickEditOrg(e, orgId) {
     e.stopPropagation();
     this.setState({ selected: orgId });
+    this.props.setCurrentSubscriberOrgId(orgId);
     this.props.history.push(`/app/organization/${orgId}`);
   }
 
@@ -126,7 +127,7 @@ class Sidebar extends Component {
               <Col xs={{ span: 18 }}><span><i className="sidebar__i fa fa-building" aria-hidden="true" />{name}</span></Col>
               <Col xs={{ span: 3 }}>
                 {
-                  (this.state.hovered === subscriberOrgId) || (this.state.selected === subscriberOrgId) ?
+                  (this.state.hovered === subscriberOrgId) || (this.props.currentSubscriberOrgId === subscriberOrgId) ?
                     <a onClick={e => this.onClickEditOrg(e, subscriberOrgId)} title="Edit">
                       <i className="sidebar__i fa fa-pencil" aria-hidden="true" />
                     </a> : null
@@ -179,7 +180,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ toggleOrgDialog,
+  return bindActionCreators({
+    setCurrentSubscriberOrgId,
+    toggleOrgDialog,
     requestSubscriberOrgs,
     requestAllTeams,
     toggleInvitePeopleDialog,

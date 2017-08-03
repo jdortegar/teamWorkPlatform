@@ -11,6 +11,8 @@ import './styles/style.css';
 const propTypes = {
   integrations: PropTypes.array,
   requestIntegrations: PropTypes.func.isRequired,
+  currentSubscriberOrgId: PropTypes.string.isRequired,
+  setCurrentSubscriberOrgId: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       subscriberOrgId: PropTypes.string
@@ -43,6 +45,9 @@ class OrganizationPage extends Component {
     const subscriberOrgId = this.props.match.params.subscriberOrgId;
 
     this.props.requestIntegrations(subscriberOrgId);
+    if(subscriberOrgId !== this.props.currentSubscriberOrgId) {
+      this.props.setCurrentSubscriberOrgId(subscriberOrgId);
+    }
   }
 
   renderAddCard(text, url) {
