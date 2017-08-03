@@ -23,7 +23,7 @@ export function receiveConversations(conversations, teamRoomId) {
 }
 
 export function requestConversationsError(error, { teamRoomId }) {
-  return { type: REQUEST_CONVERSATIONS_ERROR, payload: new Error(error, { teamRoomId }), error: true };
+  return { type: REQUEST_CONVERSATIONS_ERROR, meta: { teamRoomId }, payload: error, error: true };
 }
 
 export function requestConversations({ teamRoomId }) {
@@ -53,7 +53,7 @@ export function receiveTranscript(transcript, conversationId) {
 }
 
 export function requestTranscriptError(error, conversationId) {
-  return { type: REQUEST_TRANSCRIPT_ERROR, payload: new Error(error, conversationId), error: true };
+  return { type: REQUEST_TRANSCRIPT_ERROR, meta: { conversationId }, payload: error, error: true };
 }
 
 export function requestTranscript(conversationId) {

@@ -22,7 +22,7 @@ export function receiveTeams(teams, subscriberOrgId) {
 }
 
 export function requestTeamsError(error, subscriberOrgId) {
-  return { type: REQUEST_TEAMS_ERROR, payload: new Error(error, subscriberOrgId), error: true };
+  return { type: REQUEST_TEAMS_ERROR, errorMeta: { subscriberOrgId }, payload: error, error: true };
 }
 
 export function requestAllTeams() {
@@ -32,7 +32,7 @@ export function requestAllTeams() {
       const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
 
       return axios.get(`${config.hablaApiBaseUri}/teams/getTeams`, axiosOptions)
-        .then(response => dispatch({ type: RECEIVE_ALL_TEAMS, payload: response.data.teams }))
+        .then(response => dispatch({ type: RECEIVE_ALL_TEAMS, payload: { teams: response.data.teams } }))
         .catch(err => dispatch(requestTeamsError(err)));
     }
     return Promise.resolve();

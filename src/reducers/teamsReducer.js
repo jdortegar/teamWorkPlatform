@@ -15,7 +15,8 @@ const INITIAL_STATE = {
 
   received: false,
   requesting: false,
-  error: null
+  error: null,
+  errorMeta: {}
 };
 
 function defaultTeam(teamIds, teamById) {
@@ -42,13 +43,14 @@ const teamsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         received: false,
         requesting: true,
-        error: null
+        error: null,
+        errorMeta: {}
       };
     case RECEIVE_ALL_TEAMS: {
       const teamById = {};
       const teamIdsBySubscriberOrgId = {};
       const currentTeamIdBySubscriberOrgId = {};
-      action.payload.forEach((team) => {
+      action.payload.teams.forEach((team) => {
         teamById[team.teamId] = team;
         let teamIds = teamIdsBySubscriberOrgId[team.subscriberOrgId];
         if (!teamIds) {
@@ -71,13 +73,14 @@ const teamsReducer = (state = INITIAL_STATE, action) => {
 
       return {
         ...state,
-        raw: action.payload,
+        raw: action.payload.teams,
         teamById,
         teamIdsBySubscriberOrgId,
         currentTeamIdBySubscriberOrgId,
         received: true,
         requesting: false,
-        error: null
+        error: null,
+        errorMeta: {}
       };
     }
     case RECEIVE_TEAMS: {
@@ -109,7 +112,8 @@ const teamsReducer = (state = INITIAL_STATE, action) => {
         currentTeamIdBySubscriberOrgId,
         received: true,
         requesting: false,
-        error: null
+        error: null,
+        errorMeta: {}
       };
     }
     case REQUEST_TEAMS_ERROR:
@@ -117,7 +121,8 @@ const teamsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         received: false,
         requesting: false,
-        error: action.payload
+        error: action.payload,
+        errorMeta: action.meta || {}
       };
     case SET_CURRENT_TEAM_ID: {
       const { subscriberOrgId, teamId } = action.payload;

@@ -15,7 +15,8 @@ const INITIAL_STATE = {
 
   received: false,
   requesting: false,
-  error: null
+  error: null,
+  errorMeta: {}
 };
 
 function defaultTeamRoom(teamRoomIds, teamRoomById) {
@@ -42,40 +43,42 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         received: false,
         requesting: true,
-        error: null
+        error: null,
+        errorMeta: {}
       };
     case RECEIVE_ALL_TEAM_ROOMS: {
       const teamRoomById = {};
       const teamRoomIdsByTeamId = {};
       const currentTeamRoomIdByTeamId = {};
-      // action.payload.forEach((teamRoom) => {
-      //   teamRoomById[teamRoom.teamRoomId] = teamRoom;
-      //   let teamRoomIds = teamRoomIdsByTeamId[teamRoom.teamId];
-      //   if (!teamRoomIds) {
-      //     teamRoomIds = [];
-      //     teamRoomIdsByTeamId[teamRoom.teamId] = teamRoomIds;
-      //   }
-      //   teamRoomIds.push(teamRoom.teamRoomId);
-      //   if (teamRoom.teamRoomId === state.currentTeamRoomIdByTeamId[teamRoom.teamId]) {
-      //     currentTeamRoomIdByTeamId[teamRoom.teamId] = teamRoom.teamRoomId;
-      //   }
-      // });
-      //
-      // Object.keys(teamRoomIdsByTeamId).forEach((teamId) => {
-      //   const currentTeamRoomId = currentTeamRoomIdByTeamId[teamId];
-      //   if ((!currentTeamRoomId) || (currentTeamRoomId === null)) {
-      //     currentTeamRoomIdByTeamId[teamId] = defaultTeamRoom(teamRoomIdsByTeamId[teamId], teamRoomById).teamRoomId;
-      //   }
-      // });
+      action.payload.teamRooms.forEach((teamRoom) => {
+        teamRoomById[teamRoom.teamRoomId] = teamRoom;
+        let teamRoomIds = teamRoomIdsByTeamId[teamRoom.teamId];
+        if (!teamRoomIds) {
+          teamRoomIds = [];
+          teamRoomIdsByTeamId[teamRoom.teamId] = teamRoomIds;
+        }
+        teamRoomIds.push(teamRoom.teamRoomId);
+        if (teamRoom.teamRoomId === state.currentTeamRoomIdByTeamId[teamRoom.teamId]) {
+          currentTeamRoomIdByTeamId[teamRoom.teamId] = teamRoom.teamRoomId;
+        }
+      });
+
+      Object.keys(teamRoomIdsByTeamId).forEach((teamId) => {
+        const currentTeamRoomId = currentTeamRoomIdByTeamId[teamId];
+        if ((!currentTeamRoomId) || (currentTeamRoomId === null)) {
+          currentTeamRoomIdByTeamId[teamId] = defaultTeamRoom(teamRoomIdsByTeamId[teamId], teamRoomById).teamRoomId;
+        }
+      });
       return {
         ...state,
-        raw: action.payload,
+        raw: action.payload.teamRooms,
         teamRoomById,
         teamRoomIdsByTeamId,
         currentTeamRoomIdByTeamId,
         received: true,
         requesting: false,
-        error: null
+        error: null,
+        errorMeta: {}
       };
     }
     case RECEIVE_TEAM_ROOMS: {
@@ -107,7 +110,8 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
         currentTeamRoomIdByTeamId,
         received: true,
         requesting: false,
-        error: null
+        error: null,
+        errorMeta: {}
       };
     }
     case REQUEST_TEAM_ROOMS_ERROR:
@@ -115,7 +119,8 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         received: false,
         requesting: false,
-        error: action.payload
+        error: action.payload,
+        errorMeta: action.meta || {}
       };
     case SET_CURRENT_TEAM_ROOM_ID: {
       const { teamId, teamRoomId } = action.payload;

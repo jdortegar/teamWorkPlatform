@@ -15,7 +15,6 @@ const INITIAL_STATE = {
   received: false,
   requesting: false,
   error: null,
-  errorMeta: {},
   submittingOrgForm: false
 };
 
@@ -38,8 +37,7 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         received: false,
         requesting: true,
-        error: null,
-        errorMeta: {}
+        error: null
       };
     case SUBMITTING_ORG_FORM: {
       return {
@@ -54,10 +52,10 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
       };
     }
     case RECEIVE_SUBSCRIBER_ORGS: {
-      const raw = action.payload.subscriberOrgs;
+      const raw = action.payload;
       const subscriberOrgById = {};
       let currentSubscriberOrgId = state.currentSubscriberOrgId;
-      action.payload.subscriberOrgs.forEach((subscriberOrg) => { subscriberOrgById[subscriberOrg.subscriberOrgId] = subscriberOrg; });
+      action.payload.forEach((subscriberOrg) => { subscriberOrgById[subscriberOrg.subscriberOrgId] = subscriberOrg; });
       const data = action.payload;
       const notInList = (currentSubscriberOrgId === null) || data.every(subscriberOrg => (currentSubscriberOrgId !== subscriberOrg.subscriberOrgId));
       currentSubscriberOrgId = (notInList) ? defaultSubscriberOrg(action.payload).subscriberOrgId : currentSubscriberOrgId;
@@ -68,8 +66,7 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
         currentSubscriberOrgId,
         received: true,
         requesting: false,
-        error: null,
-        errorMeta: {}
+        error: null
       };
     }
     case REQUEST_SUBSCRIBER_ORGS_ERROR:
@@ -77,8 +74,7 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         received: false,
         requesting: false,
-        error: action.payload,
-        errorMeta: action.meta || {}
+        error: action.payload
       };
     case SET_CURRENT_SUBSCRIBER_ORG_ID:
       return {

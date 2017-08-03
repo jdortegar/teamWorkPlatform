@@ -17,7 +17,7 @@ function requestingSubscriberOrgs() {
 export function receiveSubscriberOrgs(subscriberOrgs) {
   return {
     type: RECEIVE_SUBSCRIBER_ORGS,
-    payload: subscriberOrgs
+    payload: { subscriberOrgs }
   };
 }
 
