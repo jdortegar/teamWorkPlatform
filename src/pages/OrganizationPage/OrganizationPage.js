@@ -1,3 +1,7 @@
+({
+  babel: true
+})
+
 import React, { Component } from 'react';
 import { Row, Col } from 'antd';
 import PropTypes from 'prop-types';
@@ -14,8 +18,9 @@ const propTypes = {
     integrationsBySubscriberOrgId: PropTypes.object
   }).isRequired,
   requestIntegrations: PropTypes.func.isRequired,
-  currentSubscriberOrgId: PropTypes.string.isRequired,
+  currentSubscriberOrgId: PropTypes.string,
   setCurrentSubscriberOrgId: PropTypes.func.isRequired,
+  requestSubscribers: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       subscriberOrgId: PropTypes.string
@@ -39,52 +44,44 @@ const defaultProps = {
     teamIdsBySubscriberOrgId: {
       ids: []
     }
-  }
+  },
+  currentSubscriberOrgId: undefined
 };
 
 class OrganizationPage extends Component {
   componentDidMount() {
     const subscriberOrgId = this.props.match.params.subscriberOrgId;
 
-    this.props.requestIntegrations(subscriberOrgId);
-    if(subscriberOrgId !== this.props.currentSubscriberOrgId) {
+    if (subscriberOrgId !== this.props.currentSubscriberOrgId) {
       this.props.setCurrentSubscriberOrgId(subscriberOrgId);
     }
-    console.log(this.props);
-  }
-
-  renderAddCard(text, url) {
-    return (
-      <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
-        <Link to={url}>
-          <IconCard icon={<i className="fa fa-plus simple-card__icons" aria-hidden="true" />} text={text} />
-        </Link>
-      </Col>
-    );
+    this.props.requestSubscribers(subscriberOrgId);
+    this.props.requestIntegrations(subscriberOrgId);
+    console.log(this.props.currentSubscriberOrgId);
   }
 
   renderIntegrations() {
     const integrations = [];
     const subscriberOrgId = this.props.match.params.subscriberOrgId;
 
-    if(!_.isEmpty(this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId])) {
-      if('box' in this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId]) {
+    if (!_.isEmpty(this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId])) {
+      if ('box' in this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId]) {
         integrations.push(
           <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
             <a>
               <IconCard text="Box" />
             </a>
           </Col>
-        )
+        );
       }
-      if('google' in this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId]) {
+      if ('google' in this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId]) {
         integrations.push(
           <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
             <a>
               <IconCard text="Google" />
             </a>
           </Col>
-        )
+        );
       }
     }
   }
@@ -95,9 +92,23 @@ class OrganizationPage extends Component {
     return teamIds.map((teamId) => {
       const { name } = this.props.teams.teamById[teamId];
       return (
-        <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
+        <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }} key={teamId}>
           <a>
             <IconCard text={name} />
+          </a>
+        </Col>
+      );
+    });
+  }
+
+  renderMembers() {
+    const subscriberOrgId = this.props.match.params.subscriberOrgId;
+
+    return this.props.subscribers.subscribersBySubscriberOrgId[subscriberOrgId].map(({ displayName, userId }) => {
+      return (
+        <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }} key={userId}>
+          <a>
+            <IconCard text={displayName} />
           </a>
         </Col>
       );
@@ -108,6 +119,16 @@ class OrganizationPage extends Component {
     const subscriberOrgId = this.props.match.params.subscriberOrgId;
     const numberOfTeams = this.props.teams.teamIdsBySubscriberOrgId[subscriberOrgId].length;
     const numberOfIntegrations = _.size(this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId]);
+    const numberOfMembers = this.props.subscribers.subscribersBySubscriberOrgId[subscriberOrgId].length;
+    const renderAddCard = (text, url = null) => {
+      return (
+        <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
+          <Link to={url}>
+            <IconCard icon={<i className="fa fa-plus simple-card__icons" aria-hidden="true" />} text={text} />
+          </Link>
+        </Col>
+      );
+    };
 
     return (
       <div>
@@ -115,15 +136,22 @@ class OrganizationPage extends Component {
         <SimpleHeader text={`Your Integrations (${numberOfIntegrations})`} />
         <SimpleCardContainer className="subpage-block">
           <Row type="flex" justify="start" gutter={20}>
-            { this.renderAddCard('Add a New Integration', `/app/integrations/${subscriberOrgId}`) }
+            { renderAddCard('Add a New Integration', `/app/integrations/${subscriberOrgId}`) }
             { this.renderIntegrations() }
           </Row>
         </SimpleCardContainer>
         <SimpleHeader text={`Your Teams (${numberOfTeams})`} />
         <SimpleCardContainer className="subpage-block">
           <Row type="flex" justify="start" gutter={20}>
-            { this.renderAddCard('Add a New Team', `/app/integrations/${subscriberOrgId}`) }
+            { renderAddCard('Add a New Team', `/app/integrations/${subscriberOrgId}`) }
             { this.renderTeams(subscriberOrgId) }
+          </Row>
+        </SimpleCardContainer>
+        <SimpleHeader text={`Your Members (${numberOfMembers})`} />
+        <SimpleCardContainer className="subpage-block">
+          <Row type="flex" justify="start" gutter={20}>
+            { renderAddCard('Add a New Team', `/app/integrations/${subscriberOrgId}`) }
+            { this.renderMembers(subscriberOrgId) }
           </Row>
         </SimpleCardContainer>
       </div>
