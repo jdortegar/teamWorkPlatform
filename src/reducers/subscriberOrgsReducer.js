@@ -15,6 +15,7 @@ const INITIAL_STATE = {
   received: false,
   requesting: false,
   error: null,
+  errorMeta: {},
   submittingOrgForm: false
 };
 
@@ -37,7 +38,8 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         received: false,
         requesting: true,
-        error: null
+        error: null,
+        errorMeta: {}
       };
     case SUBMITTING_ORG_FORM: {
       return {
@@ -52,13 +54,13 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
       };
     }
     case RECEIVE_SUBSCRIBER_ORGS: {
-      const raw = action.payload;
+      const raw = action.payload.subscriberOrgs;
       const subscriberOrgById = {};
       let currentSubscriberOrgId = state.currentSubscriberOrgId;
-      action.payload.forEach((subscriberOrg) => { subscriberOrgById[subscriberOrg.subscriberOrgId] = subscriberOrg; });
+      action.payload.subscriberOrgs.forEach((subscriberOrg) => { subscriberOrgById[subscriberOrg.subscriberOrgId] = subscriberOrg; });
       const data = action.payload;
       const notInList = (currentSubscriberOrgId === null) || data.every(subscriberOrg => (currentSubscriberOrgId !== subscriberOrg.subscriberOrgId));
-      currentSubscriberOrgId = (notInList) ? defaultSubscriberOrg(action.payload).subscriberOrgId : currentSubscriberOrgId;
+      currentSubscriberOrgId = (notInList) ? defaultSubscriberOrg(action.payload.subscriberOrgs).subscriberOrgId : currentSubscriberOrgId;
       return {
         ...state,
         raw,
@@ -66,7 +68,8 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
         currentSubscriberOrgId,
         received: true,
         requesting: false,
-        error: null
+        error: null,
+        errorMeta: {}
       };
     }
     case REQUEST_SUBSCRIBER_ORGS_ERROR:
@@ -74,7 +77,8 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         received: false,
         requesting: false,
-        error: action.payload
+        error: action.payload,
+        errorMeta: action.meta || {}
       };
     case SET_CURRENT_SUBSCRIBER_ORG_ID:
       return {

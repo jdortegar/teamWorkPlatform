@@ -12,19 +12,16 @@ export const EventTypes = Object.freeze({
   subscriberOrgUpdated: 'subscriberOrgUpdated',
   subscriberOrgPrivateInfoUpdated: 'subscriberOrgPrivateInfoUpdated',
   subscriberAdded: 'subscriberAdded',
-  subscriberRemoved: 'subscriberRemoved',
 
   teamCreated: 'teamCreated',
   teamUpdated: 'teamUpdated',
   teamPrivateInfoUpdated: 'teamPrivateInfoUpdated',
   teamMemberAdded: 'teamMemberAdded',
-  teamMemberRemoved: 'teamMemberRemoved',
 
   teamRoomCreated: 'teamRoomCreated',
   teamRoomUpdated: 'teamRoomUpdated',
   teamRoomPrivateInfoUpdated: 'teamRoomPrivateInfoUpdated',
   teamRoomMemberAdded: 'teamRoomMemberAdded',
-  teamRoomMemberRemoved: 'teamRoomMemberRemoved',
 
   conversationCreated: 'conversationCreated',
   conversationUpdated: 'conversationUpdated',
@@ -35,9 +32,11 @@ export const EventTypes = Object.freeze({
 
   boxIntegrationCreated: 'boxIntegrationCreated',
   boxIntegrationExpired: 'boxIntegrationExpired',
+  boxIntegrationRevoked: 'boxIntegrationRevoked',
   boxWebhookEvent: 'boxWebhookEvent',
   googleIntegrationCreated: 'googleIntegrationCreated',
   googleIntegrationExpired: 'googleIntegrationCreated',
+  googleIntegrationRevoked: 'googleIntegrationRevoked',
   googleWebhookEvent: 'googleWebhookEvent',
 
   from(value) { return (this[value]); }

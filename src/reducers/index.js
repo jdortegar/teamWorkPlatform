@@ -4,8 +4,11 @@ import { UNAUTH_USER } from '../actions/types';
 // TODO: is this needed?  import registerReducer from './registerReducer';
 import authReducer from './authReducer';
 import subscriberOrgsReducer from './subscriberOrgsReducer';
+import subscribersReducer from './subscribersReducer';
 import teamsReducer from './teamsReducer';
+import teamMembersReducer from './teamMembersReducer';
 import teamRoomsReducer from './teamRoomsReducer';
+import teamRoomMembersReducer from './teamRoomMembersReducer';
 import conversationsReducer from './conversationsReducer';
 import integrationsReducer from './integrationsReducer';
 import dialogsReducer from './dialogsReducer';
@@ -16,8 +19,11 @@ const mainReducer = combineReducers({
   auth: authReducer,
   dialogs: dialogsReducer,
   subscriberOrgs: subscriberOrgsReducer,
+  subscribers: subscribersReducer,
   teams: teamsReducer,
+  teamMembers: teamMembersReducer,
   teamRooms: teamRoomsReducer,
+  teamRoomMembers: teamRoomMembersReducer,
   conversations: conversationsReducer,
   integrations: integrationsReducer,
   router: routerReducer

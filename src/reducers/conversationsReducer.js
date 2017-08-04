@@ -16,7 +16,8 @@ const INITIAL_STATE = {
 
   received: false,
   requesting: false,
-  error: null
+  error: null,
+  errorMeta: {}
 };
 
 const defaultExpanded = true;
@@ -54,7 +55,8 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         received: false,
         requesting: true,
-        error: null
+        error: null,
+        errorMeta: {}
       };
     case RECEIVE_CONVERSATIONS: {
       const { teamRoomId, conversations } = action.payload;
@@ -89,7 +91,8 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
         conversationIdsByTeamRoomId: updateConversationIdsByTeamRoomId,
         received: true,
         requesting: false,
-        error: null
+        error: null,
+        errorMeta: {}
       };
     }
     case RECEIVE_TRANSCRIPT: {
@@ -106,7 +109,8 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
         conversationById: updateConversations,
         received: true,
         requesting: false,
-        error: null
+        error: null,
+        errorMeta: {}
       };
     }
     case REQUEST_CONVERSATIONS_ERROR:
@@ -115,7 +119,8 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         received: false,
         requesting: false,
-        error: action.payload
+        error: action.payload,
+        errorMeta: action.meta || {}
       };
     case SET_ACTIVE_CONVERSATION: {
       const { conversationId } = action.payload;

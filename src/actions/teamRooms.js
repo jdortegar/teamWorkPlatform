@@ -21,7 +21,7 @@ export function receiveTeamRooms(teamRooms, teamId) {
 }
 
 export function requestTeamRoomsError(error, teamId) {
-  return { type: REQUEST_TEAM_ROOMS_ERROR, payload: new Error(error, teamId), error: true };
+  return { type: REQUEST_TEAM_ROOMS_ERROR, meta: { teamId }, payload: error, error: true };
 }
 
 export function requestAllTeamRooms() {
@@ -31,7 +31,7 @@ export function requestAllTeamRooms() {
       const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
       return axios.get(`${config.hablaApiBaseUri}/teamRooms/getTeamRooms`, axiosOptions)
         .then((response) => {
-          dispatch({ type: RECEIVE_ALL_TEAM_ROOMS, payload: response.data.teamRooms });
+          dispatch({ type: RECEIVE_ALL_TEAM_ROOMS, payload: { teamRooms: response.data.teamRooms } });
         })
         .catch(err => dispatch(requestTeamRoomsError(err)));
     }
