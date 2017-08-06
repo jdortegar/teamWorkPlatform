@@ -5,11 +5,13 @@ import './styles/style.css';
 
 const propTypes = {
   text: PropTypes.string.isRequired,
-  search: PropTypes.bool
+  search: PropTypes.bool,
+  handleSearch: PropTypes.func
 };
 
 const defaultProps = {
-  search: false
+  search: false,
+  handleSearch: null
 };
 
 function SimpleHeader(props) {
@@ -23,6 +25,7 @@ function SimpleHeader(props) {
           {
             props.search ?
               <Input
+                onChange={e => props.handleSearch(e.target.value)}
                 placeholder="Search"
                 prefix={<i className="fa fa-search" aria-hidden="true" />}
               /> : null

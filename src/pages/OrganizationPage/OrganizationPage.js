@@ -1,7 +1,3 @@
-({
-  babel: true
-})
-
 import React, { Component } from 'react';
 import { Row, Col } from 'antd';
 import PropTypes from 'prop-types';
@@ -24,6 +20,11 @@ const propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       subscriberOrgId: PropTypes.string
+    })
+  }).isRequired,
+  subscribers: PropTypes.shape({
+    subscribersBySubscriberOrgId: PropTypes.shape({
+      subscriberId: PropTypes.array
     })
   }).isRequired,
   teams: PropTypes.shape({
@@ -49,15 +50,20 @@ const defaultProps = {
 };
 
 class OrganizationPage extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { integrationsLoaded: false, subscribersLoaded: false };
+  }
+
   componentDidMount() {
     const subscriberOrgId = this.props.match.params.subscriberOrgId;
 
     if (subscriberOrgId !== this.props.currentSubscriberOrgId) {
       this.props.setCurrentSubscriberOrgId(subscriberOrgId);
     }
-    this.props.requestSubscribers(subscriberOrgId);
-    this.props.requestIntegrations(subscriberOrgId);
-    console.log(this.props.currentSubscriberOrgId);
+    this.props.requestSubscribers(subscriberOrgId).then(() => this.setState({ subscribersLoaded: true }));
+    this.props.requestIntegrations(subscriberOrgId).then(() => this.setState({ integrationsLoaded: true }));
   }
 
   renderIntegrations() {
@@ -93,9 +99,9 @@ class OrganizationPage extends Component {
       const { name } = this.props.teams.teamById[teamId];
       return (
         <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }} key={teamId}>
-          <a>
+          <Link to={`/app/team/${teamId}`}>
             <IconCard text={name} />
-          </a>
+          </Link>
         </Col>
       );
     });
@@ -117,45 +123,51 @@ class OrganizationPage extends Component {
 
   render() {
     const subscriberOrgId = this.props.match.params.subscriberOrgId;
-    const numberOfTeams = this.props.teams.teamIdsBySubscriberOrgId[subscriberOrgId].length;
-    const numberOfIntegrations = _.size(this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId]);
-    const numberOfMembers = this.props.subscribers.subscribersBySubscriberOrgId[subscriberOrgId].length;
-    const renderAddCard = (text, url = null) => {
-      return (
-        <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
-          <Link to={url}>
-            <IconCard icon={<i className="fa fa-plus simple-card__icons" aria-hidden="true" />} text={text} />
-          </Link>
-        </Col>
-      );
-    };
+    const { teams, integrations, subscribers } = this.props;
 
-    return (
-      <div>
-        <SubpageHeader />
-        <SimpleHeader text={`Your Integrations (${numberOfIntegrations})`} />
-        <SimpleCardContainer className="subpage-block">
-          <Row type="flex" justify="start" gutter={20}>
-            { renderAddCard('Add a New Integration', `/app/integrations/${subscriberOrgId}`) }
-            { this.renderIntegrations() }
-          </Row>
-        </SimpleCardContainer>
-        <SimpleHeader text={`Your Teams (${numberOfTeams})`} />
-        <SimpleCardContainer className="subpage-block">
-          <Row type="flex" justify="start" gutter={20}>
-            { renderAddCard('Add a New Team', `/app/integrations/${subscriberOrgId}`) }
-            { this.renderTeams(subscriberOrgId) }
-          </Row>
-        </SimpleCardContainer>
-        <SimpleHeader text={`Your Members (${numberOfMembers})`} />
-        <SimpleCardContainer className="subpage-block">
-          <Row type="flex" justify="start" gutter={20}>
-            { renderAddCard('Add a New Team', `/app/integrations/${subscriberOrgId}`) }
-            { this.renderMembers(subscriberOrgId) }
-          </Row>
-        </SimpleCardContainer>
-      </div>
-    );
+    if (this.state.subscribersLoaded && this.state.integrationsLoaded) {
+      const numberOfTeams = teams.teamIdsBySubscriberOrgId[subscriberOrgId].length;
+      const numberOfIntegrations = _.size(integrations.integrationsBySubscriberOrgId[subscriberOrgId]);
+      const numberOfMembers = subscribers.subscribersBySubscriberOrgId[subscriberOrgId].length;
+      const renderAddCard = (text, action) => {
+        return (
+          <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
+            <a onClick={action}>
+              <IconCard icon={<i className="fa fa-plus simple-card__icons" aria-hidden="true" />} text={text} />
+            </a>
+          </Col>
+        );
+      };
+
+      return (
+        <div>
+          <SubpageHeader />
+          <SimpleHeader text={`Your Integrations (${numberOfIntegrations})`} />
+          <SimpleCardContainer className="subpage-block">
+            <Row type="flex" justify="start" gutter={20}>
+              { renderAddCard('Add a New Integration', () => this.props.history.push(`/app/integrations/${subscriberOrgId}`)) }
+              { this.renderIntegrations() }
+            </Row>
+          </SimpleCardContainer>
+          <SimpleHeader text={`Your Teams (${numberOfTeams})`} />
+          <SimpleCardContainer className="subpage-block">
+            <Row type="flex" justify="start" gutter={20}>
+              { renderAddCard('Add a New Team', () => this.props.toggleTeamDialog(true)) }
+              { this.renderTeams(subscriberOrgId) }
+            </Row>
+          </SimpleCardContainer>
+          <SimpleHeader text={`Your Members (${numberOfMembers})`} />
+          <SimpleCardContainer className="subpage-block">
+            <Row type="flex" justify="start" gutter={20}>
+              { renderAddCard('Add a New Member', () => this.props.toggleInvitePeopleDialog(true)) }
+              { this.renderMembers(subscriberOrgId) }
+            </Row>
+          </SimpleCardContainer>
+        </div>
+      );
+    }
+
+    return <div>Loading...</div>;
   }
 }
 

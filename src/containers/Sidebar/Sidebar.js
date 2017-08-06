@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Layout, Menu, Col, Row } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { toggleOrgDialog,
@@ -54,11 +55,11 @@ class Sidebar extends Component {
     this.props.requestAllTeamRooms();
   }
 
-  onClickEditOrg(e, orgId) {
+  onClickEditOrg(e, orgId, url) {
     e.stopPropagation();
     this.setState({ selected: orgId });
     this.props.setCurrentSubscriberOrgId(orgId);
-    this.props.history.push(`/app/organization/${orgId}`);
+    this.props.history.push(url);
   }
 
   handleClick({ key }) {
@@ -101,7 +102,10 @@ class Sidebar extends Component {
           <SubMenu
             key={teamId}
             title={<Row gutter={16}>
-              <Col xs={{ span: 22 }}><span><i className="sidebar__i fa fa-users" aria-hidden="true" />{name}</span></Col>
+              <Col xs={{ span: 22 }}>
+                <a>
+                  <span><i className="sidebar__i fa fa-users" aria-hidden="true" />{name}</span></a>
+              </Col>
             </Row>}
           >
             { teamRooms }
@@ -128,7 +132,7 @@ class Sidebar extends Component {
               <Col xs={{ span: 3 }}>
                 {
                   (this.state.hovered === subscriberOrgId) || (this.props.currentSubscriberOrgId === subscriberOrgId) ?
-                    <a onClick={e => this.onClickEditOrg(e, subscriberOrgId)} title="Edit">
+                    <a onClick={e => this.onClickEditOrg(e, subscriberOrgId, `/app/organization/${subscriberOrgId}`)} title="Edit">
                       <i className="sidebar__i fa fa-pencil" aria-hidden="true" />
                     </a> : null
                 }

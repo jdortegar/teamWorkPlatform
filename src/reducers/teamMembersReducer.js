@@ -25,10 +25,10 @@ const teamMembersReducer = (state = INITIAL_STATE, action) => {
       };
     case RECEIVE_TEAM_MEMBERS: {
       const teamMembersByTeamId = _.cloneDeep(state.teamMembersByTeamId);
-      const teamMembers = {};
-      teamMembersByTeamId[action.payload.teamId] = teamMembers;
+      // const teamMembers = {};
+      teamMembersByTeamId[action.payload.teamId] = action.payload.teamMembers;
 
-      action.payload.teamMembers.forEach((teamMember) => { teamMembers[teamMember.userId] = teamMember; });
+      // action.payload.teamMembers.forEach((teamMember) => { teamMembers[teamMember.userId] = teamMember; });
 
       return {
         ...state,

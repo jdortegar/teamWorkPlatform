@@ -10,6 +10,8 @@ export * from './conversations';
 export * from './invitations';
 export * from './integrations';
 export * from './subscribers';
+export * from './teamMembers';
+export * from './teamRoomMembers';
 
 export function replaceRoute(newRoute) {
   return dispatch => dispatch(replace(newRoute));
