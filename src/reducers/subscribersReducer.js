@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   REQUESTING_SUBSCRIBERS,
   RECEIVE_SUBSCRIBERS,
@@ -5,7 +6,8 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  subscribersBySubscriberOrgId: {},
+  subscribersBySubscriberOrgId: {}, // TODO: deprecated.  Remove when using selector instead.
+  subscriberUserIdsBySubscriberOrgId: {},
 
   received: false,
   requesting: false,
@@ -25,14 +27,15 @@ const subscribersReducer = (state = INITIAL_STATE, action) => {
       };
     case RECEIVE_SUBSCRIBERS: {
       const subscribersBySubscriberOrgId = _.cloneDeep(state.subscribersBySubscriberOrgId);
-      // const subscribers = {};
       subscribersBySubscriberOrgId[action.payload.subscriberOrgId] = action.payload.subscribers;
 
-      // action.payload.subscribers.forEach((subscriber) => { subscribers[subscriber.userId] = subscriber; });
+      const subscriberUserIdsBySubscriberOrgId = _.cloneDeep(state.subscriberUserIdsBySubscriberOrgId);
+      subscriberUserIdsBySubscriberOrgId[action.payload.subscriberOrgId] = action.payload.subscribers.map(subscriber => subscriber.userId);
 
       return {
         ...state,
         subscribersBySubscriberOrgId,
+        subscriberUserIdsBySubscriberOrgId,
         received: true,
         requesting: false,
         error: null,

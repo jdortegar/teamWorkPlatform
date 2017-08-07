@@ -1,6 +1,7 @@
 import {
   REQUESTING_SUBSCRIBER_ORGS,
   RECEIVE_SUBSCRIBER_ORGS,
+  RECEIVE_SUBSCRIBER_ORG,
   REQUEST_SUBSCRIBER_ORGS_ERROR,
   SET_CURRENT_SUBSCRIBER_ORG_ID,
   CREATE_SUBSCRIBER_ORG,
@@ -58,7 +59,7 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
       const subscriberOrgById = {};
       let currentSubscriberOrgId = state.currentSubscriberOrgId;
       action.payload.subscriberOrgs.forEach((subscriberOrg) => { subscriberOrgById[subscriberOrg.subscriberOrgId] = subscriberOrg; });
-      const data = action.payload;
+      const data = action.payload.subscriberOrgs;
       const notInList = (currentSubscriberOrgId === null) || data.every(subscriberOrg => (currentSubscriberOrgId !== subscriberOrg.subscriberOrgId));
       currentSubscriberOrgId = (notInList) ? defaultSubscriberOrg(action.payload.subscriberOrgs).subscriberOrgId : currentSubscriberOrgId;
       return {
@@ -70,6 +71,14 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
         requesting: false,
         error: null,
         errorMeta: {}
+      };
+    }
+    case RECEIVE_SUBSCRIBER_ORG: {
+      const subscriberOrgById = _.cloneDeep(state.subscriberOrgById);
+      subscriberOrgById[action.payload.subscriberOrg.subscriberOrgId] = action.payload.subscriberOrg;
+      return {
+        ...state,
+        subscriberOrgById
       };
     }
     case REQUEST_SUBSCRIBER_ORGS_ERROR:

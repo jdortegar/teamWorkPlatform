@@ -3,6 +3,7 @@ import {
   REQUESTING_TEAM_ROOMS,
   RECEIVE_ALL_TEAM_ROOMS,
   RECEIVE_TEAM_ROOMS,
+  RECEIVE_TEAM_ROOM,
   REQUEST_TEAM_ROOMS_ERROR,
   SET_CURRENT_TEAM_ROOM_ID
 } from '../actions/types';
@@ -112,6 +113,25 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
         requesting: false,
         error: null,
         errorMeta: {}
+      };
+    }
+    case RECEIVE_TEAM_ROOM: {
+      const { teamId, teamRoom } = action.payload;
+      const teamRoomById = _.cloneDeep(state.teamRoomById);
+      const existingTeamRoom = teamRoomById[teamRoom.teamRoomId];
+      teamRoomById[teamRoom.teamRoomId] = teamRoom;
+      let teamRoomIdsByTeamId = state.teamRoomIdsByTeamId;
+
+      if (!existingTeamRoom) {
+        teamRoomIdsByTeamId = _.cloneDeep(state.teamRoomIdsByTeamId);
+        const teamRoomIds = teamRoomIdsByTeamId[teamId] || [];
+        teamRoomIds.push(teamRoom.teamRoomId);
+      }
+
+      return {
+        ...state,
+        teamRoomById,
+        teamRoomIdsByTeamId
       };
     }
     case REQUEST_TEAM_ROOMS_ERROR:

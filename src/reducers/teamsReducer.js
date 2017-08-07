@@ -3,6 +3,7 @@ import {
   REQUESTING_TEAMS,
   RECEIVE_ALL_TEAMS,
   RECEIVE_TEAMS,
+  RECEIVE_TEAM,
   REQUEST_TEAMS_ERROR,
   SET_CURRENT_TEAM_ID
 } from '../actions/types';
@@ -114,6 +115,25 @@ const teamsReducer = (state = INITIAL_STATE, action) => {
         requesting: false,
         error: null,
         errorMeta: {}
+      };
+    }
+    case RECEIVE_TEAM: {
+      const { subscriberOrgId, team } = action.payload;
+      const teamById = _.cloneDeep(state.teamById);
+      const existingTeam = teamById[team.teamId];
+      teamById[team.teamId] = team;
+      let teamIdsBySubscriberOrgId = state.teamIdsBySubscriberOrgId;
+
+      if (!existingTeam) {
+        teamIdsBySubscriberOrgId = _.cloneDeep(state.teamIdsBySubscriberOrgId);
+        const teamIds = teamIdsBySubscriberOrgId[subscriberOrgId] || [];
+        teamIds.push(team.teamId);
+      }
+
+      return {
+        ...state,
+        teamById,
+        teamIdsBySubscriberOrgId
       };
     }
     case REQUEST_TEAMS_ERROR:

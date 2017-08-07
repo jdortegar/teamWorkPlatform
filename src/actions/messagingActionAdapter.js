@@ -1,8 +1,8 @@
 import { EventTypes } from '../messaging';
-import { receiveSubscriberOrgs } from './subscriberOrgs';
-import { receiveTeams } from './teams';
-import { receiveTeamRooms } from './teamRooms';
-import { receiveConversations, receiveTranscript } from './conversations';
+import { receiveSubscriberOrg } from './subscriberOrgs';
+import { receiveTeam } from './teams';
+import { receiveTeamRoom } from './teamRooms';
+import { receiveConversations, receiveMessages } from './conversations';
 
 let store;
 
@@ -19,24 +19,24 @@ export default function (eventType, event) {
       // TODO:
       break;
     case EventTypes.userPrivateInfoUpdated:
-      // TODO;
+      // TODO:
       break;
 
     case EventTypes.subscriberOrgCreated:
-      store.dispatch(receiveSubscriberOrgs([event]));
+      store.dispatch(receiveSubscriberOrg(event));
       break;
     case EventTypes.subscriberOrgUpdated:
-      store.dispatch(receiveSubscriberOrgs([event]));
+      store.dispatch(receiveSubscriberOrg(event));
       break;
     case EventTypes.subscriberOrgPrivateInfoUpdated:
       // TODO:
       break;
 
     case EventTypes.teamCreated:
-      store.dispatch(receiveTeams([event], event.subscriberOrgId));
+      store.dispatch(receiveTeam(event, event.subscriberOrgId));
       break;
     case EventTypes.teamUpdated:
-      store.dispatch(receiveTeams([event], event.subscriberOrgId));
+      store.dispatch(receiveTeam(event, event.subscriberOrgId));
       break;
     case EventTypes.teamPrivateInfoUpdated:
       // TODO:
@@ -46,10 +46,10 @@ export default function (eventType, event) {
       break;
 
     case EventTypes.teamRoomCreated:
-      store.dispatch(receiveTeamRooms([event], event.teamId));
+      store.dispatch(receiveTeamRoom(event, event.teamId));
       break;
     case EventTypes.teamRoomUpdated:
-      store.dispatch(receiveTeamRooms([event], event.teamId));
+      store.dispatch(receiveTeamRoom(event, event.teamId));
       break;
     case EventTypes.teamRoomPrivateInfoUpdated:
       // TODO:
@@ -65,7 +65,7 @@ export default function (eventType, event) {
       // TODO:
       break;
     case EventTypes.messageCreated:
-      store.dispatch(receiveTranscript([event], event.conversationId));
+      store.dispatch(receiveMessages([event], event.conversationId));
       break;
 
     case EventTypes.boxIntegrationCreated:
@@ -86,7 +86,6 @@ export default function (eventType, event) {
     case EventTypes.googleIntegrationRevoked:
       // TODO:
       break;
-
 
     default:
       console.log(`Unprocessed messaging eventType=${eventType}`);

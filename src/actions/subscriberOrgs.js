@@ -4,6 +4,7 @@ import { getJwt } from '../session';
 import {
   REQUESTING_SUBSCRIBER_ORGS,
   RECEIVE_SUBSCRIBER_ORGS,
+  RECEIVE_SUBSCRIBER_ORG,
   REQUEST_SUBSCRIBER_ORGS_ERROR,
   SET_CURRENT_SUBSCRIBER_ORG_ID,
   SUBMITTING_ORG_FORM,
@@ -18,6 +19,13 @@ export function receiveSubscriberOrgs(subscriberOrgs) {
   return {
     type: RECEIVE_SUBSCRIBER_ORGS,
     payload: { subscriberOrgs }
+  };
+}
+
+export function receiveSubscriberOrg(subscriberOrg) {
+  return {
+    type: RECEIVE_SUBSCRIBER_ORG,
+    payload: { subscriberOrg }
   };
 }
 

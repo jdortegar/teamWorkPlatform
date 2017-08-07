@@ -5,6 +5,7 @@ import {
   REQUESTING_TEAM_ROOMS,
   RECEIVE_ALL_TEAM_ROOMS,
   RECEIVE_TEAM_ROOMS,
+  RECEIVE_TEAM_ROOM,
   REQUEST_TEAM_ROOMS_ERROR,
   SET_CURRENT_TEAM_ROOM_ID
 } from './types';
@@ -17,6 +18,13 @@ export function receiveTeamRooms(teamRooms, teamId) {
   return {
     type: RECEIVE_TEAM_ROOMS,
     payload: { teamId, teamRooms }
+  };
+}
+
+export function receiveTeamRoom(teamRoom, teamId) {
+  return {
+    type: RECEIVE_TEAM_ROOM,
+    payload: { teamId, teamRoom }
   };
 }
 

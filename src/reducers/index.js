@@ -3,6 +3,7 @@ import { routerReducer } from 'react-router-redux';
 import { UNAUTH_USER } from '../actions/types';
 // TODO: is this needed?  import registerReducer from './registerReducer';
 import authReducer from './authReducer';
+import usersReducer from './usersReducer';
 import subscriberOrgsReducer from './subscriberOrgsReducer';
 import subscribersReducer from './subscribersReducer';
 import teamsReducer from './teamsReducer';

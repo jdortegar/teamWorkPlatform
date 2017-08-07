@@ -35,5 +35,5 @@ server.listen(nodePort, (err) => {
   if (err) {
     // console.error(err);
   }
-  console.log(`Listening at localhost:${nodePort}`);
+  console.log(`Listening at ${nodePort}`);
 });

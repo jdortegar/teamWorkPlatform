@@ -6,7 +6,8 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  teamRoomMembersByTeamRoomId: {},
+  teamRoomMembersByTeamRoomId: {}, // TODO: deprecated.  Remove when using selector instead.
+  teamRoomMemberUserIdsByTeamRoomId: {},
 
   received: false,
   requesting: false,
@@ -26,14 +27,15 @@ const teamRoomMembersReducer = (state = INITIAL_STATE, action) => {
       };
     case RECEIVE_TEAM_ROOM_MEMBERS: {
       const teamRoomMembersByTeamRoomId = _.cloneDeep(state.teamRoomMembersByTeamRoomId);
-      // const teamRoomMembers = {};
       teamRoomMembersByTeamRoomId[action.payload.teamRoomId] = action.payload.teamRoomMembers;
 
-      // action.payload.teamRoomMembers.forEach((teamRoomMember) => { teamRoomMembers[teamRoomMember.userId] = teamRoomMember; });
+      const teamRoomMemberUserIdsByTeamRoomId = _.cloneDeep(state.teamRoomMemberUserIdsByTeamRoomId);
+      teamRoomMemberUserIdsByTeamRoomId[action.payload.teamRoomId] = action.payload.teamRoomMembers.map(teamRoomMember => teamRoomMember.userId);
 
       return {
         ...state,
         teamRoomMembersByTeamRoomId,
+        teamRoomMemberUserIdsByTeamRoomId,
         received: true,
         requesting: false,
         error: null,

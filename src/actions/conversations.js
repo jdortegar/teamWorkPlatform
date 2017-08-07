@@ -7,6 +7,7 @@ import {
   REQUEST_CONVERSATIONS_ERROR,
   REQUESTING_TRANSCRIPT,
   RECEIVE_TRANSCRIPT,
+  RECEIVE_MESSAGES,
   REQUEST_TRANSCRIPT_ERROR,
   SET_ACTIVE_CONVERSATION
 } from './types';
@@ -48,6 +49,13 @@ function requestingTranscript({ conversationId }) {
 export function receiveTranscript(transcript, conversationId) {
   return {
     type: RECEIVE_TRANSCRIPT,
+    payload: { conversationId, transcript }
+  };
+}
+
+export function receiveMessages(transcript, conversationId) {
+  return {
+    type: RECEIVE_MESSAGES,
     payload: { conversationId, transcript }
   };
 }

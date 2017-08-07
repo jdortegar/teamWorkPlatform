@@ -5,6 +5,7 @@ import {
   REQUESTING_TEAMS,
   RECEIVE_ALL_TEAMS,
   RECEIVE_TEAMS,
+  RECEIVE_TEAM,
   REQUEST_TEAMS_ERROR,
   SET_CURRENT_TEAM_ID
 } from './types';
@@ -18,6 +19,13 @@ export function receiveTeams(teams, subscriberOrgId) {
   return {
     type: RECEIVE_TEAMS,
     payload: { subscriberOrgId, teams }
+  };
+}
+
+export function receiveTeam(team, subscriberOrgId) {
+  return {
+    type: RECEIVE_TEAM,
+    payload: { subscriberOrgId, team }
   };
 }
 

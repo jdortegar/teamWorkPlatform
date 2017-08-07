@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   REQUESTING_TEAM_MEMBERS,
   RECEIVE_TEAM_MEMBERS,
@@ -5,7 +6,8 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  teamMembersByTeamId: {},
+  teamMembersByTeamId: {}, // TODO: deprecated.  Remove when using selector instead.
+  teamMemberUserIdsByTeamId: {},
 
   received: false,
   requesting: false,
@@ -25,14 +27,15 @@ const teamMembersReducer = (state = INITIAL_STATE, action) => {
       };
     case RECEIVE_TEAM_MEMBERS: {
       const teamMembersByTeamId = _.cloneDeep(state.teamMembersByTeamId);
-      // const teamMembers = {};
       teamMembersByTeamId[action.payload.teamId] = action.payload.teamMembers;
 
-      // action.payload.teamMembers.forEach((teamMember) => { teamMembers[teamMember.userId] = teamMember; });
+      const teamMemberUserIdsByTeamId = _.cloneDeep(state.teamMemberUserIdsByTeamId);
+      teamMemberUserIdsByTeamId[action.payload.teamId] = action.payload.teamMembers.map(teamMember => teamMember.userId);
 
       return {
         ...state,
         teamMembersByTeamId,
+        teamMemberUserIdsByTeamId,
         received: true,
         requesting: false,
         error: null,
