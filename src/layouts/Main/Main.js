@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Breadcrumb } from 'antd';
+import { Layout } from 'antd';
 import Header from '../../containers/Header';
 import Sidebar from '../../containers/Sidebar';
 import MainContent from '../../components/MainContent';
@@ -18,12 +18,7 @@ function Main() {
       <Header />
       <Layout className="ant-layout-has-sider">
         <Sidebar />
-        <Layout style={{ padding: '0 24px 24px' }}>
-          <Breadcrumb style={{ margin: '12px 0' }}>
-            <Breadcrumb.Item>Organization Name</Breadcrumb.Item>
-            <Breadcrumb.Item>Team Name</Breadcrumb.Item>
-            <Breadcrumb.Item>Team Room Name</Breadcrumb.Item>
-          </Breadcrumb>
+        <Layout style={{ padding: '24px' }}>
           <MainContent />
           <AddOrgDialog />
           <AddTeamDialog />

@@ -17,6 +17,9 @@
   "engines": {
     "node": ">=6"
   },
+  "quokka": {
+    "babel": true
+  },
   "scripts": {
     "start": "node server.js",
     "build": "cross-env NODE_ENV=production npm run clean && webpack -p --colors --profile --config webpack.config.prod.js",
@@ -36,6 +39,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.1.0",
+    "jsdom-quokka-plugin": "^1.0.5",
     "stylelint": "^8.0.0",
     "stylelint-config-recommended": "^1.0.0"
   },

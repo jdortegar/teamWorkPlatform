@@ -25,10 +25,10 @@ const subscribersReducer = (state = INITIAL_STATE, action) => {
       };
     case RECEIVE_SUBSCRIBERS: {
       const subscribersBySubscriberOrgId = _.cloneDeep(state.subscribersBySubscriberOrgId);
-      const subscribers = {};
-      subscribersBySubscriberOrgId[action.payload.subscriberOrgId] = subscribers;
+      // const subscribers = {};
+      subscribersBySubscriberOrgId[action.payload.subscriberOrgId] = action.payload.subscribers;
 
-      action.payload.subscribers.forEach((subscriber) => { subscribers[subscriber.userId] = subscriber; });
+      // action.payload.subscribers.forEach((subscriber) => { subscribers[subscriber.userId] = subscriber; });
 
       return {
         ...state,

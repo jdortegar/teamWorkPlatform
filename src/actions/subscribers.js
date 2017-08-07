@@ -29,7 +29,7 @@ export function requestSubscribers(subscriberOrgId) {
       const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
       return axios.get(`${config.hablaApiBaseUri}/subscriberOrgs/getSubscribers/${subscriberOrgId}`, axiosOptions)
         .then(response => response.data.subscribers)
-        .then(subscribers => dispatch(receiveSubscribers(subscribers)))
+        .then(subscribers => dispatch(receiveSubscribers(subscribers, subscriberOrgId)))
         .catch(err => dispatch(requestSubscribersError(err, subscriberOrgId)));
     }
     return Promise.resolve();

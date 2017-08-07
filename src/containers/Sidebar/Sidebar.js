@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { Layout, Dropdown, Menu, Icon, Col, Row } from 'antd';
+import { Layout, Menu, Col, Row } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { toggleOrgDialog,
   requestSubscriberOrgs,
   requestAllTeams, requestAllTeamRooms,
   toggleInvitePeopleDialog, toggleOrgSettingsDialog,
-  toggleTeamDialog, toggleTeamRoomDialog
+  toggleTeamDialog, toggleTeamRoomDialog, setCurrentSubscriberOrgId
 } from '../../actions';
 import './styles/style.css';
 
@@ -19,15 +20,16 @@ const { SubMenu } = Menu;
 const propTypes = {
   requestSubscriberOrgs: PropTypes.func.isRequired,
   toggleOrgDialog: PropTypes.func.isRequired,
-  toggleInvitePeopleDialog: PropTypes.func.isRequired,
   toggleTeamRoomDialog: PropTypes.func.isRequired,
-  toggleOrgSettingsDialog: PropTypes.func.isRequired,
   toggleTeamDialog: PropTypes.func.isRequired,
   requestAllTeamRooms: PropTypes.func.isRequired,
   requestAllTeams: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.array.isRequired,
   teams: PropTypes.array.isRequired,
-  teamRooms: PropTypes.array.isRequired
+  teamRooms: PropTypes.array.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func
+  }).isRequired
 };
 
 const defaultProps = {
@@ -41,13 +43,23 @@ class Sidebar extends Component {
   constructor(props) {
     super(props);
 
+    this.state = { hovered: null };
+
     this.handleClick = this.handleClick.bind(this);
+    this.onClickEditOrg = this.onClickEditOrg.bind(this);
   }
 
   componentDidMount() {
     this.props.requestSubscriberOrgs();
     this.props.requestAllTeams();
     this.props.requestAllTeamRooms();
+  }
+
+  onClickEditOrg(e, orgId, url) {
+    e.stopPropagation();
+    this.setState({ selected: orgId });
+    this.props.setCurrentSubscriberOrgId(orgId);
+    this.props.history.push(url);
   }
 
   handleClick({ key }) {
@@ -90,11 +102,9 @@ class Sidebar extends Component {
           <SubMenu
             key={teamId}
             title={<Row gutter={16}>
-              <Col xs={{ span: 18 }}><span><i className="sidebar__i fa fa-users" aria-hidden="true" />{name}</span></Col>
-              <Col xs={{ span: 3 }}>
-                <a title="Add Team Room" onClick={e => this.showTeamRoomDialog(e, teamId)}>
-                  <i className="fa fa-plus" aria-hidden="true" />
-                </a>
+              <Col xs={{ span: 22 }}>
+                <a>
+                  <span><i className="sidebar__i fa fa-users" aria-hidden="true" />{name}</span></a>
               </Col>
             </Row>}
           >
@@ -110,39 +120,22 @@ class Sidebar extends Component {
   renderOrgs() {
     return this.props.subscriberOrgs.map(({ subscriberOrgId, name }) => {
       const teams = this.renderTeams(subscriberOrgId);
-      const menu = (
-        <Menu>
-          <Menu.Item key="0">
-            <Link to={`/app/integrations/${subscriberOrgId}`}>Integrations</Link>
-          </Menu.Item>
-          <Menu.Item key="1">
-            <a onClick={() => this.props.toggleInvitePeopleDialog(true, subscriberOrgId)}>
-              <i className="fa fa-user-plus" aria-hidden="true" /> Invite People
-            </a>
-          </Menu.Item>
-          <Menu.Item key="2">
-            <a onClick={() => this.props.toggleOrgSettingsDialog(true, subscriberOrgId)}>Settings</a>
-          </Menu.Item>
-        </Menu>
-      );
 
       return (
         <SubMenu
           key={subscriberOrgId}
+          onMouseEnter={() => this.setState({ hovered: subscriberOrgId })}
+          onMouseLeave={() => this.setState({ hovered: null })}
           title={
             <Row gutter={16}>
-              <Col xs={{ span: 17 }}><span><i className="sidebar__i fa fa-building" aria-hidden="true" />{name}</span></Col>
-              <Col xs={{ span: 2 }}>
-                <a title="Add Team" onClick={e => this.showTeamDialog(e, subscriberOrgId)}>
-                  <i className="fa fa-plus" aria-hidden="true" />
-                </a>
-              </Col>
+              <Col xs={{ span: 18 }}><span><i className="sidebar__i fa fa-building" aria-hidden="true" />{name}</span></Col>
               <Col xs={{ span: 3 }}>
-                <Dropdown overlay={menu} trigger={['click']}>
-                  <a onClick={e => e.stopPropagation()} title="Settings">
-                    <i className="sidebar__i fa fa-cog" aria-hidden="true" />
-                  </a>
-                </Dropdown>
+                {
+                  (this.state.hovered === subscriberOrgId) || (this.props.currentSubscriberOrgId === subscriberOrgId) ?
+                    <a onClick={e => this.onClickEditOrg(e, subscriberOrgId, `/app/organization/${subscriberOrgId}`)} title="Edit">
+                      <i className="sidebar__i fa fa-pencil" aria-hidden="true" />
+                    </a> : null
+                }
               </Col>
             </Row>}
         >
@@ -191,7 +184,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ toggleOrgDialog,
+  return bindActionCreators({
+    setCurrentSubscriberOrgId,
+    toggleOrgDialog,
     requestSubscriberOrgs,
     requestAllTeams,
     toggleInvitePeopleDialog,
@@ -204,4 +199,4 @@ function mapDispatchToProps(dispatch) {
 Sidebar.propTypes = propTypes;
 Sidebar.defaultProps = defaultProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Sidebar));
