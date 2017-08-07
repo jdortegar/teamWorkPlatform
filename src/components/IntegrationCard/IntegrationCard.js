@@ -40,7 +40,7 @@ function IntegrationCard(props) {
     } else if (integrated && expired) {
       return (
         <div className="img-status">
-          <i className="fa fa-exclamation-triangle" style={{ color: '#f04134 ' }} aria-hidden="true" />
+          <i className="fa fa-exclamation-triangle" style={{ color: '#f04134' }} aria-hidden="true" />
           <a onClick={handleIntegration}>
             <img className="desaturate" alt={name} src={img} />
           </a>

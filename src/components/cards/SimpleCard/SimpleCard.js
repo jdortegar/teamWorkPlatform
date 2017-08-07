@@ -5,11 +5,12 @@ import './styles/style.css';
 
 const propTypes = {
   bodyStyle: PropTypes.object,
-  className: PropTypes.string
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired
 };
 
 const defaultProps = {
-  bodyStyle: { minHeight: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' },
+  bodyStyle: { minHeight: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', wordBreak: 'break-word' },
   className: 'simple-card__more-margin'
 };
 
