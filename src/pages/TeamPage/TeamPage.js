@@ -98,10 +98,12 @@ class TeamPage extends Component {
 
   render() {
     const teamId = this.props.match.params.teamId;
-    const { teamRooms } = this.props;
+    const { teamRooms, teams, subscriberOrgById } = this.props;
 
     if (this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
       const numberOfTeamRooms = teamRooms.teamRoomIdsByTeamId[teamId].length;
+      const teamName = teams.teamById[teamId].name;
+      const subscriberOrgName = subscriberOrgById[teams.teamById[teamId].subscriberOrgId].name;
       const renderAddCard = (text, url = null) => {
         return (
           <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
@@ -114,7 +116,7 @@ class TeamPage extends Component {
 
       return (
         <div>
-          <SubpageHeader />
+          <SubpageHeader breadcrumb={<div><span className="breadcrumb_underline">{subscriberOrgName}</span> / {teamName}</div>} />
           <SimpleHeader text={`Your Team Rooms (${numberOfTeamRooms})`} handleSearch={this.handleTeamRoomSearch} search />
           <SimpleCardContainer className="subpage-block">
             <Row type="flex" justify="start" gutter={20}>

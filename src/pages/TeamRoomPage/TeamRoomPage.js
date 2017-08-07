@@ -72,6 +72,11 @@ class TeamRoomPage extends Component {
   render() {
     if (this.state.teamRoomMembersLoaded) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
+      const { teams, teamRooms, subscriberOrgById } = this.props;
+      const teamRoomId = this.props.match.params.teamRoomId;
+      const { teamId, name } = teamRooms.teamRoomById[teamRoomId];
+      const teamName = teams.teamById[teamId].name;
+      const subscriberOrgName = subscriberOrgById[teams.teamById[teamId].subscriberOrgId].name;
       const renderAddCard = (text, url = null) => {
         return (
           <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
@@ -84,11 +89,17 @@ class TeamRoomPage extends Component {
 
       return (
         <div>
-          <SubpageHeader />
-          <SimpleHeader text={`Your Team Rooms (${numberOfTeamRoomMembers})`} handleSearch={this.handleSearch} search />
+          <SubpageHeader breadcrumb={
+            <div>
+              <span className="breadcrumb_underline">{subscriberOrgName}</span> /
+              <span className="breadcrumb_underline">{teamName}</span> /
+              {name}
+            </div>}
+          />
+          <SimpleHeader text={`Team Room (${numberOfTeamRoomMembers} members)`} handleSearch={this.handleSearch} search />
           <SimpleCardContainer className="subpage-block">
             <Row type="flex" justify="start" gutter={20}>
-              { renderAddCard('Invite a New Team Room Member', `/`) }
+              { renderAddCard('Invite a New Team Room Member', '/') }
               { this.renderTeamRoomMembers() }
             </Row>
           </SimpleCardContainer>

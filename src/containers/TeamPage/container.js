@@ -5,6 +5,7 @@ import { requestTeamRooms, requestTeamMembers } from '../../actions';
 
 function mapStateToProps(state) {
   return {
+    subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     teams: state.teams,
     teamRooms: state.teamRooms,
     teamMembers: state.teamMembers

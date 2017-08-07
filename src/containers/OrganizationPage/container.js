@@ -10,9 +10,9 @@ import { requestSubscribers,
 function mapStateToProps(state) {
   return {
     teams: state.teams,
-    currentSubscriberOrgId: state.subscriberOrgs.currentSubscriberOrgId,
+    subscriberOrgs: state.subscriberOrgs,
     integrations: state.integrations,
-    subscribers: state.subscribers
+    subscribers: state.subscribers,
   };
 }
 

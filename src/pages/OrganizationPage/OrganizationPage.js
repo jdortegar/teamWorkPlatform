@@ -13,8 +13,12 @@ const propTypes = {
   integrations: PropTypes.PropTypes.shape({
     integrationsBySubscriberOrgId: PropTypes.object
   }).isRequired,
+  toggleTeamDialog: PropTypes.func.isRequired,
+  toggleInvitePeopleDialog: PropTypes.func.isRequired,
   requestIntegrations: PropTypes.func.isRequired,
-  currentSubscriberOrgId: PropTypes.string,
+  subscriberOrgs: PropTypes.shape({
+    currentSubscriberOrgId: PropTypes.string
+  }).isRequired,
   setCurrentSubscriberOrgId: PropTypes.func.isRequired,
   requestSubscribers: PropTypes.func.isRequired,
   match: PropTypes.shape({
@@ -45,8 +49,7 @@ const defaultProps = {
     teamIdsBySubscriberOrgId: {
       ids: []
     }
-  },
-  currentSubscriberOrgId: undefined
+  }
 };
 
 class OrganizationPage extends Component {
@@ -59,7 +62,7 @@ class OrganizationPage extends Component {
   componentDidMount() {
     const subscriberOrgId = this.props.match.params.subscriberOrgId;
 
-    if (subscriberOrgId !== this.props.currentSubscriberOrgId) {
+    if (subscriberOrgId !== this.props.subscriberOrgs.currentSubscriberOrgId) {
       this.props.setCurrentSubscriberOrgId(subscriberOrgId);
     }
     this.props.requestSubscribers(subscriberOrgId).then(() => this.setState({ subscribersLoaded: true }));
@@ -123,12 +126,13 @@ class OrganizationPage extends Component {
 
   render() {
     const subscriberOrgId = this.props.match.params.subscriberOrgId;
-    const { teams, integrations, subscribers } = this.props;
+    const { teams, integrations, subscribers, subscriberOrgs } = this.props;
 
     if (this.state.subscribersLoaded && this.state.integrationsLoaded) {
       const numberOfTeams = teams.teamIdsBySubscriberOrgId[subscriberOrgId].length;
       const numberOfIntegrations = _.size(integrations.integrationsBySubscriberOrgId[subscriberOrgId]);
       const numberOfMembers = subscribers.subscribersBySubscriberOrgId[subscriberOrgId].length;
+      const breadcrumb = subscriberOrgs.subscriberOrgById[subscriberOrgId].name;
       const renderAddCard = (text, action) => {
         return (
           <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
@@ -141,7 +145,7 @@ class OrganizationPage extends Component {
 
       return (
         <div>
-          <SubpageHeader />
+          <SubpageHeader breadcrumb={breadcrumb} />
           <SimpleHeader text={`Your Integrations (${numberOfIntegrations})`} />
           <SimpleCardContainer className="subpage-block">
             <Row type="flex" justify="start" gutter={20}>
