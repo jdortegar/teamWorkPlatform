@@ -7,16 +7,21 @@ const propTypes = {
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node
+  ]),
+  extra: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node
   ])
 };
 
 const defaultProps = {
-  icon: ''
+  icon: '',
+  extra: null
 };
 
 function IconCard(props) {
   return (
-    <SimpleCard>
+    <SimpleCard extra={props.extra}>
       <div>
         { props.icon }
         <h4>{props.text}</h4>

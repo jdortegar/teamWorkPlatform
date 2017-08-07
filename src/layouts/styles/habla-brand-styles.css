@@ -5,6 +5,12 @@
 .breadcrumb_underline {
   text-decoration: underline;
 }
+.icon_success {
+  color: #00a854;
+}
+.icon_fail {
+  color: #f04134;
+}
 body {
 	font-family: 'Lato', sans-serif;
 	background: #ececec;

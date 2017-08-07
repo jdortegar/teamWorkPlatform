@@ -13,6 +13,9 @@ const propTypes = {
   integrations: PropTypes.PropTypes.shape({
     integrationsBySubscriberOrgId: PropTypes.object
   }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func
+  }).isRequired,
   toggleTeamDialog: PropTypes.func.isRequired,
   toggleInvitePeopleDialog: PropTypes.func.isRequired,
   requestIntegrations: PropTypes.func.isRequired,
@@ -73,26 +76,38 @@ class OrganizationPage extends Component {
     const integrations = [];
     const subscriberOrgId = this.props.match.params.subscriberOrgId;
 
+    console.log(this.props.integrations);
+
     if (!_.isEmpty(this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId])) {
-      if ('box' in this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId]) {
+      if (this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId].box) {
+        let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
+        if (this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId].box.expired) {
+          extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
+        }
         integrations.push(
           <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
             <a>
-              <IconCard text="Box" />
+              <IconCard text="Box" icon={extra} />
             </a>
           </Col>
         );
       }
-      if ('google' in this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId]) {
+      if (this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId].google) {
+        let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
+        if (this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId].google.expired) {
+          extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
+        }
         integrations.push(
           <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
             <a>
-              <IconCard text="Google" />
+              <IconCard text="Google" extra={extra} />
             </a>
           </Col>
         );
       }
     }
+
+    return integrations;
   }
 
   renderTeams(subscriberOrgId) {
@@ -129,8 +144,14 @@ class OrganizationPage extends Component {
     const { teams, integrations, subscribers, subscriberOrgs } = this.props;
 
     if (this.state.subscribersLoaded && this.state.integrationsLoaded) {
+      let numberOfIntegrations = 0;
+      if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].box) {
+        numberOfIntegrations += 1;
+      }
+      if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].google) {
+        numberOfIntegrations += 1;
+      }
       const numberOfTeams = teams.teamIdsBySubscriberOrgId[subscriberOrgId].length;
-      const numberOfIntegrations = _.size(integrations.integrationsBySubscriberOrgId[subscriberOrgId]);
       const numberOfMembers = subscribers.subscribersBySubscriberOrgId[subscriberOrgId].length;
       const breadcrumb = subscriberOrgs.subscriberOrgById[subscriberOrgId].name;
       const renderAddCard = (text, action) => {
