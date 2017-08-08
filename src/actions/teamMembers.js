@@ -24,7 +24,7 @@ export function requestTeamMembersError(error, teamId) {
 
 export function requestTeamMembers(teamId) {
   return (dispatch, getState) => {
-    if (!getState().teams.requesting) {
+    if (!getState().teams.working) {
       dispatch(requestingTeamMembers(teamId));
       const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
       return axios.get(`${config.hablaApiBaseUri}/teams/getMembers/${teamId}`, axiosOptions)

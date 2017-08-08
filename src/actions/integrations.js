@@ -5,6 +5,7 @@ import {
   REQUESTING_INTEGRATIONS,
   RECEIVE_INTEGRATIONS,
   REQUEST_INTEGRATIONS_ERROR,
+  RECEIVE_REVOKE_INTEGRATION,
   INTEGRATE_ERROR,
   INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG
 } from './types';
@@ -16,7 +17,7 @@ export function requestingIntegrations(subscriberOrgId) {
 export function receiveIntegrations(integrations) {
   return {
     type: RECEIVE_INTEGRATIONS,
-    payload: integrations
+    payload: { integrations }
   };
 }
 
@@ -73,6 +74,52 @@ function integrate(dispatch, type, subscriberOrgId) {
     });
 }
 
+function revoke(dispatch, type, subscriberOrgId) {
+  const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+
+  return axios.get(`${config.hablaApiBaseUri}/integrations/${type}/revoke/${subscriberOrgId}`, axiosOptions)
+    .then((response) => {
+      if (response.status === 200) { // OK.
+        dispatch({
+          type: RECEIVE_REVOKE_INTEGRATION,
+          payload: { type, subscriberOrgId, status: response.status, data: response.data }
+        });
+      } else if (response.status === 404) { // Not Found.
+        dispatch({
+          type: INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG,
+          meta: { type, subscriberOrgId, status: response.status, data: response.data },
+          payload: new Error(`Bad subscriberOrgId: ${subscriberOrgId}`),
+          error: true
+        });
+      } else if (response.status === 410) { // Gone.
+        dispatch({
+          type: RECEIVE_REVOKE_INTEGRATION,
+          meta: { type, subscriberOrgId, status: response.status, data: response.data },
+          payload: new Error('Remote revoke failed.'),
+          error: true
+        });
+      } else {
+        dispatch({
+          type: INTEGRATE_ERROR,
+          meta: {
+            subscriberOrgId,
+            status: response.status
+          },
+          payload: new Error('Server error.'),
+          error: true
+        });
+      }
+    })
+    .catch((err) => {
+      dispatch({
+        type: INTEGRATE_ERROR,
+        meta: { subscriberOrgId },
+        payload: err,
+        error: true
+      });
+    });
+}
+
 export function integrateGoogle(subscriberOrgId) {
   return (dispatch) => {
     return integrate(dispatch, 'google', subscriberOrgId);
@@ -82,5 +129,17 @@ export function integrateGoogle(subscriberOrgId) {
 export function integrateBox(subscriberOrgId) {
   return (dispatch) => {
     return integrate(dispatch, 'box', subscriberOrgId);
+  };
+}
+
+export function revokeGoogle(subscriberOrgId) {
+  return (dispatch) => {
+    return revoke(dispatch, 'google', subscriberOrgId);
+  };
+}
+
+export function revokeBox(subscriberOrgId) {
+  return (dispatch) => {
+    return revoke(dispatch, 'box', subscriberOrgId);
   };
 }

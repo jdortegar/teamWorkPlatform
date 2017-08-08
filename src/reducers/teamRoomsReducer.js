@@ -14,8 +14,7 @@ const INITIAL_STATE = {
   teamRoomIdsByTeamId: {},
   currentTeamRoomIdByTeamId: {},
 
-  received: false,
-  requesting: false,
+  working: false,
   error: null,
   errorMeta: {}
 };
@@ -42,8 +41,7 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
     case REQUESTING_TEAM_ROOMS:
       return {
         ...state,
-        received: false,
-        requesting: true,
+        working: true,
         error: null,
         errorMeta: {}
       };
@@ -76,8 +74,7 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
         teamRoomById,
         teamRoomIdsByTeamId,
         currentTeamRoomIdByTeamId,
-        received: true,
-        requesting: false,
+        working: false,
         error: null,
         errorMeta: {}
       };
@@ -109,8 +106,7 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
         teamRoomById,
         teamRoomIdsByTeamId,
         currentTeamRoomIdByTeamId,
-        received: true,
-        requesting: false,
+        working: false,
         error: null,
         errorMeta: {}
       };
@@ -137,8 +133,7 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
     case REQUEST_TEAM_ROOMS_ERROR:
       return {
         ...state,
-        received: false,
-        requesting: false,
+        working: false,
         error: action.payload,
         errorMeta: action.meta || {}
       };

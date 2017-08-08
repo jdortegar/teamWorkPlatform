@@ -14,8 +14,7 @@ const INITIAL_STATE = {
   teamIdsBySubscriberOrgId: {},
   currentTeamIdBySubscriberOrgId: {},
 
-  received: false,
-  requesting: false,
+  working: false,
   error: null,
   errorMeta: {}
 };
@@ -42,8 +41,7 @@ const teamsReducer = (state = INITIAL_STATE, action) => {
     case REQUESTING_TEAMS:
       return {
         ...state,
-        received: false,
-        requesting: true,
+        working: true,
         error: null,
         errorMeta: {}
       };
@@ -78,8 +76,7 @@ const teamsReducer = (state = INITIAL_STATE, action) => {
         teamById,
         teamIdsBySubscriberOrgId,
         currentTeamIdBySubscriberOrgId,
-        received: true,
-        requesting: false,
+        working: false,
         error: null,
         errorMeta: {}
       };
@@ -111,8 +108,7 @@ const teamsReducer = (state = INITIAL_STATE, action) => {
         teamById,
         teamIdsBySubscriberOrgId,
         currentTeamIdBySubscriberOrgId,
-        received: true,
-        requesting: false,
+        working: false,
         error: null,
         errorMeta: {}
       };
@@ -139,8 +135,7 @@ const teamsReducer = (state = INITIAL_STATE, action) => {
     case REQUEST_TEAMS_ERROR:
       return {
         ...state,
-        received: false,
-        requesting: false,
+        working: false,
         error: action.payload,
         errorMeta: action.meta || {}
       };

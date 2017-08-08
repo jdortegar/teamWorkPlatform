@@ -96,6 +96,7 @@ export const SET_ACTIVE_CONVERSATION = 'set_active_conversation';
 //= =====================
 export const REQUESTING_INTEGRATIONS = 'requesting_integrations';
 export const RECEIVE_INTEGRATIONS = 'receive_integrations';
+export const RECEIVE_REVOKE_INTEGRATION = 'receive_revoke_integration';
 export const REQUEST_INTEGRATIONS_ERROR = 'request_integrations_error';
 export const INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG = 'integrate_error_bad_subscriber_org';
 export const INTEGRATE_ERROR = 'integrate_error'; // Catch-all error.

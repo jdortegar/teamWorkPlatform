@@ -13,8 +13,7 @@ const INITIAL_STATE = {
   subscriberOrgById: {},
   currentSubscriberOrgId: null,
 
-  received: false,
-  requesting: false,
+  working: false,
   error: null,
   errorMeta: {},
   submittingOrgForm: false
@@ -37,8 +36,7 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
     case REQUESTING_SUBSCRIBER_ORGS:
       return {
         ...state,
-        received: false,
-        requesting: true,
+        working: true,
         error: null,
         errorMeta: {}
       };
@@ -67,8 +65,7 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
         raw,
         subscriberOrgById,
         currentSubscriberOrgId,
-        received: true,
-        requesting: false,
+        working: false,
         error: null,
         errorMeta: {}
       };
@@ -84,8 +81,7 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
     case REQUEST_SUBSCRIBER_ORGS_ERROR:
       return {
         ...state,
-        received: false,
-        requesting: false,
+        working: false,
         error: action.payload,
         errorMeta: action.meta || {}
       };

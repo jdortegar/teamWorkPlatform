@@ -9,8 +9,7 @@ const INITIAL_STATE = {
   teamRoomMembersByTeamRoomId: {}, // TODO: deprecated.  Remove when using selector instead.
   teamRoomMemberUserIdsByTeamRoomId: {},
 
-  received: false,
-  requesting: false,
+  working: false,
   error: null,
   errorMeta: {}
 };
@@ -20,8 +19,7 @@ const teamRoomMembersReducer = (state = INITIAL_STATE, action) => {
     case REQUESTING_TEAM_ROOM_MEMBERS:
       return {
         ...state,
-        received: false,
-        requesting: true,
+        working: true,
         error: null,
         errorMeta: {}
       };
@@ -36,8 +34,7 @@ const teamRoomMembersReducer = (state = INITIAL_STATE, action) => {
         ...state,
         teamRoomMembersByTeamRoomId,
         teamRoomMemberUserIdsByTeamRoomId,
-        received: true,
-        requesting: false,
+        working: false,
         error: null,
         errorMeta: {}
       };
@@ -45,10 +42,9 @@ const teamRoomMembersReducer = (state = INITIAL_STATE, action) => {
     case REQUEST_TEAM_ROOM_MEMBERS_ERROR:
       return {
         ...state,
-        received: false,
-        requesting: false,
+        working: false,
         error: action.payload,
-        errorMeta: action.meta
+        errorMeta: action.meta || {}
       };
     default:
       return state;

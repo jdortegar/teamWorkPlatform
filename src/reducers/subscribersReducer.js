@@ -9,8 +9,7 @@ const INITIAL_STATE = {
   subscribersBySubscriberOrgId: {}, // TODO: deprecated.  Remove when using selector instead.
   subscriberUserIdsBySubscriberOrgId: {},
 
-  received: false,
-  requesting: false,
+  working: false,
   error: null,
   errorMeta: {}
 };
@@ -20,8 +19,7 @@ const subscribersReducer = (state = INITIAL_STATE, action) => {
     case REQUESTING_SUBSCRIBERS:
       return {
         ...state,
-        received: false,
-        requesting: true,
+        working: true,
         error: null,
         errorMeta: {}
       };
@@ -36,8 +34,7 @@ const subscribersReducer = (state = INITIAL_STATE, action) => {
         ...state,
         subscribersBySubscriberOrgId,
         subscriberUserIdsBySubscriberOrgId,
-        received: true,
-        requesting: false,
+        working: false,
         error: null,
         errorMeta: {}
       };
@@ -45,10 +42,9 @@ const subscribersReducer = (state = INITIAL_STATE, action) => {
     case REQUEST_SUBSCRIBERS_ERROR:
       return {
         ...state,
-        received: false,
-        requesting: false,
+        working: false,
         error: action.payload,
-        errorMeta: action.meta
+        errorMeta: action.meta || {}
       };
     default:
       return state;

@@ -35,7 +35,7 @@ export function requestSubscriberOrgsError(error) {
 
 export function requestSubscriberOrgs() {
   return (dispatch, getState) => {
-    if (!getState().subscriberOrgs.requesting) {
+    if (!getState().subscriberOrgs.working) {
       dispatch(requestingSubscriberOrgs());
       const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
       return axios.get(`${config.hablaApiBaseUri}/subscriberOrgs/getSubscriberOrgs`, axiosOptions)

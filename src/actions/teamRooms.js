@@ -34,7 +34,7 @@ export function requestTeamRoomsError(error, teamId) {
 
 export function requestAllTeamRooms() {
   return (dispatch, getState) => {
-    if (!getState().teamRooms.requesting) {
+    if (!getState().teamRooms.working) {
       dispatch(requestingTeamRooms());
       const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
       return axios.get(`${config.hablaApiBaseUri}/teamRooms/getTeamRooms`, axiosOptions)
@@ -49,7 +49,7 @@ export function requestAllTeamRooms() {
 
 export function requestTeamRooms(teamId) {
   return (dispatch, getState) => {
-    if (!getState().teamRooms.requesting) {
+    if (!getState().teamRooms.working) {
       dispatch(requestingTeamRooms(teamId));
       const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
       return axios.get(`${config.hablaApiBaseUri}/teamRooms/getTeamRooms?teamId=${teamId}`, axiosOptions)

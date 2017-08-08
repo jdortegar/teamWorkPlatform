@@ -15,8 +15,7 @@ const INITIAL_STATE = {
   conversationIdsByTeamRoomId: {},
   activeConversationId: null,
 
-  received: false,
-  requesting: false,
+  working: false,
   error: null,
   errorMeta: {}
 };
@@ -57,8 +56,7 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
     case REQUESTING_TRANSCRIPT:
       return {
         ...state,
-        received: false,
-        requesting: true,
+        working: true,
         error: null,
         errorMeta: {}
       };
@@ -93,8 +91,7 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         conversationById: updateConversationById,
         conversationIdsByTeamRoomId: updateConversationIdsByTeamRoomId,
-        received: true,
-        requesting: false,
+        working: false,
         error: null,
         errorMeta: {}
       };
@@ -110,8 +107,7 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         conversationById: updateConversations,
-        received: true,
-        requesting: false,
+        working: false,
         error: null,
         errorMeta: {}
       };
@@ -128,8 +124,7 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         conversationById: updateConversations,
-        received: true,
-        requesting: false,
+        working: false,
         error: null,
         errorMeta: {}
       };
@@ -138,8 +133,7 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
     case REQUEST_TRANSCRIPT_ERROR:
       return {
         ...state,
-        received: false,
-        requesting: false,
+        working: false,
         error: action.payload,
         errorMeta: action.meta || {}
       };

@@ -9,8 +9,7 @@ const INITIAL_STATE = {
   teamMembersByTeamId: {}, // TODO: deprecated.  Remove when using selector instead.
   teamMemberUserIdsByTeamId: {},
 
-  received: false,
-  requesting: false,
+  working: false,
   error: null,
   errorMeta: {}
 };
@@ -20,8 +19,7 @@ const teamMembersReducer = (state = INITIAL_STATE, action) => {
     case REQUESTING_TEAM_MEMBERS:
       return {
         ...state,
-        received: false,
-        requesting: true,
+        working: true,
         error: null,
         errorMeta: {}
       };
@@ -36,8 +34,7 @@ const teamMembersReducer = (state = INITIAL_STATE, action) => {
         ...state,
         teamMembersByTeamId,
         teamMemberUserIdsByTeamId,
-        received: true,
-        requesting: false,
+        working: false,
         error: null,
         errorMeta: {}
       };
@@ -45,10 +42,9 @@ const teamMembersReducer = (state = INITIAL_STATE, action) => {
     case REQUEST_TEAM_MEMBERS_ERROR:
       return {
         ...state,
-        received: false,
-        requesting: false,
+        working: false,
         error: action.payload,
-        errorMeta: action.meta
+        errorMeta: action.meta || {}
       };
     default:
       return state;

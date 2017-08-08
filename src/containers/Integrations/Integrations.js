@@ -59,7 +59,7 @@ class Integrations extends Component {
   }
 
   render() {
-    const { integrationsBySubscriberOrgId, received, requesting, error } = this.props.integrations;
+    const { integrationsBySubscriberOrgId, working, error } = this.props.integrations;
 
     if (error) {
       console.error(error);
@@ -68,7 +68,7 @@ class Integrations extends Component {
       );
     }
 
-    if ((received === false) || (requesting === true)) {
+    if (working === true) {
       return null;
     }
 
