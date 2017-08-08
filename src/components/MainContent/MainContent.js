@@ -6,6 +6,7 @@ import Integrations from '../../containers/Integrations';
 import OrganizationPage from '../../containers/OrganizationPage';
 import TeamPage from '../../containers/TeamPage';
 import TeamRoomPage from '../../containers/TeamRoomPage';
+import TeamMemberPage from '../../containers/TeamMemberPage';
 import { routesPaths } from '../../routes';
 
 const { Content } = Layout;
@@ -19,6 +20,7 @@ function MainContent() {
         <Route exact path={routesPaths.organization} component={OrganizationPage} />
         <Route exact path={routesPaths.team} component={TeamPage} />
         <Route exact path={routesPaths.teamRoom} component={TeamRoomPage} />
+        <Route exact path={routesPaths.member} component={TeamMemberPage} />
       </Switch>
     </Content>
   );

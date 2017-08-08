@@ -17,7 +17,8 @@ export const routesPaths = {
   integrations: '/app/integrations/:subscriberOrgId',
   organization: '/app/organization/:subscriberOrgId',
   team: '/app/team/:teamId',
-  teamRoom: '/app/teamRoom/:teamRoomId'
+  teamRoom: '/app/teamRoom/:teamRoomId',
+  member: '/app/member/:memberId'
 };
 
 export default (
