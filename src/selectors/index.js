@@ -283,7 +283,7 @@ export const getTeamRoomsOfTeamId = createCachedSelector(
     return teamRoomIds.map(teamRoomId => teamRoomById[teamRoomId]);
   }
 )(
-  (state, subscriberOrgId) => subscriberOrgId
+  (state, teamId) => teamId
 );
 
 export const getTeamRoomMembersOfTeamRoomId = createCachedSelector(
