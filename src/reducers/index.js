@@ -19,6 +19,7 @@ const mainReducer = combineReducers({
   // TODO: is this needed?  register: registerReducer,
   auth: authReducer,
   dialogs: dialogsReducer,
+  users: usersReducer,
   subscriberOrgs: subscriberOrgsReducer,
   subscribers: subscribersReducer,
   teams: teamsReducer,
