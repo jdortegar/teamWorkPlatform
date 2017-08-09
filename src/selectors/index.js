@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { createSelector } from 'reselect';
 import createCachedSelector from 're-reselect';
 
@@ -91,9 +92,18 @@ export const getUserDetailsByUserId = createCachedSelector(
     Object.keys(user.teams).forEach((teamId) => {
       const role = user.teams[teamId];
       let team = teamById[teamId];
-      team = team || {};
-      team.role = role;
-      teams[teamId] = team;
+      const subscriberOrgId = (team) ? team.subscriberOrgId : undefined;
+      if (subscriberOrgId) {
+        let teamsForSubscriberOrg = teams[subscriberOrgId];
+        if (!teamsForSubscriberOrg) {
+          teamsForSubscriberOrg = [];
+          teams[subscriberOrgId] = teamsForSubscriberOrg;
+        }
+
+        team = _.cloneDeep(team);
+        team.role = role;
+        teamsForSubscriberOrg.push(team);
+      }
     });
     user.teams = teams;
 
@@ -101,11 +111,40 @@ export const getUserDetailsByUserId = createCachedSelector(
     Object.keys(user.teamRooms).forEach((teamRoomId) => {
       const role = user.teamRooms[teamRoomId];
       let teamRoom = teamRoomById[teamRoomId];
-      teamRoom = teamRoom || {};
-      teamRoom.role = role;
-      teamRooms[teamRoomId] = teamRoom;
+      const teamId = (teamRoom) ? teamRoom.teamId : undefined;
+      if (teamId) {
+        let teamRoomsForTeam = teamRooms[teamId];
+        if (!teamRoomsForTeam) {
+          teamRoomsForTeam = [];
+          teamRooms[teamId] = teamRoomsForTeam;
+        }
+
+        teamRoom = _.cloneDeep(teamRoom);
+        teamRoom.role = role;
+        teamRoomsForTeam.push(teamRoom);
+      }
     });
     user.teamRooms = teamRooms;
+
+    // const teams = {};
+    // Object.keys(user.teams).forEach((teamId) => {
+    //   const role = user.teams[teamId];
+    //   let team = teamById[teamId];
+    //   team = team || {};
+    //   team.role = role;
+    //   teams[teamId] = team;
+    // });
+    // user.teams = teams;
+    //
+    // const teamRooms = {};
+    // Object.keys(user.teamRooms).forEach((teamRoomId) => {
+    //   const role = user.teamRooms[teamRoomId];
+    //   let teamRoom = teamRoomById[teamRoomId];
+    //   teamRoom = teamRoom || {};
+    //   teamRoom.role = role;
+    //   teamRooms[teamRoomId] = teamRoom;
+    // });
+    // user.teamRooms = teamRooms;
 
     return user;
   }

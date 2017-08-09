@@ -10,7 +10,14 @@ const INITIAL_STATE = {
 };
 
 // Merge with existing, since there might be additional information.
-function receiverUsers(state, users, { subscriberOrgId, teamId, teamRoomId }) {
+function receiverUsers(state, payload) {
+  const {
+    subscribers, subscriberOrgId,
+    teamMembers, teamId,
+    teamRoomMembers, teamRoomId
+  } = payload;
+  const users = subscribers || teamMembers || teamRoomMembers;
+
   const usersByUserId = _.cloneDeep(state.usersByUserId);
   users.forEach((userIter) => {
     let user = _.clone(userIter);
@@ -58,19 +65,13 @@ function receiverUsers(state, users, { subscriberOrgId, teamId, teamRoomId }) {
 }
 
 const usersReducer = (state = INITIAL_STATE, action) => {
-  const {
-    subscribers, subscriberOrgId,
-    teamMembers, teamId,
-    teamRoomMembers, teamRoomId
-  } = action.payload;
-  const appliesTo = { subscriberOrgId, teamId, teamRoomId };
   switch (action.type) {
     case RECEIVE_SUBSCRIBERS:
-      return receiverUsers(state, subscribers, appliesTo);
+      return receiverUsers(state, action.payload);
     case RECEIVE_TEAM_MEMBERS:
-      return receiverUsers(state, teamMembers, appliesTo);
+      return receiverUsers(state, action.payload);
     case RECEIVE_TEAM_ROOM_MEMBERS:
-      return receiverUsers(state, teamRoomMembers, appliesTo);
+      return receiverUsers(state, action.payload);
     default:
       return state;
   }
