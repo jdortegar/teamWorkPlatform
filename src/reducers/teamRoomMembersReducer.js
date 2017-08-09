@@ -6,10 +6,10 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  teamRoomMembersByTeamRoomId: {},
+  teamRoomMembersByTeamRoomId: {}, // TODO: deprecated.  Remove when using selector instead.
+  teamRoomMemberUserIdsByTeamRoomId: {},
 
-  received: false,
-  requesting: false,
+  working: false,
   error: null,
   errorMeta: {}
 };
@@ -19,23 +19,22 @@ const teamRoomMembersReducer = (state = INITIAL_STATE, action) => {
     case REQUESTING_TEAM_ROOM_MEMBERS:
       return {
         ...state,
-        received: false,
-        requesting: true,
+        working: true,
         error: null,
         errorMeta: {}
       };
     case RECEIVE_TEAM_ROOM_MEMBERS: {
       const teamRoomMembersByTeamRoomId = _.cloneDeep(state.teamRoomMembersByTeamRoomId);
-      // const teamRoomMembers = {};
       teamRoomMembersByTeamRoomId[action.payload.teamRoomId] = action.payload.teamRoomMembers;
 
-      // action.payload.teamRoomMembers.forEach((teamRoomMember) => { teamRoomMembers[teamRoomMember.userId] = teamRoomMember; });
+      const teamRoomMemberUserIdsByTeamRoomId = _.cloneDeep(state.teamRoomMemberUserIdsByTeamRoomId);
+      teamRoomMemberUserIdsByTeamRoomId[action.payload.teamRoomId] = action.payload.teamRoomMembers.map(teamRoomMember => teamRoomMember.userId);
 
       return {
         ...state,
         teamRoomMembersByTeamRoomId,
-        received: true,
-        requesting: false,
+        teamRoomMemberUserIdsByTeamRoomId,
+        working: false,
         error: null,
         errorMeta: {}
       };
@@ -43,10 +42,9 @@ const teamRoomMembersReducer = (state = INITIAL_STATE, action) => {
     case REQUEST_TEAM_ROOM_MEMBERS_ERROR:
       return {
         ...state,
-        received: false,
-        requesting: false,
+        working: false,
         error: action.payload,
-        errorMeta: action.meta
+        errorMeta: action.meta || {}
       };
     default:
       return state;

@@ -2,14 +2,15 @@ import _ from 'lodash';
 import {
   REQUESTING_INTEGRATIONS,
   RECEIVE_INTEGRATIONS,
+  RECEIVE_REVOKE_INTEGRATION,
   REQUEST_INTEGRATIONS_ERROR
 } from '../actions/types';
 
 const INITIAL_STATE = {
   integrationsBySubscriberOrgId: {},
-  received: false,
-  requesting: false,
-  error: null
+  working: false,
+  error: null,
+  errorMeta: {}
 };
 
 const integrationsReducer = (state = INITIAL_STATE, action) => {
@@ -17,9 +18,9 @@ const integrationsReducer = (state = INITIAL_STATE, action) => {
     case REQUESTING_INTEGRATIONS:
       return {
         ...state,
-        received: false,
-        requesting: true,
-        error: null
+        working: true,
+        error: null,
+        errorMeta: {}
       };
     case RECEIVE_INTEGRATIONS: {
       const updateIntegrationsBySubscriberOrgId = _.cloneDeep(state.integrationsBySubscriberOrgId);
@@ -31,17 +32,40 @@ const integrationsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         integrationsBySubscriberOrgId: updateIntegrationsBySubscriberOrgId,
-        received: true,
-        requesting: false,
-        error: null
+        working: false,
+        error: null,
+        errorMeta: {}
+      };
+    }
+    case RECEIVE_REVOKE_INTEGRATION: {
+      if (action.error) {
+        return {
+          ...state,
+          working: false,
+          error: action.payload,
+          errorMeta: action.meta || {}
+        };
+      }
+
+      const integrationsBySubscriberOrgId = _.cloneDeep(state.integrationsBySubscriberOrgId);
+      const integrations = integrationsBySubscriberOrgId[action.payload.subscriberOrgId];
+      if (integrations) {
+        integrations[action.payload.type] = { revoked: true };
+      }
+      return {
+        ...state,
+        integrationsBySubscriberOrgId,
+        working: false,
+        error: null,
+        errorMeta: {}
       };
     }
     case REQUEST_INTEGRATIONS_ERROR:
       return {
         ...state,
-        received: false,
-        requesting: false,
-        error: action.payload
+        working: false,
+        error: action.payload,
+        errorMeta: action.meta || {}
       };
     default:
       return state;

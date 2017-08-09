@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   REQUESTING_SUBSCRIBERS,
   RECEIVE_SUBSCRIBERS,
@@ -5,10 +6,10 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  subscribersBySubscriberOrgId: {},
+  subscribersBySubscriberOrgId: {}, // TODO: deprecated.  Remove when using selector instead.
+  subscriberUserIdsBySubscriberOrgId: {},
 
-  received: false,
-  requesting: false,
+  working: false,
   error: null,
   errorMeta: {}
 };
@@ -18,23 +19,22 @@ const subscribersReducer = (state = INITIAL_STATE, action) => {
     case REQUESTING_SUBSCRIBERS:
       return {
         ...state,
-        received: false,
-        requesting: true,
+        working: true,
         error: null,
         errorMeta: {}
       };
     case RECEIVE_SUBSCRIBERS: {
       const subscribersBySubscriberOrgId = _.cloneDeep(state.subscribersBySubscriberOrgId);
-      // const subscribers = {};
       subscribersBySubscriberOrgId[action.payload.subscriberOrgId] = action.payload.subscribers;
 
-      // action.payload.subscribers.forEach((subscriber) => { subscribers[subscriber.userId] = subscriber; });
+      const subscriberUserIdsBySubscriberOrgId = _.cloneDeep(state.subscriberUserIdsBySubscriberOrgId);
+      subscriberUserIdsBySubscriberOrgId[action.payload.subscriberOrgId] = action.payload.subscribers.map(subscriber => subscriber.userId);
 
       return {
         ...state,
         subscribersBySubscriberOrgId,
-        received: true,
-        requesting: false,
+        subscriberUserIdsBySubscriberOrgId,
+        working: false,
         error: null,
         errorMeta: {}
       };
@@ -42,10 +42,9 @@ const subscribersReducer = (state = INITIAL_STATE, action) => {
     case REQUEST_SUBSCRIBERS_ERROR:
       return {
         ...state,
-        received: false,
-        requesting: false,
+        working: false,
         error: action.payload,
-        errorMeta: action.meta
+        errorMeta: action.meta || {}
       };
     default:
       return state;

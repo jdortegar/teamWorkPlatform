@@ -3,6 +3,7 @@ import {
   REQUESTING_TEAM_ROOMS,
   RECEIVE_ALL_TEAM_ROOMS,
   RECEIVE_TEAM_ROOMS,
+  RECEIVE_TEAM_ROOM,
   REQUEST_TEAM_ROOMS_ERROR,
   SET_CURRENT_TEAM_ROOM_ID
 } from '../actions/types';
@@ -13,8 +14,7 @@ const INITIAL_STATE = {
   teamRoomIdsByTeamId: {},
   currentTeamRoomIdByTeamId: {},
 
-  received: false,
-  requesting: false,
+  working: false,
   error: null,
   errorMeta: {}
 };
@@ -41,8 +41,7 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
     case REQUESTING_TEAM_ROOMS:
       return {
         ...state,
-        received: false,
-        requesting: true,
+        working: true,
         error: null,
         errorMeta: {}
       };
@@ -75,8 +74,7 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
         teamRoomById,
         teamRoomIdsByTeamId,
         currentTeamRoomIdByTeamId,
-        received: true,
-        requesting: false,
+        working: false,
         error: null,
         errorMeta: {}
       };
@@ -108,17 +106,34 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
         teamRoomById,
         teamRoomIdsByTeamId,
         currentTeamRoomIdByTeamId,
-        received: true,
-        requesting: false,
+        working: false,
         error: null,
         errorMeta: {}
+      };
+    }
+    case RECEIVE_TEAM_ROOM: {
+      const { teamId, teamRoom } = action.payload;
+      const teamRoomById = _.cloneDeep(state.teamRoomById);
+      const existingTeamRoom = teamRoomById[teamRoom.teamRoomId];
+      teamRoomById[teamRoom.teamRoomId] = teamRoom;
+      let teamRoomIdsByTeamId = state.teamRoomIdsByTeamId;
+
+      if (!existingTeamRoom) {
+        teamRoomIdsByTeamId = _.cloneDeep(state.teamRoomIdsByTeamId);
+        const teamRoomIds = teamRoomIdsByTeamId[teamId] || [];
+        teamRoomIds.push(teamRoom.teamRoomId);
+      }
+
+      return {
+        ...state,
+        teamRoomById,
+        teamRoomIdsByTeamId
       };
     }
     case REQUEST_TEAM_ROOMS_ERROR:
       return {
         ...state,
-        received: false,
-        requesting: false,
+        working: false,
         error: action.payload,
         errorMeta: action.meta || {}
       };

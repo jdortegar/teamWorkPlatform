@@ -3,6 +3,7 @@ import {
   REQUESTING_TEAMS,
   RECEIVE_ALL_TEAMS,
   RECEIVE_TEAMS,
+  RECEIVE_TEAM,
   REQUEST_TEAMS_ERROR,
   SET_CURRENT_TEAM_ID
 } from '../actions/types';
@@ -13,8 +14,7 @@ const INITIAL_STATE = {
   teamIdsBySubscriberOrgId: {},
   currentTeamIdBySubscriberOrgId: {},
 
-  received: false,
-  requesting: false,
+  working: false,
   error: null,
   errorMeta: {}
 };
@@ -41,8 +41,7 @@ const teamsReducer = (state = INITIAL_STATE, action) => {
     case REQUESTING_TEAMS:
       return {
         ...state,
-        received: false,
-        requesting: true,
+        working: true,
         error: null,
         errorMeta: {}
       };
@@ -77,8 +76,7 @@ const teamsReducer = (state = INITIAL_STATE, action) => {
         teamById,
         teamIdsBySubscriberOrgId,
         currentTeamIdBySubscriberOrgId,
-        received: true,
-        requesting: false,
+        working: false,
         error: null,
         errorMeta: {}
       };
@@ -110,17 +108,34 @@ const teamsReducer = (state = INITIAL_STATE, action) => {
         teamById,
         teamIdsBySubscriberOrgId,
         currentTeamIdBySubscriberOrgId,
-        received: true,
-        requesting: false,
+        working: false,
         error: null,
         errorMeta: {}
+      };
+    }
+    case RECEIVE_TEAM: {
+      const { subscriberOrgId, team } = action.payload;
+      const teamById = _.cloneDeep(state.teamById);
+      const existingTeam = teamById[team.teamId];
+      teamById[team.teamId] = team;
+      let teamIdsBySubscriberOrgId = state.teamIdsBySubscriberOrgId;
+
+      if (!existingTeam) {
+        teamIdsBySubscriberOrgId = _.cloneDeep(state.teamIdsBySubscriberOrgId);
+        const teamIds = teamIdsBySubscriberOrgId[subscriberOrgId] || [];
+        teamIds.push(team.teamId);
+      }
+
+      return {
+        ...state,
+        teamById,
+        teamIdsBySubscriberOrgId
       };
     }
     case REQUEST_TEAMS_ERROR:
       return {
         ...state,
-        received: false,
-        requesting: false,
+        working: false,
         error: action.payload,
         errorMeta: action.meta || {}
       };

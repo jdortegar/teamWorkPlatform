@@ -11,6 +11,7 @@ import { toggleOrgDialog,
   toggleInvitePeopleDialog, toggleOrgSettingsDialog,
   toggleTeamDialog, toggleTeamRoomDialog, setCurrentSubscriberOrgId
 } from '../../actions';
+import { getSubscriberOrgs } from '../../selectors';
 import './styles/style.css';
 
 
@@ -173,7 +174,8 @@ class Sidebar extends Component {
 
 function mapStateToProps(state) {
   return {
-    subscriberOrgs: state.subscriberOrgs.raw,
+    //subscriberOrgs: state.subscriberOrgs.raw,
+    subscriberOrgs: getSubscriberOrgs(state),
     currentSubscriberOrgId: state.subscriberOrgs.currentSubscriberOrgId,
     teams: state.teams.raw,
     teamById: state.teams.teamById,

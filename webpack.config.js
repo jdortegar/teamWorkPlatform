@@ -6,12 +6,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const nodePort = process.env.NODE_PORT || 8081;
 let nodeUrl = 'localhost';
 if (nodePort === 80) {
-  nodeUrl = `http:// ${nodeUrl}`;
+  nodeUrl = `http://${nodeUrl}`;
 } else if (nodePort === 443) {
-  nodeUrl = `https:// ${nodeUrl}`;
+  nodeUrl = `https://${nodeUrl}`;
 } else {
   nodeUrl = `http://${nodeUrl}:${nodePort}`;
 }
+//nodeUrl = 'https://hablawebapp.ngrok.io';
 
 module.exports = {
   devtool: 'eval-source-map',

@@ -5,6 +5,7 @@ import {
   REQUESTING_TEAM_ROOMS,
   RECEIVE_ALL_TEAM_ROOMS,
   RECEIVE_TEAM_ROOMS,
+  RECEIVE_TEAM_ROOM,
   REQUEST_TEAM_ROOMS_ERROR,
   SET_CURRENT_TEAM_ROOM_ID
 } from './types';
@@ -20,13 +21,20 @@ export function receiveTeamRooms(teamRooms, teamId) {
   };
 }
 
+export function receiveTeamRoom(teamRoom, teamId) {
+  return {
+    type: RECEIVE_TEAM_ROOM,
+    payload: { teamId, teamRoom }
+  };
+}
+
 export function requestTeamRoomsError(error, teamId) {
   return { type: REQUEST_TEAM_ROOMS_ERROR, meta: { teamId }, payload: error, error: true };
 }
 
 export function requestAllTeamRooms() {
   return (dispatch, getState) => {
-    if (!getState().teamRooms.requesting) {
+    if (!getState().teamRooms.working) {
       dispatch(requestingTeamRooms());
       const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
       return axios.get(`${config.hablaApiBaseUri}/teamRooms/getTeamRooms`, axiosOptions)
@@ -41,7 +49,7 @@ export function requestAllTeamRooms() {
 
 export function requestTeamRooms(teamId) {
   return (dispatch, getState) => {
-    if (!getState().teamRooms.requesting) {
+    if (!getState().teamRooms.working) {
       dispatch(requestingTeamRooms(teamId));
       const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
       return axios.get(`${config.hablaApiBaseUri}/teamRooms/getTeamRooms?teamId=${teamId}`, axiosOptions)

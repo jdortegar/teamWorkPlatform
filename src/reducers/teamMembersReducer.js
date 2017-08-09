@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   REQUESTING_TEAM_MEMBERS,
   RECEIVE_TEAM_MEMBERS,
@@ -5,10 +6,10 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  teamMembersByTeamId: {},
+  teamMembersByTeamId: {}, // TODO: deprecated.  Remove when using selector instead.
+  teamMemberUserIdsByTeamId: {},
 
-  received: false,
-  requesting: false,
+  working: false,
   error: null,
   errorMeta: {}
 };
@@ -18,23 +19,22 @@ const teamMembersReducer = (state = INITIAL_STATE, action) => {
     case REQUESTING_TEAM_MEMBERS:
       return {
         ...state,
-        received: false,
-        requesting: true,
+        working: true,
         error: null,
         errorMeta: {}
       };
     case RECEIVE_TEAM_MEMBERS: {
       const teamMembersByTeamId = _.cloneDeep(state.teamMembersByTeamId);
-      // const teamMembers = {};
       teamMembersByTeamId[action.payload.teamId] = action.payload.teamMembers;
 
-      // action.payload.teamMembers.forEach((teamMember) => { teamMembers[teamMember.userId] = teamMember; });
+      const teamMemberUserIdsByTeamId = _.cloneDeep(state.teamMemberUserIdsByTeamId);
+      teamMemberUserIdsByTeamId[action.payload.teamId] = action.payload.teamMembers.map(teamMember => teamMember.userId);
 
       return {
         ...state,
         teamMembersByTeamId,
-        received: true,
-        requesting: false,
+        teamMemberUserIdsByTeamId,
+        working: false,
         error: null,
         errorMeta: {}
       };
@@ -42,10 +42,9 @@ const teamMembersReducer = (state = INITIAL_STATE, action) => {
     case REQUEST_TEAM_MEMBERS_ERROR:
       return {
         ...state,
-        received: false,
-        requesting: false,
+        working: false,
         error: action.payload,
-        errorMeta: action.meta
+        errorMeta: action.meta || {}
       };
     default:
       return state;

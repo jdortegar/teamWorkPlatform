@@ -5,6 +5,7 @@ import {
   REQUEST_CONVERSATIONS_ERROR,
   REQUESTING_TRANSCRIPT,
   RECEIVE_TRANSCRIPT,
+  RECEIVE_MESSAGES,
   REQUEST_TRANSCRIPT_ERROR,
   SET_ACTIVE_CONVERSATION
 } from '../actions/types';
@@ -14,31 +15,33 @@ const INITIAL_STATE = {
   conversationIdsByTeamRoomId: {},
   activeConversationId: null,
 
-  received: false,
-  requesting: false,
+  working: false,
   error: null,
   errorMeta: {}
 };
 
 const defaultExpanded = true;
 
-function addMessages(messages, transcript) {
+function addOrUpdateMessages(messages, transcript) {
   const mergedTranscript = transcript || { messages: {}, flattenedTree: {} };
 
   messages.forEach((message) => {
+    const existingMessage = mergedTranscript.messages[message.messageId];
     mergedTranscript.messages[message.messageId] = message;
 
-    if (message.replyTo) {
-      let parent = mergedTranscript.flattenedTree[message.replyTo];
-      if (!parent) {
-        parent = { expanded: defaultExpanded, children: [] };
-        mergedTranscript.flattenedTree[message.replyTo] = parent;
-      }
-      parent.children.push(message.messageId);
-    } else {
-      const existing = mergedTranscript.flattenedTree[message.messageId];
-      if (!existing) {
-        mergedTranscript.flattenedTree[message.messageId] = { expanded: defaultExpanded, children: [] };
+    if (!existingMessage) {
+      if (message.replyTo) {
+        let parent = mergedTranscript.flattenedTree[message.replyTo];
+        if (!parent) {
+          parent = { expanded: defaultExpanded, children: [] };
+          mergedTranscript.flattenedTree[message.replyTo] = parent;
+        }
+        parent.children.push(message.messageId);
+      } else {
+        const existing = mergedTranscript.flattenedTree[message.messageId];
+        if (!existing) {
+          mergedTranscript.flattenedTree[message.messageId] = { expanded: defaultExpanded, children: [] };
+        }
       }
     }
   });
@@ -53,8 +56,7 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
     case REQUESTING_TRANSCRIPT:
       return {
         ...state,
-        received: false,
-        requesting: true,
+        working: true,
         error: null,
         errorMeta: {}
       };
@@ -89,8 +91,7 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         conversationById: updateConversationById,
         conversationIdsByTeamRoomId: updateConversationIdsByTeamRoomId,
-        received: true,
-        requesting: false,
+        working: false,
         error: null,
         errorMeta: {}
       };
@@ -100,15 +101,30 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
       const updateConversations = _.cloneDeep(state.conversations);
 
       const conversation = updateConversations[conversationId] || {};
-      const { transcript: existingTranscript } = conversation;
-      conversation.transcript = addMessages(transcript, existingTranscript);
+      conversation.transcript = addOrUpdateMessages(transcript);
       updateConversations[conversationId] = conversation;
 
       return {
         ...state,
         conversationById: updateConversations,
-        received: true,
-        requesting: false,
+        working: false,
+        error: null,
+        errorMeta: {}
+      };
+    }
+    case RECEIVE_MESSAGES: {
+      const { conversationId, transcript } = action.payload;
+      const updateConversations = _.cloneDeep(state.conversations);
+
+      const conversation = updateConversations[conversationId] || {};
+      const { transcript: existingTranscript } = conversation;
+      conversation.transcript = addOrUpdateMessages(transcript, existingTranscript);
+      updateConversations[conversationId] = conversation;
+
+      return {
+        ...state,
+        conversationById: updateConversations,
+        working: false,
         error: null,
         errorMeta: {}
       };
@@ -117,8 +133,7 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
     case REQUEST_TRANSCRIPT_ERROR:
       return {
         ...state,
-        received: false,
-        requesting: false,
+        working: false,
         error: action.payload,
         errorMeta: action.meta || {}
       };
