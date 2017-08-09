@@ -10,27 +10,47 @@ const INITIAL_STATE = {
 };
 
 // Merge with existing, since there might be additional information.
-function receiverUsers(state, users, appliesTo) {
+function receiverUsers(state, users, { subscriberOrgId, teamId, teamRoomId }) {
   const usersByUserId = _.cloneDeep(state.usersByUserId);
   users.forEach((userIter) => {
-    const user = _.clone(userIter);
-    const isAdmin = (user.role === 'admin');
-    const existing = usersByUserId[user.userId];
+    let user = _.clone(userIter);
+    const role = user.role;
     delete user.role;
+    const existingUser = usersByUserId[user.userId];
 
-    let adminOf;
-    if (existing) {
-      adminOf = existing.adminOf;
+    if (existingUser) {
+      user = _.merge(existingUser, user);
     } else {
-      usersByUserId[user.userId] = user;
-      adminOf = {};
-      user.adminOf = adminOf;
+      user.subscriberOrgs = {};
+      user.teams = {};
+      user.teamRooms = {};
     }
+    usersByUserId[user.userId] = user;
 
-    if (isAdmin) {
-      adminOf[appliesTo] = true;
+    if (subscriberOrgId) {
+      let subscriberOrg = user.subscriberOrgs[subscriberOrgId];
+      if (!subscriberOrg) {
+        subscriberOrg = {};
+        user.subscriberOrgs[subscriberOrgId] = subscriberOrg;
+      }
+      subscriberOrg.role = role;
+    } else if (teamId) {
+      let team = user.teams[teamId];
+      if (!team) {
+        team = {};
+        user.teams[teamId] = team;
+      }
+      team.role = role;
+    } else if (teamRoomId) {
+      let teamRoom = user.teamRooms[teamRoomId];
+      if (!teamRoom) {
+        teamRoom = {};
+        user.teamRooms[teamRoomId] = teamRoom;
+      }
+      teamRoom.role = role;
     }
   });
+
   return {
     ...state,
     usersByUserId
@@ -43,7 +63,7 @@ const usersReducer = (state = INITIAL_STATE, action) => {
     teamMembers, teamId,
     teamRoomMembers, teamRoomId
   } = action.payload;
-  const appliesTo = subscriberOrgId || teamId || teamRoomId;
+  const appliesTo = { subscriberOrgId, teamId, teamRoomId };
   switch (action.type) {
     case RECEIVE_SUBSCRIBERS:
       return receiverUsers(state, subscribers, appliesTo);

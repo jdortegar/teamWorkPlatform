@@ -58,6 +58,63 @@ export const getSubscribersOfSubscriberOrgId = createCachedSelector(
 
 
 /**
+ * Return user details, as well as orgs, teams, and team rooms.
+ * This is "deep" details, where orgs, teams, and team rooms are realized.
+ * Note that this information needs to be in redux.  Refer to actions requestSubscriberOrgs, requestAllTeams, and
+ * requestAllTeamRooms.
+ *
+ * If the return is undefined, you'll have to wait until all relevant info is obtained by the described actions.
+ */
+export const getUserDetailsByUserId = createCachedSelector(
+  [getUsersByUserId, getSubscriberOrgById, getTeamById, getTeamRoomById, (state, userId) => userId],
+  (usersByUserId, subscriberOrgById, teamById, teamRoomById, userId) => {
+    if ((!userId) || (!usersByUserId[userId])) {
+      return undefined;
+    }
+
+    const user = usersByUserId[userId];
+    if (!user) {
+      return undefined;
+    }
+
+    const subscriberOrgs = {};
+    Object.keys(user.subscriberOrgs).forEach((subscriberOrgId) => {
+      const role = user.subscriberOrgs[subscriberOrgId];
+      let subscriberOrg = subscriberOrgById[subscriberOrgId];
+      subscriberOrg = subscriberOrg || {};
+      subscriberOrg.role = role;
+      subscriberOrgs[subscriberOrgId] = subscriberOrg;
+    });
+    user.subscriberOrgs = subscriberOrgs;
+
+    const teams = {};
+    Object.keys(user.teams).forEach((teamId) => {
+      const role = user.teams[teamId];
+      let team = teamById[teamId];
+      team = team || {};
+      team.role = role;
+      teams[teamId] = team;
+    });
+    user.teams = teams;
+
+    const teamRooms = {};
+    Object.keys(user.teamRooms).forEach((teamRoomId) => {
+      const role = user.teamRooms[teamRoomId];
+      let teamRoom = teamRoomById[teamRoomId];
+      teamRoom = teamRoom || {};
+      teamRoom.role = role;
+      teamRooms[teamRoomId] = teamRoom;
+    });
+    user.teamRooms = teamRooms;
+
+    return user;
+  }
+)(
+  (state, userId) => userId
+);
+
+
+/**
  * Return array of teams for the current subscriberOrg.
  */
 export const getCurrentTeams = createSelector(
