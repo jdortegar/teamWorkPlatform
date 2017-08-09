@@ -61,9 +61,9 @@ class TeamRoomPage extends Component {
     return this.state.teamRoomMembers.map(({ displayName, userId }) => {
       return (
         <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }} key={userId}>
-          <a>
+          <Link to={`/app/member/${userId}`}>
             <IconCard text={displayName} />
-          </a>
+          </Link>
         </Col>
       );
     });

@@ -76,8 +76,6 @@ class OrganizationPage extends Component {
     const integrations = [];
     const subscriberOrgId = this.props.match.params.subscriberOrgId;
 
-    console.log(this.props.integrations);
-
     if (!_.isEmpty(this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId])) {
       if (this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId].box) {
         let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
@@ -145,10 +143,10 @@ class OrganizationPage extends Component {
 
     if (this.state.subscribersLoaded && this.state.integrationsLoaded) {
       let numberOfIntegrations = 0;
-      if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].box) {
+      if (integrations.integrationsBySubscriberOrgId[subscriberOrgId] && integrations.integrationsBySubscriberOrgId[subscriberOrgId].box) {
         numberOfIntegrations += 1;
       }
-      if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].google) {
+      if (integrations.integrationsBySubscriberOrgId[subscriberOrgId] && integrations.integrationsBySubscriberOrgId[subscriberOrgId].google) {
         numberOfIntegrations += 1;
       }
       const numberOfTeams = teams.teamIdsBySubscriberOrgId[subscriberOrgId].length;
