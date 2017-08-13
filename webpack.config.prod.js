@@ -1,5 +1,4 @@
 const webpack = require('webpack');
-const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const config = require('./webpack.config.js');
@@ -32,6 +31,7 @@ config.plugins = [
   new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify('production'),
+      HABLAAPI_BASE_URI: JSON.stringify(process.env.HABLAAPI_BASE_URI)
     },
   }),
   new HtmlWebpackPlugin({
@@ -44,7 +44,7 @@ config.plugins = [
   extractCSSLibs,
   new webpack.optimize.CommonsChunkPlugin({
     name: 'vendor',
-    minChunks: function(module) {
+    minChunks(module) {
       return ((module.context && module.context.indexOf('node_modules')) !== -1);
     }
   }),
