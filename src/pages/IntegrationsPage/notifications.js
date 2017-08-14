@@ -28,14 +28,14 @@ export function badIntegration({ integration, status }) {
   } else if (status === 'NOT_FOUND') {
     return {
       message: 'Something Wrong',
-      description: `You don't have permission to do add a provider`,
-      duration: 4,
-    };
-  } else if (status === 'INTERNAL_SERVER_ERROR') {
-    return {
-      message: 'Something Wrong',
-      description: `We were unable to add your provider`,
+      description: 'You don\'t have permission to do add a provider',
       duration: 4,
     };
   }
+
+  return {
+    message: 'Something Wrong',
+    description: 'We were unable to add your provider',
+    duration: 4
+  };
 }

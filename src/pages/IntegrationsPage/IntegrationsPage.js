@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Row, Col, Icon, notification } from 'antd';
-import { object, func } from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { extractQueryParams } from '../../routes';
-import IntegrationCard from '../../components/IntegrationCard';
 import { badIntegration, successfulIntegration } from './notifications';
-import { integrateBox, integrateGoogle, requestIntegrations } from '../../actions';
+import SubpageHeader from '../../components/SubpageHeader';
+import SimpleHeader from '../../components/SimpleHeader';
+import IntegrationCard from '../../components/IntegrationCard';
+import SimpleCardContainer from '../../components/SimpleCardContainer';
 import './styles/style.css';
 
 const propTypes = {
-  match: object.isRequired,
-  requestIntegrations: func.isRequired,
-  integrations: object.isRequired,
-  integrateGoogle: func.isRequired,
-  integrateBox: func.isRequired
+  match: PropTypes.object.isRequired,
+  requestIntegrations: PropTypes.func.isRequired,
+  integrations: PropTypes.object.isRequired,
+  integrateGoogle: PropTypes.func.isRequired,
+  integrateBox: PropTypes.func.isRequired
 };
 
-class Integrations extends Component {
+class IntegrationsPage extends Component {
   componentDidMount() {
     const { subscriberOrgId } = this.props.match.params;
     this.props.requestIntegrations(subscriberOrgId);
@@ -27,10 +27,10 @@ class Integrations extends Component {
     if (notifyInfo) {
       if (notifyInfo.status !== 'CREATED') {
         args = badIntegration(notifyInfo);
-        args.icon = (<Icon type="close" style={{ color: '#f04134' }} />);
+        args.icon = (<Icon type="close" className="icon_fail" />);
       } else {
         args = successfulIntegration(notifyInfo.integration);
-        args.icon = (<Icon type="check" style={{ color: '#00a854' }} />);
+        args.icon = (<Icon type="check" className="icon_success" />);
       }
       // TODO: show notification.
       // ex. notifyInfo = { integration: 'google', status: 'CREATED' } will say something like "You have successfully authorized Google Drive access."
@@ -86,44 +86,37 @@ class Integrations extends Component {
 
     return (
       <div>
-        <h1> Integrations </h1>
-        <Row type="flex">
-          <Col className="gutter-row">
-            <IntegrationCard
-              name="Google Drive"
-              img="https://s3-us-west-2.amazonaws.com/habla-ai-images/google-drive-logo.png"
-              integrated={googleIntegrated}
-              expired={googleExpired}
-              handleIntegration={() => this.handleGoogleDrive()}
-              onRevoke={() => console.log()}
-            />
-          </Col>
-          <Col className="gutter-row">
-            <IntegrationCard
-              name="Box"
-              img="https://s3-us-west-2.amazonaws.com/habla-ai-images/box-logo.png"
-              integrated={boxIntegrated}
-              expired={boxExpired}
-              handleIntegration={() => this.handleBox()}
-              onRevoke={() => console.log()}
-            />
-          </Col>
-        </Row>
+        <SubpageHeader breadcrumb={'Nintendo/Integrations'} />
+        <SimpleHeader text={'Your Integrations'} />
+        <SimpleCardContainer className="subpage-block">
+          <Row type="flex">
+            <Col className="gutter-row">
+              <IntegrationCard
+                name="Google Drive"
+                img="https://s3-us-west-2.amazonaws.com/habla-ai-images/google-drive-logo.png"
+                integrated={googleIntegrated}
+                expired={googleExpired}
+                handleIntegration={() => this.handleGoogleDrive()}
+                onRevoke={() => console.log()}
+              />
+            </Col>
+            <Col className="gutter-row">
+              <IntegrationCard
+                name="Box"
+                img="https://s3-us-west-2.amazonaws.com/habla-ai-images/box-logo.png"
+                integrated={boxIntegrated}
+                expired={boxExpired}
+                handleIntegration={() => this.handleBox()}
+                onRevoke={() => console.log()}
+              />
+            </Col>
+          </Row>
+        </SimpleCardContainer>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  integrations: state.integrations
-});
+IntegrationsPage.propTypes = propTypes;
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  requestIntegrations,
-  integrateBox,
-  integrateGoogle
-}, dispatch);
-
-Integrations.propTypes = propTypes;
-
-export default connect(mapStateToProps, mapDispatchToProps)(Integrations);
+export default IntegrationsPage;

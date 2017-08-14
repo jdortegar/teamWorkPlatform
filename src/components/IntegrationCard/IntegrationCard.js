@@ -9,7 +9,7 @@ const propTypes = {
   img: PropTypes.string.isRequired,
   handleIntegration: PropTypes.func.isRequired,
   onRevoke: PropTypes.func.isRequired,
-  expired: PropTypes.object
+  expired: PropTypes.bool
 };
 
 const defaultProps = {
