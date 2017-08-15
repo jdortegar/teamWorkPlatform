@@ -25,7 +25,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  componentKey: 'timezone',
+  componentKey: 'timeZone',
   label: 'Timezone',
   layout: {},
   required: false,

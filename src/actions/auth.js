@@ -62,3 +62,14 @@ export function verifyEmailAccount(uuid) {
       });
   };
 }
+
+export function createAccount(form) {
+  return () => {
+    return axios
+      .post(`${hablaApiBaseUri}/users/createUser`, form)
+      .catch((error) => {
+        console.log(error.response);
+        throw new Error(error);
+      });
+  };
+}

@@ -1,19 +1,25 @@
 import React from 'react';
 import { Form, Button, Row, Col } from 'antd';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { formShape } from '../../propTypes';
 import FirstNameField from '../../components/formFields/FirstNameField';
 import LastNameField from '../../components/formFields/LastNameField';
 import UsernameField from '../../components/formFields/UsernameField';
 import EmailField from '../../components/formFields/EmailField';
-import PasswordField from '../../components/formFields/PasswordField';
 import ConfirmPasswordField from '../../components/formFields/ConfirmPasswordField';
 import CountrySelectField from '../../components/formFields/CountrySelectField';
 import TimezoneSelectField from '../../components/formFields/TimezoneSelectField';
+import { createAccount } from '../../actions';
 
 const FormItem = Form.Item;
 
 const propTypes = {
-  form: formShape.isRequired
+  form: formShape.isRequired,
+  createAccount: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired
 };
 
 const layout = {
@@ -25,7 +31,7 @@ class CreateAccount extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { countryCode: null };
+    this.state = { countryCode: null, loading: false };
 
     this.handleCountryChange = this.handleCountryChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -37,7 +43,15 @@ class CreateAccount extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.props);
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.setState({ loading: true });
+        this.props.createAccount(values).then(() => {
+          this.setState({ loading: false });
+          this.props.history.push('/app');
+        }).catch(() => this.setState({ loading: false }));
+      }
+    });
   }
 
   render() {
@@ -65,6 +79,7 @@ class CreateAccount extends React.Component {
               form={this.props.form}
               layout={layout}
               required
+              componentKey="displayName"
             />
           </Col>
           <Col className="gutter-row" span={12}>
@@ -73,26 +88,16 @@ class CreateAccount extends React.Component {
               layout={layout}
               disabled
               required
+              initialValue={sessionStorage.getItem('habla-user-email')}
             />
           </Col>
         </Row>
-        <Row gutter={16}>
-          <Col className="gutter-row" span={12}>
-            <PasswordField
-              form={this.props.form}
-              layout={layout}
-              required
-            />
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <ConfirmPasswordField
-              form={this.props.form}
-              layout={layout}
-              passwordComponentKey="password"
-              required
-            />
-          </Col>
-        </Row>
+        <ConfirmPasswordField
+          layout={layout}
+          componentKey="password"
+          form={this.props.form}
+          required
+        />
         <Row gutter={16}>
           <Col className="gutter-row" span={12}>
             <CountrySelectField
@@ -113,7 +118,7 @@ class CreateAccount extends React.Component {
           </Col>
         </Row>
         <FormItem>
-          <Button type="primary" htmlType="submit" className="login-form-button">
+          <Button loading={this.state.loading} type="primary" htmlType="submit" className="login-form-button">
             Create Account
           </Button>
         </FormItem>
@@ -122,6 +127,12 @@ class CreateAccount extends React.Component {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    createAccount: form => dispatch(createAccount(form))
+  };
+}
+
 CreateAccount.propTypes = propTypes;
 
-export default Form.create()(CreateAccount);
+export default Form.create()(connect(null, mapDispatchToProps)(CreateAccount));
