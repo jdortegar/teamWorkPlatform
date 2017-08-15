@@ -6,13 +6,20 @@ import { requestSubscribers,
   setCurrentSubscriberOrgId,
   toggleTeamDialog,
   toggleInvitePeopleDialog } from '../../actions';
+import { getSubscribersOfSubscriberOrgId,
+  getTeamsOfSubscriberOrgId,
+  getIntegrationsOfSubscriberOrgId
+} from '../../selectors';
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
+  const subscriberOrgId = props.match.params.subscriberOrgId;
+
   return {
-    teams: state.teams,
     subscriberOrgs: state.subscriberOrgs,
     integrations: state.integrations,
-    subscribers: state.subscribers,
+    subscribers: getSubscribersOfSubscriberOrgId(state, subscriberOrgId),
+    teams: getTeamsOfSubscriberOrgId(state, subscriberOrgId),
+    integrations2: getIntegrationsOfSubscriberOrgId(state, subscriberOrgId)
   };
 }
 

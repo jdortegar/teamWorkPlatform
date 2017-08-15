@@ -29,22 +29,8 @@ const propTypes = {
       subscriberOrgId: PropTypes.string
     })
   }).isRequired,
-  subscribers: PropTypes.shape({
-    subscribersBySubscriberOrgId: PropTypes.shape({
-      subscriberId: PropTypes.array
-    })
-  }).isRequired,
-  teams: PropTypes.shape({
-    teamById: PropTypes.shape({
-      teamId: PropTypes.PropTypes.shape({
-        name: PropTypes.string,
-        teamId: PropTypes.string
-      })
-    }),
-    teamIdsBySubscriberOrgId: PropTypes.shape({
-      ids: PropTypes.array
-    })
-  })
+  subscribers: PropTypes.array.isRequired,
+  teams: PropTypes.array.isRequired
 };
 
 const defaultProps = {
@@ -83,7 +69,7 @@ class OrganizationPage extends Component {
           extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
         }
         integrations.push(
-          <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
+          <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }} key="box">
             <a>
               <IconCard text="Box" icon={extra} />
             </a>
@@ -96,7 +82,7 @@ class OrganizationPage extends Component {
           extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
         }
         integrations.push(
-          <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
+          <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }} key="google">
             <a>
               <IconCard text="Google" extra={extra} />
             </a>
@@ -108,11 +94,8 @@ class OrganizationPage extends Component {
     return integrations;
   }
 
-  renderTeams(subscriberOrgId) {
-    const teamIds = this.props.teams.teamIdsBySubscriberOrgId[subscriberOrgId];
-
-    return teamIds.map((teamId) => {
-      const { name } = this.props.teams.teamById[teamId];
+  renderTeams() {
+    return this.props.teams.map(({ name, teamId }) => {
       return (
         <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }} key={teamId}>
           <Link to={`/app/team/${teamId}`}>
@@ -124,9 +107,7 @@ class OrganizationPage extends Component {
   }
 
   renderMembers() {
-    const subscriberOrgId = this.props.match.params.subscriberOrgId;
-
-    return this.props.subscribers.subscribersBySubscriberOrgId[subscriberOrgId].map(({ displayName, userId }) => {
+    return this.props.subscribers.map(({ displayName, userId }) => {
       return (
         <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }} key={userId}>
           <a>
@@ -143,20 +124,20 @@ class OrganizationPage extends Component {
 
     if (this.state.subscribersLoaded && this.state.integrationsLoaded) {
       let numberOfIntegrations = 0;
-      if (integrations.integrationsBySubscriberOrgId[subscriberOrgId] && integrations.integrationsBySubscriberOrgId[subscriberOrgId].box) {
+      if (integrations && integrations.box) {
         numberOfIntegrations += 1;
       }
-      if (integrations.integrationsBySubscriberOrgId[subscriberOrgId] && integrations.integrationsBySubscriberOrgId[subscriberOrgId].google) {
+      if (integrations && integrations.google) {
         numberOfIntegrations += 1;
       }
-      const numberOfTeams = teams.teamIdsBySubscriberOrgId[subscriberOrgId].length;
-      const numberOfMembers = subscribers.subscribersBySubscriberOrgId[subscriberOrgId].length;
+      const numberOfTeams = teams.length;
+      const numberOfMembers = subscribers.length;
       const breadcrumb = subscriberOrgs.subscriberOrgById[subscriberOrgId].name;
       const renderAddCard = (text, action) => {
         return (
           <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
             <a onClick={action}>
-              <IconCard icon={<i className="fa fa-plus simple-card__icons" aria-hidden="true" />} text={text} />
+              <IconCard icon={<i className="fa fa-plus simple-card__icons" />} text={text} />
             </a>
           </Col>
         );
@@ -176,7 +157,7 @@ class OrganizationPage extends Component {
           <SimpleCardContainer className="subpage-block">
             <Row type="flex" justify="start" gutter={20}>
               { renderAddCard('Add a New Team', () => this.props.toggleTeamDialog(true)) }
-              { this.renderTeams(subscriberOrgId) }
+              { this.renderTeams() }
             </Row>
           </SimpleCardContainer>
           <SimpleHeader text={`Your Members (${numberOfMembers})`} />
