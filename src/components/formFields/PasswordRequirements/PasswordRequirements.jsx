@@ -13,7 +13,7 @@ function renderRequirement(validationMap, key) {
   const fulfilled = validationMap[key];
   const message = messages[key];
   const className = classNames('c-password-requirements__requirement', {
-    'c-password-requirements__requirement--fulfilled': fulfilled,
+    'c-password-requirements__requirement--fulfilled': fulfilled
   });
 
   return <div className={className}>{message}</div>;
