@@ -6,7 +6,7 @@ import messages from './messages';
 import './styles/style.css';
 
 const propTypes = {
-  password: PropTypes.string,
+  password: PropTypes.string
 };
 
 function renderRequirement(validationMap, key) {
@@ -16,7 +16,9 @@ function renderRequirement(validationMap, key) {
     'c-password-requirements__requirement--fulfilled': fulfilled
   });
 
-  return <div className={className}>{message}</div>;
+  return (
+    <div className={className}>{message}</div>
+  );
 }
 
 function PasswordValidation({ password }) {
