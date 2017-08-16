@@ -15,22 +15,8 @@ const propTypes = {
       teamId: PropTypes.string
     })
   }).isRequired,
-  teamMembers: PropTypes.shape({
-    teamMembersByTeamId: PropTypes.shape({
-      team: PropTypes.array
-    })
-  }).isRequired,
-  teamRooms: PropTypes.shape({
-    teamRoomById: PropTypes.shape({
-      teamRoomId: PropTypes.PropTypes.shape({
-        name: PropTypes.string,
-        teamRoomId: PropTypes.string
-      })
-    }),
-    teamRoomIdsByTeamId: PropTypes.shape({
-      ids: PropTypes.array
-    })
-  }).isRequired
+  teamMembers: PropTypes.array.isRequired,
+  teamRooms: PropTypes.array.isRequired
 };
 
 class TeamPage extends Component {
@@ -47,18 +33,16 @@ class TeamPage extends Component {
 
     this.props.requestTeamRooms(teamId).then(() => this.setState({
       teamRoomsLoaded: true,
-      teamRooms: this.props.teamRooms.teamRoomIdsByTeamId[teamId]
+      teamRooms: this.props.teamRooms
     }));
     this.props.requestTeamMembers(teamId).then(() => this.setState({
       teamMembersLoaded: true,
-      teamMembers: this.props.teamMembers.teamMembersByTeamId[teamId] }));
+      teamMembers: this.props.teamMembers
+    }));
   }
 
   handleTeamRoomSearch(value) {
-    const teamId = this.props.match.params.teamId;
-    const teamRoomsIds = this.props.teamRooms.teamRoomIdsByTeamId[teamId];
-    const filteredTeamRooms = teamRoomsIds.filter((teamRoomId) => {
-      const { name } = this.props.teamRooms.teamRoomById[teamRoomId];
+    const filteredTeamRooms = this.props.teamRooms.filter(({ name }) => {
       return name.toLowerCase().includes(value.toLowerCase());
     });
 
@@ -66,8 +50,7 @@ class TeamPage extends Component {
   }
 
   handleTeamMemberSearch(value) {
-    const teamId = this.props.match.params.teamId;
-    const filteredTeamMembers = this.props.teamMembers.teamMembersByTeamId[teamId].filter(({ displayName }) => {
+    const filteredTeamMembers = this.props.teamMembers.filter(({ displayName }) => {
       return displayName.toLowerCase().includes(value.toLowerCase());
     });
 
@@ -75,8 +58,7 @@ class TeamPage extends Component {
   }
 
   renderTeamRooms() {
-    return this.state.teamRooms.map((teamRoomId) => {
-      const { name } = this.props.teamRooms.teamRoomById[teamRoomId];
+    return this.state.teamRooms.map(({ name, teamRoomId }) => {
       return (
         <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }} key={teamRoomId}>
           <Link to={`/app/teamRoom/${teamRoomId}`}>
@@ -104,7 +86,7 @@ class TeamPage extends Component {
     const { teamRooms, teams, subscriberOrgById } = this.props;
 
     if (this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
-      const numberOfTeamRooms = teamRooms.teamRoomIdsByTeamId[teamId].length;
+      const numberOfTeamRooms = teamRooms.length;
       const teamName = teams.teamById[teamId].name;
       const subscriberOrgName = subscriberOrgById[teams.teamById[teamId].subscriberOrgId].name;
       const renderAddCard = (text, url = null) => {

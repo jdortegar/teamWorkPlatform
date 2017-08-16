@@ -2,13 +2,16 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import TeamPage from '../../pages/TeamPage';
 import { requestTeamRooms, requestTeamMembers } from '../../actions';
+import { getTeamRoomsOfTeamId, getTeamMembersOfTeamId } from '../../selectors';
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
+  const teamId = props.match.params.teamId;
+
   return {
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     teams: state.teams,
-    teamRooms: state.teamRooms,
-    teamMembers: state.teamMembers
+    teamMembers: getTeamMembersOfTeamId(state, teamId),
+    teamRooms: getTeamRoomsOfTeamId(state, teamId)
   };
 }
 
