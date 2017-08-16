@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import getValidationMap from './getValidationMap';
@@ -6,17 +6,19 @@ import messages from './messages';
 import './styles/style.css';
 
 const propTypes = {
-  password: PropTypes.string,
+  password: PropTypes.string
 };
 
 function renderRequirement(validationMap, key) {
   const fulfilled = validationMap[key];
   const message = messages[key];
   const className = classNames('c-password-requirements__requirement', {
-    'c-password-requirements__requirement--fulfilled': fulfilled,
+    'c-password-requirements__requirement--fulfilled': fulfilled
   });
 
-  return <div className={className}>{message}</div>;
+  return (
+    <div className={className}>{message}</div>
+  );
 }
 
 function PasswordValidation({ password }) {
