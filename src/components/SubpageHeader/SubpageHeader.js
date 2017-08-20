@@ -14,10 +14,10 @@ function SubpageHeader({ breadcrumb }) {
   return (
     <div className="subpage-header-block subpage-header__top">
       <Row className="subpage-header__row" type="flex" align="middle" justify="start">
-        <Col span={8}>
+        <Col span={14}>
           <h1>{breadcrumb}</h1>
         </Col>
-        <Col span={8} offset={8}>
+        <Col span={8} offset={2}>
           <div style={{ textAlign: 'right' }}>
             <h3>Monthly Subscription <i className="fa fa-cog" /></h3>
           </div>

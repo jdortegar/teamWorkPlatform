@@ -1,4 +1,6 @@
+import axios from 'axios';
 import { push } from 'react-router-redux';
+import config from '../config/env';
 import { routesPaths } from '../routes';
 import {
   LOGGING_IN,
@@ -6,6 +8,8 @@ import {
   SUBMIT_REGISTRATION_FORM
 } from './types';
 import { login, logout } from '../session';
+
+const { hablaApiBaseUri } = config;
 
 export function loginUser({ email, password, targetRoute }) {
   return (dispatch) => {
@@ -42,5 +46,30 @@ export function submitRegistrationForm(status) {
   return {
     type: SUBMIT_REGISTRATION_FORM,
     payload: status
+  };
+}
+
+export function verifyEmailAccount(uuid) {
+  return () => {
+    return axios
+      .get(`${hablaApiBaseUri}/users/validateEmail/${uuid}`)
+      .then((response) => {
+        sessionStorage.setItem('habla-user-email', response.data.email);
+      })
+      .catch((error) => {
+        console.log(error.response);
+        throw new Error(error);
+      });
+  };
+}
+
+export function createAccount(form) {
+  return () => {
+    return axios
+      .post(`${hablaApiBaseUri}/users/createUser`, form)
+      .catch((error) => {
+        console.log(error.response);
+        throw new Error(error);
+      });
   };
 }

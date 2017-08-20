@@ -5,6 +5,7 @@ import { routesPaths } from '../../routes';
 import Register from '../../containers/Register';
 import CreateAccount from '../../containers/CreateAccount';
 import Login from '../../containers/Login';
+import VerifyAccount from '../../containers/VerifyAccount';
 import './styles/signup.css';
 
 // TODO: add <Route exact path={routesPaths.verifyAccount} component={VerifyAccount} /> below.
@@ -21,6 +22,7 @@ function SignUp(props) {
           <Switch>
             <Route exact path={routesPaths.register} component={Register} />
             <Route exact path={routesPaths.createAccount} component={CreateAccount} />
+            <Route exact path={routesPaths.verifyAccount} component={VerifyAccount} />
             <Route exact path={routesPaths.login} component={Login} />
           </Switch>
         </Col>
