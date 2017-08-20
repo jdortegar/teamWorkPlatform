@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "9JA89QQLNQ.ai.habla",
+        "paths": ["NOT /app/integrations/*"]
+      },
+      {
+        "appID": "9JA89QQLNQ.ai.habla.",
+        "paths": ["*"]
+      }
+    ]
+  }
+}

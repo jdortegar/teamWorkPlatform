@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const config = require('./webpack.config.js');
 
 config.devtool = 'source-map';
@@ -50,7 +51,8 @@ config.plugins = [
   }),
   new webpack.optimize.CommonsChunkPlugin({
     name: 'manifest'
-  })
+  }),
+  new CopyWebpackPlugin([{ from: './resources' }])
 ];
 
 config.module.rules = [{
