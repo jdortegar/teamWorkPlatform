@@ -7,7 +7,7 @@
         "paths": ["NOT /app/integrations/*"]
       },
       {
-        "appID": "9JA89QQLNQ.ai.habla.",
+        "appID": "9JA89QQLNQ.ai.habla",
         "paths": ["*"]
       }
     ]
