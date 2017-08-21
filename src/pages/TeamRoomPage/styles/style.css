@@ -3,6 +3,25 @@
     border-radius: 4px;
 }
 
+.team-room__header-links {
+  padding: 6px 10px;
+  font-size: 20px;
+  border-radius: 3px;
+}
+
+.team-room__header-links.active {
+  background: #ddd;
+}
+
+.team-room__header-links a:hover {
+  opacity: .9;
+}
+
+.team-room__header-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .team-room__chat-input-textfield {
     border: none;
     height: 40px;
@@ -35,4 +54,15 @@
     position: fixed;
     bottom: 35px;
     width: 1157px;
+}
+
+.team-room__member-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.team-room__member-cards-span {
+  align-self: center;
+  font-size: 14px;
+  margin-right: 8px;
 }

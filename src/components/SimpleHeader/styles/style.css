@@ -2,10 +2,11 @@
   padding: 0 24px;
 }
 .simple-header__container {
-  height: 55px;
+  height: 100%;
   border-bottom: 3px solid #ececec;
 }
 .simple-header__row {
   height: 100%;
   width: 100%;
+  padding: 8px 0;
 }

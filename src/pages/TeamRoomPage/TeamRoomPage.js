@@ -10,6 +10,8 @@ import TextField from '../../components/formFields/TextField';
 import UserIcon from '../../components/UserIcon';
 import { IconCard } from '../../components/cards';
 import { getJwt } from '../../session';
+import config from '../../config/env';
+import messages from './messages';
 import './styles/style.css';
 
 const propTypes = {
@@ -37,10 +39,19 @@ class TeamRoomPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { teamRoomMembersLoaded: false, conversationsLoaded: false, conversations: [], teamRoomMembers: [] };
+    this.state = {
+      teamRoomMembersLoaded: false,
+      conversationsLoaded: false,
+      conversations: [],
+      teamRoomMembers: [],
+      activeLink: messages.all
+    };
 
+    this.handleHeaderClick = this.handleHeaderClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }
+
   componentDidMount() {
     const teamRoomId = this.props.match.params.teamRoomId;
 
@@ -51,15 +62,34 @@ class TeamRoomPage extends Component {
       }));
     this.props.requestConversations(teamRoomId)
       .then(data => {
-        const { conversationId } = data.payload.conversations[0];
-        console.log(conversationId);
+        if (data.payload.conversations) {
+          const { conversationId } = data.payload.conversations[0];
 
-        this.props.requestTranscript(conversationId)
-          .then(() => this.setState({
-            conversationsLoaded: true,
-            conversations: this.props.conversations
-          }));
+          this.props.requestTranscript(conversationId)
+            .then(() => this.setState({
+              conversationsLoaded: true,
+              conversations: this.props.conversations
+            }));
+        }
       });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+        const { message } = values;
+
+        this.props.form.resetFields();
+        console.log(message);
+
+        axios.post(
+          `${config.hablaApiBaseUri}/conversations/f54e88ba-bfdf-4b83-92b4-820d392c17ae/createMessage`,
+          { messageType: 'text', text: message },
+          axiosOptions);
+      }
+    });
   }
 
   handleSearch(value) {
@@ -71,14 +101,22 @@ class TeamRoomPage extends Component {
     this.setState({ teamRoomMembers: filteredTeamMembers });
   }
 
+  handleHeaderClick(value) {
+    this.setState({ activeLink: value });
+  }
+
   renderTeamRoomMembers() {
-    return this.state.teamRoomMembers.map(({ displayName, userId }) => {
+    return this.state.teamRoomMembers.map(({ firstName, lastName, icon, preferences, userId }) => {
+      if (!icon) {
+        const name = `${firstName.substring(0, 1)}${lastName.substring(0, 1)}`;
+        const title = `${firstName} ${lastName}`;
+        return (
+          <UserIcon key={userId} name={name} bgColor={preferences.iconColor} title={title} />
+        );
+      }
+
       return (
-        <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }} key={userId}>
-          <Link to={`/app/member/${userId}`}>
-            <IconCard text={displayName} />
-          </Link>
-        </Col>
+        <UserIcon />
       );
     });
   }
@@ -89,19 +127,35 @@ class TeamRoomPage extends Component {
       const { teamRooms } = this.props;
       const teamRoomId = this.props.match.params.teamRoomId;
       const { name } = teamRooms.teamRoomById[teamRoomId];
-
+      const teamRoomMembers = this.renderTeamRoomMembers();
       console.log(this.props);
 
       return (
         <div>
-          <SubpageHeader breadcrumb={
-            <div>
-              {name}
-            </div>}
+          <SubpageHeader
+            breadcrumb={name}
+            node={
+              <div className="team-room__header-container">
+                <div className={`team-room__header-links ${this.state.activeLink === messages.all ? 'active' : ''}`}>
+                  <a onClick={() => this.handleHeaderClick(messages.all)}>{messages.all}</a>
+                </div>
+                <div className={`team-room__header-links ${this.state.activeLink === messages.new ? 'active' : ''}`}>
+                  <a onClick={() => this.handleHeaderClick(messages.new)}>{messages.new}</a>
+                </div>
+                <div className={`team-room__header-links ${this.state.activeLink === messages.bookmarked ? 'active' : ''}`}>
+                  <a onClick={() => this.handleHeaderClick(messages.bookmarked)}>{messages.bookmarked}</a>
+                </div>
+              </div>
+            }
           />
           <SimpleHeader
             type="cards"
-            text={<UserIcon />}
+            text={
+              <div className="team-room__member-cards-container">
+                <span className="team-room__member-cards-span">{numberOfTeamRoomMembers} members</span>
+                {teamRoomMembers}
+              </div>
+            }
             handleSearch={this.handleSearch}
             search
           />
@@ -127,8 +181,9 @@ class TeamRoomPage extends Component {
                 Hey
               </Col>
               <Col xs={{ span: 20 }} className="team-room__chat-input-col">
-                <Form className="login-form">
+                <Form onSubmit={this.handleSubmit} className="login-form">
                   <TextField
+                    componentKey="message"
                     form={this.props.form}
                     hasFeedback={false}
                     placeholder="Leave a reply..."

@@ -7,10 +7,15 @@ const propTypes = {
   breadcrumb: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node
-  ]).isRequired
+  ]).isRequired,
+  node: PropTypes.node
 };
 
-function SubpageHeader({ breadcrumb }) {
+const defaultProps = {
+  node: <h3>Monthly Subscription <i className="fa fa-cog" /></h3>
+}
+
+function SubpageHeader({ breadcrumb, node }) {
   return (
     <div className="subpage-header-block subpage-header__top">
       <Row className="subpage-header__row" type="flex" align="middle" justify="start">
@@ -19,7 +24,7 @@ function SubpageHeader({ breadcrumb }) {
         </Col>
         <Col span={8} offset={2}>
           <div style={{ textAlign: 'right' }}>
-            <h3>Monthly Subscription <i className="fa fa-cog" /></h3>
+            {node}
           </div>
         </Col>
       </Row>
@@ -28,5 +33,6 @@ function SubpageHeader({ breadcrumb }) {
 }
 
 SubpageHeader.propTypes = propTypes;
+SubpageHeader.defaultProps = defaultProps;
 
 export default SubpageHeader;
