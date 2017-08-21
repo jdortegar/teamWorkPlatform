@@ -4,24 +4,33 @@ import PropTypes from 'prop-types';
 import './styles/style.css';
 
 const propTypes = {
-  text: PropTypes.string.isRequired,
+  text: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node
+  ]).isRequired,
   search: PropTypes.bool,
-  handleSearch: PropTypes.func
+  handleSearch: PropTypes.func,
+  type: PropTypes.string,
 };
 
 const defaultProps = {
   search: false,
-  handleSearch: null
+  handleSearch: null,
+  type: 'text'
 };
 
 function SimpleHeader(props) {
   return (
     <div className="simple-header-block simple-header__container">
       <Row className="simple-header__row" type="flex" align="middle" justify="start">
-        <Col xs={{ span: 17 }} sm={{ span: 14 }}>
-          <h2>{props.text}</h2>
+        <Col xs={{ span: 17 }} sm={{ span: 17 }}>
+          {
+            props.type === 'text' ?
+              <h2>{props.text}</h2> :
+              props.text
+          }
         </Col>
-        <Col xs={{ span: 6, offset: 1 }} sm={{ span: 6, offset: 4 }} md={{ span: 4, offset: 6 }}>
+        <Col xs={{ span: 6, offset: 1 }} sm={{ span: 5, offset: 2 }} md={{ span: 4, offset: 3 }}>
           {
             props.search ?
               <Input

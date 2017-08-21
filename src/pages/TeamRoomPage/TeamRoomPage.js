@@ -1,11 +1,15 @@
-  import React, { Component } from 'react';
-import { Row, Col } from 'antd';
+import React, { Component } from 'react';
+import { Row, Col, Form } from 'antd';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleHeader from '../../components/SimpleHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
+import TextField from '../../components/formFields/TextField/';
 import { IconCard } from '../../components/cards';
+import { getJwt } from '../../session';
+import './styles/style.css';
 
 const propTypes = {
   requestTeamRoomMembers: PropTypes.func.isRequired,
@@ -72,35 +76,62 @@ class TeamRoomPage extends Component {
   render() {
     if (this.state.teamRoomMembersLoaded) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
-      const { teams, teamRooms, subscriberOrgById } = this.props;
+      const { teamRooms } = this.props;
       const teamRoomId = this.props.match.params.teamRoomId;
-      const { teamId, name } = teamRooms.teamRoomById[teamRoomId];
-      const teamName = teams.teamById[teamId].name;
-      const subscriberOrgName = subscriberOrgById[teams.teamById[teamId].subscriberOrgId].name;
-      const renderAddCard = (text, url = null) => {
-        return (
-          <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
-            <Link to={url}>
-              <IconCard icon={<i className="fa fa-plus simple-card__icons" />} text={text} />
-            </Link>
-          </Col>
-        );
-      };
+      const { name } = teamRooms.teamRoomById[teamRoomId];
 
+      console.log(this.props);
+      const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+      axios.get('https://habla-fe-api-dev.habla.ai/conversations/getConversations', axiosOptions);
       return (
         <div>
           <SubpageHeader breadcrumb={
             <div>
-              <span className="breadcrumb_underline">{subscriberOrgName}</span> /
-              <span className="breadcrumb_underline">{teamName}</span> /
               {name}
             </div>}
           />
-          <SimpleHeader text={`Team Room (${numberOfTeamRoomMembers} members)`} handleSearch={this.handleSearch} search />
+          <SimpleHeader
+            type="cards"
+            text={`${numberOfTeamRoomMembers} member(s)`}
+            handleSearch={this.handleSearch}
+            search
+          />
           <SimpleCardContainer className="subpage-block">
             <Row type="flex" justify="start" gutter={20}>
-              { renderAddCard('Invite a New Team Room Member', '/') }
-              { this.renderTeamRoomMembers() }
+              <Col xs={{ span: 2 }}>
+                Hey
+              </Col>
+              <Col xs={{ span: 19 }}>
+                Mommy
+              </Col>
+              <Col xs={{ span: 3 }} className="team-room__chat-col-icons">
+                <a className="team-room__icons"><i className="fa fa-share" /></a>
+                <a className="team-room__icons"><i className="fa fa-folder-o" /></a>
+                <a className="team-room__icons"><i className="fa fa-bookmark-o" /></a>
+                <a className="team-room__icons"><i className="fa fa-circle-thin" /></a>
+              </Col>
+            </Row>
+          </SimpleCardContainer>
+          <SimpleCardContainer className="subpage-block team-room__chat-container">
+            <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">
+              <Col xs={{ span: 2 }} className="team-room__chat-input-col">
+                Hey
+              </Col>
+              <Col xs={{ span: 20 }} className="team-room__chat-input-col">
+                <Form className="login-form">
+                  <TextField
+                    form={this.props.form}
+                    placeholder="Leave a reply..."
+                    label=""
+                    className="team-room__chat-input-form-item"
+                    inputClassName="team-room__chat-input-textfield"
+                  />
+                </Form>
+              </Col>
+              <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-col-icons">
+                <a className="team-room__icons"><i className="fa fa-paper-plane-o" /></a>
+                <a className="team-room__icons"><i className="fa fa-folder-o" /></a>
+              </Col>
             </Row>
           </SimpleCardContainer>
         </div>
@@ -113,4 +144,4 @@ class TeamRoomPage extends Component {
 
 TeamRoomPage.propTypes = propTypes;
 
-export default TeamRoomPage;
+export default Form.create()(TeamRoomPage);
