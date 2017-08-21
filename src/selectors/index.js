@@ -300,6 +300,18 @@ export const getTeamRoomMembersOfTeamRoomId = createCachedSelector(
   (state, teamRoomId) => teamRoomId
 );
 
+function merge(tree, messages) {
+  const ret = [];
+  tree.forEach((node) => {
+    const merged = _.merge({}, messages[node.messageId], node);
+    merged.children = [];
+    ret.push(merged);
+    if (node.children.length > 0) {
+      merge(node.children, messages);
+    }
+  });
+  return ret;
+}
 
 export const getConversationOfTeamRoomId = createCachedSelector(
   [getConversationIdsByTeamRoomId, getConversationById, (state, teamRoomId) => teamRoomId],
@@ -310,7 +322,15 @@ export const getConversationOfTeamRoomId = createCachedSelector(
     }
 
     // Only 1 conversation per team room, currently.
-    return conversationById[conversationIds[0]];
+    const conversation = conversationById[conversationIds[0]];
+
+    if (conversation.transcript) {
+      // Merge transcript messages into tree, and just replace transcript with tree.
+      const tree = merge(conversation.transcript.flattenedTree, conversation.transcript.messages);
+      conversation.transcript = tree;
+    }
+
+    return conversation;
   }
 )(
   (state, teamRoomId) => teamRoomId

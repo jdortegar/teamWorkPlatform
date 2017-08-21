@@ -22,27 +22,63 @@ const INITIAL_STATE = {
 
 const defaultExpanded = true;
 
+function getNodeFromFlattenedTree(messageId, array) {
+  for (let i = array.length - 1; i >= 0; i -= 1) {
+    const node = array[i];
+    if (node.messageId === messageId) {
+      return node;
+    } else if (node.children.length > 0) {
+      const childNode = getNodeFromFlattenedTree(messageId, node.children);
+      if (childNode !== null) {
+        return childNode;
+      }
+    }
+  }
+  return null;
+}
+
+function flattenedArrayMessage(message) {
+  return { messageId: message.messageId, created: message.created, children: [], expanded: defaultExpanded };
+}
+
+function addMessageToArray(message, array) {
+  if (array.length === 0) {
+    array.push(flattenedArrayMessage(message));
+  } else {
+    let i = array.length - 1
+    for (; i >= 0; i -= 1) {
+      if (message.created > array[i].created) {
+        break;
+      }
+    }
+    if (i < 0) {
+      array.push(flattenedArrayMessage(message));
+    } else {
+      array.splice(i + 1, 0, flattenedArrayMessage(message));
+    }
+  }
+}
+
+function addMessageToFlattenedTree(message, flattenedTree) {
+  if (message.replyTo) {
+    const parentNode = getNodeFromFlattenedTree(message.messageId, flattenedTree);
+    if (parentNode === null) {
+      console.error(`Can't find parent ${message.replyTo} of messageId ${message.messageId}`);
+    }
+  } else {
+    addMessageToArray(message, flattenedTree);
+  }
+}
+
 function addOrUpdateMessages(messages, transcript) {
-  const mergedTranscript = transcript || { messages: {}, flattenedTree: {} };
+  const mergedTranscript = transcript || { messages: {}, flattenedTree: [] };
 
   messages.forEach((message) => {
     const existingMessage = mergedTranscript.messages[message.messageId];
     mergedTranscript.messages[message.messageId] = message;
 
     if (!existingMessage) {
-      if (message.replyTo) {
-        let parent = mergedTranscript.flattenedTree[message.replyTo];
-        if (!parent) {
-          parent = { expanded: defaultExpanded, children: [] };
-          mergedTranscript.flattenedTree[message.replyTo] = parent;
-        }
-        parent.children.push(message.messageId);
-      } else {
-        const existing = mergedTranscript.flattenedTree[message.messageId];
-        if (!existing) {
-          mergedTranscript.flattenedTree[message.messageId] = { expanded: defaultExpanded, children: [] };
-        }
-      }
+      addMessageToFlattenedTree(message, mergedTranscript.flattenedTree);
     }
   });
 
@@ -68,7 +104,7 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
         updateConversationIdsByTeamRoomId = _.cloneDeep(state.conversationIdsByTeamRoomId);
         const conversationIds = [];
         conversations.forEach(conversation => conversationIds.push(conversation.conversationId));
-        updateConversationIdsByTeamRoomId[teamRoomId] = { conversationIds };
+        updateConversationIdsByTeamRoomId[teamRoomId] = conversationIds;
       }
 
       const updateConversationById = _.cloneDeep(state.conversationById);
