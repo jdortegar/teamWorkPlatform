@@ -27,7 +27,7 @@ export function requestConversationsError(error, { teamRoomId }) {
   return { type: REQUEST_CONVERSATIONS_ERROR, meta: { teamRoomId }, payload: error, error: true };
 }
 
-export function requestConversations({ teamRoomId }) {
+export function requestConversations(teamRoomId) {
   const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
 
   return (dispatch) => {

@@ -1,1 +1,1 @@
-export { default } from './TeamRoomPage';
+export { default } from './container';

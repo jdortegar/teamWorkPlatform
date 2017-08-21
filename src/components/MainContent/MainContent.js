@@ -13,7 +13,7 @@ const { Content } = Layout;
 
 function MainContent() {
   return (
-    <Content style={{ background: '#fff', margin: 0, minHeight: 280 }}>
+    <Content style={{ background: '#fff', margin: 0, minHeight: '100vh' }}>
       <Switch>
         <Route exact path={routesPaths.chat} component={Chat} />
         <Route exact path={routesPaths.integrations} component={IntegrationsPage} />

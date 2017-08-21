@@ -1,0 +1,38 @@
+.team-room__chat-input {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.team-room__chat-input-textfield {
+    border: none;
+    height: 40px;
+    font-size: 15px;
+}
+
+.team-room__chat-input-textfield:focus, .team-room__chat-input-textfield:hover{
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.team-room__chat-input-form-item {
+    margin-bottom: 0;
+}
+
+.team-room__icons {
+    font-size: 18px;
+    padding: 0 5px;
+}
+
+.team-room__chat-input-col {
+    padding: 6px 0;
+}
+
+.team-room__chat-col-icons {
+    text-align: right;
+}
+
+.team-room__chat-container {
+    position: fixed;
+    bottom: 35px;
+    width: 1157px;
+}
