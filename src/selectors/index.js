@@ -322,12 +322,14 @@ export const getConversationOfTeamRoomId = createCachedSelector(
     }
 
     // Only 1 conversation per team room, currently.
-    const conversation = conversationById[conversationIds[0]];
+    let conversation = conversationById[conversationIds[0]];
 
-    if (conversation.transcript) {
+    if ((conversation) && (conversation.transcript)) {
       // Merge transcript messages into tree, and just replace transcript with tree.
       const tree = merge(conversation.transcript.flattenedTree, conversation.transcript.messages);
       conversation.transcript = tree;
+    } else {
+      conversation = null;
     }
 
     return conversation;
