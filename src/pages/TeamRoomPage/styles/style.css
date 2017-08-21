@@ -6,6 +6,7 @@
 .team-room__chat-input-textfield {
     border: none;
     height: 40px;
+    font-size: 15px;
 }
 
 .team-room__chat-input-textfield:focus, .team-room__chat-input-textfield:hover{

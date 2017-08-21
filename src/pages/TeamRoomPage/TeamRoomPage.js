@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleHeader from '../../components/SimpleHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
-import TextField from '../../components/formFields/TextField/';
+import TextField from '../../components/formFields/TextField';
+import UserIcon from '../../components/UserIcon';
 import { IconCard } from '../../components/cards';
 import { getJwt } from '../../session';
 import './styles/style.css';
@@ -18,9 +19,7 @@ const propTypes = {
       teamRoomId: PropTypes.string
     })
   }).isRequired,
-  teamRoomMembers: PropTypes.shape({
-    teamRoomMembersByTeamRoomId: PropTypes.object
-  }).isRequired,
+  teamRoomMembers: PropTypes.array.isRequired,
   teamRooms: PropTypes.shape({
     teamRoomById: PropTypes.shape({
       teamRoomId: PropTypes.PropTypes.shape({
@@ -38,7 +37,7 @@ class TeamRoomPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { teamRoomMembersLoaded: false, teamRoomMembers: [] };
+    this.state = { teamRoomMembersLoaded: false, conversationsLoaded: false, conversations: [], teamRoomMembers: [] };
 
     this.handleSearch = this.handleSearch.bind(this);
   }
@@ -48,8 +47,19 @@ class TeamRoomPage extends Component {
     this.props.requestTeamRoomMembers(teamRoomId)
       .then(() => this.setState({
         teamRoomMembersLoaded: true,
-        teamRoomMembers: this.props.teamRoomMembers.teamRoomMembersByTeamRoomId[teamRoomId]
+        teamRoomMembers: this.props.teamRoomMembers
       }));
+    this.props.requestConversations(teamRoomId)
+      .then(data => {
+        const { conversationId } = data.payload.conversations[0];
+        console.log(conversationId);
+
+        this.props.requestTranscript(conversationId)
+          .then(() => this.setState({
+            conversationsLoaded: true,
+            conversations: this.props.conversations
+          }));
+      });
   }
 
   handleSearch(value) {
@@ -74,15 +84,14 @@ class TeamRoomPage extends Component {
   }
 
   render() {
-    if (this.state.teamRoomMembersLoaded) {
+    if (this.state.teamRoomMembersLoaded && this.state.conversationsLoaded) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
       const { teamRooms } = this.props;
       const teamRoomId = this.props.match.params.teamRoomId;
       const { name } = teamRooms.teamRoomById[teamRoomId];
 
       console.log(this.props);
-      const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
-      axios.get('https://habla-fe-api-dev.habla.ai/conversations/getConversations', axiosOptions);
+
       return (
         <div>
           <SubpageHeader breadcrumb={
@@ -92,7 +101,7 @@ class TeamRoomPage extends Component {
           />
           <SimpleHeader
             type="cards"
-            text={`${numberOfTeamRoomMembers} member(s)`}
+            text={<UserIcon />}
             handleSearch={this.handleSearch}
             search
           />
@@ -105,7 +114,7 @@ class TeamRoomPage extends Component {
                 Mommy
               </Col>
               <Col xs={{ span: 3 }} className="team-room__chat-col-icons">
-                <a className="team-room__icons"><i className="fa fa-share" /></a>
+                <a className="team-room__icons"><i className="fa fa-reply" /></a>
                 <a className="team-room__icons"><i className="fa fa-folder-o" /></a>
                 <a className="team-room__icons"><i className="fa fa-bookmark-o" /></a>
                 <a className="team-room__icons"><i className="fa fa-circle-thin" /></a>
@@ -121,6 +130,7 @@ class TeamRoomPage extends Component {
                 <Form className="login-form">
                   <TextField
                     form={this.props.form}
+                    hasFeedback={false}
                     placeholder="Leave a reply..."
                     label=""
                     className="team-room__chat-input-form-item"
