@@ -31,8 +31,8 @@ class Chat extends Component {
       `${config.hablaApiBaseUri}/conversations/${conversationId}/createMessage`,
       { messageType: 'text', text: 'not much' },
       axiosOptions)
-    .then(() => {
-    });
+      .then(() => {
+      });
   }
 
   renderMessages() {

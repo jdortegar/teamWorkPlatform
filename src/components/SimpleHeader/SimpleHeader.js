@@ -22,15 +22,15 @@ const defaultProps = {
 function SimpleHeader(props) {
   return (
     <div className="simple-header-block simple-header__container">
-      <Row className="simple-header__row" type="flex" align="middle" justify="start">
-        <Col xs={{ span: 17 }} sm={{ span: 17 }}>
+      <Row className="simple-header__row" type="flex" align="middle" justify="start" gutter={20}>
+        <Col xs={{ span: 18 }} sm={{ span: 18 }}>
           {
             props.type === 'text' ?
               <h2>{props.text}</h2> :
               props.text
           }
         </Col>
-        <Col xs={{ span: 6, offset: 1 }} sm={{ span: 5, offset: 2 }} md={{ span: 4, offset: 3 }}>
+        <Col xs={{ span: 6 }} sm={{ span: 6 }} md={{ span: 6 }}>
           {
             props.search ?
               <Input

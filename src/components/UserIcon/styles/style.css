@@ -1,8 +1,12 @@
 .user-icon__main-container {
-    width: 35px;
-    height: 35px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 3px;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  margin: 3px 2px;
 }

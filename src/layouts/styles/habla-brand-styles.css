@@ -2,7 +2,7 @@
 .clear {
 	clear: both;
 }
-a {
+a, a:hover {
     color: #222222;
 }
 .breadcrumb_underline {
