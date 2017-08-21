@@ -2,6 +2,9 @@
 .clear {
 	clear: both;
 }
+a {
+    color: #222222;
+}
 .breadcrumb_underline {
   text-decoration: underline;
 }

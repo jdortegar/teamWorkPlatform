@@ -33,9 +33,9 @@ class Register extends React.Component {
         axios.post(
           `${config.hablaApiBaseUri}/users/registerUser/`,
           { email })
-        .then(() => {
-          this.setState({ submitting: false, registered: true });
-        });
+          .then(() => {
+            this.setState({ submitting: false, registered: true });
+          });
       }
     });
   }
