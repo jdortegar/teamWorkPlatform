@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Form } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { formShape } from '../../propTypes';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleHeader from '../../components/SimpleHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
@@ -15,6 +15,7 @@ import messages from './messages';
 import './styles/style.css';
 
 const propTypes = {
+  form: formShape.isRequired,
   requestTeamRoomMembers: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -61,7 +62,7 @@ class TeamRoomPage extends Component {
         teamRoomMembers: this.props.teamRoomMembers
       }));
     this.props.requestConversations(teamRoomId)
-      .then(data => {
+      .then((data) => {
         if (data.payload.conversations) {
           const { conversationId } = data.payload.conversations[0];
 
@@ -79,13 +80,14 @@ class TeamRoomPage extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+        const { conversationId } = this.props.conversations;
         const { message } = values;
 
         this.props.form.resetFields();
         console.log(message);
 
         axios.post(
-          `${config.hablaApiBaseUri}/conversations/f54e88ba-bfdf-4b83-92b4-820d392c17ae/createMessage`,
+          `${config.hablaApiBaseUri}/conversations/${conversationId}/createMessage`,
           { messageType: 'text', text: message },
           axiosOptions);
       }
