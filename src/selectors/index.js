@@ -306,10 +306,9 @@ export const getTeamRoomMembersAsObjectsOfTeamRoomId = createCachedSelector(
     if ((!teamRoomId) || (!teamRoomMemberUserIdsByTeamRoomId[teamRoomId])) {
       return {};
     }
-
     const userIds = teamRoomMemberUserIdsByTeamRoomId[teamRoomId];
-    userIds.forEach((userId) => { userIds[userId] = usersByUserId[userId]; });
-    return userIds;
+    const userIdsObj = userIds.reduce((acc, userId) => { acc[userId] = usersByUserId[userId]; return acc; }, {});
+    return userIdsObj;
   }
 )(
   (state, teamRoomId) => teamRoomId
@@ -356,7 +355,6 @@ export const getConversationOfTeamRoomId = createCachedSelector(
 )(
   (state, teamRoomId) => teamRoomId
 );
-
 
 export const getIntegrationsOfSubscriberOrgId = createCachedSelector(
   [getIntegrationsBySubscriberOrgId, (state, subscriberOrgId) => subscriberOrgId],
