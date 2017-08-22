@@ -336,17 +336,21 @@ export const getConversationOfTeamRoomId = createCachedSelector(
     }
 
     // Only 1 conversation per team room, currently.
-    let conversation = conversationById[conversationIds[0]];
+    const conversation = conversationById[conversationIds[0]];
 
     if ((conversation) && (conversation.transcript)) {
-      // Merge transcript messages into tree, and just replace transcript with tree.
-      const tree = merge(conversation.transcript.flattenedTree, conversation.transcript.messages);
-      conversation.transcript = tree;
-    } else {
-      conversation = null;
+      // Merge transcript messages into tree, and just replace transcript with tree in clone.
+      const clone = {};
+      Object.keys(conversation).forEach((key) => {
+        if (key !== 'transcript') {
+          clone[key] = conversation[key];
+        }
+      });
+      clone.transcript = merge(conversation.transcript.flattenedTree, conversation.transcript.messages);
+      return clone;
     }
 
-    return conversation;
+    return null;
   }
 )(
   (state, teamRoomId) => teamRoomId
