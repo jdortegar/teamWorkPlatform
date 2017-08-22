@@ -8,7 +8,7 @@ import SimpleHeader from '../../components/SimpleHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import TextField from '../../components/formFields/TextField';
 import UserIcon from '../../components/UserIcon';
-import { IconCard } from '../../components/cards';
+import Message from '../../components/Message';
 import { getJwt } from '../../session';
 import config from '../../config/env';
 import messages from './messages';
@@ -105,6 +105,13 @@ class TeamRoomPage extends Component {
     this.setState({ activeLink: value });
   }
 
+  renderMessages() {
+    return this.state.conversations.transcript.map((message) => {
+      const user = this.props.teamRoomMembersObj[message.createdBy];
+      return <Message message={message} user={user} key={message.messageId} />;
+    });
+  }
+
   renderTeamRoomMembers() {
     return this.state.teamRoomMembers.map(({ firstName, lastName, icon, preferences, userId }) => {
       if (!icon) {
@@ -159,21 +166,8 @@ class TeamRoomPage extends Component {
             handleSearch={this.handleSearch}
             search
           />
-          <SimpleCardContainer className="subpage-block">
-            <Row type="flex" justify="start" gutter={20}>
-              <Col xs={{ span: 2 }}>
-                Hey
-              </Col>
-              <Col xs={{ span: 19 }}>
-                Mommy
-              </Col>
-              <Col xs={{ span: 3 }} className="team-room__chat-col-icons">
-                <a className="team-room__icons"><i className="fa fa-reply" /></a>
-                <a className="team-room__icons"><i className="fa fa-folder-o" /></a>
-                <a className="team-room__icons"><i className="fa fa-bookmark-o" /></a>
-                <a className="team-room__icons"><i className="fa fa-circle-thin" /></a>
-              </Col>
-            </Row>
+          <SimpleCardContainer>
+            {this.renderMessages()}
           </SimpleCardContainer>
           <SimpleCardContainer className="subpage-block team-room__chat-container">
             <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">

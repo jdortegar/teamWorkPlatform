@@ -6,19 +6,31 @@ const propTypes = {
   name: PropTypes.string,
   bgColor: PropTypes.string,
   icon: PropTypes.string,
-  title: PropTypes.string
+  title: PropTypes.string,
+  width: PropTypes.string,
+  height: PropTypes.string
 };
 
 const defaultProps = {
   name: null,
   bgColor: null,
   icon: null,
-  title: null
+  title: null,
+  width: '35px',
+  height: '35px'
 }
 
 function UserIcon(props) {
   return (
-    <a className="user-icon__main-container" style={{ backgroundColor: props.bgColor }} title={props.title}>
+    <a
+      className="user-icon__main-container"
+      style={{
+        backgroundColor: props.bgColor,
+        width: props.width,
+        height: props.height
+      }}
+      title={props.title}
+    >
       {props.name}
     </a>
   );
