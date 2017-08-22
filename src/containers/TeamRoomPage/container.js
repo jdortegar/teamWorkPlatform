@@ -6,7 +6,11 @@ import {
   requestConversations,
   requestTranscript
 } from '../../actions';
-import { getConversationOfTeamRoomId, getTeamRoomMembersOfTeamRoomId } from '../../selectors';
+import {
+  getConversationOfTeamRoomId,
+  getTeamRoomMembersOfTeamRoomId,
+  getTeamRoomMembersAsObjectsOfTeamRoomId
+} from '../../selectors';
 
 function mapStateToProps(state, props) {
   const teamRoomId = props.match.params.teamRoomId;
@@ -16,7 +20,8 @@ function mapStateToProps(state, props) {
     teams: state.teams,
     teamRooms: state.teamRooms,
     conversations: getConversationOfTeamRoomId(state, teamRoomId),
-    teamRoomMembers: getTeamRoomMembersOfTeamRoomId(state, teamRoomId)
+    teamRoomMembers: getTeamRoomMembersOfTeamRoomId(state, teamRoomId),
+    teamRoomMembersObj: getTeamRoomMembersAsObjectsOfTeamRoomId(state, teamRoomId)
   };
 }
 

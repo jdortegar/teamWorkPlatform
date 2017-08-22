@@ -300,6 +300,20 @@ export const getTeamRoomMembersOfTeamRoomId = createCachedSelector(
   (state, teamRoomId) => teamRoomId
 );
 
+export const getTeamRoomMembersAsObjectsOfTeamRoomId = createCachedSelector(
+  [getTeamRoomMemberUserIdsByTeamRoomId, getUsersByUserId, (state, teamRoomId) => teamRoomId],
+  (teamRoomMemberUserIdsByTeamRoomId, usersByUserId, teamRoomId) => {
+    if ((!teamRoomId) || (!teamRoomMemberUserIdsByTeamRoomId[teamRoomId])) {
+      return {};
+    }
+    const userIds = teamRoomMemberUserIdsByTeamRoomId[teamRoomId];
+    const userIdsObj = userIds.reduce((acc, userId) => { acc[userId] = usersByUserId[userId]; return acc; }, {});
+    return userIdsObj;
+  }
+)(
+  (state, teamRoomId) => teamRoomId
+);
+
 function merge(tree, messages) {
   const ret = [];
   tree.forEach((node) => {
@@ -337,7 +351,6 @@ export const getConversationOfTeamRoomId = createCachedSelector(
 )(
   (state, teamRoomId) => teamRoomId
 );
-
 
 export const getIntegrationsOfSubscriberOrgId = createCachedSelector(
   [getIntegrationsBySubscriberOrgId, (state, subscriberOrgId) => subscriberOrgId],
