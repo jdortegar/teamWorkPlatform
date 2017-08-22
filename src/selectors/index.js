@@ -300,6 +300,21 @@ export const getTeamRoomMembersOfTeamRoomId = createCachedSelector(
   (state, teamRoomId) => teamRoomId
 );
 
+export const getTeamRoomMembersAsObjectsOfTeamRoomId = createCachedSelector(
+  [getTeamRoomMemberUserIdsByTeamRoomId, getUsersByUserId, (state, teamRoomId) => teamRoomId],
+  (teamRoomMemberUserIdsByTeamRoomId, usersByUserId, teamRoomId) => {
+    if ((!teamRoomId) || (!teamRoomMemberUserIdsByTeamRoomId[teamRoomId])) {
+      return {};
+    }
+
+    const userIds = teamRoomMemberUserIdsByTeamRoomId[teamRoomId];
+    userIds.forEach((userId) => { userIds[userId] = usersByUserId[userId]; });
+    return userIds;
+  }
+)(
+  (state, teamRoomId) => teamRoomId
+);
+
 function merge(tree, messages) {
   const ret = [];
   tree.forEach((node) => {
@@ -324,7 +339,7 @@ export const getConversationOfTeamRoomId = createCachedSelector(
     // Only 1 conversation per team room, currently.
     let conversation = conversationById[conversationIds[0]];
 
-    if ((conversation) && (conversation.transcript)) {
+    if ((conversation) && (conversation.transcript) && (conversation.transcript.flattenedTree) && (conversation.transcript.messages)) {
       // Merge transcript messages into tree, and just replace transcript with tree.
       const tree = merge(conversation.transcript.flattenedTree, conversation.transcript.messages);
       conversation.transcript = tree;
