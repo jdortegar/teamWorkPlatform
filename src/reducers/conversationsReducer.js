@@ -45,7 +45,7 @@ function addMessageToArray(message, array) {
   if (array.length === 0) {
     array.push(flattenedArrayMessage(message));
   } else {
-    let i = array.length - 1
+    let i = array.length - 1;
     for (; i >= 0; i -= 1) {
       if (message.created > array[i].created) {
         break;
@@ -63,24 +63,54 @@ function addMessageToFlattenedTree(message, flattenedTree) {
   if (message.replyTo) {
     const parentNode = getNodeFromFlattenedTree(message.messageId, flattenedTree);
     if (parentNode === null) {
-      console.error(`Can't find parent ${message.replyTo} of messageId ${message.messageId}`);
+      return false;
     }
   } else {
     addMessageToArray(message, flattenedTree);
   }
+
+  return true;
 }
+
+function addMessagesToFlattenedTree(messages, flattenedTree) {
+  const unaddedMessagesToFlattenedTree = [];
+  messages.forEach((message) => {
+    if (!addMessageToFlattenedTree(message, flattenedTree)) {
+      unaddedMessagesToFlattenedTree.push(message);
+    }
+  });
+
+  // Only try to add if something else was added.
+  if (unaddedMessagesToFlattenedTree.length > 0) {
+    if (unaddedMessagesToFlattenedTree.length < messages.length) {
+      addMessagesToFlattenedTree(unaddedMessagesToFlattenedTree, flattenedTree);
+    } else {
+      unaddedMessagesToFlattenedTree.forEach((message) => {
+        console.error(`Can't find parent ${message.replyTo} of messageId ${message.messageId}`);
+      });
+    }
+  }
+}
+
 
 function addOrUpdateMessages(messages, transcript) {
   const mergedTranscript = transcript || { messages: {}, flattenedTree: [] };
 
+  const unaddedMessagesToFlattenedTree = [];
   messages.forEach((message) => {
     const existingMessage = mergedTranscript.messages[message.messageId];
     mergedTranscript.messages[message.messageId] = message;
 
     if (!existingMessage) {
-      addMessageToFlattenedTree(message, mergedTranscript.flattenedTree);
+      if (!addMessageToFlattenedTree(message, mergedTranscript.flattenedTree)) {
+        unaddedMessagesToFlattenedTree.push(message);
+      }
     }
   });
+
+  if (unaddedMessagesToFlattenedTree.length > 0) {
+    addMessagesToFlattenedTree(unaddedMessagesToFlattenedTree, mergedTranscript.flattenedTree);
+  }
 
   return mergedTranscript;
 }
