@@ -8,7 +8,8 @@ const propTypes = {
   icon: PropTypes.string,
   title: PropTypes.string,
   width: PropTypes.string,
-  height: PropTypes.string
+  height: PropTypes.string,
+  minWidth: PropTypes.string
 };
 
 const defaultProps = {
@@ -17,7 +18,8 @@ const defaultProps = {
   icon: null,
   title: null,
   width: '35px',
-  height: '35px'
+  height: '35px',
+  minWidth: '35px'
 }
 
 function UserIcon(props) {
@@ -27,7 +29,8 @@ function UserIcon(props) {
       style={{
         backgroundColor: props.bgColor,
         width: props.width,
-        height: props.height
+        height: props.height,
+        minWidth: props.minWidth
       }}
       title={props.title}
     >

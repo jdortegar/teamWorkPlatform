@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Row, Col, Form } from 'antd';
+import { Row, Col, Form, Button } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { formShape } from '../../propTypes';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleHeader from '../../components/SimpleHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
@@ -15,6 +15,7 @@ import messages from './messages';
 import './styles/style.css';
 
 const propTypes = {
+  form: formShape.isRequired,
   requestTeamRoomMembers: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -42,11 +43,13 @@ class TeamRoomPage extends Component {
     this.state = {
       teamRoomMembersLoaded: false,
       conversationsLoaded: false,
-      conversations: [],
       teamRoomMembers: [],
-      activeLink: messages.all
+      activeLink: messages.all,
+      replyTo: null
     };
 
+    this.onCancelReply = this.onCancelReply.bind(this);
+    this.onReplyTo = this.onReplyTo.bind(this);
     this.handleHeaderClick = this.handleHeaderClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -61,35 +64,16 @@ class TeamRoomPage extends Component {
         teamRoomMembers: this.props.teamRoomMembers
       }));
     this.props.requestConversations(teamRoomId)
-      .then(data => {
+      .then((data) => {
         if (data.payload.conversations) {
           const { conversationId } = data.payload.conversations[0];
 
           this.props.requestTranscript(conversationId)
             .then(() => this.setState({
-              conversationsLoaded: true,
-              conversations: this.props.conversations
+              conversationsLoaded: true
             }));
         }
       });
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
-        const { message } = values;
-
-        this.props.form.resetFields();
-        console.log(message);
-
-        axios.post(
-          `${config.hablaApiBaseUri}/conversations/f54e88ba-bfdf-4b83-92b4-820d392c17ae/createMessage`,
-          { messageType: 'text', text: message },
-          axiosOptions);
-      }
-    });
   }
 
   handleSearch(value) {
@@ -105,10 +89,25 @@ class TeamRoomPage extends Component {
     this.setState({ activeLink: value });
   }
 
+  onCancelReply() {
+    this.setState({ replyTo: null });
+  }
+
+  onReplyTo(replyObj) {
+    this.setState({ replyTo: replyObj });
+  }
+
   renderMessages() {
-    return this.state.conversations.transcript.map((message) => {
+    return this.props.conversations.transcript.map((message) => {
       const user = this.props.teamRoomMembersObj[message.createdBy];
-      return <Message message={message} user={user} key={message.messageId} />;
+      return (
+        <Message
+          message={message}
+          user={user}
+          key={message.messageId}
+          replyTo={this.onReplyTo}
+        />
+      );
     });
   }
 
@@ -128,71 +127,125 @@ class TeamRoomPage extends Component {
     });
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+        const { conversationId } = this.props.conversations;
+        const { message } = values;
+        const postBody = { messageType: 'text', text: message };
+
+        if (this.state.replyTo) {
+          const { messageId } = this.state.replyTo;
+          postBody.replyTo = messageId;
+          this.setState({ replyTo: null });
+        }
+
+        this.props.form.resetFields();
+
+        axios.post(
+          `${config.hablaApiBaseUri}/conversations/${conversationId}/createMessage`,
+          postBody,
+          axiosOptions);
+      }
+    });
+  }
+
   render() {
     if (this.state.teamRoomMembersLoaded && this.state.conversationsLoaded) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
       const { teamRooms } = this.props;
+      const { userId, firstName, lastName, preferences, icon } = this.props.user;
       const teamRoomId = this.props.match.params.teamRoomId;
       const { name } = teamRooms.teamRoomById[teamRoomId];
       const teamRoomMembers = this.renderTeamRoomMembers();
       console.log(this.props);
 
+      let userIcon;
+
+      if (!icon) {
+        const name = `${firstName.substring(0, 1)}${lastName.substring(0, 1)}`;
+        const title = `${firstName} ${lastName}`;
+        userIcon = <UserIcon minWidth="48px" width="48px" height="48px" key={userId} name={name} bgColor={preferences.iconColor} title={title} />;
+      }
+
       return (
         <div>
-          <SubpageHeader
-            breadcrumb={name}
-            node={
-              <div className="team-room__header-container">
-                <div className={`team-room__header-links ${this.state.activeLink === messages.all ? 'active' : ''}`}>
-                  <a onClick={() => this.handleHeaderClick(messages.all)}>{messages.all}</a>
+          <div className="team-room__top-page-container">
+            <SubpageHeader
+              breadcrumb={name}
+              node={
+                <div className="team-room__header-container">
+                  <div className={`team-room__header-links ${this.state.activeLink === messages.all ? 'active' : ''}`}>
+                    <a onClick={() => this.handleHeaderClick(messages.all)}>{messages.all}</a>
+                  </div>
+                  <div className={`team-room__header-links ${this.state.activeLink === messages.new ? 'active' : ''}`}>
+                    <a onClick={() => this.handleHeaderClick(messages.new)}>{messages.new}</a>
+                  </div>
+                  <div className={`team-room__header-links ${this.state.activeLink === messages.bookmarked ? 'active' : ''}`}>
+                    <a onClick={() => this.handleHeaderClick(messages.bookmarked)}>{messages.bookmarked}</a>
+                  </div>
                 </div>
-                <div className={`team-room__header-links ${this.state.activeLink === messages.new ? 'active' : ''}`}>
-                  <a onClick={() => this.handleHeaderClick(messages.new)}>{messages.new}</a>
+              }
+            />
+            <SimpleHeader
+              type="cards"
+              text={
+                <div className="team-room__member-cards-container">
+                  <span className="team-room__member-cards-span">{numberOfTeamRoomMembers} members</span>
+                  {teamRoomMembers}
                 </div>
-                <div className={`team-room__header-links ${this.state.activeLink === messages.bookmarked ? 'active' : ''}`}>
-                  <a onClick={() => this.handleHeaderClick(messages.bookmarked)}>{messages.bookmarked}</a>
-                </div>
-              </div>
-            }
-          />
-          <SimpleHeader
-            type="cards"
-            text={
-              <div className="team-room__member-cards-container">
-                <span className="team-room__member-cards-span">{numberOfTeamRoomMembers} members</span>
-                {teamRoomMembers}
-              </div>
-            }
-            handleSearch={this.handleSearch}
-            search
-          />
-          <SimpleCardContainer>
-            {this.renderMessages()}
-          </SimpleCardContainer>
-          <SimpleCardContainer className="subpage-block team-room__chat-container">
-            <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">
-              <Col xs={{ span: 2 }} className="team-room__chat-input-col">
-                Hey
-              </Col>
-              <Col xs={{ span: 20 }} className="team-room__chat-input-col">
-                <Form onSubmit={this.handleSubmit} className="login-form">
-                  <TextField
-                    componentKey="message"
-                    form={this.props.form}
-                    hasFeedback={false}
-                    placeholder="Leave a reply..."
-                    label=""
-                    className="team-room__chat-input-form-item"
-                    inputClassName="team-room__chat-input-textfield"
-                  />
-                </Form>
-              </Col>
-              <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-col-icons">
-                <a className="team-room__icons"><i className="fa fa-paper-plane-o" /></a>
-                <a className="team-room__icons"><i className="fa fa-folder-o" /></a>
-              </Col>
-            </Row>
-          </SimpleCardContainer>
+              }
+              handleSearch={this.handleSearch}
+              search
+            />
+            <SimpleCardContainer>
+              {this.renderMessages()}
+            </SimpleCardContainer>
+          </div>
+          <div>
+            <SimpleCardContainer className="subpage-block team-room__chat-container">
+              {
+                this.state.replyTo ?
+                  <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__message_reply-container">
+                    <Col xs={{ span: 20 }}>
+                      <p className="team-room__message-body-name">{this.state.replyTo.firstName} {this.state.replyTo.lastName}</p>
+                      <p className="team-room__message-body-text">
+                        {this.state.replyTo.text}
+                      </p>
+                    </Col>
+                    <Col xs={{ span: 4 }}>
+                      <a className="team-room__message-cancel-reply" onClick={this.onCancelReply} title={messages.cancel}>
+                        <i className="fa fa-times-circle-o" />
+                      </a>
+                    </Col>
+                  </Row> : null
+              }
+              <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">
+                <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-icon-col">
+                  {userIcon}
+                </Col>
+                <Col xs={{ span: 20 }} className="team-room__chat-input-col">
+                  <Form onSubmit={this.handleSubmit} className="login-form">
+                    <TextField
+                      componentKey="message"
+                      form={this.props.form}
+                      hasFeedback={false}
+                      placeholder="Leave a reply..."
+                      label=""
+                      className="team-room__chat-input-form-item"
+                      inputClassName="team-room__chat-input-textfield"
+                    />
+                  </Form>
+                </Col>
+                <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-col-icons">
+                  <a className="team-room__icons"><i className="fa fa-paper-plane-o" /></a>
+                  <a className="team-room__icons"><i className="fa fa-folder-o" /></a>
+                </Col>
+              </Row>
+            </SimpleCardContainer>
+          </div>
         </div>
       );
     }

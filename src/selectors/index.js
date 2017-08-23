@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 import createCachedSelector from 're-reselect';
 
 // Directly from state.
+const getCurrentUser = state => state.auth.user;
 const getUsersByUserId = state => state.users.usersByUserId;
 
 const getSubscriberOrgById = state => state.subscriberOrgs.subscriberOrgById;

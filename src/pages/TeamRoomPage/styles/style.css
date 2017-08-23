@@ -1,3 +1,6 @@
+.team-room__top-page-container {
+  padding-bottom: 66px;
+}
 .team-room__chat-input {
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -41,6 +44,11 @@
   padding: 6px 0;
 }
 
+.team-room__chat-input-col.team-room__chat-icon-col {
+  display: flex;
+  justify-content: center;
+}
+
 .team-room__icons {
   font-size: 18px;
   padding: 0 5px;
@@ -48,8 +56,10 @@
 
 .team-room__chat-container {
   position: fixed;
-  bottom: 35px;
+  bottom: 0px;
   width: 1157px;
+  background: white;
+  padding: 10px 24px 12px;
 }
 
 .team-room__member-cards-container {
@@ -61,4 +71,22 @@
   align-self: center;
   font-size: 14px;
   margin-right: 8px;
+}
+
+.team-room__message-body-name {
+  color: #999999;
+  font-size: 11px;
+}
+
+.team-room__message-body-text {
+  font-size: 13px;
+  color: black;
+}
+
+.team-room__message-cancel-reply {
+  font-size: 22px;
+}
+
+.team-room__message_reply-container {
+  padding: 2px 8px 8px;
 }

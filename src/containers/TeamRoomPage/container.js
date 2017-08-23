@@ -14,8 +14,13 @@ import {
 
 function mapStateToProps(state, props) {
   const teamRoomId = props.match.params.teamRoomId;
-
+  // Test
+  const conversation = getConversationOfTeamRoomId(state, teamRoomId);
+  if ((conversation) && (conversation.transcript)) {
+    console.log(`AD: transcript.length=${conversation.transcript.length}`);
+  }
   return {
+    user: state.auth.user,
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     teams: state.teams,
     teamRooms: state.teamRooms,
