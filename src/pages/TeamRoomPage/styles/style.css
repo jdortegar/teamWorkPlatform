@@ -44,6 +44,11 @@
   padding: 6px 0;
 }
 
+.team-room__chat-input-col.team-room__chat-icon-col {
+  display: flex;
+  justify-content: center;
+}
+
 .team-room__icons {
   font-size: 18px;
   padding: 0 5px;
@@ -54,7 +59,7 @@
   bottom: 0px;
   width: 1157px;
   background: white;
-  padding: 24px 24px 12px;
+  padding: 10px 24px 12px;
 }
 
 .team-room__member-cards-container {

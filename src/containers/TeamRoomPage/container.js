@@ -20,6 +20,7 @@ function mapStateToProps(state, props) {
     console.log(`AD: transcript.length=${conversation.transcript.length}`);
   }
   return {
+    user: state.auth.user,
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     teams: state.teams,
     teamRooms: state.teamRooms,

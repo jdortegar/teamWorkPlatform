@@ -156,10 +156,19 @@ class TeamRoomPage extends Component {
     if (this.state.teamRoomMembersLoaded && this.state.conversationsLoaded) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
       const { teamRooms } = this.props;
+      const { userId, firstName, lastName, preferences, icon } = this.props.user;
       const teamRoomId = this.props.match.params.teamRoomId;
       const { name } = teamRooms.teamRoomById[teamRoomId];
       const teamRoomMembers = this.renderTeamRoomMembers();
       console.log(this.props);
+
+      let userIcon;
+
+      if (!icon) {
+        const name = `${firstName.substring(0, 1)}${lastName.substring(0, 1)}`;
+        const title = `${firstName} ${lastName}`;
+        userIcon = <UserIcon minWidth="48px" width="48px" height="48px" key={userId} name={name} bgColor={preferences.iconColor} title={title} />;
+      }
 
       return (
         <div>
@@ -214,8 +223,8 @@ class TeamRoomPage extends Component {
                   </Row> : null
               }
               <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">
-                <Col xs={{ span: 2 }} className="team-room__chat-input-col">
-                  Hey
+                <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-icon-col">
+                  {userIcon}
                 </Col>
                 <Col xs={{ span: 20 }} className="team-room__chat-input-col">
                   <Form onSubmit={this.handleSubmit} className="login-form">
