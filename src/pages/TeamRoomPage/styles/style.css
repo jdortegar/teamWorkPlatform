@@ -1,3 +1,6 @@
+.team-room__top-page-container {
+  padding-bottom: 66px;
+}
 .team-room__chat-input {
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -48,9 +51,10 @@
 
 .team-room__chat-container {
   position: fixed;
-  bottom: 35px;
+  bottom: 0px;
   width: 1157px;
   background: white;
+  padding: 24px 24px 12px;
 }
 
 .team-room__member-cards-container {

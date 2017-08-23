@@ -163,76 +163,80 @@ class TeamRoomPage extends Component {
 
       return (
         <div>
-          <SubpageHeader
-            breadcrumb={name}
-            node={
-              <div className="team-room__header-container">
-                <div className={`team-room__header-links ${this.state.activeLink === messages.all ? 'active' : ''}`}>
-                  <a onClick={() => this.handleHeaderClick(messages.all)}>{messages.all}</a>
+          <div className="team-room__top-page-container">
+            <SubpageHeader
+              breadcrumb={name}
+              node={
+                <div className="team-room__header-container">
+                  <div className={`team-room__header-links ${this.state.activeLink === messages.all ? 'active' : ''}`}>
+                    <a onClick={() => this.handleHeaderClick(messages.all)}>{messages.all}</a>
+                  </div>
+                  <div className={`team-room__header-links ${this.state.activeLink === messages.new ? 'active' : ''}`}>
+                    <a onClick={() => this.handleHeaderClick(messages.new)}>{messages.new}</a>
+                  </div>
+                  <div className={`team-room__header-links ${this.state.activeLink === messages.bookmarked ? 'active' : ''}`}>
+                    <a onClick={() => this.handleHeaderClick(messages.bookmarked)}>{messages.bookmarked}</a>
+                  </div>
                 </div>
-                <div className={`team-room__header-links ${this.state.activeLink === messages.new ? 'active' : ''}`}>
-                  <a onClick={() => this.handleHeaderClick(messages.new)}>{messages.new}</a>
+              }
+            />
+            <SimpleHeader
+              type="cards"
+              text={
+                <div className="team-room__member-cards-container">
+                  <span className="team-room__member-cards-span">{numberOfTeamRoomMembers} members</span>
+                  {teamRoomMembers}
                 </div>
-                <div className={`team-room__header-links ${this.state.activeLink === messages.bookmarked ? 'active' : ''}`}>
-                  <a onClick={() => this.handleHeaderClick(messages.bookmarked)}>{messages.bookmarked}</a>
-                </div>
-              </div>
-            }
-          />
-          <SimpleHeader
-            type="cards"
-            text={
-              <div className="team-room__member-cards-container">
-                <span className="team-room__member-cards-span">{numberOfTeamRoomMembers} members</span>
-                {teamRoomMembers}
-              </div>
-            }
-            handleSearch={this.handleSearch}
-            search
-          />
-          <SimpleCardContainer>
-            {this.renderMessages()}
-          </SimpleCardContainer>
-          <SimpleCardContainer className="subpage-block team-room__chat-container">
-            {
-              this.state.replyTo ?
-                <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__message_reply-container">
-                  <Col xs={{ span: 20 }}>
-                    <p className="team-room__message-body-name">{this.state.replyTo.firstName} {this.state.replyTo.lastName}</p>
-                    <p className="team-room__message-body-text">
-                      {this.state.replyTo.text}
-                    </p>
-                  </Col>
-                  <Col xs={{ span: 4 }}>
-                    <a className="team-room__message-cancel-reply" onClick={this.onCancelReply} title={messages.cancel}>
-                      <i className="fa fa-times-circle-o" />
-                    </a>
-                  </Col>
-                </Row> : null
-            }
-            <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">
-              <Col xs={{ span: 2 }} className="team-room__chat-input-col">
-                Hey
-              </Col>
-              <Col xs={{ span: 20 }} className="team-room__chat-input-col">
-                <Form onSubmit={this.handleSubmit} className="login-form">
-                  <TextField
-                    componentKey="message"
-                    form={this.props.form}
-                    hasFeedback={false}
-                    placeholder="Leave a reply..."
-                    label=""
-                    className="team-room__chat-input-form-item"
-                    inputClassName="team-room__chat-input-textfield"
-                  />
-                </Form>
-              </Col>
-              <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-col-icons">
-                <a className="team-room__icons"><i className="fa fa-paper-plane-o" /></a>
-                <a className="team-room__icons"><i className="fa fa-folder-o" /></a>
-              </Col>
-            </Row>
-          </SimpleCardContainer>
+              }
+              handleSearch={this.handleSearch}
+              search
+            />
+            <SimpleCardContainer>
+              {this.renderMessages()}
+            </SimpleCardContainer>
+          </div>
+          <div>
+            <SimpleCardContainer className="subpage-block team-room__chat-container">
+              {
+                this.state.replyTo ?
+                  <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__message_reply-container">
+                    <Col xs={{ span: 20 }}>
+                      <p className="team-room__message-body-name">{this.state.replyTo.firstName} {this.state.replyTo.lastName}</p>
+                      <p className="team-room__message-body-text">
+                        {this.state.replyTo.text}
+                      </p>
+                    </Col>
+                    <Col xs={{ span: 4 }}>
+                      <a className="team-room__message-cancel-reply" onClick={this.onCancelReply} title={messages.cancel}>
+                        <i className="fa fa-times-circle-o" />
+                      </a>
+                    </Col>
+                  </Row> : null
+              }
+              <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">
+                <Col xs={{ span: 2 }} className="team-room__chat-input-col">
+                  Hey
+                </Col>
+                <Col xs={{ span: 20 }} className="team-room__chat-input-col">
+                  <Form onSubmit={this.handleSubmit} className="login-form">
+                    <TextField
+                      componentKey="message"
+                      form={this.props.form}
+                      hasFeedback={false}
+                      placeholder="Leave a reply..."
+                      label=""
+                      className="team-room__chat-input-form-item"
+                      inputClassName="team-room__chat-input-textfield"
+                    />
+                  </Form>
+                </Col>
+                <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-col-icons">
+                  <a className="team-room__icons"><i className="fa fa-paper-plane-o" /></a>
+                  <a className="team-room__icons"><i className="fa fa-folder-o" /></a>
+                </Col>
+              </Row>
+            </SimpleCardContainer>
+          </div>
         </div>
       );
     }
