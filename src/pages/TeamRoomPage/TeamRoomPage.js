@@ -68,8 +68,7 @@ class TeamRoomPage extends Component {
 
           this.props.requestTranscript(conversationId)
             .then(() => this.setState({
-              conversationsLoaded: true,
-              conversations: this.props.conversations
+              conversationsLoaded: true
             }));
         }
       });
@@ -108,7 +107,7 @@ class TeamRoomPage extends Component {
   }
 
   renderMessages() {
-    return this.state.conversations.transcript.map((message) => {
+    return this.props.conversations.transcript.map((message) => {
       const user = this.props.teamRoomMembersObj[message.createdBy];
       return <Message message={message} user={user} key={message.messageId} />;
     });

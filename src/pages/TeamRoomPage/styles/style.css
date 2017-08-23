@@ -50,6 +50,7 @@
   position: fixed;
   bottom: 35px;
   width: 1157px;
+  background: white;
 }
 
 .team-room__member-cards-container {

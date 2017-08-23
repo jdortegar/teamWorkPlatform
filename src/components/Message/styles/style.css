@@ -1,8 +1,40 @@
+.message__main-container {
+  padding: 18px 24px;
+  border-bottom: 1px solid #dfdfdf;
+}
+
 .message__icons {
   font-size: 18px;
   padding: 0 5px;
 }
 
+.message__col-user-icon {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
 .message__col-icons {
   text-align: right;
+}
+
+.message__body-name {
+  color: #999999;
+  font-size: 11px;
+}
+
+.message__body-text {
+  font-size: 13px;
+  color: black;
+}
+.message__body-text-date {
+  color: #999999;
+}
+
+.message__body-thumbs-icon {
+  margin-left: 8px;
+}
+
+.message__body-thumbs-icon i {
+  margin: 0 2px;
 }
