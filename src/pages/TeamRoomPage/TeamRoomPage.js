@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Form } from 'antd';
+import { Row, Col, Form, Button } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { formShape } from '../../propTypes';
@@ -43,11 +43,13 @@ class TeamRoomPage extends Component {
     this.state = {
       teamRoomMembersLoaded: false,
       conversationsLoaded: false,
-      conversations: [],
       teamRoomMembers: [],
-      activeLink: messages.all
+      activeLink: messages.all,
+      replyTo: null
     };
 
+    this.onCancelReply = this.onCancelReply.bind(this);
+    this.onReplyTo = this.onReplyTo.bind(this);
     this.handleHeaderClick = this.handleHeaderClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -74,25 +76,6 @@ class TeamRoomPage extends Component {
       });
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
-        const { conversationId } = this.props.conversations;
-        const { message } = values;
-
-        this.props.form.resetFields();
-        console.log(message);
-
-        axios.post(
-          `${config.hablaApiBaseUri}/conversations/${conversationId}/createMessage`,
-          { messageType: 'text', text: message },
-          axiosOptions);
-      }
-    });
-  }
-
   handleSearch(value) {
     const teamRoomId = this.props.match.params.teamRoomId;
     const filteredTeamMembers = this.props.teamRoomMembers.teamRoomMembersByTeamRoomId[teamRoomId].filter(({ displayName }) => {
@@ -106,10 +89,25 @@ class TeamRoomPage extends Component {
     this.setState({ activeLink: value });
   }
 
+  onCancelReply() {
+    this.setState({ replyTo: null });
+  }
+
+  onReplyTo(replyObj) {
+    this.setState({ replyTo: replyObj });
+  }
+
   renderMessages() {
     return this.props.conversations.transcript.map((message) => {
       const user = this.props.teamRoomMembersObj[message.createdBy];
-      return <Message message={message} user={user} key={message.messageId} />;
+      return (
+        <Message
+          message={message}
+          user={user}
+          key={message.messageId}
+          replyTo={this.onReplyTo}
+        />
+      );
     });
   }
 
@@ -126,6 +124,31 @@ class TeamRoomPage extends Component {
       return (
         <UserIcon />
       );
+    });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+        const { conversationId } = this.props.conversations;
+        const { message } = values;
+        const postBody = { messageType: 'text', text: message };
+
+        if (this.state.replyTo) {
+          const { messageId } = this.state.replyTo;
+          postBody.replyTo = messageId;
+          this.setState({ replyTo: null });
+        }
+
+        this.props.form.resetFields();
+
+        axios.post(
+          `${config.hablaApiBaseUri}/conversations/${conversationId}/createMessage`,
+          postBody,
+          axiosOptions);
+      }
     });
   }
 
@@ -171,6 +194,22 @@ class TeamRoomPage extends Component {
             {this.renderMessages()}
           </SimpleCardContainer>
           <SimpleCardContainer className="subpage-block team-room__chat-container">
+            {
+              this.state.replyTo ?
+                <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__message_reply-container">
+                  <Col xs={{ span: 20 }}>
+                    <p className="team-room__message-body-name">{this.state.replyTo.firstName} {this.state.replyTo.lastName}</p>
+                    <p className="team-room__message-body-text">
+                      {this.state.replyTo.text}
+                    </p>
+                  </Col>
+                  <Col xs={{ span: 4 }}>
+                    <a className="team-room__message-cancel-reply" onClick={this.onCancelReply} title={messages.cancel}>
+                      <i className="fa fa-times-circle-o" />
+                    </a>
+                  </Col>
+                </Row> : null
+            }
             <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">
               <Col xs={{ span: 2 }} className="team-room__chat-input-col">
                 Hey

@@ -1,5 +1,6 @@
 export default {
   all: 'All',
   new: 'New',
-  bookmarked: 'Bookmarked'
+  bookmarked: 'Bookmarked',
+  cancel: 'Cancel'
 };

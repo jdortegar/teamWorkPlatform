@@ -63,3 +63,21 @@
   font-size: 14px;
   margin-right: 8px;
 }
+
+.team-room__message-body-name {
+  color: #999999;
+  font-size: 11px;
+}
+
+.team-room__message-body-text {
+  font-size: 13px;
+  color: black;
+}
+
+.team-room__message-cancel-reply {
+  font-size: 22px;
+}
+
+.team-room__message_reply-container {
+  padding: 2px 8px 8px;
+}
