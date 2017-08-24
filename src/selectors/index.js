@@ -319,7 +319,6 @@ function merge(tree, messages) {
   const ret = [];
   tree.forEach((node) => {
     const merged = _.merge({}, messages[node.messageId], node);
-    merged.children = [];
     ret.push(merged);
     if (node.children.length > 0) {
       merge(node.children, messages);
