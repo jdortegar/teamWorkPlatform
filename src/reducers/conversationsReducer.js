@@ -61,9 +61,11 @@ function addMessageToArray(message, array) {
 
 function addMessageToFlattenedTree(message, flattenedTree) {
   if (message.replyTo) {
-    const parentNode = getNodeFromFlattenedTree(message.messageId, flattenedTree);
+    const parentNode = getNodeFromFlattenedTree(message.replyTo, flattenedTree);
     if (parentNode === null) {
       return false;
+    } else {
+      addMessageToArray(message, parentNode.children);
     }
   } else {
     addMessageToArray(message, flattenedTree);
