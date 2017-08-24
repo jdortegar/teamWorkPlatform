@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Button } from 'antd';
+import { Row, Col, Form, Icon } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { formShape } from '../../propTypes';
@@ -209,15 +209,15 @@ class TeamRoomPage extends Component {
               {
                 this.state.replyTo ?
                   <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__message_reply-container">
-                    <Col xs={{ span: 20 }}>
+                    <Col xs={{ span: 21 }} style={{ borderLeft: `6px solid ${this.state.replyTo.preferences.iconColor}` }}>
                       <p className="team-room__message-body-name">{this.state.replyTo.firstName} {this.state.replyTo.lastName}</p>
                       <p className="team-room__message-body-text">
                         {this.state.replyTo.text}
                       </p>
                     </Col>
-                    <Col xs={{ span: 4 }}>
+                    <Col xs={{ span: 3 }} className="team-room__message-cancel-reply-col">
                       <a className="team-room__message-cancel-reply" onClick={this.onCancelReply} title={messages.cancel}>
-                        <i className="fa fa-times-circle-o" />
+                        <Icon type="close-circle-o" />
                       </a>
                     </Col>
                   </Row> : null
@@ -227,7 +227,7 @@ class TeamRoomPage extends Component {
                   {userIcon}
                 </Col>
                 <Col xs={{ span: 20 }} className="team-room__chat-input-col">
-                  <Form onSubmit={this.handleSubmit} className="login-form">
+                  <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off">
                     <TextField
                       componentKey="message"
                       form={this.props.form}
