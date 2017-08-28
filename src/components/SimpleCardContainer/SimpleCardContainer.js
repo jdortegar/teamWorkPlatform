@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './styles/style.css';
 
 function SimpleCardContainer(props) {
   return (
