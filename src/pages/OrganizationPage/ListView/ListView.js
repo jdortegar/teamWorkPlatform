@@ -1,5 +1,4 @@
 import React from 'react';
-import { Row } from 'antd';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
@@ -8,13 +7,14 @@ import ListViewItem from '../../../components/ListViewItem/ListViewItem';
 
 const propTypes = {
   integrations: PropTypes.object.isRequired,
+  onShowCardView: PropTypes.func.isRequired,
   subscribers: PropTypes.array.isRequired,
   subscriberOrgId: PropTypes.string.isRequired,
   teams: PropTypes.array.isRequired,
 }
 
 function ListView(props) {
-  const { integrations, subscribers, subscriberOrgId, teams } = props;
+  const { integrations, onShowCardView, subscribers, subscriberOrgId, teams } = props;
   const renderTeams = () => {
     return props.teams.map(({ name, teamId }) => {
       return (
@@ -63,12 +63,17 @@ function ListView(props) {
       <SimpleHeader
         text={
           <div>
-            <h2 className="simple-header__title--padding-right">{integrations.length === 0 ? 'No' : integrations.length} Data Integrations
-              <span className="simple-header__icon-span simple-header__icon-span--padding-left">
-                <a className="simple-header__icon-action"><i className="fa fa-align-justify" /></a>
+            <h2 className="simple-header__title simple-header__title--padding-right">
+              {integrations.length === 0 ? 'No' : integrations.length} Data Integrations
+              <span className="simple-header__icon-span simple-header__icon-span--padding-left" onClick={onShowCardView}>
+                <a className="simple-header__icon-action" title="Card View">
+                  <i className="fa fa-th-large" />
+                </a>
               </span>
               <span className="simple-header__icon-span">
-                <a className="simple-header__icon-action"><i className="fa fa-th-large" /></a>
+                <a className="simple-header__icon-action simple-header__icon-action--black" title="List View">
+                  <i className="fa fa-align-justify" />
+                </a>
               </span>
             </h2>
           </div>
@@ -79,12 +84,12 @@ function ListView(props) {
         <ListViewItem name="Add New Integration" />
         {renderIntegrations()}
       </SimpleCardContainer>
-      <SimpleHeader text={`Your Teams (${teams.length})`} search />
+      <SimpleHeader text={`${teams.length} Members`} search />
       <SimpleCardContainer className="simple-card--no-padding">
         <ListViewItem name="Add New Team" />
         {renderTeams()}
       </SimpleCardContainer>
-      <SimpleHeader text={`Your Members (${subscribers.length})`} />
+      <SimpleHeader text={`${subscribers.length} Members`} />
       <SimpleCardContainer className="simple-card--no-padding">
         <ListViewItem name="Add New Member" />
         {renderMembers()}

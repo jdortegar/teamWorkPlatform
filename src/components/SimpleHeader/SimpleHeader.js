@@ -26,7 +26,7 @@ function SimpleHeader(props) {
         <Col xs={{ span: 18 }} sm={{ span: 18 }}>
           {
             props.type === 'text' ?
-              <h2>{props.text}</h2> :
+              <h2 className="simple-header__title">{props.text}</h2> :
               props.text
           }
         </Col>

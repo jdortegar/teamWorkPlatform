@@ -122,10 +122,11 @@ class OrganizationPage extends Component {
           {
             this.state.view === 'list' ?
               <ListView
-                teams={teams}
                 integrations={integrations}
+                onShowCardView={() => this.setState({ view: 'card' })}
                 subscribers={subscribers}
                 subscriberOrgId={subscriberOrgId}
+                teams={teams}
               /> : null
           }
         </div>

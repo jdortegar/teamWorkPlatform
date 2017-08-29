@@ -19,7 +19,7 @@ function ListViewItem(props) {
   return (
     <Row type="flex" justify="start" gutter={20} className={className}>
       <Col span={24}>
-        {props.name}
+        <p className="List-view-item__title">{props.name}</p>
       </Col>
     </Row>
   );
