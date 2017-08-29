@@ -12,7 +12,7 @@ class Message extends Component {
   }
 
   handleReplyTo(user) {
-    this.props.replyTo(user, message);
+    this.props.replyTo(user);
   }
 
   render() {
@@ -46,13 +46,13 @@ class Message extends Component {
           <Col xs={{ span: 5 }} sm={{ span: 3 }} md={{ span: 2 }} className="message__col-user-icon">
             {userIcon}
           </Col>
-          <Col xs={{ span: 16 }} sm={{ span: 18 }} md={{ span: 19 }}>
+          <Col xs={{ span: 15 }} sm={{ span: 16 }} md={{ span: 18 }}>
             {messageBody}
           </Col>
-          <Col xs={{ span: 3 }} className="message__col-icons">
+          <Col xs={{ span: 4 }} sm={{ span: 5 }} md={{ span: 4 }} className="message__col-icons">
             <a
               className="message__icons"
-              onClick={() => this.handleReplyTo({ firstName, lastName, text, messageId })}
+              onClick={() => this.handleReplyTo({ firstName, lastName, text, messageId, preferences })}
             >
               <i className="fa fa-reply" />
             </a>

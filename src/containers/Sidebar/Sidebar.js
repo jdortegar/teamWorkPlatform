@@ -47,6 +47,7 @@ class Sidebar extends Component {
     this.state = { hovered: null };
 
     this.handleClick = this.handleClick.bind(this);
+    this.teamClicked = this.teamClicked.bind(this);
     this.onClickEditOrg = this.onClickEditOrg.bind(this);
   }
 
@@ -72,6 +73,11 @@ class Sidebar extends Component {
     }
   }
 
+  teamClicked(e, teamId) {
+    e.stopPropagation();
+    this.props.history.push(`/app/team/${teamId}`);
+  }
+
   showTeamDialog(e, orgId) {
     e.stopPropagation();
     this.props.toggleTeamDialog(true, orgId);
@@ -85,9 +91,11 @@ class Sidebar extends Component {
   renderTeamRooms(teamId) {
     return this.props.teamRooms.reduce((acc, teamRoom) => {
       if (teamId === teamRoom.teamId) {
-        acc.push(<Menu.Item key={teamRoom.teamRoomId}>
-          <i className="sidebar__i fa fa-comments" aria-hidden="true" />{teamRoom.name}
-        </Menu.Item>);
+        acc.push(
+          <Menu.Item key={teamRoom.teamRoomId}>
+            <Link to={`/app/teamRoom/${teamRoom.teamRoomId}`}><i className="sidebar__i fa fa-comments" />{teamRoom.name}</Link>
+          </Menu.Item>
+        );
       }
 
       return acc;
@@ -104,8 +112,9 @@ class Sidebar extends Component {
             key={teamId}
             title={<Row gutter={16}>
               <Col xs={{ span: 22 }}>
-                <a>
-                  <span><i className="sidebar__i fa fa-users" aria-hidden="true" />{name}</span></a>
+                <a onClick={e => this.teamClicked(e, teamId)}>
+                  <span><i className="sidebar__i fa fa-users" />{name}</span>
+                </a>
               </Col>
             </Row>}
           >
@@ -129,7 +138,11 @@ class Sidebar extends Component {
           onMouseLeave={() => this.setState({ hovered: null })}
           title={
             <Row gutter={16}>
-              <Col xs={{ span: 18 }}><span><i className="sidebar__i fa fa-building" aria-hidden="true" />{name}</span></Col>
+              <Col xs={{ span: 18 }}>
+                <a onClick={e => this.onClickEditOrg(e, subscriberOrgId, `/app/organization/${subscriberOrgId}`)}>
+                  <span><i className="sidebar__i fa fa-building" />{name}</span>
+                </a>
+              </Col>
               <Col xs={{ span: 3 }}>
                 {
                   (this.state.hovered === subscriberOrgId) || (this.props.currentSubscriberOrgId === subscriberOrgId) ?
@@ -152,7 +165,7 @@ class Sidebar extends Component {
     }
 
     return (
-      <Sider width={235} style={{ background: '#fff' }}>
+      <Sider width={235} style={{ background: '#fff' }} className="Sidebar">
 
         <div className="sidebar-menu-item-label">Your Organizations</div>
         <Menu

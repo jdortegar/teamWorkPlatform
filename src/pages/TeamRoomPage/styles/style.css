@@ -5,55 +5,48 @@
     border: 1px solid #ddd;
     border-radius: 4px;
 }
-
 .team-room__header-links {
   padding: 6px 10px;
   font-size: 20px;
   border-radius: 3px;
 }
-
 .team-room__header-links.active {
   background: #ddd;
 }
-
 .team-room__header-links a:hover {
-  opacity: .9;
+  text-decoration: underline;
+  color: #222222;
 }
-
+.team-room__header-links.active a:hover {
+  text-decoration: none;
+}
 .team-room__header-container {
   display: flex;
   justify-content: flex-end;
 }
-
 .team-room__chat-input-textfield {
   border: none;
   height: 40px;
   font-size: 15px;
 }
-
 .team-room__chat-input-textfield:focus, .team-room__chat-input-textfield:hover{
   border-color: transparent;
   box-shadow: none;
 }
-
 .team-room__chat-input-form-item {
   margin-bottom: 0;
 }
-
 .team-room__chat-input-col {
   padding: 6px 0;
 }
-
 .team-room__chat-input-col.team-room__chat-icon-col {
   display: flex;
   justify-content: center;
 }
-
 .team-room__icons {
   font-size: 18px;
   padding: 0 5px;
 }
-
 .team-room__chat-container {
   position: fixed;
   bottom: 0px;
@@ -61,32 +54,31 @@
   background: white;
   padding: 10px 24px 12px;
 }
-
 .team-room__member-cards-container {
   display: flex;
   flex-wrap: wrap;
 }
-
 .team-room__member-cards-span {
   align-self: center;
   font-size: 14px;
   margin-right: 8px;
 }
-
 .team-room__message-body-name {
   color: #999999;
   font-size: 11px;
 }
-
 .team-room__message-body-text {
   font-size: 13px;
   color: black;
 }
-
 .team-room__message-cancel-reply {
   font-size: 22px;
 }
-
 .team-room__message_reply-container {
-  padding: 2px 8px 8px;
+  padding: 5px 8px;
+  background-color: #f9f9f9;
+}
+.team-room__message-cancel-reply-col {
+  display: flex;
+  justify-content: center;
 }

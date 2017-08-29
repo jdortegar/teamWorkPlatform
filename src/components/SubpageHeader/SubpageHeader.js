@@ -18,11 +18,11 @@ const defaultProps = {
 function SubpageHeader({ breadcrumb, node }) {
   return (
     <div className="subpage-header-block subpage-header__top">
-      <Row className="subpage-header__row" type="flex" align="middle" justify="start">
-        <Col span={14}>
+      <Row className="subpage-header__row" type="flex" align="middle" justify="start" gutter={20}>
+        <Col xs={{ span: 24 }} sm={{ span: 16 }}>
           <h1>{breadcrumb}</h1>
         </Col>
-        <Col span={8} offset={2}>
+        <Col xs={{ span: 24 }} sm={{ span: 8 }}>
           <div style={{ textAlign: 'right' }}>
             {node}
           </div>
