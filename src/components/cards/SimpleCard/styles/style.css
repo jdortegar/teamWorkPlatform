@@ -1,5 +1,13 @@
-.simple-card__more-margin {
-  margin-bottom: 40px;
+.Simple-card--round {
+  width: 11vw;
+  height: 11vw;
+  min-height: 100px;
+  min-width: 100px;
+  display: flex;
+  justify-content: center;
+}
+.Simple-card--round {
+  border-radius: 50%;
 }
 .simple-card__icons {
   font-size: 45px !important;
