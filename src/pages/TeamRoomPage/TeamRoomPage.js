@@ -55,6 +55,28 @@ class TeamRoomPage extends Component {
     this.handleSearch = this.handleSearch.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.match.params.teamRoomId !== nextProps.match.params.teamRoomId) {
+      this.setState({ teamRoomMembersLoaded: false, conversationsLoaded: false });
+      nextProps.requestTeamRoomMembers(nextProps.match.params.teamRoomId)
+        .then(() => this.setState({
+          teamRoomMembersLoaded: true,
+          teamRoomMembers: nextProps.teamRoomMembers
+        }));
+      nextProps.requestConversations(nextProps.match.params.teamRoomId)
+        .then((data) => {
+          if (data.payload.conversations) {
+            const { conversationId } = data.payload.conversations[0];
+
+            nextProps.requestTranscript(conversationId)
+              .then(() => this.setState({
+                conversationsLoaded: true
+              }));
+          }
+        });
+    }
+  }
+
   componentDidMount() {
     const teamRoomId = this.props.match.params.teamRoomId;
 
