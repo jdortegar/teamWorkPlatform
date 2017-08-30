@@ -1,7 +1,4 @@
 /* Styles for Top Menu Bar */
-.ant-layout-header {
-	height: 67px;
-}
 .ant-menu, .ant-menu-horizontal, .ant-menu-dark, .ant-menu-root {
 	line-height: 67px!important;
 }
@@ -17,15 +14,19 @@
 .ant-layout-header {
 	padding: 0;
 	background: #000;
+  height: 67px;
+  width: 100%;
+  position: fixed;
+  z-index: 999999;
 }
 .ant-menu-dark, .ant-menu-dark .ant-menu-sub {
 	background: #000;
 }
 .user-avatar {
-	background: url('http://www.mario.cl/img/habla/avatar-temp-habla.png') no-repeat;	
+	background: url('http://www.mario.cl/img/habla/avatar-temp-habla.png') no-repeat;
 	height: 35px;
 	width: 35px;
-	background-size: contain; 
+	background-size: contain;
 	float: left;
 	position: relative;
 	top: 16px;

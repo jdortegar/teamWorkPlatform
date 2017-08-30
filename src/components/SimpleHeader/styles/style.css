@@ -1,9 +1,11 @@
 .simple-header-block {
   padding: 0 24px;
 }
+.simple-header__title {
+  font-weight: bold;
+}
 .simple-header__container {
   height: 100%;
-  border-bottom: 3px solid #ececec;
 }
 .simple-header__row {
   height: 100%;
@@ -21,4 +23,8 @@
 
 .simple-header__icon-action {
   color: #bbbbbb;
+}
+
+.simple-header__icon-action--black {
+  color: #222222;
 }

@@ -113,16 +113,16 @@ class TeamRoomPage extends Component {
 
   renderTeamRoomMembers() {
     return this.state.teamRoomMembers.map(({ firstName, lastName, icon, preferences, userId }) => {
+      const title = `${firstName} ${lastName}`;
       if (!icon) {
         const name = `${firstName.substring(0, 1)}${lastName.substring(0, 1)}`;
-        const title = `${firstName} ${lastName}`;
         return (
           <UserIcon key={userId} name={name} bgColor={preferences.iconColor} title={title} />
         );
       }
 
       return (
-        <UserIcon />
+        <UserIcon key={userId} type="icon" title={title} icon={icon} />
       );
     });
   }
@@ -163,11 +163,13 @@ class TeamRoomPage extends Component {
       console.log(this.props);
 
       let userIcon;
+      const title = `${firstName} ${lastName}`;
 
       if (!icon) {
         const initials = `${firstName.substring(0, 1)}${lastName.substring(0, 1)}`;
-        const title = `${firstName} ${lastName}`;
         userIcon = <UserIcon minWidth="48px" width="48px" height="48px" key={userId} name={initials} bgColor={preferences.iconColor} title={title} />;
+      } else {
+        userIcon = <UserIcon type="icon" minWidth="48px" width="48px" height="48px" key={userId} icon={icon} title={title} />;
       }
 
       return (

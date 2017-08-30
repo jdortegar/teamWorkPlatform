@@ -1,9 +1,11 @@
 import React from 'react';
+import { Col } from 'antd';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { Link } from 'react-router-dom';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
-import ListViewItem from '../../../components/ListViewItem/ListViewItem';
+import { IconCard } from '../../../components/cards';
 
 const propTypes = {
   integrations: PropTypes.object.isRequired,
@@ -18,7 +20,11 @@ function ListView(props) {
   const renderTeams = () => {
     return props.teams.map(({ name, teamId }) => {
       return (
-        <ListViewItem name={name} url={`/app/team/${teamId}`} key={teamId} />
+        <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key={teamId}>
+          <Link to={`/app/team/${teamId}`}>
+            <IconCard text={name} />
+          </Link>
+        </Col>
       );
     });
   };
@@ -26,7 +32,11 @@ function ListView(props) {
   const renderMembers = () => {
     return props.subscribers.map(({ displayName, userId }) => {
       return (
-        <ListViewItem name={displayName} url={`/app/team/${displayName}`} key={userId} />
+        <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key={userId}>
+          <a>
+            <IconCard text={displayName} />
+          </a>
+        </Col>
       );
     });
   };
@@ -41,7 +51,11 @@ function ListView(props) {
           extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
         }
         integrationsArr.push(
-          <ListViewItem name="Box" key="box" />
+          <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key="box">
+            <a>
+              <IconCard text="Box" icon={extra} />
+            </a>
+          </Col>
         );
       }
       if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].google) {
@@ -50,12 +64,26 @@ function ListView(props) {
           extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
         }
         integrationsArr.push(
-          <ListViewItem name="Google" key="google" />
+          <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key="google">
+            <a>
+              <IconCard text="Google" extra={extra} />
+            </a>
+          </Col>
         );
       }
     }
 
     return integrationsArr;
+  };
+
+  const renderAddCard = (text, action) => {
+    return (
+      <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }}>
+        <a onClick={action}>
+          <IconCard icon={<i className="fa fa-plus simple-card__icons" />} text={text} />
+        </a>
+      </Col>
+    );
   };
 
   return (
@@ -66,12 +94,12 @@ function ListView(props) {
             <h2 className="simple-header__title simple-header__title--padding-right">
               {integrations.length === 0 ? 'No' : integrations.length} Data Integrations
               <span className="simple-header__icon-span simple-header__icon-span--padding-left">
-                <a className="simple-header__icon-action" title="Card View" onClick={onSwitchView}>
+                <a className="simple-header__icon-action simple-header__icon-action--black" title="Card View">
                   <i className="fa fa-th-large" />
                 </a>
               </span>
               <span className="simple-header__icon-span">
-                <a className="simple-header__icon-action simple-header__icon-action--black" title="List View">
+                <a className="simple-header__icon-action" title="List View" onClick={onSwitchView}>
                   <i className="fa fa-align-justify" />
                 </a>
               </span>
@@ -81,17 +109,17 @@ function ListView(props) {
         type="node"
       />
       <SimpleCardContainer className="simple-card--no-padding">
-        <ListViewItem name="Add New Integration" />
+        {renderAddCard('Add New Integration', () => console.log('hey'))}
         {renderIntegrations()}
       </SimpleCardContainer>
       <SimpleHeader text={`${teams.length} Members`} search />
       <SimpleCardContainer className="simple-card--no-padding">
-        <ListViewItem name="Add New Team" />
+        { renderAddCard('Add New Team', () => console.log('hey')) }
         {renderTeams()}
       </SimpleCardContainer>
       <SimpleHeader text={`${subscribers.length} Members`} />
       <SimpleCardContainer className="simple-card--no-padding">
-        <ListViewItem name="Add New Member" />
+        { renderAddCard('Add New Member', () => console.log('hey')) }
         {renderMembers()}
       </SimpleCardContainer>
     </div>

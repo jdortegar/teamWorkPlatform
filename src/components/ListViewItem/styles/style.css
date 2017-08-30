@@ -4,3 +4,6 @@
   margin: 0;
   border-bottom: 1px solid #ececec;
 }
+.List-view-item__title {
+  color: #444444;
+}

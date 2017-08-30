@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { Row, Col } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
 import SubpageHeader from '../../components/SubpageHeader';
-import SimpleHeader from '../../components/SimpleHeader';
 import { IconCard } from '../../components/cards';
-import ListViewItem from "../../components/ListViewItem/ListViewItem";
+import CardView from './CardView';
 import ListView from './ListView';
 import './styles/style.css';
 
@@ -46,7 +44,7 @@ class OrganizationPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { integrationsLoaded: false, subscribersLoaded: false, view: 'list' };
+    this.state = { integrationsLoaded: false, subscribersLoaded: false, view: 'card' };
   }
 
   componentDidMount() {
@@ -106,15 +104,6 @@ class OrganizationPage extends Component {
         numberOfIntegrations += 1;
       }
       const breadcrumb = subscriberOrgs.subscriberOrgById[subscriberOrgId].name;
-      const renderAddCard = (text, action) => {
-        return (
-          <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
-            <a onClick={action}>
-              <IconCard icon={<i className="fa fa-plus simple-card__icons" />} text={text} />
-            </a>
-          </Col>
-        );
-      };
 
       return (
         <div>
@@ -122,11 +111,19 @@ class OrganizationPage extends Component {
           {
             this.state.view === 'list' ?
               <ListView
-                teams={teams}
                 integrations={integrations}
+                onSwitchView={() => this.setState({ view: 'card' })}
                 subscribers={subscribers}
                 subscriberOrgId={subscriberOrgId}
-              /> : null
+                teams={teams}
+              /> :
+              <CardView
+                integrations={integrations}
+                onSwitchView={() => this.setState({ view: 'list' })}
+                subscribers={subscribers}
+                subscriberOrgId={subscriberOrgId}
+                teams={teams}
+              />
           }
         </div>
       );

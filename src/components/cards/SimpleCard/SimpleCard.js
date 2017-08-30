@@ -10,8 +10,8 @@ const propTypes = {
 };
 
 const defaultProps = {
-  bodyStyle: { minHeight: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', wordBreak: 'break-word' },
-  className: 'simple-card__more-margin'
+  bodyStyle: { display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', wordBreak: 'break-word' },
+  className: 'Simple-card Simple-card--round'
 };
 
 function SimpleCard(props) {

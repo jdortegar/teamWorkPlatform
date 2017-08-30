@@ -22,11 +22,13 @@ class Message extends Component {
     const date = moment(message.created).fromNow();
 
     let userIcon;
+    const title = `${firstName} ${lastName}`;
 
     if (!icon) {
       const name = `${firstName.substring(0, 1)}${lastName.substring(0, 1)}`;
-      const title = `${firstName} ${lastName}`;
       userIcon = <UserIcon minWidth="48px" width="48px" height="48px" key={userId} name={name} bgColor={preferences.iconColor} title={title} />;
+    } else {
+      userIcon = <UserIcon type="icon" minWidth="48px" width="48px" height="48px" key={userId} title={title} icon={icon} />;
     }
 
     const messageBody = (
