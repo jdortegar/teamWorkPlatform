@@ -116,6 +116,7 @@ class OrganizationPage extends Component {
                 subscribers={subscribers}
                 subscriberOrgId={subscriberOrgId}
                 teams={teams}
+                history={this.props.history}
               /> :
               <CardView
                 integrations={integrations}

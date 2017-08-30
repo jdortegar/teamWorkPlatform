@@ -112,12 +112,12 @@ function ListView(props) {
         {renderAddCard('Add New Integration', () => console.log('hey'))}
         {renderIntegrations()}
       </SimpleCardContainer>
-      <SimpleHeader text={`${teams.length} Members`} search />
+      <SimpleHeader text={`${teams.length} Team(s)`} search />
       <SimpleCardContainer className="simple-card--no-padding">
         { renderAddCard('Add New Team', () => console.log('hey')) }
         {renderTeams()}
       </SimpleCardContainer>
-      <SimpleHeader text={`${subscribers.length} Members`} />
+      <SimpleHeader text={`${subscribers.length} Member(s)`} />
       <SimpleCardContainer className="simple-card--no-padding">
         { renderAddCard('Add New Member', () => console.log('hey')) }
         {renderMembers()}

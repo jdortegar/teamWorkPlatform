@@ -12,7 +12,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  node: <h3>Monthly Subscription <i className="fa fa-cog" /></h3>
+  node: <h3>Account Settings <i className="fa fa-cog" /></h3>
 };
 
 function SubpageHeader({ breadcrumb, node }) {

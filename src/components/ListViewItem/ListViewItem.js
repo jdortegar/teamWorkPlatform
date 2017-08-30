@@ -17,7 +17,7 @@ function ListViewItem(props) {
   const className = classNames('List-view-item', props.className);
 
   return (
-    <Row type="flex" justify="start" gutter={20} className={className}>
+    <Row type="flex" justify="start" gutter={20} className={className} onClick={props.onListItemClick}>
       <Col span={24}>
         <p className="List-view-item__title">{props.name}</p>
       </Col>

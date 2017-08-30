@@ -1,8 +1,12 @@
 .List-view-item {
   font-size: 18px;
-  padding: 6px 24px;
-  margin: 0;
+  padding: 6px 14px;
+  margin: 0 !important;
   border-bottom: 1px solid #ececec;
+}
+.List-view-item:hover {
+  background-color: #f9f9f9;
+  cursor: pointer;
 }
 .List-view-item__title {
   color: #444444;

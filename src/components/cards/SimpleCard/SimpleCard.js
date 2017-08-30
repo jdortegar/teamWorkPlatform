@@ -10,7 +10,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  bodyStyle: { display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', wordBreak: 'break-word' },
+  bodyStyle: { display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', wordBreak: 'break-word', padding: '14px' },
   className: 'Simple-card Simple-card--round'
 };
 
