@@ -195,7 +195,7 @@ export const getTeamsOfSubscriberOrgId = createCachedSelector(
   [getTeamIdsBySubscriberOrgId, getTeamById, (state, subscriberOrgId) => subscriberOrgId],
   (teamIdsBySubscriberOrgId, teamById, subscriberOrgId) => {
     if ((!subscriberOrgId) || (!teamIdsBySubscriberOrgId[subscriberOrgId])) {
-      return [];
+      return []; // TODO: null (to differentiate from valid data).  Also, elsewhere.
     }
 
     const teamIds = teamIdsBySubscriberOrgId[subscriberOrgId];
@@ -321,7 +321,7 @@ function merge(tree, messages) {
     const merged = _.merge({}, messages[node.messageId], node);
     ret.push(merged);
     if (node.children.length > 0) {
-      merge(node.children, messages);
+      merged.children = merge(node.children, messages);
     }
   });
   return ret;
