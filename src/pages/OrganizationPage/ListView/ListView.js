@@ -26,7 +26,7 @@ function ListView(props) {
   const renderMembers = () => {
     return props.subscribers.map(({ displayName, userId }) => {
       return (
-        <ListViewItem name={displayName} url={`/app/team/${userId}`} key={userId} />
+        <ListViewItem name={displayName} onListItemClick={() => props.history.push(`/app/teamMember/${userId}`)} key={userId} />
       );
     });
   };

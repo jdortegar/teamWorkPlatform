@@ -15,7 +15,7 @@ const propTypes = {
   teams: PropTypes.array.isRequired
 };
 
-function ListView(props) {
+function CardView(props) {
   const { integrations, onSwitchView, subscribers, subscriberOrgId, teams } = props;
   const renderTeams = () => {
     return props.teams.map(({ name, teamId }) => {
@@ -33,9 +33,9 @@ function ListView(props) {
     return props.subscribers.map(({ displayName, userId }) => {
       return (
         <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key={userId}>
-          <a>
+          <Link to={`/app/teamMember/${userId}`}>
             <IconCard text={displayName} />
-          </a>
+          </Link>
         </Col>
       );
     });
@@ -126,6 +126,6 @@ function ListView(props) {
   );
 }
 
-ListView.propTypes = propTypes;
+CardView.propTypes = propTypes;
 
-export default ListView;
+export default CardView;

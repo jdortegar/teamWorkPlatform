@@ -2,10 +2,18 @@ import React, { Component } from 'react';
 import { Row, Col } from 'antd';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
+import SimpleHeader from '../../components/SimpleHeader';
 import { IconCard } from '../../components/cards';
+import CardView from './CardView';
 import './styles/style.css';
 
 class TeamMemberPage extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { view: 'card' };
+  }
+
   render() {
     const renderProfileCard = (text) => {
       return (
@@ -32,6 +40,10 @@ class TeamMemberPage extends Component {
             </Col>
           </Row>
         </SimpleCardContainer>
+        {
+          this.state.view === 'card' ?
+            <CardView /> : null
+        }
       </div>
     );
   }

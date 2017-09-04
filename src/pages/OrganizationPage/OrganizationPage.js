@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'antd';
+import { Col } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import SubpageHeader from '../../components/SubpageHeader';
