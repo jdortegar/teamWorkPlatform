@@ -18,7 +18,7 @@ export const routesPaths = {
   organization: '/app/organization/:subscriberOrgId',
   team: '/app/team/:teamId',
   teamRoom: '/app/teamRoom/:teamRoomId',
-  member: '/app/member/:memberId'
+  member: '/app/teamMember/:teamMemberId'
 };
 
 export default (
