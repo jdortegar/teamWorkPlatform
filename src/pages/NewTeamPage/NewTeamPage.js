@@ -3,16 +3,8 @@ import { Row, Col } from 'antd';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import { IconCard } from '../../components/cards';
-import CardView from './CardView';
-import './styles/style.css';
 
-class TeamMemberPage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { view: 'card' };
-  }
-
+class NewTeamPage extends Component {
   render() {
     const renderProfileCard = (text) => {
       return (
@@ -27,7 +19,7 @@ class TeamMemberPage extends Component {
         <SubpageHeader breadcrumb="Team Member" />
         <SimpleCardContainer className="subpage-block">
           <Row type="flex" justify="start" gutter={20}>
-            { renderProfileCard('Profile Picture') }
+            { renderProfileCard('Upload Avatar') }
             <Col xs={{ span: 24 }} sm={{ span: 16 }} md={{ span: 19 }}>
               <div className="team-member-page__member-info">
                 <h1>Gonzalo</h1>
@@ -39,13 +31,9 @@ class TeamMemberPage extends Component {
             </Col>
           </Row>
         </SimpleCardContainer>
-        {
-          this.state.view === 'card' ?
-            <CardView /> : null
-        }
       </div>
     );
   }
 }
 
-export default TeamMemberPage;
+export default NewTeamPage;
