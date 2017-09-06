@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col, Form } from 'antd';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
-import { IconCard } from '../../components/cards';
+import UploadImageField from '../../components/formFields/UploadImageField';
+import TextField from '../../components/formFields/TextField';
+import { formShape } from '../../propTypes';
+import './styles/style.css';
+
+const propTypes = {
+  form: formShape.isRequired
+}
 
 class NewTeamPage extends Component {
   render() {
-    const renderProfileCard = (text) => {
+    const renderAvatarInput = (text) => {
       return (
         <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
-          <IconCard text={text} />
+          <UploadImageField text={text} />
         </Col>
       );
     };
@@ -18,22 +25,30 @@ class NewTeamPage extends Component {
       <div>
         <SubpageHeader breadcrumb="Team Member" />
         <SimpleCardContainer className="subpage-block">
-          <Row type="flex" justify="start" gutter={20}>
-            { renderProfileCard('Upload Avatar') }
-            <Col xs={{ span: 24 }} sm={{ span: 16 }} md={{ span: 19 }}>
-              <div className="team-member-page__member-info">
-                <h1>Gonzalo</h1>
-                <p>john@example.com</p>
-              </div>
-              <div className="team-member-page__member-info">
-                <h3 className="team-member-page__member-about">About Barry</h3>
-              </div>
-            </Col>
-          </Row>
+          <Form onSubmit={this.handleSubmit} layout="vertical">
+            <Row type="flex" justify="start" gutter={20}>
+              { renderAvatarInput('Upload Avatar') }
+              <Col xs={{ span: 24 }} sm={{ span: 14 }} md={{ span: 16 }}>
+                <div className="New-team__container">
+                  <h1 className="New-team__title">Choose a Team Name</h1>
+                  <TextField
+                    componentKey="teamName"
+                    inputClassName="New-team__add-textfield"
+                    form={this.props.form}
+                    hasFeedback={false}
+                    placeholder=" "
+                    label=""
+                  />
+                </div>
+              </Col>
+            </Row>
+          </Form>
         </SimpleCardContainer>
       </div>
     );
   }
 }
 
-export default NewTeamPage;
+NewTeamPage.propTypes = propTypes;
+
+export default Form.create()(NewTeamPage);

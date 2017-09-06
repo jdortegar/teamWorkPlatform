@@ -1,0 +1,8 @@
+.New-team__title {
+  font-weight: bold;
+}
+
+.New-team__add-textfield {
+  height: 50px !important;
+  font-size: 20px !important;
+}

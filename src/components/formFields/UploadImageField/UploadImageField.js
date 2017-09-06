@@ -1,0 +1,71 @@
+import React, { Component } from 'react';
+import { Upload, message } from 'antd';
+import PropTypes from 'prop-types';
+import './styles/style.css';
+
+const propTypes = {
+  allowedTypes: PropTypes.array,
+}
+
+const defaultProps = {
+  allowedTypes: ['image/jpeg']
+}
+
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
+function beforeUpload(file, allowedTypes) {
+  const isFileAllowed = allowedTypes.includes(file.type);
+  if (!isFileAllowed) {
+    message.error('You can only upload JPG file!');
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error('Image must smaller than 2MB!');
+  }
+  return isFileAllowed && isLt2M;
+}
+
+class UploadImageField extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { imageUrl: null };
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(info) {
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, imageUrl => this.setState({ imageUrl }));
+    }
+  }
+
+  render() {
+    const { allowedTypes } = this.props;
+    return (
+      <Upload
+        className="avatar-uploader"
+        name="avatar"
+        showUploadList={false}
+        action="//jsonplaceholder.typicode.com/posts/"
+        beforeUpload={file => beforeUpload(file, allowedTypes)}
+        onChange={this.handleChange}
+      >
+        {
+          this.state.imageUrl ?
+            <img src={this.state.imageUrl} alt="Avatar" className="avatar" /> :
+            <p className="avatar-uploader-trigger">Upload Avatar</p>
+        }
+      </Upload>
+    );
+  }
+}
+
+UploadImageField.propTypes = propTypes;
+UploadImageField.defaultProps = defaultProps;
+export default UploadImageField;

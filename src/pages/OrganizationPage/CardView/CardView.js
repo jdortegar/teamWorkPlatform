@@ -76,12 +76,12 @@ function CardView(props) {
     return integrationsArr;
   };
 
-  const renderAddCard = (text, action) => {
+  const renderAddCard = (text, url) => {
     return (
       <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }}>
-        <a onClick={action}>
+        <Link to={url}>
           <IconCard icon={<i className="fa fa-plus simple-card__icons" />} text={text} />
-        </a>
+        </Link>
       </Col>
     );
   };
@@ -114,7 +114,7 @@ function CardView(props) {
       </SimpleCardContainer>
       <SimpleHeader text={`${teams.length} Team(s)`} search />
       <SimpleCardContainer className="simple-card--no-padding">
-        { renderAddCard('Add New Team', () => console.log('hey')) }
+        { renderAddCard('Add New Team', '/app/newTeam') }
         {renderTeams()}
       </SimpleCardContainer>
       <SimpleHeader text={`${subscribers.length} Member(s)`} />
