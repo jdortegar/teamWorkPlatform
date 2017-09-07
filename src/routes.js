@@ -16,7 +16,7 @@ export const routesPaths = {
   chat: '/app/chat/:conversationId',
   integrations: '/app/integrations/:subscriberOrgId',
   organization: '/app/organization/:subscriberOrgId',
-  newTeam: '/app/newTeam',
+  newTeam: '/app/createTeam/:subscriberOrgId',
   team: '/app/team/:teamId',
   teamRoom: '/app/teamRoom/:teamRoomId',
   member: '/app/teamMember/:teamMemberId'

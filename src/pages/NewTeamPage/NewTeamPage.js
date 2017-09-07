@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Form } from 'antd';
+import { Row, Col, Form, Button } from 'antd';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import UploadImageField from '../../components/formFields/UploadImageField';
@@ -13,6 +13,7 @@ const propTypes = {
 
 class NewTeamPage extends Component {
   render() {
+    const { subscriberOrgId } = this.props.match.params;
     const renderAvatarInput = (text) => {
       return (
         <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
@@ -39,6 +40,21 @@ class NewTeamPage extends Component {
                     placeholder=" "
                     label=""
                   />
+                </div>
+                <div>
+                  <Button
+                    type="primary"
+                    className="New-team__button New-team__button--margin-right"
+                  >
+                    Create New Team
+                  </Button>
+                  <Button
+                    type="primary"
+                    className="New-team__button"
+                    onClick={() => this.props.history.push(`/app/organization/${subscriberOrgId}`)}
+                  >
+                    Cancel
+                  </Button>
                 </div>
               </Col>
             </Row>

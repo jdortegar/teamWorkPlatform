@@ -114,7 +114,7 @@ function CardView(props) {
       </SimpleCardContainer>
       <SimpleHeader text={`${teams.length} Team(s)`} search />
       <SimpleCardContainer className="simple-card--no-padding">
-        { renderAddCard('Add New Team', '/app/newTeam') }
+        { renderAddCard('Add New Team', `/app/createTeam/${props.subscriberOrgId}`) }
         {renderTeams()}
       </SimpleCardContainer>
       <SimpleHeader text={`${subscribers.length} Member(s)`} />
