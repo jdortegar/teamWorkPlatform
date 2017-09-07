@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Icon, notification } from 'antd';
+import {Link } from 'react-router-dom';
 import { extractQueryParams } from '../../routes';
 import { badIntegration, successfulIntegration } from './notifications';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleHeader from '../../components/SimpleHeader';
-import IntegrationCard from '../../components/IntegrationCard';
+import { IconCard } from '../../components/cards';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import './styles/style.css';
 
@@ -16,6 +17,9 @@ const propTypes = {
   integrateGoogle: PropTypes.func.isRequired,
   integrateBox: PropTypes.func.isRequired
 };
+
+let integrationsAvailable = 2;
+const totalIntegrations = 2;
 
 class IntegrationsPage extends Component {
   componentDidMount() {
@@ -75,41 +79,62 @@ class IntegrationsPage extends Component {
     const { subscriberOrgId } = this.props.match.params;
     const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || [];
 
-    // TODO: using data, see which ones are integrated, not integrated, and expired.
-    // Expired only makes sense if integrated = true.
-    // Render accordingly.
-    const { google, box } = integrations;
-    const googleIntegrated = google === 1;
-    const googleExpired = (google) ? google.expired : undefined;
-    const boxIntegrated = box === 1;
-    const boxExpired = (box) ? box.expired : undefined;
+    const renderIntegrations = () => {
+      const integrationsArr = [];
+
+      if (!_.isEmpty(integrations)) {
+        const { google, box } = integrations;
+        let boxExtra = null;
+        let googleExtra = null;
+        if (box) {
+          boxExtra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
+          if (box.expired) {
+            boxExtra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
+            integrationsAvailable -= 1;
+          }
+        } else {
+          integrationsAvailable -= 1;
+        }
+        integrationsArr.push(
+          <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key="box">
+            <Link to={`/app/integrations/${subscriberOrgId}/box`}>
+              <IconCard text="Box" icon={boxExtra} />
+            </Link>
+          </Col>
+        );
+        if (google) {
+          googleExtra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
+          if (google.expired) {
+            googleExtra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
+            integrationsAvailable -= 1;
+          }
+        } else {
+          integrationsAvailable -= 1;
+        }
+        integrationsArr.push(
+          <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key="google">
+            <Link to={`/app/integrations/${subscriberOrgId}/google`}>
+              <IconCard text="Google" extra={googleExtra} />
+            </Link>
+          </Col>
+        );
+      }
+
+      return integrationsArr;
+    };
 
     return (
       <div>
         <SubpageHeader breadcrumb={'Nintendo/Integrations'} />
-        <SimpleHeader text={'Your Integrations'} />
+        <SimpleHeader
+          text={
+            <h1 className="IntegrationsPage__header">{`${integrationsAvailable} of ${totalIntegrations} Integrations available`}</h1>
+          }
+          type="node"
+        />
         <SimpleCardContainer className="subpage-block">
           <Row type="flex">
-            <Col className="gutter-row">
-              <IntegrationCard
-                name="Google Drive"
-                img="https://s3-us-west-2.amazonaws.com/habla-ai-images/google-drive-logo.png"
-                integrated={googleIntegrated}
-                expired={googleExpired}
-                handleIntegration={() => this.handleGoogleDrive()}
-                onRevoke={() => console.log()}
-              />
-            </Col>
-            <Col className="gutter-row">
-              <IntegrationCard
-                name="Box"
-                img="https://s3-us-west-2.amazonaws.com/habla-ai-images/box-logo.png"
-                integrated={boxIntegrated}
-                expired={boxExpired}
-                handleIntegration={() => this.handleBox()}
-                onRevoke={() => console.log()}
-              />
-            </Col>
+            {renderIntegrations()}
           </Row>
         </SimpleCardContainer>
       </div>

@@ -109,7 +109,7 @@ function CardView(props) {
         type="node"
       />
       <SimpleCardContainer className="simple-card--no-padding">
-        {renderAddCard('Add New Integration', () => console.log('hey'))}
+        {renderAddCard('Add New Integration', `/app/integrations/${props.subscriberOrgId}`)}
         {renderIntegrations()}
       </SimpleCardContainer>
       <SimpleHeader text={`${teams.length} Team(s)`} search />

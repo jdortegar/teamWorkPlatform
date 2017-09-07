@@ -23,3 +23,7 @@
 .custom-card p {
   color: #999;
 }
+
+.IntegrationsPage__header {
+  font-weight: bold;
+}
