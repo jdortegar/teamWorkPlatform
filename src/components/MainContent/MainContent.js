@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import Chat from '../../containers/Chat';
 import OrganizationPage from '../../containers/OrganizationPage';
 import IntegrationsPage from '../../containers/IntegrationsPage';
+import IntegrationDetailsPage from '../../pages/IntegrationDetailsPage';
 import TeamPage from '../../containers/TeamPage';
 import NewTeamPage from '../../pages/NewTeamPage';
 import TeamRoomPage from '../../containers/TeamRoomPage';
@@ -19,6 +20,7 @@ function MainContent() {
         <Switch>
           <Route exact path={routesPaths.chat} component={Chat} />
           <Route exact path={routesPaths.integrations} component={IntegrationsPage} />
+          <Route exact path={routesPaths.integrationDetails} component={IntegrationDetailsPage} />
           <Route exact path={routesPaths.organization} component={OrganizationPage} />
           <Route exact path={routesPaths.team} component={TeamPage} />
           <Route exact path={routesPaths.newTeam} component={NewTeamPage} />
