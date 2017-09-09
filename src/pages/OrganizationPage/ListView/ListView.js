@@ -80,17 +80,17 @@ function ListView(props) {
         }
         type="node"
       />
-      <SimpleCardContainer className="simple-card--no-padding">
+      <SimpleCardContainer className="Simple-card--no-padding">
         <ListViewItem name="Add New Integration" />
         {renderIntegrations()}
       </SimpleCardContainer>
       <SimpleHeader text={`${teams.length} Members`} search />
-      <SimpleCardContainer className="simple-card--no-padding">
+      <SimpleCardContainer className="Simple-card--no-padding">
         <ListViewItem name="Add New Team" />
         {renderTeams()}
       </SimpleCardContainer>
       <SimpleHeader text={`${subscribers.length} Members`} />
-      <SimpleCardContainer className="simple-card--no-padding">
+      <SimpleCardContainer className="Simple-card--no-padding">
         <ListViewItem name="Add New Member" />
         {renderMembers()}
       </SimpleCardContainer>

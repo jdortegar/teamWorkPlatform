@@ -50,12 +50,12 @@ function ListView(props) {
         }
         type="node"
       />
-      <SimpleCardContainer className="simple-card--no-padding">
+      <SimpleCardContainer className="Simple-card--no-padding">
         <ListViewItem name="Add New Team Room" />
         {renderTeamRooms()}
       </SimpleCardContainer>
       <SimpleHeader text={`${teamMembers.length} Members`} />
-      <SimpleCardContainer className="simple-card--no-padding">
+      <SimpleCardContainer className="Simple-card--no-padding">
         <ListViewItem name="Add New Team Member" />
         {renderTeamMembers()}
       </SimpleCardContainer>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col } from 'antd';
+import { Col, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
@@ -20,10 +20,12 @@ function CardView(props) {
   const renderTeams = () => {
     return props.teams.map(({ name, teamId }) => {
       return (
-        <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key={teamId}>
-          <Link to={`/app/team/${teamId}`}>
-            <IconCard text={name} />
-          </Link>
+        <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} lg={{ span: 3 }} key={teamId}>
+          <Tooltip placement="top" title={name}>
+            <Link to={`/app/team/${teamId}`}>
+              <IconCard text={name} />
+            </Link>
+          </Tooltip>
         </Col>
       );
     });
@@ -32,11 +34,13 @@ function CardView(props) {
   const renderMembers = () => {
     return props.subscribers.map(({ displayName, userId }) => {
       return (
-        <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key={userId}>
-          <Link to={`/app/teamMember/${userId}`}>
-            <IconCard text={displayName} />
-          </Link>
-        </Col>
+        <div>
+          <Tooltip placement="top" title={displayName}>
+            <Link to={`/app/teamMember/${userId}`}>
+              <IconCard text={displayName} />
+            </Link>
+          </Tooltip>
+        </div>
       );
     });
   };
@@ -50,7 +54,7 @@ function CardView(props) {
           extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
         }
         integrationsArr.push(
-          <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key="box">
+          <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} lg={{ span: 3 }} key="box">
             <a>
               <IconCard text="Box" icon={extra} />
             </a>
@@ -63,7 +67,7 @@ function CardView(props) {
           extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
         }
         integrationsArr.push(
-          <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key="google">
+          <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} lg={{ span: 3 }} key="google">
             <a>
               <IconCard text="Google" extra={extra} />
             </a>
@@ -77,11 +81,11 @@ function CardView(props) {
 
   const renderAddCard = (url) => {
     return (
-      <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} lg={{ span: 3 }}>
+      <div>
         <Link to={url}>
           <IconCard icon={<i className="fa fa-plus simple-card__icons" />} text={null} />
         </Link>
-      </Col>
+      </div>
     );
   };
 
@@ -107,17 +111,17 @@ function CardView(props) {
         }
         type="node"
       />
-      <SimpleCardContainer className="simple-card--no-padding">
+      <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
         {renderAddCard(`/app/integrations/${props.subscriberOrgId}`)}
         {renderIntegrations()}
       </SimpleCardContainer>
       <SimpleHeader text={`${teams.length} Team(s)`} search />
-      <SimpleCardContainer className="simple-card--no-padding">
+      <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
         { renderAddCard(`/app/createTeam/${props.subscriberOrgId}`) }
         {renderTeams()}
       </SimpleCardContainer>
       <SimpleHeader text={`${subscribers.length} Member(s)`} />
-      <SimpleCardContainer className="simple-card--no-padding">
+      <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
         { renderAddCard(() => console.log('hey')) }
         {renderMembers()}
       </SimpleCardContainer>

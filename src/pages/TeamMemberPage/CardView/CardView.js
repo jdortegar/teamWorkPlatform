@@ -73,7 +73,7 @@ function ListView(props) {
         }
         type="node"
       />
-      <SimpleCardContainer className="simple-card--no-padding">
+      <SimpleCardContainer className="Simple-card--no-padding">
         Cool
       </SimpleCardContainer>
     </div>
