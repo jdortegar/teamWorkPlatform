@@ -4,6 +4,10 @@ import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import { IconCard } from '../../components/cards';
 
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 class IntegrationDetailsPage extends Component {
   constructor(props) {
     super(props);
@@ -12,6 +16,7 @@ class IntegrationDetailsPage extends Component {
   }
 
   render() {
+    const { integrationDetails } = this.props.match.params;
     const renderProfileCard = (text) => {
       return (
         <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
@@ -28,8 +33,7 @@ class IntegrationDetailsPage extends Component {
             { renderProfileCard('Profile Picture') }
             <Col xs={{ span: 24 }} sm={{ span: 16 }} md={{ span: 19 }}>
               <div className="team-member-page__member-info">
-                <h1>Gonzalo</h1>
-                <p>john@example.com</p>
+                <h1>{capitalize(integrationDetails)}</h1>
               </div>
               <div className="team-member-page__member-info">
                 <h3 className="team-member-page__member-about">About Barry</h3>

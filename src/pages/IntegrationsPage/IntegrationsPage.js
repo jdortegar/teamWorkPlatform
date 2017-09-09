@@ -18,8 +18,8 @@ const propTypes = {
   integrateBox: PropTypes.func.isRequired
 };
 
-let integrationsAvailable = 2;
 const totalIntegrations = 2;
+let integrationsAvailable = totalIntegrations;
 
 class IntegrationsPage extends Component {
   componentDidMount() {
@@ -81,11 +81,12 @@ class IntegrationsPage extends Component {
 
     const renderIntegrations = () => {
       const integrationsArr = [];
+      let boxExtra = null;
+      let googleExtra = null;
+      integrationsAvailable = totalIntegrations;
 
       if (!_.isEmpty(integrations)) {
         const { google, box } = integrations;
-        let boxExtra = null;
-        let googleExtra = null;
         if (box) {
           boxExtra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
           if (box.expired) {
@@ -95,13 +96,6 @@ class IntegrationsPage extends Component {
         } else {
           integrationsAvailable -= 1;
         }
-        integrationsArr.push(
-          <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key="box">
-            <Link to={`/app/integrations/${subscriberOrgId}/box`}>
-              <IconCard text="Box" icon={boxExtra} />
-            </Link>
-          </Col>
-        );
         if (google) {
           googleExtra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
           if (google.expired) {
@@ -111,14 +105,21 @@ class IntegrationsPage extends Component {
         } else {
           integrationsAvailable -= 1;
         }
-        integrationsArr.push(
-          <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key="google">
-            <Link to={`/app/integrations/${subscriberOrgId}/google`}>
-              <IconCard text="Google" extra={googleExtra} />
-            </Link>
-          </Col>
-        );
       }
+      integrationsArr.push(
+        <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key="box">
+          <Link to={`/app/integrations/${subscriberOrgId}/box`}>
+            <IconCard text="Box" icon={boxExtra} />
+          </Link>
+        </Col>
+      );
+      integrationsArr.push(
+        <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key="google">
+          <Link to={`/app/integrations/${subscriberOrgId}/google`}>
+            <IconCard text="Google" extra={googleExtra} />
+          </Link>
+        </Col>
+      );
 
       return integrationsArr;
     };

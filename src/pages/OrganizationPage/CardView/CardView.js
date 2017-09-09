@@ -43,7 +43,6 @@ function CardView(props) {
 
   const renderIntegrations = () => {
     const integrationsArr = [];
-
     if (!_.isEmpty(integrations.integrationsBySubscriberOrgId[subscriberOrgId])) {
       if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].box) {
         let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
@@ -76,11 +75,11 @@ function CardView(props) {
     return integrationsArr;
   };
 
-  const renderAddCard = (text, url) => {
+  const renderAddCard = (url) => {
     return (
-      <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }}>
+      <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} lg={{ span: 3 }}>
         <Link to={url}>
-          <IconCard icon={<i className="fa fa-plus simple-card__icons" />} text={text} />
+          <IconCard icon={<i className="fa fa-plus simple-card__icons" />} text={null} />
         </Link>
       </Col>
     );
@@ -109,17 +108,17 @@ function CardView(props) {
         type="node"
       />
       <SimpleCardContainer className="simple-card--no-padding">
-        {renderAddCard('Add New Integration', `/app/integrations/${props.subscriberOrgId}`)}
+        {renderAddCard(`/app/integrations/${props.subscriberOrgId}`)}
         {renderIntegrations()}
       </SimpleCardContainer>
       <SimpleHeader text={`${teams.length} Team(s)`} search />
       <SimpleCardContainer className="simple-card--no-padding">
-        { renderAddCard('Add New Team', `/app/createTeam/${props.subscriberOrgId}`) }
+        { renderAddCard(`/app/createTeam/${props.subscriberOrgId}`) }
         {renderTeams()}
       </SimpleCardContainer>
       <SimpleHeader text={`${subscribers.length} Member(s)`} />
       <SimpleCardContainer className="simple-card--no-padding">
-        { renderAddCard('Add New Member', () => console.log('hey')) }
+        { renderAddCard(() => console.log('hey')) }
         {renderMembers()}
       </SimpleCardContainer>
     </div>
