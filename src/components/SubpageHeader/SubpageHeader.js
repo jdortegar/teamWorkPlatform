@@ -20,7 +20,7 @@ function SubpageHeader({ breadcrumb, node }) {
     <div className="subpage-header-block subpage-header__top">
       <Row className="subpage-header__row" type="flex" align="middle" justify="start" gutter={20}>
         <Col xs={{ span: 24 }} sm={{ span: 16 }}>
-          <h2>{breadcrumb}</h2>
+          <h1>{breadcrumb}</h1>
         </Col>
         <Col xs={{ span: 24 }} sm={{ span: 8 }}>
           <div style={{ textAlign: 'right' }}>

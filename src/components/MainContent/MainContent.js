@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import Chat from '../../containers/Chat';
 import OrganizationPage from '../../containers/OrganizationPage';
 import IntegrationsPage from '../../containers/IntegrationsPage';
-import IntegrationDetailsPage from '../../pages/IntegrationDetailsPage';
+import IntegrationDetailsPage from '../../containers/IntegrationDetailsPage';
 import TeamPage from '../../containers/TeamPage';
 import NewTeamPage from '../../containers/NewTeamPage';
 import NewTeamRoomPage from '../../containers/NewTeamRoomPage';

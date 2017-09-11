@@ -21,11 +21,12 @@ const defaultProps = {
 };
 
 function IconCard(props) {
+  const { extra, icon, text, ...rest } = props;
   return (
-    <SimpleCard extra={props.extra}>
+    <SimpleCard extra={extra} {...rest}>
       <div>
-        { props.icon }
-        <h4>{props.text}</h4>
+        { icon }
+        <h4>{text}</h4>
       </div>
     </SimpleCard>
   );

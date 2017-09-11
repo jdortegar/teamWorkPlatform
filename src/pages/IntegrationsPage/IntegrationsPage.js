@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Icon, notification } from 'antd';
-import {Link } from 'react-router-dom';
+import { Row, Icon, notification, Tooltip } from 'antd';
+import { Link } from 'react-router-dom';
+import _ from 'lodash';
 import { extractQueryParams } from '../../routes';
 import { badIntegration, successfulIntegration } from './notifications';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleHeader from '../../components/SimpleHeader';
 import { IconCard } from '../../components/cards';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
+import messages from './messages';
 import './styles/style.css';
 
 const propTypes = {
@@ -17,9 +19,6 @@ const propTypes = {
   integrateGoogle: PropTypes.func.isRequired,
   integrateBox: PropTypes.func.isRequired
 };
-
-const totalIntegrations = 2;
-let integrationsAvailable = totalIntegrations;
 
 class IntegrationsPage extends Component {
   componentDidMount() {
@@ -52,16 +51,6 @@ class IntegrationsPage extends Component {
     return ((integration) && (status)) ? queryParams : undefined;
   }
 
-  handleGoogleDrive() {
-    const { subscriberOrgId } = this.props.match.params;
-    this.props.integrateGoogle(subscriberOrgId);
-  }
-
-  handleBox() {
-    const { subscriberOrgId } = this.props.match.params;
-    this.props.integrateBox(subscriberOrgId);
-  }
-
   render() {
     const { integrationsBySubscriberOrgId, working, error } = this.props.integrations;
 
@@ -83,7 +72,6 @@ class IntegrationsPage extends Component {
       const integrationsArr = [];
       let boxExtra = null;
       let googleExtra = null;
-      integrationsAvailable = totalIntegrations;
 
       if (!_.isEmpty(integrations)) {
         const { google, box } = integrations;
@@ -91,33 +79,32 @@ class IntegrationsPage extends Component {
           boxExtra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
           if (box.expired) {
             boxExtra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
-            integrationsAvailable -= 1;
           }
-        } else {
-          integrationsAvailable -= 1;
         }
+
         if (google) {
           googleExtra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
           if (google.expired) {
             googleExtra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
-            integrationsAvailable -= 1;
           }
-        } else {
-          integrationsAvailable -= 1;
         }
       }
       integrationsArr.push(
         <div key="box">
-          <Link to={`/app/integrations/${subscriberOrgId}/box`}>
-            <IconCard text="Box" icon={boxExtra} />
-          </Link>
+          <Tooltip placement="top" title={messages.box}>
+            <Link to={`/app/integrations/${subscriberOrgId}/box`}>
+              <IconCard text="Box" icon={boxExtra} />
+            </Link>
+          </Tooltip>
         </div>
       );
       integrationsArr.push(
         <div key="google">
-          <Link to={`/app/integrations/${subscriberOrgId}/google`}>
-            <IconCard text="Google" extra={googleExtra} />
-          </Link>
+          <Tooltip placement="top" title={messages.google}>
+            <Link to={`/app/integrations/${subscriberOrgId}/google`}>
+              <IconCard text="Google" extra={googleExtra} />
+            </Link>
+          </Tooltip>
         </div>
       );
 
@@ -128,10 +115,10 @@ class IntegrationsPage extends Component {
 
     return (
       <div>
-        <SubpageHeader breadcrumb={<div><span className="breadcrumb_underline">{subscriberOrgName}</span> / Integrations</div>} />
+        <SubpageHeader breadcrumb={<div><span className="breadcrumb_underline">{subscriberOrgName}</span> / {messages.addNewIntegrations}</div>} />
         <SimpleHeader
           text={
-            <h1 className="IntegrationsPage__header">{`${integrationsAvailable} of ${totalIntegrations} Integrations available`}</h1>
+            <h2 className="IntegrationsPage__header">{messages.selectIntegration}</h2>
           }
           type="node"
         />
