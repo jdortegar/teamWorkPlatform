@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Icon, notification } from 'antd';
+import { Row, Icon, notification } from 'antd';
 import {Link } from 'react-router-dom';
 import { extractQueryParams } from '../../routes';
 import { badIntegration, successfulIntegration } from './notifications';
@@ -107,33 +107,35 @@ class IntegrationsPage extends Component {
         }
       }
       integrationsArr.push(
-        <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key="box">
+        <div key="box">
           <Link to={`/app/integrations/${subscriberOrgId}/box`}>
             <IconCard text="Box" icon={boxExtra} />
           </Link>
-        </Col>
+        </div>
       );
       integrationsArr.push(
-        <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key="google">
+        <div key="google">
           <Link to={`/app/integrations/${subscriberOrgId}/google`}>
             <IconCard text="Google" extra={googleExtra} />
           </Link>
-        </Col>
+        </div>
       );
 
       return integrationsArr;
     };
 
+    const subscriberOrgName = this.props.subscriberOrgs.subscriberOrgById[subscriberOrgId].name;
+
     return (
       <div>
-        <SubpageHeader breadcrumb={'Nintendo/Integrations'} />
+        <SubpageHeader breadcrumb={<div><span className="breadcrumb_underline">{subscriberOrgName}</span> / Integrations</div>} />
         <SimpleHeader
           text={
             <h1 className="IntegrationsPage__header">{`${integrationsAvailable} of ${totalIntegrations} Integrations available`}</h1>
           }
           type="node"
         />
-        <SimpleCardContainer className="subpage-block">
+        <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
           <Row type="flex">
             {renderIntegrations()}
           </Row>

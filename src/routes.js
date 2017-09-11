@@ -20,6 +20,7 @@ export const routesPaths = {
   newTeam: '/app/createTeam/:subscriberOrgId',
   team: '/app/team/:teamId',
   teamRoom: '/app/teamRoom/:teamRoomId',
+  newTeamRoom: '/app/createTeamRoom/:teamId',
   member: '/app/teamMember/:teamMemberId'
 };
 

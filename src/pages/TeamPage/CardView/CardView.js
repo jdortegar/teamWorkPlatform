@@ -1,12 +1,14 @@
 import React from 'react';
-import { Col, Row } from 'antd';
+import { Tooltip } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
 import { IconCard } from '../../../components/cards';
+import messages from '../messages';
 
 const propTypes = {
+  teamId: PropTypes.string.isRequired,
   teamRooms: PropTypes.array.isRequired,
   teamMembers: PropTypes.array.isRequired,
   onSwitchView: PropTypes.func.isRequired
@@ -17,34 +19,40 @@ function CardView(props) {
   const renderTeamRooms = () => {
     return teamRooms.map(({ name, teamRoomId }) => {
       return (
-        <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }} key={teamRoomId}>
-          <Link to={`/app/teamRoom/${teamRoomId}`}>
-            <IconCard text={name} />
-          </Link>
-        </Col>
+        <div key={teamRoomId}>
+          <Tooltip placement="top" title={name}>
+            <Link to={`/app/teamRoom/${teamRoomId}`}>
+              <IconCard text={name} />
+            </Link>
+          </Tooltip>
+        </div>
       );
     });
-  }
+  };
 
   const renderTeamMembers = () => {
     return teamMembers.map(({ displayName, userId }) => {
       return (
-        <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }} key={userId}>
-          <a>
-            <IconCard text={displayName} />
-          </a>
-        </Col>
+        <div key={userId}>
+          <Tooltip placement="top" title={displayName}>
+            <a>
+              <IconCard text={displayName} />
+            </a>
+          </Tooltip>
+        </div>
       );
     });
-  }
+  };
 
-  const renderAddCard = (text, url = null) => {
+  const renderAddCard = (title, url = null) => {
     return (
-      <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
-        <Link to={url}>
-          <IconCard icon={<i className="fa fa-plus simple-card__icons" />} text={text} />
-        </Link>
-      </Col>
+      <div>
+        <Tooltip placement="top" title={title}>
+          <Link to={url}>
+            <IconCard icon={<i className="fa fa-plus simple-card__icons" />} />
+          </Link>
+        </Tooltip>
+      </div>
     );
   };
 
@@ -70,18 +78,14 @@ function CardView(props) {
         }
         type="node"
       />
-      <SimpleCardContainer className="subpage-block">
-        <Row type="flex" justify="start" gutter={20}>
-          { renderAddCard('Add a New Team Room', `/`) }
-          { renderTeamRooms() }
-        </Row>
+      <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
+        { renderAddCard(messages.addNewTeamRoom, `/app/createTeamRoom/${props.teamId}`) }
+        { renderTeamRooms() }
       </SimpleCardContainer>
       <SimpleHeader text={`${teamMembers.length} Team Members`} />
-      <SimpleCardContainer className="subpage-block">
-        <Row type="flex" justify="start" gutter={20}>
-          { renderAddCard('Invite a New Team Member', `/`) }
-          { renderTeamMembers() }
-        </Row>
+      <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
+        { renderAddCard(messages.inviteNewMember, `/`) }
+        { renderTeamMembers() }
       </SimpleCardContainer>
     </div>
   );

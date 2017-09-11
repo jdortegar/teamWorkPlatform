@@ -6,23 +6,23 @@ import './styles/style.css';
 
 const propTypes = {
   bodyStyle: PropTypes.object,
-  cardClassName: PropTypes.string,
+  className: PropTypes.string,
   children: PropTypes.node.isRequired,
   size: PropTypes.string
 };
 
 const defaultProps = {
   bodyStyle: { display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', wordBreak: 'break-word', padding: '14px' },
-  cardClassName: 'Simple-card--round',
+  className: 'Simple-card--round',
   size: 'small'
 };
 
 function SimpleCard(props) {
-  const { children, bodyStyle, cardClassName, size } = props;
-  const className = classNames('Simple-card', [cardClassName, `Simple-card--${size}`]);
+  const { children, bodyStyle, className, size } = props;
+  const cardClassName = classNames('Simple-card', [className, `Simple-card--${size}`]);
 
   return (
-    <Card className={className} bodyStyle={bodyStyle} {...props}>
+    <Card {...props} className={cardClassName} bodyStyle={bodyStyle}>
       {children}
     </Card>
   );

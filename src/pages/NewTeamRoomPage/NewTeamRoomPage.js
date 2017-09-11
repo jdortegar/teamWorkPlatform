@@ -16,13 +16,13 @@ const propTypes = {
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      subscriberOrgId: PropTypes.string.isRequired
+      teamId: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
-  createTeam: PropTypes.func.isRequired
+  createTeamRoom: PropTypes.func.isRequired
 };
 
-class NewTeamPage extends Component {
+class NewTeamRoomPage extends Component {
   constructor(props) {
     super(props);
 
@@ -32,11 +32,11 @@ class NewTeamPage extends Component {
   }
 
   handleSubmit() {
-    const { subscriberOrgId } = this.props.match.params;
+    const { teamId } = this.props.match.params;
     this.props.form.validateFields((err, values ) => {
       if (!err) {
         this.setState({ loading: true });
-        this.props.createTeam(values, subscriberOrgId)
+        this.props.createTeamRoom(values, teamId)
           .then(() => {
             this.setState({ loading: false });
           });
@@ -45,7 +45,7 @@ class NewTeamPage extends Component {
   }
 
   render() {
-    const { subscriberOrgId } = this.props.match.params;
+    const { teamId } = this.props.match.params;
     const renderAvatarInput = (text) => {
       return (
         <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
@@ -56,17 +56,17 @@ class NewTeamPage extends Component {
 
     return (
       <div>
-        <SubpageHeader breadcrumb="Team" />
+        <SubpageHeader breadcrumb="Team Room" />
         <SimpleCardContainer className="subpage-block">
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <Row type="flex" justify="start" gutter={20}>
               { renderAvatarInput('Upload Avatar') }
               <Col xs={{ span: 24 }} sm={{ span: 14 }} md={{ span: 16 }}>
-                <div className="New-team__container">
-                  <h1 className="New-team__title">Choose a Team Name</h1>
+                <div className="New-team-room__container">
+                  <h1 className="New-team-room__title">Choose a Team Room Name</h1>
                   <TextField
                     componentKey="name"
-                    inputClassName="New-team__add-textfield"
+                    inputClassName="New-team-room__add-textfield"
                     form={this.props.form}
                     hasFeedback={false}
                     placeholder=" "
@@ -77,16 +77,16 @@ class NewTeamPage extends Component {
                 <div>
                   <Button
                     type="primary"
-                    className="New-team__button New-team__button--margin-right"
+                    className="New-team-room__button New-team__button--margin-right"
                     onClick={this.handleSubmit}
                     loading={this.state.loading}
                   >
-                    { messages.createNewTeam }
+                    { messages.createNewTeamRoom }
                   </Button>
                   <Button
                     type="primary"
-                    className="New-team__button"
-                    onClick={() => this.props.history.push(`/app/organization/${subscriberOrgId}`)}
+                    className="New-team-room__button"
+                    onClick={() => this.props.history.push(`/app/organization/${teamId}`)}
                   >
                     { messages.cancel }
                   </Button>
@@ -100,6 +100,6 @@ class NewTeamPage extends Component {
   }
 }
 
-NewTeamPage.propTypes = propTypes;
+NewTeamRoomPage.propTypes = propTypes;
 
-export default Form.create()(NewTeamPage);
+export default Form.create()(NewTeamRoomPage);

@@ -5,7 +5,8 @@ import { requestIntegrations, integrateBox, integrateGoogle } from '../../action
 
 function mapStateToProps(state) {
   return {
-    integrations: state.integrations
+    integrations: state.integrations,
+    subscriberOrgs: state.subscriberOrgs
   };
 }
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SimpleCard from '../SimpleCard';
 
 const propTypes = {
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node
@@ -16,7 +16,8 @@ const propTypes = {
 
 const defaultProps = {
   icon: '',
-  extra: null
+  extra: null,
+  text: null
 };
 
 function IconCard(props) {
