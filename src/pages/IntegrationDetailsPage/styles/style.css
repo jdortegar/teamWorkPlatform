@@ -3,3 +3,9 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+.Integration-details__switch-container {
+  padding: 18px;
+}
+.Integration-details__right-col {
+  padding-left: 40px;
+}

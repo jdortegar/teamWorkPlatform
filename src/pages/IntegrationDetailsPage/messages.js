@@ -4,5 +4,6 @@ export default {
   integrations: 'Integrations',
   on: 'ON',
   off: 'OFF',
-  activate: 'Activate'
+  activate: 'Activate',
+  deactivate: 'Deactivate'
 };

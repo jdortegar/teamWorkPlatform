@@ -7,8 +7,9 @@ import { extractQueryParams } from '../../routes';
 import { badIntegration, successfulIntegration } from './notifications';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleHeader from '../../components/SimpleHeader';
-import { IconCard } from '../../components/cards';
+import { ImageCard } from '../../components/cards';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
+import { boxLogo, googleDriveLogo } from '../../img';
 import messages from './messages';
 import './styles/style.css';
 
@@ -16,8 +17,7 @@ const propTypes = {
   match: PropTypes.object.isRequired,
   requestIntegrations: PropTypes.func.isRequired,
   integrations: PropTypes.object.isRequired,
-  integrateGoogle: PropTypes.func.isRequired,
-  integrateBox: PropTypes.func.isRequired
+  subscriberOrgs: PropTypes.object.isRequired
 };
 
 class IntegrationsPage extends Component {
@@ -93,7 +93,7 @@ class IntegrationsPage extends Component {
         <div key="box">
           <Tooltip placement="top" title={messages.box}>
             <Link to={`/app/integrations/${subscriberOrgId}/box`}>
-              <IconCard text="Box" icon={boxExtra} />
+              <ImageCard imgSrc={boxLogo} extra={boxExtra} />
             </Link>
           </Tooltip>
         </div>
@@ -102,7 +102,7 @@ class IntegrationsPage extends Component {
         <div key="google">
           <Tooltip placement="top" title={messages.google}>
             <Link to={`/app/integrations/${subscriberOrgId}/google`}>
-              <IconCard text="Google" extra={googleExtra} />
+              <ImageCard imgSrc={googleDriveLogo} extra={googleExtra} />
             </Link>
           </Tooltip>
         </div>
