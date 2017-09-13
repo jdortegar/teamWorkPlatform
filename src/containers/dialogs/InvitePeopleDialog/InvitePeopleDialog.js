@@ -75,10 +75,10 @@ class InvitePeopleDialog extends Component {
           `${config.hablaApiBaseUri}/subscriberOrgs/inviteSubscribers/${currentInviteSubscriberOrg}`,
           { userIdOrEmails: users },
           axiosOptions)
-        .then(() => {
-          this.props.submitInviteOrgForm(false);
-          this.hideDialog();
-        });
+          .then(() => {
+            this.props.submitInviteOrgForm(false);
+            this.hideDialog();
+          });
       }
     });
   }

@@ -8,6 +8,7 @@ import IntegrationDetailsPage from '../../containers/IntegrationDetailsPage';
 import TeamPage from '../../containers/TeamPage';
 import NewTeamPage from '../../containers/NewTeamPage';
 import NewTeamRoomPage from '../../containers/NewTeamRoomPage';
+import InviteNewMemberPage from '../../containers/InviteNewMemberPage';
 import TeamRoomPage from '../../containers/TeamRoomPage';
 import TeamMemberPage from '../../containers/TeamMemberPage';
 import { routesPaths } from '../../routes';
@@ -26,6 +27,7 @@ function MainContent() {
           <Route exact path={routesPaths.team} component={TeamPage} />
           <Route exact path={routesPaths.newTeamRoom} component={NewTeamRoomPage} />
           <Route exact path={routesPaths.newTeam} component={NewTeamPage} />
+          <Route exact path={routesPaths.inviteNewMember} component={InviteNewMemberPage} />
           <Route exact path={routesPaths.teamRoom} component={TeamRoomPage} />
           <Route exact path={routesPaths.member} component={TeamMemberPage} />
         </Switch>

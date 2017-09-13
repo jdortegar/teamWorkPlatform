@@ -125,7 +125,7 @@ function CardView(props) {
       </SimpleCardContainer>
       <SimpleHeader text={`${subscribers.length} Member(s)`} />
       <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-        { renderAddCard(messages.addNewMember, () => console.log('hey')) }
+        { renderAddCard(messages.addNewMember, `/app/inviteNewMember/${props.subscriberOrgId}`) }
         {renderMembers()}
       </SimpleCardContainer>
     </div>

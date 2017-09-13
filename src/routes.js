@@ -18,6 +18,7 @@ export const routesPaths = {
   integrationDetails: '/app/integrations/:subscriberOrgId/:integrationDetails',
   organization: '/app/organization/:subscriberOrgId',
   newTeam: '/app/createTeam/:subscriberOrgId',
+  inviteNewMember: '/app/inviteNewMember/:subscriberOrgId',
   team: '/app/team/:teamId',
   teamRoom: '/app/teamRoom/:teamRoomId',
   newTeamRoom: '/app/createTeamRoom/:teamId',

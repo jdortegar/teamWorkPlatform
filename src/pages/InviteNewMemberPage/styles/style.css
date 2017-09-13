@@ -1,0 +1,51 @@
+.Invite-New-Member__title {
+  font-weight: bold;
+}
+
+.Invite-New-Member__email-field {
+  height: 50px !important;
+  font-size: 20px !important;
+}
+
+.Invite-New-Member__email-field input.ant-input {
+  font-size: 20px !important;
+  padding-left: 34px !important;
+}
+
+.Invite-New-Member__add-textfield:focus, .Invite-New-Member__add-textfield:hover {
+  border-color: #777777;
+  box-shadow: none;
+}
+
+.Invite-New-Member__button {
+  height: 38px;
+  border-radius: 2px;
+  background-color: #777777;
+  border-color: #777777;
+}
+
+.Invite-New-Member__button:hover, .Invite-New-Member__button:focus {
+  background-color: #979797;
+  border-color: #979797;
+}
+
+.Invite-New-Member__button--margin-right {
+  margin-right: 20px;
+}
+
+.Invite-New-Member__add-another-container {
+  padding-bottom: 24px;
+}
+
+.Invite-New-Member__add-another {
+  font-size: 18px;
+}
+
+.Invite-New-Member__add-another :hover{
+  text-decoration: underline;
+  color: #222222;
+}
+
+.Invite-New-Member__email-row:last-child .ant-row.ant-form-item {
+  margin-bottom: 8px;
+}
