@@ -13,9 +13,11 @@ function determineStatus(integration) {
     if (integration.expired) {
       return false;
     }
+
+    return true;
   }
 
-  return true;
+  return false;
 }
 
 const propTypes = {
