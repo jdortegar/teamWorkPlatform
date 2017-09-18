@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import { Row, Col } from 'antd';
 import PropTypes from 'prop-types';
 import CardView from './CardView';
 import ListView from './ListView';
 import SubpageHeader from '../../components/SubpageHeader';
+import SimpleCardContainer from '../../components/SimpleCardContainer';
+import UploadImageField from '../../components/formFields/UploadImageField';
+import EditButton from '../../components/buttons/EditButton';
 
 const propTypes = {
   requestTeamRooms: PropTypes.func.isRequired,
@@ -65,6 +69,21 @@ class TeamPage extends Component {
       return (
         <div>
           <SubpageHeader breadcrumb={<div><span className="breadcrumb_underline">{subscriberOrgName}</span> / {teamName}</div>} />
+          <SimpleCardContainer className="subpage-block">
+            <Row type="flex" justify="start" gutter={20}>
+              <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
+                <UploadImageField text={'Upload Avatar'} />
+              </Col>
+              <Col xs={{ span: 20 }} sm={{ span: 13 }} md={{ span: 16 }}>
+                <div className="New-team__container">
+                  <h1 className="New-team__title">{teamName}</h1>
+                </div>
+              </Col>
+              <Col xs={{ span: 4 }} sm={{ span: 3 }} md={{ span: 3 }}>
+                <EditButton url={`/app/editTeam/${teamId}`} />
+              </Col>
+            </Row>
+          </SimpleCardContainer>
           {
             this.state.view === 'card' ?
               <CardView

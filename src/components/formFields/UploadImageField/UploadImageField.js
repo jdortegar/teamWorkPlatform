@@ -5,6 +5,7 @@ import './styles/style.css';
 
 const propTypes = {
   allowedTypes: PropTypes.array,
+  text: PropTypes.string.isRequired
 }
 
 const defaultProps = {
@@ -59,7 +60,7 @@ class UploadImageField extends Component {
         {
           this.state.imageUrl ?
             <img src={this.state.imageUrl} alt="Avatar" className="avatar" /> :
-            <p className="avatar-uploader-trigger">Upload Avatar</p>
+            <p className="avatar-uploader-trigger">{this.props.text}</p>
         }
       </Upload>
     );

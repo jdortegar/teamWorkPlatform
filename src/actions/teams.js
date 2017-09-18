@@ -73,6 +73,19 @@ export function createTeam(name, orgId) {
   };
 }
 
+export function updateTeam(name, teamId) {
+  const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+
+  return (dispatch) => {
+    return axios.patch(`${config.hablaApiBaseUri}/teams/updateTeam/${teamId}`, name, axiosOptions)
+      .then(() => {
+        dispatch(requestAllTeams());
+        dispatch(requestAllTeamRooms());
+      })
+      .catch(err => dispatch(requestTeamsError(err, teamId)));
+  };
+}
+
 export function setCurrentTeamId(subscriberOrgId, teamId) {
   return {
     type: SET_CURRENT_TEAM_ID,

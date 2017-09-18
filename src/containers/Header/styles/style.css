@@ -17,7 +17,7 @@
   height: 67px;
   width: 100%;
   position: fixed;
-  z-index: 999999;
+  z-index: 999;
 }
 .ant-menu-dark, .ant-menu-dark .ant-menu-sub {
 	background: #000;
