@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Col } from 'antd';
+import { Col, notification } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import SubpageHeader from '../../components/SubpageHeader';
 import { IconCard } from '../../components/cards';
 import CardView from './CardView';
 import ListView from './ListView';
+import messages from './messages';
 import './styles/style.css';
 
 const propTypes = {
@@ -48,13 +49,20 @@ class OrganizationPage extends Component {
   }
 
   componentDidMount() {
-    const subscriberOrgId = this.props.match.params.subscriberOrgId;
+    const { subscriberOrgId, status } = this.props.match.params;
 
     if (subscriberOrgId !== this.props.subscriberOrgs.currentSubscriberOrgId) {
       this.props.setCurrentSubscriberOrgId(subscriberOrgId);
     }
     this.props.requestSubscribers(subscriberOrgId).then(() => this.setState({ subscribersLoaded: true }));
     this.props.requestIntegrations(subscriberOrgId).then(() => this.setState({ integrationsLoaded: true }));
+    if (status) {
+      notification.open({
+        message: messages.success,
+        description: messages[status],
+        duration: 4
+      });
+    }
   }
 
   renderTeams() {

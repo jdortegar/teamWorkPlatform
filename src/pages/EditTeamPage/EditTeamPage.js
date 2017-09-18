@@ -40,9 +40,9 @@ class EditTeamPage extends Component {
           .then(() => {
             this.setState({ loading: false });
             notification.open({
-              message: 'Success',
-              description: 'Your team information has been successfully updated!',
-              duration: 0
+              message: messages.success,
+              description: messages.teamUpdated,
+              duration: 4
             });
           });
       }
