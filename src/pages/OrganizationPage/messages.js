@@ -3,5 +3,6 @@ export default {
   addNewMember: 'Add New Team Member',
   addNewIntegration: 'Add New Integration',
   success: 'Success',
-  teamCreated: 'Team has been successfully created'
+  teamCreated: 'Team has been successfully created',
+  invitationSent: 'Invitation(s) successfully sent'
 };

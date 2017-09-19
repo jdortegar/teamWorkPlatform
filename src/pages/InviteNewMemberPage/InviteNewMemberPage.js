@@ -55,6 +55,7 @@ class InviteNewMemberPage extends Component {
         this.props.inviteNewMembers(users, subscriberOrgId)
           .then(() => {
             this.setState({ loading: false });
+            this.props.history.push(`/app/organization/${subscriberOrgId}/invitationSent`);
           });
       }
     });

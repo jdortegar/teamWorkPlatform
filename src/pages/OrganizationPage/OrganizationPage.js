@@ -55,14 +55,16 @@ class OrganizationPage extends Component {
       this.props.setCurrentSubscriberOrgId(subscriberOrgId);
     }
     this.props.requestSubscribers(subscriberOrgId).then(() => this.setState({ subscribersLoaded: true }));
-    this.props.requestIntegrations(subscriberOrgId).then(() => this.setState({ integrationsLoaded: true }));
-    if (status) {
-      notification.open({
-        message: messages.success,
-        description: messages[status],
-        duration: 4
-      });
-    }
+    this.props.requestIntegrations(subscriberOrgId).then(() => {
+      this.setState({ integrationsLoaded: true });
+      if (status) {
+        notification.open({
+          message: messages.success,
+          description: messages[status],
+          duration: 4
+        });
+      }
+    });
   }
 
   renderTeams() {
