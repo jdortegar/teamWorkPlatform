@@ -102,3 +102,4 @@ export const INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG = 'integrate_error_bad_subscribe
 export const INTEGRATE_ERROR = 'integrate_error'; // Catch-all error.
 // export const INTEGRATE_GOOGLE = 'integrate_google'; // Doesn't change state directly, so not needed.
 // export const INTEGRATE_BOX = 'integrate_box'; // Doesn't change state directly, so not needed.
+export const INVITE_NEW_MEMBERS = 'invite_new_members';

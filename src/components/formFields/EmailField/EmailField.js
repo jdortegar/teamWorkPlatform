@@ -17,7 +17,8 @@ const propTypes = {
   required: PropTypes.bool,
   missingMessage: PropTypes.string,
   placeholder: PropTypes.string,
-  icon: PropTypes.node
+  icon: PropTypes.node,
+  inputClassName: PropTypes.string
 };
 
 const defaultProps = {
@@ -28,7 +29,8 @@ const defaultProps = {
   missingMessage: null,
   placeholder: 'Email',
   layout: {},
-  icon: undefined
+  icon: undefined,
+  inputClassName: null
 };
 
 function EmailField(props) {
@@ -42,6 +44,7 @@ function EmailField(props) {
     placeholder,
     required,
     icon,
+    inputClassName,
     ...other
   } = props;
 
@@ -58,6 +61,7 @@ function EmailField(props) {
     extraRules: [
       { validator: antValidate(emailRules()) }
     ],
+    className: inputClassName,
     missingMessage: translatedMissingMessage,
     prefix: icon !== undefined ? icon : <Icon type="mail" />
   });

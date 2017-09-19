@@ -47,7 +47,6 @@ class Sidebar extends Component {
     this.state = { hovered: null };
 
     this.handleClick = this.handleClick.bind(this);
-    this.teamClicked = this.teamClicked.bind(this);
     this.onClickEditOrg = this.onClickEditOrg.bind(this);
   }
 
@@ -71,11 +70,6 @@ class Sidebar extends Component {
       default:
         return null;
     }
-  }
-
-  teamClicked(e, teamId) {
-    e.stopPropagation();
-    this.props.history.push(`/app/team/${teamId}`);
   }
 
   showTeamDialog(e, orgId) {
@@ -112,7 +106,7 @@ class Sidebar extends Component {
             key={teamId}
             title={<Row gutter={16}>
               <Col xs={{ span: 22 }}>
-                <a onClick={e => this.teamClicked(e, teamId)}>
+                <a onClick={e => this.onClickEditOrg(e, subscriberOrgId, `/app/team/${teamId}`)}>
                   <span><i className="sidebar__i fa fa-users" />{name}</span>
                 </a>
               </Col>
@@ -147,7 +141,7 @@ class Sidebar extends Component {
                 {
                   (this.state.hovered === subscriberOrgId) || (this.props.currentSubscriberOrgId === subscriberOrgId) ?
                     <a onClick={e => this.onClickEditOrg(e, subscriberOrgId, `/app/organization/${subscriberOrgId}`)} title="Edit">
-                      <i className="sidebar__i fa fa-pencil" aria-hidden="true" />
+                      <i className="sidebar__i fa fa-pencil" />
                     </a> : null
                 }
               </Col>
@@ -176,7 +170,7 @@ class Sidebar extends Component {
           { this.renderOrgs() }
           <Menu.Item key="add-org">
             <div className="add-organization-button">
-              <i className="sidebar__i fa fa-plus" aria-hidden="true" /> Add Organization
+              <i className="sidebar__i fa fa-plus" /> Add Organization
             </div>
           </Menu.Item>
         </Menu>

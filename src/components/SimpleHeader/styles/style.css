@@ -1,12 +1,30 @@
 .simple-header-block {
   padding: 0 24px;
 }
+.simple-header__title {
+  font-weight: bold;
+}
 .simple-header__container {
   height: 100%;
-  border-bottom: 3px solid #ececec;
 }
 .simple-header__row {
   height: 100%;
   width: 100%;
   padding: 8px 0;
+}
+
+.simple-header__icon-span {
+  padding: 0 5px;
+}
+
+.simple-header__icon-span--padding-left {
+  padding-left: 24px;
+}
+
+.simple-header__icon-action {
+  color: #bbbbbb;
+}
+
+.simple-header__icon-action--black {
+  color: #222222;
 }

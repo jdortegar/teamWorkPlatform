@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'antd';
+import { Col, notification } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
 import SubpageHeader from '../../components/SubpageHeader';
-import SimpleHeader from '../../components/SimpleHeader';
-import SimpleCardContainer from '../../components/SimpleCardContainer';
 import { IconCard } from '../../components/cards';
+import CardView from './CardView';
+import ListView from './ListView';
+import messages from './messages';
 import './styles/style.css';
 
 const propTypes = {
@@ -45,57 +45,30 @@ class OrganizationPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { integrationsLoaded: false, subscribersLoaded: false };
+    this.state = { integrationsLoaded: false, subscribersLoaded: false, view: 'card' };
   }
 
   componentDidMount() {
-    const subscriberOrgId = this.props.match.params.subscriberOrgId;
+    const { subscriberOrgId, status } = this.props.match.params;
 
     if (subscriberOrgId !== this.props.subscriberOrgs.currentSubscriberOrgId) {
       this.props.setCurrentSubscriberOrgId(subscriberOrgId);
     }
     this.props.requestSubscribers(subscriberOrgId).then(() => this.setState({ subscribersLoaded: true }));
-    this.props.requestIntegrations(subscriberOrgId).then(() => this.setState({ integrationsLoaded: true }));
-  }
-
-  renderIntegrations() {
-    const integrations = [];
-    const subscriberOrgId = this.props.match.params.subscriberOrgId;
-
-    if (!_.isEmpty(this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId])) {
-      if (this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId].box) {
-        let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
-        if (this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId].box.expired) {
-          extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
-        }
-        integrations.push(
-          <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }} key="box">
-            <a>
-              <IconCard text="Box" icon={extra} />
-            </a>
-          </Col>
-        );
+    this.props.requestIntegrations(subscriberOrgId).then(() => {
+      this.setState({ integrationsLoaded: true });
+      if (status) {
+        notification.open({
+          message: messages.success,
+          description: messages[status],
+          duration: 4
+        });
       }
-      if (this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId].google) {
-        let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
-        if (this.props.integrations.integrationsBySubscriberOrgId[subscriberOrgId].google.expired) {
-          extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
-        }
-        integrations.push(
-          <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }} key="google">
-            <a>
-              <IconCard text="Google" extra={extra} />
-            </a>
-          </Col>
-        );
-      }
-    }
-
-    return integrations;
+    });
   }
 
   renderTeams() {
-    return this.props.teams.map(({ name, teamId }) => {
+    const teams = this.props.teams.map(({ name, teamId }) => {
       return (
         <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }} key={teamId}>
           <Link to={`/app/team/${teamId}`}>
@@ -104,6 +77,16 @@ class OrganizationPage extends Component {
         </Col>
       );
     });
+
+    teams.unshift(
+      <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
+        <a onClick={() => this.props.toggleTeamDialog(true)}>
+          <IconCard icon={<i className="fa fa-plus simple-card__icons" />} text="Add a New Integration" />
+        </a>
+      </Col>);
+
+
+    return teams;
   }
 
   renderMembers() {
@@ -121,52 +104,39 @@ class OrganizationPage extends Component {
   render() {
     const subscriberOrgId = this.props.match.params.subscriberOrgId;
     const { teams, integrations, subscribers, subscriberOrgs } = this.props;
-
     if (this.state.subscribersLoaded && this.state.integrationsLoaded) {
-      let numberOfIntegrations = 0;
-      if (integrations && integrations.box) {
-        numberOfIntegrations += 1;
+      if (integrations && integrations.integrationsBySubscriberOrgId[subscriberOrgId]) {
+        let numberOfIntegrations = 0;
+        if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].box) {
+          numberOfIntegrations += 1;
+        }
+        if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].google) {
+          numberOfIntegrations += 1;
+        }
       }
-      if (integrations && integrations.google) {
-        numberOfIntegrations += 1;
-      }
-      const numberOfTeams = teams.length;
-      const numberOfMembers = subscribers.length;
       const breadcrumb = subscriberOrgs.subscriberOrgById[subscriberOrgId].name;
-      const renderAddCard = (text, action) => {
-        return (
-          <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
-            <a onClick={action}>
-              <IconCard icon={<i className="fa fa-plus simple-card__icons" />} text={text} />
-            </a>
-          </Col>
-        );
-      };
 
       return (
         <div>
           <SubpageHeader breadcrumb={breadcrumb} />
-          <SimpleHeader text={`Your Integrations (${numberOfIntegrations})`} />
-          <SimpleCardContainer className="subpage-block">
-            <Row type="flex" justify="start" gutter={20}>
-              { renderAddCard('Add a New Integration', () => this.props.history.push(`/app/integrations/${subscriberOrgId}`)) }
-              { this.renderIntegrations() }
-            </Row>
-          </SimpleCardContainer>
-          <SimpleHeader text={`Your Teams (${numberOfTeams})`} />
-          <SimpleCardContainer className="subpage-block">
-            <Row type="flex" justify="start" gutter={20}>
-              { renderAddCard('Add a New Team', () => this.props.toggleTeamDialog(true)) }
-              { this.renderTeams() }
-            </Row>
-          </SimpleCardContainer>
-          <SimpleHeader text={`Your Members (${numberOfMembers})`} />
-          <SimpleCardContainer className="subpage-block">
-            <Row type="flex" justify="start" gutter={20}>
-              { renderAddCard('Add a New Member', () => this.props.toggleInvitePeopleDialog(true)) }
-              { this.renderMembers(subscriberOrgId) }
-            </Row>
-          </SimpleCardContainer>
+          {
+            this.state.view === 'list' ?
+              <ListView
+                integrations={integrations}
+                onSwitchView={() => this.setState({ view: 'card' })}
+                subscribers={subscribers}
+                subscriberOrgId={subscriberOrgId}
+                teams={teams}
+                history={this.props.history}
+              /> :
+              <CardView
+                integrations={integrations}
+                onSwitchView={() => this.setState({ view: 'list' })}
+                subscribers={subscribers}
+                subscriberOrgId={subscriberOrgId}
+                teams={teams}
+              />
+          }
         </div>
       );
     }

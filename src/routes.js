@@ -15,10 +15,15 @@ export const routesPaths = {
   app: '/app',
   chat: '/app/chat/:conversationId',
   integrations: '/app/integrations/:subscriberOrgId',
-  organization: '/app/organization/:subscriberOrgId',
+  integrationDetails: '/app/integrations/:subscriberOrgId/:integrationDetails',
+  organization: '/app/organization/:subscriberOrgId/:status?',
+  newTeam: '/app/createTeam/:subscriberOrgId',
+  inviteNewMember: '/app/inviteNewMember/:subscriberOrgId',
   team: '/app/team/:teamId',
+  editTeam: '/app/editTeam/:teamId',
   teamRoom: '/app/teamRoom/:teamRoomId',
-  member: '/app/member/:memberId'
+  newTeamRoom: '/app/createTeamRoom/:teamId',
+  member: '/app/teamMember/:teamMemberId'
 };
 
 export default (

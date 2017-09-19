@@ -1,0 +1,29 @@
+.New-team-room__title {
+    font-weight: bold;
+}
+
+.New-team-room__add-textfield {
+    height: 50px !important;
+    font-size: 20px !important;
+}
+
+.New-team-room__add-textfield:focus, .New-team__add-textfield:hover {
+    border-color: #777777;
+    box-shadow: none;
+}
+
+.New-team-room__button {
+    height: 38px;
+    border-radius: 2px;
+    background-color: #777777;
+    border-color: #777777;
+}
+
+.New-team-room__button:hover, .New-team__button:focus {
+    background-color: #979797;
+    border-color: #979797;
+}
+
+.New-team-room__button--margin-right {
+    margin-right: 20px;
+}

@@ -55,6 +55,28 @@ class TeamRoomPage extends Component {
     this.handleSearch = this.handleSearch.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.match.params.teamRoomId !== nextProps.match.params.teamRoomId) {
+      this.setState({ teamRoomMembersLoaded: false, conversationsLoaded: false });
+      nextProps.requestTeamRoomMembers(nextProps.match.params.teamRoomId)
+        .then(() => this.setState({
+          teamRoomMembersLoaded: true,
+          teamRoomMembers: nextProps.teamRoomMembers
+        }));
+      nextProps.requestConversations(nextProps.match.params.teamRoomId)
+        .then((data) => {
+          if (data.payload.conversations) {
+            const { conversationId } = data.payload.conversations[0];
+
+            nextProps.requestTranscript(conversationId)
+              .then(() => this.setState({
+                conversationsLoaded: true
+              }));
+          }
+        });
+    }
+  }
+
   componentDidMount() {
     const teamRoomId = this.props.match.params.teamRoomId;
 
@@ -76,15 +98,6 @@ class TeamRoomPage extends Component {
       });
   }
 
-  handleSearch(value) {
-    const teamRoomId = this.props.match.params.teamRoomId;
-    const filteredTeamMembers = this.props.teamRoomMembers.teamRoomMembersByTeamRoomId[teamRoomId].filter(({ displayName }) => {
-      return displayName.toLowerCase().includes(value.toLowerCase());
-    });
-
-    this.setState({ teamRoomMembers: filteredTeamMembers });
-  }
-
   handleHeaderClick(value) {
     this.setState({ activeLink: value });
   }
@@ -95,6 +108,15 @@ class TeamRoomPage extends Component {
 
   onReplyTo(replyObj) {
     this.setState({ replyTo: replyObj });
+  }
+
+  handleSearch(value) {
+    const teamRoomId = this.props.match.params.teamRoomId;
+    const filteredTeamMembers = this.props.teamRoomMembers.teamRoomMembersByTeamRoomId[teamRoomId].filter(({ displayName }) => {
+      return displayName.toLowerCase().includes(value.toLowerCase());
+    });
+
+    this.setState({ teamRoomMembers: filteredTeamMembers });
   }
 
   renderMessages() {
@@ -113,16 +135,16 @@ class TeamRoomPage extends Component {
 
   renderTeamRoomMembers() {
     return this.state.teamRoomMembers.map(({ firstName, lastName, icon, preferences, userId }) => {
+      const title = `${firstName} ${lastName}`;
       if (!icon) {
         const name = `${firstName.substring(0, 1)}${lastName.substring(0, 1)}`;
-        const title = `${firstName} ${lastName}`;
         return (
           <UserIcon key={userId} name={name} bgColor={preferences.iconColor} title={title} />
         );
       }
 
       return (
-        <UserIcon />
+        <UserIcon key={userId} type="icon" title={title} icon={icon} />
       );
     });
   }
@@ -163,11 +185,13 @@ class TeamRoomPage extends Component {
       console.log(this.props);
 
       let userIcon;
+      const title = `${firstName} ${lastName}`;
 
       if (!icon) {
-        const name = `${firstName.substring(0, 1)}${lastName.substring(0, 1)}`;
-        const title = `${firstName} ${lastName}`;
-        userIcon = <UserIcon minWidth="48px" width="48px" height="48px" key={userId} name={name} bgColor={preferences.iconColor} title={title} />;
+        const initials = `${firstName.substring(0, 1)}${lastName.substring(0, 1)}`;
+        userIcon = <UserIcon minWidth="48px" width="48px" height="48px" key={userId} name={initials} bgColor={preferences.iconColor} title={title} />;
+      } else {
+        userIcon = <UserIcon type="icon" minWidth="48px" width="48px" height="48px" key={userId} icon={icon} title={title} />;
       }
 
       return (
@@ -190,7 +214,7 @@ class TeamRoomPage extends Component {
               }
             />
             <SimpleHeader
-              type="cards"
+              type="node"
               text={
                 <div className="team-room__member-cards-container">
                   <span className="team-room__member-cards-span">{numberOfTeamRoomMembers} members</span>

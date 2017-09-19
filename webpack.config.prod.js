@@ -65,13 +65,8 @@ config.module.rules = [{
   test: /\.css$/,
   use: ['style-loader', 'css-loader']
 }, {
-  test: /\.(png|svg|jpg|gif)$/,
+  test: /\.(woff|woff2|eot|ttf|otf|jpg|png|svg)$/,
   exclude: /(node_modules)/,
-  use: [{
-    loader: 'url-loader?name=images/[name].[ext]&limit=8192'
-  }]
-}, {
-  test: /\.(woff|woff2|eot|ttf|otf)$/,
   use: ['file-loader']
 }];
 

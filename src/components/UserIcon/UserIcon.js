@@ -9,7 +9,8 @@ const propTypes = {
   title: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
-  minWidth: PropTypes.string
+  minWidth: PropTypes.string,
+  type: PropTypes.string
 };
 
 const defaultProps = {
@@ -19,7 +20,8 @@ const defaultProps = {
   title: null,
   width: '35px',
   height: '35px',
-  minWidth: '35px'
+  minWidth: '35px',
+  type: 'text'
 }
 
 function UserIcon(props) {
@@ -34,7 +36,20 @@ function UserIcon(props) {
       }}
       title={props.title}
     >
-      {props.name}
+      {
+        props.type === 'text' ?
+          props.name :
+          <img
+            alt={props.title}
+            src={`data:image/png;base64,${props.icon}`}
+            style={{
+              width: props.width,
+              height: props.height,
+              minWidth: props.minWidth,
+              borderRadius: '3px'
+            }}
+          />
+      }
     </a>
   );
 }
