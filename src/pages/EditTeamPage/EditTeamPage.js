@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Button, notification } from 'antd';
+import { Row, Col, Form, Button, notification, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import UploadImageField from '../../components/formFields/UploadImageField';
 import TextField from '../../components/formFields/TextField';
+import SwitchField from '../../components/formFields/SwitchField';
 import { formShape } from '../../propTypes';
 import messages from './messages';
 import './styles/style.css';
@@ -51,28 +53,45 @@ class EditTeamPage extends Component {
 
   render() {
     const { teamId } = this.props.match.params;
-    const teamName = this.props.teams.teamById[teamId].name;
-    const renderAvatarInput = (text) => {
-      return (
-        <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
-          <UploadImageField text={text} />
-        </Col>
-      );
-    };
+    const { teams, subscriberOrgById } = this.props;
+    const team = teams.teamById[teamId];
+    const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
 
     return (
       <div>
-        <SubpageHeader breadcrumb="Team" />
+        <SubpageHeader breadcrumb={
+          <div>
+            <Link to={`/app/organization/${subscriberOrg.subscriberOrgId}`}>
+              <span className="breadcrumb_underline">{subscriberOrg.name}</span>
+            </Link> / {team.name} (Edit)
+          </div>}
+        />
         <SimpleCardContainer className="subpage-block">
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <Row type="flex" justify="start" gutter={20}>
-              { renderAvatarInput(messages.changeAvatar) }
+              <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
+                <div className="Edit-team__icon-container">
+                  <UploadImageField text={messages.changeAvatar} />
+                  <div className="Edit-team__switch-container">
+                    <Tooltip placement="top" title={team.active ? messages.setInactive : messages.setActive}>
+                      <SwitchField
+                        checkedChildren={messages.active}
+                        unCheckedChildren={messages.inactive}
+                        form={this.props.form}
+                        componentKey="active"
+                        initialValue={team.active}
+                        valuePropName="checked"
+                      />
+                    </Tooltip>
+                  </div>
+                </div>
+              </Col>
               <Col xs={{ span: 24 }} sm={{ span: 14 }} md={{ span: 16 }}>
                 <div className="Edit-team__container">
                   <h1 className="Edit-team__title">{messages.teamName}</h1>
                   <TextField
                     componentKey="name"
-                    initialValue={teamName}
+                    initialValue={team.name}
                     inputClassName="Edit-team__add-textfield"
                     form={this.props.form}
                     hasFeedback={false}

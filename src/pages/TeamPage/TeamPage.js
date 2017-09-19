@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'antd';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import CardView from './CardView';
 import ListView from './ListView';
@@ -64,11 +65,17 @@ class TeamPage extends Component {
 
     if (this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
       const teamName = teams.teamById[teamId].name;
-      const subscriberOrgName = subscriberOrgById[teams.teamById[teamId].subscriberOrgId].name;
+      const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
 
       return (
         <div>
-          <SubpageHeader breadcrumb={<div><span className="breadcrumb_underline">{subscriberOrgName}</span> / {teamName}</div>} />
+          <SubpageHeader breadcrumb={
+            <div>
+              <Link to={`/app/organization/${subscriberOrg.subscriberOrgId}`}>
+                <span className="breadcrumb_underline">{subscriberOrg.name}</span>
+              </Link> / {teamName}
+            </div>}
+          />
           <SimpleCardContainer className="subpage-block">
             <Row type="flex" justify="start" gutter={20}>
               <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>

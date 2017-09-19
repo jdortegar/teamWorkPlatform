@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Switch, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import { ImageCard } from '../../components/cards';
@@ -93,7 +94,13 @@ class IntegrationDetailsPage extends Component {
 
     return (
       <div>
-        <SubpageHeader breadcrumb={<div><span className="breadcrumb_underline">{subscriberOrgName}</span> / {messages.integrations}</div>} />
+        <SubpageHeader breadcrumb={
+          <div>
+            <Link to={`/app/organization/${subscriberOrgId}`}>
+              <span className="breadcrumb_underline">{subscriberOrgName}</span>
+            </Link> / {messages.integrations}
+          </div>}
+        />
         <SimpleCardContainer className="subpage-block">
           <Row type="flex" justify="center">
             <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 4 }}>

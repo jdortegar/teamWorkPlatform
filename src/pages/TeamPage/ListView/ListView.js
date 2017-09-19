@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
 import ListViewItem from '../../../components/ListViewItem/ListViewItem';
+import messages from '../messages';
 
 const propTypes = {
   teamRooms: PropTypes.array.isRequired,
@@ -36,12 +37,12 @@ function ListView(props) {
             <h2 className="simple-header__title simple-header__title--padding-right">
               {teamRooms.length === 0 ? 'No' : teamRooms.length} Team Rooms
               <span className="simple-header__icon-span simple-header__icon-span--padding-left">
-                <a className="simple-header__icon-action simple-header__icon-action--black" title="Card View">
+                <a className="simple-header__icon-action" title="Card View" onClick={onSwitchView}>
                   <i className="fa fa-th-large" />
                 </a>
               </span>
               <span className="simple-header__icon-span">
-                <a className="simple-header__icon-action" title="List View" onClick={onSwitchView}>
+                <a className="simple-header__icon-action simple-header__icon-action--black" title="List View">
                   <i className="fa fa-align-justify" />
                 </a>
               </span>
@@ -51,7 +52,7 @@ function ListView(props) {
         type="node"
       />
       <SimpleCardContainer className="Simple-card--no-padding">
-        <ListViewItem name="Add New Team Room" />
+        <ListViewItem name={messages.addNewTeamRoom} />
         {renderTeamRooms()}
       </SimpleCardContainer>
       <SimpleHeader text={`${teamMembers.length} Members`} />
