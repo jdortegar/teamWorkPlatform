@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Button, Dropdown } from 'antd';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { logoutUser } from '../../actions';
+import { Layout, Menu, Dropdown } from 'antd';
+import PropTypes from 'prop-types';
 import './styles/style.css';
 
 const AntdHeader = Layout.Header;
+
+const propTypes = {
+  logoutUser: PropTypes.func.isRequired
+};
 
 class Header extends Component {
   constructor(props) {
@@ -52,8 +54,6 @@ class Header extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ logoutUser }, dispatch);
-}
+Header.propTypes = propTypes;
 
-export default connect(null, mapDispatchToProps)(Header);
+export default Header;

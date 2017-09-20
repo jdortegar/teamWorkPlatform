@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Icon } from 'antd';
+import { Row, Col, Form, Icon, Upload } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { formShape } from '../../propTypes';
@@ -182,7 +182,6 @@ class TeamRoomPage extends Component {
       const teamRoomId = this.props.match.params.teamRoomId;
       const { name } = teamRooms.teamRoomById[teamRoomId];
       const teamRoomMembers = this.renderTeamRoomMembers();
-      console.log(this.props);
 
       let userIcon;
       const title = `${firstName} ${lastName}`;
@@ -264,8 +263,16 @@ class TeamRoomPage extends Component {
                   </Form>
                 </Col>
                 <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-col-icons">
-                  <a className="team-room__icons"><i className="fa fa-paper-plane-o" /></a>
-                  <a className="team-room__icons"><i className="fa fa-folder-o" /></a>
+                  <a className="team-room__icons">
+                    <i className="fa fa-paper-plane-o" />
+                  </a>
+                  <Upload
+                    action="//jsonplaceholder.typicode.com/posts/"
+                  >
+                    <div>
+                      <i className="fa fa-folder-o" />
+                    </div>
+                  </Upload>
                 </Col>
               </Row>
             </SimpleCardContainer>

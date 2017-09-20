@@ -18,3 +18,12 @@ export function inviteNewMembers(users, subscriberOrgId) {
       .then(response => response.data.integrations);
   };
 }
+
+export function inviteMembersToTeam(users, teamId) {
+  const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+
+  return () => {
+    return axios.post(`${config.hablaApiBaseUri}/teams/inviteMembers/${teamId}`, { userIds: users }, axiosOptions)
+      .then(response => response.data);
+  };
+}

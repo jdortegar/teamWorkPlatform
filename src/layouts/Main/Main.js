@@ -12,7 +12,8 @@ import { AddOrgDialog,
 import './styles/main.css';
 import '../styles/habla-brand-styles.css';
 
-function Main() {
+function Main(props) {
+  console.log(props);
   return (
     <Layout>
       <Header />

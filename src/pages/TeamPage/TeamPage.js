@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col, notification } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import CardView from './CardView';
@@ -8,6 +8,7 @@ import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import UploadImageField from '../../components/formFields/UploadImageField';
 import EditButton from '../../components/buttons/EditButton';
+import messages from './messages';
 
 const propTypes = {
   requestTeamRooms: PropTypes.func.isRequired,
@@ -31,7 +32,7 @@ class TeamPage extends Component {
     this.handleTeamRoomSearch = this.handleTeamRoomSearch.bind(this);
   }
   componentDidMount() {
-    const teamId = this.props.match.params.teamId;
+    const { teamId, status } = this.props.match.params;
 
     this.props.requestTeamRooms(teamId).then(() => this.setState({
       teamRoomsLoaded: true,
@@ -41,6 +42,13 @@ class TeamPage extends Component {
       teamMembersLoaded: true,
       teamMembers: this.props.teamMembers
     }));
+    if (status) {
+      notification.open({
+        message: messages.success,
+        description: messages[status],
+        duration: 4
+      });
+    }
   }
 
   handleTeamRoomSearch(value) {
