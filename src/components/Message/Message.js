@@ -21,16 +21,6 @@ class Message extends Component {
     const { firstName, lastName, icon, preferences, userId } = user;
     const date = moment(message.created).fromNow();
 
-    let userIcon;
-    const title = `${firstName} ${lastName}`;
-
-    if (!icon) {
-      const name = `${firstName.substring(0, 1)}${lastName.substring(0, 1)}`;
-      userIcon = <UserIcon minWidth="48px" width="48px" height="48px" key={userId} name={name} bgColor={preferences.iconColor} title={title} />;
-    } else {
-      userIcon = <UserIcon type="icon" minWidth="48px" width="48px" height="48px" key={userId} title={title} icon={icon} />;
-    }
-
     const messageBody = (
       <div>
         <p className="message__body-name">{firstName} {lastName}</p>
@@ -46,7 +36,7 @@ class Message extends Component {
       <div className="message__main-container">
         <Row type="flex" justify="start" gutter={20}>
           <Col xs={{ span: 5 }} sm={{ span: 3 }} md={{ span: 2 }} className="message__col-user-icon">
-            {userIcon}
+            <UserIcon user={user} type="user" minWidth="48px" width="48px" height="48px" key={userId} />
           </Col>
           <Col xs={{ span: 15 }} sm={{ span: 16 }} md={{ span: 18 }}>
             {messageBody}

@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Dropdown } from 'antd';
 import PropTypes from 'prop-types';
+import UserIcon from '../UserIcon';
 import './styles/style.css';
 
 const AntdHeader = Layout.Header;
 
 const propTypes = {
-  logoutUser: PropTypes.func.isRequired
+  logoutUser: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 class Header extends Component {
@@ -21,6 +23,7 @@ class Header extends Component {
   }
 
   render() {
+    const { user } = this.props;
     const menu = (
       <Menu >
         <Menu.Item key="logout">
@@ -40,14 +43,17 @@ class Header extends Component {
         >
           <Menu.Item key="1">
             <Dropdown overlay={menu} trigger={['click']}>
-              <a className="ant-dropdown-link" href="#">
-                <div className="user-avatar"></div><span>Thomas Knapp</span><div className="clear" />
-              </a>
+              <div className="Header__user-container">
+                <div className="ant-dropdown-link">
+                  <UserIcon user={user} type="user" shape="round" minWidth="35px" width="35px" height="35px" />
+                </div>
+                <span className="Header__full-name-span">{user.firstName}</span>
+              </div>
             </Dropdown>
           </Menu.Item>
-          <Menu.Item key="2"><i className="fa fa-globe fa-2x" aria-hidden="true"></i><span>Notifications</span></Menu.Item>
-          <Menu.Item key="3"><i className="fa fa-area-chart fa-2x" aria-hidden="true"></i><span>CKG</span></Menu.Item>
-          <Menu.Item key="4"><i className="fa fa-search fa-2x" aria-hidden="true"></i><span>Search</span></Menu.Item>
+          <Menu.Item key="2"><i className="fa fa-globe fa-2x" /><span>Notifications</span></Menu.Item>
+          <Menu.Item key="3"><i className="fa fa-area-chart fa-2x" /><span>CKG</span></Menu.Item>
+          <Menu.Item key="4"><i className="fa fa-search fa-2x" /><span>Search</span></Menu.Item>
         </Menu>
       </AntdHeader>
     );

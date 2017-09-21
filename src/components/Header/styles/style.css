@@ -38,3 +38,12 @@
 .header .ant-dropdown {
   top: 68px!important;
 }
+.Header__user-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Header__full-name-span {
+  padding-left: 6px;
+}
