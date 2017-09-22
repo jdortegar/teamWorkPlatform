@@ -1,4 +1,5 @@
 .avatar-uploader,
+.avatar-uploader-trigger,
 .avatar {
   width: 11vw;
   height: 11vw;
@@ -9,8 +10,11 @@
   justify-content: center;
   border: 1px solid #d9d9d9;
   border-radius: 50%;
-  cursor: pointer;
 }
 .avatar-uploader-trigger {
-
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%;
+  cursor: pointer;
 }

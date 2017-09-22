@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Icon } from 'antd';
+import { Row, Col, Form, Icon, Upload } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { formShape } from '../../propTypes';
@@ -55,6 +55,27 @@ class TeamRoomPage extends Component {
     this.handleSearch = this.handleSearch.bind(this);
   }
 
+  componentDidMount() {
+    const teamRoomId = this.props.match.params.teamRoomId;
+
+    this.props.requestTeamRoomMembers(teamRoomId)
+      .then(() => this.setState({
+        teamRoomMembersLoaded: true,
+        teamRoomMembers: this.props.teamRoomMembers
+      }));
+    this.props.requestConversations(teamRoomId)
+      .then((data) => {
+        if (data.payload.conversations) {
+          const { conversationId } = data.payload.conversations[0];
+
+          this.props.requestTranscript(conversationId)
+            .then(() => this.setState({
+              conversationsLoaded: true
+            }));
+        }
+      });
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.match.params.teamRoomId !== nextProps.match.params.teamRoomId) {
       this.setState({ teamRoomMembersLoaded: false, conversationsLoaded: false });
@@ -77,37 +98,16 @@ class TeamRoomPage extends Component {
     }
   }
 
-  componentDidMount() {
-    const teamRoomId = this.props.match.params.teamRoomId;
-
-    this.props.requestTeamRoomMembers(teamRoomId)
-      .then(() => this.setState({
-        teamRoomMembersLoaded: true,
-        teamRoomMembers: this.props.teamRoomMembers
-      }));
-    this.props.requestConversations(teamRoomId)
-      .then((data) => {
-        if (data.payload.conversations) {
-          const { conversationId } = data.payload.conversations[0];
-
-          this.props.requestTranscript(conversationId)
-            .then(() => this.setState({
-              conversationsLoaded: true
-            }));
-        }
-      });
-  }
-
-  handleHeaderClick(value) {
-    this.setState({ activeLink: value });
-  }
-
   onCancelReply() {
     this.setState({ replyTo: null });
   }
 
   onReplyTo(replyObj) {
     this.setState({ replyTo: replyObj });
+  }
+
+  handleHeaderClick(value) {
+    this.setState({ activeLink: value });
   }
 
   handleSearch(value) {
@@ -117,36 +117,6 @@ class TeamRoomPage extends Component {
     });
 
     this.setState({ teamRoomMembers: filteredTeamMembers });
-  }
-
-  renderMessages() {
-    return this.props.conversations.transcript.map((message) => {
-      const user = this.props.teamRoomMembersObj[message.createdBy];
-      return (
-        <Message
-          message={message}
-          user={user}
-          key={message.messageId}
-          replyTo={this.onReplyTo}
-        />
-      );
-    });
-  }
-
-  renderTeamRoomMembers() {
-    return this.state.teamRoomMembers.map(({ firstName, lastName, icon, preferences, userId }) => {
-      const title = `${firstName} ${lastName}`;
-      if (!icon) {
-        const name = `${firstName.substring(0, 1)}${lastName.substring(0, 1)}`;
-        return (
-          <UserIcon key={userId} name={name} bgColor={preferences.iconColor} title={title} />
-        );
-      }
-
-      return (
-        <UserIcon key={userId} type="icon" title={title} icon={icon} />
-      );
-    });
   }
 
   handleSubmit(e) {
@@ -174,25 +144,35 @@ class TeamRoomPage extends Component {
     });
   }
 
+  renderMessages() {
+    return this.props.conversations.transcript.map((message) => {
+      const user = this.props.teamRoomMembersObj[message.createdBy];
+      return (
+        <Message
+          message={message}
+          user={user}
+          key={message.messageId}
+          replyTo={this.onReplyTo}
+        />
+      );
+    });
+  }
+
+  renderTeamRoomMembers() {
+    return this.state.teamRoomMembers.map((user) => {
+      return (
+        <UserIcon user={user} type="user" key={user.userId} />
+      );
+    });
+  }
+
   render() {
     if (this.state.teamRoomMembersLoaded && this.state.conversationsLoaded) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
-      const { teamRooms } = this.props;
-      const { userId, firstName, lastName, preferences, icon } = this.props.user;
+      const { teamRooms, user } = this.props;
       const teamRoomId = this.props.match.params.teamRoomId;
       const { name } = teamRooms.teamRoomById[teamRoomId];
       const teamRoomMembers = this.renderTeamRoomMembers();
-      console.log(this.props);
-
-      let userIcon;
-      const title = `${firstName} ${lastName}`;
-
-      if (!icon) {
-        const initials = `${firstName.substring(0, 1)}${lastName.substring(0, 1)}`;
-        userIcon = <UserIcon minWidth="48px" width="48px" height="48px" key={userId} name={initials} bgColor={preferences.iconColor} title={title} />;
-      } else {
-        userIcon = <UserIcon type="icon" minWidth="48px" width="48px" height="48px" key={userId} icon={icon} title={title} />;
-      }
 
       return (
         <div>
@@ -248,7 +228,7 @@ class TeamRoomPage extends Component {
               }
               <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">
                 <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-icon-col">
-                  {userIcon}
+                  <UserIcon user={user} type="user" minWidth="48px" width="48px" height="48px" key={user.userId} />
                 </Col>
                 <Col xs={{ span: 20 }} className="team-room__chat-input-col">
                   <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off">
@@ -264,8 +244,16 @@ class TeamRoomPage extends Component {
                   </Form>
                 </Col>
                 <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-col-icons">
-                  <a className="team-room__icons"><i className="fa fa-paper-plane-o" /></a>
-                  <a className="team-room__icons"><i className="fa fa-folder-o" /></a>
+                  <a className="team-room__icons">
+                    <i className="fa fa-paper-plane-o" />
+                  </a>
+                  <Upload
+                    action="//jsonplaceholder.typicode.com/posts/"
+                  >
+                    <div>
+                      <i className="fa fa-folder-o" />
+                    </div>
+                  </Upload>
                 </Col>
               </Row>
             </SimpleCardContainer>

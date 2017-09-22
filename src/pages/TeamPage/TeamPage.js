@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col, notification } from 'antd';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import CardView from './CardView';
 import ListView from './ListView';
@@ -7,6 +8,7 @@ import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import UploadImageField from '../../components/formFields/UploadImageField';
 import EditButton from '../../components/buttons/EditButton';
+import messages from './messages';
 
 const propTypes = {
   requestTeamRooms: PropTypes.func.isRequired,
@@ -30,7 +32,7 @@ class TeamPage extends Component {
     this.handleTeamRoomSearch = this.handleTeamRoomSearch.bind(this);
   }
   componentDidMount() {
-    const teamId = this.props.match.params.teamId;
+    const { teamId, status } = this.props.match.params;
 
     this.props.requestTeamRooms(teamId).then(() => this.setState({
       teamRoomsLoaded: true,
@@ -40,6 +42,13 @@ class TeamPage extends Component {
       teamMembersLoaded: true,
       teamMembers: this.props.teamMembers
     }));
+    if (status) {
+      notification.open({
+        message: messages.success,
+        description: messages[status],
+        duration: 4
+      });
+    }
   }
 
   handleTeamRoomSearch(value) {
@@ -64,11 +73,17 @@ class TeamPage extends Component {
 
     if (this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
       const teamName = teams.teamById[teamId].name;
-      const subscriberOrgName = subscriberOrgById[teams.teamById[teamId].subscriberOrgId].name;
+      const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
 
       return (
         <div>
-          <SubpageHeader breadcrumb={<div><span className="breadcrumb_underline">{subscriberOrgName}</span> / {teamName}</div>} />
+          <SubpageHeader breadcrumb={
+            <div>
+              <Link to={`/app/organization/${subscriberOrg.subscriberOrgId}`}>
+                <span className="breadcrumb_underline">{subscriberOrg.name}</span>
+              </Link> / {teamName}
+            </div>}
+          />
           <SimpleCardContainer className="subpage-block">
             <Row type="flex" justify="start" gutter={20}>
               <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>

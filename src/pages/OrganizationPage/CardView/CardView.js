@@ -56,9 +56,9 @@ function CardView(props) {
         }
         integrationsArr.push(
           <div key="box">
-            <a>
+            <Link to={`/app/integrations/${subscriberOrgId}/box`}>
               <IconCard text="Box" icon={extra} />
-            </a>
+            </Link>
           </div>
         );
       }
@@ -69,9 +69,9 @@ function CardView(props) {
         }
         integrationsArr.push(
           <div key="google">
-            <a>
+            <Link to={`/app/integrations/${subscriberOrgId}/google`}>
               <IconCard text="Google" extra={extra} />
-            </a>
+            </Link>
           </div>
         );
       }

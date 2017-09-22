@@ -4,6 +4,7 @@ import { updateTeam } from '../../actions';
 
 function mapStateToProps(state) {
   return {
+    subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     teams: state.teams
   };
 }

@@ -84,7 +84,7 @@ function CardView(props) {
       </SimpleCardContainer>
       <SimpleHeader text={`${teamMembers.length} Team Members`} />
       <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-        { renderAddCard(messages.inviteNewMember, `/`) }
+        { renderAddCard(messages.inviteNewMember, `/app/inviteToTeam/${props.teamId}`) }
         { renderTeamMembers() }
       </SimpleCardContainer>
     </div>
