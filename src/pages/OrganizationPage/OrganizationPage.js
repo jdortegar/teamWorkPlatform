@@ -8,6 +8,7 @@ import CardView from './CardView';
 import ListView from './ListView';
 import messages from './messages';
 import './styles/style.css';
+import UserIcon from "../../components/UserIcon/UserIcon";
 
 const propTypes = {
   integrations: PropTypes.PropTypes.shape({
@@ -114,11 +115,14 @@ class OrganizationPage extends Component {
           numberOfIntegrations += 1;
         }
       }
-      const breadcrumb = subscriberOrgs.subscriberOrgById[subscriberOrgId].name;
-
+      const subscriberOrg = subscriberOrgs.subscriberOrgById[subscriberOrgId];
+      console.log(subscriberOrg);
       return (
         <div>
-          <SubpageHeader breadcrumb={breadcrumb} />
+          <SubpageHeader
+            icon={<UserIcon user={subscriberOrg} type="team" clickable={false} />}
+            breadcrumb={subscriberOrg.name}
+          />
           {
             this.state.view === 'list' ?
               <ListView

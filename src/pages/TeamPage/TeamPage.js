@@ -9,6 +9,7 @@ import SimpleCardContainer from '../../components/SimpleCardContainer';
 import UploadImageField from '../../components/formFields/UploadImageField';
 import EditButton from '../../components/buttons/EditButton';
 import messages from './messages';
+import UserIcon from '../../components/UserIcon';
 
 const propTypes = {
   requestTeamRooms: PropTypes.func.isRequired,
@@ -19,7 +20,8 @@ const propTypes = {
     })
   }).isRequired,
   teamMembers: PropTypes.array.isRequired,
-  teamRooms: PropTypes.array.isRequired
+  teamRooms: PropTypes.array.isRequired,
+  teams: PropTypes.array.isRequired
 };
 
 class TeamPage extends Component {
@@ -72,17 +74,20 @@ class TeamPage extends Component {
     const { teamRooms, teams, teamMembers, subscriberOrgById } = this.props;
 
     if (this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
-      const teamName = teams.teamById[teamId].name;
+      const team = teams.teamById[teamId];
       const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
 
       return (
         <div>
-          <SubpageHeader breadcrumb={
-            <div>
-              <Link to={`/app/organization/${subscriberOrg.subscriberOrgId}`}>
-                <span className="breadcrumb_underline">{subscriberOrg.name}</span>
-              </Link> / {teamName}
-            </div>}
+          <SubpageHeader
+            icon={<UserIcon user={team} type="team" clickable={false} />}
+            breadcrumb={
+              <div>
+                <Link to={`/app/organization/${subscriberOrg.subscriberOrgId}`}>
+                  <span className="breadcrumb_underline">{subscriberOrg.name}</span>
+                </Link> / {team.name}
+              </div>
+            }
           />
           <SimpleCardContainer className="subpage-block">
             <Row type="flex" justify="start" gutter={20}>
@@ -91,7 +96,7 @@ class TeamPage extends Component {
               </Col>
               <Col xs={{ span: 20 }} sm={{ span: 13 }} md={{ span: 16 }}>
                 <div className="New-team__container">
-                  <h1 className="New-team__title">{teamName}</h1>
+                  <h1 className="New-team__title">{team.name}</h1>
                 </div>
               </Col>
               <Col xs={{ span: 4 }} sm={{ span: 3 }} md={{ span: 3 }}>

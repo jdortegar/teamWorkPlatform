@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
+import UserIcon from '../../components/UserIcon';
 import { ImageCard } from '../../components/cards';
 import { boxLogo, googleDriveLogo } from '../../img';
 import messages from './messages';
@@ -62,7 +63,7 @@ class IntegrationDetailsPage extends Component {
   render() {
     const { integrationsBySubscriberOrgId, working, error } = this.props.integrations;
     const { integrationDetails, subscriberOrgId } = this.props.match.params;
-    const subscriberOrgName = this.props.subscriberOrgs.subscriberOrgById[subscriberOrgId].name;
+    const subscriberOrg = this.props.subscriberOrgs.subscriberOrgById[subscriberOrgId];
 
     if (error) {
       console.error(error);
@@ -94,12 +95,15 @@ class IntegrationDetailsPage extends Component {
 
     return (
       <div>
-        <SubpageHeader breadcrumb={
-          <div>
-            <Link to={`/app/organization/${subscriberOrgId}`}>
-              <span className="breadcrumb_underline">{subscriberOrgName}</span>
-            </Link> / {messages.integrations}
-          </div>}
+        <SubpageHeader
+          icon={<UserIcon user={subscriberOrg} type="team" clickable={false} />}
+          breadcrumb={
+            <div>
+              <Link to={`/app/organization/${subscriberOrgId}`}>
+                <span className="breadcrumb_underline">{subscriberOrg.name}</span>
+              </Link> / {messages.integrations}
+            </div>
+          }
         />
         <SimpleCardContainer className="subpage-block">
           <Row type="flex" justify="center">

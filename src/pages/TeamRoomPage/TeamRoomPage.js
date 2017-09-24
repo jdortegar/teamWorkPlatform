@@ -171,14 +171,15 @@ class TeamRoomPage extends Component {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
       const { teamRooms, user } = this.props;
       const teamRoomId = this.props.match.params.teamRoomId;
-      const { name } = teamRooms.teamRoomById[teamRoomId];
+      const teamRoom = teamRooms.teamRoomById[teamRoomId];
       const teamRoomMembers = this.renderTeamRoomMembers();
 
       return (
         <div>
           <div className="team-room__top-page-container">
             <SubpageHeader
-              breadcrumb={name}
+              icon={<UserIcon user={teamRoom} type="team" clickable={false} />}
+              breadcrumb={teamRoom.name}
               node={
                 <div className="team-room__header-container">
                   <div className={`team-room__header-links ${this.state.activeLink === messages.all ? 'active' : ''}`}>

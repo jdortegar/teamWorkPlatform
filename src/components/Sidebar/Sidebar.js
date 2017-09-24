@@ -92,7 +92,6 @@ class Sidebar extends Component {
     return this.props.teams.reduce((acc, team) => {
       if (team.subscriberOrgId === orgId) {
         const teamRooms = this.renderTeamRooms(team.teamId);
-        console.log(team);
         acc.push(
           <SubMenu
             key={team.teamId}
