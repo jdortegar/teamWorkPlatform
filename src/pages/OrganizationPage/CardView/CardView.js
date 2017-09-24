@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tooltip } from 'antd';
+import { Tooltip, Collapse } from 'antd';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
@@ -8,16 +8,17 @@ import SimpleHeader from '../../../components/SimpleHeader';
 import { IconCard } from '../../../components/cards';
 import messages from '../messages';
 
+const Panel = Collapse.Panel;
+
 const propTypes = {
   integrations: PropTypes.object.isRequired,
-  onSwitchView: PropTypes.func.isRequired,
   subscribers: PropTypes.array.isRequired,
   subscriberOrgId: PropTypes.string.isRequired,
   teams: PropTypes.array.isRequired
 };
 
 function CardView(props) {
-  const { integrations, onSwitchView, subscribers, subscriberOrgId, teams } = props;
+  const { integrations, subscribers, subscriberOrgId, teams } = props;
   const renderTeams = () => {
     return props.teams.map(({ name, teamId }) => {
       return (
@@ -92,42 +93,39 @@ function CardView(props) {
     );
   };
 
+  const integrationsArr = renderIntegrations();
+
   return (
     <div>
-      <SimpleHeader
-        text={
-          <div>
-            <h2 className="simple-header__title simple-header__title--padding-right">
-              {integrations.length === 0 ? 'No' : integrations.length} Data Integrations
-              <span className="simple-header__icon-span simple-header__icon-span--padding-left">
-                <a className="simple-header__icon-action simple-header__icon-action--black" title="Card View">
-                  <i className="fa fa-th-large" />
-                </a>
-              </span>
-              <span className="simple-header__icon-span">
-                <a className="simple-header__icon-action" title="List View" onClick={onSwitchView}>
-                  <i className="fa fa-align-justify" />
-                </a>
-              </span>
-            </h2>
-          </div>
-        }
-        type="node"
-      />
-      <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-        {renderAddCard(messages.addNewIntegration, `/app/integrations/${props.subscriberOrgId}`)}
-        {renderIntegrations()}
-      </SimpleCardContainer>
-      <SimpleHeader text={`${teams.length} Team(s)`} search />
-      <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-        { renderAddCard(messages.addNewTeam, `/app/createTeam/${props.subscriberOrgId}`) }
-        {renderTeams()}
-      </SimpleCardContainer>
-      <SimpleHeader text={`${subscribers.length} Member(s)`} />
-      <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-        { renderAddCard(messages.addNewMember, `/app/inviteNewMember/${props.subscriberOrgId}`) }
-        {renderMembers()}
-      </SimpleCardContainer>
+      <Collapse defaultActiveKey={['1', '2', '3']} bordered={false}>
+        <Panel
+          header={<SimpleHeader text={`Data Integrations (${integrationsArr.length})`} />}
+          key="1"
+        >
+          <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
+            {renderAddCard(messages.addNewIntegration, `/app/integrations/${props.subscriberOrgId}`)}
+            {integrationsArr}
+          </SimpleCardContainer>
+        </Panel>
+        <Panel
+          header={<SimpleHeader text={`Teams (${teams.length})`} />}
+          key="2"
+        >
+          <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
+            { renderAddCard(messages.addNewTeam, `/app/createTeam/${props.subscriberOrgId}`) }
+            {renderTeams()}
+          </SimpleCardContainer>
+        </Panel>
+        <Panel
+          header={<SimpleHeader text={`Members (${subscribers.length})`} />}
+          key="3"
+        >
+          <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
+            { renderAddCard(messages.addNewMember, `/app/inviteNewMember/${props.subscriberOrgId}`) }
+            {renderMembers()}
+          </SimpleCardContainer>
+        </Panel>
+      </Collapse>
     </div>
   );
 }

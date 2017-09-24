@@ -1,11 +1,13 @@
 import React from 'react';
-import { Tooltip } from 'antd';
+import { Tooltip, Collapse } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
 import { IconCard } from '../../../components/cards';
 import messages from '../messages';
+
+const Panel = Collapse.Panel;
 
 const propTypes = {
   teamId: PropTypes.string.isRequired,
@@ -58,35 +60,26 @@ function CardView(props) {
 
   return (
     <div>
-      <SimpleHeader
-        text={
-          <div>
-            <h2 className="simple-header__title simple-header__title--padding-right">
-              {teamRooms.length === 0 ? 'No' : teamRooms.length} Team Rooms
-              <span className="simple-header__icon-span simple-header__icon-span--padding-left">
-                <a className="simple-header__icon-action simple-header__icon-action--black" title="Card View">
-                  <i className="fa fa-th-large" />
-                </a>
-              </span>
-              <span className="simple-header__icon-span">
-                <a className="simple-header__icon-action" title="List View" onClick={onSwitchView}>
-                  <i className="fa fa-align-justify" />
-                </a>
-              </span>
-            </h2>
-          </div>
-        }
-        type="node"
-      />
-      <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-        { renderAddCard(messages.addNewTeamRoom, `/app/createTeamRoom/${props.teamId}`) }
-        { renderTeamRooms() }
-      </SimpleCardContainer>
-      <SimpleHeader text={`${teamMembers.length} Team Members`} />
-      <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-        { renderAddCard(messages.inviteNewMember, `/app/inviteToTeam/${props.teamId}`) }
-        { renderTeamMembers() }
-      </SimpleCardContainer>
+      <Collapse defaultActiveKey={['1', '2', '3']} bordered={false}>
+        <Panel
+          header={<SimpleHeader text={`Team Rooms (${teamRooms.length})`} />}
+          key="1"
+        >
+          <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
+            { renderAddCard(messages.addNewTeamRoom, `/app/createTeamRoom/${props.teamId}`) }
+            { renderTeamRooms() }
+          </SimpleCardContainer>
+        </Panel>
+        <Panel
+          header={<SimpleHeader text={`Team Members (${teamMembers.length})`} />}
+          key="2"
+        >
+          <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
+            { renderAddCard(messages.inviteNewMember, `/app/inviteToTeam/${props.teamId}`) }
+            { renderTeamMembers() }
+          </SimpleCardContainer>
+        </Panel>
+      </Collapse>
     </div>
   );
 }
