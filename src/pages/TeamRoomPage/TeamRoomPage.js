@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Icon, Upload } from 'antd';
+import { Row, Col, Form, Icon, Upload, Card } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import FileDrop from 'react-file-drop';
 import { formShape } from '../../propTypes';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleHeader from '../../components/SimpleHeader';
@@ -51,7 +50,6 @@ class TeamRoomPage extends Component {
 
     this.onCancelReply = this.onCancelReply.bind(this);
     this.onReplyTo = this.onReplyTo.bind(this);
-    this.handleFileDrop = this.handleFileDrop.bind(this);
     this.handleHeaderClick = this.handleHeaderClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -106,11 +104,6 @@ class TeamRoomPage extends Component {
 
   onReplyTo(replyObj) {
     this.setState({ replyTo: replyObj });
-  }
-
-  handleFileDrop(files, event) {
-    alert();
-    console.log(files);
   }
 
   handleHeaderClick(value) {
@@ -226,6 +219,11 @@ class TeamRoomPage extends Component {
                       <p className="team-room__message-body-text">
                         {this.state.replyTo.text}
                       </p>
+                      <div style={{ display: 'flex' }}>
+                        <Card extra={<a href="#">X</a>} style={{ width: 96 }}>
+                          <img alt="example" width="100%" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />
+                        </Card>
+                      </div>
                     </Col>
                     <Col xs={{ span: 3 }} className="team-room__message-cancel-reply-col">
                       <a className="team-room__message-cancel-reply" onClick={this.onCancelReply} title={messages.cancel}>
