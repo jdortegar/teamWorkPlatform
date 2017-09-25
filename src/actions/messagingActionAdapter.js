@@ -15,6 +15,9 @@ export default function (eventType, event) {
     case EventTypes.presenceChanged:
       // TODO:
       break;
+    case EventTypes.userInvited:
+      alert();
+      break;
     case EventTypes.userUpdated:
       // TODO:
       break;

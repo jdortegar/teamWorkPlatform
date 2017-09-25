@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Form, Icon, Upload } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import FileDrop from 'react-file-drop';
 import { formShape } from '../../propTypes';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleHeader from '../../components/SimpleHeader';
@@ -50,6 +51,7 @@ class TeamRoomPage extends Component {
 
     this.onCancelReply = this.onCancelReply.bind(this);
     this.onReplyTo = this.onReplyTo.bind(this);
+    this.handleFileDrop = this.handleFileDrop.bind(this);
     this.handleHeaderClick = this.handleHeaderClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -104,6 +106,11 @@ class TeamRoomPage extends Component {
 
   onReplyTo(replyObj) {
     this.setState({ replyTo: replyObj });
+  }
+
+  handleFileDrop(files, event) {
+    alert();
+    console.log(files);
   }
 
   handleHeaderClick(value) {
