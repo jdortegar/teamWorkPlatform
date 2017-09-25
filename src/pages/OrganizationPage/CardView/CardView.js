@@ -121,7 +121,7 @@ function CardView(props) {
           key="3"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            { renderAddCard(messages.addNewMember, `/app/inviteNewMember/${props.subscriberOrgId}`) }
+            { renderAddCard(messages.addNewMember, `/app/integrations/${props.subscriberOrgId}`) }
             {renderMembers()}
           </SimpleCardContainer>
         </Panel>

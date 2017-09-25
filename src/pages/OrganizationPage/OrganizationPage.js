@@ -116,7 +116,6 @@ class OrganizationPage extends Component {
         }
       }
       const subscriberOrg = subscriberOrgs.subscriberOrgById[subscriberOrgId];
-      console.log(subscriberOrg);
       return (
         <div>
           <SubpageHeader

@@ -21,7 +21,7 @@ const propTypes = {
   }).isRequired,
   teamMembers: PropTypes.array.isRequired,
   teamRooms: PropTypes.array.isRequired,
-  teams: PropTypes.array.isRequired
+  teams: PropTypes.object.isRequired
 };
 
 class TeamPage extends Component {

@@ -11,7 +11,8 @@ function mapStateToProps(state, props) {
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     teams: state.teams,
     teamMembers: getTeamMembersOfTeamId(state, teamId),
-    teamRooms: getTeamRoomsOfTeamId(state, teamId)
+    teamRooms: getTeamRoomsOfTeamId(state, teamId),
+    user: state.auth.user
   };
 }
 

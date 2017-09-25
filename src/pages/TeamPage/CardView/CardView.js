@@ -12,12 +12,11 @@ const Panel = Collapse.Panel;
 const propTypes = {
   teamId: PropTypes.string.isRequired,
   teamRooms: PropTypes.array.isRequired,
-  teamMembers: PropTypes.array.isRequired,
-  onSwitchView: PropTypes.func.isRequired
+  teamMembers: PropTypes.array.isRequired
 };
 
 function CardView(props) {
-  const { teamRooms, teamMembers, onSwitchView } = props;
+  const { teamRooms, teamMembers } = props;
   const renderTeamRooms = () => {
     return teamRooms.map(({ name, teamRoomId }) => {
       return (
