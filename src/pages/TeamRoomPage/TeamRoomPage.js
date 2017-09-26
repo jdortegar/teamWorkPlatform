@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Icon, Upload, Card } from 'antd';
+import { Row, Col, Form, Upload } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { formShape } from '../../propTypes';
@@ -8,6 +8,7 @@ import SimpleHeader from '../../components/SimpleHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import TextField from '../../components/formFields/TextField';
 import UserIcon from '../../components/UserIcon';
+import PreviewBar from '../../components/PreviewBar';
 import Message from '../../components/Message';
 import { getJwt } from '../../session';
 import config from '../../config/env';
@@ -15,6 +16,7 @@ import messages from './messages';
 import './styles/style.css';
 
 const propTypes = {
+  files: PropTypes.array,
   form: formShape.isRequired,
   requestTeamRoomMembers: PropTypes.func.isRequired,
   match: PropTypes.shape({
@@ -36,6 +38,10 @@ const propTypes = {
   }).isRequired
 };
 
+const defaultProps = {
+  files: []
+};
+
 class TeamRoomPage extends Component {
   constructor(props) {
     super(props);
@@ -45,7 +51,8 @@ class TeamRoomPage extends Component {
       conversationsLoaded: false,
       teamRoomMembers: [],
       activeLink: messages.all,
-      replyTo: null
+      replyTo: null,
+      showPreviewBox: false
     };
 
     this.onCancelReply = this.onCancelReply.bind(this);
@@ -77,6 +84,9 @@ class TeamRoomPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.files.length > 0 && !this.state.showPreviewBox) {
+      this.setState({ showPreviewBox: true });
+    }
     if (this.props.match.params.teamRoomId !== nextProps.match.params.teamRoomId) {
       this.setState({ teamRoomMembersLoaded: false, conversationsLoaded: false });
       nextProps.requestTeamRoomMembers(nextProps.match.params.teamRoomId)
@@ -212,25 +222,8 @@ class TeamRoomPage extends Component {
           <div>
             <SimpleCardContainer className="subpage-block team-room__chat-container">
               {
-                this.state.replyTo ?
-                  <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__message_reply-container">
-                    <Col xs={{ span: 21 }} style={{ borderLeft: `6px solid ${this.state.replyTo.preferences.iconColor}` }}>
-                      <p className="team-room__message-body-name">{this.state.replyTo.firstName} {this.state.replyTo.lastName}</p>
-                      <p className="team-room__message-body-text">
-                        {this.state.replyTo.text}
-                      </p>
-                      <div style={{ display: 'flex' }}>
-                        <Card extra={<a href="#">X</a>} style={{ width: 96 }}>
-                          <img alt="example" width="100%" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />
-                        </Card>
-                      </div>
-                    </Col>
-                    <Col xs={{ span: 3 }} className="team-room__message-cancel-reply-col">
-                      <a className="team-room__message-cancel-reply" onClick={this.onCancelReply} title={messages.cancel}>
-                        <Icon type="close-circle-o" />
-                      </a>
-                    </Col>
-                  </Row> : null
+                this.state.showPreviewBox ?
+                  <PreviewBar files={this.props.files} /> : null
               }
               <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">
                 <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-icon-col">
@@ -273,5 +266,6 @@ class TeamRoomPage extends Component {
 }
 
 TeamRoomPage.propTypes = propTypes;
+TeamRoomPage.defaultProps = defaultProps;
 
 export default Form.create()(TeamRoomPage);
