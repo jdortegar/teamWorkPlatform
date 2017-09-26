@@ -8,6 +8,19 @@ const propTypes = {
   handleRemove: PropTypes.func.isRequired
 };
 
+function readFileAsBinary(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      resolve(event.target.result);
+    };
+    reader.onerror = (err) => {
+      reject(err);
+    };
+  });
+}
+
 class PreviewCard extends Component {
   constructor(props) {
     super(props);
@@ -16,11 +29,10 @@ class PreviewCard extends Component {
   }
 
   componentDidMount() {
-    const reader = new FileReader();
-    reader.onload = ((e) => {
-      this.setState({ src: e.target.result });
-    });
-    reader.readAsDataURL(this.props.file);
+    readFileAsBinary(this.props.file)
+      .then((binary) => {
+        this.setState({ src: binary });
+      });
   }
 
   render() {

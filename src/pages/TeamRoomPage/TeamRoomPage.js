@@ -19,6 +19,7 @@ const propTypes = {
   files: PropTypes.array,
   form: formShape.isRequired,
   requestTeamRoomMembers: PropTypes.func.isRequired,
+  requestTranscript: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       teamRoomId: PropTypes.string
@@ -35,7 +36,8 @@ const propTypes = {
     teamRoomIdsByTeamId: PropTypes.shape({
       ids: PropTypes.array
     })
-  }).isRequired
+  }).isRequired,
+  updateFileList: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -60,6 +62,7 @@ class TeamRoomPage extends Component {
     this.handleHeaderClick = this.handleHeaderClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.updateFiles = this.updateFiles.bind(this);
   }
 
   componentDidMount() {
@@ -109,11 +112,19 @@ class TeamRoomPage extends Component {
   }
 
   onCancelReply() {
-    this.setState({ replyTo: null });
+    this.props.updateFileList([]);
+    this.setState({ replyTo: null, showPreviewBox: false });
   }
 
   onReplyTo(replyObj) {
-    this.setState({ replyTo: replyObj });
+    this.setState({ showPreviewBox: true, replyTo: replyObj });
+  }
+
+  updateFiles(files) {
+    if (files.length === 0 && !this.state.replyTo) {
+      this.setState({ showPreviewBox: false });
+    }
+    this.props.updateFileList(files);
   }
 
   handleHeaderClick(value) {
@@ -223,7 +234,13 @@ class TeamRoomPage extends Component {
             <SimpleCardContainer className="subpage-block team-room__chat-container">
               {
                 this.state.showPreviewBox ?
-                  <PreviewBar files={this.props.files} /> : null
+                  <PreviewBar
+                    files={this.props.files}
+                    updateFiles={this.updateFiles}
+                    onCancelReply={this.onCancelReply}
+                    replyTo={this.state.replyTo}
+                    user={user}
+                  /> : null
               }
               <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">
                 <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-icon-col">

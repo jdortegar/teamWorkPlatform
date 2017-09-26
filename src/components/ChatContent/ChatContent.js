@@ -12,18 +12,15 @@ class ChatContent extends Component {
     this.state = { fileList: [] };
 
     this.handleDrop = this.handleDrop.bind(this);
+    this.updateFileList = this.updateFileList.bind(this);
   }
 
   handleDrop(files) {
-    // console.log(files);
-    const reader = new FileReader();
-    reader.onload = (e => {
-      // console.log(e);
-    });
-    // console.log(reader);
-    reader.readAsDataURL(files[0]);
-    console.log([...files]);
     this.setState({ fileList: [...files] });
+  }
+
+  updateFileList(fileList) {
+    this.setState({ fileList });
   }
 
   render() {
@@ -31,7 +28,7 @@ class ChatContent extends Component {
       <FileDrop onDrop={this.handleDrop} frame={document} targetAlwaysVisible>
         <Content style={{ background: '#fff', margin: 0, minHeight: '100vh' }}>
           <div>
-            <TeamRoomPage files={this.state.fileList} />
+            <TeamRoomPage files={this.state.fileList} updateFileList={this.updateFileList} />
           </div>
         </Content>
       </FileDrop>

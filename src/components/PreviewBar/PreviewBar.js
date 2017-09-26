@@ -7,12 +7,14 @@ import './styles/style.css';
 
 const propTypes = {
   files: PropTypes.array,
+  updateFiles: PropTypes.func.isRequired,
+  onCancelReply: PropTypes.func.isRequired,
   replyTo: PropTypes.shape({
     text: PropTypes.string,
     firstName: PropTypes.string,
     lastName: PropTypes.string,
     preferences: PropTypes.shape({
-      iconColor: PropTypes.string
+      iconColor: PropTypes.string.isRequired
     }).isRequired
   })
 };
@@ -22,48 +24,48 @@ const defaultProps = {
   replyTo: {
     text: '',
     firstName: '',
-    lastName: '',
-    preferences: {
-      iconColor: 'rgb(130, 150, 190)'
-    }
+    lastName: ''
   }
 };
 
 class PreviewBar extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { files: props.files, replyTo: props.replyTo };
-  }
-
   handleRemoveCard(file) {
-    const files = this.state.files.filter((el) => {
+    const files = this.props.files.filter((el) => {
       return el !== file;
     });
 
-    this.setState({ files });
+    this.props.updateFiles(files);
   }
 
   renderPreviewCards() {
-    return this.state.files.map((el) => {
+    return this.props.files.map((el) => {
       return <PreviewCard file={el} key={el.name} handleRemove={() => this.handleRemoveCard(el)} />;
     });
   }
 
   render() {
+    const { replyTo, user } = this.props;
     return (
       <Row type="flex" justify="start" align="middle" gutter={20} className="PreviewBar__message_reply-container">
-        <Col xs={{ span: 21 }} style={{ borderLeft: `6px solid ${this.state.replyTo.preferences.iconColor}` }}>
-          <p className="PreviewBar__message-body-name">{this.state.replyTo.firstName} {this.state.replyTo.lastName}</p>
-          <p className="PreviewBar__message-body-text">
-            {this.state.replyTo.text}
-          </p>
-          <div className="PreviewBar__files-container" style={{ display: 'flex' }}>
+        <Col
+          xs={{ span: 21 }}
+          style={{ borderLeft: `6px solid ${replyTo ? replyTo.preferences.iconColor : user.preferences.iconColor}` }}
+        >
+          {
+            replyTo ?
+              <div>
+                <p className="PreviewBar__message-body-name">{replyTo.firstName} {replyTo.lastName}</p>
+                <p className="PreviewBar__message-body-text">
+                  {this.props.replyTo.text}
+                </p>
+              </div> : null
+          }
+          <div className="PreviewBar__files-container">
             {this.renderPreviewCards()}
           </div>
         </Col>
         <Col xs={{ span: 3 }} className="PreviewBar__message-cancel-reply-col">
-          <a className="PreviewBar__message-cancel-reply" onClick={this.onCancelReply} title={messages.cancel}>
+          <a className="PreviewBar__message-cancel-reply" onClick={this.props.onCancelReply} title={messages.cancel}>
             <Icon type="close-circle-o" />
           </a>
         </Col>
