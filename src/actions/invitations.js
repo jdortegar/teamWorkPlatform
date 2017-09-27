@@ -15,7 +15,7 @@ export function inviteNewMembers(users, subscriberOrgId) {
 
   return () => {
     return axios.post(`${config.hablaApiBaseUri}/subscriberOrgs/inviteSubscribers/${subscriberOrgId}`, { userIdOrEmails: users }, axiosOptions)
-      .then(response => response.data.integrations);
+      .then(response => response.data);
   };
 }
 

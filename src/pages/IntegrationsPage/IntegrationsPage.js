@@ -9,6 +9,7 @@ import SubpageHeader from '../../components/SubpageHeader';
 import SimpleHeader from '../../components/SimpleHeader';
 import { ImageCard } from '../../components/cards';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
+import UserIcon from '../../components/UserIcon';
 import { boxLogo, googleDriveLogo } from '../../img';
 import messages from './messages';
 import './styles/style.css';
@@ -111,11 +112,13 @@ class IntegrationsPage extends Component {
       return integrationsArr;
     };
 
-    const subscriberOrgName = this.props.subscriberOrgs.subscriberOrgById[subscriberOrgId].name;
-
+    const subscriberOrg = this.props.subscriberOrgs.subscriberOrgById[subscriberOrgId];
     return (
       <div>
-        <SubpageHeader breadcrumb={<div><span className="breadcrumb_underline">{subscriberOrgName}</span> / {messages.addNewIntegrations}</div>} />
+        <SubpageHeader
+          icon={<UserIcon user={subscriberOrg} type="team" clickable={false} />}
+          breadcrumb={<div><span className="breadcrumb_underline">{subscriberOrg.name}</span> / {messages.addNewIntegrations}</div>}
+        />
         <SimpleHeader
           text={
             <h2 className="IntegrationsPage__header">{messages.selectIntegration}</h2>

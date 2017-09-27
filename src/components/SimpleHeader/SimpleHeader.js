@@ -10,7 +10,7 @@ const propTypes = {
   ]).isRequired,
   search: PropTypes.bool,
   handleSearch: PropTypes.func,
-  type: PropTypes.string,
+  type: PropTypes.string
 };
 
 const defaultProps = {
@@ -21,22 +21,22 @@ const defaultProps = {
 
 function SimpleHeader(props) {
   return (
-    <div className="simple-header-block simple-header__container">
-      <Row className="simple-header__row" type="flex" align="middle" justify="start" gutter={20}>
+    <div className="SimpleHeader-block SimpleHeader__container">
+      <Row className="SimpleHeader__row" type="flex" align="middle" justify="start" gutter={20}>
         <Col xs={{ span: 18 }} sm={{ span: 18 }}>
           {
             props.type === 'text' ?
-              <h2 className="simple-header__title">{props.text}</h2> :
+              <h2 className="SimpleHeader__title">{props.text}</h2> :
               props.text
           }
         </Col>
-        <Col xs={{ span: 6 }} sm={{ span: 6 }} md={{ span: 6 }}>
+        <Col xs={{ span: 6 }} sm={{ span: 6 }} md={{ span: 6 }} className="SimpleHeader__search-container">
           {
             props.search ?
               <Input
                 onChange={e => props.handleSearch(e.target.value)}
                 placeholder="Search"
-                prefix={<i className="fa fa-search" aria-hidden="true" />}
+                prefix={<i className="fa fa-search" />}
               /> : null
           }
         </Col>

@@ -5,7 +5,9 @@ import { requestSubscribers,
   requestIntegrations,
   setCurrentSubscriberOrgId,
   toggleTeamDialog,
-  toggleInvitePeopleDialog } from '../../actions';
+  toggleInvitePeopleDialog,
+  getUserDetailsByUserId
+} from '../../actions';
 import { getSubscribersOfSubscriberOrgId,
   getTeamsOfSubscriberOrgId,
   getIntegrationsOfSubscriberOrgId
@@ -19,7 +21,7 @@ function mapStateToProps(state, props) {
     integrations: state.integrations,
     subscribers: getSubscribersOfSubscriberOrgId(state, subscriberOrgId),
     teams: getTeamsOfSubscriberOrgId(state, subscriberOrgId),
-    integrations2: getIntegrationsOfSubscriberOrgId(state, subscriberOrgId)
+    integrations2: getIntegrationsOfSubscriberOrgId(state, subscriberOrgId),
   };
 }
 

@@ -49,7 +49,7 @@ class NewTeamPage extends Component {
     const { subscriberOrgId } = this.props.match.params;
     const renderAvatarInput = (text) => {
       return (
-        <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
+        <Col xs={{ span: 24 }} sm={{ span: 5 }} md={{ span: 5 }}>
           <UploadImageField text={text} />
         </Col>
       );
@@ -62,9 +62,9 @@ class NewTeamPage extends Component {
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <Row type="flex" justify="start" gutter={20}>
               { renderAvatarInput('Upload Avatar') }
-              <Col xs={{ span: 24 }} sm={{ span: 14 }} md={{ span: 16 }}>
+              <Col xs={{ span: 24 }} sm={{ span: 17 }} md={{ span: 16 }}>
                 <div className="New-team__container">
-                  <h1 className="New-team__title">Choose a Team Name</h1>
+                  <h1 className="New-team__title">{messages.chooseTeamName}</h1>
                   <TextField
                     componentKey="name"
                     inputClassName="New-team__add-textfield"

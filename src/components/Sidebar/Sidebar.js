@@ -79,7 +79,12 @@ class Sidebar extends Component {
       if (teamId === teamRoom.teamId) {
         acc.push(
           <Menu.Item key={teamRoom.teamRoomId}>
-            <Link to={`/app/teamRoom/${teamRoom.teamRoomId}`}><i className="sidebar__i fa fa-comments" />{teamRoom.name}</Link>
+            <div className="Sidebar__name-container">
+              <UserIcon user={teamRoom} type="team" minWidth="20px" width="20px" height="20px" clickable={false} />
+              <Link to={`/app/teamRoom/${teamRoom.teamRoomId}`}>
+                {teamRoom.name}
+              </Link>
+            </div>
           </Menu.Item>
         );
       }
@@ -92,7 +97,6 @@ class Sidebar extends Component {
     return this.props.teams.reduce((acc, team) => {
       if (team.subscriberOrgId === orgId) {
         const teamRooms = this.renderTeamRooms(team.teamId);
-        console.log(team);
         acc.push(
           <SubMenu
             key={team.teamId}

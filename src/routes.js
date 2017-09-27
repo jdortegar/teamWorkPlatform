@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import _ from 'lodash';
 import { ProtectedRoute, PublicRoute } from './routing';
 import Main from './layouts/Main';
+import Chat from './layouts/Chat';
 import SignUp from './layouts/SignUp';
 
 export const routesPaths = {
@@ -34,6 +35,7 @@ export default (
     <Route exact path={routesPaths.verifyAccount} component={SignUp} />
     <Route exact path={routesPaths.createAccount} component={SignUp} />
     <PublicRoute exact path={routesPaths.login} component={SignUp} />
+    <ProtectedRoute exact path={routesPaths.teamRoom} component={Chat} />
     <ProtectedRoute component={Main} />
   </Switch>
 );
