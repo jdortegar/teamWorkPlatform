@@ -16,7 +16,7 @@ class ChatContent extends Component {
   }
 
   handleDrop(files) {
-    this.setState({ fileList: [...files] });
+    this.setState({ fileList: [...this.state.fileList, ...files] });
   }
 
   updateFileList(fileList) {

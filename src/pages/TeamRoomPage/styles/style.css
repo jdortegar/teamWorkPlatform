@@ -63,3 +63,22 @@
   font-size: 14px;
   margin-right: 8px;
 }
+.team-room__file-upload-input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.team-room__file-upload-input + label {
+  display: inline-block;
+  cursor: pointer;
+}
+.team-room__file-upload-input:focus + label, .team-room__icons:focus {
+  outline: 1px dotted #000;
+  outline: -webkit-focus-ring-color auto 5px;
+}
+.team-room__chat-col-icons {
+  display: flex;
+}

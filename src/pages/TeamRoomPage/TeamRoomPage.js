@@ -63,6 +63,7 @@ class TeamRoomPage extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.updateFiles = this.updateFiles.bind(this);
+    this.onFileChange = this.onFileChange.bind(this);
   }
 
   componentDidMount() {
@@ -114,6 +115,13 @@ class TeamRoomPage extends Component {
   onCancelReply() {
     this.props.updateFileList([]);
     this.setState({ replyTo: null, showPreviewBox: false });
+  }
+
+  onFileChange(event) {
+    if (event.target.files) {
+      const { files } = event.target;
+      this.props.updateFileList([...files]);
+    }
   }
 
   onReplyTo(replyObj) {
@@ -260,16 +268,19 @@ class TeamRoomPage extends Component {
                   </Form>
                 </Col>
                 <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-col-icons">
-                  <a className="team-room__icons">
+                  <a className="team-room__icons" role="button" tabIndex={0}>
                     <i className="fa fa-paper-plane-o" />
                   </a>
-                  <Upload
-                    action="//jsonplaceholder.typicode.com/posts/"
-                  >
-                    <div>
-                      <i className="fa fa-folder-o" />
-                    </div>
-                  </Upload>
+                  <div>
+                    <input
+                      id="fileupload"
+                      className="team-room__file-upload-input"
+                      type="file"
+                      onChange={this.onFileChange}
+                      multiple
+                    />
+                    <label htmlFor="fileupload" className="team-room__icons"><i className="fa fa-folder-o" /></label>
+                  </div>
                 </Col>
               </Row>
             </SimpleCardContainer>
