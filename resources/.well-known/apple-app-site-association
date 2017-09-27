@@ -3,11 +3,11 @@
     "apps": [],
     "details": [
       {
-        "appID": "9JA89QQLNQ.ai.habla",
+        "appID": "759Q2R4XPL.ai.habla",
         "paths": ["NOT /app/integrations/*"]
       },
       {
-        "appID": "9JA89QQLNQ.ai.habla",
+        "appID": "759Q2R4XPL.ai.habla",
         "paths": ["*"]
       }
     ]
