@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Form, Upload } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { formShape } from '../../propTypes';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleHeader from '../../components/SimpleHeader';
@@ -37,7 +38,8 @@ const propTypes = {
       ids: PropTypes.array
     })
   }).isRequired,
-  updateFileList: PropTypes.func.isRequired
+  updateFileList: PropTypes.func.isRequired,
+  isDraggingOver: PropTypes.bool.isRequired
 };
 
 const defaultProps = {
@@ -88,7 +90,7 @@ class TeamRoomPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.files.length > 0 && !this.state.showPreviewBox) {
+    if (nextProps.isDraggingOver && !this.state.showPreviewBox) {
       this.setState({ showPreviewBox: true });
     }
     if (this.props.match.params.teamRoomId !== nextProps.match.params.teamRoomId) {
@@ -202,9 +204,10 @@ class TeamRoomPage extends Component {
       const teamRoomId = this.props.match.params.teamRoomId;
       const teamRoom = teamRooms.teamRoomById[teamRoomId];
       const teamRoomMembers = this.renderTeamRoomMembers();
+      const className = classNames({ 'team-room__main-container--opacity': this.state.isDraggingOver });
 
       return (
-        <div>
+        <div className={className}>
           <div className="team-room__top-page-container">
             <SubpageHeader
               icon={<UserIcon user={teamRoom} type="team" clickable={false} />}
@@ -248,6 +251,7 @@ class TeamRoomPage extends Component {
                     onCancelReply={this.onCancelReply}
                     replyTo={this.state.replyTo}
                     user={user}
+                    isDraggingOver={this.props.isDraggingOver}
                   /> : null
               }
               <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">

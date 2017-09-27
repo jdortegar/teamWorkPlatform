@@ -21,3 +21,14 @@
   display: flex;
   justify-content: center;
 }
+.PreviewBar__file-placeholder-icon {
+  font-size: 100px;
+}
+.PreviewBar__file-placeholder-title {
+  padding-bottom: 15px;
+}
+.PreviewBar__file-placeholder-container {
+  width: 100%;
+  text-align: center;
+  border: 2px dashed;
+}
