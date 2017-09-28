@@ -131,7 +131,7 @@ class Sidebar extends Component {
           onMouseLeave={() => this.setState({ hovered: null })}
           title={
             <Row gutter={16}>
-              <Col xs={{ span: 22 }}>
+              <Col xs={{ span: 22 }} className="Sidebar__org-item-col">
                 <a onClick={e => this.onClickEditOrg(e, subscriberOrg.subscriberOrgId, `/app/organization/${subscriberOrg.subscriberOrgId}`)}>
                   <div className="Sidebar__name-container">
                     <UserIcon user={subscriberOrg} type="team" minWidth="20px" width="20px" height="20px" clickable={false} />
@@ -155,16 +155,17 @@ class Sidebar extends Component {
     return (
       <Sider width={235} style={{ background: '#fff' }} className="Sidebar">
 
-        <div className="sidebar-menu-item-label">Your Organizations</div>
+        <div className="Sidebar-menu-item-label">Your Organizations</div>
         <Menu
           mode="inline"
           style={{ height: '100%', borderRight: 0 }}
           onClick={this.handleClick}
+          className="Sidebar__menu"
         >
           { this.renderOrgs() }
           <Menu.Item key="add-org">
             <div className="add-organization-button">
-              <i className="sidebar__i fa fa-plus" /> Add Organization
+              <i className="Sidebar__i fa fa-plus" /> Add Organization
             </div>
           </Menu.Item>
         </Menu>
