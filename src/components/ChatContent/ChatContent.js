@@ -9,26 +9,37 @@ class ChatContent extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { fileList: [] };
+    this.state = { fileList: [], isDraggingOver: false };
 
-    this.handleDrop = this.handleDrop.bind(this);
     this.updateFileList = this.updateFileList.bind(this);
-  }
-
-  handleDrop(files) {
-    this.setState({ fileList: [...files] });
+    this.clearFileList = this.clearFileList.bind(this);
   }
 
   updateFileList(fileList) {
-    this.setState({ fileList });
+    this.setState({ fileList: [...fileList], isDraggingOver: false });
+  }
+
+  clearFileList() {
+    this.setState({ fileList: [] });
   }
 
   render() {
     return (
-      <FileDrop onDrop={this.handleDrop} frame={document} targetAlwaysVisible>
+      <FileDrop
+        onDrop={this.updateFileList}
+        onFrameDragEnter={() => this.setState({ isDraggingOver: true })}
+        onFrameDragLeave={() => this.setState({ isDraggingOver: false })}
+        frame={document}
+        targetAlwaysVisible
+      >
         <Content style={{ background: '#fff', margin: 0, minHeight: '100vh' }}>
           <div>
-            <TeamRoomPage files={this.state.fileList} updateFileList={this.updateFileList} />
+            <TeamRoomPage
+              files={this.state.fileList}
+              updateFileList={this.updateFileList}
+              isDraggingOver={this.state.isDraggingOver}
+              clearFileList={this.clearFileList}
+            />
           </div>
         </Content>
       </FileDrop>

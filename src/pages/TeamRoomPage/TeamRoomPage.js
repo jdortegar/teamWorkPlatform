@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Form, Upload } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { formShape } from '../../propTypes';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleHeader from '../../components/SimpleHeader';
@@ -37,7 +38,9 @@ const propTypes = {
       ids: PropTypes.array
     })
   }).isRequired,
-  updateFileList: PropTypes.func.isRequired
+  updateFileList: PropTypes.func.isRequired,
+  clearFileList: PropTypes.func.isRequired,
+  isDraggingOver: PropTypes.bool.isRequired
 };
 
 const defaultProps = {
@@ -63,6 +66,7 @@ class TeamRoomPage extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.updateFiles = this.updateFiles.bind(this);
+    this.onFileChange = this.onFileChange.bind(this);
   }
 
   componentDidMount() {
@@ -87,7 +91,7 @@ class TeamRoomPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.files.length > 0 && !this.state.showPreviewBox) {
+    if ((nextProps.isDraggingOver && !this.state.showPreviewBox) || (nextProps.files.length > 0 && !this.state.showPreviewBox)) {
       this.setState({ showPreviewBox: true });
     }
     if (this.props.match.params.teamRoomId !== nextProps.match.params.teamRoomId) {
@@ -112,8 +116,17 @@ class TeamRoomPage extends Component {
   }
 
   onCancelReply() {
-    this.props.updateFileList([]);
+    if (this.props.files.length > 0) {
+      this.props.clearFileList();
+    }
     this.setState({ replyTo: null, showPreviewBox: false });
+  }
+
+  onFileChange(event) {
+    if (event.target.files) {
+      const { files } = event.target;
+      this.props.updateFileList([...this.props.files, ...files]);
+    }
   }
 
   onReplyTo(replyObj) {
@@ -194,9 +207,10 @@ class TeamRoomPage extends Component {
       const teamRoomId = this.props.match.params.teamRoomId;
       const teamRoom = teamRooms.teamRoomById[teamRoomId];
       const teamRoomMembers = this.renderTeamRoomMembers();
+      const className = classNames({ 'team-room__main-container--opacity': this.state.isDraggingOver });
 
       return (
-        <div>
+        <div className={className}>
           <div className="team-room__top-page-container">
             <SubpageHeader
               icon={<UserIcon user={teamRoom} type="team" clickable={false} />}
@@ -240,6 +254,7 @@ class TeamRoomPage extends Component {
                     onCancelReply={this.onCancelReply}
                     replyTo={this.state.replyTo}
                     user={user}
+                    isDraggingOver={this.props.isDraggingOver}
                   /> : null
               }
               <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">
@@ -260,16 +275,19 @@ class TeamRoomPage extends Component {
                   </Form>
                 </Col>
                 <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-col-icons">
-                  <a className="team-room__icons">
+                  <a className="team-room__icons" role="button" tabIndex={0}>
                     <i className="fa fa-paper-plane-o" />
                   </a>
-                  <Upload
-                    action="//jsonplaceholder.typicode.com/posts/"
-                  >
-                    <div>
-                      <i className="fa fa-folder-o" />
-                    </div>
-                  </Upload>
+                  <div>
+                    <input
+                      id="fileupload"
+                      className="team-room__file-upload-input"
+                      type="file"
+                      onChange={this.onFileChange}
+                      multiple
+                    />
+                    <label htmlFor="fileupload" className="team-room__icons"><i className="fa fa-folder-o" /></label>
+                  </div>
                 </Col>
               </Row>
             </SimpleCardContainer>

@@ -9,6 +9,7 @@ const propTypes = {
   files: PropTypes.array,
   updateFiles: PropTypes.func.isRequired,
   onCancelReply: PropTypes.func.isRequired,
+  isDraggingOver: PropTypes.bool.isRequired,
   replyTo: PropTypes.shape({
     text: PropTypes.string,
     firstName: PropTypes.string,
@@ -33,18 +34,19 @@ class PreviewBar extends Component {
     const files = this.props.files.filter((el) => {
       return el !== file;
     });
-
+    console.log(files);
     this.props.updateFiles(files);
   }
 
   renderPreviewCards() {
+    console.log(this.props)
     return this.props.files.map((el) => {
       return <PreviewCard file={el} key={el.name} handleRemove={() => this.handleRemoveCard(el)} />;
     });
   }
 
   render() {
-    const { replyTo, user } = this.props;
+    const { replyTo, user, files } = this.props;
     return (
       <Row type="flex" justify="start" align="middle" gutter={20} className="PreviewBar__message_reply-container">
         <Col
@@ -61,7 +63,14 @@ class PreviewBar extends Component {
               </div> : null
           }
           <div className="PreviewBar__files-container">
-            {this.renderPreviewCards()}
+            {
+              this.props.isDraggingOver && files.length === 0 ?
+                <div className="PreviewBar__file-placeholder-container">
+                  <span className="PreviewBar__file-placeholder-icon"><Icon type="upload" /></span>
+                  <h2 className="PreviewBar__file-placeholder-title">Drop your files here</h2>
+                </div> :
+                this.renderPreviewCards()
+            }
           </div>
         </Col>
         <Col xs={{ span: 3 }} className="PreviewBar__message-cancel-reply-col">
