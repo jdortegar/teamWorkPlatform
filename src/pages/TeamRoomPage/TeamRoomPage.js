@@ -39,6 +39,7 @@ const propTypes = {
     })
   }).isRequired,
   updateFileList: PropTypes.func.isRequired,
+  clearFileList: PropTypes.func.isRequired,
   isDraggingOver: PropTypes.bool.isRequired
 };
 
@@ -90,7 +91,7 @@ class TeamRoomPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isDraggingOver && !this.state.showPreviewBox) {
+    if ((nextProps.isDraggingOver && !this.state.showPreviewBox) || (nextProps.files.length > 0 && !this.state.showPreviewBox)) {
       this.setState({ showPreviewBox: true });
     }
     if (this.props.match.params.teamRoomId !== nextProps.match.params.teamRoomId) {
@@ -115,14 +116,16 @@ class TeamRoomPage extends Component {
   }
 
   onCancelReply() {
-    this.props.updateFileList([]);
+    if (this.props.files.length > 0) {
+      this.props.clearFileList();
+    }
     this.setState({ replyTo: null, showPreviewBox: false });
   }
 
   onFileChange(event) {
     if (event.target.files) {
       const { files } = event.target;
-      this.props.updateFileList([...files]);
+      this.props.updateFileList([...this.props.files, ...files]);
     }
   }
 
