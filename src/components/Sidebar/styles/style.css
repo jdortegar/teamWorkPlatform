@@ -47,3 +47,12 @@
 .Sidebar__org-item-col {
   padding: 0;
 }
+.Sidebar__menu-info-item {
+  background-color: #fbfbfb;
+}
+.Sidebar__menu-info-item:hover, .Sidebar__menu-info-item.ant-menu-item-selected {
+  color: inherit;
+}
+.Sidebar__menu-info-item::after {
+  border-right: none;
+}

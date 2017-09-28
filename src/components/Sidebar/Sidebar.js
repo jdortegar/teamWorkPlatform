@@ -3,6 +3,7 @@ import { Layout, Menu, Col, Row } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import UserIcon from '../UserIcon';
+import messages from './messages';
 import './styles/style.css';
 
 
@@ -111,6 +112,11 @@ class Sidebar extends Component {
               </Col>
             </Row>}
           >
+            <Menu.Item className="Sidebar__menu-info-item">
+              <div>
+                {messages.teamRooms}
+              </div>
+            </Menu.Item>
             { teamRooms }
           </SubMenu>
         );
@@ -141,6 +147,11 @@ class Sidebar extends Component {
               </Col>
             </Row>}
         >
+          <Menu.Item className="Sidebar__menu-info-item">
+            <div>
+              {messages.teams}
+            </div>
+          </Menu.Item>
           {teams}
         </SubMenu>
       );
@@ -155,7 +166,7 @@ class Sidebar extends Component {
     return (
       <Sider width={235} style={{ background: '#fff' }} className="Sidebar">
 
-        <div className="Sidebar-menu-item-label">Your Organizations</div>
+        <div className="Sidebar-menu-item-label">{messages.organizations}</div>
         <Menu
           mode="inline"
           style={{ height: '100%', borderRight: 0 }}
@@ -165,7 +176,7 @@ class Sidebar extends Component {
           { this.renderOrgs() }
           <Menu.Item key="add-org">
             <div className="add-organization-button">
-              <i className="Sidebar__i fa fa-plus" /> Add Organization
+              <i className="Sidebar__i fa fa-plus" /> {messages.addOrganization}
             </div>
           </Menu.Item>
         </Menu>
