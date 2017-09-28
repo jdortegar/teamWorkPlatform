@@ -45,7 +45,7 @@ class Header extends Component {
             <Dropdown overlay={menu} trigger={['click']}>
               <div className="Header__user-container">
                 <div className="ant-dropdown-link">
-                  <UserIcon user={user} type="user" shape="round" minWidth="35px" width="35px" height="35px" />
+                  <UserIcon user={user} type="user" shape="square" minWidth="35px" width="35px" height="35px" />
                 </div>
                 <span className="Header__full-name-span">{user.firstName}</span>
               </div>
