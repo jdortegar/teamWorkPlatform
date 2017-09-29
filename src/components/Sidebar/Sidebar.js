@@ -101,7 +101,7 @@ class Sidebar extends Component {
         acc.push(
           <SubMenu
             key={team.teamId}
-            title={<Row gutter={16}>
+            title={<Row>
               <Col xs={{ span: 22 }}>
                 <a onClick={e => this.onClickEditOrg(e, team.subscriberOrgId, `/app/team/${team.teamId}`)}>
                   <div className="Sidebar__name-container">
@@ -136,7 +136,7 @@ class Sidebar extends Component {
           onMouseEnter={() => this.setState({ hovered: subscriberOrg.subscriberOrgId })}
           onMouseLeave={() => this.setState({ hovered: null })}
           title={
-            <Row gutter={16}>
+            <Row>
               <Col xs={{ span: 22 }} className="Sidebar__org-item-col">
                 <a onClick={e => this.onClickEditOrg(e, subscriberOrg.subscriberOrgId, `/app/organization/${subscriberOrg.subscriberOrgId}`)}>
                   <div className="Sidebar__name-container">

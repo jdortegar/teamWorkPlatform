@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Dropdown } from 'antd';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import UserIcon from '../UserIcon';
 import './styles/style.css';
@@ -51,8 +52,16 @@ class Header extends Component {
               </div>
             </Dropdown>
           </Menu.Item>
-          <Menu.Item key="2"><i className="fa fa-globe fa-2x" /><span>Notifications</span></Menu.Item>
-          <Menu.Item key="3"><i className="fa fa-area-chart fa-2x" /><span>CKG</span></Menu.Item>
+          <Menu.Item key="2">
+            <Link to="/app/notifications">
+              <i className="fa fa-globe fa-2x" /><span>Notifications</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="3">
+            <Link to="/app/ckg">
+              <i className="fa fa-area-chart fa-2x" /><span>CKG</span>
+            </Link>
+          </Menu.Item>
           <Menu.Item key="4"><i className="fa fa-search fa-2x" /><span>Search</span></Menu.Item>
         </Menu>
       </AntdHeader>
