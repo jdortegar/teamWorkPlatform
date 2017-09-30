@@ -93,7 +93,7 @@ export function login(email, password) {
       .then((response) => {
         jwt = response.data.token;
         websocketUrl = response.data.websocketUrl;
-        resourcesUrl = `${response.data.resourcesBaseUrl}/resources`;
+        resourcesUrl = `${response.data.resourcesBaseUrl}/resource`;
         const user = _.cloneDeep(response.data.user);
         delete user.email;
 
