@@ -1,10 +1,10 @@
-.sidebar-menu-item-label {
+.Sidebar-menu-item-label {
   padding: 8px 18px;
   border-bottom: 1px solid #ddd;
   font-weight: bold;
   color: #999;
 }
-.sidebar__i {
+.Sidebar__i {
   margin-right: 5px;
   position: relative;
 }
@@ -40,4 +40,19 @@
 }
 .Sidebar__name-span {
   padding-left: 6px;
+}
+.Sidebar__menu li {
+  border-bottom: 1px solid #eee;
+}
+.Sidebar__org-item-col {
+  padding: 0;
+}
+.Sidebar__menu-info-item {
+  background-color: #fbfbfb;
+}
+.Sidebar__menu-info-item:hover, .Sidebar__menu-info-item.ant-menu-item-selected {
+  color: inherit;
+}
+.Sidebar__menu-info-item::after {
+  border-right: none;
 }

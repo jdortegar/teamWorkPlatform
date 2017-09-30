@@ -25,7 +25,9 @@ export const routesPaths = {
   editTeam: '/app/editTeam/:teamId',
   teamRoom: '/app/teamRoom/:teamRoomId',
   newTeamRoom: '/app/createTeamRoom/:teamId',
-  member: '/app/teamMember/:teamMemberId'
+  member: '/app/teamMember/:teamMemberId',
+  notifications: '/app/notifications',
+  ckg: '/app/ckg'
 };
 
 export default (

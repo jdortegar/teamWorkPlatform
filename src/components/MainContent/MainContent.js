@@ -12,6 +12,8 @@ import InviteNewMemberPage from '../../containers/InviteNewMemberPage';
 import TeamRoomPage from '../../containers/TeamRoomPage';
 import TeamMemberPage from '../../containers/TeamMemberPage';
 import InviteToTeamPage from '../../containers/InviteToTeamPage';
+import CKGPage from '../../pages/CKGPage';
+import NotificationsPage from '../../pages/NotificationsPage';
 import { routesPaths } from '../../routes';
 
 const { Content } = Layout;
@@ -32,6 +34,8 @@ function MainContent() {
           <Route exact path={routesPaths.inviteToTeam} component={InviteToTeamPage} />
           <Route exact path={routesPaths.teamRoom} component={TeamRoomPage} />
           <Route exact path={routesPaths.member} component={TeamMemberPage} />
+          <Route exact path={routesPaths.ckg} component={CKGPage} />
+          <Route exact path={routesPaths.notifications} component={NotificationsPage} />
         </Switch>
       </div>
     </Content>
