@@ -20,6 +20,7 @@ const propTypes = {
   files: PropTypes.array,
   form: formShape.isRequired,
   requestTeamRoomMembers: PropTypes.func.isRequired,
+  addBase: PropTypes.func.isRequired,
   requestTranscript: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -252,6 +253,7 @@ class TeamRoomPage extends Component {
                     files={this.props.files}
                     updateFiles={this.updateFiles}
                     onCancelReply={this.onCancelReply}
+                    addBase={this.props.addBase}
                     replyTo={this.state.replyTo}
                     user={user}
                     isDraggingOver={this.props.isDraggingOver}
