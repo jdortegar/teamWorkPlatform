@@ -22,6 +22,7 @@ function mapStateToProps(state, props) {
     subscribers: getSubscribersOfSubscriberOrgId(state, subscriberOrgId),
     teams: getTeamsOfSubscriberOrgId(state, subscriberOrgId),
     integrations2: getIntegrationsOfSubscriberOrgId(state, subscriberOrgId),
+    teamRooms: state.teamRooms
   };
 }
 

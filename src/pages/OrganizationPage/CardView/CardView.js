@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tooltip, Collapse } from 'antd';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
@@ -97,6 +98,10 @@ function CardView(props) {
 
   return (
     <div>
+      <FormattedMessage
+        id={'bitch'}
+        defaultMessage={'Hello'}
+      />
       <Collapse defaultActiveKey={['1', '2', '3']} bordered={false}>
         <Panel
           header={<SimpleHeader text={`Data Integrations (${integrationsArr.length})`} />}
