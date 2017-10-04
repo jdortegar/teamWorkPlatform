@@ -15,7 +15,7 @@ addLocaleData([...es, ...en]);
 
 const language = (navigator.languages && navigator.languages[0]) || navigator.language || navigator.userLanguage;
 const languageWithoutRegionCode = language.toLowerCase().split(/[_-]+/)[0];
-//const messages = localeData[languageWithoutRegionCode] || localeData[language] || localeData.en;
+const messages = translationMessages[languageWithoutRegionCode] || translationMessages[language] || translationMessages.en;
 
 
 const propTypes = {
@@ -29,14 +29,12 @@ const App = ({ store, history }) => {
     DevTools = require('./containers/DevTools').default; // eslint-disable-line global-require
   }
 
-  //console.log(esTranslationMessages.YouthProtection.retakeCourse);
-
   return (
     <LocaleProvider locale={enUS}>
       <Provider store={store}>
         <IntlProvider
-          locale={'es'}
-          messages={translationMessages.es}
+          locale={language}
+          messages={messages}
         >
           <ConnectedRouter history={history}>
             <div>

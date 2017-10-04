@@ -20,6 +20,7 @@ const propTypes = {
 
 function CardView(props) {
   const { integrations, subscribers, subscriberOrgId, teams } = props;
+  console.log(props);
   const renderTeams = () => {
     return props.teams.map(({ name, teamId }) => {
       return (
@@ -98,17 +99,13 @@ function CardView(props) {
 
   return (
     <div>
-      <FormattedMessage
-        id={'bitch'}
-        defaultMessage={'Hello'}
-      />
       <Collapse defaultActiveKey={['1', '2', '3']} bordered={false}>
         <Panel
           header={<SimpleHeader text={`Data Integrations (${integrationsArr.length})`} />}
           key="1"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {renderAddCard(messages.addNewIntegration, `/app/integrations/${props.subscriberOrgId}`)}
+            {renderAddCard(<FormattedMessage {...messages.addNewIntegration} />, `/app/integrations/${props.subscriberOrgId}`)}
             {integrationsArr}
           </SimpleCardContainer>
         </Panel>
@@ -117,7 +114,7 @@ function CardView(props) {
           key="2"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            { renderAddCard(messages.addNewTeam, `/app/createTeam/${props.subscriberOrgId}`) }
+            { renderAddCard(<FormattedMessage {...messages.addNewTeam} />, `/app/createTeam/${props.subscriberOrgId}`) }
             {renderTeams()}
           </SimpleCardContainer>
         </Panel>
@@ -126,7 +123,7 @@ function CardView(props) {
           key="3"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            { renderAddCard(messages.addNewMember, `/app/integrations/${props.subscriberOrgId}`) }
+            { renderAddCard(<FormattedMessage {...messages.addNewMember} />, `/app/integrations/${props.subscriberOrgId}`) }
             {renderMembers()}
           </SimpleCardContainer>
         </Panel>
