@@ -123,7 +123,7 @@ function CardView(props) {
           key="3"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            { renderAddCard(<FormattedMessage {...messages.addNewMember} />, `/app/integrations/${props.subscriberOrgId}`) }
+            { renderAddCard(<FormattedMessage {...messages.addNewMember} />, `/app/inviteNewMember/${props.subscriberOrgId}`) }
             {renderMembers()}
           </SimpleCardContainer>
         </Panel>

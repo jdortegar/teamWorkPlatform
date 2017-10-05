@@ -166,9 +166,8 @@ class TeamRoomPage extends Component {
 
         if (this.props.files && this.props.files.length > 0) {
           const resourceUrl = getResourcesUrl();
-          console.log(this.props);
 
-          const axiosOption = {
+          const putHeaders = {
             headers: {
               Authorization: `Bearer ${getJwt()}`,
               'Content-Type': 'image/jpeg',
@@ -176,9 +175,18 @@ class TeamRoomPage extends Component {
             }
           };
 
-          axios.put(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${this.props.files[0].name}`, this.props.files[0].src, axiosOption)
+          axios.put(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${this.props.files[0].name}`, this.props.files[0].src, putHeaders)
             .then((response) => {
               const { resourceId } = response.data;
+              const getHeaders = {
+                headers: {
+                  Authorization: `Bearer ${getJwt()}`
+                }
+              };
+              axios.get(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${resourceId}`, getHeaders)
+                .then((res) => {
+                  console.log(res);
+                });
             });
         } else {
           const postBody = { content: [
@@ -201,7 +209,6 @@ class TeamRoomPage extends Component {
   }
 
   renderMessages() {
-    console.log(this.props.conversations.transcript);
     return this.props.conversations.transcript.map((message) => {
       const user = this.props.teamRoomMembersObj[message.createdBy];
       return (

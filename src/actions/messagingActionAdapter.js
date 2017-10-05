@@ -2,6 +2,7 @@ import { EventTypes } from '../messaging';
 import { receiveSubscriberOrg } from './subscriberOrgs';
 import { receiveTeam } from './teams';
 import { receiveTeamRoom } from './teamRooms';
+import { receiveInvitation } from './invitations';
 import { receiveConversations, receiveMessages } from './conversations';
 
 let store;
@@ -16,7 +17,7 @@ export default function (eventType, event) {
       // TODO:
       break;
     case EventTypes.userInvited:
-      alert();
+      store.dispatch(receiveInvitation(event));
       break;
     case EventTypes.userUpdated:
       // TODO:

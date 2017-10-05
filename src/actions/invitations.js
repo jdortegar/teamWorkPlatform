@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SUBMITTING_INVITE_ORG_FORM } from './types';
+import { SUBMITTING_INVITE_ORG_FORM, RECEIVE_INVITATION } from './types';
 import config from '../config/env';
 import { getJwt } from '../session';
 
@@ -25,5 +25,12 @@ export function inviteMembersToTeam(users, teamId) {
   return () => {
     return axios.post(`${config.hablaApiBaseUri}/teams/inviteMembers/${teamId}`, { userIds: users }, axiosOptions)
       .then(response => response.data);
+  };
+}
+
+export function receiveInvitation(invitation) {
+  return {
+    type: RECEIVE_INVITATION,
+    payload: invitation
   };
 }
