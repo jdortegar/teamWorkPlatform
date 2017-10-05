@@ -8,7 +8,6 @@ import enUS from 'antd/lib/locale-provider/en_US';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import routes from './routes';
-import enTranslationMessages from './translations/en.json';
 import translationMessages from './translations';
 
 addLocaleData([...es, ...en]);

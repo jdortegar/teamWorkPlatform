@@ -176,7 +176,7 @@ class TeamRoomPage extends Component {
             }
           };
 
-          axios.put(`https://yqto141ms8.execute-api.us-west-2.amazonaws.com/dev/resource/${this.props.files[0].name}`, this.props.files[0].src, axiosOption)
+          axios.put(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${this.props.files[0].name}`, this.props.files[0].src, axiosOption)
             .then((response) => {
               const { resourceId } = response.data;
             });
