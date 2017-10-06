@@ -32,8 +32,6 @@ function MainContent(props) {
         {
           invitation.length > 0 ? invitation.map(el => <Notification options={el} />) : null
         }
-        <Notification />
-        <Notification />
         <Switch>
           <Route exact path={routesPaths.integrations} component={IntegrationsPage} />
           <Route exact path={routesPaths.integrationDetails} component={IntegrationDetailsPage} />
