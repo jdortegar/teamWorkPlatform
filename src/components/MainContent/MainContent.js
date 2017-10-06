@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layout } from 'antd';
 import { Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import OrganizationPage from '../../containers/OrganizationPage';
 import IntegrationsPage from '../../containers/IntegrationsPage';
 import IntegrationDetailsPage from '../../containers/IntegrationDetailsPage';
@@ -11,6 +12,7 @@ import NewTeamRoomPage from '../../containers/NewTeamRoomPage';
 import InviteNewMemberPage from '../../containers/InviteNewMemberPage';
 import TeamRoomPage from '../../containers/TeamRoomPage';
 import TeamMemberPage from '../../containers/TeamMemberPage';
+import Notification from '../../components/Notification';
 import InviteToTeamPage from '../../containers/InviteToTeamPage';
 import CKGPage from '../../pages/CKGPage';
 import NotificationsPage from '../../pages/NotificationsPage';
@@ -18,10 +20,20 @@ import { routesPaths } from '../../routes';
 
 const { Content } = Layout;
 
-function MainContent() {
+const propTypes = {
+  invitation: PropTypes.array.isRequired
+};
+
+function MainContent(props) {
+  const { invitation } = props;
   return (
     <Content style={{ background: '#fff', margin: 0, minHeight: '100vh' }}>
       <div>
+        {
+          invitation.length > 0 ? invitation.map(el => <Notification options={el} />) : null
+        }
+        <Notification />
+        <Notification />
         <Switch>
           <Route exact path={routesPaths.integrations} component={IntegrationsPage} />
           <Route exact path={routesPaths.integrationDetails} component={IntegrationDetailsPage} />
@@ -41,5 +53,7 @@ function MainContent() {
     </Content>
   );
 }
+
+MainContent.propTypes = propTypes;
 
 export default MainContent;

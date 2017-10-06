@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout } from 'antd';
 import Header from '../../containers/Header';
 import Sidebar from '../../containers/Sidebar';
-import MainContent from '../../components/MainContent';
+import MainContent from '../../containers/MainContent';
 import { AddOrgDialog,
   OrgSettingsDialog,
   InvitePeopleDialog,

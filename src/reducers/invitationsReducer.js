@@ -2,14 +2,13 @@
 import { RECEIVE_INVITATION } from '../actions/types';
 
 const INITIAL_STATE = {
-  invitation: null
+  invitation: []
 };
 
 const invitationsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case RECEIVE_INVITATION:
-      console.log(action);
-      return { ...state };
+      return { ...state, invitation: [...state.invitation, action.payload] };
     default:
       return state;
   }
