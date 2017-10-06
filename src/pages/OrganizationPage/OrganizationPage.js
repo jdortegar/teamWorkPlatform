@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import SubpageHeader from '../../components/SubpageHeader';
 import { IconCard } from '../../components/cards';
+import UserIcon from '../../components/UserIcon/UserIcon';
 import CardView from './CardView';
 import ListView from './ListView';
 import messages from './messages';
 import './styles/style.css';
-import UserIcon from "../../components/UserIcon/UserIcon";
 
 const propTypes = {
   integrations: PropTypes.PropTypes.shape({

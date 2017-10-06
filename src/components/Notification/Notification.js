@@ -19,8 +19,16 @@ function Notification(props) {
         md={{ span: 6 }}
         className="Notification__col Notification__col--vertical-center Notification__col--horizontal-right"
       >
-        <Button className="Notification__button Notification__button--gray">Accept</Button>
-        <Button className="Notification__button Notification__button--gray">Decline</Button>
+        <Button
+          className="Notification__button Notification__button--gray"
+        >
+          Accept
+        </Button>
+        <Button
+          className="Notification__button Notification__button--gray"
+        >
+          Decline
+        </Button>
       </Col>
     </Row>
   );

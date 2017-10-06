@@ -1,4 +1,4 @@
-.Simple-card--round {
+.Simple-card {
   min-height: 100px;
   min-width: 100px;
   display: flex;
@@ -23,7 +23,10 @@
 .Simple-card--round {
   border-radius: 50%;
 }
-.Simple-card--round > .ant-card-extra {
+.Simple-card--square {
+  border-radius: 5px;
+}
+.Simple-card--round > .ant-card-extra, .Simple-card--square > .ant-card-extra {
   top: 0;
   right: 0;
 }
