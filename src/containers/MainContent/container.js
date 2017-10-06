@@ -3,7 +3,6 @@ import { withRouter } from 'react-router';
 import MainContent from '../../components/MainContent';
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     invitation: state.invitations.invitation
   };

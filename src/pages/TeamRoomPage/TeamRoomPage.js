@@ -48,6 +48,27 @@ const defaultProps = {
   files: []
 };
 
+function createResource(file) {
+  const putHeaders = {
+    headers: {
+      Authorization: `Bearer ${getJwt()}`,
+      'Content-Type': 'image/jpeg',
+      'x-hablaai-content-length': file.src.length
+    }
+  };
+
+  return axios.put(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${file.name}`, file.src, putHeaders);
+}
+
+function createMessage(conversationId, postBody) {
+  const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+
+  return axios.post(
+    `${config.hablaApiBaseUri}/conversations/${conversationId}/createMessage`,
+    postBody,
+    axiosOptions);
+}
+
 class TeamRoomPage extends Component {
   constructor(props) {
     super(props);
@@ -158,51 +179,44 @@ class TeamRoomPage extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
         const { conversationId } = this.props.conversations;
+        const postBody = {};
         const { message } = values;
 
         this.props.form.resetFields();
 
         if (this.props.files && this.props.files.length > 0) {
-          const resourceUrl = getResourcesUrl();
-
-          const putHeaders = {
-            headers: {
-              Authorization: `Bearer ${getJwt()}`,
-              'Content-Type': 'image/jpeg',
-              'x-hablaai-content-length': this.props.files[0].src.length
-            }
-          };
-
-          axios.put(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${this.props.files[0].name}`, this.props.files[0].src, putHeaders)
-            .then((response) => {
-              const { resourceId } = response.data;
-              const getHeaders = {
-                headers: {
-                  Authorization: `Bearer ${getJwt()}`
-                }
-              };
-              axios.get(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${resourceId}`, getHeaders)
-                .then((res) => {
-                  console.log(res);
-                });
+          // const resourceUrl = getResourcesUrl();
+          const resources = this.props.files.map(file => createResource(file));
+          Promise.all(resources)
+            .then((res) => {
+              postBody.content = res.map((createdResource, index) => {
+                return {
+                  type: this.props.files[index].type,
+                  resourceId: createdResource.data.resourceId,
+                  meta: {
+                    fileName: this.props.files[index].name
+                  }
+                };
+              });
+              if (message) {
+                postBody.content.push({ type: 'text/plain', text: message });
+              }
+              if (this.state.replyTo) {
+                const { messageId } = this.state.replyTo;
+                postBody.replyTo = messageId;
+                this.setState({ replyTo: null, showPreviewBox: false });
+              }
+              createMessage(conversationId, postBody);
             });
-        } else {
-          const postBody = { content: [
-            { type: 'text/plain', text: message }
-          ] };
-
+        } else if (message) {
+          postBody.content.push({ type: 'text/plain', text: message });
           if (this.state.replyTo) {
             const { messageId } = this.state.replyTo;
             postBody.replyTo = messageId;
             this.setState({ replyTo: null, showPreviewBox: false });
           }
-
-          axios.post(
-            `${config.hablaApiBaseUri}/conversations/${conversationId}/createMessage`,
-            postBody,
-            axiosOptions);
+          createMessage(conversationId, postBody);
         }
       }
     });
