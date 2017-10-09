@@ -180,7 +180,7 @@ class TeamRoomPage extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { conversationId } = this.props.conversations;
-        const postBody = {};
+        const postBody = { content: [] };
         const { message } = values;
 
         this.props.form.resetFields();
