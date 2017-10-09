@@ -11,6 +11,7 @@ import teamMembersReducer from './teamMembersReducer';
 import teamRoomsReducer from './teamRoomsReducer';
 import teamRoomMembersReducer from './teamRoomMembersReducer';
 import conversationsReducer from './conversationsReducer';
+import invitationsReducer from './invitationsReducer';
 import integrationsReducer from './integrationsReducer';
 import dialogsReducer from './dialogsReducer';
 
@@ -28,6 +29,7 @@ const mainReducer = combineReducers({
   teamRoomMembers: teamRoomMembersReducer,
   conversations: conversationsReducer,
   integrations: integrationsReducer,
+  invitations: invitationsReducer,
   router: routerReducer
 });
 

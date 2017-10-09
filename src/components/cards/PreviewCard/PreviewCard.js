@@ -5,7 +5,8 @@ import './styles/style.css';
 
 const propTypes = {
   file: PropTypes.object.isRequired,
-  handleRemove: PropTypes.func.isRequired
+  handleRemove: PropTypes.func.isRequired,
+  addBase: PropTypes.func.isRequired
 };
 
 function readFileAsBinary(file) {
@@ -31,7 +32,7 @@ class PreviewCard extends Component {
   componentDidMount() {
     readFileAsBinary(this.props.file)
       .then((binary) => {
-        this.setState({ src: binary });
+        this.props.addBase(this.props.file, binary);
       });
   }
 
@@ -46,7 +47,7 @@ class PreviewCard extends Component {
         }
         bordered={false}
       >
-        <img className="PreviewCard__image" alt="example" width="100%" src={this.state.src} />
+        <img className="PreviewCard__image" alt="example" width="100%" src={this.props.file.src} />
       </Card>
     );
   }

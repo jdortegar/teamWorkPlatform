@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tooltip, Collapse } from 'antd';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
@@ -19,6 +20,7 @@ const propTypes = {
 
 function CardView(props) {
   const { integrations, subscribers, subscriberOrgId, teams } = props;
+  console.log(props);
   const renderTeams = () => {
     return props.teams.map(({ name, teamId }) => {
       return (
@@ -103,7 +105,7 @@ function CardView(props) {
           key="1"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {renderAddCard(messages.addNewIntegration, `/app/integrations/${props.subscriberOrgId}`)}
+            {renderAddCard(<FormattedMessage {...messages.addNewIntegration} />, `/app/integrations/${props.subscriberOrgId}`)}
             {integrationsArr}
           </SimpleCardContainer>
         </Panel>
@@ -112,7 +114,7 @@ function CardView(props) {
           key="2"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            { renderAddCard(messages.addNewTeam, `/app/createTeam/${props.subscriberOrgId}`) }
+            { renderAddCard(<FormattedMessage {...messages.addNewTeam} />, `/app/createTeam/${props.subscriberOrgId}`) }
             {renderTeams()}
           </SimpleCardContainer>
         </Panel>
@@ -121,7 +123,7 @@ function CardView(props) {
           key="3"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            { renderAddCard(messages.addNewMember, `/app/integrations/${props.subscriberOrgId}`) }
+            { renderAddCard(<FormattedMessage {...messages.addNewMember} />, `/app/inviteNewMember/${props.subscriberOrgId}`) }
             {renderMembers()}
           </SimpleCardContainer>
         </Panel>

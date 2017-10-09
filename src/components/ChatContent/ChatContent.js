@@ -5,6 +5,19 @@ import TeamRoomPage from '../../containers/TeamRoomPage';
 
 const { Content } = Layout;
 
+function readFileAsBinary(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      resolve(event.target.result);
+    };
+    reader.onerror = (err) => {
+      reject(err);
+    };
+  });
+}
+
 class ChatContent extends Component {
   constructor(props) {
     super(props);
@@ -13,10 +26,24 @@ class ChatContent extends Component {
 
     this.updateFileList = this.updateFileList.bind(this);
     this.clearFileList = this.clearFileList.bind(this);
+    this.addBase = this.addBase.bind(this);
   }
 
   updateFileList(fileList) {
     this.setState({ fileList: [...fileList], isDraggingOver: false });
+  }
+
+  addBase(file, binary) {
+    const files = this.state.fileList.map((el) => {
+      if (el === file) {
+        const newFile = el;
+        newFile.src = binary;
+        return newFile;
+      }
+
+      return el;
+    });
+    this.setState({ fileList: files });
   }
 
   clearFileList() {
@@ -39,6 +66,7 @@ class ChatContent extends Component {
               updateFileList={this.updateFileList}
               isDraggingOver={this.state.isDraggingOver}
               clearFileList={this.clearFileList}
+              addBase={this.addBase}
             />
           </div>
         </Content>

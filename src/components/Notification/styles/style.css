@@ -1,0 +1,37 @@
+.Notification__container {
+    height: 50px;
+    background: #000000;
+    margin-bottom: 5px;
+}
+.Notification__container:last-child {
+    margin-bottom: 0;
+}
+.Notification__col--center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.Notification__col--vertical-center {
+    display: flex;
+    align-items: center;
+}
+.Notification__col--horizontal-right {
+    justify-content: flex-end;
+}
+.Notification__title {
+    color: white;
+    padding: 0 20px;
+}
+.Notification__button {
+    margin: 0 10px;
+}
+.Notification__button--gray {
+    color: white;
+    background: #bbbbbb;
+    border-color: #bbbbbb;
+}
+.Notification__button--gray:hover {
+    color: white;
+    background: #cccccc;
+    border-color: #cccccc;
+}

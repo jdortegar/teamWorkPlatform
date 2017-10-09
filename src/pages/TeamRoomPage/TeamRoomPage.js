@@ -11,7 +11,7 @@ import TextField from '../../components/formFields/TextField';
 import UserIcon from '../../components/UserIcon';
 import PreviewBar from '../../components/PreviewBar';
 import Message from '../../components/Message';
-import { getJwt } from '../../session';
+import { getJwt, getResourcesUrl } from '../../session';
 import config from '../../config/env';
 import messages from './messages';
 import './styles/style.css';
@@ -20,6 +20,7 @@ const propTypes = {
   files: PropTypes.array,
   form: formShape.isRequired,
   requestTeamRoomMembers: PropTypes.func.isRequired,
+  addBase: PropTypes.func.isRequired,
   requestTranscript: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -46,6 +47,27 @@ const propTypes = {
 const defaultProps = {
   files: []
 };
+
+function createResource(file) {
+  const putHeaders = {
+    headers: {
+      Authorization: `Bearer ${getJwt()}`,
+      'Content-Type': 'image/jpeg',
+      'x-hablaai-content-length': file.src.length
+    }
+  };
+
+  return axios.put(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${file.name}`, file.src, putHeaders);
+}
+
+function createMessage(conversationId, postBody) {
+  const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+
+  return axios.post(
+    `${config.hablaApiBaseUri}/conversations/${conversationId}/createMessage`,
+    postBody,
+    axiosOptions);
+}
 
 class TeamRoomPage extends Component {
   constructor(props) {
@@ -157,23 +179,45 @@ class TeamRoomPage extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
         const { conversationId } = this.props.conversations;
+        const postBody = { content: [] };
         const { message } = values;
-        const postBody = { messageType: 'text', text: message };
-
-        if (this.state.replyTo) {
-          const { messageId } = this.state.replyTo;
-          postBody.replyTo = messageId;
-          this.setState({ replyTo: null });
-        }
 
         this.props.form.resetFields();
 
-        axios.post(
-          `${config.hablaApiBaseUri}/conversations/${conversationId}/createMessage`,
-          postBody,
-          axiosOptions);
+        if (this.props.files && this.props.files.length > 0) {
+          // const resourceUrl = getResourcesUrl();
+          const resources = this.props.files.map(file => createResource(file));
+          Promise.all(resources)
+            .then((res) => {
+              postBody.content = res.map((createdResource, index) => {
+                return {
+                  type: this.props.files[index].type,
+                  resourceId: createdResource.data.resourceId,
+                  meta: {
+                    fileName: this.props.files[index].name
+                  }
+                };
+              });
+              if (message) {
+                postBody.content.push({ type: 'text/plain', text: message });
+              }
+              if (this.state.replyTo) {
+                const { messageId } = this.state.replyTo;
+                postBody.replyTo = messageId;
+                this.setState({ replyTo: null, showPreviewBox: false });
+              }
+              createMessage(conversationId, postBody);
+            });
+        } else if (message) {
+          postBody.content.push({ type: 'text/plain', text: message });
+          if (this.state.replyTo) {
+            const { messageId } = this.state.replyTo;
+            postBody.replyTo = messageId;
+            this.setState({ replyTo: null, showPreviewBox: false });
+          }
+          createMessage(conversationId, postBody);
+        }
       }
     });
   }
@@ -252,6 +296,7 @@ class TeamRoomPage extends Component {
                     files={this.props.files}
                     updateFiles={this.updateFiles}
                     onCancelReply={this.onCancelReply}
+                    addBase={this.props.addBase}
                     replyTo={this.state.replyTo}
                     user={user}
                     isDraggingOver={this.props.isDraggingOver}

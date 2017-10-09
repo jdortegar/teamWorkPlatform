@@ -9,6 +9,7 @@ const propTypes = {
   files: PropTypes.array,
   updateFiles: PropTypes.func.isRequired,
   onCancelReply: PropTypes.func.isRequired,
+  addBase: PropTypes.func.isRequired,
   isDraggingOver: PropTypes.bool.isRequired,
   replyTo: PropTypes.shape({
     text: PropTypes.string,
@@ -34,14 +35,19 @@ class PreviewBar extends Component {
     const files = this.props.files.filter((el) => {
       return el !== file;
     });
-    console.log(files);
+
     this.props.updateFiles(files);
   }
 
   renderPreviewCards() {
-    console.log(this.props)
     return this.props.files.map((el) => {
-      return <PreviewCard file={el} key={el.name} handleRemove={() => this.handleRemoveCard(el)} />;
+      return (
+        <PreviewCard
+          file={el}
+          key={el.name}
+          handleRemove={() => this.handleRemoveCard(el)}
+          addBase={this.props.addBase}
+        />);
     });
   }
 
