@@ -90,7 +90,7 @@ class IntegrationDetailsPage extends Component {
         break;
     }
 
-    const integrations = integrationsBySubscriberOrgId[subscriberOrgId];
+    const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || {};
     const status = determineStatus(integrations[integrationDetails]);
 
     return (

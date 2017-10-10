@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { AppContainer } from 'react-hot-loader';
 import App from './App';
+import { initMessaging, isAuthenticated }from './session';
 import { configureStore, history } from './store';
 
 configureStore()
@@ -25,5 +26,10 @@ configureStore()
       module.hot.accept('./App', () => {
         render(App, { store, history });
       });
+    }
+  })
+  .then(() => {
+    if (isAuthenticated()) {
+      initMessaging();
     }
   });
