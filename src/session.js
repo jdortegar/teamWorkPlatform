@@ -21,7 +21,7 @@ let store;
 let persistor;
 
 
-function initMessaging() {
+export function initMessaging() {
   messaging(websocketUrl).connect(jwt);
   setAdapterStore(store);
   messaging().addEventListener(messagingActionAdapter);
