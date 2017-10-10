@@ -231,6 +231,7 @@ class TeamRoomPage extends Component {
           user={user}
           key={message.messageId}
           replyTo={this.onReplyTo}
+          teamRoomMembersObj={this.props.teamRoomMembersObj}
         />
       );
     });
@@ -252,6 +253,7 @@ class TeamRoomPage extends Component {
       const teamRoom = teamRooms.teamRoomById[teamRoomId];
       const teamRoomMembers = this.renderTeamRoomMembers();
       const className = classNames({ 'team-room__main-container--opacity': this.state.isDraggingOver });
+      const messages = this.props.conversations.transcript;
 
       return (
         <div className={className}>
