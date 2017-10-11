@@ -11,11 +11,13 @@ import messages from './messages';
 import './styles/style.css';
 
 function determineStatus(integration) {
+  console.log(integration);
   if (integration) {
     if (integration.expired) {
-      return false;
+      return 'Expired';
+    } else if (integration.revoked) {
+      return 'Revoked';
     }
-
     return true;
   }
 
@@ -76,7 +78,10 @@ class IntegrationDetailsPage extends Component {
       }
     } else {
       if (integrationDetails === 'google') {
-        this.props.revokeGoogle(subscriberOrgId);
+        this.props.revokeGoogle(subscriberOrgId)
+          .then((res) => {
+            console.log(res);
+          });
       } else if (integrationDetails === 'box') {
         this.props.revokeBox(subscriberOrgId);
       }
@@ -87,7 +92,6 @@ class IntegrationDetailsPage extends Component {
     const { integrationsBySubscriberOrgId, working, error } = this.props.integrations;
     const { integrationDetails, subscriberOrgId } = this.props.match.params;
     const subscriberOrg = this.props.subscriberOrgs.subscriberOrgById[subscriberOrgId];
-
 
     if (error) {
       console.error(error);
@@ -135,12 +139,12 @@ class IntegrationDetailsPage extends Component {
               <div className="Integration-details__icon-container">
                 <ImageCard imgSrc={imgSrc} size="large" />
                 <div className="Integration-details__switch-container">
-                  <Tooltip placement="top" title={currStatus ? messages.deactivate : messages.activate}>
+                  <Tooltip placement="top" title={currStatus === 'Active' ? messages.deactivate : messages.activate}>
                     <Switch
                       checkedChildren={messages.on}
                       unCheckedChildren={messages.off}
                       onChange={this.handleIntegration}
-                      defaultChecked={currStatus}
+                      defaultChecked={currStatus === 'Active'}
                     />
                   </Tooltip>
                 </div>
@@ -151,7 +155,7 @@ class IntegrationDetailsPage extends Component {
                 <h1>{messages[integrationDetails]}</h1>
               </div>
               <div>
-                <h3>{currStatus ? 'Active' : 'Expired'}</h3>
+                <h3>{currStatus}</h3>
               </div>
             </Col>
           </Row>
