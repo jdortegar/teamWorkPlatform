@@ -50,7 +50,7 @@ class OrganizationPage extends Component {
   }
 
   componentDidMount() {
-    const { subscriberOrgId, status } = this.props.match.params;
+    const { subscriberOrgId } = this.props.match.params;
 
     if (subscriberOrgId !== this.props.subscriberOrgs.currentSubscriberOrgId) {
       this.props.setCurrentSubscriberOrgId(subscriberOrgId);
@@ -58,13 +58,6 @@ class OrganizationPage extends Component {
     this.props.requestSubscribers(subscriberOrgId).then(() => this.setState({ subscribersLoaded: true }));
     this.props.requestIntegrations(subscriberOrgId).then(() => {
       this.setState({ integrationsLoaded: true });
-      if (status) {
-        notification.open({
-          message: messages.success,
-          description: messages[status],
-          duration: 4
-        });
-      }
     });
   }
 

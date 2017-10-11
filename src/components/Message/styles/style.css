@@ -1,6 +1,12 @@
 .message__main-container {
   padding: 18px 24px;
   border-bottom: 1px solid #dfdfdf;
+  position: relative;
+}
+
+.message__main-counter {
+  position: absolute;
+  left: 1.3em;
 }
 
 .message__icons {
@@ -37,4 +43,8 @@
 
 .message__body-thumbs-icon i {
   margin: 0 2px;
+}
+
+.message-nested {
+  padding-left: 3em;
 }

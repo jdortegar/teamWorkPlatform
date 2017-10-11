@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Switch, Tooltip } from 'antd';
+import { Row, Col, Switch, Tooltip, notification } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import SubpageHeader from '../../components/SubpageHeader';
@@ -25,6 +25,8 @@ function determineStatus(integration) {
 const propTypes = {
   integrateBox: PropTypes.func.isRequired,
   integrateGoogle: PropTypes.func.isRequired,
+  revokeBox: PropTypes.func.isRequired,
+  revokeGoogle: PropTypes.func.isRequired,
   requestIntegrations: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -45,8 +47,23 @@ class IntegrationDetailsPage extends Component {
   }
 
   componentDidMount() {
-    const { subscriberOrgId } = this.props.match.params;
+    const { subscriberOrgId, status, integrationDetails } = this.props.match.params;
     this.props.requestIntegrations(subscriberOrgId);
+    if (status) {
+      if (status.includes('CREATED')) {
+        notification.success({
+          message: 'CREATED',
+          description: `Your ${integrationDetails} integration is good to go!`,
+          duration: 5
+        });
+      } else {
+        notification.error({
+          message: status,
+          description: messages[status],
+          duration: 5
+        });
+      }
+    }
   }
 
   handleIntegration(checked) {
@@ -57,6 +74,12 @@ class IntegrationDetailsPage extends Component {
       } else if (integrationDetails === 'box') {
         this.props.integrateBox(subscriberOrgId);
       }
+    } else {
+      if (integrationDetails === 'google') {
+        this.props.revokeGoogle(subscriberOrgId);
+      } else if (integrationDetails === 'box') {
+        this.props.revokeBox(subscriberOrgId);
+      }
     }
   }
 
@@ -64,6 +87,7 @@ class IntegrationDetailsPage extends Component {
     const { integrationsBySubscriberOrgId, working, error } = this.props.integrations;
     const { integrationDetails, subscriberOrgId } = this.props.match.params;
     const subscriberOrg = this.props.subscriberOrgs.subscriberOrgById[subscriberOrgId];
+
 
     if (error) {
       console.error(error);
@@ -91,7 +115,7 @@ class IntegrationDetailsPage extends Component {
     }
 
     const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || {};
-    const status = determineStatus(integrations[integrationDetails]);
+    const currStatus = determineStatus(integrations[integrationDetails]);
 
     return (
       <div>
@@ -111,12 +135,12 @@ class IntegrationDetailsPage extends Component {
               <div className="Integration-details__icon-container">
                 <ImageCard imgSrc={imgSrc} size="large" />
                 <div className="Integration-details__switch-container">
-                  <Tooltip placement="top" title={status ? messages.deactivate : messages.activate}>
+                  <Tooltip placement="top" title={currStatus ? messages.deactivate : messages.activate}>
                     <Switch
                       checkedChildren={messages.on}
                       unCheckedChildren={messages.off}
                       onChange={this.handleIntegration}
-                      defaultChecked={status}
+                      defaultChecked={currStatus}
                     />
                   </Tooltip>
                 </div>
@@ -127,7 +151,7 @@ class IntegrationDetailsPage extends Component {
                 <h1>{messages[integrationDetails]}</h1>
               </div>
               <div>
-                <h3>{status ? 'Active' : 'Expired'}</h3>
+                <h3>{currStatus ? 'Active' : 'Expired'}</h3>
               </div>
             </Col>
           </Row>
