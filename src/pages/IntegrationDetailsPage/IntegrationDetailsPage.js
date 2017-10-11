@@ -166,8 +166,7 @@ class IntegrationDetailsPage extends Component {
                       checkedChildren={messages.on}
                       unCheckedChildren={messages.off}
                       onChange={this.handleIntegration}
-                      // defaultChecked={currStatus === 'Active'}
-                      defaultChecked
+                      defaultChecked={currStatus === 'Active'}
                     />
                   </Tooltip>
                 </div>
