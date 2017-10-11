@@ -84,7 +84,12 @@ function revoke(dispatch, type, subscriberOrgId) {
           type: RECEIVE_REVOKE_INTEGRATION,
           payload: { type, subscriberOrgId, status: response.status, data: response.data }
         });
-      } else if (response.status === 404) { // Not Found.
+      }
+      return response.status;
+    })
+    .catch((err) => {
+      const { response } = err;
+      if (response.status === 404) { // Not Found.
         dispatch({
           type: INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG,
           meta: { type, subscriberOrgId, status: response.status, data: response.data },
@@ -109,14 +114,7 @@ function revoke(dispatch, type, subscriberOrgId) {
           error: true
         });
       }
-    })
-    .catch((err) => {
-      dispatch({
-        type: INTEGRATE_ERROR,
-        meta: { subscriberOrgId },
-        payload: err,
-        error: true
-      });
+      return response.status;
     });
 }
 

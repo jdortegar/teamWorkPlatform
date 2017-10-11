@@ -38,7 +38,6 @@ const integrationsReducer = (state = INITIAL_STATE, action) => {
       };
     }
     case RECEIVE_REVOKE_INTEGRATION: {
-      alert();
       if (action.error) {
         return {
           ...state,

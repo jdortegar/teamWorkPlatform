@@ -24,6 +24,28 @@ function determineStatus(integration) {
   return false;
 }
 
+function showNotification(status, integration) {
+  if (status === 200) {
+    notification.success({
+      message: 'SUCCESS',
+      description: 'Habla AI no longer has access to your account.',
+      duration: 7
+    });
+  } else if (status === 410) {
+    notification.error({
+      message: 'GONE',
+      description: `Habla AI no longer has access to your ${integration} account, but ${integration} seems to have trouble deauthorizing on their end.  Please check your ${integration}} account to make sure everything is OK`,
+      duration: 7
+    });
+  } else {
+    notification.error({
+      message: 'NOT FOUND',
+      description: 'We’re sorry, but something must’ve gone terribly wrong',
+      duration: 7
+    });
+  }
+}
+
 const propTypes = {
   integrateBox: PropTypes.func.isRequired,
   integrateGoogle: PropTypes.func.isRequired,
@@ -79,8 +101,8 @@ class IntegrationDetailsPage extends Component {
     } else {
       if (integrationDetails === 'google') {
         this.props.revokeGoogle(subscriberOrgId)
-          .then((res) => {
-            console.log(res);
+          .then((status) => {
+            showNotification(status, integrationDetails);
           });
       } else if (integrationDetails === 'box') {
         this.props.revokeBox(subscriberOrgId);
@@ -144,7 +166,8 @@ class IntegrationDetailsPage extends Component {
                       checkedChildren={messages.on}
                       unCheckedChildren={messages.off}
                       onChange={this.handleIntegration}
-                      defaultChecked={currStatus === 'Active'}
+                      // defaultChecked={currStatus === 'Active'}
+                      defaultChecked
                     />
                   </Tooltip>
                 </div>
