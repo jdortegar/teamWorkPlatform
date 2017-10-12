@@ -17,6 +17,8 @@ class AcceptInvitationPage extends Component {
     super(props);
 
     this.state = { loading: false };
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(status) {
@@ -58,13 +60,13 @@ class AcceptInvitationPage extends Component {
             <div>
               <h2 style={{ marginBottom: '20px' }}>You have been invited to join a {term}</h2>
               <Button
-                onClick={this.handleAccept}
+                onClick={this.handleClick}
                 style={{ marginRight: '15px' }}
               >
                 Accept Invitation
               </Button>
               <Button
-                onClick={this.handleDecline}
+                onClick={this.handleClick}
                 style={{ marginLeft: '15px' }}
               >
                 Decline Invitation
