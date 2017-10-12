@@ -16,6 +16,7 @@ import Notification from '../../components/Notification';
 import InviteToTeamPage from '../../containers/InviteToTeamPage';
 import CKGPage from '../../pages/CKGPage';
 import NotificationsPage from '../../pages/NotificationsPage';
+import AcceptInvitationPage from '../../pages/AcceptInvitationPage';
 import { routesPaths } from '../../routes';
 import { sound1 } from '../../sounds';
 
@@ -53,6 +54,7 @@ class MainContent extends Component {
             <Route exact path={routesPaths.inviteToTeam} component={InviteToTeamPage} />
             <Route exact path={routesPaths.teamRoom} component={TeamRoomPage} />
             <Route exact path={routesPaths.member} component={TeamMemberPage} />
+            <Route exact path={routesPaths.acceptInvitation} component={AcceptInvitationPage} />
             <Route exact path={routesPaths.ckg} component={CKGPage} />
             <Route exact path={routesPaths.notifications} component={NotificationsPage} />
           </Switch>
