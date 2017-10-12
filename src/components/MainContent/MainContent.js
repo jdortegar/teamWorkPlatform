@@ -34,13 +34,15 @@ class MainContent extends Component {
     }
   }
 
+  // <Notification options={el} />
+
   render() {
     const { invitation } = this.props;
     return (
       <Content style={{ background: '#fff', margin: 0, minHeight: '100vh' }}>
         <div>
           {
-            invitation.length > 0 ? invitation.map(el => <Notification options={el} />) : null
+            invitation.length > 0 ? invitation.map(el => null) : null
           }
           <Switch>
             <Route exact path={routesPaths.integrations} component={IntegrationsPage} />
