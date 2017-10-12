@@ -21,7 +21,6 @@ const propTypes = {
   }).isRequired,
   teamMembers: PropTypes.array.isRequired,
   teamRooms: PropTypes.array.isRequired,
-  teams: PropTypes.object.isRequired
 };
 
 class TeamPage extends Component {
@@ -72,6 +71,7 @@ class TeamPage extends Component {
   render() {
     const teamId = this.props.match.params.teamId;
     const { teamRooms, teams, teamMembers, subscriberOrgById } = this.props;
+    console.log(teams);
 
     if (this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
       const team = teams.teamById[teamId];
@@ -92,7 +92,9 @@ class TeamPage extends Component {
           <SimpleCardContainer className="subpage-block">
             <Row type="flex" justify="start" gutter={20}>
               <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
-                <UploadImageField text={'Upload Avatar'} />
+                <UploadImageField 
+                  text={'Upload Avatar'}
+                  teamId={teamId} />
               </Col>
               <Col xs={{ span: 20 }} sm={{ span: 13 }} md={{ span: 16 }}>
                 <div className="New-team__container">

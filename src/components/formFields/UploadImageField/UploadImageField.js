@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Upload, message } from 'antd';
+import axios from 'axios';
 import PropTypes from 'prop-types';
+import { getJwt } from '../../../session';
 import './styles/style.css';
+import config from '../../../config/env';
 
 const propTypes = {
   allowedTypes: PropTypes.array,
@@ -39,11 +42,25 @@ class UploadImageField extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(info) {
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl => this.setState({ imageUrl }));
-    }
+  handleChange(imageUrl) {
+    const { teamId } = this.props;
+    this.setState({ imageUrl });
+    const axiosOptions = {
+      headers: {
+        Authorization: `Bearer ${getJwt()}`
+      }
+    };
+    const base64 = imageUrl.substring(imageUrl.indexOf('base64') + 'base64,'.length);
+
+    axios.patch(`${config.hablaApiBaseUri}/teams/updateTeam/${teamId}`, { icon: base64 }, axiosOptions)
+    .then((data) => {
+      console.log(data);
+    });
+
+    // console.log('siiiiii');
+    // console.log(imageUrl);
+    //imageUrl es la imagen en base64
+    // aqui va el axios.patch
   }
 
   render() {
@@ -53,9 +70,12 @@ class UploadImageField extends Component {
         className="avatar-uploader"
         name="avatar"
         showUploadList={false}
-        action="//jsonplaceholder.typicode.com/posts/"
         beforeUpload={file => beforeUpload(file, allowedTypes)}
         onChange={this.handleChange}
+        customRequest={(callback) => {
+          getBase64(callback.file, imageUrl => this.handleChange(imageUrl));
+        }
+        }
       >
         {
           this.state.imageUrl ?

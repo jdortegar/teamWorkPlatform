@@ -11,14 +11,13 @@ import messages from './messages';
 import './styles/style.css';
 
 function determineStatus(integration) {
-  console.log(integration);
   if (integration) {
     if (integration.expired) {
       return 'Expired';
     } else if (integration.revoked) {
       return 'Revoked';
     }
-    return true;
+    return 'Active';
   }
 
   return false;

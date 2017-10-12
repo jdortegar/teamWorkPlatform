@@ -23,6 +23,8 @@ class Message extends Component {
     const { firstName, lastName, icon, preferences, userId } = user;
     const date = moment(message.created).fromNow();
 
+    const contentJustImage = content.filter(resource => resource.type !== 'text/plain');
+
     const messageBody = (
       <div>
         <p className="message__body-name">{firstName} {lastName}</p>
@@ -46,7 +48,7 @@ class Message extends Component {
             </Col>
             <Col xs={{ span: 15 }} sm={{ span: 16 }} md={{ span: 18 }}>
               {messageBody}
-              {content.length > 1 && <PreviewImages images={content[0]}/>}
+              {contentJustImage.length > 0 && <PreviewImages images={contentJustImage}/>}
             </Col>
             <Col xs={{ span: 4 }} sm={{ span: 5 }} md={{ span: 4 }} className="message__col-icons">
               <a

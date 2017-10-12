@@ -99,15 +99,15 @@ class OrganizationPage extends Component {
     const subscriberOrgId = this.props.match.params.subscriberOrgId;
     const { teams, integrations, subscribers, subscriberOrgs } = this.props;
     if (this.state.subscribersLoaded && this.state.integrationsLoaded) {
-      if (integrations && integrations.integrationsBySubscriberOrgId[subscriberOrgId]) {
-        let numberOfIntegrations = 0;
-        if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].box) {
-          numberOfIntegrations += 1;
-        }
-        if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].google) {
-          numberOfIntegrations += 1;
-        }
-      }
+      // if (integrations && integrations.integrationsBySubscriberOrgId[subscriberOrgId]) {
+      //   let numberOfIntegrations = 0;
+      //   if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].box) {
+      //     numberOfIntegrations += 1;
+      //   }
+      //   if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].google) {
+      //     numberOfIntegrations += 1;
+      //   }
+      // }
       const subscriberOrg = subscriberOrgs.subscriberOrgById[subscriberOrgId];
       return (
         <div>
