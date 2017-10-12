@@ -44,6 +44,7 @@ export const REQUEST_SUBSCRIBERS_ERROR = 'request_subscribers_error';
 // Invitation Actions
 //= =====================
 export const RECEIVE_INVITATION = 'receive_invitation';
+export const UPDATE_INVITATION = 'update_invitation';
 
 //= =====================
 // Teams Actions

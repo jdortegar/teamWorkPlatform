@@ -20,7 +20,6 @@ const propTypes = {
 
 function CardView(props) {
   const { integrations, subscribers, subscriberOrgId, teams } = props;
-  console.log(props);
   const renderTeams = () => {
     return props.teams.map(({ name, teamId }) => {
       return (
