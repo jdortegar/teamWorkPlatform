@@ -45,16 +45,15 @@ class UploadImageField extends Component {
   handleChange(imageUrl) {
     const { teamId } = this.props;
     this.setState({ imageUrl });
-    const putHeaders = {
+    const axiosOptions = {
       headers: {
-        Authorization: `Bearer ${getJwt()}`,
-        'Content-Type': 'image/jpeg'
+        Authorization: `Bearer ${getJwt()}`
       }
     };
     const base64 = imageUrl.substring(imageUrl.indexOf('base64') + 'base64,'.length);
 
-    axios.patch(`${config.hablaApiBaseUri}/teams/updateTeam/${teamId}`, { icon: base64 }, putHeaders)
-    .then(data => {
+    axios.patch(`${config.hablaApiBaseUri}/teams/updateTeam/${teamId}`, { icon: base64 }, axiosOptions)
+    .then((data) => {
       console.log(data);
     });
 
