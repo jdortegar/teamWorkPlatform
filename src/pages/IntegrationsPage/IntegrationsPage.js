@@ -77,16 +77,22 @@ class IntegrationsPage extends Component {
       if (!_.isEmpty(integrations)) {
         const { google, box } = integrations;
         if (box) {
-          boxExtra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
-          if (box.expired) {
-            boxExtra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
+          const { expired, revoked } = box;
+          if ((typeof revoked === 'undefined') || (revoked === false)) {
+            boxExtra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
+            if (expired === true) {
+              boxExtra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
+            }
           }
         }
 
         if (google) {
-          googleExtra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
-          if (google.expired) {
-            googleExtra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
+          const { expired, revoked } = google;
+          if ((typeof revoked === 'undefined') || (revoked === false)) {
+            googleExtra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
+            if (expired === true) {
+              googleExtra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
+            }
           }
         }
       }

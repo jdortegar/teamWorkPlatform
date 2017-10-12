@@ -53,30 +53,41 @@ function CardView(props) {
     const integrationsArr = [];
     if (!_.isEmpty(integrations.integrationsBySubscriberOrgId[subscriberOrgId])) {
       if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].box) {
-        let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
-        if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].box.expired) {
-          extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
+        const { box: integrationObj } = integrations.integrationsBySubscriberOrgId[subscriberOrgId];
+        const { expired, revoked } = integrationObj;
+
+        if ((typeof revoked === 'undefined') || (revoked === false)) {
+          let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
+          if (expired === true) {
+            extra = (<h1><i className="fa fa-exclamation-triangle icon_fail"/></h1>);
+          }
+          integrationsArr.push(
+            <div key="box">
+              <Link to={`/app/integrations/${subscriberOrgId}/box`}>
+                <IconCard text="Box" icon={extra} />
+              </Link>
+            </div>
+          );
         }
-        integrationsArr.push(
-          <div key="box">
-            <Link to={`/app/integrations/${subscriberOrgId}/box`}>
-              <IconCard text="Box" icon={extra} />
-            </Link>
-          </div>
-        );
+
       }
       if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].google) {
-        let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
-        if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].google.expired) {
-          extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
+        const { google: integrationObj } = integrations.integrationsBySubscriberOrgId[subscriberOrgId];
+        const { expired, revoked } = integrationObj;
+
+        if ((typeof revoked === 'undefined') || (revoked === false)) {
+          let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
+          if (expired === true) {
+            extra = (<h1><i className="fa fa-exclamation-triangle icon_fail"/></h1>);
+          }
+          integrationsArr.push(
+            <div key="google">
+              <Link to={`/app/integrations/${subscriberOrgId}/google`}>
+                <IconCard text="Google" extra={extra} />
+              </Link>
+            </div>
+          );
         }
-        integrationsArr.push(
-          <div key="google">
-            <Link to={`/app/integrations/${subscriberOrgId}/google`}>
-              <IconCard text="Google" extra={extra} />
-            </Link>
-          </div>
-        );
       }
     }
 
