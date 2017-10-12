@@ -51,8 +51,9 @@ class UploadImageField extends Component {
         'Content-Type': 'image/jpeg'
       }
     };
+    const base64 = imageUrl.substring(imageUrl.indexOf('base64') + 'base64,'.length);
 
-    axios.patch(`${config.hablaApiBaseUri}/teams/updateTeam/${teamId}`, { "icon": imageUrl }, putHeaders)
+    axios.patch(`${config.hablaApiBaseUri}/teams/updateTeam/${teamId}`, { icon: base64 }, putHeaders)
     .then(data => {
       console.log(data);
     });
