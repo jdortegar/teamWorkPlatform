@@ -36,9 +36,9 @@ class AcceptInvitationPage extends Component {
     axios.post(`${config.hablaApiBaseUri}/${type}s/replyToInvite/${id}`, postBody, axiosOptions)
       .then(() => {
         if (type === 'subscriberOrg') {
-          this.props.history.push(`/app/organization/${id}`);
+          window.location.href(`/app/organization/${id}`);
         } else {
-          this.props.history.push(`/app/${type}/${id}`);
+          window.location.href(`/app/${type}/${id}`);
         }
       }).catch(() => this.setState({ loading: false }));
   }
