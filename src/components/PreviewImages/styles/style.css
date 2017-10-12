@@ -1,0 +1,24 @@
+
+.preview-images {
+	display: flex;
+	align-items: center;
+}
+
+.preview-images img {
+	width: 100px;
+	margin-right: .5em;
+	margin-left: .5em;
+	margin-top: .5em;
+	cursor: pointer;
+}
+
+.preview-images img:hover {
+	opacity: .8
+}
+
+.image-wrapper {
+	background-color: #ececec;
+	margin-right: .5em;
+	margin-top: .5em;
+	border-radius: 2px;
+}

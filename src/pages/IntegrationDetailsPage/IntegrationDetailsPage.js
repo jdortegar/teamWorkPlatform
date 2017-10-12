@@ -13,13 +13,36 @@ import './styles/style.css';
 function determineStatus(integration) {
   if (integration) {
     if (integration.expired) {
-      return false;
+      return 'Expired';
+    } else if (integration.revoked) {
+      return 'Revoked';
     }
-
-    return true;
+    return 'Active';
   }
 
   return false;
+}
+
+function showNotification(status, integration) {
+  if (status === 200) {
+    notification.success({
+      message: 'SUCCESS',
+      description: 'Habla AI no longer has access to your account.',
+      duration: 7
+    });
+  } else if (status === 410) {
+    notification.error({
+      message: 'GONE',
+      description: `Habla AI no longer has access to your ${integration} account, but ${integration} seems to have trouble deauthorizing on their end.  Please check your ${integration}} account to make sure everything is OK`,
+      duration: 7
+    });
+  } else {
+    notification.error({
+      message: 'NOT FOUND',
+      description: 'We’re sorry, but something must’ve gone terribly wrong',
+      duration: 7
+    });
+  }
 }
 
 const propTypes = {
@@ -76,7 +99,10 @@ class IntegrationDetailsPage extends Component {
       }
     } else {
       if (integrationDetails === 'google') {
-        this.props.revokeGoogle(subscriberOrgId);
+        this.props.revokeGoogle(subscriberOrgId)
+          .then((status) => {
+            showNotification(status, integrationDetails);
+          });
       } else if (integrationDetails === 'box') {
         this.props.revokeBox(subscriberOrgId);
       }
@@ -87,7 +113,6 @@ class IntegrationDetailsPage extends Component {
     const { integrationsBySubscriberOrgId, working, error } = this.props.integrations;
     const { integrationDetails, subscriberOrgId } = this.props.match.params;
     const subscriberOrg = this.props.subscriberOrgs.subscriberOrgById[subscriberOrgId];
-
 
     if (error) {
       console.error(error);
@@ -135,12 +160,12 @@ class IntegrationDetailsPage extends Component {
               <div className="Integration-details__icon-container">
                 <ImageCard imgSrc={imgSrc} size="large" />
                 <div className="Integration-details__switch-container">
-                  <Tooltip placement="top" title={currStatus ? messages.deactivate : messages.activate}>
+                  <Tooltip placement="top" title={currStatus === 'Active' ? messages.deactivate : messages.activate}>
                     <Switch
                       checkedChildren={messages.on}
                       unCheckedChildren={messages.off}
                       onChange={this.handleIntegration}
-                      defaultChecked={currStatus}
+                      defaultChecked={currStatus === 'Active'}
                     />
                   </Tooltip>
                 </div>
@@ -151,7 +176,7 @@ class IntegrationDetailsPage extends Component {
                 <h1>{messages[integrationDetails]}</h1>
               </div>
               <div>
-                <h3>{currStatus ? 'Active' : 'Expired'}</h3>
+                <h3>{currStatus}</h3>
               </div>
             </Col>
           </Row>
