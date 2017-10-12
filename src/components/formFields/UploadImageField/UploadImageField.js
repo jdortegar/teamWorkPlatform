@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Upload, message } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { getJwt } from '../../../session';
 import './styles/style.css';
+import config from '../../../config/env';
 
 const propTypes = {
   allowedTypes: PropTypes.array,
@@ -41,7 +43,22 @@ class UploadImageField extends Component {
   }
 
   handleChange(imageUrl) {
+    const { teamId } = this.props;
     this.setState({ imageUrl });
+    const putHeaders = {
+      headers: {
+        Authorization: `Bearer ${getJwt()}`,
+        'Content-Type': 'image/jpeg'
+      }
+    };
+
+    axios.patch(`${config.hablaApiBaseUri}/teams/updateTeam/${teamId}`, { "icon": imageUrl }, putHeaders)
+    .then(data => {
+      console.log(data);
+    });
+
+    // console.log('siiiiii');
+    // console.log(imageUrl);
     //imageUrl es la imagen en base64
     // aqui va el axios.patch
   }
