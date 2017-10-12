@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Upload, message } from 'antd';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import './styles/style.css';
 
@@ -39,11 +40,10 @@ class UploadImageField extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(info) {
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl => this.setState({ imageUrl }));
-    }
+  handleChange(imageUrl) {
+    this.setState({ imageUrl });
+    //imageUrl es la imagen en base64
+    // aqui va el axios.patch
   }
 
   render() {
@@ -53,9 +53,12 @@ class UploadImageField extends Component {
         className="avatar-uploader"
         name="avatar"
         showUploadList={false}
-        action="//jsonplaceholder.typicode.com/posts/"
         beforeUpload={file => beforeUpload(file, allowedTypes)}
         onChange={this.handleChange}
+        customRequest={(callback) => {
+          getBase64(callback.file, imageUrl => this.handleChange(imageUrl));
+        }
+        }
       >
         {
           this.state.imageUrl ?
