@@ -22,6 +22,7 @@ class AcceptInvitationPage extends Component {
   }
 
   handleClick(status) {
+    this.setState({ loading: true });
     const { type, id } = this.props.match.params;
     const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
     const postBody = {
@@ -39,7 +40,7 @@ class AcceptInvitationPage extends Component {
         } else {
           this.props.history.push(`/app/${type}/${id}`);
         }
-      });
+      }).catch(() => this.setState({ loading: false }));
   }
 
   render() {
