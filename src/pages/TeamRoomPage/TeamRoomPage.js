@@ -113,7 +113,7 @@ class TeamRoomPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((nextProps.isDraggingOver && !this.state.showPreviewBox) || (nextProps.files.length > 0 && !this.state.showPreviewBox)) {
+    if (nextProps.isDraggingOver && !this.state.showPreviewBox) {
       this.setState({ showPreviewBox: true });
     }
     if (this.props.match.params.teamRoomId !== nextProps.match.params.teamRoomId) {
@@ -208,6 +208,8 @@ class TeamRoomPage extends Component {
                 this.setState({ replyTo: null, showPreviewBox: false });
               }
               createMessage(conversationId, postBody);
+              this.setState({ showPreviewBox: false });
+              this.props.clearFileList();
             });
         } else if (message) {
           postBody.content.push({ type: 'text/plain', text: message });
