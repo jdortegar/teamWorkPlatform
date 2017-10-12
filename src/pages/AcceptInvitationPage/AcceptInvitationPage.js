@@ -33,7 +33,7 @@ class AcceptInvitationPage extends Component {
     } else {
       postBody.accept = false;
     }
-    axios.post(`${config.hablaApiBaseUri}/${type}s/${id}`, postBody, axiosOptions)
+    axios.post(`${config.hablaApiBaseUri}/${type}s/replyToInvite/${id}`, postBody, axiosOptions)
       .then(() => {
         if (type === 'subscriberOrg') {
           this.props.history.push(`/app/organization/${id}`);
