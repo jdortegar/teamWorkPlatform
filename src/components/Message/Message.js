@@ -3,6 +3,7 @@ import { Row, Col } from 'antd';
 import moment from 'moment';
 import classNames from 'classnames';
 import UserIcon from '../UserIcon';
+import PreviewImages from '../PreviewImages';
 import './styles/style.css';
 
 class Message extends Component {
@@ -18,9 +19,11 @@ class Message extends Component {
 
   render() {
     const { message, user, teamRoomMembersObj } = this.props;
-    const { text, messageId, children, level } = message;
+    const { text, messageId, children, level, content } = message;
     const { firstName, lastName, icon, preferences, userId } = user;
     const date = moment(message.created).fromNow();
+
+    const contentJustImage = content.filter(resource => resource.type !== 'text/plain');
 
     const messageBody = (
       <div>
@@ -45,6 +48,7 @@ class Message extends Component {
             </Col>
             <Col xs={{ span: 15 }} sm={{ span: 16 }} md={{ span: 18 }}>
               {messageBody}
+              {contentJustImage.length > 0 && <PreviewImages images={contentJustImage}/>}
             </Col>
             <Col xs={{ span: 4 }} sm={{ span: 5 }} md={{ span: 4 }} className="message__col-icons">
               <a
