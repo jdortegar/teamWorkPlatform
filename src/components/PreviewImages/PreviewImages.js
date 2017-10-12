@@ -31,7 +31,7 @@ export default class PreviewImages extends Component {
 			axios.get(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${resourceId}`, putHeaders)
 				.then(resource => {
 					const imageBase64 = resource.data.split("base64")[1];
-					const imageSrc = `data:image/png;base64,${imageBase64}`;
+					const imageSrc = `data:${resource.headers['content-type']};base64,${imageBase64}`;
 					imagesBase64.push(imageSrc);
 					this.setState({
 						images: imagesBase64,
