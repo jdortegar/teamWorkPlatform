@@ -61,13 +61,13 @@ class AcceptInvitationPage extends Component {
             <div>
               <h2 style={{ marginBottom: '20px' }}>You have been invited to join a {term}</h2>
               <Button
-                onClick={this.handleClick}
+                onClick={() => this.handleClick('accept')}
                 style={{ marginRight: '15px' }}
               >
                 Accept Invitation
               </Button>
               <Button
-                onClick={this.handleClick}
+                onClick={() => this.handleClick('decline')}
                 style={{ marginLeft: '15px' }}
               >
                 Decline Invitation
