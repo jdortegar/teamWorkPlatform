@@ -14,6 +14,7 @@ import Message from '../../components/Message';
 import { getJwt, getResourcesUrl } from '../../session';
 import config from '../../config/env';
 import messages from './messages';
+import { Progress } from 'antd';
 import './styles/style.css';
 
 const propTypes = {
@@ -40,6 +41,7 @@ const propTypes = {
     })
   }).isRequired,
   updateFileList: PropTypes.func.isRequired,
+  replaceFile: PropTypes.func,
   clearFileList: PropTypes.func.isRequired,
   isDraggingOver: PropTypes.bool.isRequired
 };
@@ -48,17 +50,6 @@ const defaultProps = {
   files: []
 };
 
-function createResource(file) {
-  const putHeaders = {
-    headers: {
-      Authorization: `Bearer ${getJwt()}`,
-      'Content-Type': 'image/jpeg',
-      'x-hablaai-content-length': file.src.length
-    }
-  };
-
-  return axios.put(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${file.name}`, file.src, putHeaders);
-}
 
 function createMessage(conversationId, postBody) {
   const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
@@ -79,7 +70,9 @@ class TeamRoomPage extends Component {
       teamRoomMembers: [],
       activeLink: messages.all,
       replyTo: null,
-      showPreviewBox: false
+      showPreviewBox: false,
+      barPercent: 0,
+      file: null,
     };
 
     this.onCancelReply = this.onCancelReply.bind(this);
@@ -175,6 +168,30 @@ class TeamRoomPage extends Component {
     this.setState({ teamRoomMembers: filteredTeamMembers });
   }
 
+  getPercentOfRequest(total, loaded) {
+    const percent = loaded * 100 / total;
+    return Math.round(percent);
+  };
+
+  createResource(file) {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${getJwt()}`,
+        'Content-Type': 'image/jpeg',
+        'x-hablaai-content-length': file.src.length
+      },
+      onUploadProgress: (progressEvent) => {
+        const { total, loaded } = progressEvent;
+        const fileWithPercent = Object.assign(file, { percent: this.getPercentOfRequest(total, loaded) });
+        this.setState({
+          file: fileWithPercent
+        });
+      },
+    };
+
+    return axios.put(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${file.name}`, file.src, config);
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -187,7 +204,7 @@ class TeamRoomPage extends Component {
 
         if (this.props.files && this.props.files.length > 0) {
           // const resourceUrl = getResourcesUrl();
-          const resources = this.props.files.map(file => createResource(file));
+          const resources = this.props.files.map(file => this.createResource(file));
           Promise.all(resources)
             .then((res) => {
               postBody.content = res.map((createdResource, index) => {
@@ -208,7 +225,7 @@ class TeamRoomPage extends Component {
                 this.setState({ replyTo: null, showPreviewBox: false });
               }
               createMessage(conversationId, postBody);
-              this.setState({ showPreviewBox: false });
+              this.setState({ showPreviewBox: false, file: null });
               this.props.clearFileList();
             });
         } else if (message) {
@@ -294,17 +311,17 @@ class TeamRoomPage extends Component {
           </div>
           <div>
             <SimpleCardContainer className="subpage-block team-room__chat-container">
-              {
-                this.state.showPreviewBox ?
+              { this.state.showPreviewBox && 
                   <PreviewBar
                     files={this.props.files}
+                    fileWithPercent={this.state.file}
                     updateFiles={this.updateFiles}
                     onCancelReply={this.onCancelReply}
                     addBase={this.props.addBase}
                     replyTo={this.state.replyTo}
                     user={user}
                     isDraggingOver={this.props.isDraggingOver}
-                  /> : null
+                  />
               }
               <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">
                 <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-icon-col">

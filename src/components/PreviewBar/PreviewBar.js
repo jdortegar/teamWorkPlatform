@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Icon } from 'antd';
+import { Row, Col, Icon, Progress } from 'antd';
 import PropTypes from 'prop-types';
 import PreviewCard from '../cards/PreviewCard';
 import messages from './messages';
@@ -31,6 +31,7 @@ const defaultProps = {
 };
 
 class PreviewBar extends Component {
+
   handleRemoveCard(file) {
     const files = this.props.files.filter((el) => {
       return el !== file;
@@ -39,15 +40,31 @@ class PreviewBar extends Component {
     this.props.updateFiles(files);
   }
 
+  getProgressBar(percent) {
+    percent = !percent ? 0 : percent;
+    return <Progress 
+            percent={percent} 
+            strokeWidth={5}
+            showInfo={false} />;
+  }
+
   renderPreviewCards() {
+    const { fileWithPercent } = this.props;
+
     return this.props.files.map((el) => {
+      if (fileWithPercent !== null && el.name === fileWithPercent.name && el.size === fileWithPercent.size) {
+        el.percent = fileWithPercent.percent;
+      }
       return (
-        <PreviewCard
-          file={el}
-          key={el.name}
-          handleRemove={() => this.handleRemoveCard(el)}
-          addBase={this.props.addBase}
-        />);
+        <div key={el.name} className="image-wrapper">
+          <PreviewCard
+            file={el}
+            handleRemove={() => this.handleRemoveCard(el)}
+            addBase={this.props.addBase}
+          />
+          {this.getProgressBar(el.percent)}
+        </div>
+      );
     });
   }
 
