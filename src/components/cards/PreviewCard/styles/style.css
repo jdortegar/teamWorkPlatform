@@ -1,6 +1,8 @@
 .PreviewCard__container, .PreviewCard__image {
   width: 106px;
   height: 116px;
+  margin-bottom: 0 !important;
+  margin-left: 0 !important;
 }
 .PreviewCard__container > div.ant-card-body {
   padding: 0;
