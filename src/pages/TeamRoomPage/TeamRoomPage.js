@@ -341,7 +341,7 @@ class TeamRoomPage extends Component {
                   </Form>
                 </Col>
                 <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-col-icons">
-                  <a className="team-room__icons" role="button" tabIndex={0}>
+                  <a className="team-room__icons" role="button" tabIndex={0} onClick={this.handleSubmit}>
                     <i className="fa fa-paper-plane-o" />
                   </a>
                   <div>
