@@ -7,7 +7,6 @@ import './styles/style.css';
 
 const propTypes = {
   files: PropTypes.array,
-  updateFiles: PropTypes.func.isRequired,
   onCancelReply: PropTypes.func.isRequired,
   addBase: PropTypes.func.isRequired,
   isDraggingOver: PropTypes.bool.isRequired,
@@ -31,7 +30,6 @@ const defaultProps = {
 };
 
 class PreviewBar extends Component {
-
   handleRemoveCard(file) {
     const files = this.props.files.filter((el) => {
       return el !== file;
@@ -42,8 +40,8 @@ class PreviewBar extends Component {
 
   getProgressBar(percent) {
     percent = !percent ? 0 : percent;
-    return <Progress 
-            percent={percent} 
+    return <Progress
+            percent={percent}
             strokeWidth={5}
             showInfo={false} />;
   }
