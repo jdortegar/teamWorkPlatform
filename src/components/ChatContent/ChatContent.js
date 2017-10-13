@@ -19,6 +19,7 @@ class ChatContent extends Component {
     this.state = { fileList: [], isDraggingOver: false };
 
     this.updateFileList = this.updateFileList.bind(this);
+    this.removeFileFromList = this.removeFileFromList.bind(this);
     this.clearFileList = this.clearFileList.bind(this);
     this.addBase = this.addBase.bind(this);
   }
@@ -30,8 +31,21 @@ class ChatContent extends Component {
     }
   }
 
+  removeFileFromList(fileToRemove) {
+    const files = this.state.fileList.filter(file => file !== fileToRemove);
+    this.setState({
+      fileList: files,
+    });
+  }
+
   updateFileList(fileList) {
-    this.setState({ fileList: [...fileList], isDraggingOver: false });
+    this.setState({ 
+      fileList: [
+        ...this.state.fileList,
+        ...fileList
+      ],
+      isDraggingOver: false
+    });
   }
 
   addBase(file, binary) {
@@ -69,6 +83,7 @@ class ChatContent extends Component {
             <TeamRoomPage
               files={this.state.fileList}
               updateFileList={this.updateFileList}
+              removeFileFromList={this.removeFileFromList}
               isDraggingOver={this.state.isDraggingOver}
               clearFileList={this.clearFileList}
               addBase={this.addBase}

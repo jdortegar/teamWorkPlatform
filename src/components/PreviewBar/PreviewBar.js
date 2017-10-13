@@ -7,7 +7,6 @@ import './styles/style.css';
 
 const propTypes = {
   files: PropTypes.array,
-  updateFiles: PropTypes.func.isRequired,
   onCancelReply: PropTypes.func.isRequired,
   addBase: PropTypes.func.isRequired,
   isDraggingOver: PropTypes.bool.isRequired,
@@ -31,21 +30,14 @@ const defaultProps = {
 };
 
 class PreviewBar extends Component {
-  handleRemoveCard(file) {
-    const files = this.props.files.filter((el) => {
-      return el !== file;
-    });
-
-    this.props.updateFiles(files);
-  }
 
   renderPreviewCards() {
-    return this.props.files.map((el) => {
+    return this.props.files.map((file, index) => {
       return (
         <PreviewCard
-          file={el}
-          key={el.name}
-          handleRemove={() => this.handleRemoveCard(el)}
+          file={file}
+          key={index}
+          handleRemove={() => this.props.removeFileFromList(file)}
           addBase={this.props.addBase}
         />);
     });

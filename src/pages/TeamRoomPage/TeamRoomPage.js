@@ -39,7 +39,6 @@ const propTypes = {
       ids: PropTypes.array
     })
   }).isRequired,
-  updateFileList: PropTypes.func.isRequired,
   clearFileList: PropTypes.func.isRequired,
   isDraggingOver: PropTypes.bool.isRequired
 };
@@ -87,8 +86,6 @@ class TeamRoomPage extends Component {
     this.handleHeaderClick = this.handleHeaderClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-    this.updateFiles = this.updateFiles.bind(this);
-    this.onFileChange = this.onFileChange.bind(this);
   }
 
   componentDidMount() {
@@ -144,22 +141,8 @@ class TeamRoomPage extends Component {
     this.setState({ replyTo: null, showPreviewBox: false });
   }
 
-  onFileChange(event) {
-    if (event.target.files) {
-      const { files } = event.target;
-      this.props.updateFileList([...this.props.files, ...files]);
-    }
-  }
-
   onReplyTo(replyObj) {
     this.setState({ showPreviewBox: true, replyTo: replyObj });
-  }
-
-  updateFiles(files) {
-    if (files.length === 0 && !this.state.replyTo) {
-      this.setState({ showPreviewBox: false });
-    }
-    this.props.updateFileList(files);
   }
 
   handleHeaderClick(value) {
@@ -298,7 +281,7 @@ class TeamRoomPage extends Component {
                 this.state.showPreviewBox ?
                   <PreviewBar
                     files={this.props.files}
-                    updateFiles={this.updateFiles}
+                    removeFileFromList={this.props.removeFileFromList}
                     onCancelReply={this.onCancelReply}
                     addBase={this.props.addBase}
                     replyTo={this.state.replyTo}
@@ -332,7 +315,7 @@ class TeamRoomPage extends Component {
                       id="fileupload"
                       className="team-room__file-upload-input"
                       type="file"
-                      onChange={this.onFileChange}
+                      // onChange={this.onFileChange}
                       multiple
                     />
                     <label htmlFor="fileupload" className="team-room__icons"><i className="fa fa-folder-o" /></label>
