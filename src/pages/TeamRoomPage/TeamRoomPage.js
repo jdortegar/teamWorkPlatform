@@ -81,6 +81,7 @@ class TeamRoomPage extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.onFileChange = this.onFileChange.bind(this);
+    this.updateFiles = this.updateFiles.bind(this);
   }
 
   componentDidMount() {
@@ -232,6 +233,13 @@ class TeamRoomPage extends Component {
       this.props.updateFileList(files);
       this.setState({ showPreviewBox: true });
     }
+  }
+
+  updateFiles(files) {
+    if (files.length === 0 && !this.state.replyTo) {
+      this.setState({ showPreviewBox: false });
+    }
+    this.props.updateFileList(files);
   }
 
   renderMessages() {
