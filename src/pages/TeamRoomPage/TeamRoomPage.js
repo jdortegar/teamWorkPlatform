@@ -80,6 +80,7 @@ class TeamRoomPage extends Component {
     this.handleHeaderClick = this.handleHeaderClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.onFileChange = this.onFileChange.bind(this);
   }
 
   componentDidMount() {
@@ -225,6 +226,14 @@ class TeamRoomPage extends Component {
     });
   }
 
+  onFileChange(event) {
+    if (event.target.files) {
+      const { files } = event.target;
+      this.props.updateFileList(files);
+      this.setState({ showPreviewBox: true });
+    }
+  }
+
   renderMessages() {
     return this.props.conversations.transcript.map((message) => {
       const user = this.props.teamRoomMembersObj[message.createdBy];
@@ -334,7 +343,7 @@ class TeamRoomPage extends Component {
                       id="fileupload"
                       className="team-room__file-upload-input"
                       type="file"
-                      // onChange={this.onFileChange}
+                      onChange={this.onFileChange}
                       multiple
                     />
                     <label htmlFor="fileupload" className="team-room__icons"><i className="fa fa-folder-o" /></label>
