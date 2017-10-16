@@ -51,7 +51,6 @@ class Message extends Component {
         <p className="message__body-text">
           {text}
           <span className="message__body-text-date"> ({date})</span>
-          <span className="message__body-thumbs-icon"><i className="fa fa-thumbs-o-up" /> 0 <i className="fa fa-thumbs-o-down" /> 0</span>
         </p>
       </div>
     );
