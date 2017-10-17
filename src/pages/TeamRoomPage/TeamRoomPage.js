@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Upload } from 'antd';
+import { Row, Col, Form } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -11,10 +11,9 @@ import TextField from '../../components/formFields/TextField';
 import UserIcon from '../../components/UserIcon';
 import PreviewBar from '../../components/PreviewBar';
 import Message from '../../components/Message';
-import { getJwt, getResourcesUrl } from '../../session';
+import { getJwt } from '../../session';
 import config from '../../config/env';
 import messages from './messages';
-import { Progress } from 'antd';
 import './styles/style.css';
 
 const propTypes = {
@@ -41,8 +40,9 @@ const propTypes = {
     })
   }).isRequired,
   updateFileList: PropTypes.func.isRequired,
-  replaceFile: PropTypes.func,
   clearFileList: PropTypes.func.isRequired,
+  requestConversations: PropTypes.func.isRequired,
+  removeFileFromList: PropTypes.func.isRequired,
   isDraggingOver: PropTypes.bool.isRequired
 };
 
@@ -72,7 +72,7 @@ class TeamRoomPage extends Component {
       replyTo: null,
       showPreviewBox: false,
       barPercent: 0,
-      file: null,
+      file: null
     };
 
     this.onCancelReply = this.onCancelReply.bind(this);
@@ -141,10 +141,6 @@ class TeamRoomPage extends Component {
     this.setState({ showPreviewBox: true, replyTo: replyObj });
   }
 
-  handleHeaderClick(value) {
-    this.setState({ activeLink: value });
-  }
-
   handleSearch(value) {
     const teamRoomId = this.props.match.params.teamRoomId;
     const filteredTeamMembers = this.props.teamRoomMembers.teamRoomMembersByTeamRoomId[teamRoomId].filter(({ displayName }) => {
@@ -155,9 +151,13 @@ class TeamRoomPage extends Component {
   }
 
   getPercentOfRequest(total, loaded) {
-    const percent = loaded * 100 / total;
+    const percent = (loaded * 100) / total;
     return Math.round(percent);
-  };
+  }
+
+  handleHeaderClick(value) {
+    this.setState({ activeLink: value });
+  }
 
   createResource(file) {
     const config = {
@@ -172,7 +172,7 @@ class TeamRoomPage extends Component {
         this.setState({
           file: fileWithPercent
         });
-      },
+      }
     };
 
     return axios.put(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${file.name}`, file.src, config);
@@ -189,7 +189,6 @@ class TeamRoomPage extends Component {
         this.props.form.resetFields();
 
         if (this.props.files && this.props.files.length > 0) {
-          // const resourceUrl = getResourcesUrl();
           const resources = this.props.files.map(file => this.createResource(file));
           Promise.all(resources)
             .then((res) => {
@@ -228,8 +227,8 @@ class TeamRoomPage extends Component {
   }
 
   onFileChange(event) {
-    if (event.target.files) {
-      const { files } = event.target;
+    const { files } = event.target;
+    if (files) {
       this.props.updateFileList(files);
       this.setState({ showPreviewBox: true });
     }
@@ -252,6 +251,7 @@ class TeamRoomPage extends Component {
           key={message.messageId}
           replyTo={this.onReplyTo}
           teamRoomMembersObj={this.props.teamRoomMembersObj}
+          onFileChange={this.onFileChange}
         />
       );
     });
@@ -313,17 +313,17 @@ class TeamRoomPage extends Component {
           <div>
             <SimpleCardContainer className="subpage-block team-room__chat-container">
               { this.state.showPreviewBox &&
-                  <PreviewBar
-                    files={this.props.files}
-                    fileWithPercent={this.state.file}
-                    updateFiles={this.updateFiles}
-                    removeFileFromList={this.props.removeFileFromList}
-                    onCancelReply={this.onCancelReply}
-                    addBase={this.props.addBase}
-                    replyTo={this.state.replyTo}
-                    user={user}
-                    isDraggingOver={this.props.isDraggingOver}
-                  />
+                <PreviewBar
+                  files={this.props.files}
+                  fileWithPercent={this.state.file}
+                  updateFiles={this.updateFiles}
+                  removeFileFromList={this.props.removeFileFromList}
+                  onCancelReply={this.onCancelReply}
+                  addBase={this.props.addBase}
+                  replyTo={this.state.replyTo}
+                  user={user}
+                  isDraggingOver={this.props.isDraggingOver}
+                />
               }
               <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">
                 <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-icon-col">

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Row, Col, Tooltip } from 'antd';
 import moment from 'moment';
 import classNames from 'classnames';
@@ -6,12 +7,12 @@ import UserIcon from '../UserIcon';
 import PreviewImages from '../PreviewImages';
 import './styles/style.css';
 
-class Message extends Component {
+export default class Message extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      mute: true,
+      mute: true
     };
 
     this.handleReplyTo = this.handleReplyTo.bind(this);
@@ -24,23 +25,22 @@ class Message extends Component {
 
   changeVolume() {
     this.setState({
-      mute: !this.state.mute,
+      mute: !this.state.mute
     });
   }
 
   render() {
     const { message, user, teamRoomMembersObj } = this.props;
     const { text, messageId, children, level, content } = message;
-    const { firstName, lastName, icon, preferences, userId } = user;
+    const { firstName, lastName, preferences, userId } = user;
     const date = moment(message.created).fromNow();
-
     const unmute = classNames({
       message__icons: true,
-      hide: this.state.mute,
+      hide: this.state.mute
     });
     const mute = classNames({
       message__icons: true,
-      hide: !this.state.mute,
+      hide: !this.state.mute
     });
 
     const contentJustImage = content.filter(resource => resource.type !== 'text/plain');
@@ -67,7 +67,7 @@ class Message extends Component {
             </Col>
             <Col xs={{ span: 15 }} sm={{ span: 16 }} md={{ span: 18 }}>
               {messageBody}
-              {contentJustImage.length > 0 && <PreviewImages images={contentJustImage}/>}
+              {contentJustImage.length > 0 && <PreviewImages images={contentJustImage} />}
             </Col>
           </Row>
           { children.length > 0 &&
@@ -75,14 +75,27 @@ class Message extends Component {
           }
           <div className="message__options hide">
             <Tooltip placement="topLeft" title="Reply" arrowPointAtCenter>
-              <a 
-                className="message__icons" 
+              <a
+                className="message__icons"
                 onClick={() => this.handleReplyTo({ firstName, lastName, text, messageId, preferences })}>
                 <i className="fa fa-reply" />
               </a>
             </Tooltip>
             <Tooltip placement="topLeft" title="Add File(s)" arrowPointAtCenter>
-              <a className="message__icons"><i className="fa fa-folder-o" /></a>
+              <input
+                id="replyFileUpload"
+                className="team-room__file-upload-input"
+                type="file"
+                onChange={this.props.onFileChange}
+                multiple
+              />
+              <label htmlFor="replyFileUpload" className="team-room__icons">
+                <a
+                  className="message__icons"
+                  onClick={() => this.handleReplyTo({ firstName, lastName, text, messageId, preferences })}>
+                  <i className="fa fa-folder-o" />
+                </a>
+              </label>
             </Tooltip>
             <Tooltip placement="topLeft" title="Bookmark" arrowPointAtCenter>
               <a className="message__icons"><i className="fa fa-bookmark-o" /></a>
@@ -107,18 +120,24 @@ class Message extends Component {
             </Tooltip>
           </div>
         </div>
-        { children.length > 0 && children.map(message => {
-          const user = teamRoomMembersObj[message.createdBy];
-          return <Message message={message}
-              user={user}
-              key={message.messageId}
-              replyTo={this.props.replyTo}
-              teamRoomMembersObj={this.props.teamRoomMembersObj} />;
-          })
-        }
+        { children.length > 0 && children.map(childMessage =>
+          <Message
+            message={childMessage}
+            user={teamRoomMembersObj[childMessage.createdBy]}
+            key={childMessage.messageId}
+            replyTo={this.props.replyTo}
+            teamRoomMembersObj={this.props.teamRoomMembersObj}
+          />
+        )}
       </div>
     );
   }
 }
 
-export default Message;
+Message.propTypes = {
+  replyTo: PropTypes.func.isRequired,
+  onFileChange: PropTypes.func,
+  teamRoomMembersObj: PropTypes.object.isRequired,
+  message: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
+};
