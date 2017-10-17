@@ -3,7 +3,7 @@ import { receiveSubscriberOrg } from './subscriberOrgs';
 import { receiveTeam } from './teams';
 import { receiveTeamRoom } from './teamRooms';
 import { receiveInvitation } from './invitations';
-import { receiveConversations, receiveMessages } from './conversations';
+import { receiveConversations, receiveMessages, notifyMessage } from './conversations';
 
 let store;
 
@@ -70,6 +70,7 @@ export default function (eventType, event) {
       break;
     case EventTypes.messageCreated:
       store.dispatch(receiveMessages([event], event.conversationId));
+      store.dispatch(notifyMessage(event));
       break;
 
     case EventTypes.boxIntegrationCreated:

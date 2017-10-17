@@ -71,7 +71,6 @@ class TeamPage extends Component {
   render() {
     const teamId = this.props.match.params.teamId;
     const { teamRooms, teams, teamMembers, subscriberOrgById } = this.props;
-    console.log(teams);
 
     if (this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
       const team = teams.teamById[teamId];
@@ -92,7 +91,7 @@ class TeamPage extends Component {
           <SimpleCardContainer className="subpage-block">
             <Row type="flex" justify="start" gutter={20}>
               <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
-                <UploadImageField 
+                <UploadImageField
                   text={'Upload Avatar'}
                   teamId={teamId} />
               </Col>

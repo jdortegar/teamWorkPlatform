@@ -2,6 +2,7 @@ import axios from 'axios';
 import config from '../config/env';
 import { getJwt } from '../session';
 import {
+  NOTIFY_MESSAGE,
   REQUESTING_CONVERSATIONS,
   RECEIVE_CONVERSATIONS,
   REQUEST_CONVERSATIONS_ERROR,
@@ -57,6 +58,13 @@ export function receiveMessages(transcript, conversationId) {
   return {
     type: RECEIVE_MESSAGES,
     payload: { conversationId, transcript }
+  };
+}
+
+export function notifyMessage(transcript) {
+  return {
+    type: NOTIFY_MESSAGE,
+    payload: { transcript }
   };
 }
 

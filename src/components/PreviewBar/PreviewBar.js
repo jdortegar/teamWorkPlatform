@@ -30,7 +30,7 @@ const defaultProps = {
 };
 
 class PreviewBar extends Component {
-  
+
   // handleRemoveCard(file) {
   //   const files = this.props.files.filter((el) => {
   //     return el !== file;
@@ -41,10 +41,13 @@ class PreviewBar extends Component {
 
   getProgressBar(percent) {
     percent = !percent ? 0 : percent;
-    return <Progress
-            percent={percent}
-            strokeWidth={5}
-            showInfo={false} />;
+    return (
+      <Progress
+        percent={percent}
+        strokeWidth={5}
+        showInfo={false}
+      />
+    );
   }
 
   renderPreviewCards() {

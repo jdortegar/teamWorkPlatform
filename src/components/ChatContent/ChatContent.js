@@ -39,7 +39,7 @@ class ChatContent extends Component {
   }
 
   updateFileList(fileList) {
-    this.setState({ 
+    this.setState({
       fileList: [
         ...this.state.fileList,
         ...fileList
