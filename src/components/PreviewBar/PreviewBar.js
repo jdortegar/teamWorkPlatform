@@ -30,13 +30,14 @@ const defaultProps = {
 };
 
 class PreviewBar extends Component {
-  handleRemoveCard(file) {
-    const files = this.props.files.filter((el) => {
-      return el !== file;
-    });
 
-    this.props.updateFiles(files);
-  }
+  // handleRemoveCard(file) {
+  //   const files = this.props.files.filter((el) => {
+  //     return el !== file;
+  //   });
+
+  //   this.props.updateFiles(files);
+  // }
 
   getProgressBar(percent) {
     percent = !percent ? 0 : percent;
@@ -52,15 +53,15 @@ class PreviewBar extends Component {
   renderPreviewCards() {
     const { fileWithPercent } = this.props;
 
-    return this.props.files.map((file) => {
-      if (fileWithPercent !== null && file.name === fileWithPercent.name && file.size === fileWithPercent.size) {
-        file.percent = fileWithPercent.percent;
+    return this.props.files.map((el, index) => {
+      if (fileWithPercent !== null && el.name === fileWithPercent.name && el.size === fileWithPercent.size) {
+        el.percent = fileWithPercent.percent;
       }
       return (
-        <div key={file.name} className="image-wrapper">
+        <div key={index} className="image-wrapper">
           <PreviewCard
-            file={file}
-            handleRemove={() => this.props.removeFileFromList(file)}
+            file={el}
+            handleRemove={() => this.props.removeFileFromList(el)}
             addBase={this.props.addBase}
           />
           {this.getProgressBar(file.percent)}
