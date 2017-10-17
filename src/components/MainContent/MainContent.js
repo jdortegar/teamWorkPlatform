@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout } from 'antd';
+import { Layout, notification } from 'antd';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import OrganizationPage from '../../containers/OrganizationPage';
@@ -23,14 +23,47 @@ import { sound1 } from '../../sounds';
 const { Content } = Layout;
 
 const propTypes = {
-  invitation: PropTypes.array.isRequired
+  invitation: PropTypes.array.isRequired,
+  pushMessage: PropTypes.object.isRequired,
+  notifyMessage: PropTypes.func.isRequired
 };
 
 class MainContent extends Component {
+  componentDidMount() {
+    if (this.props.pushMessage) {
+      const { text } = this.props.pushMessage;
+      const args = {
+        message: 'New Message',
+        description: text,
+        duration: 4,
+        onClose: () => {
+          this.props.notifyMessage();
+        }
+      };
+      notification.open(args);
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.invitation.length > this.props.invitation) {
       const audio = new Audio(sound1);
       audio.play();
+    }
+
+    if (nextProps.pushMessage) {
+      if (this.props.pushMessage) {
+        notification.destroy();
+      }
+      const { text } = nextProps.pushMessage;
+      const args = {
+        message: 'New Message',
+        description: text,
+        duration: 4,
+        onClose: () => {
+          this.props.notifyMessage();
+        }
+      };
+      notification.open(args);
     }
   }
 

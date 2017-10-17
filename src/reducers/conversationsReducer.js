@@ -7,14 +7,14 @@ import {
   RECEIVE_TRANSCRIPT,
   RECEIVE_MESSAGES,
   REQUEST_TRANSCRIPT_ERROR,
-  SET_ACTIVE_CONVERSATION
+  SET_ACTIVE_CONVERSATION, NOTIFY_MESSAGE
 } from '../actions/types';
 
 const INITIAL_STATE = {
   conversationById: {},
   conversationIdsByTeamRoomId: {},
   activeConversationId: null,
-
+  pushMessage: null,
   working: false,
   error: null,
   errorMeta: {}
@@ -178,6 +178,12 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
         working: false,
         error: null,
         errorMeta: {}
+      };
+    }
+    case NOTIFY_MESSAGE: {
+      return {
+        ...state,
+        pushMessage: action.payload.transcript
       };
     }
     case RECEIVE_MESSAGES: {
