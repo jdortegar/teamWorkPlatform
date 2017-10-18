@@ -10,13 +10,22 @@ import './styles/style.css';
 export default class Message extends Component {
   constructor(props) {
     super(props);
+    // console.log(props);
 
     this.state = {
-      mute: true
+      mute: true,
+      isClosed: true,
     };
 
     this.handleReplyTo = this.handleReplyTo.bind(this);
     this.changeVolume = this.changeVolume.bind(this);
+    this.handleShowReplies = this.handleShowReplies.bind(this);
+  }
+
+  handleShowReplies() {
+    this.setState({
+      isClosed: !this.state.isClosed,
+    });
   }
 
   handleReplyTo(user) {
@@ -30,7 +39,7 @@ export default class Message extends Component {
   }
 
   render() {
-    const { message, user, teamRoomMembersObj } = this.props;
+    const { message, user, teamRoomMembersObj, hide } = this.props;
     const { text, messageId, children, level, content } = message;
     const { firstName, lastName, preferences, userId } = user;
     const date = moment(message.created).fromNow();
@@ -56,8 +65,10 @@ export default class Message extends Component {
     );
 
     const messageReplyPaddingLeft = classNames({
-      'message-nested': level !== 0
+      'message-nested': level !== 0,
+      hide: hide // hide all replies and level 1
     });
+
     return (
       <div className={messageReplyPaddingLeft}>
         <div className="message__main-container">
@@ -71,7 +82,9 @@ export default class Message extends Component {
             </Col>
           </Row>
           { children.length > 0 &&
-            <span className="message__main-counter">{ children.length } <i className="fa fa-sort-desc"></i></span>
+            <span className="message__main-counter">{ children.length }
+              <i onClick={this.handleShowReplies} className="counter fa fa-sort-desc"></i>
+            </span>
           }
           <div className="message__options hide">
             <Tooltip placement="topLeft" title="Reply" arrowPointAtCenter>
@@ -126,6 +139,7 @@ export default class Message extends Component {
             user={teamRoomMembersObj[childMessage.createdBy]}
             key={childMessage.messageId}
             replyTo={this.props.replyTo}
+            hide={this.state.isClosed}
             teamRoomMembersObj={this.props.teamRoomMembersObj}
           />
         )}
@@ -135,6 +149,7 @@ export default class Message extends Component {
 }
 
 Message.propTypes = {
+  hide: PropTypes.bool.isRequired,
   replyTo: PropTypes.func.isRequired,
   onFileChange: PropTypes.func,
   teamRoomMembersObj: PropTypes.object.isRequired,

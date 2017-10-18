@@ -250,6 +250,7 @@ class TeamRoomPage extends Component {
           user={user}
           key={message.messageId}
           replyTo={this.onReplyTo}
+          hide={false}
           teamRoomMembersObj={this.props.teamRoomMembersObj}
           onFileChange={this.onFileChange}
         />

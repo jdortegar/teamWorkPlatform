@@ -58,6 +58,7 @@
 
 .message-nested {
   padding-left: 3em;
+  -webkit-transition: display 2s;
 }
 
 .message__options {
@@ -82,4 +83,8 @@
   overflow: hidden;
   position: absolute;
   z-index: -1;
+}
+
+.counter {
+  padding: .2em .5em;
 }
