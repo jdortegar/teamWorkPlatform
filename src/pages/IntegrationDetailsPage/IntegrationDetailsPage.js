@@ -50,11 +50,13 @@ const propTypes = {
   integrateGoogle: PropTypes.func.isRequired,
   revokeBox: PropTypes.func.isRequired,
   revokeGoogle: PropTypes.func.isRequired,
+  integrations: PropTypes.object.isRequired,
   requestIntegrations: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       subscriberOrgId: PropTypes.string.isRequired,
-      integrationDetails: PropTypes.string.isRequired
+      integrationDetails: PropTypes.string.isRequired,
+      status: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
   subscriberOrgs: PropTypes.object.isRequired

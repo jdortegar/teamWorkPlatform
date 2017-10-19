@@ -7,13 +7,22 @@ import UserIcon from '../UserIcon';
 import PreviewImages from '../PreviewImages';
 import './styles/style.css';
 
-export default class Message extends Component {
+const propTypes = {
+  hide: PropTypes.bool.isRequired,
+  replyTo: PropTypes.func.isRequired,
+  onFileChange: PropTypes.func.isRequired,
+  teamRoomMembersObj: PropTypes.object.isRequired,
+  message: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
+};
+
+class Message extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       mute: true,
-      isClosed: true,
+      isClosed: true
     };
 
     this.handleReplyTo = this.handleReplyTo.bind(this);
@@ -23,7 +32,7 @@ export default class Message extends Component {
 
   handleShowReplies() {
     this.setState({
-      isClosed: !this.state.isClosed,
+      isClosed: !this.state.isClosed
     });
   }
 
@@ -65,7 +74,7 @@ export default class Message extends Component {
 
     const messageReplyPaddingLeft = classNames({
       'message-nested': level !== 0,
-      hide: hide // hide all replies and level 1
+      hide // hide all replies and level 1
     });
 
     return (
@@ -82,14 +91,15 @@ export default class Message extends Component {
           </Row>
           { children.length > 0 &&
             <span className="message__main-counter">{ children.length }
-              <i onClick={this.handleShowReplies} className="counter fa fa-sort-desc"></i>
+              <i onClick={this.handleShowReplies} className="counter fa fa-sort-desc" />
             </span>
           }
           <div className="message__options hide">
             <Tooltip placement="topLeft" title="Reply" arrowPointAtCenter>
               <a
                 className="message__icons"
-                onClick={() => this.handleReplyTo({ firstName, lastName, text, messageId, preferences })}>
+                onClick={() => this.handleReplyTo({ firstName, lastName, text, messageId, preferences })}
+              >
                 <i className="fa fa-reply" />
               </a>
             </Tooltip>
@@ -104,7 +114,8 @@ export default class Message extends Component {
               <label htmlFor="replyFileUpload" className="team-room__icons">
                 <a
                   className="message__icons"
-                  onClick={() => this.handleReplyTo({ firstName, lastName, text, messageId, preferences })}>
+                  onClick={() => this.handleReplyTo({ firstName, lastName, text, messageId, preferences })}
+                >
                   <i className="fa fa-folder-o" />
                 </a>
               </label>
@@ -132,7 +143,7 @@ export default class Message extends Component {
             </Tooltip>
           </div>
         </div>
-        { children.length > 0 && children.map(childMessage =>
+        { children.length > 0 && children.map(childMessage => (
           <Message
             message={childMessage}
             user={teamRoomMembersObj[childMessage.createdBy]}
@@ -140,18 +151,14 @@ export default class Message extends Component {
             replyTo={this.props.replyTo}
             hide={this.state.isClosed}
             teamRoomMembersObj={this.props.teamRoomMembersObj}
-          />
+          />)
         )}
       </div>
     );
   }
 }
 
-Message.propTypes = {
-  hide: PropTypes.bool.isRequired,
-  replyTo: PropTypes.func.isRequired,
-  onFileChange: PropTypes.func,
-  teamRoomMembersObj: PropTypes.object.isRequired,
-  message: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
-};
+Message.propTypes = propTypes;
+
+export default Message;
+

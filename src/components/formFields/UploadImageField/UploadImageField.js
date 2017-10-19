@@ -9,12 +9,13 @@ import config from '../../../config/env';
 const propTypes = {
   allowedTypes: PropTypes.array,
   text: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired
-}
+  image: PropTypes.string.isRequired,
+  teamId: PropTypes.string.isRequired
+};
 
 const defaultProps = {
   allowedTypes: ['image/jpeg']
-}
+};
 
 function getBase64(img, callback) {
   const reader = new FileReader();

@@ -1,11 +1,7 @@
 import React from 'react';
-import { Col } from 'antd';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
-import { Link } from 'react-router-dom';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
-import { IconCard } from '../../../components/cards';
 
 const propTypes = {
   integrations: PropTypes.object.isRequired,
@@ -15,42 +11,7 @@ const propTypes = {
   teams: PropTypes.array.isRequired
 };
 
-function CardView(props) {
-  const { integrations, onSwitchView, subscribers, subscriberOrgId, teams } = props;
-  const renderTeams = () => {
-    return props.teams.map(({ name, teamId }) => {
-      return (
-        <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key={teamId}>
-          <Link to={`/app/team/${teamId}`}>
-            <IconCard text={name} />
-          </Link>
-        </Col>
-      );
-    });
-  };
-
-  const renderTeamRooms = () => {
-    return props.teams.map(({ name, teamId }) => {
-      return (
-        <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }} key={teamId}>
-          <Link to={`/app/team/${teamId}`}>
-            <IconCard text={name} />
-          </Link>
-        </Col>
-      );
-    });
-  };
-
-  const renderAddCard = (text, action) => {
-    return (
-      <Col xs={{ span: 8 }} sm={{ span: 5 }} md={{ span: 4 }}>
-        <a onClick={action}>
-          <IconCard icon={<i className="fa fa-plus simple-card__icons" />} text={text} />
-        </a>
-      </Col>
-    );
-  };
-
+function CardView() {
   return (
     <div>
       <SimpleHeader

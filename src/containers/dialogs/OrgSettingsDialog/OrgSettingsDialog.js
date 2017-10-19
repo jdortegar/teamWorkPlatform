@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { toggleOrgSettingsDialog } from '../../../actions';
-import { TeamsTab } from '../../tabs';
 import './styles/style.css';
 
 const TabPane = Tabs.TabPane;
@@ -43,9 +42,6 @@ class OrgSettingsDialog extends Component {
           tabPosition="left"
           style={{ height: 400 }}
         >
-          <TabPane tab="Teams" key="teams">
-            <TeamsTab />
-          </TabPane>
           <TabPane tab="Team Rooms" key="teamRooms">
             Team Rooms
           </TabPane>

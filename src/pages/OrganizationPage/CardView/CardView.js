@@ -58,7 +58,7 @@ function CardView(props) {
         if ((typeof revoked === 'undefined') || (revoked === false)) {
           let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
           if (expired === true) {
-            extra = (<h1><i className="fa fa-exclamation-triangle icon_fail"/></h1>);
+            extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
           }
           integrationsArr.push(
             <div key="box">
@@ -68,7 +68,6 @@ function CardView(props) {
             </div>
           );
         }
-
       }
       if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].google) {
         const { google: integrationObj } = integrations.integrationsBySubscriberOrgId[subscriberOrgId];
@@ -77,7 +76,7 @@ function CardView(props) {
         if ((typeof revoked === 'undefined') || (revoked === false)) {
           let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
           if (expired === true) {
-            extra = (<h1><i className="fa fa-exclamation-triangle icon_fail"/></h1>);
+            extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
           }
           integrationsArr.push(
             <div key="google">

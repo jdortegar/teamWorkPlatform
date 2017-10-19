@@ -27,7 +27,9 @@ const propTypes = {
       teamRoomId: PropTypes.string
     })
   }).isRequired,
+  user: PropTypes.object.isRequired,
   teamRoomMembers: PropTypes.array.isRequired,
+  teamRoomMembersObj: PropTypes.object.isRequired,
   teamRooms: PropTypes.shape({
     teamRoomById: PropTypes.shape({
       teamRoomId: PropTypes.PropTypes.shape({
@@ -38,6 +40,10 @@ const propTypes = {
     teamRoomIdsByTeamId: PropTypes.shape({
       ids: PropTypes.array
     })
+  }).isRequired,
+  conversations: PropTypes.shape({
+    conversationId: PropTypes.string.isRequired,
+    transcript: PropTypes.array
   }).isRequired,
   updateFileList: PropTypes.func.isRequired,
   clearFileList: PropTypes.func.isRequired,
@@ -58,6 +64,11 @@ function createMessage(conversationId, postBody) {
     `${config.hablaApiBaseUri}/conversations/${conversationId}/createMessage`,
     postBody,
     axiosOptions);
+}
+
+function getPercentOfRequest(total, loaded) {
+  const percent = (loaded * 100) / total;
+  return Math.round(percent);
 }
 
 class TeamRoomPage extends Component {
@@ -141,26 +152,16 @@ class TeamRoomPage extends Component {
     this.setState({ showPreviewBox: true, replyTo: replyObj });
   }
 
-  handleSearch(value) {
-    const teamRoomId = this.props.match.params.teamRoomId;
-    const filteredTeamMembers = this.props.teamRoomMembers.teamRoomMembersByTeamRoomId[teamRoomId].filter(({ displayName }) => {
-      return displayName.toLowerCase().includes(value.toLowerCase());
-    });
-
-    this.setState({ teamRoomMembers: filteredTeamMembers });
-  }
-
-  getPercentOfRequest(total, loaded) {
-    const percent = (loaded * 100) / total;
-    return Math.round(percent);
-  }
-
-  handleHeaderClick(value) {
-    this.setState({ activeLink: value });
+  onFileChange(event) {
+    const { files } = event.target;
+    if (files) {
+      this.props.updateFileList(files);
+      this.setState({ showPreviewBox: true });
+    }
   }
 
   createResource(file) {
-    const config = {
+    const requestConfig = {
       headers: {
         Authorization: `Bearer ${getJwt()}`,
         'Content-Type': 'image/jpeg',
@@ -168,14 +169,14 @@ class TeamRoomPage extends Component {
       },
       onUploadProgress: (progressEvent) => {
         const { total, loaded } = progressEvent;
-        const fileWithPercent = Object.assign(file, { percent: this.getPercentOfRequest(total, loaded) });
+        const fileWithPercent = Object.assign(file, { percent: getPercentOfRequest(total, loaded) });
         this.setState({
           file: fileWithPercent
         });
       }
     };
 
-    return axios.put(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${file.name}`, file.src, config);
+    return axios.put(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${file.name}`, file.src, requestConfig);
   }
 
   handleSubmit(e) {
@@ -226,12 +227,17 @@ class TeamRoomPage extends Component {
     });
   }
 
-  onFileChange(event) {
-    const { files } = event.target;
-    if (files) {
-      this.props.updateFileList(files);
-      this.setState({ showPreviewBox: true });
-    }
+  handleHeaderClick(value) {
+    this.setState({ activeLink: value });
+  }
+
+  handleSearch(value) {
+    const teamRoomId = this.props.match.params.teamRoomId;
+    const filteredTeamMembers = this.props.teamRoomMembers.teamRoomMembersByTeamRoomId[teamRoomId].filter(({ displayName }) => {
+      return displayName.toLowerCase().includes(value.toLowerCase());
+    });
+
+    this.setState({ teamRoomMembers: filteredTeamMembers });
   }
 
   updateFiles(files) {
@@ -274,7 +280,6 @@ class TeamRoomPage extends Component {
       const teamRoom = teamRooms.teamRoomById[teamRoomId];
       const teamRoomMembers = this.renderTeamRoomMembers();
       const className = classNames({ 'team-room__main-container--opacity': this.state.isDraggingOver });
-      const messages = this.props.conversations.transcript;
 
       return (
         <div className={className}>

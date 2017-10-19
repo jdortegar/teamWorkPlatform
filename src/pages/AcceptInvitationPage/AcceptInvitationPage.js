@@ -9,7 +9,13 @@ import { getJwt } from '../../session';
 
 const propTypes = {
   type: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      type: PropTypes.string,
+      id: PropTypes.string
+    })
+  }).isRequired
 };
 
 class AcceptInvitationPage extends Component {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Form, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { getAllCountries } from 'countries-and-timezones';
