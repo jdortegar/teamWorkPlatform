@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, notification } from 'antd';
+import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import CardView from './CardView';
@@ -20,7 +21,7 @@ const propTypes = {
     })
   }).isRequired,
   teamMembers: PropTypes.array.isRequired,
-  teamRooms: PropTypes.array.isRequired,
+  teamRooms: PropTypes.array.isRequired
 };
 
 class TeamPage extends Component {
@@ -70,7 +71,14 @@ class TeamPage extends Component {
 
   render() {
     const teamId = this.props.match.params.teamId;
-    const { teamRooms, teams, teamMembers, subscriberOrgById } = this.props;
+    const { teamRooms, teams, teamMembers, subscriberOrgById, user } = this.props;
+    let role;
+    if (teamMembers.length === 0) {
+      role = 'admin';
+    } else {
+      const myTeamMemberUser = _.find(teamMembers, { userId: user.userId });
+      role = myTeamMemberUser.teams[teamId].role;
+    }
 
     if (this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
       const team = teams.teamById[teamId];
@@ -103,9 +111,11 @@ class TeamPage extends Component {
                   <h1 className="New-team__title">{team.name}</h1>
                 </div>
               </Col>
-              <Col xs={{ span: 4 }} sm={{ span: 3 }} md={{ span: 3 }}>
-                <EditButton url={`/app/editTeam/${teamId}`} />
-              </Col>
+              { role === 'admin' &&
+                <Col xs={{ span: 4 }} sm={{ span: 3 }} md={{ span: 3 }}>
+                  <EditButton url={`/app/editTeam/${teamId}`} />
+                </Col>
+              }
             </Row>
           </SimpleCardContainer>
           {
