@@ -8,7 +8,8 @@ import config from '../../../config/env';
 
 const propTypes = {
   allowedTypes: PropTypes.array,
-  text: PropTypes.string.isRequired
+  text: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired
 }
 
 const defaultProps = {
@@ -37,7 +38,7 @@ class UploadImageField extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { imageUrl: null };
+    this.state = { imageUrl: this.props.image };
 
     this.handleChange = this.handleChange.bind(this);
   }
@@ -52,15 +53,7 @@ class UploadImageField extends Component {
     };
     const base64 = imageUrl.substring(imageUrl.indexOf('base64') + 'base64,'.length);
 
-    axios.patch(`${config.hablaApiBaseUri}/teams/updateTeam/${teamId}`, { icon: base64 }, axiosOptions)
-    .then((data) => {
-      console.log(data);
-    });
-
-    // console.log('siiiiii');
-    // console.log(imageUrl);
-    //imageUrl es la imagen en base64
-    // aqui va el axios.patch
+    axios.patch(`${config.hablaApiBaseUri}/teams/updateTeam/${teamId}`, { icon: base64 }, axiosOptions);
   }
 
   render() {
@@ -79,7 +72,7 @@ class UploadImageField extends Component {
       >
         {
           this.state.imageUrl ?
-            <img src={this.state.imageUrl} alt="Avatar" className="avatar" /> :
+            <img src={this.state.imageUrl} alt="Avatar" className="UploadImageField__avatar" /> :
             <p className="avatar-uploader-trigger">{this.props.text}</p>
         }
       </Upload>

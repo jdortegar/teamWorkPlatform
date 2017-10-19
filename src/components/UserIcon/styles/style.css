@@ -11,7 +11,7 @@
   color: white;
 }
 
-.user-icon__main-container--square {
+.user-icon__main-container--square, .user-icon__main-container--square > img {
   border-radius: 5px;
 }
 

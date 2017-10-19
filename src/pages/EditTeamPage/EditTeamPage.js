@@ -7,6 +7,7 @@ import SimpleCardContainer from '../../components/SimpleCardContainer';
 import UploadImageField from '../../components/formFields/UploadImageField';
 import TextField from '../../components/formFields/TextField';
 import SwitchField from '../../components/formFields/SwitchField';
+import UserIcon from '../../components/UserIcon';
 import { formShape } from '../../propTypes';
 import messages from './messages';
 import './styles/style.css';
@@ -55,23 +56,27 @@ class EditTeamPage extends Component {
     const { teamId } = this.props.match.params;
     const { teams, subscriberOrgById } = this.props;
     const team = teams.teamById[teamId];
+    const teamIcon = `data:image/png;base64,${team.icon}`;
     const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
 
     return (
       <div>
-        <SubpageHeader breadcrumb={
-          <div>
-            <Link to={`/app/organization/${subscriberOrg.subscriberOrgId}`}>
-              <span className="breadcrumb_underline">{subscriberOrg.name}</span>
-            </Link> / {team.name} (Edit)
-          </div>}
+        <SubpageHeader
+          icon={<UserIcon user={team} type="team" clickable={false} />}
+          breadcrumb={
+            <div>
+              <Link to={`/app/organization/${subscriberOrg.subscriberOrgId}`}>
+                <span className="breadcrumb_underline">{subscriberOrg.name}</span>
+              </Link> / {team.name} (Edit)
+            </div>
+          }
         />
         <SimpleCardContainer className="subpage-block">
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <Row type="flex" justify="start" gutter={20}>
               <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
                 <div className="Edit-team__icon-container">
-                  <UploadImageField text={messages.changeAvatar} />
+                  <UploadImageField text={messages.changeAvatar} image={teamIcon} />
                   <div className="Edit-team__switch-container">
                     <Tooltip placement="top" title={team.active ? messages.setInactive : messages.setActive}>
                       <SwitchField

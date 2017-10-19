@@ -24,8 +24,12 @@ const { Content } = Layout;
 
 const propTypes = {
   invitation: PropTypes.array.isRequired,
-  pushMessage: PropTypes.object.isRequired,
+  pushMessage: PropTypes.object,
   notifyMessage: PropTypes.func.isRequired
+};
+
+const defaultProps = {
+  pushMessage: null
 };
 
 class MainContent extends Component {
@@ -98,5 +102,6 @@ class MainContent extends Component {
 }
 
 MainContent.propTypes = propTypes;
+MainContent.defaultProps = defaultProps;
 
 export default MainContent;

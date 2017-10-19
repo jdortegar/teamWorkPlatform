@@ -74,6 +74,7 @@ class TeamPage extends Component {
 
     if (this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
       const team = teams.teamById[teamId];
+      const teamIcon = `data:image/png;base64,${team.icon}`;
       const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
 
       return (
@@ -93,7 +94,9 @@ class TeamPage extends Component {
               <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
                 <UploadImageField
                   text={'Upload Avatar'}
-                  teamId={teamId} />
+                  teamId={teamId}
+                  image={teamIcon}
+                />
               </Col>
               <Col xs={{ span: 20 }} sm={{ span: 13 }} md={{ span: 16 }}>
                 <div className="New-team__container">
