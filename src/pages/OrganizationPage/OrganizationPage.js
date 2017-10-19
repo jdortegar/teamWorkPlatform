@@ -7,7 +7,6 @@ import { IconCard } from '../../components/cards';
 import UserIcon from '../../components/UserIcon/UserIcon';
 import CardView from './CardView';
 import ListView from './ListView';
-import messages from './messages';
 import './styles/style.css';
 
 const propTypes = {
@@ -31,7 +30,8 @@ const propTypes = {
     })
   }).isRequired,
   subscribers: PropTypes.array.isRequired,
-  teams: PropTypes.array.isRequired
+  teams: PropTypes.array.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 const defaultProps = {
@@ -97,7 +97,7 @@ class OrganizationPage extends Component {
 
   render() {
     const subscriberOrgId = this.props.match.params.subscriberOrgId;
-    const { teams, integrations, subscribers, subscriberOrgs } = this.props;
+    const { teams, integrations, subscribers, subscriberOrgs, user } = this.props;
     if (this.state.subscribersLoaded && this.state.integrationsLoaded) {
       // if (integrations && integrations.integrationsBySubscriberOrgId[subscriberOrgId]) {
       //   let numberOfIntegrations = 0;
@@ -131,6 +131,7 @@ class OrganizationPage extends Component {
                 subscribers={subscribers}
                 subscriberOrgId={subscriberOrgId}
                 teams={teams}
+                user={user}
               />
           }
         </div>

@@ -7,30 +7,50 @@ import { Link } from 'react-router-dom';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
 import { IconCard } from '../../../components/cards';
+import classNames from 'classnames';
 import messages from '../messages';
+import './styles/style.css';
 
 const Panel = Collapse.Panel;
 
 const propTypes = {
   integrations: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   subscribers: PropTypes.array.isRequired,
   subscriberOrgId: PropTypes.string.isRequired,
   teams: PropTypes.array.isRequired
 };
 
 function CardView(props) {
-  const { integrations, subscribers, subscriberOrgId, teams } = props;
+  const { integrations, subscribers, subscriberOrgId, teams, user } = props;
+  const subscriberByMyUser = subscribers.find(subscriber => subscriber.userId === user.userId);
+
+  const teamShouldRender = (role, team) => {
+    if (!role || (!team.active && role.role === 'admin') || team.active) {
+      /* role is undefined for default team (ALL) */
+      return true;
+    }
+    return false;
+  };
+
   const renderTeams = () => {
-    return props.teams.map(({ name, teamId }) => {
-      return (
-        <div key={teamId}>
-          <Tooltip placement="top" title={name}>
-            <Link to={`/app/team/${teamId}`}>
-              <IconCard text={name} />
-            </Link>
-          </Tooltip>
-        </div>
-      );
+    return props.teams.map(team => {
+      const role = subscriberByMyUser.teams[team.teamId];
+      const card = classNames({
+        inactive: !team.active
+      });
+      const teamRender = teamShouldRender(role, team);
+      if (teamRender) {
+        return (
+          <div key={team.teamId}>
+            <Tooltip placement="top" title={team.name}>
+              <Link to={`/app/team/${team.teamId}`}>
+                <IconCard text={team.name} className={card} />
+              </Link>
+            </Tooltip>
+          </div>
+        );
+      }
     });
   };
 
@@ -58,7 +78,7 @@ function CardView(props) {
         if ((typeof revoked === 'undefined') || (revoked === false)) {
           let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
           if (expired === true) {
-            extra = (<h1><i className="fa fa-exclamation-triangle icon_fail"/></h1>);
+            extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
           }
           integrationsArr.push(
             <div key="box">
@@ -68,8 +88,8 @@ function CardView(props) {
             </div>
           );
         }
-
       }
+
       if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].google) {
         const { google: integrationObj } = integrations.integrationsBySubscriberOrgId[subscriberOrgId];
         const { expired, revoked } = integrationObj;
@@ -77,7 +97,7 @@ function CardView(props) {
         if ((typeof revoked === 'undefined') || (revoked === false)) {
           let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
           if (expired === true) {
-            extra = (<h1><i className="fa fa-exclamation-triangle icon_fail"/></h1>);
+            extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
           }
           integrationsArr.push(
             <div key="google">

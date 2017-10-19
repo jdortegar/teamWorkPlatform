@@ -17,6 +17,7 @@ function mapStateToProps(state, props) {
   const subscriberOrgId = props.match.params.subscriberOrgId;
 
   return {
+    user: state.auth.user,
     subscriberOrgs: state.subscriberOrgs,
     integrations: state.integrations,
     subscribers: getSubscribersOfSubscriberOrgId(state, subscriberOrgId),
