@@ -273,11 +273,15 @@ class TeamRoomPage extends Component {
       const teamRoomId = this.props.match.params.teamRoomId;
       const teamRoom = teamRooms.teamRoomById[teamRoomId];
       const teamRoomMembers = this.renderTeamRoomMembers();
-      const className = classNames({ 'team-room__main-container--opacity': this.state.isDraggingOver });
+      const className = classNames({
+        'team-room-chat': true,
+        'team-room__main-container--opacity': this.state.isDraggingOver
+      });
       const messages = this.props.conversations.transcript;
 
       return (
         <div className={className}>
+
           <div className="team-room__top-page-container">
             <SubpageHeader
               icon={<UserIcon user={teamRoom} type="team" clickable={false} />}
@@ -307,60 +311,61 @@ class TeamRoomPage extends Component {
               handleSearch={this.handleSearch}
               search
             />
-            <SimpleCardContainer>
-              {this.renderMessages()}
-            </SimpleCardContainer>
           </div>
-          <div>
-            <SimpleCardContainer className="subpage-block team-room__chat-container">
-              { this.state.showPreviewBox &&
-                <PreviewBar
-                  files={this.props.files}
-                  fileWithPercent={this.state.file}
-                  updateFiles={this.updateFiles}
-                  removeFileFromList={this.props.removeFileFromList}
-                  onCancelReply={this.onCancelReply}
-                  addBase={this.props.addBase}
-                  replyTo={this.state.replyTo}
-                  user={user}
-                  isDraggingOver={this.props.isDraggingOver}
-                />
-              }
-              <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">
-                <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-icon-col">
-                  <UserIcon user={user} type="user" minWidth="48px" width="48px" height="48px" key={user.userId} />
-                </Col>
-                <Col xs={{ span: 20 }} className="team-room__chat-input-col">
-                  <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off">
-                    <TextField
-                      componentKey="message"
-                      form={this.props.form}
-                      hasFeedback={false}
-                      placeholder="Leave a reply..."
-                      label=""
-                      className="team-room__chat-input-form-item"
-                      inputClassName="team-room__chat-input-textfield"
-                    />
-                  </Form>
-                </Col>
-                <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-col-icons">
-                  <a className="team-room__icons" role="button" tabIndex={0} onClick={this.handleSubmit}>
-                    <i className="fa fa-paper-plane-o" />
-                  </a>
-                  <div>
-                    <input
-                      id="fileupload"
-                      className="team-room__file-upload-input"
-                      type="file"
-                      onChange={this.onFileChange}
-                      multiple
-                    />
-                    <label htmlFor="fileupload" className="team-room__icons"><i className="fa fa-folder-o" /></label>
-                  </div>
-                </Col>
-              </Row>
-            </SimpleCardContainer>
-          </div>
+
+          <SimpleCardContainer className="team-room__messages">
+            {this.renderMessages()}
+          </SimpleCardContainer>
+
+          <SimpleCardContainer className="team-room__chat-container">
+            { this.state.showPreviewBox &&
+              <PreviewBar
+                files={this.props.files}
+                fileWithPercent={this.state.file}
+                updateFiles={this.updateFiles}
+                removeFileFromList={this.props.removeFileFromList}
+                onCancelReply={this.onCancelReply}
+                addBase={this.props.addBase}
+                replyTo={this.state.replyTo}
+                user={user}
+                isDraggingOver={this.props.isDraggingOver}
+              />
+            }
+            <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">
+              <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-icon-col">
+                <UserIcon user={user} type="user" minWidth="2.5em" width="2.5em" height="2.5em" key={user.userId} />
+              </Col>
+              <Col xs={{ span: 20 }} className="team-room__chat-input-col">
+                <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off">
+                  <TextField
+                    componentKey="message"
+                    form={this.props.form}
+                    hasFeedback={false}
+                    placeholder="Leave a reply..."
+                    label=""
+                    className="team-room__chat-input-form-item"
+                    inputClassName="team-room__chat-input-textfield"
+                  />
+                </Form>
+              </Col>
+              <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-col-icons">
+                <a className="team-room__icons" role="button" tabIndex={0} onClick={this.handleSubmit}>
+                  <i className="fa fa-paper-plane-o" />
+                </a>
+                <div>
+                  <input
+                    id="fileupload"
+                    className="team-room__file-upload-input"
+                    type="file"
+                    onChange={this.onFileChange}
+                    multiple
+                  />
+                  <label htmlFor="fileupload" className="team-room__icons"><i className="fa fa-folder-o" /></label>
+                </div>
+              </Col>
+            </Row>
+          </SimpleCardContainer>
+
         </div>
       );
     }

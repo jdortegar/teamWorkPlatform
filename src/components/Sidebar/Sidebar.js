@@ -169,7 +169,6 @@ class Sidebar extends Component {
         <div className="Sidebar-menu-item-label">{messages.organizations}</div>
         <Menu
           mode="inline"
-          style={{ height: '100%', borderRight: 0 }}
           onClick={this.handleClick}
           className="Sidebar__menu"
         >

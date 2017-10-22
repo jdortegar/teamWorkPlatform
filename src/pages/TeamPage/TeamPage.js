@@ -11,6 +11,7 @@ import UploadImageField from '../../components/formFields/UploadImageField';
 import EditButton from '../../components/buttons/EditButton';
 import messages from './messages';
 import UserIcon from '../../components/UserIcon';
+import './styles/style.css';
 
 const propTypes = {
   requestTeamRooms: PropTypes.func.isRequired,

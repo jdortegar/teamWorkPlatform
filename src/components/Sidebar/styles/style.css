@@ -3,6 +3,7 @@
   border-bottom: 1px solid #ddd;
   font-weight: bold;
   color: #999;
+  height: 5%;
 }
 .Sidebar__i {
   margin-right: 5px;
@@ -26,7 +27,7 @@
 .Sidebar {
   position: fixed;
   top: 68px;
-  min-height: 100vh;
+  height: 100vh;
 }
 .Sidebar .ant-menu-item-selected {
   background-color: #f1f1f1 !important;
@@ -40,6 +41,9 @@
 }
 .Sidebar__name-span {
   padding-left: 6px;
+}
+.Sidebar__menu {
+  border-right: 0px;
 }
 .Sidebar__menu li {
   border-bottom: 1px solid #eee;
