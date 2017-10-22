@@ -32,12 +32,18 @@ const defaultProps = {
   teamRooms: []
 };
 
+function sortByName(a, b) {
+  if (a.name < b.name) return -1;
+  else if (a.name > b.name) return 1;
+  return 0;
+}
+
 
 class Sidebar extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { hovered: null };
+    this.state = { hovered: null, openKeys: [], teamOpenKeys: [] };
 
     this.handleClick = this.handleClick.bind(this);
     this.onClickEditOrg = this.onClickEditOrg.bind(this);
@@ -49,9 +55,13 @@ class Sidebar extends Component {
     this.props.requestAllTeamRooms();
   }
 
-  onClickEditOrg(e, orgId, url) {
+  onClickEditOrg(e, orgId, url, teamId = null) {
     e.stopPropagation();
-    this.setState({ selected: orgId });
+    if (teamId) {
+      this.setState({ selected: orgId, openKeys: [orgId, teamId] });
+    } else {
+      this.setState({ selected: orgId, openKeys: [orgId] });
+    }
     this.props.setCurrentSubscriberOrgId(orgId);
     this.props.history.push(url);
   }
@@ -76,7 +86,8 @@ class Sidebar extends Component {
   }
 
   renderTeamRooms(teamId) {
-    return this.props.teamRooms.reduce((acc, teamRoom) => {
+    const teamRooms = this.props.teamRooms.sort(sortByName);
+    return teamRooms.reduce((acc, teamRoom) => {
       if (teamId === teamRoom.teamId) {
         acc.push(
           <Menu.Item key={teamRoom.teamRoomId}>
@@ -95,7 +106,8 @@ class Sidebar extends Component {
   }
 
   renderTeams(orgId) {
-    return this.props.teams.reduce((acc, team) => {
+    const teams = this.props.teams.sort(sortByName);
+    return teams.reduce((acc, team) => {
       if (team.subscriberOrgId === orgId) {
         const teamRooms = this.renderTeamRooms(team.teamId);
         acc.push(
@@ -103,7 +115,7 @@ class Sidebar extends Component {
             key={team.teamId}
             title={<Row>
               <Col xs={{ span: 22 }}>
-                <a onClick={e => this.onClickEditOrg(e, team.subscriberOrgId, `/app/team/${team.teamId}`)}>
+                <a onClick={e => this.onClickEditOrg(e, team.subscriberOrgId, `/app/team/${team.teamId}`, team.teamId)}>
                   <div className="Sidebar__name-container">
                     <UserIcon user={team} type="team" minWidth="20px" width="20px" height="20px" clickable={false} />
                     <span className="Sidebar__name-span">{team.name}</span>
@@ -127,7 +139,8 @@ class Sidebar extends Component {
   }
 
   renderOrgs() {
-    return this.props.subscriberOrgs.map((subscriberOrg) => {
+    const subscriberOrgs = this.props.subscriberOrgs.sort(sortByName);
+    return subscriberOrgs.map((subscriberOrg) => {
       const teams = this.renderTeams(subscriberOrg.subscriberOrgId);
 
       return (
@@ -135,6 +148,7 @@ class Sidebar extends Component {
           key={subscriberOrg.subscriberOrgId}
           onMouseEnter={() => this.setState({ hovered: subscriberOrg.subscriberOrgId })}
           onMouseLeave={() => this.setState({ hovered: null })}
+          openKeys={this.state.teamOpenKeys}
           title={
             <Row>
               <Col xs={{ span: 22 }} className="Sidebar__org-item-col">
@@ -163,6 +177,8 @@ class Sidebar extends Component {
       return null;
     }
 
+    console.log(this.state.openKeys);
+
     return (
       <Sider width={235} style={{ background: '#fff' }} className="Sidebar">
 
@@ -171,6 +187,7 @@ class Sidebar extends Component {
           mode="inline"
           style={{ height: '100%', borderRight: 0 }}
           onClick={this.handleClick}
+          openKeys={this.state.openKeys}
           className="Sidebar__menu"
         >
           { this.renderOrgs() }
