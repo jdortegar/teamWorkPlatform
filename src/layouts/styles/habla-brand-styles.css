@@ -29,6 +29,10 @@ body {
 	font-weight: bold;
 }
 
+.ant-layout-has-sider {
+  position: relative;
+}
+
 /* General CSS Styles for Habla Web App Dopdown Menus */
 .ant-dropdown-menu-item {
 	background-color: #000!important;
