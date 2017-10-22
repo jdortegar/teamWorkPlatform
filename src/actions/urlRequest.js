@@ -13,7 +13,7 @@ export const clearUrlRequest = (requestUrl) => {
   };
 };
 
-export const doRequest = ({ requestUrl, method, headers, data, responseFunction, errFunction }, reduxState, getKey) => {
+export const doRequest = ({ requestUrl, method, headers, data }, reduxState, getKey) => {
   if (getKey) {
     return requestUrl;
   }
@@ -47,13 +47,6 @@ export const doRequest = ({ requestUrl, method, headers, data, responseFunction,
         throw err;
       });
 
-    if (responseFunction) {
-      request.then(response => responseFunction(response));
-    }
-    if (errFunction) {
-      request.catch(err => errFunction(err));
-    }
-
     dispatch({
       type: URLREQUEST,
       payload: { requestUrl, request, ...reduxState }
@@ -63,8 +56,8 @@ export const doRequest = ({ requestUrl, method, headers, data, responseFunction,
   };
 };
 
-export const doAuthenticatedRequest = ({ requestUrl, method, additionalHeaders, data, responseFunction, errFunction }, reduxState, getKey) => {
+export const doAuthenticatedRequest = ({ requestUrl, method, additionalHeaders, data }, reduxState, getKey) => {
   const secureHeaders = additionalHeaders || {};
   secureHeaders.Authorization = `Bearer ${getJwt()}`;
-  return doRequest({ requestUrl, method, headers: secureHeaders, data, responseFunction, errFunction }, reduxState, getKey);
+  return doRequest({ requestUrl, method, headers: secureHeaders, data }, reduxState, getKey);
 };

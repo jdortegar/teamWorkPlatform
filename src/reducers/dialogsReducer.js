@@ -1,5 +1,6 @@
-// TODO: remove this file if not needed.
-import { SHOW_ORG_DIALOG,
+import {
+  SUBMITTING_ORG_FORM,
+  SHOW_ORG_DIALOG,
   SHOW_INVITE_DIALOG,
   SUBMITTING_INVITE_ORG_FORM,
   SHOW_ORG_SETTINGS_DIALOG,
@@ -12,6 +13,7 @@ import { SHOW_ORG_DIALOG,
 } from '../actions/types';
 
 const INITIAL_STATE = {
+  submittingOrgForm: false,
   showTeamDialog: false,
   showOrgDialog: false,
   showInvitePeopleDialog: false,
@@ -27,6 +29,8 @@ const INITIAL_STATE = {
 
 function dialogsReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
+    case SUBMITTING_ORG_FORM:
+      return { ...state, submittingOrgForm: action.payload };
     case SHOW_ORG_DIALOG:
       return { ...state, showOrgDialog: action.payload };
     case SUBMITTING_INVITE_ORG_FORM:

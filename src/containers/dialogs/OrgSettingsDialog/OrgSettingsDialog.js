@@ -54,7 +54,7 @@ class OrgSettingsDialog extends Component {
 function mapStateToProps(state) {
   return {
     showOrgDialog: state.dialogs.showOrgDialog,
-    submittingOrgForm: state.subscriberOrgs.submittingOrgForm,
+    submittingOrgForm: state.dialogs.submittingOrgForm,
     orgSettingsDialog: state.dialogs.orgSettingsDialog
   };
 }

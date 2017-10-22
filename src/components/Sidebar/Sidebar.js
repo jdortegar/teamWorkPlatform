@@ -11,7 +11,7 @@ const { Sider } = Layout;
 const { SubMenu } = Menu;
 
 const propTypes = {
-  requestSubscriberOrgs: PropTypes.func.isRequired,
+  fetchSubscriberOrgs: PropTypes.func.isRequired,
   toggleOrgDialog: PropTypes.func.isRequired,
   toggleTeamRoomDialog: PropTypes.func.isRequired,
   toggleTeamDialog: PropTypes.func.isRequired,
@@ -50,7 +50,7 @@ class Sidebar extends Component {
   }
 
   componentDidMount() {
-    this.props.requestSubscriberOrgs();
+    this.props.fetchSubscriberOrgs();
     this.props.requestAllTeams();
     this.props.requestAllTeamRooms();
   }
