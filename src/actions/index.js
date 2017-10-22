@@ -5,6 +5,7 @@ export * from './auth';
 export * from './dialogs';
 export * from './subscriberOrgs';
 export * from './teams';
+export * from './teamUpdate';
 export * from './teamRooms';
 export * from './conversations';
 export * from './invitations';
