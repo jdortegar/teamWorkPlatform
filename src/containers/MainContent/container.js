@@ -1,16 +1,18 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import MainContent from '../../components/MainContent';
+import { notifyMessage } from '../../actions';
 
 function mapStateToProps(state) {
   return {
-    invitation: state.invitations.invitation
+    invitation: state.invitations.invitation,
+    pushMessage: state.conversations.pushMessage,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-
+    notifyMessage: () => dispatch(notifyMessage(null))
   };
 }
 

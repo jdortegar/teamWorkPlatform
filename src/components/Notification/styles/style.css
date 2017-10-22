@@ -30,8 +30,8 @@
     background: #bbbbbb;
     border-color: #bbbbbb;
 }
-.Notification__button--gray:hover {
+.Notification__button--gray:hover, .Notification__button--gray:focus {
     color: white;
-    background: #cccccc;
-    border-color: #cccccc;
+    background: #cfcfcf;
+    border-color: #cfcfcf;
 }

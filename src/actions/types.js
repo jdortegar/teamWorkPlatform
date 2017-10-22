@@ -44,6 +44,7 @@ export const REQUEST_SUBSCRIBERS_ERROR = 'request_subscribers_error';
 // Invitation Actions
 //= =====================
 export const RECEIVE_INVITATION = 'receive_invitation';
+export const UPDATE_INVITATION = 'update_invitation';
 
 //= =====================
 // Teams Actions
@@ -93,6 +94,7 @@ export const REQUEST_CONVERSATIONS_ERROR = 'request_conversations_error';
 export const REQUESTING_TRANSCRIPT = 'requesting_transcript';
 export const RECEIVE_TRANSCRIPT = 'receive_transcript';
 export const RECEIVE_MESSAGES = 'receive_messages';
+export const NOTIFY_MESSAGE = 'notify_message';
 export const REQUEST_TRANSCRIPT_ERROR = 'request_transcript_error';
 export const SET_ACTIVE_CONVERSATION = 'set_active_conversation';
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Icon } from 'antd';
+import { Row, Col, Icon, Progress } from 'antd';
 import PropTypes from 'prop-types';
 import PreviewCard from '../cards/PreviewCard';
 import messages from './messages';
@@ -7,7 +7,6 @@ import './styles/style.css';
 
 const propTypes = {
   files: PropTypes.array,
-  updateFiles: PropTypes.func.isRequired,
   onCancelReply: PropTypes.func.isRequired,
   addBase: PropTypes.func.isRequired,
   isDraggingOver: PropTypes.bool.isRequired,
@@ -18,7 +17,10 @@ const propTypes = {
     preferences: PropTypes.shape({
       iconColor: PropTypes.string.isRequired
     }).isRequired
-  })
+  }),
+  removeFileFromList: PropTypes.func.isRequired,
+  fileWithPercent: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 const defaultProps = {
@@ -30,24 +32,36 @@ const defaultProps = {
   }
 };
 
+function getProgressBar(percent) {
+  const percentComp = !percent ? 0 : percent;
+  return (
+    <Progress
+      percent={percentComp}
+      strokeWidth={5}
+      showInfo={false}
+    />
+  );
+}
+
 class PreviewBar extends Component {
-  handleRemoveCard(file) {
-    const files = this.props.files.filter((el) => {
-      return el !== file;
-    });
-
-    this.props.updateFiles(files);
-  }
-
   renderPreviewCards() {
-    return this.props.files.map((el) => {
+    const { fileWithPercent } = this.props;
+
+    return this.props.files.map((el, index) => {
+      const item = el;
+      if (fileWithPercent !== null && el.name === fileWithPercent.name && el.size === fileWithPercent.size) {
+        item.percent = fileWithPercent.percent;
+      }
       return (
-        <PreviewCard
-          file={el}
-          key={el.name}
-          handleRemove={() => this.handleRemoveCard(el)}
-          addBase={this.props.addBase}
-        />);
+        <div key={index} className="image-wrapper">
+          <PreviewCard
+            file={item}
+            handleRemove={() => this.props.removeFileFromList(item)}
+            addBase={this.props.addBase}
+          />
+          {getProgressBar(item.percent)}
+        </div>
+      );
     });
   }
 

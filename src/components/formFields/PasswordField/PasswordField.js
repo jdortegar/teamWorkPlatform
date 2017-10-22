@@ -37,7 +37,7 @@ function PasswordField(props) {
   const translatedMissingMessage = missingMessage || messages.passwordMissing;
 
   const extraRules = [];
-  if(validatePassword) {
+  if (validatePassword) {
     extraRules.push({ validator: antValidate(passwordRules()) });
   }
 

@@ -19,7 +19,10 @@ const propTypes = {
       teamId: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
-  inviteMembersToTeam: PropTypes.func.isRequired
+  inviteMembersToTeam: PropTypes.func.isRequired,
+  teams: PropTypes.object.isRequired,
+  subscriberOrgById: PropTypes.object.isRequired,
+  subscribers: PropTypes.object.isRequired
 };
 
 class InviteToTeamPage extends Component {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout } from 'antd';
+import { Layout, notification } from 'antd';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import OrganizationPage from '../../containers/OrganizationPage';
@@ -12,7 +12,7 @@ import NewTeamRoomPage from '../../containers/NewTeamRoomPage';
 import InviteNewMemberPage from '../../containers/InviteNewMemberPage';
 import TeamRoomPage from '../../containers/TeamRoomPage';
 import TeamMemberPage from '../../containers/TeamMemberPage';
-import Notification from '../../components/Notification';
+import Notification from '../../containers/Notification';
 import InviteToTeamPage from '../../containers/InviteToTeamPage';
 import CKGPage from '../../pages/CKGPage';
 import NotificationsPage from '../../pages/NotificationsPage';
@@ -23,18 +23,53 @@ import { sound1 } from '../../sounds';
 const { Content } = Layout;
 
 const propTypes = {
-  invitation: PropTypes.array.isRequired
+  invitation: PropTypes.array.isRequired,
+  pushMessage: PropTypes.object,
+  notifyMessage: PropTypes.func.isRequired
+};
+
+const defaultProps = {
+  pushMessage: null
 };
 
 class MainContent extends Component {
+  componentDidMount() {
+    if (this.props.pushMessage) {
+      const { text } = this.props.pushMessage;
+      const args = {
+        message: 'New Message',
+        description: text,
+        duration: 4,
+        onClose: () => {
+          this.props.notifyMessage();
+        }
+      };
+      notification.open(args);
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.invitation.length > this.props.invitation) {
       const audio = new Audio(sound1);
       audio.play();
     }
-  }
 
-  // <Notification options={el} />
+    if (nextProps.pushMessage) {
+      if (this.props.pushMessage) {
+        notification.destroy();
+      }
+      const { text } = nextProps.pushMessage;
+      const args = {
+        message: 'New Message',
+        description: text,
+        duration: 4,
+        onClose: () => {
+          this.props.notifyMessage();
+        }
+      };
+      notification.open(args);
+    }
+  }
 
   render() {
     const { invitation } = this.props;
@@ -42,7 +77,7 @@ class MainContent extends Component {
       <Content style={{ background: '#fff', margin: 0, minHeight: '100vh' }}>
         <div>
           {
-            invitation.length > 0 ? invitation.map(el => null) : null
+            invitation.length > 0 ? invitation.map(el => <Notification options={el} />) : null
           }
           <Switch>
             <Route exact path={routesPaths.integrations} component={IntegrationsPage} />
@@ -67,5 +102,6 @@ class MainContent extends Component {
 }
 
 MainContent.propTypes = propTypes;
+MainContent.defaultProps = defaultProps;
 
 export default MainContent;

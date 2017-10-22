@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Upload } from 'antd';
+import { Row, Col, Form } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -11,7 +11,7 @@ import TextField from '../../components/formFields/TextField';
 import UserIcon from '../../components/UserIcon';
 import PreviewBar from '../../components/PreviewBar';
 import Message from '../../components/Message';
-import { getJwt, getResourcesUrl } from '../../session';
+import { getJwt } from '../../session';
 import config from '../../config/env';
 import messages from './messages';
 import './styles/style.css';
@@ -27,7 +27,9 @@ const propTypes = {
       teamRoomId: PropTypes.string
     })
   }).isRequired,
+  user: PropTypes.object.isRequired,
   teamRoomMembers: PropTypes.array.isRequired,
+  teamRoomMembersObj: PropTypes.object.isRequired,
   teamRooms: PropTypes.shape({
     teamRoomById: PropTypes.shape({
       teamRoomId: PropTypes.PropTypes.shape({
@@ -39,8 +41,14 @@ const propTypes = {
       ids: PropTypes.array
     })
   }).isRequired,
+  conversations: PropTypes.shape({
+    conversationId: PropTypes.string.isRequired,
+    transcript: PropTypes.array
+  }).isRequired,
   updateFileList: PropTypes.func.isRequired,
   clearFileList: PropTypes.func.isRequired,
+  requestConversations: PropTypes.func.isRequired,
+  removeFileFromList: PropTypes.func.isRequired,
   isDraggingOver: PropTypes.bool.isRequired
 };
 
@@ -48,17 +56,6 @@ const defaultProps = {
   files: []
 };
 
-function createResource(file) {
-  const putHeaders = {
-    headers: {
-      Authorization: `Bearer ${getJwt()}`,
-      'Content-Type': 'image/jpeg',
-      'x-hablaai-content-length': file.src.length
-    }
-  };
-
-  return axios.put(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${file.name}`, file.src, putHeaders);
-}
 
 function createMessage(conversationId, postBody) {
   const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
@@ -67,6 +64,11 @@ function createMessage(conversationId, postBody) {
     `${config.hablaApiBaseUri}/conversations/${conversationId}/createMessage`,
     postBody,
     axiosOptions);
+}
+
+function getPercentOfRequest(total, loaded) {
+  const percent = (loaded * 100) / total;
+  return Math.round(percent);
 }
 
 class TeamRoomPage extends Component {
@@ -79,7 +81,9 @@ class TeamRoomPage extends Component {
       teamRoomMembers: [],
       activeLink: messages.all,
       replyTo: null,
-      showPreviewBox: false
+      showPreviewBox: false,
+      barPercent: 0,
+      file: null
     };
 
     this.onCancelReply = this.onCancelReply.bind(this);
@@ -87,8 +91,8 @@ class TeamRoomPage extends Component {
     this.handleHeaderClick = this.handleHeaderClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-    this.updateFiles = this.updateFiles.bind(this);
     this.onFileChange = this.onFileChange.bind(this);
+    this.updateFiles = this.updateFiles.bind(this);
   }
 
   componentDidMount() {
@@ -113,7 +117,7 @@ class TeamRoomPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((nextProps.isDraggingOver && !this.state.showPreviewBox) || (nextProps.files.length > 0 && !this.state.showPreviewBox)) {
+    if (nextProps.isDraggingOver && !this.state.showPreviewBox) {
       this.setState({ showPreviewBox: true });
     }
     if (this.props.match.params.teamRoomId !== nextProps.match.params.teamRoomId) {
@@ -144,35 +148,35 @@ class TeamRoomPage extends Component {
     this.setState({ replyTo: null, showPreviewBox: false });
   }
 
-  onFileChange(event) {
-    if (event.target.files) {
-      const { files } = event.target;
-      this.props.updateFileList([...this.props.files, ...files]);
-    }
-  }
-
   onReplyTo(replyObj) {
     this.setState({ showPreviewBox: true, replyTo: replyObj });
   }
 
-  updateFiles(files) {
-    if (files.length === 0 && !this.state.replyTo) {
-      this.setState({ showPreviewBox: false });
+  onFileChange(event) {
+    const { files } = event.target;
+    if (files) {
+      this.props.updateFileList(files);
+      this.setState({ showPreviewBox: true });
     }
-    this.props.updateFileList(files);
   }
 
-  handleHeaderClick(value) {
-    this.setState({ activeLink: value });
-  }
+  createResource(file) {
+    const requestConfig = {
+      headers: {
+        Authorization: `Bearer ${getJwt()}`,
+        'Content-Type': 'image/jpeg',
+        'x-hablaai-content-length': file.src.length
+      },
+      onUploadProgress: (progressEvent) => {
+        const { total, loaded } = progressEvent;
+        const fileWithPercent = Object.assign(file, { percent: getPercentOfRequest(total, loaded) });
+        this.setState({
+          file: fileWithPercent
+        });
+      }
+    };
 
-  handleSearch(value) {
-    const teamRoomId = this.props.match.params.teamRoomId;
-    const filteredTeamMembers = this.props.teamRoomMembers.teamRoomMembersByTeamRoomId[teamRoomId].filter(({ displayName }) => {
-      return displayName.toLowerCase().includes(value.toLowerCase());
-    });
-
-    this.setState({ teamRoomMembers: filteredTeamMembers });
+    return axios.put(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${file.name}`, file.src, requestConfig);
   }
 
   handleSubmit(e) {
@@ -186,8 +190,7 @@ class TeamRoomPage extends Component {
         this.props.form.resetFields();
 
         if (this.props.files && this.props.files.length > 0) {
-          // const resourceUrl = getResourcesUrl();
-          const resources = this.props.files.map(file => createResource(file));
+          const resources = this.props.files.map(file => this.createResource(file));
           Promise.all(resources)
             .then((res) => {
               postBody.content = res.map((createdResource, index) => {
@@ -208,6 +211,8 @@ class TeamRoomPage extends Component {
                 this.setState({ replyTo: null, showPreviewBox: false });
               }
               createMessage(conversationId, postBody);
+              this.setState({ showPreviewBox: false, file: null });
+              this.props.clearFileList();
             });
         } else if (message) {
           postBody.content.push({ type: 'text/plain', text: message });
@@ -222,6 +227,26 @@ class TeamRoomPage extends Component {
     });
   }
 
+  handleHeaderClick(value) {
+    this.setState({ activeLink: value });
+  }
+
+  handleSearch(value) {
+    const teamRoomId = this.props.match.params.teamRoomId;
+    const filteredTeamMembers = this.props.teamRoomMembers.teamRoomMembersByTeamRoomId[teamRoomId].filter(({ displayName }) => {
+      return displayName.toLowerCase().includes(value.toLowerCase());
+    });
+
+    this.setState({ teamRoomMembers: filteredTeamMembers });
+  }
+
+  updateFiles(files) {
+    if (files.length === 0 && !this.state.replyTo) {
+      this.setState({ showPreviewBox: false });
+    }
+    this.props.updateFileList(files);
+  }
+
   renderMessages() {
     return this.props.conversations.transcript.map((message) => {
       const user = this.props.teamRoomMembersObj[message.createdBy];
@@ -231,7 +256,9 @@ class TeamRoomPage extends Component {
           user={user}
           key={message.messageId}
           replyTo={this.onReplyTo}
+          hide={false}
           teamRoomMembersObj={this.props.teamRoomMembersObj}
+          onFileChange={this.onFileChange}
         />
       );
     });
@@ -253,7 +280,6 @@ class TeamRoomPage extends Component {
       const teamRoom = teamRooms.teamRoomById[teamRoomId];
       const teamRoomMembers = this.renderTeamRoomMembers();
       const className = classNames({ 'team-room__main-container--opacity': this.state.isDraggingOver });
-      const messages = this.props.conversations.transcript;
 
       return (
         <div className={className}>
@@ -292,17 +318,18 @@ class TeamRoomPage extends Component {
           </div>
           <div>
             <SimpleCardContainer className="subpage-block team-room__chat-container">
-              {
-                this.state.showPreviewBox ?
-                  <PreviewBar
-                    files={this.props.files}
-                    updateFiles={this.updateFiles}
-                    onCancelReply={this.onCancelReply}
-                    addBase={this.props.addBase}
-                    replyTo={this.state.replyTo}
-                    user={user}
-                    isDraggingOver={this.props.isDraggingOver}
-                  /> : null
+              { this.state.showPreviewBox &&
+                <PreviewBar
+                  files={this.props.files}
+                  fileWithPercent={this.state.file}
+                  updateFiles={this.updateFiles}
+                  removeFileFromList={this.props.removeFileFromList}
+                  onCancelReply={this.onCancelReply}
+                  addBase={this.props.addBase}
+                  replyTo={this.state.replyTo}
+                  user={user}
+                  isDraggingOver={this.props.isDraggingOver}
+                />
               }
               <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">
                 <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-icon-col">
@@ -322,7 +349,7 @@ class TeamRoomPage extends Component {
                   </Form>
                 </Col>
                 <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-col-icons">
-                  <a className="team-room__icons" role="button" tabIndex={0}>
+                  <a className="team-room__icons" role="button" tabIndex={0} onClick={this.handleSubmit}>
                     <i className="fa fa-paper-plane-o" />
                   </a>
                   <div>

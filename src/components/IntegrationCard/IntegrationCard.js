@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Icon } from 'antd';
+import { Card } from 'antd';
 import PropTypes from 'prop-types';
 import './styles/style.css';
 

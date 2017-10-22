@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, notification } from 'antd';
+import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import CardView from './CardView';
@@ -20,7 +21,7 @@ const propTypes = {
     })
   }).isRequired,
   teamMembers: PropTypes.array.isRequired,
-  teamRooms: PropTypes.array.isRequired,
+  teamRooms: PropTypes.array.isRequired
 };
 
 class TeamPage extends Component {
@@ -70,11 +71,18 @@ class TeamPage extends Component {
 
   render() {
     const teamId = this.props.match.params.teamId;
-    const { teamRooms, teams, teamMembers, subscriberOrgById } = this.props;
-    console.log(teams);
+    const { teamRooms, teams, teamMembers, subscriberOrgById, user } = this.props;
+    let role;
+    if (teamMembers.length === 0) {
+      role = 'admin';
+    } else {
+      const myTeamMemberUser = _.find(teamMembers, { userId: user.userId });
+      role = myTeamMemberUser.teams[teamId].role;
+    }
 
     if (this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
       const team = teams.teamById[teamId];
+      const teamIcon = `data:image/png;base64,${team.icon}`;
       const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
 
       return (
@@ -92,18 +100,22 @@ class TeamPage extends Component {
           <SimpleCardContainer className="subpage-block">
             <Row type="flex" justify="start" gutter={20}>
               <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
-                <UploadImageField 
+                <UploadImageField
                   text={'Upload Avatar'}
-                  teamId={teamId} />
+                  teamId={teamId}
+                  image={teamIcon}
+                />
               </Col>
               <Col xs={{ span: 20 }} sm={{ span: 13 }} md={{ span: 16 }}>
                 <div className="New-team__container">
                   <h1 className="New-team__title">{team.name}</h1>
                 </div>
               </Col>
-              <Col xs={{ span: 4 }} sm={{ span: 3 }} md={{ span: 3 }}>
-                <EditButton url={`/app/editTeam/${teamId}`} />
-              </Col>
+              { role === 'admin' &&
+                <Col xs={{ span: 4 }} sm={{ span: 3 }} md={{ span: 3 }}>
+                  <EditButton url={`/app/editTeam/${teamId}`} />
+                </Col>
+              }
             </Row>
           </SimpleCardContainer>
           {
