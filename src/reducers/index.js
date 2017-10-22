@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import { UNAUTH_USER } from '../actions/types';
-// TODO: is this needed?  import registerReducer from './registerReducer';
+import urlRequestsReducer from './urlRequestsReducer';
 import authReducer from './authReducer';
 import usersReducer from './usersReducer';
 import subscriberOrgsReducer from './subscriberOrgsReducer';
@@ -16,8 +16,7 @@ import integrationsReducer from './integrationsReducer';
 import dialogsReducer from './dialogsReducer';
 
 const mainReducer = combineReducers({
-  // TODO: is this needed?  register: registerReducer,
-  // TODO: is this needed?  register: registerReducer,
+  urlRequests: urlRequestsReducer,
   auth: authReducer,
   dialogs: dialogsReducer,
   users: usersReducer,

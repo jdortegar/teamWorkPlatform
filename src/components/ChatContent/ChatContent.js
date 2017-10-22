@@ -34,7 +34,7 @@ class ChatContent extends Component {
   removeFileFromList(fileToRemove) {
     const files = this.state.fileList.filter(file => file !== fileToRemove);
     this.setState({
-      fileList: files,
+      fileList: files
     });
   }
 

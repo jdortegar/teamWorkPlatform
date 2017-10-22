@@ -1,22 +1,14 @@
+import _ from 'lodash';
 import {
-  REQUESTING_SUBSCRIBER_ORGS,
-  RECEIVE_SUBSCRIBER_ORGS,
-  RECEIVE_SUBSCRIBER_ORG,
-  REQUEST_SUBSCRIBER_ORGS_ERROR,
-  SET_CURRENT_SUBSCRIBER_ORG_ID,
-  CREATE_SUBSCRIBER_ORG,
-  SUBMITTING_ORG_FORM
-} from '../actions/types';
+  SUBSCRIBERORGS_FETCH_SUCCESS,
+  SUBSCRIBERORG_RECEIVE,
+  SUBSCRIBERORG_SETCURRENT
+} from '../actions';
 
 const INITIAL_STATE = {
   raw: [],
   subscriberOrgById: {},
-  currentSubscriberOrgId: null,
-
-  working: false,
-  error: null,
-  errorMeta: {},
-  submittingOrgForm: false
+  currentSubscriberOrgId: null
 };
 
 function defaultSubscriberOrg(subscriberOrgs) {
@@ -33,26 +25,7 @@ function defaultSubscriberOrg(subscriberOrgs) {
 
 const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case REQUESTING_SUBSCRIBER_ORGS:
-      return {
-        ...state,
-        working: true,
-        error: null,
-        errorMeta: {}
-      };
-    case SUBMITTING_ORG_FORM: {
-      return {
-        ...state,
-        submittingOrgForm: action.payload
-      };
-    }
-    case CREATE_SUBSCRIBER_ORG: {
-      return {
-        ...state,
-        data: [...state.data, action.payload]
-      };
-    }
-    case RECEIVE_SUBSCRIBER_ORGS: {
+    case SUBSCRIBERORGS_FETCH_SUCCESS: {
       const raw = action.payload.subscriberOrgs;
       const subscriberOrgById = {};
       let currentSubscriberOrgId = state.currentSubscriberOrgId;
@@ -64,13 +37,10 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         raw,
         subscriberOrgById,
-        currentSubscriberOrgId,
-        working: false,
-        error: null,
-        errorMeta: {}
+        currentSubscriberOrgId
       };
     }
-    case RECEIVE_SUBSCRIBER_ORG: {
+    case SUBSCRIBERORG_RECEIVE: {
       const subscriberOrgById = _.cloneDeep(state.subscriberOrgById);
       subscriberOrgById[action.payload.subscriberOrg.subscriberOrgId] = action.payload.subscriberOrg;
       return {
@@ -78,14 +48,7 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
         subscriberOrgById
       };
     }
-    case REQUEST_SUBSCRIBER_ORGS_ERROR:
-      return {
-        ...state,
-        working: false,
-        error: action.payload,
-        errorMeta: action.meta || {}
-      };
-    case SET_CURRENT_SUBSCRIBER_ORG_ID:
+    case SUBSCRIBERORG_SETCURRENT:
       return {
         ...state,
         currentSubscriberOrgId: action.payload

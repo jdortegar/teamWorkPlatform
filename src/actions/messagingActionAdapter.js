@@ -1,5 +1,7 @@
 import { EventTypes } from '../messaging';
-import { receiveSubscriberOrg } from './subscriberOrgs';
+import {
+  receiveSubscriberOrg
+} from '../actions';
 import { receiveTeam } from './teams';
 import { receiveTeamRoom } from './teamRooms';
 import { receiveInvitation } from './invitations';

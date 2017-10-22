@@ -45,7 +45,7 @@ function ListView(props) {
         const { expired, revoked } = integrationObj;
         if (((typeof expired === 'undefined') || (expired === false)) && ((typeof revoked === 'undefined') || (revoked === false))) {
           integrationsArr.push(
-            <ListViewItem name="Box" key="box"/>
+            <ListViewItem name="Box" key="box" />
           );
         }
       }
@@ -58,7 +58,7 @@ function ListView(props) {
         const { expired, revoked } = integrationObj;
         if (((typeof expired === 'undefined') || (expired === false)) && ((typeof revoked === 'undefined') || (revoked === false))) {
           integrationsArr.push(
-            <ListViewItem name="Google" key="google"/>
+            <ListViewItem name="Google" key="google" />
           );
         }
       }

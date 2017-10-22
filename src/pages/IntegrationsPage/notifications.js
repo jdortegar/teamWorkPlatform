@@ -4,6 +4,8 @@ function selectProvider(integration) {
   } else if (integration === 'box') {
     return 'Box';
   }
+
+  return 'Error';
 }
 
 export function successfulIntegration(integration) {
@@ -23,13 +25,13 @@ export function badIntegration({ integration, status }) {
     return {
       message: 'Something Wrong',
       description: `You did not authorize ${provider} access`,
-      duration: 4,
+      duration: 4
     };
   } else if (status === 'NOT_FOUND') {
     return {
       message: 'Something Wrong',
       description: 'You don\'t have permission to do add a provider',
-      duration: 4,
+      duration: 4
     };
   }
 

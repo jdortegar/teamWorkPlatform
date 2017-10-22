@@ -17,7 +17,10 @@ const propTypes = {
     preferences: PropTypes.shape({
       iconColor: PropTypes.string.isRequired
     }).isRequired
-  })
+  }),
+  removeFileFromList: PropTypes.func.isRequired,
+  fileWithPercent: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 const defaultProps = {
@@ -29,42 +32,34 @@ const defaultProps = {
   }
 };
 
+function getProgressBar(percent) {
+  const percentComp = !percent ? 0 : percent;
+  return (
+    <Progress
+      percent={percentComp}
+      strokeWidth={5}
+      showInfo={false}
+    />
+  );
+}
+
 class PreviewBar extends Component {
-
-  // handleRemoveCard(file) {
-  //   const files = this.props.files.filter((el) => {
-  //     return el !== file;
-  //   });
-
-  //   this.props.updateFiles(files);
-  // }
-
-  getProgressBar(percent) {
-    percent = !percent ? 0 : percent;
-    return (
-      <Progress
-        percent={percent}
-        strokeWidth={5}
-        showInfo={false}
-      />
-    );
-  }
-
   renderPreviewCards() {
     const { fileWithPercent } = this.props;
 
     return this.props.files.map((el, index) => {
+      const item = el;
       if (fileWithPercent !== null && el.name === fileWithPercent.name && el.size === fileWithPercent.size) {
-        el.percent = fileWithPercent.percent;
+        item.percent = fileWithPercent.percent;
       }
       return (
         <div key={index} className="image-wrapper">
           <PreviewCard
-            file={el}
-            handleRemove={() => this.props.removeFileFromList(el)}
+            file={item}
+            handleRemove={() => this.props.removeFileFromList(item)}
             addBase={this.props.addBase}
           />
-          {this.getProgressBar(el.percent)}
+          {getProgressBar(item.percent)}
         </div>
       );
     });

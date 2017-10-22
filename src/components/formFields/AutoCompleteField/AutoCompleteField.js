@@ -73,7 +73,7 @@ class AutoCompleteField extends Component {
             placeholder={translatedPlaceHolder}
             autoCompleteClassName={autoCompleteClassName}
           >
-            <Input name={componentKey}  />
+            <Input name={componentKey} />
           </AutoComplete>
         )}
       </FormItem>

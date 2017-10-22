@@ -6,12 +6,13 @@ import './styles/style.css';
 
 const propTypes = {
   className: PropTypes.string,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  onListItemClick: PropTypes.func.isRequired
 };
 
 const defaultProps = {
   className: ''
-}
+};
 
 function ListViewItem(props) {
   const className = classNames('List-view-item', props.className);

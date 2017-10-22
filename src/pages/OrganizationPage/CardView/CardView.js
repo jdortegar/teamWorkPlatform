@@ -2,12 +2,12 @@ import React from 'react';
 import { Tooltip, Collapse } from 'antd';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
 import { IconCard } from '../../../components/cards';
-import classNames from 'classnames';
 import messages from '../messages';
 import './styles/style.css';
 
@@ -34,7 +34,7 @@ function CardView(props) {
   };
 
   const renderTeams = () => {
-    return props.teams.map(team => {
+    return props.teams.map((team) => {
       const role = subscriberByMyUser.teams[team.teamId];
       const card = classNames({
         inactive: !team.active
@@ -51,6 +51,8 @@ function CardView(props) {
           </div>
         );
       }
+
+      return null;
     });
   };
 
