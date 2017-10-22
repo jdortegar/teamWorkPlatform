@@ -60,7 +60,9 @@ class Sidebar extends Component {
     if (teamId) {
       this.setState({ selected: orgId, openKeys: [orgId, teamId] });
     } else {
-      this.setState({ selected: orgId, openKeys: [orgId] });
+      const teams = this.props.teams.filter(team => team.subscriberOrgId === orgId);
+      const teamIds = teams.map(team => team.teamId);
+      this.setState({ selected: orgId, openKeys: [orgId, ...teamIds] });
     }
     this.props.setCurrentSubscriberOrgId(orgId);
     this.props.history.push(url);
@@ -176,8 +178,6 @@ class Sidebar extends Component {
     if (this.props.subscriberOrgs.length === 0) {
       return null;
     }
-
-    console.log(this.state.openKeys);
 
     return (
       <Sider width={235} style={{ background: '#fff' }} className="Sidebar">
