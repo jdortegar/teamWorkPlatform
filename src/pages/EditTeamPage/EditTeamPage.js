@@ -42,11 +42,15 @@ class EditTeamPage extends Component {
         this.props.updateTeam(values, teamId)
           .then(() => {
             this.setState({ loading: false });
+            this.props.history.push(`/app/team/${teamId}`);
             notification.open({
               message: messages.success,
               description: messages.teamUpdated,
               duration: 4
             });
+          })
+          .catch((requestErr) => {
+            console.error(requestErr);
           });
       }
     });

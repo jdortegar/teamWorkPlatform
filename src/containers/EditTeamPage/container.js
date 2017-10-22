@@ -1,11 +1,14 @@
 import { connect } from 'react-redux';
 import EditTeamPage from '../../pages/EditTeamPage';
 import { updateTeam } from '../../actions';
+import { getUrlRequestStatus } from '../../selectors';
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
+  const { teamId } = props.match.params;
   return {
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
-    teams: state.teams
+    teams: state.teams,
+    updateTeamRequestStatus: getUrlRequestStatus(state, updateTeam(null, teamId, true))
   };
 }
 

@@ -2,7 +2,9 @@ import _ from 'lodash';
 import { createSelector } from 'reselect';
 import createCachedSelector from 're-reselect';
 
-// Directly from state.
+// ------- Directly from state. START
+export const getUrlRequests = state => state.urlRequests;
+
 const getCurrentUser = state => state.auth.user;
 const getUsersByUserId = state => state.users.usersByUserId;
 
@@ -25,7 +27,17 @@ const getConversationIdsByTeamRoomId = state => state.conversations.conversation
 const getActiveConverationId = state => state.conversations.activeConversationId;
 
 const getIntegrationsBySubscriberOrgId = state => state.integrations.integrationsBySubscriberOrgId;
+// ------- Directly from state. END
 
+
+export const getUrlRequestStatus = createCachedSelector(
+  [getUrlRequests, (state, requestUrl) => requestUrl],
+  (urlRequests, requestUrl) => {
+    return urlRequests[requestUrl];
+  }
+)(
+  (state, requestUrl) => requestUrl
+);
 
 /**
  * Return array of subscriberOrgs.
@@ -126,26 +138,6 @@ export const getUserDetailsByUserId = createCachedSelector(
       }
     });
     user.teamRooms = teamRooms;
-
-    // const teams = {};
-    // Object.keys(user.teams).forEach((teamId) => {
-    //   const role = user.teams[teamId];
-    //   let team = teamById[teamId];
-    //   team = team || {};
-    //   team.role = role;
-    //   teams[teamId] = team;
-    // });
-    // user.teams = teams;
-    //
-    // const teamRooms = {};
-    // Object.keys(user.teamRooms).forEach((teamRoomId) => {
-    //   const role = user.teamRooms[teamRoomId];
-    //   let teamRoom = teamRoomById[teamRoomId];
-    //   teamRoom = teamRoom || {};
-    //   teamRoom.role = role;
-    //   teamRooms[teamRoomId] = teamRoom;
-    // });
-    // user.teamRooms = teamRooms;
 
     return user;
   }
