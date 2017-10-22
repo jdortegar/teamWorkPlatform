@@ -68,9 +68,6 @@ class ChatContent extends Component {
   render() {
     const { invitation } = this.props;
     return (
-      /* <div className="chat-wrapper">
-        <h1>asdmadmask</h1>
-      </div> */
       <FileDrop
         onDrop={this.updateFileList}
         onFrameDragEnter={() => this.setState({ isDraggingOver: true })}
