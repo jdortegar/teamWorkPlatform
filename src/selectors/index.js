@@ -74,7 +74,7 @@ export const getSubscribersOfSubscriberOrgId = createCachedSelector(
 /**
  * Return user details, as well as orgs, teams, and team rooms.
  * This is "deep" details, where orgs, teams, and team rooms are realized.
- * Note that this information needs to be in redux.  Refer to actions requestSubscriberOrgs, requestAllTeams, and
+ * Note that this information needs to be in redux.  Refer to actions fetchSubscriberOrgs, requestAllTeams, and
  * requestAllTeamRooms.
  *
  * If the return is undefined, you'll have to wait until all relevant info is obtained by the described actions.

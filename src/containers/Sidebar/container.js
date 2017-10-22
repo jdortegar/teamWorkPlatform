@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import { toggleOrgDialog,
-  requestSubscriberOrgs,
+  fetchSubscriberOrgs,
   requestAllTeams, requestAllTeamRooms,
   toggleInvitePeopleDialog, toggleOrgSettingsDialog,
   toggleTeamDialog, toggleTeamRoomDialog, setCurrentSubscriberOrgId
@@ -26,7 +26,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     setCurrentSubscriberOrgId,
     toggleOrgDialog,
-    requestSubscriberOrgs,
+    fetchSubscriberOrgs,
     requestAllTeams,
     toggleInvitePeopleDialog,
     requestAllTeamRooms,

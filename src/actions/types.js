@@ -1,12 +1,3 @@
-
-
-export const clearUrlRequest = (requestUrl) => {
-  return {
-    type: URLREQUEST_CLEAR,
-    payload: { requestUrl }
-  };
-};
-
 //= =====================
 // Registration Actions
 //= =====================
@@ -27,12 +18,6 @@ export const LOGGING_IN = 'logging_in';
 //= =====================
 // SubscriberOrgs Actions
 //= =====================
-export const REQUESTING_SUBSCRIBER_ORGS = 'requesting_subscriber_orgs';
-export const RECEIVE_SUBSCRIBER_ORGS = 'receive_subscriber_orgs';
-export const RECEIVE_SUBSCRIBER_ORG = 'receive_subscriber_org';
-export const REQUEST_SUBSCRIBER_ORGS_ERROR = 'request_subscriber_orgs_error';
-export const SET_CURRENT_SUBSCRIBER_ORG_ID = 'set_current_subscriber_org_id';
-export const CREATE_SUBSCRIBER_ORG = 'create_subscriber_org';
 export const SHOW_INVITE_DIALOG = 'show_invite_dialog';
 export const SHOW_ORG_DIALOG = 'show_org_dialog';
 export const SHOW_ORG_SETTINGS_DIALOG = 'show_org_settings_dialog';

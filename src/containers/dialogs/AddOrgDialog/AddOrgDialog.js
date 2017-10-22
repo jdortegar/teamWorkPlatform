@@ -4,12 +4,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import TextField from '../../../components/formFields/TextField';
-import { createSubscriberOrg, toggleOrgDialog } from '../../../actions';
+import { createSubscriberOrgFromDialog, toggleOrgDialog } from '../../../actions';
 import { formShape } from '../../../propTypes';
 
 const propTypes = {
   form: formShape.isRequired,
-  createSubscriberOrg: PropTypes.func.isRequired,
+  createSubscriberOrgFromDialog: PropTypes.func.isRequired,
   toggleOrgDialog: PropTypes.func.isRequired,
   submittingOrgForm: PropTypes.bool.isRequired,
   showOrgDialog: PropTypes.bool.isRequired
@@ -36,7 +36,7 @@ class AddOrgDialog extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, name) => {
       if (!err) {
-        this.props.createSubscriberOrg(name)
+        this.props.createSubscriberOrgFromDialog(name)
           .then(() => {
             this.props.toggleOrgDialog(false);
           });
@@ -73,12 +73,12 @@ class AddOrgDialog extends Component {
 function mapStateToProps(state) {
   return {
     showOrgDialog: state.dialogs.showOrgDialog,
-    submittingOrgForm: state.subscriberOrgs.submittingOrgForm
+    submittingOrgForm: state.dialogs.submittingOrgForm
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ createSubscriberOrg, toggleOrgDialog }, dispatch);
+  return bindActionCreators({ createSubscriberOrgFromDialog, toggleOrgDialog }, dispatch);
 }
 
 AddOrgDialog.propTypes = propTypes;
