@@ -19,6 +19,7 @@ import NotificationsPage from '../../pages/NotificationsPage';
 import AcceptInvitationPage from '../../pages/AcceptInvitationPage';
 import { routesPaths } from '../../routes';
 import { sound1 } from '../../sounds';
+import './styles/style.css';
 
 const { Content } = Layout;
 
@@ -74,7 +75,7 @@ class MainContent extends Component {
   render() {
     const { invitation } = this.props;
     return (
-      <Content style={{ background: '#fff', margin: 0, minHeight: '100vh' }}>
+      <Content className="layout-wrapper">
         <div>
           {
             invitation.length > 0 ? invitation.map(el => <Notification options={el} />) : null
