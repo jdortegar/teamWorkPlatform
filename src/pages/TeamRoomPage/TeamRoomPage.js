@@ -11,7 +11,7 @@ import TextField from '../../components/formFields/TextField';
 import UserIcon from '../../components/UserIcon';
 import PreviewBar from '../../components/PreviewBar';
 import Message from '../../components/Message';
-import { getJwt } from '../../session';
+import { getJwt, getResourcesUrl } from '../../session';
 import config from '../../config/env';
 import messages from './messages';
 import './styles/style.css';
@@ -55,6 +55,8 @@ const propTypes = {
 const defaultProps = {
   files: []
 };
+
+const resourceUrl = getResourcesUrl();
 
 
 function createMessage(conversationId, postBody) {
@@ -176,7 +178,7 @@ class TeamRoomPage extends Component {
       }
     };
 
-    return axios.put(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${file.name}`, file.src, requestConfig);
+    return axios.put(`${resourceUrl}/${file.name}`, file.src, requestConfig);
   }
 
   handleSubmit(e) {

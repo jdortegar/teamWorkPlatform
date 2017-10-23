@@ -16,7 +16,6 @@ const language = (navigator.languages && navigator.languages[0]) || navigator.la
 const languageWithoutRegionCode = language.toLowerCase().split(/[_-]+/)[0];
 const messages = translationMessages[languageWithoutRegionCode] || translationMessages[language] || translationMessages.en;
 
-
 const propTypes = {
   store: object.isRequired,
   history: object.isRequired
@@ -32,7 +31,7 @@ const App = ({ store, history }) => {
     <LocaleProvider locale={enUS}>
       <Provider store={store}>
         <IntlProvider
-          locale={language}
+          locale={'en-US'}
           messages={messages}
         >
           <ConnectedRouter history={history}>
