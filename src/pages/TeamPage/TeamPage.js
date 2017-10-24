@@ -11,9 +11,10 @@ import UploadImageField from '../../components/formFields/UploadImageField';
 import EditButton from '../../components/buttons/EditButton';
 import messages from './messages';
 import UserIcon from '../../components/UserIcon';
+import './styles/style.css';
 
 const propTypes = {
-  requestTeamRooms: PropTypes.func.isRequired,
+  fetchTeamRooms: PropTypes.func.isRequired,
   requestTeamMembers: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -36,7 +37,7 @@ class TeamPage extends Component {
   componentDidMount() {
     const { teamId, status } = this.props.match.params;
 
-    this.props.requestTeamRooms(teamId).then(() => this.setState({
+    this.props.fetchTeamRooms(teamId).then(() => this.setState({
       teamRoomsLoaded: true,
       teamRooms: this.props.teamRooms
     }));

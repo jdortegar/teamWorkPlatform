@@ -1,4 +1,4 @@
-import config from '../config/env';
+import config from '../config';
 import { doAuthenticatedRequest } from './urlRequest';
 
 export const SUBSCRIBERORGS_FETCH_SUCCESS = 'subscriberorgs/fetch/success';
@@ -17,15 +17,15 @@ export const fetchSubscriberOrgs = (getKey) => { // eslint-disable-line import/p
     }, reduxState, getKey));
 
     if (!getKey) {
-      thunk.then((responseOrKey) => {
-        if (responseOrKey.data) {
-          const { subscriberOrgs } = responseOrKey.data;
+      thunk.then((response) => {
+        if (response.data) {
+          const { subscriberOrgs } = response.data;
           dispatch({
             type: SUBSCRIBERORGS_FETCH_SUCCESS,
             payload: { subscriberOrgs }
           });
         }
-        return responseOrKey;
+        return response;
       });
     }
 

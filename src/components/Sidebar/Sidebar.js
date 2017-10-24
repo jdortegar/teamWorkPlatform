@@ -15,8 +15,8 @@ const propTypes = {
   toggleOrgDialog: PropTypes.func.isRequired,
   toggleTeamRoomDialog: PropTypes.func.isRequired,
   toggleTeamDialog: PropTypes.func.isRequired,
-  requestAllTeamRooms: PropTypes.func.isRequired,
-  requestAllTeams: PropTypes.func.isRequired,
+  fetchTeamRooms: PropTypes.func.isRequired,
+  featchTeams: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.array.isRequired,
   teams: PropTypes.array.isRequired,
   teamRooms: PropTypes.array.isRequired,
@@ -47,12 +47,13 @@ class Sidebar extends Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.onClickEditOrg = this.onClickEditOrg.bind(this);
+    this.handleAddOrganization = this.handleAddOrganization.bind(this);
   }
 
   componentDidMount() {
     this.props.fetchSubscriberOrgs();
-    this.props.requestAllTeams();
-    this.props.requestAllTeamRooms();
+    this.props.fetchTeams();
+    this.props.fetchTeamRooms();
   }
 
   onClickEditOrg(e, orgId, url, teamId = null) {
@@ -174,6 +175,10 @@ class Sidebar extends Component {
     });
   }
 
+  handleAddOrganization() {
+    this.props.toggleOrgDialog(true);
+  }
+
   render() {
     if (this.props.subscriberOrgs.length === 0) {
       return null;
@@ -183,20 +188,19 @@ class Sidebar extends Component {
       <Sider width={235} style={{ background: '#fff' }} className="Sidebar">
 
         <div className="Sidebar-menu-item-label">{messages.organizations}</div>
-        <Menu
-          mode="inline"
-          style={{ height: '100%', borderRight: 0 }}
-          onClick={this.handleClick}
-          openKeys={this.state.openKeys}
-          className="Sidebar__menu"
-        >
-          { this.renderOrgs() }
-          <Menu.Item key="add-org">
-            <div className="add-organization-button">
-              <i className="Sidebar__i fa fa-plus" /> {messages.addOrganization}
-            </div>
-          </Menu.Item>
-        </Menu>
+        <div className="organization-list">
+          <Menu
+            mode="inline"
+            onClick={this.handleClick}
+            openKeys={this.state.openKeys}
+            className="Sidebar__menu"
+          >
+            { this.renderOrgs() }
+          </Menu>
+          <div className="add-organization-button" onClick={this.handleAddOrganization}>
+            <i className="Sidebar__i fa fa-plus" /> {messages.addOrganization}
+          </div>
+        </div>
       </Sider>
     );
   }

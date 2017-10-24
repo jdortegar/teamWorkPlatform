@@ -7,7 +7,6 @@ import { IconCard } from '../../components/cards';
 import UserIcon from '../../components/UserIcon/UserIcon';
 import CardView from './CardView';
 import ListView from './ListView';
-import './styles/style.css';
 
 const propTypes = {
   integrations: PropTypes.PropTypes.shape({

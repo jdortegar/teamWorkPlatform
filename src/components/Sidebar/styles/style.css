@@ -3,6 +3,7 @@
   border-bottom: 1px solid #ddd;
   font-weight: bold;
   color: #999;
+  height: 5%;
 }
 .Sidebar__i {
   margin-right: 5px;
@@ -16,18 +17,32 @@
   background: #f6f6f6;
 }
 .add-organization-button {
-  background: #36b659;
+  background-color: #36b659;
   color: #fff;
-  padding: 0 10px;
-  margin: 10px 0;
+  padding: 1em 0;
+  margin: 1em 2em;
+  text-align: center;
   border-radius: 2px;
-  height: auto!important;
+  cursor: pointer;
 }
+.add-organization-button:hover {
+  background-color: #46c669;
+}
+
 .Sidebar {
-  position: fixed;
-  top: 68px;
-  min-height: 100vh;
+  position: absolute;
+  top: 0;
+  bottom: 0;
 }
+.Sidebar > div {
+  height: 100%;
+}
+
+.organization-list {
+  overflow: scroll;
+  height: 95%;
+} 
+
 .Sidebar .ant-menu-item-selected {
   background-color: #f1f1f1 !important;
 }
@@ -40,6 +55,9 @@
 }
 .Sidebar__name-span {
   padding-left: 6px;
+}
+.Sidebar__menu {
+  border-right: 0px;
 }
 .Sidebar__menu li {
   border-bottom: 1px solid #eee;

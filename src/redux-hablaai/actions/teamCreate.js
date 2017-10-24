@@ -1,12 +1,12 @@
-import config from '../config/env';
+import config from '../config';
 import { doAuthenticatedRequest } from './urlRequest';
 
-export const createSubscriberOrg = (createObject, getKey) => { // eslint-disable-line import/prefer-default-export
+export const createTeam = (createObject, subscriberOrgId, getKey) => { // eslint-disable-line import/prefer-default-export
   // requestUrl is the key into redux state.urlRequests.
-  const requestUrl = `${config.hablaApiBaseUri}/subscriberOrgs/createSubscriberOrg`;
+  const requestUrl = `${config.hablaApiBaseUri}/teams/createTeam/${subscriberOrgId}`;
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
-  const reduxState = { createObject };
+  const reduxState = { createObject, subscriberOrgId };
 
   return doAuthenticatedRequest({
     requestUrl,

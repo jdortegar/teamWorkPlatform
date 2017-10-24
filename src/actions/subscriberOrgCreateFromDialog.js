@@ -1,4 +1,4 @@
-import { createSubscriberOrg } from './subscriberOrgCreate';
+import { createSubscriberOrg } from '../redux-hablaai/actions/subscriberOrgCreate';
 import { SUBMITTING_ORG_FORM } from './types';
 
 export const createSubscriberOrgFromDialog = (createObject, getKey) => { // eslint-disable-line import/prefer-default-export

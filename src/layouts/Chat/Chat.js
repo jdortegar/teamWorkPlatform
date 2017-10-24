@@ -12,7 +12,7 @@ function Chat() {
       <Header />
       <Layout className="ant-layout-has-sider">
         <Sidebar />
-        <Layout style={{ padding: '91px 24px 24px 259px' }}>
+        <Layout style={{ padding: '20px 24px 20px 259px' }}>
           <ChatContent />
           <AddOrgDialog />
         </Layout>

@@ -75,20 +75,16 @@ class ChatContent extends Component {
         frame={document}
         targetAlwaysVisible
       >
-        <Content style={{ background: '#fff', margin: 0, minHeight: '100vh' }}>
-          <div>
-            {
-              invitation.length > 0 ? invitation.map(el => <Notification options={el} />) : null
-            }
-            <TeamRoomPage
-              files={this.state.fileList}
-              updateFileList={this.updateFileList}
-              removeFileFromList={this.removeFileFromList}
-              isDraggingOver={this.state.isDraggingOver}
-              clearFileList={this.clearFileList}
-              addBase={this.addBase}
-            />
-          </div>
+        <Content style={{ background: '#fff', margin: 0, height: '85vh' }}>
+          {invitation.length > 0 ? invitation.map(el => <Notification options={el} />) : null}
+          <TeamRoomPage
+            files={this.state.fileList}
+            updateFileList={this.updateFileList}
+            removeFileFromList={this.removeFileFromList}
+            isDraggingOver={this.state.isDraggingOver}
+            clearFileList={this.clearFileList}
+            addBase={this.addBase}
+          />
         </Content>
       </FileDrop>
     );
