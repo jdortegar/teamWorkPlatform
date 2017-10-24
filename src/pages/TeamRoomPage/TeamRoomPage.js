@@ -161,11 +161,12 @@ class TeamRoomPage extends Component {
   }
 
   createResource(file) {
+    console.log(file);
     const requestConfig = {
       headers: {
         Authorization: `Bearer ${getJwt()}`,
-        'Content-Type': 'image/jpeg',
-        'x-hablaai-content-length': file.src.length
+        'Content-Type': file.type,
+        'x-hablaai-content-length': file.src.length,
       },
       onUploadProgress: (progressEvent) => {
         const { total, loaded } = progressEvent;
@@ -198,7 +199,9 @@ class TeamRoomPage extends Component {
                   type: this.props.files[index].type,
                   resourceId: createdResource.data.resourceId,
                   meta: {
-                    fileName: this.props.files[index].name
+                    fileName: this.props.files[index].name,
+                    fileSize: this.props.files[index].size,
+                    lastModified: this.props.files[index].lastModifiedDate
                   }
                 };
               });

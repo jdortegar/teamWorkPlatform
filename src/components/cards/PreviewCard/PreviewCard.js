@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Icon } from 'antd';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import './styles/style.css';
 
 const propTypes = {
@@ -36,10 +37,32 @@ class PreviewCard extends Component {
       });
   }
 
+  renderFile(isImage, fileName) {
+    const [name, extension] = fileName.split('.');
+    if (isImage) {
+      return <img className="PreviewCard__image" alt="example" width="100%" src={this.props.file.src} />;
+    }
+    return <div>
+      <div className="file-wrapper">
+        <i className="fa fa-file file-icon" aria-hidden="true">
+        </i>
+        <span className="file-type">{extension}</span>
+      </div>
+      <span className="file-name">{name}</span>
+    </div>;
+  }
+
   render() {
+    const { file } = this.props;
+    const fileType = file.type.split('/')[0];
+    const isImage = fileType === 'image';
+    const previewCard = classNames({
+      'PreviewCard__container': true,
+      'PreviewCard__is-file': !isImage
+    });
     return (
       <Card
-        className="PreviewCard__container"
+        className={previewCard}
         extra={
           <a className="PreviewCard__close-button" onClick={this.props.handleRemove}>
             <Icon type="close-circle" />
@@ -47,7 +70,7 @@ class PreviewCard extends Component {
         }
         bordered={false}
       >
-        <img className="PreviewCard__image" alt="example" width="100%" src={this.props.file.src} />
+        {this.renderFile(isImage, file.name)}
       </Card>
     );
   }
