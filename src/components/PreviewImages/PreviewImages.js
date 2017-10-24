@@ -91,16 +91,16 @@ class PreviewImages extends Component {
         </div>
       }
 
-      return <a href={file.src} download>
-        <div className="image-wrapper preview__file-wrapper" onClick={() => this.handlePreview(file.src, isImage, extension)}>
+      return <div className="image-wrapper preview__file-wrapper" onClick={() => this.handlePreview(file.src, isImage, extension)}>
+        <a href={file.src} download={file.fileName}>
           <div className="file-wrapper__extension">
             <i className="fa fa-file file-icon" aria-hidden="true">
             </i>
             <span className="file-wrapper__file-type">{extension}</span>
           </div>
-          <span className="file-name"><a href={file.src} download>{decodeURI(name)}</a></span>
-        </div>
-      </a>
+          <span className="file-name">{decodeURI(name)}</span>
+        </a>
+      </div>
     });
   }
 
@@ -116,7 +116,7 @@ class PreviewImages extends Component {
           { isImage ?
             <img className="PreviewImages__modal-img" alt="" src={previewImage} />
             :
-            <iframe src={previewImage} width="970" height="600" />
+            <iframe src={previewImage} width="970" height="700" />
           }
         </Modal>
       </div>

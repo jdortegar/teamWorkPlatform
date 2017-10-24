@@ -161,7 +161,6 @@ class TeamRoomPage extends Component {
   }
 
   createResource(file) {
-    console.log(file);
     const requestConfig = {
       headers: {
         Authorization: `Bearer ${getJwt()}`,
