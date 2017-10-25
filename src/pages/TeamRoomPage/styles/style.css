@@ -7,6 +7,10 @@
 .team-room__chat-input {
     border: 1px solid #ddd;
     border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5em 0;
 }
 .team-room__header-links {
   padding: 6px 10px;
@@ -39,19 +43,15 @@
 .team-room__chat-input-form-item {
   margin-bottom: 0;
 }
-.team-room__chat-input-col {
-  padding: 6px 0;
-}
-.team-room__chat-input-col.team-room__chat-icon-col {
-  display: flex;
-  justify-content: center;
-}
 .team-room__icons {
   font-size: 18px;
   padding: 0 5px;
 }
 .team-room__chat-container {
-  padding: 1em 2em;
+  padding: 1em;
+}
+.team-room__chat-input-wrapper {
+  flex: 1;
 }
 .team-room-chat {
   height: 100%;
@@ -89,4 +89,16 @@
 }
 .team-room__chat-col-icons {
   display: flex;
+  margin-right: 1em;
+}
+.team-room__chat-input__image-wrapper {
+  margin-left: 1em;
+}
+.file-drop {
+  display: flex;
+  flex: 1;
+}
+.file-drop > .file-drop-target {
+  display: flex;
+  flex: 1;
 }

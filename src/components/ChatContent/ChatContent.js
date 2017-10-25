@@ -75,7 +75,7 @@ class ChatContent extends Component {
         frame={document}
         targetAlwaysVisible
       >
-        <Content style={{ background: '#fff', margin: 0, height: '85vh' }}>
+        <Content style={{ background: '#fff', margin: 0 }}>
           {invitation.length > 0 ? invitation.map(el => <Notification options={el} />) : null}
           <TeamRoomPage
             files={this.state.fileList}
