@@ -3,28 +3,22 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import { toggleOrgDialog,
   fetchSubscriberOrgs,
-  fetchTeams, fetchTeamRooms,
+  requestAllTeams, requestAllTeamRooms,
   toggleInvitePeopleDialog, toggleOrgSettingsDialog,
   toggleTeamDialog, toggleTeamRoomDialog, setCurrentSubscriberOrgId
 } from '../../actions';
-import {
-  getSubscriberOrgs,
-  getCurrentSubscriberOrgId,
-  getTeams,
-  getTeamById,
-  getTeamIdsBySubscriberOrgId,
-  getTeamRooms
-} from '../../selectors';
+import { getSubscriberOrgsSortedAlphabetically } from '../../selectors';
 import Sidebar from '../../components/Sidebar';
 
 function mapStateToProps(state) {
   return {
-    subscriberOrgs: getSubscriberOrgs(state),
-    currentSubscriberOrgId: getCurrentSubscriberOrgId(state),
-    teams: getTeams(state),
-    teamById: getTeamById(state),
-    teamIdsBySubscriberOrgId: getTeamIdsBySubscriberOrgId(state),
-    teamRooms: getTeamRooms(state)
+    subscriberOrgs: getSubscriberOrgsSortedAlphabetically(state),
+    currentSubscriberOrgId: state.subscriberOrgs.currentSubscriberOrgId,
+    teams: state.teams.raw,
+    teamById: state.teams.teamById,
+    teamIdsBySubscriberOrgId: state.teams.teamIdsBySubscriberOrgId,
+    teamRooms: state.teamRooms.raw,
+    currentTeamIdBySubscriberOrgId: state.teams.currentTeamIdBySubscriberOrgId
   };
 }
 
@@ -33,9 +27,9 @@ function mapDispatchToProps(dispatch) {
     setCurrentSubscriberOrgId,
     toggleOrgDialog,
     fetchSubscriberOrgs,
-    fetchTeams,
+    requestAllTeams,
     toggleInvitePeopleDialog,
-    fetchTeamRooms,
+    requestAllTeamRooms,
     toggleOrgSettingsDialog,
     toggleTeamDialog,
     toggleTeamRoomDialog }, dispatch);

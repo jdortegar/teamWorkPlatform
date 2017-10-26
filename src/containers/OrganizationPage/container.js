@@ -9,7 +9,7 @@ import { requestSubscribers,
   getUserDetailsByUserId
 } from '../../actions';
 import { getSubscribersOfSubscriberOrgId,
-  getTeamsOfSubscriberOrgId,
+  getTeamsOfSubscriberOrgIdSortedAlphabetically,
   getIntegrationsOfSubscriberOrgId
 } from '../../selectors';
 
@@ -21,7 +21,7 @@ function mapStateToProps(state, props) {
     subscriberOrgs: state.subscriberOrgs,
     integrations: state.integrations,
     subscribers: getSubscribersOfSubscriberOrgId(state, subscriberOrgId),
-    teams: getTeamsOfSubscriberOrgId(state, subscriberOrgId),
+    teams: getTeamsOfSubscriberOrgIdSortedAlphabetically(state, subscriberOrgId),
     integrations2: getIntegrationsOfSubscriberOrgId(state, subscriberOrgId),
     teamRooms: state.teamRooms
   };

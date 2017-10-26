@@ -341,11 +341,11 @@ class TeamRoomPage extends Component {
                 isDraggingOver={this.props.isDraggingOver}
               />
             }
-            <Row type="flex" justify="start" align="middle" gutter={20} className="team-room__chat-input">
-              <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-icon-col">
+            <div className="team-room__chat-input">
+              <div className="team-room__chat-input__image-wrapper">
                 <UserIcon user={user} type="user" minWidth="2.5em" width="2.5em" height="2.5em" key={user.userId} />
-              </Col>
-              <Col xs={{ span: 20 }} className="team-room__chat-input-col">
+              </div>
+              <div className="team-room__chat-input-wrapper">
                 <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off">
                   <TextField
                     componentKey="message"
@@ -357,8 +357,8 @@ class TeamRoomPage extends Component {
                     inputClassName="team-room__chat-input-textfield"
                   />
                 </Form>
-              </Col>
-              <Col xs={{ span: 2 }} className="team-room__chat-input-col team-room__chat-col-icons">
+              </div>
+              <div className="team-room__chat-col-icons">
                 <a className="team-room__icons" role="button" tabIndex={0} onClick={this.handleSubmit}>
                   <i className="fa fa-paper-plane-o" />
                 </a>
@@ -372,8 +372,9 @@ class TeamRoomPage extends Component {
                   />
                   <label htmlFor="fileupload" className="team-room__icons"><i className="fa fa-folder-o" /></label>
                 </div>
-              </Col>
-            </Row>
+              </div>
+            </div>
+
           </SimpleCardContainer>
 
         </div>
