@@ -22,7 +22,7 @@ const propTypes = {
     currentSubscriberOrgId: PropTypes.string
   }).isRequired,
   setCurrentSubscriberOrgId: PropTypes.func.isRequired,
-  requestSubscribers: PropTypes.func.isRequired,
+  fetchSubscribersBySubscriberOrgId: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       subscriberOrgId: PropTypes.string
@@ -54,7 +54,7 @@ class OrganizationPage extends Component {
     if (subscriberOrgId !== this.props.subscriberOrgs.currentSubscriberOrgId) {
       this.props.setCurrentSubscriberOrgId(subscriberOrgId);
     }
-    this.props.requestSubscribers(subscriberOrgId).then(() => this.setState({ subscribersLoaded: true }));
+    this.props.fetchSubscribersBySubscriberOrgId(subscriberOrgId).then(() => this.setState({ subscribersLoaded: true }));
     this.props.requestIntegrations(subscriberOrgId).then(() => {
       this.setState({ integrationsLoaded: true });
     });

@@ -1,12 +1,11 @@
 import config from '../config';
 import { doAuthenticatedRequest } from './urlRequest';
 
-export const TEAMS_FETCH_SUCCESS = 'teams/fetch/success';
+export const SUBSCRIBERS_FETCH_SUCCESS = 'subscribers/fetch/success';
 
-export const fetchTeamsBySubscriberOrgId = (subscriberOrgId, getKey) => {
+export const fetchSubscribersBySubscriberOrgId = (subscriberOrgId, getKey) => {
   // requestUrl is the key into redux state.urlRequests.
-  let requestUrl = `${config.hablaApiBaseUri}/teams/getTeams`;
-  requestUrl = (typeof subscriberOrgId === 'string') ? `${requestUrl}?subscriberOrgId=${subscriberOrgId}` : requestUrl;
+  const requestUrl = `${config.hablaApiBaseUri}/subscriberOrgs/getSubscribers/${subscriberOrgId}`;
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = {};
@@ -20,10 +19,10 @@ export const fetchTeamsBySubscriberOrgId = (subscriberOrgId, getKey) => {
     if (!getKey) {
       thunk.then((response) => {
         if (response.data) {
-          const { teams } = response.data;
+          const { subscribers } = response.data;
           dispatch({
-            type: TEAMS_FETCH_SUCCESS,
-            payload: { teams }
+            type: SUBSCRIBERS_FETCH_SUCCESS,
+            payload: { subscribers, subscriberOrgId }
           });
         }
         return response;
@@ -32,8 +31,4 @@ export const fetchTeamsBySubscriberOrgId = (subscriberOrgId, getKey) => {
 
     return thunk;
   };
-};
-
-export const fetchTeams = (getKey) => {
-  return fetchTeamsBySubscriberOrgId(undefined, getKey);
 };

@@ -2,6 +2,7 @@ import config from '../redux-hablaai/config';
 import EventTypes from '../common-hablaai/EventTypes';
 import {
   receiveSubscriberOrg,
+  receiveSubscriber,
   receiveTeam,
   receiveTeamRoom
 } from '../actions';
@@ -32,6 +33,10 @@ export default function (eventType, event) {
       break;
     case EventTypes.subscriberOrgPrivateInfoUpdated:
       // TODO:
+      break;
+    case EventTypes.subscriberAdded:
+      // TODO: implement this whole process all the way to action -> reducer -> selectors.
+      config.store.dispatch(receiveSubscriber(event, event.subscriberOrgId));
       break;
 
     case EventTypes.teamCreated:

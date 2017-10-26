@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import { toggleOrgDialog,
   fetchSubscriberOrgs,
-  requestAllTeams, requestAllTeamRooms,
+  fetchTeams, fetchTeamRooms,
   toggleInvitePeopleDialog, toggleOrgSettingsDialog,
   toggleTeamDialog, toggleTeamRoomDialog, setCurrentSubscriberOrgId
 } from '../../actions';
@@ -27,9 +27,9 @@ function mapDispatchToProps(dispatch) {
     setCurrentSubscriberOrgId,
     toggleOrgDialog,
     fetchSubscriberOrgs,
-    requestAllTeams,
+    fetchTeams,
     toggleInvitePeopleDialog,
-    requestAllTeamRooms,
+    fetchTeamRooms,
     toggleOrgSettingsDialog,
     toggleTeamDialog,
     toggleTeamRoomDialog }, dispatch);

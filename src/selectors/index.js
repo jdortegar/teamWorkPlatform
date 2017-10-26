@@ -9,11 +9,14 @@ import {
 export const getUrlRequests = state => state.urlRequests;
 
 const getCurrentUser = state => state.auth.user;
-const getUsersByUserId = state => state.users.usersByUserId;
+export const getUsersByUserId = state => state.users.usersByUserId;
 
 const getSubscriberOrgById = state => state.subscriberOrgs.subscriberOrgById;
 export const getCurrentSubscriberOrgId = state => state.subscriberOrgs.currentSubscriberOrgId;
-const getSubscriberUserIdsBySubscriberOrgId = state => state.subscribers.subscriberUserIdsBySubscriberOrgId;
+
+const getSubscribersByUserId = state => state.subscribers.subscribersByUserId;
+const getSubscriberUserIdByUserId = state => state.subscribers.subscriberUserIdByUserId;
+const getUserIdsBySubscriberOrgId = state => state.subscribers.userIdsBySubscriberOrgId;
 
 export const getTeamById = state => state.teams.teamById;
 export const getTeamIdsBySubscriberOrgId = state => state.teams.teamIdsBySubscriberOrgId;
@@ -65,13 +68,13 @@ export const getCurrentSubscriberOrg = createSelector(
 );
 
 export const getSubscribersOfSubscriberOrgId = createCachedSelector(
-  [getSubscriberUserIdsBySubscriberOrgId, getUsersByUserId, (state, subscriberOrgId) => subscriberOrgId],
-  (subscriberUserIdsBySubscriberOrgId, usersByUserId, subscriberOrgId) => {
-    if ((!subscriberOrgId) || (!subscriberUserIdsBySubscriberOrgId[subscriberOrgId])) {
+  [getUserIdsBySubscriberOrgId, getUsersByUserId, (state, subscriberOrgId) => subscriberOrgId],
+  (userIdsBySubscriberOrgId, usersByUserId, subscriberOrgId) => {
+    if ((!subscriberOrgId) || (!userIdsBySubscriberOrgId[subscriberOrgId])) {
       return [];
     }
 
-    const userIds = subscriberUserIdsBySubscriberOrgId[subscriberOrgId];
+    const userIds = userIdsBySubscriberOrgId[subscriberOrgId];
     return userIds.map(userId => usersByUserId[userId]);
   }
 )(

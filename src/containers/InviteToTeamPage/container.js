@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
 import InviteToTeamPage from '../../pages/InviteToTeamPage';
 import { inviteMembersToTeam } from '../../actions';
+import { getSubscriberOrgById } from '../../selectors';
 
 function mapStateToProps(state) {
   return {
-    subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
-    subscribers: state.subscribers.subscribersBySubscriberOrgId,
+    subscriberOrgById: getSubscriberOrgById(state),
+    subscribers: state.subscribers.subscribersBySubscriberOrgId, // TODO: use selector
     teams: state.teams
   };
 }

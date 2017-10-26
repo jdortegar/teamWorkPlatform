@@ -21,13 +21,6 @@ export const SUBMITTING_INVITE_ORG_FORM = 'submitting_invite_org_form';
 export const SET_CURRENT_DIALOG_ORG_ID = 'set_current_dialog_org_id';
 
 //= =====================
-// Subscribers Actions
-//= =====================
-export const REQUESTING_SUBSCRIBERS = 'requesting_subscribers';
-export const RECEIVE_SUBSCRIBERS = 'receive_subscribers';
-export const REQUEST_SUBSCRIBERS_ERROR = 'request_subscribers_error';
-
-//= =====================
 // Invitation Actions
 //= =====================
 export const RECEIVE_INVITATION = 'receive_invitation';
