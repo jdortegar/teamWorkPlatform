@@ -2,7 +2,8 @@ import _ from 'lodash';
 import { createSelector } from 'reselect';
 import createCachedSelector from 're-reselect';
 import {
-  sortByName
+  sortByName,
+  primaryAtTop,
 } from './helpers';
 
 // ------- Directly from state. START
@@ -217,8 +218,8 @@ export const getTeamsOfSubscriberOrgIdSortedAlphabetically = createCachedSelecto
 
     const teamIds = teamIdsBySubscriberOrgId[subscriberOrgId];
 
-    const teams = teamIds.map(teamId => teamById[teamId]);
-    teams.sort(sortByName); // sorted
+    let teams = teamIds.map(teamId => teamById[teamId]);
+    teams = primaryAtTop(teams.sort(sortByName));
     return teams;
   }
 )(
@@ -317,8 +318,9 @@ export const getTeamRoomsOfTeamIdSortedAlphabetically = createCachedSelector(
 
     const teamRoomIds = teamRoomIdsByTeamId[teamId];
 
-    const teamRooms = teamRoomIds.map(teamRoomId => teamRoomById[teamRoomId]);
+    let teamRooms = teamRoomIds.map(teamRoomId => teamRoomById[teamRoomId]);
     teamRooms.sort(sortByName); // sorted
+    teamRooms = primaryAtTop(teamRooms);
     return teamRooms;
   }
 )(
