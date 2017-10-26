@@ -7,12 +7,12 @@ import { toggleOrgDialog,
   toggleInvitePeopleDialog, toggleOrgSettingsDialog,
   toggleTeamDialog, toggleTeamRoomDialog, setCurrentSubscriberOrgId
 } from '../../actions';
-import { getSubscriberOrgs } from '../../selectors';
+import { getSubscriberOrgsSortedAlphabetically } from '../../selectors';
 import Sidebar from '../../components/Sidebar';
 
 function mapStateToProps(state) {
   return {
-    subscriberOrgs: getSubscriberOrgs(state),
+    subscriberOrgs: getSubscriberOrgsSortedAlphabetically(state),
     currentSubscriberOrgId: state.subscriberOrgs.currentSubscriberOrgId,
     teams: state.teams.raw,
     teamById: state.teams.teamById,

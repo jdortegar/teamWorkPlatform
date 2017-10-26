@@ -32,13 +32,6 @@ const defaultProps = {
   teamRooms: []
 };
 
-function sortByName(a, b) {
-  if (a.name < b.name) return -1;
-  else if (a.name > b.name) return 1;
-  return 0;
-}
-
-
 class Sidebar extends Component {
   constructor(props) {
     super(props);
@@ -89,7 +82,7 @@ class Sidebar extends Component {
   }
 
   renderTeamRooms(teamId) {
-    const teamRooms = this.props.teamRooms.sort(sortByName);
+    const { teamRooms } = this.props;
     return teamRooms.reduce((acc, teamRoom) => {
       if (teamId === teamRoom.teamId) {
         acc.push(
@@ -109,7 +102,7 @@ class Sidebar extends Component {
   }
 
   renderTeams(orgId) {
-    const teams = this.props.teams.sort(sortByName);
+    const { teams } = this.props;
     return teams.reduce((acc, team) => {
       if (team.subscriberOrgId === orgId) {
         const teamRooms = this.renderTeamRooms(team.teamId);
@@ -142,7 +135,7 @@ class Sidebar extends Component {
   }
 
   renderOrgs() {
-    const subscriberOrgs = this.props.subscriberOrgs.sort(sortByName);
+    const { subscriberOrgs } = this.props;
     return subscriberOrgs.map((subscriberOrg) => {
       const teams = this.renderTeams(subscriberOrg.subscriberOrgId);
 

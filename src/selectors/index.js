@@ -1,6 +1,9 @@
 import _ from 'lodash';
 import { createSelector } from 'reselect';
 import createCachedSelector from 're-reselect';
+import {
+  sortByName
+} from './helpers';
 
 // ------- Directly from state. START
 export const getUrlRequests = state => state.urlRequests;
@@ -46,6 +49,14 @@ export const getSubscriberOrgs = createSelector(
   [getSubscriberOrgById],
   (subscriberOrgById) => {
     return Object.values(subscriberOrgById);
+  }
+);
+
+export const getSubscriberOrgsSortedAlphabetically = createSelector(
+  [getSubscriberOrgById],
+  (subscriberOrgById) => {
+    const subscriberOrgsSorted = Object.values(subscriberOrgById).sort(sortByName);
+    return subscriberOrgsSorted;
   }
 );
 
@@ -197,6 +208,23 @@ export const getTeamsOfSubscriberOrgId = createCachedSelector(
   (state, subscriberOrgId) => subscriberOrgId
 );
 
+export const getTeamsOfSubscriberOrgIdSortedAlphabetically = createCachedSelector(
+  [getTeamIdsBySubscriberOrgId, getTeamById, (state, subscriberOrgId) => subscriberOrgId],
+  (teamIdsBySubscriberOrgId, teamById, subscriberOrgId) => {
+    if ((!subscriberOrgId) || (!teamIdsBySubscriberOrgId[subscriberOrgId])) {
+      return []; // TODO: null (to differentiate from valid data).  Also, elsewhere.
+    }
+
+    const teamIds = teamIdsBySubscriberOrgId[subscriberOrgId];
+
+    const teams = teamIds.map(teamId => teamById[teamId]);
+    teams.sort(sortByName); // sorted
+    return teams;
+  }
+)(
+  (state, subscriberOrgId) => subscriberOrgId
+);
+
 export const getTeamMembersOfTeamId = createCachedSelector(
   [getTeamMemberUserIdsByTeamId, getUsersByUserId, (state, teamId) => teamId],
   (teamMemberUserIdsByTeamId, usersByUserId, teamId) => {
@@ -274,6 +302,24 @@ export const getTeamRoomsOfTeamId = createCachedSelector(
 
     const teamRoomIds = teamRoomIdsByTeamId[teamId];
     return teamRoomIds.map(teamRoomId => teamRoomById[teamRoomId]);
+  }
+)(
+  (state, teamId) => teamId
+);
+
+
+export const getTeamRoomsOfTeamIdSortedAlphabetically = createCachedSelector(
+  [getTeamRoomIdsByTeamId, getTeamRoomById, (state, teamId) => teamId],
+  (teamRoomIdsByTeamId, teamRoomById, teamId) => {
+    if ((!teamId) || (!teamRoomIdsByTeamId[teamId])) {
+      return [];
+    }
+
+    const teamRoomIds = teamRoomIdsByTeamId[teamId];
+
+    const teamRooms = teamRoomIds.map(teamRoomId => teamRoomById[teamRoomId]);
+    teamRooms.sort(sortByName); // sorted
+    return teamRooms;
   }
 )(
   (state, teamId) => teamId
