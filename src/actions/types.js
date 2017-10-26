@@ -34,13 +34,6 @@ export const SUBMITTING_TEAM_FORM = 'submitting_team_form';
 export const SET_CURRENT_DIALOG_TEAM_ID = 'set_current_dialog_team_id';
 
 //= =====================
-// Team Members Actions
-//= =====================
-export const REQUESTING_TEAM_MEMBERS = 'requesting_team_members';
-export const RECEIVE_TEAM_MEMBERS = 'receive_team_members';
-export const REQUEST_TEAM_MEMBERS_ERROR = 'request_team_members_error';
-
-//= =====================
 // Team Rooms Actions
 //= =====================
 export const SHOW_TEAM_ROOM_DIALOG = 'show_team_room_dialog';

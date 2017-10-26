@@ -15,7 +15,7 @@ import './styles/style.css';
 
 const propTypes = {
   fetchTeamRooms: PropTypes.func.isRequired,
-  requestTeamMembers: PropTypes.func.isRequired,
+  fetchTeamMembersByTeamId: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       teamId: PropTypes.string
@@ -41,7 +41,7 @@ class TeamPage extends Component {
       teamRoomsLoaded: true,
       teamRooms: this.props.teamRooms
     }));
-    this.props.requestTeamMembers(teamId).then(() => this.setState({
+    this.props.fetchTeamMembersByTeamId(teamId).then(() => this.setState({
       teamMembersLoaded: true,
       teamMembers: this.props.teamMembers
     }));

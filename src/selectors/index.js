@@ -8,19 +8,22 @@ import {
 // ------- Directly from state. START
 export const getUrlRequests = state => state.urlRequests;
 
-const getCurrentUser = state => state.auth.user;
+export const getCurrentUser = state => state.auth.user;
 export const getUsersByUserId = state => state.users.usersByUserId;
 
-const getSubscriberOrgById = state => state.subscriberOrgs.subscriberOrgById;
+export const getSubscriberOrgById = state => state.subscriberOrgs.subscriberOrgById;
 export const getCurrentSubscriberOrgId = state => state.subscriberOrgs.currentSubscriberOrgId;
 
-const getSubscribersByUserId = state => state.subscribers.subscribersByUserId;
-const getSubscriberUserIdByUserId = state => state.subscribers.subscriberUserIdByUserId;
+export const getSubscriberByUserId = state => state.subscribers.subscriberByUserId;
+export const getSubscriberUserIdByUserId = state => state.subscribers.subscriberUserIdByUserId;
 const getUserIdsBySubscriberOrgId = state => state.subscribers.userIdsBySubscriberOrgId;
 
 export const getTeamById = state => state.teams.teamById;
 export const getTeamIdsBySubscriberOrgId = state => state.teams.teamIdsBySubscriberOrgId;
-const getTeamMemberUserIdsByTeamId = state => state.teamMembers.teamMemberUserIdsByTeamId;
+
+export const getTeamMemberByUserId = state => state.teamMembers.teamMemberByUserId;
+export const getTeamMemberIdByUserId = state => state.teamMembers.teamMemberIdByUserId;
+const getUserIdsByTeamId = state => state.teamMembers.userIdsByTeamId;
 
 const getTeamRoomById = state => state.teamRooms.teamRoomById;
 const getTeamRoomIdsByTeamId = state => state.teamRooms.teamRoomIdsByTeamId;
@@ -200,13 +203,13 @@ export const getTeamsOfSubscriberOrgIdSortedAlphabetically = createCachedSelecto
 );
 
 export const getTeamMembersOfTeamId = createCachedSelector(
-  [getTeamMemberUserIdsByTeamId, getUsersByUserId, (state, teamId) => teamId],
-  (teamMemberUserIdsByTeamId, usersByUserId, teamId) => {
-    if ((!teamId) || (!teamMemberUserIdsByTeamId[teamId])) {
+  [getUserIdsByTeamId, getUsersByUserId, (state, teamId) => teamId],
+  (userIdsByTeamId, usersByUserId, teamId) => {
+    if ((!teamId) || (!userIdsByTeamId[teamId])) {
       return [];
     }
 
-    const userIds = teamMemberUserIdsByTeamId[teamId];
+    const userIds = userIdsByTeamId[teamId];
     return userIds.map(userId => usersByUserId[userId]);
   }
 )(

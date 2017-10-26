@@ -10,7 +10,7 @@ class Messaging {
     this.onlineOfflineListeners = new Set();
     this.unauthorizedListeners = new Set();
     this.connectionListenersInitialized = false;
-    this.verbose = true;
+    this.verbose = false;
   }
 
   /**

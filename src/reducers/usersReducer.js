@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import {
-  SUBSCRIBERS_FETCH_SUCCESS
+  SUBSCRIBERS_FETCH_SUCCESS,
+  TEAMMEMBERS_FETCH_SUCCESS,
 } from '../actions';
 import {
-  RECEIVE_TEAM_MEMBERS,
   RECEIVE_TEAM_ROOM_MEMBERS
 } from '../actions/types';
 
@@ -73,7 +73,7 @@ const usersReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SUBSCRIBERS_FETCH_SUCCESS:
       return receiverUsers(state, action.payload);
-    case RECEIVE_TEAM_MEMBERS:
+    case TEAMMEMBERS_FETCH_SUCCESS:
       return receiverUsers(state, action.payload);
     case RECEIVE_TEAM_ROOM_MEMBERS:
       return receiverUsers(state, action.payload);

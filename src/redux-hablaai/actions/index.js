@@ -14,6 +14,9 @@ export * from './teamReceive';
 export * from './teamCreate';
 export * from './teamUpdate';
 
+export * from './teamMembersFetch';
+export * from './teamMemberReceive';
+
 export * from './teamRoomsFetch';
 export * from './teamRoomReceive';
 export * from './teamRoomCreate';

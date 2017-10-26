@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { SUBSCRIBERS_FETCH_SUCCESS } from '../actions';
 
 const INITIAL_STATE = {
-  subscribersByUserId: {},
+  subscriberByUserId: {},
   subscriberUserIdByUserId: {},
   userIdsBySubscriberOrgId: {}
 };
@@ -10,13 +10,13 @@ const INITIAL_STATE = {
 const subscribersReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SUBSCRIBERS_FETCH_SUCCESS: {
-      const subscribersByUserId = _.cloneDeep(state.subscribersByUserId);
+      const subscriberByUserId = _.cloneDeep(state.subscriberByUserId);
       const subscriberUserIdByUserId = _.cloneDeep(state.subscriberUserIdByUserId);
       const userIdsBySubscriberOrgId = _.cloneDeep(state.userIdsBySubscriberOrgId);
 
       const subscriberOrgId = action.payload.subscriberOrgId;
       action.payload.subscribers.forEach((subscriber) => {
-        subscribersByUserId[subscriber.userId] = subscriber;
+        subscriberByUserId[subscriber.userId] = subscriber;
         subscriberUserIdByUserId[subscriber.userId] = subscriber.subscriberUserId;
         let subscribers = userIdsBySubscriberOrgId[subscriberOrgId];
         if (!subscribers) {
@@ -28,7 +28,7 @@ const subscribersReducer = (state = INITIAL_STATE, action) => {
 
       return {
         ...state,
-        subscribersByUserId,
+        subscriberByUserId,
         subscriberUserIdByUserId,
         userIdsBySubscriberOrgId
       };

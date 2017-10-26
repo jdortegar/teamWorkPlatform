@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import TeamMemberPage from '../../pages/TeamMemberPage';
-import { fetchTeamRooms, requestTeamMembers } from '../../actions';
+import { fetchTeamRooms, fetchTeamMembersByTeamId } from '../../actions';
 
 function mapStateToProps(state) {
   return {

@@ -4,9 +4,6 @@ import reduxHablaaiReducers from '../redux-hablaai/reducers';
 import { UNAUTH_USER } from '../actions/types';
 import authReducer from './authReducer';
 import usersReducer from './usersReducer';
-import subscribersReducer from './subscribersReducer';
-import teamMembersReducer from './teamMembersReducer';
-import teamRoomsReducer from '../redux-hablaai/reducers/teamRoomsReducer';
 import teamRoomMembersReducer from './teamRoomMembersReducer';
 import conversationsReducer from './conversationsReducer';
 import invitationsReducer from './invitationsReducer';
@@ -18,9 +15,6 @@ const mainReducer = combineReducers({
   auth: authReducer,
   dialogs: dialogsReducer,
   users: usersReducer,
-  subscribers: subscribersReducer,
-  teamMembers: teamMembersReducer,
-  teamRooms: teamRoomsReducer,
   teamRoomMembers: teamRoomMembersReducer,
   conversations: conversationsReducer,
   integrations: integrationsReducer,

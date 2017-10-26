@@ -4,6 +4,7 @@ import {
   receiveSubscriberOrg,
   receiveSubscriber,
   receiveTeam,
+  receiveTeamMember,
   receiveTeamRoom
 } from '../actions';
 import { receiveInvitation } from './invitations';
@@ -49,7 +50,8 @@ export default function (eventType, event) {
       // TODO:
       break;
     case EventTypes.teamMemberAdded:
-      // TODO:
+      // TODO: implement this whole process all the way to action -> reducer -> selectors.
+      config.store.dispatch(receiveTeamMember(event, event.teamId));
       break;
 
     case EventTypes.teamRoomCreated:

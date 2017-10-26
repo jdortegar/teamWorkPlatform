@@ -11,5 +11,4 @@ export * from './subscriberOrgCreateFromDialog';
 export * from './conversations';
 export * from './invitations';
 export * from './integrations';
-export * from './teamMembers';
 export * from './teamRoomMembers';
