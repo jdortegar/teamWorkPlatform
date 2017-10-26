@@ -8,10 +8,10 @@ export const updateTeam = (updateObject, teamId, getKey) => { // eslint-disable-
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { updateObject, teamId };
 
-  return dispatch => dispatch(doAuthenticatedRequest({
+  return doAuthenticatedRequest({
     requestUrl,
     method: 'patch',
     data: updateObject
-  }, reduxState, getKey));
+  }, reduxState, getKey);
 };
 
