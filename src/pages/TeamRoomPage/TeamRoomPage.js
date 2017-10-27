@@ -56,8 +56,6 @@ const defaultProps = {
   files: []
 };
 
-const resourceUrl = getResourcesUrl();
-
 
 function createMessage(conversationId, postBody) {
   const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
@@ -178,7 +176,7 @@ class TeamRoomPage extends Component {
       }
     };
 
-    return axios.put(`${resourceUrl}/${file.name}`, file.src, requestConfig);
+    return axios.put(`${getResourcesUrl()}/${file.name}`, file.src, requestConfig);
   }
 
   handleSubmit(e) {
