@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getJwt } from '../session';
+import config from '../config';
 
 export const URLREQUEST = 'urlrequest';
 export const URLREQUEST_SUCCESS = 'urlrequest/success';
@@ -13,7 +13,7 @@ export const clearUrlRequest = (requestUrl) => {
   };
 };
 
-export const doRequest = ({ requestUrl, method, headers, data }, reduxState, getKey) => {
+export const doRequest = ({ requestUrl, method, headers, data }, reduxState, getKey = false) => {
   if (getKey) {
     return requestUrl;
   }
@@ -56,8 +56,9 @@ export const doRequest = ({ requestUrl, method, headers, data }, reduxState, get
   };
 };
 
-export const doAuthenticatedRequest = ({ requestUrl, method, additionalHeaders, data }, reduxState, getKey) => {
+export const doAuthenticatedRequest = ({ requestUrl, method, additionalHeaders, data }, reduxState, getKey = false) => {
   const secureHeaders = additionalHeaders || {};
-  secureHeaders.Authorization = `Bearer ${getJwt()}`;
+  secureHeaders.Authorization = `Bearer ${config.jwt}`;
   return doRequest({ requestUrl, method, headers: secureHeaders, data }, reduxState, getKey);
 };
+

@@ -1,12 +1,13 @@
+import _ from 'lodash';
 import axios from 'axios';
 import Cookie from 'js-cookie';
 import jwtDecode from 'jwt-decode';
-import _ from 'lodash';
 import { persistStore } from 'redux-persist';
 import { AUTH_USER } from './actions/types';
 import config from './config/env';
-import messaging from './messaging';
-import messagingActionAdapter, { setStore as setAdapterStore } from './actions/messagingActionAdapter';
+import messaging from './redux-hablaai/messaging';
+import messagingActionAdapter from './actions/messagingActionAdapter';
+import reduxHablaaiConfig from './redux-hablaai/config';
 
 const TOKEN_COOKIE_NAME = 'token';
 const WEBSOCKET_URL_COOKIE_NAME = 'websocketUrl';
@@ -23,7 +24,6 @@ let persistor;
 
 export function initMessaging() {
   messaging(websocketUrl).connect(jwt);
-  setAdapterStore(store);
   messaging().addEventListener(messagingActionAdapter);
 }
 
@@ -42,8 +42,10 @@ window.onbeforeunload = () => {
 
 function loadCookieData() {
   jwt = Cookie.get(TOKEN_COOKIE_NAME);
+  reduxHablaaiConfig.jwt = jwt;
   websocketUrl = Cookie.get(WEBSOCKET_URL_COOKIE_NAME);
   resourcesUrl = Cookie.get(RESOURCES_URL_COOKIE_NAME);
+  reduxHablaaiConfig.resourceBaseUri = resourcesUrl;
 }
 
 export function sessionState(restoredState) {
@@ -66,6 +68,7 @@ export function sessionState(restoredState) {
 
 export function setStore(createdStore) {
   store = createdStore;
+  reduxHablaaiConfig.store = store;
 }
 
 export function setPersistor(createdPersistor) {
@@ -92,8 +95,10 @@ export function login(email, password) {
     axios.post(loginUrl, params)
       .then((response) => {
         jwt = response.data.token;
+        reduxHablaaiConfig.jwt = jwt;
         websocketUrl = response.data.websocketUrl;
         resourcesUrl = `${response.data.resourcesBaseUrl}/resource`;
+        reduxHablaaiConfig.resourceBaseUri = resourcesUrl;
         const user = _.cloneDeep(response.data.user);
         delete user.email;
 
@@ -133,8 +138,10 @@ export function logout() {
 
   const jwtForLogout = jwt;
   jwt = undefined;
+  reduxHablaaiConfig.jwt = jwt;
   websocketUrl = undefined;
   resourcesUrl = undefined;
+  reduxHablaaiConfig.resourceBaseUri = resourcesUrl;
   // if (process.env.NODE_ENV === 'production') {
   //   Cookie.remove(TOKEN_COOKIE_NAME, { secure: true });
   //   Cookie.remove(WEBSOCKET_URL_COOKIE_NAME, { secure: true });

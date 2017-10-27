@@ -19,7 +19,7 @@ import './styles/style.css';
 const propTypes = {
   files: PropTypes.array,
   form: formShape.isRequired,
-  requestTeamRoomMembers: PropTypes.func.isRequired,
+  fetchTeamRoomMembersByTeamRoomId: PropTypes.func.isRequired,
   addBase: PropTypes.func.isRequired,
   requestTranscript: PropTypes.func.isRequired,
   match: PropTypes.shape({
@@ -100,7 +100,7 @@ class TeamRoomPage extends Component {
   componentDidMount() {
     const teamRoomId = this.props.match.params.teamRoomId;
 
-    this.props.requestTeamRoomMembers(teamRoomId)
+    this.props.fetchTeamRoomMembersByTeamRoomId(teamRoomId)
       .then(() => this.setState({
         teamRoomMembersLoaded: true,
         teamRoomMembers: this.props.teamRoomMembers
@@ -124,7 +124,7 @@ class TeamRoomPage extends Component {
     }
     if (this.props.match.params.teamRoomId !== nextProps.match.params.teamRoomId) {
       this.setState({ teamRoomMembersLoaded: false, conversationsLoaded: false });
-      nextProps.requestTeamRoomMembers(nextProps.match.params.teamRoomId)
+      nextProps.fetchTeamRoomMembersByTeamRoomId(nextProps.match.params.teamRoomId)
         .then(() => this.setState({
           teamRoomMembersLoaded: true,
           teamRoomMembers: nextProps.teamRoomMembers

@@ -1,25 +1,24 @@
-import { EventTypes } from '../messaging';
+import config from '../redux-hablaai/config';
+import EventTypes from '../common-hablaai/EventTypes';
 import {
-  receiveSubscriberOrg
+  receiveSubscriberOrg,
+  receiveSubscriber,
+  receiveTeam,
+  receiveTeamMember,
+  receiveTeamRoom,
+  receiveTeamRoomMember
 } from '../actions';
-import { receiveTeam } from './teams';
-import { receiveTeamRoom } from './teamRooms';
 import { receiveInvitation } from './invitations';
 import { receiveConversations, receiveMessages, notifyMessage } from './conversations';
 
-let store;
-
-export function setStore(reduxStore) {
-  store = reduxStore;
-}
-
+// TODO: compare these event types.
 export default function (eventType, event) {
   switch (eventType) {
     case EventTypes.presenceChanged:
       // TODO:
       break;
     case EventTypes.userInvited:
-      store.dispatch(receiveInvitation(event));
+      config.store.dispatch(receiveInvitation(event));
       break;
     case EventTypes.userUpdated:
       // TODO:
@@ -29,50 +28,56 @@ export default function (eventType, event) {
       break;
 
     case EventTypes.subscriberOrgCreated:
-      store.dispatch(receiveSubscriberOrg(event));
+      config.store.dispatch(receiveSubscriberOrg(event));
       break;
     case EventTypes.subscriberOrgUpdated:
-      store.dispatch(receiveSubscriberOrg(event));
+      config.store.dispatch(receiveSubscriberOrg(event));
       break;
     case EventTypes.subscriberOrgPrivateInfoUpdated:
       // TODO:
       break;
+    case EventTypes.subscriberAdded:
+      // TODO: implement this whole process all the way to action -> reducer -> selectors.
+      config.store.dispatch(receiveSubscriber(event, event.subscriberOrgId));
+      break;
 
     case EventTypes.teamCreated:
-      store.dispatch(receiveTeam(event, event.subscriberOrgId));
+      config.store.dispatch(receiveTeam(event));
       break;
     case EventTypes.teamUpdated:
-      store.dispatch(receiveTeam(event, event.subscriberOrgId));
+      config.store.dispatch(receiveTeam(event));
       break;
     case EventTypes.teamPrivateInfoUpdated:
       // TODO:
       break;
     case EventTypes.teamMemberAdded:
-      // TODO:
+      // TODO: implement this whole process all the way to action -> reducer -> selectors.
+      config.store.dispatch(receiveTeamMember(event, event.teamId));
       break;
 
     case EventTypes.teamRoomCreated:
-      store.dispatch(receiveTeamRoom(event, event.teamId));
+      config.store.dispatch(receiveTeamRoom(event, event.teamId));
       break;
     case EventTypes.teamRoomUpdated:
-      store.dispatch(receiveTeamRoom(event, event.teamId));
+      config.store.dispatch(receiveTeamRoom(event, event.teamId));
       break;
     case EventTypes.teamRoomPrivateInfoUpdated:
       // TODO:
       break;
     case EventTypes.teamRoomMemberAdded:
-      // TODO:
+      // TODO: implement this whole process all the way to action -> reducer -> selectors.
+      config.store.dispatch(receiveTeamRoomMember(event, event.teamRoomId));
       break;
 
     case EventTypes.conversationCreated:
-      store.dispatch(receiveConversations([event], event.teamRoomId));
+      config.store.dispatch(receiveConversations([event], event.teamRoomId));
       break;
     case EventTypes.conversationUpdated:
       // TODO:
       break;
     case EventTypes.messageCreated:
-      store.dispatch(receiveMessages([event], event.conversationId));
-      store.dispatch(notifyMessage(event));
+      config.store.dispatch(receiveMessages([event], event.conversationId));
+      config.store.dispatch(notifyMessage(event));
       break;
 
     case EventTypes.boxIntegrationCreated:
@@ -98,3 +103,4 @@ export default function (eventType, event) {
       console.log(`Unprocessed messaging eventType=${eventType}`);
   }
 }
+

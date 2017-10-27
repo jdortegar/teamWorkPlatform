@@ -51,7 +51,7 @@ const propTypes = {
   revokeBox: PropTypes.func.isRequired,
   revokeGoogle: PropTypes.func.isRequired,
   integrations: PropTypes.object.isRequired,
-  requestIntegrations: PropTypes.func.isRequired,
+  fetchIntegrations: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       subscriberOrgId: PropTypes.string.isRequired,
@@ -73,7 +73,7 @@ class IntegrationDetailsPage extends Component {
 
   componentDidMount() {
     const { subscriberOrgId, status, integrationDetails } = this.props.match.params;
-    this.props.requestIntegrations(subscriberOrgId);
+    this.props.fetchIntegrations(subscriberOrgId);
     if (status) {
       if (status.includes('CREATED')) {
         notification.success({

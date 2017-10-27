@@ -4,7 +4,7 @@ import { createTeamRoom } from '../../actions';
 
 function mapDispatchToProps(dispatch) {
   return {
-    createTeamRoom: (name, teamId) => dispatch(createTeamRoom(name, teamId))
+    createTeamRoom: (teamRoom, teamId) => dispatch(createTeamRoom(teamRoom, teamId))
   };
 }
 

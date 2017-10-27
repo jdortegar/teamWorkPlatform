@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import TeamPage from '../../pages/TeamPage';
-import { requestTeamRooms, requestTeamMembers } from '../../actions';
+import { fetchTeamRoomsByTeamId, fetchTeamMembersByTeamId } from '../../actions';
 import { getTeamRoomsOfTeamIdSortedAlphabetically, getTeamMembersOfTeamId } from '../../selectors';
 
 function mapStateToProps(state, props) {
@@ -18,8 +18,8 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    requestTeamRooms: teamId => dispatch(requestTeamRooms(teamId)),
-    requestTeamMembers: teamId => dispatch(requestTeamMembers(teamId))
+    fetchTeamRooms: teamId => dispatch(fetchTeamRoomsByTeamId(teamId)),
+    fetchTeamMembersByTeamId: teamId => dispatch(fetchTeamMembersByTeamId(teamId))
   };
 }
 

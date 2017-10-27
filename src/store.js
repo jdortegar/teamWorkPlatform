@@ -4,7 +4,9 @@ import { applyMiddleware, createStore, compose } from 'redux';
 import { getStoredState, createPersistor, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
+import config from './config/env';
 import { sessionState, setPersistor, setStore } from './session';
+import reduxHablaaiConfig from './redux-hablaai/config';
 
 export const history = createHistory();
 
@@ -23,6 +25,7 @@ function composeMiddleware() {
 }
 
 export function configureStore() {
+  reduxHablaaiConfig.hablaApiBaseUri = config.hablaApiBaseUri;
   const persistConfig = {};
 
   return new Promise((resolve) => {
@@ -35,6 +38,7 @@ export function configureStore() {
         persistStore(store);
       }
 
+      reduxHablaaiConfig.store = store;
       setStore(store);
       setPersistor(persistor);
       resolve(store);

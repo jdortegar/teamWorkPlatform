@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import {
-  RECEIVE_SUBSCRIBERS,
-  RECEIVE_TEAM_MEMBERS,
-  RECEIVE_TEAM_ROOM_MEMBERS
-} from '../actions/types';
+  SUBSCRIBERS_FETCH_SUCCESS,
+  TEAMMEMBERS_FETCH_SUCCESS,
+  TEAMROOMMEMBERS_FETCH_SUCCESS
+} from '../actions';
 
 const INITIAL_STATE = {
   usersByUserId: {}
@@ -21,7 +21,7 @@ function receiverUsers(state, payload) {
   const usersByUserId = _.cloneDeep(state.usersByUserId);
   users.forEach((userIter) => {
     let user = _.clone(userIter);
-    const role = user.role;
+    const { role, subscriberUserId, teamMemberId, teamRoomMemberId } = user.role;
     delete user.role;
     const existingUser = usersByUserId[user.userId];
 
@@ -41,6 +41,7 @@ function receiverUsers(state, payload) {
         user.subscriberOrgs[subscriberOrgId] = subscriberOrg;
       }
       subscriberOrg.role = role;
+      subscriberOrg.subscriberUserId = subscriberUserId;
     } else if (teamId) {
       let team = user.teams[teamId];
       if (!team) {
@@ -48,6 +49,7 @@ function receiverUsers(state, payload) {
         user.teams[teamId] = team;
       }
       team.role = role;
+      team.teamMemberId = teamMemberId;
     } else if (teamRoomId) {
       let teamRoom = user.teamRooms[teamRoomId];
       if (!teamRoom) {
@@ -55,6 +57,7 @@ function receiverUsers(state, payload) {
         user.teamRooms[teamRoomId] = teamRoom;
       }
       teamRoom.role = role;
+      teamRoom.teamRoomMemberId = teamRoomMemberId;
     }
   });
 
@@ -66,11 +69,11 @@ function receiverUsers(state, payload) {
 
 const usersReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case RECEIVE_SUBSCRIBERS:
+    case SUBSCRIBERS_FETCH_SUCCESS:
       return receiverUsers(state, action.payload);
-    case RECEIVE_TEAM_MEMBERS:
+    case TEAMMEMBERS_FETCH_SUCCESS:
       return receiverUsers(state, action.payload);
-    case RECEIVE_TEAM_ROOM_MEMBERS:
+    case TEAMROOMMEMBERS_FETCH_SUCCESS:
       return receiverUsers(state, action.payload);
     default:
       return state;

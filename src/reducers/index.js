@@ -1,31 +1,19 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
+import reduxHablaaiReducers from '../redux-hablaai/reducers';
 import { UNAUTH_USER } from '../actions/types';
-import urlRequestsReducer from './urlRequestsReducer';
 import authReducer from './authReducer';
 import usersReducer from './usersReducer';
-import subscriberOrgsReducer from './subscriberOrgsReducer';
-import subscribersReducer from './subscribersReducer';
-import teamsReducer from './teamsReducer';
-import teamMembersReducer from './teamMembersReducer';
-import teamRoomsReducer from './teamRoomsReducer';
-import teamRoomMembersReducer from './teamRoomMembersReducer';
 import conversationsReducer from './conversationsReducer';
 import invitationsReducer from './invitationsReducer';
 import integrationsReducer from './integrationsReducer';
 import dialogsReducer from './dialogsReducer';
 
 const mainReducer = combineReducers({
-  urlRequests: urlRequestsReducer,
+  ...reduxHablaaiReducers,
   auth: authReducer,
   dialogs: dialogsReducer,
   users: usersReducer,
-  subscriberOrgs: subscriberOrgsReducer,
-  subscribers: subscribersReducer,
-  teams: teamsReducer,
-  teamMembers: teamMembersReducer,
-  teamRooms: teamRoomsReducer,
-  teamRoomMembers: teamRoomMembersReducer,
   conversations: conversationsReducer,
   integrations: integrationsReducer,
   invitations: invitationsReducer,

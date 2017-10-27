@@ -16,7 +16,7 @@ import './styles/style.css';
 
 const propTypes = {
   match: PropTypes.object.isRequired,
-  requestIntegrations: PropTypes.func.isRequired,
+  fetchIntegrations: PropTypes.func.isRequired,
   integrations: PropTypes.object.isRequired,
   subscriberOrgs: PropTypes.object.isRequired
 };
@@ -24,7 +24,7 @@ const propTypes = {
 class IntegrationsPage extends Component {
   componentDidMount() {
     const { subscriberOrgId } = this.props.match.params;
-    this.props.requestIntegrations(subscriberOrgId);
+    this.props.fetchIntegrations(subscriberOrgId);
 
     const notifyInfo = this.notifyInfo();
     let args = {};
