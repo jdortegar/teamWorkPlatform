@@ -1,28 +1,16 @@
 import _ from 'lodash';
 import {
-  REQUESTING_INTEGRATIONS,
-  RECEIVE_INTEGRATIONS,
-  RECEIVE_REVOKE_INTEGRATION,
-  REQUEST_INTEGRATIONS_ERROR
-} from '../actions/types';
+  INTEGRATIONS_FETCH_SUCCESS,
+  INTEGRATIONS_REVOKE_SUCCESS
+} from '../actions';
 
 const INITIAL_STATE = {
-  integrationsBySubscriberOrgId: {},
-  working: false,
-  error: null,
-  errorMeta: {}
+  integrationsBySubscriberOrgId: {}
 };
 
 const integrationsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case REQUESTING_INTEGRATIONS:
-      return {
-        ...state,
-        working: true,
-        error: null,
-        errorMeta: {}
-      };
-    case RECEIVE_INTEGRATIONS: {
+    case INTEGRATIONS_FETCH_SUCCESS: {
       const updateIntegrationsBySubscriberOrgId = _.cloneDeep(state.integrationsBySubscriberOrgId);
       action.payload.integrations.forEach((integration) => {
         const { subscriberOrgId, box, google } = integration;
@@ -32,18 +20,12 @@ const integrationsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         integrationsBySubscriberOrgId: updateIntegrationsBySubscriberOrgId,
-        working: false,
-        error: null,
-        errorMeta: {}
       };
     }
-    case RECEIVE_REVOKE_INTEGRATION: {
+    case INTEGRATIONS_REVOKE_SUCCESS: {
       if (action.error) {
         return {
-          ...state,
-          working: false,
-          error: action.payload,
-          errorMeta: action.meta || {}
+          ...state
         };
       }
 
@@ -60,13 +42,6 @@ const integrationsReducer = (state = INITIAL_STATE, action) => {
         errorMeta: {}
       };
     }
-    case REQUEST_INTEGRATIONS_ERROR:
-      return {
-        ...state,
-        working: false,
-        error: action.payload,
-        errorMeta: action.meta || {}
-      };
     default:
       return state;
   }

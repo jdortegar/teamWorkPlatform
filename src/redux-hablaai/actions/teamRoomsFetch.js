@@ -3,13 +3,13 @@ import { doAuthenticatedRequest } from './urlRequest';
 
 export const TEAMROOMS_FETCH_SUCCESS = 'teamrooms/fetch/success';
 
-export const fetchTeamRoomsByTeamId = (teamId, getKey) => {
+export const fetchTeamRoomsByTeamId = (teamId, getKey = false) => {
   // requestUrl is the key into redux state.urlRequests.
   let requestUrl = `${config.hablaApiBaseUri}/teamRooms/getTeamRooms`;
   requestUrl = (typeof teamId === 'string') ? `${requestUrl}?teamId=${teamId}` : requestUrl;
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
-  const reduxState = {};
+  const reduxState = { teamId };
 
   return (dispatch) => {
     const thunk = dispatch(doAuthenticatedRequest({
@@ -34,6 +34,6 @@ export const fetchTeamRoomsByTeamId = (teamId, getKey) => {
   };
 };
 
-export const fetchTeamRooms = (getKey) => {
+export const fetchTeamRooms = (getKey = false) => {
   return fetchTeamRoomsByTeamId(undefined, getKey);
 };

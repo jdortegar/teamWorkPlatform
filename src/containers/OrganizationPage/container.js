@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import OrganizationPage from '../../pages/OrganizationPage';
 import { fetchSubscribersBySubscriberOrgId,
-  requestIntegrations,
+  fetchIntegrations,
   setCurrentSubscriberOrgId,
   toggleTeamDialog,
   toggleInvitePeopleDialog,
@@ -30,7 +30,7 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchSubscribersBySubscriberOrgId: subscriberOrgId => dispatch(fetchSubscribersBySubscriberOrgId(subscriberOrgId)),
-    requestIntegrations: subscriberOrgId => dispatch(requestIntegrations(subscriberOrgId)),
+    fetchIntegrations: subscriberOrgId => dispatch(fetchIntegrations(subscriberOrgId)),
     setCurrentSubscriberOrgId: subscriberOrgId => dispatch(setCurrentSubscriberOrgId(subscriberOrgId)),
     toggleTeamDialog: status => dispatch(toggleTeamDialog(status)),
     toggleInvitePeopleDialog: status => dispatch(toggleInvitePeopleDialog(status))

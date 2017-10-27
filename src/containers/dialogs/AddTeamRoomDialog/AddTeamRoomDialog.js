@@ -39,9 +39,9 @@ class AddTeamRoomDialog extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.form.validateFields((err, name) => {
+    this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.createTeamRoom(name, this.props.currentTeamId)
+        this.props.createTeamRoom({ name: values.name, publish: true, active: true }, this.props.currentTeamId)
           .then(() => {
             this.props.toggleTeamRoomDialog(false);
           });

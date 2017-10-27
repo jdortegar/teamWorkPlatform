@@ -5,7 +5,8 @@ import {
   receiveSubscriber,
   receiveTeam,
   receiveTeamMember,
-  receiveTeamRoom
+  receiveTeamRoom,
+  receiveTeamRoomMember
 } from '../actions';
 import { receiveInvitation } from './invitations';
 import { receiveConversations, receiveMessages, notifyMessage } from './conversations';
@@ -64,7 +65,8 @@ export default function (eventType, event) {
       // TODO:
       break;
     case EventTypes.teamRoomMemberAdded:
-      // TODO:
+      // TODO: implement this whole process all the way to action -> reducer -> selectors.
+      config.store.dispatch(receiveTeamRoomMember(event, event.teamRoomId));
       break;
 
     case EventTypes.conversationCreated:

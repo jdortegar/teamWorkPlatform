@@ -40,13 +40,6 @@ export const SHOW_TEAM_ROOM_DIALOG = 'show_team_room_dialog';
 export const SUBMITTING_TEAM_ROOM_FORM = 'submitting_team_room_form';
 
 //= =====================
-// Team Room Members Actions
-//= =====================
-export const REQUESTING_TEAM_ROOM_MEMBERS = 'requesting_team_room_members';
-export const RECEIVE_TEAM_ROOM_MEMBERS = 'receive_team_room_members';
-export const REQUEST_TEAM_ROOM_MEMBERS_ERROR = 'request_team_room_members_error';
-
-//= =====================
 // Conversations Actions
 //= =====================
 export const REQUESTING_CONVERSATIONS = 'requesting_conversations';
@@ -62,10 +55,5 @@ export const SET_ACTIVE_CONVERSATION = 'set_active_conversation';
 //= =====================
 // Integrations Actions
 //= =====================
-export const REQUESTING_INTEGRATIONS = 'requesting_integrations';
-export const RECEIVE_INTEGRATIONS = 'receive_integrations';
-export const RECEIVE_REVOKE_INTEGRATION = 'receive_revoke_integration';
-export const REQUEST_INTEGRATIONS_ERROR = 'request_integrations_error';
 export const INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG = 'integrate_error_bad_subscriber_org';
 export const INTEGRATE_ERROR = 'integrate_error'; // Catch-all error.
-export const INVITE_NEW_MEMBERS = 'invite_new_members';

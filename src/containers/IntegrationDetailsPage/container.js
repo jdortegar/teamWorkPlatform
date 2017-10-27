@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import IntegrationDetailsPage from '../../pages/IntegrationDetailsPage';
 import {
-  requestIntegrations,
+  fetchIntegrations,
   integrateBox,
   integrateGoogle,
   revokeBox,
@@ -17,7 +17,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    requestIntegrations: subscriberOrgId => dispatch(requestIntegrations(subscriberOrgId)),
+    fetchIntegrations: subscriberOrgId => dispatch(fetchIntegrations(subscriberOrgId)),
     integrateBox: subscriberOrgId => dispatch(integrateBox(subscriberOrgId)),
     integrateGoogle: subscriberOrgId => dispatch(integrateGoogle(subscriberOrgId)),
     revokeBox: subscriberOrgId => dispatch(revokeBox(subscriberOrgId)),

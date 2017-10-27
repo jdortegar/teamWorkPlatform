@@ -4,6 +4,8 @@ import subscribersReducer from './subscribersReducer';
 import teamsReducer from './teamsReducer';
 import teamMembersReducer from './teamMembersReducer';
 import teamRoomsReducer from './teamRoomsReducer';
+import teamRoomMembersReducer from './teamRoomMembersReducer';
+
 
 const reducers = {
   urlRequests: urlRequestsReducer,
@@ -18,7 +20,7 @@ const reducers = {
 
   teamRooms: teamRoomsReducer,
 
-  //teamRoomMembers: teamRoomMembersReducer
+  teamRoomMembers: teamRoomMembersReducer
 };
 
 export default reducers;

@@ -1,14 +1,14 @@
 import config from '../config';
 import { doAuthenticatedRequest } from './urlRequest';
 
-export const TEAMMEMBERS_FETCH_SUCCESS = 'teammembers/fetch/success';
+export const TEAMROOMMEMBERS_FETCH_SUCCESS = 'teamroommembers/fetch/success';
 
-export const fetchTeamMembersByTeamId = (teamId, getKey = false) => {
+export const fetchTeamRoomMembersByTeamRoomId = (teamRoomId, getKey = false) => {
   // requestUrl is the key into redux state.urlRequests.
-  const requestUrl = `${config.hablaApiBaseUri}/teams/getMembers/${teamId}`;
+  const requestUrl = `${config.hablaApiBaseUri}/teamRooms/getMembers/${teamRoomId}`;
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
-  const reduxState = { teamId };
+  const reduxState = { teamRoomId };
 
   return (dispatch) => {
     const thunk = dispatch(doAuthenticatedRequest({
@@ -19,10 +19,10 @@ export const fetchTeamMembersByTeamId = (teamId, getKey = false) => {
     if (!getKey) {
       thunk.then((response) => {
         if (response.data) {
-          const { teamMembers } = response.data;
+          const { teamRoomMembers } = response.data;
           dispatch({
-            type: TEAMMEMBERS_FETCH_SUCCESS,
-            payload: { teamMembers, teamId }
+            type: TEAMROOMMEMBERS_FETCH_SUCCESS,
+            payload: { teamRoomMembers, teamRoomId }
           });
         }
         return response;

@@ -7,8 +7,10 @@ export * from './dialogs';
 
 export * from './subscriberOrgCreateFromDialog';
 
+export * from './integrationsFetch';
+export * from './integrationsIntegrate';
+export * from './integrationsRevoke';
+
 // TODO:
 export * from './conversations';
 export * from './invitations';
-export * from './integrations';
-export * from './teamRoomMembers';

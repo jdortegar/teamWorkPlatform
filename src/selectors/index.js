@@ -16,18 +16,21 @@ export const getCurrentSubscriberOrgId = state => state.subscriberOrgs.currentSu
 
 export const getSubscriberByUserId = state => state.subscribers.subscriberByUserId;
 export const getSubscriberUserIdByUserId = state => state.subscribers.subscriberUserIdByUserId;
-const getUserIdsBySubscriberOrgId = state => state.subscribers.userIdsBySubscriberOrgId;
+export const getUserIdsBySubscriberOrgId = state => state.subscribers.userIdsBySubscriberOrgId;
 
 export const getTeamById = state => state.teams.teamById;
 export const getTeamIdsBySubscriberOrgId = state => state.teams.teamIdsBySubscriberOrgId;
 
 export const getTeamMemberByUserId = state => state.teamMembers.teamMemberByUserId;
 export const getTeamMemberIdByUserId = state => state.teamMembers.teamMemberIdByUserId;
-const getUserIdsByTeamId = state => state.teamMembers.userIdsByTeamId;
+export const getUserIdsByTeamId = state => state.teamMembers.userIdsByTeamId;
 
-const getTeamRoomById = state => state.teamRooms.teamRoomById;
-const getTeamRoomIdsByTeamId = state => state.teamRooms.teamRoomIdsByTeamId;
-const getTeamRoomMemberUserIdsByTeamRoomId = state => state.teamRoomMembers.teamRoomMemberUserIdsByTeamRoomId;
+export const getTeamRoomById = state => state.teamRooms.teamRoomById;
+export const getTeamRoomIdsByTeamId = state => state.teamRooms.teamRoomIdsByTeamId;
+
+export const getTeamRoomMemberByUserId = state => state.teamRoomMembers.teamRoomMemberByUserId;
+export const getTeamRoomMemberIdByUserId = state => state.teamRoomMembers.teamRoomMemberIdByUserId;
+export const getUserIdsByTeamRoomId = state => state.teamRoomMembers.userIdsByTeamRoomId;
 
 const getConversationById = state => state.conversations.conversationById;
 const getConversationIdsByTeamRoomId = state => state.conversations.conversationIdsByTeamRoomId;
@@ -262,13 +265,13 @@ export const getTeamRoomsOfTeamIdSortedAlphabetically = createCachedSelector(
 );
 
 export const getTeamRoomMembersOfTeamRoomId = createCachedSelector(
-  [getTeamRoomMemberUserIdsByTeamRoomId, getUsersByUserId, (state, teamRoomId) => teamRoomId],
-  (teamRoomMemberUserIdsByTeamRoomId, usersByUserId, teamRoomId) => {
-    if ((!teamRoomId) || (!teamRoomMemberUserIdsByTeamRoomId[teamRoomId])) {
+  [getUserIdsByTeamRoomId, getUsersByUserId, (state, teamRoomId) => teamRoomId],
+  (userIdsByTeamRoomId, usersByUserId, teamRoomId) => {
+    if ((!teamRoomId) || (!userIdsByTeamRoomId[teamRoomId])) {
       return [];
     }
 
-    const userIds = teamRoomMemberUserIdsByTeamRoomId[teamRoomId];
+    const userIds = userIdsByTeamRoomId[teamRoomId];
     return userIds.map(userId => usersByUserId[userId]);
   }
 )(
@@ -276,12 +279,12 @@ export const getTeamRoomMembersOfTeamRoomId = createCachedSelector(
 );
 
 export const getTeamRoomMembersAsObjectsOfTeamRoomId = createCachedSelector(
-  [getTeamRoomMemberUserIdsByTeamRoomId, getUsersByUserId, (state, teamRoomId) => teamRoomId],
-  (teamRoomMemberUserIdsByTeamRoomId, usersByUserId, teamRoomId) => {
-    if ((!teamRoomId) || (!teamRoomMemberUserIdsByTeamRoomId[teamRoomId])) {
+  [getUserIdsByTeamRoomId, getUsersByUserId, (state, teamRoomId) => teamRoomId],
+  (userIdsByTeamRoomId, usersByUserId, teamRoomId) => {
+    if ((!teamRoomId) || (!userIdsByTeamRoomId[teamRoomId])) {
       return {};
     }
-    const userIds = teamRoomMemberUserIdsByTeamRoomId[teamRoomId];
+    const userIds = userIdsByTeamRoomId[teamRoomId];
     const userIdsObj = userIds.reduce((acc, userId) => { acc[userId] = usersByUserId[userId]; return acc; }, {});
     return userIdsObj;
   }

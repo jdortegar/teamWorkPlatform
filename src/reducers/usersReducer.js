@@ -2,10 +2,8 @@ import _ from 'lodash';
 import {
   SUBSCRIBERS_FETCH_SUCCESS,
   TEAMMEMBERS_FETCH_SUCCESS,
+  TEAMROOMMEMBERS_FETCH_SUCCESS
 } from '../actions';
-import {
-  RECEIVE_TEAM_ROOM_MEMBERS
-} from '../actions/types';
 
 const INITIAL_STATE = {
   usersByUserId: {}
@@ -75,7 +73,7 @@ const usersReducer = (state = INITIAL_STATE, action) => {
       return receiverUsers(state, action.payload);
     case TEAMMEMBERS_FETCH_SUCCESS:
       return receiverUsers(state, action.payload);
-    case RECEIVE_TEAM_ROOM_MEMBERS:
+    case TEAMROOMMEMBERS_FETCH_SUCCESS:
       return receiverUsers(state, action.payload);
     default:
       return state;

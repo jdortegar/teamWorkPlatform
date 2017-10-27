@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import TeamRoomPage from '../../pages/TeamRoomPage';
 import {
-  requestTeamRoomMembers,
+  fetchTeamRoomMembersByTeamRoomId,
   requestConversations,
   requestTranscript
 } from '../../actions';
@@ -32,7 +32,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    requestTeamRoomMembers: teamRoomId => dispatch(requestTeamRoomMembers(teamRoomId)),
+    fetchTeamRoomMembersByTeamRoomId: teamRoomId => dispatch(fetchTeamRoomMembersByTeamRoomId(teamRoomId)),
     requestConversations: teamRoomId => dispatch(requestConversations(teamRoomId)),
     requestTranscript: conversationId => dispatch(requestTranscript(conversationId))
   };

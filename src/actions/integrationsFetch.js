@@ -1,11 +1,11 @@
-import config from '../config';
-import { doAuthenticatedRequest } from './urlRequest';
+import config from '../config/env';
+import { doAuthenticatedRequest } from '../redux-hablaai/actions/urlRequest';
 
-export const SUBSCRIBERS_FETCH_SUCCESS = 'subscribers/fetch/success';
+export const INTEGRATIONS_FETCH_SUCCESS = 'integrations/fetch/success';
 
-export const fetchSubscribersBySubscriberOrgId = (subscriberOrgId, getKey = false) => {
+export const fetchIntegrations = (subscriberOrgId, getKey) => {
   // requestUrl is the key into redux state.urlRequests.
-  const requestUrl = `${config.hablaApiBaseUri}/subscriberOrgs/getSubscribers/${subscriberOrgId}`;
+  const requestUrl = `${config.hablaApiBaseUri}/integrations/getIntegrations?subscriberOrgId=${subscriberOrgId}`;
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { subscriberOrgId };
@@ -19,10 +19,10 @@ export const fetchSubscribersBySubscriberOrgId = (subscriberOrgId, getKey = fals
     if (!getKey) {
       thunk.then((response) => {
         if (response.data) {
-          const { subscribers } = response.data;
+          const { integrations } = response.data;
           dispatch({
-            type: SUBSCRIBERS_FETCH_SUCCESS,
-            payload: { subscribers, subscriberOrgId }
+            type: INTEGRATIONS_FETCH_SUCCESS,
+            payload: { integrations }
           });
         }
         return response;

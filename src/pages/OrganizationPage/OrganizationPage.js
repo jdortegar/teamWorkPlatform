@@ -17,7 +17,7 @@ const propTypes = {
   }).isRequired,
   toggleTeamDialog: PropTypes.func.isRequired,
   toggleInvitePeopleDialog: PropTypes.func.isRequired,
-  requestIntegrations: PropTypes.func.isRequired,
+  fetchIntegrations: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.shape({
     currentSubscriberOrgId: PropTypes.string
   }).isRequired,
@@ -55,7 +55,7 @@ class OrganizationPage extends Component {
       this.props.setCurrentSubscriberOrgId(subscriberOrgId);
     }
     this.props.fetchSubscribersBySubscriberOrgId(subscriberOrgId).then(() => this.setState({ subscribersLoaded: true }));
-    this.props.requestIntegrations(subscriberOrgId).then(() => {
+    this.props.fetchIntegrations(subscriberOrgId).then(() => {
       this.setState({ integrationsLoaded: true });
     });
   }

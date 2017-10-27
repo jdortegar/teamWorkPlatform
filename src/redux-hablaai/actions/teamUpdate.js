@@ -1,7 +1,7 @@
 import config from '../config';
 import { doAuthenticatedRequest } from './urlRequest';
 
-export const updateTeam = (updateObject, teamId, getKey) => { // eslint-disable-line import/prefer-default-export
+export const updateTeam = (updateObject, teamId, getKey = false) => { // eslint-disable-line import/prefer-default-export
   // requestUrl is the key into redux state.urlRequests.
   const requestUrl = `${config.hablaApiBaseUri}/teams/updateTeam/${teamId}`;
 

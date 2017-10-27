@@ -21,3 +21,6 @@ export * from './teamRoomsFetch';
 export * from './teamRoomReceive';
 export * from './teamRoomCreate';
 export * from './teamRoomUpdate';
+
+export * from './teamRoomMembersFetch';
+export * from './teamRoomMemberReceive';

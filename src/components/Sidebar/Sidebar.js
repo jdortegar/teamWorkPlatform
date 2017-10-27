@@ -16,7 +16,7 @@ const propTypes = {
   toggleTeamRoomDialog: PropTypes.func.isRequired,
   toggleTeamDialog: PropTypes.func.isRequired,
   fetchTeamRooms: PropTypes.func.isRequired,
-  featchTeams: PropTypes.func.isRequired,
+  fetchTeams: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.array.isRequired,
   teams: PropTypes.array.isRequired,
   teamRooms: PropTypes.array.isRequired,
