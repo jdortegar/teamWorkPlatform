@@ -20,8 +20,6 @@ const propTypes = {
     }).isRequired
   }).isRequired,
   inviteMembersToTeam: PropTypes.func.isRequired,
-  teams: PropTypes.object.isRequired,
-  subscriberOrgById: PropTypes.object.isRequired,
   subscribers: PropTypes.object.isRequired
 };
 
@@ -66,10 +64,7 @@ class InviteToTeamPage extends Component {
   }
 
   renderInvitees() {
-    const { teamId } = this.props.match.params;
-    const { teams, subscriberOrgById, subscribers } = this.props;
-    const subscriberOrgId = subscriberOrgById[teams.teamById[teamId].subscriberOrgId].subscriberOrgId;
-    const users = subscribers[subscriberOrgId];
+    const users = this.props.subscribers;
     const dataSource = users.map(({ firstName, lastName, displayName, userId }) => {
       return { text: `${displayName} - ${firstName} ${lastName}`, value: userId };
     });

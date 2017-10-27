@@ -15,12 +15,10 @@ const { Sider } = Layout;
 const { SubMenu } = Menu;
 
 const propTypes = {
-  fetchSubscriberOrgs: PropTypes.func.isRequired,
+  fetchGlobalState: PropTypes.func.isRequired,
   toggleOrgDialog: PropTypes.func.isRequired,
   toggleTeamRoomDialog: PropTypes.func.isRequired,
   toggleTeamDialog: PropTypes.func.isRequired,
-  fetchTeamRooms: PropTypes.func.isRequired,
-  fetchTeams: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.array.isRequired,
   teams: PropTypes.array.isRequired,
   teamRooms: PropTypes.array.isRequired,
@@ -48,9 +46,7 @@ class Sidebar extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchSubscriberOrgs();
-    this.props.fetchTeams();
-    this.props.fetchTeamRooms();
+    this.props.fetchGlobalState();
   }
 
   onClickEditOrg(e, orgId, url, teamId = null) {
@@ -93,7 +89,7 @@ class Sidebar extends Component {
 
     teamRoomsByTeamId = primaryAtTop(teamRoomsByTeamId);
 
-    return teamRoomsByTeamId.map(teamRoom => 
+    return teamRoomsByTeamId.map(teamRoom =>
       <Menu.Item key={teamRoom.teamRoomId}>
         <div className="Sidebar__name-container">
           <UserIcon user={teamRoom} type="team" minWidth="20px" width="20px" height="20px" clickable={false} />
@@ -113,7 +109,7 @@ class Sidebar extends Component {
 
     teamsByOrgId = primaryAtTop(teamsByOrgId);
 
-    return teamsByOrgId.map(team => {
+    return teamsByOrgId.map((team) => {
       const teamRooms = this.renderTeamRooms(team.teamId);
       return <SubMenu
         key={team.teamId}

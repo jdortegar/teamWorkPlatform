@@ -88,6 +88,22 @@ export const getSubscribersOfSubscriberOrgId = createCachedSelector(
   (state, subscriberOrgId) => subscriberOrgId
 );
 
+export const getSubscribersOfTeamId = createCachedSelector(
+  [getTeamById, getUserIdsBySubscriberOrgId, getUsersByUserId, (state, teamId) => teamId],
+  (teamById, userIdsBySubscriberOrgId, usersByUserId, teamId) => {
+    if ((!teamId) || (!teamById[teamId])) {
+      return [];
+    }
+
+    const team = teamById[teamId];
+    const subscriberOrgId = team.subscriberOrgId;
+    const userIds = userIdsBySubscriberOrgId[subscriberOrgId];
+    return userIds.map(userId => usersByUserId[userId]);
+  }
+)(
+  (state, teamId) => teamId
+);
+
 
 /**
  * Return user details, as well as orgs, teams, and team rooms.

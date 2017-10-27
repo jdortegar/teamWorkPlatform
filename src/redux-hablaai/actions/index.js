@@ -24,3 +24,6 @@ export * from './teamRoomUpdate';
 
 export * from './teamRoomMembersFetch';
 export * from './teamRoomMemberReceive';
+
+
+export * from './globalStateFetch';
