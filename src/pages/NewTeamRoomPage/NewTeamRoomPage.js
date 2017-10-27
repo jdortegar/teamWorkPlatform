@@ -39,6 +39,7 @@ class NewTeamRoomPage extends Component {
         this.props.createTeamRoom({ name: values.name, publish: true, active: true }, teamId)
           .then(() => {
             this.setState({ loading: false });
+            this.props.history.push(`/app/team/${teamId}`)
           });
       }
     });
@@ -86,7 +87,7 @@ class NewTeamRoomPage extends Component {
                   <Button
                     type="primary"
                     className="New-team-room__button"
-                    onClick={() => this.props.history.push(`/app/organization/${teamId}`)}
+                    onClick={() => this.props.history.push(`/app/team/${teamId}`)}
                   >
                     { messages.cancel }
                   </Button>
