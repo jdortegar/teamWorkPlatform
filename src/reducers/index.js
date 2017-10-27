@@ -3,8 +3,7 @@ import { routerReducer } from 'react-router-redux';
 import reduxHablaaiReducers from '../redux-hablaai/reducers';
 import { UNAUTH_USER } from '../actions/types';
 import authReducer from './authReducer';
-import usersReducer from './usersReducer';
-import conversationsReducer from './conversationsReducer';
+import notificationsReducer from './notificationsReducer';
 import invitationsReducer from './invitationsReducer';
 import integrationsReducer from './integrationsReducer';
 import dialogsReducer from './dialogsReducer';
@@ -13,8 +12,7 @@ const mainReducer = combineReducers({
   ...reduxHablaaiReducers,
   auth: authReducer,
   dialogs: dialogsReducer,
-  users: usersReducer,
-  conversations: conversationsReducer,
+  notifications: notificationsReducer,
   integrations: integrationsReducer,
   invitations: invitationsReducer,
   router: routerReducer

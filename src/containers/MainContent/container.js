@@ -6,7 +6,7 @@ import { notifyMessage } from '../../actions';
 function mapStateToProps(state) {
   return {
     invitation: state.invitations.invitation,
-    pushMessage: state.conversations.pushMessage,
+    pushMessage: state.notifications.pushMessage,
   };
 }
 

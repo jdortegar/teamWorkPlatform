@@ -33,8 +33,9 @@ export const getTeamRoomMemberByUserId = state => state.teamRoomMembers.teamRoom
 export const getTeamRoomMemberIdByUserId = state => state.teamRoomMembers.teamRoomMemberIdByUserId;
 export const getUserIdsByTeamRoomId = state => state.teamRoomMembers.userIdsByTeamRoomId;
 
-const getConversationById = state => state.conversations.conversationById;
-const getConversationIdsByTeamRoomId = state => state.conversations.conversationIdsByTeamRoomId;
+export const getConversationById = state => state.conversations.conversationById;
+export const getConversationIdsByTeamRoomId = state => state.conversations.conversationIdsByTeamRoomId;
+export const geTranscriptByConversationId = state => state.conversations.transcriptByConversationId;
 
 const getIntegrationsBySubscriberOrgId = state => state.integrations.integrationsBySubscriberOrgId;
 // ------- Directly from state. END
@@ -323,8 +324,8 @@ function merge(tree, messages) {
 }
 
 export const getConversationOfTeamRoomId = createCachedSelector(
-  [getConversationIdsByTeamRoomId, getConversationById, (state, teamRoomId) => teamRoomId],
-  (conversationIdsByTeamRoomId, conversationById, teamRoomId) => {
+  [getConversationIdsByTeamRoomId, getConversationById, geTranscriptByConversationId, (state, teamRoomId) => teamRoomId],
+  (conversationIdsByTeamRoomId, conversationById, transcriptByConversationId, teamRoomId) => {
     const conversationIds = conversationIdsByTeamRoomId[teamRoomId];
     if ((!conversationIds) || (conversationIds.length === 0)) {
       return null;
@@ -332,20 +333,20 @@ export const getConversationOfTeamRoomId = createCachedSelector(
 
     // Only 1 conversation per team room, currently.
     const conversation = conversationById[conversationIds[0]];
+    const transcript = transcriptByConversationId[conversationIds[0]];
 
-    if ((conversation) && (conversation.transcript)) {
-      // Merge transcript messages into tree, and just replace transcript with tree in clone.
-      const clone = {};
-      Object.keys(conversation).forEach((key) => {
-        if (key !== 'transcript') {
-          clone[key] = conversation[key];
-        }
-      });
-      clone.transcript = merge(conversation.transcript.flattenedTree, conversation.transcript.messages);
-      return clone;
+    if (!conversation) {
+      return null;
     }
 
-    return null;
+    const conversationClone = _.cloneDeep(conversation);
+    if (!transcript) {
+      conversationClone.transcript = [];
+      return conversationClone;
+    }
+
+    conversationClone.transcript = merge(transcript.flattenedTree, transcript.messages);
+    return conversationClone;
   }
 )(
   (state, teamRoomId) => teamRoomId

@@ -3,8 +3,8 @@ import { withRouter } from 'react-router';
 import TeamRoomPage from '../../pages/TeamRoomPage';
 import {
   fetchTeamRoomMembersByTeamRoomId,
-  requestConversations,
-  requestTranscript
+  fetchConversations,
+  fetchTranscript
 } from '../../actions';
 import {
   getConversationOfTeamRoomId,
@@ -14,11 +14,6 @@ import {
 
 function mapStateToProps(state, props) {
   const teamRoomId = props.match.params.teamRoomId;
-  // Test
-  const conversation = getConversationOfTeamRoomId(state, teamRoomId);
-  if ((conversation) && (conversation.transcript)) {
-    console.log(`AD: transcript.length=${conversation.transcript.length}`);
-  }
   return {
     user: state.auth.user,
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
@@ -33,8 +28,8 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchTeamRoomMembersByTeamRoomId: teamRoomId => dispatch(fetchTeamRoomMembersByTeamRoomId(teamRoomId)),
-    requestConversations: teamRoomId => dispatch(requestConversations(teamRoomId)),
-    requestTranscript: conversationId => dispatch(requestTranscript(conversationId))
+    fetchConversations: teamRoomId => dispatch(fetchConversations(teamRoomId)),
+    fetchTranscript: conversationId => dispatch(fetchTranscript(conversationId))
   };
 }
 

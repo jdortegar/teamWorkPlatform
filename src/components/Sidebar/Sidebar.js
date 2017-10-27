@@ -83,6 +83,10 @@ class Sidebar extends Component {
 
   renderTeamRooms(teamId) {
     const { teamRooms } = this.props;
+    if (teamRooms.length === 0) {
+      return null;
+    }
+
     let teamRoomsByTeamId = teamRooms
       .filter((teamRoom) => teamRoom.teamId === teamId)
       .sort(sortByName);
@@ -103,6 +107,10 @@ class Sidebar extends Component {
 
   renderTeams(orgId) {
     const { teams } = this.props;
+    if (teams.length === 0) {
+      return null;
+    }
+
     let teamsByOrgId = teams
       .filter((team) => team.subscriberOrgId === orgId)
       .sort(sortByName);
