@@ -40,20 +40,8 @@ export const SHOW_TEAM_ROOM_DIALOG = 'show_team_room_dialog';
 export const SUBMITTING_TEAM_ROOM_FORM = 'submitting_team_room_form';
 
 //= =====================
-// Conversations Actions
-//= =====================
-export const REQUESTING_CONVERSATIONS = 'requesting_conversations';
-export const RECEIVE_CONVERSATIONS = 'receive_conversations';
-export const REQUEST_CONVERSATIONS_ERROR = 'request_conversations_error';
-export const REQUESTING_TRANSCRIPT = 'requesting_transcript';
-export const RECEIVE_TRANSCRIPT = 'receive_transcript';
-export const RECEIVE_MESSAGES = 'receive_messages';
-export const NOTIFY_MESSAGE = 'notify_message';
-export const REQUEST_TRANSCRIPT_ERROR = 'request_transcript_error';
-export const SET_ACTIVE_CONVERSATION = 'set_active_conversation';
-
-//= =====================
 // Integrations Actions
 //= =====================
+// TODO: ANT:
 export const INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG = 'integrate_error_bad_subscriber_org';
 export const INTEGRATE_ERROR = 'integrate_error'; // Catch-all error.

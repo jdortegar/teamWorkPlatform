@@ -36,7 +36,7 @@ const defaultProps = {
 class MainContent extends Component {
   componentDidMount() {
     if (this.props.pushMessage) {
-      const { text } = this.props.pushMessage;
+      const { text } = this.props.pushMessage; // TODO: JC: It should be the content[type=text/plain].text
       const args = {
         message: 'New Message',
         description: text,
@@ -59,7 +59,7 @@ class MainContent extends Component {
       if (this.props.pushMessage) {
         notification.destroy();
       }
-      const { text } = nextProps.pushMessage;
+      const { text } = nextProps.pushMessage; // TODO: JC: It should be the content[type=text/plain].text
       const args = {
         message: 'New Message',
         description: text,

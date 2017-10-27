@@ -21,7 +21,7 @@ const propTypes = {
   form: formShape.isRequired,
   fetchTeamRoomMembersByTeamRoomId: PropTypes.func.isRequired,
   addBase: PropTypes.func.isRequired,
-  requestTranscript: PropTypes.func.isRequired,
+  fetchTranscript: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       teamRoomId: PropTypes.string
@@ -47,7 +47,7 @@ const propTypes = {
   }).isRequired,
   updateFileList: PropTypes.func.isRequired,
   clearFileList: PropTypes.func.isRequired,
-  requestConversations: PropTypes.func.isRequired,
+  fetchConversations: PropTypes.func.isRequired,
   removeFileFromList: PropTypes.func.isRequired,
   isDraggingOver: PropTypes.bool.isRequired
 };
@@ -105,12 +105,12 @@ class TeamRoomPage extends Component {
         teamRoomMembersLoaded: true,
         teamRoomMembers: this.props.teamRoomMembers
       }));
-    this.props.requestConversations(teamRoomId)
-      .then((data) => {
-        if (data.payload.conversations) {
-          const { conversationId } = data.payload.conversations[0];
+    this.props.fetchConversations(teamRoomId)
+      .then((response) => {
+        if (response.data.conversations) {
+          const { conversationId } = response.data.conversations[0];
 
-          this.props.requestTranscript(conversationId)
+          this.props.fetchTranscript(conversationId)
             .then(() => this.setState({
               conversationsLoaded: true
             }));
@@ -129,12 +129,12 @@ class TeamRoomPage extends Component {
           teamRoomMembersLoaded: true,
           teamRoomMembers: nextProps.teamRoomMembers
         }));
-      nextProps.requestConversations(nextProps.match.params.teamRoomId)
+      nextProps.fetchConversations(nextProps.match.params.teamRoomId)
         .then((data) => {
           if (data.payload.conversations) {
             const { conversationId } = data.payload.conversations[0];
 
-            nextProps.requestTranscript(conversationId)
+            nextProps.fetchTranscript(conversationId)
               .then(() => this.setState({
                 conversationsLoaded: true
               }));

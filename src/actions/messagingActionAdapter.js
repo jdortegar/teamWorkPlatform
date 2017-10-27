@@ -6,10 +6,11 @@ import {
   receiveTeam,
   receiveTeamMember,
   receiveTeamRoom,
-  receiveTeamRoomMember
+  receiveTeamRoomMember,
+  receiveConversations,
+  receiveMessages
 } from '../actions';
 import { receiveInvitation } from './invitations';
-import { receiveConversations, receiveMessages, notifyMessage } from './conversations';
 
 // TODO: compare these event types.
 export default function (eventType, event) {
@@ -70,14 +71,13 @@ export default function (eventType, event) {
       break;
 
     case EventTypes.conversationCreated:
-      config.store.dispatch(receiveConversations([event], event.teamRoomId));
+      config.store.dispatch(receiveConversations([event]));
       break;
     case EventTypes.conversationUpdated:
       // TODO:
       break;
     case EventTypes.messageCreated:
       config.store.dispatch(receiveMessages([event], event.conversationId));
-      config.store.dispatch(notifyMessage(event));
       break;
 
     case EventTypes.boxIntegrationCreated:
