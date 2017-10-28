@@ -7,10 +7,10 @@ import {
   receiveTeamMember,
   receiveTeamRoom,
   receiveTeamRoomMember,
+  receiveInvitation,
   receiveConversations,
   receiveMessages
 } from '../actions';
-import { receiveInvitation } from './invitations';
 
 // TODO: compare these event types.
 export default function (eventType, event) {

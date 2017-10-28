@@ -2,10 +2,11 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import MainContent from '../../components/MainContent';
 import { notifyMessage } from '../../actions';
+import { getInvitations } from '../../selectors';
 
 function mapStateToProps(state) {
   return {
-    invitation: state.invitations.invitation,
+    invitation: getInvitations(state),
     pushMessage: state.notifications.pushMessage,
   };
 }

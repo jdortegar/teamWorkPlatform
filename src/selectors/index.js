@@ -33,6 +33,8 @@ export const getTeamRoomMemberByUserId = state => state.teamRoomMembers.teamRoom
 export const getTeamRoomMemberIdByUserId = state => state.teamRoomMembers.teamRoomMemberIdByUserId;
 export const getUserIdsByTeamRoomId = state => state.teamRoomMembers.userIdsByTeamRoomId;
 
+export const getInvitations = state => state.invitations.invitations;
+
 export const getConversationById = state => state.conversations.conversationById;
 export const getConversationIdsByTeamRoomId = state => state.conversations.conversationIdsByTeamRoomId;
 export const geTranscriptByConversationId = state => state.conversations.transcriptByConversationId;

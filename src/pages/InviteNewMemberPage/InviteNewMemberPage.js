@@ -19,7 +19,7 @@ const propTypes = {
       subscriberOrgId: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
-  inviteNewMembers: PropTypes.func.isRequired
+  inviteNewSubscribers: PropTypes.func.isRequired
 };
 
 class InviteNewMemberPage extends Component {
@@ -53,7 +53,7 @@ class InviteNewMemberPage extends Component {
       if (!err) {
         const users = _.values(emails);
         this.setState({ loading: true });
-        this.props.inviteNewMembers(users, subscriberOrgId)
+        this.props.inviteNewSubscribers(users, subscriberOrgId)
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/organization/${subscriberOrgId}/invitationSent`);
