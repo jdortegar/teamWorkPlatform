@@ -29,5 +29,6 @@ export * from './conversationsReceive';
 export * from './conversationsFetch';
 export * from './transcriptFetch';
 export * from './messagesReceive';
+export * from './messageCreate';
 
 export * from './globalStateFetch';

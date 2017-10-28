@@ -45,6 +45,7 @@ const propTypes = {
     conversationId: PropTypes.string.isRequired,
     transcript: PropTypes.array
   }).isRequired,
+  createMessage: PropTypes.func.isRequired,
   updateFileList: PropTypes.func.isRequired,
   clearFileList: PropTypes.func.isRequired,
   fetchConversations: PropTypes.func.isRequired,
@@ -56,15 +57,6 @@ const defaultProps = {
   files: []
 };
 
-
-function createMessage(conversationId, postBody) {
-  const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
-
-  return axios.post(
-    `${config.hablaApiBaseUri}/conversations/${conversationId}/createMessage`,
-    postBody,
-    axiosOptions);
-}
 
 function getPercentOfRequest(total, loaded) {
   const percent = (loaded * 100) / total;
@@ -212,7 +204,7 @@ class TeamRoomPage extends Component {
                 postBody.replyTo = messageId;
                 this.setState({ replyTo: null, showPreviewBox: false });
               }
-              createMessage(conversationId, postBody);
+              this.props.createMessage(postBody, conversationId);
               this.setState({ showPreviewBox: false, file: null });
               this.props.clearFileList();
             });
@@ -223,7 +215,7 @@ class TeamRoomPage extends Component {
             postBody.replyTo = messageId;
             this.setState({ replyTo: null, showPreviewBox: false });
           }
-          createMessage(conversationId, postBody);
+          this.props.createMessage(postBody, conversationId);
         }
       }
     });

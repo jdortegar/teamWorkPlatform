@@ -4,7 +4,8 @@ import TeamRoomPage from '../../pages/TeamRoomPage';
 import {
   fetchTeamRoomMembersByTeamRoomId,
   fetchConversations,
-  fetchTranscript
+  fetchTranscript,
+  createMessage
 } from '../../actions';
 import {
   getConversationOfTeamRoomId,
@@ -29,7 +30,8 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchTeamRoomMembersByTeamRoomId: teamRoomId => dispatch(fetchTeamRoomMembersByTeamRoomId(teamRoomId)),
     fetchConversations: teamRoomId => dispatch(fetchConversations(teamRoomId)),
-    fetchTranscript: conversationId => dispatch(fetchTranscript(conversationId))
+    fetchTranscript: conversationId => dispatch(fetchTranscript(conversationId)),
+    createMessage: (message, conversationId) => dispatch(createMessage(message, conversationId))
   };
 }
 
