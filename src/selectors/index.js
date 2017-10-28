@@ -15,21 +15,18 @@ export const getUsersByUserId = state => state.users.usersByUserId;
 export const getSubscriberOrgById = state => state.subscriberOrgs.subscriberOrgById;
 export const getCurrentSubscriberOrgId = state => state.subscriberOrgs.currentSubscriberOrgId;
 
-export const getSubscriberByUserId = state => state.subscribers.subscriberByUserId;
 export const getSubscriberUserIdByUserId = state => state.subscribers.subscriberUserIdByUserId;
 export const getUserIdsBySubscriberOrgId = state => state.subscribers.userIdsBySubscriberOrgId;
 
 export const getTeamById = state => state.teams.teamById;
 export const getTeamIdsBySubscriberOrgId = state => state.teams.teamIdsBySubscriberOrgId;
 
-export const getTeamMemberByUserId = state => state.teamMembers.teamMemberByUserId;
 export const getTeamMemberIdByUserId = state => state.teamMembers.teamMemberIdByUserId;
 export const getUserIdsByTeamId = state => state.teamMembers.userIdsByTeamId;
 
 export const getTeamRoomById = state => state.teamRooms.teamRoomById;
 export const getTeamRoomIdsByTeamId = state => state.teamRooms.teamRoomIdsByTeamId;
 
-export const getTeamRoomMemberByUserId = state => state.teamRoomMembers.teamRoomMemberByUserId;
 export const getTeamRoomMemberIdByUserId = state => state.teamRoomMembers.teamRoomMemberIdByUserId;
 export const getUserIdsByTeamRoomId = state => state.teamRoomMembers.userIdsByTeamRoomId;
 
@@ -85,7 +82,7 @@ export const getSubscribersOfSubscriberOrgId = createCachedSelector(
     }
 
     const userIds = userIdsBySubscriberOrgId[subscriberOrgId];
-    return userIds.map(userId => usersByUserId[userId]);
+    return Object.keys(userIds).map(userId => usersByUserId[userId]);
   }
 )(
   (state, subscriberOrgId) => subscriberOrgId
@@ -101,7 +98,24 @@ export const getSubscribersOfTeamId = createCachedSelector(
     const team = teamById[teamId];
     const subscriberOrgId = team.subscriberOrgId;
     const userIds = userIdsBySubscriberOrgId[subscriberOrgId];
-    return userIds.map(userId => usersByUserId[userId]);
+    return Object.keys(userIds).map(userId => usersByUserId[userId]);
+  }
+)(
+  (state, teamId) => teamId
+);
+
+export const getSubscribersOfTeamRoomId = createCachedSelector(
+  [getTeamRoomById, getTeamById, getUserIdsBySubscriberOrgId, getUsersByUserId, (state, teamRoomId) => teamId],
+  (teamRoomById, teamById, userIdsBySubscriberOrgId, usersByUserId, teamRoomId) => {
+    if ((!teamRoomId) || (!teamRoomById[teamRoomId])) {
+      return [];
+    }
+
+    const teamRoom = teamRoomById[teamRoomId];
+    const team = teamById[teamRoom.teamId];
+    const subscriberOrgId = team.subscriberOrgId;
+    const userIds = userIdsBySubscriberOrgId[subscriberOrgId];
+    return Object.keys(userIds).map(userId => usersByUserId[userId]);
   }
 )(
   (state, teamId) => teamId
@@ -116,6 +130,7 @@ export const getSubscribersOfTeamId = createCachedSelector(
  *
  * If the return is undefined, you'll have to wait until all relevant info is obtained by the described actions.
  */
+// TODO:
 export const getUserDetailsByUserId = createCachedSelector(
   [getUsersByUserId, getSubscriberOrgById, getTeamById, getTeamRoomById, (state, userId) => userId],
   (usersByUserId, subscriberOrgById, teamById, teamRoomById, userId) => {
@@ -233,7 +248,7 @@ export const getTeamMembersOfTeamId = createCachedSelector(
     }
 
     const userIds = userIdsByTeamId[teamId];
-    return userIds.map(userId => usersByUserId[userId]);
+    return Object.keys(userIds).map(userId => usersByUserId[userId]);
   }
 )(
   (state, teamId) => teamId
@@ -293,7 +308,7 @@ export const getTeamRoomMembersOfTeamRoomId = createCachedSelector(
     }
 
     const userIds = userIdsByTeamRoomId[teamRoomId];
-    return userIds.map(userId => usersByUserId[userId]);
+    return Object.keys(userIds).map(userId => usersByUserId[userId]);
   }
 )(
   (state, teamRoomId) => teamRoomId
@@ -306,7 +321,7 @@ export const getTeamRoomMembersAsObjectsOfTeamRoomId = createCachedSelector(
       return {};
     }
     const userIds = userIdsByTeamRoomId[teamRoomId];
-    const userIdsObj = userIds.reduce((acc, userId) => { acc[userId] = usersByUserId[userId]; return acc; }, {});
+    const userIdsObj = Object.keys(userIds).reduce((acc, userId) => { acc[userId] = usersByUserId[userId]; return acc; }, {});
     return userIdsObj;
   }
 )(
