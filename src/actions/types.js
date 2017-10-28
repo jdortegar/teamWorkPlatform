@@ -21,12 +21,6 @@ export const SUBMITTING_INVITE_ORG_FORM = 'submitting_invite_org_form';
 export const SET_CURRENT_DIALOG_ORG_ID = 'set_current_dialog_org_id';
 
 //= =====================
-// Invitation Actions
-//= =====================
-export const RECEIVE_INVITATION = 'receive_invitation';
-export const UPDATE_INVITATION = 'update_invitation';
-
-//= =====================
 // Teams Actions
 //= =====================
 export const SHOW_TEAM_DIALOG = 'show_team_dialog';
@@ -42,6 +36,6 @@ export const SUBMITTING_TEAM_ROOM_FORM = 'submitting_team_room_form';
 //= =====================
 // Integrations Actions
 //= =====================
-// TODO: ANT:
+// TODO: ANT: move to redux-hablaai
 export const INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG = 'integrate_error_bad_subscriber_org';
 export const INTEGRATE_ERROR = 'integrate_error'; // Catch-all error.

@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import InviteNewMemberPage from '../../pages/InviteNewMemberPage';
-import { inviteNewMembers } from '../../actions';
+import { inviteNewSubscribers } from '../../actions';
 
 function mapDispatchToProps(dispatch) {
   return {
-    inviteNewMembers: (users, subscriberOrgId) => dispatch(inviteNewMembers(users, subscriberOrgId))
+    inviteNewSubscribers: (users, subscriberOrgId) => dispatch(inviteNewSubscribers(users, subscriberOrgId))
   };
 }
 

@@ -6,6 +6,7 @@ import teamsReducer from './teamsReducer';
 import teamMembersReducer from './teamMembersReducer';
 import teamRoomsReducer from './teamRoomsReducer';
 import teamRoomMembersReducer from './teamRoomMembersReducer';
+import invitationsReducer from './invitationsReducer';
 import conversationsReducer from './conversationsReducer';
 
 const reducers = {
@@ -24,6 +25,8 @@ const reducers = {
   teamRooms: teamRoomsReducer,
 
   teamRoomMembers: teamRoomMembersReducer,
+
+  invitations: invitationsReducer,
 
   conversations: conversationsReducer
 };
