@@ -35,8 +35,10 @@ const defaultProps = {
 
 class MainContent extends Component {
   componentDidMount() {
-    if (this.props.pushMessage) {
-      const { text } = this.props.pushMessage; // TODO: JC: It should be the content[type=text/plain].text
+    if ((this.props.pushMessage) && (this.props.pushMessage.length > 0)) {
+      const text = this.props.pushMessage[0].content.reduce((prevVal, content) => {
+        return prevVal || (content.type === 'text/plain') ? content.text : undefined;
+      }, undefined);
       const args = {
         message: 'New Message',
         description: text,

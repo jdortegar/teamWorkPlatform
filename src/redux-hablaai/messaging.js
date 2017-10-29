@@ -133,7 +133,13 @@ class Messaging {
   }
 
   _notifyEventListeners(eventType, event) {
-    this.eventListeners.forEach(listener => listener(eventType, event));
+    let accepted = false;
+    this.eventListeners.forEach((listener) => {
+      accepted = listener(eventType, event) || accepted;
+    });
+    if (!accepted) {
+      console.warn(`Unprocessed messaging eventType=${eventType}`);
+    }
   }
 
   _notifyOnlineOfflineListener(online) {
