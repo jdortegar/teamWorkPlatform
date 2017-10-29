@@ -6,7 +6,8 @@ import { persistStore } from 'redux-persist';
 import { AUTH_USER } from './actions/types';
 import config from './config/env';
 import messaging from './redux-hablaai/messaging';
-import messagingActionAdapter from './actions/messagingActionAdapter';
+import messagingActionAdapter from './redux-hablaai/actions/messagingActionAdapter';
+import uiMessagingActionAdapter from './actions/messagingActionAdapter';
 import reduxHablaaiConfig from './redux-hablaai/config';
 
 const TOKEN_COOKIE_NAME = 'token';
@@ -25,6 +26,7 @@ let persistor;
 export function initMessaging() {
   messaging(websocketUrl).connect(jwt);
   messaging().addEventListener(messagingActionAdapter);
+  messaging().addEventListener(uiMessagingActionAdapter);
 }
 
 function closeMessaging() {

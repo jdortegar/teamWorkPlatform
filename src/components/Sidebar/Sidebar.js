@@ -7,7 +7,7 @@ import messages from './messages';
 import {
   sortByName,
   primaryAtTop,
-} from '../../selectors/helpers';
+} from '../../redux-hablaai/selectors/helpers';
 import './styles/style.css';
 
 
