@@ -20,6 +20,9 @@ const eventHandler = (eventType, event) => {
     case EventTypes.userInvited:
       config.store.dispatch(receiveInvitation(event));
       break;
+    case EventTypes.userCreated:
+      // TODO:
+      break;
     case EventTypes.userUpdated:
       // TODO:
       break;
@@ -75,6 +78,14 @@ const eventHandler = (eventType, event) => {
     case EventTypes.conversationUpdated:
       // TODO:
       break;
+
+    case EventTypes.typing:
+      // TODO:
+      break;
+    case EventTypes.location:
+      // TODO:
+      break;
+
     case EventTypes.messageCreated:
       config.store.dispatch(receiveMessages([event], event.conversationId));
       break;

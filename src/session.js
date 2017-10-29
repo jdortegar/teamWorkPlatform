@@ -9,6 +9,7 @@ import messaging from './redux-hablaai/messaging';
 import messagingActionAdapter from './redux-hablaai/actions/messagingActionAdapter';
 import uiMessagingActionAdapter from './actions/messagingActionAdapter';
 import reduxHablaaiConfig from './redux-hablaai/config';
+import { onlineOfflineListener } from './redux-hablaai/actions/urlRequest';
 
 const TOKEN_COOKIE_NAME = 'token';
 const WEBSOCKET_URL_COOKIE_NAME = 'websocketUrl';
@@ -27,6 +28,7 @@ export function initMessaging() {
   messaging(websocketUrl).connect(jwt);
   messaging().addEventListener(messagingActionAdapter);
   messaging().addEventListener(uiMessagingActionAdapter);
+  messaging().addOnlineOfflineListener(onlineOfflineListener);
 }
 
 function closeMessaging() {
