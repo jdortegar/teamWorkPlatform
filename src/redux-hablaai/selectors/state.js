@@ -31,6 +31,9 @@ export const getConversationById = state => state.conversations.conversationById
 export const getConversationIdsByTeamRoomId = state => state.conversations.conversationIdsByTeamRoomId;
 export const geTranscriptByConversationId = state => state.conversations.transcriptByConversationId;
 
+export const getTypingByConversationIdsByUserId = state => state.typings.typingByConversationIdsByUserId;
+export const getTypingByUserIdsByConversationId = state => state.typings.typingByUserIdsByConversationId;
+
 export const getUrlRequestStatus = createCachedSelector(
   [getUrlRequests, (state, requestUrl) => requestUrl],
   (urlRequests, requestUrl) => {

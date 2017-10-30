@@ -4,25 +4,35 @@ import {
 } from '../actions';
 
 const INITIAL_STATE = {
-  typingByConversationIdsByUserId: {}
+  typingByConversationIdsByUserId: {},
+  typingByUserIdsByConversationId: {}
 };
 
 const typingsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case TYPING_RECEIVE: {
       const { userId, conversationId, isTyping } = action.payload;
+
       const typingByConversationIdsByUserId = _.cloneDeep(state.typingByConversationIdsByUserId);
       let conversationIds = typingByConversationIdsByUserId[userId];
-
       if (!conversationIds) {
         conversationIds = {};
         typingByConversationIdsByUserId[userId] = conversationIds;
       }
-
       conversationIds[conversationId] = isTyping;
+
+      const typingByUserIdsByConversationId = _.cloneDeep(state.typingByUserIdsByConversationId);
+      let userIds = typingByUserIdsByConversationId[userId];
+      if (!userIds) {
+        userIds = {};
+        typingByUserIdsByConversationId[userId] = userIds;
+      }
+      userIds[userId] = isTyping;
+
       return {
         ...state,
-        typingByConversationIdsByUserId
+        typingByConversationIdsByUserId,
+        typingByUserIdsByConversationId
       };
     }
     default:
