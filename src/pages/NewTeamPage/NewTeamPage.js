@@ -39,7 +39,7 @@ class NewTeamPage extends Component {
         this.props.createTeam(values, subscriberOrgId)
           .then(() => {
             this.setState({ loading: false });
-            this.props.history.push(`/app/organization/${subscriberOrgId}/teamCreated`);
+            this.props.history.push(`/app/organization/${subscriberOrgId}`);
           });
       }
     });

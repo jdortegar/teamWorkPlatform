@@ -91,7 +91,9 @@ class Sidebar extends Component {
       .filter((teamRoom) => teamRoom.teamId === teamId)
       .sort(sortByName);
 
-    teamRoomsByTeamId = primaryAtTop(teamRoomsByTeamId);
+    if (teamRoomsByTeamId.length > 0) {
+      teamRoomsByTeamId = primaryAtTop(teamRoomsByTeamId);
+    }
 
     return teamRoomsByTeamId.map(teamRoom =>
       <Menu.Item key={teamRoom.teamRoomId}>
