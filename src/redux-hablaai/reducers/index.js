@@ -9,6 +9,7 @@ import teamRoomsReducer from './teamRoomsReducer';
 import teamRoomMembersReducer from './teamRoomMembersReducer';
 import invitationsReducer from './invitationsReducer';
 import conversationsReducer from './conversationsReducer';
+import typingsReducer from './typingsReducer';
 
 const reducers = {
   urlRequests: urlRequestsReducer,
@@ -31,7 +32,9 @@ const reducers = {
 
   invitations: invitationsReducer,
 
-  conversations: conversationsReducer
+  conversations: conversationsReducer,
+
+  typings: typingsReducer
 };
 
 export default reducers;

@@ -11,7 +11,8 @@ import {
   receiveTeamRoomMember,
   receiveInvitation,
   receiveConversations,
-  receiveMessages
+  receiveMessages,
+  receiveTyping
 } from '../actions';
 
 const eventHandler = (eventType, event) => {
@@ -79,10 +80,7 @@ const eventHandler = (eventType, event) => {
       break;
 
     case EventTypes.typing:
-      // TODO:
-      break;
-    case EventTypes.location:
-      // TODO:
+      config.store.dispatch(receiveTyping([event]));
       break;
 
     case EventTypes.messageCreated:

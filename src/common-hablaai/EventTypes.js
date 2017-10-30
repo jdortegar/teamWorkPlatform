@@ -25,7 +25,7 @@ const EventTypes = Object.freeze({
   messageCreated: 'messageCreated',
 
   typing: 'typing',
-  location: 'location',
+  location: 'location', // Sent from client only.  Location is included in presenceChanged notification event.
 
   boxIntegrationCreated: 'boxIntegrationCreated',
   boxIntegrationExpired: 'boxIntegrationExpired',
