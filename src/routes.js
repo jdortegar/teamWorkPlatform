@@ -24,6 +24,7 @@ export const routesPaths = {
   inviteToTeam: '/app/inviteToTeam/:teamId',
   team: '/app/team/:teamId/:status?',
   editTeam: '/app/editTeam/:teamId',
+  editTeamRoom: '/app/editTeamRoom/:teamRoomId',
   teamRoom: '/app/teamRoom/:teamRoomId',
   newTeamRoom: '/app/createTeamRoom/:teamId',
   member: '/app/teamMember/:teamMemberId',
