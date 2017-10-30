@@ -1,6 +1,8 @@
 import config from '../config';
 import EventTypes from '../../common-hablaai/EventTypes';
 import {
+  changePresence,
+  receiveUser,
   receiveSubscriberOrg,
   receiveSubscriber,
   receiveTeam,
@@ -15,19 +17,19 @@ import {
 const eventHandler = (eventType, event) => {
   switch (eventType) {
     case EventTypes.presenceChanged:
-      // TODO:
+      config.store.dispatch(changePresence(event));
       break;
     case EventTypes.userInvited:
       config.store.dispatch(receiveInvitation(event));
       break;
     case EventTypes.userCreated:
-      // TODO:
+      // Don't care about this.  This is when a new user registers.  Also, notification won't be sent for this, currently.
       break;
     case EventTypes.userUpdated:
-      // TODO:
+      config.store.dispatch(receiveUser(event));
       break;
     case EventTypes.userPrivateInfoUpdated:
-      // TODO:
+      config.store.dispatch(receiveUser(event)); // Same as userUpdated except contains preferences.private.
       break;
 
     case EventTypes.subscriberOrgCreated:
@@ -37,11 +39,10 @@ const eventHandler = (eventType, event) => {
       config.store.dispatch(receiveSubscriberOrg(event));
       break;
     case EventTypes.subscriberOrgPrivateInfoUpdated:
-      // TODO:
+      config.store.dispatch(receiveSubscriberOrg(event)); // Same as subscriberOrgUpdated except contains preferences.private.
       break;
     case EventTypes.subscriberAdded:
-      // TODO: implement this whole process all the way to action -> reducer -> selectors.
-      config.store.dispatch(receiveSubscriber(event, event.subscriberOrgId));
+      config.store.dispatch(receiveSubscriber(event.user, event.subscriberOrgId));
       break;
 
     case EventTypes.teamCreated:
@@ -51,11 +52,10 @@ const eventHandler = (eventType, event) => {
       config.store.dispatch(receiveTeam(event));
       break;
     case EventTypes.teamPrivateInfoUpdated:
-      // TODO:
+      config.store.dispatch(receiveTeam(event)); // Same as teamUpdated except contains preferences.private.
       break;
     case EventTypes.teamMemberAdded:
-      // TODO: implement this whole process all the way to action -> reducer -> selectors.
-      config.store.dispatch(receiveTeamMember(event, event.teamId));
+      config.store.dispatch(receiveTeamMember(event.user, event.teamId));
       break;
 
     case EventTypes.teamRoomCreated:
@@ -65,18 +65,17 @@ const eventHandler = (eventType, event) => {
       config.store.dispatch(receiveTeamRoom(event, event.teamId));
       break;
     case EventTypes.teamRoomPrivateInfoUpdated:
-      // TODO:
+      config.store.dispatch(receiveTeamRoom(event, event.teamId)); // Same as teamRoomUpdated except contains preferences.private.
       break;
     case EventTypes.teamRoomMemberAdded:
-      // TODO: implement this whole process all the way to action -> reducer -> selectors.
-      config.store.dispatch(receiveTeamRoomMember(event, event.teamRoomId));
+      config.store.dispatch(receiveTeamRoomMember(event.user, event.teamRoomId));
       break;
 
     case EventTypes.conversationCreated:
       config.store.dispatch(receiveConversations([event]));
       break;
     case EventTypes.conversationUpdated:
-      // TODO:
+      config.store.dispatch(receiveConversations([event])); // Same as conversationCreated.
       break;
 
     case EventTypes.typing:

@@ -1,8 +1,8 @@
 export const TEAMMEMBER_RECEIVE = 'teammember/receive';
 
-export const receiveTeamMember = (teamMember) => {
+export const receiveTeamMember = (teamMember, teamId) => {
   return {
     type: TEAMMEMBER_RECEIVE,
-    payload: { teamMember }
+    payload: { teamMember, teamId }
   };
 };

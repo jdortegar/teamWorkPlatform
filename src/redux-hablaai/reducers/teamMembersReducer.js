@@ -2,19 +2,19 @@ import _ from 'lodash';
 import { TEAMMEMBERS_FETCH_SUCCESS } from '../actions';
 
 const INITIAL_STATE = {
-  teamMemberIdIdByUserId: {},
+  teamMemberIdByUserId: {},
   userIdsByTeamId: {}
 };
 
 const teamMembersReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case TEAMMEMBERS_FETCH_SUCCESS: {
-      const teamMemberIdIdByUserId = _.cloneDeep(state.teamMemberIdIdByUserId);
+      const teamMemberIdByUserId = _.cloneDeep(state.teamMemberIdByUserId);
       const userIdsByTeamId = _.cloneDeep(state.userIdsByTeamId);
 
       const teamId = action.payload.teamId;
       action.payload.teamMembers.forEach((teamMember) => {
-        teamMemberIdIdByUserId[teamMember.userId] = teamMember.teamMemberId;
+        teamMemberIdByUserId[teamMember.userId] = teamMember.teamMemberId;
         let teamMembers = userIdsByTeamId[teamId];
         if (!teamMembers) {
           teamMembers = {};
@@ -25,7 +25,7 @@ const teamMembersReducer = (state = INITIAL_STATE, action) => {
 
       return {
         ...state,
-        teamMemberIdIdByUserId,
+        teamMemberIdByUserId,
         userIdsByTeamId
       };
     }

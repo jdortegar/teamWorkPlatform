@@ -1,6 +1,6 @@
 import createCachedSelector from 're-reselect';
 import {
-  getUsersByUserId,
+  getUserByUserId,
   getUserIdsByTeamId
 } from './state';
 
@@ -10,14 +10,14 @@ export {
 } from './state';
 
 export const getTeamMembersOfTeamId = createCachedSelector( // eslint-disable-line import/prefer-default-export
-  [getUserIdsByTeamId, getUsersByUserId, (state, teamId) => teamId],
-  (userIdsByTeamId, usersByUserId, teamId) => {
+  [getUserIdsByTeamId, getUserByUserId, (state, teamId) => teamId],
+  (userIdsByTeamId, userByUserId, teamId) => {
     if ((!teamId) || (!userIdsByTeamId[teamId])) {
       return [];
     }
 
     const userIds = userIdsByTeamId[teamId];
-    return Object.keys(userIds).map(userId => usersByUserId[userId]);
+    return Object.keys(userIds).map(userId => userByUserId[userId]);
   }
 )(
   (state, teamId) => teamId

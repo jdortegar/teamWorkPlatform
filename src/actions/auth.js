@@ -11,7 +11,7 @@ import { login, logout } from '../session';
 
 const { hablaApiBaseUri } = config;
 
-export function loginUser({ email, password, targetRoute }) {
+export const loginUser = ({ email, password, targetRoute }) => {
   return (dispatch) => {
     dispatch({ type: LOGGING_IN, payload: true });
     login(email, password)
@@ -28,9 +28,9 @@ export function loginUser({ email, password, targetRoute }) {
         dispatch({ type: LOGGING_IN, payload: false });
       });
   };
-}
+};
 
-export function logoutUser(error) {
+export const logoutUser = (error) => {
   return (dispatch) => {
     dispatch({
       type: UNAUTH_USER,
@@ -40,16 +40,16 @@ export function logoutUser(error) {
 
     dispatch(push(routesPaths.login));
   };
-}
+};
 
-export function submitRegistrationForm(status) {
+export const submitRegistrationForm = (status) => {
   return {
     type: SUBMIT_REGISTRATION_FORM,
     payload: status
   };
-}
+};
 
-export function verifyEmailAccount(uuid) {
+export const verifyEmailAccount = (uuid) => {
   return () => {
     return axios
       .get(`${hablaApiBaseUri}/users/validateEmail/${uuid}`)
@@ -61,9 +61,9 @@ export function verifyEmailAccount(uuid) {
         throw new Error(error);
       });
   };
-}
+};
 
-export function createAccount(form) {
+export const createAccount = (form) => {
   return () => {
     return axios
       .post(`${hablaApiBaseUri}/users/createUser`, form)
@@ -72,4 +72,4 @@ export function createAccount(form) {
         throw new Error(error);
       });
   };
-}
+};

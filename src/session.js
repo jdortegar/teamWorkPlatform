@@ -10,6 +10,7 @@ import messagingActionAdapter from './redux-hablaai/actions/messagingActionAdapt
 import uiMessagingActionAdapter from './actions/messagingActionAdapter';
 import reduxHablaaiConfig from './redux-hablaai/config';
 import { onlineOfflineListener } from './redux-hablaai/actions/urlRequest';
+import { receiveUserMyself } from './actions';
 
 const TOKEN_COOKIE_NAME = 'token';
 const WEBSOCKET_URL_COOKIE_NAME = 'websocketUrl';
@@ -120,6 +121,7 @@ export function login(email, password) {
           type: AUTH_USER,
           payload: { user }
         });
+        store.dispatch(receiveUserMyself(user));
         persistStore(store);
 
         initMessaging();
@@ -140,7 +142,6 @@ export function logout() {
   const decoded = jwtDecode(jwt);
   const userId = decoded._id;
 
-  const jwtForLogout = jwt;
   jwt = undefined;
   reduxHablaaiConfig.jwt = jwt;
   websocketUrl = undefined;

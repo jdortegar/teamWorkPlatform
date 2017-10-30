@@ -1,5 +1,6 @@
 import urlRequestsReducer from './urlRequestsReducer';
 import usersReducer from './usersReducer';
+import presencesReducer from './presencesReducer';
 import subscriberOrgsReducer from './subscriberOrgsReducer';
 import subscribersReducer from './subscribersReducer';
 import teamsReducer from './teamsReducer';
@@ -13,6 +14,8 @@ const reducers = {
   urlRequests: urlRequestsReducer,
 
   users: usersReducer,
+
+  presences: presencesReducer,
 
   subscriberOrgs: subscriberOrgsReducer,
 

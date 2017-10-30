@@ -1,6 +1,6 @@
 import createCachedSelector from 're-reselect';
 import {
-  getUsersByUserId,
+  getUserByUserId,
   getUserIdsBySubscriberOrgId,
   getTeamById,
   getTeamRoomById
@@ -11,22 +11,22 @@ export {
 } from './state';
 
 export const getSubscribersOfSubscriberOrgId = createCachedSelector(
-  [getUserIdsBySubscriberOrgId, getUsersByUserId, (state, subscriberOrgId) => subscriberOrgId],
-  (userIdsBySubscriberOrgId, usersByUserId, subscriberOrgId) => {
+  [getUserIdsBySubscriberOrgId, getUserByUserId, (state, subscriberOrgId) => subscriberOrgId],
+  (userIdsBySubscriberOrgId, userByUserId, subscriberOrgId) => {
     if ((!subscriberOrgId) || (!userIdsBySubscriberOrgId[subscriberOrgId])) {
       return [];
     }
 
     const userIds = userIdsBySubscriberOrgId[subscriberOrgId];
-    return Object.keys(userIds).map(userId => usersByUserId[userId]);
+    return Object.keys(userIds).map(userId => userByUserId[userId]);
   }
 )(
   (state, subscriberOrgId) => subscriberOrgId
 );
 
 export const getSubscribersOfTeamId = createCachedSelector(
-  [getTeamById, getUserIdsBySubscriberOrgId, getUsersByUserId, (state, teamId) => teamId],
-  (teamById, userIdsBySubscriberOrgId, usersByUserId, teamId) => {
+  [getTeamById, getUserIdsBySubscriberOrgId, getUserByUserId, (state, teamId) => teamId],
+  (teamById, userIdsBySubscriberOrgId, userByUserId, teamId) => {
     if ((!teamId) || (!teamById[teamId])) {
       return [];
     }
@@ -34,15 +34,15 @@ export const getSubscribersOfTeamId = createCachedSelector(
     const team = teamById[teamId];
     const subscriberOrgId = team.subscriberOrgId;
     const userIds = userIdsBySubscriberOrgId[subscriberOrgId];
-    return Object.keys(userIds).map(userId => usersByUserId[userId]);
+    return Object.keys(userIds).map(userId => userByUserId[userId]);
   }
 )(
   (state, teamId) => teamId
 );
 
 export const getSubscribersOfTeamRoomId = createCachedSelector(
-  [getTeamRoomById, getTeamById, getUserIdsBySubscriberOrgId, getUsersByUserId, (state, teamRoomId) => teamRoomId],
-  (teamRoomById, teamById, userIdsBySubscriberOrgId, usersByUserId, teamRoomId) => {
+  [getTeamRoomById, getTeamById, getUserIdsBySubscriberOrgId, getUserByUserId, (state, teamRoomId) => teamRoomId],
+  (teamRoomById, teamById, userIdsBySubscriberOrgId, userByUserId, teamRoomId) => {
     if ((!teamRoomId) || (!teamRoomById[teamRoomId])) {
       return [];
     }
@@ -51,7 +51,7 @@ export const getSubscribersOfTeamRoomId = createCachedSelector(
     const team = teamById[teamRoom.teamId];
     const subscriberOrgId = team.subscriberOrgId;
     const userIds = userIdsBySubscriberOrgId[subscriberOrgId];
-    return Object.keys(userIds).map(userId => usersByUserId[userId]);
+    return Object.keys(userIds).map(userId => userByUserId[userId]);
   }
 )(
   (state, teamRoomId) => teamRoomId
