@@ -10,6 +10,7 @@ export * from './subscriberOrgCreateFromDialog';
 export * from './teams';
 export * from './teamUpdate';
 export * from './teamRooms';
+export * from './teamRoomUpdate';
 export * from './conversations';
 export * from './invitations';
 export * from './integrations';

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import { Row, Col, Form } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -279,15 +280,17 @@ class TeamRoomPage extends Component {
   render() {
     if (this.state.teamRoomMembersLoaded && this.state.conversationsLoaded) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
-      const { teamRooms, user } = this.props;
+      const { teamRooms, user, teamRoomMembers } = this.props;
       const teamRoomId = this.props.match.params.teamRoomId;
       const teamRoom = teamRooms.teamRoomById[teamRoomId];
-      const teamRoomMembers = this.renderTeamRoomMembers();
       const className = classNames({
         'team-room-chat': true,
         'team-room__main-container--opacity': this.state.isDraggingOver
       });
       const messages = this.props.conversations.transcript;
+
+      const teamRoomMemberFoundByUser = _.find(teamRoomMembers, { userId: user.userId });
+      const isAdmin = teamRoomMemberFoundByUser.teamRooms[teamRoomId].role === 'admin';
 
       return (
         <div className={className}>
@@ -296,6 +299,9 @@ class TeamRoomPage extends Component {
             <SubpageHeader
               icon={<UserIcon user={teamRoom} type="team" clickable={false} />}
               breadcrumb={teamRoom.name}
+              editButton={true}
+              isAdmin={isAdmin}
+              teamRoomId={teamRoomId}
               node={
                 <div className="team-room__header-container">
                   <div className={`team-room__header-links ${this.state.activeLink === messages.all ? 'active' : ''}`}>
@@ -315,7 +321,7 @@ class TeamRoomPage extends Component {
               text={
                 <div className="team-room__member-cards-container">
                   <span className="team-room__member-cards-span">{numberOfTeamRoomMembers} members</span>
-                  {teamRoomMembers}
+                  {this.renderTeamRoomMembers()}
                 </div>
               }
               handleSearch={this.handleSearch}
