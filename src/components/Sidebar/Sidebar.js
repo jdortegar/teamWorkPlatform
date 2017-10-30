@@ -112,10 +112,10 @@ class Sidebar extends Component {
     }
 
     let teamsByOrgId = teams
-      .filter((team) => team.subscriberOrgId === orgId)
+      .filter(team => team.subscriberOrgId === orgId)
       .sort(sortByName);
 
-    teamsByOrgId = primaryAtTop(teamsByOrgId);
+    teamsByOrgId = ((teamsByOrgId.length === 0) && (teamsByOrgId[0] === undefined)) ? [] : primaryAtTop(teamsByOrgId);
 
     return teamsByOrgId.map((team) => {
       const teamRooms = this.renderTeamRooms(team.teamId);
