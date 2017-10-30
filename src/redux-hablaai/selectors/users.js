@@ -1,4 +1,5 @@
 export {
-  getCurrentUser,
-  getUsersByUserId
+  getUserByUserId,
+  getMyselfUserId,
+  getPresencesByUserId
 } from './state';

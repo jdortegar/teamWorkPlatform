@@ -2,8 +2,10 @@ import createCachedSelector from 're-reselect';
 
 export const getUrlRequests = state => state.urlRequests;
 
-export const getCurrentUser = state => state.auth.user;
-export const getUsersByUserId = state => state.users.usersByUserId;
+export const getUserByUserId = state => state.users.userByUserId;
+export const getMyselfUserId = state => state.users.myselfUserId;
+
+export const getPresencesByUserId = state => state.presences.presencesByUserId;
 
 export const getSubscriberOrgById = state => state.subscriberOrgs.subscriberOrgById;
 export const getCurrentSubscriberOrgId = state => state.subscriberOrgs.currentSubscriberOrgId;
