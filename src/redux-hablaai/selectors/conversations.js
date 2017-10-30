@@ -3,13 +3,16 @@ import createCachedSelector from 're-reselect';
 import {
   getConversationById,
   getConversationIdsByTeamRoomId,
-  geTranscriptByConversationId
+  geTranscriptByConversationId,
+  getTypingByUserIdsByConversationId
 } from './state';
 
 export {
   getConversationById,
   getConversationIdsByTeamRoomId,
-  geTranscriptByConversationId
+  geTranscriptByConversationId,
+  getTypingByConversationIdsByUserId,
+  getTypingByUserIdsByConversationId
 } from './state';
 
 function merge(tree, messages) {
@@ -51,4 +54,13 @@ export const getConversationOfTeamRoomId = createCachedSelector(
   }
 )(
   (state, teamRoomId) => teamRoomId
+);
+
+export const getTypingsOfConversationId = createCachedSelector(
+  [getTypingByUserIdsByConversationId, (state, conversationId) => conversationId],
+  (typingByUserIdsByConversationId, conversationId) => {
+    return typingByUserIdsByConversationId[conversationId];
+  }
+)(
+  (state, conversationId) => conversationId
 );
