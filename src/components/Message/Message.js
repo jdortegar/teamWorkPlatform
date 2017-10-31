@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Tooltip } from 'antd';
+import _ from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
 import UserIcon from '../UserIcon';
@@ -48,7 +49,7 @@ class Message extends Component {
 
   render() {
     const { message, user, teamRoomMembersObj, hide } = this.props;
-    const { text, messageId, children, level, content } = message;
+    const { messageId, children, level, content } = message;
     const { firstName, lastName, preferences, userId } = user;
     const date = moment(message.created).fromNow();
     const unmute = classNames({
@@ -60,13 +61,14 @@ class Message extends Component {
       hide: !this.state.mute
     });
 
+    const justTextContent = _.find(content, { type: 'text/plain' });
     const contentJustImage = content.filter(resource => resource.type !== 'text/plain');
-
+    const text = !!justTextContent
     const messageBody = (
       <div>
         <p className="message__body-name">{firstName} {lastName}</p>
         <p className="message__body-text">
-          {text}
+          { text && justTextContent.text }
           <span className="message__body-text-date"> ({date})</span>
         </p>
       </div>
