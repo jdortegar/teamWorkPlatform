@@ -10,31 +10,22 @@ import teamRoomMembersReducer from './teamRoomMembersReducer';
 import invitationsReducer from './invitationsReducer';
 import conversationsReducer from './conversationsReducer';
 import typingsReducer from './typingsReducer';
+import integrationsReducer from './integrationsReducer';
 
 const reducers = {
   urlRequests: urlRequestsReducer,
-
   users: usersReducer,
-
   presences: presencesReducer,
-
   subscriberOrgs: subscriberOrgsReducer,
-
   subscribers: subscribersReducer,
-
   teams: teamsReducer,
-
   teamMembers: teamMembersReducer,
-
   teamRooms: teamRoomsReducer,
-
   teamRoomMembers: teamRoomMembersReducer,
-
   invitations: invitationsReducer,
-
   conversations: conversationsReducer,
-
-  typings: typingsReducer
+  typings: typingsReducer,
+  integrations: integrationsReducer
 };
 
 export default reducers;

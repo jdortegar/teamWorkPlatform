@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import {
   INTEGRATIONS_FETCH_SUCCESS,
-  INTEGRATIONS_REVOKE_SUCCESS
+  INTEGRATIONS_REVOKE_SUCCESS,
+  INTEGRATIONS_UPDATE
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -36,10 +37,16 @@ const integrationsReducer = (state = INITIAL_STATE, action) => {
       }
       return {
         ...state,
-        integrationsBySubscriberOrgId,
-        working: false,
-        error: null,
-        errorMeta: {}
+        integrationsBySubscriberOrgId
+      };
+    }
+    case INTEGRATIONS_UPDATE: {
+      const { subscriberOrgId, integrations } = action.payload;
+      const integrationsBySubscriberOrgId = _.cloneDeep(state.integrationsBySubscriberOrgId);
+      integrationsBySubscriberOrgId[subscriberOrgId] = integrations;
+      return {
+        ...state,
+        integrationsBySubscriberOrgId
       };
     }
     default:

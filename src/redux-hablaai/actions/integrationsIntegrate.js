@@ -1,12 +1,11 @@
-import { doAuthenticatedRequest } from '../redux-hablaai/actions/urlRequest';
-import config from '../config/env';
+import { doAuthenticatedRequest } from './urlRequest';
+import config from '../config';
 import {
-  INTEGRATE_ERROR,
-  INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG
-} from './types';
+  INTEGRATION_ERROR,
+  INTEGRATION_ERROR_BADSUBSCRIBERORG
+} from './integrations';
 
-
-function integrate(type, subscriberOrgId, getKey = false) {
+const integrate = (type, subscriberOrgId, getKey = false) => {
   // requestUrl is the key into redux state.urlRequests.
   const requestUrl = `${config.hablaApiBaseUri}/integrations/${type}/integrate/${subscriberOrgId}`;
 
@@ -25,14 +24,14 @@ function integrate(type, subscriberOrgId, getKey = false) {
           window.location.href = response.data.location;
         } else if (response.status === 404) {
           dispatch({
-            type: INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG,
+            type: INTEGRATION_ERROR_BADSUBSCRIBERORG,
             meta: { subscriberOrgId },
             payload: new Error(`Bad subscriberOrgId: ${subscriberOrgId}`),
             error: true
           });
         } else {
           dispatch({
-            type: INTEGRATE_ERROR,
+            type: INTEGRATION_ERROR,
             meta: {
               subscriberOrgId,
               status: response.status
@@ -46,12 +45,12 @@ function integrate(type, subscriberOrgId, getKey = false) {
 
     return thunk;
   };
-}
+};
 
-export function integrateGoogle(subscriberOrgId, getKey = false) {
+export const integrateGoogle = (subscriberOrgId, getKey = false) => {
   return integrate('google', subscriberOrgId, getKey);
-}
+};
 
-export function integrateBox(subscriberOrgId, getKey = false) {
+export const integrateBox = (subscriberOrgId, getKey = false) => {
   return integrate('box', subscriberOrgId, getKey);
-}
+};

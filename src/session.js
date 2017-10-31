@@ -7,7 +7,6 @@ import { AUTH_USER } from './actions/types';
 import config from './config/env';
 import messaging from './redux-hablaai/messaging';
 import messagingActionAdapter from './redux-hablaai/actions/messagingActionAdapter';
-import uiMessagingActionAdapter from './actions/messagingActionAdapter';
 import reduxHablaaiConfig from './redux-hablaai/config';
 import { onlineOfflineListener } from './redux-hablaai/actions/urlRequest';
 import { receiveUserMyself } from './actions';
@@ -25,19 +24,18 @@ let store;
 let persistor;
 
 
-export function initMessaging() {
+export const initMessaging = () => {
   messaging(websocketUrl).connect(jwt);
   messaging().addEventListener(messagingActionAdapter);
-  messaging().addEventListener(uiMessagingActionAdapter);
   messaging().addOnlineOfflineListener(onlineOfflineListener);
-}
+};
 
-function closeMessaging() {
+export const closeMessaging = () => {
   const messagingInstance = messaging();
   if (messagingInstance) {
     messagingInstance.close();
   }
-}
+};
 
 window.onbeforeunload = () => {
   closeMessaging();
@@ -45,15 +43,15 @@ window.onbeforeunload = () => {
 };
 
 
-function loadCookieData() {
+const loadCookieData = () => {
   jwt = Cookie.get(TOKEN_COOKIE_NAME);
   reduxHablaaiConfig.jwt = jwt;
   websocketUrl = Cookie.get(WEBSOCKET_URL_COOKIE_NAME);
   resourcesUrl = Cookie.get(RESOURCES_URL_COOKIE_NAME);
   reduxHablaaiConfig.resourceBaseUri = resourcesUrl;
-}
+};
 
-export function sessionState(restoredState) {
+export const sessionState = (restoredState) => {
   if (!jwt) {
     loadCookieData();
   }
@@ -69,28 +67,28 @@ export function sessionState(restoredState) {
   }
 
   return undefined;
-}
+};
 
-export function setStore(createdStore) {
+export const setStore = (createdStore) => {
   store = createdStore;
   reduxHablaaiConfig.store = store;
-}
+};
 
-export function setPersistor(createdPersistor) {
+export const setPersistor = (createdPersistor) => {
   persistor = createdPersistor;
-}
+};
 
 
-export function getJwt() {
+export const getJwt = () => {
   return jwt;
-}
+};
 
-export function getResourcesUrl() {
+export const getResourcesUrl = () => {
   return resourcesUrl;
-}
+};
 
 
-export function login(email, password) {
+export const login = (email, password) => {
   return new Promise((resolve, reject) => {
     const loginUrl = `${config.hablaApiBaseUri}/auth/login`;
     const params = new URLSearchParams();
@@ -136,9 +134,9 @@ export function login(email, password) {
       })
       .catch(err => reject(err));
   });
-}
+};
 
-export function logout() {
+export const logout = () => {
   const decoded = jwtDecode(jwt);
   const userId = decoded._id;
 
@@ -173,8 +171,8 @@ export function logout() {
   const logoutUrl = `${config.hablaApiBaseUri}/auth/logout`;
   const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
   axios.get(logoutUrl, axiosOptions);
-}
+};
 
-export function isAuthenticated() {
+export const isAuthenticated = () => {
   return (getJwt() !== undefined);
-}
+};
