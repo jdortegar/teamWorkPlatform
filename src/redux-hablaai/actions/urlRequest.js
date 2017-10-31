@@ -7,6 +7,7 @@ export const URLREQUEST_ERROR = 'urlrequest/error';
 export const URLREQUEST_CLEAR = 'urlrequest/clear';
 
 export const cachedGetRequests = {};
+export const cachedGetRequestsOrdered = [];
 
 export const clearUrlRequest = (requestUrl) => {
   return {
@@ -51,6 +52,7 @@ export const doRequest = ({ requestUrl, method, headers, data }, reduxState, get
         // Cache GET requests.
         if (method.toLowerCase() === 'get') {
           cachedGetRequests[requestUrl] = { response, request, reduxState };
+          cachedGetRequestsOrdered.push(requestUrl);
         }
 
         dispatch({
@@ -91,14 +93,18 @@ let _online = false;
 export const onlineOfflineListener = (online) => {
   // When back online after being offline.
   if ((online) && (!_online)) {
-    Object.keys(cachedGetRequests).forEach((requestUrl) => {
-      const { reduxState } = cachedGetRequests[requestUrl];
-      delete cachedGetRequests[requestUrl];
-      doAuthenticatedRequest({
-        requestUrl,
-        method: 'get'
-      }, reduxState);
-    });
+    if (config.autoFetchStaleData) {
+      cachedGetRequestsOrdered.forEach((requestUrl) => {
+        const { reduxState } = cachedGetRequests[requestUrl];
+        doAuthenticatedRequest({
+          requestUrl,
+          method: 'get'
+        }, reduxState);
+      });
+    }
+
+    Object.keys(cachedGetRequests).forEach((requestUrl) => { delete cachedGetRequests[requestUrl]; });
+    cachedGetRequestsOrdered.length = 0;
   }
   _online = online;
 };
