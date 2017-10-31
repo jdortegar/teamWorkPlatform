@@ -91,14 +91,14 @@ class Login extends React.Component {
 
 Login.propTypes = propTypes;
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
     loggingIn: state.auth.loggingIn
   };
-}
+};
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ loginUser }, dispatch);
-}
+};
 
 export default Form.create()(connect(mapStateToProps, mapDispatchToProps)(Login));

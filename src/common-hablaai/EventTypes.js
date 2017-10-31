@@ -27,13 +27,8 @@ const EventTypes = Object.freeze({
   typing: 'typing',
   location: 'location', // Sent from client only.  Location is included in presenceChanged notification event.
 
-  boxIntegrationCreated: 'boxIntegrationCreated',
-  boxIntegrationExpired: 'boxIntegrationExpired',
-  boxIntegrationRevoked: 'boxIntegrationRevoked',
+  integrationsUpdated: 'integrationsUpdated',
   boxWebhookEvent: 'boxWebhookEvent',
-  googleIntegrationCreated: 'googleIntegrationCreated',
-  googleIntegrationExpired: 'googleIntegrationCreated',
-  googleIntegrationRevoked: 'googleIntegrationRevoked',
   googleWebhookEvent: 'googleWebhookEvent',
 
   from(value) { return (this[value]); }

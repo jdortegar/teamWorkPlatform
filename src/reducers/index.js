@@ -4,7 +4,6 @@ import reduxHablaaiReducers from '../redux-hablaai/reducers';
 import { UNAUTH_USER } from '../actions/types';
 import authReducer from './authReducer';
 import notificationsReducer from './notificationsReducer';
-import integrationsReducer from './integrationsReducer';
 import dialogsReducer from './dialogsReducer';
 
 const mainReducer = combineReducers({
@@ -12,7 +11,6 @@ const mainReducer = combineReducers({
   auth: authReducer,
   dialogs: dialogsReducer,
   notifications: notificationsReducer,
-  integrations: integrationsReducer,
   router: routerReducer
 });
 

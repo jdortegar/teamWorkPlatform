@@ -8,3 +8,4 @@ export * from './teamRooms';
 export * from './teamRoomMembers';
 export * from './invitations';
 export * from './conversations';
+export * from './integrations';

@@ -12,7 +12,8 @@ import {
   receiveInvitation,
   receiveConversations,
   receiveMessages,
-  receiveTyping
+  receiveTyping,
+  updateIntegrations
 } from '../actions';
 
 const eventHandler = (eventType, event) => {
@@ -79,12 +80,15 @@ const eventHandler = (eventType, event) => {
       config.store.dispatch(receiveConversations([event])); // Same as conversationCreated.
       break;
 
+    case EventTypes.messageCreated:
+      config.store.dispatch(receiveMessages([event], event.conversationId));
+      break;
     case EventTypes.typing:
       config.store.dispatch(receiveTyping([event]));
       break;
 
-    case EventTypes.messageCreated:
-      config.store.dispatch(receiveMessages([event], event.conversationId));
+    case EventTypes.integrationsUpdated:
+      config.store.dispatch(updateIntegrations(event.userId, event.subscriberOrgId, event.integrations));
       break;
 
     default:

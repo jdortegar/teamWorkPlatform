@@ -1,9 +1,9 @@
-import { doAuthenticatedRequest } from '../redux-hablaai/actions/urlRequest';
-import config from '../config/env';
+import { doAuthenticatedRequest } from './urlRequest';
+import config from '../config';
 import {
-  INTEGRATE_ERROR,
-  INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG
-} from './types';
+  INTEGRATION_ERROR,
+  INTEGRATION_ERROR_BADSUBSCRIBERORG
+} from './integrations';
 
 export const INTEGRATIONS_REVOKE_SUCCESS = 'intgrations/revoke/success';
 
@@ -17,7 +17,7 @@ function revoke(type, subscriberOrgId, getKey = false) {
   return (dispatch) => {
     const thunk = dispatch(doAuthenticatedRequest({
       requestUrl,
-      method: 'get'
+      method: 'post'
     }, reduxState, getKey));
 
     if (!getKey) {
@@ -35,7 +35,7 @@ function revoke(type, subscriberOrgId, getKey = false) {
           const { response } = err;
           if (response.status === 404) { // Not Found.
             dispatch({
-              type: INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG,
+              type: INTEGRATION_ERROR_BADSUBSCRIBERORG,
               meta: { type, subscriberOrgId, status: response.status, data: response.data },
               payload: new Error(`Bad subscriberOrgId: ${subscriberOrgId}`),
               error: true
@@ -49,7 +49,7 @@ function revoke(type, subscriberOrgId, getKey = false) {
             });
           } else {
             dispatch({
-              type: INTEGRATE_ERROR,
+              type: INTEGRATION_ERROR,
               meta: {
                 subscriberOrgId,
                 status: response.status

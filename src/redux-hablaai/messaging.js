@@ -185,8 +185,8 @@ class Messaging {
     this.socket.send(EventTypes.typing, { conversationId, isTyping });
   }
 
-  location(lat, lon, alt = undefined) {
-    this.socket.send(EventTypes.location, { lat, lon, alt });
+  location(lat, lon, alt = undefined, accuracy = undefined) {
+    this.socket.send(EventTypes.location, { lat, lon, alt, accuracy });
   }
 
   close() {

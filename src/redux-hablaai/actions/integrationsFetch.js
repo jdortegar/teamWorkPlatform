@@ -1,5 +1,5 @@
-import config from '../config/env';
-import { doAuthenticatedRequest } from '../redux-hablaai/actions/urlRequest';
+import config from '../config';
+import { doAuthenticatedRequest } from './urlRequest';
 
 export const INTEGRATIONS_FETCH_SUCCESS = 'integrations/fetch/success';
 

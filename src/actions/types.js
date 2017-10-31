@@ -32,10 +32,3 @@ export const SET_CURRENT_DIALOG_TEAM_ID = 'set_current_dialog_team_id';
 //= =====================
 export const SHOW_TEAM_ROOM_DIALOG = 'show_team_room_dialog';
 export const SUBMITTING_TEAM_ROOM_FORM = 'submitting_team_room_form';
-
-//= =====================
-// Integrations Actions
-//= =====================
-// TODO: ANT: move to redux-hablaai
-export const INTEGRATE_ERROR_BAD_SUBSCRIBER_ORG = 'integrate_error_bad_subscriber_org';
-export const INTEGRATE_ERROR = 'integrate_error'; // Catch-all error.
