@@ -40,5 +40,11 @@ export * from './messagesReceive';
 export * from './messageCreate';
 
 export * from './typing';
+export * from './location';
+
+export * from './integrations';
+export * from './integrationsFetch';
+export * from './integrationsIntegrate';
+export * from './integrationsRevoke';
 
 export * from './globalStateFetch';
