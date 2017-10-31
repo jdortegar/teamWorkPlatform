@@ -56,7 +56,6 @@ class IntegrationsPage extends Component {
     const { integrationsBySubscriberOrgId, working, error } = this.props.integrations;
 
     if (error) {
-      console.error(error);
       return (
         <div>Request for Integrations failed.</div>
       );

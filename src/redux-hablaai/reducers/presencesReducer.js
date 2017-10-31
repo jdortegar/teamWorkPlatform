@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import {
-  PRESENCE_CHANGE,
+  PRESENCE_CHANGE
 } from '../actions';
 
 const INITIAL_STATE = {

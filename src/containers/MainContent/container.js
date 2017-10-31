@@ -7,7 +7,7 @@ import { getInvitations } from '../../selectors';
 function mapStateToProps(state) {
   return {
     invitation: getInvitations(state),
-    pushMessage: state.notifications.pushMessage,
+    pushMessage: state.notifications.pushMessage
   };
 }
 

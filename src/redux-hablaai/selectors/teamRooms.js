@@ -23,8 +23,6 @@ export const getTeamRooms = createSelector(
 
 /**
  * Return array of team rooms given a teamId.
- *
- * @type {OutputSelector<any, any, (res: any) => any> & {getMatchingSelector: ((null: any, ...null: any[]) => OutputSelector<any, any, (res: any) => any>); removeMatchingSelector: ((null: any, ...null: any[]) => void); clearCache: (() => void); resultFunc: ((res: any) => any)}}
  */
 export const getTeamRoomsOfTeamId = createCachedSelector(
   [getTeamRoomIdsByTeamId, getTeamRoomById, (state, teamId) => teamId],
