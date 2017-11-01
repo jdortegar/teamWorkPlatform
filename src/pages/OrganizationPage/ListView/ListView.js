@@ -34,7 +34,6 @@ function ListView(props) {
   const renderIntegrations = () => {
     const integrationsArr = [];
 
-    debugger;
     if (!_.isEmpty(integrations.integrationsBySubscriberOrgId[subscriberOrgId])) {
       if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].box) {
         // let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);

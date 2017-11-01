@@ -57,7 +57,6 @@ export const verifyEmailAccount = (uuid) => {
         sessionStorage.setItem('habla-user-email', response.data.email);
       })
       .catch((error) => {
-        console.log(error.response);
         throw new Error(error);
       });
   };
@@ -68,7 +67,6 @@ export const createAccount = (form) => {
     return axios
       .post(`${hablaApiBaseUri}/users/createUser`, form)
       .catch((error) => {
-        console.log(error.response);
         throw new Error(error);
       });
   };

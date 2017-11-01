@@ -44,7 +44,7 @@ function UserIcon(props) {
     width: props.width,
     height: props.height,
     minWidth: props.minWidth
-  }
+  };
   if (!icon) {
     style.backgroundColor = preferences.iconColor;
   }

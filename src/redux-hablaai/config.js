@@ -4,6 +4,7 @@ const config = {
   resourceBaseUri: undefined,
   store: undefined,
 
+  cacheGetRequests: true,
   autoFetchStaleData: true
 };
 export default config;

@@ -49,10 +49,12 @@ export const doRequest = ({ requestUrl, method, headers, data }, reduxState, get
     // Do the request.
     const request = axios({ method, url: requestUrl, headers, data })
       .then((response) => { // eslint-disable-line no-unused-vars
-        // Cache GET requests.
-        if (method.toLowerCase() === 'get') {
-          cachedGetRequests[requestUrl] = { response, request, reduxState };
-          cachedGetRequestsOrdered.push(requestUrl);
+        if (config.cacheGetRequests) {
+          // Cache GET requests.
+          if (method.toLowerCase() === 'get') {
+            cachedGetRequests[requestUrl] = { response, request, reduxState };
+            cachedGetRequestsOrdered.push(requestUrl);
+          }
         }
 
         dispatch({

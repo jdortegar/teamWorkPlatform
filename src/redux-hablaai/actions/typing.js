@@ -11,8 +11,11 @@ export const receiveTyping = ({ userId, conversationId, isTyping }) => {
 
 /**
  * @param conversationId
- * @param typing True if the user is typing in the specified conversation, or false if the user is not.  Typically, this is some amount of time (ex. 15 seconds) after the last key press.
+ * @param typing True if the user is typing in the specified conversation, or false if the user is not.
+ * Typically, this is some amount of time (ex. 15 seconds) after the last key press.
  */
 export const iAmTyping = (conversationId, typing) => {
-  messaging().typing(conversationId, typing);
+  return (dispatch) => { // eslint-disable-line no-unused-vars
+    messaging().typing(conversationId, typing);
+  };
 };

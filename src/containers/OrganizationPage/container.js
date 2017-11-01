@@ -5,7 +5,7 @@ import { fetchSubscribersBySubscriberOrgId,
   fetchIntegrations,
   setCurrentSubscriberOrgId,
   toggleTeamDialog,
-  toggleInvitePeopleDialog,
+  toggleInvitePeopleDialog
 } from '../../actions';
 import { getSubscribersOfSubscriberOrgId,
   getTeamsOfSubscriberOrgIdSortedAlphabetically,

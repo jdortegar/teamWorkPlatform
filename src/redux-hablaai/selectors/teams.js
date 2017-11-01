@@ -23,8 +23,6 @@ export const getTeams = createSelector(
 
 /**
  * Return array of teams given a subscriberOrgId.
- *
- * @type {OutputSelector<any, any, (res: any) => any> & {getMatchingSelector: ((null: any, ...null: any[]) => OutputSelector<any, any, (res: any) => any>); removeMatchingSelector: ((null: any, ...null: any[]) => void); clearCache: (() => void); resultFunc: ((res: any) => any)}}
  */
 export const getTeamsOfSubscriberOrgId = createCachedSelector(
   [getTeamIdsBySubscriberOrgId, getTeamById, (state, subscriberOrgId) => subscriberOrgId],

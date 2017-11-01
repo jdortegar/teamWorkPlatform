@@ -33,7 +33,10 @@ function showNotification(status, integration) {
   } else if (status === 410) {
     notification.error({
       message: 'GONE',
-      description: `Habla AI no longer has access to your ${integration} account, but ${integration} seems to have trouble deauthorizing on their end.  Please check your ${integration}} account to make sure everything is OK`,
+      description: `
+        Habla AI no longer has access to your ${integration} account, but ${integration} seems to have trouble deauthorizing on their end.
+        Please check your ${integration}} account to make sure everything is OK
+      `,
       duration: 7
     });
   } else {
@@ -100,13 +103,21 @@ class IntegrationDetailsPage extends Component {
         this.props.integrateBox(subscriberOrgId);
       }
     } else {
-      if (integrationDetails === 'google') {
-        this.props.revokeGoogle(subscriberOrgId)
-          .then((status) => {
-            showNotification(status, integrationDetails);
-          });
-      } else if (integrationDetails === 'box') {
-        this.props.revokeBox(subscriberOrgId);
+      switch (integrationDetails) {
+        case 'google':
+          this.props.revokeGoogle(subscriberOrgId)
+            .then((status) => {
+              showNotification(status, integrationDetails);
+            });
+          break;
+        case 'box':
+          this.props.revokeBox(subscriberOrgId)
+            .then((status) => {
+              showNotification(status, integrationDetails);
+            });
+          break;
+        default:
+          console.error(`Unknown integration: ${integrationDetails}`); // eslint-disable-line no-console
       }
     }
   }
@@ -117,7 +128,6 @@ class IntegrationDetailsPage extends Component {
     const subscriberOrg = this.props.subscriberOrgs.subscriberOrgById[subscriberOrgId];
 
     if (error) {
-      console.error(error);
       return (
         <div>Request for Integrations failed.</div>
       );

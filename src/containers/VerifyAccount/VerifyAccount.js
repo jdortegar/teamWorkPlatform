@@ -13,7 +13,7 @@ const propTypes = {
       uuid: PropTypes.string.isRequired
     }).isRequired
   }).isRequired
-}
+};
 
 class VerifyAccount extends Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class VerifyAccount extends Component {
     const uuid = this.props.match.params.uuid;
     this.props.verifyEmailAccount(uuid)
       .then(() => this.setState({ verified: true }))
-      .catch(err => console.log(err));
+      .catch(err => console.error(err)); // eslint-disable-line no-console
   }
 
   render() {
@@ -45,7 +45,7 @@ class VerifyAccount extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    verifyEmailAccount: uuid => dispatch(verifyEmailAccount(uuid)),
+    verifyEmailAccount: uuid => dispatch(verifyEmailAccount(uuid))
   };
 }
 

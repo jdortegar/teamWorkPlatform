@@ -20,7 +20,7 @@ const integrationsReducer = (state = INITIAL_STATE, action) => {
       });
       return {
         ...state,
-        integrationsBySubscriberOrgId: updateIntegrationsBySubscriberOrgId,
+        integrationsBySubscriberOrgId: updateIntegrationsBySubscriberOrgId
       };
     }
     case INTEGRATIONS_REVOKE_SUCCESS: {

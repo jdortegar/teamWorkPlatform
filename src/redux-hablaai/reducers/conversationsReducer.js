@@ -79,7 +79,7 @@ const addMessagesToFlattenedTree = (messages, flattenedTree) => {
       addMessagesToFlattenedTree(unaddedMessagesToFlattenedTree, flattenedTree);
     } else {
       unaddedMessagesToFlattenedTree.forEach((message) => {
-        console.error(`Can't find parent ${message.replyTo} of messageId ${message.messageId}`);
+        console.error(`Can't find parent ${message.replyTo} of messageId ${message.messageId}`); // eslint-disable-line no-console
       });
     }
   }
