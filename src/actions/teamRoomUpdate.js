@@ -1,5 +1,5 @@
 import config from '../config/env';
-import { doAuthenticatedRequest } from './urlRequest';
+import { doAuthenticatedRequest } from '../redux-hablaai/actions/urlRequest';
 
 export const updateTeamRoom = (updateObject, teamRoomId, getKey) => { // eslint-disable-line import/prefer-default-export
   // requestUrl is the key into redux state.urlRequests.

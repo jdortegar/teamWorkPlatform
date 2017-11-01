@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, notification } from 'antd';
+import { Col } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import SubpageHeader from '../../components/SubpageHeader';
@@ -16,7 +16,6 @@ const propTypes = {
     push: PropTypes.func
   }).isRequired,
   toggleTeamDialog: PropTypes.func.isRequired,
-  toggleInvitePeopleDialog: PropTypes.func.isRequired,
   fetchIntegrations: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.shape({
     currentSubscriberOrgId: PropTypes.string

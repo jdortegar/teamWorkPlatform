@@ -9,7 +9,7 @@ import VerifyAccount from '../../containers/VerifyAccount';
 import './styles/signup.css';
 
 // TODO: add <Route exact path={routesPaths.verifyAccount} component={VerifyAccount} /> below.
-function SignUp(props) {
+function SignUp() {
   // TODO: need VerifyAccount component.
   return (
     <div className="signup-main-div">

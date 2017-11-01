@@ -42,14 +42,14 @@ class PreviewCard extends Component {
     if (isImage) {
       return <img className="PreviewCard__image" alt="example" width="100%" src={this.props.file.src} />;
     }
-    return <div>
-      <div className="file-wrapper">
-        <i className="fa fa-file file-icon" aria-hidden="true">
-        </i>
-        <span className="file-type">{extension}</span>
-      </div>
-      <span className="file-name">{name}</span>
-    </div>;
+    return (
+      <div>
+        <div className="file-wrapper">
+          <i className="fa fa-file file-icon" aria-hidden="true" />
+          <span className="file-type">{extension}</span>
+        </div>
+        <span className="file-name">{name}</span>
+      </div>);
   }
 
   render() {
@@ -57,7 +57,7 @@ class PreviewCard extends Component {
     const fileType = file.type.split('/')[0];
     const isImage = fileType === 'image';
     const previewCard = classNames({
-      'PreviewCard__container': true,
+      PreviewCard__container: true,
       'PreviewCard__is-file': !isImage
     });
     return (

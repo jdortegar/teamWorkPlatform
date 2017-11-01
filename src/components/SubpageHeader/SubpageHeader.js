@@ -10,7 +10,10 @@ const propTypes = {
     PropTypes.node
   ]).isRequired,
   node: PropTypes.node,
-  icon: PropTypes.node.isRequired
+  icon: PropTypes.node.isRequired,
+  editButton: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+  teamRoomId: PropTypes.string.isRequired
 };
 
 const defaultProps = {

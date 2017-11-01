@@ -6,7 +6,7 @@ import UserIcon from '../UserIcon';
 import messages from './messages';
 import {
   sortByName,
-  primaryAtTop,
+  primaryAtTop
 } from '../../redux-hablaai/selectors/helpers';
 import './styles/style.css';
 
@@ -81,6 +81,10 @@ class Sidebar extends Component {
     this.props.toggleTeamRoomDialog(true, teamId);
   }
 
+  handleAddOrganization() {
+    this.props.toggleOrgDialog(true);
+  }
+
   renderTeamRooms(teamId) {
     const { teamRooms } = this.props;
     if (teamRooms.length === 0) {
@@ -88,14 +92,14 @@ class Sidebar extends Component {
     }
 
     let teamRoomsByTeamId = teamRooms
-      .filter((teamRoom) => teamRoom.teamId === teamId)
+      .filter(teamRoom => teamRoom.teamId === teamId)
       .sort(sortByName);
 
     if (teamRoomsByTeamId.length > 0) {
       teamRoomsByTeamId = primaryAtTop(teamRoomsByTeamId);
     }
 
-    return teamRoomsByTeamId.map(teamRoom =>
+    return teamRoomsByTeamId.map(teamRoom => (
       <Menu.Item key={teamRoom.teamRoomId}>
         <div className="Sidebar__name-container">
           <UserIcon user={teamRoom} type="team" minWidth="20px" width="20px" height="20px" clickable={false} />
@@ -103,8 +107,8 @@ class Sidebar extends Component {
             {teamRoom.name}
           </Link>
         </div>
-      </Menu.Item>
-    )
+      </Menu.Item>),
+    );
   }
 
   renderTeams(orgId) {
@@ -121,26 +125,27 @@ class Sidebar extends Component {
 
     return teamsByOrgId.map((team) => {
       const teamRooms = this.renderTeamRooms(team.teamId);
-      return <SubMenu
-        key={team.teamId}
-        title={<Row>
-          <Col xs={{ span: 22 }}>
-            <a onClick={e => this.onClickEditOrg(e, team.subscriberOrgId, `/app/team/${team.teamId}`, team.teamId)}>
-              <div className="Sidebar__name-container">
-                <UserIcon user={team} type="team" minWidth="20px" width="20px" height="20px" clickable={false} />
-                <span className="Sidebar__name-span">{team.name}</span>
-              </div>
-            </a>
-          </Col>
-        </Row>}
-      >
-        <Menu.Item className="Sidebar__menu-info-item">
-          <div>
-            {messages.teamRooms}
-          </div>
-        </Menu.Item>
-        { teamRooms }
-      </SubMenu>;
+      return (
+        <SubMenu
+          key={team.teamId}
+          title={<Row>
+            <Col xs={{ span: 22 }}>
+              <a onClick={e => this.onClickEditOrg(e, team.subscriberOrgId, `/app/team/${team.teamId}`, team.teamId)}>
+                <div className="Sidebar__name-container">
+                  <UserIcon user={team} type="team" minWidth="20px" width="20px" height="20px" clickable={false} />
+                  <span className="Sidebar__name-span">{team.name}</span>
+                </div>
+              </a>
+            </Col>
+          </Row>}
+        >
+          <Menu.Item className="Sidebar__menu-info-item">
+            <div>
+              {messages.teamRooms}
+            </div>
+          </Menu.Item>
+          { teamRooms }
+        </SubMenu>);
     });
   }
 
@@ -176,10 +181,6 @@ class Sidebar extends Component {
         </SubMenu>
       );
     });
-  }
-
-  handleAddOrganization() {
-    this.props.toggleOrgDialog(true);
   }
 
   render() {

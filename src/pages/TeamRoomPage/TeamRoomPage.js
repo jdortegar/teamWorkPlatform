@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Row, Col, Form } from 'antd';
+import { Form } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -13,7 +13,6 @@ import UserIcon from '../../components/UserIcon';
 import PreviewBar from '../../components/PreviewBar';
 import Message from '../../components/Message';
 import { getJwt, getResourcesUrl } from '../../session';
-import config from '../../config/env';
 import messages from './messages';
 import './styles/style.css';
 
@@ -158,7 +157,7 @@ class TeamRoomPage extends Component {
       headers: {
         Authorization: `Bearer ${getJwt()}`,
         'Content-Type': file.type,
-        'x-hablaai-content-length': file.src.length,
+        'x-hablaai-content-length': file.src.length
       },
       onUploadProgress: (progressEvent) => {
         const { total, loaded } = progressEvent;
@@ -277,7 +276,6 @@ class TeamRoomPage extends Component {
         'team-room-chat': true,
         'team-room__main-container--opacity': this.state.isDraggingOver
       });
-      const messages = this.props.conversations.transcript;
 
       const teamRoomMemberFoundByUser = _.find(teamRoomMembers, { userId: user.userId });
       const isAdmin = teamRoomMemberFoundByUser.teamRooms[teamRoomId].role === 'admin';
@@ -289,7 +287,7 @@ class TeamRoomPage extends Component {
             <SubpageHeader
               icon={<UserIcon user={teamRoom} type="team" clickable={false} />}
               breadcrumb={teamRoom.name}
-              editButton={true}
+              editButton
               isAdmin={isAdmin}
               teamRoomId={teamRoomId}
               node={
