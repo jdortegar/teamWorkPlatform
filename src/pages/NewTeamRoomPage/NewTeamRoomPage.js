@@ -33,13 +33,13 @@ class NewTeamRoomPage extends Component {
 
   handleSubmit() {
     const { teamId } = this.props.match.params;
-    this.props.form.validateFields((err, values ) => {
+    this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
         this.props.createTeamRoom({ name: values.name, publish: true, active: true }, teamId)
           .then(() => {
             this.setState({ loading: false });
-            this.props.history.push(`/app/team/${teamId}`)
+            this.props.history.push(`/app/team/${teamId}`);
           });
       }
     });

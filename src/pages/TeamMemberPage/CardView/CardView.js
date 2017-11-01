@@ -25,7 +25,7 @@ function CardView() {
                 </a>
               </span>
               <span className="simple-header__icon-span">
-                <a className="simple-header__icon-action" title="List View" onClick={() => console.log()}>
+                <a className="simple-header__icon-action" title="List View">
                   <i className="fa fa-align-justify" />
                 </a>
               </span>

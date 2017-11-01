@@ -1,2 +1,3 @@
 export { default as InvitePeopleTab } from './InvitePeopleTab';
-export { default as TeamsTab } from './TeamsTab';
+export { default as InvitePeopleTab2 } from './InvitePeopleTab';
+

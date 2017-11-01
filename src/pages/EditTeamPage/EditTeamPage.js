@@ -22,7 +22,9 @@ const propTypes = {
       teamId: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
-  updateTeam: PropTypes.func.isRequired
+  updateTeam: PropTypes.func.isRequired,
+  teams: PropTypes.object.isRequired,
+  subscriberOrgById: PropTypes.string.isRequired
 };
 
 class EditTeamPage extends Component {
@@ -48,9 +50,6 @@ class EditTeamPage extends Component {
               description: messages.teamUpdated,
               duration: 4
             });
-          })
-          .catch((requestErr) => {
-            console.error(requestErr);
           });
       }
     });

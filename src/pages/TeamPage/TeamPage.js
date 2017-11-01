@@ -18,11 +18,15 @@ const propTypes = {
   fetchTeamMembersByTeamId: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      teamId: PropTypes.string
+      teamId: PropTypes.string,
+      status: PropTypes.string
     })
   }).isRequired,
   teamMembers: PropTypes.array.isRequired,
-  teamRooms: PropTypes.array.isRequired
+  teamRooms: PropTypes.array.isRequired,
+  subscriberOrgById: PropTypes.string.isRequired,
+  teams: PropTypes.array.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 class TeamPage extends Component {

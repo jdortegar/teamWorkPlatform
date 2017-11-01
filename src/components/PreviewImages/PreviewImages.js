@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Modal } from 'antd';
-import { getJwt } from '../../session';
 import classNames from 'classnames';
+import { getJwt } from '../../session';
 import './styles/style.css';
 
 const propTypes = {
@@ -63,8 +63,8 @@ class PreviewImages extends Component {
   handlePreview(file, isImage, extension) {
     const previewVisible = isImage || (extension === 'pdf');
     this.setState({
-      isImage: isImage,
-      previewVisible: previewVisible,
+      isImage,
+      previewVisible,
       previewImage: file
     });
   }
@@ -75,32 +75,35 @@ class PreviewImages extends Component {
       const isImage = fileType === 'image';
       const [name, extension] = file.fileName.split('.');
       if (isImage) {
-        return <div className="image-wrapper" key={index}>
-          <img src={file.src} alt="" onClick={() => this.handlePreview(file.src, isImage, extension)} />
-        </div>;
+        return (
+          <div className="image-wrapper" key={index}>
+            <a onClick={() => this.handlePreview(file.src, isImage, extension)} role="button" tabIndex={0}>
+              <img src={file.src} alt={file.fileName} />
+            </a>
+          </div>);
       }
 
       if (extension === 'pdf') {
-        return <div className="image-wrapper preview__file-wrapper" key={index} onClick={() => this.handlePreview(file.src, isImage, extension)}>
-          <div className="file-wrapper__extension">
-            <i className="fa fa-file file-icon" aria-hidden="true">
-            </i>
-            <span className="file-wrapper__file-type">{extension}</span>
-          </div>
-          <span className="file-name">{decodeURI(name)}</span>
-        </div>
+        return (
+          <div className="image-wrapper preview__file-wrapper" key={index} onClick={() => this.handlePreview(file.src, isImage, extension)}>
+            <div className="file-wrapper__extension">
+              <i className="fa fa-file file-icon" aria-hidden="true" />
+              <span className="file-wrapper__file-type">{extension}</span>
+            </div>
+            <span className="file-name">{decodeURI(name)}</span>
+          </div>);
       }
 
-      return <div className="image-wrapper preview__file-wrapper" key={index} onClick={() => this.handlePreview(file.src, isImage, extension)}>
-        <a href={file.src} download={file.fileName}>
-          <div className="file-wrapper__extension">
-            <i className="fa fa-file file-icon" aria-hidden="true">
-            </i>
-            <span className="file-wrapper__file-type">{extension}</span>
-          </div>
-          <span className="file-name">{decodeURI(name)}</span>
-        </a>
-      </div>
+      return (
+        <div className="image-wrapper preview__file-wrapper" key={index} onClick={() => this.handlePreview(file.src, isImage, extension)}>
+          <a href={file.src} download={file.fileName}>
+            <div className="file-wrapper__extension">
+              <i className="fa fa-file file-icon" aria-hidden="true" />
+              <span className="file-wrapper__file-type">{extension}</span>
+            </div>
+            <span className="file-name">{decodeURI(name)}</span>
+          </a>
+        </div>);
     });
   }
 
@@ -116,7 +119,7 @@ class PreviewImages extends Component {
           { isImage ?
             <img className="PreviewImages__modal-img" alt="" src={previewImage} />
             :
-            <iframe src={previewImage} width="970" height="700" />
+            <iframe title="image-preview" src={previewImage} width="970" height="700" />
           }
         </Modal>
       </div>

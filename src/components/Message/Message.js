@@ -63,7 +63,7 @@ class Message extends Component {
 
     const justTextContent = _.find(content, { type: 'text/plain' });
     const contentJustImage = content.filter(resource => resource.type !== 'text/plain');
-    const text = !!justTextContent
+    const text = !!justTextContent;
     const messageBody = (
       <div>
         <p className="message__body-name">{firstName} {lastName}</p>

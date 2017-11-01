@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Form, Button, notification, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import UploadImageField from '../../components/formFields/UploadImageField';
@@ -19,10 +18,11 @@ const propTypes = {
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      teamId: PropTypes.string.isRequired
+      teamRoomId: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
-  updateTeam: PropTypes.func.isRequired
+  updateTeamRoom: PropTypes.func.isRequired,
+  teamRooms: PropTypes.object.isRequired
 };
 
 class EditTeamRoomPage extends Component {
@@ -48,9 +48,6 @@ class EditTeamRoomPage extends Component {
               description: messages.teamUpdated,
               duration: 4
             });
-          })
-          .catch((requestErr) => {
-            console.error(requestErr);
           });
       }
     });
@@ -61,7 +58,7 @@ class EditTeamRoomPage extends Component {
     const { teamRooms } = this.props;
     const teamRoom = teamRooms.teamRoomById[teamRoomId];
     const teamIcon = `data:image/png;base64,${teamRoom.icon}`;
-    const subscriberOrg = '';
+
     return (
       <div>
         <SubpageHeader
