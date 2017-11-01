@@ -1,0 +1,157 @@
+{
+  "name": "webapp",
+  "description": "The Habla UI",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Habla-Inc/webapp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Habla-Inc/webapp/issues"
+  },
+  "homepage": "https://habla.ai",
+  "author": "Tho Truong <tho.truong@habla.ai>, Anthony Daga <anthony.daga@habla.ai>, Mike Somlo <mike.somlo@habla.ai>, Gonzalo Marquez <gonzalo@techlabs.com>",
+  "license": "HABLA",
+  "engines": {
+    "node": ">=6"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "build": "cross-env NODE_ENV=production npm run clean && webpack -p --colors --profile --config webpack.config.prod.js",
+    "start:prod": "cross-env NODE_ENV=production node server.js",
+    "start:dev": "node server.js",
+    "start:ngrok": "cross-env NODE_URL=https://hablawebapp.ngrok.io HABLAAPI_BASE_URI=https://https://hablaapi.ngrok.io node server.js",
+    "prestart": "npm run build",
+    "lint": "eslint src",
+    "stylelint": "stylelint src/**/*.css",
+    "test": "npm run lint",
+    "clean": "shx rm -rf dist",
+    "pristine": "npm run clean && shx rm -rf node_modules"
+  },
+  "devDependencies": {
+    "eslint": "^4.3.0",
+    "eslint-config-airbnb": "^15.0.2",
+    "eslint-plugin-babel": "^4.1.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.1.0",
+    "jsdom-quokka-plugin": "^1.0.5",
+    "stylelint": "^8.0.0",
+    "stylelint-config-recommended": "^1.0.0"
+  },
+  "dependencies": {
+    "antd": "2.12.2",
+    "autoprefixer": "^7.1.1",
+    "axios": "^0.16.2",
+    "babel-core": "^6.25.0",
+    "babel-eslint": "^7.2.3",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-import": "^1.2.1",
+    "babel-plugin-react-intl": "^2.3.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-webpack-loaders": "^0.9.0",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "classnames": "^2.2.5",
+    "copy-webpack-plugin": "^4.0.1",
+    "countries-and-timezones": "^1.0.0",
+    "cross-env": "^5.0.1",
+    "css-loader": "^0.28.4",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "file-loader": "^0.11.2",
+    "helmet": "^3.8.0",
+    "history": "^4.6.3",
+    "html-webpack-plugin": "^2.29.0",
+    "js-cookie": "^2.1.4",
+    "jwt-decode": "^2.2.0",
+    "lodash": "^4.17.4",
+    "nodemon": "^1.11.0",
+    "postcss-loader": "^2.0.6",
+    "re-reselect": "^0.6.3",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-file-drop": "^0.1.8",
+    "react-fontawesome": "^1.6.1",
+    "react-hot-loader": "3.0.0-beta.7",
+    "react-intl": "^2.4.0",
+    "react-redux": "^5.0.5",
+    "react-router": "^4.1.2",
+    "react-router-dom": "^4.1.2",
+    "react-router-redux": "^5.0.0-alpha.6",
+    "redux": "^3.7.2",
+    "redux-devtools": "^3.4.0",
+    "redux-devtools-dock-monitor": "^1.1.2",
+    "redux-devtools-log-monitor": "^1.3.0",
+    "redux-persist": "^4.8.2",
+    "redux-thunk": "^2.2.0",
+    "reselect": "^3.0.1",
+    "shx": "^0.2.2",
+    "socket.io-client": "^2.0.3",
+    "socketio-wildcard": "^2.0.0",
+    "style-loader": "^0.18.2",
+    "validate.js": "^0.11.1",
+    "webpack": "^3.3.0",
+    "webpack-dev-middleware": "^1.11.0",
+    "webpack-dev-server": "^2.6.1"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 7,
+      "sourceType": "module"
+    },
+    "extends": [
+      "airbnb"
+    ],
+    "parser": "babel-eslint",
+    "env": {
+      "browser": true,
+      "node": true,
+      "es6": true,
+      "jest": true
+    },
+    "rules": {
+      "react/jsx-filename-extension": "off",
+      "react/forbid-prop-types": "off",
+      "react/no-array-index-key": "off",
+      "react/no-danger": "off",
+      "jsx-a11y/href-no-hash": "off",
+      "jsx-a11y/no-static-element-interactions": "off",
+      "jsx-a11y/label-has-for": "off",
+      "import/no-extraneous-dependencies": "off",
+      "react/jsx-indent": [
+        1,
+        2
+      ],
+      "indent": [
+        "error",
+        2,
+        {
+          "SwitchCase": 1
+        }
+      ],
+      "no-tabs": 0,
+      "comma-dangle": [
+        "error",
+        "never"
+      ],
+      "no-underscore-dangle": 0,
+      "max-len": [
+        1,
+        180,
+        4
+      ],
+      "arrow-body-style": [
+        0
+      ]
+    }
+  },
+  "stylelint": {
+    "extends": "stylelint-config-recommended"
+  }
+}

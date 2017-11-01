@@ -1,0 +1,21 @@
+.avatar-uploader,
+.avatar-uploader-trigger,
+.UploadImageField__avatar {
+  width: 11vw;
+  height: 11vw;
+  border-radius: 5px;
+}
+.avatar-uploader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+}
+.avatar-uploader-trigger {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 5px;
+  cursor: pointer;
+}

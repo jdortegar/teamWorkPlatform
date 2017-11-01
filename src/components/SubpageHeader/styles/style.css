@@ -1,0 +1,15 @@
+.Subpage-header-block {
+  padding: 16px 24px;
+  border-bottom: 3px solid #ececec;
+}
+.Subpage-header__row {
+  height: 100%;
+  width: 100%;
+}
+.Subpage-header__container {
+  display: flex;
+  align-items: center;
+}
+.Subpage-header__title {
+  padding: 0 8px;
+}

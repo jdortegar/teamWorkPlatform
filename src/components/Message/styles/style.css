@@ -1,0 +1,90 @@
+.message__main-container {
+  padding: 18px 24px;
+  border-bottom: 1px solid #dfdfdf;
+  position: relative;
+  cursor: pointer;
+}
+.message__main-container:hover {
+  background-color: #f9f9f9;
+}
+.message__main-container:hover .message__options {
+  display: block;
+}
+
+.message__main-counter {
+  position: absolute;
+  left: 1.3em;
+}
+
+.message__icons {
+  font-size: 15px;
+  padding: 5px 10px;
+}
+
+.message__icons:not(:last-child) {
+  border-right: 1px solid #c9c9c9;
+}
+
+.message__col-user-icon {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
+.message__col-icons {
+  text-align: right;
+}
+
+.message__body-name {
+  color: #999999;
+  font-size: 11px;
+}
+
+.message__body-text {
+  font-size: 13px;
+  color: black;
+}
+.message__body-text-date {
+  color: #999999;
+}
+
+.message__body-thumbs-icon {
+  margin-left: 8px;
+}
+
+.message__body-thumbs-icon i {
+  margin: 0 2px;
+}
+
+.message-nested {
+  padding-left: 3em;
+  -webkit-transition: display 2s;
+}
+
+.message__options {
+  background-color: #fff;
+  border: 1px solid black;
+  border-radius: 7px;
+  padding: 2px 0;
+  position: absolute;
+  right: 25px;
+  bottom: -12px;
+  z-index: 1;
+}
+
+.hide {
+  display: none;
+}
+
+.team-room__file-upload-input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.counter {
+  padding: .2em .5em;
+}

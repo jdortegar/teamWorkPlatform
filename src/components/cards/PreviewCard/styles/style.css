@@ -1,0 +1,50 @@
+.PreviewCard__container, .PreviewCard__image {
+  height: 116px;
+  margin-bottom: 0 !important;
+  margin-left: 0 !important;
+}
+.PreviewCard__container > div.ant-card-body {
+  padding: 0;
+}
+.PreviewCard__container > div.ant-card-extra {
+  right: 1px;
+  top: -5px;
+}
+.PreviewCard__close-button {
+  color: #888888;
+  font-size: 18px;
+}
+.PreviewCard__close-button {
+  color: #bbbbbb;
+}
+
+.PreviewCard__is-file {
+  height: auto;
+}
+
+.file-wrapper {
+  text-align: center;
+  margin: .5em 1.8em 0.2em 1.8em;
+  position: relative;
+  width: fit-content;
+}
+
+.file-name {
+  display: block;
+  text-align: center;
+}
+
+.file-icon {
+  font-size: 6em !important;
+  overflow: hidden;
+}
+
+.file-type {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #75d2ec;
+  color: #fff;
+  text-transform: uppercase;
+}
