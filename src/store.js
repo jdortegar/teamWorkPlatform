@@ -7,6 +7,7 @@ import rootReducer from './reducers';
 import config from './config/env';
 import { sessionState, setPersistor, setStore } from './session';
 import reduxHablaaiConfig from './redux-hablaai/config';
+import logger from 'redux-logger';
 
 export const history = createHistory();
 
@@ -18,7 +19,8 @@ function composeMiddleware() {
 
   if (process.env.NODE_ENV !== 'production') {
     const DevTools = require('./containers/DevTools').default; // eslint-disable-line global-require
-    middleware = [...middleware, DevTools.instrument()];
+    const { logger } = require(`redux-logger`);
+    middleware = [...middleware, DevTools.instrument(), applyMiddleware(logger)];
   }
 
   return compose(...middleware);
