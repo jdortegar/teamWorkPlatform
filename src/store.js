@@ -7,7 +7,6 @@ import rootReducer from './reducers';
 import config from './config/env';
 import { sessionState, setPersistor, setStore } from './session';
 import reduxHablaaiConfig from './redux-hablaai/config';
-import logger from 'redux-logger';
 
 export const history = createHistory();
 
