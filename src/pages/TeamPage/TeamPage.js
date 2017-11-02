@@ -14,7 +14,7 @@ import UserIcon from '../../components/UserIcon';
 import './styles/style.css';
 
 const propTypes = {
-  fetchTeamRooms: PropTypes.func.isRequired,
+  fetchTeamRoomsByTeamId: PropTypes.func.isRequired,
   fetchTeamMembersByTeamId: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -33,7 +33,8 @@ class TeamPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { teamRoomsLoaded: false, teamMembersLoaded: false, teamRooms: [], teamMembers: [], view: 'card' };
+    // this.state = { teamRoomsLoaded: false, teamMembersLoaded: false, teamRooms: [], teamMembers: [], view: 'card' };
+    this.state = { teamRoomsLoaded: false, teamMembersLoaded: false, view: 'card' };
 
     this.handleTeamMemberSearch = this.handleTeamMemberSearch.bind(this);
     this.handleTeamRoomSearch = this.handleTeamRoomSearch.bind(this);
@@ -41,13 +42,13 @@ class TeamPage extends Component {
   componentDidMount() {
     const { teamId, status } = this.props.match.params;
 
-    this.props.fetchTeamRooms(teamId).then(() => this.setState({
+    this.props.fetchTeamRoomsByTeamId(teamId).then(() => this.setState({
       teamRoomsLoaded: true,
-      teamRooms: this.props.teamRooms
+      // teamRooms: this.props.teamRooms // TODO: JC, don't need to do this.  It's already set in the containers mapStateToProps. Remove comment after you read this.
     }));
     this.props.fetchTeamMembersByTeamId(teamId).then(() => this.setState({
       teamMembersLoaded: true,
-      teamMembers: this.props.teamMembers
+      //teamMembers: this.props.teamMembers // TODO: JC, don't need to do this.  It's already set in the containers mapStateToProps. Remove comment after you read this.
     }));
     if (status) {
       notification.open({

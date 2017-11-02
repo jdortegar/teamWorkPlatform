@@ -23,7 +23,7 @@ export const fetchTeamRoomsByTeamId = (teamId, getKey = false) => {
           const { teamRooms } = response.data;
           dispatch({
             type: TEAMROOMS_FETCH_SUCCESS,
-            payload: { teamRooms }
+            payload: { teamId, teamRooms }
           });
         }
         return response;

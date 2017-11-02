@@ -23,7 +23,7 @@ export const fetchTeamsBySubscriberOrgId = (subscriberOrgId, getKey = false) => 
           const { teams } = response.data;
           dispatch({
             type: TEAMS_FETCH_SUCCESS,
-            payload: { teams }
+            payload: { subscriberOrgId, teams }
           });
         }
         return response;
