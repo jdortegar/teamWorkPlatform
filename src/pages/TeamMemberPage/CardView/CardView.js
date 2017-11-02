@@ -1,15 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
-
-const propTypes = {
-  integrations: PropTypes.object.isRequired,
-  onSwitchView: PropTypes.func.isRequired,
-  subscribers: PropTypes.array.isRequired,
-  subscriberOrgId: PropTypes.string.isRequired,
-  teams: PropTypes.array.isRequired
-};
 
 function CardView() {
   return (
@@ -40,7 +31,5 @@ function CardView() {
     </div>
   );
 }
-
-CardView.propTypes = propTypes;
 
 export default CardView;
