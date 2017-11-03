@@ -1,5 +1,5 @@
 import config from '../config';
-import { doAuthenticatedRequest } from './urlRequest';
+import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const TEAMS_FETCH_SUCCESS = 'teams/fetch/success';
 
@@ -19,7 +19,7 @@ export const fetchTeamsBySubscriberOrgId = (subscriberOrgId, getKey = false) => 
 
     if (!getKey) {
       thunk.then((response) => {
-        if (response.data) {
+        if ((response.data) && (response.data !== RESPONSE_STALE)) {
           const { teams } = response.data;
           dispatch({
             type: TEAMS_FETCH_SUCCESS,

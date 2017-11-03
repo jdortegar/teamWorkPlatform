@@ -6,6 +6,8 @@ export const URLREQUEST_SUCCESS = 'urlrequest/success';
 export const URLREQUEST_ERROR = 'urlrequest/error';
 export const URLREQUEST_CLEAR = 'urlrequest/clear';
 
+export const RESPONSE_STALE = 'STALE';
+
 export const cachedGetRequests = {};
 export const cachedGetRequestsOrdered = [];
 
@@ -42,6 +44,7 @@ export const doRequest = ({ requestUrl, method, headers, data }, reduxState, get
           payload: { requestUrl, ...cachedGetRequest.reduxState }
         });
         dispatch(clearUrlRequest(requestUrl));
+        cachedGetRequest.response.data = RESPONSE_STALE;
         return Promise.resolve(cachedGetRequest.response);
       }
     }

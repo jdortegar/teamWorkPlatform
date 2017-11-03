@@ -1,5 +1,5 @@
 import config from '../config';
-import { doAuthenticatedRequest } from './urlRequest';
+import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const TEAMMEMBERS_FETCH_SUCCESS = 'teammembers/fetch/success';
 
@@ -18,7 +18,7 @@ export const fetchTeamMembersByTeamId = (teamId, getKey = false) => {
 
     if (!getKey) {
       thunk.then((response) => {
-        if (response.data) {
+        if ((response.data) && (response.data !== RESPONSE_STALE)) {
           const { teamMembers } = response.data;
           dispatch({
             type: TEAMMEMBERS_FETCH_SUCCESS,

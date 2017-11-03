@@ -1,5 +1,5 @@
 import config from '../config';
-import { doAuthenticatedRequest } from './urlRequest';
+import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const TRANSCRIPT_FETCH_SUCCESS = 'transcript/fetch/success';
 
@@ -18,7 +18,7 @@ export const fetchTranscript = (conversationId, getKey = false) => {
 
     if (!getKey) {
       thunk.then((response) => {
-        if (response.data) {
+        if ((response.data) && (response.data !== RESPONSE_STALE)) {
           const { messages } = response.data;
           dispatch({
             type: TRANSCRIPT_FETCH_SUCCESS,
