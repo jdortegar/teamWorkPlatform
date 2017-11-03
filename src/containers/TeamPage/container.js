@@ -18,7 +18,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchTeamRooms: teamId => dispatch(fetchTeamRoomsByTeamId(teamId)),
+    fetchTeamRoomsByTeamId: teamId => dispatch(fetchTeamRoomsByTeamId(teamId)),
     fetchTeamMembersByTeamId: teamId => dispatch(fetchTeamMembersByTeamId(teamId))
   };
 }

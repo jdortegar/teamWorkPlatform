@@ -1,5 +1,5 @@
 import config from '../config';
-import { doAuthenticatedRequest } from './urlRequest';
+import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const SUBSCRIBERORGS_FETCH_SUCCESS = 'subscriberorgs/fetch/success';
 
@@ -18,7 +18,7 @@ export const fetchSubscriberOrgs = (getKey = false) => { // eslint-disable-line 
 
     if (!getKey) {
       thunk.then((response) => {
-        if (response.data) {
+        if ((response.data) && (response.data !== RESPONSE_STALE)) {
           const { subscriberOrgs } = response.data;
           dispatch({
             type: SUBSCRIBERORGS_FETCH_SUCCESS,

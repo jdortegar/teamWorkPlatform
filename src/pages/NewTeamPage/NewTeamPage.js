@@ -31,7 +31,8 @@ class NewTeamPage extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit() {
+  handleSubmit(e) {
+    e.preventDefault();
     const { subscriberOrgId } = this.props.match.params;
     this.props.form.validateFields((err, values) => {
       if (!err) {

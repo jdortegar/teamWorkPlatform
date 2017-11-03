@@ -22,20 +22,26 @@ const addTeamRoom = (teamRoom, teamRoomById, teamRoomIdsByTeamId) => {
 const teamRoomsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case TEAMROOMS_FETCH_SUCCESS: {
-      const teamRoomById = _.cloneDeep(state.teamRoomById);
-      const teamRoomIdsByTeamId = _.cloneDeep(state.teamRoomIdsByTeamId);
       const { teamId, teamRooms } = action.payload;
+      let teamRoomById;
+      let teamRoomIdsByTeamId;
       let teamRoomIds;
 
       if (teamId) {
+        teamRoomById = _.cloneDeep(state.teamRoomById);
+        teamRoomIdsByTeamId = _.cloneDeep(state.teamRoomIdsByTeamId);
+
         // Clear out team rooms of teamId.
         teamRoomIds = teamRoomIdsByTeamId[teamId];
         if (teamRoomIds) {
           teamRoomIds.forEach((teamRoomId) => {
             delete teamRoomById[teamRoomId];
           });
+          delete teamRoomIdsByTeamId[teamId];
         }
-        delete teamRoomIdsByTeamId[teamId];
+      } else {
+        teamRoomById = {};
+        teamRoomIdsByTeamId = {};
       }
 
       teamRooms.forEach((teamRoom) => { addTeamRoom(teamRoom, teamRoomById, teamRoomIdsByTeamId); });
@@ -47,7 +53,8 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
       };
     }
     case TEAMROOM_RECEIVE: {
-      const { teamId, teamRoom } = action.payload;
+      const { teamRoom } = action.payload;
+      const teamId = teamRoom.teamId;
       const teamRoomById = _.cloneDeep(state.teamRoomById);
       const existingTeamRoom = teamRoomById[teamRoom.teamRoomId];
       teamRoomById[teamRoom.teamRoomId] = teamRoom;
@@ -57,6 +64,7 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
         teamRoomIdsByTeamId = _.cloneDeep(state.teamRoomIdsByTeamId);
         const teamRoomIds = teamRoomIdsByTeamId[teamId] || [];
         teamRoomIds.push(teamRoom.teamRoomId);
+        teamRoomIdsByTeamId[teamId] = teamRoomIds;
       }
 
       return {

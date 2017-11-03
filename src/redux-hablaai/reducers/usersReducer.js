@@ -117,7 +117,7 @@ const usersReducer = (state = INITIAL_STATE, action) => {
         teamId,
         teamRoomId
       } = action.payload;
-      let user = userByUserId[action.payload.subscriber.userId];
+      let user = userByUserId[(subscriber) ? subscriber.userId : (teamMember) ? teamMember.userId : teamRoomMember.userId];
       if (!user) {
         user = subscriber || teamMember || teamRoomMember;
       } else {

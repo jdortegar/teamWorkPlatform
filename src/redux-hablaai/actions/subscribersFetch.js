@@ -1,5 +1,5 @@
 import config from '../config';
-import { doAuthenticatedRequest } from './urlRequest';
+import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const SUBSCRIBERS_FETCH_SUCCESS = 'subscribers/fetch/success';
 
@@ -18,7 +18,7 @@ export const fetchSubscribersBySubscriberOrgId = (subscriberOrgId, getKey = fals
 
     if (!getKey) {
       thunk.then((response) => {
-        if (response.data) {
+        if ((response.data) && (response.data !== RESPONSE_STALE)) {
           const { subscribers } = response.data;
           dispatch({
             type: SUBSCRIBERS_FETCH_SUCCESS,

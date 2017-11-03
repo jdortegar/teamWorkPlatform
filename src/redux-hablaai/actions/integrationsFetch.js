@@ -1,5 +1,5 @@
 import config from '../config';
-import { doAuthenticatedRequest } from './urlRequest';
+import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const INTEGRATIONS_FETCH_SUCCESS = 'integrations/fetch/success';
 
@@ -18,7 +18,7 @@ export const fetchIntegrations = (subscriberOrgId, getKey) => {
 
     if (!getKey) {
       thunk.then((response) => {
-        if (response.data) {
+        if ((response.data) && (response.data !== RESPONSE_STALE)) {
           const { integrations } = response.data;
           dispatch({
             type: INTEGRATIONS_FETCH_SUCCESS,

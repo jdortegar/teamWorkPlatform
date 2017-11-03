@@ -18,7 +18,8 @@ function composeMiddleware() {
 
   if (process.env.NODE_ENV !== 'production') {
     const DevTools = require('./containers/DevTools').default; // eslint-disable-line global-require
-    middleware = [...middleware, DevTools.instrument()];
+    const { logger } = require(`redux-logger`);
+    middleware = [...middleware, DevTools.instrument(), applyMiddleware(logger)];
   }
 
   return compose(...middleware);

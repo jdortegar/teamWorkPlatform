@@ -61,10 +61,10 @@ const eventHandler = (eventType, event) => {
       break;
 
     case EventTypes.teamRoomCreated:
-      config.store.dispatch(receiveTeamRoom(event, event.teamId));
+      config.store.dispatch(receiveTeamRoom(event));
       break;
     case EventTypes.teamRoomUpdated:
-      config.store.dispatch(receiveTeamRoom(event, event.teamId));
+      config.store.dispatch(receiveTeamRoom(event));
       break;
     case EventTypes.teamRoomPrivateInfoUpdated:
       config.store.dispatch(receiveTeamRoom(event, event.teamId)); // Same as teamRoomUpdated except contains preferences.private.
