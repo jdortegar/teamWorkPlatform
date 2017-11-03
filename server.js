@@ -67,7 +67,7 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
-const nodePort = process.env.NODE_PORT || 8081;
+const nodePort = process.env.NODE_PORT || 9090;
 server.listen(nodePort, (err) => {
   if (err) {
     // console.error(err);

@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 let nodeUrl = process.env.NODE_URL;
 if (!nodeUrl) {
-  const nodePort = process.env.NODE_PORT || 8081;
+  const nodePort = process.env.NODE_PORT || 9090;
   nodeUrl = 'localhost';
   if (nodePort === 80) {
     nodeUrl = `http://${nodeUrl}`;
