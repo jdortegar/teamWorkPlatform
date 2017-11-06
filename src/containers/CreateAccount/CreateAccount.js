@@ -10,16 +10,14 @@ import EmailField from '../../components/formFields/EmailField';
 import ConfirmPasswordField from '../../components/formFields/ConfirmPasswordField';
 import CountrySelectField from '../../components/formFields/CountrySelectField';
 import TimezoneSelectField from '../../components/formFields/TimezoneSelectField';
-import { createAccount } from '../../actions';
+import { createAccount, loginUser } from '../../actions';
 
 const FormItem = Form.Item;
 
 const propTypes = {
   form: formShape.isRequired,
   createAccount: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
-  }).isRequired
+  loginUser: PropTypes.func.isRequired
 };
 
 const layout = {
@@ -46,9 +44,10 @@ class CreateAccount extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
+        const { email, password } = values;
         this.props.createAccount(values).then(() => {
           this.setState({ loading: false });
-          this.props.history.push('/app');
+          this.props.loginUser({ email, password, targetRoute: '/app' });
         }).catch(() => {
           message.error('The email is already registered');
           this.setState({ loading: false });
@@ -132,7 +131,8 @@ class CreateAccount extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    createAccount: form => dispatch(createAccount(form))
+    createAccount: form => dispatch(createAccount(form)),
+    loginUser: user => dispatch(loginUser(user))
   };
 }
 
