@@ -49,7 +49,8 @@ class CreateAccount extends React.Component {
           this.setState({ loading: false });
           this.props.loginUser({ email, password, targetRoute: '/app' });
         }).catch(() => {
-          message.error('The email is already registered');
+          // email already registered
+          message.error('The user is already registered.');
           this.setState({ loading: false });
         });
       }
