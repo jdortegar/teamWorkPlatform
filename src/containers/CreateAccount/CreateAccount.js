@@ -17,9 +17,7 @@ const FormItem = Form.Item;
 const propTypes = {
   form: formShape.isRequired,
   createAccount: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
-  }).isRequired
+  loginUser: PropTypes.func.isRequired
 };
 
 const layout = {
@@ -131,7 +129,7 @@ class CreateAccount extends React.Component {
 function mapDispatchToProps(dispatch) {
   return {
     createAccount: form => dispatch(createAccount(form)),
-    loginUser: (user) => dispatch(loginUser(user))
+    loginUser: user => dispatch(loginUser(user))
   };
 }
 
