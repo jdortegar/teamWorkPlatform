@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button, Checkbox, Spin } from 'antd';
+import { Form, Button, Checkbox, Spin, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -17,6 +17,7 @@ const propTypes = {
   form: formShape.isRequired,
   loginUser: PropTypes.func.isRequired,
   loggingIn: PropTypes.bool.isRequired,
+  error: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired
 };
 
@@ -28,6 +29,10 @@ const layout = {
 class Login extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      submited: false
+    };
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -47,12 +52,22 @@ class Login extends React.Component {
         }
 
         this.props.loginUser({ email, password, targetRoute });
+        this.setState({
+          submited: true
+        });
       }
     });
   }
 
   render() {
     const { getFieldDecorator } = this.props.form;
+
+    if (this.state.submited && this.props.error) {
+      message.error('The login credentials are not valid. Please try again.');
+      this.setState({
+        submited: false
+      });
+    }
 
     return (
       <Form onSubmit={this.handleSubmit} layout="vertical">
@@ -93,7 +108,8 @@ Login.propTypes = propTypes;
 
 const mapStateToProps = (state) => {
   return {
-    loggingIn: state.auth.loggingIn
+    loggingIn: state.auth.loggingIn,
+    error: state.auth.error
   };
 };
 

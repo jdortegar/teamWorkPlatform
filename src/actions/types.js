@@ -9,7 +9,7 @@ export const SUBMIT_REGISTRATION_FORM = 'submit_registration_form';
 export const AUTH_USER = 'auth_user';
 export const UNAUTH_USER = 'unauth_user';
 export const LOGGING_IN = 'logging_in';
-
+export const LOGGING_IN_ERROR = 'logging_in_error';
 //= =====================
 // SubscriberOrgs Actions
 //= =====================

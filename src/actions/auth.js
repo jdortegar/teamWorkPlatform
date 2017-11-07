@@ -4,6 +4,7 @@ import config from '../config/env';
 import { routesPaths } from '../routes';
 import {
   LOGGING_IN,
+  LOGGING_IN_ERROR,
   UNAUTH_USER,
   SUBMIT_REGISTRATION_FORM
 } from './types';
@@ -25,7 +26,7 @@ export const loginUser = ({ email, password, targetRoute }) => {
         dispatch(push(resolvedRoute));
       })
       .catch(() => {
-        dispatch({ type: LOGGING_IN, payload: false });
+        dispatch({ type: LOGGING_IN_ERROR, payload: false });
       });
   };
 };
