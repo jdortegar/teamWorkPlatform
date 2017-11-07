@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button, Row, Col } from 'antd';
+import { Form, Button, Row, Col, message } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { formShape } from '../../propTypes';
@@ -48,7 +48,10 @@ class CreateAccount extends React.Component {
         this.props.createAccount(values).then(() => {
           this.setState({ loading: false });
           this.props.loginUser({ email, password, targetRoute: '/app' });
-        }).catch(() => this.setState({ loading: false }));
+        }).catch(() => {
+          message.error('The email is already registered');
+          this.setState({ loading: false });
+        });
       }
     });
   }
