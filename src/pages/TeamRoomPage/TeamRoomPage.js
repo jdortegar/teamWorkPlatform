@@ -135,7 +135,10 @@ class TeamRoomPage extends Component {
 
   componentDidUpdate() {
     const chatDiv = document.getElementsByClassName('team-room__messages')[0];
-    if (chatDiv) {
+    if (chatDiv && (chatDiv.scrollHeight - chatDiv.scrollTop) < 500) {
+      chatDiv.scrollTop = chatDiv.scrollHeight;
+    }
+    if (chatDiv && chatDiv.scrollTop === 0) {
       chatDiv.scrollTop = chatDiv.scrollHeight;
     }
   }
