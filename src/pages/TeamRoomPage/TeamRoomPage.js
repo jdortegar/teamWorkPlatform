@@ -133,6 +133,13 @@ class TeamRoomPage extends Component {
     }
   }
 
+  componentDidUpdate() {
+    const chatDiv = document.getElementsByClassName('team-room__messages')[0];
+    if (chatDiv) {
+      chatDiv.scrollTop = chatDiv.scrollHeight;
+    }
+  }
+
   onCancelReply() {
     if (this.props.files.length > 0) {
       this.props.clearFileList();
