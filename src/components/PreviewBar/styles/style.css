@@ -32,3 +32,13 @@
   text-align: center;
   border: 2px dashed;
 }
+.PreviewBar__image-wrapper {
+  background-color: #fff;
+  margin-right: .5em;
+  border-radius: 2px;
+  position: relative;
+  width: 112px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

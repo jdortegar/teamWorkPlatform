@@ -39,10 +39,14 @@ class ChatContent extends Component {
   }
 
   updateFileList(fileList) {
+    const filesToState = [...fileList].filter((file) => {
+      const fileFound = this.state.fileList.find(fileInState => fileInState.name === file.name);
+      return !fileFound;
+    });
     this.setState({
       fileList: [
         ...this.state.fileList,
-        ...fileList
+        ...filesToState
       ],
       isDraggingOver: false
     });

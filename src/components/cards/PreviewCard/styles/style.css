@@ -3,6 +3,16 @@
   margin-bottom: 0 !important;
   margin-left: 0 !important;
 }
+.PreviewCard__container > div.ant-card-head {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  padding: 0;
+  border: none;
+  background: none;
+  height: fit-content;
+  line-height: 0;
+}
 .PreviewCard__container > div.ant-card-body {
   padding: 0;
 }

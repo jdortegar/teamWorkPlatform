@@ -53,7 +53,7 @@ class PreviewBar extends Component {
         item.percent = fileWithPercent.percent;
       }
       return (
-        <div key={index} className="image-wrapper">
+        <div key={index} className="PreviewBar__image-wrapper">
           <PreviewCard
             file={item}
             handleRemove={() => this.props.removeFileFromList(item)}
