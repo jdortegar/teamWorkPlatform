@@ -10,7 +10,7 @@ const propTypes = {
   allowedTypes: PropTypes.array,
   text: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
-  teamId: PropTypes.string.isRequired
+  teamId: PropTypes.string
 };
 
 const defaultProps = {

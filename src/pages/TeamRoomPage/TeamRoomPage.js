@@ -105,6 +105,11 @@ class TeamRoomPage extends Component {
               conversationsLoaded: true
             }));
         }
+        if (response.data === 'STALE') {
+          this.setState({
+            conversationsLoaded: true
+          });
+        }
       });
   }
 
@@ -277,7 +282,8 @@ class TeamRoomPage extends Component {
   }
 
   render() {
-    if (this.state.teamRoomMembersLoaded && this.state.conversationsLoaded) {
+    const { teamRoomMembersLoaded, conversationsLoaded } = this.state;
+    if (teamRoomMembersLoaded && conversationsLoaded) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
       const { teamRooms, user, teamRoomMembers } = this.props;
       const teamRoomId = this.props.match.params.teamRoomId;
