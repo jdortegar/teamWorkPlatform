@@ -3,6 +3,7 @@ import { Layout, Menu, Dropdown } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import UserIcon from '../UserIcon';
+import { hablaBlackLogo } from '../../img';
 import './styles/style.css';
 
 const AntdHeader = Layout.Header;
@@ -35,6 +36,7 @@ class Header extends Component {
 
     return (
       <AntdHeader className="header">
+        <img src={hablaBlackLogo} alt="Habla AI Logo" className="logo" />
         <div className="logo" />
         <Menu
           theme="dark"

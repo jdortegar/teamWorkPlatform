@@ -6,3 +6,4 @@ export { default as oneDriveLogo } from './onedrive-logo.png';
 export { default as salesforceLogo } from './salesforce-logo.png';
 export { default as slackLogo } from './slack-logo.png';
 export { default as trelloLogo } from './trello-logo.png';
+export { default as hablaBlackLogo } from './habla-logo-color-in-black-vsmall.png';
