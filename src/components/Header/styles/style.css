@@ -8,7 +8,6 @@
 .logo {
   width: 150px;
   height: 67px;
-  background: url('http://www.mario.cl/img/habla/habla-logo-color-in-black-vsmall.png') no-repeat;
   float: left;
 }
 .ant-layout-header {
@@ -23,7 +22,6 @@
   background: #000;
 }
 .user-avatar {
-  background: url('http://www.mario.cl/img/habla/avatar-temp-habla.png') no-repeat;
   height: 35px;
   width: 35px;
   background-size: contain;

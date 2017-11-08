@@ -23,7 +23,9 @@ function determineStatus(integration) {
   return false;
 }
 
-function showNotification(status, integration) {
+function showNotification(response, integration) {
+  // const { status } = response;
+  const status = 410;
   if (status === 200) {
     notification.success({
       message: 'SUCCESS',
@@ -31,12 +33,16 @@ function showNotification(status, integration) {
       duration: 7
     });
   } else if (status === 410) {
+    const integrationObj = {
+      box: 'Box',
+      boxLink: 'https://app.box.com/apps',
+      google: 'Google Drive',
+      googleLink: 'https://drive.google.com/drive/u/0/my-drive'
+    };
+    const integrationLink = `${integration}Link`;
     notification.error({
       message: 'GONE',
-      description: `
-        Habla AI no longer has access to your ${integration} account, but ${integration} seems to have trouble deauthorizing on their end.
-        Please check your ${integration}} account to make sure everything is OK
-      `,
+      description: <p>Your integration to {integrationObj[integration]} has been revoked, and Habla AI no longer has access to it. Please go to <a target="_blank" href={integrationObj[integrationLink]}>{integrationObj[integrationLink]}</a> to complete the revocation.</p>,
       duration: 7
     });
   } else {
@@ -106,14 +112,14 @@ class IntegrationDetailsPage extends Component {
       switch (integrationDetails) {
         case 'google':
           this.props.revokeGoogle(subscriberOrgId)
-            .then((status) => {
-              showNotification(status, integrationDetails);
+            .then((res) => {
+              showNotification(res, integrationDetails);
             });
           break;
         case 'box':
           this.props.revokeBox(subscriberOrgId)
-            .then((status) => {
-              showNotification(status, integrationDetails);
+            .then((res) => {
+              showNotification(res, integrationDetails);
             });
           break;
         default:
