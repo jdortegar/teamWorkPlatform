@@ -11,9 +11,9 @@ const propTypes = {
   ]).isRequired,
   node: PropTypes.node,
   icon: PropTypes.node.isRequired,
-  editButton: PropTypes.bool.isRequired,
-  isAdmin: PropTypes.bool.isRequired,
-  teamRoomId: PropTypes.string.isRequired
+  editButton: PropTypes.bool,
+  isAdmin: PropTypes.bool,
+  teamRoomId: PropTypes.string
 };
 
 const defaultProps = {

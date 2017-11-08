@@ -11,7 +11,7 @@ import './styles/style.css';
 const propTypes = {
   hide: PropTypes.bool.isRequired,
   replyTo: PropTypes.func.isRequired,
-  onFileChange: PropTypes.func.isRequired,
+  onFileChange: PropTypes.func,
   teamRoomMembersObj: PropTypes.object.isRequired,
   message: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired
@@ -163,4 +163,3 @@ class Message extends Component {
 Message.propTypes = propTypes;
 
 export default Message;
-
