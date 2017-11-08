@@ -54,8 +54,8 @@
   flex: 1;
 }
 .team-room-chat {
-  height: 100%;
   display: flex;
+  flex: 1;
   flex-direction: column;
 }
 .team-room__messages {
