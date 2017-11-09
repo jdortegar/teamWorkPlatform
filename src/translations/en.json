@@ -169,5 +169,9 @@
   "manageMembersSaveChangesButtonLabel": "SAVE CHANGES",
   "timeActivityGraphTitle": "CKG Time / Activity",
   "graphDateRangeButtonLabel": " Select Date Range  ",
-  "OrganizationPage.addNewIntegration": "Add New Integration"
+  "OrganizationPage.addNewIntegration": "Add New Integration",
+  "error.validation.usernameFormat": "Must be alphanumeric without spaces (period, underscore and @ symbol are allowed).",
+  "error.validation.usernameNotEndsWith": "Cannot end with character \"%\\{searchString\\}\"",
+  "error.validation.usernameTooShort": "Must be 6 to 20 characters",
+  "error.validation.invalidEmail": "Wrong email format"
 }

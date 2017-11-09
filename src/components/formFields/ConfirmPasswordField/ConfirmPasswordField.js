@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Popover, Col, Row } from 'antd';
+import { injectIntl, intlShape } from 'react-intl';
+import {
+  antValidate,
+  equalityI18N, passwordI18N
+} from '../../../validations';
 import { formShape, layoutShape } from '../../../propTypes';
 import BaseInput from '../BaseInput';
 import PasswordRequirements from '../PasswordRequirements';
-import { antValidate, equality, password as passwordRules } from '../../../validations';
 import messages from './messages';
 
 const FormItem = Form.Item;
 
 class ConfirmPasswordField extends Component {
   static propTypes = {
+    intl: intlShape.isRequired,
     form: formShape.isRequired,
     componentKey: PropTypes.string,
     initialValue: PropTypes.string,
@@ -52,7 +57,7 @@ class ConfirmPasswordField extends Component {
   }
 
   renderPasswordField() {
-    const { componentKey, form, layout, placeholder, missingMessage, ...rest } = this.props;
+    const { componentKey, form, layout, placeholder, missingMessage, intl, ...rest } = this.props;
     const translatedPlaceHolder = placeholder || messages.password;
     const translatedMissingMessage = missingMessage || messages.passwordMissing;
 
@@ -62,7 +67,7 @@ class ConfirmPasswordField extends Component {
       componentKey,
       type: 'password',
       extraRules: [
-        { validator: antValidate(passwordRules({})) }
+        { validator: antValidate(passwordI18N(intl)) }
       ],
       onChange: this.updatePassword,
       onFocus: this.showPopover,
@@ -90,7 +95,7 @@ class ConfirmPasswordField extends Component {
   }
 
   renderConfirmPasswordField() {
-    const { componentKey, form, layout, ...rest } = this.props;
+    const { componentKey, form, layout, intl, ...rest } = this.props;
 
     const comparator = value => value === form.getFieldValue(componentKey);
     const message = messages.passwordNoMatch;
@@ -101,7 +106,7 @@ class ConfirmPasswordField extends Component {
       componentKey: `${componentKey}Confirm`,
       type: 'password',
       extraRules: [
-        { validator: antValidate(equality(comparator, { equality: message })) }
+        { validator: antValidate(equalityI18N(intl, comparator, { equality: message })) }
       ],
       placeholder: messages.confirmPassword,
       missingMessage: messages.confirmPasswordMissing
@@ -133,4 +138,4 @@ class ConfirmPasswordField extends Component {
   }
 }
 
-export default ConfirmPasswordField;
+export default injectIntl(ConfirmPasswordField);
