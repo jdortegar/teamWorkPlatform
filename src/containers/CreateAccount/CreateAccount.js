@@ -83,6 +83,7 @@ class CreateAccount extends React.Component {
               layout={layout}
               required
               componentKey="displayName"
+              initialValue={sessionStorage.getItem('habla-user-email')}
             />
           </Col>
           <Col className="gutter-row" span={12}>
