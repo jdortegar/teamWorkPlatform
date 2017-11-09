@@ -1,6 +1,6 @@
 export const defaultMessages = {
   tooLong: 'First Name is limited to 30 characters',
-  format: 'First Names is limited to alphabetic values'
+  format: 'Names are limited to alphabetic values'
 };
 
 function constraints(customMessages) {
