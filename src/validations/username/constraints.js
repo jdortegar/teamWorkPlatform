@@ -18,7 +18,7 @@ function constraints(customMessages) {
       tooLong: messages.length
     },
     format: {
-      pattern: '^[a-zA-Z0-9-_.]+$',
+      pattern: '^[a-zA-Z0-9-_@.]+$',
       message: messages.format
     },
     notEndsWith: {
