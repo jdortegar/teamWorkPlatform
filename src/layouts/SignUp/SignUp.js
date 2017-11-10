@@ -23,7 +23,7 @@ function SignUp() {
             <Route exact path={routesPaths.register} component={Register} />
             <Route exact path={routesPaths.createAccount} component={CreateAccount} />
             <Route exact path={routesPaths.verifyAccount} component={VerifyAccount} />
-            <Route exact path={routesPaths.login} component={Login} />
+            <Route path={routesPaths.login} component={Login} />
           </Switch>
         </Col>
       </Row>

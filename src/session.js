@@ -16,9 +16,13 @@ const WEBSOCKET_URL_COOKIE_NAME = 'websocketUrl';
 const RESOURCES_URL_COOKIE_NAME = 'resourcesUrl';
 const LAST_ROUTE_COOKIE_NAME_PREFIX = 'lastRoute';
 
+const AWS_CUSTOMER_ID_HEADER_NAME = 'x-hablaai-awsCustomerId';
+
+
 let jwt;
 let websocketUrl;
 let resourcesUrl;
+let _awsCustomerId;
 
 let store;
 let persistor;
@@ -87,6 +91,19 @@ export const getResourcesUrl = () => {
   return resourcesUrl;
 };
 
+export const setAwsCustomerId = (awsCustomerId) => {
+  _awsCustomerId = awsCustomerId;
+};
+
+export const axiosOptionsForNewCustomer = () => {
+  let axiosOptions;
+  if (_awsCustomerId) {
+    axiosOptions = { headers: {} };
+    axiosOptions.headers[AWS_CUSTOMER_ID_HEADER_NAME] = _awsCustomerId;
+  }
+  return axiosOptions;
+};
+
 
 export const login = (email, password) => {
   return new Promise((resolve, reject) => {
@@ -95,7 +112,9 @@ export const login = (email, password) => {
     params.append('username', email);
     params.append('password', password);
 
-    axios.post(loginUrl, params)
+    // axios.post(loginUrl, params, { withCredentials: true })
+    const axiosOptions = axiosOptionsForNewCustomer();
+    axios.post(loginUrl, params, axiosOptions)
       .then((response) => {
         jwt = response.data.token;
         reduxHablaaiConfig.jwt = jwt;

@@ -3,6 +3,7 @@ import { Form, Button, Spin, Icon } from 'antd';
 import axios from 'axios';
 import { formShape } from '../../propTypes';
 import config from '../../config/env';
+import { axiosOptionsForNewCustomer } from '../../session';
 import EmailField from '../../components/formFields/EmailField';
 import './styles/style.css';
 
@@ -30,9 +31,12 @@ class Register extends React.Component {
       if (!err) {
         const { email } = values;
         this.setState({ submitting: true });
+
+        const axiosOptions = axiosOptionsForNewCustomer();
         axios.post(
           `${config.hablaApiBaseUri}/users/registerUser/`,
-          { email })
+          { email },
+          axiosOptions)
           .then(() => {
             this.setState({ submitting: false, registered: true });
           });
