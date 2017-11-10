@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Col, Row } from 'antd';
-import { Link } from 'react-router-dom';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import UserIcon from '../UserIcon';
 import messages from './messages';
@@ -38,42 +38,36 @@ class Sidebar extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { hovered: null, openKeys: [], teamOpenKeys: [] };
+    this.orgsOpen = {};
 
-    this.handleClick = this.handleClick.bind(this);
-    this.onClickEditOrg = this.onClickEditOrg.bind(this);
+    this.state = {
+      orgsOpenKeys: [],
+      teamsOpenKeys: [],
+
+      hovered: null,
+      openKeys: []
+    };
+
     this.handleAddOrganization = this.handleAddOrganization.bind(this);
+
+    this.toogleOrgs = this.toogleOrgs.bind(this);
+    this.toogleTeams = this.toogleTeams.bind(this);
+
+    this.goToOrgPage = this.goToOrgPage.bind(this);
+    this.goToTeamRoomPage = this.goToTeamRoomPage.bind(this);
   }
 
   componentDidMount() {
     this.props.fetchGlobalState();
   }
 
-  onClickEditOrg(e, orgId, url, teamId = null) {
-    e.stopPropagation();
-    if (teamId) {
-      this.setState({ selected: orgId, openKeys: [orgId, teamId] });
-    } else {
-      const teams = this.props.teams.filter(team => team.subscriberOrgId === orgId);
-      const teamIds = teams.map(team => team.teamId);
-      this.setState({ selected: orgId, openKeys: [orgId, ...teamIds] });
-    }
-    this.props.setCurrentSubscriberOrgId(orgId);
-    this.props.history.push(url);
+  getTeamsIds(orgId) {
+    const teams = this.props.teams.filter(team => team.subscriberOrgId === orgId);
+    return teams.map(team => team.teamId);
   }
 
-  handleClick({ key }) {
-    switch (key) {
-      case 'add-org':
-        return this.props.toggleOrgDialog(true);
-      default:
-        return null;
-    }
-  }
-
-  showTeamDialog(e, orgId) {
-    e.stopPropagation();
-    this.props.toggleTeamDialog(true, orgId);
+  handleAddOrganization() {
+    this.props.toggleOrgDialog(true);
   }
 
   showTeamRoomDialog(e, teamId) {
@@ -81,8 +75,82 @@ class Sidebar extends Component {
     this.props.toggleTeamRoomDialog(true, teamId);
   }
 
-  handleAddOrganization() {
-    this.props.toggleOrgDialog(true);
+  showTeamDialog(e, orgId) {
+    e.stopPropagation();
+    this.props.toggleTeamDialog(true, orgId);
+  }
+
+  cancelClickEvent(e = window.event) {
+    this.e = e;
+    this.e.cancelBubble = true;
+    if (this.e.stopPropagation) this.e.stopPropagation();
+  }
+
+  toogleTeams(teamId) {
+    const { teamsOpenKeys } = this.state;
+    const teamIdFound = teamsOpenKeys.find(teamIdKey => teamIdKey === teamId);
+
+    if (teamIdFound) {
+      const index = teamsOpenKeys.indexOf(teamIdFound);
+      teamsOpenKeys.splice(index, 1);
+      this.setState({ teamsOpenKeys });
+    } else {
+      this.setState({
+        teamsOpenKeys: [...teamsOpenKeys, teamId]
+      });
+    }
+  }
+
+  goToTeamPage(e, team) {
+    this.props.setCurrentSubscriberOrgId(team.subscriberOrgId);
+    this.props.history.push(`/app/team/${team.teamId}`);
+
+    this.cancelClickEvent(e);
+  }
+
+  toogleOrgs(orgId) {
+    const teamIds = this.getTeamsIds(orgId);
+
+    if (this.orgsOpen[orgId]) {
+      this.setState({
+        orgsOpenKeys: [orgId],
+        teamsOpenKeys: [...this.state.teamsOpenKeys]
+      });
+    } else {
+      /* FIRST TIME USER CLICK ON A ORGANIZATION */
+      this.orgsOpen[orgId] = true;
+      this.setState({
+        orgsOpenKeys: [orgId],
+        teamsOpenKeys: [...this.state.teamsOpenKeys, ...teamIds]
+      });
+    }
+  }
+
+  goToOrgPage(e, orgId) {
+    const teamIds = this.getTeamsIds(orgId);
+
+    if (this.orgsOpen[orgId]) {
+      this.setState({
+        orgsOpenKeys: [orgId],
+        teamsOpenKeys: [...this.state.teamsOpenKeys]
+      });
+    } else {
+      /* FIRST TIME USER CLICK ON A ORGANIZATION */
+      this.orgsOpen[orgId] = true;
+      this.setState({
+        orgsOpenKeys: [orgId],
+        teamsOpenKeys: [...this.state.teamsOpenKeys, ...teamIds]
+      });
+    }
+
+    this.props.setCurrentSubscriberOrgId(orgId);
+    this.props.history.push(`/app/organization/${orgId}`);
+
+    this.cancelClickEvent(e);
+  }
+
+  goToTeamRoomPage(teamRoomId) {
+    this.props.history.push(`/app/teamRoom/${teamRoomId}`);
   }
 
   renderTeamRooms(teamId) {
@@ -103,9 +171,7 @@ class Sidebar extends Component {
       <Menu.Item key={teamRoom.teamRoomId}>
         <div className="Sidebar__name-container">
           <UserIcon user={teamRoom} type="team" minWidth="20px" width="20px" height="20px" clickable={false} />
-          <Link to={`/app/teamRoom/${teamRoom.teamRoomId}`} className="Sidebar__name-span">
-            {teamRoom.name}
-          </Link>
+          <div className="Sidebar__name-span" onClick={() => this.goToTeamRoomPage(teamRoom.teamRoomId)}>{teamRoom.name}</div>
         </div>
       </Menu.Item>),
     );
@@ -128,14 +194,13 @@ class Sidebar extends Component {
       return (
         <SubMenu
           key={team.teamId}
+          onTitleClick={() => this.toogleTeams(team.teamId)}
           title={<Row>
             <Col xs={{ span: 22 }}>
-              <a onClick={e => this.onClickEditOrg(e, team.subscriberOrgId, `/app/team/${team.teamId}`, team.teamId)}>
-                <div className="Sidebar__name-container">
-                  <UserIcon user={team} type="team" minWidth="20px" width="20px" height="20px" clickable={false} />
-                  <span className="Sidebar__name-span">{team.name}</span>
-                </div>
-              </a>
+              <div className="Sidebar__name-container">
+                <UserIcon user={team} type="team" minWidth="20px" width="20px" height="20px" clickable={false} />
+                <div className="Sidebar__name-span" onClick={e => this.goToTeamPage(e, team)}>{team.name}</div>
+              </div>
             </Col>
           </Row>}
         >
@@ -159,16 +224,15 @@ class Sidebar extends Component {
           key={subscriberOrg.subscriberOrgId}
           onMouseEnter={() => this.setState({ hovered: subscriberOrg.subscriberOrgId })}
           onMouseLeave={() => this.setState({ hovered: null })}
-          openKeys={this.state.teamOpenKeys}
+          openKeys={this.state.teamsOpenKeys}
+          onTitleClick={() => this.toogleOrgs(subscriberOrg.subscriberOrgId)}
           title={
             <Row>
               <Col xs={{ span: 22 }} className="Sidebar__org-item-col">
-                <a onClick={e => this.onClickEditOrg(e, subscriberOrg.subscriberOrgId, `/app/organization/${subscriberOrg.subscriberOrgId}`)}>
-                  <div className="Sidebar__name-container">
-                    <UserIcon user={subscriberOrg} type="team" minWidth="20px" width="20px" height="20px" clickable={false} />
-                    <span className="Sidebar__name-span">{subscriberOrg.name}</span>
-                  </div>
-                </a>
+                <div className="Sidebar__name-container">
+                  <UserIcon user={subscriberOrg} type="team" minWidth="20px" width="20px" height="20px" clickable={false} />
+                  <div className="Sidebar__name-span" onClick={e => this.goToOrgPage(e, subscriberOrg.subscriberOrgId)}>{subscriberOrg.name}</div>
+                </div>
               </Col>
             </Row>}
         >
@@ -195,8 +259,7 @@ class Sidebar extends Component {
         <div className="organization-list">
           <Menu
             mode="inline"
-            onClick={this.handleClick}
-            openKeys={this.state.openKeys}
+            openKeys={_.union(this.state.orgsOpenKeys, this.state.teamsOpenKeys)}
             className="Sidebar__menu"
           >
             { this.renderOrgs() }

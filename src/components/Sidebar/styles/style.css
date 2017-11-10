@@ -47,7 +47,7 @@
 .organization-list {
   overflow: scroll;
   flex: 1;
-} 
+}
 
 .Sidebar .ant-menu-item-selected {
   background-color: #f1f1f1 !important;
@@ -60,7 +60,8 @@
   align-items: center;
 }
 .Sidebar__name-span {
-  padding-left: 8px;
+  margin-left: 1em;
+  width: 70%;
 }
 .Sidebar__menu {
   border-right: 0px;

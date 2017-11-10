@@ -3,6 +3,7 @@ import { Layout, notification } from 'antd';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import OrganizationPage from '../../containers/OrganizationPage';
+import ChatContent from '../../containers/ChatContent';
 import IntegrationsPage from '../../containers/IntegrationsPage';
 import IntegrationDetailsPage from '../../containers/IntegrationDetailsPage';
 import TeamPage from '../../containers/TeamPage';
@@ -11,7 +12,6 @@ import EditTeamPage from '../../containers/EditTeamPage';
 import EditTeamRoomPage from '../../containers/EditTeamRoomPage';
 import NewTeamRoomPage from '../../containers/NewTeamRoomPage';
 import InviteNewMemberPage from '../../containers/InviteNewMemberPage';
-import TeamRoomPage from '../../containers/TeamRoomPage';
 import TeamMemberPage from '../../containers/TeamMemberPage';
 import Notification from '../../containers/Notification';
 import InviteToTeamPage from '../../containers/InviteToTeamPage';
@@ -79,7 +79,7 @@ class MainContent extends Component {
     const { invitation } = this.props;
     return (
       <Content className="layout-wrapper">
-        <div>
+        <div className="layout-wrapper__pages">
           {
             invitation.length > 0 ? invitation.map(el => <Notification options={el} />) : null
           }
@@ -94,7 +94,7 @@ class MainContent extends Component {
             <Route exact path={routesPaths.editTeamRoom} component={EditTeamRoomPage} />
             <Route exact path={routesPaths.inviteNewMember} component={InviteNewMemberPage} />
             <Route exact path={routesPaths.inviteToTeam} component={InviteToTeamPage} />
-            <Route exact path={routesPaths.teamRoom} component={TeamRoomPage} />
+            <Route exact path={routesPaths.teamRoom} component={ChatContent} />
             <Route exact path={routesPaths.member} component={TeamMemberPage} />
             <Route exact path={routesPaths.acceptInvitation} component={AcceptInvitationPage} />
             <Route exact path={routesPaths.ckg} component={CKGPage} />
