@@ -125,9 +125,9 @@ class TeamRoomPage extends Component {
           teamRoomMembers: nextProps.teamRoomMembers
         }));
       nextProps.fetchConversations(nextProps.match.params.teamRoomId)
-        .then((data) => {
-          if (data.payload.conversations) {
-            const { conversationId } = data.payload.conversations[0];
+        .then((response) => {
+          if (response.data.conversations) {
+            const { conversationId } = response.data.conversations[0];
 
             nextProps.fetchTranscript(conversationId)
               .then(() => this.setState({

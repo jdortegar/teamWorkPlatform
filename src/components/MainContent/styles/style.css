@@ -3,4 +3,12 @@
 	margin: 0;
 	height: 85vh;
 	overflow: scroll;
+	display: flex;
+}
+.layout-wrapper__pages {
+	display: flex;
+	flex: 1;
+}
+.layout-wrapper__pages > div {
+	flex: 1;
 }
