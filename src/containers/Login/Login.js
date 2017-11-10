@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { routesPaths } from '../../routes';
+import { setAwsCustomerId } from '../../session';
+import { routesPaths, extractQueryParams } from '../../routes';
 import { formShape } from '../../propTypes';
 import EmailField from '../../components/formFields/EmailField';
 import PasswordField from '../../components/formFields/PasswordField';
@@ -29,6 +30,12 @@ const layout = {
 class Login extends React.Component {
   constructor(props) {
     super(props);
+
+    const { awsCustomerId } = extractQueryParams(props);
+    if (awsCustomerId) {
+      setAwsCustomerId(awsCustomerId);
+      props.history.replace(routesPaths.login);
+    }
 
     this.state = {
       submited: false

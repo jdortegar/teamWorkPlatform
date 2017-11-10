@@ -1,6 +1,6 @@
 export const defaultMessages = {
   length: 'Must be 6 to 20 characters',
-  format: 'Must be alphanumeric without spaces (periods and underscores are allowed)',
+  format: 'Must be alphanumeric without spaces (period, underscore and @ symbol are allowed).',
   notEndsWith: 'Cannot end with a period'
 };
 
@@ -18,7 +18,7 @@ function constraints(customMessages) {
       tooLong: messages.length
     },
     format: {
-      pattern: '^[a-zA-Z0-9-_.]+$',
+      pattern: '^[a-zA-Z0-9-_@.]+$',
       message: messages.format
     },
     notEndsWith: {

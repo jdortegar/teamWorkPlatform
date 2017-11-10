@@ -37,7 +37,7 @@ export default (
     <Route exact path={routesPaths.register} component={SignUp} />
     <Route exact path={routesPaths.verifyAccount} component={SignUp} />
     <Route exact path={routesPaths.createAccount} component={SignUp} />
-    <PublicRoute exact path={routesPaths.login} component={SignUp} />
+    <PublicRoute path={routesPaths.login} component={SignUp} />
     <ProtectedRoute component={Main} />
   </Switch>
 );
