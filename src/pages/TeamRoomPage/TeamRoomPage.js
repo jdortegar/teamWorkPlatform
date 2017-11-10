@@ -114,25 +114,33 @@ class TeamRoomPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const nextTeamRoomId = nextProps.match.params.teamRoomId;
     if (nextProps.isDraggingOver && !this.state.showPreviewBox) {
       this.setState({ showPreviewBox: true });
     }
-    if (this.props.match.params.teamRoomId !== nextProps.match.params.teamRoomId) {
+    if (this.props.match.params.teamRoomId !== nextTeamRoomId) {
       this.setState({ teamRoomMembersLoaded: false, conversationsLoaded: false });
-      nextProps.fetchTeamRoomMembersByTeamRoomId(nextProps.match.params.teamRoomId)
+
+      this.props.fetchTeamRoomMembersByTeamRoomId(nextTeamRoomId)
         .then(() => this.setState({
           teamRoomMembersLoaded: true,
-          teamRoomMembers: nextProps.teamRoomMembers
+          teamRoomMembers: this.props.teamRoomMembers
         }));
-      nextProps.fetchConversations(nextProps.match.params.teamRoomId)
+
+      this.props.fetchConversations(nextTeamRoomId)
         .then((response) => {
           if (response.data.conversations) {
             const { conversationId } = response.data.conversations[0];
 
-            nextProps.fetchTranscript(conversationId)
+            this.props.fetchTranscript(conversationId)
               .then(() => this.setState({
                 conversationsLoaded: true
               }));
+          }
+          if (response.data === 'STALE') {
+            this.setState({
+              conversationsLoaded: true
+            });
           }
         });
     }
