@@ -53,10 +53,25 @@ class OrganizationPage extends Component {
     if (subscriberOrgId !== this.props.subscriberOrgs.currentSubscriberOrgId) {
       this.props.setCurrentSubscriberOrgId(subscriberOrgId);
     }
+
     this.props.fetchSubscribersBySubscriberOrgId(subscriberOrgId).then(() => this.setState({ subscribersLoaded: true }));
     this.props.fetchIntegrations(subscriberOrgId).then(() => {
       this.setState({ integrationsLoaded: true });
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const nextOrgId = nextProps.match.params.subscriberOrgId;
+    if (nextOrgId !== this.props.match.params.subscriberOrgId) {
+      this.setState({
+        integrationsLoaded: false,
+        subscribersLoaded: false
+      });
+      this.props.fetchSubscribersBySubscriberOrgId(nextOrgId).then(() => this.setState({ subscribersLoaded: true }));
+      this.props.fetchIntegrations(nextOrgId).then(() => {
+        this.setState({ integrationsLoaded: true });
+      });
+    }
   }
 
   renderTeams() {

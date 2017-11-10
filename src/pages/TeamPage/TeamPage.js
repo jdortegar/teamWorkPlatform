@@ -39,16 +39,17 @@ class TeamPage extends Component {
     this.handleTeamMemberSearch = this.handleTeamMemberSearch.bind(this);
     this.handleTeamRoomSearch = this.handleTeamRoomSearch.bind(this);
   }
+
   componentDidMount() {
     const { teamId, status } = this.props.match.params;
 
     this.props.fetchTeamRoomsByTeamId(teamId).then(() => this.setState({
-      teamRoomsLoaded: true,
+      teamRoomsLoaded: true
       // teamRooms: this.props.teamRooms // TODO: JC, don't need to do this.  It's already set in the containers mapStateToProps. Remove comment after you read this.
     }));
     this.props.fetchTeamMembersByTeamId(teamId).then(() => this.setState({
-      teamMembersLoaded: true,
-      //teamMembers: this.props.teamMembers // TODO: JC, don't need to do this.  It's already set in the containers mapStateToProps. Remove comment after you read this.
+      teamMembersLoaded: true
+      // teamMembers: this.props.teamMembers // TODO: JC, don't need to do this.  It's already set in the containers mapStateToProps. Remove comment after you read this.
     }));
     if (status) {
       notification.open({
