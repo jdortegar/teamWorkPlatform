@@ -21,7 +21,8 @@ const propTypes = {
   placeholder: PropTypes.string,
   className: PropTypes.string,
   selectClassName: PropTypes.string,
-  countryCode: PropTypes.string
+  countryCode: PropTypes.string,
+  initialValue: PropTypes.string.isRequired
 };
 
 const defaultProps = {
@@ -39,7 +40,7 @@ const defaultProps = {
 
 function TimezoneSelectField(props) {
   const {
-    componentKey, layout, form, label, required, missingMessage,
+    componentKey, layout, form, label, required, missingMessage, initialValue,
     placeholder, className, selectClassName, countryCode, ...other
   } = props;
 
@@ -64,7 +65,8 @@ function TimezoneSelectField(props) {
       className={className}
     >
       {form.getFieldDecorator(componentKey, {
-        rules: [{ required, message: translatedMissingMessage }]
+        rules: [{ required, message: translatedMissingMessage }],
+        initialValue
       })(
         <Select
           {...other}
