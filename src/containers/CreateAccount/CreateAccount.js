@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Button, Row, Col, message } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import countriesAndTimezones from 'countries-and-timezones';
 import { formShape } from '../../propTypes';
 import FirstNameField from '../../components/formFields/FirstNameField';
 import LastNameField from '../../components/formFields/LastNameField';
@@ -29,11 +30,15 @@ class CreateAccount extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { countryCode: null, loading: false };
-
     this.handleCountryChange = this.handleCountryChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  state = {
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    countryCode: countriesAndTimezones.getCountriesForTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone)[0].id,
+    loading: false
+  };
 
   handleCountryChange(countryCode) {
     this.setState({ countryCode });
@@ -109,6 +114,7 @@ class CreateAccount extends React.Component {
               layout={layout}
               required
               handleChange={this.handleCountryChange}
+              initialValue={this.state.countryCode}
             />
           </Col>
           <Col className="gutter-row" span={12}>
@@ -117,6 +123,7 @@ class CreateAccount extends React.Component {
               layout={layout}
               countryCode={this.state.countryCode}
               notFoundContent="Please select a country"
+              initialValue={this.state.timeZone}
               required
             />
           </Col>
