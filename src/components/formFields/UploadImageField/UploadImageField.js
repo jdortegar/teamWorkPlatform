@@ -13,7 +13,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  allowedTypes: ['image/jpeg']
+  allowedTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/vnd.microsoft.icon']
 };
 
 function getBase64(img, callback) {
@@ -25,7 +25,7 @@ function getBase64(img, callback) {
 function beforeUpload(file, allowedTypes) {
   const isFileAllowed = allowedTypes.includes(file.type);
   if (!isFileAllowed) {
-    message.error('You can only upload JPG file!');
+    message.error('You can only upload JPG, PNG and ICO files!');
   }
   const isLt2M = file.size / 1024 / 1024 < 2;
   if (!isLt2M) {

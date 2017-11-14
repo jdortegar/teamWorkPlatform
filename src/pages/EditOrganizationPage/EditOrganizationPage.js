@@ -53,7 +53,7 @@ class EditOrganizationPage extends Component {
         const dataToUpdate = {
           name: values.name,
           preferences: {
-            website: values.website
+            webSite: values.webSite
           }
         };
         this.props.updateSubscriberOrg(dataToUpdate, subscriberOrgId)
@@ -101,8 +101,8 @@ class EditOrganizationPage extends Component {
                   <div className="edit__container__image__website">
                     <div className="edit__form__title">{messages.webSite}</div>
                     <TextField
-                      componentKey="website"
-                      initialValue={organization.preferences.website ? organization.preferences.website : ''}
+                      componentKey="webSite"
+                      initialValue={organization.preferences.webSite ? organization.preferences.webSite : ''}
                       inputClassName="edit__form__input"
                       form={this.props.form}
                       placeholder="http://"
