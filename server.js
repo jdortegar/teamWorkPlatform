@@ -37,7 +37,7 @@ if (process.env.NODE_ENV !== 'production') {
     hot: true,
     historyApiFallback: { disableDotRule: true },
     disableHostCheck: true,
-    setup(app) {
+    before(app) {
       // File content-type defaults to application/octet-stream, but needs to be application/json.
       app.get('/.well-known/apple-app-site-association', (req, res, next) => {
         res.set({ 'Content-Type': 'application/json' });

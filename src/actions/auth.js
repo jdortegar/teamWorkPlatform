@@ -19,7 +19,7 @@ export const loginUser = ({ email, password, targetRoute }) => {
       .then((lastRoute) => {
         // If the user is just going to the home page, and their last route on logout was somewhere else, send them there.
         let resolvedRoute = targetRoute;
-        if ((targetRoute === routesPaths.home) && (lastRoute)) {
+        if ((targetRoute === routesPaths.app) && (lastRoute)) {
           resolvedRoute = lastRoute;
         }
         dispatch({ type: LOGGING_IN, payload: false });
