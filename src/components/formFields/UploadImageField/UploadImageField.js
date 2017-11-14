@@ -63,7 +63,7 @@ class UploadImageField extends Component {
     });
     return (
       <Upload
-        class={uploadClasses}
+        className={uploadClasses}
         name="avatar"
         showUploadList={false}
         beforeUpload={file => beforeUpload(file, allowedTypes)}
