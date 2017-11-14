@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, notification } from 'antd';
+import { Row, Col, Spin, notification } from 'antd';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -145,7 +145,7 @@ class TeamPage extends Component {
       );
     }
 
-    return <div>Loading...</div>;
+    return (<Spin size="large" style={{ width: '100%', paddingTop: '200px' }} />);
   }
 }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col } from 'antd';
+import { Col, Spin } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import SubpageHeader from '../../components/SubpageHeader';
@@ -163,7 +163,7 @@ class OrganizationPage extends Component {
       );
     }
 
-    return (<div>Loading...</div>);
+    return (<Spin size="large" style={{ width: '100%', paddingTop: '200px' }} />);
   }
 }
 

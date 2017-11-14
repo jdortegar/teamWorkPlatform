@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Form } from 'antd';
+import { Form, Spin } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -403,7 +403,7 @@ class TeamRoomPage extends Component {
       );
     }
 
-    return <div>Loading...</div>;
+    return (<Spin size="large" style={{ width: '100%', paddingTop: '200px' }} />);
   }
 }
 
