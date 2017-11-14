@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 const invitationsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case INVITATION_RECEIVE:
-      return { ...state, invitations: [...state.invitation, action.payload.invitation] };
+      return { ...state, invitations: [...state.invitations, action.payload.invitation] };
     case INVITATION_UPDATE: {
       const invitations = state.invitations.filter((invitation) => {
         return invitation !== action.payload.invitation;

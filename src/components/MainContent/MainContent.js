@@ -78,8 +78,8 @@ class MainContent extends Component {
   render() {
     const { invitation } = this.props;
     return (
-      <Content className="layout-wrapper">
-        <div className="layout-wrapper__pages">
+      <Content className="MainContent__layout-wrapper">
+        <div>
           {
             invitation.length > 0 ? invitation.map(el => <Notification options={el} />) : null
           }
