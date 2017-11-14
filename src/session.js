@@ -8,7 +8,7 @@ import config from './config/env';
 import messaging from './redux-hablaai/messaging';
 import messagingActionAdapter from './redux-hablaai/actions/messagingActionAdapter';
 import reduxHablaaiConfig from './redux-hablaai/config';
-import { onlineOfflineListener } from './redux-hablaai/actions/urlRequest';
+import { onlineOfflineListener, clearCachedGetRequests } from './redux-hablaai/actions/urlRequest';
 import { receiveUserMyself } from './actions';
 
 const TOKEN_COOKIE_NAME = 'token';
@@ -41,8 +41,20 @@ export const closeMessaging = () => {
   }
 };
 
+const storeLastRoute = () => {
+  const decoded = jwtDecode(jwt);
+  const userId = decoded._id;
+  const { location: { pathname, search } } = store.getState().router;
+  // if (process.env.NODE_ENV === 'production') {
+  //   Cookie.set(`${LAST_ROUTE_COOKIE_NAME_PREFIX}__${userId}`, `${pathname}${search}`, { secure: true, expires: 7 });
+  // } else {
+  Cookie.set(`${LAST_ROUTE_COOKIE_NAME_PREFIX}__${userId}`, `${pathname}${search}`, { expires: 7 });
+  // }
+};
+
 window.onbeforeunload = () => {
   closeMessaging();
+  storeLastRoute();
   persistStore(store);
 };
 
@@ -156,8 +168,7 @@ export const login = (email, password) => {
 };
 
 export const logout = () => {
-  const decoded = jwtDecode(jwt);
-  const userId = decoded._id;
+  storeLastRoute();
 
   jwt = undefined;
   reduxHablaaiConfig.jwt = jwt;
@@ -175,16 +186,9 @@ export const logout = () => {
   // }
 
   closeMessaging();
+  clearCachedGetRequests();
 
   persistor.purge();
-
-  const { location } = store.getState().router;
-  const { pathname, search } = location;
-  // if (process.env.NODE_ENV === 'production') {
-  //   Cookie.set(`${LAST_ROUTE_COOKIE_NAME_PREFIX}__${userId}`, `${pathname}${search}`, { secure: true, expires: 7 });
-  // } else {
-  Cookie.set(`${LAST_ROUTE_COOKIE_NAME_PREFIX}__${userId}`, `${pathname}${search}`, { expires: 7 });
-  // }
 
   // Logout with server, just in case any backend cleanup is necessary.
   const logoutUrl = `${config.hablaApiBaseUri}/auth/logout`;
