@@ -59,7 +59,7 @@ class EditTeamPage extends Component {
     const { teamId } = this.props.match.params;
     const { teams, subscriberOrgById } = this.props;
     const team = teams.teamById[teamId];
-    const teamIcon = `data:image/png;base64,${team.icon}`;
+    // const teamIcon = `data:image/png;base64,${team.icon}`;
     const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
 
     return (
@@ -79,7 +79,7 @@ class EditTeamPage extends Component {
             <Row type="flex" justify="start" gutter={20}>
               <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
                 <div className="Edit-team__icon-container">
-                  <UploadImageField text={messages.changeAvatar} image={teamIcon} />
+                  <UploadImageField text={messages.changeAvatar} image={team.icon} />
                   <div className="Edit-team__switch-container">
                     <Tooltip placement="top" title={team.active ? messages.setInactive : messages.setActive}>
                       <SwitchField

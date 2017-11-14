@@ -122,11 +122,18 @@ class OrganizationPage extends Component {
       //   }
       // }
       const subscriberOrg = subscriberOrgs.subscriberOrgById[subscriberOrgId];
+
+      const editButton = {
+        showButton: true,
+        isAdmin: true, // this is gonna change later
+        url: `/app/editOrganization/${subscriberOrgId}`
+      };
       return (
         <div>
           <SubpageHeader
             icon={<UserIcon user={subscriberOrg} type="team" clickable={false} />}
             breadcrumb={subscriberOrg.name}
+            editButton={editButton}
           />
           {
             this.state.view === 'list' ?

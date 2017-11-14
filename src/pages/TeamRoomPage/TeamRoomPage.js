@@ -304,6 +304,12 @@ class TeamRoomPage extends Component {
       const teamRoomMemberFoundByUser = _.find(teamRoomMembers, { userId: user.userId });
       const isAdmin = teamRoomMemberFoundByUser.teamRooms[teamRoomId].role === 'admin';
 
+      const editButton = {
+        showButton: true,
+        isAdmin,
+        url: `/app/editTeamRoom/${teamRoomId}`
+      };
+
       return (
         <div className={className}>
 
@@ -311,9 +317,7 @@ class TeamRoomPage extends Component {
             <SubpageHeader
               icon={<UserIcon user={teamRoom} type="team" clickable={false} />}
               breadcrumb={teamRoom.name}
-              editButton
-              isAdmin={isAdmin}
-              teamRoomId={teamRoomId}
+              editButton={editButton}
               node={
                 <div className="team-room__header-container">
                   <div className={`team-room__header-links ${this.state.activeLink === messages.all ? 'active' : ''}`}>

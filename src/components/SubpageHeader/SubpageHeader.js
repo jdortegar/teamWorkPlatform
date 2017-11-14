@@ -11,16 +11,15 @@ const propTypes = {
   ]).isRequired,
   node: PropTypes.node,
   icon: PropTypes.node.isRequired,
-  editButton: PropTypes.bool,
-  isAdmin: PropTypes.bool,
-  teamRoomId: PropTypes.string
+  editButton: PropTypes.object.isRequired
 };
 
 const defaultProps = {
   node: <h3>Account Settings <i className="fa fa-cog" /></h3>
 };
 
-function SubpageHeader({ breadcrumb, node, icon, editButton, teamRoomId, isAdmin }) {
+function SubpageHeader({ breadcrumb, node, icon, editButton = {} }) {
+  const { showButton, isAdmin, url } = editButton;
   return (
     <div className="Subpage-header-block subpage-header__top">
       <Row className="Subpage-header__row" type="flex" align="middle" justify="start">
@@ -28,7 +27,7 @@ function SubpageHeader({ breadcrumb, node, icon, editButton, teamRoomId, isAdmin
           <div className="Subpage-header__container">
             {icon}
             <h1 className="Subpage-header__title">{breadcrumb}</h1>
-            {editButton && isAdmin && <EditButton url={`/app/editTeamRoom/${teamRoomId}`} />}
+            {showButton && isAdmin && <EditButton url={url} />}
           </div>
         </Col>
         <Col xs={{ span: 24 }} sm={{ span: 5 }}>

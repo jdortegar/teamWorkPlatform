@@ -1,0 +1,90 @@
+.Edit-team__icon-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.Edit-team__switch-container {
+  padding: 18px;
+}
+.Edit-team__title {
+  font-weight: bold;
+}
+.Edit-team__add-textfield {
+  height: 50px !important;
+  font-size: 20px !important;
+}
+.Edit-team__add-textfield:focus, .Edit-team__add-textfield:hover {
+  border-color: #777777;
+  box-shadow: none;
+}
+.Edit-team__button {
+  width: 6em;
+  height: 3em;
+  border-radius: 2px;
+  background-color: #777777;
+}
+.Edit-team__button:hover, .Edit-team__button:focus {
+  background-color: #979797;
+  border-color: #979797;
+}
+.Edit-team__button--margin-right {
+  margin-right: 20px;
+}
+.Edit-team__container_photo {
+  display: flex;
+}
+.container__title_textfield {
+  flex: 2;
+}
+.container__image {
+  display: flex;
+  align-items: center;
+  margin-left: 1.5em;
+}
+.container__image > .avatar-uploader {
+  color: #fff;
+  cursor: pointer;
+  padding: 2.5em 1.5em;
+  text-align: center;
+  width: 60px !important;
+  height: 60px !important;
+}
+
+/* NEW STYLES */
+.edit__container {
+  width: 50%;
+}
+.subpage__header__title {
+  font-weight: bold;
+  font-size: 1.5em;
+  color: rgba(0, 0, 0, 0.85);
+}
+.edit__form__title {
+  font-size: 1.1em;
+  font-weight: bold;
+  padding: .2em 0;
+  color: rgba(0, 0, 0, 0.85);
+}
+.edit__form__input {
+  height: 3em;
+}
+.edit__container__image_wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.edit__container__image__website {
+  width: 100%;
+}
+.edit-org__form {
+  border-bottom: 1px solid #ececec;
+  padding: 2em;
+}
+.edit-org__buttons {
+  padding: 2em;
+  display: flex;
+  justify-content: flex-end;
+}
+.edit-org__button-active {
+  background-color: #37A759 !important;
+  border: none;
+}
