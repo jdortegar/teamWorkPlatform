@@ -128,6 +128,7 @@ class TeamPage extends Component {
           {
             this.state.view === 'card' ?
               <CardView
+                userId={user.userId}
                 teamId={teamId}
                 teamRooms={teamRooms}
                 teamMembers={teamMembers}

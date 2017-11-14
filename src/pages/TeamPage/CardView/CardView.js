@@ -10,6 +10,7 @@ import messages from '../messages';
 const Panel = Collapse.Panel;
 
 const propTypes = {
+  userId: PropTypes.string.isRequired,
   teamId: PropTypes.string.isRequired,
   teamRooms: PropTypes.array.isRequired,
   teamMembers: PropTypes.array.isRequired
@@ -57,6 +58,9 @@ function CardView(props) {
     );
   };
 
+  const userMember = teamMembers.filter(({ userId }) => { return userId === props.userId; })[0];
+  const isTeamAdmin = (userMember.teams[props.teamId].role === 'admin');
+
   return (
     <div>
       <Collapse defaultActiveKey={['1', '2', '3']} bordered={false}>
@@ -65,7 +69,7 @@ function CardView(props) {
           key="1"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            { renderAddCard(messages.addNewTeamRoom, `/app/createTeamRoom/${props.teamId}`) }
+            {isTeamAdmin && renderAddCard(messages.addNewTeamRoom, `/app/createTeamRoom/${props.teamId}`) }
             { renderTeamRooms() }
           </SimpleCardContainer>
         </Panel>
@@ -74,7 +78,7 @@ function CardView(props) {
           key="2"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            { renderAddCard(messages.inviteNewMember, `/app/inviteToTeam/${props.teamId}`) }
+            {isTeamAdmin && renderAddCard(messages.inviteNewMember, `/app/inviteToTeam/${props.teamId}`) }
             { renderTeamMembers() }
           </SimpleCardContainer>
         </Panel>
