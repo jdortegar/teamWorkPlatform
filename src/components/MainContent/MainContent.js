@@ -8,6 +8,7 @@ import IntegrationsPage from '../../containers/IntegrationsPage';
 import IntegrationDetailsPage from '../../containers/IntegrationDetailsPage';
 import TeamPage from '../../containers/TeamPage';
 import NewTeamPage from '../../containers/NewTeamPage';
+import EditOrganizationPage from '../../containers/EditOrganizationPage';
 import EditTeamPage from '../../containers/EditTeamPage';
 import EditTeamRoomPage from '../../containers/EditTeamRoomPage';
 import NewTeamRoomPage from '../../containers/NewTeamRoomPage';
@@ -92,6 +93,7 @@ class MainContent extends Component {
             <Route exact path={routesPaths.newTeam} component={NewTeamPage} />
             <Route exact path={routesPaths.editTeam} component={EditTeamPage} />
             <Route exact path={routesPaths.editTeamRoom} component={EditTeamRoomPage} />
+            <Route exact path={routesPaths.editOrganization} component={EditOrganizationPage} />
             <Route exact path={routesPaths.inviteNewMember} component={InviteNewMemberPage} />
             <Route exact path={routesPaths.inviteToTeam} component={InviteToTeamPage} />
             <Route exact path={routesPaths.teamRoom} component={ChatContent} />

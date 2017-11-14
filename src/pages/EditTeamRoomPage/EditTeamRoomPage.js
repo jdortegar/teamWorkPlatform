@@ -57,7 +57,6 @@ class EditTeamRoomPage extends Component {
     const { teamRoomId } = this.props.match.params;
     const { teamRooms } = this.props;
     const teamRoom = teamRooms.teamRoomById[teamRoomId];
-    const teamIcon = `data:image/png;base64,${teamRoom.icon}`;
 
     return (
       <div>
@@ -74,7 +73,7 @@ class EditTeamRoomPage extends Component {
             <Row type="flex" justify="start" gutter={20}>
               <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
                 <div className="Edit-team__icon-container">
-                  <UploadImageField text={messages.changeAvatar} image={teamIcon} />
+                  <UploadImageField text={messages.changeAvatar} image={teamRoom.icon} />
                   <div className="Edit-team__switch-container">
                     <Tooltip placement="top" title={teamRoom.active ? messages.setInactive : messages.setActive}>
                       <SwitchField
