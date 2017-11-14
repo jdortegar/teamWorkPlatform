@@ -192,6 +192,7 @@ class Messaging {
 
   close() {
     if (this.socket) {
+      this._notifyOnlineOfflineListener(false);
       this.socket.close();
       this.socket = undefined;
       this.connectionListenersInitialized = false;

@@ -128,25 +128,28 @@ function CardView(props) {
   };
 
   const integrationsArr = renderIntegrations();
+  const isOrgAdmin = (subscriberByMyUser.subscriberOrgs[subscriberOrgId].role === 'admin');
 
   return (
     <div>
       <Collapse defaultActiveKey={['1', '2', '3']} bordered={false}>
-        <Panel
-          header={<SimpleHeader text={`Data Integrations (${integrationsArr.length})`} />}
-          key="1"
-        >
-          <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {renderAddCard(<FormattedMessage {...messages.addNewIntegration} />, `/app/integrations/${props.subscriberOrgId}`)}
-            {integrationsArr}
-          </SimpleCardContainer>
-        </Panel>
+        {isOrgAdmin &&
+          <Panel
+            header={<SimpleHeader text={`Data Integrations (${integrationsArr.length})`} />}
+            key="1"
+          >
+            <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
+              {isOrgAdmin && renderAddCard(<FormattedMessage {...messages.addNewIntegration} />, `/app/integrations/${subscriberOrgId}`)}
+              {integrationsArr}
+            </SimpleCardContainer>
+          </Panel>
+        }
         <Panel
           header={<SimpleHeader text={`Teams (${teams.length})`} />}
           key="2"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            { renderAddCard(<FormattedMessage {...messages.addNewTeam} />, `/app/createTeam/${props.subscriberOrgId}`) }
+            {isOrgAdmin && renderAddCard(<FormattedMessage {...messages.addNewTeam} />, `/app/createTeam/${props.subscriberOrgId}`) }
             {renderTeams()}
           </SimpleCardContainer>
         </Panel>
@@ -155,7 +158,7 @@ function CardView(props) {
           key="3"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            { renderAddCard(<FormattedMessage {...messages.addNewMember} />, `/app/inviteNewMember/${props.subscriberOrgId}`) }
+            {isOrgAdmin && renderAddCard(<FormattedMessage {...messages.addNewMember} />, `/app/inviteNewMember/${props.subscriberOrgId}`) }
             {renderMembers()}
           </SimpleCardContainer>
         </Panel>

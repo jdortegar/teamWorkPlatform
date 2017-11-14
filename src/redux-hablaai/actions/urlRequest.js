@@ -113,3 +113,10 @@ export const onlineOfflineListener = (online) => {
   }
   _online = online;
 };
+
+export const clearCachedGetRequests = () => {
+  cachedGetRequestsOrdered.forEach((requestUrl) => {
+    delete cachedGetRequests[requestUrl];
+  });
+  cachedGetRequestsOrdered.length = 0;
+};

@@ -111,6 +111,9 @@ class OrganizationPage extends Component {
   render() {
     const subscriberOrgId = this.props.match.params.subscriberOrgId;
     const { teams, integrations, subscribers, subscriberOrgs, user } = this.props;
+
+    const subscriberByMyUser = subscribers.find(subscriber => subscriber.userId === user.userId);
+    const isOrgAdmin = (subscriberByMyUser.subscriberOrgs[subscriberOrgId].role === 'admin');
     if (this.state.subscribersLoaded && this.state.integrationsLoaded) {
       // if (integrations && integrations.integrationsBySubscriberOrgId[subscriberOrgId]) {
       //   let numberOfIntegrations = 0;
@@ -125,7 +128,7 @@ class OrganizationPage extends Component {
 
       const editButton = {
         showButton: true,
-        isAdmin: true, // this is gonna change later
+        isAdmin: isOrgAdmin, // this is gonna change later
         url: `/app/editOrganization/${subscriberOrgId}`
       };
       return (

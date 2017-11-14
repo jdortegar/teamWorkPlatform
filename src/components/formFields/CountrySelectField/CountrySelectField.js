@@ -18,7 +18,8 @@ const propTypes = {
   missingMessage: PropTypes.string,
   placeholder: PropTypes.string,
   className: PropTypes.string,
-  selectClassName: PropTypes.string
+  selectClassName: PropTypes.string,
+  initialValue: PropTypes.string.isRequired
 };
 
 const defaultProps = {
@@ -50,7 +51,7 @@ class CountrySelectField extends Component {
   render() {
     const {
       componentKey, layout, form, label, required, missingMessage,
-      placeholder, className, selectClassName, ...other
+      placeholder, className, selectClassName, initialValue, ...other
     } = this.props;
 
     const translatedMissingMessage = missingMessage || messages.countryMissing;
@@ -69,7 +70,8 @@ class CountrySelectField extends Component {
         className={className}
       >
         {form.getFieldDecorator(componentKey, {
-          rules: [{ required, message: translatedMissingMessage }]
+          rules: [{ required, message: translatedMissingMessage }],
+          initialValue
         })(
           <Select
             {...other}
