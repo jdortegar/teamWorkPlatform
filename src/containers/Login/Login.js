@@ -71,6 +71,7 @@ class Login extends React.Component {
 
     if (this.state.submited && this.props.error) {
       message.error('The login credentials are not valid. Please try again.');
+      this.props.form.resetFields(['password']);
       this.setState({
         submited: false
       });
