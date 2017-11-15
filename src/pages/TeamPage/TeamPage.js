@@ -89,6 +89,7 @@ class TeamPage extends Component {
 
     if (this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
       const team = teams.teamById[teamId];
+      console.log(this.props);
       const teamIcon = `data:image/png;base64,${team.icon}`;
       const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
 
