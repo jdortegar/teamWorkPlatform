@@ -25,14 +25,27 @@ const propTypes = {
   subscriberOrgs: PropTypes.object.isRequired
 };
 
+const validURL = (url) => {
+  const regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/;
+  return regexp.test(url);
+};
+
 class EditOrganizationPage extends Component {
   constructor(props) {
     super(props);
+    const { subscriberOrgId } = this.props.match.params;
+    const { subscriberOrgs } = this.props;
+    this.organization = subscriberOrgs.subscriberOrgById[subscriberOrgId];
 
-    this.state = { loading: false };
+    this.state = {
+      loading: false,
+      avatarBase64: this.organization.preferences.avatarBase64 || '',
+      logo: this.organization.preferences.logo || ''
+    };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleWebSiteBlur = this.handleWebSiteBlur.bind(this);
   }
 
   handleChange(base64) {
@@ -42,7 +55,41 @@ class EditOrganizationPage extends Component {
         Authorization: `Bearer ${getJwt()}`
       }
     };
-    axios.patch(`${config.hablaApiBaseUri}/subscriberOrgs/updateSubscriberOrg/${subscriberOrgId}`, { icon: base64 }, axiosOptions);
+    const dataToUpdate = {
+      preferences: {
+        avatarBase64: base64
+      }
+    };
+    axios.patch(`${config.hablaApiBaseUri}/subscriberOrgs/updateSubscriberOrg/${subscriberOrgId}`, dataToUpdate, axiosOptions)
+      .then(() => {
+        this.setState({
+          avatarBase64: base64
+        });
+      });
+  }
+
+  handleWebSiteBlur(e) {
+    const { subscriberOrgId } = this.props.match.params;
+    const faviconUrl = e.target.value;
+    if (validURL(faviconUrl) && !this.state.avatarBase64) {
+      // GET FAVICON URL
+      const axiosOptions = {
+        headers: {
+          Authorization: `Bearer ${getJwt()}`
+        }
+      };
+      const dataToUpdate = {
+        preferences: {
+          logo: `https://www.google.com/s2/favicons?domain=${faviconUrl}`
+        }
+      };
+      axios.patch(`${config.hablaApiBaseUri}/subscriberOrgs/updateSubscriberOrg/${subscriberOrgId}`, dataToUpdate, axiosOptions)
+        .then(() => {
+          this.setState({
+            logo: `https://www.google.com/s2/favicons?domain=${faviconUrl}`
+          });
+        });
+    }
   }
 
   handleSubmit() {
@@ -74,7 +121,6 @@ class EditOrganizationPage extends Component {
     const { subscriberOrgId } = this.props.match.params;
     const { subscriberOrgs } = this.props;
     const organization = subscriberOrgs.subscriberOrgById[subscriberOrgId];
-
     return (
       <div>
         <NewSubpageHeader>
@@ -102,13 +148,14 @@ class EditOrganizationPage extends Component {
                     <div className="edit__form__title">{messages.webSite}</div>
                     <TextField
                       componentKey="webSite"
-                      initialValue={organization.preferences.webSite ? organization.preferences.webSite : ''}
+                      initialValue={organization.preferences.webSite ? organization.preferences.webSite : 'https://'}
                       inputClassName="edit__form__input"
                       form={this.props.form}
                       placeholder="http://"
                       hasFeedback={false}
                       label=""
                       required
+                      onBlur={this.handleWebSiteBlur}
                     />
                   </div>
                   <div className="container__image">
@@ -116,7 +163,7 @@ class EditOrganizationPage extends Component {
                       text={messages.changeAvatar}
                       onChange={this.handleChange}
                       editOrg
-                      image={organization.icon}
+                      image={this.state.avatarBase64 || this.state.logo}
                     />
                   </div>
                 </div>

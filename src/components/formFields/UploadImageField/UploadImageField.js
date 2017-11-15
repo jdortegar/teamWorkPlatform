@@ -37,25 +37,24 @@ function beforeUpload(file, allowedTypes) {
 class UploadImageField extends Component {
   constructor(props) {
     super(props);
-
-    this.state = { imageUrl: this.props.image };
-
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(imageUrl) {
     const base64 = imageUrl.substring(imageUrl.indexOf('base64') + 'base64,'.length);
-    this.setState({ imageUrl: base64 });
     this.props.onChange(base64);
     // axios.patch(`${config.hablaApiBaseUri}/teams/updateTeam/${teamId}`, { icon: base64 }, axiosOptions);
   }
 
   render() {
-    const { allowedTypes, editOrg } = this.props;
+    const { allowedTypes, editOrg, image } = this.props;
+
+    const imageToShow = image.indexOf('www.google.com/s2/favicons') !== -1 ? image : `data:image/png;base64,${image}`;
+
     const uploadClasses = classNames({
       'avatar-uploader': true,
-      'avatar-background': !this.state.imageUrl && editOrg,
-      'avatar-border': !this.state.imageUrl
+      'avatar-background': !this.props.image && editOrg,
+      'avatar-border': !this.props.image
     });
     const imageClass = classNames({
       UploadImageField__avatar: !editOrg,
@@ -74,8 +73,8 @@ class UploadImageField extends Component {
         }
       >
         {
-          this.state.imageUrl ?
-            <img src={`data:image/png;base64,${this.state.imageUrl}`} alt="Set Avatar" className={imageClass} /> :
+          image ?
+            <img src={imageToShow} alt="Set Avatar" className={imageClass} /> :
             <p className="avatar-uploader-trigger">{this.props.text}</p>
         }
       </Upload>
