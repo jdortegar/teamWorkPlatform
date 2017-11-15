@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { TEAMROOMMEMBERS_FETCH_SUCCESS } from '../actions';
+import { TEAMROOMMEMBERS_FETCH_SUCCESS, TEAMROOMMEMBER_RECEIVE } from '../actions';
 
 const INITIAL_STATE = {
   teamRoomMemberIdByUserId: {},
@@ -22,6 +22,25 @@ const teamRoomMembersReducer = (state = INITIAL_STATE, action) => {
         }
         teamRoomMembers[teamRoomMember.userId] = { teamRoomMemberId: teamRoomMember.teamRoomMemberId };
       });
+
+      return {
+        ...state,
+        teamRoomMemberIdByUserId,
+        userIdsByTeamRoomId
+      };
+    }
+    case TEAMROOMMEMBER_RECEIVE: {
+      const teamRoomMemberIdByUserId = _.cloneDeep(state.teamRoomMemberIdByUserId);
+      const userIdsByTeamRoomId = _.cloneDeep(state.userIdsByTeamRoomId);
+      const { teamRoomMember, teamRoomId } = action.payload;
+
+      teamRoomMemberIdByUserId[teamRoomMember.userId] = teamRoomMember.teamRoomMemberId;
+      let teamRoomMembers = userIdsByTeamRoomId[teamRoomId];
+      if (!teamRoomMembers) {
+        teamRoomMembers = {};
+        userIdsByTeamRoomId[teamRoomId] = teamRoomMembers;
+      }
+      teamRoomMembers[teamRoomMember.userId] = { teamRoomMemberId: teamRoomMember.teamRoomMemberId };
 
       return {
         ...state,
