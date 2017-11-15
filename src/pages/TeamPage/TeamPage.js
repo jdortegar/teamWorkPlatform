@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import CardView from './CardView';
 import ListView from './ListView';
 import SubpageHeader from '../../components/SubpageHeader';
+import Spinner from '../../components/Spinner';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import UploadImageField from '../../components/formFields/UploadImageField';
 import EditButton from '../../components/buttons/EditButton';
@@ -145,7 +146,7 @@ class TeamPage extends Component {
       );
     }
 
-    return <div>Loading...</div>;
+    return <Spinner />;
   }
 }
 

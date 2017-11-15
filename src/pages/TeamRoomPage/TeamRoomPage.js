@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { formShape } from '../../propTypes';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleHeader from '../../components/SimpleHeader';
+import Spinner from '../../components/Spinner';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import TextField from '../../components/formFields/TextField';
 import UserIcon from '../../components/UserIcon';
@@ -403,7 +404,7 @@ class TeamRoomPage extends Component {
       );
     }
 
-    return <div>Loading...</div>;
+    return <Spinner />;
   }
 }
 
