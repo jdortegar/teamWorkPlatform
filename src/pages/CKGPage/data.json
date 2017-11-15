@@ -1,0 +1,230 @@
+{
+  "message": {
+    "orgUserId": "2a735e95-8e41-49d7-9000-4d5dba46ac0c",
+    "startDate": "2017-10-31T02:11:43.810Z",
+    "daysInWeek": 7,
+    "fileTypes": [
+      { "fileType": "MS Excel", "fileExtension": "xls", "color": "green" },
+      { "fileType": "PDF", "fileExtension": "pdf", "color": "red" },
+      { "fileType": "MS Word", "fileExtension": "doc", "color": "blue" },
+      {
+        "fileType": "MS PowerPoint",
+        "fileExtension": "ppt",
+        "color": "orange"
+      },
+      { "fileType": "Other", "fileExtension": "", "color": "yellow" }
+    ],
+    "files": [
+      {
+        "fileId": "057ea144-37c1-4ed0-a663-6480bac860bf",
+        "filename": "sound.html",
+        "fileType": "Other",
+        "fileSize": "14357 bytes",
+        "lastModified": "2017-10-12T15:28:16.659Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QZHNMZzJGQlFEMjg/view?usp=drivesdk"
+      },
+      {
+        "fileId": "643558cc-ff16-4af7-b7ed-212baacc1fa9",
+        "filename": "NetLogo User Manual.pdf",
+        "fileType": "PDF",
+        "fileSize": "5676596 bytes",
+        "lastModified": "2017-10-12T14:28:44.587Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QQ1QyRWVCT1NVRUU/view?usp=drivesdk"
+      },
+      {
+        "fileId": "166651a1-6d96-4838-8403-68055a32c30e",
+        "filename": "Chapter 1 - CAS, Systems Thinking, and ABM.docx",
+        "fileType": "MS Word",
+        "fileSize": "757935 bytes",
+        "lastModified": "2017-10-11T00:22:38.005Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QVVRaNHVaRlRKY3c/view?usp=drivesdk"
+      },
+      {
+        "fileId": "5035762c-bd43-4a11-9c66-f835c3508b8a",
+        "filename": "CLASS10-2014-Spreading.pptx",
+        "fileType": "MS PowerPoint",
+        "fileSize": "198947450 bytes",
+        "lastModified": "2017-10-10T23:24:02.003Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QcVZfdjVVMlE0M2s/view?usp=drivesdk"
+      },
+      {
+        "fileId": "6ff26ba9-94c8-463e-9df1-83ee37700aa9",
+        "filename": "Class8_CEU_2014_CommuntyStructure_B.pptx",
+        "fileType": "MS PowerPoint",
+        "fileSize": "27228001 bytes",
+        "lastModified": "2017-10-10T23:22:28.198Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QYWZGaE96X2tZcFk/view?usp=drivesdk"
+      },
+      {
+        "fileId": "7d78b366-5865-4bf3-9491-2175b7a9bfec",
+        "filename": "CLASS7B_WeightedNetworks_FINAL.pptx",
+        "fileType": "MS PowerPoint",
+        "fileSize": "16729040 bytes",
+        "lastModified": "2017-10-10T23:22:14.026Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QRWJrWDltZmhvcE0/view?usp=drivesdk"
+      },
+      {
+        "fileId": "4a3922cc-4e83-4225-81a1-648194e2e8dd",
+        "filename": "CLASS7a-error-attack.pptx",
+        "fileType": "MS PowerPoint",
+        "fileSize": "34850761 bytes",
+        "lastModified": "2017-10-10T23:22:04.154Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QZjJtYUxtOVBvQzg/view?usp=drivesdk"
+      },
+      {
+        "fileId": "cc46c18d-edfa-4259-8c70-d22daad950d0",
+        "filename": "Class7-AssortativityHierarchy_final.pptx",
+        "fileType": "MS PowerPoint",
+        "fileSize": "41813962 bytes",
+        "lastModified": "2017-10-10T23:21:47.382Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QcGNLWW04WmxSbGM/view?usp=drivesdk"
+      },
+      {
+        "fileId": "bf1b0d23-c0cf-4e5c-9137-b8810236de14",
+        "filename": "Class6_NEU_2014_EvolvingNetworks.pptx",
+        "fileType": "MS PowerPoint",
+        "fileSize": "20692867 bytes",
+        "lastModified": "2017-10-10T23:21:23.410Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QcFNWUnZkODFUcEk/view?usp=drivesdk"
+      },
+      {
+        "fileId": "21c9a66a-7f20-414b-8c31-ff31446e3370",
+        "filename": "Class5_NEU_2014_BAmodel.pptx",
+        "fileType": "MS PowerPoint",
+        "fileSize": "12586841 bytes",
+        "lastModified": "2017-10-10T23:21:13.180Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QVE1lZld4aXRRTVk/view?usp=drivesdk"
+      },
+      {
+        "fileId": "398d520e-0333-45a9-aa59-42b011ce931a",
+        "filename": "Class4_SF-2014.pptx",
+        "fileType": "MS PowerPoint",
+        "fileSize": "52278536 bytes",
+        "lastModified": "2017-10-10T23:21:06.337Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3Qal9CUllNRUxybE0/view?usp=drivesdk"
+      },
+      {
+        "fileId": "ae5860d9-f2ce-4a09-8a8d-4d86f9eb725e",
+        "filename": "Class3_RandomNetworks_2014.ppt",
+        "fileType": "MS PowerPoint",
+        "fileSize": "22704640 bytes",
+        "lastModified": "2017-10-10T23:20:41.779Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QYWp0bmFEcnpKWW8/view?usp=drivesdk"
+      },
+      {
+        "fileId": "a6af7321-3e74-49f5-b77d-b821fa5953ce",
+        "filename": "Class2_2014_Graphs.pptx",
+        "fileType": "MS PowerPoint",
+        "fileSize": "16112318 bytes",
+        "lastModified": "2017-10-11T00:26:01.446Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QWGJVNUpDdWlHU0U/view?usp=drivesdk"
+      },
+      {
+        "fileId": "78259a67-b0cf-4a3a-86b0-f1596447b895",
+        "filename": "Class1.pptx",
+        "fileType": "MS PowerPoint",
+        "fileSize": "42371874 bytes",
+        "lastModified": "2017-10-10T23:14:05.891Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QRlZfYjNUQXpVVUE/view?usp=drivesdk"
+      },
+      {
+        "fileId": "86427bee-14be-4d08-af43-b41452f4ecfe",
+        "filename":
+          "Wang - On concept algebra and knowledge representation.pdf",
+        "fileType": "PDF",
+        "fileSize": "4078360 bytes",
+        "lastModified": "2017-10-10T23:13:06.235Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QNG5MLTdHclNIV1U/view?usp=drivesdk"
+      },
+      {
+        "fileId": "4a01ea8b-686c-4f32-9006-98cb68c142d9",
+        "filename":
+          "Wang - The OAR model of neural informatics for internal knowledge representation in the brain.pdf",
+        "fileType": "PDF",
+        "fileSize": "647272 bytes",
+        "lastModified": "2017-10-10T23:13:04.842Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QYjhiNmdaTThheTA/view?usp=drivesdk"
+      },
+      {
+        "fileId": "5ae39840-fb3b-4350-8a7f-a511c1a12760",
+        "filename": "Wang - The cognitive processes of formal inferences.pdf",
+        "fileType": "PDF",
+        "fileSize": "874200 bytes",
+        "lastModified": "2017-10-11T00:27:37.907Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QbERWd3REWC14dGc/view?usp=drivesdk"
+      },
+      {
+        "fileId": "9df4f140-0661-4769-9966-9bc0d4c814c6",
+        "filename": "gtest",
+        "fileType": "Other",
+        "fileSize": "None bytes",
+        "lastModified": "2017-10-10T23:11:06.177Z",
+        "resourceUri":
+          "https://drive.google.com/drive/folders/0B9Vrdf4vQY3QOUhETi1EcTU3OGs"
+      },
+      {
+        "fileId": "991dd838-c142-4057-8b2d-41e6c809fc3a",
+        "filename": "textdoc_JXIAO.doc",
+        "fileType": "MS Word",
+        "fileSize": "548864 bytes",
+        "lastModified": "2017-10-02T00:10:29.343Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0Bwopikm8XJpxUWhGQnM2S0JWYmM/view?usp=drivesdk"
+      },
+      {
+        "fileId": "9b96f137-e2d3-4301-af9c-c9d04e259310",
+        "filename": "video_ARAS.mp4",
+        "fileType": "Other",
+        "fileSize": "50584006 bytes",
+        "lastModified": "2017-10-01T18:04:44.890Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QOG51UUdrdXFRUDg/view?usp=drivesdk"
+      },
+      {
+        "fileId": "778a02e1-5b22-439c-86c3-42ae18bb7f9b",
+        "filename": "spreadsheet_ARAS.xlsx",
+        "fileType": "MS Excel",
+        "fileSize": "453925 bytes",
+        "lastModified": "2017-10-01T18:04:06.769Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QV2JMdjlRYnNMVkE/view?usp=drivesdk"
+      },
+      {
+        "fileId": "dc547eb9-c297-4fa6-9e02-977211a1d035",
+        "filename": "image_ARAS.jpg",
+        "fileType": "Other",
+        "fileSize": "1022460 bytes",
+        "lastModified": "2017-10-02T00:16:20.925Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QVVZ2cTF3eERWZlE/view?usp=drivesdk"
+      },
+      {
+        "fileId": "eb970b58-965a-4200-a32e-56d3f819a2cc",
+        "filename": "textdoc_ARAS.doc",
+        "fileType": "MS Word",
+        "fileSize": "548864 bytes",
+        "lastModified": "2017-10-01T18:04:03.845Z",
+        "resourceUri":
+          "https://drive.google.com/a/netlytx.com/file/d/0B9Vrdf4vQY3QYnhLWFRZT01qa00/view?usp=drivesdk"
+      }
+    ],
+    "edges": []
+  }
+}
