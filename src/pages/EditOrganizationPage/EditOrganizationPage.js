@@ -26,8 +26,12 @@ const propTypes = {
 };
 
 const validURL = (url) => {
+  let websiteUrl = url;
+  if (websiteUrl.indexOf('http') === -1) {
+    websiteUrl = `http://${url}`;
+  }
   const regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/;
-  return regexp.test(url);
+  return regexp.test(websiteUrl);
 };
 
 class EditOrganizationPage extends Component {
@@ -148,10 +152,10 @@ class EditOrganizationPage extends Component {
                     <div className="edit__form__title">{messages.webSite}</div>
                     <TextField
                       componentKey="webSite"
-                      initialValue={organization.preferences.webSite ? organization.preferences.webSite : 'https://'}
+                      initialValue={organization.preferences.webSite || ''}
                       inputClassName="edit__form__input"
                       form={this.props.form}
-                      placeholder="http://"
+                      placeholder="https://"
                       hasFeedback={false}
                       label=""
                       required
