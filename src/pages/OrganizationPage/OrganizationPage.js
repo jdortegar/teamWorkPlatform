@@ -3,6 +3,7 @@ import { Col } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import SubpageHeader from '../../components/SubpageHeader';
+import Spinner from '../../components/Spinner';
 import { IconCard } from '../../components/cards';
 import UserIcon from '../../components/UserIcon/UserIcon';
 import CardView from './CardView';
@@ -163,7 +164,7 @@ class OrganizationPage extends Component {
       );
     }
 
-    return (<div>Loading...</div>);
+    return <Spinner />;
   }
 }
 
