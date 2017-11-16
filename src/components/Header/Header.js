@@ -28,6 +28,11 @@ class Header extends Component {
     const { user } = this.props;
     const menu = (
       <Menu >
+        <Menu.Item key="accountSettings">
+          <Link to={`/app/editUser/${user.userId}`}>
+            <span>Account Settings</span>
+          </Link>
+        </Menu.Item>
         <Menu.Item key="logout">
           <a onClick={this.logOut}>Log Out</a>
         </Menu.Item>
