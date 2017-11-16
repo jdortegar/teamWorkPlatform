@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { Row, Col, Button } from 'antd';
-import axios from 'axios';
 import PropTypes from 'prop-types';
-import config from '../../config/env';
-import { getJwt } from '../../session';
 import './styles/style.css';
 
 const propTypes = {
   options: PropTypes.shape({
-    byUserDisplayName: PropTypes.string.isRequired,
+    byUserFirstName: PropTypes.string.isRequired,
+    byUserLastName: PropTypes.string.isRequired,
     byUserId: PropTypes.string.isRequired,
     subscriberOrgName: PropTypes.string.isRequired,
     subscriberOrgId: PropTypes.string.isRequired,
@@ -17,7 +15,8 @@ const propTypes = {
     teamRoomName: PropTypes.string,
     teamRoomId: PropTypes.string
   }).isRequired,
-  updateInvitation: PropTypes.func.isRequired
+  updateInvitation: PropTypes.func.isRequired,
+  invitationResponse: PropTypes.func.isRequired
 };
 
 function checkType(type) {
@@ -38,10 +37,9 @@ class Notification extends Component {
 
   handleClick(selection) {
     this.setState({ accepted: selection });
-    const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
     const typeObj = checkType(this.props.options);
     const { type, id } = typeObj;
-    axios.post(`${config.hablaApiBaseUri}/${type}s/replyToInvite/${id}`, { accept: selection }, axiosOptions)
+    this.props.invitationResponse({ accept: selection }, typeObj)
       .then(() => {
         this.props.updateInvitation(this.props.options);
         if (type === 'subscriberOrg') {
@@ -57,7 +55,8 @@ class Notification extends Component {
   }
 
   render() {
-    const { byUserDisplayName } = this.props.options;
+    const { byUserFirstName, byUserLastName } = this.props.options;
+    console.log(this.props.options);
     const typeObj = checkType(this.props.options);
     return (
       <Row type="flex" className="Notification__container">
@@ -68,7 +67,7 @@ class Notification extends Component {
           className="Notification__col Notification__col--vertical-center"
         >
           <h3 className="Notification__title">
-            {byUserDisplayName} invited you to join {typeObj.name}
+            {byUserFirstName} {byUserLastName} invited you to join {typeObj.name}
           </h3>
         </Col>
         <Col

@@ -32,6 +32,7 @@ export * from './teamRoomMemberReceive';
 export * from './invitationsInvite';
 export * from './invitationReceive';
 export * from './invitationUpdate';
+export * from './invitationResponse';
 
 export * from './conversationsReceive';
 export * from './conversationsFetch';
