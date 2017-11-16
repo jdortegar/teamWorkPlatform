@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Button } from 'antd';
+import { Row, Col, Button, notification } from 'antd';
 import PropTypes from 'prop-types';
 import './styles/style.css';
 
@@ -35,17 +35,23 @@ class Notification extends Component {
     this.state = { accepted: null };
   }
 
+  componentDidMount() {
+
+  }
+
   handleClick(selection) {
     this.setState({ accepted: selection });
     const typeObj = checkType(this.props.options);
-    const { type, id } = typeObj;
+    const { name } = typeObj;
     this.props.invitationResponse({ accept: selection }, typeObj)
       .then(() => {
         this.props.updateInvitation(this.props.options);
-        if (type === 'subscriberOrg') {
-          window.location.href = `/app/organization/${id}`;
-        } else {
-          window.location.href = `/app/${type}/${id}`;
+        if (selection) {
+          const args = {
+            message: `You have joined ${name}`,
+            duration: 5
+          };
+          notification.open(args);
         }
       })
       .catch(() => {
@@ -56,7 +62,6 @@ class Notification extends Component {
 
   render() {
     const { byUserFirstName, byUserLastName } = this.props.options;
-    console.log(this.props.options);
     const typeObj = checkType(this.props.options);
     return (
       <Row type="flex" className="Notification__container">

@@ -7,7 +7,7 @@ export const invitationResponse = (invitationObject, typeObject, getKey = false)
   const requestUrl = `${config.hablaApiBaseUri}/${type}s/replyToInvite/${id}`;
 
   // Passthrough data that you'll see after going through the reducer.  Typically in your mapStateToProps.
-  const reduxState = { invitationObject };
+  const reduxState = { };
 
   return doAuthenticatedRequest({
     requestUrl,
