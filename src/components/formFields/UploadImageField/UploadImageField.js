@@ -48,8 +48,10 @@ class UploadImageField extends Component {
 
   render() {
     const { allowedTypes, editOrg, image } = this.props;
-
-    const imageToShow = image.indexOf('www.google.com/s2/favicons') !== -1 ? image : `data:image/png;base64,${image}`;
+    let imageToShow = null;
+    if (image) {
+      imageToShow = image.indexOf('www.google.com/s2/favicons') !== -1 ? image : `data:image/png;base64,${image}`;
+    }
 
     const uploadClasses = classNames({
       'avatar-uploader': true,
