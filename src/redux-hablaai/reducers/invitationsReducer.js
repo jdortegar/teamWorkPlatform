@@ -1,4 +1,4 @@
-import { INVITATION_RECEIVE, INVITATION_UPDATE } from '../actions';
+import { INVITATION_RECEIVE, INVITATION_UPDATE, INVITATIONS_FETCH_SUCCESS } from '../actions';
 
 const INITIAL_STATE = {
   invitations: []
@@ -14,6 +14,8 @@ const invitationsReducer = (state = INITIAL_STATE, action) => {
       });
       return { ...state, invitations: [...invitations] };
     }
+    case INVITATIONS_FETCH_SUCCESS:
+      return { ...state, invitations: action.payload.invitations };
     default:
       return state;
   }
