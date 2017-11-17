@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 import EditUserPage from '../../pages/EditUserPage';
 import { toggleSideBar, updateUser } from '../../actions';
+import { getCurrentUser } from '../../redux-hablaai/selectors';
 
 function mapStateToProps(state) {
   return {
-    user: state.auth.user,
+    user: getCurrentUser(state),
     sideBarIsHidden: state.sideBar.hidden
   };
 }

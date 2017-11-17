@@ -79,17 +79,7 @@ function receiverUsers(state, payload) {
 
 const usersReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case USER_RECEIVE: {
-      const userByUserId = _.cloneDeep(state.userByUserId);
-      let user = userByUserId[action.payload.user.userId];
-      user = _.merge(user, action.payload.user);
-      userByUserId[action.payload.user.userId] = user;
-
-      return {
-        ...state,
-        userByUserId
-      };
-    }
+    case USER_RECEIVE:
     case USER_RECEIVE_MYSELF: {
       const myselfUserId = (action.type === USER_RECEIVE_MYSELF) ? action.payload.user.userId : state.myselfUserId;
       const userByUserId = _.cloneDeep(state.userByUserId);
