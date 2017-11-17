@@ -3,6 +3,7 @@ import { routerReducer } from 'react-router-redux';
 import reduxHablaaiReducers from '../redux-hablaai/reducers';
 import { UNAUTH_USER } from '../actions/types';
 import authReducer from './authReducer';
+import sideBarReducer from './sideBarReducer';
 import notificationsReducer from './notificationsReducer';
 import dialogsReducer from './dialogsReducer';
 
@@ -11,7 +12,8 @@ const mainReducer = combineReducers({
   auth: authReducer,
   dialogs: dialogsReducer,
   notifications: notificationsReducer,
-  router: routerReducer
+  router: routerReducer,
+  sideBar: sideBarReducer
 });
 
 const initialState = mainReducer({}, {});

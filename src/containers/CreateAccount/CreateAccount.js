@@ -14,6 +14,8 @@ import TimezoneSelectField from '../../components/formFields/TimezoneSelectField
 import { createAccount, loginUser } from '../../actions';
 
 const FormItem = Form.Item;
+const defaultTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+const defaultCountry = countriesAndTimezones.getCountriesForTimezone(defaultTimeZone)[0];
 
 const propTypes = {
   form: formShape.isRequired,
@@ -35,8 +37,8 @@ class CreateAccount extends React.Component {
   }
 
   state = {
-    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    countryCode: countriesAndTimezones.getCountriesForTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone)[0].id,
+    timeZone: defaultTimeZone,
+    countryCode: (defaultCountry && defaultCountry.id) ? defaultCountry.id : null,
     loading: false
   };
 

@@ -30,7 +30,11 @@
   background-color: #46c669;
 }
 
+.Sidebar.hidden {
+  display: none;
+}
 .Sidebar {
+  background-color: #fff;
   display: flex;
   flex-direction: column;
 }

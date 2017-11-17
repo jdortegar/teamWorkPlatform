@@ -20,6 +20,7 @@ function mapStateToProps(state) {
     teamById: state.teams.teamById,
     teamIdsBySubscriberOrgId: state.teams.teamIdsBySubscriberOrgId,
     teamRooms: getTeamRooms(state),
+    sideBarIsHidden: state.sideBar.hidden,
     currentTeamIdBySubscriberOrgId: state.teams.currentTeamIdBySubscriberOrgId
   };
 }

@@ -18,7 +18,7 @@ function Main() {
       <Header />
       <Layout className="ant-layout-has-sider">
         <Sidebar />
-        <Layout style={{ padding: '2em' }}>
+        <Layout style={{ padding: '1.5em' }}>
           <MainContent />
           <AddOrgDialog />
           <AddTeamDialog />

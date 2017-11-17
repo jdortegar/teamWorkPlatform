@@ -1,0 +1,23 @@
+
+.edituser_collapse {
+  background-color: #fff !important;
+}
+.edituser_panel > .ant-collapse-header {
+  padding-left: 4em !important;
+  color: rgba(0, 0, 0, 0.5) !important;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+.row_input {
+  display: flex;
+  width: 50%;
+}
+.input-item.input-firstname {
+  flex: 1;
+}
+.input-item {
+  flex: 1;
+}
+.input-item.left {
+  margin-right: 2em;
+}

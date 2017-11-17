@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Layout, Menu, Col, Row } from 'antd';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import UserIcon from '../UserIcon';
 import messages from './messages';
 import {
@@ -25,7 +26,8 @@ const propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func
   }).isRequired,
-  setCurrentSubscriberOrgId: PropTypes.func.isRequired
+  setCurrentSubscriberOrgId: PropTypes.func.isRequired,
+  sideBarIsHidden: PropTypes.bool.isRequired
 };
 
 const defaultProps = {
@@ -248,12 +250,17 @@ class Sidebar extends Component {
   }
 
   render() {
-    if (this.props.subscriberOrgs.length === 0) {
+    const { subscriberOrgs, sideBarIsHidden } = this.props;
+    if (subscriberOrgs.length === 0) {
       return null;
     }
+    const sideClass = classNames({
+      Sidebar: true,
+      hidden: sideBarIsHidden
+    });
 
     return (
-      <Sider width={235} style={{ background: '#fff' }} className="Sidebar">
+      <Sider width={235} className={sideClass}>
 
         <div className="Sidebar-menu-item-label">{messages.organizations}</div>
         <div className="organization-list">

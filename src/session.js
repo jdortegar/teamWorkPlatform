@@ -134,7 +134,6 @@ export const login = (email, password) => {
         resourcesUrl = `${response.data.resourcesBaseUrl}/resource`;
         reduxHablaaiConfig.resourceBaseUri = resourcesUrl;
         const user = _.cloneDeep(response.data.user);
-        delete user.email;
 
         // if (process.env.NODE_ENV === 'production') {
         //   Cookie.set(TOKEN_COOKIE_NAME, jwt, { secure: true });

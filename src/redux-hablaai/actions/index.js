@@ -3,6 +3,7 @@
 export * from './presenceChange';
 
 export * from './userReceive';
+export * from './userUpdate';
 
 export * from './subscriberOrgsFetch';
 export * from './subscriberOrgReceive';

@@ -3,6 +3,7 @@
 //= =====================
 export const SUBMIT_REGISTRATION_FORM = 'submit_registration_form';
 
+export const TOGGLE_SIDEBAR = 'toogle_sidebar';
 //= =====================
 // Auth Actions
 //= =====================

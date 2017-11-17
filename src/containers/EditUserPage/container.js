@@ -1,17 +1,18 @@
 import { connect } from 'react-redux';
 import EditUserPage from '../../pages/EditUserPage';
-import { updateTeam } from '../../actions';
-// import { getUrlRequestStatus } from '../../selectors';
+import { toggleSideBar, updateUser } from '../../actions';
 
 function mapStateToProps(state) {
   return {
-    user: state.auth.user
+    user: state.auth.user,
+    sideBarIsHidden: state.sideBar.hidden
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateTeam: (name, teamId) => dispatch(updateTeam(name, teamId))
+    toggleSideBar: () => dispatch(toggleSideBar()),
+    updateUser: data => dispatch(updateUser(data))
   };
 }
 

@@ -14,7 +14,7 @@ export const routesPaths = {
   home: '/',
   app: '/app',
   chat: '/app/chat/:conversationId',
-  editUser: '/app/editUser/:userId',
+  editUser: '/app/editUser',
   acceptInvitation: '/app/acceptinvitation/:type/:id',
   integrations: '/app/integrations/:subscriberOrgId',
   integrationDetails: '/app/integrations/:subscriberOrgId/:integrationDetails/:status?',

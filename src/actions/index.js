@@ -6,6 +6,7 @@ export * from './messageNotify';
 
 export * from './auth';
 export * from './dialogs';
+export * from './sideBar';
 
 export * from './subscriberOrgCreateFromDialog';
 

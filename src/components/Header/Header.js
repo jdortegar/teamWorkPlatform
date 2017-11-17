@@ -29,7 +29,7 @@ class Header extends Component {
     const menu = (
       <Menu >
         <Menu.Item key="accountSettings">
-          <Link to={`/app/editUser/${user.userId}`}>
+          <Link to="/app/editUser">
             <span>Account Settings</span>
           </Link>
         </Menu.Item>
@@ -41,7 +41,9 @@ class Header extends Component {
 
     return (
       <AntdHeader className="header">
-        <img src={hablaBlackLogo} alt="Habla AI Logo" className="logo" />
+        <Link to="/app">
+          <img src={hablaBlackLogo} alt="Habla AI Logo" className="logo" />
+        </Link>
         <div className="logo" />
         <Menu
           theme="dark"
