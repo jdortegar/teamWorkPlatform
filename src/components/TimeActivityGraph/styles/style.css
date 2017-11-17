@@ -16,3 +16,8 @@
 .TimeActivityGraph__grid path {
   stroke-width: 0;
 }
+
+.TimeActivityGraph__view {
+  fill: none;
+  pointer-events: all;
+}
