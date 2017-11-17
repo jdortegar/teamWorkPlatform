@@ -1,7 +1,7 @@
 import config from '../config';
 import { doAuthenticatedRequest } from './urlRequest';
 
-export const inviteNewSubscribers = (users, subscriberOrgId, getKey = false) => {
+export const inviteNewSubscribers = (users, subscriberOrgId) => {
   // requestUrl is the key into redux state.urlRequests.
   const requestUrl = `${config.hablaApiBaseUri}/subscriberOrgs/inviteSubscribers/${subscriberOrgId}`;
 
@@ -12,10 +12,10 @@ export const inviteNewSubscribers = (users, subscriberOrgId, getKey = false) => 
     requestUrl,
     method: 'post',
     data: { userIdOrEmails: users }
-  }, reduxState, getKey);
+  }, reduxState);
 };
 
-export const inviteMembersToTeam = (users, teamId, getKey = false) => {
+export const inviteMembersToTeam = (users, teamId) => {
   // requestUrl is the key into redux state.urlRequests.
   const requestUrl = `${config.hablaApiBaseUri}/teams/inviteMembers/${teamId}`;
 
@@ -26,10 +26,10 @@ export const inviteMembersToTeam = (users, teamId, getKey = false) => {
     requestUrl,
     method: 'post',
     data: { userIds: users }
-  }, reduxState, getKey);
+  }, reduxState);
 };
 
-export const inviteMembersToTeamRoom = (users, teamRoomId, getKey = false) => {
+export const inviteMembersToTeamRoom = (users, teamRoomId) => {
   // requestUrl is the key into redux state.urlRequests.
   const requestUrl = `${config.hablaApiBaseUri}/teamRooms/inviteMembers/${teamRoomId}`;
 
@@ -40,5 +40,5 @@ export const inviteMembersToTeamRoom = (users, teamRoomId, getKey = false) => {
     requestUrl,
     method: 'post',
     data: { userIds: users }
-  }, reduxState, getKey);
+  }, reduxState);
 };

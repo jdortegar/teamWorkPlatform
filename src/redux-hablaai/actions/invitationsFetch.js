@@ -3,7 +3,7 @@ import { doAuthenticatedRequest } from './urlRequest';
 
 export const INVITATIONS_FETCH_SUCCESS = 'invitations/fetch/success';
 
-export const fetchInvitations = (getKey = false) => {
+export const fetchInvitations = (options = { getKey: false, forceGet: false }) => {
   // requestUrl is the key into redux state.urlRequests.
   const requestUrl = `${config.hablaApiBaseUri}/users/getInvitations`;
 
@@ -14,7 +14,7 @@ export const fetchInvitations = (getKey = false) => {
     const thunk = dispatch(doAuthenticatedRequest({
       requestUrl,
       method: 'get'
-    }, reduxState, getKey));
+    }, reduxState, options));
 
     thunk.then((response) => {
       const { invitations } = response.data;

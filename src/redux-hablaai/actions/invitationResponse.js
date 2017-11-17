@@ -1,7 +1,7 @@
 import config from '../config';
 import { doAuthenticatedRequest } from './urlRequest';
 
-export const invitationResponse = (invitationObject, typeObject, getKey = false) => { // eslint-disable-line import/prefer-default-export
+export const invitationResponse = (invitationObject, typeObject) => { // eslint-disable-line import/prefer-default-export
 // requestUrl is the key into redux state.urlRequests.
   const { type, id } = typeObject;
   const requestUrl = `${config.hablaApiBaseUri}/${type}s/replyToInvite/${id}`;
@@ -13,6 +13,6 @@ export const invitationResponse = (invitationObject, typeObject, getKey = false)
     requestUrl,
     method: 'post',
     data: invitationObject
-  }, reduxState, getKey);
+  }, reduxState);
 };
 

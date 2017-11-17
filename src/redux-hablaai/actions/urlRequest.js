@@ -18,17 +18,19 @@ export const clearUrlRequest = (requestUrl) => {
   };
 };
 
-export const doRequest = ({ requestUrl, method, headers, data }, reduxState, getKey = false) => {
-  if (getKey) {
+export const doRequest = ({ requestUrl, method, headers, data }, reduxState, options = { getKey: false, forceGet: false }) => {
+  if (options.getKey) {
     return requestUrl;
   }
 
   return (dispatch, getState) => {
-    // Check if current request for exact requestUrl.  Don't allow concurrent requests for the same thing.
-    const urlRequest = getState().urlRequests[requestUrl];
-    if (urlRequest && urlRequest.actionType === URLREQUEST) {
-      // Return the current request promise.
-      return urlRequest.request;
+    if (!options.forceGet) {
+      // Check if current request for exact requestUrl.  Don't allow concurrent requests for the same thing.
+      const urlRequest = getState().urlRequests[requestUrl];
+      if (urlRequest && urlRequest.actionType === URLREQUEST) {
+        // Return the current request promise.
+        return urlRequest.request;
+      }
     }
 
     // If a GET request, and cached, return the cached response.
@@ -87,10 +89,10 @@ export const doRequest = ({ requestUrl, method, headers, data }, reduxState, get
   };
 };
 
-export const doAuthenticatedRequest = ({ requestUrl, method, additionalHeaders, data }, reduxState, getKey = false) => {
+export const doAuthenticatedRequest = ({ requestUrl, method, additionalHeaders, data }, reduxState, options = { getKey: false, forceGet: false }) => {
   const secureHeaders = additionalHeaders || {};
   secureHeaders.Authorization = `Bearer ${config.jwt}`;
-  return doRequest({ requestUrl, method, headers: secureHeaders, data }, reduxState, getKey);
+  return doRequest({ requestUrl, method, headers: secureHeaders, data }, reduxState, options);
 };
 
 
