@@ -177,9 +177,6 @@ class EditUserPage extends Component {
                 </div>
               </div>
             </Panel>
-            <Panel header="Messaging and Notifications" key="2" className="edituser_panel">
-              <p>3284238432849832</p>
-            </Panel>
           </Collapse>
 
           <div className="edit-org__buttons">
