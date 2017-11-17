@@ -62,33 +62,25 @@ class TimeActivityGraph extends Component {
 
   createGraph() {
     this.createInteractiveView();
-    this.createXGrid();
     this.createXAxis();
     this.createYAxis();
   }
 
   createInteractiveView() {
-    const zoom = d3
+    this.zoom = d3
       .zoom()
       .scaleExtent([1, 3])
       .translateExtent([[-100, 0], [INNER_WIDTH + 100, INNER_HEIGHT]])
       .on('zoom', this.handleZoom);
 
-    zoom(d3.select(this.nodes.view));
-  }
-
-  createXGrid() {
-    const xGrid = d3
-      .axisBottom(this.state.xScale)
-      .ticks(12)
-      .tickSize(-HEIGHT)
-      .tickFormat('');
-
-    xGrid(d3.select(this.nodes.xGrid));
+    this.zoom(d3.select(this.nodes.view));
   }
 
   createXAxis() {
-    this.xAxis = d3.axisBottom(this.state.xScale);
+    this.xAxis = d3
+      .axisBottom(this.state.xScale)
+      .tickSize(-INNER_HEIGHT)
+      .tickPadding(10);
     this.xAxis(d3.select(this.nodes.xAxis));
   }
 
@@ -99,7 +91,8 @@ class TimeActivityGraph extends Component {
   }
 
   handleZoom = () => {
-    d3.select(this.nodes.dataContainer).attr('transform', d3.event.transform);
+    const { x, y, k } = d3.event.transform;
+    d3.select(this.nodes.dataContainer).attr('transform', `translate(${x}, ${y})scale(${k})`);
     d3.select(this.nodes.xAxis).call(this.xAxis.scale(d3.event.transform.rescaleX(this.state.xScale)));
     d3.select(this.nodes.yAxis).call(this.yAxis.scale(d3.event.transform.rescaleY(this.state.yScale)));
   };
@@ -150,10 +143,8 @@ class TimeActivityGraph extends Component {
     return (
       <div className="TimeActivityGraph">
         <svg ref={node => this.setNode('graph', node)} className="TimeActivityGraph__graph" width={WIDTH} height={HEIGHT}>
-          <g transform={`translate(${MARGIN.left},${MARGIN.top})`} />
-          <g ref={node => this.setNode('xGrid', node)} transform={`translate(0,${INNER_HEIGHT})`} className="TimeActivityGraph__grid" />
-          <g ref={node => this.setNode('xAxis', node)} transform={`translate(0,${INNER_HEIGHT})`} />
-          <g ref={node => this.setNode('yAxis', node)} />
+          <g ref={node => this.setNode('xAxis', node)} className="TimeActivityGraph__axis" transform={`translate(0,${INNER_HEIGHT})`} />
+          <g ref={node => this.setNode('yAxis', node)} className="TimeActivityGraph__axis" />
           <rect ref={node => this.setNode('view', node)} className="TimeActivityGraph__view" x={0.5} y={0.5} width={INNER_WIDTH - 1} height={INNER_HEIGHT - 1} />
           <g ref={node => this.setNode('dataContainer', node)} width={INNER_WIDTH} height={INNER_HEIGHT}>
             {this.renderDataPoints()}

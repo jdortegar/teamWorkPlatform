@@ -7,13 +7,13 @@
   padding: 20px 10px 0 50px;
 }
 
-.TimeActivityGraph__grid line {
+.TimeActivityGraph__axis line {
   stroke: lightgrey;
   stroke-opacity: 0.7;
   shape-rendering: crispEdges;
 }
 
-.TimeActivityGraph__grid path {
+.TimeActivityGraph__axis path {
   stroke-width: 0;
 }
 
