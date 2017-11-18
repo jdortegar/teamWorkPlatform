@@ -1,6 +1,7 @@
 // TODO: remove this file if not needed.
 import {
-  TOGGLE_SIDEBAR
+  TOGGLE_SIDEBAR,
+  SHOW_SIDEBAR
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -13,6 +14,11 @@ const sideBarReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         hidden: !state.hidden
+      };
+    case SHOW_SIDEBAR:
+      return {
+        ...state,
+        hidden: false
       };
     default:
       return state;

@@ -26,8 +26,10 @@ const propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func
   }).isRequired,
+  location: PropTypes.object.isRequired,
   setCurrentSubscriberOrgId: PropTypes.func.isRequired,
-  sideBarIsHidden: PropTypes.bool.isRequired
+  sideBarIsHidden: PropTypes.bool.isRequired,
+  showSideBar: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -35,6 +37,10 @@ const defaultProps = {
   teams: [],
   teamRooms: []
 };
+
+const ROUTERS_TO_HIDE_SIDEBAR = [
+  '/app/userDetails'
+];
 
 class Sidebar extends Component {
   constructor(props) {
@@ -57,6 +63,13 @@ class Sidebar extends Component {
 
     this.goToOrgPage = this.goToOrgPage.bind(this);
     this.goToTeamRoomPage = this.goToTeamRoomPage.bind(this);
+  }
+
+  componentWillMount() {
+    const { location, sideBarIsHidden } = this.props;
+    if (sideBarIsHidden && !ROUTERS_TO_HIDE_SIDEBAR.includes(location.pathname)) {
+      this.props.showSideBar();
+    }
   }
 
   componentDidMount() {

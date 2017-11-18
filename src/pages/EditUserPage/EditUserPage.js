@@ -43,7 +43,7 @@ class EditUserPage extends Component {
       timeZone: defaultTimeZone,
       countryCode: (defaultCountry && defaultCountry.id) ? defaultCountry.id : null,
       loading: false,
-      avatarBase64: props.user.preferences.avatarBase64 || ''
+      userIcon: props.user.icon || ''
     };
 
     this.onChangeProfilePhoto = this.onChangeProfilePhoto.bind(this);
@@ -62,21 +62,15 @@ class EditUserPage extends Component {
   }
 
   onChangeProfilePhoto(base64) {
-    const { userId } = this.props.user;
     const axiosOptions = {
       headers: {
         Authorization: `Bearer ${getJwt()}`
       }
     };
-    const dataToUpdate = {
-      preferences: {
-        avatarBase64: base64
-      }
-    };
-    axios.patch(`${config.hablaApiBaseUri}/users/updatePublicPreferences/${userId}`, dataToUpdate, axiosOptions)
+    axios.patch(`${config.hablaApiBaseUri}/users/updateUser`, { icon: base64 }, axiosOptions)
       .then(() => {
         this.setState({
-          avatarBase64: base64
+          userIcon: base64
         });
       });
   }
@@ -90,7 +84,15 @@ class EditUserPage extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
-        this.props.updateUser(values)
+        const dataToUpdate = {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          timeZone: values.timeZone,
+          country: values.country,
+          email: values.email,
+          displayName: values.username
+        };
+        this.props.updateUser(dataToUpdate)
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push('/app');
@@ -153,7 +155,7 @@ class EditUserPage extends Component {
                     text={messages.setProfilePhoto}
                     onChange={this.onChangeProfilePhoto}
                     editOrg
-                    image={this.state.avatarBase64 || this.state.logo}
+                    image={this.state.userIcon || this.state.logo}
                   />
                 </div>
               </div>

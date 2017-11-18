@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 import Header from '../../components/Header';
 import { logoutUser } from '../../actions';
+import { getCurrentUser } from '../../redux-hablaai/selectors';
 
 function mapStateToProps(state) {
   return {
-    user: state.auth.user
+    user: getCurrentUser(state)
   };
 }
 

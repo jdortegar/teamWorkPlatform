@@ -1,4 +1,4 @@
-import { TOGGLE_SIDEBAR } from './types';
+import { TOGGLE_SIDEBAR, SHOW_SIDEBAR } from './types';
 
 export const toggleSideBar = () => {
   return {
@@ -6,8 +6,8 @@ export const toggleSideBar = () => {
   };
 };
 
-export const hideSideBar = () => {
+export const showSideBar = () => {
   return {
-    type: TOGGLE_SIDEBAR
+    type: SHOW_SIDEBAR
   };
 };

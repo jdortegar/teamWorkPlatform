@@ -4,7 +4,8 @@ import { withRouter } from 'react-router';
 import { toggleOrgDialog,
   fetchGlobalState,
   toggleInvitePeopleDialog, toggleOrgSettingsDialog,
-  toggleTeamDialog, toggleTeamRoomDialog, setCurrentSubscriberOrgId
+  toggleTeamDialog, toggleTeamRoomDialog, setCurrentSubscriberOrgId,
+  showSideBar
 } from '../../actions';
 import {
   getSubscriberOrgsSortedAlphabetically,
@@ -30,6 +31,7 @@ function mapDispatchToProps(dispatch) {
     setCurrentSubscriberOrgId,
     toggleOrgDialog,
     fetchGlobalState,
+    showSideBar,
     toggleInvitePeopleDialog,
     toggleOrgSettingsDialog,
     toggleTeamDialog,
