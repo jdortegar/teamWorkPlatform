@@ -4,7 +4,8 @@ import { withRouter } from 'react-router';
 import { toggleOrgDialog,
   fetchGlobalState,
   toggleInvitePeopleDialog, toggleOrgSettingsDialog,
-  toggleTeamDialog, toggleTeamRoomDialog, setCurrentSubscriberOrgId
+  toggleTeamDialog, toggleTeamRoomDialog, setCurrentSubscriberOrgId,
+  showSideBar
 } from '../../actions';
 import {
   getSubscriberOrgsSortedAlphabetically,
@@ -20,6 +21,7 @@ function mapStateToProps(state) {
     teamById: state.teams.teamById,
     teamIdsBySubscriberOrgId: state.teams.teamIdsBySubscriberOrgId,
     teamRooms: getTeamRooms(state),
+    sideBarIsHidden: state.sideBar.hidden,
     currentTeamIdBySubscriberOrgId: state.teams.currentTeamIdBySubscriberOrgId
   };
 }
@@ -29,6 +31,7 @@ function mapDispatchToProps(dispatch) {
     setCurrentSubscriberOrgId,
     toggleOrgDialog,
     fetchGlobalState,
+    showSideBar,
     toggleInvitePeopleDialog,
     toggleOrgSettingsDialog,
     toggleTeamDialog,

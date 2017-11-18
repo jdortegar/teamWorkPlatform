@@ -30,10 +30,11 @@
   background-color: #46c669;
 }
 
+.Sidebar.hidden {
+  display: none;
+}
 .Sidebar {
-  position: absolute;
-  top: 0;
-  bottom: 0;
+  background-color: #fff;
   display: flex;
   flex-direction: column;
 }

@@ -16,6 +16,7 @@ import InviteNewMemberPage from '../../containers/InviteNewMemberPage';
 import TeamMemberPage from '../../containers/TeamMemberPage';
 import Notification from '../../containers/Notification';
 import InviteToTeamPage from '../../containers/InviteToTeamPage';
+import EditUserPage from '../../containers/EditUserPage';
 import CKGPage from '../../pages/CKGPage';
 import NotificationsPage from '../../pages/NotificationsPage';
 import AcceptInvitationPage from '../../pages/AcceptInvitationPage';
@@ -94,6 +95,7 @@ class MainContent extends Component {
             <Route exact path={routesPaths.editTeam} component={EditTeamPage} />
             <Route exact path={routesPaths.editTeamRoom} component={EditTeamRoomPage} />
             <Route exact path={routesPaths.editOrganization} component={EditOrganizationPage} />
+            <Route exact path={routesPaths.editUser} component={EditUserPage} />
             <Route exact path={routesPaths.inviteNewMember} component={InviteNewMemberPage} />
             <Route exact path={routesPaths.inviteToTeam} component={InviteToTeamPage} />
             <Route exact path={routesPaths.teamRoom} component={ChatContent} />

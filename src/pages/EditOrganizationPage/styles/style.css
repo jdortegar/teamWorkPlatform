@@ -44,7 +44,7 @@
 .container__image > .avatar-uploader {
   color: #fff;
   cursor: pointer;
-  padding: 2.5em 1.5em;
+  padding: 1.5em 0.5em;
   text-align: center;
   width: 60px !important;
   height: 60px !important;

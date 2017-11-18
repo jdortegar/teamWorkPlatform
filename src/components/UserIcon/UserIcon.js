@@ -39,18 +39,18 @@ const defaultProps = {
 
 function UserIcon(props) {
   const className = classNames('user-icon__main-container', `user-icon__main-container--${props.shape}`);
-  const { preferences } = props.user;
-  const { avatarBase64, logo } = preferences;
+  const { preferences, icon } = props.user;
+  const { logo } = preferences;
   const style = {
     width: props.width,
     height: props.height,
     minWidth: props.minWidth
   };
   let imageToShow;
-  if (!avatarBase64 && !logo) {
+  if (!icon && !logo) {
     style.backgroundColor = preferences.iconColor;
   } else {
-    imageToShow = avatarBase64 ? `data:image/png;base64,${avatarBase64}` : logo;
+    imageToShow = icon ? `data:image/png;base64,${icon}` : logo;
   }
 
   let name;
@@ -72,7 +72,7 @@ function UserIcon(props) {
         title={name}
       >
         {
-          (!avatarBase64 && !logo) ?
+          (!icon && !logo) ?
             initials
             :
             <img
@@ -91,7 +91,7 @@ function UserIcon(props) {
         style={style}
       >
         {
-          (!avatarBase64 && !logo) ?
+          (!icon && !logo) ?
             initials
             :
             <img
