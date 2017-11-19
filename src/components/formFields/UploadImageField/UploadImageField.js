@@ -9,11 +9,14 @@ const propTypes = {
   text: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  editOrg: PropTypes.bool.isRequired
+  editOrg: PropTypes.bool,
+  resize: PropTypes.bool
 };
 
 const defaultProps = {
-  allowedTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/vnd.microsoft.icon']
+  allowedTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/vnd.microsoft.icon'],
+  editOrg: false,
+  resize: false
 };
 
 function getBase64(img, callback) {
@@ -34,6 +37,22 @@ function beforeUpload(file, allowedTypes) {
   return isFileAllowed && isLt2M;
 }
 
+function resizeImageBase64(img, width, height) {
+  // create an off-screen canvas
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+
+  // set its dimension to target size
+  canvas.width = width;
+  canvas.height = height;
+
+  // draw source image into the off-screen canvas:
+  ctx.drawImage(img, 0, 0, width, height);
+
+  // encode image to data-uri with base64 version of compressed image
+  return canvas.toDataURL();
+}
+
 class UploadImageField extends Component {
   constructor(props) {
     super(props);
@@ -41,9 +60,20 @@ class UploadImageField extends Component {
   }
 
   handleChange(imageUrl) {
-    const base64 = imageUrl.substring(imageUrl.indexOf('base64') + 'base64,'.length);
-    this.props.onChange(base64);
-    // axios.patch(`${config.hablaApiBaseUri}/teams/updateTeam/${teamId}`, { icon: base64 }, axiosOptions);
+    const { onChange, resize } = this.props;
+    if (resize) {
+      const img = new Image();
+      img.src = imageUrl;
+      img.onload = () => {
+        const imageBase64Compressed = resizeImageBase64(img, 60, 60);
+        const base64 = imageBase64Compressed.substring(imageBase64Compressed.indexOf('base64') + 'base64,'.length);
+        onChange(base64);
+      };
+    } else {
+      // no resize
+      const base64 = imageUrl.substring(imageUrl.indexOf('base64') + 'base64,'.length);
+      onChange(base64);
+    }
   }
 
   render() {
@@ -68,7 +98,6 @@ class UploadImageField extends Component {
         name="avatar"
         showUploadList={false}
         beforeUpload={file => beforeUpload(file, allowedTypes)}
-        onChange={this.handleChange}
         customRequest={(callback) => {
           getBase64(callback.file, imageUrl => this.handleChange(imageUrl));
         }

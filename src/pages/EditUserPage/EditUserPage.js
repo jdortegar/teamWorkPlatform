@@ -154,8 +154,9 @@ class EditUserPage extends Component {
                   <UploadImageField
                     text={messages.setProfilePhoto}
                     onChange={this.onChangeProfilePhoto}
-                    editOrg
                     image={this.state.userIcon || this.state.logo}
+                    editOrg
+                    resize
                   />
                 </div>
               </div>

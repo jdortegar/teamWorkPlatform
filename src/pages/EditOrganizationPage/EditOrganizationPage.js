@@ -166,8 +166,9 @@ class EditOrganizationPage extends Component {
                     <UploadImageField
                       text={messages.changeAvatar}
                       onChange={this.handleChange}
-                      editOrg
                       image={this.state.avatarBase64 || this.state.logo}
+                      editOrg
+                      resize
                     />
                   </div>
                 </div>
