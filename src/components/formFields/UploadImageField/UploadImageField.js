@@ -26,15 +26,12 @@ function getBase64(img, callback) {
 }
 
 function beforeUpload(file, allowedTypes) {
+  console.log('=========');
   const isFileAllowed = allowedTypes.includes(file.type);
   if (!isFileAllowed) {
     message.error('You can only upload JPG, PNG and ICO files!');
   }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-  }
-  return isFileAllowed && isLt2M;
+  return isFileAllowed;
 }
 
 function resizeImageBase64(img, width, height) {
@@ -60,6 +57,7 @@ class UploadImageField extends Component {
   }
 
   handleChange(imageUrl) {
+    console.log('********');
     const { onChange, resize } = this.props;
     if (resize) {
       const img = new Image();
