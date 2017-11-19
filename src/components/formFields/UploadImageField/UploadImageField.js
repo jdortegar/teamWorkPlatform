@@ -26,7 +26,6 @@ function getBase64(img, callback) {
 }
 
 function beforeUpload(file, allowedTypes) {
-  console.log('=========');
   const isFileAllowed = allowedTypes.includes(file.type);
   if (!isFileAllowed) {
     message.error('You can only upload JPG, PNG and ICO files!');
@@ -57,7 +56,6 @@ class UploadImageField extends Component {
   }
 
   handleChange(imageUrl) {
-    console.log('********');
     const { onChange, resize } = this.props;
     if (resize) {
       const img = new Image();
