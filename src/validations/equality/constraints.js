@@ -1,5 +1,7 @@
+import String from '../../translations';
+
 export const defaultMessages = {
-  equality: 'values must match'
+  equality: String.t('errConfirmPasswordNoMatch')
 };
 
 function constraints(comparator, customMessages) {

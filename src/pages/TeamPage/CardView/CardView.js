@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
 import { IconCard } from '../../../components/cards';
-import messages from '../messages';
+import String from '../../../translations';
 
 const Panel = Collapse.Panel;
 
@@ -69,7 +69,7 @@ function CardView(props) {
           key="1"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {isTeamAdmin && renderAddCard(messages.addNewTeamRoom, `/app/createTeamRoom/${props.teamId}`) }
+            {isTeamAdmin && renderAddCard(String.t('TeamPage.addNewTeamRoom'), `/app/createTeamRoom/${props.teamId}`) }
             { renderTeamRooms() }
           </SimpleCardContainer>
         </Panel>
@@ -78,7 +78,7 @@ function CardView(props) {
           key="2"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {isTeamAdmin && renderAddCard(messages.inviteNewMember, `/app/inviteToTeam/${props.teamId}`) }
+            {isTeamAdmin && renderAddCard(String.t('TeamPage.inviteNewMember'), `/app/inviteToTeam/${props.teamId}`) }
             { renderTeamMembers() }
           </SimpleCardContainer>
         </Panel>
