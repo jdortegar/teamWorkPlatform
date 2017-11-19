@@ -1,5 +1,7 @@
+import String from '../../translations';
+
 export const defaultMessages = {
-  email: 'Must be a valid email'
+  email: String.t('errEmailNotValid')
 };
 
 function constraints(customMessages) {

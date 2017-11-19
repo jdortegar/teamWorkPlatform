@@ -57,7 +57,11 @@
   "labelPublishTeamRoom": "Publish Room",
   "labelActivateTeamRoom": "Make Room Active",
   "inviteMembersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
-  "inviteMembersSendInvitesButton": "SEND {{count}} INVITES",
+  "inviteMembersSendInvitesButton": {
+    "one": "SEND 1 INVITE",
+    "other": "SEND {{count}} INVITES",
+    "zero": "SEND INVITES"
+  },
   "inviteMembersNoInvitesSelectedButton": "SELECT MEMBERS TO SEND INVITES",
   "inviteMembersSearchPlaceholder": "SEARCH MEMBERS",
   "typingActivityMultipleMemberSeparator": ", ",
@@ -169,9 +173,32 @@
   "manageMembersSaveChangesButtonLabel": "SAVE CHANGES",
   "timeActivityGraphTitle": "CKG Time / Activity",
   "graphDateRangeButtonLabel": " Select Date Range  ",
+  "OrganizationPage.addNewTeam": "Add New Team",
+  "OrganizationPage.addNewMember": "Add New Team Member",
   "OrganizationPage.addNewIntegration": "Add New Integration",
+  "OrganizationPage.teamCreated": "Team has been successfully created.",
+  "OrganizationPage.invitationSent": {
+     "one": "Invitation successfully sent.",
+     "other": "Invitations successfully sent."
+  },
+  "TeamPage.inviteNewMember": "Invite a New Team Member",
+  "TeamPage.addNewTeamRoom": "Add New Team Room",
+  "TeamPage.invitationSent": {
+    "one": "Invitation successfully sent.",
+    "other": "Invitations successfully sent."
+  },
+    
+
   "error.validation.usernameFormat": "Must be alphanumeric without spaces (period, underscore and @ symbol are allowed).",
-  "error.validation.usernameNotEndsWith": "Cannot end with character \"%\\{searchString\\}\"",
-  "error.validation.usernameTooShort": "Must be 6 to 20 characters",
-  "error.validation.invalidEmail": "Wrong email format"
+  "error.validation.usernameNotEndsWithPeriod": "Username cannot end with a period.",
+  "error.validation.usernameTooShort": "Username must be 6 to 20 characters.",
+  "error.validation.passwordOneLower": "Password must have at least one lowercase letter (a-z).",
+  "error.validation.passwordOneNumber": "Password must have at least one number (0-9).",
+  "error.validation.passwordOneSpecial": "Password must have at least one special character.",
+  "error.validation.passwordOneUppercase": "Password must have at least one uppercase letter (A-Z).",
+  "error.validation.invalidEmail": "Please specify a valid email address.",
+  "error.validation.notAString": "This is not a string.",
+  "error.validation.firstNameTooLong": "First Name is limited to 30 characters.",
+  "error.validation.firstNameFormat": "First Name must contain alphabetic characters only.",
+  "error.validation.lastNameTooLong": "Last Name is too limited to 30 characters."
 }

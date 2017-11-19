@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'antd';
-import { injectIntl, intlShape } from 'react-intl';
-import { antValidate, lastNameI18N } from '../../../validations';
+import { antValidate, lastName } from '../../../validations';
 import BaseInput from '../BaseInput';
 import messages from './messages';
 
 const FormItem = Form.Item;
 
 const propTypes = {
-  intl: intlShape.isRequired,
   form: PropTypes.object.isRequired,
   componentKey: PropTypes.string,
   initialValue: PropTypes.string.isRequired,
@@ -31,7 +29,7 @@ const defaultProps = {
 };
 
 function LastNameField(props) {
-  const { layout, label, missingMessage, placeholder, intl, ...rest } = props;
+  const { layout, label, missingMessage, placeholder, ...rest } = props;
 
   const translatedPlaceHolder = placeholder || messages.lastName;
   const translatedMissingMessage = missingMessage || messages.lastNameMissing;
@@ -40,7 +38,7 @@ function LastNameField(props) {
     placeholder: translatedPlaceHolder,
     missingMessage: translatedMissingMessage,
     extraRules: [{
-      validator: antValidate(lastNameI18N(intl))
+      validator: antValidate(lastName)
     }]
   });
 
@@ -59,4 +57,4 @@ function LastNameField(props) {
 LastNameField.propTypes = propTypes;
 LastNameField.defaultProps = defaultProps;
 
-export default injectIntl(LastNameField);
+export default LastNameField;

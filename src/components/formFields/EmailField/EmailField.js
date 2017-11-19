@@ -1,16 +1,14 @@
 import React from 'react';
 import { Icon, Form } from 'antd';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from 'react-intl';
 import { formShape } from '../../../propTypes';
-import { antValidate, emailI18N } from '../../../validations';
+import { antValidate, email } from '../../../validations';
 import BaseInput from '../BaseInput';
 import messages from './messages';
 
 const FormItem = Form.Item;
 
 const propTypes = {
-  intl: intlShape.isRequired,
   form: formShape.isRequired,
   componentKey: PropTypes.string,
   initialValue: PropTypes.string,
@@ -47,7 +45,6 @@ function EmailField(props) {
     required,
     icon,
     inputClassName,
-    intl,
     ...other
   } = props;
 
@@ -62,7 +59,7 @@ function EmailField(props) {
     placeholder: translatedPlaceHolder,
     required,
     extraRules: [
-      { validator: antValidate(emailI18N(intl)) }
+      { validator: antValidate(email) }
     ],
     className: inputClassName,
     missingMessage: translatedMissingMessage,
@@ -85,4 +82,4 @@ function EmailField(props) {
 EmailField.propTypes = propTypes;
 EmailField.defaultProps = defaultProps;
 
-export default injectIntl(EmailField);
+export default EmailField;
