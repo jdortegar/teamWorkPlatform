@@ -1,7 +1,7 @@
 import config from '../config';
 import { doAuthenticatedRequest } from './urlRequest';
 
-export const createSubscriberOrg = (createObject, getKey = false) => { // eslint-disable-line import/prefer-default-export
+export const createSubscriberOrg = (createObject) => { // eslint-disable-line import/prefer-default-export
   // requestUrl is the key into redux state.urlRequests.
   const requestUrl = `${config.hablaApiBaseUri}/subscriberOrgs/createSubscriberOrg`;
 
@@ -12,5 +12,5 @@ export const createSubscriberOrg = (createObject, getKey = false) => { // eslint
     requestUrl,
     method: 'post',
     data: createObject
-  }, reduxState, getKey);
+  }, reduxState);
 };

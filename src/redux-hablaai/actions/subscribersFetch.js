@@ -3,7 +3,7 @@ import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const SUBSCRIBERS_FETCH_SUCCESS = 'subscribers/fetch/success';
 
-export const fetchSubscribersBySubscriberOrgId = (subscriberOrgId, getKey = false) => {
+export const fetchSubscribersBySubscriberOrgId = (subscriberOrgId, options = { getKey: false, forceGet: false }) => {
   // requestUrl is the key into redux state.urlRequests.
   const requestUrl = `${config.hablaApiBaseUri}/subscriberOrgs/getSubscribers/${subscriberOrgId}`;
 
@@ -14,9 +14,9 @@ export const fetchSubscribersBySubscriberOrgId = (subscriberOrgId, getKey = fals
     const thunk = dispatch(doAuthenticatedRequest({
       requestUrl,
       method: 'get'
-    }, reduxState, getKey));
+    }, reduxState, options));
 
-    if (!getKey) {
+    if (!options.getKey) {
       thunk.then((response) => {
         if ((response.data) && (response.data !== RESPONSE_STALE)) {
           const { subscribers } = response.data;

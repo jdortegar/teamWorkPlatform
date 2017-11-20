@@ -3,7 +3,7 @@ import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const CONVERSATIONS_FETCH_SUCCESS = 'conversations/fetch/success';
 
-export const fetchConversations = (teamRoomId = undefined, getKey = false) => {
+export const fetchConversations = (teamRoomId = undefined, options = { getKey: false, forceGet: false }) => {
   // requestUrl is the key into redux state.urlRequests.
   let requestUrl = `${config.hablaApiBaseUri}/conversations/getConversations`;
   requestUrl = (teamRoomId) ? `${requestUrl}?teamRoomId=${teamRoomId}` : requestUrl;
@@ -15,9 +15,9 @@ export const fetchConversations = (teamRoomId = undefined, getKey = false) => {
     const thunk = dispatch(doAuthenticatedRequest({
       requestUrl,
       method: 'get'
-    }, reduxState, getKey));
+    }, reduxState, options));
 
-    if (!getKey) {
+    if (!options.getKey) {
       thunk.then((response) => {
         if ((response.data) && (response.data !== RESPONSE_STALE)) {
           const { conversations } = response.data;

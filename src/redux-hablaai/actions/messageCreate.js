@@ -1,7 +1,7 @@
 import config from '../config';
 import { doAuthenticatedRequest } from './urlRequest';
 
-export const createMessage = (message, conversationId, getKey = false) => { // eslint-disable-line import/prefer-default-export
+export const createMessage = (message, conversationId) => { // eslint-disable-line import/prefer-default-export
   // requestUrl is the key into redux state.urlRequests.
   const requestUrl = `${config.hablaApiBaseUri}/conversations/${conversationId}/createMessage`;
 
@@ -12,5 +12,5 @@ export const createMessage = (message, conversationId, getKey = false) => { // e
     requestUrl,
     method: 'post',
     data: message
-  }, reduxState, getKey);
+  }, reduxState);
 };
