@@ -129,9 +129,13 @@ const usersReducer = (state = INITIAL_STATE, action) => {
       let user = userByUserId[userId];
       if (!user) {
         user = subscriber || teamMember || teamRoomMember;
+        user.subscriberOrgs = user.subscriberOrgs || {};
+        user.teams = user.teams || {};
+        user.teamRooms = user.teamRooms || {};
       } else {
         user = _.merge(user, subscriber, teamMember, teamRoomMember);
       }
+      userByUserId[userId] = user;
 
       const { role, subscriberUserId, teamMemberId, teamRoomMemberId } = user;
       delete user.role;

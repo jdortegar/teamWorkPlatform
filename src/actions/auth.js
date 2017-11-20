@@ -8,6 +8,7 @@ import {
   UNAUTH_USER,
   SUBMIT_REGISTRATION_FORM
 } from './types';
+import { fetchInvitations } from './index';
 import { login, logout } from '../session';
 
 const { hablaApiBaseUri } = config;
@@ -22,6 +23,7 @@ export const loginUser = ({ email, password, targetRoute }) => {
         if ((targetRoute === routesPaths.app) && (lastRoute)) {
           resolvedRoute = lastRoute;
         }
+        dispatch(fetchInvitations());
         dispatch({ type: LOGGING_IN, payload: false });
         dispatch(push(resolvedRoute));
       })

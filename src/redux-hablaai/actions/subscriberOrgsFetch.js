@@ -3,7 +3,7 @@ import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const SUBSCRIBERORGS_FETCH_SUCCESS = 'subscriberorgs/fetch/success';
 
-export const fetchSubscriberOrgs = (getKey = false) => { // eslint-disable-line import/prefer-default-export
+export const fetchSubscriberOrgs = (options = { getKey: false, forceGet: false }) => { // eslint-disable-line import/prefer-default-export
   // requestUrl is the key into redux state.urlRequests.
   const requestUrl = `${config.hablaApiBaseUri}/subscriberOrgs/getSubscriberOrgs`;
 
@@ -14,9 +14,9 @@ export const fetchSubscriberOrgs = (getKey = false) => { // eslint-disable-line 
     const thunk = dispatch(doAuthenticatedRequest({
       requestUrl,
       method: 'get'
-    }, reduxState, getKey));
+    }, reduxState, options));
 
-    if (!getKey) {
+    if (!options.getKey) {
       thunk.then((response) => {
         if ((response.data) && (response.data !== RESPONSE_STALE)) {
           const { subscriberOrgs } = response.data;
