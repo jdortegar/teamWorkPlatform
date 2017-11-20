@@ -6,8 +6,10 @@ import {
 } from './integrations';
 
 const integrate = (type, subscriberOrgId, options = { getKey: false }) => {
-  options.forceGet = true;
-
+  const newOptions = {
+    getKey: options.getKey,
+    forceGet: true
+  };
   // requestUrl is the key into redux state.urlRequests.
   const requestUrl = `${config.hablaApiBaseUri}/integrations/${type}/integrate/${subscriberOrgId}`;
 
@@ -18,9 +20,9 @@ const integrate = (type, subscriberOrgId, options = { getKey: false }) => {
     const thunk = dispatch(doAuthenticatedRequest({
       requestUrl,
       method: 'get'
-    }, reduxState, options));
+    }, reduxState, newOptions));
 
-    if (!options.getKey) {
+    if (!newOptions.getKey) {
       thunk.then((response) => {
         if (response.status === 202) { // Redirect ourselves to target OAuth approval.
           window.location.href = response.data.location;
@@ -49,10 +51,10 @@ const integrate = (type, subscriberOrgId, options = { getKey: false }) => {
   };
 };
 
-export const integrateGoogle = (subscriberOrgId, options = { getKey: false }) => {
-  return integrate('google', subscriberOrgId, options);
+export const integrateGoogle = (subscriberOrgId, newOptions = { getKey: false }) => {
+  return integrate('google', subscriberOrgId, newOptions);
 };
 
-export const integrateBox = (subscriberOrgId, options = { getKey: false }) => {
-  return integrate('box', subscriberOrgId, options);
+export const integrateBox = (subscriberOrgId, newOptions = { getKey: false }) => {
+  return integrate('box', subscriberOrgId, newOptions);
 };
