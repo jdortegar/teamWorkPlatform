@@ -3,7 +3,7 @@ import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const TRANSCRIPT_FETCH_SUCCESS = 'transcript/fetch/success';
 
-export const fetchTranscript = (conversationId, getKey = false) => {
+export const fetchTranscript = (conversationId, options = { getKey: false, forceGet: false }) => {
   // requestUrl is the key into redux state.urlRequests.
   const requestUrl = `${config.hablaApiBaseUri}/conversations/getTranscript/${conversationId}`;
 
@@ -14,9 +14,9 @@ export const fetchTranscript = (conversationId, getKey = false) => {
     const thunk = dispatch(doAuthenticatedRequest({
       requestUrl,
       method: 'get'
-    }, reduxState, getKey));
+    }, reduxState, options));
 
-    if (!getKey) {
+    if (!options.getKey) {
       thunk.then((response) => {
         if ((response.data) && (response.data !== RESPONSE_STALE)) {
           const { messages } = response.data;

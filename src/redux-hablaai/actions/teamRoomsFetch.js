@@ -3,7 +3,7 @@ import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const TEAMROOMS_FETCH_SUCCESS = 'teamrooms/fetch/success';
 
-export const fetchTeamRoomsByTeamId = (teamId, getKey = false) => {
+export const fetchTeamRoomsByTeamId = (teamId, options = { getKey: false, forceGet: false }) => {
   // requestUrl is the key into redux state.urlRequests.
   let requestUrl = `${config.hablaApiBaseUri}/teamRooms/getTeamRooms`;
   requestUrl = (teamId) ? `${requestUrl}?teamId=${teamId}` : requestUrl;
@@ -15,9 +15,9 @@ export const fetchTeamRoomsByTeamId = (teamId, getKey = false) => {
     const thunk = dispatch(doAuthenticatedRequest({
       requestUrl,
       method: 'get'
-    }, reduxState, getKey));
+    }, reduxState, options));
 
-    if (!getKey) {
+    if (!options.getKey) {
       thunk.then((response) => {
         if ((response.data) && (response.data !== RESPONSE_STALE)) {
           const { teamRooms } = response.data;
@@ -34,6 +34,6 @@ export const fetchTeamRoomsByTeamId = (teamId, getKey = false) => {
   };
 };
 
-export const fetchTeamRooms = (getKey = false) => {
-  return fetchTeamRoomsByTeamId(undefined, getKey);
+export const fetchTeamRooms = (options = { getKey: false, forceGet: false }) => {
+  return fetchTeamRoomsByTeamId(undefined, options);
 };

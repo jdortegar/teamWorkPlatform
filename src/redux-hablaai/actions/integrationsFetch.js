@@ -3,7 +3,7 @@ import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const INTEGRATIONS_FETCH_SUCCESS = 'integrations/fetch/success';
 
-export const fetchIntegrations = (subscriberOrgId, getKey) => {
+export const fetchIntegrations = (subscriberOrgId, options = { getKey: false, forceGet: false }) => {
   // requestUrl is the key into redux state.urlRequests.
   const requestUrl = `${config.hablaApiBaseUri}/integrations/getIntegrations?subscriberOrgId=${subscriberOrgId}`;
 
@@ -14,9 +14,9 @@ export const fetchIntegrations = (subscriberOrgId, getKey) => {
     const thunk = dispatch(doAuthenticatedRequest({
       requestUrl,
       method: 'get'
-    }, reduxState, getKey));
+    }, reduxState, options));
 
-    if (!getKey) {
+    if (!options.getKey) {
       thunk.then((response) => {
         if ((response.data) && (response.data !== RESPONSE_STALE)) {
           const { integrations } = response.data;
