@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import countriesAndTimezones from 'countries-and-timezones';
+import classNames from 'classnames';
 import { Collapse, Form, Button, notification } from 'antd';
 import messages from './messages';
 import { formShape } from '../../propTypes';
@@ -49,6 +50,7 @@ class EditUserPage extends Component {
     this.onChangeProfilePhoto = this.onChangeProfilePhoto.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCountryChange = this.handleCountryChange.bind(this);
+    this.onRemoveImage = this.onRemoveImage.bind(this);
   }
 
   componentDidMount() {
@@ -59,6 +61,20 @@ class EditUserPage extends Component {
 
   componentWillUnmount() {
     this.props.toggleSideBar();
+  }
+
+  onRemoveImage() {
+    const axiosOptions = {
+      headers: {
+        Authorization: `Bearer ${getJwt()}`
+      }
+    };
+    axios.patch(`${config.hablaApiBaseUri}/users/updateUser`, { icon: null }, axiosOptions)
+      .then(() => {
+        this.setState({
+          userIcon: ''
+        });
+      });
   }
 
   onChangeProfilePhoto(base64) {
@@ -108,6 +124,11 @@ class EditUserPage extends Component {
 
   render() {
     const { user } = this.props;
+    const containerImage = classNames({
+      container__image: true,
+      'with-image': this.state.userIcon,
+      'with-no-image': !this.state.userIcon
+    });
     return (
       <div>
         <NewSubpageHeader>
@@ -150,7 +171,7 @@ class EditUserPage extends Component {
                     initialValue={user.displayName}
                   />
                 </div>
-                <div className="container__image">
+                <div className={containerImage}>
                   <UploadImageField
                     text={messages.setProfilePhoto}
                     onChange={this.onChangeProfilePhoto}
@@ -158,6 +179,14 @@ class EditUserPage extends Component {
                     editOrg
                     resize
                   />
+                  {this.state.userIcon &&
+                    <span
+                      className="container__image__remove"
+                      onClick={this.onRemoveImage}
+                    >
+                      Remove
+                    </span>
+                  }
                 </div>
               </div>
               <div className="row_input">
