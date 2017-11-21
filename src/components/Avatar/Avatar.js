@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import './styles/style.css';
 
 const propTypes = {
   iconColor: PropTypes.string.isRequired,
