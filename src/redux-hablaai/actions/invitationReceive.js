@@ -1,4 +1,4 @@
-export const INVITATION_RECEIVE = 'invitation/recieve';
+export const INVITATION_RECEIVE = 'invitation/receive';
 
 export const receiveInvitation = (invitation) => {
   return {

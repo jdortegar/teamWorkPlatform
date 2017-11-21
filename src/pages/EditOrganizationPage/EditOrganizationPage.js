@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, Button, notification } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import NewSubpageHeader from '../../components/NewSubpageHeader';
 import UploadImageField from '../../components/formFields/UploadImageField';
 import TextField from '../../components/formFields/TextField';
@@ -50,6 +51,29 @@ class EditOrganizationPage extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleWebSiteBlur = this.handleWebSiteBlur.bind(this);
+    this.onRemoveImage = this.onRemoveImage.bind(this);
+  }
+
+  onRemoveImage() {
+    const { subscriberOrgId } = this.props.match.params;
+    const axiosOptions = {
+      headers: {
+        Authorization: `Bearer ${getJwt()}`
+      }
+    };
+    const dataToUpdate = {
+      preferences: {
+        logo: null,
+        avatarBase64: null
+      }
+    };
+    axios.patch(`${config.hablaApiBaseUri}/subscriberOrgs/updateSubscriberOrg/${subscriberOrgId}`, dataToUpdate, axiosOptions)
+      .then(() => {
+        this.setState({
+          logo: '',
+          avatarBase64: ''
+        });
+      });
   }
 
   handleChange(base64) {
@@ -125,6 +149,11 @@ class EditOrganizationPage extends Component {
     const { subscriberOrgId } = this.props.match.params;
     const { subscriberOrgs } = this.props;
     const organization = subscriberOrgs.subscriberOrgById[subscriberOrgId];
+    const containerImage = classNames({
+      container__image: true,
+      'with-image': this.state.logo || this.state.avatarBase64,
+      'with-no-image': !this.state.avatarBase64 && !this.state.logo
+    });
     return (
       <div>
         <NewSubpageHeader>
@@ -162,13 +191,22 @@ class EditOrganizationPage extends Component {
                       onBlur={this.handleWebSiteBlur}
                     />
                   </div>
-                  <div className="container__image">
+                  <div className={containerImage}>
                     <UploadImageField
                       text={String.t('editOrgPage.changeAvatarText')}
                       onChange={this.handleChange}
-                      editOrg
                       image={this.state.avatarBase64 || this.state.logo}
+                      editOrg
+                      resize
                     />
+                    {(this.state.avatarBase64 || this.state.logo) &&
+                      <span
+                        className="container__image__remove"
+                        onClick={this.onRemoveImage}
+                      >
+                        Remove
+                      </span>
+                    }
                   </div>
                 </div>
               </div>

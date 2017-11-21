@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import { Row, Col, Button } from 'antd';
-import axios from 'axios';
+import { Row, Col, Button, notification } from 'antd';
 import PropTypes from 'prop-types';
-import config from '../../config/env';
-import { getJwt } from '../../session';
 import './styles/style.css';
 import String from '../../translations';
 
 const propTypes = {
   options: PropTypes.shape({
-    byUserDisplayName: PropTypes.string.isRequired,
+    byUserFirstName: PropTypes.string.isRequired,
+    byUserLastName: PropTypes.string.isRequired,
     byUserId: PropTypes.string.isRequired,
     subscriberOrgName: PropTypes.string.isRequired,
     subscriberOrgId: PropTypes.string.isRequired,
@@ -18,7 +16,8 @@ const propTypes = {
     teamRoomName: PropTypes.string,
     teamRoomId: PropTypes.string
   }).isRequired,
-  updateInvitation: PropTypes.func.isRequired
+  updateInvitation: PropTypes.func.isRequired,
+  invitationResponse: PropTypes.func.isRequired
 };
 
 function checkType(type) {
@@ -52,18 +51,23 @@ class Notification extends Component {
     this.state = { accepted: null };
   }
 
+  componentDidMount() {
+
+  }
+
   handleClick(selection) {
     this.setState({ accepted: selection });
-    const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
     const typeObj = checkType(this.props.options);
-    const { type, id } = typeObj;
-    axios.post(`${config.hablaApiBaseUri}/${type}s/replyToInvite/${id}`, { accept: selection }, axiosOptions)
+    const { name } = typeObj;
+    this.props.invitationResponse({ accept: selection }, typeObj)
       .then(() => {
         this.props.updateInvitation(this.props.options);
-        if (type === 'subscriberOrg') {
-          window.location.href = `/app/organization/${id}`;
-        } else {
-          window.location.href = `/app/${type}/${id}`;
+        if (selection) {
+          const args = {
+            message: `You have joined ${name}`,
+            duration: 5
+          };
+          notification.open(args);
         }
       })
       .catch(() => {

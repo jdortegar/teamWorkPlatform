@@ -65,9 +65,13 @@ class InviteToTeamPage extends Component {
 
   renderInvitees() {
     const users = this.props.subscribers;
-    const dataSource = users.map(({ firstName, lastName, displayName, userId }) => {
-      return { text: `${displayName} - ${firstName} ${lastName}`, value: userId };
-    });
+    const { teamId } = this.props.match.params;
+    const dataSource = users.reduce((acc, { firstName, lastName, displayName, userId, teams }) => {
+      if (!teams[teamId]) {
+        acc.push({ text: `${displayName} - ${firstName} ${lastName}`, value: userId });
+      }
+      return acc;
+    }, []);
 
     return this.state.inviteesArr.map((el) => {
       return (

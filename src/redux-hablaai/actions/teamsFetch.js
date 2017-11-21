@@ -3,7 +3,7 @@ import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const TEAMS_FETCH_SUCCESS = 'teams/fetch/success';
 
-export const fetchTeamsBySubscriberOrgId = (subscriberOrgId, getKey = false) => {
+export const fetchTeamsBySubscriberOrgId = (subscriberOrgId, options = { getKey: false, forceGet: false }) => {
   // requestUrl is the key into redux state.urlRequests.
   let requestUrl = `${config.hablaApiBaseUri}/teams/getTeams`;
   requestUrl = (subscriberOrgId) ? `${requestUrl}?subscriberOrgId=${subscriberOrgId}` : requestUrl;
@@ -15,9 +15,9 @@ export const fetchTeamsBySubscriberOrgId = (subscriberOrgId, getKey = false) => 
     const thunk = dispatch(doAuthenticatedRequest({
       requestUrl,
       method: 'get'
-    }, reduxState, getKey));
+    }, reduxState, options));
 
-    if (!getKey) {
+    if (!options.getKey) {
       thunk.then((response) => {
         if ((response.data) && (response.data !== RESPONSE_STALE)) {
           const { teams } = response.data;
@@ -34,6 +34,6 @@ export const fetchTeamsBySubscriberOrgId = (subscriberOrgId, getKey = false) => 
   };
 };
 
-export const fetchTeams = (getKey = false) => {
-  return fetchTeamsBySubscriberOrgId(undefined, getKey);
+export const fetchTeams = (options = { getKey: false, forceGet: false }) => {
+  return fetchTeamsBySubscriberOrgId(undefined, options);
 };

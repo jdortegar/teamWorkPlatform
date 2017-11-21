@@ -1,20 +1,25 @@
 import _ from 'lodash';
-import { SUBSCRIBERS_FETCH_SUCCESS } from '../actions';
+import { SUBSCRIBERS_FETCH_SUCCESS, SUBSCRIBER_RECEIVE } from '../actions';
 
 const INITIAL_STATE = {
-  subscriberUserIdByUserId: {},
+  subscriberUserIdBySubscriberOrgIdByUserId: {},
   userIdsBySubscriberOrgId: {}
 };
 
 const subscribersReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SUBSCRIBERS_FETCH_SUCCESS: {
-      const subscriberUserIdByUserId = _.cloneDeep(state.subscriberUserIdByUserId);
+      const subscriberUserIdBySubscriberOrgIdByUserId = _.cloneDeep(state.subscriberUserIdBySubscriberOrgIdByUserId);
       const userIdsBySubscriberOrgId = _.cloneDeep(state.userIdsBySubscriberOrgId);
 
       const subscriberOrgId = action.payload.subscriberOrgId;
       action.payload.subscribers.forEach((subscriber) => {
-        subscriberUserIdByUserId[subscriber.userId] = subscriber.subscriberUserId;
+        let subscriberOrgs = subscriberUserIdBySubscriberOrgIdByUserId[subscriber.userId];
+        if (!subscriberOrgs) {
+          subscriberOrgs = {};
+          subscriberUserIdBySubscriberOrgIdByUserId[subscriber.userId] = subscriberOrgs;
+        }
+        subscriberOrgs[subscriberOrgId] = subscriber.subscriberUserId;
         let subscribers = userIdsBySubscriberOrgId[subscriberOrgId];
         if (!subscribers) {
           subscribers = {};
@@ -25,7 +30,33 @@ const subscribersReducer = (state = INITIAL_STATE, action) => {
 
       return {
         ...state,
-        subscriberUserIdByUserId,
+        subscriberUserIdBySubscriberOrgIdByUserId,
+        userIdsBySubscriberOrgId
+      };
+    }
+    case SUBSCRIBER_RECEIVE: {
+      const subscriberUserIdBySubscriberOrgIdByUserId = _.cloneDeep(state.subscriberUserIdBySubscriberOrgIdByUserId);
+      const userIdsBySubscriberOrgId = _.cloneDeep(state.userIdsBySubscriberOrgId);
+      const subscriber = action.payload.subscriber;
+      const subscriberOrgId = action.payload.subscriberOrgId;
+
+      let subscriberOrgs = subscriberUserIdBySubscriberOrgIdByUserId[subscriber.userId];
+      if (!subscriberOrgs) {
+        subscriberOrgs = {};
+        subscriberUserIdBySubscriberOrgIdByUserId[subscriber.userId] = subscriberOrgs;
+      }
+      subscriberOrgs[subscriberOrgId] = subscriber.subscriberUserId;
+
+      let subscribers = userIdsBySubscriberOrgId[subscriberOrgId];
+      if (!subscribers) {
+        subscribers = {};
+        userIdsBySubscriberOrgId[subscriberOrgId] = subscribers;
+      }
+      subscribers[subscriber.userId] = { subscriberUserId: subscriber.subscriberUserId };
+
+      return {
+        ...state,
+        subscriberUserIdBySubscriberOrgIdByUserId,
         userIdsBySubscriberOrgId
       };
     }
