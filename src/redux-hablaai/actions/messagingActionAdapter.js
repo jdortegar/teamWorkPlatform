@@ -10,6 +10,7 @@ import {
   receiveTeamRoom,
   receiveTeamRoomMember,
   receiveInvitation,
+  declinedInvitation,
   receiveConversations,
   receiveMessages,
   receiveTyping,
@@ -23,6 +24,9 @@ const eventHandler = (eventType, event) => {
       break;
     case EventTypes.userInvited:
       config.store.dispatch(receiveInvitation(event));
+      break;
+    case EventTypes.userInvitationDeclined:
+      config.store.dispatch(declinedInvitation(event));
       break;
     case EventTypes.userCreated:
       // Don't care about this.  This is when a new user registers.  Also, notification won't be sent for this, currently.
