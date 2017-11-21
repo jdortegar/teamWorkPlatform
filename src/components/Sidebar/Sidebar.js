@@ -3,7 +3,7 @@ import { Layout, Menu, Col, Row } from 'antd';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import UserIcon from '../UserIcon';
+import Avatar from '../Avatar';
 import messages from './messages';
 import {
   sortByName,
@@ -185,7 +185,12 @@ class Sidebar extends Component {
     return teamRoomsByTeamId.map(teamRoom => (
       <Menu.Item key={teamRoom.teamRoomId}>
         <div className="Sidebar__name-container">
-          <UserIcon user={teamRoom} type="team" minWidth="20px" width="20px" height="20px" clickable={false} />
+          <Avatar
+            styles={{ minWidth: '20px', width: '20px', height: '20px' }}
+            name={teamRoom.name}
+            iconColor={teamRoom.preferences.iconColor}
+            image={teamRoom.preferences.avatarBase64 || teamRoom.preferences.logo}
+          />
           <div className="Sidebar__name-span" onClick={() => this.goToTeamRoomPage(teamRoom.teamRoomId)}>{teamRoom.name}</div>
         </div>
       </Menu.Item>),
@@ -213,7 +218,12 @@ class Sidebar extends Component {
           title={<Row>
             <Col xs={{ span: 22 }}>
               <div className="Sidebar__name-container">
-                <UserIcon user={team} type="team" minWidth="20px" width="20px" height="20px" clickable={false} />
+                <Avatar
+                  styles={{ minWidth: '20px', width: '20px', height: '20px' }}
+                  name={team.name}
+                  iconColor={team.preferences.iconColor}
+                  image={team.preferences.avatarBase64 || team.preferences.logo}
+                />
                 <div className="Sidebar__name-span" onClick={e => this.goToTeamPage(e, team)}>{team.name}</div>
               </div>
             </Col>
@@ -232,6 +242,7 @@ class Sidebar extends Component {
   renderOrgs() {
     const { subscriberOrgs } = this.props;
     return subscriberOrgs.map((subscriberOrg) => {
+      const { preferences } = subscriberOrg;
       const teams = this.renderTeams(subscriberOrg.subscriberOrgId);
 
       return (
@@ -245,7 +256,12 @@ class Sidebar extends Component {
             <Row>
               <Col xs={{ span: 22 }} className="Sidebar__org-item-col">
                 <div className="Sidebar__name-container">
-                  <UserIcon user={subscriberOrg} type="team" minWidth="20px" width="20px" height="20px" clickable={false} />
+                  <Avatar
+                    iconColor={preferences.iconColor}
+                    image={preferences.avatarBase64 || preferences.logo}
+                    styles={{ minWidth: '20px', width: '20px', height: '20px' }}
+                    name={subscriberOrg.name}
+                  />
                   <div className="Sidebar__name-span" onClick={e => this.goToOrgPage(e, subscriberOrg.subscriberOrgId)}>{subscriberOrg.name}</div>
                 </div>
               </Col>

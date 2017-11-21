@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import SubpageHeader from '../../components/SubpageHeader';
 import Spinner from '../../components/Spinner';
 import { IconCard } from '../../components/cards';
-import UserIcon from '../../components/UserIcon/UserIcon';
+import Avatar from '../../components/Avatar';
 import CardView from './CardView';
 import ListView from './ListView';
 
@@ -137,7 +137,12 @@ class OrganizationPage extends Component {
       return (
         <div>
           <SubpageHeader
-            icon={<UserIcon user={subscriberOrg} type="team" clickable={false} />}
+            icon={<Avatar
+              styles={{ width: '2em', height: '2em' }}
+              name={subscriberOrg.name}
+              iconColor={subscriberOrg.preferences.iconColor}
+              image={subscriberOrg.preferences.avatarBase64 || subscriberOrg.preferences.logo}
+            />}
             breadcrumb={subscriberOrg.name}
             editButton={editButton}
           />
