@@ -31,23 +31,23 @@ export const doRequest = ({ requestUrl, method, headers, data }, reduxState, opt
         // Return the current request promise.
         return urlRequest.request;
       }
-    }
 
-    // If a GET request, and cached, return the cached response.
-    if (method.toLowerCase() === 'get') {
-      const cachedGetRequest = cachedGetRequests[requestUrl];
-      if (cachedGetRequest) {
-        dispatch({
-          type: URLREQUEST,
-          payload: { requestUrl, request: cachedGetRequest.request, ...cachedGetRequest.reduxState }
-        });
-        dispatch({
-          type: URLREQUEST_SUCCESS,
-          payload: { requestUrl, ...cachedGetRequest.reduxState }
-        });
-        dispatch(clearUrlRequest(requestUrl));
-        cachedGetRequest.response.data = RESPONSE_STALE;
-        return Promise.resolve(cachedGetRequest.response);
+      // If a GET request, and cached, return the cached response.
+      if (method.toLowerCase() === 'get') {
+        const cachedGetRequest = cachedGetRequests[requestUrl];
+        if (cachedGetRequest) {
+          dispatch({
+            type: URLREQUEST,
+            payload: { requestUrl, request: cachedGetRequest.request, ...cachedGetRequest.reduxState }
+          });
+          dispatch({
+            type: URLREQUEST_SUCCESS,
+            payload: { requestUrl, ...cachedGetRequest.reduxState }
+          });
+          dispatch(clearUrlRequest(requestUrl));
+          cachedGetRequest.response.data = RESPONSE_STALE;
+          return Promise.resolve(cachedGetRequest.response);
+        }
       }
     }
 
