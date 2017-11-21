@@ -18,6 +18,10 @@ const propTypes = {
   user: PropTypes.object.isRequired
 };
 
+const defaultProps = {
+  onFileChange: null
+};
+
 class Message extends Component {
   constructor(props) {
     super(props);
@@ -163,5 +167,6 @@ class Message extends Component {
 }
 
 Message.propTypes = propTypes;
+Message.defaultProps = defaultProps;
 
 export default Message;

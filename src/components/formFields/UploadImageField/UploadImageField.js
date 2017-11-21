@@ -25,11 +25,10 @@ function getBase64(img, callback) {
 
 function beforeUpload(file, allowedTypes) {
   // TODO: Get the organization's policies for uploads to determine if the upload is valid or not.
-  return false;
-//   const isFileAllowed = allowedTypes.includes(file.type);
-//   if (!isFileAllowed) {
-//     message.error('You can only upload JPG, PNG and ICO files!');
-//   }
+  const isFileAllowed = allowedTypes.length > 0; // allowedTypes.includes(file.type);
+  if (!isFileAllowed) {
+    message.error('You can only upload JPG, PNG and ICO files!');
+  }
 //   const isLt2M = file.size / 1024 / 1024 < 2;
 //   if (!isLt2M) {
 //     message.error('Image must smaller than 2 MB!');

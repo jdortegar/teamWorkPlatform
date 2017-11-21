@@ -76,10 +76,10 @@ function showNotification(response, integration) {
 }
 
 const propTypes = {
-  integrateBox: PropTypes.func.isRequired,
-  integrateGoogle: PropTypes.func.isRequired,
-  revokeBox: PropTypes.func.isRequired,
-  revokeGoogle: PropTypes.func.isRequired,
+  integrateBox: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
+  integrateGoogle: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
+  revokeBox: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
+  revokeGoogle: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
   integrations: PropTypes.object.isRequired,
   fetchIntegrations: PropTypes.func.isRequired,
   match: PropTypes.shape({
