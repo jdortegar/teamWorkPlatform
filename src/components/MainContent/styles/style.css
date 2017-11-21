@@ -6,4 +6,5 @@
 }
 .MainContent__layout-wrapper > div {
 	height: 100%;
+	display: flex;
 }
