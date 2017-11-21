@@ -17,7 +17,7 @@ import TeamMemberPage from '../../containers/TeamMemberPage';
 import Notification from '../../containers/Notification';
 import InviteToTeamPage from '../../containers/InviteToTeamPage';
 import EditUserPage from '../../containers/EditUserPage';
-import CKGPage from '../../pages/CKGPage';
+import CKGPage from '../../containers/CKGPage';
 import NotificationsPage from '../../pages/NotificationsPage';
 import AcceptInvitationPage from '../../pages/AcceptInvitationPage';
 import { routesPaths } from '../../routes';
