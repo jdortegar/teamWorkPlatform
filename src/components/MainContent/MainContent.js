@@ -29,13 +29,16 @@ const { Content } = Layout;
 
 const propTypes = {
   invitation: PropTypes.array.isRequired,
-  declinedInvitations: PropTypes.array.isRequired,
+  declinedInvitations: PropTypes.object,
   pushMessage: PropTypes.object,
-  notifyMessage: PropTypes.func.isRequired
+  users: PropTypes.object.isRequired,
+  notifyMessage: PropTypes.func.isRequired,
+  updateInvitationDeclined: PropTypes.func.isRequired
 };
 
 const defaultProps = {
-  pushMessage: null
+  pushMessage: null,
+  declinedInvitations: null
 };
 
 class MainContent extends Component {
@@ -63,7 +66,26 @@ class MainContent extends Component {
     }
 
     if (nextProps.declinedInvitations) {
-      console.log(nextProps.declinedInvitations);
+      let text = '';
+      const invitation = nextProps.declinedInvitations;
+      if (invitation.teamName || invitation.teamRoomName) {
+        const { firstName, lastName } = this.props.users[invitation.inviteeUserIdOrEmail];
+        if (invitation.teamRoomName) {
+          text = `${firstName} ${lastName} has declined your invitation to join team room ${invitation.teamRoomName}`;
+        } else if (invitation.teamName) {
+          text = `${firstName} ${lastName} has declined your invitation to join team ${invitation.teamName}`;
+        }
+      } else {
+        text = `${invitation.inviteeUserIdOrEmail} has declined your invitation to join  ${invitation.subscriberOrgName}`;
+      }
+      const args = {
+        message: text,
+        duration: 5,
+        onClose: () => {
+          this.props.updateInvitationDeclined();
+        }
+      };
+      notification.open(args);
     }
 
     if (nextProps.pushMessage) {

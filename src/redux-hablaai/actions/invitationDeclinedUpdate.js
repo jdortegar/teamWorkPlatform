@@ -1,8 +1,7 @@
 export const INVITATION_DECLINED_UPDATE = 'invitationDeclined/update';
 
-export const updateInvitationDeclined = (invitation) => {
+export const updateInvitationDeclined = () => {
   return {
-    type: INVITATION_DECLINED_UPDATE,
-    payload: { invitation }
+    type: INVITATION_DECLINED_UPDATE
   };
 };

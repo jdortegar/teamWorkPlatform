@@ -20,7 +20,7 @@ const invitationsReducer = (state = INITIAL_STATE, action) => {
       return { ...state, invitations: [...invitations] };
     }
     case INVITATION_DECLINED: {
-      return { ...state, declinedInvitations: [...state.declinedInvitations, action.payload.invitation] };
+      return { ...state, declinedInvitations: action.payload.invitation };
     }
     case INVITATION_DECLINED_UPDATE: {
       return { ...state, declinedInvitations: null };
