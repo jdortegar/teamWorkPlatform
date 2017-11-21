@@ -82,30 +82,28 @@ class MainContent extends Component {
     const { invitation } = this.props;
     return (
       <Content className="MainContent__layout-wrapper">
-        <div>
-          {
-            invitation.length > 0 ? invitation.map(el => <Notification options={el} />) : null
-          }
-          <Switch>
-            <Route exact path={routesPaths.integrations} component={IntegrationsPage} />
-            <Route exact path={routesPaths.integrationDetails} component={IntegrationDetailsPage} />
-            <Route exact path={routesPaths.organization} component={OrganizationPage} />
-            <Route exact path={routesPaths.team} component={TeamPage} />
-            <Route exact path={routesPaths.newTeamRoom} component={NewTeamRoomPage} />
-            <Route exact path={routesPaths.newTeam} component={NewTeamPage} />
-            <Route exact path={routesPaths.editTeam} component={EditTeamPage} />
-            <Route exact path={routesPaths.editTeamRoom} component={EditTeamRoomPage} />
-            <Route exact path={routesPaths.editOrganization} component={EditOrganizationPage} />
-            <Route exact path={routesPaths.editUser} component={EditUserPage} />
-            <Route exact path={routesPaths.inviteNewMember} component={InviteNewMemberPage} />
-            <Route exact path={routesPaths.inviteToTeam} component={InviteToTeamPage} />
-            <Route exact path={routesPaths.teamRoom} component={ChatContent} />
-            <Route exact path={routesPaths.member} component={TeamMemberPage} />
-            <Route exact path={routesPaths.acceptInvitation} component={AcceptInvitationPage} />
-            <Route exact path={routesPaths.ckg} component={CKGPage} />
-            <Route exact path={routesPaths.notifications} component={NotificationsPage} />
-          </Switch>
-        </div>
+        {
+          invitation.length > 0 ? invitation.map(el => <Notification options={el} />) : null
+        }
+        <Switch>
+          <Route exact path={routesPaths.integrations} component={IntegrationsPage} />
+          <Route exact path={routesPaths.integrationDetails} component={IntegrationDetailsPage} />
+          <Route exact path={routesPaths.organization} component={OrganizationPage} />
+          <Route exact path={routesPaths.team} component={TeamPage} />
+          <Route exact path={routesPaths.newTeamRoom} component={NewTeamRoomPage} />
+          <Route exact path={routesPaths.newTeam} component={NewTeamPage} />
+          <Route exact path={routesPaths.editTeam} component={EditTeamPage} />
+          <Route exact path={routesPaths.editTeamRoom} component={EditTeamRoomPage} />
+          <Route exact path={routesPaths.editOrganization} component={EditOrganizationPage} />
+          <Route exact path={routesPaths.editUser} component={EditUserPage} />
+          <Route exact path={routesPaths.inviteNewMember} component={InviteNewMemberPage} />
+          <Route exact path={routesPaths.inviteToTeam} component={InviteToTeamPage} />
+          <Route exact path={routesPaths.teamRoom} component={ChatContent} />
+          <Route exact path={routesPaths.member} component={TeamMemberPage} />
+          <Route exact path={routesPaths.acceptInvitation} component={AcceptInvitationPage} />
+          <Route exact path={routesPaths.ckg} component={CKGPage} />
+          <Route exact path={routesPaths.notifications} component={NotificationsPage} />
+        </Switch>
       </Content>
     );
   }
