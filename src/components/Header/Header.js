@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import UserIcon from '../UserIcon';
 import { hablaBlackLogo } from '../../img';
 import './styles/style.css';
+import String from '../../translations';
 
 const AntdHeader = Layout.Header;
 
@@ -30,11 +31,11 @@ class Header extends Component {
       <Menu >
         <Menu.Item key="accountSettings">
           <Link to="/app/editUser">
-            <span>Account Settings</span>
+            <span>{String.t('Header.accountSettings')}</span>
           </Link>
         </Menu.Item>
         <Menu.Item key="logout">
-          <a onClick={this.logOut}>Log Out</a>
+          <a onClick={this.logOut}>{String.t('Header.logOutMenu')}</a>
         </Menu.Item>
       </Menu>
     );
@@ -42,7 +43,7 @@ class Header extends Component {
     return (
       <AntdHeader className="header">
         <Link to="/app">
-          <img src={hablaBlackLogo} alt="Habla AI Logo" className="logo" />
+          <img src={hablaBlackLogo} alt={String.t('Header.logoAlt')} className="logo" />
         </Link>
         <div className="logo" />
         <Menu
@@ -63,15 +64,15 @@ class Header extends Component {
           </Menu.Item>
           <Menu.Item key="2">
             <Link to="/app/notifications">
-              <i className="fa fa-globe fa-2x" /><span>Notifications</span>
+              <i className="fa fa-globe fa-2x" /><span>{String.t('Header.noticationsLink')}</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="3">
             <Link to="/app/ckg">
-              <i className="fa fa-area-chart fa-2x" /><span>CKG</span>
+              <i className="fa fa-area-chart fa-2x" /><span>{String.t('Header.ckgLink')}</span>
             </Link>
           </Menu.Item>
-          <Menu.Item key="4"><i className="fa fa-search fa-2x" /><span>Search</span></Menu.Item>
+          <Menu.Item key="4"><i className="fa fa-search fa-2x" /><span>{String.t('Header.searchLink')}</span></Menu.Item>
         </Menu>
       </AntdHeader>
     );

@@ -1,6 +1,8 @@
+import String from '../../translations';
+
 export const defaultMessages = {
-  tooLong: 'First Name is limited to 30 characters',
-  format: 'Names are limited to alphabetic values'
+  tooLong: String.t('validationError.firstNameTooLong'),
+  format: String.t('validationError.firstNameFormat')
 };
 
 function constraints(customMessages) {

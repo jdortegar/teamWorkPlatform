@@ -3,6 +3,7 @@ import { Upload, message } from 'antd';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import './styles/style.css';
+import String from '../../../translations';
 
 const propTypes = {
   allowedTypes: PropTypes.array,
@@ -26,10 +27,16 @@ function getBase64(img, callback) {
 }
 
 function beforeUpload(file, allowedTypes) {
-  const isFileAllowed = allowedTypes.includes(file.type);
+  // TODO: Get the organization's policies for uploads to determine if the upload is valid or not.
+  const isFileAllowed = allowedTypes.length > 0; // allowedTypes.includes(file.type);
   if (!isFileAllowed) {
     message.error('You can only upload JPG, PNG and ICO files!');
   }
+//   const isLt2M = file.size / 1024 / 1024 < 2;
+//   if (!isLt2M) {
+//     message.error('Image must smaller than 2 MB!');
+//   }
+//   return isFileAllowed && isLt2M;
   return isFileAllowed;
 }
 
@@ -101,7 +108,7 @@ class UploadImageField extends Component {
       >
         {
           image ?
-            <img src={imageToShow} alt="Set Avatar" className={imageClass} /> :
+            <img src={imageToShow} alt={String.t('UploadImageField.alt')} className={imageClass} /> :
             <p className="avatar-uploader-trigger">{this.props.text}</p>
         }
       </Upload>

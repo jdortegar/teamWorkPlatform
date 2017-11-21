@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import TextField from '../../../components/formFields/TextField';
 import { createSubscriberOrgFromDialog, toggleOrgDialog } from '../../../actions';
 import { formShape } from '../../../propTypes';
+import String from '../../../translations';
 
 const propTypes = {
   form: formShape.isRequired,
@@ -47,9 +48,9 @@ class AddOrgDialog extends Component {
   render() {
     return (
       <Modal
-        title="Add Organization"
-        cancelText="Cancel"
-        okText="Add"
+        title={String.t('addOrgDialog.title')}
+        cancelText={String.t('cancelButton')}
+        okText={String.t('addOrgDialog.addButtonLabel')}
         visible={this.props.showOrgDialog}
         onOk={this.handleSubmit}
         confirmLoading={this.props.submittingOrgForm}
@@ -62,7 +63,7 @@ class AddOrgDialog extends Component {
             required
             label=""
             componentKey="name"
-            placeholder="Organization Name"
+            placeholder={String.t('addOrgDialog.namePlaceholder')}
           />
         </Form>
       </Modal>

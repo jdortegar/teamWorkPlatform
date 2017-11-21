@@ -8,9 +8,9 @@ import UploadImageField from '../../components/formFields/UploadImageField';
 import TextField from '../../components/formFields/TextField';
 import { formShape } from '../../propTypes';
 import { getJwt } from '../../session';
-import messages from './messages';
 import './styles/style.css';
 import config from '../../config/env';
+import String from '../../translations';
 
 const propTypes = {
   form: formShape.isRequired,
@@ -136,8 +136,8 @@ class EditOrganizationPage extends Component {
             this.setState({ loading: false });
             this.props.history.push(`/app/organization/${subscriberOrgId}`);
             notification.open({
-              message: messages.success,
-              description: messages.organizationUpdated,
+              message: String.t('editOrgPage.successToastTitle'),
+              description: String.t('editOrgPage.organizationUpdated'),
               duration: 4
             });
           });
@@ -157,20 +157,20 @@ class EditOrganizationPage extends Component {
     return (
       <div>
         <NewSubpageHeader>
-          <div className="subpage__header__title">{messages.title}</div>
+          <div className="subpage__header__title">{String.t('editOrgPage.title')}</div>
         </NewSubpageHeader>
         <div className="edit-org__subpage-body">
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="edit-org__form">
               <div className="edit__container">
                 <div>
-                  <div className="edit__form__title">{messages.organizationName}</div>
+                  <div className="edit__form__title">{String.t('editOrgPage.organizationName')}</div>
                   <TextField
                     componentKey="name"
                     initialValue={organization.name}
                     inputClassName="edit__form__input"
                     form={this.props.form}
-                    placeholder="Organization name"
+                    placeholder={String.t('editOrgPage.namePlaceholder')}
                     hasFeedback={false}
                     label=""
                     required
@@ -178,13 +178,13 @@ class EditOrganizationPage extends Component {
                 </div>
                 <div className="edit__container__image_wrapper">
                   <div className="edit__container__image__website">
-                    <div className="edit__form__title">{messages.webSite}</div>
+                    <div className="edit__form__title">{String.t('editOrgPage.webSiteLabel')}</div>
                     <TextField
                       componentKey="webSite"
                       initialValue={organization.preferences.webSite || ''}
                       inputClassName="edit__form__input"
                       form={this.props.form}
-                      placeholder="https://"
+                      placeholder={String.t('editOrgPage.webSitePlaceholder')}
                       hasFeedback={false}
                       label=""
                       required
@@ -193,7 +193,7 @@ class EditOrganizationPage extends Component {
                   </div>
                   <div className={containerImage}>
                     <UploadImageField
-                      text={messages.changeAvatar}
+                      text={String.t('editOrgPage.changeAvatarText')}
                       onChange={this.handleChange}
                       image={this.state.avatarBase64 || this.state.logo}
                       editOrg
@@ -217,7 +217,7 @@ class EditOrganizationPage extends Component {
                 className="Edit-team__button New-team__button--margin-right"
                 onClick={() => this.props.history.push(`/app/organization/${subscriberOrgId}`)}
               >
-                { messages.cancel }
+                {String.t('cancelButton')}
               </Button>
               <Button
                 type="primary"
@@ -225,7 +225,7 @@ class EditOrganizationPage extends Component {
                 onClick={this.handleSubmit}
                 loading={this.state.loading}
               >
-                { messages.save }
+                {String.t('editOrgPage.saveButtonLabel')}
               </Button>
             </div>
           </Form>

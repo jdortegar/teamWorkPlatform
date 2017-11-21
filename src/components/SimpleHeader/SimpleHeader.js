@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col, Input } from 'antd';
 import PropTypes from 'prop-types';
 import './styles/style.css';
+import String from '../../translations';
 
 const propTypes = {
   text: PropTypes.oneOfType([
@@ -35,7 +36,7 @@ function SimpleHeader(props) {
             props.search ?
               <Input
                 onChange={e => props.handleSearch(e.target.value)}
-                placeholder="Search"
+                placeholder={String.t('searchPlaceholder')}
                 prefix={<i className="fa fa-search" />}
               /> : null
           }

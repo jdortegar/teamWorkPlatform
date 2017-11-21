@@ -4,7 +4,7 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import UserIcon from '../UserIcon';
-import messages from './messages';
+import String from '../../translations';
 import {
   sortByName,
   primaryAtTop
@@ -221,7 +221,7 @@ class Sidebar extends Component {
         >
           <Menu.Item className="Sidebar__menu-info-item">
             <div>
-              {messages.teamRooms}
+              {String.t('teamRooms')}
             </div>
           </Menu.Item>
           { teamRooms }
@@ -253,7 +253,7 @@ class Sidebar extends Component {
         >
           <Menu.Item className="Sidebar__menu-info-item">
             <div>
-              {messages.teams}
+              {String.t('teams')}
             </div>
           </Menu.Item>
           {teams}
@@ -275,7 +275,7 @@ class Sidebar extends Component {
     return (
       <Sider width={235} className={sideClass}>
 
-        <div className="Sidebar-menu-item-label">{messages.organizations}</div>
+        <div className="Sidebar-menu-item-label">{String.t('organizations')}</div>
         <div className="organization-list">
           <Menu
             mode="inline"
@@ -285,7 +285,7 @@ class Sidebar extends Component {
             { this.renderOrgs() }
           </Menu>
           <div className="add-organization-button" onClick={this.handleAddOrganization}>
-            <i className="Sidebar__i fa fa-plus" /> {messages.addOrganization}
+            <i className="Sidebar__i fa fa-plus" /> {String.t('sideBar.addOrganization')}
           </div>
         </div>
       </Sider>

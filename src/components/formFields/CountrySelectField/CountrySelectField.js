@@ -3,7 +3,7 @@ import { Form, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { formShape } from '../../../propTypes';
 import countriesObj from './countries';
-import messages from './messages';
+import String from '../../../translations';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -24,7 +24,7 @@ const propTypes = {
 
 const defaultProps = {
   componentKey: 'country',
-  label: 'Country',
+  label: String.t('labelCountry'),
   layout: {},
   required: false,
   missingMessage: null,
@@ -54,8 +54,8 @@ class CountrySelectField extends Component {
       placeholder, className, selectClassName, initialValue, ...other
     } = this.props;
 
-    const translatedMissingMessage = missingMessage || messages.countryMissing;
-    const translatedPlaceHolder = placeholder || messages.country;
+    const translatedMissingMessage = missingMessage || String.t('Country.errNoText');
+    const translatedPlaceHolder = placeholder || String.t('labelCountryPlaceholder');
 
     const countries = countriesObj.map(({ name, code }) => {
       return <Option key={code} value={code}>{name}</Option>;

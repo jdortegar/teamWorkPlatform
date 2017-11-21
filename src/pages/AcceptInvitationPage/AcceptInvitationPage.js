@@ -5,9 +5,10 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import config from '../../config/env';
 import { getJwt } from '../../session';
-
+import String from '../../translations';
 
 const propTypes = {
+  invitation: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   match: PropTypes.shape({
@@ -51,13 +52,13 @@ class AcceptInvitationPage extends Component {
 
   render() {
     const { type } = this.props.match.params;
-    let term = '';
+    let msg = '';
     if (type === 'subscriberOrg') {
-      term = 'Subscriber Organization';
+      msg = String.t('msgInvitationToOrg', this.props.invitation);
     } else if (type === 'team') {
-      term = 'Team';
+      msg = String.t('msgInvitationToTeam', this.props.invitation);
     } else if (type === 'teamRoom') {
-      term = 'Team Room';
+      msg = String.t('msgInvitationToTeamRoom', this.props.invitation);
     }
 
     return (
@@ -65,18 +66,18 @@ class AcceptInvitationPage extends Component {
         {
           !this.state.loading ?
             <div>
-              <h2 style={{ marginBottom: '20px' }}>You have been invited to join a {term}</h2>
+              <h2 style={{ marginBottom: '20px' }}>{msg}</h2>
               <Button
                 onClick={() => this.handleClick('accept')}
                 style={{ marginRight: '15px' }}
               >
-                Accept Invitation
+                {String.t('buttonAcceptInvitation')}
               </Button>
               <Button
                 onClick={() => this.handleClick('decline')}
                 style={{ marginLeft: '15px' }}
               >
-                Decline Invitation
+                {String.t('buttonDeclineInvitation')}
               </Button>
             </div> : <Spin size="large" />
         }

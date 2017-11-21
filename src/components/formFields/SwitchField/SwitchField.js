@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Switch } from 'antd';
 import classNames from 'classnames';
 import { formShape } from '../../../propTypes';
-import messages from './messages';
 
 const { string, bool } = PropTypes;
 const propTypes = {
@@ -16,8 +15,8 @@ const propTypes = {
 };
 
 const defaultProps = {
-  checkedChildren: messages.on,
-  unCheckedChildren: messages.off
+  checkedChildren: '',
+  unCheckedChildren: ''
 };
 
 function SwitchField(props) {

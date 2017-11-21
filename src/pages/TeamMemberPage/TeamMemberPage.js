@@ -5,6 +5,7 @@ import SimpleCardContainer from '../../components/SimpleCardContainer';
 import { IconCard } from '../../components/cards';
 import CardView from './CardView';
 import './styles/style.css';
+import String from '../../translations';
 
 class TeamMemberPage extends Component {
   constructor(props) {
@@ -24,10 +25,10 @@ class TeamMemberPage extends Component {
 
     return (
       <div>
-        <SubpageHeader breadcrumb="Team Member" />
+        <SubpageHeader breadcrumb={String.t('teamMemberPage.breadcrumb')} />
         <SimpleCardContainer className="subpage-block">
           <Row type="flex" justify="start" gutter={20}>
-            { renderProfileCard('Profile Picture') }
+            { renderProfileCard(String.t('teamMemberPage.profilePictureLabel')) }
             <Col xs={{ span: 24 }} sm={{ span: 16 }} md={{ span: 19 }}>
               <div className="team-member-page__member-info">
                 <h1>Gonzalo</h1>

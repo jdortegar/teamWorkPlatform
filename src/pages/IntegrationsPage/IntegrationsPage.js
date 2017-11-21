@@ -11,7 +11,7 @@ import { ImageCard } from '../../components/cards';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import UserIcon from '../../components/UserIcon';
 import { boxLogo, googleDriveLogo } from '../../img';
-import messages from './messages';
+import String from '../../translations';
 import './styles/style.css';
 
 const propTypes = {
@@ -57,7 +57,7 @@ class IntegrationsPage extends Component {
 
     if (error) {
       return (
-        <div>Request for Integrations failed.</div>
+        <div>{String.t('integrationsPage.errorMessage')}</div>
       );
     }
 
@@ -97,7 +97,7 @@ class IntegrationsPage extends Component {
       }
       integrationsArr.push(
         <div key="box">
-          <Tooltip placement="top" title={messages.box}>
+          <Tooltip placement="top" title="Box">
             <Link to={`/app/integrations/${subscriberOrgId}/box`}>
               <ImageCard imgSrc={boxLogo} extra={boxExtra} />
             </Link>
@@ -106,7 +106,7 @@ class IntegrationsPage extends Component {
       );
       integrationsArr.push(
         <div key="google">
-          <Tooltip placement="top" title={messages.google}>
+          <Tooltip placement="top" title="Google">
             <Link to={`/app/integrations/${subscriberOrgId}/google`}>
               <ImageCard imgSrc={googleDriveLogo} extra={googleExtra} />
             </Link>
@@ -122,11 +122,11 @@ class IntegrationsPage extends Component {
       <div>
         <SubpageHeader
           icon={<UserIcon user={subscriberOrg} type="team" clickable={false} />}
-          breadcrumb={<div><span className="breadcrumb_underline">{subscriberOrg.name}</span> / {messages.addNewIntegrations}</div>}
+          breadcrumb={<div><span className="breadcrumb_underline">{subscriberOrg.name}</span> / {String.t('integrationsPage.addNewIntegrations')}</div>}
         />
         <SimpleHeader
           text={
-            <h2 className="IntegrationsPage__header">{messages.selectIntegration}</h2>
+            <h2 className="IntegrationsPage__header">{String.t('integrationsPage.selectIntegration')}</h2>
           }
           type="node"
         />

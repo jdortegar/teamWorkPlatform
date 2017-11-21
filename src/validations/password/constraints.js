@@ -1,9 +1,11 @@
+import String from '../../translations';
+
 export const defaultMessages = {
-  length: 'Must be at least 8 characters but no longer than 12',
-  oneLowercase: 'Must have at least one lowercase letter (a-z)',
-  oneNumber: 'Must have at least one number (0-9)',
-  oneSpecial: 'Must have at least one special character',
-  oneUppercase: 'Must have at least one uppercase letter (A-Z)'
+  length: String.t('errPasswordTooShort'),
+  oneLowercase: String.t('validationError.passwordOneLower'),
+  oneNumber: String.t('validationError.passwordOneNumber'),
+  oneSpecial: String.t('validationError.passwordOneSpecial'),
+  oneUppercase: String.t('validationError.passwordOneUppercase')
 };
 
 function constraints(customMessages) {
@@ -15,7 +17,7 @@ function constraints(customMessages) {
   return {
     length: {
       minimum: 8,
-      maximum: 12,
+      maximum: 80,
       message: messages.length
     },
     oneLowercase: {

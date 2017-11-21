@@ -11,6 +11,7 @@ import { formShape } from '../../../propTypes';
 import config from '../../../config/env';
 import { getJwt } from '../../../session';
 import './styles/style.css';
+import String from '../../../translations';
 
 const propTypes = {
   form: formShape.isRequired,
@@ -97,7 +98,7 @@ class InvitePeopleDialog extends Component {
           {
             this.state.inviteesArr.length > 1 ?
               <Col className="gutter-row" span={3}>
-                <a onClick={() => this.removeInvitees(el)} className="remove-field">Remove</a>
+                <a onClick={() => this.removeInvitees(el)} className="remove-field">{String.t('invitePeopleDialog.removeLink')}</a>
               </Col> : null
           }
         </Row>
@@ -108,9 +109,9 @@ class InvitePeopleDialog extends Component {
   render() {
     return (
       <Modal
-        title="Invite People"
-        cancelText="Cancel"
-        okText="Send Invitations"
+        title={String.t('invitePeopleDialog.title')}
+        cancelText={String.t('cancelButton')}
+        okText={String.t('inviteMembersSendInvitesButton', { count: this.state.inviteesArr.length })}
         visible={this.props.showInvitePeopleDialog}
         onOk={this.handleSubmit}
         confirmLoading={this.props.submittingInviteOrgForm}

@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Popover, Col, Row } from 'antd';
-import { injectIntl, intlShape } from 'react-intl';
+import { Form, Col, Row } from 'antd';
 import {
   antValidate,
-  equalityI18N, passwordI18N
+  equality, password
 } from '../../../validations';
 import { formShape, layoutShape } from '../../../propTypes';
 import BaseInput from '../BaseInput';
-import PasswordRequirements from '../PasswordRequirements';
-import messages from './messages';
+import String from '../../../translations';
 
 const FormItem = Form.Item;
 
 class ConfirmPasswordField extends Component {
   static propTypes = {
-    intl: intlShape.isRequired,
     form: formShape.isRequired,
     componentKey: PropTypes.string,
     initialValue: PropTypes.string,
@@ -28,9 +25,9 @@ class ConfirmPasswordField extends Component {
   static defaultProps = {
     componentKey: 'passwordConfirm',
     initialValue: null,
-    placeholder: null,
+    placeholder: String.t('labelConfirmPasswordPlaceholder'),
     required: true,
-    missingMessage: null,
+    missingMessage: String.t('errPasswordMissing'),
     layout: {}
   };
 
@@ -57,9 +54,7 @@ class ConfirmPasswordField extends Component {
   }
 
   renderPasswordField() {
-    const { componentKey, form, layout, placeholder, missingMessage, intl, ...rest } = this.props;
-    const translatedPlaceHolder = placeholder || messages.password;
-    const translatedMissingMessage = missingMessage || messages.passwordMissing;
+    const { componentKey, form, layout, placeholder, missingMessage, ...rest } = this.props;
 
     const decoratedInput = BaseInput({
       ...rest,
@@ -67,38 +62,32 @@ class ConfirmPasswordField extends Component {
       componentKey,
       type: 'password',
       extraRules: [
-        { validator: antValidate(passwordI18N(intl)) }
+        { validator: antValidate(password) }
       ],
       onChange: this.updatePassword,
       onFocus: this.showPopover,
       onBlur: this.hidePopover,
-      missingMessage: translatedMissingMessage,
-      placeholder: translatedPlaceHolder
+      missingMessage,
+      placeholder
     });
 
     return (
       <FormItem
         labelCol={layout.labelCol}
         wrapperCol={layout.wrapperCol}
-        label={messages.password}
+        label={String.t('labelPassword')}
         hasFeedback
       >
         {decoratedInput}
-        <Popover
-          title={messages.passwordRequirement}
-          placement="right"
-          content={<PasswordRequirements password={this.state.password} />}
-          visible={this.state.isPopoverVisible}
-        />
       </FormItem>
     );
   }
 
   renderConfirmPasswordField() {
-    const { componentKey, form, layout, intl, ...rest } = this.props;
+    const { componentKey, form, layout, ...rest } = this.props;
 
     const comparator = value => value === form.getFieldValue(componentKey);
-    const message = messages.passwordNoMatch;
+    const message = String.t('errConfirmPasswordNoMatch');
 
     const decoratedInput = BaseInput({
       ...rest,
@@ -106,17 +95,17 @@ class ConfirmPasswordField extends Component {
       componentKey: `${componentKey}Confirm`,
       type: 'password',
       extraRules: [
-        { validator: antValidate(equalityI18N(intl, comparator, { equality: message })) }
+        { validator: antValidate(equality(comparator, { equality: message })) }
       ],
-      placeholder: messages.confirmPassword,
-      missingMessage: messages.confirmPasswordMissing
+      placeholder: String.t('labelConfirmPasswordPlaceholder'),
+      missingMessage: String.t('errPasswordMissing')
     });
 
     return (
       <FormItem
         labelCol={layout.labelCol}
         wrapperCol={layout.wrapperCol}
-        label={messages.confirmPassword}
+        label={String.t('labelConfirmPassword')}
         hasFeedback
       >
         {decoratedInput}
@@ -138,4 +127,4 @@ class ConfirmPasswordField extends Component {
   }
 }
 
-export default injectIntl(ConfirmPasswordField);
+export default ConfirmPasswordField;

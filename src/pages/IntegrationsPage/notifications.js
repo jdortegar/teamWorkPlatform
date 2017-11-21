@@ -1,43 +1,45 @@
-function selectProvider(integration) {
+import String from '../../translations';
+
+function providerName(integration) {
   if (integration === 'google') {
     return 'Google Drive';
   } else if (integration === 'box') {
     return 'Box';
   }
 
-  return 'Error';
+  return String.t('integrationsPage.providerError');
 }
 
 export function successfulIntegration(integration) {
-  const provider = selectProvider(integration);
+  const name = providerName(integration);
 
   return {
-    message: 'Successful Integration',
-    description: `You have successfully authorized ${provider} access.`,
+    message: String.t('integrationsPage.successMessage'),
+    description: String.t('integrationsPage.successDescription', { name }),
     duration: 4
   };
 }
 
 export function badIntegration({ integration, status }) {
-  const provider = selectProvider(integration);
+  const name = providerName(integration);
 
   if (status === 'FORBIDDEN') {
     return {
-      message: 'Something Wrong',
-      description: `You did not authorize ${provider} access`,
+      message: String.t('integrationsPage.forbiddenMessage'),
+      description: String.t('integrationsPage.forbiddenDescription', { name }),
       duration: 4
     };
   } else if (status === 'NOT_FOUND') {
     return {
-      message: 'Something Wrong',
-      description: 'You don\'t have permission to do add a provider',
+      message: String.t('integrationsPage.notFoundMessage'),
+      description: String.t('integrationsPage.notFoundDescription'),
       duration: 4
     };
   }
 
   return {
-    message: 'Something Wrong',
-    description: 'We were unable to add your provider',
+    message: String.t('integrationsPage.unknownMessage'),
+    description: String.t('integrationsPage.unknownDescription', { name }),
     duration: 4
   };
 }
