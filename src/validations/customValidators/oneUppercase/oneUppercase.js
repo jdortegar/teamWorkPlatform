@@ -1,11 +1,12 @@
 import validate from 'validate.js';
+import String from '../../../translations';
 
 const regex = /(?=.*[A-Z])/;
-const message = 'has at least one uppercase letter (A-Z)';
+const message = String.t('validationError.passwordOneUppercase');
 
 function oneUppercase(value, options) {
   if (!validate.isString(value)) {
-    return 'must be a string';
+    return String.t('validationError.notAString');
   }
 
   if (!regex.test(value)) {

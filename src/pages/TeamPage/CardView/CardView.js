@@ -60,25 +60,27 @@ function CardView(props) {
 
   const userMember = teamMembers.filter(({ userId }) => { return userId === props.userId; })[0];
   const isTeamAdmin = (userMember.teams[props.teamId].role === 'admin');
+  const roomsSection = String.t('cardView.roomsHeader', { count: teamRooms.length });
+  const membersSection = String.t('cardView.membersHeader', { count: teamMembers.length });
 
   return (
     <div>
       <Collapse defaultActiveKey={['1', '2', '3']} bordered={false}>
         <Panel
-          header={<SimpleHeader text={`Team Rooms (${teamRooms.length})`} />}
+          header={<SimpleHeader text={roomsSection} />}
           key="1"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {isTeamAdmin && renderAddCard(String.t('TeamPage.addNewTeamRoom'), `/app/createTeamRoom/${props.teamId}`) }
+            {isTeamAdmin && renderAddCard(String.t('cardView.addNewTeamRoom'), `/app/createTeamRoom/${props.teamId}`) }
             { renderTeamRooms() }
           </SimpleCardContainer>
         </Panel>
         <Panel
-          header={<SimpleHeader text={`Team Members (${teamMembers.length})`} />}
+          header={<SimpleHeader text={membersSection} />}
           key="2"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {isTeamAdmin && renderAddCard(String.t('TeamPage.inviteNewMember'), `/app/inviteToTeam/${props.teamId}`) }
+            {isTeamAdmin && renderAddCard(String.t('cardView.inviteNewMember'), `/app/inviteToTeam/${props.teamId}`) }
             { renderTeamMembers() }
           </SimpleCardContainer>
         </Panel>

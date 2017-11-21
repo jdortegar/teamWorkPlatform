@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import EmailField from '../../../components/formFields/EmailField';
 import { formShape } from '../../../propTypes';
+import String from '../../../translations';
 
 const propTypes = {
   form: formShape.isRequired,
@@ -23,7 +24,7 @@ class InvitePeopleTab extends Component {
 
     return (
       <div>
-        <h1 style={{ textAlign: 'center' }}>Invite Team Members</h1>
+        <h1 style={{ textAlign: 'center' }}>{String.t('inviteTeamMembersTitle')}</h1>
         <Form onSubmit={this.handleSubmit} layout="vertical" style={{ marginTop: '30px' }}>
           <Row gutter={16}>
             <Col className="gutter-row" span={20}>

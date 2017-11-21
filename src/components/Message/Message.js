@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import UserIcon from '../UserIcon';
 import PreviewImages from '../PreviewImages';
 import './styles/style.css';
+import String from '../../translations';
 
 const propTypes = {
   hide: PropTypes.bool.isRequired,
@@ -64,9 +65,10 @@ class Message extends Component {
     const justTextContent = _.find(content, { type: 'text/plain' });
     const contentJustImage = content.filter(resource => resource.type !== 'text/plain');
     const text = !!justTextContent;
+    const name = String.t('message.sentByName', { firstName, lastName });
     const messageBody = (
       <div>
-        <p className="message__body-name">{firstName} {lastName}</p>
+        <p className="message__body-name">{name}</p>
         <p className="message__body-text">
           { text && justTextContent.text }
           <span className="message__body-text-date"> ({date})</span>
@@ -97,7 +99,7 @@ class Message extends Component {
             </span>
           }
           <div className="message__options hide">
-            <Tooltip placement="topLeft" title="Reply" arrowPointAtCenter>
+            <Tooltip placement="topLeft" title={String.t('message.tooltipReply')} arrowPointAtCenter>
               <a
                 className="message__icons"
                 onClick={() => this.handleReplyTo({ firstName, lastName, text, messageId, preferences })}
@@ -105,7 +107,7 @@ class Message extends Component {
                 <i className="fa fa-reply" />
               </a>
             </Tooltip>
-            <Tooltip placement="topLeft" title="Add File(s)" arrowPointAtCenter>
+            <Tooltip placement="topLeft" title={String.t('message.tooltipAddFile')} arrowPointAtCenter>
               <input
                 id="replyFileUpload"
                 className="team-room__file-upload-input"
@@ -122,25 +124,25 @@ class Message extends Component {
                 </a>
               </label>
             </Tooltip>
-            <Tooltip placement="topLeft" title="Bookmark" arrowPointAtCenter>
+            <Tooltip placement="topLeft" title={String.t('message.tooltipBookmark')} arrowPointAtCenter>
               <a className="message__icons"><i className="fa fa-bookmark-o" /></a>
             </Tooltip>
-            <Tooltip placement="topLeft" title="Thumbs Up" arrowPointAtCenter>
+            <Tooltip placement="topLeft" title={String.t('message.tooltipThumbsUp')} arrowPointAtCenter>
               <a className="message__icons"><i className="fa fa-thumbs-o-up" /></a>
             </Tooltip>
-            <Tooltip placement="topLeft" title="Thumbs Down" arrowPointAtCenter>
+            <Tooltip placement="topLeft" title={String.t('message.tooltipThumbsDown')} arrowPointAtCenter>
               <a className="message__icons"><i className="fa fa-thumbs-o-down" /></a>
             </Tooltip>
-            <Tooltip placement="topLeft" title="Flag" arrowPointAtCenter>
+            <Tooltip placement="topLeft" title={String.t('message.tooltipFlag')} arrowPointAtCenter>
               <a className="message__icons"><i className="fa fa-flag" /></a>
             </Tooltip>
-            <Tooltip placement="topLeft" title="Mute" arrowPointAtCenter>
+            <Tooltip placement="topLeft" title={String.t('message.tooltipMute')} arrowPointAtCenter>
               <a onClick={this.changeVolume} className={mute}><i className="fa fa-volume-up" /></a>
             </Tooltip>
-            <Tooltip placement="topLeft" title="Unmute" arrowPointAtCenter>
+            <Tooltip placement="topLeft" title={String.t('message.tooltipUnmute')} arrowPointAtCenter>
               <a onClick={this.changeVolume} className={unmute}><i className="fa fa-volume-off" /></a>
             </Tooltip>
-            <Tooltip placement="topLeft" title="Edit" arrowPointAtCenter>
+            <Tooltip placement="topLeft" title={String.t('message.tooltipEdit')} arrowPointAtCenter>
               <a className="message__icons"><i className="fa fa-pencil" /></a>
             </Tooltip>
           </div>

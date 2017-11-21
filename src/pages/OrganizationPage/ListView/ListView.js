@@ -4,6 +4,7 @@ import _ from 'lodash';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
 import ListViewItem from '../../../components/ListViewItem/ListViewItem';
+import String from '../../../translations';
 
 const propTypes = {
   integrations: PropTypes.object.isRequired,
@@ -72,14 +73,14 @@ function ListView(props) {
         text={
           <div>
             <h2 className="simple-header__title simple-header__title--padding-right">
-              {integrations.length === 0 ? 'No' : integrations.length} Data Integrations
+              {String.t('OrganizationPage.integrationsCount', { count: integrations.length })}
               <span className="simple-header__icon-span simple-header__icon-span--padding-left">
-                <a className="simple-header__icon-action" title="Card View" onClick={onSwitchView}>
+                <a className="simple-header__icon-action" title={String.t('cardViewTitle')} onClick={onSwitchView}>
                   <i className="fa fa-th-large" />
                 </a>
               </span>
               <span className="simple-header__icon-span">
-                <a className="simple-header__icon-action simple-header__icon-action--black" title="List View">
+                <a className="simple-header__icon-action simple-header__icon-action--black" title={String.t('listViewTitle')}>
                   <i className="fa fa-align-justify" />
                 </a>
               </span>
@@ -89,17 +90,17 @@ function ListView(props) {
         type="node"
       />
       <SimpleCardContainer className="Simple-card--no-padding">
-        <ListViewItem name="Add New Integration" />
+        <ListViewItem name={String.t('OrganizationPage.addNewIntegration')} />
         {renderIntegrations()}
       </SimpleCardContainer>
       <SimpleHeader text={`${teams.length} Members`} search />
       <SimpleCardContainer className="Simple-card--no-padding">
-        <ListViewItem name="Add New Team" />
+        <ListViewItem name={String.t('OrganizationPage.addNewTeam')} />
         {renderTeams()}
       </SimpleCardContainer>
       <SimpleHeader text={`${subscribers.length} Members`} />
       <SimpleCardContainer className="Simple-card--no-padding">
-        <ListViewItem name="Add New Member" />
+        <ListViewItem name={String.t('OrganizationPage.addNewMember')} />
         {renderMembers()}
       </SimpleCardContainer>
     </div>

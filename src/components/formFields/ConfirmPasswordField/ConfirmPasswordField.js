@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Popover, Col, Row } from 'antd';
+import { Form, Col, Row } from 'antd';
 import {
   antValidate,
   equality, password
 } from '../../../validations';
 import { formShape, layoutShape } from '../../../propTypes';
 import BaseInput from '../BaseInput';
-import PasswordRequirements from '../PasswordRequirements';
-import messages from './messages';
+import String from '../../../translations';
 
 const FormItem = Form.Item;
 
@@ -26,9 +25,9 @@ class ConfirmPasswordField extends Component {
   static defaultProps = {
     componentKey: 'passwordConfirm',
     initialValue: null,
-    placeholder: null,
+    placeholder: String.t('labelConfirmPasswordPlaceholder'),
     required: true,
-    missingMessage: null,
+    missingMessage: String.t('errPasswordMissing'),
     layout: {}
   };
 
@@ -56,8 +55,6 @@ class ConfirmPasswordField extends Component {
 
   renderPasswordField() {
     const { componentKey, form, layout, placeholder, missingMessage, ...rest } = this.props;
-    const translatedPlaceHolder = placeholder || messages.password;
-    const translatedMissingMessage = missingMessage || messages.passwordMissing;
 
     const decoratedInput = BaseInput({
       ...rest,
@@ -70,24 +67,18 @@ class ConfirmPasswordField extends Component {
       onChange: this.updatePassword,
       onFocus: this.showPopover,
       onBlur: this.hidePopover,
-      missingMessage: translatedMissingMessage,
-      placeholder: translatedPlaceHolder
+      missingMessage,
+      placeholder
     });
 
     return (
       <FormItem
         labelCol={layout.labelCol}
         wrapperCol={layout.wrapperCol}
-        label={messages.password}
+        label={String.t('labelPassword')}
         hasFeedback
       >
         {decoratedInput}
-        <Popover
-          title={messages.passwordRequirement}
-          placement="right"
-          content={<PasswordRequirements password={this.state.password} />}
-          visible={this.state.isPopoverVisible}
-        />
       </FormItem>
     );
   }
@@ -96,7 +87,7 @@ class ConfirmPasswordField extends Component {
     const { componentKey, form, layout, ...rest } = this.props;
 
     const comparator = value => value === form.getFieldValue(componentKey);
-    const message = messages.passwordNoMatch;
+    const message = String.t('errConfirmPasswordNoMatch');
 
     const decoratedInput = BaseInput({
       ...rest,
@@ -106,15 +97,15 @@ class ConfirmPasswordField extends Component {
       extraRules: [
         { validator: antValidate(equality(comparator, { equality: message })) }
       ],
-      placeholder: messages.confirmPassword,
-      missingMessage: messages.confirmPasswordMissing
+      placeholder: String.t('labelConfirmPasswordPlaceholder'),
+      missingMessage: String.t('errPasswordMissing')
     });
 
     return (
       <FormItem
         labelCol={layout.labelCol}
         wrapperCol={layout.wrapperCol}
-        label={messages.confirmPassword}
+        label={String.t('labelConfirmPassword')}
         hasFeedback
       >
         {decoratedInput}

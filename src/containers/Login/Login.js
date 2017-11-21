@@ -11,6 +11,7 @@ import EmailField from '../../components/formFields/EmailField';
 import PasswordField from '../../components/formFields/PasswordField';
 import { loginUser } from '../../actions';
 import './styles/login.css';
+import String from '../../translations';
 
 const FormItem = Form.Item;
 
@@ -70,7 +71,7 @@ class Login extends React.Component {
     const { getFieldDecorator } = this.props.form;
 
     if (this.state.submited && this.props.error) {
-      message.error('The login credentials are not valid. Please try again.');
+      message.error(String.t('errLoginPasswordInvalid'));
       this.props.form.resetFields(['password']);
       this.setState({
         submited: false
@@ -95,17 +96,17 @@ class Login extends React.Component {
             valuePropName: 'checked',
             initialValue: false
           })(
-            <Checkbox>Remember me</Checkbox>
+            <Checkbox>{String.t('login.rememberMeCheckboxLabel')}</Checkbox>
           )}
-          <a className="login-form-forgot" href="">Forgot password</a>
+          <a className="login-form-forgot" href="">{String.t('login.forgotPasswordLabel')}</a>
           {
             this.props.loggingIn ?
               <Spin size="large" style={{ width: '100%' }} /> :
               <Button type="primary" htmlType="submit" className="login-form-button">
-                Log in
+                {String.t('login.loginButtonLabel')}
               </Button>
           }
-          Or <Link to="/register">register now!</Link>
+          <Link to="/register">{String.t('login.signUpLabel')}</Link>
         </FormItem>
       </Form>
     );

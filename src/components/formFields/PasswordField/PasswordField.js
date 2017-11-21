@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Form } from 'antd';
 import { antValidate, password } from '../../../validations';
 import BaseInput from '../BaseInput';
-import messages from './messages';
+import String from '../../../translations';
 
 const FormItem = Form.Item;
 
@@ -22,7 +22,7 @@ const propTypes = {
 const defaultProps = {
   componentKey: 'password',
   layout: {},
-  label: 'Password',
+  label: String.t('labelPassword'),
   initialValue: '',
   placeholder: null,
   required: true,
@@ -33,8 +33,8 @@ const defaultProps = {
 function PasswordField(props) {
   const { layout, label, missingMessage, placeholder, validatePassword, ...rest } = props;
 
-  const translatedPlaceHolder = placeholder || messages.password;
-  const translatedMissingMessage = missingMessage || messages.passwordMissing;
+  const translatedPlaceHolder = placeholder || String.t('labelPasswordPlaceholder');
+  const translatedMissingMessage = missingMessage || String.t('errPasswordMissing');
 
   const extraRules = [];
   if (validatePassword) {

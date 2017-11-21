@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, AutoComplete, Input } from 'antd';
 import PropTypes from 'prop-types';
 import { formShape } from '../../../propTypes';
-import messages from './messages';
+import String from '../../../translations';
 
 const FormItem = Form.Item;
 
@@ -22,7 +22,7 @@ const propTypes = {
 
 const defaultProps = {
   componentKey: 'autocomplete',
-  label: messages.autoComplete,
+  label: String.t('AutoCompleteField.defaultLabel'),
   layout: {},
   required: false,
   missingMessage: null,
@@ -52,8 +52,8 @@ class AutoCompleteField extends Component {
       placeholder, className, autoCompleteClassName, dataSource, ...other
     } = this.props;
 
-    const translatedMissingMessage = missingMessage || messages.autoCompleteMissing;
-    const translatedPlaceHolder = placeholder || messages.autoComplete;
+    const translatedMissingMessage = missingMessage || String.t('AutoCompleteField.errNoText');
+    const translatedPlaceHolder = placeholder || String.t('AutoCompleteField.defaultLabel');
 
     return (
       <FormItem

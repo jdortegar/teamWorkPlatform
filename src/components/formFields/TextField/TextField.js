@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'antd';
 import BaseInput from '../BaseInput';
-import messages from './messages';
+import String from '../../../translations';
 
 const FormItem = Form.Item;
 
@@ -27,7 +27,7 @@ const propTypes = {
 const defaultProps = {
   componentKey: 'input',
   colon: true,
-  label: 'Input',
+  label: String.t('InputField.defaultLabel'),
   required: false,
   extraRules: [],
   layout: {},
@@ -48,8 +48,8 @@ function TextField(props) {
     className, inputClassName, ...other
   } = props;
 
-  const translatedPlaceHolder = placeholder || messages.input;
-  const translatedMissingMessage = missingMessage || messages.inputMissing;
+  const translatedPlaceHolder = placeholder || String.t('InputField.defaultPlaceholder');
+  const translatedMissingMessage = missingMessage || String.t('InputField.errNoText');
 
   const customInput = BaseInput({
     ...other,

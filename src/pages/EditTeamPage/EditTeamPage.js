@@ -9,7 +9,7 @@ import TextField from '../../components/formFields/TextField';
 import SwitchField from '../../components/formFields/SwitchField';
 import UserIcon from '../../components/UserIcon';
 import { formShape } from '../../propTypes';
-import messages from './messages';
+import String from '../../translations';
 import './styles/style.css';
 
 const propTypes = {
@@ -46,8 +46,8 @@ class EditTeamPage extends Component {
             this.setState({ loading: false });
             this.props.history.push(`/app/team/${teamId}`);
             notification.open({
-              message: messages.success,
-              description: messages.teamUpdated,
+              message: String.t('editTeamPage.successToastTitle'),
+              description: String.t('editTeamPage.teamUpdated'),
               duration: 4
             });
           });
@@ -70,7 +70,7 @@ class EditTeamPage extends Component {
             <div>
               <Link to={`/app/organization/${subscriberOrg.subscriberOrgId}`}>
                 <span className="breadcrumb_underline">{subscriberOrg.name}</span>
-              </Link> / {team.name} (Edit)
+              </Link> / {team.name}
             </div>
           }
         />
@@ -79,12 +79,12 @@ class EditTeamPage extends Component {
             <Row type="flex" justify="start" gutter={20}>
               <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
                 <div className="Edit-team__icon-container">
-                  <UploadImageField text={messages.changeAvatar} image={team.icon} />
+                  <UploadImageField text={String.t('editTeamPage.changeAvatarText')} image={team.icon} />
                   <div className="Edit-team__switch-container">
-                    <Tooltip placement="top" title={team.active ? messages.setInactive : messages.setActive}>
+                    <Tooltip placement="top" title={team.active ? String.t('editTeamPage.setInactive') : String.t('editTeamPage.setActive')}>
                       <SwitchField
-                        checkedChildren={messages.active}
-                        unCheckedChildren={messages.inactive}
+                        checkedChildren={String.t('editTeamPage.activeState')}
+                        unCheckedChildren={String.t('editTeamPage.inactiveState')}
                         form={this.props.form}
                         componentKey="active"
                         initialValue={team.active}
@@ -96,7 +96,7 @@ class EditTeamPage extends Component {
               </Col>
               <Col xs={{ span: 24 }} sm={{ span: 14 }} md={{ span: 16 }}>
                 <div className="Edit-team__container">
-                  <h1 className="Edit-team__title">{messages.teamName}</h1>
+                  <h1 className="Edit-team__title">{String.t('editTeamPage.teamName')}</h1>
                   <TextField
                     componentKey="name"
                     initialValue={team.name}
@@ -114,14 +114,14 @@ class EditTeamPage extends Component {
                     onClick={this.handleSubmit}
                     loading={this.state.loading}
                   >
-                    { messages.save }
+                    {String.t('editTeamPage.saveButtonLabel')}
                   </Button>
                   <Button
                     type="primary"
                     className="Edit-team__button"
                     onClick={() => this.props.history.push(`/app/team/${teamId}`)}
                   >
-                    { messages.cancel }
+                    {String.t('cancelButton')}
                   </Button>
                 </div>
               </Col>

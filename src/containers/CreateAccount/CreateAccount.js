@@ -12,6 +12,7 @@ import ConfirmPasswordField from '../../components/formFields/ConfirmPasswordFie
 import CountrySelectField from '../../components/formFields/CountrySelectField';
 import TimezoneSelectField from '../../components/formFields/TimezoneSelectField';
 import { createAccount, loginUser } from '../../actions';
+import String from '../../translations';
 
 const FormItem = Form.Item;
 const defaultTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -124,7 +125,7 @@ class CreateAccount extends React.Component {
               form={this.props.form}
               layout={layout}
               countryCode={this.state.countryCode}
-              notFoundContent="Please select a country"
+              notFoundContent={String.t('Country.errNoText')}
               initialValue={this.state.timeZone}
               required
             />
@@ -132,7 +133,7 @@ class CreateAccount extends React.Component {
         </Row>
         <FormItem>
           <Button loading={this.state.loading} type="primary" htmlType="submit" className="login-form-button">
-            Create Account
+            {String.t('createAccount.createAccountButtonLabel')}
           </Button>
         </FormItem>
       </Form>

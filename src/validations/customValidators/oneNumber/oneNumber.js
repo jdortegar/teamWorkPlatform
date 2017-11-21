@@ -1,11 +1,12 @@
 import validate from 'validate.js';
+import String from '../../../translations';
 
 const regex = /(?=.*[0-9])/;
-const message = 'has at least one number (0-9)';
+const message = String.t('validationError.passwordOneNumber');
 
 function oneNumber(value, options) {
   if (!validate.isString(value)) {
-    return 'must be a string';
+    return String.t('validationError.notAString');
   }
 
   if (!regex.test(value)) {

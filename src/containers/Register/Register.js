@@ -6,6 +6,7 @@ import config from '../../config/env';
 import { axiosOptionsForNewCustomer } from '../../session';
 import EmailField from '../../components/formFields/EmailField';
 import './styles/style.css';
+import String from '../../translations';
 
 const FormItem = Form.Item;
 
@@ -49,7 +50,7 @@ class Register extends React.Component {
       return (
         <div className="registration-success">
           <div><Icon type="check-circle-o" /></div>
-          <h2 style={{ textAlign: 'center' }}>Thank you for joining Habla AI! To finish signing up, please check your email to verify your account.</h2>
+          <h2 style={{ textAlign: 'center' }}>{String.t('register.successText')}</h2>
         </div>
       );
     } else if (this.state.submitting) {
@@ -59,7 +60,7 @@ class Register extends React.Component {
     return (
       <FormItem>
         <Button type="primary" htmlType="submit" className="login-form-button">
-          Register
+          {String.t('register.registerButtonLabel')}
         </Button>
       </FormItem>
     );

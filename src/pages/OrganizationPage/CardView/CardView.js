@@ -134,7 +134,7 @@ function CardView(props) {
       <Collapse defaultActiveKey={['1', '2', '3']} bordered={false}>
         {isOrgAdmin &&
           <Panel
-            header={<SimpleHeader text={`Data Integrations (${integrationsArr.length})`} />}
+            header={<SimpleHeader text={String.t('OrganizationPage.integrationsHeader', { count: subscribers.length })} />}
             key="1"
           >
             <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
@@ -144,7 +144,7 @@ function CardView(props) {
           </Panel>
         }
         <Panel
-          header={<SimpleHeader text={`Teams (${teams.length})`} />}
+          header={<SimpleHeader text={String.t('OrganizationPage.teamsHeader', { count: teams.length })} />}
           key="2"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
@@ -153,7 +153,7 @@ function CardView(props) {
           </SimpleCardContainer>
         </Panel>
         <Panel
-          header={<SimpleHeader text={`Members (${subscribers.length})`} />}
+          header={<SimpleHeader text={String.t('OrganizationPage.membersHeader', { count: subscribers.length })} />}
           key="3"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">

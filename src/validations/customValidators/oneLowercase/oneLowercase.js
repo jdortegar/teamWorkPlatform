@@ -1,11 +1,12 @@
 import validate from 'validate.js';
+import String from '../../../translations';
 
 const regex = /(?=.*[a-z])/;
-const message = 'has at least one lowercase letter (a-z)';
+const message = String.t('validationError.passwordOneLower');
 
 function oneLowercase(value, options) {
   if (!validate.isString(value)) {
-    return 'must be a string';
+    return String.t('validationError.notAString');
   }
 
   if (!regex.test(value)) {

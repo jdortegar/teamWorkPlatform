@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import TextField from '../../../components/formFields/TextField';
 import { createTeam, toggleTeamDialog } from '../../../actions';
 import { formShape } from '../../../propTypes';
+import String from '../../../translations';
 
 const propTypes = {
   form: formShape.isRequired,
@@ -52,9 +53,9 @@ class AddTeamDialog extends Component {
   render() {
     return (
       <Modal
-        title="Add Team"
-        cancelText="Cancel"
-        okText="Add"
+        title={String.t('addTeamDialog.title')}
+        cancelText={String.t('cancelButton')}
+        okText={String.t('addTeamDialog.addButtonLabel')}
         visible={this.props.showTeamDialog}
         onOk={this.handleSubmit}
         confirmLoading={this.props.submittingTeamForm}
@@ -67,7 +68,7 @@ class AddTeamDialog extends Component {
             required
             label=""
             componentKey="name"
-            placeholder="Team Name"
+            placeholder={String.t('addTeamDialog.namePlaceholder')}
           />
         </Form>
       </Modal>

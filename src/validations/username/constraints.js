@@ -1,9 +1,9 @@
 import String from '../../translations';
 
 export const defaultMessages = {
-  length: String.t('error.validation.usernameTooShort'),
-  format: String.t('error.validation.usernameFormat'),
-  notEndsWith: String.t('error.validation.usernameNotEndsWithPeriod')
+  length: String.t('validationError.usernameTooShort'),
+  format: String.t('validationError.usernameFormat'),
+  notEndsWith: String.t('validationError.usernameNotEndsWithPeriod')
 };
 
 function constraints(customMessages) {

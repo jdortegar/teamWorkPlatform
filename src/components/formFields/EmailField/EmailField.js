@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { formShape } from '../../../propTypes';
 import { antValidate, email } from '../../../validations';
 import BaseInput from '../BaseInput';
-import messages from './messages';
+import String from '../../../translations';
 
 const FormItem = Form.Item;
 
@@ -24,10 +24,10 @@ const propTypes = {
 const defaultProps = {
   componentKey: 'email',
   initialValue: null,
-  label: 'Email',
+  label: String.t('labelEmail'),
   required: false,
   missingMessage: null,
-  placeholder: 'Email',
+  placeholder: null,
   layout: {},
   icon: undefined,
   inputClassName: null
@@ -48,8 +48,8 @@ function EmailField(props) {
     ...other
   } = props;
 
-  const translatedMissingMessage = missingMessage || messages.emailMissing;
-  const translatedPlaceHolder = placeholder || messages.email;
+  const translatedMissingMessage = missingMessage || String.t('errEmailMissing');
+  const translatedPlaceHolder = placeholder || String.t('labelEmailPlaceholder');
 
   const decoratedInput = BaseInput({
     ...other,

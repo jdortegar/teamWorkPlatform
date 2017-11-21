@@ -9,6 +9,10 @@ const propTypes = {
   password: PropTypes.string
 };
 
+const defaultProps = {
+  password: ''
+};
+
 function renderRequirement(validationMap, key) {
   const fulfilled = validationMap[key];
   const message = messages[key];
@@ -36,5 +40,6 @@ function PasswordValidation({ password }) {
 }
 
 PasswordValidation.propTypes = propTypes;
+PasswordValidation.defaultProps = defaultProps;
 
 export default PasswordValidation;

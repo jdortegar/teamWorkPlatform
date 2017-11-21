@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import TextField from '../../../components/formFields/TextField';
 import { createTeamRoom, toggleTeamRoomDialog } from '../../../actions';
 import { formShape } from '../../../propTypes';
+import String from '../../../translations';
 
 const propTypes = {
   form: formShape.isRequired,
@@ -52,9 +53,9 @@ class AddTeamRoomDialog extends Component {
   render() {
     return (
       <Modal
-        title="Add Team Room"
-        cancelText="Cancel"
-        okText="Add"
+        title={String.t('addTeamRoomDialog.title')}
+        cancelText={String.t('cancelButton')}
+        okText={String.t('addTeamRoomDialog.addButtonLabel')}
         visible={this.props.showTeamRoomDialog}
         onOk={this.handleSubmit}
         confirmLoading={this.props.submittingTeamRoomForm}
@@ -67,7 +68,7 @@ class AddTeamRoomDialog extends Component {
             required
             label=""
             componentKey="name"
-            placeholder="Team Room Name"
+            placeholder={String.t('addTeamRoomDialog.namePlaceholder')}
           />
         </Form>
       </Modal>

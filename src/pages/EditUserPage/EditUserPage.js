@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import countriesAndTimezones from 'countries-and-timezones';
 import { Collapse, Form, Button, notification } from 'antd';
-import messages from './messages';
+import String from '../../translations';
 import { formShape } from '../../propTypes';
 import { getJwt } from '../../session';
 import {
@@ -97,8 +97,8 @@ class EditUserPage extends Component {
             this.setState({ loading: false });
             this.props.history.push('/app');
             notification.open({
-              message: messages.success,
-              description: messages.userUpdated,
+              message: String.t('editUserPage.successToastTitle'),
+              description: String.t('editUserPage.userUpdated'),
               duration: 4
             });
           });
@@ -111,11 +111,11 @@ class EditUserPage extends Component {
     return (
       <div>
         <NewSubpageHeader>
-          <div className="subpage__header__title">{messages.title}</div>
+          <div className="subpage__header__title">{String.t('editUserPage.title')}</div>
         </NewSubpageHeader>
         <Form onSubmit={this.handleSubmit} layout="vertical">
           <Collapse defaultActiveKey={['1']} className="edituser_collapse">
-            <Panel header={messages.profileSettings} key="1" className="edituser_panel">
+            <Panel header={String.t('editUserPage.profileSettings')} key="1" className="edituser_panel">
               <div className="row_input">
                 <div className="input-item input-firstname left">
                   <FirstNameField
@@ -152,7 +152,7 @@ class EditUserPage extends Component {
                 </div>
                 <div className="container__image">
                   <UploadImageField
-                    text={messages.setProfilePhoto}
+                    text={String.t('editUserPage.setProfilePhoto')}
                     onChange={this.onChangeProfilePhoto}
                     editOrg
                     image={this.state.userIcon || this.state.logo}
@@ -187,7 +187,7 @@ class EditUserPage extends Component {
               className="Edit-team__button New-team__button--margin-right"
               onClick={() => this.props.history.push('/app')}
             >
-              { messages.cancel }
+              {String.t('cancelButton')}
             </Button>
             <Button
               type="primary"
@@ -195,7 +195,7 @@ class EditUserPage extends Component {
               onClick={this.handleSubmit}
               loading={this.state.loading}
             >
-              { messages.save }
+              {String.t('editUserPage.saveButtonLabel')}
             </Button>
           </div>
         </Form>

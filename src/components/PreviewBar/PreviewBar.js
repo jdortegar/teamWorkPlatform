@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Row, Col, Icon, Progress } from 'antd';
 import PropTypes from 'prop-types';
 import PreviewCard from '../cards/PreviewCard';
-import messages from './messages';
 import './styles/style.css';
+import String from '../../translations';
 
 const propTypes = {
   files: PropTypes.array,
@@ -67,6 +67,7 @@ class PreviewBar extends Component {
 
   render() {
     const { replyTo, user, files } = this.props;
+    const name = String.t('previewBar.name', replyTo);
     return (
       <Row type="flex" justify="start" align="middle" gutter={20} className="PreviewBar__message_reply-container">
         <Col
@@ -76,10 +77,8 @@ class PreviewBar extends Component {
           {
             replyTo ?
               <div>
-                <p className="PreviewBar__message-body-name">{replyTo.firstName} {replyTo.lastName}</p>
-                <p className="PreviewBar__message-body-text">
-                  {this.props.replyTo.text}
-                </p>
+                <p className="PreviewBar__message-body-name">{name}</p>
+                <p className="PreviewBar__message-body-text">{replyTo.text}</p>
               </div> : null
           }
           <div className="PreviewBar__files-container">
@@ -87,14 +86,14 @@ class PreviewBar extends Component {
               this.props.isDraggingOver && files.length === 0 ?
                 <div className="PreviewBar__file-placeholder-container">
                   <span className="PreviewBar__file-placeholder-icon"><Icon type="upload" /></span>
-                  <h2 className="PreviewBar__file-placeholder-title">Drop your files here</h2>
+                  <h2 className="PreviewBar__file-placeholder-title">{String.t('previewBar.dropFilesPlaceholder')}</h2>
                 </div> :
                 this.renderPreviewCards()
             }
           </div>
         </Col>
         <Col xs={{ span: 3 }} className="PreviewBar__message-cancel-reply-col">
-          <a className="PreviewBar__message-cancel-reply" onClick={this.props.onCancelReply} title={messages.cancel}>
+          <a className="PreviewBar__message-cancel-reply" onClick={this.props.onCancelReply} title={String.t('cancelButton')}>
             <Icon type="close-circle-o" />
           </a>
         </Col>

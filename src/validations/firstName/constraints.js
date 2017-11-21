@@ -1,8 +1,8 @@
 import String from '../../translations';
 
 export const defaultMessages = {
-  tooLong: String.t('error.validation.firstNameTooLong'),
-  format: String.t('error.validation.firstNameFormat')
+  tooLong: String.t('validationError.firstNameTooLong'),
+  format: String.t('validationError.firstNameFormat')
 };
 
 function constraints(customMessages) {

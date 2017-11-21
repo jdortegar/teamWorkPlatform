@@ -6,7 +6,7 @@ import SimpleCardContainer from '../../components/SimpleCardContainer';
 import UploadImageField from '../../components/formFields/UploadImageField';
 import TextField from '../../components/formFields/TextField';
 import { formShape } from '../../propTypes';
-import messages from './messages';
+import String from '../../translations';
 import './styles/style.css';
 
 const propTypes = {
@@ -58,14 +58,14 @@ class NewTeamRoomPage extends Component {
 
     return (
       <div>
-        <SubpageHeader breadcrumb="Team Room" />
+        <SubpageHeader breadcrumb={String.t('newTeamRoomPage.breadcrumb')} />
         <SimpleCardContainer className="subpage-block">
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <Row type="flex" justify="start" gutter={20}>
               { renderAvatarInput('Upload Avatar') }
               <Col xs={{ span: 24 }} sm={{ span: 14 }} md={{ span: 16 }}>
                 <div className="New-team-room__container">
-                  <h1 className="New-team-room__title">Choose a Team Room Name</h1>
+                  <h1 className="New-team-room__title">{String.t('newTeamRoomPage.title')}</h1>
                   <TextField
                     componentKey="name"
                     inputClassName="New-team-room__add-textfield"
@@ -83,14 +83,14 @@ class NewTeamRoomPage extends Component {
                     onClick={this.handleSubmit}
                     loading={this.state.loading}
                   >
-                    { messages.createNewTeamRoom }
+                    {String.t('newTeamRoomPage.createNewTeamRoomButtonLabel')}
                   </Button>
                   <Button
                     type="primary"
                     className="New-team-room__button"
                     onClick={() => this.props.history.push(`/app/team/${teamId}`)}
                   >
-                    { messages.cancel }
+                    {String.t('cancelButton')}
                   </Button>
                 </div>
               </Col>

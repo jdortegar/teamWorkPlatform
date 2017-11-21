@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Form } from 'antd';
 import { antValidate, lastName } from '../../../validations';
 import BaseInput from '../BaseInput';
-import messages from './messages';
+import String from '../../../translations';
 
 const FormItem = Form.Item;
 
@@ -25,14 +25,14 @@ const defaultProps = {
   required: false,
   missingMessage: null,
   layout: {},
-  label: 'Last Name'
+  label: String.t('labelLastName')
 };
 
 function LastNameField(props) {
   const { layout, label, missingMessage, placeholder, ...rest } = props;
 
-  const translatedPlaceHolder = placeholder || messages.lastName;
-  const translatedMissingMessage = missingMessage || messages.lastNameMissing;
+  const translatedPlaceHolder = placeholder || String.t('labelLastNamePlaceholder');
+  const translatedMissingMessage = missingMessage || String.t('errLastNameMissing');
   const decoratedInput = BaseInput({
     ...rest,
     placeholder: translatedPlaceHolder,

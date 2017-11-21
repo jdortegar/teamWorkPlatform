@@ -2,10 +2,10 @@ import String from '../../translations';
 
 export const defaultMessages = {
   length: String.t('errPasswordTooShort'),
-  oneLowercase: String.t('error.validation.passwordOneLower'),
-  oneNumber: String.t('error.validation.passwordOneNumber'),
-  oneSpecial: String.t('error.validation.passwordOneSpecial'),
-  oneUppercase: String.t('error.validation.passwordOneUppercase')
+  oneLowercase: String.t('validationError.passwordOneLower'),
+  oneNumber: String.t('validationError.passwordOneNumber'),
+  oneSpecial: String.t('validationError.passwordOneSpecial'),
+  oneUppercase: String.t('validationError.passwordOneUppercase')
 };
 
 function constraints(customMessages) {
