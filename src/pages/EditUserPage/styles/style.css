@@ -1,4 +1,6 @@
-
+.editUserPage-main {
+  flex: 1;
+}
 .edituser_collapse {
   background-color: #fff !important;
 }

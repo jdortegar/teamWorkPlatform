@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import countriesAndTimezones from 'countries-and-timezones';
 import classNames from 'classnames';
 import { Collapse, Form, Button, notification } from 'antd';
 import String from '../../translations';
 import { formShape } from '../../propTypes';
-import { getJwt } from '../../session';
 import {
   FirstNameField,
   LastNameField,
@@ -17,7 +15,6 @@ import {
   UploadImageField,
   NewSubpageHeader
 } from '../../components';
-import config from '../../config/env';
 import './styles/style.css';
 
 const Panel = Collapse.Panel;
@@ -44,7 +41,7 @@ class EditUserPage extends Component {
       timeZone: defaultTimeZone,
       countryCode: (defaultCountry && defaultCountry.id) ? defaultCountry.id : null,
       loading: false,
-      userIcon: props.user.icon || ''
+      userIcon: props.user.icon || null
     };
 
     this.onChangeProfilePhoto = this.onChangeProfilePhoto.bind(this);
@@ -64,31 +61,15 @@ class EditUserPage extends Component {
   }
 
   onRemoveImage() {
-    const axiosOptions = {
-      headers: {
-        Authorization: `Bearer ${getJwt()}`
-      }
-    };
-    axios.patch(`${config.hablaApiBaseUri}/users/updateUser`, { icon: null }, axiosOptions)
-      .then(() => {
-        this.setState({
-          userIcon: ''
-        });
-      });
+    this.setState({
+      userIcon: null
+    });
   }
 
   onChangeProfilePhoto(base64) {
-    const axiosOptions = {
-      headers: {
-        Authorization: `Bearer ${getJwt()}`
-      }
-    };
-    axios.patch(`${config.hablaApiBaseUri}/users/updateUser`, { icon: base64 }, axiosOptions)
-      .then(() => {
-        this.setState({
-          userIcon: base64
-        });
-      });
+    this.setState({
+      userIcon: base64
+    });
   }
 
   handleCountryChange(countryCode) {
@@ -106,7 +87,8 @@ class EditUserPage extends Component {
           timeZone: values.timeZone,
           country: values.country,
           email: values.email,
-          displayName: values.username
+          displayName: values.username,
+          icon: this.state.userIcon
         };
         this.props.updateUser(dataToUpdate)
           .then(() => {
@@ -130,7 +112,7 @@ class EditUserPage extends Component {
       'with-no-image': !this.state.userIcon
     });
     return (
-      <div>
+      <div className="editUserPage-main">
         <NewSubpageHeader>
           <div className="subpage__header__title">{String.t('editUserPage.title')}</div>
         </NewSubpageHeader>

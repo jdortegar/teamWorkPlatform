@@ -59,7 +59,7 @@ class EditTeamRoomPage extends Component {
     const teamRoom = teamRooms.teamRoomById[teamRoomId];
 
     return (
-      <div>
+      <div className="EditTeamRoomPage-main">
         <SubpageHeader
           icon={<UserIcon user={teamRoom} type="team" clickable={false} />}
           breadcrumb={

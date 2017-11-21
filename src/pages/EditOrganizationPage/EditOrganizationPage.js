@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { Form, Button, notification } from 'antd';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import NewSubpageHeader from '../../components/NewSubpageHeader';
 import UploadImageField from '../../components/formFields/UploadImageField';
 import TextField from '../../components/formFields/TextField';
 import { formShape } from '../../propTypes';
-import { getJwt } from '../../session';
 import './styles/style.css';
-import config from '../../config/env';
 import String from '../../translations';
 
 const propTypes = {
@@ -44,8 +41,8 @@ class EditOrganizationPage extends Component {
 
     this.state = {
       loading: false,
-      avatarBase64: this.organization.preferences.avatarBase64 || '',
-      logo: this.organization.preferences.logo || ''
+      avatarBase64: this.organization.preferences.avatarBase64 || null,
+      logo: this.organization.preferences.logo || null
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -55,68 +52,25 @@ class EditOrganizationPage extends Component {
   }
 
   onRemoveImage() {
-    const { subscriberOrgId } = this.props.match.params;
-    const axiosOptions = {
-      headers: {
-        Authorization: `Bearer ${getJwt()}`
-      }
-    };
-    const dataToUpdate = {
-      preferences: {
-        logo: null,
-        avatarBase64: null
-      }
-    };
-    axios.patch(`${config.hablaApiBaseUri}/subscriberOrgs/updateSubscriberOrg/${subscriberOrgId}`, dataToUpdate, axiosOptions)
-      .then(() => {
-        this.setState({
-          logo: '',
-          avatarBase64: ''
-        });
-      });
+    this.setState({
+      logo: null,
+      avatarBase64: null
+    });
   }
 
   handleChange(base64) {
-    const { subscriberOrgId } = this.props.match.params;
-    const axiosOptions = {
-      headers: {
-        Authorization: `Bearer ${getJwt()}`
-      }
-    };
-    const dataToUpdate = {
-      preferences: {
-        avatarBase64: base64
-      }
-    };
-    axios.patch(`${config.hablaApiBaseUri}/subscriberOrgs/updateSubscriberOrg/${subscriberOrgId}`, dataToUpdate, axiosOptions)
-      .then(() => {
-        this.setState({
-          avatarBase64: base64
-        });
-      });
+    this.setState({
+      avatarBase64: base64
+    });
   }
 
   handleWebSiteBlur(e) {
-    const { subscriberOrgId } = this.props.match.params;
     const faviconUrl = e.target.value;
     if (validURL(faviconUrl) && !this.state.avatarBase64) {
       // GET FAVICON URL
-      const axiosOptions = {
-        headers: {
-          Authorization: `Bearer ${getJwt()}`
-        }
-      };
-      const dataToUpdate = {
-        preferences: {
-          logo: `https://www.google.com/s2/favicons?domain=${faviconUrl}`
-        }
-      };
-      axios.patch(`${config.hablaApiBaseUri}/subscriberOrgs/updateSubscriberOrg/${subscriberOrgId}`, dataToUpdate, axiosOptions)
-        .then(() => {
-          this.setState({
-            logo: `https://www.google.com/s2/favicons?domain=${faviconUrl}`
-          });
-        });
+      this.setState({
+        logo: `https://www.google.com/s2/favicons?domain=${faviconUrl}`
+      });
     }
   }
 
@@ -128,7 +82,9 @@ class EditOrganizationPage extends Component {
         const dataToUpdate = {
           name: values.name,
           preferences: {
-            webSite: values.webSite
+            webSite: values.webSite,
+            logo: this.state.logo,
+            avatarBase64: this.state.avatarBase64
           }
         };
         this.props.updateSubscriberOrg(dataToUpdate, subscriberOrgId)
@@ -155,7 +111,7 @@ class EditOrganizationPage extends Component {
       'with-no-image': !this.state.avatarBase64 && !this.state.logo
     });
     return (
-      <div>
+      <div className="editOrgPage-main">
         <NewSubpageHeader>
           <div className="subpage__header__title">{String.t('editOrgPage.title')}</div>
         </NewSubpageHeader>
