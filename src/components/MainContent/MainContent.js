@@ -29,6 +29,7 @@ const { Content } = Layout;
 
 const propTypes = {
   invitation: PropTypes.array.isRequired,
+  declinedInvitations: PropTypes.array.isRequired,
   pushMessage: PropTypes.object,
   notifyMessage: PropTypes.func.isRequired
 };
@@ -59,6 +60,10 @@ class MainContent extends Component {
     if (nextProps.invitation.length > this.props.invitation) {
       const audio = new Audio(sound1);
       audio.play();
+    }
+
+    if (nextProps.declinedInvitations) {
+      console.log(nextProps.declinedInvitations);
     }
 
     if (nextProps.pushMessage) {

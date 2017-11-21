@@ -1,7 +1,12 @@
-import { INVITATION_RECEIVE, INVITATION_UPDATE, INVITATIONS_FETCH_SUCCESS } from '../actions';
+import { INVITATION_RECEIVE,
+  INVITATION_UPDATE,
+  INVITATIONS_FETCH_SUCCESS,
+  INVITATION_DECLINED,
+  INVITATION_DECLINED_UPDATE } from '../actions';
 
 const INITIAL_STATE = {
-  invitations: []
+  invitations: [],
+  declinedInvitations: null
 };
 
 const invitationsReducer = (state = INITIAL_STATE, action) => {
@@ -13,6 +18,12 @@ const invitationsReducer = (state = INITIAL_STATE, action) => {
         return invitation !== action.payload.invitation;
       });
       return { ...state, invitations: [...invitations] };
+    }
+    case INVITATION_DECLINED: {
+      return { ...state, declinedInvitations: [...state.declinedInvitations, action.payload.invitation] };
+    }
+    case INVITATION_DECLINED_UPDATE: {
+      return { ...state, declinedInvitations: null };
     }
     case INVITATIONS_FETCH_SUCCESS:
       return { ...state, invitations: action.payload.invitations };

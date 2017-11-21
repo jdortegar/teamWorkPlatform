@@ -1,7 +1,8 @@
 .Notification__container {
-    height: 50px;
-    background: #000000;
-    margin-bottom: 5px;
+  height: 50px !important;
+  flex-direction: row !important;
+  background: #000000;
+  margin-bottom: 5px;
 }
 .Notification__container:last-child {
     margin-bottom: 0;
