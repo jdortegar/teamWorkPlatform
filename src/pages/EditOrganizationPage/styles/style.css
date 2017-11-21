@@ -1,3 +1,6 @@
+.editOrgPage-main {
+  flex: 1;
+}
 .Edit-team__icon-container {
   display: flex;
   flex-wrap: wrap;

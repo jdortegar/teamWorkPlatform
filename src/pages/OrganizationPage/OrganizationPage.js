@@ -139,7 +139,7 @@ class OrganizationPage extends Component {
         url: `/app/editOrganization/${subscriberOrgId}`
       };
       return (
-        <div>
+        <div className="editOrgPage-main">
           <SubpageHeader
             icon={<Avatar
               styles={{ width: '2em', height: '2em' }}

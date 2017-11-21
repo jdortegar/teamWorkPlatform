@@ -30,3 +30,6 @@
 .Edit-team__button--margin-right {
   margin-right: 20px;
 }
+.EditTeamPage-main {
+  flex: 1;
+}

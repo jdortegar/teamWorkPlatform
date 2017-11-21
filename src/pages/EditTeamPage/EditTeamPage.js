@@ -63,7 +63,7 @@ class EditTeamPage extends Component {
     const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
 
     return (
-      <div>
+      <div className="EditTeamPage-main">
         <SubpageHeader
           icon={<UserIcon user={team} type="team" clickable={false} />}
           breadcrumb={
