@@ -10,6 +10,7 @@ import teamRoomMembersReducer from './teamRoomMembersReducer';
 import invitationsReducer from './invitationsReducer';
 import conversationsReducer from './conversationsReducer';
 import typingsReducer from './typingsReducer';
+import timeActivitiesReducer from './timeActivitiesReducer';
 import integrationsReducer from './integrationsReducer';
 
 const reducers = {
@@ -25,6 +26,7 @@ const reducers = {
   invitations: invitationsReducer,
   conversations: conversationsReducer,
   typings: typingsReducer,
+  timeActivities: timeActivitiesReducer,
   integrations: integrationsReducer
 };
 
