@@ -36,6 +36,7 @@ export * from './invitationDeclined';
 export * from './invitationUpdate';
 export * from './invitationResponse';
 export * from './invitationsFetch';
+export * from './invitationDeclinedUpdate';
 
 export * from './conversationsReceive';
 export * from './conversationsFetch';

@@ -26,6 +26,7 @@ export const getTeamRoomMemberIdByTeamRoomIdByUserId = state => state.teamRoomMe
 export const getUserIdsByTeamRoomId = state => state.teamRoomMembers.userIdsByTeamRoomId;
 
 export const getInvitations = state => state.invitations.invitations;
+export const getDeclinedInvitations = state => state.invitations.declinedInvitations;
 
 export const getConversationById = state => state.conversations.conversationById;
 export const getConversationIdsByTeamRoomId = state => state.conversations.conversationIdsByTeamRoomId;
