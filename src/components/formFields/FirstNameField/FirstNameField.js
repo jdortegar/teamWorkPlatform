@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'antd';
-import { injectIntl, intlShape } from 'react-intl';
-import { antValidate, firstNameI18N } from '../../../validations';
+import { antValidate, firstName } from '../../../validations';
 import BaseInput from '../BaseInput';
-import messages from './messages';
+import String from '../../../translations';
 
 const FormItem = Form.Item;
 
 const propTypes = {
-  intl: intlShape.isRequired,
   form: PropTypes.object.isRequired,
   componentKey: PropTypes.string,
   initialValue: PropTypes.string.isRequired,
@@ -27,20 +25,20 @@ const defaultProps = {
   required: false,
   missingMessage: null,
   layout: {},
-  label: 'First Name'
+  label: String.t('labelFirstName')
 };
 
 function FirstNameField(props) {
-  const { layout, label, missingMessage, placeholder, intl, ...rest } = props;
+  const { layout, label, missingMessage, placeholder, ...rest } = props;
 
-  const translatedPlaceHolder = placeholder || messages.firstName;
-  const translatedMissingMessage = missingMessage || messages.firstNameMissing;
+  const translatedPlaceHolder = placeholder || String.t('labelFirstName');
+  const translatedMissingMessage = missingMessage || String.t('errFirstNameMissing');
   const decoratedInput = BaseInput({
     ...rest,
     placeholder: translatedPlaceHolder,
     missingMessage: translatedMissingMessage,
     extraRules: [{
-      validator: antValidate(firstNameI18N(intl))
+      validator: antValidate(firstName)
     }]
   });
 
@@ -59,4 +57,4 @@ function FirstNameField(props) {
 FirstNameField.propTypes = propTypes;
 FirstNameField.defaultProps = defaultProps;
 
-export default injectIntl(FirstNameField);
+export default FirstNameField;

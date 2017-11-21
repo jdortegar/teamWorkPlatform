@@ -2,7 +2,7 @@ import React from 'react';
 import { Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import messages from './messages';
+import String from '../../../translations';
 import './styles/style.css';
 
 const propTypes = {
@@ -12,7 +12,7 @@ const propTypes = {
 function EditButton(props) {
   return (
     <div className="EditButton__container">
-      <Tooltip placement="top" title={messages.edit}>
+      <Tooltip placement="top" title={String.t('EditButtonLabel')}>
         <Link to={props.url}>
           <div className="EditButton__button">
             <i className="fa fa-pencil" />

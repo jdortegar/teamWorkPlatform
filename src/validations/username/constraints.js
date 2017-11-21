@@ -1,7 +1,9 @@
+import String from '../../translations';
+
 export const defaultMessages = {
-  length: 'Must be 6 to 20 characters',
-  format: 'Must be alphanumeric without spaces (period, underscore and @ symbol are allowed).',
-  notEndsWith: 'Cannot end with a period'
+  length: String.t('validationError.usernameTooShort'),
+  format: String.t('validationError.usernameFormat'),
+  notEndsWith: String.t('validationError.usernameNotEndsWithPeriod')
 };
 
 function constraints(customMessages) {

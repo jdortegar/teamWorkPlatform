@@ -3,7 +3,7 @@ import { Form, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { getAllCountries } from 'countries-and-timezones';
 import { formShape } from '../../../propTypes';
-import messages from './messages';
+import String from '../../../translations';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -27,7 +27,7 @@ const propTypes = {
 
 const defaultProps = {
   componentKey: 'timeZone',
-  label: 'Timezone',
+  label: String.t('labelTimeZone'),
   layout: {},
   required: false,
   missingMessage: null,
@@ -44,8 +44,8 @@ function TimezoneSelectField(props) {
     placeholder, className, selectClassName, countryCode, ...other
   } = props;
 
-  const translatedMissingMessage = missingMessage || messages.timezoneMissing;
-  const translatedPlaceHolder = placeholder || messages.timezone;
+  const translatedMissingMessage = missingMessage || String.t('errTimeZoneNotSelected');
+  const translatedPlaceHolder = placeholder || String.t('labelSelectTimeZoneOption');
 
   let timezones = [];
   if (countryCode) {

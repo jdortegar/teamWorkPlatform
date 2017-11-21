@@ -6,7 +6,7 @@ import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import AutoCompleteField from '../../components/formFields/AutoCompleteField/';
 import { formShape } from '../../propTypes';
-import messages from './messages';
+import String from '../../translations';
 import './styles/style.css';
 
 const propTypes = {
@@ -81,7 +81,7 @@ class InviteToTeamPage extends Component {
               componentKey={`username${el}`}
               autoCompleteClassName="Invite-To-Team__textfield"
               form={this.props.form}
-              placeholder={messages.enterUsername}
+              placeholder={String.t('inviteToTeamPage.usernamePlaceholder')}
               label=""
               required
               dataSource={dataSource}
@@ -90,7 +90,7 @@ class InviteToTeamPage extends Component {
           {
             this.state.inviteesArr.length > 1 ?
               <Col className="gutter-row" span={3}>
-                <a onClick={() => this.removeInvitees(el)} className="remove-field">{messages.remove}</a>
+                <a onClick={() => this.removeInvitees(el)} className="remove-field">{String.t('inviteToTeamPage.removeLink')}</a>
               </Col> : null
           }
         </Row>
@@ -102,12 +102,12 @@ class InviteToTeamPage extends Component {
     const { teamId } = this.props.match.params;
     return (
       <div>
-        <SubpageHeader breadcrumb="Team" />
+        <SubpageHeader breadcrumb={String.t('inviteToTeamPage.breadcrumb')} />
         <SimpleCardContainer className="subpage-block">
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <Row type="flex" justify="start" gutter={20}>
               <Col span={24}>
-                <h1 className="Invite-To-Team__title">{messages.username}</h1>
+                <h1 className="Invite-To-Team__title">{String.t('inviteToTeamPage.username')}</h1>
               </Col>
             </Row>
             {this.renderInvitees()}
@@ -115,7 +115,7 @@ class InviteToTeamPage extends Component {
               <Col span={24} className="Invite-To-Team__add-another-container">
                 <a onClick={this.addInvitees} className="Invite-To-Team__add-another">
                   <span>
-                    <i className="fa fa-plus" />{messages.addAnother}
+                    <i className="fa fa-plus" />{String.t('inviteToTeamPage.addAnother')}
                   </span>
                 </a>
               </Col>
@@ -127,14 +127,14 @@ class InviteToTeamPage extends Component {
                     onClick={this.handleSubmit}
                     loading={this.state.loading}
                   >
-                    { messages.sendInvitations }
+                    {String.t('inviteToTeamPage.sendInvitationsButtonLabel')}
                   </Button>
                   <Button
                     type="primary"
                     className="Invite-To-Team__button"
                     onClick={() => this.props.history.push(`/app/team/${teamId}`)}
                   >
-                    { messages.cancel }
+                    {String.t('cancelButton')}
                   </Button>
                 </div>
               </Col>

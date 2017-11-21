@@ -6,7 +6,7 @@ import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import EmailField from '../../components/formFields/EmailField';
 import { formShape } from '../../propTypes';
-import messages from './messages';
+import String from '../../translations';
 import './styles/style.css';
 
 const propTypes = {
@@ -91,12 +91,12 @@ class InviteNewMemberPage extends Component {
     const { subscriberOrgId } = this.props.match.params;
     return (
       <div>
-        <SubpageHeader breadcrumb="Team" />
+        <SubpageHeader breadcrumb={String.t('inviteNewMemberPage.breadcrumb')} />
         <SimpleCardContainer className="subpage-block">
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <Row type="flex" justify="start" gutter={20}>
               <Col span={24}>
-                <h1 className="Invite-New-Member__title">{messages.newMemberEmail}</h1>
+                <h1 className="Invite-New-Member__title">{String.t('inviteNewMemberPage.title')}</h1>
               </Col>
             </Row>
             {this.renderInvitees()}
@@ -116,14 +116,14 @@ class InviteNewMemberPage extends Component {
                     onClick={this.handleSubmit}
                     loading={this.state.loading}
                   >
-                    { messages.sendInvitations }
+                    {String.t('inviteNewMemberPage.sendInvitationsButtonLabel')}
                   </Button>
                   <Button
                     type="primary"
                     className="Invite-New-Member__button"
                     onClick={() => this.props.history.push(`/app/organization/${subscriberOrgId}`)}
                   >
-                    { messages.cancel }
+                    {String.t('cancelButton')}
                   </Button>
                 </div>
               </Col>

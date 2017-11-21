@@ -3,6 +3,7 @@ import { Card, Icon } from 'antd';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import './styles/style.css';
+import String from '../../../translations';
 
 const propTypes = {
   file: PropTypes.object.isRequired,
@@ -40,7 +41,14 @@ class PreviewCard extends Component {
   renderFile(isImage, fileName) {
     const [name, extension] = fileName.split('.');
     if (isImage) {
-      return <img className="PreviewCard__image" alt="example" width="100%" src={this.props.file.src} />;
+      return (
+        <img
+          className="PreviewCard__image"
+          alt={String.t('PreviewCard.imageAlt')}
+          width="100%"
+          src={this.props.file.src}
+        />
+      );
     }
     return (
       <div>

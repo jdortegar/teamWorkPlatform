@@ -6,7 +6,7 @@ import SimpleCardContainer from '../../components/SimpleCardContainer';
 import UploadImageField from '../../components/formFields/UploadImageField';
 import TextField from '../../components/formFields/TextField';
 import { formShape } from '../../propTypes';
-import messages from './messages';
+import String from '../../translations';
 import './styles/style.css';
 
 const propTypes = {
@@ -58,14 +58,14 @@ class NewTeamPage extends Component {
 
     return (
       <div>
-        <SubpageHeader breadcrumb="Team" />
+        <SubpageHeader breadcrumb={String.t('newTeamPage.breadcrumb')} />
         <SimpleCardContainer className="subpage-block">
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <Row type="flex" justify="start" gutter={20}>
-              { renderAvatarInput('Upload Avatar') }
+              { renderAvatarInput(String.t('newTeamPage.uploadAvatar')) }
               <Col xs={{ span: 24 }} sm={{ span: 17 }} md={{ span: 16 }}>
                 <div className="New-team__container">
-                  <h1 className="New-team__title">{messages.chooseTeamName}</h1>
+                  <h1 className="New-team__title">{String.t('newTeamPage.chooseTeamName')}</h1>
                   <TextField
                     componentKey="name"
                     inputClassName="New-team__add-textfield"
@@ -83,14 +83,14 @@ class NewTeamPage extends Component {
                     onClick={this.handleSubmit}
                     loading={this.state.loading}
                   >
-                    { messages.createNewTeam }
+                    {String.t('newTeamPage.createNewTeamButtonLabel')}
                   </Button>
                   <Button
                     type="primary"
                     className="New-team__button"
                     onClick={() => this.props.history.push(`/app/organization/${subscriberOrgId}`)}
                   >
-                    { messages.cancel }
+                    {String.t('cancelButton')}
                   </Button>
                 </div>
               </Col>

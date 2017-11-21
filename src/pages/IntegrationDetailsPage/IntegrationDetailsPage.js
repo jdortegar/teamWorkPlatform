@@ -7,58 +7,79 @@ import SimpleCardContainer from '../../components/SimpleCardContainer';
 import UserIcon from '../../components/UserIcon';
 import { ImageCard } from '../../components/cards';
 import { boxLogo, googleDriveLogo } from '../../img';
-import messages from './messages';
+import String from '../../translations';
 import './styles/style.css';
 
 function determineStatus(integration) {
   if (integration) {
     if (integration.expired) {
-      return 'Expired';
+      return String.t('integrationDetailsPage.status.expired');
     } else if (integration.revoked) {
-      return 'Revoked';
+      return String.t('integrationDetailsPage.status.revoked');
     }
-    return 'Active';
+    return String.t('integrationDetailsPage.status.active');
   }
 
   return false;
 }
 
+const providers = {
+  box: {
+    name: 'Box',
+    link: 'https://app.box.com/apps',
+    logo: boxLogo,
+    integrate: (props, subscriberOrgId) => {
+      props.integrateBox(subscriberOrgId);
+    },
+    revoke: (props, subscriberOrgId, notify) => {
+      props.revokeBox(subscriberOrgId).then(res => notify(res, 'box'));
+    }
+  },
+  google: {
+    name: 'Google Drive',
+    link: 'https://drive.google.com/drive/u/0/my-drive',
+    logo: googleDriveLogo,
+    integrate: (props, subscriberOrgId) => {
+      props.integrateGoogle(subscriberOrgId);
+    },
+    revoke: (props, subscriberOrgId, notify) => {
+      props.revokeGoogle(subscriberOrgId).then(res => notify(res, 'google'));
+    }
+  }
+};
+
 function showNotification(response, integration) {
   // const { status } = response;
   const status = 410;
+  const duration = 7;
+  const name = providers[integration].name;
+  const link = `<a target="_blank" href=${providers[integration].link}>${providers[integration].link}</a>`;
   if (status === 200) {
     notification.success({
-      message: 'SUCCESS',
-      description: 'Habla AI no longer has access to your account.',
-      duration: 7
+      message: String.t('integrationDetailsPage.notification.successMessage'),
+      description: String.t('integrationDetailsPage.notification.successDescription'),
+      duration
     });
   } else if (status === 410) {
-    const integrationObj = {
-      box: 'Box',
-      boxLink: 'https://app.box.com/apps',
-      google: 'Google Drive',
-      googleLink: 'https://drive.google.com/drive/u/0/my-drive'
-    };
-    const integrationLink = `${integration}Link`;
     notification.error({
-      message: 'GONE',
-      description: <p>Your integration to {integrationObj[integration]} has been revoked, and Habla AI no longer has access to it. Please go to <a target="_blank" href={integrationObj[integrationLink]}>{integrationObj[integrationLink]}</a> to complete the revocation.</p>,
-      duration: 7
+      message: String.t('integrationDetailsPage.notification.goneMessage'),
+      description: `<p>${String.t('integrationDetailsPage.notification.goneDescription', { name, link })}</p>`,
+      duration
     });
   } else {
     notification.error({
-      message: 'NOT FOUND',
-      description: 'We’re sorry, but something must’ve gone terribly wrong',
-      duration: 7
+      message: String.t('integrationDetailsPage.notification.notFoundMessage'),
+      description: String.t('integrationDetailsPage.notification.notFoundDescription'),
+      duration
     });
   }
 }
 
 const propTypes = {
-  integrateBox: PropTypes.func.isRequired,
-  integrateGoogle: PropTypes.func.isRequired,
-  revokeBox: PropTypes.func.isRequired,
-  revokeGoogle: PropTypes.func.isRequired,
+  integrateBox: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
+  integrateGoogle: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
+  revokeBox: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
+  revokeGoogle: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
   integrations: PropTypes.object.isRequired,
   fetchIntegrations: PropTypes.func.isRequired,
   match: PropTypes.shape({
@@ -82,18 +103,19 @@ class IntegrationDetailsPage extends Component {
 
   componentDidMount() {
     const { subscriberOrgId, status, integrationDetails } = this.props.match.params;
+    const name = providers[integrationDetails].name;
     this.props.fetchIntegrations(subscriberOrgId);
     if (status) {
       if (status.includes('CREATED')) {
         notification.success({
-          message: 'CREATED',
-          description: `Your ${integrationDetails} integration is good to go!`,
+          message: String.t('integrationDetailsPage.createdMessage'),
+          description: String.t('integrationDetailsPage.createdDescription', { name }),
           duration: 5
         });
       } else {
         notification.error({
           message: status,
-          description: messages[status],
+          description: String.t(`integrationDetailsPage.${status}`),
           duration: 5
         });
       }
@@ -103,28 +125,9 @@ class IntegrationDetailsPage extends Component {
   handleIntegration(checked) {
     const { integrationDetails, subscriberOrgId } = this.props.match.params;
     if (checked) {
-      if (integrationDetails === 'google') {
-        this.props.integrateGoogle(subscriberOrgId);
-      } else if (integrationDetails === 'box') {
-        this.props.integrateBox(subscriberOrgId);
-      }
+      providers[integrationDetails].integrate(this.props, subscriberOrgId);
     } else {
-      switch (integrationDetails) {
-        case 'google':
-          this.props.revokeGoogle(subscriberOrgId)
-            .then((res) => {
-              showNotification(res, integrationDetails);
-            });
-          break;
-        case 'box':
-          this.props.revokeBox(subscriberOrgId)
-            .then((res) => {
-              showNotification(res, integrationDetails);
-            });
-          break;
-        default:
-          console.error(`Unknown integration: ${integrationDetails}`); // eslint-disable-line no-console
-      }
+      providers[integrationDetails].revoke(this.props, subscriberOrgId, showNotification);
     }
   }
 
@@ -143,20 +146,8 @@ class IntegrationDetailsPage extends Component {
       return null;
     }
 
-    let imgSrc;
-
-    switch (integrationDetails) {
-      case 'google':
-        imgSrc = googleDriveLogo;
-        break;
-      case 'box':
-        imgSrc = boxLogo;
-        break;
-      default:
-        imgSrc = '';
-        break;
-    }
-
+    const imgSrc = providers[integrationDetails].logo;
+    const name = providers[integrationDetails].name;
     const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || {};
     const currStatus = determineStatus(integrations[integrationDetails]);
 
@@ -168,7 +159,7 @@ class IntegrationDetailsPage extends Component {
             <div>
               <Link to={`/app/organization/${subscriberOrgId}`}>
                 <span className="breadcrumb_underline">{subscriberOrg.name}</span>
-              </Link> / {messages.integrations}
+              </Link> / {String.t('integrationDetailsPage.integrations')}
             </div>
           }
         />
@@ -178,10 +169,10 @@ class IntegrationDetailsPage extends Component {
               <div className="Integration-details__icon-container">
                 <ImageCard imgSrc={imgSrc} size="large" />
                 <div className="Integration-details__switch-container">
-                  <Tooltip placement="top" title={currStatus === 'Active' ? messages.deactivate : messages.activate}>
+                  <Tooltip placement="top" title={currStatus === 'Active' ? String.t('integrationDetailsPage.deactivate') : String.t('integrationDetailsPage.activate')}>
                     <Switch
-                      checkedChildren={messages.on}
-                      unCheckedChildren={messages.off}
+                      checkedChildren={String.t('integrationDetailsPage.on')}
+                      unCheckedChildren={String.t('integrationDetailsPage.off')}
                       onChange={this.handleIntegration}
                       checked={currStatus === 'Active'}
                     />
@@ -191,7 +182,7 @@ class IntegrationDetailsPage extends Component {
             </Col>
             <Col xs={{ span: 24 }} sm={{ span: 16 }} md={{ span: 19 }} className="Integration-details__right-col">
               <div>
-                <h1>{messages[integrationDetails]}</h1>
+                <h1>{name}</h1>
               </div>
               <div>
                 <h3>{currStatus}</h3>

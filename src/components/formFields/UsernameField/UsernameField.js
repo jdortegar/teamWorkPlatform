@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'antd';
-import { injectIntl, intlShape } from 'react-intl';
-import { antValidate, usernameI18N } from '../../../validations';
+import { antValidate, username } from '../../../validations';
 import BaseInput from '../BaseInput';
-import messages from './messages';
+import String from '../../../translations';
 
 const FormItem = Form.Item;
 
 const propTypes = {
-  intl: intlShape.isRequired,
   form: PropTypes.object.isRequired,
   componentKey: PropTypes.string,
   initialValue: PropTypes.string.isRequired,
@@ -27,20 +25,20 @@ const defaultProps = {
   required: false,
   missingMessage: null,
   layout: {},
-  label: 'Username'
+  label: String.t('labelUsername')
 };
 
 function UsernameField(props) {
-  const { layout, label, missingMessage, placeholder, intl, ...rest } = props;
+  const { layout, label, missingMessage, placeholder, ...rest } = props;
 
-  const translatedPlaceHolder = placeholder || messages.username;
-  const translatedMissingMessage = missingMessage || messages.usernameMissing;
+  const translatedPlaceHolder = placeholder || String.t('labelUsernamePlaceholder');
+  const translatedMissingMessage = missingMessage || String.t('validationError.usernameTooShort');
   const decoratedInput = BaseInput({
     ...rest,
     placeholder: translatedPlaceHolder,
     missingMessage: translatedMissingMessage,
     extraRules: [{
-      validator: antValidate(usernameI18N(intl))
+      validator: antValidate(username)
     }]
   });
 
@@ -59,4 +57,4 @@ function UsernameField(props) {
 UsernameField.propTypes = propTypes;
 UsernameField.defaultProps = defaultProps;
 
-export default injectIntl(UsernameField);
+export default UsernameField;

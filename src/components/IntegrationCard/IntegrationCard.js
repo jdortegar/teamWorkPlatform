@@ -2,6 +2,7 @@ import React from 'react';
 import { Card } from 'antd';
 import PropTypes from 'prop-types';
 import './styles/style.css';
+import String from '../../translations';
 
 const propTypes = {
   integrated: PropTypes.bool.isRequired,
@@ -23,10 +24,10 @@ function IntegrationCard(props) {
     if (integrated && !expired) {
       return (<a onClick={onRevoke}>Revoke</a>);
     } else if (integrated && expired) {
-      return (<p>Expired (<a onClick={handleIntegration}>Reauthorize)</a></p>);
+      return (<p>{String.t('IntegrationCard.expired')} <a onClick={handleIntegration}>{String.t('IntegrationCard.reauthorize')}</a></p>);
     }
 
-    return (<a onClick={handleIntegration}>Authorize</a>);
+    return (<a onClick={handleIntegration}>{String.t('IntegrationCard.authorize')}</a>);
   };
 
   const renderIcon = () => {

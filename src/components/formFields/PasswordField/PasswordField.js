@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'antd';
-import { injectIntl, intlShape } from 'react-intl';
-import { antValidate, passwordI18N } from '../../../validations';
+import { antValidate, password } from '../../../validations';
 import BaseInput from '../BaseInput';
-import messages from './messages';
+import String from '../../../translations';
 
 const FormItem = Form.Item;
 
 const propTypes = {
-  intl: intlShape.isRequired,
   form: PropTypes.object.isRequired,
   componentKey: PropTypes.string,
   initialValue: PropTypes.string.isRequired,
@@ -24,7 +22,7 @@ const propTypes = {
 const defaultProps = {
   componentKey: 'password',
   layout: {},
-  label: 'Password',
+  label: String.t('labelPassword'),
   initialValue: '',
   placeholder: null,
   required: true,
@@ -33,14 +31,14 @@ const defaultProps = {
 };
 
 function PasswordField(props) {
-  const { layout, label, missingMessage, placeholder, validatePassword, intl, ...rest } = props;
+  const { layout, label, missingMessage, placeholder, validatePassword, ...rest } = props;
 
-  const translatedPlaceHolder = placeholder || messages.password;
-  const translatedMissingMessage = missingMessage || messages.passwordMissing;
+  const translatedPlaceHolder = placeholder || String.t('labelPasswordPlaceholder');
+  const translatedMissingMessage = missingMessage || String.t('errPasswordMissing');
 
   const extraRules = [];
   if (validatePassword) {
-    extraRules.push({ validator: antValidate(passwordI18N(intl)) });
+    extraRules.push({ validator: antValidate(password) });
   }
 
   const decoratedInput = BaseInput({
@@ -66,4 +64,4 @@ function PasswordField(props) {
 PasswordField.propTypes = propTypes;
 PasswordField.defaultProps = defaultProps;
 
-export default injectIntl(PasswordField);
+export default PasswordField;

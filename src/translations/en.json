@@ -1,4 +1,5 @@
-{ "okButton": "OK",
+{ 
+  "okButton": "OK",
   "cancelButton": "Cancel",
   "errUnknownResponse": "An error occurred:\n\n{{response}}",
   "errUnknownStatus": "An error occurred: ({{status}})",
@@ -13,9 +14,9 @@
   "errAppDeepLinkInvalid": "The specified link is invalid.",
   "errAppDeepLinkUnknownError": "An error occurred. Please try again later.",
   "msgAppInvitationWhileLoggedOut": "Please log in to reply to the invitation.",
-  "msgInvitationToTeamRoom": "{{byUserDisplayName}} invited you to join room {{teamRoomName}} for the {{teamName}} team",
-  "msgInvitationToTeam": "{{byUserDisplayName}} invited you to join the {{teamName}} team.",
-  "msgInvitationToOrg": "{{byUserDisplayName}} invited you to join the {{subscriberOrgName}} organization.",
+  "msgInvitationToTeamRoom": "{{byUserFirstName}} {{byUserLastName}} invited you to join room {{teamRoomName}} for the {{teamName}} team",
+  "msgInvitationToTeam": "{{byUserFirstName}} {{byUserLastName}} invited you to join the {{teamName}} team.",
+  "msgInvitationToOrg": "{{byUserFirstName}} {{byUserLastName}} invited you to join the {{subscriberOrgName}} organization.",
   "buttonAcceptInvitation": "Accept",
   "buttonDeclineInvitation": "Decline",
   "fileSizeInBytes": "{{sizeInBytes}} bytes",
@@ -44,10 +45,15 @@
   "labelLastName": "Last Name",
   "labelLastNamePlaceholder": "",
   "labelEmail": "Email",
+  "labelEmailPlaceholder": "",
   "labelUsername": "Username",
+  "labelUsernamePlaceholder": "",
   "labelPassword": "Password",
+  "labelPasswordPlaceholder": "",
   "labelConfirmPassword": "Confirm Password",
+  "labelConfirmPasswordPlaceholder": "",
   "labelCountry": "Country",
+  "labelCountryPlaceholder": "",
   "labelTimeZone": "Time Zone",
   "labelSelectTimeZoneOption": "Select Time Zone",
   "labelTeamName": "Team Name",
@@ -57,7 +63,11 @@
   "labelPublishTeamRoom": "Publish Room",
   "labelActivateTeamRoom": "Make Room Active",
   "inviteMembersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
-  "inviteMembersSendInvitesButton": "SEND {{count}} INVITES",
+  "inviteMembersSendInvitesButton": {
+    "one": "SEND 1 INVITE",
+    "other": "SEND {{count}} INVITES",
+    "zero": "SEND INVITES"
+  },
   "inviteMembersNoInvitesSelectedButton": "SELECT MEMBERS TO SEND INVITES",
   "inviteMembersSearchPlaceholder": "SEARCH MEMBERS",
   "typingActivityMultipleMemberSeparator": ", ",
@@ -157,7 +167,7 @@
   "errNoRoomMembers": "No members found for the {roomName} team room.",
   "toastExpandedAllMessages": "Expanded All Messages",
   "toastCollapsedAllMessages": "Collapsed All Messages",
-  "searchPlaceholder": "SEARCH",
+  "searchPlaceholder": "Search",
   "inviteTeamMembersTitle": "Invite Team Members",
   "inviteTeamMembersExplain": "{{teamName}} Team",
   "inviteRoomMembersTitle": "Invite Room Members",
@@ -169,9 +179,283 @@
   "manageMembersSaveChangesButtonLabel": "SAVE CHANGES",
   "timeActivityGraphTitle": "CKG Time / Activity",
   "graphDateRangeButtonLabel": " Select Date Range  ",
-  "OrganizationPage.addNewIntegration": "Add New Integration",
-  "error.validation.usernameFormat": "Must be alphanumeric without spaces (period, underscore and @ symbol are allowed).",
-  "error.validation.usernameNotEndsWith": "Cannot end with character \"%\\{searchString\\}\"",
-  "error.validation.usernameTooShort": "Must be 6 to 20 characters",
-  "error.validation.invalidEmail": "Wrong email format"
+  "cardViewTitle": "Card View",
+  "listViewTitle": "Details View",
+  "OrganizationPage": {
+    "addNewTeam": "Add New Team",
+    "addNewMember": "Add New Team Member",
+    "addNewIntegration": "Add New Integration",
+    "teamCreated": "Team has been successfully created.",
+    "integrationsHeader": "Data Integrations ({{count}})",
+    "membersHeader": "Members ({{count}})",
+    "teamsHeader": "Teams ({{count}})",
+    "integrationsCount": {
+      "one": "1 Data Integration",
+      "other": "{{count}} Data Integration",
+      "zero": "No Data Integrations"
+   },
+   "invitationSent": {
+      "one": "Invitation successfully sent.",
+      "other": "Invitations successfully sent."
+    }
+  },
+  "TeamPage": {
+    "inviteNewMember": "Invite a New Team Member",
+    "addNewTeamRoom": "Add New Team Room",
+    "membersHeader": {
+      "one": "1 Member",
+      "other": "{{count}} Members",
+      "zero": "No Members"
+    },
+    "roomsHeader": {
+      "one": "1 Team Room",
+      "other": "{{count}} Team Rooms",
+      "zero": "No Team Rooms"
+    },
+    "invitationSent": {
+      "one": "Invitation successfully sent.",
+      "other": "Invitations successfully sent."
+    }
+  },
+  "EditButtonLabel": "Edit",
+  "PreviewCard": {
+    "imageAlt": "example"
+  },
+  "AutoCompleteField": {
+    "defaultLabel": "Input",
+    "errNoText": "This field cannot be blank."
+  },
+  "Country": {
+    "errNoText": "Please select your country of residence."
+  },
+  "InputField": {
+    "defaultLabel": "Input",
+    "defaultPlaceholder": "",
+    "errNoText": "This field cannot be blank."
+  },
+  "UploadImageField": {
+    "alt": "Set Avatar"
+  },
+  "Header": {
+    "accountSettings": "Account Settings",
+    "logOutMenu": "Log Out",
+    "logoAlt": "Habla AI",
+    "noticationsLink": "Notifications",
+    "ckgLink": "CKG",
+   "searchLink": "Search"
+  },
+  "IntegrationCard": {
+    "expired": "Expired",
+    "authorize": "Authorize",
+    "reauthorize": "(Reauthorize)"
+  },
+  "MainContent": {
+     "newMessage": "New Message"
+  },
+  "message": {
+    "sentByName": "{{firstName}} {{lastName}}",
+    "tooltipReply": "Reply",
+    "tooltipAddFile": "Add File",
+    "tooltipBookmark": "Bookmark",
+    "tooltipThumbsUp": "Thumbs Up",
+    "tooltipThumbsDown": "Thumbs Down",
+    "tooltipFlag": "Flag",
+    "tooltipMute": "Mute",
+    "tooltipUnmute": "Unmute",
+    "tooltipEdit": "Edit"
+  },
+  "previewBar": {
+    "name": "{{firstName}} {{lastName}}",
+    "dropFilesPlaceholder": "Drop your files here."
+  },
+  "sideBar": {
+    "addOrganization": "Add Organization"
+  },
+  "timeActivityGraph": {
+    "displayTime": "{{displayTime}}"
+  },
+  "createAccount": {
+    "createAccountButtonLabel": "Create Account"
+  },
+  "addOrgDialog": {
+    "title": "Add Organization",
+    "addButtonLabel": "Add",
+    "namePlaceholder": "Organization Name"
+  },
+  "addTeamDialog": {
+    "title": "Add Team",
+    "addButtonLabel": "Add",
+    "namePlaceholder": "Team Name"
+  },
+  "addTeamRoomDialog": {
+    "title": "Add Team Room",
+    "addButtonLabel": "Add",
+    "namePlaceholder": "Team Room Name"
+  },
+  "invitePeopleDialog": {
+    "title": "Invite People",
+    "removeLink": "Remove"
+  },
+  "orgSettingsDialog": {
+    "title": "Organization Settings",
+    "saveButtonLabel": "Save",
+    "tabTeamRooms": "Team Rooms"
+  },
+  "login": {
+    "rememberMeCheckboxLabel": "Remember me",
+    "forgotPasswordLabel": "Forgot password",
+    "signUpLabel": "Sign Up",
+    "loginButtonLabel": "Log in"
+  },
+  "register": {
+    "successText": "Thank you for joining Habla AI! To finish signing up, please check your email to verify your account.",
+    "registerButtonLabel": "Register"
+  },
+  "verifyAccount": {
+    "successText": "Your email has been verified!",
+    "continueLink": "Click here to create your account"
+  },
+  "signUp": {
+    "logoAlt": "Habla AI",
+    "companyName": "Habla AI"
+  },
+  "editOrgPage": {
+    "title": "Edit  Organization",
+    "namePlaceholder": "",
+    "saveButtonLabel": "Save",
+    "organizationName": "Organization Name",
+    "webSiteLabel": "Web Site",
+    "webSitePlaceholder": "http://",
+    "changeAvatarText": "Change Avatar",
+    "successToastTitle": "Success",
+    "organizationUpdated": "Your organization has been successfully updated."
+  },
+  "editTeamPage": {
+    "teamUpdated": "Your team has been successfully updated.",
+    "changeAvatarText": "Change Avatar",
+    "teamName": "Team Name",
+    "saveButtonLabel": "Save",
+    "successToastTitle": "Success",
+    "setActive": "Set Active",
+    "setInactive": "Set Inactive",
+    "activeState": "Active",
+    "inactiveState": "Inactive"
+  },
+  "editTeamRoomPage": {
+    "successToastTitle": "Success",
+    "teamUpdated": "Your team has been successfully updated.",
+    "changeAvatarTitle": "Change Avatar",
+    "saveButtonLabel": "Save",
+    "teamName": "Team Name",
+    "setActive": "Set Active",
+    "setInactive": "Set Inactive",
+    "activeState": "Active",
+    "inactiveState": "Inactive"
+  },
+  "editUserPage": {
+   "title": "Account Settings",
+   "successToastTitle": "Success",
+   "userUpdated": "Your user profile has been successfully updated.",
+   "saveButtonLabel": "Save",
+   "profileSettings": "Profile Settings",
+   "setProfilePhoto": "Set your profile photo"
+  },
+  "integrationDetailsPage": {
+     "status": {
+       "active": "Active",
+       "expired": "Expired",
+       "revoked": "Revoked"
+     },
+     "notification": {
+       "createdMessage": "CREATED",
+       "createdDescription": "Your {{name}} integration is good to go!",
+       "successMessage": "SUCCESS",
+       "successDescription": "Habla AI no longer has access to your account.",
+       "goneMessage": "GONE",
+       "goneDescription": "Your integration to {{name}} has been revoked and Habla AI no longer has access to it. Please go to {{link}} to complete the revocation.",
+       "notFoundMessage": "NOT FOUND",
+       "notFoundDescription": "We’re sorry, but something must’ve gone terribly wrong."
+     },
+     "integrations": "Integrations",
+     "on": "ON",
+     "off": "OFF",
+     "activate": "Activate",
+     "deactivate": "Revoke Access",
+     "FORBIDDEN": "You didn’t seem to allow Habla AI to access your documents",
+     "NOT_FOUND": "We’re sorry, but something must’ve gone terribly wrong",
+     "INTERNAL_SERVER_ERROR": "We’re sorry, but something must’ve gone terribly wrong"
+  },
+  "integrationsPage": {
+    "addNewIntegrations": "Add New Integrations",
+    "selectIntegration": "Select the integration that you want to add.",
+    "providerError": "Error",
+    "errorMessage": "Request for Integrations failed.",
+    "successMessage": "Successful Integration",
+    "successDescription": "You have successfully authorized {{name}} access.",
+    "forbiddenMessage": "Something Wrong",
+    "forbiddenDescription": "You did not authorize {{name}} access.",
+    "notFoundMessage": "Something Wrong",
+    "notFoundDescription": "You don't have permission to do add a provider.",
+    "unknownMessage": "Something Wrong",
+    "unknownDescription": "We were unable to add {{name}} access."
+  },
+  "inviteNewMemberPage": {
+    "title": "New Member Email",
+    "sendInvitationsButtonLabel": "Send Invitations",
+    "breadcrumb": "Team"
+  },
+  "inviteToTeamPage": {
+    "sendInvitationsButtonLabel": "Send Invitations",
+    "addAnother": "Add Another",
+    "username": "Username",
+    "removeLink": "Remove",
+    "usernamePlaceholder": "Enter a username",
+    "breadcrumb": "Team"
+   },
+  "newTeamPage": {
+    "createNewTeamButtonLabel": "Create New Team",
+    "chooseTeamName": "Choose a Team Name",
+    "uploadAvatar": "Upload Avatar",
+    "breadcrumb": "Team"
+   },
+   "newTeamRoomPage": {
+     "title": "Choose a new Team Room Name",
+     "createNewTeamRoomButtonLabel": "Create Team Room",
+     "breadcrumb": "Team Room"
+   },
+   "cardView": {
+     "inviteNewMember": "Invite a New Team Member",
+     "addNewTeamRoom": "Add New Team Room",
+     "roomsHeader": "Team Rooms ({{count}})",
+     "membersHeader": "Team Members ({{count}})"
+   },
+   "teamRoomPage": {
+     "all": "All",
+     "new": "New",
+     "bookmarked": "Bookmarked",
+     "active": "active",
+     "replyPlaceholder": "Leave a reply...",
+     "membersHeader": "{{count}} members"
+   },
+   "teamMemberPage": {
+     "breadcrumb": "Team Member",
+     "profilePictureLabel": "Profile Picture"
+   },
+
+  "validationError": {
+    "usernameFormat": "Must be alphanumeric without spaces (period, underscore and @ symbol are allowed).",
+    "usernameNotEndsWithPeriod": "Username cannot end with a period.",
+    "usernameTooShort": "Username must be at least 6 characters long.",
+    "passwordOneLower": "Must have at least one lowercase letter (a-z).",
+    "passwordOneNumber": "Must have at least one number (0-9).",
+    "passwordOneSpecial": "Must have at least one special character.",
+    "passwordOneUppercase": "Must have at least one uppercase letter (A-Z).",
+    "invalidEmail": "Please specify a valid email address.",
+    "notAString": "This is not a string.",
+    "firstNameTooLong": "First Name is limited to 30 characters.",
+    "firstNameFormat": "First Name must contain alphabetic characters only.",
+    "lastNameTooLong": "Last Name is too limited to 30 characters.",
+    "lastNameFormat": "Last Name must contain alphabetic characters only.",
+    "constraintsEmpty": "An internal error occurred: Constraints Empty"
+   }
 }

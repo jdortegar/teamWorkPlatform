@@ -23,6 +23,7 @@ import AcceptInvitationPage from '../../pages/AcceptInvitationPage';
 import { routesPaths } from '../../routes';
 import { sound1 } from '../../sounds';
 import './styles/style.css';
+import String from '../../translations';
 
 const { Content } = Layout;
 
@@ -43,7 +44,7 @@ class MainContent extends Component {
         return prevVal || (content.type === 'text/plain') ? content.text : undefined;
       }, undefined);
       const args = {
-        message: 'New Message',
+        message: String.t('MainContent.newMessage'),
         description: text,
         duration: 4,
         onClose: () => {
@@ -66,7 +67,7 @@ class MainContent extends Component {
       }
       const { text } = nextProps.pushMessage; // TODO: JC: It should be the content[type=text/plain].text
       const args = {
-        message: 'New Message',
+        message: String.t('MainContent.newMessage'),
         description: text,
         duration: 4,
         onClose: () => {

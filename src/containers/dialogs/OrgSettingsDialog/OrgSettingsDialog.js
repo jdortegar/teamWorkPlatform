@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { toggleOrgSettingsDialog } from '../../../actions';
 import './styles/style.css';
+import String from '../../../translations';
 
 const TabPane = Tabs.TabPane;
 
@@ -25,11 +26,12 @@ class OrgSettingsDialog extends Component {
   }
 
   render() {
+    const tabTeamRooms = String.t('orgSettingsDialog.tabTeamRooms');
     return (
       <Modal
-        title="Organization Settings"
-        cancelText="Cancel"
-        okText="OK"
+        title={String.t('orgSettingsDialog.title')}
+        cancelText={String.t('cancelButton')}
+        okText={String.t('orgSettingsDialog.saveButtonLabel')}
         visible={this.props.orgSettingsDialog.show}
         onOk={null}
         afterClose={null}
@@ -42,8 +44,8 @@ class OrgSettingsDialog extends Component {
           tabPosition="left"
           style={{ height: 400 }}
         >
-          <TabPane tab="Team Rooms" key="teamRooms">
-            Team Rooms
+          <TabPane tab={tabTeamRooms} key="teamRooms">
+            {tabTeamRooms}
           </TabPane>
         </Tabs>
       </Modal>

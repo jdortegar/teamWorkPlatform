@@ -8,6 +8,7 @@ import { IconCard } from '../../components/cards';
 import Avatar from '../../components/Avatar';
 import CardView from './CardView';
 import ListView from './ListView';
+import String from '../../translations';
 
 const propTypes = {
   integrations: PropTypes.PropTypes.shape({
@@ -89,7 +90,10 @@ class OrganizationPage extends Component {
     teams.unshift(
       <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
         <a onClick={() => this.props.toggleTeamDialog(true)}>
-          <IconCard icon={<i className="fa fa-plus simple-card__icons" />} text="Add a New Integration" />
+          <IconCard
+            icon={<i className="fa fa-plus simple-card__icons" />}
+            text={String.t('OrganizationPage.addNewIntegration')}
+          />
         </a>
       </Col>);
 

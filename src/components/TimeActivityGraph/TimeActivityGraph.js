@@ -5,6 +5,7 @@ import { Popover } from 'antd';
 import * as d3 from 'd3';
 
 import './styles/style.css';
+import String from '../../translations';
 
 const propTypes = {
   files: PropTypes.arrayOf(PropTypes.object)
@@ -111,7 +112,7 @@ class TimeActivityGraph extends Component {
       );
       const content = (
         <div>
-          <p>Activity at {file.displayTime}</p>
+          <p>{String.t('timeActivityGraph.displayTime', file)}</p>
           <p>{file.fileSize}</p>
         </div>
       );

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Button, notification } from 'antd';
 import PropTypes from 'prop-types';
 import './styles/style.css';
+import String from '../../translations';
 
 const propTypes = {
   options: PropTypes.shape({
@@ -21,11 +22,26 @@ const propTypes = {
 
 function checkType(type) {
   if (type.teamRoomName) {
-    return { type: 'teamRoom', name: type.teamRoomName, id: type.teamRoomId };
+    return {
+      type: 'teamRoom',
+      name: type.teamRoomName,
+      id: type.teamRoomId,
+      messageStrKey: 'msgInvitationToTeamRoom'
+    };
   } else if (type.teamName) {
-    return { type: 'team', name: type.teamName, id: type.teamId };
+    return {
+      type: 'team',
+      name: type.teamName,
+      id: type.teamId,
+      messageStrKey: 'msgInvitationToTeam'
+    };
   }
-  return { type: 'subscriberOrg', name: type.subscriberOrgName, id: type.subscriberOrgId };
+  return {
+    type: 'subscriberOrg',
+    name: type.subscriberOrgName,
+    id: type.subscriberOrgId,
+    messageStrKey: 'msgInvitationToOrg'
+  };
 }
 
 class Notification extends Component {
@@ -61,7 +77,6 @@ class Notification extends Component {
   }
 
   render() {
-    const { byUserFirstName, byUserLastName } = this.props.options;
     const typeObj = checkType(this.props.options);
     return (
       <Row type="flex" className="Notification__container">
@@ -72,7 +87,7 @@ class Notification extends Component {
           className="Notification__col Notification__col--vertical-center"
         >
           <h3 className="Notification__title">
-            {byUserFirstName} {byUserLastName} invited you to join {typeObj.name}
+            {String.t(typeObj.messageStrKey, this.props.options)}
           </h3>
         </Col>
         <Col
@@ -87,7 +102,7 @@ class Notification extends Component {
             disabled={this.state.accepted === false}
             onClick={() => this.handleClick(true)}
           >
-            Accept
+            {String.t('buttonAcceptInvitation')}
           </Button>
           <Button
             className="Notification__button Notification__button--gray"
@@ -95,7 +110,7 @@ class Notification extends Component {
             disabled={this.state.accepted === true}
             onClick={() => this.handleClick(false)}
           >
-            Decline
+            {String.t('buttonDeclineInvitation')}
           </Button>
         </Col>
       </Row>

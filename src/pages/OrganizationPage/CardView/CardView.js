@@ -1,6 +1,5 @@
 import React from 'react';
 import { Tooltip, Collapse } from 'antd';
-import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -8,7 +7,7 @@ import { Link } from 'react-router-dom';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
 import { IconCard } from '../../../components/cards';
-import messages from '../messages';
+import String from '../../../translations';
 import './styles/style.css';
 
 const Panel = Collapse.Panel;
@@ -135,30 +134,30 @@ function CardView(props) {
       <Collapse defaultActiveKey={['1', '2', '3']} bordered={false}>
         {isOrgAdmin &&
           <Panel
-            header={<SimpleHeader text={`Data Integrations (${integrationsArr.length})`} />}
+            header={<SimpleHeader text={String.t('OrganizationPage.integrationsHeader', { count: subscribers.length })} />}
             key="1"
           >
             <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-              {isOrgAdmin && renderAddCard(<FormattedMessage {...messages.addNewIntegration} />, `/app/integrations/${subscriberOrgId}`)}
+              {isOrgAdmin && renderAddCard(String.t('OrganizationPage.addNewIntegration'), `/app/integrations/${subscriberOrgId}`)}
               {integrationsArr}
             </SimpleCardContainer>
           </Panel>
         }
         <Panel
-          header={<SimpleHeader text={`Teams (${teams.length})`} />}
+          header={<SimpleHeader text={String.t('OrganizationPage.teamsHeader', { count: teams.length })} />}
           key="2"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {isOrgAdmin && renderAddCard(<FormattedMessage {...messages.addNewTeam} />, `/app/createTeam/${props.subscriberOrgId}`) }
+            {isOrgAdmin && renderAddCard(String.t('OrganizationPage.addNewTeam'), `/app/createTeam/${props.subscriberOrgId}`) }
             {renderTeams()}
           </SimpleCardContainer>
         </Panel>
         <Panel
-          header={<SimpleHeader text={`Members (${subscribers.length})`} />}
+          header={<SimpleHeader text={String.t('OrganizationPage.membersHeader', { count: subscribers.length })} />}
           key="3"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {isOrgAdmin && renderAddCard(<FormattedMessage {...messages.addNewMember} />, `/app/inviteNewMember/${props.subscriberOrgId}`) }
+            {isOrgAdmin && renderAddCard(String.t('OrganizationPage.addNewMember'), `/app/inviteNewMember/${props.subscriberOrgId}`) }
             {renderMembers()}
           </SimpleCardContainer>
         </Panel>

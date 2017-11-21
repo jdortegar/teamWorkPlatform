@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { verifyEmailAccount } from '../../actions';
 import './styles/style.css';
+import String from '../../translations';
 
 const propTypes = {
   verifyEmailAccount: PropTypes.func.isRequired,
@@ -35,8 +36,8 @@ class VerifyAccount extends Component {
         <div>Loading</div> :
         <Row className="account-block">
           <Col span="24">
-            <h2>Your email has been verified!</h2>
-            <h3><Link to="/createAccount">Click here to create your account</Link></h3>
+            <h2>{String.t('verifyAccount.successText')}</h2>
+            <h3><Link to="/createAccount">{String.t('verifyAccount.continueLink')}</Link></h3>
           </Col>
         </Row>
     );

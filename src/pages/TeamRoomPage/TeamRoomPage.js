@@ -15,7 +15,7 @@ import Avatar from '../../components/Avatar';
 import PreviewBar from '../../components/PreviewBar';
 import Message from '../../components/Message';
 import { getJwt, getResourcesUrl } from '../../session';
-import messages from './messages';
+import String from '../../translations';
 import './styles/style.css';
 
 const propTypes = {
@@ -73,7 +73,7 @@ class TeamRoomPage extends Component {
       teamRoomMembersLoaded: false,
       conversationsLoaded: false,
       teamRoomMembers: [],
-      activeLink: messages.all,
+      activeLink: String.t('teamRoomPage.all'),
       replyTo: null,
       showPreviewBox: false,
       barPercent: 0,
@@ -327,14 +327,14 @@ class TeamRoomPage extends Component {
               editButton={editButton}
               node={
                 <div className="team-room__header-container">
-                  <div className={`team-room__header-links ${this.state.activeLink === messages.all ? 'active' : ''}`}>
-                    <a onClick={() => this.handleHeaderClick(messages.all)}>{messages.all}</a>
+                  <div className={`team-room__header-links ${this.state.activeLink === String.t('teamRoomPage.all') ? String.t('teamRoomPage.active') : ''}`}>
+                    <a onClick={() => this.handleHeaderClick(String.t('teamRoomPage.all'))}>{String.t('teamRoomPage.all')}</a>
                   </div>
-                  <div className={`team-room__header-links ${this.state.activeLink === messages.new ? 'active' : ''}`}>
-                    <a onClick={() => this.handleHeaderClick(messages.new)}>{messages.new}</a>
+                  <div className={`team-room__header-links ${this.state.activeLink === String.t('teamRoomPage.new') ? String.t('teamRoomPage.active') : ''}`}>
+                    <a onClick={() => this.handleHeaderClick(String.t('teamRoomPage.new'))}>{String.t('teamRoomPage.new')}</a>
                   </div>
-                  <div className={`team-room__header-links ${this.state.activeLink === messages.bookmarked ? 'active' : ''}`}>
-                    <a onClick={() => this.handleHeaderClick(messages.bookmarked)}>{messages.bookmarked}</a>
+                  <div className={`team-room__header-links ${this.state.activeLink === String.t('teamRoomPage.bookmarked') ? String.t('teamRoomPage.active') : ''}`}>
+                    <a onClick={() => this.handleHeaderClick(String.t('teamRoomPage.bookmarked'))}>{String.t('teamRoomPage.bookmarked')}</a>
                   </div>
                 </div>
               }
@@ -343,7 +343,7 @@ class TeamRoomPage extends Component {
               type="node"
               text={
                 <div className="team-room__member-cards-container">
-                  <span className="team-room__member-cards-span">{numberOfTeamRoomMembers} members</span>
+                  <span className="team-room__member-cards-span">{String.t('teamRoomPage.membersHeader', { count: numberOfTeamRoomMembers })}</span>
                   {this.renderTeamRoomMembers()}
                 </div>
               }
@@ -380,7 +380,7 @@ class TeamRoomPage extends Component {
                     componentKey="message"
                     form={this.props.form}
                     hasFeedback={false}
-                    placeholder="Leave a reply..."
+                    placeholder={String.t('teamRoomPage.replyPlaceholder')}
                     label=""
                     className="team-room__chat-input-form-item"
                     inputClassName="team-room__chat-input-textfield"
