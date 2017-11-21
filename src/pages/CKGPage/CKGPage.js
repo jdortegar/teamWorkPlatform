@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import * as d3 from 'd3';
 
@@ -18,9 +19,28 @@ const buildDataObject = (file, fileTypes) => ({
   color: getColorByType(file.fileType, fileTypes)
 });
 
-const CKGPage = () => {
-  const { files, fileTypes } = dataFile.message;
-  return <TimeActivityGraph files={files.map(file => buildDataObject(file, fileTypes))} />;
+const propTypes = {
+  currentSubscriberOrgId: PropTypes.string,
+  fetchTimeActivityBySubscriberOrgId: PropTypes.func.isRequired
 };
+
+const defaultProps = {
+  currentSubscriberOrgId: null
+};
+
+class CKGPage extends Component {
+  componentDidMount() {
+    const { currentSubscriberOrgId, fetchTimeActivityBySubscriberOrgId } = this.props;
+    if (currentSubscriberOrgId) fetchTimeActivityBySubscriberOrgId(currentSubscriberOrgId);
+  }
+
+  render() {
+    const { files, fileTypes } = dataFile.message;
+    return <TimeActivityGraph files={files.map(file => buildDataObject(file, fileTypes))} />;
+  }
+}
+
+CKGPage.propTypes = propTypes;
+CKGPage.defaultProps = defaultProps;
 
 export default CKGPage;

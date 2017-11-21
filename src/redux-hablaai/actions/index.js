@@ -42,6 +42,8 @@ export * from './transcriptFetch';
 export * from './messagesReceive';
 export * from './messageCreate';
 
+export * from './timeActivityFetch';
+
 export * from './typing';
 export * from './location';
 
