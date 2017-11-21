@@ -28,7 +28,7 @@
             For example:   String.t("peopleScreenTeamMembers", { count: 0 })
             returns:       "No Team Members"
 
-   NOTE: Avoid combining strings or adding formatting characters to strings in code. 
+   NOTE: Avoid combining strings or adding formatting characters to strings in code.
          That is done using parameters (see msgInvitationToOrg for an example).
 
    NOTE: When adding new strings, do not add the string to other languages. After

@@ -32,11 +32,6 @@ function beforeUpload(file, allowedTypes) {
   if (!isFileAllowed) {
     message.error('You can only upload JPG, PNG and ICO files!');
   }
-//   const isLt2M = file.size / 1024 / 1024 < 2;
-//   if (!isLt2M) {
-//     message.error('Image must smaller than 2 MB!');
-//   }
-//   return isFileAllowed && isLt2M;
   return isFileAllowed;
 }
 

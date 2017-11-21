@@ -11,7 +11,7 @@ import SimpleCardContainer from '../../components/SimpleCardContainer';
 import UploadImageField from '../../components/formFields/UploadImageField';
 import EditButton from '../../components/buttons/EditButton';
 import messages from './messages';
-import UserIcon from '../../components/UserIcon';
+import Avatar from '../../components/Avatar';
 import './styles/style.css';
 
 const propTypes = {
@@ -95,7 +95,12 @@ class TeamPage extends Component {
       return (
         <div>
           <SubpageHeader
-            icon={<UserIcon user={team} type="team" clickable={false} />}
+            icon={<Avatar
+              styles={{ width: '2em', height: '2em' }}
+              name={team.name}
+              iconColor={team.preferences.iconColor}
+              image={team.preferences.avatarBase64 || team.preferences.logo}
+            />}
             breadcrumb={
               <div>
                 <Link to={`/app/organization/${subscriberOrg.subscriberOrgId}`}>
