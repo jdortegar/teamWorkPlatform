@@ -26,11 +26,14 @@ const MARGIN = {
 };
 const INNER_WIDTH = WIDTH - MARGIN.left - MARGIN.right;
 const INNER_HEIGHT = HEIGHT - MARGIN.top - MARGIN.bottom;
+const DOT_RADIUS = 6;
+const DOT_HOVER_RADIUS = 10;
 
 class TimeActivityGraph extends Component {
   state = {
     xScale: null,
-    yScale: null
+    yScale: null,
+    zoomScale: 1
   };
 
   componentDidMount() {
@@ -54,7 +57,10 @@ class TimeActivityGraph extends Component {
     const yScale = d3.scaleLinear().range([INNER_HEIGHT, 0]);
 
     // Scale the range of the data
-    xScale.domain([moment(d3.min(this.props.files, d => d.date)).subtract(1, 'days'), d3.max(this.props.files, d => d.date)]);
+    xScale.domain([
+      moment(d3.min(this.props.files, d => d.date)).subtract(1, 'days'),
+      moment(d3.max(this.props.files, d => d.date)).add(1, 'day')
+    ]);
     yScale.domain([24, 0]);
 
     this.setState({ xScale, yScale }, this.createGraph);
@@ -92,7 +98,9 @@ class TimeActivityGraph extends Component {
 
   handleZoom = () => {
     const { x, y, k } = d3.event.transform;
-    d3.select(this.nodes.dataContainer).attr('transform', `translate(${x}, ${y})scale(${k})`);
+    this.setState({ zoomScale: k });
+
+    d3.select(this.nodes.dataContainer).attr('transform', `translate(${x}, ${y}) scale(${k})`);
     d3.select(this.nodes.xAxis).call(this.xAxis.scale(d3.event.transform.rescaleX(this.state.xScale)));
     d3.select(this.nodes.yAxis).call(this.yAxis.scale(d3.event.transform.rescaleY(this.state.yScale)));
   };
@@ -100,11 +108,11 @@ class TimeActivityGraph extends Component {
   handleMouseOver = (event) => {
     const component = event.target;
     component.parentNode.appendChild(component); // bring to front
-    this.animateCircle(component, 10);
+    this.animateCircle(component, DOT_HOVER_RADIUS / this.state.zoomScale);
   };
 
   handleMouseOut = (event) => {
-    this.animateCircle(event.target, 6);
+    this.animateCircle(event.target, DOT_RADIUS / this.state.zoomScale);
   };
 
   animateCircle = (component, radius) => {
@@ -133,7 +141,15 @@ class TimeActivityGraph extends Component {
       );
       return (
         <Popover key={file.fileId} content={content} title={title} trigger="click">
-          <circle r={6} cx={xScale(file.date)} cy={yScale(file.time)} fill={file.color} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut} />
+          <circle
+            className="TimeActivityGraph__dot"
+            r={DOT_RADIUS / this.state.zoomScale}
+            cx={xScale(file.date)}
+            cy={yScale(file.time)}
+            fill={file.color}
+            onMouseOver={this.handleMouseOver}
+            onMouseOut={this.handleMouseOut}
+          />
         </Popover>
       );
     });
@@ -145,8 +161,19 @@ class TimeActivityGraph extends Component {
         <svg ref={node => this.setNode('graph', node)} className="TimeActivityGraph__graph" width={WIDTH} height={HEIGHT}>
           <g ref={node => this.setNode('xAxis', node)} className="TimeActivityGraph__axis" transform={`translate(0,${INNER_HEIGHT})`} />
           <g ref={node => this.setNode('yAxis', node)} className="TimeActivityGraph__axis" />
-          <rect ref={node => this.setNode('view', node)} className="TimeActivityGraph__view" x={0.5} y={0.5} width={INNER_WIDTH - 1} height={INNER_HEIGHT - 1} />
-          <g ref={node => this.setNode('dataContainer', node)} width={INNER_WIDTH} height={INNER_HEIGHT}>
+          <rect
+            ref={node => this.setNode('view', node)}
+            className="TimeActivityGraph__view"
+            x={0.5}
+            y={0.5}
+            width={INNER_WIDTH - 1}
+            height={INNER_HEIGHT - 1}
+          />
+          <g
+            ref={node => this.setNode('dataContainer', node)}
+            width={INNER_WIDTH}
+            height={INNER_HEIGHT}
+          >
             {this.renderDataPoints()}
           </g>
         </svg>
