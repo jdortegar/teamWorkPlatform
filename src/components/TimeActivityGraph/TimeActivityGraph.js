@@ -142,7 +142,6 @@ class TimeActivityGraph extends Component {
       return (
         <Popover key={file.fileId} content={content} title={title} trigger="click">
           <circle
-            className="TimeActivityGraph__dot"
             r={DOT_RADIUS / this.state.zoomScale}
             cx={xScale(file.date)}
             cy={yScale(file.time)}
@@ -159,22 +158,25 @@ class TimeActivityGraph extends Component {
     return (
       <div className="TimeActivityGraph">
         <svg ref={node => this.setNode('graph', node)} className="TimeActivityGraph__graph" width={WIDTH} height={HEIGHT}>
+          <defs>
+            <clipPath id="clip">
+              <rect id="clip-rect" x={0} y={0} width={INNER_WIDTH} height={INNER_HEIGHT} />
+            </clipPath>
+          </defs>
           <g ref={node => this.setNode('xAxis', node)} className="TimeActivityGraph__axis" transform={`translate(0,${INNER_HEIGHT})`} />
           <g ref={node => this.setNode('yAxis', node)} className="TimeActivityGraph__axis" />
-          <rect
-            ref={node => this.setNode('view', node)}
-            className="TimeActivityGraph__view"
-            x={0.5}
-            y={0.5}
-            width={INNER_WIDTH - 1}
-            height={INNER_HEIGHT - 1}
-          />
-          <g
-            ref={node => this.setNode('dataContainer', node)}
-            width={INNER_WIDTH}
-            height={INNER_HEIGHT}
-          >
-            {this.renderDataPoints()}
+          <g clipPath="url(#clip)">
+            <rect
+              ref={node => this.setNode('view', node)}
+              className="TimeActivityGraph__view"
+              x={0}
+              y={0}
+              width={INNER_WIDTH}
+              height={INNER_HEIGHT}
+            />
+            <g ref={node => this.setNode('dataContainer', node)}>
+              {this.renderDataPoints()}
+            </g>
           </g>
         </svg>
       </div>
