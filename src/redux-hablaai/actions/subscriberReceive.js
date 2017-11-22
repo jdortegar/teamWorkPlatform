@@ -6,18 +6,18 @@ export const receiveSubscriber = (subscriber, subscriberOrgId) => {
   return ((dispatch, getState) => {
     const subscriberOrg = getState().subscriberOrgs.subscriberOrgById[subscriberOrgId];
     if (!subscriberOrg) {
-      return dispatch(fetchSubscriberOrgs({ forceGet: true }))
+      dispatch(fetchSubscriberOrgs({ forceGet: true }))
         .then(() => {
           dispatch({
             type: SUBSCRIBER_RECEIVE,
             payload: { subscriber, subscriberOrgId }
           });
         });
+    } else {
+      dispatch({
+        type: SUBSCRIBER_RECEIVE,
+        payload: { subscriber, subscriberOrgId }
+      });
     }
-
-    return {
-      type: SUBSCRIBER_RECEIVE,
-      payload: { subscriber, subscriberOrgId }
-    };
   });
 };
