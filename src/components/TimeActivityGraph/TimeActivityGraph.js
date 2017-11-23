@@ -54,14 +54,14 @@ class TimeActivityGraph extends Component {
   init() {
     // set the ranges
     const xScale = d3.scaleTime().range([0, INNER_WIDTH]);
-    const yScale = d3.scaleLinear().range([INNER_HEIGHT, 0]);
+    const yScale = d3.scaleTime().range([INNER_HEIGHT, 0]);
 
     // Scale the range of the data
     xScale.domain([
       moment(d3.min(this.props.files, d => d.date)).subtract(1, 'days'),
       moment(d3.max(this.props.files, d => d.date)).add(1, 'day')
     ]);
-    yScale.domain([24, 0]);
+    yScale.domain([moment().endOf('day'), moment().startOf('day')]);
 
     this.setState({ xScale, yScale }, this.createGraph);
   }
@@ -75,7 +75,7 @@ class TimeActivityGraph extends Component {
   createInteractiveView() {
     this.zoom = d3
       .zoom()
-      .scaleExtent([1, 3])
+      .scaleExtent([1, 120])
       .translateExtent([[-100, 0], [INNER_WIDTH + 100, INNER_HEIGHT]])
       .on('zoom', this.handleZoom);
 
@@ -91,8 +91,9 @@ class TimeActivityGraph extends Component {
   }
 
   createYAxis() {
-    const formatTick = n => (n !== 24 ? d3.timeFormat(`${n}:00`) : null);
-    this.yAxis = d3.axisLeft(this.state.yScale).tickFormat(formatTick);
+    this.yAxis = d3
+      .axisLeft(this.state.yScale)
+      .tickFormat(d3.timeFormat('%H:%M'));
     this.yAxis(d3.select(this.nodes.yAxis));
   }
 

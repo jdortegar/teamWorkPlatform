@@ -5,18 +5,24 @@ import * as d3 from 'd3';
 
 import TimeActivityGraph from '../../components/TimeActivityGraph';
 
-const convertISODate = strISODate => moment(strISODate).format('YYYY/MM/DD HH:mm:ss');
-const parseDateTime = strISODate => d3.timeParse('%Y/%m/%d %H:%M:%S')(convertISODate(strISODate));
-const formatTime = (strISODate, format = '%H:%M:%S') => d3.timeFormat(format)(parseDateTime(strISODate));
 const getColorByType = (type, fileTypes) => fileTypes.find(({ fileType }) => fileType === type).color;
-
-const buildDataObject = (file, fileTypes) => ({
-  ...file,
-  date: parseDateTime(file.lastModified),
-  time: moment.duration(formatTime(file.lastModified)).asHours(),
-  displayTime: formatTime(file.lastModified, '%X'),
-  color: getColorByType(file.fileType, fileTypes)
+const parseDate = dateTime => d3.timeParse('%Y/%m/%d %H:%M:%S')(dateTime.format('YYYY/MM/DD HH:mm:ss'));
+const buildTime = dateTime => moment().startOf('day').set({
+  hour: dateTime.hour(),
+  minute: dateTime.minutes(),
+  second: dateTime.seconds()
 });
+
+const buildDataObject = (file, fileTypes) => {
+  const dateTime = moment(file.lastModified);
+  return {
+    ...file,
+    date: parseDate(dateTime),
+    time: buildTime(dateTime),
+    displayTime: d3.timeFormat('%X')(parseDate(dateTime)),
+    color: getColorByType(file.fileType, fileTypes)
+  };
+};
 
 const propTypes = {
   currentSubscriberOrgId: PropTypes.string,
