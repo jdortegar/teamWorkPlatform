@@ -12,7 +12,7 @@ const getColorByType = (type, fileTypes) => fileTypes.find(({ fileType }) => fil
 
 const buildDataObject = (file, fileTypes) => ({
   ...file,
-  date: moment(file.lastModified).startOf('day'),
+  date: parseDateTime(file.lastModified),
   time: moment.duration(formatTime(file.lastModified)).asHours(),
   displayTime: formatTime(file.lastModified, '%X'),
   color: getColorByType(file.fileType, fileTypes)
