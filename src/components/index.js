@@ -1,6 +1,6 @@
 
 export NewSubpageHeader from './NewSubpageHeader';
-
+export Avatar from './Avatar';
 
 // FORMS
 export FirstNameField from './formFields/FirstNameField';

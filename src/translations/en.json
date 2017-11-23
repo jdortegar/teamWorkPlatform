@@ -1,4 +1,4 @@
-{ 
+{
   "okButton": "OK",
   "cancelButton": "Cancel",
   "errUnknownResponse": "An error occurred:\n\n{{response}}",
@@ -440,6 +440,17 @@
    "teamMemberPage": {
      "breadcrumb": "Team Member",
      "profilePictureLabel": "Profile Picture"
+   },
+   "notificationPage": {
+     "title": "Notifications",
+     "menu" : {
+       "all": "ALL",
+       "messages": "MESSAGES",
+       "replies": "REPLIES",
+       "notifications": "NOTIFICATIONS"
+     },
+     "unReadNotifications": "UNREAD NOTIFICATIONS",
+     "markAllAsRead": "Mark all as read"
    },
 
   "validationError": {

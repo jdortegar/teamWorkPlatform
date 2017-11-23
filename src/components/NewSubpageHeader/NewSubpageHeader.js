@@ -9,7 +9,9 @@ const propTypes = {
 const NewSubpageHeader = ({ children }) => {
   return (
     <div className="subpage__header">
-      {children}
+      <div className="subpage__header-container">
+        {children}
+      </div>
     </div>
   );
 };
