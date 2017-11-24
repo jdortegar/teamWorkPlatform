@@ -43,6 +43,11 @@ class Login extends React.Component {
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onForgotPassword = this.onForgotPassword.bind(this);
+  }
+
+  onForgotPassword() {
+    this.props.history.push('/recoverPassword');
   }
 
   handleSubmit(e) {
@@ -98,7 +103,7 @@ class Login extends React.Component {
           })(
             <Checkbox>{String.t('login.rememberMeCheckboxLabel')}</Checkbox>
           )}
-          <a className="login-form-forgot" href="">{String.t('login.forgotPasswordLabel')}</a>
+          <a className="login-form-forgot" onClick={this.onForgotPassword}>{String.t('login.forgotPasswordLabel')}</a>
           {
             this.props.loggingIn ?
               <Spin size="large" style={{ width: '100%' }} /> :

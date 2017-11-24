@@ -4,11 +4,15 @@ import _ from 'lodash';
 import { ProtectedRoute, PublicRoute } from './routing';
 import Main from './layouts/Main';
 import SignUp from './layouts/SignUp';
+import RecoverPassword from './layouts/RecoverPassword';
+import SetNewPassword from './layouts/SetNewPassword';
 
 export const routesPaths = {
   register: '/register',
   verifyAccount: '/verifyAccount/:uuid',
   createAccount: '/createAccount',
+  recoverPassword: '/recoverPassword',
+  setNewPassword: '/setNewPassword',
   login: '/login',
   logout: '/logout',
   home: '/',
@@ -40,6 +44,8 @@ export default (
     <Route exact path={routesPaths.verifyAccount} component={SignUp} />
     <Route exact path={routesPaths.createAccount} component={SignUp} />
     <PublicRoute path={routesPaths.login} component={SignUp} />
+    <PublicRoute path={routesPaths.recoverPassword} component={RecoverPassword} />
+    <PublicRoute path={routesPaths.setNewPassword} component={SetNewPassword} />
     <ProtectedRoute component={Main} />
   </Switch>
 );

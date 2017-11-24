@@ -18,5 +18,21 @@
     },
     "unReadNotifications": "NOTIFICACIONES NO LEÍDAS",
     "markAllAsRead": "Marcas todas como leídas"
-  }
+  },
+
+  "Buttons": {
+    "next": "Siguiente",
+    "cancel": "Cancelar"
+  },
+  "RecoverPassword": {
+    "forgotYourPassword": "Olvidaste tu contraseña",
+    "emailSent": "Email Enviado",
+    "checkEmail": "Revisa tu correo",
+    "infoParagraph": "Por favor ingrese tu dirección de correo que usted usa en su cuenta de Habla AI y le enviaremos un correo con las instrucciones para cambiar su contraseña",
+    "infoParagraphAfterSentImage": "Por favor revise su correo para continuar con el proceso de recuperación de contraseña"
+  },
+
+  "chooseNewPassword": "Elige una nueva contraseña",
+  "newPasswordPlaceholder": "Nueva contraseña",
+  "confirmPasswordPlaceholder": "Confirmar contraseña"
 }
