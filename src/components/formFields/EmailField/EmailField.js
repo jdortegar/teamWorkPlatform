@@ -18,7 +18,8 @@ const propTypes = {
   missingMessage: PropTypes.string,
   placeholder: PropTypes.string,
   icon: PropTypes.node,
-  inputClassName: PropTypes.string
+  inputClassName: PropTypes.string,
+  noLabel: PropTypes.bool
 };
 
 const defaultProps = {
@@ -30,7 +31,8 @@ const defaultProps = {
   placeholder: null,
   layout: {},
   icon: undefined,
-  inputClassName: null
+  inputClassName: null,
+  noLabel: false
 };
 
 function EmailField(props) {
@@ -45,6 +47,7 @@ function EmailField(props) {
     required,
     icon,
     inputClassName,
+    noLabel,
     ...other
   } = props;
 
@@ -66,6 +69,18 @@ function EmailField(props) {
     prefix: icon !== undefined ? icon : <Icon type="mail" />
   });
 
+  if (noLabel) {
+    return (
+      <FormItem
+        labelCol={layout.labelCol}
+        wrapperCol={layout.wrapperCol}
+        hasFeedback
+        required={required}
+      >
+        {decoratedInput}
+      </FormItem>
+    );
+  }
   return (
     <FormItem
       labelCol={layout.labelCol}
