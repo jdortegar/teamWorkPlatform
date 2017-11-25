@@ -74,7 +74,7 @@ class RecoverPassword extends Component {
                 :
                 <div className="recoverPassword__field-wrapper">
                   <h2 className="recoverPassword__user-email">{this.state.email}</h2>
-                  <p>{String.t('RecoverPassword.infoParagraphAfterSentImage')}.</p>
+                  <p>{String.t('RecoverPassword.infoParagraphAfterSentImage')}</p>
                 </div>
               }
             </div>
