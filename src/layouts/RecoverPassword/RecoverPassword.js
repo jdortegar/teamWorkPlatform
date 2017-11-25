@@ -55,7 +55,7 @@ class RecoverPassword extends Component {
             {!this.state.emailSent ?
               <h1>{String.t('RecoverPassword.forgotYourPassword')}</h1>
               :
-              <h1>{String.t('RecoverPassword.emailSent')}! <span className="email-sent__info">{String.t('RecoverPassword.checkEmail')}</span></h1>
+              <h1>{String.t('RecoverPassword.emailSent')} <span className="email-sent__info">{String.t('RecoverPassword.checkEmail')}</span></h1>
             }
 
             <div className="recoverPassword-body__main">
