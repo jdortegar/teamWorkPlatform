@@ -21,3 +21,13 @@
   fill: none;
   pointer-events: all;
 }
+
+.TimeActivityGraph__popup-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.TimeActivityGraph__popup-title a {
+  padding-left: 10px;
+}

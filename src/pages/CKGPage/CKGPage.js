@@ -5,7 +5,7 @@ import * as d3 from 'd3';
 
 import TimeActivityGraph from '../../components/TimeActivityGraph';
 
-const getColorByType = (type, fileTypes) => fileTypes.find(({ fileType }) => fileType === type).color;
+const getFileType = (type, fileTypes) => fileTypes.find(({ fileType }) => fileType === type);
 const parseDate = dateTime => d3.timeParse('%Y/%m/%d %H:%M:%S')(dateTime.format('YYYY/MM/DD HH:mm:ss'));
 const buildTime = dateTime => moment().startOf('day').set({
   hour: dateTime.hour(),
@@ -15,12 +15,16 @@ const buildTime = dateTime => moment().startOf('day').set({
 
 const buildDataObject = (file, fileTypes) => {
   const dateTime = moment(file.lastModified);
+  const { color, fileExtension } = getFileType(file.fileType, fileTypes);
+  const extension = fileExtension || file.filename.split('.').pop();
+
   return {
     ...file,
     date: parseDate(dateTime),
     time: buildTime(dateTime),
     displayTime: d3.timeFormat('%X')(parseDate(dateTime)),
-    color: getColorByType(file.fileType, fileTypes)
+    extension,
+    color
   };
 };
 

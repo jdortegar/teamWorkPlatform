@@ -4,9 +4,10 @@ import moment from 'moment';
 import { Popover } from 'antd';
 import * as d3 from 'd3';
 
-import './styles/style.css';
+import FileImage from '../FileImage';
 import String from '../../translations';
 import formatSize from '../../lib/formatSize';
+import './styles/style.css';
 
 const propTypes = {
   files: PropTypes.arrayOf(PropTypes.object)
@@ -131,9 +132,12 @@ class TimeActivityGraph extends Component {
 
     return this.props.files.map((file) => {
       const title = (
-        <a href={file.resourceUri} target="_blank">
-          {file.filename}
-        </a>
+        <div className="TimeActivityGraph__popup-title">
+          <FileImage extension={file.extension} />
+          <a href={file.resourceUri} target="_blank">
+            {file.filename}
+          </a>
+        </div>
       );
       const content = (
         <div>
