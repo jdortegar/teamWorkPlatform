@@ -22,12 +22,12 @@
   pointer-events: all;
 }
 
-.TimeActivityGraph__popup-title {
+.DataPoint__title {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.TimeActivityGraph__popup-title a {
+.DataPoint__title a {
   padding-left: 10px;
 }

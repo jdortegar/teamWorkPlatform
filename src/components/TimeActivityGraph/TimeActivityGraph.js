@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Popover } from 'antd';
 import * as d3 from 'd3';
 
-import FileImage from '../FileImage';
-import String from '../../translations';
-import formatSize from '../../lib/formatSize';
+import DataPoint from './DataPoint';
 import './styles/style.css';
 
 const propTypes = {
@@ -127,39 +124,21 @@ class TimeActivityGraph extends Component {
   };
 
   renderDataPoints() {
-    const { xScale, yScale } = this.state;
+    const { xScale, yScale, zoomScale } = this.state;
     if (!xScale || !yScale) return null;
 
-    return this.props.files.map((file) => {
-      const title = (
-        <div className="TimeActivityGraph__popup-title">
-          <FileImage extension={file.extension} />
-          <a href={file.resourceUri} target="_blank">
-            {file.filename}
-          </a>
-        </div>
-      );
-      const content = (
-        <div>
-          <p>{String.t('timeActivityGraph.displayTime', file)}</p>
-          <p>{formatSize(file.fileSize)}</p>
-        </div>
-      );
-      return (
-        <Popover key={file.fileId} content={content} title={title} trigger="click">
-          <circle
-            r={DOT_RADIUS / this.state.zoomScale}
-            cx={xScale(file.date)}
-            cy={yScale(file.time)}
-            fill={file.color}
-            stroke="#333"
-            strokeWidth={1 / this.state.zoomScale}
-            onMouseOver={this.handleMouseOver}
-            onMouseOut={this.handleMouseOut}
-          />
-        </Popover>
-      );
-    });
+    return this.props.files.map(file => (
+      <DataPoint
+        file={file}
+        key={file.fileId}
+        x={xScale(file.date)}
+        y={yScale(file.time)}
+        radius={DOT_RADIUS / zoomScale}
+        borderWidth={1 / zoomScale}
+        onMouseOver={this.handleMouseOver}
+        onMouseOut={this.handleMouseOut}
+      />
+    ));
   }
 
   render() {
