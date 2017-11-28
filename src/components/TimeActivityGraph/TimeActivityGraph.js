@@ -147,6 +147,8 @@ class TimeActivityGraph extends Component {
             cx={xScale(file.date)}
             cy={yScale(file.time)}
             fill={file.color}
+            stroke="#333"
+            strokeWidth={1 / this.state.zoomScale}
             onMouseOver={this.handleMouseOver}
             onMouseOut={this.handleMouseOut}
           />
