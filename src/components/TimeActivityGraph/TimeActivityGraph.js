@@ -6,6 +6,7 @@ import * as d3 from 'd3';
 
 import './styles/style.css';
 import String from '../../translations';
+import formatSize from '../../lib/formatSize';
 
 const propTypes = {
   files: PropTypes.arrayOf(PropTypes.object)
@@ -137,7 +138,7 @@ class TimeActivityGraph extends Component {
       const content = (
         <div>
           <p>{String.t('timeActivityGraph.displayTime', file)}</p>
-          <p>{file.fileSize}</p>
+          <p>{formatSize(file.fileSize)}</p>
         </div>
       );
       return (
