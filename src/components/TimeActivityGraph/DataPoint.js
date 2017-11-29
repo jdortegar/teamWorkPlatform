@@ -12,6 +12,8 @@ const propTypes = {
   y: PropTypes.number.isRequired,
   radius: PropTypes.number,
   borderWidth: PropTypes.number,
+  visible: PropTypes.bool,
+  onVisibleChange: PropTypes.func,
   onMouseOver: PropTypes.func,
   onMouseOut: PropTypes.func
 };
@@ -19,11 +21,23 @@ const propTypes = {
 const defaultProps = {
   radius: 6,
   borderWidth: 1,
+  visible: false,
+  onVisibleChange: () => {},
   onMouseOver: () => {},
   onMouseOut: () => {}
 };
 
-const DataPoint = ({ file, x, y, radius, borderWidth, onMouseOver, onMouseOut }) => {
+const DataPoint = ({
+  file,
+  x,
+  y,
+  radius,
+  borderWidth,
+  visible,
+  onVisibleChange,
+  onMouseOver,
+  onMouseOut
+}) => {
   const title = (
     <div className="DataPoint__title">
       <FileImage extension={file.extension} />
@@ -39,7 +53,14 @@ const DataPoint = ({ file, x, y, radius, borderWidth, onMouseOver, onMouseOut })
     </div>
   );
   return (
-    <Popover key={file.fileId} content={content} title={title} trigger="click">
+    <Popover
+      key={file.fileId}
+      content={content}
+      title={title}
+      trigger="click"
+      visible={visible}
+      onVisibleChange={onVisibleChange}
+    >
       <circle
         r={radius}
         cx={x}

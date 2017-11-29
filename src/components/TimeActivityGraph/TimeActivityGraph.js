@@ -32,7 +32,8 @@ class TimeActivityGraph extends Component {
   state = {
     xScale: null,
     yScale: null,
-    zoomScale: 1
+    zoomScale: 1,
+    selectedFile: null
   };
 
   componentDidMount() {
@@ -124,7 +125,7 @@ class TimeActivityGraph extends Component {
   };
 
   renderDataPoints() {
-    const { xScale, yScale, zoomScale } = this.state;
+    const { xScale, yScale, zoomScale, selectedFile } = this.state;
     if (!xScale || !yScale) return null;
 
     return this.props.files.map(file => (
@@ -135,6 +136,10 @@ class TimeActivityGraph extends Component {
         y={yScale(file.time)}
         radius={DOT_RADIUS / zoomScale}
         borderWidth={1 / zoomScale}
+        visible={selectedFile === file.fileId}
+        onVisibleChange={visible => this.setState({
+          selectedFile: visible ? file.fileId : null
+        })}
         onMouseOver={this.handleMouseOver}
         onMouseOut={this.handleMouseOut}
       />
@@ -160,6 +165,7 @@ class TimeActivityGraph extends Component {
               y={0}
               width={INNER_WIDTH}
               height={INNER_HEIGHT}
+              onClick={() => this.setState({ selectedFile: null })}
             />
             <g ref={node => this.setNode('dataContainer', node)}>
               {this.renderDataPoints()}
