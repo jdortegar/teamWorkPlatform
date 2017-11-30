@@ -18,7 +18,7 @@ const defaultProps = {
 const WIDTH = 400;
 const HEIGHT = 300;
 const MARGIN = {
-  top: 20,
+  top: 30,
   right: 20,
   bottom: 30,
   left: 50
@@ -66,6 +66,11 @@ class TimeActivityGraph extends Component {
   setNode = (name, node) => {
     this.nodes[name] = node;
   };
+
+  getPanExtent() {
+    const { innerWidth, innerHeight } = this.state.size;
+    return [[-100, -0.5], [innerWidth + 100, innerHeight + 0.5]];
+  }
 
   xAxis = null;
   yAxis = null;
@@ -115,13 +120,11 @@ class TimeActivityGraph extends Component {
   }
 
   updateInteractiveView() {
-    const { innerWidth, innerHeight } = this.state.size;
     this.zoom = d3
       .zoom()
       .scaleExtent([1, 120])
-      .translateExtent([[0, 0], [innerWidth, innerHeight]])
+      .translateExtent(this.getPanExtent())
       .on('zoom', this.handleZoom);
-
     this.zoom(d3.select(this.nodes.view));
   }
 
@@ -141,7 +144,7 @@ class TimeActivityGraph extends Component {
   }
 
   updateZoom() {
-    this.zoom.translateExtent([[0, 0], [innerWidth, innerHeight]]);
+    this.zoom.translateExtent(this.getPanExtent());
     d3.select(this.nodes.view).call(this.zoom);
 
     const transform = d3.zoomTransform(this.nodes.view);
