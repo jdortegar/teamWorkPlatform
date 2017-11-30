@@ -15,8 +15,8 @@ const defaultProps = {
 };
 
 // set the margins and size
-const WIDTH = 860;
-const HEIGHT = 700;
+const WIDTH = 400;
+const HEIGHT = 300;
 const MARGIN = {
   top: 20,
   right: 20,
@@ -28,16 +28,39 @@ const INNER_HEIGHT = HEIGHT - MARGIN.top - MARGIN.bottom;
 const DOT_RADIUS = 6;
 const DOT_HOVER_RADIUS = 10;
 
+const calculateSize = (width, height) => ({
+  width,
+  height,
+  innerWidth: width - MARGIN.left - MARGIN.right,
+  innerHeight: height - MARGIN.top - MARGIN.bottom
+});
+
 class TimeActivityGraph extends Component {
   state = {
     xScale: null,
     yScale: null,
     zoomScale: 1,
-    selectedFile: null
+    selectedFile: null,
+    size: {
+      width: WIDTH,
+      height: HEIGHT,
+      innerWidth: INNER_WIDTH,
+      innerHeight: INNER_HEIGHT
+    }
   };
 
   componentDidMount() {
     this.init();
+    this.handleResize();
+    window.addEventListener('resize', this.handleResize.bind(this));
+  }
+
+  componentWillReceiveProps() {
+    this.handleResize();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize.bind(this));
   }
 
   setNode = (name, node) => {
@@ -47,14 +70,35 @@ class TimeActivityGraph extends Component {
   xAxis = null;
   yAxis = null;
   nodes = {
+    container: null,
     xAxis: null,
     yAxis: null
   };
 
+  handleResize() {
+    const { offsetWidth, offsetHeight } = this.nodes.container;
+    const size = calculateSize(offsetWidth, offsetHeight);
+    this.setState({ size }, this.redrawGraph);
+  }
+
+  redrawGraph() {
+    const { innerWidth, innerHeight } = this.state.size;
+    const { xScale, yScale } = this.state;
+    xScale.range([0, innerWidth]);
+    yScale.range([innerHeight, 0]);
+
+    this.setState({ xScale, yScale }, () => {
+      this.updateXAxis();
+      this.updateYAxis();
+      this.updateZoom();
+    });
+  }
+
   init() {
     // set the ranges
-    const xScale = d3.scaleTime().range([0, INNER_WIDTH]);
-    const yScale = d3.scaleTime().range([INNER_HEIGHT, 0]);
+    const { innerWidth, innerHeight } = this.state.size;
+    const xScale = d3.scaleTime().range([0, innerWidth]);
+    const yScale = d3.scaleTime().range([innerHeight, 0]);
 
     // Scale the range of the data
     xScale.domain([
@@ -63,47 +107,56 @@ class TimeActivityGraph extends Component {
     ]);
     yScale.domain([moment().endOf('day'), moment().startOf('day')]);
 
-    this.setState({ xScale, yScale }, this.createGraph);
+    this.setState({ xScale, yScale }, () => {
+      this.updateInteractiveView();
+      this.updateXAxis();
+      this.updateYAxis();
+    });
   }
 
-  createGraph() {
-    this.createInteractiveView();
-    this.createXAxis();
-    this.createYAxis();
-  }
-
-  createInteractiveView() {
+  updateInteractiveView() {
+    const { innerWidth, innerHeight } = this.state.size;
     this.zoom = d3
       .zoom()
       .scaleExtent([1, 120])
-      .translateExtent([[-100, 0], [INNER_WIDTH + 100, INNER_HEIGHT]])
+      .translateExtent([[0, 0], [innerWidth, innerHeight]])
       .on('zoom', this.handleZoom);
 
     this.zoom(d3.select(this.nodes.view));
   }
 
-  createXAxis() {
+  updateXAxis() {
     this.xAxis = d3
       .axisBottom(this.state.xScale)
-      .tickSize(-INNER_HEIGHT)
+      .tickSize(-this.state.size.innerHeight)
       .tickPadding(10);
     this.xAxis(d3.select(this.nodes.xAxis));
   }
 
-  createYAxis() {
+  updateYAxis() {
     this.yAxis = d3
       .axisLeft(this.state.yScale)
       .tickFormat(d3.timeFormat('%H:%M'));
     this.yAxis(d3.select(this.nodes.yAxis));
   }
 
+  updateZoom() {
+    this.zoom.translateExtent([[0, 0], [innerWidth, innerHeight]]);
+    d3.select(this.nodes.view).call(this.zoom);
+
+    const transform = d3.zoomTransform(this.nodes.view);
+    d3.select(this.nodes.xAxis).call(this.xAxis.scale(transform.rescaleX(this.state.xScale)));
+    d3.select(this.nodes.yAxis).call(this.yAxis.scale(transform.rescaleY(this.state.yScale)));
+  }
+
   handleZoom = () => {
-    const { x, y, k } = d3.event.transform;
+    const transform = d3.zoomTransform(this.nodes.view);
+    const { x, y, k } = transform;
     this.setState({ zoomScale: k });
 
     d3.select(this.nodes.dataContainer).attr('transform', `translate(${x}, ${y}) scale(${k})`);
-    d3.select(this.nodes.xAxis).call(this.xAxis.scale(d3.event.transform.rescaleX(this.state.xScale)));
-    d3.select(this.nodes.yAxis).call(this.yAxis.scale(d3.event.transform.rescaleY(this.state.yScale)));
+    d3.select(this.nodes.xAxis).call(this.xAxis.scale(transform.rescaleX(this.state.xScale)));
+    d3.select(this.nodes.yAxis).call(this.yAxis.scale(transform.rescaleY(this.state.yScale)));
   };
 
   handleMouseOver = (event) => {
@@ -147,15 +200,17 @@ class TimeActivityGraph extends Component {
   }
 
   render() {
+    const { width, height, innerWidth, innerHeight } = this.state.size;
+
     return (
-      <div className="TimeActivityGraph">
-        <svg ref={node => this.setNode('graph', node)} className="TimeActivityGraph__graph" width={WIDTH} height={HEIGHT}>
+      <div ref={node => this.setNode('container', node)} className="TimeActivityGraph">
+        <svg ref={node => this.setNode('graph', node)} className="TimeActivityGraph__graph" width={width} height={height}>
           <defs>
             <clipPath id="clip">
-              <rect id="clip-rect" x={0} y={0} width={INNER_WIDTH} height={INNER_HEIGHT} />
+              <rect id="clip-rect" x={0} y={0} width={innerWidth} height={innerHeight} />
             </clipPath>
           </defs>
-          <g ref={node => this.setNode('xAxis', node)} className="TimeActivityGraph__axis" transform={`translate(0,${INNER_HEIGHT})`} />
+          <g ref={node => this.setNode('xAxis', node)} className="TimeActivityGraph__axis" transform={`translate(0,${innerHeight})`} />
           <g ref={node => this.setNode('yAxis', node)} className="TimeActivityGraph__axis" />
           <g clipPath="url(#clip)">
             <rect
@@ -163,8 +218,8 @@ class TimeActivityGraph extends Component {
               className="TimeActivityGraph__view"
               x={0}
               y={0}
-              width={INNER_WIDTH}
-              height={INNER_HEIGHT}
+              width={innerWidth}
+              height={innerHeight}
               onClick={() => this.setState({ selectedFile: null })}
             />
             <g ref={node => this.setNode('dataContainer', node)}>
