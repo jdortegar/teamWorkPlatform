@@ -18,9 +18,9 @@ const defaultProps = {
 const WIDTH = 400;
 const HEIGHT = 300;
 const MARGIN = {
-  top: 30,
+  top: 50,
   right: 20,
-  bottom: 30,
+  bottom: 60,
   left: 50
 };
 const INNER_WIDTH = WIDTH - MARGIN.left - MARGIN.right;
@@ -213,8 +213,15 @@ class TimeActivityGraph extends Component {
               <rect id="clip-rect" x={0} y={0} width={innerWidth} height={innerHeight} />
             </clipPath>
           </defs>
-          <g ref={node => this.setNode('xAxis', node)} className="TimeActivityGraph__axis" transform={`translate(0,${innerHeight})`} />
-          <g ref={node => this.setNode('yAxis', node)} className="TimeActivityGraph__axis" />
+          <g
+            ref={node => this.setNode('xAxis', node)}
+            className="TimeActivityGraph__axis TimeActivityGraph__x-axis"
+            transform={`translate(0,${innerHeight})`}
+          />
+          <g
+            ref={node => this.setNode('yAxis', node)}
+            className="TimeActivityGraph__axis TimeActivityGraph__y-axis"
+          />
           <g clipPath="url(#clip)">
             <rect
               ref={node => this.setNode('view', node)}
