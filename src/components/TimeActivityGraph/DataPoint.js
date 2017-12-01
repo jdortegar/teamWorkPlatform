@@ -38,25 +38,26 @@ const DataPoint = ({
   onMouseOver,
   onMouseOut
 }) => {
-  const title = (
-    <div className="DataPoint__title">
-      <FileImage extension={file.extension} />
-      <a href={file.resourceUri} target="_blank">
-        {file.filename}
-      </a>
-    </div>
-  );
   const content = (
     <div>
-      <p>{String.t('timeActivityGraph.displayTime', file)}</p>
-      <p>{formatSize(file.fileSize)}</p>
+      <div className="DataPoint__title">
+        <FileImage extension={file.extension} />
+        <a href={file.resourceUri} target="_blank">
+          {file.filename}
+        </a>
+      </div>
+      <div className="DataPoint__details">
+        <p>{String.t('timeActivityGraph.displayTime', file)}</p>
+      </div>
+      <div className="DataPoint__details">
+        <p>{formatSize(file.fileSize)}</p>
+      </div>
     </div>
   );
   return (
     <Popover
       key={file.fileId}
       content={content}
-      title={title}
       trigger="click"
       visible={visible}
       onVisibleChange={onVisibleChange}
