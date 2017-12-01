@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import * as d3 from 'd3';
+import String from '../../translations';
 
 import TimeActivityGraph from '../../components/TimeActivityGraph';
 
@@ -22,7 +23,8 @@ const buildDataObject = (file, fileTypes) => {
     ...file,
     date: parseDate(dateTime),
     time: buildTime(dateTime),
-    displayTime: d3.timeFormat('%X')(parseDate(dateTime)),
+    displayDate: moment(dateTime).format(String.t('timeActivityGraph.dateFormat')),
+    displayTime: moment(dateTime).format(String.t('timeActivityGraph.timeFormat')),
     extension,
     color
   };

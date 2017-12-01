@@ -286,7 +286,9 @@
     "addOrganization": "Add Organization"
   },
   "timeActivityGraph": {
-    "displayTime": "{{displayTime}}"
+    "displayTime": "{{displayDate}} at {{displayTime}}",
+    "dateFormat": "MMM D, YYYY",
+    "timeFormat": "H:mm:ss"
   },
   "createAccount": {
     "createAccountButtonLabel": "Create Account"
