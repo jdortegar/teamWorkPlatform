@@ -4,7 +4,8 @@ import moment from 'moment';
 import * as d3 from 'd3';
 import String from '../../translations';
 
-import TimeActivityGraph from '../../components/TimeActivityGraph';
+import { NewSubpageHeader, TimeActivityGraph } from '../../components';
+import './styles/style.css';
 
 const getFileType = (type, fileTypes) => fileTypes.find(({ fileType }) => fileType === type);
 const parseDate = dateTime => d3.timeParse('%Y/%m/%d %H:%M:%S')(dateTime.format('YYYY/MM/DD HH:mm:ss'));
@@ -50,7 +51,20 @@ class CKGPage extends Component {
   render() {
     if (!this.props.timeActivities) return null;
     const { files, fileTypes } = this.props.timeActivities;
-    return <TimeActivityGraph files={files.map(file => buildDataObject(file, fileTypes))} />;
+
+    return (
+      <div className="CKGPage">
+        <NewSubpageHeader>
+          <div className="CKGPage__title display-row">
+            <div className="icon-wrapper">
+              <i className="fa fa-area-chart fa-2x" />
+            </div>
+            <div className="subpage__header__title">{String.t('ckgPage.title')}</div>
+          </div>
+        </NewSubpageHeader>
+        <TimeActivityGraph files={files.map(file => buildDataObject(file, fileTypes))} />
+      </div>
+    );
   }
 }
 

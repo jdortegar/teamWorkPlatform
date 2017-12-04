@@ -433,41 +433,44 @@
     "chooseTeamName": "Choose a Team Name",
     "uploadAvatar": "Upload Avatar",
     "breadcrumb": "Team"
-   },
-   "newTeamRoomPage": {
-     "title": "Choose a new Team Room Name",
-     "createNewTeamRoomButtonLabel": "Create Team Room",
-     "breadcrumb": "Team Room"
-   },
-   "cardView": {
-     "inviteNewMember": "Invite a New Team Member",
-     "addNewTeamRoom": "Add New Team Room",
-     "roomsHeader": "Team Rooms ({{count}})",
-     "membersHeader": "Team Members ({{count}})"
-   },
-   "teamRoomPage": {
-     "all": "All",
-     "new": "New",
-     "bookmarked": "Bookmarked",
-     "active": "active",
-     "replyPlaceholder": "Leave a reply...",
-     "membersHeader": "{{count}} members"
-   },
-   "teamMemberPage": {
-     "breadcrumb": "Team Member",
-     "profilePictureLabel": "Profile Picture"
-   },
-   "notificationPage": {
-     "title": "Notifications",
-     "menu" : {
-       "all": "ALL",
-       "messages": "MESSAGES",
-       "replies": "REPLIES",
-       "notifications": "NOTIFICATIONS"
-     },
-     "unReadNotifications": "UNREAD NOTIFICATIONS",
-     "markAllAsRead": "Mark all as read"
-   },
+  },
+  "newTeamRoomPage": {
+    "title": "Choose a new Team Room Name",
+    "createNewTeamRoomButtonLabel": "Create Team Room",
+    "breadcrumb": "Team Room"
+  },
+  "cardView": {
+    "inviteNewMember": "Invite a New Team Member",
+    "addNewTeamRoom": "Add New Team Room",
+    "roomsHeader": "Team Rooms ({{count}})",
+    "membersHeader": "Team Members ({{count}})"
+  },
+  "teamRoomPage": {
+    "all": "All",
+    "new": "New",
+    "bookmarked": "Bookmarked",
+    "active": "active",
+    "replyPlaceholder": "Leave a reply...",
+    "membersHeader": "{{count}} members"
+  },
+  "teamMemberPage": {
+    "breadcrumb": "Team Member",
+    "profilePictureLabel": "Profile Picture"
+  },
+  "notificationPage": {
+    "title": "Notifications",
+    "menu" : {
+      "all": "ALL",
+      "messages": "MESSAGES",
+      "replies": "REPLIES",
+      "notifications": "NOTIFICATIONS"
+    },
+    "unReadNotifications": "UNREAD NOTIFICATIONS",
+    "markAllAsRead": "Mark all as read"
+  },
+  "ckgPage": {
+    "title": "CKG Time Activity View"
+  },
 
   "validationError": {
     "usernameFormat": "Must be alphanumeric without spaces (period, underscore and @ symbol are allowed).",
