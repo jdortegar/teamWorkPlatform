@@ -21,3 +21,22 @@
   fill: none;
   pointer-events: all;
 }
+
+.DataPoint__title {
+   padding-top: 5px;
+   padding-bottom: 10px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ }
+ 
+ .DataPoint__title a {
+   padding-left: 10px;
+ }
+ 
+ .DataPoint__details {
+   display: flex;
+   align-items: center;
+   justify-content: center;    
+ }
+ 
