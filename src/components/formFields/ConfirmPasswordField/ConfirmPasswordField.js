@@ -25,7 +25,7 @@ const propTypes = {
 const defaultProps = {
   componentKey: 'passwordConfirm',
   initialValue: null,
-  placeholder: String.t('labelConfirmPasswordPlaceholder'),
+  placeholder: String.t('confirmPasswordPlaceholder'),
   required: true,
   missingMessage: String.t('errPasswordMissing'),
   layout: {},
