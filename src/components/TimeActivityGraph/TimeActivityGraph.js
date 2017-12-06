@@ -18,9 +18,9 @@ const defaultProps = {
 const WIDTH = 400;
 const HEIGHT = 300;
 const MARGIN = {
-  top: 30,
+  top: 50,
   right: 20,
-  bottom: 30,
+  bottom: 60,
   left: 50
 };
 const INNER_WIDTH = WIDTH - MARGIN.left - MARGIN.right;
@@ -34,6 +34,14 @@ const calculateSize = (width, height) => ({
   innerWidth: width - MARGIN.left - MARGIN.right,
   innerHeight: height - MARGIN.top - MARGIN.bottom
 });
+
+const formatXTick = date => d3.timeFormat(d3.timeDay(date) < date ? '%H:%M' : '%b %e')(date);
+
+const adjustTextLabels = timeScale => (selection) => {
+  const ticks = timeScale.ticks();
+  const tickDistance = timeScale(ticks[ticks.length - 1]) - timeScale(ticks[ticks.length - 2]);
+  selection.selectAll('text').attr('transform', `translate(${tickDistance / 2},0)`);
+};
 
 class TimeActivityGraph extends Component {
   state = {
@@ -125,22 +133,25 @@ class TimeActivityGraph extends Component {
       .scaleExtent([1, 120])
       .translateExtent(this.getPanExtent())
       .on('zoom', this.handleZoom);
-    this.zoom(d3.select(this.nodes.view));
+    d3.select(this.nodes.view).call(this.zoom);
   }
 
   updateXAxis() {
     this.xAxis = d3
       .axisBottom(this.state.xScale)
       .tickSize(-this.state.size.innerHeight)
+      .tickFormat(formatXTick)
       .tickPadding(10);
-    this.xAxis(d3.select(this.nodes.xAxis));
+    d3.select(this.nodes.xAxis)
+      .call(this.xAxis)
+      .call(adjustTextLabels(this.state.xScale));
   }
 
   updateYAxis() {
     this.yAxis = d3
       .axisLeft(this.state.yScale)
       .tickFormat(d3.timeFormat('%H:%M'));
-    this.yAxis(d3.select(this.nodes.yAxis));
+    d3.select(this.nodes.yAxis).call(this.yAxis);
   }
 
   updateZoom() {
@@ -148,18 +159,27 @@ class TimeActivityGraph extends Component {
     d3.select(this.nodes.view).call(this.zoom);
 
     const transform = d3.zoomTransform(this.nodes.view);
-    d3.select(this.nodes.xAxis).call(this.xAxis.scale(transform.rescaleX(this.state.xScale)));
-    d3.select(this.nodes.yAxis).call(this.yAxis.scale(transform.rescaleY(this.state.yScale)));
+    const xRescale = transform.rescaleX(this.state.xScale);
+    d3.select(this.nodes.yAxis)
+      .call(this.yAxis.scale(transform.rescaleY(this.state.yScale)));
+    d3.select(this.nodes.xAxis)
+      .call(this.xAxis.scale(xRescale))
+      .call(adjustTextLabels(xRescale));
   }
 
   handleZoom = () => {
     const transform = d3.zoomTransform(this.nodes.view);
+    const xRescale = transform.rescaleX(this.state.xScale);
     const { x, y, k } = transform;
     this.setState({ zoomScale: k });
 
-    d3.select(this.nodes.dataContainer).attr('transform', `translate(${x}, ${y}) scale(${k})`);
-    d3.select(this.nodes.xAxis).call(this.xAxis.scale(transform.rescaleX(this.state.xScale)));
-    d3.select(this.nodes.yAxis).call(this.yAxis.scale(transform.rescaleY(this.state.yScale)));
+    d3.select(this.nodes.dataContainer)
+      .attr('transform', `translate(${x}, ${y}) scale(${k})`);
+    d3.select(this.nodes.xAxis)
+      .call(this.xAxis.scale(xRescale))
+      .call(adjustTextLabels(xRescale));
+    d3.select(this.nodes.yAxis)
+      .call(this.yAxis.scale(transform.rescaleY(this.state.yScale)));
   };
 
   handleMouseOver = (event) => {
@@ -213,8 +233,15 @@ class TimeActivityGraph extends Component {
               <rect id="clip-rect" x={0} y={0} width={innerWidth} height={innerHeight} />
             </clipPath>
           </defs>
-          <g ref={node => this.setNode('xAxis', node)} className="TimeActivityGraph__axis" transform={`translate(0,${innerHeight})`} />
-          <g ref={node => this.setNode('yAxis', node)} className="TimeActivityGraph__axis" />
+          <g
+            ref={node => this.setNode('xAxis', node)}
+            className="TimeActivityGraph__axis TimeActivityGraph__x-axis"
+            transform={`translate(0,${innerHeight})`}
+          />
+          <g
+            ref={node => this.setNode('yAxis', node)}
+            className="TimeActivityGraph__axis TimeActivityGraph__y-axis"
+          />
           <g clipPath="url(#clip)">
             <rect
               ref={node => this.setNode('view', node)}
