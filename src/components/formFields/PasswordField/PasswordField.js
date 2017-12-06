@@ -24,7 +24,7 @@ const defaultProps = {
   layout: {},
   label: String.t('labelPassword'),
   initialValue: '',
-  placeholder: null,
+  placeholder: String.t('labelPasswordPlaceholder'),
   required: true,
   missingMessage: null,
   validatePassword: true
