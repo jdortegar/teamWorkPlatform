@@ -53,7 +53,7 @@
 
   "labelPasswordPlaceholder": "",
   "labelConfirmPassword": "Confirm Password",
-  "confirmPasswordPlaceholder": "Confirm password",
+  "confirmPasswordPlaceholder": "",
   "newPasswordPlaceholder": "New password",
   "labelCountry": "Country",
   "labelCountryPlaceholder": "",

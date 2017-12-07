@@ -25,7 +25,7 @@ const propTypes = {
 const defaultProps = {
   componentKey: 'passwordConfirm',
   initialValue: null,
-  placeholder: String.t('confirmPasswordPlaceholder'),
+  placeholder: null,
   required: true,
   missingMessage: String.t('errPasswordMissing'),
   layout: {},
@@ -71,7 +71,7 @@ class ConfirmPasswordField extends Component {
       onFocus: this.showPopover,
       onBlur: this.hidePopover,
       missingMessage,
-      placeholder
+      placeholder: String.t('labelPasswordPlaceholder')
     });
 
     if (noLabel) {

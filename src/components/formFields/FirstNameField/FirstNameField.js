@@ -21,7 +21,7 @@ const propTypes = {
 const defaultProps = {
   componentKey: 'firstName',
   initialValue: '',
-  placeholder: null,
+  placeholder: String.t('labelFirstNamePlaceholder'),
   required: false,
   missingMessage: null,
   layout: {},
@@ -31,11 +31,10 @@ const defaultProps = {
 function FirstNameField(props) {
   const { layout, label, missingMessage, placeholder, ...rest } = props;
 
-  const translatedPlaceHolder = placeholder || String.t('labelFirstName');
   const translatedMissingMessage = missingMessage || String.t('errFirstNameMissing');
   const decoratedInput = BaseInput({
     ...rest,
-    placeholder: translatedPlaceHolder,
+    placeholder,
     missingMessage: translatedMissingMessage,
     extraRules: [{
       validator: antValidate(firstName)
