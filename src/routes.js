@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import _ from 'lodash';
 import { ProtectedRoute, PublicRoute } from './routing';
 import Main from './layouts/Main';
+import Login from './containers/Login';
 import SignUp from './layouts/SignUp';
 import RecoverPassword from './layouts/RecoverPassword';
 import SetNewPassword from './layouts/SetNewPassword';
@@ -43,7 +44,7 @@ export default (
     <Route exact path={routesPaths.register} component={SignUp} />
     <Route exact path={routesPaths.verifyAccount} component={SignUp} />
     <Route exact path={routesPaths.createAccount} component={SignUp} />
-    <PublicRoute path={routesPaths.login} component={SignUp} />
+    <PublicRoute path={routesPaths.login} component={Login} />
     <PublicRoute path={routesPaths.recoverPassword} component={RecoverPassword} />
     <PublicRoute path={routesPaths.setNewPassword} component={SetNewPassword} />
     <ProtectedRoute component={Main} />
