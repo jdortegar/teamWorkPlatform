@@ -1,9 +1,6 @@
 .signup-main-div {
-  display: flex;
   min-height: 100%;
   width: 100%;
-}
-
-.signup-logo {
-  width: 128px;
+  font-family: 'Lato', sans-serif;
+  align-items: 'center';
 }

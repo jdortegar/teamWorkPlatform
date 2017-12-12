@@ -85,7 +85,7 @@ class Login extends React.Component {
     }
 
     return (
-      <div className="signup-main-div">
+      <div className="login-main-div">
         <Row type="flex" justify="center" align="middle">
           <Col xs={{ span: 20 }} md={{ span: 12 }} lg={{ span: 8 }}>
             <img src={hablaWhiteLogo} alt={String.t('Header.logoAlt')} className="img" />

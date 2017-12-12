@@ -7,3 +7,11 @@
    padding-left: 20px;
    padding-right: 20px;
  }
+
+ .login-main-div {
+   min-height: 100%;
+   width: 100%;
+   font-family: 'Lato', sans-serif;
+   align-items: 'center';
+ }
+ 
