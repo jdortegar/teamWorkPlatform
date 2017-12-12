@@ -88,7 +88,7 @@ class Login extends React.Component {
       <div className="signup-main-div">
         <Row type="flex" justify="center" align="middle">
           <Col xs={{ span: 20 }} md={{ span: 12 }} lg={{ span: 8 }}>
-            <img src={hablaWhiteLogo} alt="" className="img" />
+            <img src={hablaWhiteLogo} alt={String.t('Header.logoAlt')} className="img" />
             <Form onSubmit={this.handleSubmit} layout="vertical">
               <EmailField
                 form={this.props.form}
