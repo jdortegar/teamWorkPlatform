@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Row, Col } from 'antd';
 import { routesPaths } from '../../routes';
 import Register from '../../containers/Register';
 import CreateAccount from '../../containers/CreateAccount';
@@ -14,15 +13,13 @@ function SignUp() {
   return (
     <div className="signup-main-div">
       <Header />
-      <Row type="flex" justify="center" align="middle">
-        <Col xs={{ span: 20 }} md={{ span: 12 }} lg={{ span: 8 }}>
-          <Switch>
-            <Route exact path={routesPaths.register} component={Register} />
-            <Route exact path={routesPaths.createAccount} component={CreateAccount} />
-            <Route exact path={routesPaths.verifyAccount} component={VerifyAccount} />
-          </Switch>
-        </Col>
-      </Row>
+      <div className="signup-body">
+        <Switch>
+          <Route exact path={routesPaths.register} component={Register} />
+          <Route exact path={routesPaths.createAccount} component={CreateAccount} />
+          <Route exact path={routesPaths.verifyAccount} component={VerifyAccount} />
+        </Switch>
+      </div>
     </div>
   );
 }

@@ -78,13 +78,16 @@ class Register extends React.Component {
           <Checkbox
             checked={this.state.agreementsChecked}
             onChange={this.onCheckboxChange}
-          >
+          />
+          <p className="register-checkbox-text">
             {String.t('register.checkAgreementsLabelBeforePrivacyPolicy')}
             <a
               onClick={() => window.open('https://habla.ai/privacy-policy.html')}
               className="register-link"
             >
-              {String.t('register.checkAgreementsPrivacyPolicyLink')}
+              <span className="register-link-body">
+                {String.t('register.checkAgreementsPrivacyPolicyLink')}
+              </span>
             </a>
             {String.t('register.checkAgreementsLabelBeforeTermsOfUse')}
             <a
@@ -94,7 +97,7 @@ class Register extends React.Component {
               {String.t('register.checkAgreementsTermsOfUseLink')}
             </a>
             {String.t('register.checkAgreementsLabelAfterTermsOfUse')}
-          </Checkbox>
+          </p>
         </div>
         <Button type="primary" className="form-cancel-button" onClick={this.onCancel}>
           {String.t('cancelButton')}
@@ -118,22 +121,24 @@ class Register extends React.Component {
     }
 
     return (
-      <div>
-        <div className="register-title-div">
-          <span className="register-title-bold">{String.t('register.titleBold')}
-            <span className="register-title-normal">{String.t('register.titleDetails')}</span>
-          </span>
-        </div>
-        <Form onSubmit={this.handleSubmit} layout="vertical">
-          <EmailField
-            form={this.props.form}
-            layout={layout}
-            placeholder={String.t('register.emailPlaceholder')}
-            noLabel
-            required
-          />
-          <div style={{ height: 10 }} />
-          { this.renderPreRegisteredButtons() }
+      <div className="register-body">
+        <Form onSubmit={this.handleSubmit} layout="vertical" className="register-form">
+          <div className="register-title-div">
+            <span className="register-title-bold">{String.t('register.titleBold')}
+              <span className="register-title-normal">{String.t('register.titleDetails')}</span>
+            </span>
+          </div>
+          <div className="recoverPassword__field-wrapper">
+            <EmailField
+              form={this.props.form}
+              layout={layout}
+              placeholder={String.t('register.emailPlaceholder')}
+              noLabel
+              required
+            />
+            <div style={{ height: 10 }} />
+            { this.renderPreRegisteredButtons() }
+          </div>
         </Form>
       </div>
     );

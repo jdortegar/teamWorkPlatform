@@ -1,6 +1,14 @@
 .signup-main-div {
-  min-height: 100%;
-  width: 100%;
   font-family: 'Lato', sans-serif;
   align-items: 'center';
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
+
+.signup-body {
+   background-color: #fff;
+   margin: 1em;
+   padding: 8px;
+   border-radius: 4px;
+ }

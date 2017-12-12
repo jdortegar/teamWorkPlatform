@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'antd';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { hablaBlackLogo } from '../../img';
 import { formShape } from '../../propTypes';
 import EmailField from '../../components/formFields/EmailField';
 import String from '../../translations';
+import Header from '../../components/Header';
 import './styles/style.css';
 
 const propTypes = {
@@ -45,11 +44,7 @@ class RecoverPassword extends Component {
   render() {
     return (
       <div className="recoverPassword-main-container">
-        <div className="recoverPassword-header">
-          <Link to="/app">
-            <img src={hablaBlackLogo} alt={String.t('Header.logoAlt')} className="logo" />
-          </Link>
-        </div>
+        <Header />
         <div className="recoverPassword-body">
           <Form onSubmit={this.handleSubmit} layout="vertical" className="recoverPassword-form">
             {!this.state.emailSent ?
