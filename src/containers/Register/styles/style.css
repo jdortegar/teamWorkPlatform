@@ -34,11 +34,23 @@
 .registration-success > div {
   font-size: 35px;
   padding-bottom: 8px;
-  color: #00a854;
+  color: black;
 }
 .register-checkbox-text {
-   padding: 0px;
-   margin: 0px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.register-success-email {
+  font-size: 24px;
+  font-weight: bold;
+  padding-bottom: 8px;
+  color: black;
+}
+.register-success-details {
+  font-size: 12px;
+  color: black;
+
 }
 
 .register-checkbox-div {
@@ -78,7 +90,7 @@
    text-align: 'center';
    align-content: 'center';
    margin-top: 40px;
-   margin-bottom: 30px;
+   margin-bottom: 20px;
 }
 
 .register-title-bold {
@@ -87,6 +99,6 @@
 }
 
 .register-title-normal {
-   font-weight: normal;
+   font-weight: 300;
    font-size: 24px;
 }

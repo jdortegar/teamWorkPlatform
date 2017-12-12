@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button, Spin, Icon, Checkbox } from 'antd';
+import { Form, Button, Spin, Checkbox } from 'antd';
 import axios from 'axios';
 import { formShape } from '../../propTypes';
 import config from '../../config/env';
@@ -44,7 +44,7 @@ class Register extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { email } = values;
-        this.setState({ submitting: true });
+        this.setState({ submitting: true, email });
 
         const axiosOptions = axiosOptionsForNewCustomer();
         axios.post(
@@ -64,8 +64,19 @@ class Register extends React.Component {
     }
     return (
       <div className="registration-success">
-        <div><Icon type="check-circle-o" /></div>
-        <h2 style={{ textAlign: 'center' }}>{String.t('register.successText')}</h2>
+        <div className="register-title-div">
+          <span className="register-title-bold">{String.t('register.successTitleBold')}
+            <span className="register-title-normal">{String.t('register.successTitleDetails')}</span>
+          </span>
+        </div>
+        <div className="register-success-email">
+          {this.state.email}
+        </div>
+        <p className="register-success-details">
+          {String.t('register.successTextLine1')}
+          <br />
+          {String.t('register.successTextLine2')}
+        </p>
       </div>
     );
   }

@@ -304,10 +304,13 @@
     "loginButtonLabel": "Log in"
   },
   "register": {
-   "titleBold": "Sign Up.",
-   "titleDetails": " It's Fast and Easy.",
-   "emailPlaceholder": "Email",
-    "successText": "Thank you for joining Habla AI! To finish signing up, please check your email to verify your account.",
+    "titleBold": "Sign Up.",
+    "titleDetails": " It's Fast and Easy.",
+    "emailPlaceholder": "Email",
+    "successTitleBold": "Hi!",
+    "successTitleDetails": " We just sent your verification email to:",
+    "successTextLine1": "The email may take a few seconds to arrive.",
+    "successTextLine2": "If you don't see it after a few minutes, please check your spam folder.",
     "registerButtonLabel": "Register",
     "checkAgreementsLabelBeforePrivacyPolicy": "I acknowledge that I have read and accept the ",
     "checkAgreementsPrivacyPolicyLink": "Privacy Policy",
