@@ -5,8 +5,6 @@ import { ProtectedRoute, PublicRoute } from './routing';
 import Main from './layouts/Main';
 import Login from './containers/Login';
 import SignUp from './layouts/SignUp';
-import RecoverPassword from './layouts/RecoverPassword';
-import SetNewPassword from './layouts/SetNewPassword';
 
 export const routesPaths = {
   register: '/register',
@@ -45,8 +43,8 @@ export default (
     <Route exact path={routesPaths.verifyAccount} component={SignUp} />
     <Route exact path={routesPaths.createAccount} component={SignUp} />
     <PublicRoute path={routesPaths.login} component={Login} />
-    <PublicRoute path={routesPaths.recoverPassword} component={RecoverPassword} />
-    <PublicRoute path={routesPaths.setNewPassword} component={SetNewPassword} />
+    <PublicRoute path={routesPaths.recoverPassword} component={SignUp} />
+    <PublicRoute path={routesPaths.setNewPassword} component={SignUp} />
     <ProtectedRoute component={Main} />
   </Switch>
 );

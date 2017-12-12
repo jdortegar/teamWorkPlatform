@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button } from 'antd';
-import { Link } from 'react-router-dom';
 import { formShape } from '../../propTypes';
-import { hablaBlackLogo } from '../../img';
 import ConfirmPasswordField from '../../components/formFields/ConfirmPasswordField';
 import String from '../../translations';
 import './styles/style.css';
@@ -45,11 +43,6 @@ class SetNewPassword extends Component {
   render() {
     return (
       <div className="recoverPassword-main-container">
-        <div className="recoverPassword-header">
-          <Link to="/app">
-            <img src={hablaBlackLogo} alt={String.t('Header.logoAlt')} className="logo" />
-          </Link>
-        </div>
         <div className="recoverPassword-body">
           <Form onSubmit={this.handleSubmit} layout="vertical" className="recoverPassword-form">
             <h1>Hello Thomas!</h1>

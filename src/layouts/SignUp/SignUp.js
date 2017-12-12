@@ -4,6 +4,8 @@ import { routesPaths } from '../../routes';
 import Register from '../../containers/Register';
 import CreateAccount from '../../containers/CreateAccount';
 import VerifyAccount from '../../containers/VerifyAccount';
+import RecoverPassword from '../RecoverPassword';
+import SetNewPassword from '../SetNewPassword';
 import Header from '../../components/Header';
 import './styles/signup.css';
 
@@ -18,6 +20,8 @@ function SignUp() {
           <Route exact path={routesPaths.register} component={Register} />
           <Route exact path={routesPaths.createAccount} component={CreateAccount} />
           <Route exact path={routesPaths.verifyAccount} component={VerifyAccount} />
+          <Route exact path={routesPaths.recoverPassword} component={RecoverPassword} />
+          <Route exact path={routesPaths.setNewPassword} component={SetNewPassword} />
         </Switch>
       </div>
     </div>
