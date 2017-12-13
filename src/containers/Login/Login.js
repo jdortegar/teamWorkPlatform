@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button, Checkbox, Spin, message } from 'antd';
+import { Row, Col, Form, Button, Checkbox, Spin, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -12,6 +12,7 @@ import PasswordField from '../../components/formFields/PasswordField';
 import { loginUser } from '../../actions';
 import './styles/login.css';
 import String from '../../translations';
+import { hablaWhiteLogo } from '../../img';
 
 const FormItem = Form.Item;
 
@@ -84,36 +85,43 @@ class Login extends React.Component {
     }
 
     return (
-      <Form onSubmit={this.handleSubmit} layout="vertical">
-        <EmailField
-          form={this.props.form}
-          layout={layout}
-          required
-        />
-        <PasswordField
-          form={this.props.form}
-          layout={layout}
-          required
-          validatePassword={false}
-        />
-        <FormItem>
-          {getFieldDecorator('remember', {
-            valuePropName: 'checked',
-            initialValue: false
-          })(
-            <Checkbox>{String.t('login.rememberMeCheckboxLabel')}</Checkbox>
-          )}
-          <a className="login-form-forgot" onClick={this.onForgotPassword}>{String.t('login.forgotPasswordLabel')}</a>
-          {
-            this.props.loggingIn ?
-              <Spin size="large" style={{ width: '100%' }} /> :
-              <Button type="primary" htmlType="submit" className="login-form-button">
-                {String.t('login.loginButtonLabel')}
-              </Button>
-          }
-          <Link to="/register">{String.t('login.signUpLabel')}</Link>
-        </FormItem>
-      </Form>
+      <div className="login-main-div">
+        <Row type="flex" justify="center" align="middle">
+          <Col xs={{ span: 20 }} md={{ span: 12 }} lg={{ span: 8 }}>
+            <img src={hablaWhiteLogo} alt={String.t('Header.logoAlt')} className="img" />
+            <Form onSubmit={this.handleSubmit} layout="vertical">
+              <EmailField
+                form={this.props.form}
+                layout={layout}
+                required
+              />
+              <PasswordField
+                form={this.props.form}
+                layout={layout}
+                required
+                validatePassword={false}
+              />
+              <FormItem>
+                {getFieldDecorator('remember', {
+                  valuePropName: 'checked',
+                  initialValue: false
+                })(
+                  <Checkbox>{String.t('login.rememberMeCheckboxLabel')}</Checkbox>
+                )}
+                <a className="login-form-forgot" onClick={this.onForgotPassword}>{String.t('login.forgotPasswordLabel')}</a>
+                {
+                  this.props.loggingIn ?
+                    <Spin size="large" style={{ width: '100%' }} /> :
+                    <Button type="primary" htmlType="submit" className="login-form-button">
+                      {String.t('login.loginButtonLabel')}
+                    </Button>
+                }
+                <Link to="/register">{String.t('login.signUpLabel')}</Link>
+              </FormItem>
+            </Form>
+          </Col>
+        </Row>
+      </div>
     );
   }
 }

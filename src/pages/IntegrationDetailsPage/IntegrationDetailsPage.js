@@ -108,14 +108,14 @@ class IntegrationDetailsPage extends Component {
     if (status) {
       if (status.includes('CREATED')) {
         notification.success({
-          message: String.t('integrationDetailsPage.createdMessage'),
-          description: String.t('integrationDetailsPage.createdDescription', { name }),
+          message: String.t('integrationDetailsPage.notification.createdMessage'),
+          description: String.t('integrationDetailsPage.notification.createdDescription', { name }),
           duration: 5
         });
       } else {
-        notification.error({
+        notification.error({ // TODO: Figure what this should show and localize the strings
           message: status,
-          description: String.t(`integrationDetailsPage.${status}`),
+          description: null,
           duration: 5
         });
       }
