@@ -28,6 +28,8 @@ class Register extends React.Component {
     this.state = { submitting: false, registered: false, agreementsChecked: false };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onCancel = this.onCancel.bind(this);
+    this.onChangeEmail = this.onChangeEmail.bind(this);
+    this.onResend = this.onResend.bind(this);
     this.onCheckboxChange = this.onCheckboxChange.bind(this);
   }
 
@@ -35,25 +37,37 @@ class Register extends React.Component {
     this.props.history.replace('/app');
   }
 
+  onChangeEmail() {
+    this.setState({ registered: false });
+  }
+
+  onResend() {
+    this.setState({ registered: false });
+    this.doSubmit(this.state.email);
+  }
+
   onCheckboxChange() {
     this.setState({ agreementsChecked: !this.state.agreementsChecked });
+  }
+
+  doSubmit(email) {
+    this.setState({ submitting: true, email });
+
+    const axiosOptions = axiosOptionsForNewCustomer();
+    axios.post(
+      `${config.hablaApiBaseUri}/users/registerUser/`,
+      { email },
+      axiosOptions
+    ).then(() => {
+      this.setState({ submitting: false, registered: true });
+    });
   }
 
   handleSubmit(e) {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const { email } = values;
-        this.setState({ submitting: true, email });
-
-        const axiosOptions = axiosOptionsForNewCustomer();
-        axios.post(
-          `${config.hablaApiBaseUri}/users/registerUser/`,
-          { email },
-          axiosOptions)
-          .then(() => {
-            this.setState({ submitting: false, registered: true });
-          });
+        this.doSubmit(values.email);
       }
     });
   }
@@ -77,12 +91,17 @@ class Register extends React.Component {
           <br />
           {String.t('register.successTextLine2')}
         </p>
+        <Button type="primary" className="form-cancel-button" onClick={this.onChangeEmail}>
+          {String.t('register.changeEmailButton')}
+        </Button>
+        {/* <Button type="primary" className="form-action-button" onClick={this.onResend}>
+          {String.t('register.resendButton')}
+        </Button> */}
       </div>
     );
   }
 
   renderPreRegisteredButtons() {
-    const buttonBackgroundColor = this.state.agreementsChecked ? '#00a854' : '#aac8a4';
     return (
       <FormItem>
         <div className="register-checkbox-div">
@@ -118,7 +137,6 @@ class Register extends React.Component {
           type="primary"
           htmlType="submit"
           className="form-action-button"
-          style={{ backgroundColor: buttonBackgroundColor, borderColor: buttonBackgroundColor }}
         >
           {String.t('register.registerButtonLabel')}
         </Button>
@@ -146,6 +164,7 @@ class Register extends React.Component {
               placeholder={String.t('register.emailPlaceholder')}
               noLabel
               required
+              componentKey="email"
             />
             <div style={{ height: 10 }} />
             { this.renderPreRegisteredButtons() }

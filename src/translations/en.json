@@ -311,6 +311,8 @@
     "successTitleDetails": " We just sent your verification email to:",
     "successTextLine1": "The email may take a few seconds to arrive.",
     "successTextLine2": "If you don't see it after a few minutes, please check your spam folder.",
+    "changeEmailButton": "Change Email",
+    "resendButton": "Resend",
     "registerButtonLabel": "Register",
     "checkAgreementsLabelBeforePrivacyPolicy": "I acknowledge that I have read and accept the ",
     "checkAgreementsPrivacyPolicyLink": "Privacy Policy",
