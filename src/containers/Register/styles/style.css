@@ -39,6 +39,7 @@
 .register-checkbox-text {
   padding: 0px;
   margin: 0px;
+  margin-left: 5px;
 }
 
 .register-success-email {
