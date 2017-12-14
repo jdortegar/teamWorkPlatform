@@ -49,8 +49,7 @@ const providers = {
 };
 
 function showNotification(response, integration) {
-  // const { status } = response;
-  const status = 410;
+  const { status } = response;
   const duration = 7;
   const name = providers[integration].name;
   const link = `<a target="_blank" href=${providers[integration].link}>${providers[integration].link}</a>`;
@@ -63,7 +62,7 @@ function showNotification(response, integration) {
   } else if (status === 410) {
     notification.error({
       message: String.t('integrationDetailsPage.notification.goneMessage'),
-      description: `<p>${String.t('integrationDetailsPage.notification.goneDescription', { name, link })}</p>`,
+      description: <p>{String.t('integrationDetailsPage.notification.goneDescription', { name, link })}</p>,
       duration
     });
   } else {
