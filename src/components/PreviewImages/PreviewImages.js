@@ -40,11 +40,10 @@ class PreviewImages extends Component {
       const { resourceId } = image;
       axios.get(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${resourceId}`, putHeaders)
         .then((resource) => {
-          const imageBase64 = resource.data.split('base64')[1];
-          const imageSrc = `data:${resource.headers['content-type']};base64,${imageBase64}`;
+          const imageSrc = `data:${resource.headers['x-hablaai-content-type']};base64,${resource.data}`;
           imagesBase64.push({
             src: imageSrc,
-            contentType: resource.headers['content-type'],
+            contentType: resource.headers['x-hablaai-content-type'],
             fileName: resource.headers['x-hablaai-filename']
           });
           this.setState({
@@ -131,4 +130,3 @@ PreviewImages.propTypes = propTypes;
 PreviewImages.defaultProps = defaultProps;
 
 export default PreviewImages;
-
