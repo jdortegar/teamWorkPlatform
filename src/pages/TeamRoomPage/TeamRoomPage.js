@@ -178,7 +178,7 @@ class TeamRoomPage extends Component {
   }
 
   createResource(file) {
-    const fileSource = file.src.split('base64,')[1] || '';
+    const fileSource = file.src.split('base64,')[1] || file.src;
     const requestConfig = {
       headers: {
         Authorization: `Bearer ${getJwt()}`,
