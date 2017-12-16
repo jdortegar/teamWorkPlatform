@@ -24,7 +24,7 @@ class AcceptInvitationPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { loading: false, invitation: props.invitation };
+    this.state = { loading: false, invitation: props.invitation, error: false };
 
     this.handleClick = this.handleClick.bind(this);
   }
@@ -43,17 +43,24 @@ class AcceptInvitationPage extends Component {
 
       axios.get(`${config.hablaApiBaseUri}/users/getInvitations`, axiosOptions)
         .then((response) => {
+          let setError = true;
           if (response.status === 200) {
             const invitations = response.data.invitations;
             if (invitations && invitations.length > 0) {
               const matchingInvites = invitations.filter(inv => inv[key] === id);
               if (matchingInvites.length > 0) {
+                setError = false;
                 this.setState({ invitation: matchingInvites[0] });
               }
             }
           }
+          if (setError) {
+            this.setState({ error: true });
+          }
         })
-        .catch(() => {});
+        .catch(() => {
+          this.setState({ error: true });
+        });
     }
   }
 
@@ -80,6 +87,14 @@ class AcceptInvitationPage extends Component {
   }
 
   render() {
+    if (this.state.error) {
+      return (
+        <div style={{ flex: 1, justifyContent: 'center' }}>
+          <h2 style={{ textAlign: 'center' }}>{String.t('invalidInvitation')}</h2>
+        </div>
+      );
+    }
+
     if (!this.state.invitation) {
       return <div style={{ flex: 1, justifyContent: 'center' }}><Spin /></div>;
     }

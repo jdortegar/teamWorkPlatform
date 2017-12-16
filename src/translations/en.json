@@ -17,6 +17,7 @@
   "msgInvitationToTeamRoom": "{{byUserFirstName}} {{byUserLastName}} invited you to join room {{teamRoomName}} for the {{teamName}} team",
   "msgInvitationToTeam": "{{byUserFirstName}} {{byUserLastName}} invited you to join the {{teamName}} team.",
   "msgInvitationToOrg": "{{byUserFirstName}} {{byUserLastName}} invited you to join the {{subscriberOrgName}} organization.",
+  "invalidInvitation": "The invitation has expired or is invalid.",
   "buttonAcceptInvitation": "Accept",
   "buttonDeclineInvitation": "Decline",
   "fileSizeInBytes": "{{sizeInBytes}} bytes",
