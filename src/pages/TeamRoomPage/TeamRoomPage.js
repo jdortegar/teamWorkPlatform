@@ -178,11 +178,13 @@ class TeamRoomPage extends Component {
   }
 
   createResource(file) {
+    const fileSource = file.src.split('base64,')[1] || file.src;
     const requestConfig = {
       headers: {
         Authorization: `Bearer ${getJwt()}`,
-        'Content-Type': file.type,
-        'x-hablaai-content-length': file.src.length
+        'Content-Type': 'application/octet-stream',
+        'x-hablaai-content-type': file.type,
+        'x-hablaai-content-length': fileSource.length
       },
       onUploadProgress: (progressEvent) => {
         const { total, loaded } = progressEvent;
@@ -193,7 +195,7 @@ class TeamRoomPage extends Component {
       }
     };
 
-    return axios.put(`${getResourcesUrl()}/${file.name}`, file.src, requestConfig);
+    return axios.put(`${getResourcesUrl()}/${file.name}`, fileSource, requestConfig);
   }
 
   handleSubmit(e) {
