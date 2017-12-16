@@ -16,16 +16,45 @@ const propTypes = {
       type: PropTypes.string,
       id: PropTypes.string
     })
-  }).isRequired
+  }).isRequired,
+  location: PropTypes.object
 };
 
 class AcceptInvitationPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { loading: false };
+    this.state = { loading: false, invitation: props.invitation };
 
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    if (!this.state.invitation) {
+      const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+      const url = this.props.location.pathname;
+      const id = url.substr(url.lastIndexOf('/') + 1);
+      let key;
+      if (url.indexOf('subscriberOrg') > 0) {
+        key = 'subscriberOrgId';
+      } else {
+        key = (url.indexOf('teamRoom') > 0) ? 'teamRoomId' : 'teamId';
+      }
+
+      axios.get(`${config.hablaApiBaseUri}/users/getInvitations`, axiosOptions)
+        .then((response) => {
+          if (response.status === 200) {
+            const invitations = response.data.invitations;
+            if (invitations && invitations.length > 0) {
+              const matchingInvites = invitations.filter(inv => inv[key] === id);
+              if (matchingInvites.length > 0) {
+                this.setState({ invitation: matchingInvites[0] });
+              }
+            }
+          }
+        })
+        .catch(() => {});
+    }
   }
 
   handleClick(status) {
@@ -51,14 +80,18 @@ class AcceptInvitationPage extends Component {
   }
 
   render() {
+    if (!this.state.invitation) {
+      return <div style={{ flex: 1, justifyContent: 'center' }}><Spin /></div>;
+    }
+
     const { type } = this.props.match.params;
     let msg = '';
     if (type === 'subscriberOrg') {
-      msg = String.t('msgInvitationToOrg', this.props.invitation);
+      msg = String.t('msgInvitationToOrg', this.state.invitation);
     } else if (type === 'team') {
-      msg = String.t('msgInvitationToTeam', this.props.invitation);
+      msg = String.t('msgInvitationToTeam', this.state.invitation);
     } else if (type === 'teamRoom') {
-      msg = String.t('msgInvitationToTeamRoom', this.props.invitation);
+      msg = String.t('msgInvitationToTeamRoom', this.state.invitation);
     }
 
     return (
@@ -87,5 +120,9 @@ class AcceptInvitationPage extends Component {
 }
 
 AcceptInvitationPage.propTypes = propTypes;
+
+AcceptInvitationPage.defaultProps = {
+  location: null
+};
 
 export default withRouter(AcceptInvitationPage);
