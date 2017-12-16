@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Spin, Button } from 'antd';
+import { Spin } from 'antd';
 import { withRouter } from 'react-router';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -99,36 +99,9 @@ class AcceptInvitationPage extends Component {
       return <div style={{ flex: 1, justifyContent: 'center' }}><Spin /></div>;
     }
 
-    const { type } = this.props.match.params;
-    let msg = '';
-    if (type === 'subscriberOrg') {
-      msg = String.t('msgInvitationToOrg', this.state.invitation);
-    } else if (type === 'team') {
-      msg = String.t('msgInvitationToTeam', this.state.invitation);
-    } else if (type === 'teamRoom') {
-      msg = String.t('msgInvitationToTeamRoom', this.state.invitation);
-    }
-
     return (
       <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '200px' }}>
-        {
-          !this.state.loading ?
-            <div>
-              <h2 style={{ marginBottom: '20px' }}>{msg}</h2>
-              <Button
-                onClick={() => this.handleClick('accept')}
-                style={{ marginRight: '15px' }}
-              >
-                {String.t('buttonAcceptInvitation')}
-              </Button>
-              <Button
-                onClick={() => this.handleClick('decline')}
-                style={{ marginLeft: '15px' }}
-              >
-                {String.t('buttonDeclineInvitation')}
-              </Button>
-            </div> : <Spin size="large" />
-        }
+        {this.state.loading && <Spin size="large" />}
       </div>
     );
   }
