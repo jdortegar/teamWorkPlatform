@@ -95,7 +95,7 @@ class PreviewImages extends Component {
 
       return (
         <div className="image-wrapper preview__file-wrapper" key={index} onClick={() => this.handlePreview(file.src, isImage, extension)}>
-          <a href={file.src} download={file.fileName}>
+          <a href={file.src} download={decodeURI(file.fileName)}>
             <div className="file-wrapper__extension">
               <i className="fa fa-file file-icon" aria-hidden="true" />
               <span className="file-wrapper__file-type">{extension}</span>
