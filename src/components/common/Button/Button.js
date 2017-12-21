@@ -24,9 +24,6 @@ const defaultProps = {
 
 const CLASSNAME = 'habla-button';
 
-/**
- * Button component for bsa
- */
 function Button(props) {
   const {
     children, fitText, type, size, disabled,
