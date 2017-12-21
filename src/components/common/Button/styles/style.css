@@ -39,6 +39,7 @@
 }
 .habla-button--size-small {
   min-width: 140px;
+  padding: 4px 15px;
 }
 .habla-button--size-default {
   min-width: 180px;
