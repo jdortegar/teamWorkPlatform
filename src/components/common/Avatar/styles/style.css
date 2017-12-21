@@ -1,0 +1,26 @@
+.habla-avatar {
+  border-radius: 5px;
+}
+.habla-avatar--size-large, .habla-avatar--size-large img {
+  width: 55px;
+  height: 55px;
+}
+.habla-avatar--size-large > * {
+  line-height: 55px;
+}
+.habla-avatar--size-default, .habla-avatar--size-default img {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+}
+.habla-avatar--size-default > * {
+  line-height: 30px;
+}
+.habla-avatar--size-small, .habla-avatar--size-small img {
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+}
+.habla-avatar--size-small > * {
+  line-height: 20px;
+}
