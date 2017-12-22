@@ -18,3 +18,8 @@
 .user-icon__main-container--round {
   border-radius: 50%;
 }
+
+.user-icon__main-container--offline {
+  filter: grayscale(100%);
+  opacity: 0.5;
+}

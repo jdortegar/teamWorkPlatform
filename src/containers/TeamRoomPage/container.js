@@ -10,7 +10,8 @@ import {
 import {
   getConversationOfTeamRoomId,
   getTeamRoomMembersOfTeamRoomId,
-  getTeamRoomMembersAsObjectsOfTeamRoomId
+  getTeamRoomMembersAsObjectsOfTeamRoomId,
+  getPresencesOfTeamRoomMembersOfTeamRoomId
 } from '../../selectors';
 
 function mapStateToProps(state, props) {
@@ -22,7 +23,8 @@ function mapStateToProps(state, props) {
     teamRooms: state.teamRooms,
     conversations: getConversationOfTeamRoomId(state, teamRoomId),
     teamRoomMembers: getTeamRoomMembersOfTeamRoomId(state, teamRoomId),
-    teamRoomMembersObj: getTeamRoomMembersAsObjectsOfTeamRoomId(state, teamRoomId)
+    teamRoomMembersObj: getTeamRoomMembersAsObjectsOfTeamRoomId(state, teamRoomId),
+    teamRoomMembersPresences: getPresencesOfTeamRoomMembersOfTeamRoomId(state, teamRoomId)
   };
 }
 

@@ -32,6 +32,7 @@ const propTypes = {
   user: PropTypes.object.isRequired,
   teamRoomMembers: PropTypes.array.isRequired,
   teamRoomMembersObj: PropTypes.object.isRequired,
+  teamRoomMembersPresences: PropTypes.object.isRequired,
   teamRooms: PropTypes.shape({
     teamRoomById: PropTypes.shape({
       teamRoomId: PropTypes.PropTypes.shape({
@@ -286,11 +287,19 @@ class TeamRoomPage extends Component {
   }
 
   renderTeamRoomMembers() {
-    return this.state.teamRoomMembers.map((user) => {
-      return (
-        <UserIcon user={user} type="user" key={user.userId} />
-      );
-    });
+    const members = this.state.teamRoomMembers.map(user => ({
+      ...user,
+      online: _.some(_.values(this.props.teamRoomMembersPresences[user.userId]), { presenceStatus: 'available' })
+    }));
+
+    return _.orderBy(members, 'online', 'desc').map(user => (
+      <UserIcon
+        user={user}
+        type="user"
+        key={user.userId}
+        online={user.online}
+      />
+    ));
   }
 
   render() {
