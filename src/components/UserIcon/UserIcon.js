@@ -26,7 +26,8 @@ const propTypes = {
     })
   ]).isRequired,
   type: PropTypes.string.isRequired,
-  clickable: PropTypes.bool
+  clickable: PropTypes.bool,
+  online: PropTypes.bool
 };
 
 const defaultProps = {
@@ -34,11 +35,16 @@ const defaultProps = {
   height: '35px',
   minWidth: '35px',
   shape: 'square',
-  clickable: true
+  clickable: true,
+  online: true
 };
 
 function UserIcon(props) {
-  const className = classNames('user-icon__main-container', `user-icon__main-container--${props.shape}`);
+  const className = classNames(
+    'user-icon__main-container',
+    `user-icon__main-container--${props.shape}`,
+    { 'user-icon__main-container--offline': !props.online }
+  );
   const { preferences, icon } = props.user;
   const { logo } = preferences;
   const style = {
