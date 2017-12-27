@@ -8,4 +8,5 @@ export * from './teamRooms';
 export * from './teamRoomMembers';
 export * from './invitations';
 export * from './conversations';
+export * from './readMessages';
 export * from './integrations';

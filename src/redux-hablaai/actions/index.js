@@ -43,6 +43,9 @@ export * from './conversationsFetch';
 export * from './transcriptFetch';
 export * from './messagesReceive';
 export * from './messageCreate';
+export * from './messageRead';
+export * from './readMessagesFetch';
+export * from './readMessagesReceive';
 
 export * from './timeActivitiesFetch';
 

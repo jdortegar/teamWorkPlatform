@@ -1,6 +1,7 @@
 import { fetchSubscriberOrgs } from './subscriberOrgsFetch';
 import { fetchTeams } from './teamsFetch';
 import { fetchTeamRooms } from './teamRoomsFetch';
+import { fetchReadMessages } from './readMessagesFetch';
 
 /**
  * For global state, fetch data from remote server only if data doesn't exist in redux.
@@ -19,6 +20,9 @@ export const fetchGlobalState = () => { // eslint-disable-line import/prefer-def
     }
     if (Object.keys(state.teamRooms.teamRoomById).length === 0) {
       dispatch(fetchTeamRooms());
+    }
+    if (Object.keys(state.readMessages.readMessagesByConversationId).length === 0) {
+      dispatch(fetchReadMessages());
     }
   };
 };

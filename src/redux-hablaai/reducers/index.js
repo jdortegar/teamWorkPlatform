@@ -9,6 +9,7 @@ import teamRoomsReducer from './teamRoomsReducer';
 import teamRoomMembersReducer from './teamRoomMembersReducer';
 import invitationsReducer from './invitationsReducer';
 import conversationsReducer from './conversationsReducer';
+import readMessagesReducer from './readMessagesReducer';
 import typingsReducer from './typingsReducer';
 import timeActivitiesReducer from './timeActivitiesReducer';
 import integrationsReducer from './integrationsReducer';
@@ -25,6 +26,7 @@ const reducers = {
   teamRoomMembers: teamRoomMembersReducer,
   invitations: invitationsReducer,
   conversations: conversationsReducer,
+  readMessages: readMessagesReducer,
   typings: typingsReducer,
   timeActivities: timeActivitiesReducer,
   integrations: integrationsReducer

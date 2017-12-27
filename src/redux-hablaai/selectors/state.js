@@ -30,7 +30,8 @@ export const getDeclinedInvitations = state => state.invitations.declinedInvitat
 
 export const getConversationById = state => state.conversations.conversationById;
 export const getConversationIdsByTeamRoomId = state => state.conversations.conversationIdsByTeamRoomId;
-export const geTranscriptByConversationId = state => state.conversations.transcriptByConversationId;
+export const getTranscriptByConversationId = state => state.conversations.transcriptByConversationId;
+export const getReadMessagesByConversationId = state => state.readMessages.readMessagesByConversationId;
 
 export const getTypingByConversationIdsByUserId = state => state.typings.typingByConversationIdsByUserId;
 export const getTypingByUserIdsByConversationId = state => state.typings.typingByUserIdsByConversationId;
