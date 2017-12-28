@@ -89,9 +89,11 @@ class TimeActivityGraph extends Component {
   };
 
   handleResize() {
-    const { offsetWidth, offsetHeight } = this.nodes.container;
-    const size = calculateSize(offsetWidth, offsetHeight);
-    this.setState({ size }, this.redrawGraph);
+    if (this.nodes.container) {
+      const { offsetWidth, offsetHeight } = this.nodes.container;
+      const size = calculateSize(offsetWidth, offsetHeight);
+      this.setState({ size }, this.redrawGraph);
+    }
   }
 
   redrawGraph() {

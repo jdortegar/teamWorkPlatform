@@ -41,7 +41,7 @@ const DataPoint = ({
   const content = (
     <div>
       <div className="DataPoint__title">
-        <FileImage extension={file.extension} />
+        <FileImage extension={file.fileExtension} />
         <a href={file.resourceUri} target="_blank">
           {file.filename}
         </a>

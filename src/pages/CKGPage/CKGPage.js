@@ -7,7 +7,6 @@ import String from '../../translations';
 import { NewSubpageHeader, TimeActivityGraph } from '../../components';
 import './styles/style.css';
 
-const getFileType = (type, fileTypes) => fileTypes.find(({ fileType }) => fileType === type);
 const parseDate = dateTime => d3.timeParse('%Y/%m/%d %H:%M:%S')(dateTime.format('YYYY/MM/DD HH:mm:ss'));
 const buildTime = dateTime => moment().startOf('day').set({
   hour: dateTime.hour(),
@@ -15,10 +14,8 @@ const buildTime = dateTime => moment().startOf('day').set({
   second: dateTime.seconds()
 });
 
-const buildDataObject = (file, fileTypes) => {
+const buildDataObject = (file) => {
   const dateTime = moment(file.lastModified);
-  const { color, fileExtension } = getFileType(file.fileType, fileTypes);
-  const extension = fileExtension || file.filename.split('.').pop();
 
   return {
     ...file,
@@ -26,8 +23,7 @@ const buildDataObject = (file, fileTypes) => {
     time: buildTime(dateTime),
     displayDate: moment(dateTime).format(String.t('timeActivityGraph.dateFormat')),
     displayTime: moment(dateTime).format(String.t('timeActivityGraph.timeFormat')),
-    extension,
-    color
+    color: '#333'
   };
 };
 
@@ -50,7 +46,7 @@ class CKGPage extends Component {
 
   render() {
     if (!this.props.timeActivities) return null;
-    const { files, fileTypes } = this.props.timeActivities;
+    const { files } = this.props.timeActivities;
 
     return (
       <div className="CKGPage">
@@ -62,7 +58,7 @@ class CKGPage extends Component {
             <div className="subpage__header__title">{String.t('ckgPage.title')}</div>
           </div>
         </NewSubpageHeader>
-        <TimeActivityGraph files={files.map(file => buildDataObject(file, fileTypes))} />
+        <TimeActivityGraph files={files.map(buildDataObject)} />
       </div>
     );
   }
