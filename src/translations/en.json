@@ -175,7 +175,7 @@
     "teamsHeader": "Teams ({{count}})",
     "integrationsCount": {
       "one": "1 Data Integration",
-      "other": "{{count}} Data Integration",
+      "other": "{{count}} Data Integrations",
       "zero": "No Data Integrations"
    },
    "invitationSent": {
@@ -441,7 +441,10 @@
     "bookmarked": "Bookmarked",
     "active": "active",
     "replyPlaceholder": "Leave a reply...",
-    "membersHeader": "{{count}} members"
+    "membersHeader": {
+      "one": "1 Member",
+      "other": "{{count}} Members"
+    }
   },
   "teamMemberPage": {
     "breadcrumb": "Team Member",
