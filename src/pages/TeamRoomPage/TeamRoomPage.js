@@ -296,7 +296,7 @@ class TeamRoomPage extends Component {
     }));
     const currentUser = _.find(members, { userId: user.userId });
     const otherMembers = _.reject(members, { userId: user.userId });
-    const orderedMembers = _.orderBy(otherMembers, 'online', 'desc');
+    const orderedMembers = _.orderBy(otherMembers, ['online', 'firstName', 'lastName', 'displayName'], ['desc', 'asc', 'asc', 'asc']);
 
     return [currentUser, ...orderedMembers].map(member => (
       <UserIcon
