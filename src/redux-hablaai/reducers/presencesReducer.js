@@ -2,6 +2,8 @@ import _ from 'lodash';
 import {
   PRESENCE_CHANGE,
   TEAMROOMMEMBER_RECEIVE,
+  SUBSCRIBERS_FETCH_SUCCESS,
+  TEAMMEMBERS_FETCH_SUCCESS,
   TEAMROOMMEMBERS_FETCH_SUCCESS
 } from '../actions';
 
@@ -11,6 +13,19 @@ const INITIAL_STATE = {
 
 // Uniqueness by address + userAgent combination.
 const buildPresenceUniqueId = ({ address, userAgent }) => `${address}##${userAgent}`;
+
+const updatePresences = (users, presencesByUserId) => {
+  const result = _.cloneDeep(presencesByUserId);
+  users.forEach(({ presence = [], userId }) => (
+    presence.forEach((item) => {
+      result[userId] = {
+        ...result[userId],
+        [buildPresenceUniqueId(item)]: item
+      };
+    })
+  ));
+  return result;
+};
 
 const presencesReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -28,38 +43,28 @@ const presencesReducer = (state = INITIAL_STATE, action) => {
         presencesByUserId
       };
     }
-    case TEAMROOMMEMBERS_FETCH_SUCCESS: {
-      const presencesByUserId = _.cloneDeep(state.presencesByUserId);
-      const { teamRoomMembers } = action.payload;
-
-      teamRoomMembers.forEach(({ presence, userId }) => (
-        presence.forEach((item) => {
-          presencesByUserId[userId] = {
-            ...presencesByUserId[userId],
-            [buildPresenceUniqueId(item)]: item
-          };
-        })
-      ));
-
+    case SUBSCRIBERS_FETCH_SUCCESS: {
       return {
         ...state,
-        presencesByUserId
+        presencesByUserId: updatePresences(action.payload.subscribers, state.presencesByUserId)
+      };
+    }
+    case TEAMMEMBERS_FETCH_SUCCESS: {
+      return {
+        ...state,
+        presencesByUserId: updatePresences(action.payload.teamMembers, state.presencesByUserId)
+      };
+    }
+    case TEAMROOMMEMBERS_FETCH_SUCCESS: {
+      return {
+        ...state,
+        presencesByUserId: updatePresences(action.payload.teamRoomMembers, state.presencesByUserId)
       };
     }
     case TEAMROOMMEMBER_RECEIVE: {
-      const presencesByUserId = _.cloneDeep(state.presencesByUserId);
-      const { presence = [], userId } = action.payload.teamRoomMember;
-
-      presence.forEach((item) => {
-        presencesByUserId[userId] = {
-          ...presencesByUserId[userId],
-          [buildPresenceUniqueId(item)]: item
-        };
-      });
-
       return {
         ...state,
-        presencesByUserId
+        presencesByUserId: updatePresences([action.payload.teamRoomMember], state.presencesByUserId)
       };
     }
     default:
