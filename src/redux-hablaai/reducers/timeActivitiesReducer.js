@@ -2,7 +2,8 @@ import { TIMEACTIVITIES_FETCH_SUCCESS } from '../actions';
 
 const INITIAL_STATE = {
   fileTypes: [],
-  files: []
+  files: [],
+  edges: []
 };
 
 const timeActivitiesReducer = (state = INITIAL_STATE, action) => {
@@ -10,7 +11,8 @@ const timeActivitiesReducer = (state = INITIAL_STATE, action) => {
     case TIMEACTIVITIES_FETCH_SUCCESS:
       return {
         ...state,
-        ...action.payload.message
+        files: action.payload.files,
+        edges: action.payload.edges
       };
     default:
       return state;
