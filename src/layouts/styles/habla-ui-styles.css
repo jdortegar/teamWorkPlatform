@@ -1,0 +1,253 @@
+/* HABLA AI UI STYLES V.1.0 */
+
+/* HABLA AI GENERAL FORMATING ELEMENTS ---------- */
+
+.body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Lato', sans-serif;
+	background: #ececec;
+	color: #000;
+}
+#app {
+	font-family: 'Lato', sans-serif;
+}
+.clear {
+	clear: both;
+}
+.no-margin {
+	margin: 0;
+}
+.no-border {
+	border: none;
+}
+.border-bottom-light {
+	border-bottom: 1px solid #ccc;
+}
+.border-bottom-lighter {
+	border-bottom: 1px solid #eee;
+}
+.no-float {
+	float: none;
+}
+.display-block {
+	display: block;
+}	
+a {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+.habla-item-active {
+	background: #f7f7f7;
+}
+.habla-spinner-content {
+	text-align: center;
+	padding: 15px 0;
+}
+.habla-spinner-content .fa-pulse {
+	animation: fa-spin 0.7s infinite steps(8);
+}
+.align-center-class {
+	text-align: center;
+}
+.align-right-class {
+	text-align: right;
+}
+.align-left-class {
+	text-align: left;
+}
+.padding-space-class-a {
+	padding: 10px;
+}
+.margin-top-class-a {
+	margin-top: 15px;
+}
+.habla-logo-image-responsive {
+	display: none;
+}
+
+/* COLORS ---------- */
+	
+.habla-color-black {
+	background: #000;
+}
+.habla-black {
+	color: #000;
+}
+.habla-color-yellow {
+	background: #fbbc12;
+}
+.habla-yellow {
+	color: #fbbc12;
+}
+.habla-color-green {
+	background: #32a953;
+}
+.habla-green {
+	color: #32a953;
+}
+.habla-color-blue {
+	background: #557dbf;
+}
+.habla-blue {
+	color: #557dbf;
+}
+.habla-color-red {
+	background: #eb4435;
+}
+.habla-red {
+	color: #eb4435;
+}
+.habla-color-grey {
+	background: #666;
+}
+.habla-grey {
+	color: #666;
+}
+.habla-color-lightgrey {
+	background: #ddd;
+}
+.habla-lightgrey {
+	color: #ddd;
+}
+.habla-color-lightergrey {
+	background: #f7f7f7;
+}
+.habla-lightergrey {
+	color: #f7f7f7;
+}
+
+
+/* HABLA AI BUTTONS ---------- */
+
+.habla-button {
+	border: none;
+	padding: 9px 15px;
+	font-size: 14px;
+	font-weight: 700;
+	color: #fff;
+	display: inline-block;
+	border-radius: 3px;
+	cursor: pointer;
+	height: auto;
+}
+.habla-button-main:hover {
+	background: #008c3f;
+}
+.habla-button-secondary:hover {
+	background: #555;
+}
+.habla-button-alert:hover {
+	background: #ce0f00;
+}
+.habla-button-disable:hover {
+	background: #f7f7f7;
+	cursor: help;
+}
+
+/* FONT SIZES AND STYLES ---------- */
+
+.habla-big-title {
+	font-size: 20pt;
+	line-height: 24pt;
+	color: #666;
+	font-weight: 300;
+}
+.habla-title {
+	font-size: 14pt;
+	line-height: 18pt;
+	color: #000;
+	font-weight: 900;
+}
+.habla-title-light {
+	font-size: 14pt;
+	line-height: 18pt;
+	color: #000;
+	font-weight: 300;
+}
+.habla-paragraph {
+	font-size: 10pt;
+	line-height: 14pt;
+	color: #000;
+	line-height: 1.3em;
+}
+.habla-secondary-paragraph {
+	font-size: 10pt;
+	line-height: 14pt;
+	color: #999;
+}
+.habla-label {
+	font-size: 7pt;
+	text-transform: uppercase;
+	color: #999999;
+}
+.habla-bold-text {
+	font-weight: 700;
+}
+
+
+/* General CSS Styles for Habla Web App */
+
+.breadcrumb_underline {
+  text-decoration: underline;
+}
+.icon_success {
+  color: #00a854;
+}
+.icon_fail {
+  color: #f04134;
+}
+.ant-input {
+	height: 40px;
+}
+
+/* General CSS Styles for Habla Web App Modal Windows */
+.ant-modal-footer {
+	border: none;
+}
+.ant-modal-title {
+	font-weight: bold;
+}
+
+.ant-layout-has-sider {
+  position: relative;
+}
+
+/* General CSS Styles for Habla Web App Dopdown Menus */
+.ant-dropdown-menu-item {
+	background-color: #000!important;
+	color: #ddd!important;
+}
+.ant-dropdown-menu-item a {
+	color: #fff!important;
+}
+.ant-dropdown-menu-item-selected, .ant-dropdown-menu-submenu-title-selected, .ant-dropdown-menu-item-selected > a, .ant-dropdown-menu-submenu-title-selected > a {
+	background: #333;
+}
+.ant-dropdown-menu-item a:hover {
+	background: #333;
+}
+.ant-dropdown-menu-item > a, .ant-dropdown-menu-submenu-title > a {
+	padding: 10px 20px;
+}
+
+
+
+
+/* General CSS Styles for Habla Web App Responsive Items */
+@media only screen and (max-width: 800px) {
+    .header .ant-menu span {
+        display: none;
+    }
+    .header .ant-menu-item {
+        padding: 0 10px;
+    }
+    .header .ant-menu li i {
+	    margin: 0;
+    }
+    .user-avatar {
+	    height: 67px;
+    }
+}

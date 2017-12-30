@@ -6,6 +6,7 @@ import App from './App';
 import { initMessaging, isAuthenticated } from './session';
 import { configureStore, history } from './store';
 
+
 configureStore()
   .then((store) => {
     // Render main React component.

@@ -13,6 +13,12 @@ import { loginUser } from '../../actions';
 import './styles/login.css';
 import String from '../../translations';
 import { hablaWhiteLogo } from '../../img';
+import LoginPageBackground from '../../img/ai-hand-shake-back.jpg';
+
+
+const loginpage = {
+  backgroundImage: `url(${LoginPageBackground})`
+};
 
 const FormItem = Form.Item;
 
@@ -85,40 +91,53 @@ class Login extends React.Component {
     }
 
     return (
-      <div className="login-main-div">
+      <div className="login-main-div" style={loginpage}>
         <Row type="flex" justify="center" align="middle">
           <Col xs={{ span: 20 }} md={{ span: 12 }} lg={{ span: 8 }}>
-            <img src={hablaWhiteLogo} alt={String.t('Header.logoAlt')} className="img" />
-            <Form onSubmit={this.handleSubmit} layout="vertical">
-              <EmailField
-                form={this.props.form}
-                layout={layout}
-                required
-              />
-              <PasswordField
-                form={this.props.form}
-                layout={layout}
-                required
-                validatePassword={false}
-              />
-              <FormItem>
-                {getFieldDecorator('remember', {
-                  valuePropName: 'checked',
-                  initialValue: false
-                })(
-                  <Checkbox>{String.t('login.rememberMeCheckboxLabel')}</Checkbox>
-                )}
-                <a className="login-form-forgot" onClick={this.onForgotPassword}>{String.t('login.forgotPasswordLabel')}</a>
-                {
-                  this.props.loggingIn ?
-                    <Spin size="large" style={{ width: '100%' }} /> :
-                    <Button type="primary" htmlType="submit" className="login-form-button">
-                      {String.t('login.loginButtonLabel')}
-                    </Button>
-                }
-                <Link to="/register">{String.t('login.signUpLabel')}</Link>
-              </FormItem>
-            </Form>
+            <div className="login-main-container">
+              <div className="login-main-div-logo">
+                <img src={hablaWhiteLogo} alt={String.t('Header.logoAlt')} className="img" />
+              </div>
+              <Form onSubmit={this.handleSubmit} layout="vertical">
+                <EmailField
+                  form={this.props.form}
+                  layout={layout}
+                  required
+                  placeholder={String.t('register.emailPlaceholder')}
+                  noLabel
+                />
+                <PasswordField
+                  form={this.props.form}
+                  layout={layout}
+                  required
+                  placeholder={String.t('register.passwordPlaceholder')}
+                  noLabel
+                  validatePassword={false}
+                />
+                <FormItem>
+                  {
+                    this.props.loggingIn ?
+                      <Spin size="large" style={{ width: '100%' }} /> :
+                      <Button type="primary" htmlType="submit" className="habla-button habla-button-main login-form-button habla-color-green">
+                        {String.t('login.loginButtonLabel')}
+                      </Button>
+                  }
+                  <div className="login-main-options">
+                    {getFieldDecorator('remember', {
+                      valuePropName: 'checked',
+                      initialValue: false
+                    })(
+                      <Checkbox>{String.t('login.rememberMeCheckboxLabel')}</Checkbox>
+                    )}
+                    <a className="login-form-forgot" onClick={this.onForgotPassword}>{String.t('login.forgotPasswordLabel')}</a>
+                  </div>
+                  <div className="login-main-signup">
+                    <Link to="/register">{String.t('login.signUpLabel')}
+                    </Link>
+                  </div>
+                </FormItem>
+              </Form>
+            </div>
           </Col>
         </Row>
       </div>

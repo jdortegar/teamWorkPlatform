@@ -299,15 +299,16 @@
     "tabTeamRooms": "Team Rooms"
   },
   "login": {
-    "rememberMeCheckboxLabel": "Remember me",
-    "forgotPasswordLabel": "Forgot password",
-    "signUpLabel": "Sign Up",
-    "loginButtonLabel": "Log in"
+    "rememberMeCheckboxLabel": "Remember Me",
+    "forgotPasswordLabel": "Forgot Password?",
+    "signUpLabel": "New User? Sign Up",
+    "loginButtonLabel": "Log In"
   },
   "register": {
     "titleBold": "Sign Up.",
     "titleDetails": " It's Fast and Easy.",
     "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
     "successTitleBold": "Hi!",
     "successTitleDetails": " We just sent your verification email to:",
     "successTextLine1": "The email may take a few seconds to arrive.",

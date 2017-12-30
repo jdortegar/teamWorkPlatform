@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon, Form } from 'antd';
+import { Form } from 'antd';
 import PropTypes from 'prop-types';
 import { formShape } from '../../../propTypes';
 import { antValidate, email } from '../../../validations';
@@ -17,7 +17,6 @@ const propTypes = {
   required: PropTypes.bool,
   missingMessage: PropTypes.string,
   placeholder: PropTypes.string,
-  icon: PropTypes.node,
   inputClassName: PropTypes.string,
   noLabel: PropTypes.bool
 };
@@ -30,7 +29,6 @@ const defaultProps = {
   missingMessage: null,
   placeholder: null,
   layout: {},
-  icon: undefined,
   inputClassName: null,
   noLabel: false
 };
@@ -45,7 +43,6 @@ function EmailField(props) {
     missingMessage,
     placeholder,
     required,
-    icon,
     inputClassName,
     noLabel,
     ...other
@@ -65,8 +62,7 @@ function EmailField(props) {
       { validator: antValidate(email) }
     ],
     className: inputClassName,
-    missingMessage: translatedMissingMessage,
-    prefix: icon !== undefined ? icon : <Icon type="mail" />
+    missingMessage: translatedMissingMessage
   });
 
   if (noLabel) {

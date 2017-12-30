@@ -10,7 +10,7 @@ import { AddOrgDialog,
   AddTeamRoomDialog
 } from '../../containers/dialogs';
 import './styles/main.css';
-import '../styles/habla-brand-styles.css';
+
 
 function Main() {
   return (

@@ -5,6 +5,8 @@ import enUS from 'antd/lib/locale-provider/en_US';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import routes from './routes';
+import './layouts/styles/reset.css';
+import './layouts/styles/habla-ui-styles.css';
 
 const propTypes = {
   store: object.isRequired,
