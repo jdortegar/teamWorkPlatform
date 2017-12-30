@@ -287,17 +287,23 @@ class TeamRoomPage extends Component {
   }
 
   renderTeamRoomMembers() {
-    const members = this.state.teamRoomMembers.map(user => ({
-      ...user,
-      online: _.some(_.values(this.props.teamRoomMembersPresences[user.userId]), { presenceStatus: 'available' })
-    }));
+    const { teamRoomMembers } = this.state;
+    const { teamRoomMembersPresences, user } = this.props;
 
-    return _.orderBy(members, 'online', 'desc').map(user => (
+    const members = teamRoomMembers.map(member => ({
+      ...member,
+      online: _.some(_.values(teamRoomMembersPresences[member.userId]), { presenceStatus: 'online' })
+    }));
+    const currentUser = _.find(members, { userId: user.userId });
+    const otherMembers = _.reject(members, { userId: user.userId });
+    const orderedMembers = _.orderBy(otherMembers, ['online', 'firstName', 'lastName', 'displayName'], ['desc', 'asc', 'asc', 'asc']);
+
+    return [currentUser, ...orderedMembers].map(member => (
       <UserIcon
-        user={user}
+        user={member}
         type="user"
-        key={user.userId}
-        online={user.online}
+        key={member.userId}
+        online={member.online}
       />
     ));
   }
