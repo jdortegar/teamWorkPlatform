@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { TIMEACTIVITIES_FETCH_SUCCESS } from '../actions';
 
 const INITIAL_STATE = {
@@ -11,7 +12,7 @@ const timeActivitiesReducer = (state = INITIAL_STATE, action) => {
     case TIMEACTIVITIES_FETCH_SUCCESS:
       return {
         ...state,
-        files: action.payload.files,
+        files: _.uniqBy(action.payload.files, 'fileId'),
         edges: action.payload.edges
       };
     default:
