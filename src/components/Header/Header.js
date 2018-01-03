@@ -3,9 +3,10 @@ import { Layout, Menu, Dropdown } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import UserIcon from '../UserIcon';
-import { hablaBlackLogo } from '../../img';
+import { hablaBlackLogo, hablaBlackLogoIcon } from '../../img';
 import './styles/style.css';
 import String from '../../translations';
+
 
 const AntdHeader = Layout.Header;
 
@@ -37,47 +38,52 @@ class Header extends Component {
     );
 
     return (
-      <Menu
-        theme="dark"
-        mode="horizontal"
-        defaultSelectedKeys={['2']}
-        style={{ lineHeight: '64px' }}
-      >
-        <Menu.Item key="1">
+      <div className="habla-top-menu-items">
+        <Link to="/app/search" className="habla-top-menu-search">
+          <i className="fa fa-search fa-2x" /><span className="habla-top-menu-label">{String.t('Header.searchLink')}</span>
+          <div className="habla-top-menu-active-signal" />
+        </Link>
+        <Link to="/app/ckg" className="habla-top-menu-ckg">
+          <i className="fa fa-area-chart fa-2x" /><span className="habla-top-menu-label">{String.t('Header.ckgLink')}</span>
+          <div className="habla-top-menu-active-signal" />
+        </Link>
+        <Link to="/app/notifications" className="habla-top-menu-notifications">
+          <i className="fa fa-globe fa-2x" /><span className="habla-top-menu-label">{String.t('Header.noticationsLink')}</span>
+          <div className="habla-top-menu-active-signal" />
+        </Link>
+        <Link to="/app/bookmarks" className="habla-top-menu-bookmarks">
+          <i className="fa fa-bookmark fa-2x" /><span className="habla-top-menu-label">{String.t('Header.bookmarksLink')}</span>
+          <div className="habla-top-menu-active-signal" />
+        </Link>
+        <Link to="/app" className="habla-top-menu-user">
           <Dropdown overlay={menu} trigger={['click']}>
-            <div className="Header__user-container">
-              <div className="ant-dropdown-link">
-                <UserIcon user={user} type="user" shape="square" minWidth="35px" width="35px" height="35px" />
-              </div>
-              <span className="Header__full-name-span">{user.firstName}</span>
+            <div className="ant-dropdown-link">
+              <UserIcon user={user} type="user" shape="square" minWidth="35px" width="35px" height="35px" />
+              <span className="habla-top-menu-label">{user.firstName}</span>
             </div>
           </Dropdown>
-        </Menu.Item>
-        <Menu.Item key="2">
-          <Link to="/app/notifications">
-            <i className="fa fa-globe fa-2x" /><span>{String.t('Header.noticationsLink')}</span>
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="3">
-          <Link to="/app/ckg">
-            <i className="fa fa-area-chart fa-2x" /><span>{String.t('Header.ckgLink')}</span>
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="4"><i className="fa fa-search fa-2x" /><span>{String.t('Header.searchLink')}</span></Menu.Item>
-      </Menu>
+          <div className="habla-top-menu-active-signal" />
+        </Link>
+        <div className="clear" />
+      </div>
     );
   }
 
   render() {
     return (
-      <AntdHeader className="header">
-        <Link to="/app">
-          <img src={hablaBlackLogo} alt={String.t('Header.logoAlt')} className="logo" />
-        </Link>
-        <div className="logo" />
-        {this.props.user && this.props.logoutUser &&
+      <AntdHeader className="header habla-top-menu">
+        <div className="habla-top-menu-content">
+          <div className="logo habla-top-menu-logo">
+            <Link to="/app">
+              <img src={hablaBlackLogo} alt={String.t('Header.logoAlt')} className="logo habla-logo-image" />
+              <img src={hablaBlackLogoIcon} alt={String.t('Header.iconAlt')} className="habla-logo-image-responsive" />
+            </Link>
+          </div>
+          {this.props.user && this.props.logoutUser &&
           this.renderMenuItems()
-        }
+          }
+          <div className="clear" />
+        </div>
       </AntdHeader>
     );
   }

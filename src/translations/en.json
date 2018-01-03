@@ -235,9 +235,11 @@
     "accountSettings": "Account Settings",
     "logOutMenu": "Log Out",
     "logoAlt": "Habla AI",
+    "iconAlt": "Habla AI",
     "noticationsLink": "Notifications",
     "ckgLink": "CKG",
-   "searchLink": "Search"
+    "searchLink": "Search",
+    "bookmarksLink": "Bookmarks"
   },
   "IntegrationCard": {
     "expired": "Expired",

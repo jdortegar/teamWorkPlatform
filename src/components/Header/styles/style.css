@@ -1,44 +1,77 @@
-/* Styles for Top Menu Bar */
-.ant-menu, .ant-menu-horizontal, .ant-menu-dark, .ant-menu-root {
-  line-height: 67px!important;
-}
-.ant-menu-item {
-  font-size: 1.1em;
-}
-.logo {
-  float: left;
-}
-.ant-layout-header {
-  padding: 0;
-  background: #000;
-  height: 67px;
-  width: 100%;
-  /*position: fixed;*/
-  /*z-index: 999;*/
-}
-.ant-menu-dark, .ant-menu-dark .ant-menu-sub {
-  background: #000;
-}
-.user-avatar {
-  height: 35px;
-  width: 35px;
-  background-size: contain;
-  float: left;
-  position: relative;
-  top: 16px;
-  margin-right: 10px;
-}
-.ant-menu-horizontal > .ant-menu-item, .ant-menu-horizontal > .ant-menu-submenu {
-  float: right;
-}
-.header .ant-dropdown {
-  top: 68px!important;
-}
-.Header__user-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.Header__full-name-span {
-  padding-left: 6px;
-}
+/* TOP MENU ---------- */
+
+	.habla-top-menu {
+		background: #000;
+		height: 51px;
+	}
+	.habla-top-menu-content {
+		padding: 10px 15px;
+		font-size: 14px;
+	}
+	.habla-top-menu-logo {
+		float: left;
+	}
+	.habla-top-menu-logo img {
+		height: 30px;
+	}
+	.habla-top-menu-items {
+		float: right;
+	}
+	.habla-top-menu-items a {
+		color: #999999;
+		font-weight: 700;
+		text-decoration: none;
+		margin-left: 10px;
+		vertical-align: middle;
+		position: relative;
+	}
+	.habla-top-menu-items a:hover {
+		color: #ffffff;
+		text-decoration: none;
+	}
+	.habla-top-menu-items a i {
+		margin-right: 3px;
+	}
+	.habla-top-menu-items i {
+		font-size: 2em;
+		vertical-align: sub;
+	}
+	.habla-top-menu-notifications {
+		position: relative;
+	}	
+	.habla-notification-globe {
+		position: absolute;
+		top: -8px;
+		left: 7px;
+		background: #eb4435;
+		padding: 3px;
+		border-radius: 3px;
+		color: #fff;
+		font-size: 10px;
+	}
+	a.habla-top-menu-active {
+		color: #ffffff;
+	}
+	.habla-top-menu-active-signal {
+		height: 4px;
+		width: 5px;
+		background: #ccc;
+		border-radius: 3px 3px 0px 0px;
+		position: absolute;
+		bottom: -17px;
+		left: 0;
+		width: -webkit-fill-available;
+	}
+	.habla-top-menu-user .habla-top-menu-label {
+		margin-left: 5px;
+	}
+	.habla-top-menu-items .user-icon__main-container {
+		display: inherit;
+		margin: 0;
+	}
+	.habla-top-menu-items .ant-dropdown-link {
+		display: inline-block;
+	}
+	.habla-top-menu-items .habla-top-menu-active-signal {
+		display: none;
+	}
