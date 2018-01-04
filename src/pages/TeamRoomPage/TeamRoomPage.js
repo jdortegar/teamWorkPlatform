@@ -49,6 +49,7 @@ const propTypes = {
     transcript: PropTypes.array
   }).isRequired,
   createMessage: PropTypes.func.isRequired,
+  iAmTyping: PropTypes.func.isRequired,
   updateFileList: PropTypes.func.isRequired,
   clearFileList: PropTypes.func.isRequired,
   fetchConversations: PropTypes.func.isRequired,
@@ -88,6 +89,7 @@ class TeamRoomPage extends Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.onFileChange = this.onFileChange.bind(this);
     this.updateFiles = this.updateFiles.bind(this);
+    this.typingTimer = null;
   }
 
   componentDidMount() {
@@ -208,6 +210,8 @@ class TeamRoomPage extends Component {
         const { message } = values;
 
         this.props.form.resetFields();
+        this.stopTyping();
+        this.clearTypingTimer();
 
         if (this.props.files && this.props.files.length > 0) {
           const resources = this.props.files.map(file => this.createResource(file));
@@ -260,6 +264,27 @@ class TeamRoomPage extends Component {
     });
 
     this.setState({ teamRoomMembers: filteredTeamMembers });
+  }
+
+  handleTyping = () => {
+    const { conversationId } = this.props.conversations;
+    console.warn('TYPING:', conversationId);
+
+    this.clearTypingTimer();
+    this.typingTimer = setTimeout(this.stopTyping, 2000);
+    this.props.iAmTyping(conversationId, true);
+  }
+
+  stopTyping = () => {
+    console.warn('NOT TYPING ANYMORE');
+    const { conversationId } = this.props.conversations;
+    this.props.iAmTyping(conversationId, false);
+  }
+
+  clearTypingTimer = () => {
+    if (this.typingTimer) {
+      clearTimeout(this.typingTimer);
+    }
   }
 
   updateFiles(files) {
@@ -408,6 +433,7 @@ class TeamRoomPage extends Component {
                     label=""
                     className="team-room__chat-input-form-item"
                     inputClassName="team-room__chat-input-textfield"
+                    onChange={this.handleTyping}
                   />
                 </Form>
               </div>

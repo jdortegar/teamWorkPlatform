@@ -5,7 +5,8 @@ import {
   fetchTeamRoomMembersByTeamRoomId,
   fetchConversations,
   fetchTranscript,
-  createMessage
+  createMessage,
+  iAmTyping
 } from '../../actions';
 import {
   getConversationOfTeamRoomId,
@@ -33,7 +34,8 @@ function mapDispatchToProps(dispatch) {
     fetchTeamRoomMembersByTeamRoomId: teamRoomId => dispatch(fetchTeamRoomMembersByTeamRoomId(teamRoomId)),
     fetchConversations: teamRoomId => dispatch(fetchConversations(teamRoomId)),
     fetchTranscript: conversationId => dispatch(fetchTranscript(conversationId)),
-    createMessage: (message, conversationId) => dispatch(createMessage(message, conversationId))
+    createMessage: (message, conversationId) => dispatch(createMessage(message, conversationId)),
+    iAmTyping: (conversationId, typing) => dispatch(iAmTyping(conversationId, typing))
   };
 }
 
