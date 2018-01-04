@@ -1,16 +1,13 @@
 .signup-main-div {
-  font-family: 'Lato', sans-serif;
   background-color: #ccc;
   align-items: 'center';
   display: flex;
   flex: 1;
   flex-direction: column;
 }
-
 .signup-body {
    flex: 1;
    background-color: white;
    margin: 5px;
-   margin-top: 6px;
    border-radius: 4px;
  }

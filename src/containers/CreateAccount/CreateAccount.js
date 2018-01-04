@@ -67,74 +67,85 @@ class CreateAccount extends React.Component {
 
   render() {
     return (
-      <Form onSubmit={this.handleSubmit} layout="vertical" style={{ marginTop: '30px' }}>
-        <Row gutter={16}>
-          <Col className="gutter-row" span={12}>
-            <FirstNameField
-              form={this.props.form}
+      <Form onSubmit={this.handleSubmit} layout="vertical" className="profileForm">
+        <div className="align-center-class padding-class-b">
+          <span className="habla-big-title habla-bold-text">{String.t('register.completeProfileTitleBold')}</span>
+          <br />
+          <span className="habla-big-title">{String.t('register.completeProfileTitle')}</span>
+        </div>
+        <div className="habla-color-lightergrey padding-class-b">
+          <div className="habla-full-content float-center-class">
+            <Row gutter={16}>
+              <Col className="gutter-row" span={12}>
+                <FirstNameField
+                  form={this.props.form}
+                  layout={layout}
+                  required
+                />
+              </Col>
+              <Col className="gutter-row" span={12}>
+                <LastNameField
+                  form={this.props.form}
+                  layout={layout}
+                  required
+                />
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col className="gutter-row" span={12}>
+                <UsernameField
+                  form={this.props.form}
+                  layout={layout}
+                  required
+                  componentKey="displayName"
+                  initialValue={sessionStorage.getItem('habla-user-email')}
+                />
+              </Col>
+              <Col className="gutter-row" span={12}>
+                <EmailField
+                  form={this.props.form}
+                  layout={layout}
+                  disabled
+                  required
+                  initialValue={sessionStorage.getItem('habla-user-email')}
+                />
+              </Col>
+            </Row>
+            <ConfirmPasswordField
               layout={layout}
+              componentKey="password"
+              form={this.props.form}
               required
             />
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <LastNameField
-              form={this.props.form}
-              layout={layout}
-              required
-            />
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col className="gutter-row" span={12}>
-            <UsernameField
-              form={this.props.form}
-              layout={layout}
-              required
-              componentKey="displayName"
-              initialValue={sessionStorage.getItem('habla-user-email')}
-            />
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <EmailField
-              form={this.props.form}
-              layout={layout}
-              disabled
-              required
-              initialValue={sessionStorage.getItem('habla-user-email')}
-            />
-          </Col>
-        </Row>
-        <ConfirmPasswordField
-          layout={layout}
-          componentKey="password"
-          form={this.props.form}
-          required
-        />
-        <Row gutter={16}>
-          <Col className="gutter-row" span={12}>
-            <CountrySelectField
-              form={this.props.form}
-              layout={layout}
-              required
-              handleChange={this.handleCountryChange}
-              initialValue={this.state.countryCode}
-            />
-          </Col>
-          <Col className="gutter-row" span={12}>
-            <TimezoneSelectField
-              form={this.props.form}
-              layout={layout}
-              countryCode={this.state.countryCode}
-              notFoundContent={String.t('Country.errNoText')}
-              initialValue={this.state.timeZone}
-              required
-            />
-          </Col>
-        </Row>
+            <Row gutter={16}>
+              <Col className="gutter-row" span={12}>
+                <CountrySelectField
+                  form={this.props.form}
+                  layout={layout}
+                  required
+                  handleChange={this.handleCountryChange}
+                  initialValue={this.state.countryCode}
+                />
+              </Col>
+              <Col className="gutter-row" span={12}>
+                <TimezoneSelectField
+                  form={this.props.form}
+                  layout={layout}
+                  countryCode={this.state.countryCode}
+                  notFoundContent={String.t('Country.errNoText')}
+                  initialValue={this.state.timeZone}
+                  required
+                />
+              </Col>
+            </Row>
+          </div>
+        </div>
         <FormItem>
-          <Button loading={this.state.loading} type="primary" htmlType="submit" className="login-form-button">
-            {String.t('createAccount.createAccountButtonLabel')}
-          </Button>
+          <div className="margin-top-class-a align-center-class">
+            <Button loading={this.state.loading} type="primary" htmlType="submit" className="habla-button habla-button-main habla-color-green">
+              {String.t('createAccount.createAccountButtonLabel')}
+            </Button>
+          </div>
         </FormItem>
       </Form>
     );

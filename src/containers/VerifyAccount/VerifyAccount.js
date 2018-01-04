@@ -4,7 +4,6 @@ import { Row, Col } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { verifyEmailAccount } from '../../actions';
-import './styles/style.css';
 import String from '../../translations';
 
 const propTypes = {
@@ -33,11 +32,13 @@ class VerifyAccount extends Component {
   render() {
     return (
       !this.state.verified ?
-        <div>Loading</div> :
-        <Row className="account-block">
+        <div className="padding-class-a habla-label">Loading ...</div> :
+        <Row className="account-block align-center-class">
           <Col span="24">
-            <h2>{String.t('verifyAccount.successText')}</h2>
-            <h3><Link to="/createAccount">{String.t('verifyAccount.continueLink')}</Link></h3>
+            <div className="padding-class-b">
+              <div className="habla-big-title habla-bold-text">{String.t('verifyAccount.successText')}</div>
+            </div>
+            <Link to="/createAccount" className="habla-button">{String.t('verifyAccount.continueLink')}</Link>
           </Col>
         </Row>
     );

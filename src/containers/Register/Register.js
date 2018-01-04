@@ -6,7 +6,6 @@ import { formShape } from '../../propTypes';
 import config from '../../config/env';
 import { axiosOptionsForNewCustomer } from '../../session';
 import EmailField from '../../components/formFields/EmailField';
-import './styles/style.css';
 import String from '../../translations';
 
 const FormItem = Form.Item;
@@ -77,39 +76,41 @@ class Register extends React.Component {
       return <Spin size="large" style={{ width: '100%' }} />;
     }
     return (
-      <div className="registration-success">
-        <div className="register-title-div">
-          <span className="register-title-bold">{String.t('register.successTitleBold')}
-            <span className="register-title-normal">{String.t('register.successTitleDetails')}</span>
+      <div className="registration-success align-center-class">
+        <div className="register-title-div padding-class-b">
+          <span className="habla-big-title habla-bold-text">{String.t('register.successTitleBold')}
+            <span className="habla-big-title">{String.t('register.successTitleDetails')}</span>
           </span>
         </div>
-        <div className="register-success-email">
-          {this.state.email}
+        <div className="habla-color-lightergrey padding-class-b">
+          <div className="habla-big-title habla-bold-text">
+            <i className="fa fa-envelope" aria-hidden="true" /> {this.state.email}
+          </div>
+          <p className="margin-top-class-a">
+            {String.t('register.successTextLine1')}
+            <br />
+            {String.t('register.successTextLine2')}
+          </p>
         </div>
-        <p className="register-success-details">
-          {String.t('register.successTextLine1')}
-          <br />
-          {String.t('register.successTextLine2')}
-        </p>
-        <Button type="primary" className="form-cancel-button" onClick={this.onChangeEmail}>
+        <Button className="habla-button habla-button-main habla-color-green margin-top-class-a" onClick={this.onChangeEmail}>
           {String.t('register.changeEmailButton')}
         </Button>
-        {/* <Button type="primary" className="form-action-button" onClick={this.onResend}>
-          {String.t('register.resendButton')}
-        </Button> */}
+        { /* <Button type="primary" className="form-action-button" onClick={this.onResend}>
+          {String.t('register.resendButton')}</Button>
+        */ }
       </div>
     );
   }
 
   renderPreRegisteredButtons() {
     return (
-      <FormItem>
+      <FormItem className="no-margin">
         <div className="register-checkbox-div">
           <Checkbox
             checked={this.state.agreementsChecked}
             onChange={this.onCheckboxChange}
           />
-          <p className="register-checkbox-text">
+          <p>
             {String.t('register.checkAgreementsLabelBeforePrivacyPolicy')}
             <a
               onClick={() => window.open('https://habla.ai/privacy-policy.html')}
@@ -129,17 +130,6 @@ class Register extends React.Component {
             {String.t('register.checkAgreementsLabelAfterTermsOfUse')}
           </p>
         </div>
-        <Button type="primary" className="form-cancel-button" onClick={this.onCancel}>
-          {String.t('cancelButton')}
-        </Button>
-        <Button
-          disabled={!this.state.agreementsChecked}
-          type="primary"
-          htmlType="submit"
-          className="form-action-button"
-        >
-          {String.t('register.registerButtonLabel')}
-        </Button>
       </FormItem>
     );
   }
@@ -152,22 +142,31 @@ class Register extends React.Component {
     return (
       <div className="register-body">
         <Form onSubmit={this.handleSubmit} layout="vertical" className="register-form">
-          <div className="register-title-div">
-            <span className="register-title-bold">{String.t('register.titleBold')}
-              <span className="register-title-normal">{String.t('register.titleDetails')}</span>
+          <div className="register-title-div align-center-class padding-class-b">
+            <span className="habla-big-title habla-bold-text">{String.t('register.titleBold')}
+              <span className="habla-big-title">{String.t('register.titleDetails')}</span>
             </span>
           </div>
-          <div className="recoverPassword__field-wrapper">
-            <EmailField
-              form={this.props.form}
-              layout={layout}
-              placeholder={String.t('register.emailPlaceholder')}
-              noLabel
-              required
-              componentKey="email"
-            />
-            <div style={{ height: 10 }} />
-            { this.renderPreRegisteredButtons() }
+          <div className="habla-color-lightergrey padding-class-b">
+            <div className="habla-full-content float-center-class">
+              <EmailField
+                form={this.props.form}
+                layout={layout}
+                placeholder={String.t('register.emailPlaceholder')}
+                noLabel
+                required
+                componentKey="email"
+              />
+              { this.renderPreRegisteredButtons() }
+            </div>
+          </div>
+          <div className="align-center-class margin-top-class-a">
+            <Button className="habla-button habla-button-secondary habla-color-grey margin-right-class-a" onClick={this.onCancel}>
+              {String.t('cancelButton')}
+            </Button>
+            <Button htmlType="submit" className="habla-button habla-button-main habla-color-green">
+              {String.t('register.registerButtonLabel')}
+            </Button>
           </div>
         </Form>
       </div>

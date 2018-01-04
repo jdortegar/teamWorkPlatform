@@ -202,8 +202,8 @@
     }
   },
   "RecoverPassword": {
-    "forgotYourPassword": "Forgot your Password",
-    "emailSent": "Email Sent!",
+    "forgotYourPassword": "Forgot your Password?",
+    "emailSent": "Email Sent! ",
     "checkEmail": "Check your email",
     "infoParagraph": "Please enter the email address that you use in your Habla AI account and we will send you an email with the instructions to reset your password.",
     "infoParagraphAfterSentImage": "Please check your email to continue the process to recover your password."
@@ -321,12 +321,14 @@
     "checkAgreementsLabelBeforePrivacyPolicy": "I acknowledge that I have read and accept the ",
     "checkAgreementsPrivacyPolicyLink": "Privacy Policy",
     "checkAgreementsLabelBeforeTermsOfUse": " and consent to the ",
-    "checkAgreementsTermsOfUseLink": "Terms of Use Agreement",
-    "checkAgreementsLabelAfterTermsOfUse": "."
+    "checkAgreementsTermsOfUseLink": "User Terms of Service",
+    "checkAgreementsLabelAfterTermsOfUse": ".",
+    "completeProfileTitleBold": "Welcome to Habla AI",
+    "completeProfileTitle": "You're almost done!"
   },
   "verifyAccount": {
     "successText": "Your email has been verified!",
-    "continueLink": "Click here to create your account"
+    "continueLink": "Create your account"
    },
   "editOrgPage": {
     "title": "Edit  Organization",

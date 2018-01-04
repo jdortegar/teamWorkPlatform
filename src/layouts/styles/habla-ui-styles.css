@@ -1,11 +1,10 @@
 /* HABLA AI UI STYLES V.1.0 */
 
 /* HABLA AI GENERAL FORMATING ELEMENTS ---------- */
-
 .body {
 	margin: 0;
 	padding: 0;
-	font-family: 'Lato', sans-serif;
+	font-family: 'Lato', sans-serif!important;
 	background: #ececec;
 	color: #000;
 }
@@ -37,6 +36,10 @@ a {
 	text-decoration: none;
 	color: #32a953;
 }
+a:hover {
+	text-decoration: underline;
+	color: #32a953;
+}
 .habla-item-active {
 	background: #f7f7f7;
 }
@@ -50,24 +53,41 @@ a {
 .align-center-class {
 	text-align: center;
 }
+.float-center-class {
+	margin: 0 auto;
+}
 .align-right-class {
 	text-align: right;
 }
 .align-left-class {
 	text-align: left;
 }
-.padding-space-class-a {
+.padding-class-a {
 	padding: 10px;
 }
+.padding-class-b {
+	padding: 20px;
+}
 .margin-top-class-a {
-	margin-top: 15px;
+	margin-top: 25px;
+}
+.margin-right-class-a {
+	margin-right: 5px;
+}
+.habla-full-content {
+	width: 50%;
 }
 .habla-logo-image-responsive {
 	display: none;
 }
+p {
+	font-size: 10pt;
+	line-height: 1.4em;
+}
+
 
 /* COLORS ---------- */
-	
+
 .habla-color-black {
 	background: #000;
 }
@@ -118,33 +138,6 @@ a {
 }
 
 
-/* HABLA AI BUTTONS ---------- */
-
-.habla-button {
-	border: none;
-	padding: 9px 15px;
-	font-size: 14px;
-	font-weight: 700;
-	color: #fff;
-	display: inline-block;
-	border-radius: 3px;
-	cursor: pointer;
-	height: auto;
-}
-.habla-button-main:hover {
-	background: #008c3f;
-}
-.habla-button-secondary:hover {
-	background: #555;
-}
-.habla-button-alert:hover {
-	background: #ce0f00;
-}
-.habla-button-disable:hover {
-	background: #f7f7f7;
-	cursor: help;
-}
-
 /* FONT SIZES AND STYLES ---------- */
 
 .habla-big-title {
@@ -185,89 +178,6 @@ a {
 	font-weight: 700;
 }
 
-
-/* AVATARS ---------- */
-
-	.habla-big-avatar
-	, .habla-big-avatar img {
-		width: 55px;
-		height: 55px;
-		border-radius: 5px;
-		text-align: center;
-		vertical-align: middle;
-		display: inline-block;
-		margin-bottom: 5px;
-	}
-	.habla-big-avatar .habla-avatar-letters {
-		color: #fff;
-		font-size: 18pt;
-		font-weight: 700;
-		text-transform: uppercase;
-		padding-top: 16px;
-	}
-	.habla-medium-avatar 
-	, .habla-medium-avatar img{
-		width: 30px;
-		height: 30px;
-		border-radius: 3px;
-		text-align: center;
-		vertical-align: middle;
-		display: inline-block;
-		margin-bottom: 5px;
-	}
-	.habla-medium-avatar img{
-		width: 30px;
-		height: 30px;
-		border-radius: 3px;
-		text-align: center;
-		vertical-align: middle;
-		display: inline-block;
-		margin-bottom: 5px;
-	}
-	.habla-medium-avatar .habla-avatar-letters {
-		color: #fff;
-		font-size: 10pt;
-		font-weight: 700;
-		text-transform: uppercase;
-		padding-top: 8px;
-	}
-	.habla-little-avatar
-	, .habla-little-avatar img {
-		width: 20px;
-		height: 20px;
-		border-radius: 2px;
-		text-align: center;
-		vertical-align: middle;
-		display: inline-block;
-		margin-bottom: 5px;
-	}
-	.habla-little-avatar .habla-avatar-letters {
-		color: #fff;
-		font-size: 5pt;
-		font-weight: 700;
-		text-transform: uppercase;
-		padding-top: 6px;
-	}
-	.habla-avatar-border {
-		border: 1px solid #ddd;
-	}
-
-
-/* General CSS Styles for Habla Web App */
-
-.breadcrumb_underline {
-  text-decoration: underline;
-}
-.icon_success {
-  color: #00a854;
-}
-.icon_fail {
-  color: #f04134;
-}
-.ant-input {
-	height: 40px;
-}
-
 /* General CSS Styles for Habla Web App Modal Windows */
 .ant-modal-footer {
 	border: none;
@@ -299,121 +209,136 @@ a {
 }
 
 
-/* RESPONSIVE ELEMENTS AND STYLES ---------- */	
+/* RESPONSIVE ELEMENTS AND STYLES ---------- */
 
 @media only screen and (max-width: 800px) {
-    .header .ant-menu span {
-        display: none;
-    }
-    .header .ant-menu-item {
-        padding: 0 10px;
-    }
-    .header .ant-menu li i {
-	    margin: 0;
-    }
-    .user-avatar {
-	    height: 67px;
-    }
+.header .ant-menu span {
+	display: none;
+}
+.header .ant-menu-item {
+	padding: 0 10px;
+}
+.header .ant-menu li i {
+	margin: 0;
+}
+.user-avatar {
+	height: 67px;
+}
 }
 
-	@media only screen and (max-width:680px) {
-    .habla-top-menu-label
-    , .habla-main-content-header-actions .habla-label
-    , .habla-main-content-header-breadcrumb-links-responsive 
-    , .habla-main-content-header-breadcrumb-links .habla-title-light
-    , .habla-main-content-header-breadcrumb-links i
-    , .habla-ckg-filters-item span {
-        display: none;
-    }
-    .habla-main-content-header-breadcrumb {
-		width: 80%;
-	}
-	.habla-main-content-header-actions {
-		width: 20%;
-	}
-	.habla-main-content-collapsable-content-section {
-		padding: 10px 15px 20px 15px;
-	}
-	.habla-main-content-collapsable-content-item {
-		display: block;
-	    width: 100%;
-	}
-	.habla-main-content-collapsable-content-item {
-		border-top: 1px solid #f7f7f7;
-		padding-top: 5px; 
-	}
-	.habla-main-content-collapsable-content-item .habla-big-avatar
-	, .habla-main-content-collapsable-content-item .habla-big-avatar img {
-		width: 30px;
-		height: 30px;
-	}
-	.habla-main-content-collapsable-content-item .habla-big-avatar .habla-avatar-letters {
-		font-size: 10pt;
-		padding-top: 9px;
-	}
-	.habla-main-content-collapsable-content-item .habla-label {
-		display: inline-block;
-		margin-left: 5px;
-		font-size: 10pt;
-	}
-	.habla-alert-content-buttons .habla-button-alert {
-		margin-bottom: 5px;
-	}
-	.habla-main-content-filters-links {
-		display: none;
-	}
-	.habla-main-content-filters-members {
-		float: none;
-		width: 100%;
-	}
-	.habla-main-content-collapsable-content-section .habla-main-content-item-signal {
-		position: absolute;
-		right: 2px;
-		top: 17px;
-	}
-	.habla-modal-window {
-		width: 80%;
-	}
-	.habla-profile-settings-form .habla-form-item {
-		float: none;
-		width: 100%;
-	}
-	.habla-top-menu-items a i {
-		margin-right: 0;
-	}
-	}
-	@media only screen and (max-width:420px) {
-	.habla-logo-image
-	, .habla-ckg-date-picker-content-text {
-		display: none;
-	}
-	.habla-logo-image-responsive {
-		display: block;
-	}
-	.habla-main-content-header-breadcrumb .habla-title {
-		font-size: 11pt;
-	}
-	.habla-big-title {
-		font-size: 16pt;
-	}
-	.habla-main-content-filters-members-responsive {
-		display: none;	
-	}
-	}
-	
-	
-
-
-
-
-/* To review */		
-.ant-btn-primary {
-	background: #32a953!important;
+@media only screen and (max-width:680px) {
+.habla-top-menu-label
+, .habla-main-content-header-actions .habla-label
+, .habla-main-content-header-breadcrumb-links-responsive 
+, .habla-main-content-header-breadcrumb-links .habla-title-light
+, .habla-main-content-header-breadcrumb-links i
+, .habla-ckg-filters-item span {
+	display: none;
 }
+.habla-main-content-header-breadcrumb {
+	width: 80%;
+}
+.habla-main-content-header-actions {
+	width: 20%;
+}
+.habla-main-content-collapsable-content-section {
+	padding: 10px 15px 20px 15px;
+}
+.habla-main-content-collapsable-content-item {
+	display: block;
+	width: 100%;
+}
+.habla-main-content-collapsable-content-item {
+	border-top: 1px solid #f7f7f7;
+	padding-top: 5px; 
+}
+.habla-main-content-collapsable-content-item .habla-big-avatar
+, .habla-main-content-collapsable-content-item .habla-big-avatar img {
+	width: 30px;
+	height: 30px;
+}
+.habla-main-content-collapsable-content-item .habla-big-avatar .habla-avatar-letters {
+	font-size: 10pt;
+	padding-top: 9px;
+}
+.habla-main-content-collapsable-content-item .habla-label {
+	display: inline-block;
+	margin-left: 5px;
+	font-size: 10pt;
+}
+.habla-alert-content-buttons .habla-button-alert {
+	margin-bottom: 5px;
+}
+.habla-main-content-filters-links {
+	display: none;
+}
+.habla-main-content-filters-members {
+	float: none;
+	width: 100%;
+}
+.habla-main-content-collapsable-content-section .habla-main-content-item-signal {
+	position: absolute;
+	right: 2px;
+	top: 17px;
+}
+.habla-modal-window {
+	width: 80%;
+}
+.habla-profile-settings-form .habla-form-item {
+	float: none;
+	width: 100%;
+}
+.habla-top-menu-items a i {
+	margin-right: 0;
+}
+.habla-full-content {
+	width: 100%;
+}
+}
+@media only screen and (max-width:420px) {
+.habla-logo-image
+, .habla-ckg-date-picker-content-text {
+	display: none;
+}
+.habla-logo-image-responsive {
+	display: block;
+}
+.habla-main-content-header-breadcrumb .habla-title {
+	font-size: 11pt;
+}
+.habla-big-title {
+	font-size: 16pt;
+}
+.habla-main-content-filters-members-responsive {
+	display: none;	
+}
+}
+
+
+/* ANT ELEMENTS To review */
+
 .has-success.has-feedback:after {
 	color: #32a953!important;
 }
 .ant-layout-header {
-  padding: 0;
-  line-height: inherit;
+	padding: 0;
+	line-height: inherit;
+}
+.ant-form
+, .ant-form-item
+, .ant-btn {
+	font-family: 'Lato', sans-serif!important;
+}
+.ant-form-item {
+	margin-bottom: 10px!important;
+}
+.ant-checkbox {
+	display: inherit;
+}
+.register-body .ant-checkbox-wrapper {
+	margin: 0 10px 20px 0;	
+	float: left;
+}
+ .register-success-email {
+	color: #000;
 }

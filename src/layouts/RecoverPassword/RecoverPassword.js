@@ -45,32 +45,44 @@ class RecoverPassword extends Component {
       <div className="recoverPassword-body">
         <Form onSubmit={this.handleSubmit} layout="vertical" className="recoverPassword-form">
           {!this.state.emailSent ?
-            <h1>{String.t('RecoverPassword.forgotYourPassword')}</h1>
+            <div className="habla-big-title habla-bold-text align-center-class padding-class-b">{String.t('RecoverPassword.forgotYourPassword')}</div>
             :
-            <h1>{String.t('RecoverPassword.emailSent')} <span className="email-sent__info">{String.t('RecoverPassword.checkEmail')}</span></h1>
+            <div className="habla-big-title align-center-class padding-class-b">
+              <span className="habla-bold-text">
+                {String.t('RecoverPassword.emailSent')}
+              </span>
+              <span className="email-sent__info">
+                {String.t('RecoverPassword.checkEmail')}
+              </span>
+            </div>
           }
-
-          <div className="recoverPassword-body__main">
-            {!this.state.emailSent ?
-              <div className="recoverPassword__field-wrapper">
-                <p className="recoverPassword__text">
-                  {String.t('RecoverPassword.infoParagraph')}
-                </p>
-                <EmailField
-                  form={this.props.form}
-                  noLabel
-                  required
-                  placeholder="Email"
-                />
-              </div>
-              :
-              <div className="recoverPassword__field-wrapper">
-                <h2 className="recoverPassword__user-email">{this.state.email}</h2>
-                <p>{String.t('RecoverPassword.infoParagraphAfterSentImage')}</p>
-              </div>
-            }
+          <div className="recoverPassword-body__main habla-color-lightergrey padding-class-b align-center-class">
+            <div className="habla-full-content float-center-class">
+              {!this.state.emailSent ?
+                <div className="recoverPassword__field-wrapper">
+                  <p className="recoverPassword__text">
+                    {String.t('RecoverPassword.infoParagraph')}
+                  </p>
+                  <div className="margin-top-class-a">
+                    <EmailField
+                      form={this.props.form}
+                      noLabel
+                      required
+                      placeholder="Email"
+                    />
+                  </div>
+                </div>
+                :
+                <div className="recoverPassword__field-wrapper">
+                  <h2 className="recoverPassword__user-email habla-big-title habla-bold-text">
+                    <i className="fa fa-envelope" aria-hidden="true" /> {this.state.email}
+                  </h2>
+                  <p className="margin-top-class-a">{String.t('RecoverPassword.infoParagraphAfterSentImage')}</p>
+                </div>
+              }
+            </div>
           </div>
-          <div className="recoverPassword__buttons">
+          <div className="recoverPassword__buttons margin-top-class-a">
             <Button type="primary" htmlType="submit" onClick={this.onCancel} className="recoverPassword__login-form-button disable">
               {String.t('Buttons.cancel')}
             </Button>
