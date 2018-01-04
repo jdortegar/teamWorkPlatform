@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button, Spin, Checkbox } from 'antd';
+import { Form, Spin, Checkbox } from 'antd';
 import axios from 'axios';
 import { formShape } from '../../propTypes';
 import config from '../../config/env';
 import { axiosOptionsForNewCustomer } from '../../session';
 import EmailField from '../../components/formFields/EmailField';
 import String from '../../translations';
+import Button from '../../components/common/Button';
 
 const FormItem = Form.Item;
 
@@ -92,12 +93,9 @@ class Register extends React.Component {
             {String.t('register.successTextLine2')}
           </p>
         </div>
-        <Button className="habla-button habla-button-main habla-color-green margin-top-class-a" onClick={this.onChangeEmail}>
-          {String.t('register.changeEmailButton')}
-        </Button>
-        { /* <Button type="primary" className="form-action-button" onClick={this.onResend}>
-          {String.t('register.resendButton')}</Button>
-        */ }
+        <div className="margin-top-class-a">
+          <Button type="main" fitText onClick={this.onChangeEmail}>{String.t('register.changeEmailButton')}</Button>
+        </div>
       </div>
     );
   }
@@ -161,12 +159,8 @@ class Register extends React.Component {
             </div>
           </div>
           <div className="align-center-class margin-top-class-a">
-            <Button className="habla-button habla-button-secondary habla-color-grey margin-right-class-a" onClick={this.onCancel}>
-              {String.t('cancelButton')}
-            </Button>
-            <Button htmlType="submit" className="habla-button habla-button-main habla-color-green">
-              {String.t('register.registerButtonLabel')}
-            </Button>
+            <Button type="secondary" fitText onClick={this.onCancel} className="margin-right-class-a">{String.t('cancelButton')}</Button>
+            <Button type="main" fitText htmlType="submit">{String.t('register.registerButtonLabel')}</Button>
           </div>
         </Form>
       </div>

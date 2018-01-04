@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { verifyEmailAccount } from '../../actions';
 import String from '../../translations';
+import Button from '../../components/common/Button';
 
 const propTypes = {
   verifyEmailAccount: PropTypes.func.isRequired,
@@ -37,8 +38,12 @@ class VerifyAccount extends Component {
           <Col span="24">
             <div className="padding-class-b">
               <div className="habla-big-title habla-bold-text">{String.t('verifyAccount.successText')}</div>
+              <div className="margin-top-class-a">
+                <Link to="/createAccount">
+                  <Button type="main" fitText>{String.t('Buttons.createAccount')}</Button>
+                </Link>
+              </div>
             </div>
-            <Link to="/createAccount" className="habla-button">{String.t('verifyAccount.continueLink')}</Link>
           </Col>
         </Row>
     );

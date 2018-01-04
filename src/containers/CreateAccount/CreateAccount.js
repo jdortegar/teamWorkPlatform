@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button, Row, Col, message } from 'antd';
+import { Form, Row, Col, message } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import countriesAndTimezones from 'countries-and-timezones';
@@ -13,6 +13,7 @@ import CountrySelectField from '../../components/formFields/CountrySelectField';
 import TimezoneSelectField from '../../components/formFields/TimezoneSelectField';
 import { createAccount, loginUser } from '../../actions';
 import String from '../../translations';
+import Button from '../../components/common/Button';
 
 const FormItem = Form.Item;
 const defaultTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -142,7 +143,7 @@ class CreateAccount extends React.Component {
         </div>
         <FormItem>
           <div className="margin-top-class-a align-center-class">
-            <Button loading={this.state.loading} type="primary" htmlType="submit" className="habla-button habla-button-main habla-color-green">
+            <Button loading={this.state.loading} type="main" htmlType="submit">
               {String.t('createAccount.createAccountButtonLabel')}
             </Button>
           </div>

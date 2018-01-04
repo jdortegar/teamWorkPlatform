@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Form, Button } from 'antd';
+import { Form } from 'antd';
 import PropTypes from 'prop-types';
 import { formShape } from '../../propTypes';
 import EmailField from '../../components/formFields/EmailField';
 import String from '../../translations';
+import Button from '../../components/common/Button';
 import './styles/style.css';
 
 const propTypes = {
@@ -82,13 +83,9 @@ class RecoverPassword extends Component {
               }
             </div>
           </div>
-          <div className="recoverPassword__buttons margin-top-class-a">
-            <Button type="primary" htmlType="submit" onClick={this.onCancel} className="recoverPassword__login-form-button disable">
-              {String.t('Buttons.cancel')}
-            </Button>
-            <Button type="primary" htmlType="submit" className="recoverPassword__login-form-button active">
-              {String.t('Buttons.next')}
-            </Button>
+          <div className="align-center-class margin-top-class-a">
+            <Button type="secondary" fitText onClick={this.onCancel} className="margin-right-class-a">{String.t('Buttons.cancel')}</Button>
+            <Button type="main" fitText htmlType="submit">{String.t('Buttons.next')}</Button>
           </div>
         </Form>
       </div>

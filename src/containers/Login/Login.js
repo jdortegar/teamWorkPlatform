@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Form, Button, Checkbox, Spin, message } from 'antd';
+import { Row, Col, Form, Checkbox, Spin, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -10,11 +10,11 @@ import { formShape } from '../../propTypes';
 import EmailField from '../../components/formFields/EmailField';
 import PasswordField from '../../components/formFields/PasswordField';
 import { loginUser } from '../../actions';
-import './styles/login.css';
 import String from '../../translations';
 import { hablaWhiteLogo } from '../../img';
 import LoginPageBackground from '../../img/ai-hand-shake-back.jpg';
-
+import Button from '../../components/common/Button';
+import './styles/login.css';
 
 const loginpage = {
   backgroundImage: `url(${LoginPageBackground})`
@@ -118,9 +118,7 @@ class Login extends React.Component {
                   {
                     this.props.loggingIn ?
                       <Spin size="large" style={{ width: '100%' }} /> :
-                      <Button type="primary" htmlType="submit" className="habla-button habla-button-main login-form-button habla-color-green">
-                        {String.t('login.loginButtonLabel')}
-                      </Button>
+                      <Button className="ButtonFull" type="main" fitText htmlType="submit">{String.t('Buttons.login')}</Button>
                   }
                   <div className="login-main-options">
                     {getFieldDecorator('remember', {

@@ -211,7 +211,12 @@
   "EditButtonLabel": "Edit",
   "Buttons": {
     "next": "Next",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "login": "Log In",
+    "back": "Back",
+    "changeEmail": "Change Email",
+    "createAccount": "Create your Account"
   },
   "PreviewCard": {
     "imageAlt": "example"
