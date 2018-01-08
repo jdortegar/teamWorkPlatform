@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Button } from 'antd';
+import { Row, Col, Form, Button, notification } from 'antd';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import SubpageHeader from '../../components/SubpageHeader';
@@ -57,6 +57,11 @@ class InviteNewMemberPage extends Component {
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/organization/${subscriberOrgId}/invitationSent`);
+            notification.open({
+              message: String.t('successToastTitle'),
+              description: String.t('inviteNewMemberPage.invitationSent', { count: users.length }),
+              duration: 4
+            });
           });
       }
     });
@@ -116,7 +121,7 @@ class InviteNewMemberPage extends Component {
                     onClick={this.handleSubmit}
                     loading={this.state.loading}
                   >
-                    {String.t('inviteNewMemberPage.sendInvitationsButtonLabel')}
+                    {String.t('inviteNewMemberPage.sendInvitationsButtonLabel', { count: this.state.inviteesArr.length })}
                   </Button>
                   <Button
                     type="primary"

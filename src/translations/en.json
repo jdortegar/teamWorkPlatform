@@ -6,6 +6,7 @@
   "dataIntegrations": "Data Integrations",
   "alertTitleDatabaseError": "DB Integrity Error",
   "alertLastPhotoErrorTitle": "Last Photo Error",
+  "successToastTitle": "Success",
 
   "enterMsgPostPlaceholder": "What do you want to tell the team?",
   "enterMsgReplyPlaceholder": "Leave a reply...",
@@ -177,10 +178,10 @@
       "one": "1 Data Integration",
       "other": "{{count}} Data Integrations",
       "zero": "No Data Integrations"
-   },
-   "invitationSent": {
-      "one": "Invitation successfully sent.",
-      "other": "Invitations successfully sent."
+    },
+    "invitationSent": {
+      "one": "Your Invitation has been sent.",
+      "other": "Your Invitations have been sent."
     }
   },
   "TeamPage": {
@@ -197,8 +198,8 @@
       "zero": "No Team Rooms"
     },
     "invitationSent": {
-      "one": "Invitation successfully sent.",
-      "other": "Invitations successfully sent."
+      "one": "Your Invitation has been sent.",
+      "other": "Your Invitations have been sent."
     }
   },
   "RecoverPassword": {
@@ -417,17 +418,35 @@
   },
   "inviteNewMemberPage": {
     "title": "New Member Email",
-    "sendInvitationsButtonLabel": "Send Invitations",
-    "breadcrumb": "Team"
+    "sendInvitationsButtonLabel": {
+      "zero": "Send Invitation",
+      "one": "Send Invitation",
+      "other": "Send Invitations"
+    },
+    "breadcrumb": "Team",
+    "invitationSent": {
+      "one": "Your Invitation has been sent.",
+      "other": "Your Invitations have been sent."
+    }
   },
   "inviteToTeamPage": {
-    "sendInvitationsButtonLabel": "Send Invitations",
+   "sendInvitationsButtonLabel": {
+      "zero": "Send Invitation",
+      "one": "Send Invitation",
+      "other": "Send Invitations"
+    },
     "addAnother": "Add Another",
     "username": "Username",
     "removeLink": "Remove",
     "usernamePlaceholder": "Enter a username",
-    "breadcrumb": "Team"
-   },
+    "breadcrumb": "Team",
+    "errorToastTitle": "Error",
+    "errorToastMessage": "The specified user may not be a valid member of the organization.",
+    "invitationSent": {
+      "one": "Your Invitation has been sent.",
+      "other": "Your Invitations have been sent."
+    }
+  },
   "newTeamPage": {
     "createNewTeamButtonLabel": "Create New Team",
     "chooseTeamName": "Choose a Team Name",
