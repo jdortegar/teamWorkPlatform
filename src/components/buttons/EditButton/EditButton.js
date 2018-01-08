@@ -3,7 +3,6 @@ import { Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import String from '../../../translations';
-import './styles/style.css';
 
 const propTypes = {
   url: PropTypes.string.isRequired

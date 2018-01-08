@@ -1,5 +1,4 @@
 import React from 'react';
-import { Row, Col } from 'antd';
 import PropTypes from 'prop-types';
 import EditButton from '../../components/buttons/EditButton';
 import './styles/style.css';
@@ -15,27 +14,21 @@ const propTypes = {
 };
 
 const defaultProps = {
-  node: <h3>Account Settings <i className="fa fa-cog" /></h3>
+  node: <span className="habla-label">Account Settings <i className="fa fa-cog" /></span>
 };
 
 function SubpageHeader({ breadcrumb, node, icon, editButton = {} }) {
   const { showButton, isAdmin, url } = editButton;
   return (
-    <div className="Subpage-header-block subpage-header__top">
-      <Row className="Subpage-header__row" type="flex" align="middle" justify="start">
-        <Col xs={{ span: 24 }} sm={{ span: 19 }}>
-          <div className="Subpage-header__container">
-            {icon}
-            <h1 className="Subpage-header__title">{breadcrumb}</h1>
-            {showButton && isAdmin && <EditButton url={url} />}
-          </div>
-        </Col>
-        <Col xs={{ span: 24 }} sm={{ span: 5 }}>
-          <div style={{ textAlign: 'right' }}>
-            {node}
-          </div>
-        </Col>
-      </Row>
+    <div className="habla-main-content-header padding-class-a border-bottom-lighter">
+      <div className="habla-main-content-header-title">
+        {icon}
+        <h1 className="Subpage-header__title habla-title">{breadcrumb}</h1>
+        {showButton && isAdmin && <EditButton url={url} />}
+      </div>
+      <div className="habla-main-content-header-actions">
+        {node}
+      </div>
     </div>
   );
 }

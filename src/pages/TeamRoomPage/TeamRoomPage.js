@@ -343,15 +343,24 @@ class TeamRoomPage extends Component {
               breadcrumb={teamRoom.name}
               editButton={editButton}
               node={
-                <div className="team-room__header-container">
-                  <div className={`team-room__header-links ${this.state.activeLink === String.t('teamRoomPage.all') ? String.t('teamRoomPage.active') : ''}`}>
-                    <a onClick={() => this.handleHeaderClick(String.t('teamRoomPage.all'))}>{String.t('teamRoomPage.all')}</a>
+                <div className="habla-main-content-filters-links">
+                  <div
+                    onClick={() => this.handleHeaderClick(String.t('teamRoomPage.all'))}
+                    className={`team-room__header-links ${this.state.activeLink === String.t('teamRoomPage.all') ? String.t('teamRoomPage.active') : ''}`}
+                  >
+                    {String.t('teamRoomPage.all')}
                   </div>
-                  <div className={`team-room__header-links ${this.state.activeLink === String.t('teamRoomPage.new') ? String.t('teamRoomPage.active') : ''}`}>
-                    <a onClick={() => this.handleHeaderClick(String.t('teamRoomPage.new'))}>{String.t('teamRoomPage.new')}</a>
+                  <div
+                    onClick={() => this.handleHeaderClick(String.t('teamRoomPage.new'))}
+                    className={`team-room__header-links ${this.state.activeLink === String.t('teamRoomPage.new') ? String.t('teamRoomPage.active') : ''}`}
+                  >
+                    {String.t('teamRoomPage.new')}
                   </div>
-                  <div className={`team-room__header-links ${this.state.activeLink === String.t('teamRoomPage.bookmarked') ? String.t('teamRoomPage.active') : ''}`}>
-                    <a onClick={() => this.handleHeaderClick(String.t('teamRoomPage.bookmarked'))}>{String.t('teamRoomPage.bookmarked')}</a>
+                  <div
+                    onClick={() => this.handleHeaderClick(String.t('teamRoomPage.bookmarked'))}
+                    className={`team-room__header-links ${this.state.activeLink === String.t('teamRoomPage.bookmarked') ? String.t('teamRoomPage.active') : ''}`}
+                  >
+                    {String.t('teamRoomPage.bookmarked')}
                   </div>
                 </div>
               }
@@ -364,8 +373,6 @@ class TeamRoomPage extends Component {
                   {this.renderTeamRoomMembers()}
                 </div>
               }
-              handleSearch={this.handleSearch}
-              search
             />
           </div>
 

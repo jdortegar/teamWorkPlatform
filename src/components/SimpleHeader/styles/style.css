@@ -4,9 +4,6 @@
 .SimpleHeader__title {
   font-weight: bold;
 }
-.SimpleHeader__container {
-  height: 100%;
-}
 .SimpleHeader__row {
   height: 100%;
   width: 100%;

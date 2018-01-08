@@ -5,11 +5,12 @@
 	margin: 0;
 	padding: 0;
 	font-family: 'Lato', sans-serif!important;
-	background: #ececec;
+	background: #ccc;
 	color: #000;
 }
 #app {
 	font-family: 'Lato', sans-serif;
+	background: #ccc;
 }
 .clear {
 	clear: both;
@@ -56,6 +57,9 @@ a:hover {
 .float-center-class {
 	margin: 0 auto;
 }
+.float-left-class {
+	float: left;
+}
 .align-right-class {
 	text-align: right;
 }
@@ -83,6 +87,9 @@ a:hover {
 p {
 	font-size: 10pt;
 	line-height: 1.4em;
+}
+.flex-class {
+	display: flex;
 }
 
 
@@ -178,6 +185,11 @@ p {
 	font-weight: 700;
 }
 
+
+
+
+
+	
 /* General CSS Styles for Habla Web App Modal Windows */
 .ant-modal-footer {
 	border: none;
@@ -207,6 +219,41 @@ p {
 .ant-dropdown-menu-item > a, .ant-dropdown-menu-submenu-title > a {
 	padding: 10px 20px;
 }
+
+/* Habla Content Header  */
+
+.habla-main-content-header i {
+	margin: 0 5px;
+    color: #999;
+    font-size: 1.4em;
+}
+.habla-main-content-header,
+.habla-main-content-header-title,
+.habla-main-content-filters-links {
+		display: flex;
+}
+.habla-main-content-header-title {
+	flex: 1;
+}
+.habla-main-content-filters-links div {
+		background: #fff;
+		padding: 7px;
+		border-radius: 3px;
+		font-size: 10px;
+		text-transform: uppercase;
+		color: #999;
+}
+.habla-main-content-filters-links div:hover {
+	background: #ccc;
+	color: #fff;
+	cursor: pointer;
+}
+.habla-main-content-header-actions i {
+	font-size: 2em;
+	vertical-align: middle;
+	margin-left: 5px;
+}
+	
 
 
 /* RESPONSIVE ELEMENTS AND STYLES ---------- */
@@ -339,4 +386,44 @@ p {
 }
 .ant-form {
 	font-family: inherit;
+}
+.ant-layout {
+	background: none!important;
+}
+.ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {
+	border: none!important;
+}
+.ant-menu-submenu-title {
+	padding: 0!important;
+	margin: 0!important;
+}
+.ant-menu-sub.ant-menu-inline > .ant-menu-item {
+	padding-left: 10px!important;
+}
+.ant-menu-vertical > .ant-menu-item, .ant-menu-vertical-left > .ant-menu-item, .ant-menu-vertical-right > .ant-menu-item, .ant-menu-inline > .ant-menu-item, .ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-vertical-left > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-vertical-right > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
+	line-height: 0!important;
+	height: auto!important;
+	padding: 0!important;
+	margin: 0!important;
+}
+.ant-menu-vertical .ant-menu-item:after, .ant-menu-vertical-left .ant-menu-item:after, .ant-menu-vertical-right .ant-menu-item:after, .ant-menu-inline .ant-menu-item:after {
+	border: none!important;
+}
+.ant-menu-inline .ant-menu-item, .ant-menu-inline .ant-menu-submenu-title {
+	width: 100%!important;
+}
+.ant-menu {
+	font-family: 'Lato', sans-serif;	
+}
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+	background: #f7f7f7;
+}
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+	padding: 3px 0 3px 30px;
+}
+.ant-collapse-borderless > .ant-collapse-item {
+	border-bottom: 1px solid #eee!important;
+}
+.ant-collapse-content {
+	padding: 0 10px;
 }

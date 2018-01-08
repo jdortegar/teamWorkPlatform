@@ -66,13 +66,11 @@ export default class NotificationsPage extends Component {
     return (
       <div>
         <NewSubpageHeader>
-          <div className="notificationHeader-title display-row">
-            <div className="icon-wrapper">
-              <i className="fa fa-globe fa-2x" />
-            </div>
-            <div className="subpage__header__title ">{String.t('notificationPage.title')}</div>
+          <div className="habla-main-content-header-title">
+            <i className="fa fa-globe fa-2x" />
+            <div className="subpage__header__title habla-title">{String.t('notificationPage.title')}</div>
           </div>
-          <div className="notificationHeader-options display-row">
+          <div className="habla-main-content-filters-links">
             <div onClick={() => this.onMenuItemClick(true, false, false, false)} className={menuOptionAll}>{String.t('notificationPage.menu.all')}</div>
             <div onClick={() => this.onMenuItemClick(false, true, false, false)} className={menuOptionMessages}>{String.t('notificationPage.menu.messages')}</div>
             <div onClick={() => this.onMenuItemClick(false, false, true, false)} className={menuOptionReplies}>{String.t('notificationPage.menu.replies')}</div>
@@ -80,7 +78,7 @@ export default class NotificationsPage extends Component {
           </div>
         </NewSubpageHeader>
         <div className="notification-body">
-          <div className="notification-body__unread">
+          <div className="notification-body__unread habla-label">
             <span className="total-unread">3 {String.t('notificationPage.unReadNotifications')} - </span>
             <span className="mark-as-read">{String.t('notificationPage.markAllAsRead')}</span>
           </div>
@@ -92,7 +90,7 @@ export default class NotificationsPage extends Component {
               name={this.props.user.displayName}
             />
             <div className="notification-body__item__content">
-              <span className="content-name">Habla AI. Inc</span>
+              <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
                 nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
@@ -110,7 +108,7 @@ export default class NotificationsPage extends Component {
               name={this.props.user.displayName}
             />
             <div className="notification-body__item__content">
-              <span className="content-name">Habla AI. Inc</span>
+              <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
                 nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
@@ -128,7 +126,7 @@ export default class NotificationsPage extends Component {
               name={this.props.user.displayName}
             />
             <div className="notification-body__item__content">
-              <span className="content-name">Habla AI. Inc</span>
+              <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
                 nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
@@ -137,7 +135,7 @@ export default class NotificationsPage extends Component {
                 <span className="content-body__time-ago">(11 hours ago)</span>
               </p>
             </div>
-            <span className="last-new__text">NEW</span>
+            <span className="last-new__text">New</span>
           </div>
           <div className="notification-body__item">
             <Avatar
@@ -147,25 +145,7 @@ export default class NotificationsPage extends Component {
               name={this.props.user.displayName}
             />
             <div className="notification-body__item__content">
-              <span className="content-name">Habla AI. Inc</span>
-              <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
-                nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
-                repellendus, exercitationem incidunt saepe asperiores dignissimos, porro
-                quidem impedit, sed obcaecati!.
-                <span className="content-body__time-ago">(11 hours ago)</span>
-              </p>
-            </div>
-          </div>
-          <div className="notification-body__item">
-            <Avatar
-              iconColor={this.props.user.preferences.iconColor}
-              image={this.props.user.icon || this.props.user.preferences.avatarBase64}
-              styles={{ width: '2.8em', height: '2.8em' }}
-              name={this.props.user.displayName}
-            />
-            <div className="notification-body__item__content">
-              <span className="content-name">Habla AI. Inc</span>
+              <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
                 nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
@@ -183,7 +163,7 @@ export default class NotificationsPage extends Component {
               name={this.props.user.displayName}
             />
             <div className="notification-body__item__content">
-              <span className="content-name">Habla AI. Inc</span>
+              <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
                 nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
@@ -201,7 +181,7 @@ export default class NotificationsPage extends Component {
               name={this.props.user.displayName}
             />
             <div className="notification-body__item__content">
-              <span className="content-name">Habla AI. Inc</span>
+              <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
                 nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
@@ -219,7 +199,7 @@ export default class NotificationsPage extends Component {
               name={this.props.user.displayName}
             />
             <div className="notification-body__item__content">
-              <span className="content-name">Habla AI. Inc</span>
+              <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
                 nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
@@ -237,7 +217,7 @@ export default class NotificationsPage extends Component {
               name={this.props.user.displayName}
             />
             <div className="notification-body__item__content">
-              <span className="content-name">Habla AI. Inc</span>
+              <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
                 nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
@@ -255,7 +235,7 @@ export default class NotificationsPage extends Component {
               name={this.props.user.displayName}
             />
             <div className="notification-body__item__content">
-              <span className="content-name">Habla AI. Inc</span>
+              <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
                 nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
@@ -273,7 +253,7 @@ export default class NotificationsPage extends Component {
               name={this.props.user.displayName}
             />
             <div className="notification-body__item__content">
-              <span className="content-name">Habla AI. Inc</span>
+              <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
                 nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
@@ -291,7 +271,25 @@ export default class NotificationsPage extends Component {
               name={this.props.user.displayName}
             />
             <div className="notification-body__item__content">
-              <span className="content-name">Habla AI. Inc</span>
+              <span className="content-name habla-label">Habla AI. Inc</span>
+              <p className="content-body">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
+                nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
+                repellendus, exercitationem incidunt saepe asperiores dignissimos, porro
+                quidem impedit, sed obcaecati!.
+                <span className="content-body__time-ago">(11 hours ago)</span>
+              </p>
+            </div>
+          </div>
+          <div className="notification-body__item">
+            <Avatar
+              iconColor={this.props.user.preferences.iconColor}
+              image={this.props.user.icon || this.props.user.preferences.avatarBase64}
+              styles={{ width: '2.8em', height: '2.8em' }}
+              name={this.props.user.displayName}
+            />
+            <div className="notification-body__item__content">
+              <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
                 nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima

@@ -19,6 +19,7 @@
 }
 .team-room__header-links.active {
   background: #ddd;
+  color:#fff;
 }
 .team-room__header-links a:hover {
   text-decoration: underline;

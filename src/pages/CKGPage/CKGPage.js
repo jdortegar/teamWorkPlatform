@@ -53,10 +53,8 @@ class CKGPage extends Component {
       <div className="CKGPage">
         <NewSubpageHeader>
           <div className="CKGPage__title display-row">
-            <div className="icon-wrapper">
-              <i className="fa fa-area-chart fa-2x" />
-            </div>
-            <div className="subpage__header__title">{String.t('ckgPage.title')}</div>
+            <i className="fa fa-area-chart fa-2x" />
+            <div className="habla-title">{String.t('ckgPage.title')}</div>
           </div>
         </NewSubpageHeader>
         <TimeActivityGraph files={files.map(buildDataObject)} />

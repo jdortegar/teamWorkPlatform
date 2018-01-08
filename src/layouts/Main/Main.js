@@ -18,7 +18,7 @@ function Main() {
       <Header />
       <Layout className="ant-layout-has-sider">
         <Sidebar />
-        <Layout style={{ padding: '1.5em' }}>
+        <Layout className="habla-main-content">
           <MainContent />
           <AddOrgDialog />
           <AddTeamDialog />

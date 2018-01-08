@@ -8,10 +8,8 @@ const propTypes = {
 
 const NewSubpageHeader = ({ children }) => {
   return (
-    <div className="subpage__header">
-      <div className="subpage__header-container">
-        {children}
-      </div>
+    <div className="habla-main-content-header padding-class-a border-bottom-lighter">
+      {children}
     </div>
   );
 };

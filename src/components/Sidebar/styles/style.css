@@ -1,4 +1,82 @@
-.Sidebar-menu-item-label {
+.Sidebar.hidden {
+  display: none;
+}
+.ButtonFull {
+	width: 100%;
+}
+
+/* LEFT NAVIGATION ---------- */
+
+.Sidebar {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  margin: 7px 0 7px 7px; 
+}
+.habla-left-navigation-label {
+	padding: 8px 10px;
+}
+.habla-left-navigation-list {
+	list-style-type: none;
+	margin: 0;
+}
+.habla-left-navigation-item {
+	border-bottom: 1px solid #eee;
+	position: relative;
+}
+.habla-left-navigation-item:hover {
+	background: #f7f7f7;
+}
+.habla-left-navigation-item-label {
+	font-weight: 700;
+	color: #999;
+	text-decoration: none;
+	font-size: 14px;
+	margin-top: 15px;
+    margin-left: 7px;
+    display: -webkit-inline-box;
+}
+.habla-left-navigation-team-list {
+	padding-left: 15px;
+}
+.habla-left-navigation-teamroom-list {
+	padding-left: 20px;
+}
+
+
+	.habla-left-navigation-notification-globe {
+		top: 11px;
+		right: 10px;
+		background: #ccc;
+		padding: 3px;
+		border-radius: 3px;
+		color: #fff;
+		font-size: 12px;
+		position: absolute;
+	}
+	.habla-left-navigation-item-active .habla-left-navigation-notification-globe {
+		background: #666;
+	}
+	.habla-left-navigation-item-active .habla-left-navigation-item-active-signal {
+		background: #ccc;
+		height: 8px;
+		width: 8px;
+		position: absolute;
+		left: 8px;
+		top: 15px;
+		border-radius: 50%;
+	}
+	.habla-left-navigation-item-arrow {
+		position: absolute;
+		top: 12px;
+		right: 10px;
+	}
+	.habla-left-navigation-create-org {
+		padding: 10px;
+	}
+
+/* .Sidebar-menu-item-label {
   padding: 8px 18px;
   border-bottom: 1px solid #ddd;
   font-weight: bold;
@@ -30,14 +108,7 @@
   background-color: #46c669;
 }
 
-.Sidebar.hidden {
-  display: none;
-}
-.Sidebar {
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-}
+
 .Sidebar > div {
   height: 100%;
   flex: 1;
@@ -82,3 +153,4 @@
 .Sidebar__menu-info-item::after {
   border-right: none;
 }
+*/

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Col, Row } from 'antd';
+import { Layout, Menu } from 'antd';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Avatar from '../Avatar';
 import String from '../../translations';
+import Button from '../../components/common/Button';
+import Avatar from '../../components/common/Avatar';
 import {
   sortByName,
   primaryAtTop
@@ -184,14 +185,14 @@ class Sidebar extends Component {
 
     return teamRoomsByTeamId.map(teamRoom => (
       <Menu.Item key={teamRoom.teamRoomId}>
-        <div className="Sidebar__name-container">
-          <Avatar
-            styles={{ minWidth: '20px', width: '20px', height: '20px' }}
-            name={teamRoom.name}
-            iconColor={teamRoom.preferences.iconColor}
-            image={teamRoom.preferences.avatarBase64 || teamRoom.preferences.logo}
-          />
-          <div className="Sidebar__name-span" onClick={() => this.goToTeamRoomPage(teamRoom.teamRoomId)}>{teamRoom.name}</div>
+        <div className="habla-left-navigation-teamroom-list">
+          <div className="padding-class-a">
+            <div className="float-left-class">
+              <Avatar color="#557DBF" name={teamRoom.name} />
+            </div>
+            <span className="habla-left-navigation-item-label" onClick={() => this.goToTeamRoomPage(teamRoom.teamRoomId)}>{teamRoom.name}</span>
+            <div className="clear" />
+          </div>
         </div>
       </Menu.Item>),
     );
@@ -213,27 +214,23 @@ class Sidebar extends Component {
       const teamRooms = this.renderTeamRooms(team.teamId);
       return (
         <SubMenu
+          className="habla-left-navigation-item"
           key={team.teamId}
           onTitleClick={() => this.toogleTeams(team.teamId)}
-          title={<Row>
-            <Col xs={{ span: 22 }}>
-              <div className="Sidebar__name-container">
-                <Avatar
-                  styles={{ minWidth: '20px', width: '20px', height: '20px' }}
-                  name={team.name}
-                  iconColor={team.preferences.iconColor}
-                  image={team.preferences.avatarBase64 || team.preferences.logo}
-                />
-                <div className="Sidebar__name-span" onClick={e => this.goToTeamPage(e, team)}>{team.name}</div>
-              </div>
-            </Col>
-          </Row>}
-        >
-          <Menu.Item className="Sidebar__menu-info-item">
-            <div>
-              {String.t('teamRooms')}
+          title={
+            <div className="habla-left-navigation-team-list">
+              <div className="padding-class-a">
+                <div className="float-left-class">
+                  <Avatar color="#FBBC12" name={team.name} />
+                </div>
+                <span className="habla-left-navigation-item-label" onClick={e => this.goToTeamPage(e, team)}>{team.name}</span>
+                <div className="clear" /></div>
             </div>
-          </Menu.Item>
+          }
+        >
+          <div className="padding-class-a border-bottom-lighter">
+            <span className="habla-label">{String.t('teamRooms')}</span>
+          </div>
           { teamRooms }
         </SubMenu>);
     });
@@ -242,36 +239,30 @@ class Sidebar extends Component {
   renderOrgs() {
     const { subscriberOrgs } = this.props;
     return subscriberOrgs.map((subscriberOrg) => {
-      const { preferences } = subscriberOrg;
       const teams = this.renderTeams(subscriberOrg.subscriberOrgId);
 
       return (
         <SubMenu
+          className="habla-left-navigation-item"
           key={subscriberOrg.subscriberOrgId}
           onMouseEnter={() => this.setState({ hovered: subscriberOrg.subscriberOrgId })}
           onMouseLeave={() => this.setState({ hovered: null })}
           openKeys={this.state.teamsOpenKeys}
           onTitleClick={() => this.toogleOrgs(subscriberOrg.subscriberOrgId)}
           title={
-            <Row>
-              <Col xs={{ span: 22 }} className="Sidebar__org-item-col">
-                <div className="Sidebar__name-container">
-                  <Avatar
-                    iconColor={preferences.iconColor}
-                    image={preferences.avatarBase64 || preferences.logo}
-                    styles={{ minWidth: '20px', width: '20px', height: '20px' }}
-                    name={subscriberOrg.name}
-                  />
-                  <div className="Sidebar__name-span" onClick={e => this.goToOrgPage(e, subscriberOrg.subscriberOrgId)}>{subscriberOrg.name}</div>
+            <div className="habla-left-navigation-org-list">
+              <div className="padding-class-a">
+                <div className="float-left-class">
+                  <Avatar />
                 </div>
-              </Col>
-            </Row>}
-        >
-          <Menu.Item className="Sidebar__menu-info-item">
-            <div>
-              {String.t('teams')}
+                <span className="habla-left-navigation-item-label" onClick={e => this.goToOrgPage(e, subscriberOrg.subscriberOrgId)}>{subscriberOrg.name}</span>
+                <div className="clear" /></div>
             </div>
-          </Menu.Item>
+          }
+        >
+          <div className="padding-class-a border-bottom-lighter">
+            <span className="habla-label">{String.t('teams')}</span>
+          </div>
           {teams}
         </SubMenu>
       );
@@ -289,19 +280,22 @@ class Sidebar extends Component {
     });
 
     return (
-      <Sider width={235} className={sideClass}>
-
-        <div className="Sidebar-menu-item-label">{String.t('organizations')}</div>
+      <Sider width={250} className={sideClass}>
+        <div className="padding-class-a border-bottom-lighter">
+          <span className="habla-label habla-bold-text">{String.t('organizations')}</span>
+        </div>
         <div className="organization-list">
           <Menu
             mode="inline"
             openKeys={_.union(this.state.orgsOpenKeys, this.state.teamsOpenKeys)}
-            className="Sidebar__menu"
+            className="habla-left-navigation-list habla-left-navigation-organization-list"
           >
             { this.renderOrgs() }
           </Menu>
-          <div className="add-organization-button" onClick={this.handleAddOrganization}>
-            <i className="Sidebar__i fa fa-plus" /> {String.t('sideBar.addOrganization')}
+          <div className="padding-class-a">
+            <Button type="main" fitText onClick={this.handleAddOrganization} className="ButtonFull">
+              <i className="Sidebar__i fa fa-plus" /> {String.t('sideBar.addOrganization')}
+            </Button>
           </div>
         </div>
       </Sider>
