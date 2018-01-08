@@ -48,6 +48,7 @@ const propTypes = {
     conversationId: PropTypes.string.isRequired,
     transcript: PropTypes.array
   }).isRequired,
+  membersTyping: PropTypes.object,
   createMessage: PropTypes.func.isRequired,
   iAmTyping: PropTypes.func.isRequired,
   updateFileList: PropTypes.func.isRequired,
@@ -58,7 +59,8 @@ const propTypes = {
 };
 
 const defaultProps = {
-  files: []
+  files: [],
+  membersTyping: null
 };
 
 
@@ -66,6 +68,21 @@ function getPercentOfRequest(total, loaded) {
   const percent = (loaded * 100) / total;
   return Math.round(percent);
 }
+
+const displayMembersTyping = (members) => {
+  if (members.length === 0) return '';
+
+  const lastIndex = members.length - 1;
+  const getSuffix = (index) => {
+    if (index === lastIndex) return ' ';
+    if (index === lastIndex - 1) return String.t('typingActivityMultipleMemberLastSeparator');
+    return String.t('typingActivityMultipleMemberSeparator');
+  };
+
+  const membersJoined = members.map((member, index) => `${member.firstName}${getSuffix(index)}`).join('');
+  const isTypingLabel = String.t((members.length === 1) ? 'typingActivityTyping1' : 'typingActivityTypingN');
+  return `${membersJoined}${isTypingLabel}`;
+};
 
 class TeamRoomPage extends Component {
   constructor(props) {
@@ -330,8 +347,17 @@ class TeamRoomPage extends Component {
     ));
   }
 
+  renderMembersTyping() {
+    const { teamRoomMembers, membersTyping } = this.props;
+    if (!membersTyping) return null;
+
+    const findUser = userId => _.find(teamRoomMembers, { userId });
+    const members = _.map(membersTyping, (typing, userId) => typing && findUser(userId));
+
+    return displayMembersTyping(_.compact(members));
+  }
+
   render() {
-    // console.warn('membersTyping', this.props.membersTyping);
     const { teamRoomMembersLoaded, conversationsLoaded } = this.state;
     if (teamRoomMembersLoaded && conversationsLoaded) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
@@ -450,6 +476,9 @@ class TeamRoomPage extends Component {
                   <label htmlFor="fileupload" className="team-room__icons"><i className="fa fa-folder-o" /></label>
                 </div>
               </div>
+            </div>
+            <div className="team-room__members-typing">
+              {this.renderMembersTyping()}
             </div>
 
           </SimpleCardContainer>
