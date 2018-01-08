@@ -10,6 +10,7 @@ import {
 } from '../../actions';
 import {
   getConversationOfTeamRoomId,
+  getTypingsOfConversationId,
   getTeamRoomMembersOfTeamRoomId,
   getTeamRoomMembersAsObjectsOfTeamRoomId,
   getPresencesOfTeamRoomMembersOfTeamRoomId
@@ -17,12 +18,16 @@ import {
 
 function mapStateToProps(state, props) {
   const teamRoomId = props.match.params.teamRoomId;
+  const conversations = getConversationOfTeamRoomId(state, teamRoomId);
+  const conversationId = conversations ? conversations.conversationId : null;
+
   return {
     user: state.auth.user,
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     teams: state.teams,
     teamRooms: state.teamRooms,
-    conversations: getConversationOfTeamRoomId(state, teamRoomId),
+    conversations,
+    membersTyping: getTypingsOfConversationId(state, conversationId),
     teamRoomMembers: getTeamRoomMembersOfTeamRoomId(state, teamRoomId),
     teamRoomMembersObj: getTeamRoomMembersAsObjectsOfTeamRoomId(state, teamRoomId),
     teamRoomMembersPresences: getPresencesOfTeamRoomMembersOfTeamRoomId(state, teamRoomId)

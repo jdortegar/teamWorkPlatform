@@ -268,15 +268,12 @@ class TeamRoomPage extends Component {
 
   handleTyping = () => {
     const { conversationId } = this.props.conversations;
-    console.warn('TYPING:', conversationId);
-
     this.clearTypingTimer();
-    this.typingTimer = setTimeout(this.stopTyping, 2000);
+    this.typingTimer = setTimeout(this.stopTyping, 5000);
     this.props.iAmTyping(conversationId, true);
   }
 
   stopTyping = () => {
-    console.warn('NOT TYPING ANYMORE');
     const { conversationId } = this.props.conversations;
     this.props.iAmTyping(conversationId, false);
   }
@@ -334,6 +331,7 @@ class TeamRoomPage extends Component {
   }
 
   render() {
+    // console.warn('membersTyping', this.props.membersTyping);
     const { teamRoomMembersLoaded, conversationsLoaded } = this.state;
     if (teamRoomMembersLoaded && conversationsLoaded) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
