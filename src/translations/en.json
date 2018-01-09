@@ -92,6 +92,7 @@
   "teamRooms": "Team Rooms",
   "peopleScreenTabTeam": "Team",
   "peopleScreenTabRoom": "Team Room",
+  "fullName": "{{firstName}} {{lastName}}",
   "memberPopupName": "Name: {{firstName}} {{lastName}}",
   "memberPopupUsername": "Username: {{displayName}}",
   "awaitingVerificationHeader": "Hi! \nWe just sent a \nverification email to:",

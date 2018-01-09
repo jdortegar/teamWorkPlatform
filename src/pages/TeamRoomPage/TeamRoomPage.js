@@ -351,7 +351,9 @@ class TeamRoomPage extends Component {
       <div>
         {members.map((member, index) => (
           <span key={member.userId}>
-            <span className="team-room__members-typing-name">{member.firstName} {member.lastName}</span>
+            <span className="team-room__members-typing-name">
+              {String.t('fullName', { firstName: member.firstName, lastName: member.lastName })}
+            </span>
             {getSuffix(index)}
           </span>
         ))}
