@@ -77,8 +77,10 @@
   "inviteMembersSearchPlaceholder": "SEARCH MEMBERS",
   "typingActivityMultipleMemberSeparator": ", ",
   "typingActivityMultipleMemberLastSeparator": " and ",
-  "typingActivityTyping1": "is typing...",
-  "typingActivityTypingN": "are typing...",
+  "typingActivityTyping": {
+    "one": "is typing...",
+    "other": "are typing..."
+  },
   "appVersion": "version {{version}}",
   "logOutButtonLabel": "LOG OUT",
   "logOutConfirmationTitle": "Are you sure?",

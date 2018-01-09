@@ -80,8 +80,7 @@ const displayMembersTyping = (members) => {
   };
 
   const membersJoined = members.map((member, index) => `${member.firstName}${getSuffix(index)}`).join('');
-  const isTypingLabel = String.t((members.length === 1) ? 'typingActivityTyping1' : 'typingActivityTypingN');
-  return `${membersJoined}${isTypingLabel}`;
+  return `${membersJoined}${String.t('typingActivityTyping', { count: members.length })}`;
 };
 
 class TeamRoomPage extends Component {
