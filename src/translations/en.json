@@ -77,8 +77,10 @@
   "inviteMembersSearchPlaceholder": "SEARCH MEMBERS",
   "typingActivityMultipleMemberSeparator": ", ",
   "typingActivityMultipleMemberLastSeparator": " and ",
-  "typingActivityTyping1": "is typing...",
-  "typingActivityTypingN": "are typing...",
+  "typingActivityTyping": {
+    "one": "is typing...",
+    "other": "are typing..."
+  },
   "appVersion": "version {{version}}",
   "logOutButtonLabel": "LOG OUT",
   "logOutConfirmationTitle": "Are you sure?",
@@ -90,6 +92,7 @@
   "teamRooms": "Team Rooms",
   "peopleScreenTabTeam": "Team",
   "peopleScreenTabRoom": "Team Room",
+  "fullName": "{{firstName}} {{lastName}}",
   "memberPopupName": "Name: {{firstName}} {{lastName}}",
   "memberPopupUsername": "Username: {{displayName}}",
   "awaitingVerificationHeader": "Hi! \nWe just sent a \nverification email to:",

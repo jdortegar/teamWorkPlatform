@@ -48,7 +48,9 @@ const propTypes = {
     conversationId: PropTypes.string.isRequired,
     transcript: PropTypes.array
   }).isRequired,
+  membersTyping: PropTypes.object,
   createMessage: PropTypes.func.isRequired,
+  iAmTyping: PropTypes.func.isRequired,
   updateFileList: PropTypes.func.isRequired,
   clearFileList: PropTypes.func.isRequired,
   fetchConversations: PropTypes.func.isRequired,
@@ -57,7 +59,8 @@ const propTypes = {
 };
 
 const defaultProps = {
-  files: []
+  files: [],
+  membersTyping: null
 };
 
 
@@ -88,6 +91,7 @@ class TeamRoomPage extends Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.onFileChange = this.onFileChange.bind(this);
     this.updateFiles = this.updateFiles.bind(this);
+    this.typingTimer = null;
   }
 
   componentDidMount() {
@@ -208,6 +212,8 @@ class TeamRoomPage extends Component {
         const { message } = values;
 
         this.props.form.resetFields();
+        this.stopTyping();
+        this.clearTypingTimer();
 
         if (this.props.files && this.props.files.length > 0) {
           const resources = this.props.files.map(file => this.createResource(file));
@@ -262,6 +268,24 @@ class TeamRoomPage extends Component {
     this.setState({ teamRoomMembers: filteredTeamMembers });
   }
 
+  handleTyping = () => {
+    const { conversationId } = this.props.conversations;
+    this.clearTypingTimer();
+    this.typingTimer = setTimeout(this.stopTyping, 5000);
+    this.props.iAmTyping(conversationId, true);
+  }
+
+  stopTyping = () => {
+    const { conversationId } = this.props.conversations;
+    this.props.iAmTyping(conversationId, false);
+  }
+
+  clearTypingTimer = () => {
+    if (this.typingTimer) {
+      clearTimeout(this.typingTimer);
+    }
+  }
+
   updateFiles(files) {
     if (files.length === 0 && !this.state.replyTo) {
       this.setState({ showPreviewBox: false });
@@ -306,6 +330,36 @@ class TeamRoomPage extends Component {
         online={member.online}
       />
     ));
+  }
+
+  renderMembersTyping() {
+    const { teamRoomMembers, membersTyping } = this.props;
+    if (!membersTyping) return null;
+
+    const findUser = userId => _.find(teamRoomMembers, { userId });
+    const members = _.compact(_.map(membersTyping, (typing, userId) => typing && findUser(userId)));
+    if (members.length === 0) return null;
+
+    const lastIndex = members.length - 1;
+    const getSuffix = (index) => {
+      if (index === lastIndex) return ' ';
+      if (index === lastIndex - 1) return String.t('typingActivityMultipleMemberLastSeparator');
+      return String.t('typingActivityMultipleMemberSeparator');
+    };
+
+    return (
+      <div>
+        {members.map((member, index) => (
+          <span key={member.userId}>
+            <span className="team-room__members-typing-name">
+              {String.t('fullName', { firstName: member.firstName, lastName: member.lastName })}
+            </span>
+            {getSuffix(index)}
+          </span>
+        ))}
+        {String.t('typingActivityTyping', { count: members.length })}
+      </div>
+    );
   }
 
   render() {
@@ -408,6 +462,7 @@ class TeamRoomPage extends Component {
                     label=""
                     className="team-room__chat-input-form-item"
                     inputClassName="team-room__chat-input-textfield"
+                    onChange={this.handleTyping}
                   />
                 </Form>
               </div>
@@ -426,6 +481,9 @@ class TeamRoomPage extends Component {
                   <label htmlFor="fileupload" className="team-room__icons"><i className="fa fa-folder-o" /></label>
                 </div>
               </div>
+            </div>
+            <div className="team-room__members-typing">
+              {this.renderMembersTyping()}
             </div>
 
           </SimpleCardContainer>

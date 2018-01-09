@@ -88,7 +88,7 @@ const eventHandler = (eventType, event) => {
       config.store.dispatch(receiveMessages([event], event.conversationId));
       break;
     case EventTypes.typing:
-      config.store.dispatch(receiveTyping([event]));
+      config.store.dispatch(receiveTyping(event));
       break;
 
     case EventTypes.integrationsUpdated:

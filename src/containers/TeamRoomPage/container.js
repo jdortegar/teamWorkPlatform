@@ -5,10 +5,12 @@ import {
   fetchTeamRoomMembersByTeamRoomId,
   fetchConversations,
   fetchTranscript,
-  createMessage
+  createMessage,
+  iAmTyping
 } from '../../actions';
 import {
   getConversationOfTeamRoomId,
+  getTypingsOfConversationId,
   getTeamRoomMembersOfTeamRoomId,
   getTeamRoomMembersAsObjectsOfTeamRoomId,
   getPresencesOfTeamRoomMembersOfTeamRoomId
@@ -16,12 +18,16 @@ import {
 
 function mapStateToProps(state, props) {
   const teamRoomId = props.match.params.teamRoomId;
+  const conversations = getConversationOfTeamRoomId(state, teamRoomId);
+  const conversationId = conversations ? conversations.conversationId : null;
+
   return {
     user: state.auth.user,
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     teams: state.teams,
     teamRooms: state.teamRooms,
-    conversations: getConversationOfTeamRoomId(state, teamRoomId),
+    conversations,
+    membersTyping: getTypingsOfConversationId(state, conversationId),
     teamRoomMembers: getTeamRoomMembersOfTeamRoomId(state, teamRoomId),
     teamRoomMembersObj: getTeamRoomMembersAsObjectsOfTeamRoomId(state, teamRoomId),
     teamRoomMembersPresences: getPresencesOfTeamRoomMembersOfTeamRoomId(state, teamRoomId)
@@ -33,7 +39,8 @@ function mapDispatchToProps(dispatch) {
     fetchTeamRoomMembersByTeamRoomId: teamRoomId => dispatch(fetchTeamRoomMembersByTeamRoomId(teamRoomId)),
     fetchConversations: teamRoomId => dispatch(fetchConversations(teamRoomId)),
     fetchTranscript: conversationId => dispatch(fetchTranscript(conversationId)),
-    createMessage: (message, conversationId) => dispatch(createMessage(message, conversationId))
+    createMessage: (message, conversationId) => dispatch(createMessage(message, conversationId)),
+    iAmTyping: (conversationId, typing) => dispatch(iAmTyping(conversationId, typing))
   };
 }
 
