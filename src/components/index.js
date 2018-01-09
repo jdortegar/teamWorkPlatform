@@ -1,7 +1,7 @@
-
 export NewSubpageHeader from './NewSubpageHeader';
 export Avatar from './Avatar';
 export TimeActivityGraph from './TimeActivityGraph';
+export TimeActivityGraphReact from './TimeActivityGraphReact';
 
 // FORMS
 export FirstNameField from './formFields/FirstNameField';

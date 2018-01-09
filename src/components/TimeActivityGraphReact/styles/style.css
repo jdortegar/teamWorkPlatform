@@ -1,0 +1,51 @@
+.TimeActivityGraph {
+  position: relative;
+  display: inline-block;
+  height: 100%;
+  background-color: #557dbf;
+}
+
+.TimeActivityGraph__graph {
+  padding: 20px 10px 0 50px;
+}
+
+.TimeActivityGraph__axis text {
+  font-family: 'Lato', sans-serif;
+  text-transform: uppercase;
+  fill: #dddddd;
+  opacity: 0.7;
+}
+
+.TimeActivityGraph__axis line {
+  stroke: #dddddd;
+  stroke-opacity: 0.2;
+  shape-rendering: crispEdges;
+}
+
+.TimeActivityGraph__axis path,
+.TimeActivityGraph__y-axis line {
+  stroke-width: 0;
+}
+
+.TimeActivityGraph__view {
+  fill: none;
+  pointer-events: all;
+}
+
+.DataPoint__title {
+   padding-top: 5px;
+   padding-bottom: 10px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ }
+
+ .DataPoint__title a {
+   padding-left: 10px;
+ }
+
+ .DataPoint__details {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ }
