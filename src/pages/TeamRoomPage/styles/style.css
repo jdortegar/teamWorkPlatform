@@ -97,6 +97,9 @@
   font-size: .75em;
   padding: .5em 0;
 }
+.team-room__members-typing-name {
+  font-weight: bold;
+}
 .file-drop {
   display: flex;
   flex: 1;

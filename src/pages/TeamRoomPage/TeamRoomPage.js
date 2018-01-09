@@ -69,20 +69,6 @@ function getPercentOfRequest(total, loaded) {
   return Math.round(percent);
 }
 
-const displayMembersTyping = (members) => {
-  if (members.length === 0) return '';
-
-  const lastIndex = members.length - 1;
-  const getSuffix = (index) => {
-    if (index === lastIndex) return ' ';
-    if (index === lastIndex - 1) return String.t('typingActivityMultipleMemberLastSeparator');
-    return String.t('typingActivityMultipleMemberSeparator');
-  };
-
-  const membersJoined = members.map((member, index) => `${member.firstName}${getSuffix(index)}`).join('');
-  return `${membersJoined}${String.t('typingActivityTyping', { count: members.length })}`;
-};
-
 class TeamRoomPage extends Component {
   constructor(props) {
     super(props);
@@ -351,9 +337,27 @@ class TeamRoomPage extends Component {
     if (!membersTyping) return null;
 
     const findUser = userId => _.find(teamRoomMembers, { userId });
-    const members = _.map(membersTyping, (typing, userId) => typing && findUser(userId));
+    const members = _.compact(_.map(membersTyping, (typing, userId) => typing && findUser(userId)));
+    if (members.length === 0) return null;
 
-    return displayMembersTyping(_.compact(members));
+    const lastIndex = members.length - 1;
+    const getSuffix = (index) => {
+      if (index === lastIndex) return ' ';
+      if (index === lastIndex - 1) return String.t('typingActivityMultipleMemberLastSeparator');
+      return String.t('typingActivityMultipleMemberSeparator');
+    };
+
+    return (
+      <div>
+        {members.map((member, index) => (
+          <span key={member.userId}>
+            <span className="team-room__members-typing-name">{member.firstName} {member.lastName}</span>
+            {getSuffix(index)}
+          </span>
+        ))}
+        {String.t('typingActivityTyping', { count: members.length })}
+      </div>
+    );
   }
 
   render() {
