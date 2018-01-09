@@ -43,6 +43,15 @@ const ROUTERS_TO_HIDE_SIDEBAR = [
   '/app/userDetails'
 ];
 
+function renderAvatar(item) {
+  const { preferences } = item;
+  if (preferences.avatarBase64) {
+    return <Avatar src={`data:image/jpeg;base64, ${preferences.avatarBase64}`} />;
+  }
+  const nameInitial = item.name.substring(0, 1).toUpperCase();
+  return <Avatar color={preferences.iconColor}>{nameInitial}</Avatar>;
+}
+
 class Sidebar extends Component {
   constructor(props) {
     super(props);
@@ -188,7 +197,7 @@ class Sidebar extends Component {
         <div className="habla-left-navigation-teamroom-list">
           <div className="padding-class-a">
             <div className="float-left-class">
-              <Avatar color="#557DBF" name={teamRoom.name} />
+              {renderAvatar(teamRoom)}
             </div>
             <span className="habla-left-navigation-item-label" onClick={() => this.goToTeamRoomPage(teamRoom.teamRoomId)}>{teamRoom.name}</span>
             <div className="clear" />
@@ -212,6 +221,7 @@ class Sidebar extends Component {
 
     return teamsByOrgId.map((team) => {
       const teamRooms = this.renderTeamRooms(team.teamId);
+
       return (
         <SubMenu
           className="habla-left-navigation-item"
@@ -221,7 +231,7 @@ class Sidebar extends Component {
             <div className="habla-left-navigation-team-list">
               <div className="padding-class-a">
                 <div className="float-left-class">
-                  <Avatar color="#FBBC12" name={team.name} />
+                  {renderAvatar(team)}
                 </div>
                 <span className="habla-left-navigation-item-label" onClick={e => this.goToTeamPage(e, team)}>{team.name}</span>
                 <div className="clear" /></div>
@@ -253,7 +263,7 @@ class Sidebar extends Component {
             <div className="habla-left-navigation-org-list">
               <div className="padding-class-a">
                 <div className="float-left-class">
-                  <Avatar />
+                  {renderAvatar(subscriberOrg)}
                 </div>
                 <span className="habla-left-navigation-item-label" onClick={e => this.goToOrgPage(e, subscriberOrg.subscriberOrgId)}>{subscriberOrg.name}</span>
                 <div className="clear" /></div>
