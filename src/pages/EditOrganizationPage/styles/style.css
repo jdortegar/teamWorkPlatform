@@ -20,19 +20,6 @@
   border-color: #777777;
   box-shadow: none;
 }
-.Edit-team__button {
-  width: 6em;
-  height: 3em;
-  border-radius: 2px;
-  background-color: #777777;
-}
-.Edit-team__button:hover, .Edit-team__button:focus {
-  background-color: #979797;
-  border-color: #979797;
-}
-.Edit-team__button--margin-right {
-  margin-right: 20px;
-}
 .Edit-team__container_photo {
   display: flex;
 }
@@ -74,12 +61,6 @@
   font-size: 1.5em;
   color: rgba(0, 0, 0, 0.85);
 }
-.edit__form__title {
-  font-size: 1.1em;
-  font-weight: bold;
-  padding: .2em 0;
-  color: rgba(0, 0, 0, 0.85);
-}
 .edit__form__input {
   height: 3em;
 }
@@ -90,16 +71,8 @@
 .edit__container__image__website {
   width: 100%;
 }
-.edit-org__form {
-  border-bottom: 1px solid #ececec;
-  padding: 2em;
-}
 .edit-org__buttons {
-  padding: 2em;
+  padding: 10px;
   display: flex;
   justify-content: flex-end;
-}
-.edit-org__button-active {
-  background-color: #37A759 !important;
-  border: none;
 }

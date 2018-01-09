@@ -281,7 +281,7 @@ export default class NotificationsPage extends Component {
               </p>
             </div>
           </div>
-          <div className="notification-body__item">
+          <div className="notification-body__item no-border">
             <Avatar
               iconColor={this.props.user.preferences.iconColor}
               image={this.props.user.icon || this.props.user.preferences.avatarBase64}

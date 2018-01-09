@@ -2,6 +2,9 @@
 .preview-images {
 	display: flex;
 	align-items: center;
+	padding: 10px;
+	border: 1px solid #ccc;
+	margin-top: 10px;
 }
 
 .preview-images img {
@@ -18,9 +21,8 @@
 
 .image-wrapper {
 	background-color: #ececec;
-	margin-right: .5em;
-	margin-top: .5em;
-	border-radius: 2px;
+	margin: 0 10px 0 0;
+	border-radius: 4px;
 	width: 112px;
 }
 

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Form, Button, notification } from 'antd';
+import { Form, notification } from 'antd';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import NewSubpageHeader from '../../components/NewSubpageHeader';
 import UploadImageField from '../../components/formFields/UploadImageField';
 import TextField from '../../components/formFields/TextField';
 import { formShape } from '../../propTypes';
+import Button from '../../components/common/Button';
 import './styles/style.css';
 import String from '../../translations';
 
@@ -113,14 +114,14 @@ class EditOrganizationPage extends Component {
     return (
       <div className="editOrgPage-main">
         <NewSubpageHeader>
-          <div className="subpage__header__title">{String.t('editOrgPage.title')}</div>
+          <div className="subpage__header__title habla-title">{String.t('editOrgPage.title')}</div>
         </NewSubpageHeader>
         <div className="edit-org__subpage-body">
           <Form onSubmit={this.handleSubmit} layout="vertical">
-            <div className="edit-org__form">
+            <div className="edit-org__form padding-class-a">
               <div className="edit__container">
                 <div>
-                  <div className="edit__form__title">{String.t('editOrgPage.organizationName')}</div>
+                  <div className="edit__form__title habla-paragraph margin-bottom-class-a">{String.t('editOrgPage.organizationName')}</div>
                   <TextField
                     componentKey="name"
                     initialValue={organization.name}
@@ -134,7 +135,7 @@ class EditOrganizationPage extends Component {
                 </div>
                 <div className="edit__container__image_wrapper">
                   <div className="edit__container__image__website">
-                    <div className="edit__form__title">{String.t('editOrgPage.webSiteLabel')}</div>
+                    <div className="edit__form__title habla-paragraph margin-bottom-class-a">{String.t('editOrgPage.webSiteLabel')}</div>
                     <TextField
                       componentKey="webSite"
                       initialValue={organization.preferences.webSite || ''}
@@ -167,17 +168,18 @@ class EditOrganizationPage extends Component {
                 </div>
               </div>
             </div>
-            <div className="edit-org__buttons">
+            <div className="edit-org__buttons border-top-lighter margin-top-class-a">
               <Button
-                type="primary"
-                className="Edit-team__button New-team__button--margin-right"
+                type="secondary"
+                fitText
+                className="margin-right-class-a"
                 onClick={() => this.props.history.push(`/app/organization/${subscriberOrgId}`)}
               >
-                {String.t('cancelButton')}
+                {String.t('Buttons.cancel')}
               </Button>
               <Button
-                type="primary"
-                className="Edit-team__button edit-org__button-active"
+                type="main"
+                fitText
                 onClick={this.handleSubmit}
                 loading={this.state.loading}
               >

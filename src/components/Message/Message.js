@@ -12,7 +12,6 @@ import String from '../../translations';
 const propTypes = {
   hide: PropTypes.bool.isRequired,
   replyTo: PropTypes.func.isRequired,
-  onFileChange: PropTypes.func,
   teamRoomMembersObj: PropTypes.object.isRequired,
   message: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired
@@ -87,7 +86,7 @@ class Message extends Component {
 
     return (
       <div className={messageReplyPaddingLeft}>
-        <div className="message__main-container">
+        <div className="message__main-container border-bottom-lighter">
           <Row type="flex" justify="start" gutter={20}>
             <Col xs={{ span: 5 }} sm={{ span: 3 }} md={{ span: 2 }} className="message__col-user-icon">
               <UserIcon user={user} type="user" minWidth="2.5em" width="2.5em" height="2.5em" key={userId} />
@@ -98,7 +97,7 @@ class Message extends Component {
             </Col>
           </Row>
           { children.length > 0 &&
-            <span className="message__main-counter">{ children.length }
+            <span className="message__main-counter habla-label">{ children.length }
               <i onClick={this.handleShowReplies} className="counter fa fa-sort-desc" />
             </span>
           }
@@ -110,23 +109,6 @@ class Message extends Component {
               >
                 <i className="fa fa-reply" />
               </a>
-            </Tooltip>
-            <Tooltip placement="topLeft" title={String.t('message.tooltipAddFile')} arrowPointAtCenter>
-              <input
-                id="replyFileUpload"
-                className="team-room__file-upload-input"
-                type="file"
-                onChange={this.props.onFileChange}
-                multiple
-              />
-              <label htmlFor="replyFileUpload" className="team-room__icons">
-                <a
-                  className="message__icons"
-                  onClick={() => this.handleReplyTo({ firstName, lastName, text, messageId, preferences })}
-                >
-                  <i className="fa fa-folder-o" />
-                </a>
-              </label>
             </Tooltip>
             <Tooltip placement="topLeft" title={String.t('message.tooltipBookmark')} arrowPointAtCenter>
               <a className="message__icons"><i className="fa fa-bookmark-o" /></a>

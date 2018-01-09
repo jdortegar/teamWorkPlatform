@@ -1,6 +1,6 @@
 .Simple-card {
-  min-height: 100px;
-  min-width: 100px;
+  min-height: 55px;
+  min-width: 55px;
   display: flex;
   justify-content: center;
 }

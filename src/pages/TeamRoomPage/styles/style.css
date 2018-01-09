@@ -5,12 +5,12 @@
   /*padding-bottom: 66px;*/
 }
 .team-room__chat-input {
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     border-radius: 4px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: .5em 0;
+    padding: 10px;
 }
 .team-room__header-links {
   padding: 6px 10px;
@@ -49,7 +49,7 @@
   padding: 0 5px;
 }
 .team-room__chat-container {
-  padding: 1em;
+  padding: 10px;
 }
 .team-room__chat-input-wrapper {
   flex: 1;
@@ -92,9 +92,6 @@
   display: flex;
   margin-right: 1em;
 }
-.team-room__chat-input__image-wrapper {
-  margin-left: 1em;
-}
 .file-drop {
   display: flex;
   flex: 1;
@@ -102,4 +99,10 @@
 .file-drop > .file-drop-target {
   display: flex;
   flex: 1;
+}
+.team-room__messages .ant-col-md-18 {
+	width: 91%;
+}
+.team-room__messages .ant-col-md-2 {
+	width: 50px;
 }

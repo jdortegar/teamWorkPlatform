@@ -8,32 +8,26 @@ const propTypes = {
     PropTypes.string,
     PropTypes.node
   ]).isRequired,
-  node: PropTypes.node,
   icon: PropTypes.node.isRequired,
   editButton: PropTypes.object.isRequired
 };
 
-const defaultProps = {
-  node: <span className="habla-label">Account Settings <i className="fa fa-cog" /></span>
-};
 
-function SubpageHeader({ breadcrumb, node, icon, editButton = {} }) {
+function SubpageHeader({ breadcrumb, icon, editButton = {} }) {
   const { showButton, isAdmin, url } = editButton;
   return (
     <div className="habla-main-content-header padding-class-a border-bottom-lighter">
       <div className="habla-main-content-header-title">
         {icon}
-        <h1 className="Subpage-header__title habla-title">{breadcrumb}</h1>
-        {showButton && isAdmin && <EditButton url={url} />}
+        <h1 className="Subpage-header__title habla-title margin-left-class-a">{breadcrumb}</h1>
       </div>
       <div className="habla-main-content-header-actions">
-        {node}
+        {showButton && isAdmin && <EditButton url={url} />}
       </div>
     </div>
   );
 }
 
 SubpageHeader.propTypes = propTypes;
-SubpageHeader.defaultProps = defaultProps;
 
 export default SubpageHeader;

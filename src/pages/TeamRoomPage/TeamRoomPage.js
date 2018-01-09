@@ -369,7 +369,7 @@ class TeamRoomPage extends Component {
               type="node"
               text={
                 <div className="team-room__member-cards-container">
-                  <span className="team-room__member-cards-span">{String.t('teamRoomPage.membersHeader', { count: numberOfTeamRoomMembers })}</span>
+                  <span className="team-room__member-cards-span habla-label">{String.t('teamRoomPage.membersHeader', { count: numberOfTeamRoomMembers })}</span>
                   {this.renderTeamRoomMembers()}
                 </div>
               }
