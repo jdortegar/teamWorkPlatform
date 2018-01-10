@@ -156,9 +156,11 @@ class IntegrationDetailsPage extends Component {
           icon={<UserIcon user={subscriberOrg} type="team" clickable={false} />}
           breadcrumb={
             <div>
-              <Link to={`/app/organization/${subscriberOrgId}`}>
+              <Link to={`/app/organization/${subscriberOrg.subscriberOrgId}`}>
                 <span className="breadcrumb_underline">{subscriberOrg.name}</span>
-              </Link> / {String.t('integrationDetailsPage.integrations')}
+              </Link>
+              <i className="fa fa-angle-right breadcrumb-icon" aria-hidden="true" />
+              {String.t('integrationDetailsPage.integrations')}
             </div>
           }
         />

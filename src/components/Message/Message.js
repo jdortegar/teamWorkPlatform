@@ -107,9 +107,12 @@ class Message extends Component {
             </Col>
           </Row>
           { children.length > 0 &&
-            <span className="message__main-counter habla-label">{ children.length }
-              <i onClick={this.handleShowReplies} className="counter fa fa-sort-desc" />
+          <div className="habla-label message__main-counter" onClick={this.handleShowReplies}>
+            <span className="message__main-counter-number" >
+              { children.length }
             </span>
+            <i className="counter fa fa-reply fa-rotate-180" />
+          </div>
           }
           <div className="message__options hide">
             <Tooltip placement="topLeft" title={String.t('message.tooltipReply')} arrowPointAtCenter>

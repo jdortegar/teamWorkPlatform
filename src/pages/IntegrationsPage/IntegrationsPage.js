@@ -122,15 +122,23 @@ class IntegrationsPage extends Component {
       <div>
         <SubpageHeader
           icon={<UserIcon user={subscriberOrg} type="team" clickable={false} />}
-          breadcrumb={<div><span className="breadcrumb_underline">{subscriberOrg.name}</span> / {String.t('integrationsPage.addNewIntegrations')}</div>}
+          breadcrumb={
+            <div>
+              <Link to={`/app/organization/${subscriberOrg.subscriberOrgId}`}>
+                <span className="breadcrumb_underline">{subscriberOrg.name}</span>
+              </Link>
+              <i className="fa fa-angle-right breadcrumb-icon" aria-hidden="true" />
+              {String.t('integrationsPage.addNewIntegrations')}
+            </div>
+          }
         />
         <SimpleHeader
           text={
-            <h2 className="IntegrationsPage__header">{String.t('integrationsPage.selectIntegration')}</h2>
+            <div className="habla-paragraph margin-top-class-b">{String.t('integrationsPage.selectIntegration')}</div>
           }
           type="node"
         />
-        <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
+        <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex habla-integration-list margin-top-class-b">
           <Row type="flex">
             {renderIntegrations()}
           </Row>

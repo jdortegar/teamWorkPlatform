@@ -1,10 +1,7 @@
 .Edit-team__icon-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-}
-.Edit-team__switch-container {
-  padding: 18px;
+  justify-content: left;
 }
 .Edit-team__title {
   font-weight: bold;
