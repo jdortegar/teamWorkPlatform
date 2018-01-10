@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Form, Button, notification, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
+import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import UploadImageField from '../../components/formFields/UploadImageField';
@@ -22,6 +23,8 @@ const propTypes = {
     }).isRequired
   }).isRequired,
   updateTeamRoom: PropTypes.func.isRequired,
+  teams: PropTypes.object.isRequired,
+  subscriberOrgById: PropTypes.object.isRequired,
   teamRooms: PropTypes.object.isRequired
 };
 
@@ -55,17 +58,29 @@ class EditTeamRoomPage extends Component {
 
   render() {
     const { teamRoomId } = this.props.match.params;
-    const { teamRooms } = this.props;
+    const { teamRooms, teams, subscriberOrgById } = this.props;
     const teamRoom = teamRooms.teamRoomById[teamRoomId];
+    const { teamId } = teamRoom;
+    const team = teams.teamById[teamId];
+    const subscriberOrg = subscriberOrgById[team.subscriberOrgId];
 
     return (
       <div className="EditTeamRoomPage-main">
         <SubpageHeader
           icon={<UserIcon user={teamRoom} type="team" clickable={false} />}
           breadcrumb={
-            <div>
-              {teamRoom.name}
-            </div>
+            <BreadCrumb routes={[
+              {
+                title: team.name,
+                link: `/app/team/${teamRoom.teamId}`
+              },
+              {
+                title: subscriberOrg.name,
+                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+              },
+              { title: teamRoom.name }
+            ]}
+            />
           }
         />
         <SimpleCardContainer className="subpage-block">

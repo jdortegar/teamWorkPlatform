@@ -6,6 +6,8 @@ import { getUrlRequestStatus, getTeamMembersOfTeamId } from '../../selectors';
 function mapStateToProps(state, props) {
   const { teamId } = props.match.params;
   return {
+    teams: state.teams,
+    subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     teamRooms: state.teamRooms,
     user: state.auth.user,
     teamMembers: getTeamMembersOfTeamId(state, teamId),
