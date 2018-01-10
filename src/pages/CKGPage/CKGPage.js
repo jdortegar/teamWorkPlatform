@@ -8,7 +8,6 @@ import { NewSubpageHeader, TimeActivityGraph } from '../../components';
 import './styles/style.css';
 
 const color = d3.scaleOrdinal(d3.schemeCategory10);
-const parseDate = dateTime => d3.timeParse('%Y/%m/%d %H:%M:%S')(dateTime.format('YYYY/MM/DD HH:mm:ss'));
 const buildTime = dateTime => moment().startOf('day').set({
   hour: dateTime.hour(),
   minute: dateTime.minutes(),
@@ -20,7 +19,7 @@ const buildDataObject = (file) => {
 
   return {
     ...file,
-    date: parseDate(dateTime),
+    date: dateTime,
     time: buildTime(dateTime),
     displayDate: moment(dateTime).format(String.t('timeActivityGraph.dateFormat')),
     displayTime: moment(dateTime).format(String.t('timeActivityGraph.timeFormat')),
