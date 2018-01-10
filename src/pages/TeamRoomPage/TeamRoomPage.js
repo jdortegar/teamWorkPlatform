@@ -192,7 +192,6 @@ class TeamRoomPage extends Component {
 
   createResource(file) {
     const fileSource = file.src.split('base64,')[1] || file.src;
-    alert(fileSource.length);
     const teamRoomId = this.props.match.params.teamRoomId;
     const teamId = this.props.teamRooms.teamRoomById[teamRoomId].teamId;
     const subscriberOrgId = this.props.teams.teamById[teamId].subscriberOrgId;
