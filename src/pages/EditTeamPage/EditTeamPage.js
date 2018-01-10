@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Form, Button, notification, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import UploadImageField from '../../components/formFields/UploadImageField';
@@ -67,11 +67,17 @@ class EditTeamPage extends Component {
         <SubpageHeader
           icon={<UserIcon user={team} type="team" clickable={false} />}
           breadcrumb={
-            <div>
-              <Link to={`/app/organization/${subscriberOrg.subscriberOrgId}`}>
-                <span className="breadcrumb_underline">{subscriberOrg.name}</span>
-              </Link> / {team.name}
-            </div>
+            <BreadCrumb routes={[
+              {
+                title: subscriberOrg.name,
+                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+              },
+              {
+                title: team.name,
+                link: `/app/team/${team.teamId}`
+              }
+            ]}
+            />
           }
         />
         <SimpleCardContainer className="subpage-block">

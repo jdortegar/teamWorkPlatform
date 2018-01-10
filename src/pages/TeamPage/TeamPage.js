@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Row, Col, notification } from 'antd';
 import _ from 'lodash';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import BreadCrumb from '../../components/BreadCrumb';
 import CardView from './CardView';
 import ListView from './ListView';
 import SubpageHeader from '../../components/SubpageHeader';
@@ -102,11 +102,14 @@ class TeamPage extends Component {
               image={team.preferences.avatarBase64 || team.preferences.logo}
             />}
             breadcrumb={
-              <div>
-                <Link to={`/app/organization/${subscriberOrg.subscriberOrgId}`}>
-                  <span className="breadcrumb_underline">{subscriberOrg.name}</span>
-                </Link> / {team.name}
-              </div>
+              <BreadCrumb routes={[
+                {
+                  title: subscriberOrg.name,
+                  link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+                },
+                { title: team.name }
+              ]}
+              />
             }
           />
           <SimpleCardContainer className="subpage-block">

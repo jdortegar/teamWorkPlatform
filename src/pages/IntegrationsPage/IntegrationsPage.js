@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { extractQueryParams } from '../../routes';
 import { badIntegration, successfulIntegration } from './notifications';
+import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleHeader from '../../components/SimpleHeader';
 import { ImageCard } from '../../components/cards';
@@ -122,7 +123,16 @@ class IntegrationsPage extends Component {
       <div>
         <SubpageHeader
           icon={<UserIcon user={subscriberOrg} type="team" clickable={false} />}
-          breadcrumb={<div><span className="breadcrumb_underline">{subscriberOrg.name}</span> / {String.t('integrationsPage.addNewIntegrations')}</div>}
+          breadcrumb={
+            <BreadCrumb routes={[
+              {
+                title: subscriberOrg.name,
+                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+              },
+              { title: String.t('integrationsPage.addNewIntegrations') }
+            ]}
+            />
+          }
         />
         <SimpleHeader
           text={
