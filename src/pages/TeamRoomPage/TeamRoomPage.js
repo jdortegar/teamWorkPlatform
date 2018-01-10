@@ -44,6 +44,14 @@ const propTypes = {
       ids: PropTypes.array
     })
   }).isRequired,
+  teams: PropTypes.shape({
+    teamById: PropTypes.shape({
+      teamId: PropTypes.PropTypes.shape({
+        name: PropTypes.string,
+        subscriberOrgId: PropTypes.string
+      })
+    })
+  }).isRequired,
   conversations: PropTypes.shape({
     conversationId: PropTypes.string.isRequired,
     transcript: PropTypes.array
@@ -180,12 +188,24 @@ class TeamRoomPage extends Component {
 
   createResource(file) {
     const fileSource = file.src.split('base64,')[1] || file.src;
+    alert(fileSource.length);
+    const teamRoomId = this.props.match.params.teamRoomId;
+    const teamId = this.props.teamRooms.teamRoomById[teamRoomId].teamId;
+    const subscriberOrgId = this.props.teams.teamById[teamId].subscriberOrgId;
+    if (!teamRoomId || !teamId || !subscriberOrgId) {
+      // Todo throw error invalid team, team room or subscriberOrg
+      throw new Error();
+    }
+
     const requestConfig = {
       headers: {
         Authorization: `Bearer ${getJwt()}`,
         'Content-Type': 'application/octet-stream',
         'x-hablaai-content-type': file.type,
-        'x-hablaai-content-length': fileSource.length
+        'x-hablaai-content-length': fileSource.length,
+        'x-hablaai-teamroomid': teamRoomId,
+        'x-hablaai-teamid': teamId,
+        'x-hablaai-subscriberorgid': subscriberOrgId
       },
       onUploadProgress: (progressEvent) => {
         const { total, loaded } = progressEvent;
@@ -272,6 +292,9 @@ class TeamRoomPage extends Component {
   renderMessages() {
     return this.props.conversations.transcript.map((message) => {
       const user = this.props.teamRoomMembersObj[message.createdBy];
+      const teamRoomId = this.props.match.params.teamRoomId;
+      const teamId = this.props.teamRooms.teamRoomById[teamRoomId].teamId;
+      const subscriberOrgId = this.props.teams.teamById[teamId].subscriberOrgId;
       return (
         <Message
           message={message}
@@ -281,6 +304,9 @@ class TeamRoomPage extends Component {
           hide={false}
           teamRoomMembersObj={this.props.teamRoomMembersObj}
           onFileChange={this.onFileChange}
+          subscriberOrgId={subscriberOrgId}
+          teamId={teamId}
+          teamRoomId={teamRoomId}
         />
       );
     });
