@@ -23,7 +23,14 @@
 .custom-card p {
   color: #999;
 }
-
 .IntegrationsPage__header {
   font-weight: bold;
+}
+.habla-integration-list .ant-card  {
+	background: #fff;
+	border: 1px solid #eee!important;
+}
+.habla-integration-list img  {
+	width: 50px;
+	height: 50px;
 }
