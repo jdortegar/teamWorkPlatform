@@ -60,8 +60,7 @@ class EditTeamRoomPage extends Component {
     const { teamRoomId } = this.props.match.params;
     const { teamRooms, teams, subscriberOrgById } = this.props;
     const teamRoom = teamRooms.teamRoomById[teamRoomId];
-    const { teamId } = teamRoom;
-    const team = teams.teamById[teamId];
+    const team = teams.teamById[teamRoom.teamId];
     const subscriberOrg = subscriberOrgById[team.subscriberOrgId];
 
     return (
@@ -71,14 +70,17 @@ class EditTeamRoomPage extends Component {
           breadcrumb={
             <BreadCrumb routes={[
               {
+                title: subscriberOrg.name,
+                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+              },
+              {
                 title: team.name,
                 link: `/app/team/${teamRoom.teamId}`
               },
               {
-                title: subscriberOrg.name,
-                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
-              },
-              { title: teamRoom.name }
+                title: teamRoom.name,
+                link: `/app/teamRoom/${teamRoom.teamRoomId}`
+              }
             ]}
             />
           }
