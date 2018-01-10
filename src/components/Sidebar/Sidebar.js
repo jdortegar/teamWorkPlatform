@@ -43,13 +43,19 @@ const ROUTERS_TO_HIDE_SIDEBAR = [
   '/app/userDetails'
 ];
 
-function renderAvatar(item) {
+function renderAvatar(item, type) {
   const { preferences } = item;
+  let color = '#EB4435'; // subscriberOrg color by default
+  if (type === 'teamRoom') {
+    color = '#557DBF';
+  } else if (type === 'team') {
+    color = '#FBBC12';
+  }
   if (preferences.avatarBase64) {
     return <Avatar src={`data:image/jpeg;base64, ${preferences.avatarBase64}`} />;
   }
   const nameInitial = item.name.substring(0, 1).toUpperCase();
-  return <Avatar color={preferences.iconColor}>{nameInitial}</Avatar>;
+  return <Avatar color={color}>{nameInitial}</Avatar>;
 }
 
 class Sidebar extends Component {
@@ -197,7 +203,7 @@ class Sidebar extends Component {
         <div className="habla-left-navigation-teamroom-list">
           <div className="padding-class-a">
             <div className="float-left-class">
-              {renderAvatar(teamRoom)}
+              {renderAvatar(teamRoom, 'teamRoom')}
             </div>
             <span className="habla-left-navigation-item-label" onClick={() => this.goToTeamRoomPage(teamRoom.teamRoomId)}>{teamRoom.name}</span>
             <div className="clear" />
@@ -231,7 +237,7 @@ class Sidebar extends Component {
             <div className="habla-left-navigation-team-list">
               <div className="padding-class-a">
                 <div className="float-left-class">
-                  {renderAvatar(team)}
+                  {renderAvatar(team, 'team')}
                 </div>
                 <span className="habla-left-navigation-item-label" onClick={e => this.goToTeamPage(e, team)}>{team.name}</span>
                 <div className="clear" /></div>
@@ -263,7 +269,7 @@ class Sidebar extends Component {
             <div className="habla-left-navigation-org-list">
               <div className="padding-class-a">
                 <div className="float-left-class">
-                  {renderAvatar(subscriberOrg)}
+                  {renderAvatar(subscriberOrg, 'subscriberOrg')}
                 </div>
                 <span className="habla-left-navigation-item-label" onClick={e => this.goToOrgPage(e, subscriberOrg.subscriberOrgId)}>{subscriberOrg.name}</span>
                 <div className="clear" /></div>
