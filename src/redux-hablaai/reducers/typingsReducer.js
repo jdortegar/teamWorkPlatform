@@ -22,10 +22,10 @@ const typingsReducer = (state = INITIAL_STATE, action) => {
       conversationIds[conversationId] = isTyping;
 
       const typingByUserIdsByConversationId = _.cloneDeep(state.typingByUserIdsByConversationId);
-      let userIds = typingByUserIdsByConversationId[userId];
+      let userIds = typingByUserIdsByConversationId[conversationId];
       if (!userIds) {
         userIds = {};
-        typingByUserIdsByConversationId[userId] = userIds;
+        typingByUserIdsByConversationId[conversationId] = userIds;
       }
       userIds[userId] = isTyping;
 
