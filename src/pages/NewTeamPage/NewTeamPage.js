@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Form, Button } from 'antd';
 import PropTypes from 'prop-types';
+import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import UploadImageField from '../../components/formFields/UploadImageField';
@@ -19,6 +20,7 @@ const propTypes = {
       subscriberOrgId: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
+  subscriberOrgById: PropTypes.object.isRequired,
   createTeam: PropTypes.func.isRequired
 };
 
@@ -48,6 +50,8 @@ class NewTeamPage extends Component {
 
   render() {
     const { subscriberOrgId } = this.props.match.params;
+    const subscriberOrg = this.props.subscriberOrgById[subscriberOrgId];
+
     const renderAvatarInput = (text) => {
       return (
         <Col xs={{ span: 24 }} sm={{ span: 5 }} md={{ span: 5 }}>
@@ -58,7 +62,18 @@ class NewTeamPage extends Component {
 
     return (
       <div>
-        <SubpageHeader breadcrumb={String.t('newTeamPage.breadcrumb')} />
+        <SubpageHeader
+          breadcrumb={
+            <BreadCrumb routes={[
+              {
+                title: subscriberOrg.name,
+                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+              },
+              { title: String.t('newTeamPage.breadcrumb') }
+            ]}
+            />
+          }
+        />
         <SimpleCardContainer className="subpage-block">
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <Row type="flex" justify="start" gutter={20}>

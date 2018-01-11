@@ -6,6 +6,8 @@ import { getSubscribersOfTeamId } from '../../selectors';
 function mapStateToProps(state, props) {
   const { teamId } = props.match.params;
   return {
+    teams: state.teams,
+    subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     subscribers: getSubscribersOfTeamId(state, teamId)
   };
 }

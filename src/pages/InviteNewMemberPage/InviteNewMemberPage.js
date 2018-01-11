@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Form, Button, notification } from 'antd';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import EmailField from '../../components/formFields/EmailField';
@@ -19,6 +20,7 @@ const propTypes = {
       subscriberOrgId: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
+  subscriberOrgById: PropTypes.object.isRequired,
   inviteNewSubscribers: PropTypes.func.isRequired
 };
 
@@ -94,9 +96,21 @@ class InviteNewMemberPage extends Component {
 
   render() {
     const { subscriberOrgId } = this.props.match.params;
+    const subscriberOrg = this.props.subscriberOrgById[subscriberOrgId];
     return (
       <div>
-        <SubpageHeader breadcrumb={String.t('inviteNewMemberPage.breadcrumb')} />
+        <SubpageHeader
+          breadcrumb={
+            <BreadCrumb routes={[
+              {
+                title: subscriberOrg.name,
+                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+              },
+              { title: String.t('inviteNewMemberPage.breadcrumb') }
+            ]}
+            />
+          }
+        />
         <SimpleCardContainer className="subpage-block">
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <Row type="flex" justify="start" gutter={20}>

@@ -426,7 +426,7 @@
       "one": "Send Invitation",
       "other": "Send Invitations"
     },
-    "breadcrumb": "Team",
+    "breadcrumb": "Add Member to Organization",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
@@ -442,7 +442,7 @@
     "username": "Username",
     "removeLink": "Remove",
     "usernamePlaceholder": "Enter a username",
-    "breadcrumb": "Team",
+    "breadcrumb": "Add Member to Team",
     "errorToastTitle": "Error",
     "errorToastMessage": "The specified user may not be a valid member of the organization.",
     "invitationSent": {
@@ -454,12 +454,12 @@
     "createNewTeamButtonLabel": "Create New Team",
     "chooseTeamName": "Choose a Team Name",
     "uploadAvatar": "Upload Avatar",
-    "breadcrumb": "Team"
+    "breadcrumb": "Add New Team"
   },
   "newTeamRoomPage": {
     "title": "Choose a new Team Room Name",
     "createNewTeamRoomButtonLabel": "Create Team Room",
-    "breadcrumb": "Team Room"
+    "breadcrumb": "Add New Team Room"
   },
   "cardView": {
     "inviteNewMember": "Invite a New Team Member",
