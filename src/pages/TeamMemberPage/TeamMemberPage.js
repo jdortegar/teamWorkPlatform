@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col } from 'antd';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
-import { IconCard } from '../../components/cards';
-import CardView from './CardView';
+import Avatar from '../../components/common/Avatar';
 import './styles/style.css';
 import String from '../../translations';
 
@@ -21,13 +19,6 @@ class TeamMemberPage extends Component {
   }
 
   render() {
-    const renderProfileCard = (text) => {
-      return (
-        <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
-          <IconCard text={text} />
-        </Col>
-      );
-    };
     const { subscriberOrg } = this.props;
 
     return (
@@ -44,24 +35,18 @@ class TeamMemberPage extends Component {
             />
           }
         />
-        <SimpleCardContainer className="subpage-block">
-          <Row type="flex" justify="start" gutter={20}>
-            { renderProfileCard(String.t('teamMemberPage.profilePictureLabel')) }
-            <Col xs={{ span: 24 }} sm={{ span: 16 }} md={{ span: 19 }}>
-              <div className="team-member-page__member-info">
-                <h1>Gonzalo</h1>
-                <p>john@example.com</p>
-              </div>
-              <div className="team-member-page__member-info">
-                <h3 className="team-member-page__member-about">About Barry</h3>
-              </div>
-            </Col>
-          </Row>
+        <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
+          <Avatar size="large" color="#cccccc">T</Avatar>
+          <div className="margin-top-class-b">
+            <h1 className="New-team__title habla-big-title habla-bold-text">
+              Team Member Name
+              <div className="habla-main-content-item-signal habla-color-green" />
+            </h1>
+            <div className="habla-secondary-paragraph">
+              Member since November 27, 2017
+            </div>
+          </div>
         </SimpleCardContainer>
-        {
-          this.state.view === 'card' ?
-            <CardView /> : null
-        }
       </div>
     );
   }

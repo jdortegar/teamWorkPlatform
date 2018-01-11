@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Col } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import './styles/style.css';
 import SubpageHeader from '../../components/SubpageHeader';
 import Spinner from '../../components/Spinner';
 import { IconCard } from '../../components/cards';

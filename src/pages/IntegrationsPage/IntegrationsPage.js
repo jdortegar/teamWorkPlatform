@@ -136,11 +136,11 @@ class IntegrationsPage extends Component {
         />
         <SimpleHeader
           text={
-            <h2 className="IntegrationsPage__header">{String.t('integrationsPage.selectIntegration')}</h2>
+            <div className="habla-paragraph margin-top-class-b">{String.t('integrationsPage.selectIntegration')}</div>
           }
           type="node"
         />
-        <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
+        <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex habla-integration-list margin-top-class-b">
           <Row type="flex">
             {renderIntegrations()}
           </Row>

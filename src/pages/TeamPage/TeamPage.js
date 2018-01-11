@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Row, Col, notification } from 'antd';
+import { notification } from 'antd';
+import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
@@ -8,8 +9,6 @@ import ListView from './ListView';
 import SubpageHeader from '../../components/SubpageHeader';
 import Spinner from '../../components/Spinner';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
-import UploadImageField from '../../components/formFields/UploadImageField';
-import EditButton from '../../components/buttons/EditButton';
 import messages from './messages';
 import Avatar from '../../components/Avatar';
 import './styles/style.css';
@@ -87,20 +86,19 @@ class TeamPage extends Component {
       const myTeamMemberUser = _.find(teamMembers, { userId: user.userId });
       role = myTeamMemberUser.teams[teamId].role;
     }
-
     if (this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
       const team = teams.teamById[teamId];
       const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
-
       return (
         <div>
           <SubpageHeader
-            icon={<Avatar
-              styles={{ width: '2em', height: '2em' }}
-              name={team.name}
-              iconColor={team.preferences.iconColor}
-              image={team.preferences.avatarBase64 || team.preferences.logo}
-            />}
+            icon={
+              <Avatar
+                styles={{ width: '2em', height: '2em' }}
+                name={team.name}
+                iconColor={team.preferences.iconColor}
+                image={team.preferences.avatarBase64 || team.preferences.logo}
+              />}
             breadcrumb={
               <BreadCrumb routes={[
                 {
@@ -112,26 +110,15 @@ class TeamPage extends Component {
               />
             }
           />
-          <SimpleCardContainer className="subpage-block">
-            <Row type="flex" justify="start" gutter={20}>
-              <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
-                <UploadImageField
-                  text={'Upload Avatar'}
-                  teamId={teamId}
-                  image={team.icon}
-                />
-              </Col>
-              <Col xs={{ span: 20 }} sm={{ span: 13 }} md={{ span: 16 }}>
-                <div className="New-team__container">
-                  <h1 className="New-team__title">{team.name}</h1>
-                </div>
-              </Col>
-              { role === 'admin' &&
-                <Col xs={{ span: 4 }} sm={{ span: 3 }} md={{ span: 3 }}>
-                  <EditButton url={`/app/editTeam/${teamId}`} />
-                </Col>
-              }
-            </Row>
+          {role === 'admin' && <Link to={`/app/editTeam/${teamId}`}>Edit <i className="fa fa-pencil" /></Link>}
+          <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
+            <h1 className="New-team__title habla-big-title habla-bold-text">
+              {team.name}
+              <div className="habla-main-content-item-signal habla-color-green" />
+            </h1>
+            <div className="habla-secondary-paragraph margin-top-class-b">
+              Created on November 27, 2017 by Mike Somlo
+            </div>
           </SimpleCardContainer>
           {
             this.state.view === 'card' ?

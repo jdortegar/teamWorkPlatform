@@ -6,9 +6,6 @@
   flex-wrap: wrap;
   justify-content: center;
 }
-.Edit-team__switch-container {
-  padding: 18px;
-}
 .Edit-team__title {
   font-weight: bold;
 }

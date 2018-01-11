@@ -14,7 +14,10 @@ const propTypes = {
   replyTo: PropTypes.func.isRequired,
   teamRoomMembersObj: PropTypes.object.isRequired,
   message: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  subscriberOrgId: PropTypes.string.isRequired,
+  teamId: PropTypes.string.isRequired,
+  teamRoomId: PropTypes.string.isRequired
 };
 
 const defaultProps = {
@@ -93,13 +96,23 @@ class Message extends Component {
             </Col>
             <Col xs={{ span: 15 }} sm={{ span: 16 }} md={{ span: 18 }}>
               {messageBody}
-              {contentJustImage.length > 0 && <PreviewImages images={contentJustImage} />}
+              {contentJustImage.length > 0 && (
+                <PreviewImages
+                  images={contentJustImage}
+                  subscriberOrgId={this.props.subscriberOrgId}
+                  teamId={this.props.teamId}
+                  teamRoomId={this.props.teamRoomId}
+                />
+              )}
             </Col>
           </Row>
           { children.length > 0 &&
-            <span className="message__main-counter habla-label">{ children.length }
-              <i onClick={this.handleShowReplies} className="counter fa fa-sort-desc" />
+          <div className="habla-label message__main-counter" onClick={this.handleShowReplies}>
+            <span className="message__main-counter-number" >
+              { children.length }
             </span>
+            <i className="counter fa fa-reply fa-rotate-180" />
+          </div>
           }
           <div className="message__options hide">
             <Tooltip placement="topLeft" title={String.t('message.tooltipReply')} arrowPointAtCenter>

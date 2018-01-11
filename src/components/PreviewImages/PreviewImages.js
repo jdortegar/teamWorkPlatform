@@ -7,7 +7,10 @@ import { getJwt } from '../../session';
 import './styles/style.css';
 
 const propTypes = {
-  images: PropTypes.array
+  images: PropTypes.array,
+  subscriberOrgId: PropTypes.string.isRequired,
+  teamId: PropTypes.string.isRequired,
+  teamRoomId: PropTypes.string.isRequired
 };
 
 const defaultProps = {
@@ -32,7 +35,10 @@ class PreviewImages extends Component {
     const { images } = this.props;
     const putHeaders = {
       headers: {
-        Authorization: `Bearer ${getJwt()}`
+        Authorization: `Bearer ${getJwt()}`,
+        'x-hablaai-teamroomid': this.props.teamRoomId,
+        'x-hablaai-teamid': this.props.teamId,
+        'x-hablaai-subscriberorgid': this.props.subscriberOrgId
       }
     };
     const imagesBase64 = [];
