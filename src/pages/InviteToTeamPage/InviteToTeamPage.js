@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Form, Button, notification } from 'antd';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import AutoCompleteField from '../../components/formFields/AutoCompleteField/';
@@ -20,6 +21,8 @@ const propTypes = {
     }).isRequired
   }).isRequired,
   inviteMembersToTeam: PropTypes.func.isRequired,
+  teams: PropTypes.object.isRequired,
+  subscriberOrgById: PropTypes.object.isRequired,
   subscribers: PropTypes.object.isRequired
 };
 
@@ -112,10 +115,28 @@ class InviteToTeamPage extends Component {
   }
 
   render() {
+    const { teams, subscriberOrgById } = this.props;
     const { teamId } = this.props.match.params;
+    const team = teams.teamById[teamId];
+    const subscriberOrg = subscriberOrgById[team.subscriberOrgId];
     return (
       <div>
-        <SubpageHeader breadcrumb={String.t('inviteToTeamPage.breadcrumb')} />
+        <SubpageHeader
+          breadcrumb={
+            <BreadCrumb routes={[
+              {
+                title: subscriberOrg.name,
+                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+              },
+              {
+                title: team.name,
+                link: `/app/team/${team.teamId}`
+              },
+              { title: String.t('inviteToTeamPage.breadcrumb') }
+            ]}
+            />
+          }
+        />
         <SimpleCardContainer className="subpage-block">
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <Row type="flex" justify="start" gutter={20}>

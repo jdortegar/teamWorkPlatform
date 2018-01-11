@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form } from 'antd';
 import PropTypes from 'prop-types';
+import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import TextField from '../../components/formFields/TextField';
@@ -19,6 +20,8 @@ const propTypes = {
       teamId: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
+  teams: PropTypes.object.isRequired,
+  subscriberOrgById: PropTypes.object.isRequired,
   createTeamRoom: PropTypes.func.isRequired
 };
 
@@ -48,10 +51,28 @@ class NewTeamRoomPage extends Component {
 
   render() {
     const { teamId } = this.props.match.params;
+    const team = this.props.teams.teamById[teamId];
+    const subscriberOrg = this.props.subscriberOrgById[team.subscriberOrgId];
+
     return (
       <div>
-        <SubpageHeader breadcrumb={String.t('newTeamRoomPage.breadcrumb')} />
-        <SimpleCardContainer>
+        <SubpageHeader
+          breadcrumb={
+            <BreadCrumb routes={[
+              {
+                title: subscriberOrg.name,
+                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+              },
+              {
+                title: team.name,
+                link: `/app/team/${team.teamId}`
+              },
+              { title: String.t('newTeamRoomPage.breadcrumb') }
+            ]}
+            />
+          }
+        />
+        <SimpleCardContainer className="subpage-block">
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="New-team-room__container padding-class-a">
               <h1 className="New-team-room__title">{String.t('newTeamRoomPage.title')}</h1>

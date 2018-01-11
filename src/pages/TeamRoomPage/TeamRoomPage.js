@@ -5,6 +5,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { formShape } from '../../propTypes';
+import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleHeader from '../../components/SimpleHeader';
 import Spinner from '../../components/Spinner';
@@ -30,6 +31,7 @@ const propTypes = {
     })
   }).isRequired,
   user: PropTypes.object.isRequired,
+  subscriberOrgById: PropTypes.object.isRequired,
   teamRoomMembers: PropTypes.array.isRequired,
   teamRoomMembersObj: PropTypes.object.isRequired,
   teamRoomMembersPresences: PropTypes.object.isRequired,
@@ -394,6 +396,8 @@ class TeamRoomPage extends Component {
       const { teamRooms, user, teamRoomMembers } = this.props;
       const teamRoomId = this.props.match.params.teamRoomId;
       const teamRoom = teamRooms.teamRoomById[teamRoomId];
+      const team = this.props.teams.teamById[teamRoom.teamId];
+      const subscriberOrg = this.props.subscriberOrgById[team.subscriberOrgId];
       const className = classNames({
         'team-room-chat': true,
         'team-room__main-container--opacity': this.state.isDraggingOver
@@ -419,7 +423,20 @@ class TeamRoomPage extends Component {
                 iconColor={teamRoom.preferences.iconColor}
                 image={teamRoom.preferences.avatarBase64 || teamRoom.preferences.logo}
               />}
-              breadcrumb={teamRoom.name}
+              breadcrumb={
+                <BreadCrumb routes={[
+                  {
+                    title: subscriberOrg.name,
+                    link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+                  },
+                  {
+                    title: team.name,
+                    link: `/app/team/${team.teamId}`
+                  },
+                  { title: teamRoom.name }
+                ]}
+                />
+              }
               editButton={editButton}
               node={
                 <div className="habla-main-content-filters-links">

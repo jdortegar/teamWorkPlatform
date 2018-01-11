@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Tooltip, notification } from 'antd';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import UserIcon from '../../components/UserIcon';
@@ -155,13 +155,18 @@ class IntegrationDetailsPage extends Component {
         <SubpageHeader
           icon={<UserIcon user={subscriberOrg} type="team" clickable={false} />}
           breadcrumb={
-            <div>
-              <Link to={`/app/organization/${subscriberOrg.subscriberOrgId}`}>
-                <span className="breadcrumb_underline">{subscriberOrg.name}</span>
-              </Link>
-              <i className="fa fa-angle-right breadcrumb-icon" aria-hidden="true" />
-              {String.t('integrationDetailsPage.integrations')}
-            </div>
+            <BreadCrumb routes={[
+              {
+                title: subscriberOrg.name,
+                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+              },
+              {
+                title: String.t('integrationDetailsPage.integrations'),
+                link: `/app/integrations/${subscriberOrg.subscriberOrgId}`
+              },
+              { title: name }
+            ]}
+            />
           }
         />
         <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">

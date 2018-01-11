@@ -454,12 +454,21 @@
     "createNewTeamButtonLabel": "Create",
     "chooseTeamName": "Team Name",
     "uploadAvatar": "Upload Avatar",
+<<<<<<< HEAD
+    "breadcrumb": "Create a Team"
+  },
+  "newTeamRoomPage": {
+    "title": "Team Room Name",
+    "createNewTeamRoomButtonLabel": "Create",
+    "breadcrumb": "Create a Team Room"
+=======
     "breadcrumb": "Add New Team"
   },
   "newTeamRoomPage": {
     "title": "Choose a new Team Room Name",
     "createNewTeamRoomButtonLabel": "Create Team Room",
     "breadcrumb": "Add New Team Room"
+>>>>>>> 3d252bc64f7f78c08c7c19020db5c7a679759f00
   },
   "cardView": {
     "inviteNewMember": "Invite a New Team Member",

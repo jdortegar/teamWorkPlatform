@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import Avatar from '../../components/common/Avatar';
 import './styles/style.css';
 import String from '../../translations';
+
+const propTypes = {
+  subscriberOrg: PropTypes.object.isRequired
+};
 
 class TeamMemberPage extends Component {
   constructor(props) {
@@ -13,9 +19,22 @@ class TeamMemberPage extends Component {
   }
 
   render() {
+    const { subscriberOrg } = this.props;
+
     return (
       <div>
-        <SubpageHeader breadcrumb={String.t('teamMemberPage.breadcrumb')} />
+        <SubpageHeader
+          breadcrumb={
+            <BreadCrumb routes={[
+              {
+                title: subscriberOrg.name,
+                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+              },
+              { title: String.t('teamMemberPage.breadcrumb') }
+            ]}
+            />
+          }
+        />
         <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
           <Avatar size="large" color="#cccccc">T</Avatar>
           <div className="margin-top-class-b">
@@ -32,5 +51,7 @@ class TeamMemberPage extends Component {
     );
   }
 }
+
+TeamMemberPage.propTypes = propTypes;
 
 export default TeamMemberPage;

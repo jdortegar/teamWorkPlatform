@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import { Form, notification, Tooltip } from 'antd';
+import { Form } from 'antd';
 import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import TextField from '../../components/formFields/TextField';
-import SwitchField from '../../components/formFields/SwitchField';
-import UserIcon from '../../components/UserIcon';
 import { formShape } from '../../propTypes';
-import Button from '../../components/common/Button';
 import String from '../../translations';
+import Button from '../../components/common/Button';
 import './styles/style.css';
 
 const propTypes = {
@@ -22,12 +20,12 @@ const propTypes = {
       teamId: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
-  updateTeam: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
-  subscriberOrgById: PropTypes.string.isRequired
+  subscriberOrgById: PropTypes.object.isRequired,
+  createTeamRoom: PropTypes.func.isRequired
 };
 
-class EditTeamPage extends Component {
+class NewTeamRoomPage extends Component {
   constructor(props) {
     super(props);
 
@@ -36,20 +34,16 @@ class EditTeamPage extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit() {
+  handleSubmit(e) {
+    e.preventDefault();
     const { teamId } = this.props.match.params;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
-        this.props.updateTeam(values, teamId)
+        this.props.createTeamRoom({ name: values.name, publish: true, active: true }, teamId)
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/team/${teamId}`);
-            notification.open({
-              message: String.t('editTeamPage.successToastTitle'),
-              description: String.t('editTeamPage.teamUpdated'),
-              duration: 4
-            });
           });
       }
     });
@@ -57,15 +51,25 @@ class EditTeamPage extends Component {
 
   render() {
     const { teamId } = this.props.match.params;
-    const { teams, subscriberOrgById } = this.props;
-    const team = teams.teamById[teamId];
-    // const teamIcon = `data:image/png;base64,${team.icon}`;
-    const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
+<<<<<<< HEAD
+    return (
+      <div>
+        <SubpageHeader breadcrumb={String.t('newTeamRoomPage.breadcrumb')} />
+        <SimpleCardContainer>
+=======
+    const renderAvatarInput = (text) => {
+      return (
+        <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
+          <UploadImageField text={text} />
+        </Col>
+      );
+    };
+    const team = this.props.teams.teamById[teamId];
+    const subscriberOrg = this.props.subscriberOrgById[team.subscriberOrgId];
 
     return (
-      <div className="EditTeamPage-main">
+      <div>
         <SubpageHeader
-          icon={<UserIcon user={team} type="team" clickable={false} />}
           breadcrumb={
             <BreadCrumb routes={[
               {
@@ -75,40 +79,26 @@ class EditTeamPage extends Component {
               {
                 title: team.name,
                 link: `/app/team/${team.teamId}`
-              }
+              },
+              { title: String.t('newTeamRoomPage.breadcrumb') }
             ]}
             />
           }
         />
-        <SimpleCardContainer>
+        <SimpleCardContainer className="subpage-block">
+>>>>>>> 3d252bc64f7f78c08c7c19020db5c7a679759f00
           <Form onSubmit={this.handleSubmit} layout="vertical">
-            <div className="padding-class-a">
-              <div className="Edit-team__container">
-                <h1 className="Edit-team__title">{String.t('editTeamPage.teamName')}</h1>
-                <TextField
-                  componentKey="name"
-                  initialValue={team.name}
-                  inputClassName="Edit-team__add-textfield"
-                  form={this.props.form}
-                  hasFeedback={false}
-                  label=""
-                  required
-                />
-              </div>
-              <div className="Edit-team__icon-container">
-                <div className="Edit-team__switch-container">
-                  <Tooltip placement="top" title={team.active ? String.t('editTeamPage.setInactive') : String.t('editTeamPage.setActive')}>
-                    <SwitchField
-                      checkedChildren={String.t('editTeamPage.activeState')}
-                      unCheckedChildren={String.t('editTeamPage.inactiveState')}
-                      form={this.props.form}
-                      componentKey="active"
-                      initialValue={team.active}
-                      valuePropName="checked"
-                    />
-                  </Tooltip>
-                </div>
-              </div>
+            <div className="New-team-room__container padding-class-a">
+              <h1 className="New-team-room__title">{String.t('newTeamRoomPage.title')}</h1>
+              <TextField
+                componentKey="name"
+                inputClassName="New-team-room__add-textfield"
+                form={this.props.form}
+                hasFeedback={false}
+                placeholder=" "
+                label=""
+                required
+              />
             </div>
             <div className="edit-org__buttons border-top-lighter margin-top-class-a">
               <Button
@@ -125,7 +115,7 @@ class EditTeamPage extends Component {
                 onClick={this.handleSubmit}
                 loading={this.state.loading}
               >
-                {String.t('editTeamRoomPage.saveButtonLabel')}
+                {String.t('newTeamRoomPage.createNewTeamRoomButtonLabel')}
               </Button>
             </div>
           </Form>
@@ -135,6 +125,6 @@ class EditTeamPage extends Component {
   }
 }
 
-EditTeamPage.propTypes = propTypes;
+NewTeamRoomPage.propTypes = propTypes;
 
-export default Form.create()(EditTeamPage);
+export default Form.create()(NewTeamRoomPage);
