@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import TeamMemberPage from '../../pages/TeamMemberPage';
+import { getCurrentSubscriberOrg } from '../../selectors';
 
-function mapStateToProps() {
+function mapStateToProps(state) {
   return {
-
+    subscriberOrg: getCurrentSubscriberOrg(state)
   };
 }
 

@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Row, Col } from 'antd';
+import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import { IconCard } from '../../components/cards';
 import CardView from './CardView';
 import './styles/style.css';
 import String from '../../translations';
+
+const propTypes = {
+  subscriberOrg: PropTypes.object.isRequired
+};
 
 class TeamMemberPage extends Component {
   constructor(props) {
@@ -22,10 +28,22 @@ class TeamMemberPage extends Component {
         </Col>
       );
     };
+    const { subscriberOrg } = this.props;
 
     return (
       <div>
-        <SubpageHeader breadcrumb={String.t('teamMemberPage.breadcrumb')} />
+        <SubpageHeader
+          breadcrumb={
+            <BreadCrumb routes={[
+              {
+                title: subscriberOrg.name,
+                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+              },
+              { title: String.t('teamMemberPage.breadcrumb') }
+            ]}
+            />
+          }
+        />
         <SimpleCardContainer className="subpage-block">
           <Row type="flex" justify="start" gutter={20}>
             { renderProfileCard(String.t('teamMemberPage.profilePictureLabel')) }
@@ -48,5 +66,7 @@ class TeamMemberPage extends Component {
     );
   }
 }
+
+TeamMemberPage.propTypes = propTypes;
 
 export default TeamMemberPage;
