@@ -5,3 +5,7 @@
 	position: relative;
 	display: inline-block;
 }
+.TeamPage .simple-card__icons {
+	font-size: 17px!important;
+    color: #fff!important;
+}

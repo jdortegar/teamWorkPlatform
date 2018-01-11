@@ -9,3 +9,8 @@
 .Integration-details__right-col {
   padding-left: 40px;
 }
+.Integration-details__icon-container .ant-card {
+	width: inherit;
+	height: inherit;
+	background: #fff;
+}

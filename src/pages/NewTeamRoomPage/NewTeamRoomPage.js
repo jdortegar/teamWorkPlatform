@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Button } from 'antd';
+import { Form } from 'antd';
 import PropTypes from 'prop-types';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
-import UploadImageField from '../../components/formFields/UploadImageField';
 import TextField from '../../components/formFields/TextField';
 import { formShape } from '../../propTypes';
 import String from '../../translations';
+import Button from '../../components/common/Button';
 import './styles/style.css';
 
 const propTypes = {
@@ -48,53 +48,41 @@ class NewTeamRoomPage extends Component {
 
   render() {
     const { teamId } = this.props.match.params;
-    const renderAvatarInput = (text) => {
-      return (
-        <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 5 }}>
-          <UploadImageField text={text} />
-        </Col>
-      );
-    };
-
     return (
       <div>
         <SubpageHeader breadcrumb={String.t('newTeamRoomPage.breadcrumb')} />
-        <SimpleCardContainer className="subpage-block">
+        <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
-            <Row type="flex" justify="start" gutter={20}>
-              { renderAvatarInput('Upload Avatar') }
-              <Col xs={{ span: 24 }} sm={{ span: 14 }} md={{ span: 16 }}>
-                <div className="New-team-room__container">
-                  <h1 className="New-team-room__title">{String.t('newTeamRoomPage.title')}</h1>
-                  <TextField
-                    componentKey="name"
-                    inputClassName="New-team-room__add-textfield"
-                    form={this.props.form}
-                    hasFeedback={false}
-                    placeholder=" "
-                    label=""
-                    required
-                  />
-                </div>
-                <div>
-                  <Button
-                    type="primary"
-                    className="New-team-room__button New-team__button--margin-right"
-                    onClick={this.handleSubmit}
-                    loading={this.state.loading}
-                  >
-                    {String.t('newTeamRoomPage.createNewTeamRoomButtonLabel')}
-                  </Button>
-                  <Button
-                    type="primary"
-                    className="New-team-room__button"
-                    onClick={() => this.props.history.push(`/app/team/${teamId}`)}
-                  >
-                    {String.t('cancelButton')}
-                  </Button>
-                </div>
-              </Col>
-            </Row>
+            <div className="New-team-room__container padding-class-a">
+              <h1 className="New-team-room__title">{String.t('newTeamRoomPage.title')}</h1>
+              <TextField
+                componentKey="name"
+                inputClassName="New-team-room__add-textfield"
+                form={this.props.form}
+                hasFeedback={false}
+                placeholder=" "
+                label=""
+                required
+              />
+            </div>
+            <div className="edit-org__buttons border-top-lighter margin-top-class-a">
+              <Button
+                type="secondary"
+                fitText
+                className="margin-right-class-a"
+                onClick={() => this.props.history.push(`/app/team/${teamId}`)}
+              >
+                {String.t('Buttons.cancel')}
+              </Button>
+              <Button
+                type="main"
+                fitText
+                onClick={this.handleSubmit}
+                loading={this.state.loading}
+              >
+                {String.t('newTeamRoomPage.createNewTeamRoomButtonLabel')}
+              </Button>
+            </div>
           </Form>
         </SimpleCardContainer>
       </div>

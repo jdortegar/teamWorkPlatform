@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Switch, Tooltip, notification } from 'antd';
+import { Switch, Tooltip, notification } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import SubpageHeader from '../../components/SubpageHeader';
@@ -164,33 +164,27 @@ class IntegrationDetailsPage extends Component {
             </div>
           }
         />
-        <SimpleCardContainer className="subpage-block">
-          <Row type="flex" justify="center">
-            <Col xs={{ span: 24 }} sm={{ span: 8 }} md={{ span: 4 }}>
-              <div className="Integration-details__icon-container">
-                <ImageCard imgSrc={imgSrc} size="large" />
-                <div className="Integration-details__switch-container">
-                  <Tooltip placement="top" title={currStatus === 'Active' ? String.t('integrationDetailsPage.deactivate') : String.t('integrationDetailsPage.activate')}>
-                    <Switch
-                      checkedChildren={String.t('integrationDetailsPage.on')}
-                      unCheckedChildren={String.t('integrationDetailsPage.off')}
-                      onChange={this.handleIntegration}
-                      checked={currStatus === 'Active'}
-                    />
-                  </Tooltip>
-                </div>
-              </div>
-            </Col>
-            <Col xs={{ span: 24 }} sm={{ span: 16 }} md={{ span: 19 }} className="Integration-details__right-col">
-              <div>
-                <h1>{name}</h1>
-              </div>
-              <div>
-                <h3>{currStatus}</h3>
-              </div>
-            </Col>
-          </Row>
+        <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
+          <div className="Integration-details__icon-container">
+            <ImageCard imgSrc={imgSrc} size="large" />
+          </div>
+          <div className="habla-big-title habla-bold-text">
+            {name}
+          </div>
+          <div className="habla-secondary-paragraph margin-top-class-b">
+            {currStatus}
+          </div>
         </SimpleCardContainer>
+        <div className="Integration-details__switch-container align-center-class">
+          <Tooltip placement="top" title={currStatus === 'Active' ? String.t('integrationDetailsPage.deactivate') : String.t('integrationDetailsPage.activate')}>
+            <Switch
+              checkedChildren={String.t('integrationDetailsPage.on')}
+              unCheckedChildren={String.t('integrationDetailsPage.off')}
+              onChange={this.handleIntegration}
+              checked={currStatus === 'Active'}
+            />
+          </Tooltip>
+        </div>
       </div>
     );
   }

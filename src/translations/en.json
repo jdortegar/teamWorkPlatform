@@ -451,15 +451,15 @@
     }
   },
   "newTeamPage": {
-    "createNewTeamButtonLabel": "Create New Team",
-    "chooseTeamName": "Choose a Team Name",
+    "createNewTeamButtonLabel": "Create",
+    "chooseTeamName": "Team Name",
     "uploadAvatar": "Upload Avatar",
-    "breadcrumb": "Team"
+    "breadcrumb": "Create a Team"
   },
   "newTeamRoomPage": {
-    "title": "Choose a new Team Room Name",
-    "createNewTeamRoomButtonLabel": "Create Team Room",
-    "breadcrumb": "Team Room"
+    "title": "Team Room Name",
+    "createNewTeamRoomButtonLabel": "Create",
+    "breadcrumb": "Create a Team Room"
   },
   "cardView": {
     "inviteNewMember": "Invite a New Team Member",
