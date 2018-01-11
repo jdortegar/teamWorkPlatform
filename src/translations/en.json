@@ -406,7 +406,7 @@
      "INTERNAL_SERVER_ERROR": "We’re sorry, but something must’ve gone terribly wrong"
   },
   "integrationsPage": {
-    "addNewIntegrations": "Add New Integration",
+    "breadcrumb": "Integrations",
     "selectIntegration": "Select the integration that you want to add.",
     "providerError": "Error",
     "errorMessage": "Request for Integrations failed.",

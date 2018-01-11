@@ -129,7 +129,7 @@ class IntegrationsPage extends Component {
                 title: subscriberOrg.name,
                 link: `/app/organization/${subscriberOrg.subscriberOrgId}`
               },
-              { title: String.t('integrationsPage.addNewIntegrations') }
+              { title: String.t('integrationsPage.breadcrumb') }
             ]}
             />
           }
