@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import * as d3 from 'd3';
 import String from '../../translations';
+import formatSize from '../../lib/formatSize';
 
 import { NewSubpageHeader, TimeActivityGraph } from '../../components';
 import './styles/style.css';
@@ -16,6 +17,9 @@ const buildTime = dateTime => moment().startOf('day').set({
 
 const buildDataObject = (file) => {
   const dateTime = moment(file.lastModified);
+  const displayTimestamp = moment(dateTime).format(String.t('timeActivityGraph.dateFormat')) + ' ' + moment(dateTime).format(String.t('timeActivityGraph.timeFormat'))
+  const fileName = file.fileName;
+  const fileSize = formatSize(file.fileSize);
 
   return {
     ...file,
@@ -23,7 +27,8 @@ const buildDataObject = (file) => {
     time: buildTime(dateTime),
     displayDate: moment(dateTime).format(String.t('timeActivityGraph.dateFormat')),
     displayTime: moment(dateTime).format(String.t('timeActivityGraph.timeFormat')),
-    color: color(file.fileExtension)
+    color: color(file.fileExtension),
+    label: fileName + '\n' + displayTimestamp + '\n' + fileSize
   };
 };
 

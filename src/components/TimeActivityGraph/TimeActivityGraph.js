@@ -6,6 +6,7 @@ import {
   VictoryChart,
   VictoryScatter,
   VictoryTheme,
+  VictoryTooltip,
   VictoryZoomContainer
 } from 'victory';
 
@@ -50,6 +51,7 @@ const TimeActivityGraph = ({ files }) => {
         tickFormat={x => moment(x).format('HH:mm')}
       />
       <VictoryScatter
+        labelComponent={<VictoryTooltip />}
         style={{ data: { fill: '#c43a31' } }}
         size={3}
         data={files}
