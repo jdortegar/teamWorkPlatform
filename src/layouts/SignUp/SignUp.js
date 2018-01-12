@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { routesPaths } from '../../routes';
-import Register from '../../containers/Register';
+import Register from '../../pages/Register';
 import CreateAccount from '../../containers/CreateAccount';
 import VerifyAccount from '../../containers/VerifyAccount';
 import RecoverPassword from '../RecoverPassword';
