@@ -25,7 +25,7 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { submitting: false, registered: false, agreementsChecked: false };
+    this.state = { submitting: false, registered: false };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
@@ -101,17 +101,27 @@ class Register extends React.Component {
   }
 
   renderPreRegisteredButtons() {
+    const { getFieldDecorator } = this.props.form;
     return (
-      <FormItem className="no-margin">
-        <div className="register-checkbox-div">
-          <Checkbox
-            checked={this.state.agreementsChecked}
-            onChange={this.onCheckboxChange}
-          />
+      <div className="register-checkbox-div">
+        <FormItem className="no-margin">
+          {getFieldDecorator('agreement', {
+            valuePropName: 'checked',
+            rules: [{
+              required: true, message: String.t('register.acceptTermsOfService')
+            }]
+          })(
+            <Checkbox
+              onChange={this.onCheckboxChange}
+              tabIndex={0}
+            />
+          )}
           <p>
             {String.t('register.checkAgreementsLabelBeforePrivacyPolicy')}
             <a
-              onClick={() => window.open('https://habla.ai/privacy-policy.html')}
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://habla.ai/privacy-policy.html"
               className="register-link"
             >
               <span className="register-link-body">
@@ -120,15 +130,17 @@ class Register extends React.Component {
             </a>
             {String.t('register.checkAgreementsLabelBeforeTermsOfUse')}
             <a
-              onClick={() => window.open('https://habla.ai/user-terms-of-service.html')}
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://habla.ai/user-terms-of-service.html"
               className="register-link"
             >
               {String.t('register.checkAgreementsTermsOfUseLink')}
             </a>
             {String.t('register.checkAgreementsLabelAfterTermsOfUse')}
           </p>
-        </div>
-      </FormItem>
+        </FormItem>
+      </div>
     );
   }
 
@@ -160,7 +172,14 @@ class Register extends React.Component {
           </div>
           <div className="align-center-class margin-top-class-a">
             <Button type="secondary" fitText onClick={this.onCancel} className="margin-right-class-a">{String.t('cancelButton')}</Button>
-            <Button type="main" fitText htmlType="submit">{String.t('register.registerButtonLabel')}</Button>
+            <Button
+              type="main"
+              fitText
+              htmlType="submit"
+              loading={this.state.submitting}
+            >
+              {String.t('register.registerButtonLabel')}
+            </Button>
           </div>
         </Form>
       </div>
