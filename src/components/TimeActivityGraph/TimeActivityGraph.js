@@ -5,12 +5,11 @@ import {
   VictoryAxis,
   VictoryChart,
   VictoryScatter,
-  VictoryTheme,
   VictoryTooltip,
   VictoryZoomContainer
 } from 'victory';
 
-import './styles/style.css';
+import styles from './styles/style';
 
 const propTypes = {
   files: PropTypes.arrayOf(PropTypes.object)
@@ -27,16 +26,19 @@ const TIME_DOMAIN = [moment().endOf('day'), moment().startOf('day')];
 // one month from the last file
 const defaultZoomDomain = (files) => {
   const lastFileDate = moment.max(files.map(file => file.date));
-  return [moment(lastFileDate).subtract(1, 'month'), moment(lastFileDate).add(1, 'day')];
+  return [moment(lastFileDate).subtract(2, 'weeks'), moment(lastFileDate).add(1, 'day')];
 };
 
 const TimeActivityGraph = ({ files }) => {
   console.warn('FILES', files);
   return (
     <VictoryChart
-      theme={VictoryTheme.material}
       scale={{ x: 'time', y: 'time' }}
       domain={{ x: DATE_DOMAIN, y: TIME_DOMAIN }}
+      width={styles.container.width}
+      height={styles.container.height}
+      padding={styles.container.padding}
+      style={styles.container}
       containerComponent={
         <VictoryZoomContainer
           zoomDimension="x"
@@ -44,16 +46,28 @@ const TimeActivityGraph = ({ files }) => {
         />
       }
     >
-      <VictoryAxis />
+      <VictoryAxis
+        style={{
+          axis: styles.hidden,
+          tickLabels: styles.tickLabels,
+          grid: styles.lines
+        }}
+      />
       <VictoryAxis
         invertAxis
         dependentAxis
+        tickCount={12}
         tickFormat={x => moment(x).format('HH:mm')}
+        style={{
+          axis: styles.lines,
+          tickLabels: styles.tickLabels,
+          grid: styles.hidden
+        }}
       />
       <VictoryScatter
         labelComponent={<VictoryTooltip />}
-        style={{ data: { fill: '#c43a31' } }}
-        size={3}
+        style={styles.scatter}
+        size={5}
         data={files}
         x="date"
         y="time"
