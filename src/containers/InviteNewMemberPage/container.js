@@ -8,10 +8,8 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(state, dispatch) {
-  return {
-    inviteNewSubscribers: (users, subscriberOrgId) => dispatch(inviteNewSubscribers(users, subscriberOrgId))
-  };
-}
+const mapDispatchToProps = dispatch => ({
+  inviteNewSubscribers: (users, subscriberOrgId) => dispatch(inviteNewSubscribers(users, subscriberOrgId))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(InviteNewMemberPage);
