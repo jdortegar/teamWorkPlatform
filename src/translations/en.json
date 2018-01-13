@@ -333,7 +333,8 @@
     "checkAgreementsTermsOfUseLink": "User Terms of Service",
     "checkAgreementsLabelAfterTermsOfUse": ".",
     "completeProfileTitleBold": "Welcome to Habla AI",
-    "completeProfileTitle": "You're almost done!"
+    "completeProfileTitle": "You're almost done!",
+    "acceptTermsOfService": "Please accept the User Terms of Service"
   },
   "verifyAccount": {
     "successText": "Your email has been verified!",
