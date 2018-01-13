@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Button, notification } from 'antd';
+import { Row, Col, Form, notification } from 'antd';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import BreadCrumb from '../../components/BreadCrumb';
@@ -8,6 +8,7 @@ import SimpleCardContainer from '../../components/SimpleCardContainer';
 import EmailField from '../../components/formFields/EmailField';
 import { formShape } from '../../propTypes';
 import String from '../../translations';
+import Button from '../../components/common/Button';
 import './styles/style.css';
 
 const propTypes = {
@@ -111,42 +112,37 @@ class InviteNewMemberPage extends Component {
             />
           }
         />
-        <SimpleCardContainer className="subpage-block">
+        <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
-            <Row type="flex" justify="start" gutter={20}>
-              <Col span={24}>
-                <h1 className="Invite-New-Member__title">{String.t('inviteNewMemberPage.title')}</h1>
-              </Col>
-            </Row>
-            {this.renderInvitees()}
-            <Row type="flex" justify="start" gutter={20}>
-              <Col span={24} className="Invite-New-Member__add-another-container">
-                <a onClick={this.addInvitees} className="Invite-New-Member__add-another">
-                  <span>
-                    <i className="fa fa-plus" />Add another
-                  </span>
-                </a>
-              </Col>
-              <Col span={24}>
-                <div>
-                  <Button
-                    type="primary"
-                    className="Invite-New-Member__button Invite-New-Member__button--margin-right"
-                    onClick={this.handleSubmit}
-                    loading={this.state.loading}
-                  >
-                    {String.t('inviteNewMemberPage.sendInvitationsButtonLabel', { count: this.state.inviteesArr.length })}
-                  </Button>
-                  <Button
-                    type="primary"
-                    className="Invite-New-Member__button"
-                    onClick={() => this.props.history.push(`/app/organization/${subscriberOrgId}`)}
-                  >
-                    {String.t('cancelButton')}
-                  </Button>
-                </div>
-              </Col>
-            </Row>
+            <div className="padding-class-a">
+              <h1 className="Invite-New-Member__title">{String.t('inviteNewMemberPage.title')}</h1>
+              {this.renderInvitees()}
+            </div>
+            <div className="padding-class-a">
+              <a onClick={this.addInvitees} className="Invite-New-Member__add-another">
+                <span>
+                  <i className="fa fa-plus-circle margin-right-class-a" />{String.t('inviteNewMemberPage.addEmail')}
+                </span>
+              </a>
+            </div>
+            <div className="edit-org__buttons border-top-lighter margin-top-class-a">
+              <Button
+                type="secondary"
+                fitText
+                className="margin-right-class-a"
+                onClick={() => this.props.history.push(`/app/organization/${subscriberOrgId}`)}
+              >
+                {String.t('Buttons.cancel')}
+              </Button>
+              <Button
+                type="main"
+                fitText
+                onClick={this.handleSubmit}
+                loading={this.state.loading}
+              >
+                {String.t('inviteNewMemberPage.sendInvitationsButtonLabel', { count: this.state.inviteesArr.length })}
+              </Button>
+            </div>
           </Form>
         </SimpleCardContainer>
       </div>

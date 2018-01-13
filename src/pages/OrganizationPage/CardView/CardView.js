@@ -77,9 +77,9 @@ function CardView(props) {
         const { expired, revoked } = integrationObj;
 
         if ((typeof revoked === 'undefined') || (revoked === false)) {
-          let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
+          let extra = (<i className="fa fa-check-circle icon_success habla-green" />);
           if (expired === true) {
-            extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
+            extra = (<i className="fa fa-exclamation-triangle icon_fail habla-red" />);
           }
           integrationsArr.push(
             <div key="box">
@@ -96,9 +96,9 @@ function CardView(props) {
         const { expired, revoked } = integrationObj;
 
         if ((typeof revoked === 'undefined') || (revoked === false)) {
-          let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
+          let extra = (<i className="fa fa-check-circle icon_success habla-green" />);
           if (expired === true) {
-            extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
+            extra = (<i className="fa fa-exclamation-triangle icon_fail habla-red" />);
           }
           integrationsArr.push(
             <div key="google">

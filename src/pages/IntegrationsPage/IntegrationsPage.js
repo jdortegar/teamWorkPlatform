@@ -32,10 +32,10 @@ class IntegrationsPage extends Component {
     if (notifyInfo) {
       if (notifyInfo.status !== 'CREATED') {
         args = badIntegration(notifyInfo);
-        args.icon = (<Icon type="close" className="icon_fail" />);
+        args.icon = (<Icon type="close" className="icon_fail habla-red" />);
       } else {
         args = successfulIntegration(notifyInfo.integration);
-        args.icon = (<Icon type="check" className="icon_success" />);
+        args.icon = (<Icon type="check" className="icon_success habla-green" />);
       }
       // TODO: show notification.
       // ex. notifyInfo = { integration: 'google', status: 'CREATED' } will say something like "You have successfully authorized Google Drive access."
@@ -79,9 +79,9 @@ class IntegrationsPage extends Component {
         if (box) {
           const { expired, revoked } = box;
           if ((typeof revoked === 'undefined') || (revoked === false)) {
-            boxExtra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
+            boxExtra = (<i className="fa fa-check-circle icon_success habla-green" />);
             if (expired === true) {
-              boxExtra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
+              boxExtra = (<i className="fa fa-times-circle habla-red" />);
             }
           }
         }
@@ -89,9 +89,9 @@ class IntegrationsPage extends Component {
         if (google) {
           const { expired, revoked } = google;
           if ((typeof revoked === 'undefined') || (revoked === false)) {
-            googleExtra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
+            googleExtra = (<i className="fa fa-check-circle icon_success habla-green" />);
             if (expired === true) {
-              googleExtra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
+              googleExtra = (<i className="fa fa-times-circle icon_fail habla-red" />);
             }
           }
         }

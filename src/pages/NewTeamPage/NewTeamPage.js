@@ -65,7 +65,7 @@ class NewTeamPage extends Component {
             />
           }
         />
-        <SimpleCardContainer className="subpage-block">
+        <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="New-team__container padding-class-a">
               <div className="New-team__title habla-secon">{String.t('newTeamPage.chooseTeamName')}</div>

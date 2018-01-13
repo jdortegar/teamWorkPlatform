@@ -248,6 +248,12 @@ p {
     color: #999;
     font-size: 1.4em;
 }
+.habla-main-content-header i.fa-angle-right {
+    font-size: 0.8em;
+    margin: 0 8px;
+    position: relative;
+    bottom: 3px;
+}
 .habla-main-content-header,
 .habla-main-content-header-title,
 .habla-main-content-filters-links {
@@ -387,6 +393,9 @@ p {
 .habla-main-content-filters-members-responsive {
 	display: none;	
 }
+.team-room__messages .ant-col-md-18 {
+	width: 80%;
+}
 }
 
 
@@ -446,6 +455,9 @@ p {
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
 	background: #f7f7f7;
 }
+.ant-collapse {
+	border: none;
+} 
 .ant-collapse > .ant-collapse-item > .ant-collapse-header {
 	padding: 0 0 0 41px;
 }
@@ -476,4 +488,19 @@ p {
 }
 .ant-switch-checked {
 	background-color: #32A953;
+}
+.ant-collapse-content {
+	border: none;
+}
+.ant-collapse > .ant-collapse-item:last-child, .ant-collapse > .ant-collapse-item:last-child > .ant-collapse-header {
+	border-radius: none!important;
+}
+.ant-card-head {
+	background: none;
+	padding: 0;
+	border: 0;
+	min-height: auto;
+}
+.ant-card-extra {
+	padding: 0;
 }

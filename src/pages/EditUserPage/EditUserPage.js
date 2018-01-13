@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import countriesAndTimezones from 'countries-and-timezones';
 import classNames from 'classnames';
-import { Collapse, Form, Button, notification } from 'antd';
+import { Collapse, Form, notification } from 'antd';
+import Button from '../../components/common/Button';
 import String from '../../translations';
 import { formShape } from '../../propTypes';
 import {
@@ -112,98 +113,100 @@ class EditUserPage extends Component {
       'with-no-image': !this.state.userIcon
     });
     return (
-      <div className="editUserPage-main">
+      <div>
         <NewSubpageHeader>
-          <div className="subpage__header__title">{String.t('editUserPage.title')}</div>
+          <div className="habla-title">{String.t('editUserPage.title')}</div>
         </NewSubpageHeader>
         <Form onSubmit={this.handleSubmit} layout="vertical">
           <Collapse defaultActiveKey={['1']} className="edituser_collapse">
-            <Panel header={String.t('editUserPage.profileSettings')} key="1" className="edituser_panel">
-              <div className="row_input">
-                <div className="input-item input-firstname left">
-                  <FirstNameField
-                    form={this.props.form}
-                    required
-                    initialValue={user.firstName}
-                  />
+            <Panel header={String.t('editUserPage.profileSettings')} key="1" className="ant-collapse-header">
+              <div className="collapse-content">
+                <div className="row_input">
+                  <div className="input-item input-firstname left">
+                    <FirstNameField
+                      form={this.props.form}
+                      required
+                      initialValue={user.firstName}
+                    />
+                  </div>
+                  <div className="input-item input-lastname">
+                    <LastNameField
+                      form={this.props.form}
+                      required
+                      initialValue={user.lastName}
+                    />
+                  </div>
                 </div>
-                <div className="input-item input-lastname">
-                  <LastNameField
-                    form={this.props.form}
-                    required
-                    initialValue={user.lastName}
-                  />
+                <div className="row_input">
+                  <div className="input-item">
+                    <EmailField
+                      form={this.props.form}
+                      disabled
+                      required
+                      initialValue={user.email}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="row_input">
-                <div className="input-item">
-                  <EmailField
-                    form={this.props.form}
-                    disabled
-                    required
-                    initialValue={user.email}
-                  />
+                <div className="row_input">
+                  <div className="input-item">
+                    <UsernameField
+                      form={this.props.form}
+                      required
+                      initialValue={user.displayName}
+                    />
+                  </div>
+                  <div className={containerImage}>
+                    <UploadImageField
+                      text={String.t('editUserPage.setProfilePhoto')}
+                      onChange={this.onChangeProfilePhoto}
+                      image={this.state.userIcon || this.state.logo}
+                      editOrg
+                      resize
+                    />
+                    {this.state.userIcon &&
+                      <span
+                        className="container__image__remove"
+                        onClick={this.onRemoveImage}
+                      >
+                        Remove
+                      </span>
+                    }
+                  </div>
                 </div>
-              </div>
-              <div className="row_input">
-                <div className="input-item">
-                  <UsernameField
-                    form={this.props.form}
-                    required
-                    initialValue={user.displayName}
-                  />
-                </div>
-                <div className={containerImage}>
-                  <UploadImageField
-                    text={String.t('editUserPage.setProfilePhoto')}
-                    onChange={this.onChangeProfilePhoto}
-                    image={this.state.userIcon || this.state.logo}
-                    editOrg
-                    resize
-                  />
-                  {this.state.userIcon &&
-                    <span
-                      className="container__image__remove"
-                      onClick={this.onRemoveImage}
-                    >
-                      Remove
-                    </span>
-                  }
-                </div>
-              </div>
-              <div className="row_input">
-                <div className="input-item left">
-                  <CountrySelectField
-                    form={this.props.form}
-                    required
-                    handleChange={this.handleCountryChange}
-                    initialValue={user.country}
-                  />
-                </div>
-                <div className="input-item">
-                  <TimezoneSelectField
-                    form={this.props.form}
-                    countryCode={this.state.countryCode}
-                    notFoundContent="Please select a country"
-                    initialValue={user.timeZone}
-                    required
-                  />
+                <div className="row_input">
+                  <div className="input-item left">
+                    <CountrySelectField
+                      form={this.props.form}
+                      required
+                      handleChange={this.handleCountryChange}
+                      initialValue={user.country}
+                    />
+                  </div>
+                  <div className="input-item">
+                    <TimezoneSelectField
+                      form={this.props.form}
+                      countryCode={this.state.countryCode}
+                      notFoundContent="Please select a country"
+                      initialValue={user.timeZone}
+                      required
+                    />
+                  </div>
                 </div>
               </div>
             </Panel>
           </Collapse>
-
-          <div className="edit-org__buttons">
+          <div className="edit-org__buttons border-top-lighter margin-top-class-a">
             <Button
-              type="primary"
-              className="Edit-team__button New-team__button--margin-right"
+              type="secondary"
+              fitText
+              className="margin-right-class-a"
               onClick={() => this.props.history.push('/app')}
             >
-              {String.t('cancelButton')}
+              {String.t('Buttons.cancel')}
             </Button>
             <Button
-              type="primary"
-              className="Edit-team__button edit-org__button-active"
+              type="main"
+              fitText
               onClick={this.handleSubmit}
               loading={this.state.loading}
             >

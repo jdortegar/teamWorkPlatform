@@ -2,3 +2,8 @@
 	font-size: 17px!important;
 	color: #fff!important;
 }
+.editOrgPage-main .ant-card-head {
+	position: absolute;
+	top: -2px;
+	right: 3px;
+}

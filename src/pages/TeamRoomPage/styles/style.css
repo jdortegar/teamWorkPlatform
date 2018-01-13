@@ -92,6 +92,14 @@
   display: flex;
   margin-right: 1em;
 }
+.team-room__chat-col-icons a
+, .team-room__chat-col-icons i {
+  color: #ccc;
+}
+.team-room__chat-col-icons a:hover
+, .team-room__chat-col-icons i:hover {
+  color: #000;
+}
 .team-room__members-typing {
   min-height: 2em;
   font-size: .75em;

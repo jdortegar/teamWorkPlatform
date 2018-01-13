@@ -72,7 +72,7 @@ class NewTeamRoomPage extends Component {
             />
           }
         />
-        <SimpleCardContainer className="subpage-block">
+        <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="New-team-room__container padding-class-a">
               <h1 className="New-team-room__title">{String.t('newTeamRoomPage.title')}</h1>

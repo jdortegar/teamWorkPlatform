@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { notification } from 'antd';
-import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
@@ -79,16 +78,16 @@ class TeamPage extends Component {
   render() {
     const teamId = this.props.match.params.teamId;
     const { teamRooms, teams, teamMembers, subscriberOrgById, user } = this.props;
-    let role;
-    if (teamMembers.length === 0) {
-      role = 'admin';
-    } else {
-      const myTeamMemberUser = _.find(teamMembers, { userId: user.userId });
-      role = myTeamMemberUser.teams[teamId].role;
-    }
     if (this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
       const team = teams.teamById[teamId];
       const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
+      const teamMemberFoundByUser = _.find(teamMembers, { userId: user.userId });
+      const isAdmin = teamMemberFoundByUser.teams[teamId].role === 'admin';
+      const editButton = {
+        showButton: true,
+        isAdmin,
+        url: `/app/editTeam/${teamId}`
+      };
       return (
         <div>
           <SubpageHeader
@@ -109,10 +108,16 @@ class TeamPage extends Component {
               ]}
               />
             }
+            editButton={editButton}
           />
-          {role === 'admin' && <Link to={`/app/editTeam/${teamId}`}>Edit <i className="fa fa-pencil" /></Link>}
           <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
-            <h1 className="New-team__title habla-big-title habla-bold-text">
+            <Avatar
+              styles={{ width: '4em', height: '4em', margin: '0 auto' }}
+              name={team.name}
+              iconColor={team.preferences.iconColor}
+              image={team.preferences.avatarBase64 || team.preferences.logo}
+            />
+            <h1 className="New-team__title habla-big-title habla-bold-text margin-top-class-b">
               {team.name}
               <div className="habla-main-content-item-signal habla-color-green" />
             </h1>
@@ -120,26 +125,27 @@ class TeamPage extends Component {
               Created on November 27, 2017 by Mike Somlo
             </div>
           </SimpleCardContainer>
-          {
-            this.state.view === 'card' ?
-              <CardView
-                userId={user.userId}
-                teamId={teamId}
-                teamRooms={teamRooms}
-                teamMembers={teamMembers}
-                onSwitchView={() => this.setState({ view: 'list' })}
-              /> :
-              <ListView
-                teamId={teamId}
-                teamRooms={teamRooms}
-                teamMembers={teamMembers}
-                onSwitchView={() => this.setState({ view: 'card' })}
-              />
-          }
+          <div className="teamPage-list">
+            {
+              this.state.view === 'card' ?
+                <CardView
+                  userId={user.userId}
+                  teamId={teamId}
+                  teamRooms={teamRooms}
+                  teamMembers={teamMembers}
+                  onSwitchView={() => this.setState({ view: 'list' })}
+                /> :
+                <ListView
+                  teamId={teamId}
+                  teamRooms={teamRooms}
+                  teamMembers={teamMembers}
+                  onSwitchView={() => this.setState({ view: 'card' })}
+                />
+            }
+          </div>
         </div>
       );
     }
-
     return <Spinner />;
   }
 }
