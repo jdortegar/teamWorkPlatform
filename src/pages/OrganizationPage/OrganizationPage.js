@@ -3,10 +3,10 @@ import { Col } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import './styles/style.css';
+import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import Spinner from '../../components/Spinner';
 import { IconCard } from '../../components/cards';
-import Avatar from '../../components/Avatar';
 import CardView from './CardView';
 import ListView from './ListView';
 import String from '../../translations';
@@ -142,13 +142,13 @@ class OrganizationPage extends Component {
       return (
         <div className="editOrgPage-main">
           <SubpageHeader
-            icon={<Avatar
-              styles={{ width: '2em', height: '2em' }}
-              name={subscriberOrg.name}
-              iconColor={subscriberOrg.preferences.iconColor}
-              image={subscriberOrg.preferences.avatarBase64 || subscriberOrg.preferences.logo}
-            />}
-            breadcrumb={subscriberOrg.name}
+            subscriberOrg={subscriberOrg}
+            breadcrumb={
+              <BreadCrumb
+                subscriberOrg={subscriberOrg}
+                routes={[{ title: subscriberOrg.name }]}
+              />
+            }
             editButton={editButton}
           />
           {

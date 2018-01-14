@@ -10,7 +10,6 @@ import SubpageHeader from '../../components/SubpageHeader';
 import SimpleHeader from '../../components/SimpleHeader';
 import { ImageCard } from '../../components/cards';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
-import UserIcon from '../../components/UserIcon';
 import { boxLogo, googleDriveLogo } from '../../img';
 import String from '../../translations';
 import './styles/style.css';
@@ -122,15 +121,16 @@ class IntegrationsPage extends Component {
     return (
       <div>
         <SubpageHeader
-          icon={<UserIcon user={subscriberOrg} type="team" clickable={false} />}
           breadcrumb={
-            <BreadCrumb routes={[
-              {
-                title: subscriberOrg.name,
-                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
-              },
-              { title: String.t('integrationsPage.breadcrumb') }
-            ]}
+            <BreadCrumb
+              subscriberOrg={subscriberOrg}
+              routes={[
+                {
+                  title: subscriberOrg.name,
+                  link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+                },
+                { title: String.t('integrationsPage.breadcrumb') }
+              ]}
             />
           }
         />

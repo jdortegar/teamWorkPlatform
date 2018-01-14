@@ -102,13 +102,15 @@ class InviteNewMemberPage extends Component {
       <div>
         <SubpageHeader
           breadcrumb={
-            <BreadCrumb routes={[
-              {
-                title: subscriberOrg.name,
-                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
-              },
-              { title: String.t('inviteNewMemberPage.breadcrumb') }
-            ]}
+            <BreadCrumb
+              subscriberOrg={subscriberOrg}
+              routes={[
+                {
+                  title: subscriberOrg.name,
+                  link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+                },
+                { title: String.t('inviteNewMemberPage.breadcrumb') }
+              ]}
             />
           }
         />

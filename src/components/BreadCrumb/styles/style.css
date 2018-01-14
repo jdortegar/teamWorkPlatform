@@ -1,3 +1,17 @@
+.breadcrumbs-text {
+   vertical-align: middle;
+}
+
+.breadcrumbs-container {
+  display: -webkit-inline-box;
+  vertical-align: -webkit-baseline-middle;
+}
+
+.breadcrumbs-avatar {
+  border-radius: 3px;
+  overflow: hidden;
+  margin-right: 6px;
+}
 .breadcrumbs-separator {
    vertical-align: middle;
 }

@@ -91,21 +91,16 @@ class TeamPage extends Component {
       return (
         <div>
           <SubpageHeader
-            icon={
-              <Avatar
-                styles={{ width: '2em', height: '2em' }}
-                name={team.name}
-                iconColor={team.preferences.iconColor}
-                image={team.preferences.avatarBase64 || team.preferences.logo}
-              />}
             breadcrumb={
-              <BreadCrumb routes={[
-                {
-                  title: subscriberOrg.name,
-                  link: `/app/organization/${subscriberOrg.subscriberOrgId}`
-                },
-                { title: team.name }
-              ]}
+              <BreadCrumb
+                subscriberOrg={subscriberOrg}
+                routes={[
+                  {
+                    title: subscriberOrg.name,
+                    link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+                  },
+                  { title: team.name }
+                ]}
               />
             }
             editButton={editButton}

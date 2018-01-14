@@ -12,7 +12,6 @@ import Spinner from '../../components/Spinner';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import TextField from '../../components/formFields/TextField';
 import UserIcon from '../../components/UserIcon';
-import Avatar from '../../components/Avatar';
 import PreviewBar from '../../components/PreviewBar';
 import Message from '../../components/Message';
 import { getJwt, getResourcesUrl } from '../../session';
@@ -417,24 +416,20 @@ class TeamRoomPage extends Component {
 
           <div className="team-room__top-page-container">
             <SubpageHeader
-              icon={<Avatar
-                styles={{ width: '2em', height: '2em' }}
-                name={teamRoom.name}
-                iconColor={teamRoom.preferences.iconColor}
-                image={teamRoom.preferences.avatarBase64 || teamRoom.preferences.logo}
-              />}
               breadcrumb={
-                <BreadCrumb routes={[
-                  {
-                    title: subscriberOrg.name,
-                    link: `/app/organization/${subscriberOrg.subscriberOrgId}`
-                  },
-                  {
-                    title: team.name,
-                    link: `/app/team/${team.teamId}`
-                  },
-                  { title: teamRoom.name }
-                ]}
+                <BreadCrumb
+                  subscriberOrg={subscriberOrg}
+                  routes={[
+                    {
+                      title: subscriberOrg.name,
+                      link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+                    },
+                    {
+                      title: team.name,
+                      link: `/app/team/${team.teamId}`
+                    },
+                    { title: teamRoom.name }
+                  ]}
                 />
               }
               editButton={editButton}
