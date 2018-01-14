@@ -124,17 +124,19 @@ class InviteToTeamPage extends Component {
       <div>
         <SubpageHeader
           breadcrumb={
-            <BreadCrumb routes={[
-              {
-                title: subscriberOrg.name,
-                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
-              },
-              {
-                title: team.name,
-                link: `/app/team/${team.teamId}`
-              },
-              { title: String.t('inviteToTeamPage.breadcrumb') }
-            ]}
+            <BreadCrumb
+              subscriberOrg={subscriberOrg}
+              routes={[
+                {
+                  title: subscriberOrg.name,
+                  link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+                },
+                {
+                  title: team.name,
+                  link: `/app/team/${team.teamId}`
+                },
+                { title: String.t('inviteToTeamPage.breadcrumb') }
+              ]}
             />
           }
         />

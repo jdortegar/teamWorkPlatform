@@ -6,7 +6,6 @@ import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import TextField from '../../components/formFields/TextField';
 import SwitchField from '../../components/formFields/SwitchField';
-import UserIcon from '../../components/UserIcon';
 import { formShape } from '../../propTypes';
 import Button from '../../components/common/Button';
 import String from '../../translations';
@@ -65,18 +64,19 @@ class EditTeamPage extends Component {
     return (
       <div className="EditTeamPage-main">
         <SubpageHeader
-          icon={<UserIcon user={team} type="team" clickable={false} />}
           breadcrumb={
-            <BreadCrumb routes={[
-              {
-                title: subscriberOrg.name,
-                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
-              },
-              {
-                title: team.name,
-                link: `/app/team/${team.teamId}`
-              }
-            ]}
+            <BreadCrumb
+              subscriberOrg={subscriberOrg}
+              routes={[
+                {
+                  title: subscriberOrg.name,
+                  link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+                },
+                {
+                  title: team.name,
+                  link: `/app/team/${team.teamId}`
+                }
+              ]}
             />
           }
         />

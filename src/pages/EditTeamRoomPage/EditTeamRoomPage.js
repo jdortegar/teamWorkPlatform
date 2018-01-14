@@ -6,7 +6,6 @@ import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import TextField from '../../components/formFields/TextField';
 import SwitchField from '../../components/formFields/SwitchField';
-import UserIcon from '../../components/UserIcon';
 import { formShape } from '../../propTypes';
 import Button from '../../components/common/Button';
 import String from '../../translations';
@@ -66,22 +65,23 @@ class EditTeamRoomPage extends Component {
     return (
       <div className="EditTeamRoomPage-main">
         <SubpageHeader
-          icon={<UserIcon user={teamRoom} type="team" clickable={false} />}
           breadcrumb={
-            <BreadCrumb routes={[
-              {
-                title: subscriberOrg.name,
-                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
-              },
-              {
-                title: team.name,
-                link: `/app/team/${teamRoom.teamId}`
-              },
-              {
-                title: teamRoom.name,
-                link: `/app/teamRoom/${teamRoom.teamRoomId}`
-              }
-            ]}
+            <BreadCrumb
+              subscriberOrg={subscriberOrg}
+              routes={[
+                {
+                  title: subscriberOrg.name,
+                  link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+                },
+                {
+                  title: team.name,
+                  link: `/app/team/${teamRoom.teamId}`
+                },
+                {
+                  title: teamRoom.name,
+                  link: `/app/teamRoom/${teamRoom.teamRoomId}`
+                }
+              ]}
             />
           }
         />

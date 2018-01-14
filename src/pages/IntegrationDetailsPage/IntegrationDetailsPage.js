@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
-import UserIcon from '../../components/UserIcon';
 import { ImageCard } from '../../components/cards';
 import { boxLogo, googleDriveLogo } from '../../img';
 import String from '../../translations';
@@ -153,19 +152,20 @@ class IntegrationDetailsPage extends Component {
     return (
       <div>
         <SubpageHeader
-          icon={<UserIcon user={subscriberOrg} type="team" clickable={false} />}
           breadcrumb={
-            <BreadCrumb routes={[
-              {
-                title: subscriberOrg.name,
-                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
-              },
-              {
-                title: String.t('integrationDetailsPage.integrations'),
-                link: `/app/integrations/${subscriberOrg.subscriberOrgId}`
-              },
-              { title: name }
-            ]}
+            <BreadCrumb
+              subscriberOrg={subscriberOrg}
+              routes={[
+                {
+                  title: subscriberOrg.name,
+                  link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+                },
+                {
+                  title: String.t('integrationDetailsPage.integrations'),
+                  link: `/app/integrations/${subscriberOrg.subscriberOrgId}`
+                },
+                { title: name }
+              ]}
             />
           }
         />
