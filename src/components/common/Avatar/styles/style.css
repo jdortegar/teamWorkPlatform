@@ -1,6 +1,13 @@
 .habla-avatar {
   border-radius: 5px;
 }
+.habla-avatar--size-x-large, .habla-avatar--size-x-large img {
+  width: 100px;
+  height: 100px;
+}
+.habla-avatar--size-x-large > * {
+  line-height: 100px;
+}
 .habla-avatar--size-large, .habla-avatar--size-large img {
   width: 55px;
   height: 55px;
