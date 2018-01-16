@@ -507,6 +507,9 @@ p {
 .ant-card-extra {
 	padding: 0;
 }
+.ant-collapse-content {
+	padding: 0 20px;
+}
 .pl-0 {
   padding-left: 0;
 }

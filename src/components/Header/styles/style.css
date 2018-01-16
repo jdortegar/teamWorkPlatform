@@ -29,6 +29,7 @@
 		color: #ffffff;
 		text-decoration: none;
 	}
+
 	.habla-top-menu-items a i {
 		margin-right: 3px;
 	}
@@ -74,4 +75,7 @@
 	}
 	.habla-top-menu-items .habla-top-menu-active-signal {
 		display: none;
+	}
+	.habla-top-menu-items a.habla-top-menu-user {
+		color: #fff!important;
 	}

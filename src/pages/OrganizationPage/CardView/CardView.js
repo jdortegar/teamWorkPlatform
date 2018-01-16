@@ -127,7 +127,7 @@ function CardView(props) {
 
   const renderAddCard = (title, url) => {
     return (
-      <div className="px-1">
+      <div className="px-1 add-avatar">
         <Tooltip placement="top" title={title}>
           <Link to={url}>
             <Avatar size="large">
@@ -149,7 +149,7 @@ function CardView(props) {
           header={<SimpleHeader text={String.t('OrganizationPage.integrationsHeader', { count: integrationsArr.length })} />}
           key="1"
         >
-          <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
+          <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex integration-list">
             {renderAddCard(String.t('OrganizationPage.addNewIntegration'), `/app/integrations/${subscriberOrgId}`)}
             {integrationsArr}
           </SimpleCardContainer>
