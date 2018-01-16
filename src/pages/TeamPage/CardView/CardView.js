@@ -2,11 +2,13 @@ import React from 'react';
 import { Tooltip, Collapse } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Avatar from '../../../components/common/Avatar';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
 import { IconCard } from '../../../components/cards';
 import UserIcon from '../../../components/UserIcon';
 import String from '../../../translations';
+import getInitials from '../../../utils/helpers';
 
 const Panel = Collapse.Panel;
 
@@ -20,13 +22,19 @@ const propTypes = {
 function CardView(props) {
   const { teamRooms, teamMembers } = props;
   const renderTeamRooms = () => {
-    return teamRooms.map(({ name, teamRoomId }) => {
+    return teamRooms.map(({ active, name, teamRoomId, preferences }) => {
+      const initials = getInitials(name);
       return (
-        <div key={teamRoomId}>
+        <div key={teamRoomId} className="px-1">
           <Tooltip placement="top" title={name}>
-            <Link to={`/app/teamRoom/${teamRoomId}`}>
-              <IconCard text={name} />
-            </Link>
+            {
+              active ?
+                <Link to={`/app/teamRoom/${teamRoomId}`}>
+                  <Avatar size="large" color={preferences.iconColor}>{initials}</Avatar>
+                </Link>
+                :
+                <Avatar size="large" color={preferences.iconColor}>{initials}</Avatar>
+            }
           </Tooltip>
         </div>
       );
