@@ -38,7 +38,7 @@ class TeamMemberPage extends Component {
           }
         />
         <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
-          <Avatar size="large" color="#cccccc">T</Avatar>
+          <Avatar size="x-large" color="#cccccc">T</Avatar>
           <div className="margin-top-class-b">
             <h1 className="New-team__title habla-big-title habla-bold-text">
               Team Member Name
