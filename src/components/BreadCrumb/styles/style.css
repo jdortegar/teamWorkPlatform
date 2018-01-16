@@ -8,9 +8,11 @@
 }
 
 .breadcrumbs-avatar {
+  display: -webkit-inline-box;
+  vertical-align: top;
   border-radius: 3px;
   overflow: hidden;
-  margin-right: 6px;
+  margin-right: 8px;
 }
 .breadcrumbs-separator {
    vertical-align: middle;
