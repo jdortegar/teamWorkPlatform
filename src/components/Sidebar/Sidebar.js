@@ -45,6 +45,9 @@ const ROUTERS_TO_HIDE_SIDEBAR = [
 
 function renderAvatar(item) {
   const { preferences } = item;
+  if (preferences.logo) {
+    return <Avatar src={preferences.logo} />;
+  }
   if (preferences.avatarBase64) {
     return <Avatar src={`data:image/jpeg;base64, ${preferences.avatarBase64}`} />;
   }
