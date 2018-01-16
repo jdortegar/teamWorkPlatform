@@ -8,15 +8,11 @@ import SubpageHeader from '../../components/SubpageHeader';
 import Spinner from '../../components/Spinner';
 import { IconCard } from '../../components/cards';
 import CardView from './CardView';
-import ListView from './ListView';
 import String from '../../translations';
 
 const propTypes = {
   integrations: PropTypes.PropTypes.shape({
     integrationsBySubscriberOrgId: PropTypes.object
-  }).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func
   }).isRequired,
   toggleTeamDialog: PropTypes.func.isRequired,
   fetchIntegrations: PropTypes.func.isRequired,
@@ -151,25 +147,14 @@ class OrganizationPage extends Component {
             }
             editButton={editButton}
           />
-          {
-            this.state.view === 'list' ?
-              <ListView
-                integrations={integrations}
-                onSwitchView={() => this.setState({ view: 'card' })}
-                subscribers={subscribers}
-                subscriberOrgId={subscriberOrgId}
-                teams={teams}
-                history={this.props.history}
-              /> :
-              <CardView
-                integrations={integrations}
-                onSwitchView={() => this.setState({ view: 'list' })}
-                subscribers={subscribers}
-                subscriberOrgId={subscriberOrgId}
-                teams={teams}
-                user={user}
-              />
-          }
+          <CardView
+            integrations={integrations}
+            onSwitchView={() => this.setState({ view: 'list' })}
+            subscribers={subscribers}
+            subscriberOrgId={subscriberOrgId}
+            teams={teams}
+            user={user}
+          />
         </div>
       );
     }

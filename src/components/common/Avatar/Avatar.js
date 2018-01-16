@@ -6,7 +6,7 @@ import './styles/style.css';
 
 const propTypes = {
   ...AntdAvatar.propTypes,
-  size: PropTypes.oneOf(['large', 'small', 'default']),
+  size: PropTypes.oneOf(['large', 'small', 'default', 'x-large']),
   color: PropTypes.string
 };
 

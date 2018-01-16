@@ -36,7 +36,7 @@ function CardView(props) {
   const renderTeamMembers = () => {
     return teamMembers.map((member) => {
       return (
-        <div key={member.userId}>
+        <div key={member.userId} className="px-1">
           <Tooltip placement="top" title={member.displayName}>
             <a>
               <UserIcon
@@ -55,7 +55,7 @@ function CardView(props) {
 
   const renderAddCard = (title, url = null) => {
     return (
-      <div>
+      <div className="px-1">
         <Tooltip placement="top" title={title}>
           <Link to={url}>
             <IconCard icon={<i className="fa fa-plus simple-card__icons" />} />

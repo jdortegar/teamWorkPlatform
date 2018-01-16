@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Tooltip, Collapse } from 'antd';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import _ from 'lodash';
+import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
 import UserIcon from '../../../components/UserIcon';
-import { IconCard } from '../../../components/cards';
+import Avatar from '../../../components/common/Avatar';
 import String from '../../../translations';
+import getInitials from '../../../utils/helpers';
+import { boxLogo, googleDriveLogo } from '../../../img';
 import './styles/style.css';
 
 const Panel = Collapse.Panel;
@@ -36,17 +38,19 @@ function CardView(props) {
   const renderTeams = () => {
     return props.teams.map((team) => {
       const role = subscriberByMyUser.teams[team.teamId];
-      const card = classNames({
-        inactive: !team.active
-      });
       const teamRender = teamShouldRender(role, team);
+      const initials = getInitials(team.name);
       if (teamRender) {
         return (
-          <div key={team.teamId}>
+          <div key={team.teamId} className="px-1">
             <Tooltip placement="top" title={team.name}>
-              <Link to={`/app/team/${team.teamId}`}>
-                <IconCard text={team.name} className={card} />
-              </Link>
+              {
+                team.active ?
+                  <Link to={`/app/team/${team.teamId}`}>
+                    <Avatar size="large" color={team.preferences.iconColor}>{initials}</Avatar>
+                  </Link> :
+                  <Avatar size="large" color={team.preferences.iconColor}>{initials}</Avatar>
+              }
             </Tooltip>
           </div>
         );
@@ -60,7 +64,7 @@ function CardView(props) {
     return props.subscribers.map((member) => {
       const { userId, displayName } = member;
       return (
-        <div key={userId}>
+        <div key={userId} className="px-1">
           <Tooltip placement="top" title={displayName}>
             <Link to={`/app/teamMember/${userId}`}>
               <UserIcon
@@ -85,14 +89,14 @@ function CardView(props) {
         const { expired, revoked } = integrationObj;
 
         if ((typeof revoked === 'undefined') || (revoked === false)) {
-          let extra = (<i className="fa fa-check-circle icon_success habla-green" />);
-          if (expired === true) {
-            extra = (<i className="fa fa-exclamation-triangle icon_fail habla-red" />);
-          }
+          const desaturated = classNames({
+            desaturate: expired
+          });
+
           integrationsArr.push(
-            <div key="box">
+            <div key="box" className="px-1">
               <Link to={`/app/integrations/${subscriberOrgId}/box`}>
-                <IconCard text="Box" icon={extra} />
+                <Avatar size="large" src={boxLogo} className={desaturated} />
               </Link>
             </div>
           );
@@ -102,16 +106,15 @@ function CardView(props) {
       if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].google) {
         const { google: integrationObj } = integrations.integrationsBySubscriberOrgId[subscriberOrgId];
         const { expired, revoked } = integrationObj;
+        const desaturated = classNames({
+          desaturate: expired
+        });
 
         if ((typeof revoked === 'undefined') || (revoked === false)) {
-          let extra = (<i className="fa fa-check-circle icon_success habla-green" />);
-          if (expired === true) {
-            extra = (<i className="fa fa-exclamation-triangle icon_fail habla-red" />);
-          }
           integrationsArr.push(
-            <div key="google">
+            <div key="google" className="px-1">
               <Link to={`/app/integrations/${subscriberOrgId}/google`}>
-                <IconCard text="Google" extra={extra} />
+                <Avatar size="large" src={googleDriveLogo} className={desaturated} />
               </Link>
             </div>
           );
@@ -124,10 +127,12 @@ function CardView(props) {
 
   const renderAddCard = (title, url) => {
     return (
-      <div>
+      <div className="px-1">
         <Tooltip placement="top" title={title}>
           <Link to={url}>
-            <IconCard icon={<i className="fa fa-plus simple-card__icons" />} />
+            <Avatar size="large">
+              <i className="fa fa-plus simple-card__icons" />
+            </Avatar>
           </Link>
         </Tooltip>
       </div>
@@ -138,7 +143,7 @@ function CardView(props) {
   const isOrgAdmin = (subscriberByMyUser.subscriberOrgs[subscriberOrgId].role === 'admin');
 
   return (
-    <div>
+    <Fragment>
       <Collapse defaultActiveKey={['1', '2', '3']} bordered={false}>
         <Panel
           header={<SimpleHeader text={String.t('OrganizationPage.integrationsHeader', { count: integrationsArr.length })} />}
@@ -168,7 +173,7 @@ function CardView(props) {
           </SimpleCardContainer>
         </Panel>
       </Collapse>
-    </div>
+    </Fragment>
   );
 }
 
