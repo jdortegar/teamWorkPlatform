@@ -44,12 +44,13 @@ function CardView(props) {
         return (
           <div key={team.teamId} className="px-1">
             <Tooltip placement="top" title={team.name}>
-              {
-                team.active ?
-                  <Link to={`/app/team/${team.teamId}`}>
-                    <Avatar size="large" color={team.preferences.iconColor}>{initials}</Avatar>
-                  </Link> :
+              { team.active &&
+                <Link to={`/app/team/${team.teamId}`}>
                   <Avatar size="large" color={team.preferences.iconColor}>{initials}</Avatar>
+                </Link>
+              }
+              { !team.active &&
+                <Avatar size="large" color={team.preferences.iconColor}>{initials}</Avatar>
               }
             </Tooltip>
           </div>
