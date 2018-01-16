@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
+import UserIcon from '../../../components/UserIcon';
 import { IconCard } from '../../../components/cards';
 import String from '../../../translations';
 import './styles/style.css';
@@ -56,12 +57,19 @@ function CardView(props) {
   };
 
   const renderMembers = () => {
-    return props.subscribers.map(({ displayName, userId }) => {
+    return props.subscribers.map((member) => {
+      const { userId, displayName } = member;
       return (
         <div key={userId}>
           <Tooltip placement="top" title={displayName}>
             <Link to={`/app/teamMember/${userId}`}>
-              <IconCard text={displayName} />
+              <UserIcon
+                user={member}
+                type="user"
+                minWidth="3.4em"
+                width="3.4em"
+                height="3.4em"
+              />
             </Link>
           </Tooltip>
         </div>

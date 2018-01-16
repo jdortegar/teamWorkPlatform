@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
 import { IconCard } from '../../../components/cards';
+import UserIcon from '../../../components/UserIcon';
 import String from '../../../translations';
 
 const Panel = Collapse.Panel;
@@ -33,12 +34,18 @@ function CardView(props) {
   };
 
   const renderTeamMembers = () => {
-    return teamMembers.map(({ displayName, userId }) => {
+    return teamMembers.map((member) => {
       return (
-        <div key={userId}>
-          <Tooltip placement="top" title={displayName}>
+        <div key={member.userId}>
+          <Tooltip placement="top" title={member.displayName}>
             <a>
-              <IconCard text={displayName} />
+              <UserIcon
+                user={member}
+                type="member"
+                minWidth="3.4em"
+                width="3.4em"
+                height="3.4em"
+              />
             </a>
           </Tooltip>
         </div>

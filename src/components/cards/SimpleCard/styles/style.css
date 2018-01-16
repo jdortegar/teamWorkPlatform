@@ -33,3 +33,8 @@
 .simple-card__icons {
   font-size: 35px !important;
 }
+simple-card__avatar {
+   margin-right: 10em;
+   padding-right: 10px;
+   vertical-align: middle;
+}
