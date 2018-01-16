@@ -74,4 +74,9 @@
 	}
 	.habla-top-menu-items .habla-top-menu-active-signal {
 		display: none;
-	}
+   }
+   .habla-top-menu-subitem {
+      vertical-align: middle;
+      display: inline-flex;
+   }
+
