@@ -58,7 +58,15 @@ class Header extends Component {
         <Link to="/app" className="habla-top-menu-user">
           <Dropdown overlay={menu} trigger={['click']}>
             <div className="ant-dropdown-link">
-              <UserIcon user={user} type="user" shape="square" minWidth="35px" width="35px" height="35px" />
+              <div className="habla-top-menu-subitem">
+                <UserIcon
+                  user={user}
+                  type="user"
+                  minWidth="35px"
+                  width="35px"
+                  height="35px"
+                />
+              </div>
               <span className="habla-top-menu-label">{user.firstName}</span>
             </div>
           </Dropdown>

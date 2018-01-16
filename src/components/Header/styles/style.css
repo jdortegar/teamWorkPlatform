@@ -79,3 +79,7 @@
 	.habla-top-menu-items a.habla-top-menu-user {
 		color: #fff!important;
 	}
+   .habla-top-menu-subitem {
+      vertical-align: middle;
+      display: inline-flex;
+   }
