@@ -349,12 +349,14 @@ class TeamRoomPage extends Component {
     const orderedMembers = _.orderBy(otherMembers, ['online', 'firstName', 'lastName', 'displayName'], ['desc', 'asc', 'asc', 'asc']);
 
     return [currentUser, ...orderedMembers].map(member => (
-      <UserIcon
-        user={member}
-        type="user"
-        key={member.userId}
-        online={member.online}
-      />
+      <div key={member.userId} className="px-1">
+        <UserIcon
+          user={member}
+          type="user"
+          key={member.userId}
+          online={member.online}
+        />
+      </div>
     ));
   }
 
