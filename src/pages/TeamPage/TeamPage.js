@@ -9,7 +9,8 @@ import SubpageHeader from '../../components/SubpageHeader';
 import Spinner from '../../components/Spinner';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import messages from './messages';
-import Avatar from '../../components/Avatar';
+import Avatar from '../../components/common/Avatar';
+import getInitials from '../../utils/helpers';
 import './styles/style.css';
 
 const propTypes = {
@@ -83,6 +84,7 @@ class TeamPage extends Component {
       const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
       const teamMemberFoundByUser = _.find(teamMembers, { userId: user.userId });
       const isAdmin = teamMemberFoundByUser.teams[teamId].role === 'admin';
+      const initials = getInitials(team.name);
       const editButton = {
         showButton: true,
         isAdmin,
@@ -106,16 +108,13 @@ class TeamPage extends Component {
             editButton={editButton}
           />
           <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
-            <Avatar
-              styles={{ width: '4em', height: '4em', margin: '0 auto' }}
-              name={team.name}
-              iconColor={team.preferences.iconColor}
-              image={team.preferences.avatarBase64 || team.preferences.logo}
-            />
-            <h1 className="New-team__title habla-big-title habla-bold-text margin-top-class-b">
-              {team.name}
-              <div className="habla-main-content-item-signal habla-color-green" />
-            </h1>
+            <Avatar size="x-large" color={team.preferences.iconColor}>{initials}</Avatar>
+            <div className="margin-top-class-b">
+              <h1 className="New-team__title habla-big-title habla-bold-text">
+                {team.name}
+                <div className="habla-main-content-item-signal habla-color-green" />
+              </h1>
+            </div>
             <div className="habla-secondary-paragraph margin-top-class-b">
               Created on November 27, 2017 by Mike Somlo
             </div>

@@ -94,7 +94,6 @@ class EditUserPage extends Component {
         this.props.updateUser(dataToUpdate)
           .then(() => {
             this.setState({ loading: false });
-            this.props.history.push('/app');
             notification.open({
               message: String.t('editUserPage.successToastTitle'),
               description: String.t('editUserPage.userUpdated'),

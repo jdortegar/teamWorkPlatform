@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
+import UserIcon from '../../../components/UserIcon';
 import Avatar from '../../../components/common/Avatar';
 import String from '../../../translations';
 import getInitials from '../../../utils/helpers';
@@ -43,12 +44,13 @@ function CardView(props) {
         return (
           <div key={team.teamId} className="px-1">
             <Tooltip placement="top" title={team.name}>
-              {
-                team.active ?
-                  <Link to={`/app/team/${team.teamId}`}>
-                    <Avatar size="large" color={team.preferences.iconColor}>{initials}</Avatar>
-                  </Link> :
+              { team.active &&
+                <Link to={`/app/team/${team.teamId}`}>
                   <Avatar size="large" color={team.preferences.iconColor}>{initials}</Avatar>
+                </Link>
+              }
+              { !team.active &&
+                <Avatar size="large" color={team.preferences.iconColor}>{initials}</Avatar>
               }
             </Tooltip>
           </div>
@@ -60,15 +62,19 @@ function CardView(props) {
   };
 
   const renderMembers = () => {
-    return props.subscribers.map(({ userId, firstName, lastName, preferences }) => {
-      const initials = getInitials(`${firstName} ${lastName}`);
+    return props.subscribers.map((member) => {
+      const { userId, displayName } = member;
       return (
         <div key={userId} className="px-1">
-          <Tooltip placement="top" title={`${firstName} ${lastName}`}>
+          <Tooltip placement="top" title={displayName}>
             <Link to={`/app/teamMember/${userId}`}>
-              <Avatar size="large" color={preferences.iconColor}>
-                {initials}
-              </Avatar>
+              <UserIcon
+                user={member}
+                type="user"
+                minWidth="3.4em"
+                width="3.4em"
+                height="3.4em"
+              />
             </Link>
           </Tooltip>
         </div>
@@ -89,7 +95,7 @@ function CardView(props) {
           });
 
           integrationsArr.push(
-            <div key="box">
+            <div key="box" className="px-1">
               <Link to={`/app/integrations/${subscriberOrgId}/box`}>
                 <Avatar size="large" src={boxLogo} className={desaturated} />
               </Link>
@@ -107,7 +113,7 @@ function CardView(props) {
 
         if ((typeof revoked === 'undefined') || (revoked === false)) {
           integrationsArr.push(
-            <div key="google">
+            <div key="google" className="px-1">
               <Link to={`/app/integrations/${subscriberOrgId}/google`}>
                 <Avatar size="large" src={googleDriveLogo} className={desaturated} />
               </Link>
@@ -122,7 +128,7 @@ function CardView(props) {
 
   const renderAddCard = (title, url) => {
     return (
-      <div className="px-1">
+      <div className="px-1 add-avatar">
         <Tooltip placement="top" title={title}>
           <Link to={url}>
             <Avatar size="large">
@@ -144,7 +150,7 @@ function CardView(props) {
           header={<SimpleHeader text={String.t('OrganizationPage.integrationsHeader', { count: integrationsArr.length })} />}
           key="1"
         >
-          <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
+          <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex integration-list">
             {renderAddCard(String.t('OrganizationPage.addNewIntegration'), `/app/integrations/${subscriberOrgId}`)}
             {integrationsArr}
           </SimpleCardContainer>

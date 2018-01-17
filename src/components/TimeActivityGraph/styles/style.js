@@ -4,16 +4,16 @@ const LINE_OPACITY = 0.4;
 
 export default {
   container: {
-    width: 1050,
-    height: 700,
+    parent: {
+      backgroundColor: BACKGROUND_COLOR
+    }
+  },
+  chart: {
     padding: {
       top: 10,
       right: 10,
       left: 70,
       bottom: 70
-    },
-    parent: {
-      backgroundColor: BACKGROUND_COLOR
     }
   },
   scatter: {

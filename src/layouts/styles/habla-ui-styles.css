@@ -507,6 +507,9 @@ p {
 .ant-card-extra {
 	padding: 0;
 }
+.ant-collapse-content {
+	padding: 0 20px;
+}
 .pl-0 {
   padding-left: 0;
 }
@@ -608,8 +611,8 @@ p {
   padding-right: 0;
 }
 .px-1 {
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 .px-2 {
   padding-left: 16px;

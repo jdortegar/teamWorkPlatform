@@ -2,10 +2,13 @@ import React from 'react';
 import { Tooltip, Collapse } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Avatar from '../../../components/common/Avatar';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
 import { IconCard } from '../../../components/cards';
+import UserIcon from '../../../components/UserIcon';
 import String from '../../../translations';
+import getInitials from '../../../utils/helpers';
 
 const Panel = Collapse.Panel;
 
@@ -19,13 +22,19 @@ const propTypes = {
 function CardView(props) {
   const { teamRooms, teamMembers } = props;
   const renderTeamRooms = () => {
-    return teamRooms.map(({ name, teamRoomId }) => {
+    return teamRooms.map(({ active, name, teamRoomId, preferences }) => {
+      const initials = getInitials(name);
       return (
-        <div key={teamRoomId}>
+        <div key={teamRoomId} className="px-1">
           <Tooltip placement="top" title={name}>
-            <Link to={`/app/teamRoom/${teamRoomId}`}>
-              <IconCard text={name} />
-            </Link>
+            {
+              active ?
+                <Link to={`/app/teamRoom/${teamRoomId}`}>
+                  <Avatar size="large" color={preferences.iconColor}>{initials}</Avatar>
+                </Link>
+                :
+                <Avatar size="large" color={preferences.iconColor}>{initials}</Avatar>
+            }
           </Tooltip>
         </div>
       );
@@ -33,12 +42,18 @@ function CardView(props) {
   };
 
   const renderTeamMembers = () => {
-    return teamMembers.map(({ displayName, userId }) => {
+    return teamMembers.map((member) => {
       return (
-        <div key={userId}>
-          <Tooltip placement="top" title={displayName}>
+        <div key={member.userId} className="px-1">
+          <Tooltip placement="top" title={member.displayName}>
             <a>
-              <IconCard text={displayName} />
+              <UserIcon
+                user={member}
+                type="member"
+                minWidth="3.4em"
+                width="3.4em"
+                height="3.4em"
+              />
             </a>
           </Tooltip>
         </div>
@@ -48,7 +63,7 @@ function CardView(props) {
 
   const renderAddCard = (title, url = null) => {
     return (
-      <div>
+      <div className="px-1">
         <Tooltip placement="top" title={title}>
           <Link to={url}>
             <IconCard icon={<i className="fa fa-plus simple-card__icons" />} />
