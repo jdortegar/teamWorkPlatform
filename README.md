@@ -159,5 +159,3 @@ TODO before Production push:
 3. npm run build
 4. Overwrite: node_modules/react-graph-vis/lib/index.js ---> Rob's job
  
- Mario
-
