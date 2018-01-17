@@ -12,10 +12,12 @@ import Spinner from '../../components/Spinner';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import TextField from '../../components/formFields/TextField';
 import UserIcon from '../../components/UserIcon';
+import Avatar from '../../components/common/Avatar';
 import PreviewBar from '../../components/PreviewBar';
 import Message from '../../components/Message';
 import { getJwt, getResourcesUrl } from '../../session';
 import String from '../../translations';
+import getInitials from '../../utils/helpers';
 import './styles/style.css';
 
 const propTypes = {
@@ -348,14 +350,12 @@ class TeamRoomPage extends Component {
     const otherMembers = _.reject(members, { userId: user.userId });
     const orderedMembers = _.orderBy(otherMembers, ['online', 'firstName', 'lastName', 'displayName'], ['desc', 'asc', 'asc', 'asc']);
 
-    return [currentUser, ...orderedMembers].map(member => (
-      <UserIcon
-        user={member}
-        type="user"
-        key={member.userId}
-        online={member.online}
-      />
-    ));
+    return [currentUser, ...orderedMembers].map(({ firstName, lastName, userId, preferences }) => {
+      const initials = getInitials(`${firstName} ${lastName}`);
+      return (
+        <Avatar key={userId} color={preferences.iconColor} className="ml-1">{initials}</Avatar>
+      );
+    });
   }
 
   renderMembersTyping() {
