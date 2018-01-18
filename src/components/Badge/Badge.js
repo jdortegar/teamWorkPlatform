@@ -16,7 +16,7 @@ const defaultProps = {
 const Badge = ({ count, styles }) => {
   return count > 0 && (
     <div className="Badge" style={styles}>
-      {count}
+      {count > 99 ? '99+' : count}
     </div>
   );
 };
