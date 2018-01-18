@@ -21,6 +21,14 @@ const layout = {
   wrapperCol: { xs: 24 }
 };
 
+const validateCheckbox = (rule, value, callback) => {
+  if (!value) {
+    callback(String.t('register.acceptTermsOfService'));
+  }
+
+  callback();
+};
+
 class Register extends React.Component {
   constructor(props) {
     super(props);
@@ -30,7 +38,6 @@ class Register extends React.Component {
     this.onCancel = this.onCancel.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onResend = this.onResend.bind(this);
-    this.onCheckboxChange = this.onCheckboxChange.bind(this);
   }
 
   onCancel() {
@@ -44,10 +51,6 @@ class Register extends React.Component {
   onResend() {
     this.setState({ registered: false });
     this.doSubmit(this.state.email);
-  }
-
-  onCheckboxChange() {
-    this.setState({ agreementsChecked: !this.state.agreementsChecked });
   }
 
   doSubmit(email) {
@@ -107,12 +110,15 @@ class Register extends React.Component {
         <FormItem className="no-margin">
           {getFieldDecorator('agreement', {
             valuePropName: 'checked',
-            rules: [{
-              required: true, message: String.t('register.acceptTermsOfService')
-            }]
+            rules: [
+              {
+                required: true, message: String.t('register.acceptTermsOfService')
+              },
+              {
+                validator: validateCheckbox
+              }]
           })(
             <Checkbox
-              onChange={this.onCheckboxChange}
               tabIndex={0}
             />
           )}
