@@ -30,6 +30,9 @@
 .border-bottom-lighter {
 	border-bottom: 1px solid #eee;
 }
+.border-bottom-red {
+	border-bottom: 2px solid #eb4435;
+}
 .border-top-lighter {
 	border-top: 1px solid #eee;
 }

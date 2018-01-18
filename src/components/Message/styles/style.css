@@ -59,6 +59,18 @@
   border-left: 10px solid #ccc;
   -webkit-transition: display 2s;
 }
+.message__last-read {
+  position: absolute;
+  text-transform: uppercase;
+  background-color: #eb4435;
+  color: white;
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 10px 12px;
+  right: 10px;
+  bottom: -17px;
+  z-index: 1;
+}
 .message__options {
   background-color: #000;
   border-radius: 4px;
