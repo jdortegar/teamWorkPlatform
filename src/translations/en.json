@@ -268,7 +268,8 @@
     "tooltipFlag": "Flag",
     "tooltipMute": "Mute",
     "tooltipUnmute": "Unmute",
-    "tooltipEdit": "Edit"
+    "tooltipEdit": "Edit",
+    "unreadMessageSeparator": "New"
   },
   "previewBar": {
     "name": "{{firstName}} {{lastName}}",

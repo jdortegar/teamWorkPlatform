@@ -17,11 +17,13 @@ const propTypes = {
   user: PropTypes.object.isRequired,
   subscriberOrgId: PropTypes.string.isRequired,
   teamId: PropTypes.string.isRequired,
-  teamRoomId: PropTypes.string.isRequired
+  teamRoomId: PropTypes.string.isRequired,
+  lastRead: PropTypes.bool
 };
 
 const defaultProps = {
-  onFileChange: null
+  onFileChange: null,
+  lastRead: false
 };
 
 class Message extends Component {
@@ -55,7 +57,7 @@ class Message extends Component {
   }
 
   render() {
-    const { message, user, teamRoomMembersObj, hide } = this.props;
+    const { message, user, teamRoomMembersObj, hide, lastRead } = this.props;
     const { messageId, children, level, content } = message;
     const { firstName, lastName, preferences, userId } = user;
     const date = moment(message.created).fromNow();
@@ -89,7 +91,7 @@ class Message extends Component {
 
     return (
       <div className={messageReplyPaddingLeft}>
-        <div className="message__main-container border-bottom-lighter">
+        <div className={classNames('message__main-container', `border-bottom-${lastRead ? 'red' : 'lighter'}`)}>
           <Row type="flex" justify="start" gutter={20}>
             <Col xs={{ span: 5 }} sm={{ span: 3 }} md={{ span: 2 }} className="message__col-user-icon">
               <UserIcon user={user} type="user" minWidth="2.5em" width="2.5em" height="2.5em" key={userId} />
@@ -113,6 +115,11 @@ class Message extends Component {
             </span>
             <i className="counter fa fa-reply fa-rotate-180" />
           </div>
+          }
+          { lastRead &&
+            <div className="message__last-read">
+              {String.t('message.unreadMessageSeparator')}
+            </div>
           }
           <div className="message__options hide">
             <Tooltip placement="topLeft" title={String.t('message.tooltipReply')} arrowPointAtCenter>
