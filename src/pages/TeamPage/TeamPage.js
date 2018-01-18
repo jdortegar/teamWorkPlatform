@@ -4,7 +4,6 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
 import CardView from './CardView';
-import ListView from './ListView';
 import SubpageHeader from '../../components/SubpageHeader';
 import Spinner from '../../components/Spinner';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
@@ -121,22 +120,13 @@ class TeamPage extends Component {
             </div>
           </SimpleCardContainer>
           <div className="teamPage-list">
-            {
-              this.state.view === 'card' ?
-                <CardView
-                  userId={user.userId}
-                  teamId={teamId}
-                  teamRooms={teamRooms}
-                  teamMembers={teamMembers}
-                  onSwitchView={() => this.setState({ view: 'list' })}
-                /> :
-                <ListView
-                  teamId={teamId}
-                  teamRooms={teamRooms}
-                  teamMembers={teamMembers}
-                  onSwitchView={() => this.setState({ view: 'card' })}
-                />
-            }
+            <CardView
+              userId={user.userId}
+              teamId={teamId}
+              teamRooms={teamRooms}
+              teamMembers={teamMembers}
+              onSwitchView={() => this.setState({ view: 'list' })}
+            />
           </div>
         </div>
       );
