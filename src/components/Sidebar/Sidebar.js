@@ -205,7 +205,7 @@ class Sidebar extends Component {
             </div>
             <span className="habla-left-navigation-item-label" onClick={() => this.goToTeamRoomPage(teamRoom.teamRoomId)}>{teamRoom.name}</span>
             <div className="clear" />
-            <Badge count={5} />
+            <Badge count={0 /* TODO: get the actual count of unread messages */} />
           </div>
         </div>
       </Menu.Item>
