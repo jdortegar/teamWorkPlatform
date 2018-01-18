@@ -7,7 +7,6 @@ import { hablaBlackLogo, hablaBlackLogoIcon } from '../../img';
 import './styles/style.css';
 import String from '../../translations';
 
-
 const AntdHeader = Layout.Header;
 
 class Header extends Component {
@@ -62,9 +61,9 @@ class Header extends Component {
                 <UserIcon
                   user={user}
                   type="user"
-                  minWidth="35px"
-                  width="35px"
-                  height="35px"
+                  minWidth="30px"
+                  width="30px"
+                  height="30px"
                 />
               </div>
               <span className="habla-top-menu-label">{user.firstName}</span>

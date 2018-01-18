@@ -1,8 +1,10 @@
-
 .Subpage-header__title a {
 	font-weight: 300;
 	color: #000;
 }
 .Subpage-header__title a:hover {
 	color: #666;
+}
+.Subpage-header__title.habla-title {
+	line-height: 12pt;
 }

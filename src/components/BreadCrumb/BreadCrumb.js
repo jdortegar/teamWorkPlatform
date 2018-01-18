@@ -10,7 +10,7 @@ class BreadCrumb extends React.Component {
     return (
       <span className="breadcrumbs-avatar">
         <Avatar
-          styles={{ width: '2em', height: '2em' }}
+          styles={{ width: '30px', height: '30px' }}
           name={subscriberOrg.name}
           iconColor={subscriberOrg.preferences.iconColor}
           image={subscriberOrg.preferences.avatarBase64 || subscriberOrg.preferences.logo}

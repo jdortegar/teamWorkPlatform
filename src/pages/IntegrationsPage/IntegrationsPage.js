@@ -7,7 +7,6 @@ import { extractQueryParams } from '../../routes';
 import { badIntegration, successfulIntegration } from './notifications';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
-import SimpleHeader from '../../components/SimpleHeader';
 import { ImageCard } from '../../components/cards';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import { boxLogo, googleDriveLogo } from '../../img';
@@ -134,17 +133,14 @@ class IntegrationsPage extends Component {
             />
           }
         />
-        <SimpleHeader
-          text={
-            <div className="habla-paragraph margin-top-class-b">{String.t('integrationsPage.selectIntegration')}</div>
-          }
-          type="node"
-        />
-        <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex habla-integration-list margin-top-class-b">
-          <Row type="flex">
-            {renderIntegrations()}
-          </Row>
-        </SimpleCardContainer>
+        <div className="padding-class-b">
+          <div className="habla-paragraph">{String.t('integrationsPage.selectIntegration')}</div>
+          <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex habla-integration-list margin-top-class-b">
+            <Row type="flex">
+              {renderIntegrations()}
+            </Row>
+          </SimpleCardContainer>
+        </div>
       </div>
     );
   }

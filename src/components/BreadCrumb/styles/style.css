@@ -1,12 +1,10 @@
 .breadcrumbs-text {
-   vertical-align: middle;
+   vertical-align: inherit;
 }
-
 .breadcrumbs-container {
   display: -webkit-inline-box;
   vertical-align: -webkit-baseline-middle;
 }
-
 .breadcrumbs-avatar {
   display: -webkit-inline-box;
   vertical-align: top;

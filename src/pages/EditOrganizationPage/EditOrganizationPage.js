@@ -118,7 +118,7 @@ class EditOrganizationPage extends Component {
         </NewSubpageHeader>
         <div className="edit-org__subpage-body">
           <Form onSubmit={this.handleSubmit} layout="vertical">
-            <div className="edit-org__form padding-class-a">
+            <div className="edit-org__form padding-class-b">
               <div className="edit__container">
                 <div>
                   <div className="edit__form__title habla-paragraph margin-bottom-class-a">{String.t('editOrgPage.organizationName')}</div>

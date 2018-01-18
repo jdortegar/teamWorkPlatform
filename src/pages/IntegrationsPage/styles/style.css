@@ -29,6 +29,7 @@
 .habla-integration-list .ant-card  {
 	background: #fff;
 	border: 1px solid #eee!important;
+	margin: 5px 10px 0 0;
 }
 .habla-integration-list img  {
 	width: 50px;

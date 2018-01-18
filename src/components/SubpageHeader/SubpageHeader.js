@@ -19,7 +19,7 @@ function SubpageHeader({ breadcrumb, icon, editButton = {} }) {
     <div className="habla-main-content-header padding-class-a border-bottom-lighter">
       <div className="habla-main-content-header-title">
         {icon}
-        <h1 className="Subpage-header__title habla-title margin-left-class-a">{breadcrumb}</h1>
+        <h1 className="Subpage-header__title habla-title">{breadcrumb}</h1>
       </div>
       <div className="habla-main-content-header-actions">
         {showButton && isAdmin && <EditButton url={url} />}

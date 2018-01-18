@@ -510,6 +510,14 @@ p {
 .ant-collapse-content {
 	padding: 0 20px;
 }
+.ant-dropdown-menu {
+	top: 7px;
+	right: -15px;
+}
+
+
+
+
 .pl-0 {
   padding-left: 0;
 }
