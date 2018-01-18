@@ -43,13 +43,20 @@ function CardView(props) {
         return (
           <div key={team.teamId} className="mx-1">
             <Tooltip placement="top" title={team.name}>
-              { team.active &&
+              { team.active ?
                 <Link to={`/app/team/${team.teamId}`}>
-                  <Avatar size="large" color={team.preferences.iconColor}>{initials}</Avatar>
-                </Link>
-              }
-              { !team.active &&
-                <Avatar size="large" color={team.preferences.iconColor}>{initials}</Avatar>
+                  {team.icon ?
+                    <Avatar size="large" src={`data:image/jpeg;base64, ${team.icon}`} /> :
+                    <Avatar size="large" color={team.preferences.iconColor}>{initials}</Avatar>
+                  }
+                </Link> :
+                <div>
+                  {
+                    team.icon ?
+                      <Avatar size="large" src={`data:image/jpeg;base64, ${team.icon}`} /> :
+                      <Avatar size="large" color={team.preferences.iconColor}>{initials}</Avatar>
+                  }
+                </div>
               }
             </Tooltip>
           </div>
@@ -62,15 +69,18 @@ function CardView(props) {
 
   const renderMembers = () => {
     return props.subscribers.map((member) => {
-      const { userId, firstName, lastName, preferences } = member;
-      const initials = getInitials(`${firstName} ${lastName}`);
+      const { userId, firstName, lastName, preferences, icon } = member;
       return (
         <div key={userId} className="mx-1">
           <Tooltip placement="top" title={`${firstName} ${lastName}`}>
             <Link to={`/app/teamMember/${userId}`}>
-              <Avatar size="large" color={preferences.iconColor}>
-                {initials}
-              </Avatar>
+              {
+                icon ?
+                  <Avatar size="large" src={`data:image/jpeg;base64, ${icon}`} /> :
+                  <Avatar size="large" color={preferences.iconColor}>
+                    {getInitials(`${firstName} ${lastName}`)}
+                  </Avatar>
+              }
             </Link>
           </Tooltip>
         </div>

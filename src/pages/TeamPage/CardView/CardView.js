@@ -37,15 +37,18 @@ function CardView(props) {
   };
 
   const renderTeamMembers = () => {
-    return teamMembers.map(({ userId, firstName, lastName, preferences }) => {
-      const initials = getInitials(`${firstName} ${lastName}`);
+    return teamMembers.map(({ userId, firstName, lastName, preferences, icon }) => {
       return (
         <div key={userId} className="mx-1">
           <Tooltip placement="top" title={`${firstName} ${lastName}`}>
             <Link to={`/app/teamMember/${userId}`}>
-              <Avatar size="large" color={preferences.iconColor}>
-                {initials}
-              </Avatar>
+              {
+                icon ?
+                  <Avatar size="large" src={`data:image/jpeg;base64, ${icon}`} /> :
+                  <Avatar size="large" color={preferences.iconColor}>
+                    {getInitials(`${firstName} ${lastName}`)}
+                  </Avatar>
+              }
             </Link>
           </Tooltip>
         </div>

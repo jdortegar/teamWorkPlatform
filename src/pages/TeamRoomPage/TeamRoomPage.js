@@ -350,8 +350,11 @@ class TeamRoomPage extends Component {
     const otherMembers = _.reject(members, { userId: user.userId });
     const orderedMembers = _.orderBy(otherMembers, ['online', 'firstName', 'lastName', 'displayName'], ['desc', 'asc', 'asc', 'asc']);
 
-    return [currentUser, ...orderedMembers].map(({ firstName, lastName, userId, preferences }) => {
+    return [currentUser, ...orderedMembers].map(({ firstName, lastName, userId, preferences, icon }) => {
       const initials = getInitials(`${firstName} ${lastName}`);
+      if (icon) {
+        return <Avatar src={`data:image/jpeg;base64, ${icon}`} />;
+      }
       return (
         <Avatar key={userId} color={preferences.iconColor} className="ml-1">{initials}</Avatar>
       );
