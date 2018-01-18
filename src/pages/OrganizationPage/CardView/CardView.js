@@ -41,7 +41,7 @@ function CardView(props) {
       const initials = getInitials(team.name);
       if (teamRender) {
         return (
-          <div key={team.teamId} className="px-1">
+          <div key={team.teamId} className="mx-1">
             <Tooltip placement="top" title={team.name}>
               {
                 team.active ?
@@ -63,7 +63,7 @@ function CardView(props) {
     return props.subscribers.map(({ userId, firstName, lastName, preferences }) => {
       const initials = getInitials(`${firstName} ${lastName}`);
       return (
-        <div key={userId} className="px-1">
+        <div key={userId} className="mx-1">
           <Tooltip placement="top" title={`${firstName} ${lastName}`}>
             <Link to={`/app/teamMember/${userId}`}>
               <Avatar size="large" color={preferences.iconColor}>
@@ -89,7 +89,7 @@ function CardView(props) {
           });
 
           integrationsArr.push(
-            <div key="box">
+            <div key="box" className="mx-1">
               <Link to={`/app/integrations/${subscriberOrgId}/box`}>
                 <Avatar size="large" src={boxLogo} className={desaturated} />
               </Link>
@@ -122,7 +122,7 @@ function CardView(props) {
 
   const renderAddCard = (title, url) => {
     return (
-      <div className="px-1">
+      <div className="mx-1">
         <Tooltip placement="top" title={title}>
           <Link to={url}>
             <Avatar size="large">
