@@ -116,7 +116,11 @@ class Message extends Component {
             <i className="counter fa fa-reply fa-rotate-180" />
           </div>
           }
-          { lastRead && <div className="message__last-read"><span>New</span></div> }
+          { lastRead &&
+            <div className="message__last-read">
+              {String.t('message.unreadMessageSeparator')}
+            </div>
+          }
           <div className="message__options hide">
             <Tooltip placement="topLeft" title={String.t('message.tooltipReply')} arrowPointAtCenter>
               <a
