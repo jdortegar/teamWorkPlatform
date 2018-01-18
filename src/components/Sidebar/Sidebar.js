@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import String from '../../translations';
 import Button from '../../components/common/Button';
 import Avatar from '../../components/common/Avatar';
+import Badge from '../../components/Badge';
 import {
   sortByName,
   primaryAtTop
@@ -198,16 +199,17 @@ class Sidebar extends Component {
     return teamRoomsByTeamId.map(teamRoom => (
       <Menu.Item key={teamRoom.teamRoomId}>
         <div className="habla-left-navigation-teamroom-list">
-          <div className="padding-class-a">
+          <div className="habla-left-navigation-teamroom-list-item padding-class-a">
             <div className="float-left-class">
               {renderAvatar(teamRoom)}
             </div>
             <span className="habla-left-navigation-item-label" onClick={() => this.goToTeamRoomPage(teamRoom.teamRoomId)}>{teamRoom.name}</span>
             <div className="clear" />
+            <Badge count={5} />
           </div>
         </div>
-      </Menu.Item>),
-    );
+      </Menu.Item>
+    ));
   }
 
   renderTeams(orgId) {
