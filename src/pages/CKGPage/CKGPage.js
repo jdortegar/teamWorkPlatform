@@ -17,7 +17,7 @@ const buildTime = dateTime => moment().startOf('day').set({
 
 const buildDataObject = (file) => {
   const dateTime = moment(file.lastModified);
-  const displayTimestamp = moment(dateTime).format(String.t('timeActivityGraph.dateFormat')) + ' ' + moment(dateTime).format(String.t('timeActivityGraph.timeFormat'))
+  const displayTimestamp = `${moment(dateTime).format(String.t('timeActivityGraph.dateFormat'))} ${moment(dateTime).format(String.t('timeActivityGraph.timeFormat'))}`;
   const fileName = file.fileName;
   const fileSize = formatSize(file.fileSize);
 
@@ -28,7 +28,7 @@ const buildDataObject = (file) => {
     displayDate: moment(dateTime).format(String.t('timeActivityGraph.dateFormat')),
     displayTime: moment(dateTime).format(String.t('timeActivityGraph.timeFormat')),
     color: color(file.fileExtension),
-    label: fileName + '\n' + displayTimestamp + '\n' + fileSize
+    label: `${fileName}\n${displayTimestamp}\n${fileSize}`
   };
 };
 
@@ -44,9 +44,11 @@ const defaultProps = {
 };
 
 class CKGPage extends Component {
-  componentDidMount() {
+  componentWillReceiveProps(nextProps) {
     const { currentSubscriberOrgId, fetchTimeActivitiesBySubscriberOrgId } = this.props;
-    if (currentSubscriberOrgId) fetchTimeActivitiesBySubscriberOrgId(currentSubscriberOrgId);
+    if (currentSubscriberOrgId !== nextProps.currentSubscriberOrgId) {
+      fetchTimeActivitiesBySubscriberOrgId(nextProps.currentSubscriberOrgId);
+    }
   }
 
   render() {
