@@ -1,5 +1,6 @@
 export NewSubpageHeader from './NewSubpageHeader';
 export Avatar from './Avatar';
+export Badge from './Badge';
 export TimeActivityGraph from './TimeActivityGraph';
 export TimeActivityGraphReact from './TimeActivityGraphReact';
 
