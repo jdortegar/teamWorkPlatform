@@ -276,7 +276,8 @@
     "dropFilesPlaceholder": "Drop your files here."
   },
   "sideBar": {
-    "addOrganization": "Add Organization"
+    "addOrganization": "Add Organization",
+    "badgeTopLimit": "99+"
   },
   "timeActivityGraph": {
     "displayTime": "{{displayDate}} at {{displayTime}}",

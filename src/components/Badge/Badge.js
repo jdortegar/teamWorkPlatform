@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import String from '../../translations';
 import './styles/style.css';
 
 const propTypes = {
@@ -16,7 +17,7 @@ const defaultProps = {
 const Badge = ({ count, styles }) => {
   return count > 0 && (
     <div className="Badge" style={styles}>
-      {count > 99 ? '99+' : count}
+      {count > 99 ? String.t('sideBar.badgeTopLimit') : count}
     </div>
   );
 };
