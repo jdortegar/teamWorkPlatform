@@ -72,12 +72,12 @@ class MainContent extends Component {
       if (invitation.teamName || invitation.teamRoomName) {
         const { firstName, lastName } = this.props.users[invitation.inviteeUserIdOrEmail];
         if (invitation.teamRoomName) {
-          text = `${firstName} ${lastName} has declined your invitation to join team room ${invitation.teamRoomName}`;
+          text = String.t('MainContent.declinedRoom', { firstName, lastName, teamRoomName: invitation.teamRoomName, teamName: invitation.teamName });
         } else if (invitation.teamName) {
-          text = `${firstName} ${lastName} has declined your invitation to join team ${invitation.teamName}`;
+          text = String.t('MainContent.declinedTeam', { firstName, lastName, teamName: invitation.teamName });
         }
       } else {
-        text = `${invitation.inviteeUserIdOrEmail} has declined your invitation to join  ${invitation.subscriberOrgName}`;
+        text = String.t('MainContent.declinedOrg', { inviteeUserIdOrEmail: invitation.inviteeUserIdOrEmail, subscriberOrgName: invitation.subscriberOrgName });
       }
       const args = {
         message: text,
