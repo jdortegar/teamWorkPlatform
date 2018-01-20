@@ -170,6 +170,9 @@
   "cardViewTitle": "Card View",
   "listViewTitle": "Details View",
   "OrganizationPage": {
+    "newButtonLabel": "New",
+    "gdriveIntegrationLabel": "Google Drive",
+    "boxIntegrationLabel": "Box",
     "addNewTeam": "Add New Team",
     "addNewMember": "Add New Team Member",
     "addNewIntegration": "Add New Integration",

@@ -1,16 +1,20 @@
-/* HABLA AI UI STYLES V.1.0 */
-
 /* HABLA AI GENERAL FORMATING ELEMENTS ---------- */
+
 .body {
 	margin: 0;
 	padding: 0;
-	font-family: 'Lato', sans-serif!important;
+	font-family: 'Lato', sans-serif;
 	background: #ccc;
 	color: #000;
 }
 #app {
+	height: 100%;
 	font-family: 'Lato', sans-serif;
 	background: #ccc;
+}
+#app > div {
+	height: 100%;
+	display: flex;
 }
 .desaturate {
   filter: grayscale(100%);
@@ -108,10 +112,16 @@ p {
 .flex-class {
 	display: flex;
 }
+.inactive {
+	background-color: #c1c1c1;
+}
 
 
 /* COLORS ---------- */
 
+.habla-color-white {
+	background: #fff;
+}
 .habla-color-black {
 	background: #000;
 }
@@ -465,14 +475,12 @@ p {
 	border: none;
 }
 .ant-collapse > .ant-collapse-item > .ant-collapse-header {
-	padding: 0 0 0 41px;
+	padding: 0 0 0 40px;
 }
 .ant-collapse-borderless > .ant-collapse-item {
 	border-bottom: 1px solid #eee!important;
 }
-.ant-collapse-content {
-	padding: 0 10px;
-}
+
 .team-room__chat-input .ant-form-item {
 	margin: 0!important;
 }
@@ -488,8 +496,8 @@ p {
 .ant-card {
 	background: #ccc;
 	color: #fff!important;
-	width: 50px;
-	height: 50px;
+	width: 55px;
+	height: 55px;
 	border: none!important;
 }
 .ant-switch-checked {
@@ -511,7 +519,7 @@ p {
 	padding: 0;
 }
 .ant-collapse-content {
-	padding: 0 20px;
+	padding: 0 50px;
 }
 .ant-dropdown-menu {
 	top: 7px;

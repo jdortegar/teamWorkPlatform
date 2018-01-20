@@ -41,7 +41,7 @@ function CardView(props) {
       const initials = getInitials(team.name);
       if (teamRender) {
         return (
-          <div key={team.teamId} className="mx-1">
+          <div key={team.teamId} className="mr-1">
             <Tooltip placement="top" title={team.name}>
               { team.active ?
                 <Link to={`/app/team/${team.teamId}`}>
@@ -58,6 +58,9 @@ function CardView(props) {
                   }
                 </div>
               }
+              <div className="habla-label align-center-class card-label">
+                {team.name}
+              </div>
             </Tooltip>
           </div>
         );
@@ -71,7 +74,7 @@ function CardView(props) {
     return props.subscribers.map((member) => {
       const { userId, firstName, lastName, preferences, icon } = member;
       return (
-        <div key={userId} className="mx-1">
+        <div key={userId} className="mr-1">
           <Tooltip placement="top" title={`${firstName} ${lastName}`}>
             <Link to={`/app/teamMember/${userId}`}>
               {
@@ -81,6 +84,9 @@ function CardView(props) {
                     {getInitials(`${firstName} ${lastName}`)}
                   </Avatar>
               }
+              <div className="habla-label align-center-class card-label">
+                {firstName}
+              </div>
             </Link>
           </Tooltip>
         </div>
@@ -101,10 +107,15 @@ function CardView(props) {
           });
 
           integrationsArr.push(
-            <div key="box" className="mx-1">
-              <Link to={`/app/integrations/${subscriberOrgId}/box`}>
-                <Avatar size="large" src={boxLogo} className={desaturated} />
-              </Link>
+            <div key="box" className="mr-1 integration-card">
+              <Tooltip placement="top" title={String.t('OrganizationPage.boxIntegrationLabel')}>
+                <Link to={`/app/integrations/${subscriberOrgId}/box`}>
+                  <Avatar size="large" src={boxLogo} className={desaturated} />
+                  <div className="habla-label align-center-class card-label">
+                    {String.t('OrganizationPage.boxIntegrationLabel')}
+                  </div>
+                </Link>
+              </Tooltip>
             </div>
           );
         }
@@ -119,10 +130,15 @@ function CardView(props) {
 
         if ((typeof revoked === 'undefined') || (revoked === false)) {
           integrationsArr.push(
-            <div key="google" className="mx-1">
-              <Link to={`/app/integrations/${subscriberOrgId}/google`}>
-                <Avatar size="large" src={googleDriveLogo} className={desaturated} />
-              </Link>
+            <div key="google" className="mr-1 integration-card">
+              <Tooltip placement="top" title={String.t('OrganizationPage.gdriveIntegrationLabel')}>
+                <Link to={`/app/integrations/${subscriberOrgId}/google`}>
+                  <Avatar size="large" src={googleDriveLogo} className={desaturated} />
+                  <div className="habla-label align-center-class card-label">
+                    {String.t('OrganizationPage.gdriveIntegrationLabel')}
+                  </div>
+                </Link>
+              </Tooltip>
             </div>
           );
         }
@@ -134,12 +150,15 @@ function CardView(props) {
 
   const renderAddCard = (title, url) => {
     return (
-      <div className="mx-1">
+      <div className="mr-1">
         <Tooltip placement="top" title={title}>
           <Link to={url}>
             <Avatar size="large">
               <i className="fa fa-plus" />
             </Avatar>
+            <div className="habla-label align-center-class card-label">
+              {String.t('OrganizationPage.newButtonLabel')}
+            </div>
           </Link>
         </Tooltip>
       </div>

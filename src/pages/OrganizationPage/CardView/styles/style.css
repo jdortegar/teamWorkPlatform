@@ -1,12 +1,14 @@
-.inactive {
-	background-color: #c1c1c1;
+.Simple-card--no-padding a {
+	display: block;
 }
-
-#app {
-	height: 100%;
+.card-label {
+    width: 55px;
+    overflow: hidden;
+    height: 1.2em;
+    text-overflow: ellipsis;
+    white-space: nowrap;		
 }
-
-#app > div {
-	height: 100%;
-	display: flex;
+.integration-list .integration-card .ant-avatar {
+	background: #fff!important;
+	border: 1px solid #eee;
 }

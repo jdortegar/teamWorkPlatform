@@ -31,3 +31,21 @@
 .habla-avatar--size-small > * {
   line-height: 20px;
 }
+
+/* Letters in avatars */
+.habla-avatar--size-x-large .ant-avatar-string {
+  font-size: 22pt;
+  font-weight: 700;
+}
+.habla-avatar--size-large .ant-avatar-string {
+  font-size: 18pt;
+  font-weight: 700;
+}
+.habla-avatar--size-default .ant-avatar-string {
+  font-size: 10pt;
+  font-weight: 700;
+}
+.habla-avatar--size-small .ant-avatar-string {
+  font-size: 5pt;
+  font-weight: 700;
+}
