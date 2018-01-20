@@ -45,9 +45,11 @@ const defaultProps = {
 };
 
 class CKGPage extends Component {
-  componentDidMount() {
+  componentWillReceiveProps(nextProps) {
     const { currentSubscriberOrgId, fetchTimeActivitiesBySubscriberOrgId } = this.props;
-    if (currentSubscriberOrgId) fetchTimeActivitiesBySubscriberOrgId(currentSubscriberOrgId);
+    if (currentSubscriberOrgId !== nextProps.currentSubscriberOrgId) {
+      fetchTimeActivitiesBySubscriberOrgId(nextProps.currentSubscriberOrgId);
+    }
   }
 
   render() {
