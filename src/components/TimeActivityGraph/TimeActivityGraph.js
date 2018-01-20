@@ -101,6 +101,26 @@ class TimeActivityGraph extends React.Component {
           />
           <VictoryScatter
             labelComponent={<VictoryTooltip />}
+            events={[{
+              target: "data",
+              eventHandlers: {
+                onMouseOver: () => { },
+                onMouseOut: () => { },
+                onClick: () => {
+                  return {
+                    target: "labels",
+                    mutation: () => ({ active: true })
+                  };
+                },
+                onDoubleClick: (e, bubble) => {
+                  let link = bubble.data[bubble.index].resourceUri;
+                  return {
+                    target: "labels",
+                    mutation: () => window.open(link, "_blank")
+                  };
+                }
+              }
+            }]}
             style={styles.scatter}
             size={5}
             data={files}

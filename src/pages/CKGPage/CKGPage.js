@@ -20,6 +20,7 @@ const buildDataObject = (file) => {
   const displayTimestamp = moment(dateTime).format(String.t('timeActivityGraph.dateFormat')) + ' ' + moment(dateTime).format(String.t('timeActivityGraph.timeFormat'))
   const fileName = file.fileName;
   const fileSize = formatSize(file.fileSize);
+  const fileUri = file.resourceUri;
 
   return {
     ...file,
@@ -28,7 +29,7 @@ const buildDataObject = (file) => {
     displayDate: moment(dateTime).format(String.t('timeActivityGraph.dateFormat')),
     displayTime: moment(dateTime).format(String.t('timeActivityGraph.timeFormat')),
     color: color(file.fileExtension),
-    label: fileName + '\n' + displayTimestamp + '\n' + fileSize
+    label: fileName + '\n' + displayTimestamp + '\n' + fileSize + '\n' + fileUri
   };
 };
 
