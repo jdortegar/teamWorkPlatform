@@ -61,7 +61,6 @@ class TimeActivityGraph extends React.Component {
 
   render() {
     const { files } = this.props;
-    console.warn('FILES', files);
     return (
       <div
         ref={(node) => { this.container = node; }}
@@ -102,21 +101,21 @@ class TimeActivityGraph extends React.Component {
           <VictoryScatter
             labelComponent={<VictoryTooltip />}
             events={[{
-              target: "data",
+              target: 'data',
               eventHandlers: {
                 onMouseOver: () => { },
                 onMouseOut: () => { },
                 onClick: () => {
                   return {
-                    target: "labels",
+                    target: 'labels',
                     mutation: () => ({ active: true })
                   };
                 },
                 onDoubleClick: (e, bubble) => {
-                  let link = bubble.data[bubble.index].resourceUri;
+                  const link = bubble.data[bubble.index].resourceUri;
                   return {
-                    target: "labels",
-                    mutation: () => window.open(link, "_blank")
+                    target: 'labels',
+                    mutation: () => window.open(link, '_blank')
                   };
                 }
               }

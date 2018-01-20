@@ -17,7 +17,7 @@ const buildTime = dateTime => moment().startOf('day').set({
 
 const buildDataObject = (file) => {
   const dateTime = moment(file.lastModified);
-  const displayTimestamp = moment(dateTime).format(String.t('timeActivityGraph.dateFormat')) + ' ' + moment(dateTime).format(String.t('timeActivityGraph.timeFormat'))
+  const displayTimestamp = moment(dateTime).format(String.t('timeActivityGraph.dateFormat')) + ' ' + moment(dateTime).format(String.t('timeActivityGraph.timeFormat'));
   const fileName = file.fileName;
   const fileSize = formatSize(file.fileSize);
   const fileUri = file.resourceUri;
@@ -29,7 +29,7 @@ const buildDataObject = (file) => {
     displayDate: moment(dateTime).format(String.t('timeActivityGraph.dateFormat')),
     displayTime: moment(dateTime).format(String.t('timeActivityGraph.timeFormat')),
     color: color(file.fileExtension),
-    label: fileName + '\n' + displayTimestamp + '\n' + fileSize + '\n' + fileUri
+    label: `${fileName} \n ${displayTimestamp} \n ${fileSize} \n ${fileUri}`
   };
 };
 
