@@ -32,6 +32,7 @@ const propTypes = {
   declinedInvitations: PropTypes.object,
   pushMessage: PropTypes.object,
   users: PropTypes.object.isRequired,
+  currentUserId: PropTypes.string.isRequired,
   notifyMessage: PropTypes.func.isRequired,
   updateInvitationDeclined: PropTypes.func.isRequired
 };
@@ -88,20 +89,26 @@ class MainContent extends Component {
       notification.open(args);
     }
 
-    if (nextProps.pushMessage) {
+    if (nextProps.pushMessage && (nextProps.pushMessage.length > 0)) {
       if (this.props.pushMessage) {
         notification.destroy();
       }
-      const { text } = nextProps.pushMessage; // TODO: JC: It should be the content[type=text/plain].text
-      const args = {
-        message: String.t('MainContent.newMessage'),
-        description: text,
-        duration: 4,
-        onClose: () => {
-          this.props.notifyMessage();
+      const msg = nextProps.pushMessage[0];
+      const { createdBy, text } = msg; // TODO: JC: It should be the content[type=text/plain].text
+      if (msg.createdBy !== this.props.currentUserId) {
+        const user = this.props.users[createdBy];
+        if (user) {
+          const args = {
+            message: String.t('MainContent.newMessageFrom', user),
+            description: text,
+            duration: 4,
+            onClose: () => {
+              this.props.notifyMessage();
+            }
+          };
+          notification.open(args);
         }
-      };
-      notification.open(args);
+      }
     }
   }
 

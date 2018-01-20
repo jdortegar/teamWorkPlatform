@@ -256,7 +256,8 @@
     "reauthorize": "(Reauthorize)"
   },
   "MainContent": {
-     "newMessage": "New Message"
+     "newMessage": "New Message",
+     "newMessageFrom": "Message from {{firstName}} {{lastName}}"
   },
   "message": {
     "sentByName": "{{firstName}} {{lastName}}",
