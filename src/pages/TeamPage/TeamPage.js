@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { notification } from 'antd';
+import { Tooltip, notification } from 'antd';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
 import CardView from './CardView';
+import String from '../../translations';
 import SubpageHeader from '../../components/SubpageHeader';
 import Spinner from '../../components/Spinner';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
@@ -111,7 +112,9 @@ class TeamPage extends Component {
             <div className="margin-top-class-b">
               <h1 className="New-team__title habla-big-title habla-bold-text">
                 {team.name}
-                <div className="habla-main-content-item-signal habla-color-green" />
+                <Tooltip placement="top" title={String.t('TeamPage.activeStatus')}>
+                  <div className="habla-main-content-item-signal habla-color-green" />
+                </Tooltip>
               </h1>
             </div>
             <div className="habla-secondary-paragraph margin-top-class-b">

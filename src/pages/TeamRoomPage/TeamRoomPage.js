@@ -353,10 +353,10 @@ class TeamRoomPage extends Component {
     return [currentUser, ...orderedMembers].map(({ firstName, lastName, userId, preferences, icon }) => {
       const initials = getInitials(`${firstName} ${lastName}`);
       if (icon) {
-        return <Avatar src={`data:image/jpeg;base64, ${icon}`} />;
+        return <Avatar size="small" src={`data:image/jpeg;base64, ${icon}`} className="mr-05" />;
       }
       return (
-        <Avatar key={userId} color={preferences.iconColor} className="ml-1">{initials}</Avatar>
+        <Avatar size="small" ey={userId} color={preferences.iconColor} className="mr-05">{initials}</Avatar>
       );
     });
   }
@@ -470,7 +470,7 @@ class TeamRoomPage extends Component {
             />
           </div>
 
-          <SimpleCardContainer className="team-room__messages">
+          <SimpleCardContainer className="team-room__messages border-top-lighter">
             {this.renderMessages()}
           </SimpleCardContainer>
 

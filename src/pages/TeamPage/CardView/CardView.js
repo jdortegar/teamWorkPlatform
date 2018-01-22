@@ -23,12 +23,15 @@ function CardView(props) {
     return teamRooms.map(({ name, teamRoomId, preferences }) => {
       const initials = getInitials(name);
       return (
-        <div key={teamRoomId} className="mx-1">
+        <div key={teamRoomId} className="mr-1">
           <Tooltip placement="top" title={name}>
             <Link to={`/app/teamRoom/${teamRoomId}`}>
               <Avatar size="large" color={preferences.iconColor}>
                 {initials}
               </Avatar>
+              <div className="habla-label align-center-class card-label">
+                {name}
+              </div>
             </Link>
           </Tooltip>
         </div>
@@ -39,7 +42,7 @@ function CardView(props) {
   const renderTeamMembers = () => {
     return teamMembers.map(({ userId, firstName, lastName, preferences, icon }) => {
       return (
-        <div key={userId} className="mx-1">
+        <div key={userId} className="mr-1">
           <Tooltip placement="top" title={`${firstName} ${lastName}`}>
             <Link to={`/app/teamMember/${userId}`}>
               {
@@ -49,6 +52,9 @@ function CardView(props) {
                     {getInitials(`${firstName} ${lastName}`)}
                   </Avatar>
               }
+              <div className="habla-label align-center-class card-label">
+                {firstName}
+              </div>
             </Link>
           </Tooltip>
         </div>
@@ -58,12 +64,15 @@ function CardView(props) {
 
   const renderAddCard = (title, url = null) => {
     return (
-      <div className="mx-1">
+      <div className="mr-1">
         <Tooltip placement="top" title={title}>
           <Link to={url}>
             <Avatar size="large">
               <i className="fa fa-plus" />
             </Avatar>
+            <div className="habla-label align-center-class card-label">
+              NEW
+            </div>
           </Link>
         </Tooltip>
       </div>

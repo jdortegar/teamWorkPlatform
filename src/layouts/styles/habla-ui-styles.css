@@ -37,6 +37,9 @@
 .border-bottom-red {
 	border-bottom: 2px solid #eb4435;
 }
+.border-top-light {
+	border-top: 1px solid #ccc;
+}
 .border-top-lighter {
 	border-top: 1px solid #eee;
 }
@@ -687,6 +690,9 @@ p {
 }
 .mr-0 {
   margin-right: 0;
+}
+.mr-05 {
+  margin-right: 4px;
 }
 .mr-1 {
   margin-right: 8px;

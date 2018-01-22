@@ -191,6 +191,7 @@
     }
   },
   "TeamPage": {
+    "activeStatus": "Active",
     "inviteNewMember": "Invite a New Team Member",
     "addNewTeamRoom": "Add New Team Room",
     "membersHeader": {
@@ -487,7 +488,8 @@
   },
   "teamMemberPage": {
     "breadcrumb": "Team Member",
-    "profilePictureLabel": "Profile Picture"
+    "profilePictureLabel": "Profile Picture",
+    "activeStatus": "Online"
   },
   "notificationPage": {
     "title": "Notifications",

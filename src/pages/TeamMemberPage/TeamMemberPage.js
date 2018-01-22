@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Tooltip } from 'antd';
 import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
@@ -42,7 +43,9 @@ class TeamMemberPage extends Component {
           <div className="margin-top-class-b">
             <h1 className="New-team__title habla-big-title habla-bold-text">
               Team Member Name
-              <div className="habla-main-content-item-signal habla-color-green" />
+              <Tooltip placement="top" title={String.t('teamMemberPage.activeStatus')}>
+                <div className="habla-main-content-item-signal habla-color-green" />
+              </Tooltip>
             </h1>
             <div className="habla-secondary-paragraph">
               Member since November 27, 2017
