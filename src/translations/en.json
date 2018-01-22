@@ -260,7 +260,11 @@
     "reauthorize": "(Reauthorize)"
   },
   "MainContent": {
-     "newMessage": "New Message"
+     "newMessage": "New Message",
+     "newMessageFrom": "Message from {{firstName}} {{lastName}}",
+     "declinedOrg": "{{inviteeUserIdOrEmail}} declined your invitation to join the {{subscriberOrgName}} organization.",
+     "declinedTeam": "{{firstName}} {{lastName}} declined your invitation to join the {{teamName}} team.",
+     "declinedRoom": "{{firstName}} {{lastName}} declined your invitation to join the {{teamRoomName}} room in the {{teamName}} team."
   },
   "message": {
     "sentByName": "{{firstName}} {{lastName}}",
