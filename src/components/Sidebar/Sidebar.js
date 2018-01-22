@@ -226,6 +226,8 @@ class Sidebar extends Component {
 
     return teamsByOrgId.map((team) => {
       const teamRooms = this.renderTeamRooms(team.teamId);
+      const isTeamOpen = _.includes(this.state.teamsOpenKeys, team.teamId);
+      const unreadMessagesCount = 0; /* TODO: get the actual count of unread messages */
 
       return (
         <SubMenu
@@ -234,12 +236,14 @@ class Sidebar extends Component {
           onTitleClick={() => this.toogleTeams(team.teamId)}
           title={
             <div className="habla-left-navigation-team-list">
-              <div className="padding-class-a">
+              <div className="habla-left-navigation-team-list-item padding-class-a">
                 <div className="float-left-class">
                   {renderAvatar(team)}
                 </div>
                 <span className="habla-left-navigation-item-label" onClick={e => this.goToTeamPage(e, team)}>{team.name}</span>
-                <div className="clear" /></div>
+                <div className="clear" />
+                <Badge count={isTeamOpen ? 0 : unreadMessagesCount} />
+              </div>
             </div>
           }
         >

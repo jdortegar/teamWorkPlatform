@@ -35,13 +35,12 @@
 	font-size: 14px;
   padding-top: 15px;
   padding-left: 6px;
-  display: block; 
-  flex-grow: 1;
+  display: block;
   width: 165px;
   height: 22px;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;    
+  overflow: hidden;
 }
 .habla-left-navigation-team-list {
 	padding-left: 15px;
@@ -49,6 +48,7 @@
 .habla-left-navigation-teamroom-list {
 	padding-left: 20px;
 }
+.habla-left-navigation-team-list-item,
 .habla-left-navigation-teamroom-list-item {
   display: flex;
 }
