@@ -37,12 +37,7 @@ module.exports = {
       inject: true
     }),
     new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
+    new webpack.HotModuleReplacementPlugin()
   ],
   module: {
     rules: [{
