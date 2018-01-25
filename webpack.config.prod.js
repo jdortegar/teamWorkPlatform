@@ -29,6 +29,13 @@ const extractCSSLibs = new ExtractTextPlugin({
 });
 
 config.plugins = [
+  new webpack.optimize.UglifyJsPlugin({
+    uglifyOptions: {
+      output: {
+        keep_quoted_props: true
+      }
+    }
+  }),
   new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify('production'),

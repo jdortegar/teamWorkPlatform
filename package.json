@@ -21,9 +21,9 @@
     "*.{js,jsx}": "eslint"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "NODE_ENV=production NODE_PORT=8081 node server.js",
     "precommit": "lint-staged && npm test",
-    "build": "cross-env NODE_ENV=production npm run clean && webpack --colors -p --profile --config webpack.config.prod.js",
+    "build": "cross-env NODE_ENV=production npm run clean && webpack --colors --profile --config webpack.config.prod.js",
     "start:prod": "cross-env NODE_ENV=production NODE_PORT=8081 node server.js",
     "start:dev": "node server.js",
     "start:ngrok": "cross-env NODE_URL=https://hablawebapp.ngrok.io HABLAAPI_BASE_URI=https://https://hablaapi.ngrok.io node server.js",
@@ -65,7 +65,7 @@
     "copy-webpack-plugin": "^4.2.0",
     "countries-and-timezones": "^1.0.0",
     "cross-env": "^5.1.1",
-    "css-loader": "^0.28.7",
+    "css-loader": "^0.28.9",
     "d3": "^4.11.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^0.11.2",
