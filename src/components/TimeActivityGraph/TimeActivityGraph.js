@@ -5,11 +5,11 @@ import {
   VictoryAxis,
   VictoryChart,
   VictoryScatter,
-  VictoryTooltip,
   VictoryZoomContainer
 } from 'victory';
 
 import styles from './styles/style';
+import CustomLabel from './CustomLabel';
 
 const propTypes = {
   files: PropTypes.arrayOf(PropTypes.object)
@@ -99,7 +99,7 @@ class TimeActivityGraph extends React.Component {
             }}
           />
           <VictoryScatter
-            labelComponent={<VictoryTooltip />}
+            labelComponent={<CustomLabel />}
             events={[{
               target: 'data',
               eventHandlers: {
@@ -111,11 +111,10 @@ class TimeActivityGraph extends React.Component {
                     mutation: () => ({ active: true })
                   };
                 },
-                onDoubleClick: (e, bubble) => {
-                  const link = bubble.data[bubble.index].resourceUri;
+                onDoubleClick: () => {
                   return {
                     target: 'labels',
-                    mutation: () => window.open(link, '_blank')
+                    mutation: () => ({ active: false })
                   };
                 }
               }
