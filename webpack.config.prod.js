@@ -10,24 +10,6 @@ config.output.pathinfo = false;
 config.output.filename = '[name].[chunkhash].js';
 config.output.publicPath = '/';
 
-const extractSCSSModules = new ExtractTextPlugin({
-  filename: 'styles.css',
-  disable: false,
-  allChunks: true
-});
-
-const extractSCSSGlobals = new ExtractTextPlugin({
-  filename: 'global-styles.css',
-  disable: false,
-  allChunks: true
-});
-
-const extractCSSLibs = new ExtractTextPlugin({
-  filename: 'libraries.css',
-  disable: false,
-  allChunks: true
-});
-
 config.plugins = [
   new webpack.DefinePlugin({
     'process.env': {
@@ -40,9 +22,7 @@ config.plugins = [
     template: './src/index.html',
     inject: true
   }),
-  extractSCSSGlobals,
-  extractSCSSModules,
-  extractCSSLibs,
+  new ExtractTextPlugin('styles.css'),
   new webpack.optimize.CommonsChunkPlugin({
     name: 'vendor',
     minChunks(module) {

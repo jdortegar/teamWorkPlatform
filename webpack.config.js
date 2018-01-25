@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 let nodeUrl = process.env.NODE_URL;
 if (!nodeUrl) {
@@ -53,7 +54,10 @@ module.exports = {
       ]
     }, {
       test: /\.css$/,
-      use: ['style-loader', 'css-loader']
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: 'css-loader'
+      })
     }, {
       test: /\.(woff|woff2|eot|ttf|otf|jpg|png|svg|mp3)$/,
       use: ['file-loader']
