@@ -10,39 +10,19 @@ config.output.pathinfo = false;
 config.output.filename = '[name].[chunkhash].js';
 config.output.publicPath = '/';
 
-const extractSCSSModules = new ExtractTextPlugin({
-  filename: 'styles.css',
-  disable: false,
-  allChunks: true
-});
-
-const extractSCSSGlobals = new ExtractTextPlugin({
-  filename: 'global-styles.css',
-  disable: false,
-  allChunks: true
-});
-
-const extractCSSLibs = new ExtractTextPlugin({
-  filename: 'libraries.css',
-  disable: false,
-  allChunks: true
-});
-
 config.plugins = [
   new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify('production'),
       HABLAAPI_BASE_URI: JSON.stringify(process.env.HABLAAPI_BASE_URI)
-    },
+    }
   }),
   new HtmlWebpackPlugin({
     favicon: './src/favicon.ico',
     template: './src/index.html',
     inject: true
   }),
-  extractSCSSGlobals,
-  extractSCSSModules,
-  extractCSSLibs,
+  new ExtractTextPlugin('styles.css'),
   new webpack.optimize.CommonsChunkPlugin({
     name: 'vendor',
     minChunks(module) {
@@ -63,7 +43,10 @@ config.module.rules = [{
   ]
 }, {
   test: /\.css$/,
-  use: ['style-loader', 'css-loader']
+  use: ExtractTextPlugin.extract({
+    fallback: 'style-loader',
+    use: 'css-loader'
+  })
 }, {
   test: /\.(woff|woff2|eot|ttf|otf|jpg|png|svg|mp3)$/,
   exclude: /(node_modules)/,
