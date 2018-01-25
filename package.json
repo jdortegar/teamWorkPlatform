@@ -21,7 +21,7 @@
     "*.{js,jsx}": "eslint"
   },
   "scripts": {
-    "start": "NODE_ENV=production NODE_PORT=8081 node server.js",
+    "start": "node server.js",
     "precommit": "lint-staged && npm test",
     "build": "cross-env NODE_ENV=production npm run clean && webpack --colors --profile --config webpack.config.prod.js",
     "start:prod": "cross-env NODE_ENV=production NODE_PORT=8081 node server.js",
