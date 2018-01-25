@@ -1,64 +1,73 @@
-const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const config = require('./webpack.config.js');
 
-let nodeUrl = process.env.NODE_URL;
-if (!nodeUrl) {
-  const nodePort = process.env.NODE_PORT || 9090;
-  nodeUrl = 'localhost';
-  if (nodePort === 80) {
-    nodeUrl = `http://${nodeUrl}`;
-  } else if (nodePort === 443) {
-    nodeUrl = `https://${nodeUrl}`;
-  } else {
-    nodeUrl = `http://${nodeUrl}:${nodePort}`;
-    nodeUrl.nodeUrl = `http://${nodeUrl}:${nodePort}`;
-  }
-}
+config.devtool = 'source-map';
+config.entry = ['./src/index.js'];
+config.output.pathinfo = false;
+config.output.filename = '[name].[chunkhash].js';
+config.output.publicPath = '/';
 
-module.exports = {
-  devtool: 'eval-source-map',
-  entry: [
-    'react-hot-loader/patch',
-    `webpack-dev-server/client?${nodeUrl}`,
-    'webpack/hot/only-dev-server',
-    './src/index.js'
-  ],
-  output: {
-    pathinfo: true,
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
-    publicPath: `${nodeUrl}/`
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      favicon: './src/favicon.ico',
-      template: './src/index.html',
-      inject: true
-    }),
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin()
-  ],
-  module: {
-    rules: [{
-      test: /\.jsx?$/,
-      exclude: /(node_modules)/,
-      use: [
-        { loader: 'babel-loader' }
-      ]
-    }, {
-      test: /\.css$/,
-      use: ['style-loader', 'css-loader']
-    }, {
-      test: /\.(woff|woff2|eot|ttf|otf|jpg|png|svg|mp3)$/,
-      use: ['file-loader']
-    }]
-  },
-  resolve: {
-    modules: [
-      path.join(__dirname, 'src'),
-      'node_modules'
-    ],
-    extensions: ['.js', '.jsx', '.json', '.css', '.scss', '.png', '.svg', '.jpg', '.gif']
-  }
-};
+const extractSCSSModules = new ExtractTextPlugin({
+  filename: 'styles.css',
+  disable: false,
+  allChunks: true
+});
+
+const extractSCSSGlobals = new ExtractTextPlugin({
+  filename: 'global-styles.css',
+  disable: false,
+  allChunks: true
+});
+
+const extractCSSLibs = new ExtractTextPlugin({
+  filename: 'libraries.css',
+  disable: false,
+  allChunks: true
+});
+
+config.plugins = [
+  new webpack.DefinePlugin({
+    'process.env': {
+      NODE_ENV: JSON.stringify('production'),
+      HABLAAPI_BASE_URI: JSON.stringify(process.env.HABLAAPI_BASE_URI)
+    }
+  }),
+  new HtmlWebpackPlugin({
+    favicon: './src/favicon.ico',
+    template: './src/index.html',
+    inject: true
+  }),
+  extractSCSSGlobals,
+  extractSCSSModules,
+  extractCSSLibs,
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendor',
+    minChunks(module) {
+      return ((module.context && module.context.indexOf('node_modules')) !== -1);
+    }
+  }),
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'manifest'
+  }),
+  new CopyWebpackPlugin([{ from: './resources' }])
+];
+
+config.module.rules = [{
+  test: /\.js$/,
+  exclude: /(node_modules)/,
+  use: [
+    { loader: 'babel-loader' }
+  ]
+}, {
+  test: /\.css$/,
+  use: ['style-loader', 'css-loader']
+}, {
+  test: /\.(woff|woff2|eot|ttf|otf|jpg|png|svg|mp3)$/,
+  exclude: /(node_modules)/,
+  use: ['file-loader']
+}];
+
+module.exports = config;
