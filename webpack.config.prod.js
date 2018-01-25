@@ -33,7 +33,7 @@ config.plugins = [
     'process.env': {
       NODE_ENV: JSON.stringify('production'),
       HABLAAPI_BASE_URI: JSON.stringify(process.env.HABLAAPI_BASE_URI)
-    },
+    }
   }),
   new HtmlWebpackPlugin({
     favicon: './src/favicon.ico',
@@ -63,7 +63,10 @@ config.module.rules = [{
   ]
 }, {
   test: /\.css$/,
-  use: ['style-loader', 'css-loader']
+  use: ExtractTextPlugin.extract({
+    fallback: 'style-loader',
+    use: 'css-loader'
+  })
 }, {
   test: /\.(woff|woff2|eot|ttf|otf|jpg|png|svg|mp3)$/,
   exclude: /(node_modules)/,
