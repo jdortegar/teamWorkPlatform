@@ -485,6 +485,12 @@
     "bookmarked": "Bookmarked",
     "active": "active",
     "replyPlaceholder": "Leave a reply...",
+    "addTeamMember": "Add a Team Member",
+    "menu" : {
+      "all": "ALL",
+      "replies": "REPLIES",
+      "bookmarks": "BOOKMARKED"
+    },
     "membersHeader": {
       "one": "1 Team Member",
       "other": "{{count}} Team Members"

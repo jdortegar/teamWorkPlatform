@@ -61,15 +61,6 @@ class Message extends Component {
     const { messageId, children, level, content } = message;
     const { firstName, lastName, preferences, userId } = user;
     const date = moment(message.created).fromNow();
-    const unmute = classNames({
-      message__icons: true,
-      hide: this.state.mute
-    });
-    const mute = classNames({
-      message__icons: true,
-      hide: !this.state.mute
-    });
-
     const justTextContent = _.find(content, { type: 'text/plain' });
     const contentJustImage = content.filter(resource => resource.type !== 'text/plain');
     const text = !!justTextContent;
@@ -141,12 +132,6 @@ class Message extends Component {
             </Tooltip>
             <Tooltip placement="topLeft" title={String.t('message.tooltipFlag')} arrowPointAtCenter>
               <a className="message__icons"><i className="fa fa-flag" /></a>
-            </Tooltip>
-            <Tooltip placement="topLeft" title={String.t('message.tooltipMute')} arrowPointAtCenter>
-              <a onClick={this.changeVolume} className={mute}><i className="fa fa-volume-up" /></a>
-            </Tooltip>
-            <Tooltip placement="topLeft" title={String.t('message.tooltipUnmute')} arrowPointAtCenter>
-              <a onClick={this.changeVolume} className={unmute}><i className="fa fa-volume-off" /></a>
             </Tooltip>
             <Tooltip placement="topLeft" title={String.t('message.tooltipEdit')} arrowPointAtCenter>
               <a className="message__icons"><i className="fa fa-pencil" /></a>

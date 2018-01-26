@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Form } from 'antd';
+import { Form, Tooltip } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -353,10 +353,10 @@ class TeamRoomPage extends Component {
     return [currentUser, ...orderedMembers].map(({ firstName, lastName, userId, preferences, icon }) => {
       const initials = getInitials(`${firstName} ${lastName}`);
       if (icon) {
-        return <Avatar size="small" src={`data:image/jpeg;base64, ${icon}`} className="mr-05" />;
+        return <Tooltip placement="top" title={`${firstName} ${lastName}`}><Avatar size="small" src={`data:image/jpeg;base64, ${icon}`} className="mr-05" /></Tooltip>;
       }
       return (
-        <Avatar size="small" ey={userId} color={preferences.iconColor} className="mr-05">{initials}</Avatar>
+        <Tooltip placement="top" title={`${firstName} ${lastName}`}><Avatar size="small" ey={userId} color={preferences.iconColor} className="mr-05">{initials}</Avatar></Tooltip>
       );
     });
   }
@@ -413,10 +413,20 @@ class TeamRoomPage extends Component {
         isAdmin,
         url: `/app/editTeamRoom/${teamRoomId}`
       };
-
+      const menuOptionAll = classNames({
+        'notification-menu__item': true,
+        active: this.state.all
+      });
+      const menuOptionReplies = classNames({
+        'notification-menu__item': true,
+        active: this.state.new
+      });
+      const menuOptionBookmarked = classNames({
+        'notification-menu__item': true,
+        active: this.state.bookmarked
+      });
       return (
         <div className={className}>
-
           <div className="team-room__top-page-container">
             <SubpageHeader
               breadcrumb={
@@ -436,28 +446,6 @@ class TeamRoomPage extends Component {
                 />
               }
               editButton={editButton}
-              node={
-                <div className="habla-main-content-filters-links">
-                  <div
-                    onClick={() => this.handleHeaderClick(String.t('teamRoomPage.all'))}
-                    className={`team-room__header-links ${this.state.activeLink === String.t('teamRoomPage.all') ? String.t('teamRoomPage.active') : ''}`}
-                  >
-                    {String.t('teamRoomPage.all')}
-                  </div>
-                  <div
-                    onClick={() => this.handleHeaderClick(String.t('teamRoomPage.new'))}
-                    className={`team-room__header-links ${this.state.activeLink === String.t('teamRoomPage.new') ? String.t('teamRoomPage.active') : ''}`}
-                  >
-                    {String.t('teamRoomPage.new')}
-                  </div>
-                  <div
-                    onClick={() => this.handleHeaderClick(String.t('teamRoomPage.bookmarked'))}
-                    className={`team-room__header-links ${this.state.activeLink === String.t('teamRoomPage.bookmarked') ? String.t('teamRoomPage.active') : ''}`}
-                  >
-                    {String.t('teamRoomPage.bookmarked')}
-                  </div>
-                </div>
-              }
             />
             <SimpleHeader
               type="node"
@@ -465,9 +453,15 @@ class TeamRoomPage extends Component {
                 <div className="team-room__member-cards-container">
                   <span className="team-room__member-cards-span habla-label">{String.t('teamRoomPage.membersHeader', { count: numberOfTeamRoomMembers })}</span>
                   {this.renderTeamRoomMembers()}
+                  <Tooltip placement="top" title={String.t('teamRoomPage.addTeamMember')}><Avatar size="small" color="#ccc">+</Avatar></Tooltip>
                 </div>
               }
             />
+            <div className="habla-main-content-filters-links teamRoomFilters padding-class-a">
+              <div onClick={() => this.onMenuItemClick(true, false, false, false)} className={menuOptionAll}>{String.t('teamRoomPage.menu.all')}</div>
+              <div onClick={() => this.onMenuItemClick(false, true, false, false)} className={menuOptionReplies}>{String.t('teamRoomPage.menu.replies')}</div>
+              <div onClick={() => this.onMenuItemClick(false, false, true, false)} className={menuOptionBookmarked}>{String.t('teamRoomPage.menu.bookmarks')}</div>
+            </div>
           </div>
 
           <SimpleCardContainer className="team-room__messages border-top-lighter">
