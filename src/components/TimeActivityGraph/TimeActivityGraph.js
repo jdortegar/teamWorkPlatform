@@ -25,7 +25,7 @@ const MIN_HEIGHT = 300;
 const CHART_PADDING = 50;
 
 // from the beginning of the last year until now
-const DATE_DOMAIN = [moment().subtract(1, 'year').startOf('year'), moment()];
+const DATE_DOMAIN = [moment().subtract(1, 'year').startOf('year'), moment().add(1, 'day')];
 const TIME_DOMAIN = [moment().endOf('day'), moment().startOf('day')];
 
 // one month from the last file
