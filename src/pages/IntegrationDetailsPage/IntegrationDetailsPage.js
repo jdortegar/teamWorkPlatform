@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Tooltip, notification } from 'antd';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
@@ -42,7 +43,10 @@ const providers = {
       props.integrateGoogle(subscriberOrgId);
     },
     revoke: (props, subscriberOrgId, notify) => {
-      props.revokeGoogle(subscriberOrgId).then(res => notify(res, 'google'));
+      _.debounce(
+        props.revokeGoogle(subscriberOrgId).then(res => notify(res, 'google')),
+        50
+      );
     }
   }
 };
