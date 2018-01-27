@@ -5,11 +5,11 @@ import {
   VictoryAxis,
   VictoryChart,
   VictoryScatter,
+  VictoryTooltip,
   VictoryZoomContainer
 } from 'victory';
 
 import styles from './styles/style';
-import CustomLabel from './CustomLabel';
 
 const propTypes = {
   files: PropTypes.arrayOf(PropTypes.object)
@@ -99,23 +99,14 @@ class TimeActivityGraph extends React.Component {
             }}
           />
           <VictoryScatter
-            labelComponent={<CustomLabel />}
+            labelComponent={<VictoryTooltip
+              style={[{ fill: 'blue' }, {}, {}, {}]} />}
             events={[{
               target: 'data',
               eventHandlers: {
-                onMouseOver: () => { },
-                onMouseOut: () => { },
-                onClick: () => {
-                  return {
-                    target: 'labels',
-                    mutation: () => ({ active: true })
-                  };
-                },
-                onDoubleClick: () => {
-                  return {
-                    target: 'labels',
-                    mutation: () => ({ active: false })
-                  };
+                onClick: (e, datapoint) => {
+                  const link = datapoint.datum.resourceUri;
+                  window.open(link, '_blank');
                 }
               }
             }]}

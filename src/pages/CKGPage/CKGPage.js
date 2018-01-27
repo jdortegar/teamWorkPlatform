@@ -29,7 +29,7 @@ const buildDataObject = (file) => {
     displayDate: moment(dateTime).format(String.t('timeActivityGraph.dateFormat')),
     displayTime: moment(dateTime).format(String.t('timeActivityGraph.timeFormat')),
     color: color(file.fileExtension),
-    label: `${fileName} \n ${displayTimestamp} \n ${fileSize} \n ${fileUri}`
+    label: `${fileName} \n ${displayTimestamp} \n ${fileSize} \n (click to open)`
   };
 };
 
