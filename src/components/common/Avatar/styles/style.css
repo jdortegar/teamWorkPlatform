@@ -30,6 +30,9 @@
 }
 .habla-avatar--size-small > * {
   line-height: 25px;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
 }
 
 /* Letters in avatars */
