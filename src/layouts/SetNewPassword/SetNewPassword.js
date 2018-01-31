@@ -75,7 +75,6 @@ class SetNewPassword extends Component {
             <div className="habla-big-title habla-bold-text align-center-class padding-class-b">{String.t('chooseNewPassword')}</div>
             <div className="recoverPassword-body__main habla-color-lightergrey padding-class-b align-center-class">
               <div className="habla-full-content float-center-class">
-                {/* <div className="recoverPassword-body__main"> */}
                 <div className="margin-top-class-a">
                   <ConfirmPasswordField
                     componentKey="password"
