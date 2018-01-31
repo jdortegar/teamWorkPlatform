@@ -520,6 +520,7 @@
     "passwordChangedToastTitle": "Password Changed",
     "passwordChangedToastMessage": "Please sign in using your new password.",
     "errorToastTitle": "Error",
+    "errorToastMessage": "The link to reset your password seems to be expired. Please try again.",
     "newPasswordPlaceholder": "New Password",
     "confirmNewPasswordPlaceholder": "Confirm New Password"
         

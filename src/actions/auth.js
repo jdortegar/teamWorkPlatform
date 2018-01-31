@@ -85,7 +85,7 @@ export const setNewPassword = (rid, password) => {
         dispatch(push(routesPaths.login));
       })
       .catch((error) => {
-        throw new Error(error);
+        throw error;
       });
   };
 };

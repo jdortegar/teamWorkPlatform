@@ -52,12 +52,22 @@ class SetNewPassword extends Component {
           .catch((error) => {
             this.setState({ processing: false });
 
-            // show error toast
-            notification.open({
-              message: String.t('setNewPassword.errorToastTitle'),
-              description: error.message,
-              duration: 4
-            });
+            if (error.response.status === 404) {
+              // show error toast (currently assuming just error 404)
+              notification.open({
+                message: String.t('setNewPassword.errorToastTitle'),
+                description: String.t('setNewPassword.errorToastMessage'),
+                duration: 8
+              });
+              this.props.history.replace('/recoverPassword');
+            } else {
+              // show error toast (currently assuming just error 404)
+              notification.open({
+                message: String.t('setNewPassword.errorToastTitle'),
+                description: error.message,
+                duration: 8
+              });
+            }
           });
       }
     });
