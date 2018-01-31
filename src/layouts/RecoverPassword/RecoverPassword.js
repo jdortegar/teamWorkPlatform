@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, notification } from 'antd';
+import { Form, Spin, notification } from 'antd';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import config from '../../config/env';
@@ -117,7 +117,12 @@ class RecoverPassword extends Component {
                 fitText
                 htmlType="submit"
               >
-                {String.t('Buttons.next')}
+                {
+                  this.state.sending ?
+                    <Spin size="large" />
+                    :
+                    String.t('Buttons.next')
+                }
               </Button>
             }
           </div>
