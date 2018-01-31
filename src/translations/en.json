@@ -35,10 +35,10 @@
   "errProfileImageResize": "An error occurred trying to use the image.",
   "errFirstNameMissing": "Please enter your First Name.",
   "errLastNameMissing": "Please enter your Last Name.",
-  "errUsernameTooShort": "The Username must be at least {{minUsernameLen}} characters long.",
+  "errUsernameTooShort": "The Username must be at least 6 characters long.",
   "errTimeZoneNotSelected": "Please select a Time Zone.",
   "errPasswordMissing": "Please enter a password.",
-  "errPasswordTooShort": "The password must be at least {{minPasswordLen}} characters long.",
+  "errPasswordTooShort": "The password must be at least 8 characters long.",
   "errConfirmPasswordEmpty": "Please re-enter password in the confirm password field.",
   "errConfirmPasswordNoMatch": "Password doesn't match Confirm Password. Please try again.",
   "errCreateUserAlreadyRegistered": "You are already registered. Please login instead.",
@@ -514,6 +514,15 @@
   },
   "ckgPage": {
     "title": "CKG Time Activity View"
+  },
+  "setNewPassword": {
+    "submitLabel": "Next",
+    "passwordChangedToastTitle": "Password Changed",
+    "passwordChangedToastMessage": "Please sign in using your new password.",
+    "errorToastTitle": "Error",
+    "newPasswordPlaceholder": "New Password",
+    "confirmNewPasswordPlaceholder": "Confirm New Password"
+        
   },
 
   "validationError": {

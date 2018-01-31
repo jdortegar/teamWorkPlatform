@@ -11,7 +11,7 @@ export const routesPaths = {
   verifyAccount: '/verifyAccount/:uuid',
   createAccount: '/createAccount',
   recoverPassword: '/recoverPassword',
-  setNewPassword: '/setNewPassword',
+  setNewPassword: '/setNewPassword/:uuid',
   login: '/login',
   logout: '/logout',
   home: '/',
@@ -41,10 +41,10 @@ export default (
     <Redirect exact from={routesPaths.home} to={routesPaths.app} />
     <Route exact path={routesPaths.register} component={SignUp} />
     <Route exact path={routesPaths.verifyAccount} component={SignUp} />
+    <Route exact path={routesPaths.setNewPassword} component={SignUp} />
     <Route exact path={routesPaths.createAccount} component={SignUp} />
     <PublicRoute path={routesPaths.login} component={Login} />
     <PublicRoute path={routesPaths.recoverPassword} component={SignUp} />
-    <PublicRoute path={routesPaths.setNewPassword} component={SignUp} />
     <ProtectedRoute component={Main} />
   </Switch>
 );
