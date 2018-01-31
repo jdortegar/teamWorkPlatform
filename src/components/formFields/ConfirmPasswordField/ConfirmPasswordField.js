@@ -16,9 +16,11 @@ const propTypes = {
   componentKey: PropTypes.string,
   initialValue: PropTypes.string,
   placeholder: PropTypes.string,
+  passwordPlaceholder: PropTypes.string,
   layout: layoutShape,
   required: PropTypes.bool,
   missingMessage: PropTypes.string,
+  vertical: PropTypes.bool,
   noLabel: PropTypes.bool
 };
 
@@ -26,9 +28,11 @@ const defaultProps = {
   componentKey: 'passwordConfirm',
   initialValue: null,
   placeholder: null,
+  passwordPlaceholder: null,
   required: true,
   missingMessage: String.t('errPasswordMissing'),
   layout: {},
+  vertical: false,
   noLabel: false
 };
 
@@ -57,7 +61,7 @@ class ConfirmPasswordField extends Component {
   }
 
   renderPasswordField() {
-    const { componentKey, form, layout, placeholder, missingMessage, noLabel, ...rest } = this.props;
+    const { componentKey, form, layout, passwordPlaceholder, missingMessage, noLabel, ...rest } = this.props;
 
     const decoratedInput = BaseInput({
       ...rest,
@@ -71,7 +75,7 @@ class ConfirmPasswordField extends Component {
       onFocus: this.showPopover,
       onBlur: this.hidePopover,
       missingMessage,
-      placeholder: String.t('labelPasswordPlaceholder')
+      placeholder: passwordPlaceholder || String.t('labelPasswordPlaceholder')
     });
 
     if (noLabel) {
@@ -98,7 +102,7 @@ class ConfirmPasswordField extends Component {
   }
 
   renderConfirmPasswordField() {
-    const { componentKey, form, layout, noLabel, ...rest } = this.props;
+    const { placeholder, componentKey, form, layout, noLabel, ...rest } = this.props;
 
     const comparator = value => value === form.getFieldValue(componentKey);
     const message = String.t('errConfirmPasswordNoMatch');
@@ -111,7 +115,7 @@ class ConfirmPasswordField extends Component {
       extraRules: [
         { validator: antValidate(equality(comparator, { equality: message })) }
       ],
-      placeholder: String.t('confirmPasswordPlaceholder'),
+      placeholder: placeholder || String.t('confirmPasswordPlaceholder'),
       missingMessage: String.t('errPasswordMissing')
     });
 
@@ -139,6 +143,18 @@ class ConfirmPasswordField extends Component {
   }
 
   render() {
+    if (this.props.vertical) {
+      return (
+        <div>
+          <Row gutter={16} span={12}>
+            {this.renderPasswordField()}
+          </Row>
+          <Row gutter={16} span={12}>
+            {this.renderConfirmPasswordField()}
+          </Row>
+        </div>
+      );
+    }
     return (
       <Row gutter={16}>
         <Col className="gutter-row" span={12}>
