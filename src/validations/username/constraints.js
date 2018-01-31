@@ -1,7 +1,8 @@
 import String from '../../translations';
 
 export const defaultMessages = {
-  length: String.t('validationError.usernameTooShort'),
+  tooShort: String.t('validationError.usernameTooShort'),
+  tooLong: String.t('validationError.usernameTooLong'),
   format: String.t('validationError.usernameFormat'),
   notEndsWith: String.t('validationError.usernameNotEndsWithPeriod')
 };
@@ -15,9 +16,9 @@ function constraints(customMessages) {
   return {
     length: {
       minimum: 6,
-      maximum: 20,
-      tooShort: messages.length,
-      tooLong: messages.length
+      maximum: 32,
+      tooShort: messages.tooShort,
+      tooLong: messages.tooLong
     },
     format: {
       pattern: '^[a-zA-Z0-9-_@.]+$',

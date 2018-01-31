@@ -524,13 +524,14 @@
     "errorToastMessage": "The link to reset your password seems to be expired. Please try again.",
     "newPasswordPlaceholder": "New Password",
     "confirmNewPasswordPlaceholder": "Confirm New Password"
-        
+
   },
 
   "validationError": {
     "usernameFormat": "Must be alphanumeric without spaces (period, underscore and @ symbol are allowed).",
     "usernameNotEndsWithPeriod": "Username cannot end with a period.",
     "usernameTooShort": "Username must be at least 6 characters long.",
+    "usernameTooLong": "Username is too long",
     "passwordOneLower": "Must have at least one lowercase letter (a-z).",
     "passwordOneNumber": "Must have at least one number (0-9).",
     "passwordOneSpecial": "Must have at least one special character.",
