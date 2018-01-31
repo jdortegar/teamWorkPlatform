@@ -74,3 +74,18 @@ export const createAccount = (form) => {
       });
   };
 };
+
+export const setNewPassword = (rid, password) => {
+  return (dispatch) => {
+    return axios
+      .post(
+        `${hablaApiBaseUri}/users/resetPassword/${rid}`,
+        { password }
+      ).then(() => {
+        dispatch(push(routesPaths.login));
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+};

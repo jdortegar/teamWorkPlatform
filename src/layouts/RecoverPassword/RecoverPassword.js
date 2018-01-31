@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { Form } from 'antd';
+import { Form, Spin, notification } from 'antd';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import config from '../../config/env';
+import { getJwt } from '../../session';
 import { formShape } from '../../propTypes';
 import EmailField from '../../components/formFields/EmailField';
 import String from '../../translations';
@@ -18,6 +21,7 @@ class RecoverPassword extends Component {
 
     this.state = {
       email: null,
+      sending: false,
       sentEmail: false
     };
 
@@ -33,10 +37,23 @@ class RecoverPassword extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.setState({
-          email: values.email,
-          emailSent: true
-        });
+        const email = values.email;
+        const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+        this.setState({ sending: true, email });
+
+        // TODO: Move this to Redux
+
+        axios.post(`${config.hablaApiBaseUri}/users/forgotPassword`, { email }, axiosOptions)
+          .then(() => {
+            this.setState({ sending: false, emailSent: true });
+          }).catch((error) => {
+            this.setState({ sending: false, error });
+            notification.open({
+              message: String.t('RecoverPassword.errorToastTitle'),
+              description: error.message,
+              duration: 4
+            });
+          });
       }
     });
   }
@@ -83,10 +100,33 @@ class RecoverPassword extends Component {
               }
             </div>
           </div>
-          <div className="align-center-class margin-top-class-a">
-            <Button type="secondary" fitText onClick={this.onCancel} className="margin-right-class-a">{String.t('Buttons.cancel')}</Button>
-            <Button type="main" fitText htmlType="submit">{String.t('Buttons.next')}</Button>
-          </div>
+          { this.state.sending ?
+            <div className="align-center-class margin-top-class-a">
+              <Spin size="large" />
+            </div>
+            :
+            <div className="align-center-class margin-top-class-a">
+              <Button
+                disabled={this.state.sending}
+                type="secondary"
+                fitText
+                onClick={this.onCancel}
+                className="margin-right-class-a"
+              >
+                {String.t('Buttons.cancel')}
+              </Button>
+              {!this.state.emailSent &&
+                <Button
+                  disabled={this.state.sending}
+                  type="main"
+                  fitText
+                  htmlType="submit"
+                >
+                  {String.t('Buttons.next')}
+                </Button>
+              }
+            </div>
+          }
         </Form>
       </div>
     );

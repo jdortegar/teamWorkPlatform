@@ -5,11 +5,10 @@ import Register from '../../pages/Register';
 import CreateAccount from '../../containers/CreateAccount';
 import VerifyAccount from '../../containers/VerifyAccount';
 import RecoverPassword from '../RecoverPassword';
-import SetNewPassword from '../SetNewPassword';
+import SetNewPassword from '../../containers/SetNewPassword';
 import Header from '../../components/Header';
 import './styles/signup.css';
 
-// TODO: add <Route exact path={routesPaths.verifyAccount} component={VerifyAccount} /> below.
 function SignUp() {
   // TODO: need VerifyAccount component.
   return (
