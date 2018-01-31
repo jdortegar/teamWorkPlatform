@@ -23,10 +23,11 @@ const defaultProps = {
 const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
 const CHART_PADDING = 50;
+const DOMAIN_TOP_PADDING = 20;
 
 // from the beginning of the last year until now
 const DATE_DOMAIN = [moment().subtract(1, 'year').startOf('year'), moment().add(1, 'day')];
-const TIME_DOMAIN = [moment().endOf('day'), moment().startOf('day')];
+const TIME_DOMAIN = [moment().startOf('day'), moment().endOf('day')];
 
 // one month from the last file
 const defaultZoomDomain = (files) => {
@@ -69,6 +70,7 @@ class TimeActivityGraph extends React.Component {
         <VictoryChart
           scale={{ x: 'time', y: 'time' }}
           domain={{ x: DATE_DOMAIN, y: TIME_DOMAIN }}
+          domainPadding={{ y: [DOMAIN_TOP_PADDING, 0] }}
           width={this.state.width - CHART_PADDING}
           height={this.state.height - CHART_PADDING}
           padding={styles.chart.padding}
@@ -81,6 +83,7 @@ class TimeActivityGraph extends React.Component {
           }
         >
           <VictoryAxis
+            offsetY={CHART_PADDING}
             style={{
               axis: styles.hidden,
               tickLabels: styles.tickLabels,

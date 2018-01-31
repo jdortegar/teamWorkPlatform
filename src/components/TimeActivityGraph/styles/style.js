@@ -10,10 +10,10 @@ export default {
   },
   chart: {
     padding: {
-      top: 10,
+      top: 0,
       right: 10,
       left: 70,
-      bottom: 70
+      bottom: 50
     }
   },
   scatter: {
