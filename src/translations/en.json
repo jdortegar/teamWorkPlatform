@@ -214,7 +214,8 @@
     "emailSent": "Email Sent! ",
     "checkEmail": "Check your email",
     "infoParagraph": "Please enter the email address that you use in your Habla AI account and we will send you an email with the instructions to reset your password.",
-    "infoParagraphAfterSentImage": "Please check your email to continue the process to recover your password."
+    "infoParagraphAfterSentImage": "Please check your email to continue the process to recover your password.",
+    "errorToastTitle": "Error"
   },
   "EditButtonLabel": "Edit",
   "Buttons": {

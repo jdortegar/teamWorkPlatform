@@ -65,7 +65,7 @@ class SetNewPassword extends Component {
               notification.open({
                 message: String.t('setNewPassword.errorToastTitle'),
                 description: error.message,
-                duration: 8
+                duration: 4
               });
             }
           });

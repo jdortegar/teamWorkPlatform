@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form } from 'antd';
+import { Form, notification } from 'antd';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import config from '../../config/env';
@@ -41,12 +41,18 @@ class RecoverPassword extends Component {
         const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
         this.setState({ sending: true, email });
 
+        // TODO: Move this to Redux
+
         axios.post(`${config.hablaApiBaseUri}/users/forgotPassword`, { email }, axiosOptions)
           .then(() => {
             this.setState({ sending: false, emailSent: true });
-            window.location.href = '/app/login';
           }).catch((error) => {
             this.setState({ sending: false, error });
+            notification.open({
+              message: String.t('RecoverPassword.errorToastTitle'),
+              description: error.message,
+              duration: 4
+            });
           });
       }
     });
@@ -104,14 +110,16 @@ class RecoverPassword extends Component {
             >
               {String.t('Buttons.cancel')}
             </Button>
-            <Button
-              disabled={this.state.sending}
-              type="main"
-              fitText
-              htmlType="submit"
-            >
-              {String.t('Buttons.next')}
-            </Button>
+            {!this.state.emailSent &&
+              <Button
+                disabled={this.state.sending}
+                type="main"
+                fitText
+                htmlType="submit"
+              >
+                {String.t('Buttons.next')}
+              </Button>
+            }
           </div>
         </Form>
       </div>
