@@ -100,32 +100,33 @@ class RecoverPassword extends Component {
               }
             </div>
           </div>
-          <div className="align-center-class margin-top-class-a">
-            <Button
-              disabled={this.state.sending}
-              type="secondary"
-              fitText
-              onClick={this.onCancel}
-              className="margin-right-class-a"
-            >
-              {String.t('Buttons.cancel')}
-            </Button>
-            {!this.state.emailSent &&
+          { this.state.sending ?
+            <div className="align-center-class margin-top-class-a">
+              <Spin size="large" />
+            </div>
+            :
+            <div className="align-center-class margin-top-class-a">
               <Button
                 disabled={this.state.sending}
-                type="main"
+                type="secondary"
                 fitText
-                htmlType="submit"
+                onClick={this.onCancel}
+                className="margin-right-class-a"
               >
-                {
-                  this.state.sending ?
-                    <Spin size="large" />
-                    :
-                    String.t('Buttons.next')
-                }
+                {String.t('Buttons.cancel')}
               </Button>
-            }
-          </div>
+              {!this.state.emailSent &&
+                <Button
+                  disabled={this.state.sending}
+                  type="main"
+                  fitText
+                  htmlType="submit"
+                >
+                  {String.t('Buttons.next')}
+                </Button>
+              }
+            </div>
+          }
         </Form>
       </div>
     );
