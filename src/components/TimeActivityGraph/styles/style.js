@@ -2,6 +2,13 @@ const BACKGROUND_COLOR = '#557dbf';
 const LINE_COLOR = '#dddddd';
 const LINE_OPACITY = 0.4;
 
+const tickLabels = {
+  fill: LINE_COLOR,
+  fillOpacity: LINE_OPACITY,
+  fontFamily: 'Lato, sans-serif',
+  textTransform: 'uppercase'
+};
+
 export default {
   container: {
     parent: {
@@ -13,7 +20,7 @@ export default {
       top: 0,
       right: 10,
       left: 70,
-      bottom: 50
+      bottom: 70
     }
   },
   scatter: {
@@ -23,12 +30,11 @@ export default {
       strokeWidth: 1
     }
   },
-  tickLabels: {
-    fill: LINE_COLOR,
-    fillOpacity: LINE_OPACITY,
-    fontFamily: 'Lato, sans-serif',
-    textTransform: 'uppercase'
-  },
+  tickLabels,
+  compoundTickLabels: [
+    tickLabels,
+    { ...tickLabels, fontSize: 11 }
+  ],
   lines: {
     stroke: LINE_COLOR,
     strokeOpacity: LINE_OPACITY
