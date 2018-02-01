@@ -63,7 +63,16 @@ class UploadImageField extends Component {
       const img = new Image();
       img.src = imageUrl;
       img.onload = () => {
-        const imageBase64Compressed = resizeImageBase64(img, 60, 60);
+        const side = 60.0;
+        let width = side;
+        let height = side;
+        const aspectRatio = img.width / img.height;
+        if (img.width > img.height) {
+          height = width / aspectRatio;
+        } else {
+          width = height * aspectRatio;
+        }
+        const imageBase64Compressed = resizeImageBase64(img, width, height);
         const base64 = imageBase64Compressed.substring(imageBase64Compressed.indexOf('base64') + 'base64,'.length);
         onChange(base64);
       };

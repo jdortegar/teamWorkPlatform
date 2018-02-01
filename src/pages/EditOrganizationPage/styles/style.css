@@ -50,8 +50,6 @@
   color : #f75a69;
   cursor: pointer;
   font-size: 10px;
-  position: absolute;
-  padding-top: 80px;
 }
 .UploadImageField__avatar__org {
 	width: 60px;

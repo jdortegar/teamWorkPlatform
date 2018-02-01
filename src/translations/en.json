@@ -359,6 +359,7 @@
     "webSiteLabel": "Web Site",
     "webSitePlaceholder": "http://",
     "changeAvatarText": "Change Avatar",
+    "removeImageLabel": "Remove",
     "successToastTitle": "Success",
     "organizationUpdated": "Your organization has been successfully updated."
   },
@@ -390,7 +391,8 @@
    "userUpdated": "Your user profile has been successfully updated.",
    "saveButtonLabel": "Save",
    "profileSettings": "Profile Settings",
-   "setProfilePhoto": "Add a Photo"
+   "setProfilePhoto": "Add a Photo",
+   "removeImageLabel": "Remove"
   },
   "integrationDetailsPage": {
      "status": {
