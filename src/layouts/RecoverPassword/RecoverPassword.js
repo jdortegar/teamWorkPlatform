@@ -87,6 +87,7 @@ class RecoverPassword extends Component {
                       noLabel
                       required
                       placeholder="Email"
+                      initialValue={sessionStorage.getItem('habla-user-email')}
                     />
                   </div>
                 </div>
