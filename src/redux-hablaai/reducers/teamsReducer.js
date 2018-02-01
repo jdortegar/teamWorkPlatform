@@ -16,7 +16,10 @@ const addTeam = (team, teamById, teamIdsBySubscriberOrgId) => {
     teamIds = [];
     teamIdsBySubscriberOrgId[team.subscriberOrgId] = teamIds; // eslint-disable-line no-param-reassign
   }
-  teamIds.push(team.teamId);
+
+  if (teamIds.indexOf(team.teamId) < 0) {
+    teamIds.push(team.teamId);
+  }
 };
 
 const teamsReducer = (state = INITIAL_STATE, action) => {

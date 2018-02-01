@@ -16,7 +16,10 @@ const addTeamRoom = (teamRoom, teamRoomById, teamRoomIdsByTeamId) => {
     teamRoomIds = [];
     teamRoomIdsByTeamId[teamRoom.teamId] = teamRoomIds; // eslint-disable-line no-param-reassign
   }
-  teamRoomIds.push(teamRoom.teamRoomId);
+
+  if (teamRoomIds.indexOf(teamRoom.teamRoomId) < 0) {
+    teamRoomIds.push(teamRoom.teamRoomId);
+  }
 };
 
 const teamRoomsReducer = (state = INITIAL_STATE, action) => {
