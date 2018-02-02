@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import * as d3 from 'd3';
 import {
   VictoryAxis,
   VictoryChart,
+  VictoryLabel,
   VictoryScatter,
   VictoryZoomContainer
 } from 'victory';
@@ -19,20 +21,39 @@ const defaultProps = {
   files: []
 };
 
-// chart size
+// chart size properties
 const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
+const BOTTOM_OFFSET = 70;
 const CHART_PADDING = 50;
 const DOMAIN_TOP_PADDING = 20;
 
-// from the beginning of the last year until now
+// from Victory. Increasing this number restrains the zoom level
+const MINIMUM_ZOOM = 10000;
+
+// magic number to handle tick count depending on the chart's height
+const TICK_COUNT_DIVIDER = 70;
+
+// from the beginning of the last year until tomorrow
 const DATE_DOMAIN = [moment().subtract(1, 'year').startOf('year'), moment().add(1, 'day')];
 const TIME_DOMAIN = [moment().startOf('day'), moment().endOf('day')];
 
-// one month from the last file
+// from 2 weeks before the last file to one day after
 const defaultZoomDomain = (files) => {
   const lastFileDate = moment.max(files.map(file => file.date));
   return [moment(lastFileDate).subtract(2, 'weeks'), moment(lastFileDate).add(1, 'day')];
+};
+
+const formatXTick = (date) => {
+  const getFormat = () => {
+    if (d3.timeMinute(date) < date) return '%H:%M:%S\n%b %d';
+    if (d3.timeDay(date) < date) return '%H:%M\n%b %d';
+    if (d3.timeMonth(date) < date) return '%b %d';
+    if (d3.timeYear(date) < date) return '%B';
+    return '%Y';
+  };
+
+  return d3.timeFormat(getFormat())(date);
 };
 
 class TimeActivityGraph extends React.Component {
@@ -79,22 +100,29 @@ class TimeActivityGraph extends React.Component {
             <VictoryZoomContainer
               zoomDimension="x"
               zoomDomain={{ x: defaultZoomDomain(files) }}
+              minimumZoom={{ x: MINIMUM_ZOOM }}
             />
           }
         >
           <VictoryAxis
-            offsetY={CHART_PADDING}
+            offsetY={BOTTOM_OFFSET}
+            tickFormat={formatXTick}
+            tickLabelComponent={
+              <VictoryLabel
+                lineHeight={1.3}
+                style={styles.compoundTickLabels}
+              />
+            }
             style={{
               axis: styles.hidden,
-              tickLabels: styles.tickLabels,
               grid: styles.lines
             }}
           />
           <VictoryAxis
             invertAxis
             dependentAxis
-            tickCount={Math.floor(this.state.height / 70)}
-            tickFormat={x => moment(x).format('HH:mm')}
+            tickCount={Math.floor(this.state.height / TICK_COUNT_DIVIDER)}
+            tickFormat={d3.timeFormat('%H:%M')}
             style={{
               axis: styles.lines,
               tickLabels: styles.tickLabels,
