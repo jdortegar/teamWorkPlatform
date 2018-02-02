@@ -1,9 +1,10 @@
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
+import config from '../../config/env';
 
 export const TIMEACTIVITIES_FETCH_SUCCESS = 'timeactivities/fetch/success';
 
 export const fetchTimeActivitiesBySubscriberOrgId = (subscriberOrgId, options = { getKey: false, forceGet: true }) => {
-  const requestUrl = `https://y2rhikgvq4.execute-api.us-west-2.amazonaws.com/dev/graphapi/ckg/${subscriberOrgId}`;
+  const requestUrl = `https://y2rhikgvq4.execute-api.us-west-2.amazonaws.com/${config.hablaApiEnv}/graphapi/ckg/${subscriberOrgId}`;
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { subscriberOrgId };
