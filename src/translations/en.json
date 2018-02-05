@@ -294,8 +294,8 @@
     "dateFormat": "MMM D, YYYY",
     "timeFormat": "H:mm:ss",
     "tickFormat": {
-      "timeMinute": "%H:%M:%S\n%b %d",
-      "timeDay": "%H:%M\n%b %d",
+      "timeMinute": "%b %d\n%H:%M:%S",
+      "timeDay": "%b %d\n%H:%M",
       "timeMonth": "%b %d"
     }
   },

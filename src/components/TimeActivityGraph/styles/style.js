@@ -33,7 +33,7 @@ export default {
   tickLabels,
   compoundTickLabels: [
     tickLabels,
-    { ...tickLabels, fontSize: 11 }
+    { ...tickLabels, fillOpacity: 0.7 }
   ],
   axisLabel: {
     ...tickLabels,
