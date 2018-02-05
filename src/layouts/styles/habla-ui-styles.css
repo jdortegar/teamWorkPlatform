@@ -816,3 +816,9 @@ p {
   top: 7px;
   right: -15px;
 }
+.ant-avatar-string {
+  transform: inherit;
+  position: inherit;
+  display: inherit;
+  left: inherit;
+}

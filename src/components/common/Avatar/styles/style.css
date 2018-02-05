@@ -1,9 +1,9 @@
 .habla-avatar {
-  border-radius: 18%;
+  border-radius: 14%;
 }
 .habla-avatar--size-x-large, .habla-avatar--size-x-large img {
-  display: block;
-  object-fit: scale-down;
+  display: inline-block;
+  object-fit: fill;
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
@@ -14,8 +14,8 @@
   line-height: 100px;
 }
 .habla-avatar--size-large, .habla-avatar--size-large img {
-  display: block;
-  object-fit: scale-down;
+  display: inline-block;
+  object-fit: fill;
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
@@ -26,8 +26,8 @@
   line-height: 60px;
 }
 .habla-avatar--size-default, .habla-avatar--size-default img {
-  display: block;
-  object-fit: scale-down;
+  display: inline-block;
+  object-fit: fill;
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
@@ -39,8 +39,8 @@
   line-height: 30px;
 }
 .habla-avatar--size-small, .habla-avatar--size-small img {
-  display: block;
-  object-fit: scale-down;
+  display: inline-block;
+  object-fit: fill;
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
@@ -65,10 +65,10 @@
   font-weight: 700;
 }
 .habla-avatar--size-default .ant-avatar-string {
-  font-size: 10pt;
+  font-size: 12pt;
   font-weight: 700;
 }
 .habla-avatar--size-small .ant-avatar-string {
-  font-size: 8pt;
+  font-size: 10pt;
   font-weight: 700;
 }
