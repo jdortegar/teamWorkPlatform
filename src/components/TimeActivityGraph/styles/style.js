@@ -35,6 +35,10 @@ export default {
     tickLabels,
     { ...tickLabels, fontSize: 11 }
   ],
+  axisLabel: {
+    ...tickLabels,
+    letterSpacing: 10
+  },
   lines: {
     stroke: LINE_COLOR,
     strokeOpacity: LINE_OPACITY

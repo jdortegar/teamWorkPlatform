@@ -289,11 +289,11 @@
     "badgeTopLimit": "99+"
   },
   "timeActivityGraph": {
+    "yAxisLabel": "Activity",
     "displayTime": "{{displayDate}} at {{displayTime}}",
     "dateFormat": "MMM D, YYYY",
     "timeFormat": "H:mm:ss",
     "tickFormat": {
-      "hour": "%H:%M",
       "timeMinute": "%H:%M:%S\n%b %d",
       "timeDay": "%H:%M\n%b %d",
       "timeMonth": "%b %d"
