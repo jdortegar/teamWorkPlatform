@@ -10,6 +10,7 @@ import {
   VictoryZoomContainer
 } from 'victory';
 
+import String from '../../translations';
 import styles from './styles/style';
 import CustomLabel from './CustomLabel';
 
@@ -46,11 +47,11 @@ const defaultZoomDomain = (files) => {
 
 const formatXTick = (date) => {
   const getFormat = () => {
-    if (d3.timeMinute(date) < date) return '%H:%M:%S\n%b %d';
-    if (d3.timeDay(date) < date) return '%H:%M\n%b %d';
-    if (d3.timeMonth(date) < date) return '%b %d';
-    if (d3.timeYear(date) < date) return '%B';
-    return '%Y';
+    if (d3.timeMinute(date) < date) return String.t('timeActivityGraph.tickFormat.timeMinute'); // eg: "14:28:32 \n Dec 21"
+    if (d3.timeDay(date) < date) return String.t('timeActivityGraph.tickFormat.timeDay'); // eg: "14:28 \n Dec 21"
+    if (d3.timeMonth(date) < date) return String.t('timeActivityGraph.tickFormat.timeMonth'); // eg: "Dec 21"
+    if (d3.timeYear(date) < date) return '%B'; // eg: "December"
+    return '%Y'; // eg: "2018"
   };
 
   return d3.timeFormat(getFormat())(date);
@@ -122,7 +123,7 @@ class TimeActivityGraph extends React.Component {
             invertAxis
             dependentAxis
             tickCount={Math.floor(this.state.height / TICK_COUNT_DIVIDER)}
-            tickFormat={d3.timeFormat('%H:%M')}
+            tickFormat={d3.timeFormat(String.t('timeActivityGraph.tickFormat.hour'))}
             style={{
               axis: styles.lines,
               tickLabels: styles.tickLabels,
