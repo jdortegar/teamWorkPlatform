@@ -54,6 +54,7 @@ class Login extends React.Component {
   }
 
   onForgotPassword() {
+    sessionStorage.setItem('habla-user-email', this.props.form.getFieldValue('email'));
     this.props.history.push('/recoverPassword');
   }
 

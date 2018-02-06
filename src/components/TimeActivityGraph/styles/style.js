@@ -2,6 +2,13 @@ const BACKGROUND_COLOR = '#557dbf';
 const LINE_COLOR = '#dddddd';
 const LINE_OPACITY = 0.4;
 
+const tickLabels = {
+  fill: LINE_COLOR,
+  fillOpacity: LINE_OPACITY,
+  fontFamily: 'Lato, sans-serif',
+  textTransform: 'uppercase'
+};
+
 export default {
   container: {
     parent: {
@@ -10,7 +17,7 @@ export default {
   },
   chart: {
     padding: {
-      top: 10,
+      top: 0,
       right: 10,
       left: 70,
       bottom: 70
@@ -23,11 +30,14 @@ export default {
       strokeWidth: 1
     }
   },
-  tickLabels: {
-    fill: LINE_COLOR,
-    fillOpacity: LINE_OPACITY,
-    fontFamily: 'Lato, sans-serif',
-    textTransform: 'uppercase'
+  tickLabels,
+  compoundTickLabels: [
+    tickLabels,
+    { ...tickLabels, fillOpacity: 0.7 }
+  ],
+  axisLabel: {
+    ...tickLabels,
+    letterSpacing: 10
   },
   lines: {
     stroke: LINE_COLOR,

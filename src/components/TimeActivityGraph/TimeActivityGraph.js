@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import * as d3 from 'd3';
 import {
   VictoryAxis,
   VictoryChart,
+  VictoryLabel,
   VictoryScatter,
   VictoryZoomContainer
 } from 'victory';
 
+import String from '../../translations';
 import styles from './styles/style';
 import CustomLabel from './CustomLabel';
 
@@ -19,19 +22,36 @@ const defaultProps = {
   files: []
 };
 
-// chart size
+// chart size properties
 const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
+const BOTTOM_OFFSET = 70;
 const CHART_PADDING = 50;
+const DOMAIN_TOP_PADDING = 20;
 
-// from the beginning of the last year until now
+// from Victory. Increasing this number restrains the zoom level
+const MINIMUM_ZOOM = 10000;
+
+// from the beginning of the last year until tomorrow
 const DATE_DOMAIN = [moment().subtract(1, 'year').startOf('year'), moment().add(1, 'day')];
-const TIME_DOMAIN = [moment().endOf('day'), moment().startOf('day')];
+const TIME_DOMAIN = [moment().startOf('day'), moment().endOf('day')];
 
-// one month from the last file
+// from 2 weeks before the last file to one day after
 const defaultZoomDomain = (files) => {
   const lastFileDate = moment.max(files.map(file => file.date));
   return [moment(lastFileDate).subtract(2, 'weeks'), moment(lastFileDate).add(1, 'day')];
+};
+
+const formatXTick = (date) => {
+  const getFormat = () => {
+    if (d3.timeMinute(date) < date) return String.t('timeActivityGraph.tickFormat.timeMinute'); // eg: "14:28:32 \n Dec 21"
+    if (d3.timeDay(date) < date) return String.t('timeActivityGraph.tickFormat.timeDay'); // eg: "14:28 \n Dec 21"
+    if (d3.timeMonth(date) < date) return String.t('timeActivityGraph.tickFormat.timeMonth'); // eg: "Dec 21"
+    if (d3.timeYear(date) < date) return '%B'; // eg: "December"
+    return '%Y'; // eg: "2018"
+  };
+
+  return d3.timeFormat(getFormat())(date);
 };
 
 class TimeActivityGraph extends React.Component {
@@ -69,6 +89,7 @@ class TimeActivityGraph extends React.Component {
         <VictoryChart
           scale={{ x: 'time', y: 'time' }}
           domain={{ x: DATE_DOMAIN, y: TIME_DOMAIN }}
+          domainPadding={{ y: [DOMAIN_TOP_PADDING, 0] }}
           width={this.state.width - CHART_PADDING}
           height={this.state.height - CHART_PADDING}
           padding={styles.chart.padding}
@@ -77,24 +98,33 @@ class TimeActivityGraph extends React.Component {
             <VictoryZoomContainer
               zoomDimension="x"
               zoomDomain={{ x: defaultZoomDomain(files) }}
+              minimumZoom={{ x: MINIMUM_ZOOM }}
             />
           }
         >
           <VictoryAxis
+            offsetY={BOTTOM_OFFSET}
+            tickFormat={formatXTick}
+            tickLabelComponent={
+              <VictoryLabel
+                lineHeight={1.3}
+                style={styles.compoundTickLabels}
+              />
+            }
             style={{
               axis: styles.hidden,
-              tickLabels: styles.tickLabels,
               grid: styles.lines
             }}
           />
           <VictoryAxis
             invertAxis
             dependentAxis
-            tickCount={Math.floor(this.state.height / 70)}
-            tickFormat={x => moment(x).format('HH:mm')}
+            label={String.t('timeActivityGraph.yAxisLabel')}
+            tickFormat={() => null}
             style={{
               axis: styles.lines,
               tickLabels: styles.tickLabels,
+              axisLabel: styles.axisLabel,
               grid: styles.hidden
             }}
           />

@@ -4,9 +4,6 @@
 .login-main-container {
 	margin-top: 35%;	
 }
-.login-main-container .ant-form-item {
-	margin-bottom: 10px;
-}
 .login-main-div {
    min-height: 100%;
    width: 100%;
@@ -25,7 +22,9 @@
 	 width: 350px;
 }
 .login-main-options {
-	 border-bottom: 1px solid #ccc;
+	 border-bottom: 1px solid #eee;
+	 padding: 8px 0;
+	 margin-bottom: 8px;
 }
 .login-main-signup {
 	 text-align: center;

@@ -40,7 +40,7 @@ class NewTeamRoomPage extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
-        this.props.createTeamRoom({ name: values.name, publish: true, active: true }, teamId)
+        this.props.createTeamRoom({ name: values.name, active: true }, teamId)
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/team/${teamId}`);

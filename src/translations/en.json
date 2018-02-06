@@ -35,7 +35,7 @@
   "errProfileImageResize": "An error occurred trying to use the image.",
   "errFirstNameMissing": "Please enter your First Name.",
   "errLastNameMissing": "Please enter your Last Name.",
-  "errUsernameTooShort": "The Username must be at least 6 characters long.",
+  "errUsernameTooShort": "The Display Name must be at least 6 characters long.",
   "errTimeZoneNotSelected": "Please select a Time Zone.",
   "errPasswordMissing": "Please enter a password.",
   "errPasswordTooShort": "The password must be at least 8 characters long.",
@@ -48,7 +48,7 @@
   "labelLastNamePlaceholder": "",
   "labelEmail": "Email",
   "labelEmailPlaceholder": "",
-  "labelUsername": "Username",
+  "labelUsername": "Display Name",
   "labelUsernamePlaceholder": "",
   "labelPassword": "Password",
   "chooseNewPassword": "Choose a new password",
@@ -94,7 +94,7 @@
   "peopleScreenTabRoom": "Team Room",
   "fullName": "{{firstName}} {{lastName}}",
   "memberPopupName": "Name: {{firstName}} {{lastName}}",
-  "memberPopupUsername": "Username: {{displayName}}",
+  "memberPopupUsername": "Display Name: {{displayName}}",
   "awaitingVerificationHeader": "Hi! \nWe just sent a \nverification email to:",
   "awaitingVerificationChangeEmailLink": "CHANGE EMAIL ADDRESS",
   "awaitingVerificationResendLink": "PLEASE RESEND VERIFICATION",
@@ -289,9 +289,15 @@
     "badgeTopLimit": "99+"
   },
   "timeActivityGraph": {
+    "yAxisLabel": "Activity",
     "displayTime": "{{displayDate}} at {{displayTime}}",
     "dateFormat": "MMM D, YYYY",
-    "timeFormat": "H:mm:ss"
+    "timeFormat": "H:mm:ss",
+    "tickFormat": {
+      "timeMinute": "%b %d\n%H:%M:%S",
+      "timeDay": "%b %d\n%H:%M",
+      "timeMonth": "%b %d"
+    }
   },
   "createAccount": {
     "createAccountButtonLabel": "Create Account"
@@ -359,6 +365,7 @@
     "webSiteLabel": "Web Site",
     "webSitePlaceholder": "http://",
     "changeAvatarText": "Change Avatar",
+    "removeImageLabel": "Remove",
     "successToastTitle": "Success",
     "organizationUpdated": "Your organization has been successfully updated."
   },
@@ -390,7 +397,8 @@
    "userUpdated": "Your user profile has been successfully updated.",
    "saveButtonLabel": "Save",
    "profileSettings": "Profile Settings",
-   "setProfilePhoto": "Add a Photo"
+   "setProfilePhoto": "Add a Photo",
+   "removeImageLabel": "Remove"
   },
   "integrationDetailsPage": {
      "status": {
@@ -452,9 +460,9 @@
       "other": "Send Invitations"
     },
     "addAnother": "Add Another",
-    "username": "Username",
+    "username": "Display Name",
+    "usernamePlaceholder": "Enter Name of Person to Add",
     "removeLink": "Remove",
-    "usernamePlaceholder": "Enter a username",
     "breadcrumb": "Add Team Member to Team",
     "errorToastTitle": "Error",
     "errorToastMessage": "The specified user may not be a valid team member of the organization.",
@@ -528,10 +536,9 @@
   },
 
   "validationError": {
-    "usernameFormat": "Must be alphanumeric without spaces (period, underscore and @ symbol are allowed).",
-    "usernameNotEndsWithPeriod": "Username cannot end with a period.",
-    "usernameTooShort": "Username must be at least 6 characters long.",
-    "usernameTooLong": "Username is too long",
+    "usernameNotEndsWithPeriod": "Display Name cannot end with a period.",
+    "usernameTooShort": "Display Name must be at least 3 characters long.",
+    "usernameTooLong": "Display Name is too long",
     "passwordOneLower": "Must have at least one lowercase letter (a-z).",
     "passwordOneNumber": "Must have at least one number (0-9).",
     "passwordOneSpecial": "Must have at least one special character.",

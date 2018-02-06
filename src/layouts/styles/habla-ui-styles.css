@@ -723,8 +723,14 @@ p {
  .register-success-email {
   color: #000;
 }
-.ant-form {
+.ant-form,
+.ant-form-item,
+.ant-input,
+.ant-checkbox-wrapper {
   font-family: inherit;
+}
+.ant-input {
+	height: 38px;
 }
 .ant-layout {
   background: none!important;
@@ -809,4 +815,10 @@ p {
 .ant-dropdown-menu {
   top: 7px;
   right: -15px;
+}
+.ant-avatar-string {
+  transform: inherit;
+  position: inherit;
+  display: inherit;
+  left: inherit;
 }

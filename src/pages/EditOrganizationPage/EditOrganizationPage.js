@@ -161,7 +161,7 @@ class EditOrganizationPage extends Component {
                         className="container__image__remove"
                         onClick={this.onRemoveImage}
                       >
-                        Remove
+                        {String.t('editOrgPage.removeImageLabel')}
                       </span>
                     }
                   </div>
