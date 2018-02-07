@@ -440,14 +440,14 @@
     "unknownDescription": "We were unable to add {{name}} access."
   },
   "inviteNewMemberPage": {
-    "title": "New Team Member Email",
+    "title": "New Member Email",
     "addEmail": "Add another Email",
     "sendInvitationsButtonLabel": {
       "zero": "Send Invitation",
       "one": "Send Invitation",
       "other": "Send Invitations"
     },
-    "breadcrumb": "Invite a Team Member",
+    "breadcrumb": "Invite to Organization",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
@@ -460,10 +460,10 @@
       "other": "Send Invitations"
     },
     "addAnother": "Add Another",
-    "username": "Display Name",
+    "username": "New Team Member",
     "usernamePlaceholder": "Enter Name of Person to Add",
     "removeLink": "Remove",
-    "breadcrumb": "Add Team Member to Team",
+    "breadcrumb": "Invite to Team",
     "errorToastTitle": "Error",
     "errorToastMessage": "The specified user may not be a valid team member of the organization.",
     "invitationSent": {
