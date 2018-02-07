@@ -65,6 +65,14 @@ class InviteNewMemberPage extends Component {
               description: String.t('inviteNewMemberPage.invitationSent', { count: users.length }),
               duration: 4
             });
+          })
+          .catch((error) => {
+            this.setState({ loading: false });
+            notification.open({
+              message: String.t('inviteNewMemberPage.errorToastTitle'),
+              description: error.message,
+              duration: 4
+            });
           });
       }
     });

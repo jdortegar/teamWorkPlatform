@@ -448,6 +448,7 @@
       "other": "Send Invitations"
     },
     "breadcrumb": "Invite to Organization",
+    "errorToastTitle": "Error",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
