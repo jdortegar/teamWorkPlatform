@@ -496,6 +496,10 @@
     "active": "active",
     "replyPlaceholder": "Leave a reply...",
     "addTeamMember": "Invite a Team Member",
+    "unreadMessagesCount": {
+      "one": "1 new message",
+      "other": "{{count}} new messages"
+    },
     "menu" : {
       "all": "ALL",
       "replies": "REPLIES",
