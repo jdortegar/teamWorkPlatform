@@ -99,6 +99,14 @@ class EditUserPage extends Component {
               description: String.t('editUserPage.userUpdated'),
               duration: 4
             });
+          })
+          .catch((error) => {
+            this.setState({ loading: false });
+            notification.open({
+              message: String.t('errorToastTitle'),
+              description: error.message,
+              duration: 4
+            });
           });
       }
     });

@@ -7,6 +7,7 @@
   "alertTitleDatabaseError": "DB Integrity Error",
   "alertLastPhotoErrorTitle": "Last Photo Error",
   "successToastTitle": "Success",
+  "errorToastTitle": "Error",
 
   "enterMsgPostPlaceholder": "What do you want to tell the team?",
   "enterMsgReplyPlaceholder": "Leave a reply...",
@@ -214,8 +215,7 @@
     "emailSent": "Email Sent! ",
     "checkEmail": "Check your email",
     "infoParagraph": "Please enter the email address that you use in your Habla AI account and we will send you an email with the instructions to reset your password.",
-    "infoParagraphAfterSentImage": "Please check your email to continue the process to recover your password.",
-    "errorToastTitle": "Error"
+    "infoParagraphAfterSentImage": "Please check your email to continue the process to recover your password."
   },
   "EditButtonLabel": "Edit",
   "Buttons": {
@@ -448,7 +448,6 @@
       "other": "Send Invitations"
     },
     "breadcrumb": "Invite to Organization",
-    "errorToastTitle": "Error",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
@@ -465,7 +464,6 @@
     "usernamePlaceholder": "Enter Name of Person to Add",
     "removeLink": "Remove",
     "breadcrumb": "Invite to Team",
-    "errorToastTitle": "Error",
     "errorToastMessage": "The specified user may not be a valid team member of the organization.",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
@@ -529,7 +527,6 @@
     "submitLabel": "Next",
     "passwordChangedToastTitle": "Password Changed",
     "passwordChangedToastMessage": "Please sign in using your new password.",
-    "errorToastTitle": "Error",
     "errorToastMessage": "The link to reset your password seems to be expired. Please try again.",
     "newPasswordPlaceholder": "New Password",
     "confirmNewPasswordPlaceholder": "Confirm New Password"

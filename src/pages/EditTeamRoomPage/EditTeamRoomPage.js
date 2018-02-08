@@ -50,6 +50,14 @@ class EditTeamRoomPage extends Component {
               description: String.t('editTeamRoomPage.teamUpdated'),
               duration: 4
             });
+          })
+          .catch((error) => {
+            this.setState({ loading: false });
+            notification.open({
+              message: String.t('errorToastTitle'),
+              description: error.message,
+              duration: 4
+            });
           });
       }
     });
