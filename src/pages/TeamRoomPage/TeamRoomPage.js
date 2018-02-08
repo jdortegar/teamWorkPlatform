@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Form, Tooltip } from 'antd';
+import { Form, Tooltip, notification } from 'antd';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -228,7 +228,17 @@ class TeamRoomPage extends Component {
     return axios.put(`${getResourcesUrl()}/${file.name}`, fileSource, requestConfig);
   }
 
+  shouldDisableSubmit() {
+    const text = this.props.form.getFieldValue('message');
+    const { files } = this.props;
+    return !(files && files.length) && !(text && text.length);
+  }
+
   handleSubmit(e) {
+    if (this.shouldDisableSubmit()) {
+      return;
+    }
+
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -236,7 +246,6 @@ class TeamRoomPage extends Component {
         const postBody = { content: [] };
         const { message } = values;
 
-        this.props.form.resetFields();
         this.stopTyping();
         this.clearTypingTimer();
 
@@ -244,6 +253,7 @@ class TeamRoomPage extends Component {
           const resources = this.props.files.map(file => this.createResource(file));
           Promise.all(resources)
             .then((res) => {
+              this.props.form.resetFields();
               postBody.content = res.map((createdResource, index) => {
                 return {
                   type: this.props.files[index].type,
@@ -266,6 +276,15 @@ class TeamRoomPage extends Component {
               this.props.createMessage(postBody, conversationId);
               this.setState({ showPreviewBox: false, file: null });
               this.props.clearFileList();
+            })
+            .catch((error) => {
+              this.props.updateFileList(this.props.files);
+              this.setState({ file: null });
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: error.message,
+                duration: 4
+              });
             });
         } else if (message) {
           postBody.content.push({ type: 'text/plain', text: message });
@@ -512,7 +531,13 @@ class TeamRoomPage extends Component {
                 </Form>
               </div>
               <div className="team-room__chat-col-icons">
-                <a className="team-room__icons" role="button" tabIndex={0} onClick={this.handleSubmit}>
+                <a
+                  className="team-room__icons"
+                  role="button"
+                  tabIndex={0}
+                  disabled={this.shouldDisableSubmit()}
+                  onClick={this.handleSubmit}
+                >
                   <i className="fa fa-paper-plane-o" />
                 </a>
                 <div>
