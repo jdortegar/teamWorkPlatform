@@ -59,6 +59,7 @@ const propTypes = {
     conversationId: PropTypes.string.isRequired,
     transcript: PropTypes.array
   }).isRequired,
+  unreadMessagesCount: PropTypes.number,
   membersTyping: PropTypes.object,
   createMessage: PropTypes.func.isRequired,
   iAmTyping: PropTypes.func.isRequired,
@@ -71,6 +72,8 @@ const propTypes = {
 
 const defaultProps = {
   files: [],
+  readMessages: null,
+  unreadMessagesCount: 0,
   membersTyping: null
 };
 
@@ -395,7 +398,7 @@ class TeamRoomPage extends Component {
     const { teamRoomMembersLoaded, conversationsLoaded } = this.state;
     if (teamRoomMembersLoaded && conversationsLoaded) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
-      const { teamRooms, user, teamRoomMembers } = this.props;
+      const { teamRooms, user, teamRoomMembers, unreadMessagesCount } = this.props;
       const teamRoomId = this.props.match.params.teamRoomId;
       const teamRoom = teamRooms.teamRoomById[teamRoomId];
       const team = this.props.teams.teamById[teamRoom.teamId];
@@ -463,6 +466,14 @@ class TeamRoomPage extends Component {
               <div onClick={() => this.onMenuItemClick(false, false, true, false)} className={menuOptionBookmarked}>{String.t('teamRoomPage.menu.bookmarks')}</div>
             </div>
           </div>
+
+          {unreadMessagesCount > 0 && (
+            <SimpleCardContainer className="team-room__unread-messages border-top-lighter padding-class-a">
+              <div className="team-room__unread-messages-count">
+                {String.t('teamRoomPage.unreadMessagesCount', { count: unreadMessagesCount })}
+              </div>
+            </SimpleCardContainer>
+          )}
 
           <SimpleCardContainer className="team-room__messages border-top-lighter">
             {this.renderMessages()}
