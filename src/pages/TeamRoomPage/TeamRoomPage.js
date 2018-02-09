@@ -449,7 +449,7 @@ class TeamRoomPage extends Component {
       });
       return (
         <div className={className}>
-          <div className="team-room__top-page-container">
+          <div className="team-room__top-page-container border-bottom-lighter">
             <SubpageHeader
               breadcrumb={
                 <BreadCrumb
@@ -487,14 +487,14 @@ class TeamRoomPage extends Component {
           </div>
 
           {unreadMessagesCount > 0 && (
-            <SimpleCardContainer className="team-room__unread-messages border-top-lighter padding-class-a">
+            <SimpleCardContainer className="team-room__unread-messages padding-class-a">
               <div className="team-room__unread-messages-count">
                 {String.t('teamRoomPage.unreadMessagesCount', { count: unreadMessagesCount })}
               </div>
             </SimpleCardContainer>
           )}
 
-          <SimpleCardContainer className="team-room__messages border-top-lighter">
+          <SimpleCardContainer className="team-room__messages">
             {this.renderMessages()}
           </SimpleCardContainer>
 
