@@ -9,6 +9,7 @@ import Button from '../../components/common/Button';
 
 const propTypes = {
   verifyEmailAccount: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       uuid: PropTypes.string.isRequired
@@ -27,7 +28,7 @@ class VerifyAccount extends Component {
     const uuid = this.props.match.params.uuid;
     this.props.verifyEmailAccount(uuid)
       .then(() => this.setState({ verified: true }))
-      .catch(err => console.error(err)); // eslint-disable-line no-console
+      .catch(() => this.props.history.replace('/app'));
   }
 
   render() {
