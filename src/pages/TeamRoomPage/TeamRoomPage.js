@@ -374,12 +374,27 @@ class TeamRoomPage extends Component {
     const orderedMembers = _.orderBy(otherMembers, ['online', 'firstName', 'lastName', 'displayName'], ['desc', 'asc', 'asc', 'asc']);
 
     return [currentUser, ...orderedMembers].map(({ firstName, lastName, userId, preferences, icon }) => {
-      const initials = getInitials(`${firstName} ${lastName}`);
-      if (icon) {
-        return <Tooltip placement="top" title={`${firstName} ${lastName}`}><Avatar size="small" src={`data:image/jpeg;base64, ${icon}`} className="mr-05" /></Tooltip>;
-      }
+      const fullName = String.t('fullName', { firstName, lastName });
+      const initials = getInitials(fullName);
       return (
-        <Tooltip placement="top" title={`${firstName} ${lastName}`}><Avatar size="small" ey={userId} color={preferences.iconColor} className="mr-05">{initials}</Avatar></Tooltip>
+        <Tooltip
+          key={userId}
+          placement="top"
+          title={fullName}
+        >
+          {icon ?
+            <Avatar size="small" src={`data:image/jpeg;base64, ${icon}`} className="mr-05" />
+            :
+            <Avatar
+              size="small"
+              ey={userId}
+              color={preferences.iconColor}
+              className="mr-05"
+            >
+              {initials}
+            </Avatar>
+          }
+        </Tooltip>
       );
     });
   }
