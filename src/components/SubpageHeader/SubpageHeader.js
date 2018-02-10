@@ -8,8 +8,12 @@ const propTypes = {
     PropTypes.string,
     PropTypes.node
   ]).isRequired,
-  icon: PropTypes.node.isRequired,
+  icon: PropTypes.node,
   editButton: PropTypes.object.isRequired
+};
+
+const defaultProps = {
+  icon: null
 };
 
 
@@ -29,5 +33,6 @@ function SubpageHeader({ breadcrumb, icon, editButton = {} }) {
 }
 
 SubpageHeader.propTypes = propTypes;
+SubpageHeader.defaultProps = defaultProps;
 
 export default SubpageHeader;
