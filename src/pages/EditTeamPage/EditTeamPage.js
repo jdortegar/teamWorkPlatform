@@ -23,7 +23,7 @@ const propTypes = {
   }).isRequired,
   updateTeam: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
-  subscriberOrgById: PropTypes.string.isRequired
+  subscriberOrgById: PropTypes.object.isRequired
 };
 
 class EditTeamPage extends Component {
