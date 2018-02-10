@@ -470,6 +470,22 @@
       "other": "Your Invitations have been sent."
     }
   },
+  "inviteToTeamRoomPage": {
+   "sendInvitationsButtonLabel": {
+      "zero": "Send Invitation",
+      "one": "Send Invitation",
+      "other": "Send Invitations"
+    },
+    "addAnother": "Add Another",
+    "username": "New Team Room Member",
+    "usernamePlaceholder": "Enter Name of Person to Add",
+    "removeLink": "Remove",
+    "breadcrumb": "Invite to Team Room",
+    "invitationSent": {
+      "one": "Your Invitation has been sent.",
+      "other": "Your Invitations have been sent."
+    }
+  },
   "newTeamPage": {
     "createNewTeamButtonLabel": "Create",
     "chooseTeamName": "Team Name",

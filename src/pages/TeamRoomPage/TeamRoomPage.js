@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { Form, Tooltip, notification } from 'antd';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -475,7 +476,14 @@ class TeamRoomPage extends Component {
                 <div className="team-room__member-cards-container">
                   <span className="team-room__member-cards-span habla-label">{String.t('teamRoomPage.membersHeader', { count: numberOfTeamRoomMembers })}</span>
                   {this.renderTeamRoomMembers()}
-                  <Tooltip placement="top" title={String.t('teamRoomPage.addTeamMember')}><Avatar size="small" color="#ccc" className="teamRoomInviteMembers">+</Avatar></Tooltip>
+                  <Tooltip
+                    placement="top"
+                    title={String.t('teamRoomPage.addTeamMember')}
+                  >
+                    <Link to={`/app/inviteToTeamRoom/${teamRoomId}`}>
+                      <Avatar size="small" color="#ccc" className="teamRoomInviteMembers">+</Avatar>
+                    </Link>
+                  </Tooltip>
                 </div>
               }
             />
