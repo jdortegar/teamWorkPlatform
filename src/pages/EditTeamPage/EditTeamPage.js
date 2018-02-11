@@ -107,6 +107,7 @@ class EditTeamPage extends Component {
                 <div className="Edit-team__switch-container">
                   <Tooltip placement="top" title={team.active ? String.t('editTeamPage.setInactive') : String.t('editTeamPage.setActive')}>
                     <SwitchField
+                      disabled={team.primary}
                       checkedChildren={String.t('editTeamPage.activeState')}
                       unCheckedChildren={String.t('editTeamPage.inactiveState')}
                       form={this.props.form}
