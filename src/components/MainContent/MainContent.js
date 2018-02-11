@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Layout, notification } from 'antd';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import OrganizationPage from '../../containers/OrganizationPage';
 import ChatContent from '../../containers/ChatContent';
 import IntegrationsPage from '../../containers/IntegrationsPage';
@@ -25,6 +26,7 @@ import { routesPaths } from '../../routes';
 import { sound1 } from '../../sounds';
 import './styles/style.css';
 import String from '../../translations';
+import { sortByLastCreatedFirst } from '../../redux-hablaai/selectors/helpers';
 
 const { Content } = Layout;
 
@@ -42,6 +44,16 @@ const defaultProps = {
   pushMessage: null,
   declinedInvitations: null
 };
+
+function invitationKey(inv) {
+  const { teamRoomId, teamId, subscriberOrgId } = inv;
+  if (teamRoomId) {
+    return `room-${teamRoomId}`;
+  } else if (teamId) {
+    return `team-${teamId}`;
+  }
+  return `org-${subscriberOrgId}`;
+}
 
 class MainContent extends Component {
   componentDidMount() {
@@ -114,11 +126,27 @@ class MainContent extends Component {
   }
 
   render() {
-    const { invitation } = this.props;
+    let { invitation } = this.props;
+    if (invitation.length > 0) {
+      const invitationsByKey = {};
+      invitation = invitation.sort(sortByLastCreatedFirst).filter((inv) => {
+        // Now that the invitations are sorted, build map of
+        // invitations to make sure same invite isn't repeated
+        const key = invitationKey(inv);
+        if (!invitationsByKey[key]) {
+          invitationsByKey[key] = true;
+          return true;
+        }
+        return false;
+      });
+
+      // now put the array in chronological order again
+      invitation = _.reverse(invitation);
+    }
     return (
       <Content className="MainContent__layout-wrapper">
         {
-          invitation.length > 0 ? invitation.map(el => <Notification options={el} />) : null
+          invitation.length > 0 ? invitation.map(inv => <Notification key={invitationKey(inv)} options={inv} />) : null
         }
         <Switch>
           <Route exact path={routesPaths.integrations} component={IntegrationsPage} />
