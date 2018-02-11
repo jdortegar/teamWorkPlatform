@@ -229,6 +229,12 @@ class TeamRoomPage extends Component {
     return axios.put(`${getResourcesUrl()}/${file.name}`, fileSource, requestConfig);
   }
 
+  shouldDisableConversation() {
+    const teamRoom = this.props.teamRooms.teamRoomById[this.props.match.params.teamRoomId];
+    const team = this.props.teams.teamById[teamRoom.teamId];
+    return !teamRoom.active || !team.active;
+  }
+
   shouldDisableSubmit() {
     const text = this.props.form.getFieldValue('message');
     const { files } = this.props;
@@ -236,7 +242,7 @@ class TeamRoomPage extends Component {
   }
 
   handleSubmit(e) {
-    if (this.shouldDisableSubmit()) {
+    if (this.shouldDisableSubmit() || this.shouldDisableConversation()) {
       return;
     }
 
@@ -339,6 +345,7 @@ class TeamRoomPage extends Component {
   }
 
   renderMessages() {
+    const disableConversation = this.shouldDisableConversation();
     return this.props.conversations.transcript.map((message) => {
       const user = this.props.teamRoomMembersObj[message.createdBy];
       const teamRoomId = this.props.match.params.teamRoomId;
@@ -346,6 +353,7 @@ class TeamRoomPage extends Component {
       const subscriberOrgId = this.props.teams.teamById[teamId].subscriberOrgId;
       return (
         <Message
+          conversationDisabled={disableConversation}
           message={message}
           user={user}
           key={message.messageId}
@@ -442,6 +450,7 @@ class TeamRoomPage extends Component {
         'team-room-chat': true,
         'team-room__main-container--opacity': this.state.isDraggingOver
       });
+      const disableConversation = this.shouldDisableConversation();
 
       const teamRoomMemberFoundByUser = _.find(teamRoomMembers, { userId: user.userId });
       const isAdmin = teamRoomMemberFoundByUser.teamRooms[teamRoomId].role === 'admin';
@@ -540,8 +549,14 @@ class TeamRoomPage extends Component {
                 <UserIcon user={user} type="user" minWidth="2.5em" width="2.5em" height="2.5em" key={user.userId} />
               </div>
               <div className="team-room__chat-input-wrapper">
-                <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off">
+                <Form
+                  onSubmit={this.handleSubmit}
+                  className="login-form"
+                  autoComplete="off"
+                  disabled={disableConversation}
+                >
                   <TextField
+                    disabled={disableConversation}
                     componentKey="message"
                     form={this.props.form}
                     hasFeedback={false}
@@ -558,7 +573,7 @@ class TeamRoomPage extends Component {
                   className="team-room__icons"
                   role="button"
                   tabIndex={0}
-                  disabled={this.shouldDisableSubmit()}
+                  disabled={this.shouldDisableSubmit() || disableConversation}
                   onClick={this.handleSubmit}
                 >
                   <i className="fa fa-paper-plane-o" />
@@ -566,6 +581,7 @@ class TeamRoomPage extends Component {
                 <div>
                   <input
                     id="fileupload"
+                    disabled={disableConversation}
                     className="team-room__file-upload-input"
                     type="file"
                     onChange={this.onFileChange}
