@@ -37,7 +37,10 @@ const propTypes = {
   users: PropTypes.object.isRequired,
   currentUserId: PropTypes.string.isRequired,
   notifyMessage: PropTypes.func.isRequired,
-  updateInvitationDeclined: PropTypes.func.isRequired
+  updateInvitationDeclined: PropTypes.func.isRequired,
+  teams: PropTypes.object.isRequired,
+  subscriberOrgs: PropTypes.object.isRequired,
+  teamRooms: PropTypes.object.isRequired
 };
 
 const defaultProps = {
@@ -125,13 +128,31 @@ class MainContent extends Component {
     }
   }
 
-  render() {
+  getValidInvites() {
+    const { teamRooms, teams, subscriberOrgs } = this.props;
+    const { currentSubscriberOrgId, subscriberOrgById } = subscriberOrgs;
+    if (!subscriberOrgById[currentSubscriberOrgId]) { // data not available yet
+      return [];
+    }
     let { invitation } = this.props;
     if (invitation.length > 0) {
       const invitationsByKey = {};
       invitation = invitation.sort(sortByLastCreatedFirst).filter((inv) => {
-        // Now that the invitations are sorted, build map of
-        // invitations to make sure same invite isn't repeated
+        // if already a member of the org, team or team room, don't include the invite
+        const { teamRoomId, teamId, subscriberOrgId } = inv;
+        if (teamRoomId) {
+          if (teamRooms.teamRoomById[teamRoomId]) {
+            return false;
+          }
+        } else if (teamId) {
+          if (teams.teamById[teamId]) {
+            return false;
+          }
+        } else if (subscriberOrgById[subscriberOrgId]) {
+          return false;
+        }
+
+        // build map of invitations to make sure same invite isn't repeated
         const key = invitationKey(inv);
         if (!invitationsByKey[key]) {
           invitationsByKey[key] = true;
@@ -143,6 +164,11 @@ class MainContent extends Component {
       // now put the array in chronological order again
       invitation = _.reverse(invitation);
     }
+    return invitation;
+  }
+
+  render() {
+    const invitation = this.getValidInvites();
     return (
       <Content className="MainContent__layout-wrapper">
         {
