@@ -55,7 +55,7 @@ class SetNewPassword extends Component {
             if (error.response.status === 404) {
               // show error toast (currently assuming just error 404)
               notification.open({
-                message: String.t('setNewPassword.errorToastTitle'),
+                message: String.t('errorToastTitle'),
                 description: String.t('setNewPassword.errorToastMessage'),
                 duration: 8
               });
@@ -63,7 +63,7 @@ class SetNewPassword extends Component {
             } else {
               // show error toast (currently assuming just error 404)
               notification.open({
-                message: String.t('setNewPassword.errorToastTitle'),
+                message: String.t('errorToastTitle'),
                 description: error.message,
                 duration: 4
               });

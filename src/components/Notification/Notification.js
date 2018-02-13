@@ -26,33 +26,28 @@ function checkType(type) {
       type: 'teamRoom',
       name: type.teamRoomName,
       id: type.teamRoomId,
-      messageStrKey: 'msgInvitationToTeamRoom'
+      message: String.t('msgInvitationToTeamRoom', type)
     };
   } else if (type.teamName) {
     return {
       type: 'team',
       name: type.teamName,
       id: type.teamId,
-      messageStrKey: 'msgInvitationToTeam'
+      message: String.t('msgInvitationToTeam', type)
     };
   }
   return {
     type: 'subscriberOrg',
     name: type.subscriberOrgName,
     id: type.subscriberOrgId,
-    messageStrKey: 'msgInvitationToOrg'
+    message: String.t('msgInvitationToOrg', type)
   };
 }
 
 class Notification extends Component {
   constructor(props) {
     super(props);
-
     this.state = { accepted: null };
-  }
-
-  componentDidMount() {
-
   }
 
   handleClick(selection) {
@@ -64,8 +59,8 @@ class Notification extends Component {
         this.props.updateInvitation(this.props.options);
         if (selection) {
           const args = {
-            message: `You have joined ${name}`,
-            duration: 5
+            message: String.t('invitationAcceptedToast', { name }),
+            duration: 4
           };
           notification.open(args);
         }
@@ -87,7 +82,7 @@ class Notification extends Component {
           className="Notification__col Notification__col--vertical-center"
         >
           <h3 className="Notification__title">
-            {String.t(typeObj.messageStrKey, this.props.options)}
+            {typeObj.message}
           </h3>
         </Col>
         <Col

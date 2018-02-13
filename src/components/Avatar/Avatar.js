@@ -4,13 +4,14 @@ import classNames from 'classnames';
 
 const propTypes = {
   iconColor: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
+  image: PropTypes.string,
   user: PropTypes.object,
   isUser: PropTypes.bool,
   name: PropTypes.string.isRequired,
   styles: PropTypes.object
 };
 const defaultProps = {
+  image: null,
   isUser: false,
   user: null,
   styles: null

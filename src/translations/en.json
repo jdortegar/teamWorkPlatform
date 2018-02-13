@@ -7,6 +7,7 @@
   "alertTitleDatabaseError": "DB Integrity Error",
   "alertLastPhotoErrorTitle": "Last Photo Error",
   "successToastTitle": "Success",
+  "errorToastTitle": "Error",
 
   "enterMsgPostPlaceholder": "What do you want to tell the team?",
   "enterMsgReplyPlaceholder": "Leave a reply...",
@@ -15,9 +16,10 @@
   "errAppDeepLinkInvalid": "The specified link is invalid.",
   "errAppDeepLinkUnknownError": "An error occurred. Please try again later.",
   "msgAppInvitationWhileLoggedOut": "Please log in to reply to the invitation.",
-  "msgInvitationToTeamRoom": "{{byUserFirstName}} {{byUserLastName}} invited you to join room {{teamRoomName}} for the {{teamName}} team",
-  "msgInvitationToTeam": "{{byUserFirstName}} {{byUserLastName}} invited you to join the {{teamName}} team.",
+  "msgInvitationToTeamRoom": "{{byUserFirstName}} {{byUserLastName}} invited you to join room {{teamRoomName}} for the {{teamName}} team of {{subscriberOrgName}}.",
+  "msgInvitationToTeam": "{{byUserFirstName}} {{byUserLastName}} invited you to join the {{teamName}} team of the {{subscriberOrgName}} organization.",
   "msgInvitationToOrg": "{{byUserFirstName}} {{byUserLastName}} invited you to join the {{subscriberOrgName}} organization.",
+  "invitationAcceptedToast": "You have joined {{name}}.",
   "invalidInvitation": "The invitation has expired or is invalid.",
   "buttonAcceptInvitation": "Accept",
   "buttonDeclineInvitation": "Decline",
@@ -177,7 +179,7 @@
     "addNewIntegration": "Add New Integration",
     "teamCreated": "Team has been successfully created.",
     "integrationsHeader": "Data Integrations ({{count}})",
-    "membersHeader": "Team Members ({{count}})",
+    "membersHeader": "Organization Members ({{count}})",
     "teamsHeader": "Teams ({{count}})",
     "integrationsCount": {
       "one": "1 Data Integration",
@@ -213,8 +215,7 @@
     "emailSent": "Email Sent! ",
     "checkEmail": "Check your email",
     "infoParagraph": "Please enter the email address that you use in your Habla AI account and we will send you an email with the instructions to reset your password.",
-    "infoParagraphAfterSentImage": "Please check your email to continue the process to recover your password.",
-    "errorToastTitle": "Error"
+    "infoParagraphAfterSentImage": "Please check your email to continue the process to recover your password."
   },
   "EditButtonLabel": "Edit",
   "Buttons": {
@@ -295,13 +296,13 @@
     "badgeTopLimit": "99+"
   },
   "timeActivityGraph": {
+    "yAxisLabel": "Activity",
     "displayTime": "{{displayDate}} at {{displayTime}}",
     "dateFormat": "MMM D, YYYY",
     "timeFormat": "H:mm:ss",
     "tickFormat": {
-      "hour": "%H:%M",
-      "timeMinute": "%H:%M:%S\n%b %d",
-      "timeDay": "%H:%M\n%b %d",
+      "timeMinute": "%b %d\n%H:%M:%S",
+      "timeDay": "%b %d\n%H:%M",
       "timeMonth": "%b %d"
     }
   },
@@ -446,14 +447,14 @@
     "unknownDescription": "We were unable to add {{name}} access."
   },
   "inviteNewMemberPage": {
-    "title": "New Team Member Email",
+    "title": "New Member Email",
     "addEmail": "Add another Email",
     "sendInvitationsButtonLabel": {
       "zero": "Send Invitation",
       "one": "Send Invitation",
       "other": "Send Invitations"
     },
-    "breadcrumb": "Invite a Team Member",
+    "breadcrumb": "Invite to Organization",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
@@ -466,12 +467,27 @@
       "other": "Send Invitations"
     },
     "addAnother": "Add Another",
-    "username": "Display Name",
+    "username": "New Team Member",
     "usernamePlaceholder": "Enter Name of Person to Add",
     "removeLink": "Remove",
-    "breadcrumb": "Add Team Member to Team",
-    "errorToastTitle": "Error",
+    "breadcrumb": "Invite to Team",
     "errorToastMessage": "The specified user may not be a valid team member of the organization.",
+    "invitationSent": {
+      "one": "Your Invitation has been sent.",
+      "other": "Your Invitations have been sent."
+    }
+  },
+  "inviteToTeamRoomPage": {
+   "sendInvitationsButtonLabel": {
+      "zero": "Send Invitation",
+      "one": "Send Invitation",
+      "other": "Send Invitations"
+    },
+    "addAnother": "Add Another",
+    "username": "New Team Room Member",
+    "usernamePlaceholder": "Enter Name of Person to Add",
+    "removeLink": "Remove",
+    "breadcrumb": "Invite to Team Room",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
@@ -501,6 +517,10 @@
     "active": "active",
     "replyPlaceholder": "Leave a reply...",
     "addTeamMember": "Invite a Team Member",
+    "unreadMessagesCount": {
+      "one": "1 new message",
+      "other": "{{count}} new messages"
+    },
     "menu" : {
       "all": "ALL",
       "replies": "REPLIES",
@@ -534,7 +554,6 @@
     "submitLabel": "Next",
     "passwordChangedToastTitle": "Password Changed",
     "passwordChangedToastMessage": "Please sign in using your new password.",
-    "errorToastTitle": "Error",
     "errorToastMessage": "The link to reset your password seems to be expired. Please try again.",
     "newPasswordPlaceholder": "New Password",
     "confirmNewPasswordPlaceholder": "Confirm New Password"

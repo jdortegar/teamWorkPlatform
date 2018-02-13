@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
 import { Layout } from 'antd';
 import FileDrop from 'react-file-drop';
-import PropTypes from 'prop-types';
 import TeamRoomPage from '../../containers/TeamRoomPage';
-import Notification from '../../containers/Notification';
-import { sound1 } from '../../sounds';
 
 const { Content } = Layout;
-
-const propTypes = {
-  invitation: PropTypes.array.isRequired
-};
 
 class ChatContent extends Component {
   constructor(props) {
@@ -22,13 +15,6 @@ class ChatContent extends Component {
     this.removeFileFromList = this.removeFileFromList.bind(this);
     this.clearFileList = this.clearFileList.bind(this);
     this.addBase = this.addBase.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.invitation.length > this.props.invitation) {
-      const audio = new Audio(sound1);
-      audio.play();
-    }
   }
 
   removeFileFromList(fileToRemove) {
@@ -70,7 +56,6 @@ class ChatContent extends Component {
   }
 
   render() {
-    const { invitation } = this.props;
     return (
       <FileDrop
         onDrop={this.updateFileList}
@@ -80,7 +65,6 @@ class ChatContent extends Component {
         targetAlwaysVisible
       >
         <Content style={{ background: '#fff', margin: 0, display: 'flex', flex: 1 }}>
-          {invitation.length > 0 ? invitation.map(el => <Notification options={el} />) : null}
           <TeamRoomPage
             files={this.state.fileList}
             updateFileList={this.updateFileList}
@@ -94,7 +78,5 @@ class ChatContent extends Component {
     );
   }
 }
-
-ChatContent.propTypes = propTypes;
 
 export default ChatContent;

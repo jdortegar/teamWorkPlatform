@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Modal } from 'antd';
+import { Form, Modal, notification } from 'antd';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -45,6 +45,13 @@ class AddTeamDialog extends Component {
         this.props.createTeam(name, this.props.currentOrgId)
           .then(() => {
             this.props.toggleTeamDialog(false);
+          })
+          .catch((error) => {
+            notification.open({
+              message: String.t('errorToastTitle'),
+              description: error.message,
+              duration: 4
+            });
           });
       }
     });

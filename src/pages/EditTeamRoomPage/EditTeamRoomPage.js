@@ -50,6 +50,14 @@ class EditTeamRoomPage extends Component {
               description: String.t('editTeamRoomPage.teamUpdated'),
               duration: 4
             });
+          })
+          .catch((error) => {
+            this.setState({ loading: false });
+            notification.open({
+              message: String.t('errorToastTitle'),
+              description: error.message,
+              duration: 4
+            });
           });
       }
     });
@@ -104,6 +112,7 @@ class EditTeamRoomPage extends Component {
                 <div className="Edit-team__switch-container">
                   <Tooltip placement="top" title={teamRoom.active ? String.t('editTeamRoomPage.setInactive') : String.t('editTeamRoomPage.setActive')}>
                     <SwitchField
+                      disabled={teamRoom.primary}
                       checkedChildren={String.t('editTeamRoomPage.activeState')}
                       unCheckedChildren={String.t('editTeamRoomPage.inactiveState')}
                       form={this.props.form}

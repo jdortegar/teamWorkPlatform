@@ -23,7 +23,7 @@ const propTypes = {
   }).isRequired,
   updateTeam: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
-  subscriberOrgById: PropTypes.string.isRequired
+  subscriberOrgById: PropTypes.object.isRequired
 };
 
 class EditTeamPage extends Component {
@@ -47,6 +47,14 @@ class EditTeamPage extends Component {
             notification.open({
               message: String.t('editTeamPage.successToastTitle'),
               description: String.t('editTeamPage.teamUpdated'),
+              duration: 4
+            });
+          })
+          .catch((error) => {
+            this.setState({ loading: false });
+            notification.open({
+              message: String.t('errorToastTitle'),
+              description: error.message,
               duration: 4
             });
           });
@@ -99,6 +107,7 @@ class EditTeamPage extends Component {
                 <div className="Edit-team__switch-container">
                   <Tooltip placement="top" title={team.active ? String.t('editTeamPage.setInactive') : String.t('editTeamPage.setActive')}>
                     <SwitchField
+                      disabled={team.primary}
                       checkedChildren={String.t('editTeamPage.activeState')}
                       unCheckedChildren={String.t('editTeamPage.inactiveState')}
                       form={this.props.form}

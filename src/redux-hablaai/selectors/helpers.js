@@ -6,6 +6,11 @@ export const sortByName = (a, b) => {
   return 0;
 };
 
+export const sortByLastCreatedFirst = (a, b) => {
+  if (a.created === b.created) return 0;
+  return (a.created < b.created) ? 1 : -1;
+};
+
 export const primaryAtTop = (teams) => {
   const primaryTeam = _.find(teams, { primary: true });
   const index = teams.indexOf(primaryTeam);

@@ -49,7 +49,7 @@ class RecoverPassword extends Component {
           }).catch((error) => {
             this.setState({ sending: false, error });
             notification.open({
-              message: String.t('RecoverPassword.errorToastTitle'),
+              message: String.t('errorToastTitle'),
               description: error.message,
               duration: 4
             });

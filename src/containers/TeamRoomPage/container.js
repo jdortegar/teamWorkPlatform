@@ -10,10 +10,12 @@ import {
 } from '../../actions';
 import {
   getConversationOfTeamRoomId,
+  getReadMessagesOfTeamRoomId,
   getTypingsOfConversationId,
   getTeamRoomMembersOfTeamRoomId,
   getTeamRoomMembersAsObjectsOfTeamRoomId,
-  getPresencesOfTeamRoomMembersOfTeamRoomId
+  getPresencesOfTeamRoomMembersOfTeamRoomId,
+  getUnreadMessagesCountOfTeamRoomId
 } from '../../selectors';
 
 function mapStateToProps(state, props) {
@@ -27,6 +29,8 @@ function mapStateToProps(state, props) {
     teams: state.teams,
     teamRooms: state.teamRooms,
     conversations,
+    readMessages: getReadMessagesOfTeamRoomId(state, teamRoomId),
+    unreadMessagesCount: getUnreadMessagesCountOfTeamRoomId(state, teamRoomId),
     membersTyping: getTypingsOfConversationId(state, conversationId),
     teamRoomMembers: getTeamRoomMembersOfTeamRoomId(state, teamRoomId),
     teamRoomMembersObj: getTeamRoomMembersAsObjectsOfTeamRoomId(state, teamRoomId),

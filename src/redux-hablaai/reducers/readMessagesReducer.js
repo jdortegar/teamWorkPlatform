@@ -12,7 +12,10 @@ const readMessagesReducer = (state = INITIAL_STATE, action) => {
     case MESSAGES_READ_FETCH_SUCCESS:
     case MESSAGES_READ_RECEIVE: {
       const { conversationIds } = action.payload.readMessages;
-      return { ...state, ...conversationIds };
+      return {
+        ...state,
+        readMessagesByConversationId: conversationIds
+      };
     }
     default:
       return state;

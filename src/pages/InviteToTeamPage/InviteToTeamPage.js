@@ -71,7 +71,7 @@ class InviteToTeamPage extends Component {
           .catch(() => {
             this.setState({ loading: false });
             notification.open({
-              message: String.t('inviteToTeamPage.errorToastTitle'),
+              message: String.t('errorToastTitle'),
               description: String.t('inviteToTeamPage.errorToastMessage'),
               duration: 4
             });

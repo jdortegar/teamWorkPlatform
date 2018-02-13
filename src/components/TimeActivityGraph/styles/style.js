@@ -33,8 +33,12 @@ export default {
   tickLabels,
   compoundTickLabels: [
     tickLabels,
-    { ...tickLabels, fontSize: 11 }
+    { ...tickLabels, fillOpacity: 0.7 }
   ],
+  axisLabel: {
+    ...tickLabels,
+    letterSpacing: 10
+  },
   lines: {
     stroke: LINE_COLOR,
     strokeOpacity: LINE_OPACITY

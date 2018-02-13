@@ -59,6 +59,17 @@
   flex: 1;
   flex-direction: column;
 }
+.team-room__unread-messages {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 10px;
+  color: #eb4435;
+}
+.team-room__unread-messages-count {
+  text-transform: uppercase;
+  font-weight: bold;
+}
 .team-room__messages {
   flex: 6;
   overflow-y: scroll;

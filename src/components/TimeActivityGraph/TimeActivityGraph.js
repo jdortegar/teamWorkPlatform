@@ -32,9 +32,6 @@ const DOMAIN_TOP_PADDING = 20;
 // from Victory. Increasing this number restrains the zoom level
 const MINIMUM_ZOOM = 10000;
 
-// magic number to handle tick count depending on the chart's height
-const TICK_COUNT_DIVIDER = 70;
-
 // from the beginning of the last year until tomorrow
 const DATE_DOMAIN = [moment().subtract(1, 'year').startOf('year'), moment().add(1, 'day')];
 const TIME_DOMAIN = [moment().startOf('day'), moment().endOf('day')];
@@ -122,11 +119,12 @@ class TimeActivityGraph extends React.Component {
           <VictoryAxis
             invertAxis
             dependentAxis
-            tickCount={Math.floor(this.state.height / TICK_COUNT_DIVIDER)}
-            tickFormat={d3.timeFormat(String.t('timeActivityGraph.tickFormat.hour'))}
+            label={String.t('timeActivityGraph.yAxisLabel')}
+            tickFormat={() => null}
             style={{
               axis: styles.lines,
               tickLabels: styles.tickLabels,
+              axisLabel: styles.axisLabel,
               grid: styles.hidden
             }}
           />
