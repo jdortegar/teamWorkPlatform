@@ -86,7 +86,6 @@
   "logOutConfirmationTitle": "Are you sure?",
   "logOutConfirmationMessage": "This will log you out of this app.",
   "logOutConfirmationButton": "Yes, log out",
-  "organizations": "Organizations",
   "organization": "Organization",
   "teams": "Teams",
   "teamRooms": "Team Rooms",
@@ -252,8 +251,15 @@
     "iconAlt": "Habla AI",
     "noticationsLink": "Notifications",
     "ckgLink": "CKG",
-    "searchLink": "Search",
-    "bookmarksLink": "Bookmarks"
+    "bookmarksLink": "Bookmarks",
+    "onlineStatus": "Online",
+    "awayStatus": "Away",
+    "busyStatus": "Busy",
+    "muteThirtyMins": "30 mins",
+    "muteOneHour": "1 hour",
+    "muteFourHours": "4 hours",
+    "muteAllDay": "All Day",
+    "muteNo": "Unmute"
   },
   "IntegrationCard": {
     "expired": "Expired",
