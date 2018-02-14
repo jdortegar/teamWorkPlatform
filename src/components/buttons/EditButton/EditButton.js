@@ -13,8 +13,8 @@ function EditButton(props) {
     <div className="EditButton__container">
       <Tooltip placement="top" title={String.t('EditButtonLabel')}>
         <Link to={props.url}>
-          <div className="EditButton__button habla-label">
-            Edit <i className="fa fa-pencil" />
+          <div className="EditButton__button">
+            <i className="fas fa-pencil-alt" />
           </div>
         </Link>
       </Tooltip>

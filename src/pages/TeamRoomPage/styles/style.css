@@ -104,12 +104,14 @@
   margin-right: 1em;
 }
 .team-room__chat-col-icons a
-, .team-room__chat-col-icons i {
-  color: #ccc;
+, .team-room__chat-col-icons svg {
+  color: #ddd;
+  font-size: 24px;
 }
 .team-room__chat-col-icons a:hover
-, .team-room__chat-col-icons i:hover {
-  color: #000;
+, .team-room__chat-col-icons svg:hover {
+  color: #999;
+  cursor: pointer;
 }
 .team-room__members-typing {
   min-height: 2em;

@@ -14,4 +14,6 @@
 }
 .breadcrumbs-separator {
    vertical-align: middle;
+   margin: 0 8px;
+   color: #ccc;
 }

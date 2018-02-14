@@ -576,7 +576,7 @@ class TeamRoomPage extends Component {
                   disabled={this.shouldDisableSubmit() || disableConversation}
                   onClick={this.handleSubmit}
                 >
-                  <i className="fa fa-paper-plane-o" />
+                  <i className="fas fa-paper-plane" />
                 </a>
                 <div>
                   <input
@@ -587,7 +587,11 @@ class TeamRoomPage extends Component {
                     onChange={this.onFileChange}
                     multiple
                   />
-                  <label htmlFor="fileupload" className="team-room__icons"><i className="fa fa-folder-o" /></label>
+                  <label htmlFor="fileupload" className="team-room__icons">
+                    <Tooltip placement="top" title={String.t('teamRoomPage.tooltipAttachments')} arrowPointAtCenter>
+                      <i className="fas fa-paperclip" />
+                    </Tooltip>
+                  </label>
                 </div>
               </div>
             </div>

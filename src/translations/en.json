@@ -92,6 +92,7 @@
   "organizations": "Organizations",
   "teams": "Teams",
   "teamRooms": "Team Rooms",
+  "directMessages": "Direct Messages",
   "peopleScreenTabTeam": "Team",
   "peopleScreenTabRoom": "Team Room",
   "fullName": "{{firstName}} {{lastName}}",
@@ -520,8 +521,9 @@
     "replyPlaceholder": "Leave a reply...",
     "addTeamMember": "Invite a Team Member",
     "unreadMessagesCount": {
-      "one": "1 new message",
-      "other": "{{count}} new messages"
+    "one": "1 new message",
+    "other": "{{count}} new messages",
+    "tooltipAttachments": "Attach a file"
     },
     "menu" : {
       "all": "ALL",

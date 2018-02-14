@@ -226,6 +226,11 @@ p {
   top: 0px;
 }
 
+/* Others */
+.EditButton__button {
+	color: #999;
+}
+
 
 /* General CSS Styles for Habla Web App Modal Windows */
 
@@ -241,22 +246,42 @@ p {
 
 
 /* General CSS Styles for Habla Web App Dopdown Menus */
-
+.ant-dropdown-menu {
+  background-color: #444!important;	
+}
+.ant-dropdown-menu .habla-label {
+  font-weight: 900;
+  color: #fff;
+}
 .ant-dropdown-menu-item {
-  background-color: #000!important;
+  background-color: #444!important;
   color: #ddd!important;
 }
 .ant-dropdown-menu-item a {
-  color: #fff!important;
+  color: #7c7c7c!important;
 }
 .ant-dropdown-menu-item-selected, .ant-dropdown-menu-submenu-title-selected, .ant-dropdown-menu-item-selected > a, .ant-dropdown-menu-submenu-title-selected > a {
   background: #333;
+  color: #fff;
 }
 .ant-dropdown-menu-item a:hover {
   background: #333;
+  color: #fff!important;
 }
 .ant-dropdown-menu-item > a, .ant-dropdown-menu-submenu-title > a {
-  padding: 10px 20px;
+  padding: 0 10px;
+  margin: 0;
+}
+.ant-dropdown-menu-item, .ant-dropdown-menu-submenu-title {
+	padding: 0;
+}
+.ant-dropdown-menu-item i,
+.ant-dropdown-menu-item svg,
+.ant-dropdown-menu-item .habla-top-navigation-dropdown-signal {
+	margin-right: 5px;
+}
+.dropdown-last-menu-item {
+	padding-bottom: 10px;
 }
 
 
@@ -759,6 +784,14 @@ p {
 }
 .ant-menu {
   font-family: 'Lato', sans-serif;
+  background: transparent;
+}
+.ant-menu-submenu > .ant-menu {
+  background: transparent;	
+}
+li.ant-menu-submenu {
+	background: #fff;
+	border-radius: 4px;
 }
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
   background: #f7f7f7;

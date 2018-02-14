@@ -2,28 +2,42 @@
 
 	.habla-top-menu {
 		background: #000;
-		height: 50px;
+		height: 55px;
+		font-size: 14px;
 	}
 	.habla-top-menu-content {
-		padding: 10px 17px;
-		font-size: 14px;
+		padding: 0 17px;
 	}
 	.habla-top-menu-logo {
 		float: left;
+		padding: 12.5px 0;
+	}
+	.habla-top-menu-logo a {
+		display: block;
+		line-height: 0;
 	}
 	.habla-top-menu-logo img {
 		height: 30px;
 	}
 	.habla-top-menu-items {
 		float: right;
+		height: 55px;
+	}
+	.habla-top-menu-item {
+		border-left: 1px solid #262626;
+		padding: 12.5px 13px;
+		float: left;
+	}
+	.habla-top-menu-item-last {
+		padding: 12.5px 0 12.5px 13px!important
+	}
+	.habla-top-menu-item-content {
+		height: 30px;
 	}
 	.habla-top-menu-items a {
-		color: #999999;
+		color: #4d4d4d;
 		font-weight: 700;
 		text-decoration: none;
-		margin-left: 15px;
-		height: 30px;
-		position: relative;
 		vertical-align: middle;
 	}
 	.habla-top-menu-items a:hover {
@@ -34,14 +48,10 @@
 		display: inline-flex;
 	}
 	.habla-top-menu-items .habla-top-menu-user {
-		top: -2px;
+		display: inline-block;
 	}
-	.habla-top-menu-items a i {
-		margin-right: 3px;
-	}
-	.habla-top-menu-items i {
-		font-size: 2em;
-		vertical-align: sub;
+	.habla-top-menu-items .svg-inline--fa {
+		font-size: 18px;
 	}
 	.habla-top-menu-notifications {
 		position: relative;
@@ -70,7 +80,7 @@
 		width: -webkit-fill-available;
 	}
 	.habla-top-menu-user .habla-top-menu-label {
-		margin-left: 5px;
+		margin-left: 10px;
 		position: relative;
 		top: 2px;
 	}
@@ -80,8 +90,8 @@
 	.habla-top-menu-items .ant-dropdown-link {
 		display: inline-block;
 	}
-	.habla-top-menu-items .habla-top-menu-active-signal {
-		display: none;
+	.habla-top-menu-subitem {
+		position: relative;
 	}
 	.habla-top-menu-items .habla-top-menu-subitem a {
 		color: #fff;
@@ -89,3 +99,35 @@
    .habla-top-menu-subitem {
       display: inline-block;
    }
+   .habla-top-navigation-avatar-signal {
+   width: 11px;
+   height: 11px;
+   border-radius: 50%;
+   position: absolute;
+   right: -4px;
+   top: -4px;
+   z-index: 2;
+}
+.habla-header-search-input {
+	border-radius: 15px;
+	border: none;
+	margin-right: 10px;
+	height: 30px;
+	padding: 0 10px;
+	outline: none;
+}
+.habla-header-search-input::placeholder {
+	color: #ddd;
+}
+.habla-top-menu-notification-sounds .svg-inline--fa {
+	margin-top: 6px;
+}
+.habla-top-navigation-dropdown-signal {
+  width: 11px;
+   height: 11px;
+   border-radius: 50%;
+   display: inline-flex;
+}
+.muteNotificationMenu svg {
+	width: 20px!important;
+}
