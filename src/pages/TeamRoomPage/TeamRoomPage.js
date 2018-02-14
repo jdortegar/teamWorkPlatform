@@ -300,7 +300,17 @@ class TeamRoomPage extends Component {
             postBody.replyTo = messageId;
             this.setState({ replyTo: null, showPreviewBox: false });
           }
-          this.props.createMessage(postBody, conversationId);
+          this.props.createMessage(postBody, conversationId)
+            .then(() => {
+              this.props.form.resetFields();
+            })
+            .catch((error) => {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: error.message,
+                duration: 4
+              });
+            });
         }
       }
     });
