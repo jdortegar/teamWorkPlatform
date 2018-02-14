@@ -9,8 +9,6 @@ import String from '../../translations';
 import './styles/style.css';
 
 const propTypes = {
-  sideBarIsHidden: PropTypes.bool.isRequired,
-  toggleSideBar: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired
 };
 
@@ -25,16 +23,6 @@ export default class NotificationsPage extends Component {
     };
 
     this.onMenuItemClick = this.onMenuItemClick.bind(this);
-  }
-
-  componentWillMount() {
-    if (!this.props.sideBarIsHidden) {
-      this.props.toggleSideBar();
-    }
-  }
-
-  componentWillUnmount() {
-    this.props.toggleSideBar();
   }
 
   onMenuItemClick(all, messages, replies, notifications) {

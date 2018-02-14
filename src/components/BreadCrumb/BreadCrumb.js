@@ -35,7 +35,7 @@ class BreadCrumb extends React.Component {
                 </Link>
                 {index < routes.length - 1 &&
                 <span className="breadcrumbs-separator">
-                  <i className="fa fa-angle-right fa-1" aria-hidden="true" />
+                  <i className="fas fa-angle-right" />
                 </span>
                 }
               </span>

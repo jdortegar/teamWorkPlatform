@@ -13,6 +13,7 @@ import {
   declinedInvitation,
   receiveConversations,
   receiveMessages,
+  receiveReadMessages,
   receiveTyping,
   updateIntegrations
 } from '../actions';
@@ -25,9 +26,6 @@ const eventHandler = (eventType, event) => {
     case EventTypes.userInvited:
       config.store.dispatch(receiveInvitation(event));
       break;
-    case EventTypes.userInvitationDeclined:
-      config.store.dispatch(declinedInvitation(event));
-      break;
     case EventTypes.userCreated:
       // Don't care about this.  This is when a new user registers.  Also, notification won't be sent for this, currently.
       break;
@@ -37,6 +35,15 @@ const eventHandler = (eventType, event) => {
     case EventTypes.userPrivateInfoUpdated:
       config.store.dispatch(receiveUser(event)); // Same as userUpdated except contains preferences.private.
       break;
+    // case EventTypes.userInvitationAccepted:
+    //   // TODO:
+    //   break;
+    case EventTypes.userInvitationDeclined:
+      config.store.dispatch(declinedInvitation(event));
+      break;
+    // case EventTypes.sentInvitationStatus:
+    //   // TODO:
+    //   break;
 
     case EventTypes.subscriberOrgCreated:
       config.store.dispatch(receiveSubscriberOrg(event));
@@ -86,6 +93,24 @@ const eventHandler = (eventType, event) => {
 
     case EventTypes.messageCreated:
       config.store.dispatch(receiveMessages([event], event.conversationId));
+      break;
+    case EventTypes.messageRead:
+      config.store.dispatch(receiveReadMessages(event));
+      break;
+    case EventTypes.messageUpdated:
+      console.log('TODO: messageUpdated'); // eslint-disable-line no-console
+      break;
+    case EventTypes.messageDeleted:
+      console.log('TODO: messageDeleted'); // eslint-disable-line no-console
+      break;
+    case EventTypes.messageLiked:
+      console.log('TODO: messageLiked'); // eslint-disable-line no-console
+      break;
+    case EventTypes.messageDisliked:
+      console.log('TODO: messageDisliked'); // eslint-disable-line no-console
+      break;
+    case EventTypes.messageFlagged:
+      console.log('TODO: messageFlagged'); // eslint-disable-line no-console
       break;
     case EventTypes.typing:
       config.store.dispatch(receiveTyping(event));

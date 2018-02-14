@@ -8,7 +8,7 @@
 /* LEFT NAVIGATION ---------- */
 
 .Sidebar {
-  background-color: #fff;
+  background-color: #ccc;
   display: flex;
   flex-direction: column;
   border-radius: 4px;
@@ -22,7 +22,6 @@
 	margin: 0;
 }
 .habla-left-navigation-item {
-	border-bottom: 1px solid #eee;
 	position: relative;
 }
 .habla-left-navigation-item:hover {
@@ -82,6 +81,54 @@
 }
 .habla-left-navigation-create-org {
   padding: 10px;
+}
+.organizationHeader {
+	background: #000;
+	color: #fff;
+	border-radius: 4px 4px 0 0;
+}
+.organizationHeader .habla-avatar--size-default, .organizationHeader .habla-avatar--size-default img {
+	display: inline-block;
+}
+.organizationLinks {
+	background: #fff;
+	border-radius: 0 0 4px 4px;
+}
+.organizationLinks svg {
+	color: #ccc;
+	width: 20%!important;
+}
+.organizationLinks svg:hover {
+	color: #999;
+}
+.sidebar-actions {
+	padding: 0 10px;
+}
+.sidebar-actions svg {
+	color: #e6e6e6;
+	margin: 7px 7px 0 0;
+}
+.sidebar-label-number-badge {
+	color: #fff;
+	background: #a8a8a8;
+	padding: 4px;
+	border-radius: 3px;
+	margin-left: 3px;
+}
+.subscriberorg-name {
+	position: relative;
+	top: 2px;
+	left: 2px;
+}
+.sidebar-direct-messages-content {
+	background: #fff;
+	border-radius: 4px;
+}
+.sidebar-block-label {
+	padding: 10px;
+}
+.Sidebar .habla-left-navigation-org-list {
+
 }
 
 /* .Sidebar-menu-item-label {
