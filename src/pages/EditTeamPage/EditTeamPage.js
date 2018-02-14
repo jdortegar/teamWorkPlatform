@@ -52,11 +52,19 @@ class EditTeamPage extends Component {
           })
           .catch((error) => {
             this.setState({ loading: false });
-            notification.open({
-              message: String.t('errorToastTitle'),
-              description: error.message,
-              duration: 4
-            });
+            if (error.response.status === 409) {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: String.t('editTeamPage.errorNameAlreadyTaken'),
+                duration: 4
+              });
+            } else {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: error.message,
+                duration: 4
+              });
+            }
           });
       }
     });

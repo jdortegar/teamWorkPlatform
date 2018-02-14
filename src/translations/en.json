@@ -310,22 +310,26 @@
     }
   },
   "createAccount": {
-    "createAccountButtonLabel": "Create Account"
+    "createAccountButtonLabel": "Create Account",
+    "errorEmailAlreadyRegistered": "The user is already registered."
   },
   "addOrgDialog": {
     "title": "Add Organization",
     "addButtonLabel": "Add",
-    "namePlaceholder": "Organization Name"
+    "namePlaceholder": "Organization Name",
+    "errorNameAlreadyTaken": "The Organization Name is already being used. Please enter a different name."
   },
   "addTeamDialog": {
     "title": "Add Team",
     "addButtonLabel": "Add",
-    "namePlaceholder": "Team Name"
-  },
+    "namePlaceholder": "Team Name",
+    "errorNameAlreadyTaken": "The Team Name is already being used. Please enter a different name."
+   },
   "addTeamRoomDialog": {
     "title": "Add Team Room",
     "addButtonLabel": "Add",
-    "namePlaceholder": "Team Room Name"
+    "namePlaceholder": "Team Room Name",
+    "errorNameAlreadyTaken": "The Team Room Name is already being used. Please enter a different name."
   },
   "invitePeopleDialog": {
     "title": "Invite People",
@@ -377,10 +381,12 @@
     "changeAvatarText": "Change Avatar",
     "removeImageLabel": "Remove",
     "successToastTitle": "Success",
-    "organizationUpdated": "Your organization has been successfully updated."
+    "organizationUpdated": "Your organization has been successfully updated.",
+    "errorNameAlreadyTaken": "The Organization Name is already being used. Please enter a different name."
   },
   "editTeamPage": {
     "teamUpdated": "Your team has been successfully updated.",
+    "errorNameAlreadyTaken": "The Team Name is already being used. Please enter a different name.",
     "changeAvatarText": "Change Avatar",
     "teamName": "Team Name",
     "saveButtonLabel": "Save",
@@ -393,6 +399,7 @@
   "editTeamRoomPage": {
     "successToastTitle": "Success",
     "teamUpdated": "Your team has been successfully updated.",
+    "errorNameAlreadyTaken": "The Team Room Name is already being used. Please enter a different name.",
     "changeAvatarTitle": "Change Avatar",
     "saveButtonLabel": "Save",
     "teamName": "Team Name",

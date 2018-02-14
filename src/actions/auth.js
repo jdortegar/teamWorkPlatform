@@ -58,20 +58,13 @@ export const verifyEmailAccount = (uuid) => {
       .get(`${hablaApiBaseUri}/users/validateEmail/${uuid}`)
       .then((response) => {
         sessionStorage.setItem('habla-user-email', response.data.email);
-      })
-      .catch((error) => {
-        throw new Error(error);
       });
   };
 };
 
 export const createAccount = (form) => {
   return () => {
-    return axios
-      .post(`${hablaApiBaseUri}/users/createUser`, form)
-      .catch((error) => {
-        throw new Error(error);
-      });
+    return axios.post(`${hablaApiBaseUri}/users/createUser`, form);
   };
 };
 
@@ -83,9 +76,6 @@ export const setNewPassword = (rid, password) => {
         { password }
       ).then(() => {
         dispatch(push(routesPaths.login));
-      })
-      .catch((error) => {
-        throw error;
       });
   };
 };
