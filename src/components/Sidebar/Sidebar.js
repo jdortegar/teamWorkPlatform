@@ -247,7 +247,7 @@ class Sidebar extends Component {
             </div>
           }
         >
-          <div className="padding-class-a">
+          <div className="sidebar-block-label">
             <span className="habla-label">{String.t('teamRooms')} <span className="sidebar-label-number-badge">81</span></span>
           </div>
           { teamRooms }

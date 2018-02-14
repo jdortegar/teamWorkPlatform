@@ -767,9 +767,6 @@ p {
   padding: 0!important;
   margin: 0!important;
 }
-.ant-menu-sub.ant-menu-inline > .ant-menu-item {
-  padding-left: 10px!important;
-}
 .ant-menu-vertical > .ant-menu-item, .ant-menu-vertical-left > .ant-menu-item, .ant-menu-vertical-right > .ant-menu-item, .ant-menu-inline > .ant-menu-item, .ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-vertical-left > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-vertical-right > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
   line-height: 0!important;
   height: auto!important;
@@ -789,12 +786,19 @@ p {
 .ant-menu-submenu > .ant-menu {
   background: transparent;	
 }
-li.ant-menu-submenu {
+.Sidebar ul.ant-menu ul.ant-menu-sub li.ant-menu-submenu {
 	background: #fff;
 	border-radius: 4px;
+	margin-bottom: 2px;
+}
+.Sidebar ul.ant-menu ul.ant-menu-sub li.ant-menu-submenu:hover {
+	background: #f7f7f7;
 }
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-  background: #f7f7f7;
+  background: #eee;
+}
+.ant-menu-sub li:last-child {
+  border-radius: 0 0 4px 4px;
 }
 .ant-collapse {
   border: none;

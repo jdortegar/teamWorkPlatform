@@ -24,9 +24,6 @@
 .habla-left-navigation-item {
 	position: relative;
 }
-.habla-left-navigation-item:hover {
-	background: #f7f7f7;
-}
 .habla-left-navigation-item-label {
 	font-weight: 700;
 	color: #999;
@@ -41,11 +38,8 @@
   white-space: nowrap;
   overflow: hidden;
 }
-.habla-left-navigation-team-list {
-	padding-left: 15px;
-}
 .habla-left-navigation-teamroom-list {
-	padding-left: 20px;
+	padding-left: 15px;
 }
 .habla-left-navigation-team-list-item,
 .habla-left-navigation-teamroom-list-item {
@@ -118,14 +112,14 @@
 .subscriberorg-name {
 	position: relative;
 	top: 2px;
-	left: 2px;
+	left: 7px;
 }
 .sidebar-direct-messages-content {
 	background: #fff;
 	border-radius: 4px;
 }
 .sidebar-block-label {
-	padding: 10px;
+	padding: 10px 10px 15px 10px;
 }
 .Sidebar .habla-left-navigation-org-list {
 
