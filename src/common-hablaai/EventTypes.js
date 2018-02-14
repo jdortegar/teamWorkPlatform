@@ -1,10 +1,12 @@
 const EventTypes = Object.freeze({
   presenceChanged: 'presenceChanged',
   userInvited: 'userInvited',
-  userInvitationDeclined: 'userInvitationDeclined',
   userCreated: 'userCreated',
   userUpdated: 'userUpdated',
   userPrivateInfoUpdated: 'userPrivateInfoUpdated',
+  userInvitationAccepted: 'userInvitationAccepted',
+  userInvitationDeclined: 'userInvitationDeclined',
+  sentInvitationStatus: 'sentInvitationStatus',
 
   subscriberOrgCreated: 'subscriberOrgCreated',
   subscriberOrgUpdated: 'subscriberOrgUpdated',
@@ -24,6 +26,12 @@ const EventTypes = Object.freeze({
   conversationCreated: 'conversationCreated',
   conversationUpdated: 'conversationUpdated',
   messageCreated: 'messageCreated',
+  messageRead: 'messageRead',
+  messageUpdated: 'messageUpdated',
+  messageDeleted: 'messageDeleted',
+  messageLiked: 'messageLiked',
+  messageDisliked: 'messageDisliked',
+  messageFlagged: 'messageFlagged',
 
   typing: 'typing',
   location: 'location', // Sent from client only.  Location is included in presenceChanged notification event.
