@@ -11,6 +11,6 @@ export const readMessage = (messageId, conversationId) => { // eslint-disable-li
   return doAuthenticatedRequest({
     requestUrl,
     method: 'post',
-    data: { messageId }
+    data: { messageId, conversationId }
   }, reduxState);
 };

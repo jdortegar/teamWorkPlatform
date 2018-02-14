@@ -61,14 +61,21 @@
 }
 .team-room__unread-messages {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  flex-direction: row-reverse;
   font-size: 10px;
   color: #eb4435;
 }
 .team-room__unread-messages-count {
   text-transform: uppercase;
   font-weight: bold;
+}
+.team-room__unread-messages-dot {
+  padding: 0 5px;
+  font-weight: bold;
+}
+.team-room__unread-messages-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 .team-room__messages {
   flex: 6;

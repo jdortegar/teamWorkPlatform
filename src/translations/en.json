@@ -519,6 +519,7 @@
     "active": "active",
     "replyPlaceholder": "Leave a reply...",
     "addTeamMember": "Invite a Team Member",
+    "markAllAsRead": "Mark All as Read",
     "unreadMessagesCount": {
       "one": "1 new message",
       "other": "{{count}} new messages"
