@@ -44,4 +44,3 @@ const EventTypes = Object.freeze({
 });
 
 export default EventTypes;
-

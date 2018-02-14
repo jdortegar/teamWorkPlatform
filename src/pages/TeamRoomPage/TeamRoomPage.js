@@ -63,6 +63,7 @@ const propTypes = {
   unreadMessagesCount: PropTypes.number,
   membersTyping: PropTypes.object,
   createMessage: PropTypes.func.isRequired,
+  readMessage: PropTypes.func.isRequired,
   iAmTyping: PropTypes.func.isRequired,
   updateFileList: PropTypes.func.isRequired,
   clearFileList: PropTypes.func.isRequired,
@@ -441,7 +442,9 @@ class TeamRoomPage extends Component {
     const { teamRoomMembersLoaded, conversationsLoaded } = this.state;
     if (teamRoomMembersLoaded && conversationsLoaded) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
-      const { teamRooms, user, teamRoomMembers, unreadMessagesCount } = this.props;
+      const { teamRooms, user, teamRoomMembers, unreadMessagesCount, conversations } = this.props;
+      const { conversationId } = conversations;
+      const lastMessage = _.last(conversations.transcript) || {};
       const teamRoomId = this.props.match.params.teamRoomId;
       const teamRoom = teamRooms.teamRoomById[teamRoomId];
       const team = this.props.teams.teamById[teamRoom.teamId];
@@ -520,6 +523,13 @@ class TeamRoomPage extends Component {
 
           {unreadMessagesCount > 0 && (
             <SimpleCardContainer className="team-room__unread-messages padding-class-a">
+              <div
+                className="team-room__unread-messages-link"
+                onClick={() => this.props.readMessage(lastMessage.messageId, conversationId)}
+              >
+                {String.t('teamRoomPage.markAllAsRead')}
+              </div>
+              <div className="team-room__unread-messages-dot">&middot;</div>
               <div className="team-room__unread-messages-count">
                 {String.t('teamRoomPage.unreadMessagesCount', { count: unreadMessagesCount })}
               </div>
