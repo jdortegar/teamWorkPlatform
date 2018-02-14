@@ -296,7 +296,22 @@
   },
   "sideBar": {
     "addOrganization": "Add Organization",
-    "badgeTopLimit": "99+"
+    "badgeTopLimit": "99+",
+    "addNewLabel": "Add New",
+    "addNewTeamMember": "Team Member",
+    "addNewTeamRoom": "Team Room",
+    "addNewTeam": "Team",
+    "sortByLabel": "Sort by",
+    "sortByAlphabetical": "Alphabetical Order",
+    "sortByNewest": "Newest First",
+    "sortByUnread": "Unread First",
+    "sortByActivity": "Latest Activity First",
+    "newDirectMessageTooltip": "New Direct Message",
+    "iconHomeTooltip": "Home",
+    "iconCKGTooltip": "CKG",
+    "iconNotificationsTooltip": "Notifications",
+    "iconBookmarksTooltip": "Bookmarks",
+    "iconSettingsTooltip": "Settings"
   },
   "timeActivityGraph": {
     "yAxisLabel": "Activity",
