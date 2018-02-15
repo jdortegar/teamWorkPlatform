@@ -38,8 +38,10 @@ class NewTeamPage extends Component {
     const { subscriberOrgId } = this.props.match.params;
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        const valuesToSend = { ...values };
+        valuesToSend.name = values.name.trim();
         this.setState({ loading: true });
-        this.props.createTeam(values, subscriberOrgId)
+        this.props.createTeam(valuesToSend, subscriberOrgId)
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/organization/${subscriberOrgId}`);

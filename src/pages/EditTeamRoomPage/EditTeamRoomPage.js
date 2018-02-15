@@ -41,24 +41,32 @@ class EditTeamRoomPage extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
-        this.props.updateTeamRoom(values, teamRoomId)
-          .then(() => {
-            this.setState({ loading: false });
-            this.props.history.push(`/app/teamRoom/${teamRoomId}`);
+        const valuesToSend = { ...values };
+        valuesToSend.name = values.name.trim();
+        this.props.updateTeamRoom(valuesToSend, teamRoomId).then(() => {
+          this.setState({ loading: false });
+          this.props.history.push(`/app/teamRoom/${teamRoomId}`);
+          notification.open({
+            message: String.t('editTeamRoomPage.successToastTitle'),
+            description: String.t('editTeamRoomPage.teamUpdated'),
+            duration: 4
+          });
+        }).catch((error) => {
+          this.setState({ loading: false });
+          if (error.response.status === 409) {
             notification.open({
-              message: String.t('editTeamRoomPage.successToastTitle'),
-              description: String.t('editTeamRoomPage.teamUpdated'),
+              message: String.t('errorToastTitle'),
+              description: String.t('editTeamRoomPage.errorNameAlreadyTaken'),
               duration: 4
             });
-          })
-          .catch((error) => {
-            this.setState({ loading: false });
+          } else {
             notification.open({
               message: String.t('errorToastTitle'),
               description: error.message,
               duration: 4
             });
-          });
+          }
+        });
       }
     });
   }
@@ -67,8 +75,10 @@ class EditTeamRoomPage extends Component {
     const { teamRoomId } = this.props.match.params;
     const { teamRooms, teams, subscriberOrgById } = this.props;
     const teamRoom = teamRooms.teamRoomById[teamRoomId];
+    if (!teamRoom) return null;
     const team = teams.teamById[teamRoom.teamId];
     const subscriberOrg = subscriberOrgById[team.subscriberOrgId];
+    if (!subscriberOrg) return null;
 
     return (
       <div className="EditTeamRoomPage-main">

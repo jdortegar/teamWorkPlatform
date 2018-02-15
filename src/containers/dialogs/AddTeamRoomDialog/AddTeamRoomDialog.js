@@ -42,16 +42,24 @@ class AddTeamRoomDialog extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.createTeamRoom({ name: values.name, active: true }, this.props.currentTeamId)
+        this.props.createTeamRoom({ name: values.name.trim(), active: true }, this.props.currentTeamId)
           .then(() => {
             this.props.toggleTeamRoomDialog(false);
           })
           .catch((error) => {
-            notification.open({
-              message: String.t('errorToastTitle'),
-              description: error.message,
-              duration: 4
-            });
+            if (error.response.status === 409) {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: String.t('addTeamRoomDialog.errorNameAlreadyTaken'),
+                duration: 4
+              });
+            } else {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: error.message,
+                duration: 4
+              });
+            }
           });
       }
     });

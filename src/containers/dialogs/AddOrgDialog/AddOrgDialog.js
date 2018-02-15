@@ -37,16 +37,24 @@ class AddOrgDialog extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, name) => {
       if (!err) {
-        this.props.createSubscriberOrgFromDialog(name)
+        this.props.createSubscriberOrgFromDialog(name.trim())
           .then(() => {
             this.props.toggleOrgDialog(false);
           })
           .catch((error) => {
-            notification.open({
-              message: String.t('errorToastTitle'),
-              description: error.message,
-              duration: 4
-            });
+            if (error.response.status === 409) {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: String.t('addOrgDialog.errorNameAlreadyTaken'),
+                duration: 4
+              });
+            } else {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: error.message,
+                duration: 4
+              });
+            }
           });
       }
     });

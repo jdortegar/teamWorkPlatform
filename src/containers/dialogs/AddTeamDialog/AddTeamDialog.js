@@ -42,16 +42,24 @@ class AddTeamDialog extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, name) => {
       if (!err) {
-        this.props.createTeam(name, this.props.currentOrgId)
+        this.props.createTeam(name.trim(), this.props.currentOrgId)
           .then(() => {
             this.props.toggleTeamDialog(false);
           })
           .catch((error) => {
-            notification.open({
-              message: String.t('errorToastTitle'),
-              description: error.message,
-              duration: 4
-            });
+            if (error.response.status === 409) {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: String.t('addTeamDialog.errorNameAlreadyTaken'),
+                duration: 4
+              });
+            } else {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: error.message,
+                duration: 4
+              });
+            }
           });
       }
     });

@@ -237,7 +237,9 @@ class TeamRoomPage extends Component {
   }
 
   shouldDisableSubmit() {
-    const text = this.props.form.getFieldValue('message');
+    const textOrig = this.props.form.getFieldValue('message');
+    if (!textOrig) return false;
+    const text = textOrig.trim();
     const { files } = this.props;
     return !(files && files.length) && !(text && text.length);
   }
@@ -252,7 +254,7 @@ class TeamRoomPage extends Component {
       if (!err) {
         const { conversationId } = this.props.conversations;
         const postBody = { content: [] };
-        const { message } = values;
+        const message = values.message.trim();
 
         this.stopTyping();
         this.clearTypingTimer();

@@ -36,7 +36,12 @@ function BaseInput(props) {
     ...rest } = props;
 
   const rules = [
-    { required, message: missingMessage },
+    {
+      required,
+      message: missingMessage,
+      whitespace: true
+      // transform: (value) => { return value.trim(); } // this does not work!
+    },
     ...extraRules
   ];
 
