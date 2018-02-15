@@ -263,7 +263,11 @@
     "muteOneHour": "1 hour",
     "muteFourHours": "4 hours",
     "muteAllDay": "All Day",
-    "muteNo": "Unmute"
+    "muteNo": "Unmute",
+    "muteTitle": "Mute Notifications",
+    "statusTitle": "Status",
+    "adminTitle": "Admin",
+    "semanticSearchPlaceholder": "Semantic Search ..."
   },
   "IntegrationCard": {
     "expired": "Expired",
