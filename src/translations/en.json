@@ -553,9 +553,9 @@
     "tooltipAttachments": "Attach a file"
     },
     "menu" : {
-      "all": "ALL",
-      "replies": "REPLIES",
-      "bookmarks": "BOOKMARKED"
+      "all": "All",
+      "unread": "Unread",
+      "bookmarked": "Bookmarked"
     },
     "membersHeader": {
       "one": "1 Team Member",
@@ -570,10 +570,9 @@
   "notificationPage": {
     "title": "Notifications",
     "menu" : {
-      "all": "ALL",
-      "messages": "MESSAGES",
-      "replies": "REPLIES",
-      "notifications": "NOTIFICATIONS"
+      "all": "All",
+      "unread": "Unread",
+      "bookmarked": "Bookmarked"
     },
     "unReadNotifications": "UNREAD NOTIFICATIONS",
     "markAllAsRead": "Mark all as read"

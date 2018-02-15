@@ -407,6 +407,9 @@ class Sidebar extends Component {
             </Tooltip>
           </div>
         </div>
+        <div className="sidebar-resize-icon">
+          <i className="fas fa-bars" data-fa-transform="rotate-90" />
+        </div>
       </Sider>
     );
   }

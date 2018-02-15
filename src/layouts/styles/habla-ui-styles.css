@@ -307,6 +307,12 @@ p {
 .habla-main-content-header-title {
   flex: 1;
 }
+.habla-main-content-header-title svg
+, .CKGPage__title svg {
+  margin-right: 5px;
+  font-size: 18px;
+  color: #ccc;
+}
 .habla-main-content-filters-links div {
   background: #fff;
   padding: 7px;
@@ -353,7 +359,8 @@ p {
 , .habla-main-content-header-breadcrumb-links-responsive
 , .habla-main-content-header-breadcrumb-links .habla-title-light
 , .habla-main-content-header-breadcrumb-links i
-, .habla-ckg-filters-item span {
+, .habla-ckg-filters-item span
+, .habla-header-search-input {
   display: none;
 }
 .habla-main-content-header-breadcrumb {
@@ -414,9 +421,6 @@ p {
 }
 .habla-full-content {
   width: 100%;
-}
-.habla-top-menu-items a {
-  margin-left: 7px;
 }
 }
 @media only screen and (max-width:420px) {
@@ -858,4 +862,7 @@ p {
   position: inherit;
   display: inherit;
   left: inherit;
+}
+.ant-avatar-string .fa-plus {
+  left: 30px;
 }
