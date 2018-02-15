@@ -56,7 +56,7 @@ class CreateAccount extends React.Component {
         const { email, password } = values;
         this.props.createAccount(values).then(() => {
           this.setState({ loading: false });
-          this.props.loginUser({ email, password, targetRoute: '/app' });
+          this.props.loginUser({ email: email.trim(), password, targetRoute: '/app' });
         }).catch((error) => {
           this.setState({ loading: false });
           if (error.response.status === 403) {

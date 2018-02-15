@@ -41,7 +41,9 @@ class EditTeamRoomPage extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
-        this.props.updateTeamRoom(values, teamRoomId).then(() => {
+        const valuesToSend = { ...values };
+        valuesToSend.name = values.name.trim();
+        this.props.updateTeamRoom(valuesToSend, teamRoomId).then(() => {
           this.setState({ loading: false });
           this.props.history.push(`/app/teamRoom/${teamRoomId}`);
           notification.open({

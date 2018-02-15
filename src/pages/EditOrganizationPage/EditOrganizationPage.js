@@ -81,7 +81,7 @@ class EditOrganizationPage extends Component {
       if (!err) {
         this.setState({ loading: true });
         const dataToUpdate = {
-          name: values.name,
+          name: values.name.trim(),
           preferences: {
             webSite: values.webSite,
             logo: this.state.logo,

@@ -42,7 +42,7 @@ class AddTeamDialog extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, name) => {
       if (!err) {
-        this.props.createTeam(name, this.props.currentOrgId)
+        this.props.createTeam(name.trim(), this.props.currentOrgId)
           .then(() => {
             this.props.toggleTeamDialog(false);
           })

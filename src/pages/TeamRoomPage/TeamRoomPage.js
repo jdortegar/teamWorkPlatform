@@ -254,7 +254,7 @@ class TeamRoomPage extends Component {
       if (!err) {
         const { conversationId } = this.props.conversations;
         const postBody = { content: [] };
-        const { message } = values;
+        const message = values.message.trim();
 
         this.stopTyping();
         this.clearTypingTimer();

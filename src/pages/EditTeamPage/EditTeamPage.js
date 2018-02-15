@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, notification, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
@@ -40,7 +41,9 @@ class EditTeamPage extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
-        this.props.updateTeam(values, teamId)
+        const valuesToSend = _.clone(values);
+        valuesToSend.name = values.name.trim();
+        this.props.updateTeam(valuesToSend, teamId)
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/team/${teamId}`);
