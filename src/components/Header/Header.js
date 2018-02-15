@@ -23,54 +23,93 @@ class Header extends Component {
   renderMenuItems() {
     const { user } = this.props;
 
-    const menu = (
-      <Menu >
+    const muteNotificationMenu = (
+      <Menu className="muteNotificationMenu">
+        <div className="habla-label padding-class-a">{String.t('Header.muteTitle')}</div>
         <Menu.Item key="accountSettings">
-          <Link to="/app/editUser">
-            <span>{String.t('Header.accountSettings')}</span>
-          </Link>
+          <a><span><i className="fas fa-volume-up" /> {String.t('Header.muteThirtyMins')}</span></a>
+        </Menu.Item>
+        <Menu.Item key="accountSettings">
+          <a><span><i className="fas fa-volume-down" /> {String.t('Header.muteOneHour')}</span></a>
+        </Menu.Item>
+        <Menu.Item key="accountSettings">
+          <a><span><i className="fas fa-volume-off" /> {String.t('Header.muteFourHours')}</span></a>
+        </Menu.Item>
+        <Menu.Item key="accountSettings">
+          <a><span><i className="far fa-clock" /> {String.t('Header.muteAllDay')}</span></a>
+        </Menu.Item>
+        <Menu.Item key="accountSettings" className="dropdown-last-menu-item">
+          <a><span><i className="fas fa-volume-up" /> {String.t('Header.muteNo')}</span></a>
+        </Menu.Item>
+      </Menu>
+    );
+
+    const userMenu = (
+      <Menu className="userMenu">
+        <div className="habla-label padding-class-a">{String.t('Header.statusTitle')}</div>
+        <Menu.Item key="accountSettings">
+          <a><div className="habla-top-navigation-dropdown-signal habla-color-green" /> {String.t('Header.onlineStatus')}</a>
         </Menu.Item>
         <Menu.Item key="logout">
-          <a onClick={this.logOut}>{String.t('Header.logOutMenu')}</a>
+          <a><div className="habla-top-navigation-dropdown-signal habla-color-yellow" />  {String.t('Header.awayStatus')}</a>
+        </Menu.Item>
+        <Menu.Item key="logout">
+          <a><div className="habla-top-navigation-dropdown-signal habla-color-red" />  {String.t('Header.busyStatus')}</a>
+        </Menu.Item>
+        <div className="habla-label padding-class-a">{String.t('Header.adminTitle')}</div>
+        <Menu.Item key="accountSettings">
+          <Link to="/app/editUser">
+            <span><i className="fas fa-cog" /> {String.t('Header.accountSettings')}</span>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="logout" className="dropdown-last-menu-item">
+          <a onClick={this.logOut}><i className="fas fa-power-off" /> {String.t('Header.logOutMenu')}</a>
         </Menu.Item>
       </Menu>
     );
 
     return (
       <div className="habla-top-menu-items">
-        <Link to="/app/search" className="habla-top-menu-search">
-          <i className="fa fa-search fa-2x" /><span className="habla-top-menu-label">{String.t('Header.searchLink')}</span>
-          <div className="habla-top-menu-active-signal" />
-        </Link>
-        <Link to="/app/ckg" className="habla-top-menu-ckg">
-          <i className="fa fa-area-chart fa-2x" /><span className="habla-top-menu-label">{String.t('Header.ckgLink')}</span>
-          <div className="habla-top-menu-active-signal" />
-        </Link>
-        <Link to="/app/notifications" className="habla-top-menu-notifications">
-          <i className="fa fa-globe fa-2x" /><span className="habla-top-menu-label">{String.t('Header.noticationsLink')}</span>
-          <div className="habla-top-menu-active-signal" />
-        </Link>
-        <Link to="/app/bookmarks" className="habla-top-menu-bookmarks">
-          <i className="fa fa-bookmark fa-2x" /><span className="habla-top-menu-label">{String.t('Header.bookmarksLink')}</span>
-          <div className="habla-top-menu-active-signal" />
-        </Link>
-        <Link to="/app" className="habla-top-menu-user">
-          <Dropdown overlay={menu} trigger={['click']}>
-            <div className="ant-dropdown-link">
-              <div className="habla-top-menu-subitem">
-                <UserIcon
-                  user={user}
-                  type="user"
-                  minWidth="30px"
-                  width="30px"
-                  height="30px"
-                />
-              </div>
-              <span className="habla-top-menu-label">{user.firstName}</span>
-            </div>
-          </Dropdown>
-          <div className="habla-top-menu-active-signal" />
-        </Link>
+        <div className="habla-top-menu-item">
+          <div className="habla-top-menu-item-content">
+            <input className="habla-header-search-input" placeholder={String.t('Header.semanticSearchPlaceholder')} />
+            <Link to="/app/search" className="habla-top-menu-search ">
+              <i className="fa fa-search" />
+            </Link>
+          </div>
+        </div>
+        <div className="habla-top-menu-item">
+          <div className="habla-top-menu-item-content">
+            <Link to="" className="habla-top-menu-notification-sounds">
+              <Dropdown overlay={muteNotificationMenu} trigger={['click']}>
+                <div className="ant-dropdown-link">
+                  <i className="fa fa-volume-up" />
+                </div>
+              </Dropdown>
+            </Link>
+          </div>
+        </div>
+        <div className="habla-top-menu-item habla-top-menu-item-last">
+          <div className="habla-top-menu-item-content">
+            <Link to="/app" className="habla-top-menu-user">
+              <Dropdown overlay={userMenu} trigger={['click']}>
+                <div className="ant-dropdown-link">
+                  <div className="habla-top-menu-subitem">
+                    <div className="habla-top-navigation-avatar-signal habla-color-green" />
+                    <UserIcon
+                      user={user}
+                      type="user"
+                      minWidth="30px"
+                      width="30px"
+                      height="30px"
+                    />
+                  </div>
+                  <span className="habla-top-menu-label">{user.firstName}</span>
+                </div>
+              </Dropdown>
+            </Link>
+          </div>
+        </div>
         <div className="clear" />
       </div>
     );

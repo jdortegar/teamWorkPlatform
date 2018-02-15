@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Modal } from 'antd';
+import { Form, Modal, notification } from 'antd';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -42,9 +42,24 @@ class AddTeamDialog extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, name) => {
       if (!err) {
-        this.props.createTeam(name, this.props.currentOrgId)
+        this.props.createTeam(name.trim(), this.props.currentOrgId)
           .then(() => {
             this.props.toggleTeamDialog(false);
+          })
+          .catch((error) => {
+            if (error.response.status === 409) {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: String.t('addTeamDialog.errorNameAlreadyTaken'),
+                duration: 4
+              });
+            } else {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: error.message,
+                duration: 4
+              });
+            }
           });
       }
     });

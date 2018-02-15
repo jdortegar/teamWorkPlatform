@@ -6,14 +6,17 @@ import {
   fetchConversations,
   fetchTranscript,
   createMessage,
+  readMessage,
   iAmTyping
 } from '../../actions';
 import {
   getConversationOfTeamRoomId,
+  getReadMessagesOfTeamRoomId,
   getTypingsOfConversationId,
   getTeamRoomMembersOfTeamRoomId,
   getTeamRoomMembersAsObjectsOfTeamRoomId,
-  getPresencesOfTeamRoomMembersOfTeamRoomId
+  getPresencesOfTeamRoomMembersOfTeamRoomId,
+  getUnreadMessagesCountOfTeamRoomId
 } from '../../selectors';
 
 function mapStateToProps(state, props) {
@@ -27,6 +30,8 @@ function mapStateToProps(state, props) {
     teams: state.teams,
     teamRooms: state.teamRooms,
     conversations,
+    readMessages: getReadMessagesOfTeamRoomId(state, teamRoomId),
+    unreadMessagesCount: getUnreadMessagesCountOfTeamRoomId(state, teamRoomId),
     membersTyping: getTypingsOfConversationId(state, conversationId),
     teamRoomMembers: getTeamRoomMembersOfTeamRoomId(state, teamRoomId),
     teamRoomMembersObj: getTeamRoomMembersAsObjectsOfTeamRoomId(state, teamRoomId),
@@ -40,6 +45,7 @@ function mapDispatchToProps(dispatch) {
     fetchConversations: teamRoomId => dispatch(fetchConversations(teamRoomId)),
     fetchTranscript: conversationId => dispatch(fetchTranscript(conversationId)),
     createMessage: (message, conversationId) => dispatch(createMessage(message, conversationId)),
+    readMessage: (messageId, conversationId) => dispatch(readMessage(messageId, conversationId)),
     iAmTyping: (conversationId, typing) => dispatch(iAmTyping(conversationId, typing))
   };
 }

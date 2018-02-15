@@ -5,10 +5,10 @@ import _ from 'lodash';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
-import EmailField from '../../components/formFields/EmailField';
+import AutoCompleteField from '../../components/formFields/AutoCompleteField/';
 import { formShape } from '../../propTypes';
-import String from '../../translations';
 import Button from '../../components/common/Button';
+import String from '../../translations';
 import './styles/style.css';
 
 const propTypes = {
@@ -18,18 +18,21 @@ const propTypes = {
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      subscriberOrgId: PropTypes.string.isRequired
+      teamRoomId: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
+  inviteMembersToTeamRoom: PropTypes.func.isRequired,
+  teams: PropTypes.object.isRequired,
+  teamRooms: PropTypes.object.isRequired,
   subscriberOrgById: PropTypes.object.isRequired,
-  inviteNewSubscribers: PropTypes.func.isRequired
+  subscribers: PropTypes.object.isRequired
 };
 
-class InviteNewMemberPage extends Component {
+class InviteToTeamRoomPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { loading: false, invitees: 0, inviteesArr: [0] };
+    this.state = { loading: false, invitees: 0, inviteesArr: [0], dataSource: [] };
 
     this.addInvitees = this.addInvitees.bind(this);
     this.removeInvitees = this.removeInvitees.bind(this);
@@ -51,51 +54,63 @@ class InviteNewMemberPage extends Component {
   }
 
   handleSubmit() {
-    const { subscriberOrgId } = this.props.match.params;
-    this.props.form.validateFields((err, emails) => {
+    const { teamRoomId } = this.props.match.params;
+    this.props.form.validateFields((err, values) => {
       if (!err) {
-        const users = _.values(emails);
+        const users = _.values(values);
         this.setState({ loading: true });
-        this.props.inviteNewSubscribers(users, subscriberOrgId)
+        this.props.inviteMembersToTeamRoom(users, teamRoomId)
           .then(() => {
             this.setState({ loading: false });
-            this.props.history.push(`/app/organization/${subscriberOrgId}/invitationSent`);
+            this.props.history.push(`/app/teamRoom/${teamRoomId}`);
             notification.open({
               message: String.t('successToastTitle'),
-              description: String.t('inviteNewMemberPage.invitationSent', { count: users.length }),
+              description: String.t('inviteToTeamRoomPage.invitationSent', { count: users.length }),
               duration: 4
             });
           })
           .catch((error) => {
             this.setState({ loading: false });
-            notification.open({
-              message: String.t('inviteNewMemberPage.errorToastTitle'),
-              description: error.message,
-              duration: 4
-            });
+            if (error.response.status !== 202) {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: error.message,
+                duration: 4
+              });
+            }
           });
       }
     });
   }
 
   renderInvitees() {
+    const users = this.props.subscribers;
+    const { teamRoomId } = this.props.match.params;
+    const dataSource = users.reduce((acc, { firstName, lastName, displayName, userId, teamRooms }) => {
+      if (!teamRooms[teamRoomId]) {
+        acc.push({ text: `${displayName} - ${firstName} ${lastName}`, value: userId });
+      }
+      return acc;
+    }, []);
+
     return this.state.inviteesArr.map((el) => {
       return (
-        <Row key={el} gutter={16} type="flex" className="Invite-New-Member__email-row">
+        <Row key={el} gutter={16} type="flex" className="Invite-To-TeamRoom__email-row">
           <Col className="gutter-row" span={20}>
-            <EmailField
-              componentKey={`email${el}`}
-              inputClassName="Invite-New-Member__email-field"
+            <AutoCompleteField
+              componentKey={`username${el}`}
+              autoCompleteClassName="Invite-To-TeamRoom__textfield"
               form={this.props.form}
-              placeholder=" "
+              placeholder={String.t('inviteToTeamRoomPage.usernamePlaceholder')}
               label=""
               required
+              dataSource={dataSource}
             />
           </Col>
           {
             this.state.inviteesArr.length > 1 ?
               <Col className="gutter-row" span={3}>
-                <a onClick={() => this.removeInvitees(el)} className="remove-field">Remove</a>
+                <a onClick={() => this.removeInvitees(el)} className="remove-field">{String.t('inviteToTeamRoomPage.removeLink')}</a>
               </Col> : null
           }
         </Row>
@@ -104,8 +119,12 @@ class InviteNewMemberPage extends Component {
   }
 
   render() {
-    const { subscriberOrgId } = this.props.match.params;
-    const subscriberOrg = this.props.subscriberOrgById[subscriberOrgId];
+    const { teamRoomId } = this.props.match.params;
+    const { teamRooms, teams, subscriberOrgById } = this.props;
+    const teamRoom = teamRooms.teamRoomById[teamRoomId];
+    const team = teams.teamById[teamRoom.teamId];
+    const subscriberOrg = subscriberOrgById[team.subscriberOrgId];
+
     return (
       <div>
         <SubpageHeader
@@ -117,21 +136,29 @@ class InviteNewMemberPage extends Component {
                   title: subscriberOrg.name,
                   link: `/app/organization/${subscriberOrg.subscriberOrgId}`
                 },
-                { title: String.t('inviteNewMemberPage.breadcrumb') }
+                {
+                  title: team.name,
+                  link: `/app/team/${team.teamId}`
+                },
+                {
+                  title: teamRoom.name,
+                  link: `/app/teamRoom/${teamRoomId}`
+                },
+                { title: String.t('inviteToTeamRoomPage.breadcrumb') }
               ]}
             />
           }
         />
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
-            <div className="padding-class-b">
-              <h1 className="Invite-New-Member__title">{String.t('inviteNewMemberPage.title')}</h1>
+            <div className="padding-class-a">
+              <h1 className="Invite-To-TeamRoom__title">{String.t('inviteToTeamRoomPage.username')}</h1>
               {this.renderInvitees()}
             </div>
-            <div className="padding-class-b">
-              <a onClick={this.addInvitees} className="Invite-New-Member__add-another">
+            <div className="padding-class-a">
+              <a onClick={this.addInvitees} className="Invite-To-TeamRoom__add-another">
                 <span>
-                  <i className="fa fa-plus-circle margin-right-class-a" />{String.t('inviteNewMemberPage.addEmail')}
+                  <i className="fa fa-plus-circle margin-right-class-a" />{String.t('inviteToTeamRoomPage.addAnother')}
                 </span>
               </a>
             </div>
@@ -140,7 +167,7 @@ class InviteNewMemberPage extends Component {
                 type="secondary"
                 fitText
                 className="margin-right-class-a"
-                onClick={() => this.props.history.push(`/app/organization/${subscriberOrgId}`)}
+                onClick={() => this.props.history.push(`/app/teamRoom/${teamRoomId}`)}
               >
                 {String.t('Buttons.cancel')}
               </Button>
@@ -150,7 +177,7 @@ class InviteNewMemberPage extends Component {
                 onClick={this.handleSubmit}
                 loading={this.state.loading}
               >
-                {String.t('inviteNewMemberPage.sendInvitationsButtonLabel', { count: this.state.inviteesArr.length })}
+                {String.t('inviteToTeamRoomPage.sendInvitationsButtonLabel', { count: this.state.inviteesArr.length })}
               </Button>
             </div>
           </Form>
@@ -160,6 +187,6 @@ class InviteNewMemberPage extends Component {
   }
 }
 
-InviteNewMemberPage.propTypes = propTypes;
+InviteToTeamRoomPage.propTypes = propTypes;
 
-export default Form.create()(InviteNewMemberPage);
+export default Form.create()(InviteToTeamRoomPage);

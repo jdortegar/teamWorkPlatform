@@ -3,8 +3,12 @@ import PropTypes from 'prop-types';
 import './styles/style.css';
 
 const propTypes = {
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
   children: PropTypes.node.isRequired
+};
+
+const defaultProps = {
+  className: ''
 };
 
 function SimpleCardContainer(props) {
@@ -16,5 +20,6 @@ function SimpleCardContainer(props) {
 }
 
 SimpleCardContainer.propTypes = propTypes;
+SimpleCardContainer.defaultProps = defaultProps;
 
 export default SimpleCardContainer;

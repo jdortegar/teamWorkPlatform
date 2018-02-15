@@ -83,12 +83,12 @@ class EditUserPage extends Component {
       if (!err) {
         this.setState({ loading: true });
         const dataToUpdate = {
-          firstName: values.firstName,
-          lastName: values.lastName,
+          firstName: values.firstName.trim(),
+          lastName: values.lastName.trim(),
           timeZone: values.timeZone,
           country: values.country,
-          email: values.email,
-          displayName: values.username,
+          email: values.email.trim(),
+          displayName: values.username.trim(),
           icon: this.state.userIcon
         };
         this.props.updateUser(dataToUpdate)
@@ -97,6 +97,14 @@ class EditUserPage extends Component {
             notification.open({
               message: String.t('editUserPage.successToastTitle'),
               description: String.t('editUserPage.userUpdated'),
+              duration: 4
+            });
+          })
+          .catch((error) => {
+            this.setState({ loading: false });
+            notification.open({
+              message: String.t('errorToastTitle'),
+              description: error.message,
               duration: 4
             });
           });

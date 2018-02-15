@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Form, Tooltip } from 'antd';
+import { Form, Tooltip, notification } from 'antd';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -59,8 +60,10 @@ const propTypes = {
     conversationId: PropTypes.string.isRequired,
     transcript: PropTypes.array
   }).isRequired,
+  unreadMessagesCount: PropTypes.number,
   membersTyping: PropTypes.object,
   createMessage: PropTypes.func.isRequired,
+  readMessage: PropTypes.func.isRequired,
   iAmTyping: PropTypes.func.isRequired,
   updateFileList: PropTypes.func.isRequired,
   clearFileList: PropTypes.func.isRequired,
@@ -71,6 +74,8 @@ const propTypes = {
 
 const defaultProps = {
   files: [],
+  readMessages: null,
+  unreadMessagesCount: 0,
   membersTyping: null
 };
 
@@ -225,15 +230,32 @@ class TeamRoomPage extends Component {
     return axios.put(`${getResourcesUrl()}/${file.name}`, fileSource, requestConfig);
   }
 
+  shouldDisableConversation() {
+    const teamRoom = this.props.teamRooms.teamRoomById[this.props.match.params.teamRoomId];
+    const team = this.props.teams.teamById[teamRoom.teamId];
+    return !teamRoom.active || !team.active;
+  }
+
+  shouldDisableSubmit() {
+    const textOrig = this.props.form.getFieldValue('message');
+    if (!textOrig) return false;
+    const text = textOrig.trim();
+    const { files } = this.props;
+    return !(files && files.length) && !(text && text.length);
+  }
+
   handleSubmit(e) {
+    if (this.shouldDisableSubmit() || this.shouldDisableConversation()) {
+      return;
+    }
+
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { conversationId } = this.props.conversations;
         const postBody = { content: [] };
-        const { message } = values;
+        const message = values.message.trim();
 
-        this.props.form.resetFields();
         this.stopTyping();
         this.clearTypingTimer();
 
@@ -241,6 +263,7 @@ class TeamRoomPage extends Component {
           const resources = this.props.files.map(file => this.createResource(file));
           Promise.all(resources)
             .then((res) => {
+              this.props.form.resetFields();
               postBody.content = res.map((createdResource, index) => {
                 return {
                   type: this.props.files[index].type,
@@ -263,6 +286,15 @@ class TeamRoomPage extends Component {
               this.props.createMessage(postBody, conversationId);
               this.setState({ showPreviewBox: false, file: null });
               this.props.clearFileList();
+            })
+            .catch((error) => {
+              this.props.updateFileList(this.props.files);
+              this.setState({ file: null });
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: error.message,
+                duration: 4
+              });
             });
         } else if (message) {
           postBody.content.push({ type: 'text/plain', text: message });
@@ -271,7 +303,17 @@ class TeamRoomPage extends Component {
             postBody.replyTo = messageId;
             this.setState({ replyTo: null, showPreviewBox: false });
           }
-          this.props.createMessage(postBody, conversationId);
+          this.props.createMessage(postBody, conversationId)
+            .then(() => {
+              this.props.form.resetFields();
+            })
+            .catch((error) => {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: error.message,
+                duration: 4
+              });
+            });
         }
       }
     });
@@ -316,6 +358,7 @@ class TeamRoomPage extends Component {
   }
 
   renderMessages() {
+    const disableConversation = this.shouldDisableConversation();
     return this.props.conversations.transcript.map((message) => {
       const user = this.props.teamRoomMembersObj[message.createdBy];
       const teamRoomId = this.props.match.params.teamRoomId;
@@ -323,6 +366,7 @@ class TeamRoomPage extends Component {
       const subscriberOrgId = this.props.teams.teamById[teamId].subscriberOrgId;
       return (
         <Message
+          conversationDisabled={disableConversation}
           message={message}
           user={user}
           key={message.messageId}
@@ -351,12 +395,27 @@ class TeamRoomPage extends Component {
     const orderedMembers = _.orderBy(otherMembers, ['online', 'firstName', 'lastName', 'displayName'], ['desc', 'asc', 'asc', 'asc']);
 
     return [currentUser, ...orderedMembers].map(({ firstName, lastName, userId, preferences, icon }) => {
-      const initials = getInitials(`${firstName} ${lastName}`);
-      if (icon) {
-        return <Tooltip placement="top" title={`${firstName} ${lastName}`}><Avatar size="small" src={`data:image/jpeg;base64, ${icon}`} className="mr-05" /></Tooltip>;
-      }
+      const fullName = String.t('fullName', { firstName, lastName });
+      const initials = getInitials(fullName);
       return (
-        <Tooltip placement="top" title={`${firstName} ${lastName}`}><Avatar size="small" ey={userId} color={preferences.iconColor} className="mr-05">{initials}</Avatar></Tooltip>
+        <Tooltip
+          key={userId}
+          placement="top"
+          title={fullName}
+        >
+          {icon ?
+            <Avatar size="small" src={`data:image/jpeg;base64, ${icon}`} className="mr-05" />
+            :
+            <Avatar
+              size="small"
+              ey={userId}
+              color={preferences.iconColor}
+              className="mr-05"
+            >
+              {initials}
+            </Avatar>
+          }
+        </Tooltip>
       );
     });
   }
@@ -395,7 +454,9 @@ class TeamRoomPage extends Component {
     const { teamRoomMembersLoaded, conversationsLoaded } = this.state;
     if (teamRoomMembersLoaded && conversationsLoaded) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
-      const { teamRooms, user, teamRoomMembers } = this.props;
+      const { teamRooms, user, teamRoomMembers, unreadMessagesCount, conversations } = this.props;
+      const { conversationId } = conversations;
+      const lastMessage = _.last(conversations.transcript) || {};
       const teamRoomId = this.props.match.params.teamRoomId;
       const teamRoom = teamRooms.teamRoomById[teamRoomId];
       const team = this.props.teams.teamById[teamRoom.teamId];
@@ -404,6 +465,7 @@ class TeamRoomPage extends Component {
         'team-room-chat': true,
         'team-room__main-container--opacity': this.state.isDraggingOver
       });
+      const disableConversation = this.shouldDisableConversation();
 
       const teamRoomMemberFoundByUser = _.find(teamRoomMembers, { userId: user.userId });
       const isAdmin = teamRoomMemberFoundByUser.teamRooms[teamRoomId].role === 'admin';
@@ -427,7 +489,7 @@ class TeamRoomPage extends Component {
       });
       return (
         <div className={className}>
-          <div className="team-room__top-page-container">
+          <div className="team-room__top-page-container border-bottom-lighter">
             <SubpageHeader
               breadcrumb={
                 <BreadCrumb
@@ -453,18 +515,40 @@ class TeamRoomPage extends Component {
                 <div className="team-room__member-cards-container">
                   <span className="team-room__member-cards-span habla-label">{String.t('teamRoomPage.membersHeader', { count: numberOfTeamRoomMembers })}</span>
                   {this.renderTeamRoomMembers()}
-                  <Tooltip placement="top" title={String.t('teamRoomPage.addTeamMember')}><Avatar size="small" color="#ccc" className="teamRoomInviteMembers">+</Avatar></Tooltip>
+                  <Tooltip
+                    placement="top"
+                    title={String.t('teamRoomPage.addTeamMember')}
+                  >
+                    <Link to={`/app/inviteToTeamRoom/${teamRoomId}`}>
+                      <Avatar size="small" color="#ccc" className="teamRoomInviteMembers">+</Avatar>
+                    </Link>
+                  </Tooltip>
                 </div>
               }
             />
             <div className="habla-main-content-filters-links teamRoomFilters padding-class-a">
-              <div onClick={() => this.onMenuItemClick(true, false, false, false)} className={menuOptionAll}>{String.t('teamRoomPage.menu.all')}</div>
-              <div onClick={() => this.onMenuItemClick(false, true, false, false)} className={menuOptionReplies}>{String.t('teamRoomPage.menu.replies')}</div>
-              <div onClick={() => this.onMenuItemClick(false, false, true, false)} className={menuOptionBookmarked}>{String.t('teamRoomPage.menu.bookmarks')}</div>
+              <div onClick={() => this.onMenuItemClick(true, false, false, false)} className={menuOptionAll}>{String.t('teamRoomPage.menu.bookmarked')}</div>
+              <div onClick={() => this.onMenuItemClick(false, true, false, false)} className={menuOptionReplies}>{String.t('teamRoomPage.menu.unread')} (12)</div>
+              <div onClick={() => this.onMenuItemClick(false, false, true, false)} className={menuOptionBookmarked}>{String.t('teamRoomPage.menu.all')}</div>
             </div>
           </div>
 
-          <SimpleCardContainer className="team-room__messages border-top-lighter">
+          {unreadMessagesCount > 0 && (
+            <SimpleCardContainer className="team-room__unread-messages padding-class-a">
+              <div
+                className="team-room__unread-messages-link"
+                onClick={() => this.props.readMessage(lastMessage.messageId, conversationId)}
+              >
+                {String.t('teamRoomPage.markAllAsRead')}
+              </div>
+              <div className="team-room__unread-messages-dot">&middot;</div>
+              <div className="team-room__unread-messages-count">
+                {String.t('teamRoomPage.unreadMessagesCount', { count: unreadMessagesCount })}
+              </div>
+            </SimpleCardContainer>
+          )}
+
+          <SimpleCardContainer className="team-room__messages">
             {this.renderMessages()}
           </SimpleCardContainer>
 
@@ -487,8 +571,14 @@ class TeamRoomPage extends Component {
                 <UserIcon user={user} type="user" minWidth="2.5em" width="2.5em" height="2.5em" key={user.userId} />
               </div>
               <div className="team-room__chat-input-wrapper">
-                <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off">
+                <Form
+                  onSubmit={this.handleSubmit}
+                  className="login-form"
+                  autoComplete="off"
+                  disabled={disableConversation}
+                >
                   <TextField
+                    disabled={disableConversation}
                     componentKey="message"
                     form={this.props.form}
                     hasFeedback={false}
@@ -501,18 +591,29 @@ class TeamRoomPage extends Component {
                 </Form>
               </div>
               <div className="team-room__chat-col-icons">
-                <a className="team-room__icons" role="button" tabIndex={0} onClick={this.handleSubmit}>
-                  <i className="fa fa-paper-plane-o" />
+                <a
+                  className="team-room__icons"
+                  role="button"
+                  tabIndex={0}
+                  disabled={this.shouldDisableSubmit() || disableConversation}
+                  onClick={this.handleSubmit}
+                >
+                  <i className="fas fa-paper-plane" />
                 </a>
                 <div>
                   <input
                     id="fileupload"
+                    disabled={disableConversation}
                     className="team-room__file-upload-input"
                     type="file"
                     onChange={this.onFileChange}
                     multiple
                   />
-                  <label htmlFor="fileupload" className="team-room__icons"><i className="fa fa-folder-o" /></label>
+                  <label htmlFor="fileupload" className="team-room__icons">
+                    <Tooltip placement="top" title={String.t('teamRoomPage.tooltipAttachments')} arrowPointAtCenter>
+                      <i className="fas fa-paperclip" />
+                    </Tooltip>
+                  </label>
                 </div>
               </div>
             </div>

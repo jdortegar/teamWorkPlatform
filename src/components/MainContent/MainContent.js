@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Layout, notification } from 'antd';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import OrganizationPage from '../../containers/OrganizationPage';
 import ChatContent from '../../containers/ChatContent';
 import IntegrationsPage from '../../containers/IntegrationsPage';
@@ -16,6 +17,7 @@ import InviteNewMemberPage from '../../containers/InviteNewMemberPage';
 import TeamMemberPage from '../../containers/TeamMemberPage';
 import Notification from '../../containers/Notification';
 import InviteToTeamPage from '../../containers/InviteToTeamPage';
+import InviteToTeamRoomPage from '../../containers/InviteToTeamRoomPage';
 import EditUserPage from '../../containers/EditUserPage';
 import CKGPage from '../../containers/CKGPage';
 import NotificationsPage from '../../containers/NotificationsPage';
@@ -24,6 +26,7 @@ import { routesPaths } from '../../routes';
 import { sound1 } from '../../sounds';
 import './styles/style.css';
 import String from '../../translations';
+import { sortByLastCreatedFirst } from '../../redux-hablaai/selectors/helpers';
 
 const { Content } = Layout;
 
@@ -34,13 +37,26 @@ const propTypes = {
   users: PropTypes.object.isRequired,
   currentUserId: PropTypes.string.isRequired,
   notifyMessage: PropTypes.func.isRequired,
-  updateInvitationDeclined: PropTypes.func.isRequired
+  updateInvitationDeclined: PropTypes.func.isRequired,
+  teams: PropTypes.object.isRequired,
+  subscriberOrgs: PropTypes.object.isRequired,
+  teamRooms: PropTypes.object.isRequired
 };
 
 const defaultProps = {
   pushMessage: null,
   declinedInvitations: null
 };
+
+function invitationKey(inv) {
+  const { teamRoomId, teamId, subscriberOrgId } = inv;
+  if (teamRoomId) {
+    return `room-${teamRoomId}`;
+  } else if (teamId) {
+    return `team-${teamId}`;
+  }
+  return `org-${subscriberOrgId}`;
+}
 
 class MainContent extends Component {
   componentDidMount() {
@@ -112,12 +128,51 @@ class MainContent extends Component {
     }
   }
 
+  getValidInvites() {
+    const { teamRooms, teams, subscriberOrgs } = this.props;
+    const { currentSubscriberOrgId, subscriberOrgById } = subscriberOrgs;
+    if (!subscriberOrgById[currentSubscriberOrgId]) { // data not available yet
+      return [];
+    }
+    let { invitation } = this.props;
+    if (invitation.length > 0) {
+      const invitationsByKey = {};
+      invitation = invitation.sort(sortByLastCreatedFirst).filter((inv) => {
+        // if already a member of the org, team or team room, don't include the invite
+        const { teamRoomId, teamId, subscriberOrgId } = inv;
+        if (teamRoomId) {
+          if (teamRooms.teamRoomById[teamRoomId]) {
+            return false;
+          }
+        } else if (teamId) {
+          if (teams.teamById[teamId]) {
+            return false;
+          }
+        } else if (subscriberOrgById[subscriberOrgId]) {
+          return false;
+        }
+
+        // build map of invitations to make sure same invite isn't repeated
+        const key = invitationKey(inv);
+        if (!invitationsByKey[key]) {
+          invitationsByKey[key] = true;
+          return true;
+        }
+        return false;
+      });
+
+      // now put the array in chronological order again
+      invitation = _.reverse(invitation);
+    }
+    return invitation;
+  }
+
   render() {
-    const { invitation } = this.props;
+    const invitation = this.getValidInvites();
     return (
       <Content className="MainContent__layout-wrapper">
         {
-          invitation.length > 0 ? invitation.map(el => <Notification options={el} />) : null
+          invitation.length > 0 ? invitation.map(inv => <Notification key={invitationKey(inv)} options={inv} />) : null
         }
         <Switch>
           <Route exact path={routesPaths.integrations} component={IntegrationsPage} />
@@ -132,6 +187,7 @@ class MainContent extends Component {
           <Route exact path={routesPaths.editUser} component={EditUserPage} />
           <Route exact path={routesPaths.inviteNewMember} component={InviteNewMemberPage} />
           <Route exact path={routesPaths.inviteToTeam} component={InviteToTeamPage} />
+          <Route exact path={routesPaths.inviteToTeamRoom} component={InviteToTeamRoomPage} />
           <Route exact path={routesPaths.teamRoom} component={ChatContent} />
           <Route exact path={routesPaths.member} component={TeamMemberPage} />
           <Route exact path={routesPaths.acceptInvitation} component={AcceptInvitationPage} />

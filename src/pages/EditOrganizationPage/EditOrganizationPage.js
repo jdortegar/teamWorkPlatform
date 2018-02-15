@@ -81,7 +81,7 @@ class EditOrganizationPage extends Component {
       if (!err) {
         this.setState({ loading: true });
         const dataToUpdate = {
-          name: values.name,
+          name: values.name.trim(),
           preferences: {
             webSite: values.webSite,
             logo: this.state.logo,
@@ -97,6 +97,22 @@ class EditOrganizationPage extends Component {
               description: String.t('editOrgPage.organizationUpdated'),
               duration: 4
             });
+          })
+          .catch((error) => {
+            this.setState({ loading: false });
+            if (error.response.status === 409) {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: String.t('editOrgPage.errorNameAlreadyTaken'),
+                duration: 4
+              });
+            } else {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: error.message,
+                duration: 4
+              });
+            }
           });
       }
     });

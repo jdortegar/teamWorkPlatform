@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Modal } from 'antd';
+import { Form, Modal, notification } from 'antd';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -42,9 +42,24 @@ class AddTeamRoomDialog extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.createTeamRoom({ name: values.name, active: true }, this.props.currentTeamId)
+        this.props.createTeamRoom({ name: values.name.trim(), active: true }, this.props.currentTeamId)
           .then(() => {
             this.props.toggleTeamRoomDialog(false);
+          })
+          .catch((error) => {
+            if (error.response.status === 409) {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: String.t('addTeamRoomDialog.errorNameAlreadyTaken'),
+                duration: 4
+              });
+            } else {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: error.message,
+                duration: 4
+              });
+            }
           });
       }
     });

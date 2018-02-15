@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Tooltip, Dropdown } from 'antd';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 import String from '../../translations';
-import Button from '../../components/common/Button';
 import Avatar from '../../components/common/Avatar';
 import Badge from '../../components/Badge';
 import {
@@ -247,8 +247,8 @@ class Sidebar extends Component {
             </div>
           }
         >
-          <div className="padding-class-a border-bottom-lighter">
-            <span className="habla-label">{String.t('teamRooms')}</span>
+          <div className="sidebar-block-label">
+            <span className="habla-label">{String.t('teamRooms')} <span className="sidebar-label-number-badge">81</span></span>
           </div>
           { teamRooms }
         </SubMenu>);
@@ -279,9 +279,6 @@ class Sidebar extends Component {
             </div>
           }
         >
-          <div className="padding-class-a border-bottom-lighter">
-            <span className="habla-label">{String.t('teams')}</span>
-          </div>
           {teams}
         </SubMenu>
       );
@@ -297,25 +294,121 @@ class Sidebar extends Component {
       Sidebar: true,
       hidden: sideBarIsHidden
     });
+    const addLinkSidebar = (
+      <Menu className="addLinkSidebar">
+        <div className="habla-label padding-class-a">{String.t('sideBar.addNewLabel')}</div>
+        <Menu.Item key="addLinkSidebar">
+          <a><span><i className="fas fa-plus-circle" /> {String.t('sideBar.addNewTeamMember')}</span></a>
+        </Menu.Item>
+        <Menu.Item key="addLinkSidebar">
+          <a><span><i className="fas fa-plus-circle" /> {String.t('sideBar.addNewTeamRoom')}</span></a>
+        </Menu.Item>
+        <Menu.Item key="addLinkSidebar" className="dropdown-last-menu-item">
+          <a><span><i className="fas fa-plus-circle" /> {String.t('sideBar.addNewTeam')}</span></a>
+        </Menu.Item>
+      </Menu>
+    );
+    const sortLinkSidebar = (
+      <Menu className="sortLinkSidebar">
+        <div className="habla-label padding-class-a">{String.t('sideBar.sortByLabel')}</div>
+        <Menu.Item key="sortLinkSidebar">
+          <a><span><i className="fas fa-check" /> {String.t('sideBar.sortByAlphabetical')}</span></a>
+        </Menu.Item>
+        <Menu.Item key="sortLinkSidebar">
+          <a><span><i className="fas fa-check" /> {String.t('sideBar.sortByNewest')}</span></a>
+        </Menu.Item>
+        <Menu.Item key="sortLinkSidebar">
+          <a><span><i className="fas fa-check" /> {String.t('sideBar.sortByUnread')}</span></a>
+        </Menu.Item>
+        <Menu.Item key="sortLinkSidebar" className="dropdown-last-menu-item">
+          <a><span><i className="fas fa-check" /> {String.t('sideBar.sortByActivity')}</span></a>
+        </Menu.Item>
+      </Menu>
+    );
+
 
     return (
       <Sider width={250} className={sideClass}>
-        <div className="padding-class-a border-bottom-lighter">
-          <span className="habla-label habla-bold-text">{String.t('organizations')}</span>
+        <div className="organizationHeader padding-class-a">
+          <Avatar />
+          <span className="subscriberorg-name">Company, Inc.</span>
         </div>
-        <div className="organization-list">
-          <Menu
-            mode="inline"
-            openKeys={_.union(this.state.orgsOpenKeys, this.state.teamsOpenKeys)}
-            className="habla-left-navigation-list habla-left-navigation-organization-list"
-          >
-            { this.renderOrgs() }
-          </Menu>
-          <div className="padding-class-a">
-            <Button type="main" fitText onClick={this.handleAddOrganization} className="ButtonFull">
-              <i className="Sidebar__i fa fa-plus" /> {String.t('sideBar.addOrganization')}
-            </Button>
+
+        <div className="organizationLinks padding-class-a">
+          <Tooltip placement="topLeft" title={String.t('sideBar.iconHomeTooltip')} arrowPointAtCenter>
+            <Link to="/app" className="habla-top-menu-home">
+              <i className="fa fa-home fa-2x" />
+            </Link>
+          </Tooltip>
+          <Tooltip placement="topLeft" title={String.t('sideBar.iconCKGTooltip')} arrowPointAtCenter>
+            <Link to="/app/ckg" className="habla-top-menu-ckg">
+              <i className="fas fa-chart-area fa-2x" />
+            </Link>
+          </Tooltip>
+          <Tooltip placement="topLeft" title={String.t('sideBar.iconNotificationsTooltip')} arrowPointAtCenter>
+            <Link to="/app/notifications" className="habla-top-menu-notifications">
+              <i className="fa fa-globe fa-2x" />
+            </Link>
+          </Tooltip>
+          <Tooltip placement="topLeft" title={String.t('sideBar.iconBookmarksTooltip')} arrowPointAtCenter>
+            <Link to="/app/bookmarks" className="habla-top-menu-bookmarks">
+              <i className="fa fa-bookmark fa-2x" />
+            </Link>
+          </Tooltip>
+          <Tooltip placement="topLeft" title={String.t('sideBar.iconSettingsTooltip')} arrowPointAtCenter>
+            <Link to="/app/settings" className="habla-top-menu-settings">
+              <i className="fa fa-cog fa-2x" />
+            </Link>
+          </Tooltip>
+        </div>
+        <div className="sidebar-teams-and-teamrooms">
+          <div className="sidebar-block-label">
+            <span className="habla-label">{String.t('teams')} <span className="sidebar-label-number-badge">23</span></span>
           </div>
+
+          <div className="organization-list">
+            <Menu
+              mode="inline"
+              openKeys={_.union(this.state.orgsOpenKeys, this.state.teamsOpenKeys)}
+              className="habla-left-navigation-list habla-left-navigation-organization-list"
+            >
+              { this.renderOrgs() }
+            </Menu>
+          </div>
+        </div>
+
+        <div className="sidebar-actions">
+          <Dropdown overlay={addLinkSidebar} trigger={['click']}>
+            <a>
+              <i className="fas fa-plus-circle" />
+            </a>
+          </Dropdown>
+          <Dropdown overlay={sortLinkSidebar} trigger={['click']}>
+            <a>
+              <i className="fas fa-sliders-h" />
+            </a>
+          </Dropdown>
+          <a>
+            <i className="fas fa-search" />
+          </a>
+        </div>
+
+        <div className="sidebar-direct-messages">
+          <div className="sidebar-block-label">
+            <span className="habla-label">{String.t('directMessages')} <span className="sidebar-label-number-badge">23</span></span>
+          </div>
+          <div className="sidebar-direct-messages-content padding-class-a">
+            <Avatar className="mr-1" />
+            <Avatar className="mr-1" />
+            <Tooltip placement="topLeft" title={String.t('sideBar.newDirectMessageTooltip')} arrowPointAtCenter>
+              <a>
+                <Avatar className="mr-1">+</Avatar>
+              </a>
+            </Tooltip>
+          </div>
+        </div>
+        <div className="sidebar-resize-icon">
+          <i className="fas fa-bars" data-fa-transform="rotate-90" />
         </div>
       </Sider>
     );

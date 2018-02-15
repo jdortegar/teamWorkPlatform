@@ -72,6 +72,9 @@ class Login extends React.Component {
           }
         }
 
+        const rememberMe = this.props.form.getFieldValue('remember');
+        const rememberMeEmail = rememberMe ? email : '';
+        sessionStorage.setItem('habla-user-remember-me', rememberMeEmail);
         this.props.loginUser({ email, password, targetRoute });
         this.setState({
           submited: true
@@ -90,6 +93,8 @@ class Login extends React.Component {
         submited: false
       });
     }
+    const remember = sessionStorage.getItem('habla-user-remember-me');
+    const rememberMe = remember && remember !== '';
 
     return (
       <div className="login-main-div" style={loginpage}>
@@ -105,6 +110,7 @@ class Login extends React.Component {
                   layout={layout}
                   required
                   placeholder={String.t('register.emailPlaceholder')}
+                  initialValue={sessionStorage.getItem('habla-user-remember-me')}
                   noLabel
                 />
                 <PasswordField
@@ -124,7 +130,7 @@ class Login extends React.Component {
                   <div className="login-main-options">
                     {getFieldDecorator('remember', {
                       valuePropName: 'checked',
-                      initialValue: false
+                      initialValue: rememberMe
                     })(
                       <Checkbox>{String.t('login.rememberMeCheckboxLabel')}</Checkbox>
                     )}

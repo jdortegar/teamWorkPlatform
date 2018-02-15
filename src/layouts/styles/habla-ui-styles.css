@@ -226,6 +226,11 @@ p {
   top: 0px;
 }
 
+/* Others */
+.EditButton__button {
+	color: #999;
+}
+
 
 /* General CSS Styles for Habla Web App Modal Windows */
 
@@ -241,22 +246,42 @@ p {
 
 
 /* General CSS Styles for Habla Web App Dopdown Menus */
-
+.ant-dropdown-menu {
+  background-color: #444!important;	
+}
+.ant-dropdown-menu .habla-label {
+  font-weight: 900;
+  color: #fff;
+}
 .ant-dropdown-menu-item {
-  background-color: #000!important;
+  background-color: #444!important;
   color: #ddd!important;
 }
 .ant-dropdown-menu-item a {
-  color: #fff!important;
+  color: #7c7c7c!important;
 }
 .ant-dropdown-menu-item-selected, .ant-dropdown-menu-submenu-title-selected, .ant-dropdown-menu-item-selected > a, .ant-dropdown-menu-submenu-title-selected > a {
   background: #333;
+  color: #fff;
 }
 .ant-dropdown-menu-item a:hover {
   background: #333;
+  color: #fff!important;
 }
 .ant-dropdown-menu-item > a, .ant-dropdown-menu-submenu-title > a {
-  padding: 10px 20px;
+  padding: 0 10px;
+  margin: 0;
+}
+.ant-dropdown-menu-item, .ant-dropdown-menu-submenu-title {
+	padding: 0;
+}
+.ant-dropdown-menu-item i,
+.ant-dropdown-menu-item svg,
+.ant-dropdown-menu-item .habla-top-navigation-dropdown-signal {
+	margin-right: 5px;
+}
+.dropdown-last-menu-item {
+	padding-bottom: 10px;
 }
 
 
@@ -281,6 +306,12 @@ p {
 }
 .habla-main-content-header-title {
   flex: 1;
+}
+.habla-main-content-header-title svg
+, .CKGPage__title svg {
+  margin-right: 5px;
+  font-size: 18px;
+  color: #ccc;
 }
 .habla-main-content-filters-links div {
   background: #fff;
@@ -328,7 +359,8 @@ p {
 , .habla-main-content-header-breadcrumb-links-responsive
 , .habla-main-content-header-breadcrumb-links .habla-title-light
 , .habla-main-content-header-breadcrumb-links i
-, .habla-ckg-filters-item span {
+, .habla-ckg-filters-item span
+, .habla-header-search-input {
   display: none;
 }
 .habla-main-content-header-breadcrumb {
@@ -389,9 +421,6 @@ p {
 }
 .habla-full-content {
   width: 100%;
-}
-.habla-top-menu-items a {
-  margin-left: 7px;
 }
 }
 @media only screen and (max-width:420px) {
@@ -742,9 +771,6 @@ p {
   padding: 0!important;
   margin: 0!important;
 }
-.ant-menu-sub.ant-menu-inline > .ant-menu-item {
-  padding-left: 10px!important;
-}
 .ant-menu-vertical > .ant-menu-item, .ant-menu-vertical-left > .ant-menu-item, .ant-menu-vertical-right > .ant-menu-item, .ant-menu-inline > .ant-menu-item, .ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-vertical-left > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-vertical-right > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
   line-height: 0!important;
   height: auto!important;
@@ -759,9 +785,24 @@ p {
 }
 .ant-menu {
   font-family: 'Lato', sans-serif;
+  background: transparent;
+}
+.ant-menu-submenu > .ant-menu {
+  background: transparent;	
+}
+.Sidebar ul.ant-menu ul.ant-menu-sub li.ant-menu-submenu {
+	background: #fff;
+	border-radius: 4px;
+	margin-bottom: 2px;
+}
+.Sidebar ul.ant-menu ul.ant-menu-sub li.ant-menu-submenu:hover {
+	background: #f7f7f7;
 }
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-  background: #f7f7f7;
+  background: #eee;
+}
+.ant-menu-sub li:last-child {
+  border-radius: 0 0 4px 4px;
 }
 .ant-collapse {
   border: none;
@@ -821,4 +862,7 @@ p {
   position: inherit;
   display: inherit;
   left: inherit;
+}
+.ant-avatar-string .fa-plus {
+  left: 30px;
 }

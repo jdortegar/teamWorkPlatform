@@ -23,7 +23,7 @@ const propTypes = {
   }).isRequired,
   updateTeam: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
-  subscriberOrgById: PropTypes.string.isRequired
+  subscriberOrgById: PropTypes.object.isRequired
 };
 
 class EditTeamPage extends Component {
@@ -40,7 +40,9 @@ class EditTeamPage extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
-        this.props.updateTeam(values, teamId)
+        const valuesToSend = { ...values };
+        valuesToSend.name = values.name.trim();
+        this.props.updateTeam(valuesToSend, teamId)
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/team/${teamId}`);
@@ -49,6 +51,22 @@ class EditTeamPage extends Component {
               description: String.t('editTeamPage.teamUpdated'),
               duration: 4
             });
+          })
+          .catch((error) => {
+            this.setState({ loading: false });
+            if (error.response.status === 409) {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: String.t('editTeamPage.errorNameAlreadyTaken'),
+                duration: 4
+              });
+            } else {
+              notification.open({
+                message: String.t('errorToastTitle'),
+                description: error.message,
+                duration: 4
+              });
+            }
           });
       }
     });
@@ -99,6 +117,7 @@ class EditTeamPage extends Component {
                 <div className="Edit-team__switch-container">
                   <Tooltip placement="top" title={team.active ? String.t('editTeamPage.setInactive') : String.t('editTeamPage.setActive')}>
                     <SwitchField
+                      disabled={team.primary}
                       checkedChildren={String.t('editTeamPage.activeState')}
                       unCheckedChildren={String.t('editTeamPage.inactiveState')}
                       form={this.props.form}

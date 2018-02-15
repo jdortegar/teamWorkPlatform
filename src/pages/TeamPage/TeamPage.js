@@ -24,8 +24,8 @@ const propTypes = {
   }).isRequired,
   teamMembers: PropTypes.array.isRequired,
   teamRooms: PropTypes.array.isRequired,
-  subscriberOrgById: PropTypes.string.isRequired,
-  teams: PropTypes.array.isRequired,
+  subscriberOrgById: PropTypes.object.isRequired,
+  teams: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired
 };
 

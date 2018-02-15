@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form } from 'antd';
+import { Form, notification } from 'antd';
 import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
@@ -38,11 +38,21 @@ class NewTeamPage extends Component {
     const { subscriberOrgId } = this.props.match.params;
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        const valuesToSend = { ...values };
+        valuesToSend.name = values.name.trim();
         this.setState({ loading: true });
-        this.props.createTeam(values, subscriberOrgId)
+        this.props.createTeam(valuesToSend, subscriberOrgId)
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/organization/${subscriberOrgId}`);
+          })
+          .catch((error) => {
+            this.setState({ loading: false });
+            notification.open({
+              message: String.t('errorToastTitle'),
+              description: error.message,
+              duration: 4
+            });
           });
       }
     });

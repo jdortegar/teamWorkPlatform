@@ -10,7 +10,10 @@ function mapStateToProps(state) {
     invitation: getInvitations(state),
     pushMessage: state.notifications.pushMessage,
     users: getUserByUserId(state),
-    currentUserId: getMyselfUserId(state)
+    currentUserId: getMyselfUserId(state),
+    subscriberOrgs: state.subscriberOrgs,
+    teams: state.teams,
+    teamRooms: state.teamRooms
   };
 }
 

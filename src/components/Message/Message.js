@@ -11,6 +11,7 @@ import String from '../../translations';
 
 const propTypes = {
   hide: PropTypes.bool.isRequired,
+  conversationDisabled: PropTypes.bool,
   replyTo: PropTypes.func.isRequired,
   teamRoomMembersObj: PropTypes.object.isRequired,
   message: PropTypes.object.isRequired,
@@ -22,6 +23,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  conversationDisabled: false,
   onFileChange: null,
   lastRead: false
 };
@@ -57,7 +59,7 @@ class Message extends Component {
   }
 
   render() {
-    const { message, user, teamRoomMembersObj, hide, lastRead } = this.props;
+    const { message, user, teamRoomMembersObj, hide, lastRead, conversationDisabled } = this.props;
     const { messageId, children, level, content } = message;
     const { firstName, lastName, preferences, userId } = user;
     const date = moment(message.created).fromNow();
@@ -104,7 +106,7 @@ class Message extends Component {
             <span className="message__main-counter-number" >
               { children.length }
             </span>
-            <i className="counter fa fa-reply fa-rotate-180" />
+            <i className="fas fa-reply counter" />
           </div>
           }
           { lastRead &&
@@ -112,34 +114,37 @@ class Message extends Component {
               {String.t('message.unreadMessageSeparator')}
             </div>
           }
+          {!conversationDisabled &&
           <div className="message__options hide">
             <Tooltip placement="topLeft" title={String.t('message.tooltipReply')} arrowPointAtCenter>
               <a
                 className="message__icons"
                 onClick={() => this.handleReplyTo({ firstName, lastName, text, messageId, preferences })}
               >
-                <i className="fa fa-reply" />
+                <i className="fas fa-reply" />
               </a>
             </Tooltip>
             <Tooltip placement="topLeft" title={String.t('message.tooltipBookmark')} arrowPointAtCenter>
-              <a className="message__icons"><i className="fa fa-bookmark-o" /></a>
+              <a className="message__icons"><i className="fas fa-bookmark" /></a>
             </Tooltip>
             <Tooltip placement="topLeft" title={String.t('message.tooltipThumbsUp')} arrowPointAtCenter>
-              <a className="message__icons"><i className="fa fa-thumbs-o-up" /></a>
+              <a className="message__icons"><i className="fas fa-thumbs-up" /></a>
             </Tooltip>
             <Tooltip placement="topLeft" title={String.t('message.tooltipThumbsDown')} arrowPointAtCenter>
-              <a className="message__icons"><i className="fa fa-thumbs-o-down" /></a>
+              <a className="message__icons"><i className="fas fa-thumbs-down" /></a>
             </Tooltip>
             <Tooltip placement="topLeft" title={String.t('message.tooltipFlag')} arrowPointAtCenter>
-              <a className="message__icons"><i className="fa fa-flag" /></a>
+              <a className="message__icons"><i className="fas fa-flag" /></a>
             </Tooltip>
             <Tooltip placement="topLeft" title={String.t('message.tooltipEdit')} arrowPointAtCenter>
-              <a className="message__icons"><i className="fa fa-pencil" /></a>
+              <a className="message__icons"><i className="fas fa-pencil-alt" /></a>
             </Tooltip>
           </div>
+          }
         </div>
         { children.length > 0 && children.map(childMessage => (
           <Message
+            conversationDisabled={conversationDisabled}
             message={childMessage}
             user={teamRoomMembersObj[childMessage.createdBy]}
             key={childMessage.messageId}

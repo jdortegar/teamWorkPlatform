@@ -73,15 +73,16 @@ function CardView(props) {
   const renderMembers = () => {
     return props.subscribers.map((member) => {
       const { userId, firstName, lastName, preferences, icon } = member;
+      const fullName = String.t('fullName', { firstName, lastName });
       return (
         <div key={userId} className="mr-1">
-          <Tooltip placement="top" title={`${firstName} ${lastName}`}>
+          <Tooltip placement="top" title={fullName}>
             <Link to={`/app/teamMember/${userId}`}>
               {
                 icon ?
                   <Avatar size="large" src={`data:image/jpeg;base64, ${icon}`} /> :
                   <Avatar size="large" color={preferences.iconColor}>
-                    {getInitials(`${firstName} ${lastName}`)}
+                    {getInitials(fullName)}
                   </Avatar>
               }
               <div className="habla-label align-center-class card-label">
