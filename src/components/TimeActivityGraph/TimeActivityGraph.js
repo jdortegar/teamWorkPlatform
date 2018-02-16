@@ -12,7 +12,6 @@ import {
 
 import String from '../../translations';
 import styles from './styles/style';
-import CustomLabel from './CustomLabel';
 
 const propTypes = {
   files: PropTypes.arrayOf(PropTypes.object)
@@ -129,24 +128,26 @@ class TimeActivityGraph extends React.Component {
             }}
           />
           <VictoryScatter
-            labelComponent={<CustomLabel />}
+            labelComponent={<div />}
             events={[{
               target: 'data',
               eventHandlers: {
-                onMouseOver: () => { },
-                onMouseOut: () => { },
+                //  onMouseOver: () => { },
+                //  onMouseOut: () => { },
                 onClick: () => {
                   return {
                     target: 'labels',
-                    mutation: () => ({ active: true })
-                  };
-                },
-                onDoubleClick: () => {
-                  return {
-                    target: 'labels',
-                    mutation: () => ({ active: false })
+                    mutation: (props) => {
+                      console.log(props);
+                    }
                   };
                 }
+                //  onDoubleClick: () => {
+                //    return {
+                //      target: 'labels',
+                //      mutation: () => ({ active: false })
+                //    };
+                //  }
               }
             }]}
             style={styles.scatter}
