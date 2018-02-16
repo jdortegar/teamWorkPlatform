@@ -9,7 +9,7 @@ import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import { ImageCard } from '../../components/cards';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
-import { boxLogo, googleDriveLogo } from '../../img';
+import { boxLogo, googleDriveLogo, sharepointLogo, office365Logo, salesforceLogo } from '../../img';
 import String from '../../translations';
 import './styles/style.css';
 
@@ -138,6 +138,33 @@ class IntegrationsPage extends Component {
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex habla-integration-list margin-top-class-b">
             <Row type="flex">
               {renderIntegrations()}
+              {
+              // FOR DEMO PURPOSES ONLY: Temporal Integrations Icons for DEMO.
+              }
+              <div key="sharepoint">
+                <Tooltip placement="top" title="Sharepoint">
+                  <Link to={`/app/integrations/${subscriberOrgId}`}>
+                    <ImageCard imgSrc={sharepointLogo} />
+                  </Link>
+                </Tooltip>
+              </div>
+
+              <div key="office365">
+                <Tooltip placement="top" title="Office 365">
+                  <Link to={`/app/integrations/${subscriberOrgId}`}>
+                    <ImageCard imgSrc={office365Logo} />
+                  </Link>
+                </Tooltip>
+              </div>
+
+              <div key="salesforce">
+                <Tooltip placement="top" title="Salesforce">
+                  <Link to={`/app/integrations/${subscriberOrgId}`}>
+                    <ImageCard imgSrc={salesforceLogo} />
+                  </Link>
+                </Tooltip>
+              </div>
+
             </Row>
           </SimpleCardContainer>
         </div>
