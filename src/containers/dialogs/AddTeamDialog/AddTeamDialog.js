@@ -47,7 +47,7 @@ class AddTeamDialog extends Component {
             this.props.toggleTeamDialog(false);
           })
           .catch((error) => {
-            if (error.response.status === 409) {
+            if (error.response && error.response.status === 409) {
               notification.open({
                 message: String.t('errorToastTitle'),
                 description: String.t('addTeamDialog.errorNameAlreadyTaken'),
