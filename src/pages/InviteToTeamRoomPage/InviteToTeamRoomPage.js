@@ -71,7 +71,7 @@ class InviteToTeamRoomPage extends Component {
           })
           .catch((error) => {
             this.setState({ loading: false });
-            if (error.response.status !== 202) {
+            if (error.response && error.response.status !== 202) {
               notification.open({
                 message: String.t('errorToastTitle'),
                 description: error.message,
