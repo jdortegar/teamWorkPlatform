@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Tooltip, Dropdown } from 'antd';
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
@@ -31,7 +30,8 @@ const propTypes = {
   location: PropTypes.object.isRequired,
   setCurrentSubscriberOrgId: PropTypes.func.isRequired,
   sideBarIsHidden: PropTypes.bool.isRequired,
-  showSideBar: PropTypes.func.isRequired
+  showSideBar: PropTypes.func.isRequired,
+  currentSubscriberOrgId: PropTypes.string.isRequired
 };
 
 const defaultProps = {
@@ -212,81 +212,38 @@ class Sidebar extends Component {
     ));
   }
 
-  renderTeams(orgId) {
+  renderTeams() {
     const { teams } = this.props;
-    if (teams.length === 0) {
-      return null;
-    }
-
-    let teamsByOrgId = teams
-      .filter(team => team.subscriberOrgId === orgId)
-      .sort(sortByName);
-
-    teamsByOrgId = ((teamsByOrgId.length === 0) && (teamsByOrgId[0] === undefined)) ? [] : primaryAtTop(teamsByOrgId);
-
-    return teamsByOrgId.map((team) => {
+    return teams.map((team) => {
       const teamRooms = this.renderTeamRooms(team.teamId);
-      const isTeamOpen = _.includes(this.state.teamsOpenKeys, team.teamId);
-      const unreadMessagesCount = 0; /* TODO: get the actual count of unread messages */
 
       return (
         <SubMenu
           className="habla-left-navigation-item"
           key={team.teamId}
-          onTitleClick={() => this.toogleTeams(team.teamId)}
-          title={
-            <div className="habla-left-navigation-team-list">
-              <div className="habla-left-navigation-team-list-item padding-class-a">
-                <div className="float-left-class">
-                  {renderAvatar(team)}
-                </div>
-                <span className="habla-left-navigation-item-label" onClick={e => this.goToTeamPage(e, team)}>{team.name}</span>
-                <div className="clear" />
-                <Badge count={isTeamOpen ? 0 : unreadMessagesCount} />
-              </div>
-            </div>
-          }
-        >
-          <div className="sidebar-block-label">
-            <span className="habla-label">{String.t('teamRooms')} <span className="sidebar-label-number-badge">81</span></span>
-          </div>
-          { teamRooms }
-        </SubMenu>);
-    });
-  }
-
-  renderOrgs() {
-    const { subscriberOrgs } = this.props;
-    return subscriberOrgs.map((subscriberOrg) => {
-      const teams = this.renderTeams(subscriberOrg.subscriberOrgId);
-
-      return (
-        <SubMenu
-          className="habla-left-navigation-item"
-          key={subscriberOrg.subscriberOrgId}
-          onMouseEnter={() => this.setState({ hovered: subscriberOrg.subscriberOrgId })}
+          onMouseEnter={() => this.setState({ hovered: team.teamId })}
           onMouseLeave={() => this.setState({ hovered: null })}
           openKeys={this.state.teamsOpenKeys}
-          onTitleClick={() => this.toogleOrgs(subscriberOrg.subscriberOrgId)}
+          onTitleClick={() => this.toogleTeams(team.teamId)}
           title={
             <div className="habla-left-navigation-org-list">
               <div className="padding-class-a">
                 <div className="float-left-class">
-                  {renderAvatar(subscriberOrg)}
+                  {renderAvatar(team)}
                 </div>
-                <span className="habla-left-navigation-item-label" onClick={e => this.goToOrgPage(e, subscriberOrg.subscriberOrgId)}>{subscriberOrg.name}</span>
+                <span className="habla-left-navigation-item-label" onClick={e => this.goToTeamPage(e, team)}>{team.name}</span>
                 <div className="clear" /></div>
             </div>
           }
         >
-          {teams}
+          {teamRooms}
         </SubMenu>
       );
     });
   }
 
   render() {
-    const { subscriberOrgs, sideBarIsHidden } = this.props;
+    const { subscriberOrgs, sideBarIsHidden, currentSubscriberOrgId } = this.props;
     if (subscriberOrgs.length === 0) {
       return null;
     }
@@ -294,6 +251,7 @@ class Sidebar extends Component {
       Sidebar: true,
       hidden: sideBarIsHidden
     });
+    const currentOrg = subscriberOrgs.find(({ subscriberOrgId }) => subscriberOrgId === currentSubscriberOrgId);
     const addLinkSidebar = (
       <Menu className="addLinkSidebar">
         <div className="habla-label padding-class-a">{String.t('sideBar.addNewLabel')}</div>
@@ -330,8 +288,8 @@ class Sidebar extends Component {
     return (
       <Sider width={250} className={sideClass}>
         <div className="organizationHeader padding-class-a">
-          <Avatar />
-          <span className="subscriberorg-name">Company, Inc.</span>
+          {renderAvatar(currentOrg)}
+          <span className="subscriberorg-name">{currentOrg.name}</span>
         </div>
 
         <div className="organizationLinks padding-class-a">
@@ -356,7 +314,7 @@ class Sidebar extends Component {
             </Link>
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconSettingsTooltip')} arrowPointAtCenter>
-            <Link to="/app/settings" className="habla-top-menu-settings">
+            <Link to={`/app/organization/${currentSubscriberOrgId}`} className="habla-top-menu-settings">
               <i className="fa fa-cog fa-2x" />
             </Link>
           </Tooltip>
@@ -369,10 +327,10 @@ class Sidebar extends Component {
           <div className="organization-list">
             <Menu
               mode="inline"
-              openKeys={_.union(this.state.orgsOpenKeys, this.state.teamsOpenKeys)}
+              openKeys={this.state.teamsOpenKeys}
               className="habla-left-navigation-list habla-left-navigation-organization-list"
             >
-              { this.renderOrgs() }
+              { this.renderTeams() }
             </Menu>
           </div>
         </div>
