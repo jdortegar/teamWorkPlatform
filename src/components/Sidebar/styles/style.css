@@ -81,6 +81,16 @@
 	color: #fff;
 	border-radius: 4px 4px 0 0;
 }
+.organizationHeader .organizationsList {
+	float: right;
+	position: relative;
+	top: 8px;
+	color: #666;
+	cursor: pointer;
+}
+.organizationList li a {
+	padding: 5px 10px;
+}
 .organizationHeader .habla-avatar--size-default, .organizationHeader .habla-avatar--size-default img {
 	display: inline-block;
 }

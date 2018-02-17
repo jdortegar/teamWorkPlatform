@@ -299,6 +299,7 @@
     "dropFilesPlaceholder": "Drop your files here."
   },
   "sideBar": {
+	"organizationsLabel": "Organizations",
     "addOrganization": "Add Organization",
     "badgeTopLimit": "99+",
     "addNewLabel": "Add New",

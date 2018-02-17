@@ -303,13 +303,28 @@ class Sidebar extends Component {
         </Menu.Item>
       </Menu>
     );
-
+    const organizationList = (
+      <Menu className="organizationList">
+        <div className="habla-label padding-class-a">{String.t('sideBar.organizationsLabel')}</div>
+        <Menu.Item key="organizationList">
+          <a><span><Avatar /> Current Organization</span></a>
+        </Menu.Item>
+        <Menu.Item key="organizationList" className="dropdown-last-menu-item">
+          <a><span><Avatar /> Other Organization</span></a>
+        </Menu.Item>
+      </Menu>
+    );
 
     return (
       <Sider width={250} className={sideClass}>
         <div className="organizationHeader padding-class-a">
           {renderAvatar(currentOrg)}
           <span className="subscriberorg-name">{currentOrg.name}</span>
+          <Dropdown overlay={organizationList} trigger={['click']}>
+            <a>
+              <i className="fas fa-ellipsis-h organizationsList" />
+            </a>
+          </Dropdown>
         </div>
 
         <div className="organizationLinks padding-class-a">
