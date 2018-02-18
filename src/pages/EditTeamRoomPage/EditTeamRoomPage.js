@@ -48,7 +48,7 @@ class EditTeamRoomPage extends Component {
           this.props.history.push(`/app/teamRoom/${teamRoomId}`);
           notification.open({
             message: String.t('editTeamRoomPage.successToastTitle'),
-            description: String.t('editTeamRoomPage.teamUpdated'),
+            description: String.t('editTeamRoomPage.teamRoomUpdated'),
             duration: 4
           });
         }).catch((error) => {
