@@ -111,14 +111,16 @@ class OrganizationPage extends Component {
   }
 
   render() {
-    const subscriberOrgId = this.props.match.params.subscriberOrgId;
-    const { teams, integrations, subscribers, subscriberOrgs, user } = this.props;
-    let isOrgAdmin = false;
-    if (subscribers.length > 0) {
-      const subscriberByMyUser = subscribers.find(subscriber => subscriber.userId === user.userId);
-      isOrgAdmin = (subscriberByMyUser.subscriberOrgs[subscriberOrgId].role === 'admin');
-    }
-    if (this.state.subscribersLoaded && this.state.integrationsLoaded) {
+    const { teams, integrations, subscribers, subscriberOrgs, user, match } = this.props;
+    if (match && match.params && match.params.subscriberOrgId &&
+        teams && integrations && this.state.subscribersLoaded && this.state.integrationsLoaded) {
+      const subscriberOrgId = match.params.subscriberOrgId;
+      let isOrgAdmin = false;
+      if (subscribers.length > 0) {
+        const subscriberByMyUser = subscribers.find(subscriber => subscriber.userId === user.userId);
+        isOrgAdmin = (subscriberByMyUser.subscriberOrgs[subscriberOrgId].role === 'admin');
+      }
+
       // if (integrations && integrations.integrationsBySubscriberOrgId[subscriberOrgId]) {
       //   let numberOfIntegrations = 0;
       //   if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].box) {
