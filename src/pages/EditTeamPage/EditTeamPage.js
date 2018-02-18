@@ -54,7 +54,7 @@ class EditTeamPage extends Component {
           })
           .catch((error) => {
             this.setState({ loading: false });
-            if (error.response.status === 409) {
+            if (error.response && error.response.status === 409) {
               notification.open({
                 message: String.t('errorToastTitle'),
                 description: String.t('editTeamPage.errorNameAlreadyTaken'),

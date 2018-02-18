@@ -299,6 +299,7 @@
     "dropFilesPlaceholder": "Drop your files here."
   },
   "sideBar": {
+    "organizationsLabel": "Organizations",
     "addOrganization": "Add Organization",
     "badgeTopLimit": "99+",
     "addNewLabel": "Add New",
@@ -400,11 +401,11 @@
     "changeAvatarText": "Change Avatar",
     "removeImageLabel": "Remove",
     "successToastTitle": "Success",
-    "organizationUpdated": "Your organization has been successfully updated.",
+    "organizationUpdated": "Your organization changes have been saved.",
     "errorNameAlreadyTaken": "The Organization Name is already being used. Please enter a different name."
   },
   "editTeamPage": {
-    "teamUpdated": "Your team has been successfully updated.",
+    "teamUpdated": "Your team changes have been saved.",
     "errorNameAlreadyTaken": "The Team Name is already being used. Please enter a different name.",
     "changeAvatarText": "Change Avatar",
     "teamName": "Team Name",
@@ -417,7 +418,7 @@
   },
   "editTeamRoomPage": {
     "successToastTitle": "Success",
-    "teamUpdated": "Your team has been successfully updated.",
+    "teamRoomUpdated": "Your team room changes have been saved.",
     "errorNameAlreadyTaken": "The Team Room Name is already being used. Please enter a different name.",
     "changeAvatarTitle": "Change Avatar",
     "saveButtonLabel": "Save",
@@ -430,7 +431,7 @@
   "editUserPage": {
    "title": "Account Settings",
    "successToastTitle": "Success",
-   "userUpdated": "Your user profile has been successfully updated.",
+   "userUpdated": "Your user profile changes have been saved.",
    "saveButtonLabel": "Save",
    "profileSettings": "Profile Settings",
    "setProfilePhoto": "Add a Photo",
@@ -537,6 +538,7 @@
     "inviteNewMember": "Invite a New Team Member",
     "addNewTeamRoom": "Add New Team Room",
     "roomsHeader": "Team Rooms ({{count}})",
+    "newButtonLabel": "New",    
     "membersHeader": "Team Members ({{count}})"
   },
   "teamRoomPage": {

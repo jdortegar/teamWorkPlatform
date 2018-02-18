@@ -48,12 +48,12 @@ class EditTeamRoomPage extends Component {
           this.props.history.push(`/app/teamRoom/${teamRoomId}`);
           notification.open({
             message: String.t('editTeamRoomPage.successToastTitle'),
-            description: String.t('editTeamRoomPage.teamUpdated'),
+            description: String.t('editTeamRoomPage.teamRoomUpdated'),
             duration: 4
           });
         }).catch((error) => {
           this.setState({ loading: false });
-          if (error.response.status === 409) {
+          if (error.response && error.response.status === 409) {
             notification.open({
               message: String.t('errorToastTitle'),
               description: String.t('editTeamRoomPage.errorNameAlreadyTaken'),

@@ -9,15 +9,16 @@ const propTypes = {
     PropTypes.node
   ]).isRequired,
   icon: PropTypes.node,
-  editButton: PropTypes.object.isRequired
+  editButton: PropTypes.object
 };
 
 const defaultProps = {
+  editButton: {},
   icon: null
 };
 
 
-function SubpageHeader({ breadcrumb, icon, editButton = {} }) {
+function SubpageHeader({ breadcrumb, icon, editButton }) {
   const { showButton, isAdmin, url } = editButton;
   return (
     <div className="habla-main-content-header padding-class-a border-bottom-lighter">
