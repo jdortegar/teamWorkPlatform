@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 const propTypes = {
-  iconColor: PropTypes.string.isRequired,
+  iconColor: PropTypes.string,
   image: PropTypes.string,
   user: PropTypes.object,
   isUser: PropTypes.bool,
@@ -11,6 +11,7 @@ const propTypes = {
   styles: PropTypes.object
 };
 const defaultProps = {
+  iconColor: '#aaa',
   image: null,
   isUser: false,
   user: null,
