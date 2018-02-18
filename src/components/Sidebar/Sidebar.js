@@ -263,7 +263,7 @@ class Sidebar extends Component {
 
   render() {
     const { subscriberOrgs, sideBarIsHidden, currentSubscriberOrgId, teamIdsBySubscriberOrgId } = this.props;
-    if (subscriberOrgs.length === 0) {
+    if (!teamIdsBySubscriberOrgId || subscriberOrgs.length === 0) {
       return null;
     }
     const sideClass = classNames({
