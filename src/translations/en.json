@@ -538,6 +538,7 @@
     "inviteNewMember": "Invite a New Team Member",
     "addNewTeamRoom": "Add New Team Room",
     "roomsHeader": "Team Rooms ({{count}})",
+    "newButtonLabel": "New",    
     "membersHeader": "Team Members ({{count}})"
   },
   "teamRoomPage": {
