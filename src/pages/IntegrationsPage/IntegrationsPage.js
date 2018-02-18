@@ -142,7 +142,7 @@ class IntegrationsPage extends Component {
               // FOR DEMO PURPOSES ONLY: Temporal Integrations Icons for DEMO.
               }
               <div key="sharepoint">
-                <Tooltip placement="top" title="Sharepoint">
+                <Tooltip placement="top" title="SharePoint">
                   <Link to={`/app/integrations/${subscriberOrgId}`}>
                     <ImageCard imgSrc={sharepointLogo} />
                   </Link>
