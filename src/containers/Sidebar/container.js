@@ -10,12 +10,15 @@ import { toggleOrgDialog,
 import {
   getSubscriberOrgsSortedAlphabetically,
   getTeams,
-  getTeamRooms } from '../../selectors';
+  getTeamRooms,
+  getSubscribersOfSubscriberOrgId
+} from '../../selectors';
 import Sidebar from '../../components/Sidebar';
 
 function mapStateToProps(state) {
   return {
     subscriberOrgs: getSubscriberOrgsSortedAlphabetically(state),
+    subscribers: getSubscribersOfSubscriberOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
     currentSubscriberOrgId: state.subscriberOrgs.currentSubscriberOrgId,
     teams: getTeams(state),
     teamById: state.teams.teamById,

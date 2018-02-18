@@ -11,6 +11,7 @@ import {
   sortByName,
   primaryAtTop
 } from '../../redux-hablaai/selectors/helpers';
+import getInitials from '../../utils/helpers';
 import './styles/style.css';
 
 
@@ -23,6 +24,7 @@ const propTypes = {
   toggleTeamRoomDialog: PropTypes.func.isRequired,
   toggleTeamDialog: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.array.isRequired,
+  subscribers: PropTypes.array,
   teams: PropTypes.array.isRequired,
   teamRooms: PropTypes.array.isRequired,
   history: PropTypes.shape({
@@ -39,6 +41,7 @@ const propTypes = {
 const defaultProps = {
   currentSubscriberOrgId: null,
   subscriberOrgs: [],
+  subscribers: null,
   teams: [],
   teamRooms: []
 };
@@ -46,6 +49,32 @@ const defaultProps = {
 const ROUTERS_TO_HIDE_SIDEBAR = [
   '/app/userDetails'
 ];
+
+function renderSubscriberAvatar(subscriber) {
+  const { firstName, lastName, userId, preferences, icon } = subscriber;
+  const fullName = String.t('fullName', { firstName, lastName });
+  const initials = getInitials(fullName);
+  return (
+    <Tooltip
+      key={userId}
+      placement="top"
+      title={fullName}
+    >
+      {icon ?
+        <Avatar size="medium" src={`data:image/jpeg;base64, ${icon}`} className="mr-05" />
+        :
+        <Avatar
+          size="medium"
+          ey={userId}
+          color={preferences.iconColor}
+          className="mr-05"
+        >
+          {initials}
+        </Avatar>
+      }
+    </Tooltip>
+  );
+}
 
 function renderAvatar(item) {
   const { preferences } = item;
@@ -297,8 +326,8 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { subscriberOrgs, sideBarIsHidden, currentSubscriberOrgId, teamIdsBySubscriberOrgId } = this.props;
-    if (!teamIdsBySubscriberOrgId || subscriberOrgs.length === 0 || !currentSubscriberOrgId) {
+    const { subscriberOrgs, subscribers, sideBarIsHidden, currentSubscriberOrgId, teamIdsBySubscriberOrgId } = this.props;
+    if (!teamIdsBySubscriberOrgId || subscriberOrgs.length === 0 || !currentSubscriberOrgId || !subscribers) {
       return null;
     }
     const sideClass = classNames({
@@ -421,8 +450,7 @@ class Sidebar extends Component {
             </span>
           </div>
           <div className="sidebar-direct-messages-content padding-class-a">
-            <Avatar className="mr-1" />
-            <Avatar className="mr-1" />
+            {subscribers.map(subscriber => renderSubscriberAvatar(subscriber))}
             <Tooltip placement="topLeft" title={String.t('sideBar.newDirectMessageTooltip')} arrowPointAtCenter>
               <a>
                 <Avatar className="mr-1">+</Avatar>
