@@ -61,10 +61,10 @@ function renderSubscriberAvatar(subscriber) {
       title={fullName}
     >
       {icon ?
-        <Avatar size="medium" src={`data:image/jpeg;base64, ${icon}`} className="mr-05" />
+        <Avatar size="default" src={`data:image/jpeg;base64, ${icon}`} className="mr-05" />
         :
         <Avatar
-          size="medium"
+          size="default"
           ey={userId}
           color={preferences.iconColor}
           className="mr-05"
