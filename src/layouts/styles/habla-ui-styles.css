@@ -863,6 +863,10 @@ p {
   display: inherit;
   left: inherit;
 }
-.ant-avatar-string .fa-plus {
-  left: 30px;
+.ant-avatar-string {
+   left: 30px;
+}
+.fa-plus {
+   margin-top: 14px;
+   margin-right: 20px;
 }
