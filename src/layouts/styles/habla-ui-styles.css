@@ -790,7 +790,7 @@ p {
 .ant-menu-submenu > .ant-menu {
   background: transparent;	
 }
-.Sidebar ul.ant-menu ul.ant-menu-sub li.ant-menu-submenu {
+.Sidebar ul.ant-menu li.ant-menu-submenu {
 	background: #fff;
 	border-radius: 4px;
 	margin-bottom: 2px;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Tooltip, Dropdown } from 'antd';
-import _ from 'lodash';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import String from '../../translations';
@@ -31,7 +31,9 @@ const propTypes = {
   location: PropTypes.object.isRequired,
   setCurrentSubscriberOrgId: PropTypes.func.isRequired,
   sideBarIsHidden: PropTypes.bool.isRequired,
-  showSideBar: PropTypes.func.isRequired
+  showSideBar: PropTypes.func.isRequired,
+  currentSubscriberOrgId: PropTypes.string.isRequired,
+  teamIdsBySubscriberOrgId: PropTypes.array.isRequired
 };
 
 const defaultProps = {
@@ -212,8 +214,9 @@ class Sidebar extends Component {
     ));
   }
 
-  renderTeams(orgId) {
+  renderTeams() {
     const { teams } = this.props;
+    const orgId = this.props.currentSubscriberOrgId;
     if (teams.length === 0) {
       return null;
     }
@@ -233,6 +236,9 @@ class Sidebar extends Component {
         <SubMenu
           className="habla-left-navigation-item"
           key={team.teamId}
+          onMouseEnter={() => this.setState({ hovered: team.teamId })}
+          onMouseLeave={() => this.setState({ hovered: null })}
+          openKeys={this.state.teamsOpenKeys}
           onTitleClick={() => this.toogleTeams(team.teamId)}
           title={
             <div className="habla-left-navigation-team-list">
@@ -255,38 +261,8 @@ class Sidebar extends Component {
     });
   }
 
-  renderOrgs() {
-    const { subscriberOrgs } = this.props;
-    return subscriberOrgs.map((subscriberOrg) => {
-      const teams = this.renderTeams(subscriberOrg.subscriberOrgId);
-
-      return (
-        <SubMenu
-          className="habla-left-navigation-item"
-          key={subscriberOrg.subscriberOrgId}
-          onMouseEnter={() => this.setState({ hovered: subscriberOrg.subscriberOrgId })}
-          onMouseLeave={() => this.setState({ hovered: null })}
-          openKeys={this.state.teamsOpenKeys}
-          onTitleClick={() => this.toogleOrgs(subscriberOrg.subscriberOrgId)}
-          title={
-            <div className="habla-left-navigation-org-list">
-              <div className="padding-class-a">
-                <div className="float-left-class">
-                  {renderAvatar(subscriberOrg)}
-                </div>
-                <span className="habla-left-navigation-item-label" onClick={e => this.goToOrgPage(e, subscriberOrg.subscriberOrgId)}>{subscriberOrg.name}</span>
-                <div className="clear" /></div>
-            </div>
-          }
-        >
-          {teams}
-        </SubMenu>
-      );
-    });
-  }
-
   render() {
-    const { subscriberOrgs, sideBarIsHidden } = this.props;
+    const { subscriberOrgs, sideBarIsHidden, currentSubscriberOrgId, teamIdsBySubscriberOrgId } = this.props;
     if (subscriberOrgs.length === 0) {
       return null;
     }
@@ -294,6 +270,8 @@ class Sidebar extends Component {
       Sidebar: true,
       hidden: sideBarIsHidden
     });
+    const currentOrg = subscriberOrgs.find(({ subscriberOrgId }) => subscriberOrgId === currentSubscriberOrgId);
+    const numberOfTeams = teamIdsBySubscriberOrgId[currentSubscriberOrgId].length;
     const addLinkSidebar = (
       <Menu className="addLinkSidebar">
         <div className="habla-label padding-class-a">{String.t('sideBar.addNewLabel')}</div>
@@ -330,8 +308,8 @@ class Sidebar extends Component {
     return (
       <Sider width={250} className={sideClass}>
         <div className="organizationHeader padding-class-a">
-          <Avatar />
-          <span className="subscriberorg-name">Company, Inc.</span>
+          {renderAvatar(currentOrg)}
+          <span className="subscriberorg-name">{currentOrg.name}</span>
         </div>
 
         <div className="organizationLinks padding-class-a">
@@ -356,23 +334,23 @@ class Sidebar extends Component {
             </Link>
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconSettingsTooltip')} arrowPointAtCenter>
-            <Link to="/app/settings" className="habla-top-menu-settings">
+            <Link to={`/app/organization/${currentSubscriberOrgId}`} className="habla-top-menu-settings">
               <i className="fa fa-cog fa-2x" />
             </Link>
           </Tooltip>
         </div>
         <div className="sidebar-teams-and-teamrooms">
           <div className="sidebar-block-label">
-            <span className="habla-label">{String.t('teams')} <span className="sidebar-label-number-badge">23</span></span>
+            <span className="habla-label">{String.t('teams')} <span className="sidebar-label-number-badge">{numberOfTeams}</span></span>
           </div>
 
           <div className="organization-list">
             <Menu
               mode="inline"
-              openKeys={_.union(this.state.orgsOpenKeys, this.state.teamsOpenKeys)}
+              openKeys={this.state.teamsOpenKeys}
               className="habla-left-navigation-list habla-left-navigation-organization-list"
             >
-              { this.renderOrgs() }
+              { this.renderTeams() }
             </Menu>
           </div>
         </div>
