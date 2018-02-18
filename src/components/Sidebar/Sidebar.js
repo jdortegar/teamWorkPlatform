@@ -261,6 +261,29 @@ class Sidebar extends Component {
     });
   }
 
+  renderOrg(org) {
+    const { currentSubscriberOrgId } = this.props;
+    const className = (org.subscriberOrgId === currentSubscriberOrgId) ? 'subscriberorg-name-current' : 'subscriberorg-name';
+    return (
+      <Link key={org.subscriberOrgId} to={`/app/organization/${org.subscriberOrgId}`} className="habla-top-menu-settings">
+        {renderAvatar(org)}
+        <span className={className}>{org.name}</span>
+      </Link>
+    );
+  }
+
+  renderOrgs() {
+    const { subscriberOrgs } = this.props;
+    return (
+      <Menu className="organizationList margin-bottom-class">
+        <div className="habla-label padding-class-a">{String.t('sideBar.organizationsLabel')}</div>
+        <Menu.Item key="organizationList">
+          {subscriberOrgs.map(org => this.renderOrg(org))}
+        </Menu.Item>
+      </Menu>
+    );
+  }
+
   render() {
     const { subscriberOrgs, sideBarIsHidden, currentSubscriberOrgId, teamIdsBySubscriberOrgId } = this.props;
     if (!teamIdsBySubscriberOrgId || subscriberOrgs.length === 0) {
@@ -303,24 +326,13 @@ class Sidebar extends Component {
         </Menu.Item>
       </Menu>
     );
-    const organizationList = (
-      <Menu className="organizationList">
-        <div className="habla-label padding-class-a">{String.t('sideBar.organizationsLabel')}</div>
-        <Menu.Item key="organizationList">
-          <a><span><Avatar /> Current Organization</span></a>
-        </Menu.Item>
-        <Menu.Item key="organizationList" className="dropdown-last-menu-item">
-          <a><span><Avatar /> Other Organization</span></a>
-        </Menu.Item>
-      </Menu>
-    );
 
     return (
       <Sider width={250} className={sideClass}>
         <div className="organizationHeader padding-class-a">
           {renderAvatar(currentOrg)}
           <span className="subscriberorg-name">{currentOrg.name}</span>
-          <Dropdown overlay={organizationList} trigger={['click']}>
+          <Dropdown overlay={this.renderOrgs()} trigger={['click']}>
             <a>
               <i className="fas fa-ellipsis-h organizationsList" />
             </a>
