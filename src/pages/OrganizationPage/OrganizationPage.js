@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
-import { Col } from 'antd';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import './styles/style.css';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import Spinner from '../../components/Spinner';
-import { IconCard } from '../../components/cards';
 import CardView from './CardView';
-import String from '../../translations';
 
 const propTypes = {
   integrations: PropTypes.PropTypes.shape({
     integrationsBySubscriberOrgId: PropTypes.object
   }).isRequired,
-  toggleTeamDialog: PropTypes.func.isRequired,
   fetchIntegrations: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.shape({
     currentSubscriberOrgId: PropTypes.string
@@ -73,42 +68,6 @@ class OrganizationPage extends Component {
     }
   }
 
-  renderTeams() {
-    const teams = this.props.teams.map(({ name, teamId }) => {
-      return (
-        <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }} key={teamId}>
-          <Link to={`/app/team/${teamId}`}>
-            <IconCard text={name} />
-          </Link>
-        </Col>
-      );
-    });
-
-    teams.unshift(
-      <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }}>
-        <a onClick={() => this.props.toggleTeamDialog(true)}>
-          <IconCard
-            icon={<i className="fa fa-plus simple-card__icons" />}
-            text={String.t('OrganizationPage.addNewIntegration')}
-          />
-        </a>
-      </Col>);
-
-
-    return teams;
-  }
-
-  renderMembers() {
-    return this.props.subscribers.map(({ displayName, userId }) => {
-      return (
-        <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 4 }} key={userId}>
-          <a>
-            <IconCard text={displayName} />
-          </a>
-        </Col>
-      );
-    });
-  }
 
   render() {
     const { teams, integrations, subscribers, subscriberOrgs, user, match } = this.props;
