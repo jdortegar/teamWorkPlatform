@@ -138,13 +138,9 @@ class TimeActivityGraph extends React.Component {
                 onClick: () => {
                   return {
                     target: 'labels',
-                    mutation: () => ({ active: true })
-                  };
-                },
-                onDoubleClick: () => {
-                  return {
-                    target: 'labels',
-                    mutation: () => ({ active: false })
+                    mutation: datum => ({
+                      active: datum.active == null || !datum.active
+                    })
                   };
                 }
               }
