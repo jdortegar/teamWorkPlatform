@@ -176,8 +176,6 @@ class Sidebar extends Component {
 
     this.props.setCurrentSubscriberOrgId(orgId);
     this.props.history.push(`/app/organization/${orgId}`);
-
-    this.cancelClickEvent(e);
   }
 
   goToTeamRoomPage(teamRoomId) {
@@ -261,9 +259,36 @@ class Sidebar extends Component {
     });
   }
 
+  renderOrg(org) {
+    const { currentSubscriberOrgId } = this.props;
+    const className = (org.subscriberOrgId === currentSubscriberOrgId) ? 'subscriberorg-name-current' : 'subscriberorg-name';
+    return (
+      <a
+        className="habla-top-menu-settings"
+        key={org.subscriberOrgId}
+        onClick={e => this.goToOrgPage(e, org.subscriberOrgId)}
+      >
+        {renderAvatar(org)}
+        <span className={className}>{org.name}</span>
+      </a>
+    );
+  }
+
+  renderOrgs() {
+    const { subscriberOrgs } = this.props;
+    return (
+      <Menu className="organizationList">
+        <div className="habla-label padding-class-a">{String.t('sideBar.organizationsLabel')}</div>
+        <Menu.Item key="organizationList">
+          {subscriberOrgs.map(org => this.renderOrg(org))}
+        </Menu.Item>
+      </Menu>
+    );
+  }
+
   render() {
     const { subscriberOrgs, sideBarIsHidden, currentSubscriberOrgId, teamIdsBySubscriberOrgId } = this.props;
-    if (subscriberOrgs.length === 0) {
+    if (!teamIdsBySubscriberOrgId || subscriberOrgs.length === 0) {
       return null;
     }
     const sideClass = classNames({
@@ -304,12 +329,16 @@ class Sidebar extends Component {
       </Menu>
     );
 
-
     return (
       <Sider width={250} className={sideClass}>
         <div className="organizationHeader padding-class-a">
           {renderAvatar(currentOrg)}
           <span className="subscriberorg-name">{currentOrg.name}</span>
+          <Dropdown overlay={this.renderOrgs()} trigger={['click']}>
+            <a>
+              <i className="fas fa-ellipsis-h organizationsList" />
+            </a>
+          </Dropdown>
         </div>
 
         <div className="organizationLinks padding-class-a">
