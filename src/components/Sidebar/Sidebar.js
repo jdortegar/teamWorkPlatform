@@ -266,7 +266,11 @@ class Sidebar extends Component {
       <a
         className="habla-top-menu-settings"
         key={org.subscriberOrgId}
-        onClick={e => this.goToOrgPage(e, org.subscriberOrgId)}
+        onClick={(e) => {
+          if (org.subscriberOrgId !== currentSubscriberOrgId) {
+            this.goToOrgPage(e, org.subscriberOrgId);
+          }
+        }}
       >
         {renderAvatar(org)}
         <span className={className}>{org.name}</span>
