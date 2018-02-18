@@ -245,7 +245,9 @@ class Sidebar extends Component {
                 <div className="float-left-class">
                   {renderAvatar(team)}
                 </div>
-                <span className="habla-left-navigation-item-label" onClick={e => this.goToTeamPage(e, team)}>{team.name}</span>
+                <span className="habla-left-navigation-item-label" onClick={e => this.goToTeamPage(e, team)}>
+                  {team.name}
+                </span>
                 <div className="clear" />
                 <Badge count={isTeamOpen ? 0 : unreadMessagesCount} />
               </div>
@@ -253,7 +255,10 @@ class Sidebar extends Component {
           }
         >
           <div className="sidebar-block-label">
-            <span className="habla-label">{String.t('teamRooms')} <span className="sidebar-label-number-badge">81</span></span>
+            <span className="habla-label">
+              {String.t('teamRooms')}
+              {/* <span className="sidebar-label-number-badge">81</span> */}
+            </span>
           </div>
           { teamRooms }
         </SubMenu>);
@@ -375,7 +380,10 @@ class Sidebar extends Component {
         </div>
         <div className="sidebar-teams-and-teamrooms">
           <div className="sidebar-block-label">
-            <span className="habla-label">{String.t('teams')} <span className="sidebar-label-number-badge">{numberOfTeams}</span></span>
+            <span className="habla-label">
+              {String.t('teams')}
+              <span className="sidebar-label-number-badge">{numberOfTeams}</span>
+            </span>
           </div>
 
           <div className="organization-list">
@@ -407,7 +415,10 @@ class Sidebar extends Component {
 
         <div className="sidebar-direct-messages">
           <div className="sidebar-block-label">
-            <span className="habla-label">{String.t('directMessages')} <span className="sidebar-label-number-badge">23</span></span>
+            <span className="habla-label">
+              {String.t('directMessages')}
+              {/* <span className="sidebar-label-number-badge">23</span> */}
+            </span>
           </div>
           <div className="sidebar-direct-messages-content padding-class-a">
             <Avatar className="mr-1" />
