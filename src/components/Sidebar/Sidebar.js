@@ -176,8 +176,6 @@ class Sidebar extends Component {
 
     this.props.setCurrentSubscriberOrgId(orgId);
     this.props.history.push(`/app/organization/${orgId}`);
-
-    this.cancelClickEvent(e);
   }
 
   goToTeamRoomPage(teamRoomId) {
@@ -265,17 +263,21 @@ class Sidebar extends Component {
     const { currentSubscriberOrgId } = this.props;
     const className = (org.subscriberOrgId === currentSubscriberOrgId) ? 'subscriberorg-name-current' : 'subscriberorg-name';
     return (
-      <Link key={org.subscriberOrgId} to={`/app/organization/${org.subscriberOrgId}`} className="habla-top-menu-settings">
+      <a
+        className="habla-top-menu-settings"
+        key={org.subscriberOrgId}
+        onClick={e => this.goToOrgPage(e, org.subscriberOrgId)}
+      >
         {renderAvatar(org)}
         <span className={className}>{org.name}</span>
-      </Link>
+      </a>
     );
   }
 
   renderOrgs() {
     const { subscriberOrgs } = this.props;
     return (
-      <Menu className="organizationList margin-bottom-class">
+      <Menu className="organizationList">
         <div className="habla-label padding-class-a">{String.t('sideBar.organizationsLabel')}</div>
         <Menu.Item key="organizationList">
           {subscriberOrgs.map(org => this.renderOrg(org))}
