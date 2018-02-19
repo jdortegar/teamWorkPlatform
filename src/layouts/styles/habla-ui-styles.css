@@ -864,9 +864,17 @@ p {
   left: inherit;
 }
 .ant-avatar-string {
-   left: 30px;
+  left: 30px;
 }
 .fa-plus {
-   margin-top: 14px;
-   margin-right: 20px;
+  margin-top: 14px;
+  margin-right: 20px;
+}
+.tooltipOverlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width:100%;
+  height:100%;
+  z-index: 1000;
 }

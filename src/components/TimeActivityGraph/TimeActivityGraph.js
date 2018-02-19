@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import * as d3 from 'd3';
@@ -53,10 +53,16 @@ const formatXTick = (date) => {
   return d3.timeFormat(getFormat())(date);
 };
 
-class TimeActivityGraph extends React.Component {
-  state = {
-    width: MIN_WIDTH,
-    height: MIN_HEIGHT
+class TimeActivityGraph extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      width: MIN_WIDTH,
+      height: MIN_HEIGHT
+    };
+
+    this.closeTooltip = this.closeTooltip.bind(this);
   }
 
   componentDidMount() {
@@ -78,6 +84,23 @@ class TimeActivityGraph extends React.Component {
     });
   }
 
+  closeTooltip() {
+    this.setState({ tooltipPoint: null });
+  }
+
+  renderTooltipViews() {
+    const { x, y, datum } = this.state.tooltipPoint;
+    console.log(`renderTooltipViews: (${x}, ${y}) - ${datum.label}`); // eslint-disable-line no-console
+    return (
+      <div
+        onClick={() => this.closeTooltip()}
+        className="tooltipOverlay"
+      >
+        <div />
+      </div>
+    );
+  }
+
   render() {
     const { files } = this.props;
     return (
@@ -85,6 +108,7 @@ class TimeActivityGraph extends React.Component {
         ref={(node) => { this.container = node; }}
         style={{ flex: 1, minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
       >
+        {this.state.tooltipPoint && this.renderTooltipViews()}
         <VictoryChart
           scale={{ x: 'time', y: 'time' }}
           domain={{ x: DATE_DOMAIN, y: TIME_DOMAIN }}
@@ -134,13 +158,9 @@ class TimeActivityGraph extends React.Component {
               eventHandlers: {
                 //  onMouseOver: () => { },
                 //  onMouseOut: () => { },
-                onClick: () => {
-                  return {
-                    target: 'labels',
-                    mutation: (props) => {
-                      console.log(props);
-                    }
-                  };
+                onClick: (evt, clickedProps) => {
+                  const { x, y, index, data } = clickedProps;
+                  this.setState({ tooltipPoint: { x, y, datum: data[index] } });
                 }
                 //  onDoubleClick: () => {
                 //    return {
