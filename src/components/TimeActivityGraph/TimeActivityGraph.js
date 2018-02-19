@@ -9,9 +9,11 @@ import {
   VictoryScatter,
   VictoryZoomContainer
 } from 'victory';
+import ReactTooltip from 'react-tooltip';
 
 import String from '../../translations';
 import styles from './styles/style';
+import formatSize from '../../lib/formatSize';
 
 const propTypes = {
   files: PropTypes.arrayOf(PropTypes.object)
@@ -74,29 +76,60 @@ class TimeActivityGraph extends Component {
 
   updateDimensions() {
     if (!this.container || !this.container.parentNode) return;
+    const { offsetLeft, offsetTop } = this.container;
     const { clientWidth, clientHeight } = this.container.parentNode;
     const width = clientWidth;
     const height = clientHeight;
 
     this.setState({
       width: (width < MIN_WIDTH ? MIN_WIDTH : width),
-      height: (height < MIN_HEIGHT ? MIN_HEIGHT : height)
+      height: (height < MIN_HEIGHT ? MIN_HEIGHT : height),
+      offsetLeft,
+      offsetTop
     });
   }
 
   closeTooltip() {
     this.setState({ tooltipPoint: null });
+    ReactTooltip.hide();
   }
 
   renderTooltipViews() {
-    const { x, y, datum } = this.state.tooltipPoint;
-    console.log(`renderTooltipViews: (${x}, ${y}) - ${datum.label}`); // eslint-disable-line no-console
+    const { width, height, offsetLeft, offsetTop, tooltipPoint } = this.state;
+    const { x, y, datum } = tooltipPoint;
+    const { fileName, fileSize, resourceUri } = datum;
     return (
       <div
         onClick={() => this.closeTooltip()}
         className="tooltipOverlay"
       >
-        <div />
+        <div
+          data-tip
+          data-for="global"
+          className="tooltip"
+          style={{
+            position: 'absolute',
+            // backgroundColor: 'orange',
+            left: offsetLeft,
+            // top: offsetTop,
+            top: DOMAIN_TOP_PADDING,
+            width,
+            height
+          }}
+        />
+        <ReactTooltip
+          id="global"
+          effect="solid"
+          data-offset={{ top: y + offsetTop, left: -x - CHART_PADDING - offsetLeft }}
+        >
+          <a
+            href={resourceUri}
+          >
+            <p>{fileName}</p>
+            <p>{String.t('timeActivityGraph.displayTime', datum)}</p>
+            <p>{formatSize(fileSize)}</p>
+          </a>
+        </ReactTooltip>
       </div>
     );
   }
@@ -161,13 +194,11 @@ class TimeActivityGraph extends Component {
                 onClick: (evt, clickedProps) => {
                   const { x, y, index, data } = clickedProps;
                   this.setState({ tooltipPoint: { x, y, datum: data[index] } });
+                },
+                onDoubleClick: (evt, clickedProps) => {
+                  const { index, data } = clickedProps;
+                  window.open(data[index].resourceUri, '_blank');
                 }
-                //  onDoubleClick: () => {
-                //    return {
-                //      target: 'labels',
-                //      mutation: () => ({ active: false })
-                //    };
-                //  }
               }
             }]}
             style={styles.scatter}
