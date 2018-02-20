@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, notification } from 'antd';
+import { notification } from 'antd';
 import PropTypes from 'prop-types';
 import './styles/style.css';
+import Button from '../../components/common/Button';
 import String from '../../translations';
 
 const propTypes = {
@@ -74,41 +75,31 @@ class Notification extends Component {
   render() {
     const typeObj = checkType(this.props.options);
     return (
-      <Row type="flex" className="Notification__container">
-        <Col
-          xs={{ span: 24 }}
-          sm={{ span: 15 }}
-          md={{ span: 17 }}
-          className="Notification__col Notification__col--vertical-center"
-        >
-          <h3 className="Notification__title">
+      <div className="Notification__container">
+        <div className="Notification__container__content">
+          <span className="Notification__title">
             {typeObj.message}
-          </h3>
-        </Col>
-        <Col
-          xs={{ span: 24 }}
-          sm={{ span: 8 }}
-          md={{ span: 6 }}
-          className="Notification__col Notification__col--vertical-center Notification__col--horizontal-right"
-        >
-          <Button
-            className="Notification__button Notification__button--gray"
-            loading={this.state.accepted === true}
-            disabled={this.state.accepted === false}
-            onClick={() => this.handleClick(true)}
-          >
-            {String.t('buttonAcceptInvitation')}
-          </Button>
-          <Button
-            className="Notification__button Notification__button--gray"
-            loading={this.state.accepted === false}
-            disabled={this.state.accepted === true}
-            onClick={() => this.handleClick(false)}
-          >
-            {String.t('buttonDeclineInvitation')}
-          </Button>
-        </Col>
-      </Row>
+          </span>
+          <div className="Notification__buttons">
+            <Button
+              type="alert"
+              fitText
+              className="margin-right-class-a"
+              onClick={() => this.handleClick(false)}
+            >
+              {String.t('buttonDeclineInvitation')}
+            </Button>
+            <Button
+              type="main"
+              fitText
+              onClick={() => this.handleClick(true)}
+            >
+              {String.t('buttonAcceptInvitation')}
+            </Button>
+          </div>
+          <div className="clear" />
+        </div>
+      </div>
     );
   }
 }

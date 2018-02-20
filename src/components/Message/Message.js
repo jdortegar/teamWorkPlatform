@@ -106,7 +106,7 @@ class Message extends Component {
             <span className="message__main-counter-number" >
               { children.length }
             </span>
-            <i className="fas fa-reply counter" />
+            <i className="fas fa-reply" data-fa-transform="rotate-180" />
           </div>
           }
           { lastRead &&

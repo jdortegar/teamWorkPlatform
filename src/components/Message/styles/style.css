@@ -11,8 +11,8 @@
 }
 .message__main-counter {
   position: absolute;
-  left: 5px;
-  bottom: 14px;
+  left: 39px;
+  top: 42px;
 }
 .message__main-counter-number {
   background: #FBBC12;
@@ -20,9 +20,10 @@
   color: #000!important;
   border-radius: 3px;
 }
-.message__main-counter i.counter {
+.message__main-counter svg {
   position: relative;
-  top: 10px;
+  top: 14px;
+  left: -12px;
   color: #ddd;
 }
 .message__icons {
