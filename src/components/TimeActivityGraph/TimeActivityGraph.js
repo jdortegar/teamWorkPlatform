@@ -98,6 +98,9 @@ class TimeActivityGraph extends Component {
     const { width, height, offsetLeft, offsetTop, tooltipPoint } = this.state;
     const { x, y, datum } = tooltipPoint;
     const { fileName, fileSize, resourceUri } = datum;
+    const top = offsetTop + DOMAIN_TOP_PADDING + (height - y) + 4;
+    const left = -offsetLeft + -CHART_PADDING + (width - x) + -82;
+
     return (
       <div
         onClick={() => this.closeTooltip()}
@@ -109,9 +112,7 @@ class TimeActivityGraph extends Component {
           className="tooltip"
           style={{
             position: 'absolute',
-            // backgroundColor: 'orange',
             left: offsetLeft,
-            // top: offsetTop,
             top: DOMAIN_TOP_PADDING,
             width,
             height
@@ -120,7 +121,7 @@ class TimeActivityGraph extends Component {
         <ReactTooltip
           id="global"
           effect="solid"
-          data-offset={{ top: y + offsetTop, left: -x - CHART_PADDING - offsetLeft }}
+          offset={{ top, left }}
         >
           <a
             href={resourceUri}
@@ -192,12 +193,13 @@ class TimeActivityGraph extends Component {
                 //  onMouseOver: () => { },
                 //  onMouseOut: () => { },
                 onClick: (evt, clickedProps) => {
-                  const { x, y, index, data } = clickedProps;
-                  this.setState({ tooltipPoint: { x, y, datum: data[index] } });
+                  const { index, data } = clickedProps;
+                  this.setState({ tooltipPoint: { x: evt.clientX, y: evt.clientY, datum: data[index] } });
                 },
                 onDoubleClick: (evt, clickedProps) => {
                   const { index, data } = clickedProps;
                   window.open(data[index].resourceUri, '_blank');
+                  this.setState({ tooltipPoint: null });
                 }
               }
             }]}
