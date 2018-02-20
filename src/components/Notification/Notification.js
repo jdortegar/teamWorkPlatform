@@ -85,6 +85,8 @@ class Notification extends Component {
               type="alert"
               fitText
               className="margin-right-class-a"
+              loading={this.state.accepted === false}
+              disabled={this.state.accepted === true}
               onClick={() => this.handleClick(false)}
             >
               {String.t('buttonDeclineInvitation')}
@@ -92,6 +94,8 @@ class Notification extends Component {
             <Button
               type="main"
               fitText
+              loading={this.state.accepted === true}
+              disabled={this.state.accepted === false}
               onClick={() => this.handleClick(true)}
             >
               {String.t('buttonAcceptInvitation')}
