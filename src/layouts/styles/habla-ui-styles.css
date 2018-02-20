@@ -882,3 +882,9 @@ p {
   position: absolute;
   z-index: 2000;
 }
+.toolTipTextPrimary {
+  color: #f9b816;
+}
+.toolTipTextSecondary {
+  color: white;
+}

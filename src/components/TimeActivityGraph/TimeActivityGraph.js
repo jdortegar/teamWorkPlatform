@@ -99,7 +99,7 @@ class TimeActivityGraph extends Component {
     const { x, y, datum } = tooltipPoint;
     const { fileName, fileSize, resourceUri } = datum;
     const top = offsetTop + DOMAIN_TOP_PADDING + (height - y) + 4;
-    const left = -offsetLeft + -CHART_PADDING + (width - x) + -82;
+    const left = -offsetLeft + -CHART_PADDING + (width - x) + -120;
 
     return (
       <div
@@ -124,11 +124,14 @@ class TimeActivityGraph extends Component {
           offset={{ top, left }}
         >
           <a
-            href={resourceUri}
+            onClick={() => {
+              window.open(resourceUri, '_blank');
+              this.setState({ tooltipPoint: null });
+            }}
           >
-            <p>{fileName}</p>
-            <p>{String.t('timeActivityGraph.displayTime', datum)}</p>
-            <p>{formatSize(fileSize)}</p>
+            <p className="toolTipTextPrimary">{fileName}</p>
+            <p className="toolTipTextSecondary">{String.t('timeActivityGraph.displayTime', datum)}</p>
+            <p className="toolTipTextSecondary">{formatSize(fileSize)}</p>
           </a>
         </ReactTooltip>
       </div>
