@@ -27,7 +27,7 @@ export const getSubscribersOfSubscriberOrgId = createCachedSelector(
 export const getSubscribersOfTeamId = createCachedSelector(
   [getTeamById, getUserIdsBySubscriberOrgId, getUserByUserId, (state, teamId) => teamId],
   (teamById, userIdsBySubscriberOrgId, userByUserId, teamId) => {
-    if ((!teamId) || (!teamById[teamId])) {
+    if ((!teamId) || (!teamById[teamId]) || !userIdsBySubscriberOrgId.length) {
       return [];
     }
 
@@ -43,7 +43,7 @@ export const getSubscribersOfTeamId = createCachedSelector(
 export const getSubscribersOfTeamRoomId = createCachedSelector(
   [getTeamRoomById, getTeamById, getUserIdsBySubscriberOrgId, getUserByUserId, (state, teamRoomId) => teamRoomId],
   (teamRoomById, teamById, userIdsBySubscriberOrgId, userByUserId, teamRoomId) => {
-    if ((!teamRoomId) || (!teamRoomById[teamRoomId])) {
+    if ((!teamRoomId) || (!teamRoomById[teamRoomId]) || !userIdsBySubscriberOrgId.length) {
       return [];
     }
 
