@@ -316,7 +316,7 @@
     "iconCKGTooltip": "CKG",
     "iconNotificationsTooltip": "Notifications",
     "iconBookmarksTooltip": "Bookmarks",
-    "iconSettingsTooltip": "Settings"
+    "iconSettingsTooltip": "Edit Organization"
   },
   "timeActivityGraph": {
     "yAxisLabel": "Activity",
