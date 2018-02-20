@@ -302,9 +302,7 @@ class Sidebar extends Component {
         className="habla-top-menu-settings"
         key={org.subscriberOrgId}
         onClick={(e) => {
-          if (org.subscriberOrgId !== currentSubscriberOrgId) {
-            this.goToOrgPage(e, org.subscriberOrgId);
-          }
+          this.goToOrgPage(e, org.subscriberOrgId);
         }}
       >
         {renderAvatar(org)}
@@ -372,8 +370,7 @@ class Sidebar extends Component {
     return (
       <Sider width={250} className={sideClass}>
         <div className="organizationHeader padding-class-a">
-          {renderAvatar(currentOrg)}
-          <span className="subscriberorg-name">{currentOrg.name}</span>
+          {this.renderOrg(currentOrg)}
           <Dropdown overlay={this.renderOrgs()} trigger={['click']}>
             <a>
               <i className="fas fa-ellipsis-h organizationsList" />

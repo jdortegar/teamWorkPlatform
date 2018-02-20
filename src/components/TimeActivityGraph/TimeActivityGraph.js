@@ -55,6 +55,29 @@ const formatXTick = (date) => {
   return d3.timeFormat(getFormat())(date);
 };
 
+// TODO: Move this elsewhere!
+function isChrome() {
+  const isChromium = window.chrome;
+  const winNav = window.navigator;
+  const vendorName = winNav.vendor;
+  const isOpera = winNav.userAgent.indexOf('OPR') > -1;
+  const isIEedge = winNav.userAgent.indexOf('Edge') > -1;
+  const isIOSChrome = winNav.userAgent.match('CriOS');
+
+  if (isIOSChrome) {
+    return true;
+  } else if (
+    isChromium !== null &&
+    typeof isChromium !== 'undefined' &&
+    vendorName === 'Google Inc.' &&
+    isOpera === false &&
+    isIEedge === false
+  ) {
+    return true;
+  }
+  return false;
+}
+
 class TimeActivityGraph extends Component {
   constructor(props) {
     super(props);
@@ -98,8 +121,8 @@ class TimeActivityGraph extends Component {
     const { width, height, offsetLeft, offsetTop, tooltipPoint } = this.state;
     const { x, y, datum } = tooltipPoint;
     const { fileName, fileSize, resourceUri } = datum;
-    const top = offsetTop + DOMAIN_TOP_PADDING + (height - y) + 4;
-    const left = -offsetLeft + -CHART_PADDING + (width - x) + -120;
+    const top = offsetTop + (height - y) + 4;
+    const left = -offsetLeft + -CHART_PADDING + (width - x) + (isChrome() ? -83 : -136);
 
     return (
       <div
@@ -113,7 +136,6 @@ class TimeActivityGraph extends Component {
           style={{
             position: 'absolute',
             left: offsetLeft,
-            top: DOMAIN_TOP_PADDING,
             width,
             height
           }}

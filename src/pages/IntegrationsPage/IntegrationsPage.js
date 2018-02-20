@@ -36,8 +36,8 @@ class IntegrationsPage extends Component {
         args.icon = (<Icon type="check" className="icon_success habla-green" />);
       }
       // TODO: show notification.
-      // ex. notifyInfo = { integration: 'google', status: 'CREATED' } will say something like "You have successfully authorized Google Drive access."
-      // Also statuses FORBIDDEN = "You did not authorize Google Drive access."
+      // ex. notifyInfo = { integration: 'bogus', status: 'CREATED' } will say something like "You have successfully authorized Bogus Drive access."
+      // Also statuses FORBIDDEN = "You did not authorize Bogus Drive access."
       // NOT_FOUND, subscriberOrg doesn't exist, which should almost never happen, since they have access or we have a bug in our code.
       // INTERNAL_SERVER_ERROR,  don't know, display something appropriate...
       // Same for box.
