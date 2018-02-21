@@ -151,6 +151,9 @@ class Message extends Component {
             replyTo={this.props.replyTo}
             hide={this.state.isClosed}
             teamRoomMembersObj={this.props.teamRoomMembersObj}
+            subscriberOrgId={this.props.subscriberOrgId}
+            teamId={this.props.teamId}
+            teamRoomId={this.props.teamRoomId}
           />)
         )}
       </div>
