@@ -6,7 +6,7 @@ import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import { ImageCard } from '../../components/cards';
-import { boxLogo, googleDriveLogo } from '../../img';
+import { boxLogo, googleDriveLogo, sharepointLogo } from '../../img';
 import String from '../../translations';
 import './styles/style.css';
 
@@ -48,6 +48,20 @@ const providers = {
         50
       );
     }
+  },
+  sharepoint: {
+    name: 'Sharepoint',
+    link: 'https://sharepoint.com',
+    logo: sharepointLogo,
+    integrate: (props, subscriberOrgId, sharepointOrg) => {
+      props.integrateSharepoint(subscriberOrgId, sharepointOrg);
+    },
+    revoke: (props, subscriberOrgId, notify) => {
+      _.debounce(
+        props.revokeSharepoint(subscriberOrgId).then(res => notify(res, 'sharepoint')),
+        50
+      );
+    }
   }
 };
 
@@ -80,8 +94,10 @@ function showNotification(response, integration) {
 const propTypes = {
   integrateBox: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
   integrateGoogle: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
+  integrateSharepoint: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
   revokeBox: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
   revokeGoogle: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
+  revokeSharepoint: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
   integrations: PropTypes.object.isRequired,
   fetchIntegrations: PropTypes.func.isRequired,
   match: PropTypes.shape({
@@ -127,7 +143,8 @@ class IntegrationDetailsPage extends Component {
   handleIntegration(checked) {
     const { integrationDetails, subscriberOrgId } = this.props.match.params;
     if (checked) {
-      providers[integrationDetails].integrate(this.props, subscriberOrgId);
+      const sharepointOrg = 'hablaaiinc'; // TODO: Mike: Obtain org name from user.  Prompt should be:  https://${sharepointOrg}.sharepoint.com to be clear to user.
+      providers[integrationDetails].integrate(this.props, subscriberOrgId, sharepointOrg);
     } else {
       providers[integrationDetails].revoke(this.props, subscriberOrgId, showNotification);
     }

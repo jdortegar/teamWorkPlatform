@@ -71,9 +71,10 @@ class IntegrationsPage extends Component {
       const integrationsArr = [];
       let boxExtra = null;
       let googleExtra = null;
+      let sharepointExtra = null;
 
       if (!_.isEmpty(integrations)) {
-        const { google, box } = integrations;
+        const { google, box, sharepoint } = integrations;
         if (box) {
           const { expired, revoked } = box;
           if ((typeof revoked === 'undefined') || (revoked === false)) {
@@ -93,6 +94,16 @@ class IntegrationsPage extends Component {
             }
           }
         }
+
+        if (sharepoint) {
+          const { expired, revoked } = sharepoint;
+          if ((typeof revoked === 'undefined') || (revoked === false)) {
+            sharepointExtra = (<i className="fa fa-check-circle icon_success habla-green" />);
+            if (expired === true) {
+              sharepointExtra = (<i className="fa fa-times-circle icon_fail habla-red" />);
+            }
+          }
+        }
       }
       integrationsArr.push(
         <div key="box">
@@ -108,6 +119,15 @@ class IntegrationsPage extends Component {
           <Tooltip placement="top" title="Google">
             <Link to={`/app/integrations/${subscriberOrgId}/google`}>
               <ImageCard imgSrc={googleDriveLogo} extra={googleExtra} />
+            </Link>
+          </Tooltip>
+        </div>
+      );
+      integrationsArr.push(
+        <div key="sharepoint">
+          <Tooltip placement="top" title="Sharepoint">
+            <Link to={`/app/integrations/${subscriberOrgId}/sharepoint`}>
+              <ImageCard imgSrc={sharepointLogo} extra={sharepointExtra} />
             </Link>
           </Tooltip>
         </div>
@@ -141,14 +161,6 @@ class IntegrationsPage extends Component {
               {
               // FOR DEMO PURPOSES ONLY: Temporal Integrations Icons for DEMO.
               }
-              <div key="sharepoint">
-                <Tooltip placement="top" title="SharePoint">
-                  <Link to={`/app/integrations/${subscriberOrgId}`}>
-                    <ImageCard imgSrc={sharepointLogo} />
-                  </Link>
-                </Tooltip>
-              </div>
-
               <div key="office365">
                 <Tooltip placement="top" title="Office 365">
                   <Link to={`/app/integrations/${subscriberOrgId}`}>
