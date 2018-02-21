@@ -120,9 +120,11 @@ class TimeActivityGraph extends Component {
   renderTooltipViews() {
     const { width, height, offsetLeft, offsetTop, tooltipPoint } = this.state;
     const { x, y, datum } = tooltipPoint;
-    const { fileName, fileSize, resourceUri } = datum;
+    const { date, fileName, fileSize, resourceUri } = datum;
     const top = offsetTop + (height - y) + 4;
     const left = -offsetLeft + -CHART_PADDING + (width - x) + (isChrome() ? -83 : -136);
+    const displayDate = moment(date).format(String.t('timeActivityGraph.dateFormat'));
+    const displayTime = moment(date).format(String.t('timeActivityGraph.timeFormat'));
 
     return (
       <div
@@ -152,7 +154,7 @@ class TimeActivityGraph extends Component {
             }}
           >
             <p className="toolTipTextPrimary">{fileName}</p>
-            <p className="toolTipTextSecondary">{String.t('timeActivityGraph.displayTime', datum)}</p>
+            <p className="toolTipTextSecondary">{String.t('timeActivityGraph.displayTime', { displayDate, displayTime })}</p>
             <p className="toolTipTextSecondary">{formatSize(fileSize)}</p>
           </a>
         </ReactTooltip>
