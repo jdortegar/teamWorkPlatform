@@ -452,15 +452,16 @@ class TeamRoomPage extends Component {
 
   render() {
     const { teamRoomMembersLoaded, conversationsLoaded } = this.state;
-    if (teamRoomMembersLoaded && conversationsLoaded) {
+    const { match, teamRooms, user, teamRoomMembers, unreadMessagesCount, conversations, subscriberOrgById } = this.props;
+    if (match && match.params && match.params.teamRoomId && teamRoomMembersLoaded && conversationsLoaded &&
+        this.state.teamRoomMembers && conversations && subscriberOrgById) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
-      const { teamRooms, user, teamRoomMembers, unreadMessagesCount, conversations } = this.props;
       const { conversationId } = conversations;
       const lastMessage = _.last(conversations.transcript) || {};
-      const teamRoomId = this.props.match.params.teamRoomId;
+      const teamRoomId = match.params.teamRoomId;
       const teamRoom = teamRooms.teamRoomById[teamRoomId];
       const team = this.props.teams.teamById[teamRoom.teamId];
-      const subscriberOrg = this.props.subscriberOrgById[team.subscriberOrgId];
+      const subscriberOrg = subscriberOrgById[team.subscriberOrgId];
       const className = classNames({
         'team-room-chat': true,
         'team-room__main-container--opacity': this.state.isDraggingOver
