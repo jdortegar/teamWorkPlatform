@@ -14,6 +14,17 @@ import ReactTooltip from 'react-tooltip';
 import String from '../../translations';
 import styles from './styles/style';
 import formatSize from '../../lib/formatSize';
+import { boxLogo, googleDriveLogo, sharepointLogo } from '../../img';
+
+function imageFromResourceUri(resourceUri) {
+  if (resourceUri.indexOf('google.com') > 0) {
+    return googleDriveLogo;
+  }
+  if (resourceUri.indexOf('box.com') > 0) {
+    return boxLogo;
+  }
+  return sharepointLogo;
+}
 
 const propTypes = {
   files: PropTypes.arrayOf(PropTypes.object)
@@ -125,6 +136,7 @@ class TimeActivityGraph extends Component {
     const left = -offsetLeft + -CHART_PADDING + (width - x) + (isChrome() ? -83 : -136);
     const displayDate = moment(date).format(String.t('timeActivityGraph.dateFormat'));
     const displayTime = moment(date).format(String.t('timeActivityGraph.timeFormat'));
+    const imgSrc = imageFromResourceUri(resourceUri);
 
     return (
       <div
@@ -147,16 +159,14 @@ class TimeActivityGraph extends Component {
           effect="solid"
           offset={{ top, left }}
         >
-          <a
-            onClick={() => {
-              window.open(resourceUri, '_blank');
-              this.setState({ tooltipPoint: null });
-            }}
-          >
-            <p className="toolTipTextPrimary">{fileName}</p>
-            <p className="toolTipTextSecondary">{String.t('timeActivityGraph.displayTime', { displayDate, displayTime })}</p>
-            <p className="toolTipTextSecondary">{formatSize(fileSize)}</p>
-          </a>
+          <div className="tooltipContainer">
+            <img src={imgSrc} alt="" width={32} height={32} className="img" />
+            <div className="tooltipTextContainer">
+              <p className="toolTipTextPrimary">{fileName}</p>
+              <p className="toolTipTextSecondary">{String.t('timeActivityGraph.displayTime', { displayDate, displayTime })}</p>
+              <p className="toolTipTextSecondary">{formatSize(fileSize)}</p>
+            </div>
+          </div>
         </ReactTooltip>
       </div>
     );

@@ -877,3 +877,14 @@ ul.ant-menu li.ant-menu-submenu:hover {
 .toolTipTextSecondary {
   color: white;
 }
+.tooltipContainer {
+  display: -webkit-inline-box;
+  vertical-align: -webkit-baseline-middle;
+  margin-left: -10px;
+}
+.tooltipTextContainer {
+   border-left: 1px solid #444;
+   height: 100%;
+   padding-left: 10px;
+   margin-left: 10px;
+}
