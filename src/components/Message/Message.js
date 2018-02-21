@@ -11,6 +11,7 @@ import String from '../../translations';
 
 const propTypes = {
   hide: PropTypes.bool.isRequired,
+  currentPath: PropTypes.string,
   conversationDisabled: PropTypes.bool,
   replyTo: PropTypes.func.isRequired,
   teamRoomMembersObj: PropTypes.object.isRequired,
@@ -25,7 +26,8 @@ const propTypes = {
 const defaultProps = {
   conversationDisabled: false,
   onFileChange: null,
-  lastRead: false
+  lastRead: false,
+  currentPath: null
 };
 
 class Message extends Component {
@@ -34,7 +36,7 @@ class Message extends Component {
 
     this.state = {
       mute: true,
-      isClosed: true
+      isExpanded: _.includes(props.currentPath, props.message.messageId)
     };
 
     this.handleReplyTo = this.handleReplyTo.bind(this);
@@ -42,9 +44,15 @@ class Message extends Component {
     this.handleShowReplies = this.handleShowReplies.bind(this);
   }
 
+  componentWillReceiveProps({ currentPath, message }) {
+    if (this.props.currentPath !== currentPath && _.includes(currentPath, message.messageId)) {
+      this.setState({ isExpanded: true });
+    }
+  }
+
   handleShowReplies() {
     this.setState({
-      isClosed: !this.state.isClosed
+      isExpanded: !this.state.isExpanded
     });
   }
 
@@ -149,7 +157,8 @@ class Message extends Component {
             user={teamRoomMembersObj[childMessage.createdBy]}
             key={childMessage.messageId}
             replyTo={this.props.replyTo}
-            hide={this.state.isClosed}
+            hide={!this.state.isExpanded}
+            currentPath={this.props.currentPath}
             teamRoomMembersObj={this.props.teamRoomMembersObj}
             subscriberOrgId={this.props.subscriberOrgId}
             teamId={this.props.teamId}
