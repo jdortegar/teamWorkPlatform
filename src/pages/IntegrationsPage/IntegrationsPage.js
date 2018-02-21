@@ -8,6 +8,7 @@ import { badIntegration, successfulIntegration } from './notifications';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import { ImageCard } from '../../components/cards';
+import Spinner from '../../components/Spinner';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import { boxLogo, googleDriveLogo, sharepointLogo, office365Logo, salesforceLogo } from '../../img';
 import String from '../../translations';
@@ -60,11 +61,11 @@ class IntegrationsPage extends Component {
       );
     }
 
-    if (working === true) {
-      return null;
+    const { match } = this.props;
+    if (!match || !match.params || !match.params.subscriberOrgId || !integrationsBySubscriberOrgId || working) {
+      return <Spinner />;
     }
-
-    const { subscriberOrgId } = this.props.match.params;
+    const { subscriberOrgId } = match.params;
     const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || [];
 
     const renderIntegrations = () => {
