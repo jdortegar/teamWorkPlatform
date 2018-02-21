@@ -371,11 +371,13 @@ class Sidebar extends Component {
       <Sider width={250} className={sideClass}>
         <div className="organizationHeader padding-class-a">
           {this.renderOrg(currentOrg)}
-          <Dropdown overlay={this.renderOrgs()} trigger={['click']}>
-            <a>
-              <i className="fas fa-ellipsis-h organizationsList" />
-            </a>
-          </Dropdown>
+          {subscriberOrgs.length > 1 &&
+            <Dropdown overlay={this.renderOrgs()} trigger={['click']}>
+              <a>
+                <i className="fas fa-ellipsis-h organizationsList" />
+              </a>
+            </Dropdown>
+          }
         </div>
 
         <div className="organizationLinks padding-class-a">
