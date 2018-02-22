@@ -67,28 +67,28 @@ const formatXTick = (date) => {
   return d3.timeFormat(getFormat())(date);
 };
 
-// TODO: Move this elsewhere!
-function isChrome() {
-  const isChromium = window.chrome;
-  const winNav = window.navigator;
-  const vendorName = winNav.vendor;
-  const isOpera = winNav.userAgent.indexOf('OPR') > -1;
-  const isIEedge = winNav.userAgent.indexOf('Edge') > -1;
-  const isIOSChrome = winNav.userAgent.match('CriOS');
+// // TODO: Move this elsewhere!
+// function isChrome() {
+//   const isChromium = window.chrome;
+//   const winNav = window.navigator;
+//   const vendorName = winNav.vendor;
+//   const isOpera = winNav.userAgent.indexOf('OPR') > -1;
+//   const isIEedge = winNav.userAgent.indexOf('Edge') > -1;
+//   const isIOSChrome = winNav.userAgent.match('CriOS');
 
-  if (isIOSChrome) {
-    return true;
-  } else if (
-    isChromium !== null &&
-    typeof isChromium !== 'undefined' &&
-    vendorName === 'Google Inc.' &&
-    isOpera === false &&
-    isIEedge === false
-  ) {
-    return true;
-  }
-  return false;
-}
+//   if (isIOSChrome) {
+//     return true;
+//   } else if (
+//     isChromium !== null &&
+//     typeof isChromium !== 'undefined' &&
+//     vendorName === 'Google Inc.' &&
+//     isOpera === false &&
+//     isIEedge === false
+//   ) {
+//     return true;
+//   }
+//   return false;
+// }
 
 class TimeActivityGraph extends Component {
   constructor(props) {
@@ -130,11 +130,11 @@ class TimeActivityGraph extends Component {
   }
 
   renderTooltipViews() {
-    const { width, height, offsetLeft, offsetTop, tooltipPoint } = this.state;
-    const { x, y, datum } = tooltipPoint;
+    const { /* width, height, offsetLeft, offsetTop, */ tooltipPoint } = this.state;
+    const { /* x, y, */ datum } = tooltipPoint;
     const { date, fileName, fileSize, resourceUri } = datum;
-    const top = offsetTop + (height - y) + 4;
-    const left = -offsetLeft + -CHART_PADDING + (width - x) + (isChrome() ? 102 : -136);
+    //  const top = offsetTop + (height - y) + 4;
+    //  const left = -offsetLeft + -CHART_PADDING + (width - x) + (isChrome() ? 102 : -136);
     const displayDate = moment(date).format(String.t('timeActivityGraph.dateFormat'));
     const displayTime = moment(date).format(String.t('timeActivityGraph.timeFormat'));
     const imgSrc = imageFromResourceUri(resourceUri);
@@ -144,7 +144,7 @@ class TimeActivityGraph extends Component {
         onClick={() => this.closeTooltip()}
         className="tooltipOverlay"
       >
-        <div
+        {/* <div
           data-tip
           data-for="global"
           className="tooltip"
@@ -154,21 +154,21 @@ class TimeActivityGraph extends Component {
             width,
             height
           }}
-        />
-        <ReactTooltip
+        /> */}
+        {/* <ReactTooltip
           id="global"
           effect="solid"
           offset={{ top, left }}
-        >
-          <div className="tooltipContainer">
-            <img src={imgSrc} alt="" width={32} height={32} className="img" />
-            <div className="tooltipTextContainer">
-              <p className="toolTipTextPrimary">{fileName}</p>
-              <p className="toolTipTextSecondary">{String.t('timeActivityGraph.displayTime', { displayDate, displayTime })}</p>
-              <p className="toolTipTextSecondary">{formatSize(fileSize)}</p>
-            </div>
+        > */}
+        <div className="tooltipContainer">
+          <img src={imgSrc} alt="" width={32} height={32} className="img" />
+          <div className="tooltipTextContainer">
+            <p className="toolTipTextPrimary">{fileName}</p>
+            <p className="toolTipTextSecondary">{String.t('timeActivityGraph.displayTime', { displayDate, displayTime })}</p>
+            <p className="toolTipTextSecondary">{formatSize(fileSize)}</p>
           </div>
-        </ReactTooltip>
+        </div>
+        {/* </ReactTooltip> */}
       </div>
     );
   }
@@ -227,13 +227,22 @@ class TimeActivityGraph extends Component {
             events={[{
               target: 'data',
               eventHandlers: {
-                //  onMouseOver: () => { },
-                //  onMouseOut: () => { },
-                onClick: (evt, clickedProps) => {
+                onMouseOver: (evt, clickedProps) => {
                   const { index, data } = clickedProps;
                   this.setState({ tooltipPoint: { x: evt.clientX, y: evt.clientY, datum: data[index] } });
                 },
-                onDoubleClick: (evt, clickedProps) => {
+                onMouseOut: () => {
+                  this.setState({ tooltipPoint: null });
+                },
+                onClick: (evt, clickedProps) => {
+                  // if (this.state.tooltipPoint) {
+                  //   this.setState({ tooltipPoint: null });
+                  //   return;
+                  // }
+                //    const { index, data } = clickedProps;
+                //    this.setState({ tooltipPoint: { x: evt.clientX, y: evt.clientY, datum: data[index] } });
+                //  },
+                //  onDoubleClick: (evt, clickedProps) => {
                   const { index, data } = clickedProps;
                   window.open(data[index].resourceUri, '_blank');
                   this.setState({ tooltipPoint: null });
