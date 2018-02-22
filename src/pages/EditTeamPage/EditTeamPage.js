@@ -6,6 +6,7 @@ import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import TextField from '../../components/formFields/TextField';
 import SwitchField from '../../components/formFields/SwitchField';
+import Spinner from '../../components/Spinner';
 import { formShape } from '../../propTypes';
 import Button from '../../components/common/Button';
 import String from '../../translations';
@@ -14,7 +15,8 @@ import './styles/style.css';
 const propTypes = {
   form: formShape.isRequired,
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired
+    push: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -73,11 +75,23 @@ class EditTeamPage extends Component {
   }
 
   render() {
+    const { match, teams, subscriberOrgById } = this.props;
+    if (!match || !match.params || !match.params.teamId || !teams || !subscriberOrgById) {
+      return <Spinner />;
+    }
+
     const { teamId } = this.props.match.params;
-    const { teams, subscriberOrgById } = this.props;
+
     const team = teams.teamById[teamId];
-    // const teamIcon = `data:image/png;base64,${team.icon}`;
-    const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
+    if (!team) {
+      this.props.history.replace('/app');
+      return null;
+    }
+    const subscriberOrg = subscriberOrgById[team.subscriberOrgId];
+    if (!subscriberOrg) {
+      this.props.history.replace('/app');
+      return null;
+    }
 
     return (
       <div className="EditTeamPage-main">

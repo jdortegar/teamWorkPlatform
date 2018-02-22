@@ -5,6 +5,7 @@ import _ from 'lodash';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
+import Spinner from '../../components/Spinner';
 import { ImageCard } from '../../components/cards';
 import { boxLogo, googleDriveLogo, sharepointLogo } from '../../img';
 import String from '../../translations';
@@ -152,8 +153,6 @@ class IntegrationDetailsPage extends Component {
 
   render() {
     const { integrationsBySubscriberOrgId, working, error } = this.props.integrations;
-    const { integrationDetails, subscriberOrgId } = this.props.match.params;
-    const subscriberOrg = this.props.subscriberOrgs.subscriberOrgById[subscriberOrgId];
 
     if (error) {
       return (
@@ -161,8 +160,15 @@ class IntegrationDetailsPage extends Component {
       );
     }
 
-    if (working === true) {
-      return null;
+    const { match, subscriberOrgs } = this.props;
+    if (!match || !match.params || !match.params.subscriberOrgId || !match.params.integrationDetails ||
+      !integrationsBySubscriberOrgId || !subscriberOrgs || working) {
+      return <Spinner />;
+    }
+    const { integrationDetails, subscriberOrgId } = match.params;
+    const subscriberOrg = subscriberOrgs.subscriberOrgById[subscriberOrgId];
+    if (!subscriberOrg) {
+      return <Spinner />;
     }
 
     const imgSrc = providers[integrationDetails].logo;
