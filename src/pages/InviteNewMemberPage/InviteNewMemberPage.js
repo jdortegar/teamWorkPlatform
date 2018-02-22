@@ -71,7 +71,7 @@ class InviteNewMemberPage extends Component {
           .catch((error) => {
             this.setState({ loading: false });
             notification.open({
-              message: String.t('inviteNewMemberPage.errorToastTitle'),
+              message: String.t('errorToastTitle'),
               description: error.message,
               duration: 4
             });
