@@ -10,6 +10,8 @@
   background-color: black;
   border-radius: 6px;
   width: fit-content;
+  max-width: 300px;
+  overflow: hidden;
 
   /* width: 240px; */
   /* height: 70px; */
@@ -21,6 +23,10 @@
 }
 .toolTipTextPrimary {
   color: #f9b816;
+  max-width: 230px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 4px;
 }
 .toolTipTextSecondary {
   color: white;
