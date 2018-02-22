@@ -13,6 +13,8 @@ import ReactTooltip from 'react-tooltip';
 
 import String from '../../translations';
 import styles from './styles/style';
+import './styles/style.css';
+
 import formatSize from '../../lib/formatSize';
 import { boxLogo, googleDriveLogo, sharepointLogo } from '../../img';
 
@@ -37,7 +39,6 @@ const defaultProps = {
 // chart size properties
 const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
-const BOTTOM_OFFSET = 70;
 const CHART_PADDING = 50;
 const DOMAIN_TOP_PADDING = 20;
 
@@ -133,7 +134,7 @@ class TimeActivityGraph extends Component {
     const { x, y, datum } = tooltipPoint;
     const { date, fileName, fileSize, resourceUri } = datum;
     const top = offsetTop + (height - y) + 4;
-    const left = -offsetLeft + -CHART_PADDING + (width - x) + (isChrome() ? -83 : -136);
+    const left = -offsetLeft + -CHART_PADDING + (width - x) + (isChrome() ? 102 : -136);
     const displayDate = moment(date).format(String.t('timeActivityGraph.dateFormat'));
     const displayTime = moment(date).format(String.t('timeActivityGraph.timeFormat'));
     const imgSrc = imageFromResourceUri(resourceUri);
@@ -197,7 +198,6 @@ class TimeActivityGraph extends Component {
           }
         >
           <VictoryAxis
-            offsetY={BOTTOM_OFFSET}
             tickFormat={formatXTick}
             tickLabelComponent={
               <VictoryLabel

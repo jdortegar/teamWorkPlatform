@@ -580,7 +580,8 @@
     "markAllAsRead": "Mark all as read"
   },
   "ckgPage": {
-    "title": "CKG Time Activity View"
+    "title": "CKG Time Activity View",
+    "filterTypeOther": "Other"
   },
   "setNewPassword": {
     "submitLabel": "Next",
