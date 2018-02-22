@@ -16,6 +16,7 @@ import './styles/style.css';
 
 const propTypes = {
   match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   fetchIntegrations: PropTypes.func.isRequired,
   integrations: PropTypes.object.isRequired,
   subscriberOrgs: PropTypes.object.isRequired
@@ -61,12 +62,17 @@ class IntegrationsPage extends Component {
       );
     }
 
-    const { match } = this.props;
-    if (!match || !match.params || !match.params.subscriberOrgId || !integrationsBySubscriberOrgId || working) {
+    const { match, subscriberOrgs } = this.props;
+    if (!match || !match.params || !match.params.subscriberOrgId || !integrationsBySubscriberOrgId ||
+        !subscriberOrgs || !subscriberOrgs.subscriberOrgById || working) {
       return <Spinner />;
     }
     const { subscriberOrgId } = match.params;
     const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || [];
+    if (!integrations) {
+      this.props.history.push('/app');
+      return null;
+    }
 
     const renderIntegrations = () => {
       const integrationsArr = [];
@@ -138,6 +144,10 @@ class IntegrationsPage extends Component {
     };
 
     const subscriberOrg = this.props.subscriberOrgs.subscriberOrgById[subscriberOrgId];
+    if (!subscriberOrg) {
+      this.props.history.push('/app');
+      return null;
+    }
     return (
       <div>
         <SubpageHeader
