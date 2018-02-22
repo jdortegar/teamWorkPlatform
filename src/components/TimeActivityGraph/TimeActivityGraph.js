@@ -9,7 +9,6 @@ import {
   VictoryScatter,
   VictoryZoomContainer
 } from 'victory';
-import ReactTooltip from 'react-tooltip';
 
 import String from '../../translations';
 import styles from './styles/style';
@@ -126,7 +125,6 @@ class TimeActivityGraph extends Component {
 
   closeTooltip() {
     this.setState({ tooltipPoint: null });
-    ReactTooltip.hide();
   }
 
   renderTooltipViews() {
@@ -158,11 +156,6 @@ class TimeActivityGraph extends Component {
             height
           }}
         /> */}
-        {/* <ReactTooltip
-          id="global"
-          effect="solid"
-          offset={{ top, left }}
-        > */}
         <div className="tooltipContainer">
           <img src={imgSrc} alt="" width={32} height={32} className="img" />
           <div className="tooltipTextContainer">
@@ -171,7 +164,6 @@ class TimeActivityGraph extends Component {
             <p className="toolTipTextSecondary">{formatSize(fileSize)}</p>
           </div>
         </div>
-        {/* </ReactTooltip> */}
       </div>
     );
   }
