@@ -2,7 +2,6 @@
 	background-color: #fff;
 	margin: 0;
 	height: 85vh;
-	overflow: scroll;
 }
 .MainContent__layout-wrapper > div {
 	height: 100%;

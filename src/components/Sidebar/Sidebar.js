@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Tooltip, Dropdown } from 'antd';
-import _ from 'lodash';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import String from '../../translations';
@@ -11,6 +11,7 @@ import {
   sortByName,
   primaryAtTop
 } from '../../redux-hablaai/selectors/helpers';
+import getInitials from '../../utils/helpers';
 import './styles/style.css';
 
 
@@ -23,6 +24,7 @@ const propTypes = {
   toggleTeamRoomDialog: PropTypes.func.isRequired,
   toggleTeamDialog: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.array.isRequired,
+  subscribers: PropTypes.array,
   teams: PropTypes.array.isRequired,
   teamRooms: PropTypes.array.isRequired,
   history: PropTypes.shape({
@@ -31,11 +33,15 @@ const propTypes = {
   location: PropTypes.object.isRequired,
   setCurrentSubscriberOrgId: PropTypes.func.isRequired,
   sideBarIsHidden: PropTypes.bool.isRequired,
-  showSideBar: PropTypes.func.isRequired
+  showSideBar: PropTypes.func.isRequired,
+  currentSubscriberOrgId: PropTypes.string,
+  teamIdsBySubscriberOrgId: PropTypes.object.isRequired
 };
 
 const defaultProps = {
+  currentSubscriberOrgId: null,
   subscriberOrgs: [],
+  subscribers: null,
   teams: [],
   teamRooms: []
 };
@@ -43,6 +49,32 @@ const defaultProps = {
 const ROUTERS_TO_HIDE_SIDEBAR = [
   '/app/userDetails'
 ];
+
+function renderSubscriberAvatar(subscriber) {
+  const { firstName, lastName, userId, preferences, icon } = subscriber;
+  const fullName = String.t('fullName', { firstName, lastName });
+  const initials = getInitials(fullName);
+  return (
+    <Tooltip
+      key={userId}
+      placement="top"
+      title={fullName}
+    >
+      {icon ?
+        <Avatar size="default" src={`data:image/jpeg;base64, ${icon}`} className="mr-05" />
+        :
+        <Avatar
+          size="default"
+          ey={userId}
+          color={preferences.iconColor}
+          className="mr-05"
+        >
+          {initials}
+        </Avatar>
+      }
+    </Tooltip>
+  );
+}
 
 function renderAvatar(item) {
   const { preferences } = item;
@@ -174,8 +206,6 @@ class Sidebar extends Component {
 
     this.props.setCurrentSubscriberOrgId(orgId);
     this.props.history.push(`/app/organization/${orgId}`);
-
-    this.cancelClickEvent(e);
   }
 
   goToTeamRoomPage(teamRoomId) {
@@ -212,8 +242,9 @@ class Sidebar extends Component {
     ));
   }
 
-  renderTeams(orgId) {
+  renderTeams() {
     const { teams } = this.props;
+    const orgId = this.props.currentSubscriberOrgId;
     if (teams.length === 0) {
       return null;
     }
@@ -233,6 +264,9 @@ class Sidebar extends Component {
         <SubMenu
           className="habla-left-navigation-item"
           key={team.teamId}
+          onMouseEnter={() => this.setState({ hovered: team.teamId })}
+          onMouseLeave={() => this.setState({ hovered: null })}
+          openKeys={this.state.teamsOpenKeys}
           onTitleClick={() => this.toogleTeams(team.teamId)}
           title={
             <div className="habla-left-navigation-team-list">
@@ -240,7 +274,9 @@ class Sidebar extends Component {
                 <div className="float-left-class">
                   {renderAvatar(team)}
                 </div>
-                <span className="habla-left-navigation-item-label" onClick={e => this.goToTeamPage(e, team)}>{team.name}</span>
+                <span className="habla-left-navigation-item-label" onClick={e => this.goToTeamPage(e, team)}>
+                  {team.name}
+                </span>
                 <div className="clear" />
                 <Badge count={isTeamOpen ? 0 : unreadMessagesCount} />
               </div>
@@ -248,52 +284,57 @@ class Sidebar extends Component {
           }
         >
           <div className="sidebar-block-label">
-            <span className="habla-label">{String.t('teamRooms')} <span className="sidebar-label-number-badge">81</span></span>
+            <span className="habla-label">
+              {String.t('teamRooms')}
+              {/* <span className="sidebar-label-number-badge">81</span> */}
+            </span>
           </div>
           { teamRooms }
         </SubMenu>);
     });
   }
 
+  renderOrg(org) {
+    const { currentSubscriberOrgId } = this.props;
+    const className = (org.subscriberOrgId === currentSubscriberOrgId) ? 'subscriberorg-name-current' : 'subscriberorg-name';
+    return (
+      <a
+        className="habla-top-menu-settings"
+        key={org.subscriberOrgId}
+        onClick={(e) => {
+          this.goToOrgPage(e, org.subscriberOrgId);
+        }}
+      >
+        {renderAvatar(org)}
+        <span className={className}>{org.name}</span>
+      </a>
+    );
+  }
+
   renderOrgs() {
     const { subscriberOrgs } = this.props;
-    return subscriberOrgs.map((subscriberOrg) => {
-      const teams = this.renderTeams(subscriberOrg.subscriberOrgId);
-
-      return (
-        <SubMenu
-          className="habla-left-navigation-item"
-          key={subscriberOrg.subscriberOrgId}
-          onMouseEnter={() => this.setState({ hovered: subscriberOrg.subscriberOrgId })}
-          onMouseLeave={() => this.setState({ hovered: null })}
-          openKeys={this.state.teamsOpenKeys}
-          onTitleClick={() => this.toogleOrgs(subscriberOrg.subscriberOrgId)}
-          title={
-            <div className="habla-left-navigation-org-list">
-              <div className="padding-class-a">
-                <div className="float-left-class">
-                  {renderAvatar(subscriberOrg)}
-                </div>
-                <span className="habla-left-navigation-item-label" onClick={e => this.goToOrgPage(e, subscriberOrg.subscriberOrgId)}>{subscriberOrg.name}</span>
-                <div className="clear" /></div>
-            </div>
-          }
-        >
-          {teams}
-        </SubMenu>
-      );
-    });
+    return (
+      <Menu className="organizationList">
+        <div className="habla-label padding-class-a">{String.t('sideBar.organizationsLabel')}</div>
+        <Menu.Item key="organizationList">
+          {subscriberOrgs.map(org => this.renderOrg(org))}
+        </Menu.Item>
+      </Menu>
+    );
   }
 
   render() {
-    const { subscriberOrgs, sideBarIsHidden } = this.props;
-    if (subscriberOrgs.length === 0) {
+    const { subscriberOrgs, subscribers, sideBarIsHidden, currentSubscriberOrgId, teamIdsBySubscriberOrgId } = this.props;
+    if (!teamIdsBySubscriberOrgId || !currentSubscriberOrgId || !teamIdsBySubscriberOrgId[currentSubscriberOrgId] ||
+         subscriberOrgs.length === 0 || !subscribers) {
       return null;
     }
     const sideClass = classNames({
       Sidebar: true,
       hidden: sideBarIsHidden
     });
+    const currentOrg = subscriberOrgs.find(({ subscriberOrgId }) => subscriberOrgId === currentSubscriberOrgId);
+    const numberOfTeams = teamIdsBySubscriberOrgId[currentSubscriberOrgId].length;
     const addLinkSidebar = (
       <Menu className="addLinkSidebar">
         <div className="habla-label padding-class-a">{String.t('sideBar.addNewLabel')}</div>
@@ -326,12 +367,17 @@ class Sidebar extends Component {
       </Menu>
     );
 
-
     return (
       <Sider width={250} className={sideClass}>
         <div className="organizationHeader padding-class-a">
-          <Avatar />
-          <span className="subscriberorg-name">Company, Inc.</span>
+          {this.renderOrg(currentOrg)}
+          {subscriberOrgs.length > 1 &&
+            <Dropdown overlay={this.renderOrgs()} trigger={['click']}>
+              <a>
+                <i className="fas fa-ellipsis-h organizationsList" />
+              </a>
+            </Dropdown>
+          }
         </div>
 
         <div className="organizationLinks padding-class-a">
@@ -356,23 +402,26 @@ class Sidebar extends Component {
             </Link>
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconSettingsTooltip')} arrowPointAtCenter>
-            <Link to="/app/settings" className="habla-top-menu-settings">
+            <Link to={`/app/organization/${currentSubscriberOrgId}`} className="habla-top-menu-settings">
               <i className="fa fa-cog fa-2x" />
             </Link>
           </Tooltip>
         </div>
         <div className="sidebar-teams-and-teamrooms">
           <div className="sidebar-block-label">
-            <span className="habla-label">{String.t('teams')} <span className="sidebar-label-number-badge">23</span></span>
+            <span className="habla-label">
+              {String.t('teams')}
+              <span className="sidebar-label-number-badge">{numberOfTeams}</span>
+            </span>
           </div>
 
           <div className="organization-list">
             <Menu
               mode="inline"
-              openKeys={_.union(this.state.orgsOpenKeys, this.state.teamsOpenKeys)}
+              openKeys={this.state.teamsOpenKeys}
               className="habla-left-navigation-list habla-left-navigation-organization-list"
             >
-              { this.renderOrgs() }
+              { this.renderTeams() }
             </Menu>
           </div>
         </div>
@@ -395,11 +444,13 @@ class Sidebar extends Component {
 
         <div className="sidebar-direct-messages">
           <div className="sidebar-block-label">
-            <span className="habla-label">{String.t('directMessages')} <span className="sidebar-label-number-badge">23</span></span>
+            <span className="habla-label">
+              {String.t('directMessages')}
+              {/* <span className="sidebar-label-number-badge">23</span> */}
+            </span>
           </div>
           <div className="sidebar-direct-messages-content padding-class-a">
-            <Avatar className="mr-1" />
-            <Avatar className="mr-1" />
+            {subscribers.map(subscriber => renderSubscriberAvatar(subscriber))}
             <Tooltip placement="topLeft" title={String.t('sideBar.newDirectMessageTooltip')} arrowPointAtCenter>
               <a>
                 <Avatar className="mr-1">+</Avatar>

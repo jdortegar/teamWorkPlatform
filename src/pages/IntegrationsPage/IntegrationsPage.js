@@ -8,8 +8,9 @@ import { badIntegration, successfulIntegration } from './notifications';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import { ImageCard } from '../../components/cards';
+import Spinner from '../../components/Spinner';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
-import { boxLogo, googleDriveLogo } from '../../img';
+import { boxLogo, googleDriveLogo, sharepointLogo, office365Logo, salesforceLogo } from '../../img';
 import String from '../../translations';
 import './styles/style.css';
 
@@ -36,8 +37,8 @@ class IntegrationsPage extends Component {
         args.icon = (<Icon type="check" className="icon_success habla-green" />);
       }
       // TODO: show notification.
-      // ex. notifyInfo = { integration: 'google', status: 'CREATED' } will say something like "You have successfully authorized Google Drive access."
-      // Also statuses FORBIDDEN = "You did not authorize Google Drive access."
+      // ex. notifyInfo = { integration: 'bogus', status: 'CREATED' } will say something like "You have successfully authorized Bogus Drive access."
+      // Also statuses FORBIDDEN = "You did not authorize Bogus Drive access."
       // NOT_FOUND, subscriberOrg doesn't exist, which should almost never happen, since they have access or we have a bug in our code.
       // INTERNAL_SERVER_ERROR,  don't know, display something appropriate...
       // Same for box.
@@ -60,20 +61,21 @@ class IntegrationsPage extends Component {
       );
     }
 
-    if (working === true) {
-      return null;
+    const { match } = this.props;
+    if (!match || !match.params || !match.params.subscriberOrgId || !integrationsBySubscriberOrgId || working) {
+      return <Spinner />;
     }
-
-    const { subscriberOrgId } = this.props.match.params;
+    const { subscriberOrgId } = match.params;
     const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || [];
 
     const renderIntegrations = () => {
       const integrationsArr = [];
       let boxExtra = null;
       let googleExtra = null;
+      let sharepointExtra = null;
 
       if (!_.isEmpty(integrations)) {
-        const { google, box } = integrations;
+        const { google, box, sharepoint } = integrations;
         if (box) {
           const { expired, revoked } = box;
           if ((typeof revoked === 'undefined') || (revoked === false)) {
@@ -93,6 +95,16 @@ class IntegrationsPage extends Component {
             }
           }
         }
+
+        if (sharepoint) {
+          const { expired, revoked } = sharepoint;
+          if ((typeof revoked === 'undefined') || (revoked === false)) {
+            sharepointExtra = (<i className="fa fa-check-circle icon_success habla-green" />);
+            if (expired === true) {
+              sharepointExtra = (<i className="fa fa-times-circle icon_fail habla-red" />);
+            }
+          }
+        }
       }
       integrationsArr.push(
         <div key="box">
@@ -108,6 +120,15 @@ class IntegrationsPage extends Component {
           <Tooltip placement="top" title="Google">
             <Link to={`/app/integrations/${subscriberOrgId}/google`}>
               <ImageCard imgSrc={googleDriveLogo} extra={googleExtra} />
+            </Link>
+          </Tooltip>
+        </div>
+      );
+      integrationsArr.push(
+        <div key="sharepoint">
+          <Tooltip placement="top" title="Sharepoint">
+            <Link to={`/app/integrations/${subscriberOrgId}/sharepoint`}>
+              <ImageCard imgSrc={sharepointLogo} extra={sharepointExtra} />
             </Link>
           </Tooltip>
         </div>
@@ -138,6 +159,25 @@ class IntegrationsPage extends Component {
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex habla-integration-list margin-top-class-b">
             <Row type="flex">
               {renderIntegrations()}
+              {
+              // FOR DEMO PURPOSES ONLY: Temporal Integrations Icons for DEMO.
+              }
+              <div key="office365">
+                <Tooltip placement="top" title="Office 365">
+                  <Link to={`/app/integrations/${subscriberOrgId}`}>
+                    <ImageCard imgSrc={office365Logo} />
+                  </Link>
+                </Tooltip>
+              </div>
+
+              <div key="salesforce">
+                <Tooltip placement="top" title="Salesforce">
+                  <Link to={`/app/integrations/${subscriberOrgId}`}>
+                    <ImageCard imgSrc={salesforceLogo} />
+                  </Link>
+                </Tooltip>
+              </div>
+
             </Row>
           </SimpleCardContainer>
         </div>

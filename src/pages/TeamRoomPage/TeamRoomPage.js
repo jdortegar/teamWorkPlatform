@@ -90,6 +90,7 @@ class TeamRoomPage extends Component {
     super(props);
 
     this.state = {
+      lastSubmittedMessage: null,
       teamRoomMembersLoaded: false,
       conversationsLoaded: false,
       teamRoomMembers: [],
@@ -304,7 +305,8 @@ class TeamRoomPage extends Component {
             this.setState({ replyTo: null, showPreviewBox: false });
           }
           this.props.createMessage(postBody, conversationId)
-            .then(() => {
+            .then(({ data }) => {
+              this.setState({ lastSubmittedMessage: data.message });
               this.props.form.resetFields();
             })
             .catch((error) => {
@@ -358,28 +360,30 @@ class TeamRoomPage extends Component {
   }
 
   renderMessages() {
+    const { match, teamRooms, teams, conversations, teamRoomMembersObj } = this.props;
+    const { lastSubmittedMessage } = this.state;
+    const currentPath = lastSubmittedMessage ? lastSubmittedMessage.path : null;
     const disableConversation = this.shouldDisableConversation();
-    return this.props.conversations.transcript.map((message) => {
-      const user = this.props.teamRoomMembersObj[message.createdBy];
-      const teamRoomId = this.props.match.params.teamRoomId;
-      const teamId = this.props.teamRooms.teamRoomById[teamRoomId].teamId;
-      const subscriberOrgId = this.props.teams.teamById[teamId].subscriberOrgId;
-      return (
-        <Message
-          conversationDisabled={disableConversation}
-          message={message}
-          user={user}
-          key={message.messageId}
-          replyTo={this.onReplyTo}
-          hide={false}
-          teamRoomMembersObj={this.props.teamRoomMembersObj}
-          onFileChange={this.onFileChange}
-          subscriberOrgId={subscriberOrgId}
-          teamId={teamId}
-          teamRoomId={teamRoomId}
-        />
-      );
-    });
+    const teamRoomId = match.params.teamRoomId;
+    const teamId = teamRooms.teamRoomById[teamRoomId].teamId;
+    const subscriberOrgId = teams.teamById[teamId].subscriberOrgId;
+
+    return conversations.transcript.map(message => (
+      <Message
+        conversationDisabled={disableConversation}
+        message={message}
+        user={teamRoomMembersObj[message.createdBy]}
+        key={message.messageId}
+        replyTo={this.onReplyTo}
+        hide={false}
+        currentPath={currentPath}
+        teamRoomMembersObj={teamRoomMembersObj}
+        onFileChange={this.onFileChange}
+        subscriberOrgId={subscriberOrgId}
+        teamId={teamId}
+        teamRoomId={teamRoomId}
+      />
+    ));
   }
 
   renderTeamRoomMembers() {
@@ -452,15 +456,16 @@ class TeamRoomPage extends Component {
 
   render() {
     const { teamRoomMembersLoaded, conversationsLoaded } = this.state;
-    if (teamRoomMembersLoaded && conversationsLoaded) {
+    const { match, teamRooms, user, teamRoomMembers, unreadMessagesCount, conversations, subscriberOrgById } = this.props;
+    if (match && match.params && match.params.teamRoomId && teamRoomMembersLoaded && conversationsLoaded &&
+        this.state.teamRoomMembers && conversations && subscriberOrgById) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
-      const { teamRooms, user, teamRoomMembers, unreadMessagesCount, conversations } = this.props;
       const { conversationId } = conversations;
       const lastMessage = _.last(conversations.transcript) || {};
-      const teamRoomId = this.props.match.params.teamRoomId;
+      const teamRoomId = match.params.teamRoomId;
       const teamRoom = teamRooms.teamRoomById[teamRoomId];
       const team = this.props.teams.teamById[teamRoom.teamId];
-      const subscriberOrg = this.props.subscriberOrgById[team.subscriberOrgId];
+      const subscriberOrg = subscriberOrgById[team.subscriberOrgId];
       const className = classNames({
         'team-room-chat': true,
         'team-room__main-container--opacity': this.state.isDraggingOver

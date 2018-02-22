@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import * as d3 from 'd3';
@@ -12,7 +12,20 @@ import {
 
 import String from '../../translations';
 import styles from './styles/style';
-import CustomLabel from './CustomLabel';
+import './styles/style.css';
+
+import formatSize from '../../lib/formatSize';
+import { boxLogo, googleDriveLogo, sharepointLogo } from '../../img';
+
+function imageFromResourceUri(resourceUri) {
+  if (resourceUri.indexOf('google.com') > 0) {
+    return googleDriveLogo;
+  }
+  if (resourceUri.indexOf('box.com') > 0) {
+    return boxLogo;
+  }
+  return sharepointLogo;
+}
 
 const propTypes = {
   files: PropTypes.arrayOf(PropTypes.object)
@@ -25,7 +38,6 @@ const defaultProps = {
 // chart size properties
 const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
-const BOTTOM_OFFSET = 70;
 const CHART_PADDING = 50;
 const DOMAIN_TOP_PADDING = 20;
 
@@ -54,10 +66,39 @@ const formatXTick = (date) => {
   return d3.timeFormat(getFormat())(date);
 };
 
-class TimeActivityGraph extends React.Component {
-  state = {
-    width: MIN_WIDTH,
-    height: MIN_HEIGHT
+// // TODO: Move this elsewhere!
+// function isChrome() {
+//   const isChromium = window.chrome;
+//   const winNav = window.navigator;
+//   const vendorName = winNav.vendor;
+//   const isOpera = winNav.userAgent.indexOf('OPR') > -1;
+//   const isIEedge = winNav.userAgent.indexOf('Edge') > -1;
+//   const isIOSChrome = winNav.userAgent.match('CriOS');
+
+//   if (isIOSChrome) {
+//     return true;
+//   } else if (
+//     isChromium !== null &&
+//     typeof isChromium !== 'undefined' &&
+//     vendorName === 'Google Inc.' &&
+//     isOpera === false &&
+//     isIEedge === false
+//   ) {
+//     return true;
+//   }
+//   return false;
+// }
+
+class TimeActivityGraph extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      width: MIN_WIDTH,
+      height: MIN_HEIGHT
+    };
+
+    this.closeTooltip = this.closeTooltip.bind(this);
   }
 
   componentDidMount() {
@@ -69,14 +110,62 @@ class TimeActivityGraph extends React.Component {
 
   updateDimensions() {
     if (!this.container || !this.container.parentNode) return;
+    const { offsetLeft, offsetTop } = this.container;
     const { clientWidth, clientHeight } = this.container.parentNode;
     const width = clientWidth;
     const height = clientHeight;
 
     this.setState({
       width: (width < MIN_WIDTH ? MIN_WIDTH : width),
-      height: (height < MIN_HEIGHT ? MIN_HEIGHT : height)
+      height: (height < MIN_HEIGHT ? MIN_HEIGHT : height),
+      offsetLeft,
+      offsetTop
     });
+  }
+
+  closeTooltip() {
+    this.setState({ tooltipPoint: null });
+  }
+
+  renderTooltipViews() {
+    const { /* width, height, */ offsetLeft, offsetTop, tooltipPoint } = this.state;
+    const { x, y, datum } = tooltipPoint;
+    const { date, fileName, fileSize, resourceUri } = datum;
+    //  const top = offsetTop + (height - y) + 4;
+    //  const left = -offsetLeft + -CHART_PADDING + (width - x) + (isChrome() ? 102 : -136);
+    const top = y - offsetTop;
+    const left = x - (offsetLeft - CHART_PADDING);
+    const displayDate = moment(date).format(String.t('timeActivityGraph.dateFormat'));
+    const displayTime = moment(date).format(String.t('timeActivityGraph.timeFormat'));
+    const imgSrc = imageFromResourceUri(resourceUri);
+
+    return (
+      <div
+        onClick={() => this.closeTooltip()}
+        className="tooltipOverlay"
+        style={{ left, top }}
+      >
+        {/* <div
+          data-tip
+          data-for="global"
+          className="tooltip"
+          style={{
+            position: 'absolute',
+            left: offsetLeft,
+            width,
+            height
+          }}
+        /> */}
+        <div className="tooltipContainer">
+          <img src={imgSrc} alt="" width={32} height={32} className="img" />
+          <div className="tooltipTextContainer">
+            <p className="toolTipTextPrimary">{fileName}</p>
+            <p className="toolTipTextSecondary">{String.t('timeActivityGraph.displayTime', { displayDate, displayTime })}</p>
+            <p className="toolTipTextSecondary">{formatSize(fileSize)}</p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   render() {
@@ -86,6 +175,7 @@ class TimeActivityGraph extends React.Component {
         ref={(node) => { this.container = node; }}
         style={{ flex: 1, minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
       >
+        {this.state.tooltipPoint && this.renderTooltipViews()}
         <VictoryChart
           scale={{ x: 'time', y: 'time' }}
           domain={{ x: DATE_DOMAIN, y: TIME_DOMAIN }}
@@ -103,7 +193,6 @@ class TimeActivityGraph extends React.Component {
           }
         >
           <VictoryAxis
-            offsetY={BOTTOM_OFFSET}
             tickFormat={formatXTick}
             tickLabelComponent={
               <VictoryLabel
@@ -129,25 +218,29 @@ class TimeActivityGraph extends React.Component {
             }}
           />
           <VictoryScatter
-            labelComponent={<CustomLabel />}
+            labelComponent={<div />}
             events={[{
               target: 'data',
               eventHandlers: {
-                onMouseOver: () => { },
-                onMouseOut: () => { },
-                onClick: () => {
-                  return {
-                    target: 'labels',
-                    mutation: datum => ({
-                      active: datum.active == null || !datum.active
-                    })
-                  };
+                onMouseOver: (evt, clickedProps) => {
+                  const { index, data } = clickedProps;
+                  this.setState({ tooltipPoint: { x: evt.clientX, y: evt.clientY, datum: data[index] } });
                 },
-                onDoubleClick: () => {
-                  return {
-                    target: 'labels',
-                    mutation: () => ({ active: false })
-                  };
+                onMouseOut: () => {
+                  this.setState({ tooltipPoint: null });
+                },
+                onClick: (evt, clickedProps) => {
+                  // if (this.state.tooltipPoint) {
+                  //   this.setState({ tooltipPoint: null });
+                  //   return;
+                  // }
+                //    const { index, data } = clickedProps;
+                //    this.setState({ tooltipPoint: { x: evt.clientX, y: evt.clientY, datum: data[index] } });
+                //  },
+                //  onDoubleClick: (evt, clickedProps) => {
+                  const { index, data } = clickedProps;
+                  window.open(data[index].resourceUri, '_blank');
+                  this.setState({ tooltipPoint: null });
                 }
               }
             }]}

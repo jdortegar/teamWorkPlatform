@@ -6,6 +6,7 @@ import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import EmailField from '../../components/formFields/EmailField';
+import Spinner from '../../components/Spinner';
 import { formShape } from '../../propTypes';
 import String from '../../translations';
 import Button from '../../components/common/Button';
@@ -14,7 +15,8 @@ import './styles/style.css';
 const propTypes = {
   form: formShape.isRequired,
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired
+    push: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -104,8 +106,17 @@ class InviteNewMemberPage extends Component {
   }
 
   render() {
-    const { subscriberOrgId } = this.props.match.params;
+    const { match, subscriberOrgById } = this.props;
+    if (!match || !match.params || !match.params.subscriberOrgId || !subscriberOrgById) {
+      return <Spinner />;
+    }
+    const { subscriberOrgId } = match.params;
     const subscriberOrg = this.props.subscriberOrgById[subscriberOrgId];
+    if (!subscriberOrg) {
+      this.props.history.replace('/app');
+      return null;
+    }
+
     return (
       <div>
         <SubpageHeader

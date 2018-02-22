@@ -8,13 +8,15 @@ import SimpleCardContainer from '../../components/SimpleCardContainer';
 import AutoCompleteField from '../../components/formFields/AutoCompleteField/';
 import { formShape } from '../../propTypes';
 import Button from '../../components/common/Button';
+import Spinner from '../../components/Spinner';
 import String from '../../translations';
 import './styles/style.css';
 
 const propTypes = {
   form: formShape.isRequired,
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired
+    push: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -116,10 +118,23 @@ class InviteToTeamPage extends Component {
   }
 
   render() {
-    const { teams, subscriberOrgById } = this.props;
-    const { teamId } = this.props.match.params;
+    const { subscribers, match, teams, subscriberOrgById } = this.props;
+    if (!subscribers || !match || !match.params || !match.params.teamId ||
+        !teams || !subscriberOrgById) {
+      return <Spinner />;
+    }
+    const { teamId } = match.params;
     const team = teams.teamById[teamId];
+    if (!team) {
+      this.props.history.replace('/app');
+      return null;
+    }
     const subscriberOrg = subscriberOrgById[team.subscriberOrgId];
+    if (!subscriberOrg) {
+      this.props.history.replace('/app');
+      return null;
+    }
+
     return (
       <div>
         <SubpageHeader
