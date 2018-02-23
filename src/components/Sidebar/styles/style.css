@@ -25,21 +25,20 @@
 	position: relative;
 }
 .habla-left-navigation-item-label {
-	font-weight: 700;
-	color: #999;
-	text-decoration: none;
-	font-size: 14px;
+  font-weight: 700;
+  color: #999;
+  text-decoration: none;
+  font-size: 14px;
   padding-top: 15px;
-  padding-left: 6px;
+  padding-left: 7px;
+  margin-right: 25px;
   display: block;
-  width: 165px;
-  height: 22px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
 .habla-left-navigation-teamroom-list {
-	padding-left: 15px;
+  padding-left: 15px;
 }
 .habla-left-navigation-team-list-item,
 .habla-left-navigation-teamroom-list-item {
@@ -81,10 +80,13 @@
 	color: #fff;
 	border-radius: 4px 4px 0 0;
 }
+.organizationHeader .habla-avatar {
+	float: left;
+}
 .organizationHeader .organizationsList {
 	float: right;
 	position: relative;
-	top: 8px;
+	top: -6px;
 	color: #666;
 	cursor: pointer;
 }
@@ -109,47 +111,52 @@
 	padding: 0 10px 10px 10px;
 }
 .sidebar-actions svg {
-	color: #e6e6e6;
-	margin: 7px 7px 0 0;
+  color: #e6e6e6;
+  margin: 7px 7px 0 0;
 }
 .sidebar-label-number-badge {
-	color: #fff;
-	background: #a8a8a8;
-	padding: 4px;
-	border-radius: 3px;
-	margin-left: 3px;
+  color: #fff;
+  background: #a8a8a8;
+  padding: 4px;
+  border-radius: 3px;
+  margin-left: 3px;
 }
-.subscriberorg-name {
-	position: relative;
-	top: 2px;
-   left: 7px;
-   margin-right: 10px;
-}
+.subscriberorg-name,
 .subscriberorg-name-current {
-	color: #fff;
-   position: relative;
-   font-weight: 600;
-	top: 2px;
-	left: 7px;
-   margin-right: 10px;
+  position: relative;
+  top: 2px;
+  left: 7px;
+  margin-right: 10px;
+}
+.organizationHeader_org_info .subscriberorg-name-current {
+  color: #fff;
+  position: relative;
+  font-weight: 600;
+  top: 8px;
+  left: 7px;
+  margin-right: 30px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  display: block;
 }
 .sidebar-direct-messages-content {
-	background: #fff;
-	border-radius: 4px;
+  background: #fff;
+  border-radius: 4px;
 }
 .sidebar-block-label {
 	padding: 10px;
 }
 .ant-menu-submenu .sidebar-block-label {
-	padding: 10px 10px 15px 10px;
+  padding: 10px 10px 15px 10px;
 }
 .Sidebar .habla-left-navigation-org-list {
 }
 .sidebar-resize-icon {
-	color: #a8a8a8;
-	text-align: right;
-	padding: 10px 0;
+  color: #a8a8a8;
+  text-align: right;
+  padding: 10px 0;
 }
 .sidebar-resize-icon svg {
-    cursor:col-resize;
+  cursor:col-resize;
 }
