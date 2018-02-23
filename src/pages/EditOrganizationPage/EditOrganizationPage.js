@@ -7,13 +7,15 @@ import UploadImageField from '../../components/formFields/UploadImageField';
 import TextField from '../../components/formFields/TextField';
 import { formShape } from '../../propTypes';
 import Button from '../../components/common/Button';
+import Spinner from '../../components/Spinner';
 import './styles/style.css';
 import String from '../../translations';
 
 const propTypes = {
   form: formShape.isRequired,
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired
+    push: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -100,7 +102,7 @@ class EditOrganizationPage extends Component {
           })
           .catch((error) => {
             this.setState({ loading: false });
-            if (error.response.status === 409) {
+            if (error.response && error.response.status === 409) {
               notification.open({
                 message: String.t('errorToastTitle'),
                 description: String.t('editOrgPage.errorNameAlreadyTaken'),
@@ -119,9 +121,18 @@ class EditOrganizationPage extends Component {
   }
 
   render() {
-    const { subscriberOrgId } = this.props.match.params;
-    const { subscriberOrgs } = this.props;
+    const { match, subscriberOrgs } = this.props;
+    if (!match || !match.params || !match.params.subscriberOrgId || !subscriberOrgs) {
+      return <Spinner />;
+    }
+
+    const { subscriberOrgId } = match.params;
     const organization = subscriberOrgs.subscriberOrgById[subscriberOrgId];
+    if (!organization) {
+      this.props.history.replace('/app');
+      return null;
+    }
+
     const containerImage = classNames({
       container__image: true,
       'with-image': this.state.logo || this.state.avatarBase64,

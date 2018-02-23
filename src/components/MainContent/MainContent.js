@@ -21,7 +21,7 @@ import InviteToTeamRoomPage from '../../containers/InviteToTeamRoomPage';
 import EditUserPage from '../../containers/EditUserPage';
 import CKGPage from '../../containers/CKGPage';
 import NotificationsPage from '../../containers/NotificationsPage';
-import AcceptInvitationPage from '../../pages/AcceptInvitationPage';
+import AcceptInvitationPage from '../../containers/AcceptInvitationPage';
 import { routesPaths } from '../../routes';
 import { sound1 } from '../../sounds';
 import './styles/style.css';

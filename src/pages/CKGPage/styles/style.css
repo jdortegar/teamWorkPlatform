@@ -5,3 +5,40 @@
 .display-row {
   display: flex;
 }
+
+.bottomBar {
+  height: 44px;
+  display: -webkit-inline-box;
+  float: right;
+  align-items: flex-end;
+  vertical-align: -webkit-baseline-middle;
+}
+
+.fileTypeContainer {
+  display: -webkit-inline-box; 
+  vertical-align: -webkit-baseline-middle;
+}
+
+.fileTypeButton {
+   /* background-color: #E8E8E8; */
+   margin: 4px;
+   margin-left: 6px;
+   margin-right: 6px;
+   padding: 2px;
+   border-radius: 4px;
+   overflow: hidden;
+   display: -webkit-inline-box; 
+   vertical-align: -webkit-baseline-middle;
+   cursor: pointer;
+ }
+
+ .fileTypeButtonGrayed {
+   opacity: 0.3;
+ }
+ 
+.fileTypeLabel {
+  margin-top: 10px; /* TODO: Mario, please help!!!! */
+  margin-left: 1px;
+  font-size: 11px;
+  vertical-align: -webkit-baseline-middle;
+}

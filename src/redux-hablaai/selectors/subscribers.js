@@ -27,13 +27,14 @@ export const getSubscribersOfSubscriberOrgId = createCachedSelector(
 export const getSubscribersOfTeamId = createCachedSelector(
   [getTeamById, getUserIdsBySubscriberOrgId, getUserByUserId, (state, teamId) => teamId],
   (teamById, userIdsBySubscriberOrgId, userByUserId, teamId) => {
-    if ((!teamId) || (!teamById[teamId])) {
+    if (!teamId || !teamById[teamId] || !userIdsBySubscriberOrgId) {
       return [];
     }
 
     const team = teamById[teamId];
-    const subscriberOrgId = team.subscriberOrgId;
-    const userIds = userIdsBySubscriberOrgId[subscriberOrgId];
+    if (!team || !team.subscriberOrgId) return [];
+    const userIds = userIdsBySubscriberOrgId[team.subscriberOrgId];
+    if (!userIds) return [];
     return Object.keys(userIds).map(userId => userByUserId[userId]);
   }
 )(
@@ -43,14 +44,16 @@ export const getSubscribersOfTeamId = createCachedSelector(
 export const getSubscribersOfTeamRoomId = createCachedSelector(
   [getTeamRoomById, getTeamById, getUserIdsBySubscriberOrgId, getUserByUserId, (state, teamRoomId) => teamRoomId],
   (teamRoomById, teamById, userIdsBySubscriberOrgId, userByUserId, teamRoomId) => {
-    if ((!teamRoomId) || (!teamRoomById[teamRoomId])) {
+    if (!teamRoomId || !teamRoomById[teamRoomId] || !userIdsBySubscriberOrgId) {
       return [];
     }
 
     const teamRoom = teamRoomById[teamRoomId];
+    if (!teamRoom) return [];
     const team = teamById[teamRoom.teamId];
-    const subscriberOrgId = team.subscriberOrgId;
-    const userIds = userIdsBySubscriberOrgId[subscriberOrgId];
+    if (!team || !team.subscriberOrgId) return [];
+    const userIds = userIdsBySubscriberOrgId[team.subscriberOrgId];
+    if (!userIds) return [];
     return Object.keys(userIds).map(userId => userByUserId[userId]);
   }
 )(

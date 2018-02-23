@@ -25,21 +25,20 @@
 	position: relative;
 }
 .habla-left-navigation-item-label {
-	font-weight: 700;
-	color: #999;
-	text-decoration: none;
-	font-size: 14px;
+  font-weight: 700;
+  color: #999;
+  text-decoration: none;
+  font-size: 14px;
   padding-top: 15px;
-  padding-left: 6px;
+  padding-left: 7px;
+  margin-right: 25px;
   display: block;
-  width: 165px;
-  height: 22px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
 .habla-left-navigation-teamroom-list {
-	padding-left: 15px;
+  padding-left: 15px;
 }
 .habla-left-navigation-team-list-item,
 .habla-left-navigation-teamroom-list-item {
@@ -81,6 +80,19 @@
 	color: #fff;
 	border-radius: 4px 4px 0 0;
 }
+.organizationHeader .habla-avatar {
+	float: left;
+}
+.organizationHeader .organizationsList {
+	float: right;
+	position: relative;
+	top: -6px;
+	color: #666;
+	cursor: pointer;
+}
+.organizationList li a {
+   padding: 5px 10px;
+}
 .organizationHeader .habla-avatar--size-default, .organizationHeader .habla-avatar--size-default img {
 	display: inline-block;
 }
@@ -96,120 +108,55 @@
 	color: #999;
 }
 .sidebar-actions {
-	padding: 0 10px;
+	padding: 0 10px 10px 10px;
 }
 .sidebar-actions svg {
-	color: #e6e6e6;
-	margin: 7px 7px 0 0;
+  color: #e6e6e6;
+  margin: 7px 7px 0 0;
 }
 .sidebar-label-number-badge {
-	color: #fff;
-	background: #a8a8a8;
-	padding: 4px;
-	border-radius: 3px;
-	margin-left: 3px;
+  color: #fff;
+  background: #a8a8a8;
+  padding: 4px;
+  border-radius: 3px;
+  margin-left: 3px;
 }
-.subscriberorg-name {
-	position: relative;
-	top: 2px;
-	left: 7px;
+.subscriberorg-name,
+.subscriberorg-name-current {
+  position: relative;
+  top: 2px;
+  left: 7px;
+  margin-right: 10px;
+}
+.organizationHeader_org_info .subscriberorg-name-current {
+  color: #fff;
+  position: relative;
+  font-weight: 600;
+  top: 8px;
+  left: 7px;
+  margin-right: 30px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  display: block;
 }
 .sidebar-direct-messages-content {
-	background: #fff;
-	border-radius: 4px;
+  background: #fff;
+  border-radius: 4px;
 }
 .sidebar-block-label {
 	padding: 10px;
 }
 .ant-menu-submenu .sidebar-block-label {
-	padding: 10px 10px 15px 10px;
+  padding: 10px 10px 15px 10px;
 }
 .Sidebar .habla-left-navigation-org-list {
 }
 .sidebar-resize-icon {
-	color: #a8a8a8;
-	text-align: right;
-	padding: 10px 0;
+  color: #a8a8a8;
+  text-align: right;
+  padding: 10px 0;
 }
 .sidebar-resize-icon svg {
-    cursor:col-resize;
+  cursor:col-resize;
 }
-
-/* .Sidebar-menu-item-label {
-  padding: 8px 18px;
-  border-bottom: 1px solid #ddd;
-  font-weight: bold;
-  color: #999;
-  display: flex;
-  align-items: center;
-}
-.Sidebar__i {
-  margin-right: 5px;
-  position: relative;
-}
-.ant-menu.ant-menu-dark .ant-menu-item-selected {
-  background-color: #333333;
-}
-.ant-menu-submenu-title:hover {
-  color: #557dbf;
-  background: #f6f6f6;
-}
-.add-organization-button {
-  background-color: #36b659;
-  color: #fff;
-  padding: 1em 0;
-  margin: 1em 2em;
-  text-align: center;
-  border-radius: 2px;
-  cursor: pointer;
-}
-.add-organization-button:hover {
-  background-color: #46c669;
-}
-
-
-.Sidebar > div {
-  height: 100%;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.organization-list {
-  overflow: scroll;
-  flex: 1;
-}
-
-.Sidebar .ant-menu-item-selected {
-  background-color: #f1f1f1 !important;
-}
-.ant-menu-vertical .ant-menu-item, .ant-menu-inline .ant-menu-item, .ant-menu-vertical .ant-menu-submenu-title, .ant-menu-inline .ant-menu-submenu-title {
-  height: auto;
-}
-.Sidebar__name-container {
-  display: flex;
-  align-items: center;
-}
-.Sidebar__name-span {
-  margin-left: 1em;
-  width: 70%;
-}
-.Sidebar__menu {
-  border-right: 0px;
-}
-.Sidebar__menu li {
-  border-bottom: 1px solid #eee;
-}
-.Sidebar__org-item-col {
-  padding: 0;
-}
-.Sidebar__menu-info-item {
-  background-color: #fbfbfb;
-}
-.Sidebar__menu-info-item:hover, .Sidebar__menu-info-item.ant-menu-item-selected {
-  color: inherit;
-}
-.Sidebar__menu-info-item::after {
-  border-right: none;
-}
-*/

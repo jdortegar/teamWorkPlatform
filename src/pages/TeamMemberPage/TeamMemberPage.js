@@ -5,6 +5,7 @@ import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import Avatar from '../../components/common/Avatar';
+import Spinner from '../../components/Spinner';
 import './styles/style.css';
 import String from '../../translations';
 
@@ -21,6 +22,9 @@ class TeamMemberPage extends Component {
 
   render() {
     const { subscriberOrg } = this.props;
+    if (!subscriberOrg) {
+      return <Spinner />;
+    }
 
     return (
       <div>

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
+import Spinner from '../../components/Spinner';
 import TextField from '../../components/formFields/TextField';
 import SwitchField from '../../components/formFields/SwitchField';
 import { formShape } from '../../propTypes';
@@ -14,7 +15,8 @@ import './styles/style.css';
 const propTypes = {
   form: formShape.isRequired,
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired
+    push: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -48,12 +50,12 @@ class EditTeamRoomPage extends Component {
           this.props.history.push(`/app/teamRoom/${teamRoomId}`);
           notification.open({
             message: String.t('editTeamRoomPage.successToastTitle'),
-            description: String.t('editTeamRoomPage.teamUpdated'),
+            description: String.t('editTeamRoomPage.teamRoomUpdated'),
             duration: 4
           });
         }).catch((error) => {
           this.setState({ loading: false });
-          if (error.response.status === 409) {
+          if (error.response && error.response.status === 409) {
             notification.open({
               message: String.t('errorToastTitle'),
               description: String.t('editTeamRoomPage.errorNameAlreadyTaken'),
@@ -72,13 +74,23 @@ class EditTeamRoomPage extends Component {
   }
 
   render() {
+    const { match, teamRooms, teams, subscriberOrgById } = this.props;
+    if (!match || !match.params || !match.params.teamRoomId || !teams || !teamRooms || !subscriberOrgById) {
+      return <Spinner />;
+    }
+
     const { teamRoomId } = this.props.match.params;
-    const { teamRooms, teams, subscriberOrgById } = this.props;
     const teamRoom = teamRooms.teamRoomById[teamRoomId];
-    if (!teamRoom) return null;
+    if (!teamRoom) {
+      this.props.history.replace('/app');
+      return null;
+    }
     const team = teams.teamById[teamRoom.teamId];
     const subscriberOrg = subscriberOrgById[team.subscriberOrgId];
-    if (!subscriberOrg) return null;
+    if (!subscriberOrg) {
+      this.props.history.replace('/app');
+      return null;
+    }
 
     return (
       <div className="EditTeamRoomPage-main">

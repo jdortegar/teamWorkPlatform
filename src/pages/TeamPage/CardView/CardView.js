@@ -72,7 +72,7 @@ function CardView(props) {
               <i className="fa fa-plus" />
             </Avatar>
             <div className="habla-label align-center-class card-label">
-              NEW
+              {String.t('cardView.newButtonLabel')}
             </div>
           </Link>
         </Tooltip>

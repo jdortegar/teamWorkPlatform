@@ -71,3 +71,7 @@ export function revokeGoogle(subscriberOrgId) {
 export function revokeBox(subscriberOrgId) {
   return revoke('box', subscriberOrgId);
 }
+
+export function revokeSharepoint(subscriberOrgId) {
+  return revoke('sharepoint', subscriberOrgId);
+}

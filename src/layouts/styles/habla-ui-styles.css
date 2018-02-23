@@ -247,7 +247,8 @@ p {
 
 /* General CSS Styles for Habla Web App Dopdown Menus */
 .ant-dropdown-menu {
-  background-color: #444!important;	
+  background-color: #444!important;
+  padding-bottom: 10px;	
 }
 .ant-dropdown-menu .habla-label {
   font-weight: 900;
@@ -279,9 +280,6 @@ p {
 .ant-dropdown-menu-item svg,
 .ant-dropdown-menu-item .habla-top-navigation-dropdown-signal {
 	margin-right: 5px;
-}
-.dropdown-last-menu-item {
-	padding-bottom: 10px;
 }
 
 
@@ -334,6 +332,7 @@ p {
 .breadcrumb-icon {
 	font-size: 13px!important;
 }
+
 
 
 /* RESPONSIVE ELEMENTS AND STYLES ---------- */
@@ -790,12 +789,12 @@ p {
 .ant-menu-submenu > .ant-menu {
   background: transparent;	
 }
-.Sidebar ul.ant-menu ul.ant-menu-sub li.ant-menu-submenu {
+.Sidebar ul.ant-menu li.ant-menu-submenu {
 	background: #fff;
 	border-radius: 4px;
 	margin-bottom: 2px;
 }
-.Sidebar ul.ant-menu ul.ant-menu-sub li.ant-menu-submenu:hover {
+ul.ant-menu li.ant-menu-submenu:hover {
 	background: #f7f7f7;
 }
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
@@ -858,11 +857,5 @@ p {
   right: -15px;
 }
 .ant-avatar-string {
-  transform: inherit;
-  position: inherit;
-  display: inherit;
-  left: inherit;
-}
-.ant-avatar-string .fa-plus {
   left: 30px;
 }

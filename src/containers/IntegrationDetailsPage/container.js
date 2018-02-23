@@ -4,8 +4,10 @@ import {
   fetchIntegrations,
   integrateBox,
   integrateGoogle,
+  integrateSharepoint,
   revokeBox,
-  revokeGoogle
+  revokeGoogle,
+  revokeSharepoint
 } from '../../actions';
 
 function mapStateToProps(state) {
@@ -20,8 +22,10 @@ function mapDispatchToProps(dispatch) {
     fetchIntegrations: subscriberOrgId => dispatch(fetchIntegrations(subscriberOrgId)),
     integrateBox: subscriberOrgId => dispatch(integrateBox(subscriberOrgId)),
     integrateGoogle: subscriberOrgId => dispatch(integrateGoogle(subscriberOrgId)),
+    integrateSharepoint: (subscriberOrgId, sharepointOrg) => dispatch(integrateSharepoint(subscriberOrgId, sharepointOrg)),
     revokeBox: subscriberOrgId => dispatch(revokeBox(subscriberOrgId)),
-    revokeGoogle: subscriberOrgId => dispatch(revokeGoogle(subscriberOrgId))
+    revokeGoogle: subscriberOrgId => dispatch(revokeGoogle(subscriberOrgId)),
+    revokeSharepoint: subscriberOrgId => dispatch(revokeSharepoint(subscriberOrgId))
   };
 }
 

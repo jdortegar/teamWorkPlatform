@@ -60,19 +60,23 @@
   font-size: 40px;
   font-weight: 700;
   display: inline-block;
+  position: initial!important;
 }
 .habla-avatar--size-large .ant-avatar-string {
   font-size: 16pt;
   font-weight: 700;
   display: inline-block;
+  position: initial!important;
 }
 .habla-avatar--size-default .ant-avatar-string {
   font-size: 12pt;
   font-weight: 700;
   display: inline-block;
+  position: initial!important;
 }
 .habla-avatar--size-small .ant-avatar-string {
   font-size: 10pt;
   font-weight: 700;
   display: inline-block;
+  position: initial!important;
 }

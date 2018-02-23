@@ -43,14 +43,8 @@ class TeamPage extends Component {
   componentDidMount() {
     const { teamId, status } = this.props.match.params;
 
-    this.props.fetchTeamRoomsByTeamId(teamId).then(() => this.setState({
-      teamRoomsLoaded: true
-      // teamRooms: this.props.teamRooms // TODO: JC, don't need to do this.  It's already set in the containers mapStateToProps. Remove comment after you read this.
-    }));
-    this.props.fetchTeamMembersByTeamId(teamId).then(() => this.setState({
-      teamMembersLoaded: true
-      // teamMembers: this.props.teamMembers // TODO: JC, don't need to do this.  It's already set in the containers mapStateToProps. Remove comment after you read this.
-    }));
+    this.props.fetchTeamRoomsByTeamId(teamId).then(() => this.setState({ teamRoomsLoaded: true }));
+    this.props.fetchTeamMembersByTeamId(teamId).then(() => this.setState({ teamMembersLoaded: true }));
     if (status) {
       notification.open({
         message: messages.success,
@@ -77,9 +71,11 @@ class TeamPage extends Component {
   }
 
   render() {
-    const teamId = this.props.match.params.teamId;
-    const { teamRooms, teams, teamMembers, subscriberOrgById, user } = this.props;
-    if (this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
+    const { match, teamRooms, teams, teamMembers, subscriberOrgById, user } = this.props;
+    if (teamRooms && match && match.params && match.params.teamId &&
+        teamRooms && teams && teamMembers && subscriberOrgById &&
+        this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
+      const teamId = match.params.teamId;
       const team = teams.teamById[teamId];
       const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
       const teamMemberFoundByUser = _.find(teamMembers, { userId: user.userId });

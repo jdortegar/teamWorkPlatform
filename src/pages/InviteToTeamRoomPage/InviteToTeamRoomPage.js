@@ -8,13 +8,15 @@ import SimpleCardContainer from '../../components/SimpleCardContainer';
 import AutoCompleteField from '../../components/formFields/AutoCompleteField/';
 import { formShape } from '../../propTypes';
 import Button from '../../components/common/Button';
+import Spinner from '../../components/Spinner';
 import String from '../../translations';
 import './styles/style.css';
 
 const propTypes = {
   form: formShape.isRequired,
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired
+    push: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -71,7 +73,7 @@ class InviteToTeamRoomPage extends Component {
           })
           .catch((error) => {
             this.setState({ loading: false });
-            if (error.response.status !== 202) {
+            if (error.response && error.response.status !== 202) {
               notification.open({
                 message: String.t('errorToastTitle'),
                 description: error.message,
@@ -119,11 +121,27 @@ class InviteToTeamRoomPage extends Component {
   }
 
   render() {
-    const { teamRoomId } = this.props.match.params;
-    const { teamRooms, teams, subscriberOrgById } = this.props;
+    const { subscribers, match, teamRooms, teams, subscriberOrgById } = this.props;
+    if (!subscribers || !match || !match.params || !match.params.teamRoomId ||
+        !teamRooms || !teams || !subscriberOrgById) {
+      return <Spinner />;
+    }
+    const { teamRoomId } = match.params;
     const teamRoom = teamRooms.teamRoomById[teamRoomId];
+    if (!teamRoom) {
+      this.props.history.replace('/app');
+      return null;
+    }
     const team = teams.teamById[teamRoom.teamId];
+    if (!team) {
+      this.props.history.replace('/app');
+      return null;
+    }
     const subscriberOrg = subscriberOrgById[team.subscriberOrgId];
+    if (!subscriberOrg) {
+      this.props.history.replace('/app');
+      return null;
+    }
 
     return (
       <div>

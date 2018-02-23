@@ -42,7 +42,7 @@ class AddOrgDialog extends Component {
             this.props.toggleOrgDialog(false);
           })
           .catch((error) => {
-            if (error.response.status === 409) {
+            if (error.response && error.response.status === 409) {
               notification.open({
                 message: String.t('errorToastTitle'),
                 description: String.t('addOrgDialog.errorNameAlreadyTaken'),

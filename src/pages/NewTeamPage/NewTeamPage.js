@@ -6,6 +6,7 @@ import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import TextField from '../../components/formFields/TextField';
 import { formShape } from '../../propTypes';
+import Spinner from '../../components/Spinner';
 import String from '../../translations';
 import Button from '../../components/common/Button';
 import './styles/style.css';
@@ -13,7 +14,8 @@ import './styles/style.css';
 const propTypes = {
   form: formShape.isRequired,
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired
+    push: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -59,8 +61,18 @@ class NewTeamPage extends Component {
   }
 
   render() {
-    const { subscriberOrgId } = this.props.match.params;
-    const subscriberOrg = this.props.subscriberOrgById[subscriberOrgId];
+    const { match, subscriberOrgById } = this.props;
+    if (!match || !match.params || !match.params.subscriberOrgId || !subscriberOrgById) {
+      return <Spinner />;
+    }
+
+    const { subscriberOrgId } = match.params;
+    const subscriberOrg = subscriberOrgById[subscriberOrgId];
+    if (!subscriberOrg) {
+      this.props.history.replace('/app');
+      return null;
+    }
+
     return (
       <div>
         <SubpageHeader
