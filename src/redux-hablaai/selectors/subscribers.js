@@ -2,6 +2,7 @@ import createCachedSelector from 're-reselect';
 import {
   getUserByUserId,
   getUserIdsBySubscriberOrgId,
+  getUserIdsByTeamId,
   getTeamById,
   getTeamRoomById
 } from './state';
@@ -42,17 +43,15 @@ export const getSubscribersOfTeamId = createCachedSelector(
 );
 
 export const getSubscribersOfTeamRoomId = createCachedSelector(
-  [getTeamRoomById, getTeamById, getUserIdsBySubscriberOrgId, getUserByUserId, (state, teamRoomId) => teamRoomId],
-  (teamRoomById, teamById, userIdsBySubscriberOrgId, userByUserId, teamRoomId) => {
-    if (!teamRoomId || !teamRoomById[teamRoomId] || !userIdsBySubscriberOrgId) {
+  [getTeamRoomById, getTeamById, getUserIdsByTeamId, getUserByUserId, (state, teamRoomId) => teamRoomId],
+  (teamRoomById, teamById, userIdsByTeamId, userByUserId, teamRoomId) => {
+    if (!teamRoomId || !teamRoomById[teamRoomId] || !userIdsByTeamId) {
       return [];
     }
 
     const teamRoom = teamRoomById[teamRoomId];
     if (!teamRoom) return [];
-    const team = teamById[teamRoom.teamId];
-    if (!team || !team.subscriberOrgId) return [];
-    const userIds = userIdsBySubscriberOrgId[team.subscriberOrgId];
+    const userIds = userIdsByTeamId[teamRoom.teamId];
     if (!userIds) return [];
     return Object.keys(userIds).map(userId => userByUserId[userId]);
   }
