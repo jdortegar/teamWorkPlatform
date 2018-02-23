@@ -224,7 +224,10 @@ class TimeActivityGraph extends Component {
               eventHandlers: {
                 onMouseOver: (evt, clickedProps) => {
                   const { index, data } = clickedProps;
-                  this.setState({ tooltipPoint: { x: evt.clientX, y: evt.clientY, datum: data[index] } });
+                  const { tooltipPoint } = this.state;
+                  if (!tooltipPoint || tooltipPoint.datum.index !== index) {
+                    this.setState({ tooltipPoint: { x: evt.clientX, y: evt.clientY, datum: data[index] } });
+                  }
                 },
                 onMouseOut: () => {
                   this.setState({ tooltipPoint: null });
