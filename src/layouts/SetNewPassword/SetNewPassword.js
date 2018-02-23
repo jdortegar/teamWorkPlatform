@@ -52,7 +52,7 @@ class SetNewPassword extends Component {
           .catch((error) => {
             this.setState({ processing: false });
 
-            if (error.response.status === 404) {
+            if (error.response && error.response.status === 404) {
               // show error toast (currently assuming just error 404)
               notification.open({
                 message: String.t('errorToastTitle'),
