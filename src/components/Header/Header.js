@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Layout, Menu, Dropdown } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import UserIcon from '../UserIcon';
+import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
 import { hablaBlackLogo, hablaBlackLogoIcon } from '../../img';
 import './styles/style.css';
 import String from '../../translations';
@@ -96,13 +96,7 @@ class Header extends Component {
                 <div className="ant-dropdown-link">
                   <div className="habla-top-menu-subitem">
                     <div className="habla-top-navigation-avatar-signal habla-color-green" />
-                    <UserIcon
-                      user={user}
-                      type="user"
-                      minWidth="30px"
-                      width="30px"
-                      height="30px"
-                    />
+                    <AvatarWrapper size="default" user={user} />
                   </div>
                   <span className="habla-top-menu-label">{user.firstName}</span>
                 </div>

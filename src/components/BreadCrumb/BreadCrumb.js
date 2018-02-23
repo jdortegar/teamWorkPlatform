@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Avatar from '../../components/Avatar';
+import Avatar from 'components/Avatar';
 import './styles/style.css';
 
 class BreadCrumb extends React.Component {
