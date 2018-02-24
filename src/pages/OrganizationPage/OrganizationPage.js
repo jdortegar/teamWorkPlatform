@@ -22,6 +22,7 @@ const propTypes = {
     })
   }).isRequired,
   subscribers: PropTypes.array.isRequired,
+  subscribersPresences: PropTypes.object.isRequired,
   teams: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired
 };
@@ -70,8 +71,8 @@ class OrganizationPage extends Component {
 
 
   render() {
-    const { teams, integrations, subscribers, subscriberOrgs, user, match } = this.props;
-    if (match && match.params && match.params.subscriberOrgId &&
+    const { teams, integrations, subscribers, subscribersPresences, subscriberOrgs, user, match } = this.props;
+    if (match && match.params && match.params.subscriberOrgId && subscribers && subscribersPresences &&
         teams && integrations && this.state.subscribersLoaded && this.state.integrationsLoaded) {
       const subscriberOrgId = match.params.subscriberOrgId;
       let isOrgAdmin = false;
@@ -112,6 +113,7 @@ class OrganizationPage extends Component {
             integrations={integrations}
             onSwitchView={() => this.setState({ view: 'list' })}
             subscribers={subscribers}
+            subscribersPresences={subscribersPresences}
             subscriberOrgId={subscriberOrgId}
             teams={teams}
             user={user}

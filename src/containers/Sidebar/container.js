@@ -11,7 +11,8 @@ import {
   getSubscriberOrgsSortedAlphabetically,
   getTeams,
   getTeamRooms,
-  getSubscribersOfSubscriberOrgId
+  getSubscribersOfSubscriberOrgId,
+  getPresencesOfSubscribersOfOrgId
 } from '../../selectors';
 import Sidebar from '../../components/Sidebar';
 
@@ -19,6 +20,7 @@ function mapStateToProps(state) {
   return {
     subscriberOrgs: getSubscriberOrgsSortedAlphabetically(state),
     subscribers: getSubscribersOfSubscriberOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
+    subscribersPresences: getPresencesOfSubscribersOfOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
     currentSubscriberOrgId: state.subscriberOrgs.currentSubscriberOrgId,
     teams: getTeams(state),
     teamById: state.teams.teamById,

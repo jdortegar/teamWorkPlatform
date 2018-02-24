@@ -726,7 +726,9 @@ p {
 .m-5 {
   margin: 40px;
 }
-
+.opacity-low {
+  opacity: 0.3;
+}
 
 
 /* ---------------------------- ANT ELEMENTS To review -------------------------------- */

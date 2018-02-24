@@ -4,7 +4,8 @@ import {
   getUserIdsBySubscriberOrgId,
   getUserIdsByTeamId,
   getTeamById,
-  getTeamRoomById
+  getTeamRoomById,
+  getPresencesByUserId
 } from './state';
 
 export {
@@ -57,4 +58,21 @@ export const getSubscribersOfTeamRoomId = createCachedSelector(
   }
 )(
   (state, teamRoomId) => teamRoomId
+);
+
+export const getPresencesOfSubscribersOfOrgId = createCachedSelector(
+  [getUserIdsBySubscriberOrgId, getUserByUserId, getPresencesByUserId, (state, subscriberOrgId) => subscriberOrgId],
+  (userIdsBySubscriberOrgId, userByUserId, presencesByUserId, subscriberOrgId) => {
+    if ((!subscriberOrgId) || (!userIdsBySubscriberOrgId[subscriberOrgId])) {
+      return {};
+    }
+    const userIds = userIdsBySubscriberOrgId[subscriberOrgId];
+    const allPresences = {};
+    Object.keys(userIds).forEach((userId) => {
+      allPresences[userId] = presencesByUserId[userId];
+    });
+    return allPresences;
+  }
+)(
+  (state, subscriberOrgId) => subscriberOrgId
 );

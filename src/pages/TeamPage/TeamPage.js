@@ -23,6 +23,7 @@ const propTypes = {
     })
   }).isRequired,
   teamMembers: PropTypes.array.isRequired,
+  teamMembersPresences: PropTypes.object.isRequired,
   teamRooms: PropTypes.array.isRequired,
   subscriberOrgById: PropTypes.object.isRequired,
   teams: PropTypes.object.isRequired,
@@ -71,9 +72,9 @@ class TeamPage extends Component {
   }
 
   render() {
-    const { match, teamRooms, teams, teamMembers, subscriberOrgById, user } = this.props;
+    const { match, teamRooms, teams, teamMembers, teamMembersPresences, subscriberOrgById, user } = this.props;
     if (teamRooms && match && match.params && match.params.teamId &&
-        teamRooms && teams && teamMembers && subscriberOrgById &&
+        teamRooms && teams && teamMembers && teamMembersPresences && subscriberOrgById &&
         this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
       const teamId = match.params.teamId;
       const team = teams.teamById[teamId];
@@ -123,6 +124,7 @@ class TeamPage extends Component {
               teamId={teamId}
               teamRooms={teamRooms}
               teamMembers={teamMembers}
+              teamMembersPresences={teamMembersPresences}
               onSwitchView={() => this.setState({ view: 'list' })}
             />
           </div>

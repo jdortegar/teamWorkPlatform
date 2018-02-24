@@ -25,6 +25,7 @@ const propTypes = {
   toggleTeamDialog: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.array.isRequired,
   subscribers: PropTypes.array,
+  subscribersPresences: PropTypes.object.isRequired,
   teams: PropTypes.array.isRequired,
   teamRooms: PropTypes.array.isRequired,
   history: PropTypes.shape({
@@ -51,9 +52,15 @@ const ROUTERS_TO_HIDE_SIDEBAR = [
 ];
 
 function renderSubscriberAvatar(subscriber) {
-  const { firstName, lastName, userId, preferences, icon } = subscriber;
+  const { firstName, lastName, userId, preferences, icon, online } = subscriber;
   const fullName = String.t('fullName', { firstName, lastName });
   const initials = getInitials(fullName);
+  const className = classNames({
+    'mr-05': true,
+    'sidebar-direct-messages-content': !icon,
+    'opacity-low': !online
+  });
+
   return (
     <Tooltip
       key={userId}
@@ -61,13 +68,13 @@ function renderSubscriberAvatar(subscriber) {
       title={fullName}
     >
       {icon ?
-        <Avatar size="default" src={`data:image/jpeg;base64, ${icon}`} className="mr-05" />
+        <Avatar size="default" src={`data:image/jpeg;base64, ${icon}`} className={className} />
         :
         <Avatar
           size="default"
           ey={userId}
           color={preferences.iconColor}
-          className="mr-05"
+          className={className}
         >
           {initials}
         </Avatar>
@@ -324,15 +331,21 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { subscriberOrgs, subscribers, sideBarIsHidden, currentSubscriberOrgId, teamIdsBySubscriberOrgId } = this.props;
+    const { subscriberOrgs, subscribers, subscribersPresences, sideBarIsHidden, currentSubscriberOrgId, teamIdsBySubscriberOrgId } = this.props;
     if (!teamIdsBySubscriberOrgId || !currentSubscriberOrgId || !teamIdsBySubscriberOrgId[currentSubscriberOrgId] ||
-         subscriberOrgs.length === 0 || !subscribers) {
+         subscriberOrgs.length === 0 || !subscribers || !subscribersPresences) {
       return null;
     }
     const sideClass = classNames({
       Sidebar: true,
       hidden: sideBarIsHidden
     });
+
+    const orgSubscribers = subscribers.map(subscriber => ({
+      ...subscriber,
+      online: _.some(_.values(subscribersPresences[subscriber.userId]), { presenceStatus: 'online' })
+    }));
+
     const currentOrg = subscriberOrgs.find(({ subscriberOrgId }) => subscriberOrgId === currentSubscriberOrgId);
     const numberOfTeams = teamIdsBySubscriberOrgId[currentSubscriberOrgId].length;
     const addLinkSidebar = (
@@ -453,7 +466,7 @@ class Sidebar extends Component {
             </span>
           </div>
           <div className="sidebar-direct-messages-content padding-class-a">
-            {subscribers.map(subscriber => renderSubscriberAvatar(subscriber))}
+            {orgSubscribers.map(subscriber => renderSubscriberAvatar(subscriber))}
             <Tooltip placement="topLeft" title={String.t('sideBar.newDirectMessageTooltip')} arrowPointAtCenter>
               <a>
                 <Avatar className="mr-1">+</Avatar>

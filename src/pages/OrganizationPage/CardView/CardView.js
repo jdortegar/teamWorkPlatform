@@ -18,12 +18,13 @@ const propTypes = {
   integrations: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   subscribers: PropTypes.array.isRequired,
+  subscribersPresences: PropTypes.object.isRequired,
   subscriberOrgId: PropTypes.string.isRequired,
   teams: PropTypes.array.isRequired
 };
 
 function CardView(props) {
-  const { integrations, subscribers, subscriberOrgId, teams, user } = props;
+  const { integrations, subscribers, subscriberOrgId, teams, user, subscribersPresences } = props;
   const subscriberByMyUser = subscribers.find(subscriber => subscriber.userId === user.userId);
 
   const teamShouldRender = (role, team) => {
@@ -33,6 +34,11 @@ function CardView(props) {
     }
     return false;
   };
+
+  const orgSubscribers = subscribers.map(subscriber => ({
+    ...subscriber,
+    online: _.some(_.values(subscribersPresences[subscriber.userId]), { presenceStatus: 'online' })
+  }));
 
   const renderTeams = () => {
     return props.teams.map((team) => {
@@ -71,17 +77,21 @@ function CardView(props) {
   };
 
   const renderMembers = () => {
-    return props.subscribers.map((member) => {
-      const { userId, firstName, lastName, preferences, icon } = member;
+    return orgSubscribers.map((member) => {
+      const { userId, firstName, lastName, preferences, icon, online } = member;
       const fullName = String.t('fullName', { firstName, lastName });
+      const className = classNames({
+        'mr-05': true,
+        'opacity-low': !online
+      });
       return (
         <div key={userId} className="mr-1">
           <Tooltip placement="top" title={fullName}>
             <Link to={`/app/teamMember/${userId}`}>
               {
                 icon ?
-                  <Avatar size="large" src={`data:image/jpeg;base64, ${icon}`} /> :
-                  <Avatar size="large" color={preferences.iconColor}>
+                  <Avatar size="large" src={`data:image/jpeg;base64, ${icon}`} className={className} /> :
+                  <Avatar size="large" color={preferences.iconColor} className={className}>
                     {getInitials(fullName)}
                   </Avatar>
               }
@@ -191,7 +201,7 @@ function CardView(props) {
           </SimpleCardContainer>
         </Panel>
         <Panel
-          header={<SimpleHeader text={String.t('OrganizationPage.membersHeader', { count: subscribers.length })} />}
+          header={<SimpleHeader text={String.t('OrganizationPage.membersHeader', { count: orgSubscribers.length })} />}
           key="3"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">

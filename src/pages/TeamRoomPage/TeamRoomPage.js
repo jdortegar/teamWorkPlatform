@@ -398,9 +398,14 @@ class TeamRoomPage extends Component {
     const otherMembers = _.reject(members, { userId: user.userId });
     const orderedMembers = _.orderBy(otherMembers, ['online', 'firstName', 'lastName', 'displayName'], ['desc', 'asc', 'asc', 'asc']);
 
-    return [currentUser, ...orderedMembers].map(({ firstName, lastName, userId, preferences, icon }) => {
+    return [currentUser, ...orderedMembers].map(({ firstName, lastName, userId, preferences, icon, online }) => {
       const fullName = String.t('fullName', { firstName, lastName });
       const initials = getInitials(fullName);
+      const className = classNames({
+        'mr-05': true,
+        'opacity-low': !online
+      });
+
       return (
         <Tooltip
           key={userId}
@@ -408,13 +413,13 @@ class TeamRoomPage extends Component {
           title={fullName}
         >
           {icon ?
-            <Avatar size="small" src={`data:image/jpeg;base64, ${icon}`} className="mr-05" />
+            <Avatar size="small" src={`data:image/jpeg;base64, ${icon}`} className={className} />
             :
             <Avatar
               size="small"
               ey={userId}
               color={preferences.iconColor}
-              className="mr-05"
+              className={className}
             >
               {initials}
             </Avatar>

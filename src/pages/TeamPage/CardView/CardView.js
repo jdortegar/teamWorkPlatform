@@ -2,6 +2,8 @@ import React from 'react';
 import { Tooltip, Collapse } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
+import classNames from 'classnames';
 import Avatar from '../../../components/common/Avatar';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
@@ -14,11 +16,18 @@ const propTypes = {
   userId: PropTypes.string.isRequired,
   teamId: PropTypes.string.isRequired,
   teamRooms: PropTypes.array.isRequired,
-  teamMembers: PropTypes.array.isRequired
+  teamMembers: PropTypes.array.isRequired,
+  teamMembersPresences: PropTypes.object.isRequired
 };
 
 function CardView(props) {
-  const { teamRooms, teamMembers } = props;
+  const { teamRooms, teamMembers, teamMembersPresences } = props;
+
+  const members = teamMembers.map(member => ({
+    ...member,
+    online: _.some(_.values(teamMembersPresences[member.userId]), { presenceStatus: 'online' })
+  }));
+
   const renderTeamRooms = () => {
     return teamRooms.map(({ name, teamRoomId, preferences }) => {
       const initials = getInitials(name);
@@ -40,7 +49,12 @@ function CardView(props) {
   };
 
   const renderTeamMembers = () => {
-    return teamMembers.map(({ userId, firstName, lastName, preferences, icon }) => {
+    return members.map(({ userId, firstName, lastName, preferences, icon, online }) => {
+      const className = classNames({
+        'mr-05': true,
+        'opacity-low': !online
+      });
+
       const fullName = String.t('fullName', { firstName, lastName });
       return (
         <div key={userId} className="mr-1">
@@ -48,8 +62,8 @@ function CardView(props) {
             <Link to={`/app/teamMember/${userId}`}>
               {
                 icon ?
-                  <Avatar size="large" src={`data:image/jpeg;base64, ${icon}`} /> :
-                  <Avatar size="large" color={preferences.iconColor}>
+                  <Avatar size="large" src={`data:image/jpeg;base64, ${icon}`} className={className} /> :
+                  <Avatar size="large" color={preferences.iconColor} className={className}>
                     {getInitials(fullName)}
                   </Avatar>
               }
@@ -80,10 +94,10 @@ function CardView(props) {
     );
   };
 
-  const userMember = teamMembers.filter(({ userId }) => { return userId === props.userId; })[0];
+  const userMember = members.filter(({ userId }) => { return userId === props.userId; })[0];
   const isTeamAdmin = (userMember.teams[props.teamId].role === 'admin');
   const roomsSection = String.t('cardView.roomsHeader', { count: teamRooms.length });
-  const membersSection = String.t('cardView.membersHeader', { count: teamMembers.length });
+  const membersSection = String.t('cardView.membersHeader', { count: members.length });
 
   return (
     <div>
