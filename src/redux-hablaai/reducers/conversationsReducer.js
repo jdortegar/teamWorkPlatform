@@ -119,15 +119,19 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
 
       conversations.forEach((newConversation) => {
         const conversation = _.cloneDeep(newConversation);
-        const participants = conversation.participants.map(participant => participant.userId);
-        conversation.participants = participants;
+        if (conversation.participants) {
+          const participants = conversation.participants.map(participant => participant.userId);
+          conversation.participants = participants;
+        }
         conversationById[conversation.conversationId] = conversation;
         let conversationIds = conversationIdsByTeamRoomId[conversation.teamRoomId];
         if (!conversationIds) {
           conversationIds = [];
           conversationIdsByTeamRoomId[conversation.teamRoomId] = conversationIds;
         }
-        conversationIds.push(conversation.conversationId);
+        if (conversationIds.indexOf(conversation.conversationId) < 0) {
+          conversationIds.push(conversation.conversationId);
+        }
       });
 
       return {
