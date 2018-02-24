@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Tooltip, notification } from 'antd';
 import _ from 'lodash';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
 import CardView from './CardView';
@@ -73,8 +74,8 @@ class TeamPage extends Component {
 
   render() {
     const { match, teamRooms, teams, teamMembers, teamMembersPresences, subscriberOrgById, user } = this.props;
-    if (teamRooms && match && match.params && match.params.teamId &&
-        teamRooms && teams && teamMembers && teamMembersPresences && subscriberOrgById &&
+    if (teamRooms && match && match.params && match.params.teamId && teamRooms && teams &&
+        teamMembers && (teamMembers.length > 0) && teamMembersPresences && subscriberOrgById &&
         this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
       const teamId = match.params.teamId;
       const team = teams.teamById[teamId];
@@ -87,6 +88,7 @@ class TeamPage extends Component {
         isAdmin,
         url: `/app/editTeam/${teamId}`
       };
+      const className = classNames({ 'opacity-low': !team.active });
       return (
         <div>
           <SubpageHeader
@@ -105,7 +107,9 @@ class TeamPage extends Component {
             editButton={editButton}
           />
           <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
-            <Avatar size="x-large" color={team.preferences.iconColor}>{initials}</Avatar>
+            <Avatar size="x-large" color={team.preferences.iconColor} className={className}>
+              {initials}
+            </Avatar>
             <div className="margin-top-class-b">
               <h1 className="New-team__title habla-big-title habla-bold-text">
                 {team.name}

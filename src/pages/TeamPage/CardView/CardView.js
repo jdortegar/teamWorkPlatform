@@ -28,14 +28,19 @@ function CardView(props) {
     online: _.some(_.values(teamMembersPresences[member.userId]), { presenceStatus: 'online' })
   }));
 
-  const renderTeamRooms = () => {
-    return teamRooms.map(({ name, teamRoomId, preferences }) => {
+  const renderTeamRooms = (isTeamAdmin) => {
+    return teamRooms.map(({ name, teamRoomId, preferences, active }) => {
+      // TODO: Add roles on a per team basis, not org
+      if (!isTeamAdmin && !active) {
+        return null;
+      }
       const initials = getInitials(name);
+      const className = classNames({ 'opacity-low': !active });
       return (
         <div key={teamRoomId} className="mr-1">
           <Tooltip placement="top" title={name}>
             <Link to={`/app/teamRoom/${teamRoomId}`}>
-              <Avatar size="large" color={preferences.iconColor}>
+              <Avatar size="large" color={preferences.iconColor} className={className}>
                 {initials}
               </Avatar>
               <div className="habla-label align-center-class card-label">
@@ -108,7 +113,7 @@ function CardView(props) {
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
             {isTeamAdmin && renderAddCard(String.t('cardView.addNewTeamRoom'), `/app/createTeamRoom/${props.teamId}`) }
-            { renderTeamRooms() }
+            { renderTeamRooms(isTeamAdmin) }
           </SimpleCardContainer>
         </Panel>
         <Panel

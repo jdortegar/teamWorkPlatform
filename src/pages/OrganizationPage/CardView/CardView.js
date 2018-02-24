@@ -27,8 +27,8 @@ function CardView(props) {
   const { integrations, subscribers, subscriberOrgId, teams, user, subscribersPresences } = props;
   const subscriberByMyUser = subscribers.find(subscriber => subscriber.userId === user.userId);
 
-  const teamShouldRender = (role, team) => {
-    if (!role || (!team.active && role.role === 'admin') || team.active) {
+  const teamShouldRender = (isOrgAdmin, role, team) => {
+    if (isOrgAdmin || (!role || (!team.active && role.role === 'admin') || team.active)) {
       /* role is undefined for default team (ALL) */
       return true;
     }
@@ -40,30 +40,22 @@ function CardView(props) {
     online: _.some(_.values(subscribersPresences[subscriber.userId]), { presenceStatus: 'online' })
   }));
 
-  const renderTeams = () => {
+  const renderTeams = (isOrgAdmin) => {
     return props.teams.map((team) => {
       const role = subscriberByMyUser.teams[team.teamId];
-      const teamRender = teamShouldRender(role, team);
+      const teamRender = teamShouldRender(isOrgAdmin, role, team);
       const initials = getInitials(team.name);
       if (teamRender) {
+        const className = classNames({ 'opacity-low': !team.active });
         return (
           <div key={team.teamId} className="mr-1">
             <Tooltip placement="top" title={team.name}>
-              { team.active ?
-                <Link to={`/app/team/${team.teamId}`}>
-                  {team.icon ?
-                    <Avatar size="large" src={`data:image/jpeg;base64, ${team.icon}`} /> :
-                    <Avatar size="large" color={team.preferences.iconColor}>{initials}</Avatar>
-                  }
-                </Link> :
-                <div>
-                  {
-                    team.icon ?
-                      <Avatar size="large" src={`data:image/jpeg;base64, ${team.icon}`} /> :
-                      <Avatar size="large" color={team.preferences.iconColor}>{initials}</Avatar>
-                  }
-                </div>
-              }
+              <Link to={`/app/team/${team.teamId}`}>
+                {team.icon ?
+                  <Avatar size="large" src={`data:image/jpeg;base64, ${team.icon}`} className={className} /> :
+                  <Avatar size="large" color={team.preferences.iconColor} className={className}>{initials}</Avatar>
+                }
+              </Link>
               <div className="habla-label align-center-class card-label">
                 {team.name}
               </div>
@@ -197,7 +189,7 @@ function CardView(props) {
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
             {isOrgAdmin && renderAddCard(String.t('OrganizationPage.addNewTeam'), `/app/createTeam/${props.subscriberOrgId}`) }
-            {renderTeams()}
+            {renderTeams(isOrgAdmin)}
           </SimpleCardContainer>
         </Panel>
         <Panel

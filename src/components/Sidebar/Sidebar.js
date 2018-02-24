@@ -83,16 +83,19 @@ function renderSubscriberAvatar(subscriber) {
   );
 }
 
-function renderAvatar(item) {
+function renderAvatar(item, enabled) {
   const { preferences } = item;
+  const className = classNames({
+    'opacity-low': !enabled
+  });
   if (preferences.logo) {
-    return <Avatar src={preferences.logo} />;
+    return <Avatar src={preferences.logo} className={className} />;
   }
   if (preferences.avatarBase64) {
-    return <Avatar src={`data:image/jpeg;base64, ${preferences.avatarBase64}`} />;
+    return <Avatar src={`data:image/jpeg;base64, ${preferences.avatarBase64}`} className={className} />;
   }
   const nameInitial = item.name.substring(0, 1).toUpperCase();
-  return <Avatar color={preferences.iconColor}>{nameInitial}</Avatar>;
+  return <Avatar color={preferences.iconColor} className={className}>{nameInitial}</Avatar>;
 }
 
 class Sidebar extends Component {
@@ -238,7 +241,7 @@ class Sidebar extends Component {
         <div className="habla-left-navigation-teamroom-list">
           <div className="habla-left-navigation-teamroom-list-item padding-class-a">
             <div className="float-left-class">
-              {renderAvatar(teamRoom)}
+              {renderAvatar(teamRoom, teamRoom.active)}
             </div>
             <span className="habla-left-navigation-item-label" onClick={() => this.goToTeamRoomPage(teamRoom.teamRoomId)}>{teamRoom.name}</span>
             <div className="clear" />
@@ -279,7 +282,7 @@ class Sidebar extends Component {
             <div className="habla-left-navigation-team-list">
               <div className="habla-left-navigation-team-list-item padding-class-a">
                 <div className="float-left-class">
-                  {renderAvatar(team)}
+                  {renderAvatar(team, team.active)}
                 </div>
                 <span className="habla-left-navigation-item-label" onClick={e => this.goToTeamPage(e, team)}>
                   {team.name}
@@ -312,7 +315,7 @@ class Sidebar extends Component {
           this.goToOrgPage(e, org.subscriberOrgId);
         }}
       >
-        {renderAvatar(org)}
+        {renderAvatar(org, true)}
         <span className={className}>{org.name}</span>
       </a>
     );
