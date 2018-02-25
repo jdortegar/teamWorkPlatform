@@ -355,13 +355,13 @@ class Sidebar extends Component {
     const addLinkSidebar = (
       <Menu className="addLinkSidebar">
         <div className="habla-label padding-class-a">{String.t('sideBar.addNewLabel')}</div>
-        <Menu.Item key="addLinkSidebar">
+        <Menu.Item key="addMember">
           <a><span><i className="fas fa-plus-circle" /> {String.t('sideBar.addNewTeamMember')}</span></a>
         </Menu.Item>
-        <Menu.Item key="addLinkSidebar">
+        <Menu.Item key="addRoom">
           <a><span><i className="fas fa-plus-circle" /> {String.t('sideBar.addNewTeamRoom')}</span></a>
         </Menu.Item>
-        <Menu.Item key="addLinkSidebar" className="dropdown-last-menu-item">
+        <Menu.Item key="addTeam" className="dropdown-last-menu-item">
           <a><span><i className="fas fa-plus-circle" /> {String.t('sideBar.addNewTeam')}</span></a>
         </Menu.Item>
       </Menu>
@@ -369,16 +369,16 @@ class Sidebar extends Component {
     const sortLinkSidebar = (
       <Menu className="sortLinkSidebar">
         <div className="habla-label padding-class-a">{String.t('sideBar.sortByLabel')}</div>
-        <Menu.Item key="sortLinkSidebar">
+        <Menu.Item key="sortByAlph">
           <a><span><i className="fas fa-check" /> {String.t('sideBar.sortByAlphabetical')}</span></a>
         </Menu.Item>
-        <Menu.Item key="sortLinkSidebar">
+        <Menu.Item key="sortByDate">
           <a><span><i className="fas fa-check" /> {String.t('sideBar.sortByNewest')}</span></a>
         </Menu.Item>
-        <Menu.Item key="sortLinkSidebar">
+        <Menu.Item key="sortByUnread">
           <a><span><i className="fas fa-check" /> {String.t('sideBar.sortByUnread')}</span></a>
         </Menu.Item>
-        <Menu.Item key="sortLinkSidebar" className="dropdown-last-menu-item">
+        <Menu.Item key="sortByActivity" className="dropdown-last-menu-item">
           <a><span><i className="fas fa-check" /> {String.t('sideBar.sortByActivity')}</span></a>
         </Menu.Item>
       </Menu>

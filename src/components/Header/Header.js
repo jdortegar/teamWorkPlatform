@@ -26,19 +26,19 @@ class Header extends Component {
     const muteNotificationMenu = (
       <Menu className="muteNotificationMenu">
         <div className="habla-label padding-class-a">{String.t('Header.muteTitle')}</div>
-        <Menu.Item key="accountSettings">
+        <Menu.Item key="mute30min">
           <a><span><i className="fas fa-volume-up" /> {String.t('Header.muteThirtyMins')}</span></a>
         </Menu.Item>
-        <Menu.Item key="accountSettings">
+        <Menu.Item key="mute1Hr">
           <a><span><i className="fas fa-volume-down" /> {String.t('Header.muteOneHour')}</span></a>
         </Menu.Item>
-        <Menu.Item key="accountSettings">
+        <Menu.Item key="mute4Hrs">
           <a><span><i className="fas fa-volume-off" /> {String.t('Header.muteFourHours')}</span></a>
         </Menu.Item>
-        <Menu.Item key="accountSettings">
+        <Menu.Item key="muteAllDay">
           <a><span><i className="far fa-clock" /> {String.t('Header.muteAllDay')}</span></a>
         </Menu.Item>
-        <Menu.Item key="accountSettings" className="dropdown-last-menu-item">
+        <Menu.Item key="muteOff" className="dropdown-last-menu-item">
           <a><span><i className="fas fa-volume-up" /> {String.t('Header.muteNo')}</span></a>
         </Menu.Item>
       </Menu>
@@ -47,13 +47,13 @@ class Header extends Component {
     const userMenu = (
       <Menu className="userMenu">
         <div className="habla-label padding-class-a">{String.t('Header.statusTitle')}</div>
-        <Menu.Item key="accountSettings">
+        <Menu.Item key="online">
           <a><div className="habla-top-navigation-dropdown-signal habla-color-green" /> {String.t('Header.onlineStatus')}</a>
         </Menu.Item>
-        <Menu.Item key="logout">
+        <Menu.Item key="away">
           <a><div className="habla-top-navigation-dropdown-signal habla-color-yellow" />  {String.t('Header.awayStatus')}</a>
         </Menu.Item>
-        <Menu.Item key="logout">
+        <Menu.Item key="busy">
           <a><div className="habla-top-navigation-dropdown-signal habla-color-red" />  {String.t('Header.busyStatus')}</a>
         </Menu.Item>
         <div className="habla-label padding-class-a">{String.t('Header.adminTitle')}</div>

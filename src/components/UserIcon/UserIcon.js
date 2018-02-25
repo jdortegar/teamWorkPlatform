@@ -72,7 +72,7 @@ function UserIcon(props) {
 
   return (
     props.clickable ?
-      <a
+      <div
         className={className}
         style={style}
         title={name}
@@ -91,7 +91,7 @@ function UserIcon(props) {
               }}
             />
         }
-      </a> :
+      </div> :
       <div
         className={className}
         style={style}
