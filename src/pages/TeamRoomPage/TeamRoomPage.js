@@ -607,6 +607,7 @@ class TeamRoomPage extends Component {
                     className="team-room__chat-input-form-item"
                     inputClassName="team-room__chat-input-textfield"
                     onChange={this.handleTyping}
+                    autoFocus
                   />
                 </Form>
               </div>
