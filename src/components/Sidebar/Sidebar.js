@@ -25,7 +25,7 @@ const propTypes = {
   toggleTeamDialog: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.array.isRequired,
   subscribers: PropTypes.array,
-  subscribersPresences: PropTypes.object.isRequired,
+  subscribersPresences: PropTypes.object,
   teams: PropTypes.array.isRequired,
   teamRooms: PropTypes.array.isRequired,
   history: PropTypes.shape({
@@ -43,6 +43,7 @@ const defaultProps = {
   currentSubscriberOrgId: null,
   subscriberOrgs: [],
   subscribers: null,
+  subscribersPresences: {},
   teams: [],
   teamRooms: []
 };

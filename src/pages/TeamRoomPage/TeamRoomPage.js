@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Form, Tooltip, notification } from 'antd';
+import { Form, Tooltip, message as msg } from 'antd';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -20,6 +20,7 @@ import { getJwt, getResourcesUrl } from '../../session';
 import String from '../../translations';
 import getInitials from '../../utils/helpers';
 import './styles/style.css';
+import { messageAction } from '../../components/Message/Message';
 
 const propTypes = {
   files: PropTypes.array,
@@ -59,10 +60,11 @@ const propTypes = {
   conversations: PropTypes.shape({
     conversationId: PropTypes.string.isRequired,
     transcript: PropTypes.array
-  }).isRequired,
+  }),
   unreadMessagesCount: PropTypes.number,
   membersTyping: PropTypes.object,
   createMessage: PropTypes.func.isRequired,
+  deleteMessage: PropTypes.func.isRequired,
   readMessage: PropTypes.func.isRequired,
   iAmTyping: PropTypes.func.isRequired,
   updateFileList: PropTypes.func.isRequired,
@@ -73,6 +75,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  conversations: {},
   files: [],
   readMessages: null,
   unreadMessagesCount: 0,
@@ -102,7 +105,7 @@ class TeamRoomPage extends Component {
     };
 
     this.onCancelReply = this.onCancelReply.bind(this);
-    this.onReplyTo = this.onReplyTo.bind(this);
+    this.onMessageAction = this.onMessageAction.bind(this);
     this.handleHeaderClick = this.handleHeaderClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -187,8 +190,23 @@ class TeamRoomPage extends Component {
     this.setState({ replyTo: null, showPreviewBox: false });
   }
 
-  onReplyTo(replyObj) {
-    this.setState({ showPreviewBox: true, replyTo: replyObj });
+  onMessageAction({ message, extraInfo }, action) {
+    switch (action) {
+      case messageAction.replyTo:
+        this.setState({ showPreviewBox: true, replyTo: extraInfo });
+        break;
+      case messageAction.delete:
+        this.props.deleteMessage(message.messageId)
+          .then(() => {
+            msg.success(String.t('message.deleteSuccessToast'));
+          })
+          .catch((error) => {
+            msg.error(error.message);
+          });
+        break;
+      default:
+        break;
+    }
   }
 
   onFileChange(event) {
@@ -291,11 +309,7 @@ class TeamRoomPage extends Component {
             .catch((error) => {
               this.props.updateFileList(this.props.files);
               this.setState({ file: null });
-              notification.open({
-                message: String.t('errorToastTitle'),
-                description: error.message,
-                duration: 4
-              });
+              msg.error(error.message);
             });
         } else if (message) {
           postBody.content.push({ type: 'text/plain', text: message });
@@ -310,11 +324,7 @@ class TeamRoomPage extends Component {
               this.props.form.resetFields();
             })
             .catch((error) => {
-              notification.open({
-                message: String.t('errorToastTitle'),
-                description: error.message,
-                duration: 4
-              });
+              msg.error(error.message);
             });
         }
       }
@@ -368,13 +378,13 @@ class TeamRoomPage extends Component {
     const teamId = teamRooms.teamRoomById[teamRoomId].teamId;
     const subscriberOrgId = teams.teamById[teamId].subscriberOrgId;
 
-    return conversations.transcript.map(message => (
-      <Message
+    return conversations.transcript.map(message =>
+      (<Message
         conversationDisabled={disableConversation}
         message={message}
         user={teamRoomMembersObj[message.createdBy]}
         key={message.messageId}
-        replyTo={this.onReplyTo}
+        onMessageAction={this.onMessageAction}
         hide={false}
         currentPath={currentPath}
         teamRoomMembersObj={teamRoomMembersObj}
@@ -382,8 +392,8 @@ class TeamRoomPage extends Component {
         subscriberOrgId={subscriberOrgId}
         teamId={teamId}
         teamRoomId={teamRoomId}
-      />
-    ));
+      />)
+    );
   }
 
   renderTeamRoomMembers() {
@@ -461,9 +471,9 @@ class TeamRoomPage extends Component {
 
   render() {
     const { teamRoomMembersLoaded, conversationsLoaded } = this.state;
-    const { match, teamRooms, user, teamRoomMembers, unreadMessagesCount, conversations, subscriberOrgById } = this.props;
+    const { match, teamRooms, user, teamRoomMembers, teamRoomMembersObj, unreadMessagesCount, conversations, subscriberOrgById } = this.props;
     if (match && match.params && match.params.teamRoomId && teamRoomMembersLoaded && conversationsLoaded &&
-        this.state.teamRoomMembers && conversations && subscriberOrgById) {
+        teamRoomMembersObj && this.state.teamRoomMembers && conversations && subscriberOrgById) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
       const { conversationId } = conversations;
       const lastMessage = _.last(conversations.transcript) || {};

@@ -292,7 +292,9 @@
     "tooltipMute": "Mute",
     "tooltipUnmute": "Unmute",
     "tooltipEdit": "Edit",
-    "unreadMessageSeparator": "New"
+    "unreadMessageSeparator": "New",
+    "deleteConfirmationQuestion": "This will delete this message. Are you sure?",
+    "deleteSuccessToast": "Your message has been deleted."
   },
   "previewBar": {
     "name": "{{firstName}} {{lastName}}",

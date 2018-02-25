@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Tooltip } from 'antd';
+import { Popconfirm, Row, Col, Tooltip } from 'antd';
 import _ from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
@@ -13,7 +13,7 @@ const propTypes = {
   hide: PropTypes.bool.isRequired,
   currentPath: PropTypes.string,
   conversationDisabled: PropTypes.bool,
-  replyTo: PropTypes.func.isRequired,
+  onMessageAction: PropTypes.func.isRequired,
   teamRoomMembersObj: PropTypes.object.isRequired,
   message: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
@@ -30,6 +30,15 @@ const defaultProps = {
   currentPath: null
 };
 
+export const messageAction = {
+  replyTo: 'replyTo',
+  thumb: 'thumb', // "up" or "down"
+  bookmark: 'bookmark',
+  flag: 'flag',
+  delete: 'delete',
+  edit: 'edit'
+};
+
 class Message extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +49,12 @@ class Message extends Component {
     };
 
     this.handleReplyTo = this.handleReplyTo.bind(this);
+    this.handleBookmark = this.handleBookmark.bind(this);
+    this.handleThumb = this.handleThumb.bind(this);
+    this.handleFlag = this.handleFlag.bind(this);
+    // this.handleEdit = this.handleEdit.bind(this);
     this.changeVolume = this.changeVolume.bind(this);
+    this.onDeleteConfirmed = this.onDeleteConfirmed.bind(this);
     this.handleShowReplies = this.handleShowReplies.bind(this);
   }
 
@@ -50,15 +64,41 @@ class Message extends Component {
     }
   }
 
+  onDeleteConfirmed() {
+    const { message } = this.props;
+    this.props.onMessageAction({ message }, messageAction.delete);
+  }
+
   handleShowReplies() {
     this.setState({
       isExpanded: !this.state.isExpanded
     });
   }
 
-  handleReplyTo(user) {
-    this.props.replyTo(user);
+  handleReplyTo(extraInfo) {
+    const { message } = this.props;
+    this.props.onMessageAction({ message, extraInfo }, messageAction.replyTo);
   }
+
+  handleBookmark() {
+    const { message } = this.props;
+    this.props.onMessageAction({ message }, messageAction.bookmark);
+  }
+
+  handleThumb(direction) {
+    const { message } = this.props;
+    const extraInfo = { direction };
+    this.props.onMessageAction({ message, extraInfo }, messageAction.thumb);
+  }
+
+  handleFlag() {
+    const { message } = this.props;
+    this.props.onMessageAction({ message }, messageAction.flag);
+  }
+
+  /*
+  handleEdit() {
+  } */
 
   changeVolume() {
     this.setState({
@@ -133,20 +173,53 @@ class Message extends Component {
               </a>
             </Tooltip>
             <Tooltip placement="topLeft" title={String.t('message.tooltipBookmark')} arrowPointAtCenter>
-              <a className="message__icons"><i className="fas fa-bookmark" /></a>
+              <a
+                className="message__icons"
+                onClick={() => this.handleBookmark()}
+              >
+                <i className="fas fa-bookmark" />
+              </a>
             </Tooltip>
             <Tooltip placement="topLeft" title={String.t('message.tooltipThumbsUp')} arrowPointAtCenter>
-              <a className="message__icons"><i className="fas fa-thumbs-up" /></a>
+              <a
+                className="message__icons"
+                onClick={() => this.handleThumb('up')}
+              >
+                <i className="fas fa-thumbs-up" />
+              </a>
             </Tooltip>
             <Tooltip placement="topLeft" title={String.t('message.tooltipThumbsDown')} arrowPointAtCenter>
-              <a className="message__icons"><i className="fas fa-thumbs-down" /></a>
+              <a
+                className="message__icons"
+                onClick={() => this.handleThumb('down')}
+              >
+                <i className="fas fa-thumbs-down" />
+              </a>
             </Tooltip>
             <Tooltip placement="topLeft" title={String.t('message.tooltipFlag')} arrowPointAtCenter>
-              <a className="message__icons"><i className="fas fa-flag" /></a>
+              <a
+                className="message__icons"
+                onClick={() => this.handleFlag()}
+              >
+                <i className="fas fa-flag" />
+              </a>
             </Tooltip>
-            <Tooltip placement="topLeft" title={String.t('message.tooltipEdit')} arrowPointAtCenter>
-              <a className="message__icons"><i className="fas fa-pencil-alt" /></a>
-            </Tooltip>
+            {/* <Tooltip placement="topLeft" title={String.t('message.tooltipEdit')} arrowPointAtCenter> */}
+            <Popconfirm
+              title={String.t('message.deleteConfirmationQuestion')}
+              okText={String.t('okButton')}
+              cancelText={String.t('cancelButton')}
+              arrowPointAtCenter
+              onConfirm={() => this.onDeleteConfirmed()}
+            >
+              <a
+                className="message__icons"
+                /* onClick={() => this.handleEdit()} */
+              >
+                <i className="fas fa-pencil-alt" />
+              </a>
+            </Popconfirm>
+            {/* </Tooltip> */}
           </div>
           }
         </div>
@@ -156,7 +229,7 @@ class Message extends Component {
             message={childMessage}
             user={teamRoomMembersObj[childMessage.createdBy]}
             key={childMessage.messageId}
-            replyTo={this.props.replyTo}
+            onMessageAction={this.props.onMessageAction}
             hide={!this.state.isExpanded}
             currentPath={this.props.currentPath}
             teamRoomMembersObj={this.props.teamRoomMembersObj}
