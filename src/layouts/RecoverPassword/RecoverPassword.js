@@ -88,6 +88,7 @@ class RecoverPassword extends Component {
                       required
                       placeholder="Email"
                       initialValue={sessionStorage.getItem('habla-user-email')}
+                      autoFocus
                     />
                   </div>
                 </div>

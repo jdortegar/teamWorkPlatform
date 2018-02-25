@@ -173,6 +173,7 @@ class Register extends React.Component {
                 required
                 componentKey="email"
                 initialValue={sessionStorage.getItem('habla-user-email')}
+                autoFocus
               />
               { this.renderPreRegisteredButtons() }
             </div>

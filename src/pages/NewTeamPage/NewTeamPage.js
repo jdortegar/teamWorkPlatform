@@ -101,6 +101,7 @@ class NewTeamPage extends Component {
                 placeholder=" "
                 label=""
                 required
+                autoFocus
               />
             </div>
             <div className="edit-org__buttons border-top-lighter margin-top-class-a">

@@ -81,7 +81,7 @@ class InviteNewMemberPage extends Component {
   }
 
   renderInvitees() {
-    return this.state.inviteesArr.map((el) => {
+    return this.state.inviteesArr.map((el, index) => {
       return (
         <Row key={el} gutter={16} type="flex" className="Invite-New-Member__email-row">
           <Col className="gutter-row" span={20}>
@@ -92,6 +92,7 @@ class InviteNewMemberPage extends Component {
               placeholder=" "
               label=""
               required
+              autoFocus={index === this.state.inviteesArr.length - 1}
             />
           </Col>
           {

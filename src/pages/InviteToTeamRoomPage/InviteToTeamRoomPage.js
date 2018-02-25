@@ -95,7 +95,7 @@ class InviteToTeamRoomPage extends Component {
       return acc;
     }, []);
 
-    return this.state.inviteesArr.map((el) => {
+    return this.state.inviteesArr.map((el, index) => {
       return (
         <Row key={el} gutter={16} type="flex" className="Invite-To-TeamRoom__email-row">
           <Col className="gutter-row" span={20}>
@@ -106,6 +106,7 @@ class InviteToTeamRoomPage extends Component {
               placeholder={String.t('inviteToTeamRoomPage.usernamePlaceholder')}
               label=""
               required
+              autoFocus={index === this.state.inviteesArr.length - 1}
               dataSource={dataSource}
             />
           </Col>
