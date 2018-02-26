@@ -1,21 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Avatar from '../../components/Avatar';
+import Avatar from 'components/common/Avatar';
 import './styles/style.css';
 
 class BreadCrumb extends React.Component {
   renderAvatar() {
     const { subscriberOrg } = this.props;
+    const avatarClass = 'mr-1';
+    if (subscriberOrg.preferences.avatarBase64) {
+      return (<Avatar className={avatarClass} src={`data:image/jpeg;base64, ${subscriberOrg.preferences.avatarBase64}`} />);
+    } else if (subscriberOrg.preferences.logo) {
+      return (<Avatar className={avatarClass} src={`data:image/jpeg;base64, ${subscriberOrg.preferences.logo}`} />);
+    }
+    const initial = subscriberOrg.name.substring(0, 1).toUpperCase();
     return (
-      <span className="breadcrumbs-avatar">
-        <Avatar
-          styles={{ width: '30px', height: '30px' }}
-          name={subscriberOrg.name}
-          iconColor={subscriberOrg.preferences.iconColor}
-          image={subscriberOrg.preferences.avatarBase64 || subscriberOrg.preferences.logo}
-        />
-      </span>
+      <Avatar
+        color={subscriberOrg.preferences.iconColor}
+        className={avatarClass}
+      >
+        {initial}
+      </Avatar>
     );
   }
 

@@ -4,7 +4,7 @@ import { Popconfirm, Row, Col, Tooltip } from 'antd';
 import _ from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
-import UserIcon from '../UserIcon';
+import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
 import PreviewImages from '../PreviewImages';
 import './styles/style.css';
 import String from '../../translations';
@@ -135,7 +135,7 @@ class Message extends Component {
         <div className={classNames('message__main-container', `border-bottom-${lastRead ? 'red' : 'lighter'}`)}>
           <Row type="flex" justify="start" gutter={20}>
             <Col xs={{ span: 5 }} sm={{ span: 3 }} md={{ span: 2 }} className="message__col-user-icon">
-              <UserIcon user={user} type="user" minWidth="2.5em" width="2.5em" height="2.5em" key={userId} className={avatarClassName} />
+              <AvatarWrapper key={userId} user={user} size="default" className={avatarClassName} />
             </Col>
             <Col xs={{ span: 15 }} sm={{ span: 16 }} md={{ span: 18 }}>
               {messageBody}
