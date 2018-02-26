@@ -11,7 +11,7 @@ class BreadCrumb extends React.Component {
     if (subscriberOrg.preferences.avatarBase64) {
       return (<Avatar className={avatarClass} src={`data:image/jpeg;base64, ${subscriberOrg.preferences.avatarBase64}`} />);
     } else if (subscriberOrg.preferences.logo) {
-      return (<Avatar className={avatarClass} src={`data:image/jpeg;base64, ${subscriberOrg.preferences.logo}`} />);
+      return (<Avatar className={avatarClass} src={subscriberOrg.preferences.logo} />);
     }
     const initial = subscriberOrg.name.substring(0, 1).toUpperCase();
     return (
