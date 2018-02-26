@@ -11,11 +11,12 @@ import {
 } from 'victory';
 
 import String from '../../translations';
-import styles from './styles/style';
-import './styles/style.css';
-
 import formatSize from '../../lib/formatSize';
 import { boxLogo, googleDriveLogo, sharepointLogo } from '../../img';
+
+import FilePoint from './FilePoint';
+import styles from './styles/style';
+import './styles/style.css';
 
 function imageFromResourceUri(resourceUri) {
   if (resourceUri.indexOf('google.com') > 0) {
@@ -219,6 +220,7 @@ class TimeActivityGraph extends Component {
           />
           <VictoryScatter
             labelComponent={<div />}
+            dataComponent={<FilePoint />}
             events={[{
               target: 'data',
               eventHandlers: {
@@ -233,14 +235,6 @@ class TimeActivityGraph extends Component {
                   this.setState({ tooltipPoint: null });
                 },
                 onClick: (evt, clickedProps) => {
-                  // if (this.state.tooltipPoint) {
-                  //   this.setState({ tooltipPoint: null });
-                  //   return;
-                  // }
-                //    const { index, data } = clickedProps;
-                //    this.setState({ tooltipPoint: { x: evt.clientX, y: evt.clientY, datum: data[index] } });
-                //  },
-                //  onDoubleClick: (evt, clickedProps) => {
                   const { index, data } = clickedProps;
                   window.open(data[index].resourceUri, '_blank');
                   this.setState({ tooltipPoint: null });
