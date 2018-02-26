@@ -20,6 +20,7 @@ import { getJwt, getResourcesUrl } from '../../session';
 import String from '../../translations';
 import getInitials from '../../utils/helpers';
 import './styles/style.css';
+import { sortByFirstName } from '../../redux-hablaai/selectors/helpers';
 import { messageAction } from '../../components/Message/Message';
 
 const propTypes = {
@@ -407,7 +408,8 @@ class TeamRoomPage extends Component {
     }));
     const currentUser = _.find(members, { userId: user.userId });
     const otherMembers = _.reject(members, { userId: user.userId });
-    const orderedMembers = _.orderBy(otherMembers, ['online', 'firstName', 'lastName', 'displayName'], ['desc', 'asc', 'asc', 'asc']);
+    //  const orderedMembers = _.orderBy(otherMembers, ['online', 'firstName', 'lastName', 'displayName'], ['desc', 'asc', 'asc', 'asc']);
+    const orderedMembers = otherMembers.sort(sortByFirstName);
 
     return [currentUser, ...orderedMembers].map(({ firstName, lastName, userId, preferences, icon, online }) => {
       const fullName = String.t('fullName', { firstName, lastName });

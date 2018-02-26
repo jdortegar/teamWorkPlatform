@@ -4,6 +4,7 @@ import {
   getUserIdsByTeamId,
   getPresencesByUserId
 } from './state';
+import { sortByFirstName } from './helpers';
 
 export {
   getTeamMemberIdByUserId,
@@ -18,7 +19,7 @@ export const getTeamMembersOfTeamId = createCachedSelector( // eslint-disable-li
     }
 
     const userIds = userIdsByTeamId[teamId];
-    return Object.keys(userIds).map(userId => userByUserId[userId]);
+    return Object.keys(userIds).map(userId => userByUserId[userId]).sort(sortByFirstName);
   }
 )(
   (state, teamId) => teamId

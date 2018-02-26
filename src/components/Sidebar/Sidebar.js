@@ -57,7 +57,7 @@ function renderSubscriberAvatar(subscriber) {
   const fullName = String.t('fullName', { firstName, lastName });
   const initials = getInitials(fullName);
   const className = classNames({
-    'mr-05': true,
+    'sidebar-subscriber-avatar': true,
     'sidebar-direct-messages-content': !icon,
     'opacity-low': !online
   });

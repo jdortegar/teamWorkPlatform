@@ -1,5 +1,6 @@
 import config from '../config';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
+import { sortByFirstName } from '../selectors/helpers';
 
 export const TEAMMEMBERS_FETCH_SUCCESS = 'teammembers/fetch/success';
 
@@ -19,7 +20,7 @@ export const fetchTeamMembersByTeamId = (teamId, options = { getKey: false, forc
     if (!options.getKey) {
       thunk.then((response) => {
         if ((response.data) && (response.data !== RESPONSE_STALE)) {
-          const { teamMembers } = response.data;
+          const teamMembers = response.data.teamMembers.sort(sortByFirstName);
           dispatch({
             type: TEAMMEMBERS_FETCH_SUCCESS,
             payload: { teamMembers, teamId }
