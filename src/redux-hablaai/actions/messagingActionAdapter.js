@@ -98,19 +98,13 @@ const eventHandler = (eventType, event) => {
       config.store.dispatch(receiveReadMessages(event));
       break;
     case EventTypes.messageUpdated:
-      console.log('TODO: messageUpdated'); // eslint-disable-line no-console
+      config.store.dispatch(receiveMessages([event], event.conversationId));
       break;
     case EventTypes.messageDeleted:
-      console.log('TODO: messageDeleted'); // eslint-disable-line no-console
-      break;
     case EventTypes.messageLiked:
-      console.log('TODO: messageLiked'); // eslint-disable-line no-console
-      break;
     case EventTypes.messageDisliked:
-      console.log('TODO: messageDisliked'); // eslint-disable-line no-console
-      break;
     case EventTypes.messageFlagged:
-      console.log('TODO: messageFlagged'); // eslint-disable-line no-console
+      config.store.dispatch(receiveMessages([event], event.conversationId));
       break;
     case EventTypes.typing:
       config.store.dispatch(receiveTyping(event));
