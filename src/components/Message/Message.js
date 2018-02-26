@@ -223,20 +223,24 @@ class Message extends Component {
           </div>
           }
         </div>
-        { children.length > 0 && children.map(childMessage => (
-          <Message
-            conversationDisabled={conversationDisabled}
-            message={childMessage}
-            user={teamRoomMembersObj[childMessage.createdBy]}
-            key={childMessage.messageId}
-            onMessageAction={this.props.onMessageAction}
-            hide={!this.state.isExpanded}
-            currentPath={this.props.currentPath}
-            teamRoomMembersObj={this.props.teamRoomMembersObj}
-            subscriberOrgId={this.props.subscriberOrgId}
-            teamId={this.props.teamId}
-            teamRoomId={this.props.teamRoomId}
-          />)
+        { children.length > 0 && children.map((childMessage) => {
+          if (childMessage.deleted) return null;
+          return (
+            <Message
+              conversationDisabled={conversationDisabled}
+              message={childMessage}
+              user={teamRoomMembersObj[childMessage.createdBy]}
+              key={childMessage.messageId}
+              onMessageAction={this.props.onMessageAction}
+              hide={!this.state.isExpanded}
+              currentPath={this.props.currentPath}
+              teamRoomMembersObj={this.props.teamRoomMembersObj}
+              subscriberOrgId={this.props.subscriberOrgId}
+              teamId={this.props.teamId}
+              teamRoomId={this.props.teamRoomId}
+            />
+          );
+        }
         )}
       </div>
     );

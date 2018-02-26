@@ -196,7 +196,7 @@ class TeamRoomPage extends Component {
         this.setState({ showPreviewBox: true, replyTo: extraInfo });
         break;
       case messageAction.delete:
-        this.props.deleteMessage(message.messageId)
+        this.props.deleteMessage(message.messageId, message.conversationId)
           .then(() => {
             msg.success(String.t('message.deleteSuccessToast'));
           })
@@ -378,8 +378,9 @@ class TeamRoomPage extends Component {
     const teamId = teamRooms.teamRoomById[teamRoomId].teamId;
     const subscriberOrgId = teams.teamById[teamId].subscriberOrgId;
 
-    return conversations.transcript.map(message =>
-      (<Message
+    return conversations.transcript.map((message) => {
+      if (message.deleted) return null;
+      return (<Message
         conversationDisabled={disableConversation}
         message={message}
         user={teamRoomMembersObj[message.createdBy]}
@@ -392,8 +393,8 @@ class TeamRoomPage extends Component {
         subscriberOrgId={subscriberOrgId}
         teamId={teamId}
         teamRoomId={teamRoomId}
-      />)
-    );
+      />);
+    });
   }
 
   renderTeamRoomMembers() {
