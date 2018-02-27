@@ -6,13 +6,16 @@ import imageSrcFromFile from '../../lib/imageFiles';
 const ICON_SIZE = 32;
 
 const propTypes = {
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired,
-  datum: PropTypes.object.isRequired,
+  x: PropTypes.number,
+  y: PropTypes.number,
+  datum: PropTypes.object,
   events: PropTypes.object
 };
 
 const defaultProps = {
+  datum: undefined,
+  x: undefined,
+  y: undefined,
   events: {}
 };
 
