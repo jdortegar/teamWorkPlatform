@@ -369,8 +369,8 @@ class TeamRoomPage extends Component {
     this.props.updateFileList(files);
   }
 
-  renderMessages() {
-    const { match, teamRooms, teams, conversations, teamRoomMembersObj } = this.props;
+  renderMessages(isAdmin) {
+    const { match, teamRooms, teams, conversations, teamRoomMembersObj, user } = this.props;
     const { lastSubmittedMessage } = this.state;
     const currentPath = lastSubmittedMessage ? lastSubmittedMessage.path : null;
     const disableConversation = this.shouldDisableConversation();
@@ -384,6 +384,7 @@ class TeamRoomPage extends Component {
         conversationDisabled={disableConversation}
         message={message}
         user={teamRoomMembersObj[message.createdBy]}
+        currentUserId={user.userId}
         key={message.messageId}
         onMessageAction={this.onMessageAction}
         hide={false}
@@ -393,6 +394,7 @@ class TeamRoomPage extends Component {
         subscriberOrgId={subscriberOrgId}
         teamId={teamId}
         teamRoomId={teamRoomId}
+        isAdmin={isAdmin}
       />);
     });
   }
@@ -574,7 +576,7 @@ class TeamRoomPage extends Component {
           )}
 
           <SimpleCardContainer className="team-room__messages">
-            {this.renderMessages()}
+            {this.renderMessages(isAdmin)}
           </SimpleCardContainer>
 
           <SimpleCardContainer className="team-room__chat-container">

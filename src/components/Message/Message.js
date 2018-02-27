@@ -17,9 +17,11 @@ const propTypes = {
   teamRoomMembersObj: PropTypes.object.isRequired,
   message: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  currentUserId: PropTypes.string.isRequired,
   subscriberOrgId: PropTypes.string.isRequired,
   teamId: PropTypes.string.isRequired,
   teamRoomId: PropTypes.string.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
   lastRead: PropTypes.bool
 };
 
@@ -107,7 +109,7 @@ class Message extends Component {
   }
 
   render() {
-    const { message, user, teamRoomMembersObj, hide, lastRead, conversationDisabled } = this.props;
+    const { message, user, currentUserId, teamRoomMembersObj, hide, lastRead, conversationDisabled, isAdmin } = this.props;
     const { messageId, children, level, content } = message;
     const { firstName, lastName, preferences, userId } = user;
     const date = moment(message.created).fromNow();
@@ -205,6 +207,7 @@ class Message extends Component {
               </a>
             </Tooltip>
             {/* <Tooltip placement="topLeft" title={String.t('message.tooltipEdit')} arrowPointAtCenter> */}
+            {(isAdmin || message.createdBy === currentUserId) &&
             <Popconfirm
               title={String.t('message.deleteConfirmationQuestion')}
               okText={String.t('okButton')}
@@ -219,6 +222,7 @@ class Message extends Component {
                 <i className="fas fa-pencil-alt" />
               </a>
             </Popconfirm>
+            }
             {/* </Tooltip> */}
           </div>
           }
@@ -230,6 +234,7 @@ class Message extends Component {
               conversationDisabled={conversationDisabled}
               message={childMessage}
               user={teamRoomMembersObj[childMessage.createdBy]}
+              currentUserId={this.props.currentUserId}
               key={childMessage.messageId}
               onMessageAction={this.props.onMessageAction}
               hide={!this.state.isExpanded}
