@@ -91,6 +91,14 @@ class CKGPage extends Component {
                         excludeFilter[key] = (excludeFilter[key] ? null : true);
                         this.setState({ excludeFilter });
                       }}
+                      onDoubleClick={() => {
+                        const excludeFilter = {};
+                        const keys = Object.keys(this.state.excludeFilter);
+                        if (keys.length < labels.length) {
+                          labels.forEach((file) => { excludeFilter[file.key] = true; });
+                        }
+                        this.setState({ excludeFilter });
+                      }}
                     >
                       <img src={imageSrcFromFileExtension(fileExtension)} width={32} height={32} alt="" className="img" />
                       <div className="fileTypeLabel">
