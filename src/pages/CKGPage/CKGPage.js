@@ -83,7 +83,7 @@ class CKGPage extends Component {
               const btnClass = this.state.excludeFilter[key] ? 'fileTypeButton fileTypeButtonGrayed' : 'fileTypeButton';
               return (
                 <div key={key} className="fileTypeContainer">
-                  <Tooltip placement="top" title={`${count}`}>
+                  <Tooltip placement="top" title={String.t('ckgPage.filterCount', { count, label })}>
                     <div
                       className={btnClass}
                       onClick={() => {
