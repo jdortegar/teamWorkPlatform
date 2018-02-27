@@ -10,11 +10,10 @@ import { /* eslint-disable camelcase */
   fileType_SVG, fileType_TXT, fileType_XLS, fileType_XML, fileType_ZIP
 } from '../img/index';
 
-// TODO: Move this to a better place. Suggestions??
-function imageSrcFromFile(file) {
-  if (!file.fileType || !file.fileExtension) return fileType_File;
+function imageSrcFromFileExtension(fileExtension) {
+  if (!fileExtension) return fileType_File;
 
-  switch (file.fileExtension.toUpperCase()) {
+  switch (fileExtension.toUpperCase()) {
     case 'AI': return fileType_AI;
     case 'AUDITION': return fileType_Audition;
     case 'AVI': return fileType_AVI;
@@ -60,4 +59,4 @@ function imageSrcFromFile(file) {
   }
 }
 
-export default imageSrcFromFile;
+export default imageSrcFromFileExtension;

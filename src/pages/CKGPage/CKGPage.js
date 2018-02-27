@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { Tooltip } from 'antd';
 import * as d3 from 'd3';
 import String from '../../translations';
 
 import { NewSubpageHeader, TimeActivityGraph } from '../../components';
-import imageSrcFromFile from '../../lib/imageFiles';
+import imageSrcFromFileExtension from '../../lib/imageFiles';
 import './styles/style.css';
 
 const color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -59,11 +60,11 @@ class CKGPage extends Component {
     const { timeActivities } = this.props;
     if (!timeActivities) return null;
     const { files, fileTypes } = this.props.timeActivities;
-    if (!files || !fileTypes) return null;
-
+    if (!files || !fileTypes || !fileTypes.files) return null;
+    const { labels } = fileTypes;
     const other = String.t('ckgPage.filterTypeOther');
     const filesFiltered = files.filter((file) => {
-      const label = file.fileType || other;
+      const label = file.fileExtension || other;
       return !this.state.excludeFilter[label];
     });
 
@@ -78,33 +79,25 @@ class CKGPage extends Component {
         <TimeActivityGraph files={filesFiltered.map(buildDataObject)} />
         <div className="bottomBar">
           {
-            fileTypes.map((file) => {
-              const label = file.fileType || other;
-              const btnClass = this.state.excludeFilter[label] ? 'fileTypeButton fileTypeButtonGrayed' : 'fileTypeButton';
+            labels.map(({ key, label, fileExtension, count }) => {
+              const btnClass = this.state.excludeFilter[key] ? 'fileTypeButton fileTypeButtonGrayed' : 'fileTypeButton';
               return (
-                <div
-                  key={file.fileExtension}
-                  className="fileTypeContainer"
-                >
-                  <div
-                    className={btnClass}
-                    onClick={() => {
-                      const excludeFilter = { ...this.state.excludeFilter };
-                      excludeFilter[label] = (excludeFilter[label] ? null : true);
-                      this.setState({ excludeFilter });
-                    }}
-                  >
-                    <img
-                      src={imageSrcFromFile(file)}
-                      width={32}
-                      height={32}
-                      alt=""
-                      className="img"
-                    />
-                    <div className="fileTypeLabel">
-                      {label}
+                <div key={key} className="fileTypeContainer">
+                  <Tooltip placement="top" title={`${count}`}>
+                    <div
+                      className={btnClass}
+                      onClick={() => {
+                        const excludeFilter = { ...this.state.excludeFilter };
+                        excludeFilter[key] = (excludeFilter[key] ? null : true);
+                        this.setState({ excludeFilter });
+                      }}
+                    >
+                      <img src={imageSrcFromFileExtension(fileExtension)} width={32} height={32} alt="" className="img" />
+                      <div className="fileTypeLabel">
+                        {label}
+                      </div>
                     </div>
-                  </div>
+                  </Tooltip>
                 </div>
               );
             })

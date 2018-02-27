@@ -9,16 +9,30 @@ const INITIAL_STATE = {
 };
 
 function getUniqueFileTypes(files) {
-  const foundLabels = {};
   const other = String.t('ckgPage.filterTypeOther');
-  return files.filter((file) => {
-    const label = file.fileType || other;
-    const found = foundLabels[label];
-    if (!found) {
-      foundLabels[label] = true;
-    }
-    return !found;
+  const foundLabels = {};
+  const filteredFiles = files.filter(({ fileType, fileExtension }) => {
+    const label = fileExtension || other;
+    const count = foundLabels[label] ? foundLabels[label].count : 0;
+    foundLabels[label] = {
+      key: label,
+      label: fileType || label,
+      fileExtension,
+      count: count + 1
+    };
+    return count === 0;
   });
+
+  const labels = Object.keys(foundLabels).sort((a, b) => {
+    const countA = foundLabels[a].count;
+    const countB = foundLabels[b].count;
+    if (countA === countB) return 0;
+    return (countA < countB) ? 1 : -1;
+  }).map((label) => {
+    return foundLabels[label];
+  });
+
+  return { files: filteredFiles, labels };
 }
 
 const timeActivitiesReducer = (state = INITIAL_STATE, action) => {

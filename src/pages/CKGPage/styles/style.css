@@ -7,15 +7,16 @@
 }
 
 .bottomBar {
-  height: 44px;
   display: -webkit-inline-box;
   float: right;
-  align-items: flex-end;
   vertical-align: -webkit-baseline-middle;
+  overflow-x: scroll;
+  width: initial;
+  overflow: hidden;
 }
 
 .fileTypeContainer {
-  display: -webkit-inline-box; 
+  display: inline-box; 
   vertical-align: -webkit-baseline-middle;
 }
 
