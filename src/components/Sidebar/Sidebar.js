@@ -245,14 +245,13 @@ class Sidebar extends Component {
         isAdmin = teamRoomMemberFoundByUser.teamRooms[teamRoom.teamRoomId].role === 'admin';
       }
       if (!isAdmin && (!teamRoom.active || teamRoom.deleted)) return null;
+
       return (
         <Menu.Item key={teamRoom.teamRoomId}>
           <div className="habla-left-navigation-teamroom-list">
             <div className="habla-left-navigation-teamroom-list-item padding-class-a">
               <div className="float-left-class">
-                {(isAdmin || !teamRoom.active) &&
-                  renderAvatar(teamRoom, teamRoom.active)
-                }
+                {renderAvatar(teamRoom, teamRoom.active)}
               </div>
               <span className="habla-left-navigation-item-label" onClick={() => this.goToTeamRoomPage(teamRoom.teamRoomId)}>{teamRoom.name}</span>
               <div className="clear" />
