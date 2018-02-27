@@ -6,8 +6,6 @@
   "dataIntegrations": "Data Integrations",
   "alertTitleDatabaseError": "DB Integrity Error",
   "alertLastPhotoErrorTitle": "Last Photo Error",
-  "successToastTitle": "Success",
-  "errorToastTitle": "Error",
 
   "enterMsgPostPlaceholder": "What do you want to tell the team?",
   "enterMsgReplyPlaceholder": "Leave a reply...",
@@ -179,7 +177,6 @@
     "addNewTeam": "Add New Team",
     "addNewMember": "Add New Team Member",
     "addNewIntegration": "Add New Integration",
-    "teamCreated": "Team has been successfully created.",
     "integrationsHeader": "Data Integrations ({{count}})",
     "membersHeader": "Organization Members ({{count}})",
     "teamsHeader": "Teams ({{count}})",
@@ -402,25 +399,22 @@
     "webSitePlaceholder": "http://",
     "changeAvatarText": "Change Avatar",
     "removeImageLabel": "Remove",
-    "successToastTitle": "Success",
     "organizationUpdated": "Your organization changes have been saved.",
     "errorNameAlreadyTaken": "The Organization Name is already being used. Please enter a different name."
   },
   "editTeamPage": {
-    "teamUpdated": "Your team changes have been saved.",
+    "teamUpdated": "Your Team changes have been saved.",
     "errorNameAlreadyTaken": "The Team Name is already being used. Please enter a different name.",
     "changeAvatarText": "Change Avatar",
     "teamName": "Team Name",
     "saveButtonLabel": "Save",
-    "successToastTitle": "Success",
     "setActive": "Set Active",
     "setInactive": "Set Inactive",
     "activeState": "Active",
     "inactiveState": "Inactive"
   },
   "editTeamRoomPage": {
-    "successToastTitle": "Success",
-    "teamRoomUpdated": "Your team room changes have been saved.",
+    "teamRoomUpdated": "Your Team Room changes have been saved.",
     "errorNameAlreadyTaken": "The Team Room Name is already being used. Please enter a different name.",
     "changeAvatarTitle": "Change Avatar",
     "saveButtonLabel": "Save",
@@ -432,7 +426,6 @@
   },
   "editUserPage": {
    "title": "Account Settings",
-   "successToastTitle": "Success",
    "userUpdated": "Your user profile changes have been saved.",
    "saveButtonLabel": "Save",
    "profileSettings": "Profile Settings",
@@ -503,7 +496,6 @@
     "usernamePlaceholder": "Enter Name of Person to Add",
     "removeLink": "Remove",
     "breadcrumb": "Invite to Team",
-    "errorToastMessage": "The specified user may not be a valid team member of the organization.",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
@@ -529,11 +521,13 @@
     "createNewTeamButtonLabel": "Create",
     "chooseTeamName": "Team Name",
     "uploadAvatar": "Upload Avatar",
-    "breadcrumb": "Add New Team"
+    "breadcrumb": "Add New Team",
+    "teamAddedToast": "Your Team has been created."
   },
   "newTeamRoomPage": {
     "title": "Choose a new Team Room Name",
     "createNewTeamRoomButtonLabel": "Create Team Room",
+    "teamRoomAddedToast": "Your Team Room has been created.",
     "breadcrumb": "Add New Team Room"
   },
   "cardView": {
@@ -591,8 +585,7 @@
   },
   "setNewPassword": {
     "submitLabel": "Next",
-    "passwordChangedToastTitle": "Password Changed",
-    "passwordChangedToastMessage": "Please sign in using your new password.",
+    "passwordChangedToastMessage": "Your password is changed. Please sign in using your new password.",
     "errorToastMessage": "The link to reset your password seems to be expired. Please try again.",
     "newPasswordPlaceholder": "New Password",
     "confirmNewPasswordPlaceholder": "Confirm New Password"

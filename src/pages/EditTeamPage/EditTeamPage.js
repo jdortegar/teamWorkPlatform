@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, notification, Tooltip } from 'antd';
+import { Form, message, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
@@ -48,26 +48,14 @@ class EditTeamPage extends Component {
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/team/${teamId}`);
-            notification.open({
-              message: String.t('editTeamPage.successToastTitle'),
-              description: String.t('editTeamPage.teamUpdated'),
-              duration: 4
-            });
+            message.success(String.t('editTeamPage.teamUpdated'));
           })
           .catch((error) => {
             this.setState({ loading: false });
             if (error.response && error.response.status === 409) {
-              notification.open({
-                message: String.t('errorToastTitle'),
-                description: String.t('editTeamPage.errorNameAlreadyTaken'),
-                duration: 4
-              });
+              message.error(String.t('editTeamPage.errorNameAlreadyTaken'));
             } else {
-              notification.open({
-                message: String.t('errorToastTitle'),
-                description: error.message,
-                duration: 4
-              });
+              message.error(error.message);
             }
           });
       }

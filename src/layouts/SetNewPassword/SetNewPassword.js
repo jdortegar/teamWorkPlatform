@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Spin, notification } from 'antd';
+import { Form, Spin, message } from 'antd';
 import { formShape } from '../../propTypes';
 import ConfirmPasswordField from '../../components/formFields/ConfirmPasswordField';
 import String from '../../translations';
@@ -41,32 +41,15 @@ class SetNewPassword extends Component {
           .then(() => {
             this.setState({ processing: false });
             this.props.history.replace('/login');
-
-            // show password successfully changed toast
-            notification.open({
-              message: String.t('setNewPassword.passwordChangedToastTitle'),
-              description: String.t('setNewPassword.passwordChangedToastMessage'),
-              duration: 4
-            });
+            message.success(String.t('setNewPassword.passwordChangedToastMessage'));
           })
           .catch((error) => {
             this.setState({ processing: false });
-
             if (error.response.status === 404) {
-              // show error toast (currently assuming just error 404)
-              notification.open({
-                message: String.t('errorToastTitle'),
-                description: String.t('setNewPassword.errorToastMessage'),
-                duration: 8
-              });
+              message.error(String.t('setNewPassword.errorToastMessage'));
               this.props.history.replace('/recoverPassword');
             } else {
-              // show error toast (currently assuming just error 404)
-              notification.open({
-                message: String.t('errorToastTitle'),
-                description: error.message,
-                duration: 4
-              });
+              message.error(error.message);
             }
           });
       }

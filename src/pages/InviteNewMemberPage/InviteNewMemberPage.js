@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, notification } from 'antd';
+import { Row, Col, Form, message } from 'antd';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import BreadCrumb from '../../components/BreadCrumb';
@@ -62,19 +62,11 @@ class InviteNewMemberPage extends Component {
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/organization/${subscriberOrgId}/invitationSent`);
-            notification.open({
-              message: String.t('successToastTitle'),
-              description: String.t('inviteNewMemberPage.invitationSent', { count: users.length }),
-              duration: 4
-            });
+            message.success(String.t('inviteNewMemberPage.invitationSent', { count: users.length }));
           })
           .catch((error) => {
             this.setState({ loading: false });
-            notification.open({
-              message: String.t('errorToastTitle'),
-              description: error.message,
-              duration: 4
-            });
+            message.error(error.message);
           });
       }
     });

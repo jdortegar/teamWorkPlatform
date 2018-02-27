@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, notification } from 'antd';
+import { Form, message } from 'antd';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import NewSubpageHeader from '../../components/NewSubpageHeader';
@@ -94,26 +94,14 @@ class EditOrganizationPage extends Component {
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/organization/${subscriberOrgId}`);
-            notification.open({
-              message: String.t('editOrgPage.successToastTitle'),
-              description: String.t('editOrgPage.organizationUpdated'),
-              duration: 4
-            });
+            message.success(String.t('editOrgPage.organizationUpdated'));
           })
           .catch((error) => {
             this.setState({ loading: false });
             if (error.response && error.response.status === 409) {
-              notification.open({
-                message: String.t('errorToastTitle'),
-                description: String.t('editOrgPage.errorNameAlreadyTaken'),
-                duration: 4
-              });
+              message.error(String.t('editOrgPage.errorNameAlreadyTaken'));
             } else {
-              notification.open({
-                message: String.t('errorToastTitle'),
-                description: error.message,
-                duration: 4
-              });
+              message.error(error.message);
             }
           });
       }

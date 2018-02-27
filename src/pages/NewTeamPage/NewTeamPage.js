@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, notification } from 'antd';
+import { Form, message } from 'antd';
 import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
@@ -47,14 +47,11 @@ class NewTeamPage extends Component {
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/organization/${subscriberOrgId}`);
+            message.success(String.t('newTeamPage.teamAddedToast'));
           })
           .catch((error) => {
             this.setState({ loading: false });
-            notification.open({
-              message: String.t('errorToastTitle'),
-              description: error.message,
-              duration: 4
-            });
+            message.error(error.message);
           });
       }
     });
