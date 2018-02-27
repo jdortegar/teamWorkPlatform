@@ -263,16 +263,13 @@ class Sidebar extends Component {
     });
   }
 
-  renderTeams() {
-    const { teams, user } = this.props;
-    const orgId = this.props.currentSubscriberOrgId;
-    if (teams.length === 0) {
+  renderTeams(teamsActive) {
+    const { user } = this.props;
+    if (teamsActive.length === 0) {
       return null;
     }
 
-    let teamsByOrgId = teams
-      .filter(team => team.subscriberOrgId === orgId)
-      .sort(sortByName);
+    let teamsByOrgId = teamsActive.sort(sortByName);
 
     teamsByOrgId = ((teamsByOrgId.length === 0) && (teamsByOrgId[0] === undefined)) ? [] : primaryAtTop(teamsByOrgId);
 
@@ -354,9 +351,9 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { subscriberOrgs, subscribers, subscribersPresences, sideBarIsHidden, currentSubscriberOrgId, teamIdsBySubscriberOrgId } = this.props;
+    const { teams, subscriberOrgs, subscribers, subscribersPresences, sideBarIsHidden, currentSubscriberOrgId, teamIdsBySubscriberOrgId } = this.props;
     if (!teamIdsBySubscriberOrgId || !currentSubscriberOrgId || !teamIdsBySubscriberOrgId[currentSubscriberOrgId] ||
-         subscriberOrgs.length === 0 || !subscribers || !subscribersPresences) {
+        !teams || subscriberOrgs.length === 0 || !subscribers || !subscribersPresences) {
       return null;
     }
     const sideClass = classNames({
@@ -370,7 +367,7 @@ class Sidebar extends Component {
     }));
 
     const currentOrg = subscriberOrgs.find(({ subscriberOrgId }) => subscriberOrgId === currentSubscriberOrgId);
-    const numberOfTeams = teamIdsBySubscriberOrgId[currentSubscriberOrgId].length;
+    const teamsActive = teams.filter(team => (team.subscriberOrgId === currentSubscriberOrgId) && team.active);
     const addLinkSidebar = (
       <Menu className="addLinkSidebar">
         <div className="habla-label padding-class-a">{String.t('sideBar.addNewLabel')}</div>
@@ -450,7 +447,7 @@ class Sidebar extends Component {
           <div className="sidebar-block-label">
             <span className="habla-label">
               {String.t('teams')}
-              <span className="sidebar-label-number-badge">{numberOfTeams}</span>
+              <span className="sidebar-label-number-badge">{teamsActive.length}</span>
             </span>
           </div>
 
@@ -460,7 +457,7 @@ class Sidebar extends Component {
               openKeys={this.state.teamsOpenKeys}
               className="habla-left-navigation-list habla-left-navigation-organization-list"
             >
-              { this.renderTeams() }
+              {this.renderTeams(teamsActive)}
             </Menu>
           </div>
         </div>
