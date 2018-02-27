@@ -23,6 +23,7 @@ const propTypes = {
   toggleOrgDialog: PropTypes.func.isRequired,
   toggleTeamRoomDialog: PropTypes.func.isRequired,
   toggleTeamDialog: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
   subscriberOrgs: PropTypes.array.isRequired,
   subscribers: PropTypes.array,
   subscribersPresences: PropTypes.object,
@@ -224,7 +225,7 @@ class Sidebar extends Component {
   }
 
   renderTeamRooms(teamId) {
-    const { teamRooms } = this.props;
+    const { teamRooms, user } = this.props;
     if (teamRooms.length === 0) {
       return null;
     }
@@ -237,24 +238,34 @@ class Sidebar extends Component {
       teamRoomsByTeamId = primaryAtTop(teamRoomsByTeamId);
     }
 
-    return teamRoomsByTeamId.map(teamRoom => (
-      <Menu.Item key={teamRoom.teamRoomId}>
-        <div className="habla-left-navigation-teamroom-list">
-          <div className="habla-left-navigation-teamroom-list-item padding-class-a">
-            <div className="float-left-class">
-              {renderAvatar(teamRoom, teamRoom.active)}
+    return teamRoomsByTeamId.map((teamRoom) => {
+      let isAdmin = false;
+      if (teamRoom.teamRoommMembers) {
+        const teamRoomMemberFoundByUser = _.find(teamRoom.teamRoomMembers, { userId: user.userId });
+        isAdmin = teamRoomMemberFoundByUser.teamRooms[teamRoom.teamRoomId].role === 'admin';
+      }
+      if (!isAdmin && (!teamRoom.active || teamRoom.deleted)) return null;
+      return (
+        <Menu.Item key={teamRoom.teamRoomId}>
+          <div className="habla-left-navigation-teamroom-list">
+            <div className="habla-left-navigation-teamroom-list-item padding-class-a">
+              <div className="float-left-class">
+                {(isAdmin || !teamRoom.active) &&
+                  renderAvatar(teamRoom, teamRoom.active)
+                }
+              </div>
+              <span className="habla-left-navigation-item-label" onClick={() => this.goToTeamRoomPage(teamRoom.teamRoomId)}>{teamRoom.name}</span>
+              <div className="clear" />
+              <Badge count={0 /* TODO: get the actual count of unread messages */} />
             </div>
-            <span className="habla-left-navigation-item-label" onClick={() => this.goToTeamRoomPage(teamRoom.teamRoomId)}>{teamRoom.name}</span>
-            <div className="clear" />
-            <Badge count={0 /* TODO: get the actual count of unread messages */} />
           </div>
-        </div>
-      </Menu.Item>
-    ));
+        </Menu.Item>
+      );
+    });
   }
 
   renderTeams() {
-    const { teams } = this.props;
+    const { teams, user } = this.props;
     const orgId = this.props.currentSubscriberOrgId;
     if (teams.length === 0) {
       return null;
@@ -267,6 +278,15 @@ class Sidebar extends Component {
     teamsByOrgId = ((teamsByOrgId.length === 0) && (teamsByOrgId[0] === undefined)) ? [] : primaryAtTop(teamsByOrgId);
 
     return teamsByOrgId.map((team) => {
+      let isAdmin = false;
+      if (team.teamMembers) {
+        const teamMemberFoundByUser = _.find(team.teamMembers, { userId: user.userId });
+        isAdmin = teamMemberFoundByUser.teams[team.teamId].role === 'admin';
+      }
+      if (!isAdmin && (!team.active || team.deleted)) {
+        return null;
+      }
+
       const teamRooms = this.renderTeamRooms(team.teamId);
       const isTeamOpen = _.includes(this.state.teamsOpenKeys, team.teamId);
       const unreadMessagesCount = 0; /* TODO: get the actual count of unread messages */

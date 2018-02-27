@@ -9,7 +9,7 @@ import { toggleOrgDialog,
 } from '../../actions';
 import {
   getSubscriberOrgsSortedAlphabetically,
-  getTeams,
+  getTeamsOfSubscriberOrgIdSortedAlphabetically,
   getTeamRooms,
   getSubscribersOfSubscriberOrgId,
   getPresencesOfSubscribersOfOrgId
@@ -18,16 +18,17 @@ import Sidebar from '../../components/Sidebar';
 
 function mapStateToProps(state) {
   return {
+    user: state.auth.user,
     subscriberOrgs: getSubscriberOrgsSortedAlphabetically(state),
     subscribers: getSubscribersOfSubscriberOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
     currentSubscriberOrgId: state.subscriberOrgs.currentSubscriberOrgId,
-    teams: getTeams(state),
     teamById: state.teams.teamById,
     teamIdsBySubscriberOrgId: state.teams.teamIdsBySubscriberOrgId,
-    teamRooms: getTeamRooms(state),
     sideBarIsHidden: state.sideBar.hidden,
-    currentTeamIdBySubscriberOrgId: state.teams.currentTeamIdBySubscriberOrgId
+    currentTeamIdBySubscriberOrgId: state.teams.currentTeamIdBySubscriberOrgId,
+    teams: getTeamsOfSubscriberOrgIdSortedAlphabetically(state, state.subscriberOrgs.currentSubscriberOrgId),
+    teamRooms: getTeamRooms(state)
   };
 }
 
