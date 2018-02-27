@@ -28,7 +28,7 @@ const FilePoint = ({ x, y, datum, events }) => {
       {...events}
     >
       <img
-        src={imageSrcFromFile(datum)}
+        src={imageSrcFromFile(datum.fileExtension)}
         width={ICON_SIZE}
         height={ICON_SIZE}
         alt={datum.fileName}
