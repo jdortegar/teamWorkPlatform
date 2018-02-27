@@ -10,7 +10,7 @@ import SubpageHeader from '../../components/SubpageHeader';
 import { ImageCard } from '../../components/cards';
 import Spinner from '../../components/Spinner';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
-import { boxLogo, googleDriveLogo, sharepointLogo, office365Logo, salesforceLogo } from '../../img';
+import { boxLogo, googleDriveLogo, sharepointLogo, oneDriveLogo, salesforceLogo } from '../../img';
 import String from '../../translations';
 import './styles/style.css';
 
@@ -172,10 +172,10 @@ class IntegrationsPage extends Component {
               {
               // FOR DEMO PURPOSES ONLY: Temporal Integrations Icons for DEMO.
               }
-              <div key="office365">
-                <Tooltip placement="top" title="Office 365">
+              <div key="onedrive">
+                <Tooltip placement="top" title="OneDrive">
                   <Link to={`/app/integrations/${subscriberOrgId}`}>
-                    <ImageCard imgSrc={office365Logo} />
+                    <ImageCard imgSrc={oneDriveLogo} />
                   </Link>
                 </Tooltip>
               </div>
