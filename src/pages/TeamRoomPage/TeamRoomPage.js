@@ -23,6 +23,7 @@ import { sortByFirstName } from '../../redux-hablaai/selectors/helpers';
 import { messageAction } from '../../components/Message/Message';
 
 const propTypes = {
+  history: PropTypes.object.isRequired,
   files: PropTypes.array,
   form: formShape.isRequired,
   fetchTeamRoomMembersByTeamRoomId: PropTypes.func.isRequired,
@@ -117,11 +118,14 @@ class TeamRoomPage extends Component {
   componentDidMount() {
     const teamRoomId = this.props.match.params.teamRoomId;
 
+    // TODO: What do we do if the fetch fails???
     this.props.fetchTeamRoomMembersByTeamRoomId(teamRoomId)
       .then(() => this.setState({
         teamRoomMembersLoaded: true,
         teamRoomMembers: this.props.teamRoomMembers
-      }));
+      }))
+      .catch(() => this.props.history.replace('/app'));
+
     this.props.fetchConversations(teamRoomId)
       .then((response) => {
         if (response.data.conversations) {
@@ -137,7 +141,8 @@ class TeamRoomPage extends Component {
             conversationsLoaded: true
           });
         }
-      });
+      })
+      .catch(() => this.props.history.replace('/app'));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -476,7 +481,7 @@ class TeamRoomPage extends Component {
   render() {
     const { teamRoomMembersLoaded, conversationsLoaded } = this.state;
     const { match, teamRooms, user, teamRoomMembers, teamRoomMembersObj, unreadMessagesCount, conversations, subscriberOrgById } = this.props;
-    if (match && match.params && match.params.teamRoomId && teamRoomMembersLoaded && conversationsLoaded &&
+    if (match && match.params && match.params.teamRoomId && teamRoomMembersLoaded && conversationsLoaded && teamRoomMembers &&
         teamRoomMembersObj && this.state.teamRoomMembers && conversations && subscriberOrgById) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
       const { conversationId } = conversations;
