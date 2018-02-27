@@ -582,11 +582,21 @@
     "viewsActivity": "Views",
     "sharesActivity": "Shares",
     "dateLabel": "Select a Range of Dates",
+    "filterTypes": {
+      "one": "Data Types",
+      "zero": "No Data Currently Available",
+      "other": "Data Types"
+    },
     "filterCount": {
       "one": "1 {{label}}",
       "other": "{{count}} {{label}}"
     },
     "filterTypeOther": "Other"
+  },
+  "chartToolbar": {
+    "zoomIn": "Zoom In",
+    "zoomOut": "Zoom Out",
+    "zoomShowAll": "View All"
   },
   "setNewPassword": {
     "submitLabel": "Next",
