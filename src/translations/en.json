@@ -577,6 +577,11 @@
   },
   "ckgPage": {
     "title": "CKG Time Activity Knowledge Graph",
+    "activityLabel": "Activity",
+    "allActivity": "All Activity",
+    "viewsActivity": "Views",
+    "sharesActivity": "Shares",
+    "dateLabel": "Select a Range of Dates",
     "filterCount": {
       "one": "1 {{label}}",
       "other": "{{count}} {{label}}"
