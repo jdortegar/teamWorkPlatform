@@ -542,6 +542,7 @@ class TeamRoomPage extends Component {
                 <div className="team-room__member-cards-container">
                   <span className="team-room__member-cards-span habla-label">{String.t('teamRoomPage.membersHeader', { count: numberOfTeamRoomMembers })}</span>
                   {this.renderTeamRoomMembers()}
+                  {isAdmin &&
                   <Tooltip
                     placement="top"
                     title={String.t('teamRoomPage.addTeamMember')}
@@ -550,6 +551,7 @@ class TeamRoomPage extends Component {
                       <Avatar size="small" color="#ccc" className="teamRoomInviteMembers">+</Avatar>
                     </Link>
                   </Tooltip>
+                  }
                 </div>
               }
             />
