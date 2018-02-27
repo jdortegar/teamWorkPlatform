@@ -14,14 +14,14 @@ const Panel = Collapse.Panel;
 
 const propTypes = {
   userId: PropTypes.string.isRequired,
-  teamId: PropTypes.string.isRequired,
+  team: PropTypes.object.isRequired,
   teamRooms: PropTypes.array.isRequired,
   teamMembers: PropTypes.array.isRequired,
   teamMembersPresences: PropTypes.object.isRequired
 };
 
 function CardView(props) {
-  const { teamRooms, teamMembers, teamMembersPresences } = props;
+  const { team, teamRooms, teamMembers, teamMembersPresences } = props;
 
   const members = teamMembers.map(member => ({
     ...member,
@@ -100,7 +100,7 @@ function CardView(props) {
   };
 
   const userMember = members.filter(({ userId }) => { return userId === props.userId; })[0];
-  const isTeamAdmin = (userMember.teams[props.teamId].role === 'admin');
+  const isTeamAdmin = (userMember.teams[team.teamId].role === 'admin');
   const roomsSection = String.t('cardView.roomsHeader', { count: teamRooms.length });
   const membersSection = String.t('cardView.membersHeader', { count: members.length });
 
@@ -112,7 +112,8 @@ function CardView(props) {
           key="1"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {isTeamAdmin && renderAddCard(String.t('cardView.addNewTeamRoom'), `/app/createTeamRoom/${props.teamId}`) }
+            {isTeamAdmin && team.active &&
+              renderAddCard(String.t('cardView.addNewTeamRoom'), `/app/createTeamRoom/${team.teamId}`) }
             { renderTeamRooms(isTeamAdmin) }
           </SimpleCardContainer>
         </Panel>
@@ -121,7 +122,8 @@ function CardView(props) {
           key="2"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {isTeamAdmin && renderAddCard(String.t('cardView.inviteNewMember'), `/app/inviteToTeam/${props.teamId}`) }
+            {isTeamAdmin && team.active &&
+              renderAddCard(String.t('cardView.inviteNewMember'), `/app/inviteToTeam/${team.teamId}`) }
             { renderTeamMembers() }
           </SimpleCardContainer>
         </Panel>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tooltip, notification } from 'antd';
+import { Tooltip, message } from 'antd';
 import _ from 'lodash';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -48,11 +48,7 @@ class TeamPage extends Component {
     this.props.fetchTeamRoomsByTeamId(teamId).then(() => this.setState({ teamRoomsLoaded: true }));
     this.props.fetchTeamMembersByTeamId(teamId).then(() => this.setState({ teamMembersLoaded: true }));
     if (status) {
-      notification.open({
-        message: messages.success,
-        description: messages[status],
-        duration: 4
-      });
+      message.success(messages[status]);
     }
   }
 
@@ -125,7 +121,7 @@ class TeamPage extends Component {
           <div className="teamPage-list">
             <CardView
               userId={user.userId}
-              teamId={teamId}
+              team={team}
               teamRooms={teamRooms}
               teamMembers={teamMembers}
               teamMembersPresences={teamMembersPresences}
