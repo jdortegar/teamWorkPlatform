@@ -117,6 +117,7 @@ class Message extends Component {
     const contentJustImage = content.filter(resource => resource.type !== 'text/plain');
     const text = !!justTextContent;
     const name = String.t('message.sentByName', { firstName, lastName });
+    const childrenNonDeleted = children.filter(msg => !msg.deleted);
     const messageBody = (
       <div>
         <p className="message__body-name">{name}</p>
@@ -151,10 +152,10 @@ class Message extends Component {
               )}
             </Col>
           </Row>
-          { children.length > 0 &&
+          { childrenNonDeleted.length > 0 &&
           <div className="habla-label message__main-counter" onClick={this.handleShowReplies}>
             <span className="message__main-counter-number" >
-              { children.length }
+              { childrenNonDeleted.length }
             </span>
             <i className="fas fa-reply" data-fa-transform="rotate-180" />
           </div>
@@ -227,8 +228,7 @@ class Message extends Component {
           </div>
           }
         </div>
-        { children.length > 0 && children.map((childMessage) => {
-          if (childMessage.deleted) return null;
+        { childrenNonDeleted.length > 0 && childrenNonDeleted.map((childMessage) => {
           return (
             <Message
               conversationDisabled={conversationDisabled}
