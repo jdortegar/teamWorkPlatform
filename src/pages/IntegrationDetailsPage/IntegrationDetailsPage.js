@@ -9,6 +9,10 @@ import Spinner from '../../components/Spinner';
 import { ImageCard } from '../../components/cards';
 import { boxLogo, googleDriveLogo, sharepointLogo } from '../../img';
 import String from '../../translations';
+import {
+  integrationImageFromKey,
+  integrationLabelFromKey
+} from '../../utils/dataIntegrations';
 import './styles/style.css';
 
 function determineStatus(integration) {
@@ -69,8 +73,9 @@ const providers = {
 function showNotification(response, integration) {
   const { status } = response;
   const duration = 7;
-  const name = providers[integration].name;
-  const link = `<a target="_blank" href=${providers[integration].link}>${providers[integration].link}</a>`;
+  const name = integrationLabelFromKey(integration);
+  const uri = providers[integration].link;
+  const link = `<a target="_blank" href=${uri}>${uri}</a>`;
   if (status === 200) {
     notification.success({
       message: String.t('integrationDetailsPage.notification.successMessage'),
@@ -122,7 +127,7 @@ class IntegrationDetailsPage extends Component {
 
   componentDidMount() {
     const { subscriberOrgId, status, integrationDetails } = this.props.match.params;
-    const name = providers[integrationDetails].name;
+    const name = integrationLabelFromKey(integrationDetails);
     this.props.fetchIntegrations(subscriberOrgId);
     if (status) {
       if (status.includes('CREATED')) {
@@ -171,8 +176,8 @@ class IntegrationDetailsPage extends Component {
       return <Spinner />;
     }
 
-    const imgSrc = providers[integrationDetails].logo;
-    const name = providers[integrationDetails].name;
+    const imgSrc = integrationImageFromKey(integrationDetails);
+    const name = integrationLabelFromKey(integrationDetails);
     const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || {};
     const currStatus = determineStatus(integrations[integrationDetails]);
 

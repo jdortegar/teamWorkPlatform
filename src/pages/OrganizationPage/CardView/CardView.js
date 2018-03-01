@@ -9,7 +9,7 @@ import SimpleHeader from '../../../components/SimpleHeader';
 import Avatar from '../../../components/common/Avatar';
 import String from '../../../translations';
 import getInitials from '../../../utils/helpers';
-import { boxLogo, googleDriveLogo } from '../../../img';
+import { integrationLabelFromKey, integrationImageFromKey } from '../../../utils/dataIntegrations';
 import './styles/style.css';
 
 const Panel = Collapse.Panel;
@@ -97,55 +97,39 @@ function CardView(props) {
     });
   };
 
+  const renderIntegration = (key, integration) => {
+    const label = integrationLabelFromKey(key);
+    const { expired, revoked } = integration;
+    const desaturated = classNames({
+      desaturate: expired
+    });
+
+    if ((typeof revoked === 'undefined') || (revoked === false)) {
+      return (
+        <div key={key} className="mr-1 integration-card">
+          <Tooltip placement="top" title={label}>
+            <Link to={`/app/integrations/${subscriberOrgId}/${key}`}>
+              <Avatar size="large" src={integrationImageFromKey(key)} className={desaturated} />
+              <div className="habla-label align-center-class card-label">
+                {label}
+              </div>
+            </Link>
+          </Tooltip>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   const renderIntegrations = () => {
     const integrationsArr = [];
-    if (!_.isEmpty(integrations.integrationsBySubscriberOrgId[subscriberOrgId])) {
-      if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].box) {
-        const { box: integrationObj } = integrations.integrationsBySubscriberOrgId[subscriberOrgId];
-        const { expired, revoked } = integrationObj;
-
-        if ((typeof revoked === 'undefined') || (revoked === false)) {
-          const desaturated = classNames({
-            desaturate: expired
-          });
-
-          integrationsArr.push(
-            <div key="box" className="mr-1 integration-card">
-              <Tooltip placement="top" title={String.t('OrganizationPage.boxIntegrationLabel')}>
-                <Link to={`/app/integrations/${subscriberOrgId}/box`}>
-                  <Avatar size="large" src={boxLogo} className={desaturated} />
-                  <div className="habla-label align-center-class card-label">
-                    {String.t('OrganizationPage.boxIntegrationLabel')}
-                  </div>
-                </Link>
-              </Tooltip>
-            </div>
-          );
-        }
-      }
-
-      if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].google) {
-        const { google: integrationObj } = integrations.integrationsBySubscriberOrgId[subscriberOrgId];
-        const { expired, revoked } = integrationObj;
-        const desaturated = classNames({
-          desaturate: expired
-        });
-
-        if ((typeof revoked === 'undefined') || (revoked === false)) {
-          integrationsArr.push(
-            <div key="google" className="mr-1 integration-card">
-              <Tooltip placement="top" title={String.t('OrganizationPage.gdriveIntegrationLabel')}>
-                <Link to={`/app/integrations/${subscriberOrgId}/google`}>
-                  <Avatar size="large" src={googleDriveLogo} className={desaturated} />
-                  <div className="habla-label align-center-class card-label">
-                    {String.t('OrganizationPage.gdriveIntegrationLabel')}
-                  </div>
-                </Link>
-              </Tooltip>
-            </div>
-          );
-        }
-      }
+    const subscriberIntegrations = integrations.integrationsBySubscriberOrgId[subscriberOrgId];
+    if (!_.isEmpty(subscriberIntegrations)) {
+      Object.keys(subscriberIntegrations).forEach((key) => {
+        const integration = integrations.integrationsBySubscriberOrgId[subscriberOrgId];
+        integrationsArr.push(renderIntegration(key, integration));
+      });
     }
 
     return integrationsArr;

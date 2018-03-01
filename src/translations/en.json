@@ -172,7 +172,6 @@
   "listViewTitle": "Details View",
   "OrganizationPage": {
     "newButtonLabel": "New",
-    "gdriveIntegrationLabel": "Google Drive",
     "boxIntegrationLabel": "Box",
     "addNewTeam": "Add New Team",
     "addNewMember": "Add New Team Member",
@@ -582,9 +581,18 @@
     "viewsActivity": "Views",
     "sharesActivity": "Shares",
     "dateLabel": "Select a Range of Dates",
+    "filterTypes": {
+      "one": "Data Type",
+      "zero": "No Data Currently Available",
+      "other": "Data Types"
+    },
     "filterCount": {
       "one": "1 {{label}}",
       "other": "{{count}} {{label}}"
+    },
+    "integrationFileCount": {
+      "one": "1 {{label}} file",
+      "other": "{{count}} {{label}} files"
     },
     "filterTypeOther": "Other"
   },

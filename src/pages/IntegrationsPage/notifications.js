@@ -1,17 +1,8 @@
 import String from '../../translations';
-
-function providerName(integration) {
-  if (integration === 'google') {
-    return 'Google Drive';
-  } else if (integration === 'box') {
-    return 'Box';
-  }
-
-  return String.t('integrationsPage.providerError');
-}
+import { integrationLabelFromKey } from '../../utils/dataIntegrations';
 
 export function successfulIntegration(integration) {
-  const name = providerName(integration);
+  const name = integrationLabelFromKey(integration);
 
   return {
     message: String.t('integrationsPage.successMessage'),
@@ -21,7 +12,7 @@ export function successfulIntegration(integration) {
 }
 
 export function badIntegration({ integration, status }) {
-  const name = providerName(integration);
+  const name = integrationLabelFromKey(integration);
 
   if (status === 'FORBIDDEN') {
     return {

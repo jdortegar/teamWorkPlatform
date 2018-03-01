@@ -4,6 +4,11 @@ import moment from 'moment';
 import { Menu, Tooltip, Dropdown } from 'antd';
 import * as d3 from 'd3';
 import String from '../../translations';
+import {
+  integrationLabelFromKey,
+  integrationFromResourceUri,
+  integrationImageFromKey
+} from '../../utils/dataIntegrations';
 
 import { NewSubpageHeader, TimeActivityGraph } from '../../components';
 import imageSrcFromFileExtension from '../../lib/imageFiles';
@@ -39,7 +44,8 @@ const defaultProps = {
 
 class CKGPage extends Component {
   state = {
-    excludeFilter: {}
+    excludeTypesFilter: {},
+    excludeIntegrationsFilter: {}
   };
 
   componentDidMount() {
@@ -61,11 +67,13 @@ class CKGPage extends Component {
     if (!timeActivities) return null;
     const { files, fileTypes } = this.props.timeActivities;
     if (!files || !fileTypes || !fileTypes.files) return null;
-    const { labels } = fileTypes;
+    const { labels, integrations } = fileTypes;
     const other = String.t('ckgPage.filterTypeOther');
-    const filesFiltered = files.filter((file) => {
-      const label = file.fileExtension || other;
-      return !this.state.excludeFilter[label];
+    const { excludeTypesFilter, excludeIntegrationsFilter } = this.state;
+    const filesFiltered = files.filter(({ fileExtension, resourceUri }) => {
+      const label = fileExtension || other;
+      const key = integrationFromResourceUri(resourceUri);
+      return !excludeTypesFilter[label] && !excludeIntegrationsFilter[key];
     });
 
     const activitySelectorMenu = (
@@ -162,29 +170,67 @@ class CKGPage extends Component {
           </div>
           <div className="bottomBar-files-filter">
             <div className="bottomBar-files-filter-content">
-              <div className="filetype-label habla-label">
-                <span className="filetype-label-number-badge">33</span> File Types
+              {Object.keys(integrations).map((integration) => {
+                const { key, count } = integrations[integration];
+                const btnClass = this.state.excludeIntegrationsFilter[key] ? 'fileTypeButton fileTypeButtonGrayed' : 'fileTypeButton';
+                const label = integrationLabelFromKey(key);
+                return (
+                  <div key={key} className="fileTypeContainer mr-05">
+                    <Tooltip placement="top" title={String.t('ckgPage.integrationFileCount', { count, label })}>
+                      <div
+                        className={btnClass}
+                        onClick={() => {
+                          const newExcludeIntegrationsFilter = { ...this.state.excludeIntegrationsFilter };
+                          newExcludeIntegrationsFilter[key] = (newExcludeIntegrationsFilter[key] ? null : true);
+                          this.setState({ excludeIntegrationsFilter: newExcludeIntegrationsFilter });
+                        }}
+                        onDoubleClick={() => {
+                          const newExcludeIntegrationsFilter = {};
+                          const keys = Object.keys(this.state.excludeIntegrationsFilter);
+                          if (keys.length < labels.length) {
+                            labels.forEach((file) => { newExcludeIntegrationsFilter[file.key] = true; });
+                          }
+                          this.setState({ excludeIntegrationsFilter: newExcludeIntegrationsFilter });
+                        }}
+                      >
+                        <img src={integrationImageFromKey(key)} width={32} height={32} alt="" className="img" />
+                        <div className="fileTypeLabel">
+                          {label}
+                        </div>
+                      </div>
+                    </Tooltip>
+                  </div>
+                );
+              })
+              }
+              <div className="filetype-label habla-label ml-05">
+                {(labels.length > 0) && (
+                  <span className="filetype-label-number-badge">
+                    {labels.length}
+                  </span>)
+                }
+                {String.t('ckgPage.filterTypes', { count: labels.length })}
               </div>
               {
                 labels.map(({ key, label, fileExtension, count }) => {
-                  const btnClass = this.state.excludeFilter[key] ? 'fileTypeButton fileTypeButtonGrayed' : 'fileTypeButton';
+                  const btnClass = this.state.excludeTypesFilter[key] ? 'fileTypeButton fileTypeButtonGrayed' : 'fileTypeButton';
                   return (
                     <div key={key} className="fileTypeContainer">
                       <Tooltip placement="top" title={String.t('ckgPage.filterCount', { count, label })}>
                         <div
                           className={btnClass}
                           onClick={() => {
-                            const excludeFilter = { ...this.state.excludeFilter };
-                            excludeFilter[key] = (excludeFilter[key] ? null : true);
-                            this.setState({ excludeFilter });
+                            const newExcludeTypesFilter = { ...this.state.excludeTypesFilter };
+                            excludeTypesFilter[key] = (newExcludeTypesFilter[key] ? null : true);
+                            this.setState({ excludeTypesFilter: newExcludeTypesFilter });
                           }}
                           onDoubleClick={() => {
-                            const excludeFilter = {};
-                            const keys = Object.keys(this.state.excludeFilter);
+                            const newExcludeTypesFilter = {};
+                            const keys = Object.keys(this.state.excludeTypesFilter);
                             if (keys.length < labels.length) {
-                              labels.forEach((file) => { excludeFilter[file.key] = true; });
+                              labels.forEach((file) => { newExcludeTypesFilter[file.key] = true; });
                             }
-                            this.setState({ excludeFilter });
+                            this.setState({ excludeTypesFilter: newExcludeTypesFilter });
                           }}
                         >
                           <img src={imageSrcFromFileExtension(fileExtension)} width={32} height={32} alt="" className="img" />

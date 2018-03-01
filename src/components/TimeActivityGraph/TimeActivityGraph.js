@@ -12,21 +12,11 @@ import {
 
 import String from '../../translations';
 import formatSize from '../../lib/formatSize';
-import { boxLogo, googleDriveLogo, sharepointLogo } from '../../img';
+import { integrationImageFromResourceUri } from '../../utils/dataIntegrations';
 
 import FilePoint from './FilePoint';
 import styles from './styles/style';
 import './styles/style.css';
-
-function imageFromResourceUri(resourceUri) {
-  if (resourceUri.indexOf('google.com') > 0) {
-    return googleDriveLogo;
-  }
-  if (resourceUri.indexOf('box.com') > 0) {
-    return boxLogo;
-  }
-  return sharepointLogo;
-}
 
 const propTypes = {
   files: PropTypes.arrayOf(PropTypes.object)
@@ -66,29 +56,6 @@ const formatXTick = (date) => {
 
   return d3.timeFormat(getFormat())(date);
 };
-
-// // TODO: Move this elsewhere!
-// function isChrome() {
-//   const isChromium = window.chrome;
-//   const winNav = window.navigator;
-//   const vendorName = winNav.vendor;
-//   const isOpera = winNav.userAgent.indexOf('OPR') > -1;
-//   const isIEedge = winNav.userAgent.indexOf('Edge') > -1;
-//   const isIOSChrome = winNav.userAgent.match('CriOS');
-
-//   if (isIOSChrome) {
-//     return true;
-//   } else if (
-//     isChromium !== null &&
-//     typeof isChromium !== 'undefined' &&
-//     vendorName === 'Google Inc.' &&
-//     isOpera === false &&
-//     isIEedge === false
-//   ) {
-//     return true;
-//   }
-//   return false;
-// }
 
 class TimeActivityGraph extends Component {
   constructor(props) {
@@ -138,7 +105,7 @@ class TimeActivityGraph extends Component {
     const left = x - (offsetLeft - CHART_PADDING);
     const displayDate = moment(date).format(String.t('timeActivityGraph.dateFormat'));
     const displayTime = moment(date).format(String.t('timeActivityGraph.timeFormat'));
-    const imgSrc = imageFromResourceUri(resourceUri);
+    const imgSrc = integrationImageFromResourceUri(resourceUri);
 
     return (
       <div
