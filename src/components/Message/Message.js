@@ -22,12 +22,14 @@ const propTypes = {
   teamId: PropTypes.string.isRequired,
   teamRoomId: PropTypes.string.isRequired,
   isAdmin: PropTypes.bool.isRequired,
+  onLoadImages: PropTypes.func,
   lastRead: PropTypes.bool
 };
 
 const defaultProps = {
   conversationDisabled: false,
   onFileChange: null,
+  onLoadImages: null,
   lastRead: false,
   currentPath: null
 };
@@ -148,6 +150,7 @@ class Message extends Component {
                   subscriberOrgId={this.props.subscriberOrgId}
                   teamId={this.props.teamId}
                   teamRoomId={this.props.teamRoomId}
+                  onLoadImage={this.props.onLoadImages}
                 />
               )}
             </Col>

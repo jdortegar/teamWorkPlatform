@@ -22,6 +22,8 @@ import './styles/style.css';
 import { sortByFirstName } from '../../redux-hablaai/selectors/helpers';
 import { messageAction } from '../../components/Message/Message';
 
+const BOTTOM_SCROLL_LIMIT = 200;
+
 const propTypes = {
   history: PropTypes.object.isRequired,
   files: PropTypes.array,
@@ -134,7 +136,8 @@ class TeamRoomPage extends Component {
           this.props.fetchTranscript(conversationId)
             .then(() => this.setState({
               conversationsLoaded: true
-            }));
+            }))
+            .then(this.scrollToBottom);
         }
         if (response.data === 'STALE') {
           this.setState({
@@ -178,14 +181,13 @@ class TeamRoomPage extends Component {
     }
   }
 
-  componentDidUpdate() {
-    const chatDiv = document.getElementsByClassName('team-room__messages')[0];
-    if (chatDiv && (chatDiv.scrollHeight - chatDiv.scrollTop) < 500) {
-      chatDiv.scrollTop = chatDiv.scrollHeight;
-    }
-    if (chatDiv && chatDiv.scrollTop === 0) {
-      chatDiv.scrollTop = chatDiv.scrollHeight;
-    }
+  componentDidUpdate(prevProps) {
+    const { conversations, user } = this.props;
+    if (!prevProps.conversations || !conversations) return;
+    if (prevProps.conversations.transcript.length === conversations.transcript.length) return;
+
+    const ownMessage = _.last(conversations.transcript).createdBy === user.userId;
+    if (ownMessage || this.isNearBottom()) this.scrollToBottom();
   }
 
   onCancelReply() {
@@ -219,6 +221,26 @@ class TeamRoomPage extends Component {
     if (files) {
       this.props.updateFileList(files);
       this.setState({ showPreviewBox: true });
+    }
+  }
+
+  isNearBottom = () => {
+    const messagesContainer = document.getElementsByClassName('team-room__messages')[0];
+    if (!messagesContainer) return false;
+
+    const { scrollHeight, scrollTop, clientHeight } = messagesContainer;
+    const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+
+    return distanceFromBottom < BOTTOM_SCROLL_LIMIT;
+  }
+
+  scrollToBottom = () => {
+    const messagesContainer = document.getElementsByClassName('team-room__messages')[0];
+    if (!messagesContainer) return;
+
+    const { clientHeight, scrollHeight } = messagesContainer;
+    if (clientHeight < scrollHeight) {
+      messagesContainer.scrollTop = scrollHeight;
     }
   }
 
@@ -400,6 +422,7 @@ class TeamRoomPage extends Component {
         teamId={teamId}
         teamRoomId={teamRoomId}
         isAdmin={isAdmin}
+        onLoadImages={this.scrollToBottom}
       />);
     });
   }
