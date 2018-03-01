@@ -70,14 +70,14 @@ class CKGPage extends Component {
 
     const activitySelectorMenu = (
       <Menu className="activitySelectorMenu">
-        <a className="habla-label padding-class-a">{String.t('ckgPage.activityLabel')}</a>
-        <Menu.Item key="allActivity">
+        <div className="habla-label padding-class-a">{String.t('ckgPage.activityLabel')}</div>
+        <Menu.Item key="activitySelectorMenu">
           <a><span><i className="fas fa-tasks" /> {String.t('ckgPage.allActivity')}</span></a>
         </Menu.Item>
-        <Menu.Item key="viewActivity">
+        <Menu.Item key="activitySelectorMenu">
           <a><span><i className="fas fa-eye" /> {String.t('ckgPage.viewsActivity')}</span></a>
         </Menu.Item>
-        <Menu.Item key="shareActivity" className="dropdown-last-menu-item">
+        <Menu.Item key="activitySelectorMenu" className="dropdown-last-menu-item">
           <a><span><i className="fas fa-share" /> {String.t('ckgPage.sharesActivity')}</span></a>
         </Menu.Item>
       </Menu>
@@ -86,12 +86,8 @@ class CKGPage extends Component {
     const dateSelectorMenu = (
       <Menu className="dateSelectorMenu">
         <div className="habla-label padding-class-a">{String.t('ckgPage.dateLabel')}</div>
-        <Menu.Item key="dateSelectorMenuItem">
-          <div>
-            <span>
-              TODO: Add calendar selector here */
-            </span>
-          </div>
+        <Menu.Item key="dateSelectorMenu">
+          <a><span>Add calendar selector here</span></a>
         </Menu.Item>
       </Menu>
     );
@@ -111,40 +107,21 @@ class CKGPage extends Component {
               <Dropdown overlay={activitySelectorMenu} trigger={['click']}>
                 <a className="no-border">
                   <i className="fas fa-tasks" />
-                  <span className="ckg-activity-label">{String.t('ckgPage.allActivity')}</span>
+                  <span className="ckg-activity-label">All Activity</span>
                   <i className="fas fa-angle-down" />
                 </a>
               </Dropdown>
             </div>
 
             <div className="habla-ckg-tools-bar habla-ckg-actions-selector">
-              <Tooltip placement="bottom" title={String.t('chartToolbar.zoomIn')} arrowPointAtCenter>
-                <a
-                  onClick={() => {
-                    /* TODO: Add code here to zoom in */
-                  }}
-                >
-                  <i className="fas fa-search-plus" />
-                </a>
+              <Tooltip placement="bottom" title="Zoom In" arrowPointAtCenter>
+                <a><i className="fas fa-search-plus" /></a>
               </Tooltip>
-              <Tooltip placement="bottom" title={String.t('chartToolbar.zoomOut')} arrowPointAtCenter>
-                <a
-                  onClick={() => {
-                    /* TODO: Add code here to zoom out */
-                  }}
-                >
-                  <i className="fas fa-search-minus" />
-                </a>
+              <Tooltip placement="bottom" title="Zoom Out" arrowPointAtCenter>
+                <a><i className="fas fa-search-minus" /></a>
               </Tooltip>
-              <Tooltip placement="bottom" title={String.t('chartToolbar.zoomShowAll')} arrowPointAtCenter>
-                <a
-                  onClick={() => {
-                    /* TODO: Add code here to zoom all of the way out */
-                  }}
-                  className="no-border"
-                >
-                  <i className="fa fa-expand" />
-                </a>
+              <Tooltip placement="bottom" title="View All" arrowPointAtCenter>
+                <a className="no-border"><i className="fa fa-expand" /></a>
               </Tooltip>
             </div>
           </div>
@@ -186,12 +163,7 @@ class CKGPage extends Component {
           <div className="bottomBar-files-filter">
             <div className="bottomBar-files-filter-content">
               <div className="filetype-label habla-label">
-                {(labels.length > 0) && (
-                  <span className="filetype-label-number-badge">
-                    {labels.length}
-                  </span>)
-                }
-                {String.t('ckgPage.filterTypes', { count: labels.length })}
+                <span className="filetype-label-number-badge">33</span> File Types
               </div>
               {
                 labels.map(({ key, label, fileExtension, count }) => {
