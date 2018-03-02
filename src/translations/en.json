@@ -602,7 +602,9 @@
     "errorToastMessage": "The link to reset your password seems to be expired. Please try again.",
     "newPasswordPlaceholder": "New Password",
     "confirmNewPasswordPlaceholder": "Confirm New Password"
-
+  },
+  "subPageHeader": {
+	"linkToCKG": "View CKG"
   },
 
   "validationError": {

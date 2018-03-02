@@ -8,3 +8,11 @@
 .Subpage-header__title.habla-title {
 	line-height: 12pt;
 }
+.habla-main-content-header-actions {
+	display: inline-flex;
+}
+.ckg-link {
+	margin-right: 8px;
+	font-size: 18px;
+	color: #999;
+}

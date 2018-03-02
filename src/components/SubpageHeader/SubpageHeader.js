@@ -1,5 +1,8 @@
 import React from 'react';
+import { Tooltip } from 'antd';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import String from '../../translations';
 import EditButton from '../../components/buttons/EditButton';
 import './styles/style.css';
 
@@ -27,6 +30,9 @@ function SubpageHeader({ breadcrumb, icon, editButton }) {
         <h1 className="Subpage-header__title habla-title">{breadcrumb}</h1>
       </div>
       <div className="habla-main-content-header-actions">
+        <Tooltip placement="top" title={String.t('subPageHeader.linkToCKG')}>
+          <Link to="/app/ckg"><div className="ckg-link"><i className="fas fa-chart-area" /></div></Link>
+        </Tooltip>
         {showButton && isAdmin && <EditButton url={url} />}
       </div>
     </div>
