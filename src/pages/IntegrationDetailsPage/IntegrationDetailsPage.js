@@ -7,11 +7,11 @@ import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import Spinner from '../../components/Spinner';
 import { ImageCard } from '../../components/cards';
-import { boxLogo, googleDriveLogo, sharepointLogo } from '../../img';
 import String from '../../translations';
 import {
   integrationImageFromKey,
-  integrationLabelFromKey
+  integrationLabelFromKey,
+  integrationLinkFromKey
 } from '../../utils/dataIntegrations';
 import './styles/style.css';
 
@@ -30,9 +30,6 @@ function determineStatus(integration) {
 
 const providers = {
   box: {
-    name: 'Box',
-    link: 'https://app.box.com/apps',
-    logo: boxLogo,
     integrate: (props, subscriberOrgId) => {
       props.integrateBox(subscriberOrgId);
     },
@@ -41,9 +38,6 @@ const providers = {
     }
   },
   google: {
-    name: 'Google Drive',
-    link: 'https://drive.google.com/drive/u/0/my-drive',
-    logo: googleDriveLogo,
     integrate: (props, subscriberOrgId) => {
       props.integrateGoogle(subscriberOrgId);
     },
@@ -55,9 +49,6 @@ const providers = {
     }
   },
   sharepoint: {
-    name: 'Sharepoint',
-    link: 'https://sharepoint.com',
-    logo: sharepointLogo,
     integrate: (props, subscriberOrgId, sharepointOrg) => {
       props.integrateSharepoint(subscriberOrgId, sharepointOrg);
     },
@@ -74,7 +65,7 @@ function showNotification(response, integration) {
   const { status } = response;
   const duration = 7;
   const name = integrationLabelFromKey(integration);
-  const uri = providers[integration].link;
+  const uri = integrationLinkFromKey(integration);
   const link = `<a target="_blank" href=${uri}>${uri}</a>`;
   if (status === 200) {
     notification.success({

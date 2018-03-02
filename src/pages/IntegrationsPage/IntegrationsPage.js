@@ -10,7 +10,11 @@ import SubpageHeader from '../../components/SubpageHeader';
 import { ImageCard } from '../../components/cards';
 import Spinner from '../../components/Spinner';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
-import { boxLogo, googleDriveLogo, sharepointLogo, oneDriveLogo, salesforceLogo } from '../../img';
+import {
+  availableIntegrations,
+  integrationImageFromKey,
+  integrationLabelFromKey
+} from '../../utils/dataIntegrations';
 import String from '../../translations';
 import './styles/style.css';
 
@@ -55,6 +59,7 @@ class IntegrationsPage extends Component {
 
   render() {
     const { integrationsBySubscriberOrgId, working, error } = this.props.integrations;
+    const possibleIntegrations = availableIntegrations();
 
     if (error) {
       return (
@@ -76,69 +81,28 @@ class IntegrationsPage extends Component {
 
     const renderIntegrations = () => {
       const integrationsArr = [];
-      let boxExtra = null;
-      let googleExtra = null;
-      let sharepointExtra = null;
 
-      if (!_.isEmpty(integrations)) {
-        const { google, box, sharepoint } = integrations;
-        if (box) {
-          const { expired, revoked } = box;
+      Object.keys(possibleIntegrations).forEach((key) => {
+        let extra = null;
+        if (!_.isEmpty(integrations) && integrations[key]) {
+          const { expired, revoked } = integrations[key];
           if ((typeof revoked === 'undefined') || (revoked === false)) {
-            boxExtra = (<i className="fa fa-check-circle icon_success habla-green" />);
+            extra = (<i className="fa fa-check-circle icon_success habla-green" />);
             if (expired === true) {
-              boxExtra = (<i className="fa fa-times-circle habla-red" />);
+              extra = (<i className="fa fa-times-circle habla-red" />);
             }
           }
         }
-
-        if (google) {
-          const { expired, revoked } = google;
-          if ((typeof revoked === 'undefined') || (revoked === false)) {
-            googleExtra = (<i className="fa fa-check-circle icon_success habla-green" />);
-            if (expired === true) {
-              googleExtra = (<i className="fa fa-times-circle icon_fail habla-red" />);
-            }
-          }
-        }
-
-        if (sharepoint) {
-          const { expired, revoked } = sharepoint;
-          if ((typeof revoked === 'undefined') || (revoked === false)) {
-            sharepointExtra = (<i className="fa fa-check-circle icon_success habla-green" />);
-            if (expired === true) {
-              sharepointExtra = (<i className="fa fa-times-circle icon_fail habla-red" />);
-            }
-          }
-        }
-      }
-      integrationsArr.push(
-        <div key="box">
-          <Tooltip placement="top" title="Box">
-            <Link to={`/app/integrations/${subscriberOrgId}/box`}>
-              <ImageCard imgSrc={boxLogo} extra={boxExtra} />
-            </Link>
-          </Tooltip>
-        </div>
-      );
-      integrationsArr.push(
-        <div key="google">
-          <Tooltip placement="top" title="Google">
-            <Link to={`/app/integrations/${subscriberOrgId}/google`}>
-              <ImageCard imgSrc={googleDriveLogo} extra={googleExtra} />
-            </Link>
-          </Tooltip>
-        </div>
-      );
-      integrationsArr.push(
-        <div key="sharepoint">
-          <Tooltip placement="top" title="Sharepoint">
-            <Link to={`/app/integrations/${subscriberOrgId}/sharepoint`}>
-              <ImageCard imgSrc={sharepointLogo} extra={sharepointExtra} />
-            </Link>
-          </Tooltip>
-        </div>
-      );
+        integrationsArr.push(
+          <div key={key}>
+            <Tooltip placement="top" title={integrationLabelFromKey(key)}>
+              <Link to={`/app/integrations/${subscriberOrgId}/${key}`}>
+                <ImageCard imgSrc={integrationImageFromKey(key)} extra={extra} />
+              </Link>
+            </Tooltip>
+          </div>
+        );
+      });
 
       return integrationsArr;
     };
@@ -171,25 +135,6 @@ class IntegrationsPage extends Component {
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex habla-integration-list margin-top-class-b">
             <Row type="flex">
               {renderIntegrations()}
-              {
-              // FOR DEMO PURPOSES ONLY: Temporal Integrations Icons for DEMO.
-              }
-              <div key="onedrive">
-                <Tooltip placement="top" title="OneDrive">
-                  <Link to={`/app/integrations/${subscriberOrgId}`}>
-                    <ImageCard imgSrc={oneDriveLogo} />
-                  </Link>
-                </Tooltip>
-              </div>
-
-              <div key="salesforce">
-                <Tooltip placement="top" title="Salesforce">
-                  <Link to={`/app/integrations/${subscriberOrgId}`}>
-                    <ImageCard imgSrc={salesforceLogo} />
-                  </Link>
-                </Tooltip>
-              </div>
-
             </Row>
           </SimpleCardContainer>
         </div>
