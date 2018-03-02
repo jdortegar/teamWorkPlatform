@@ -57,14 +57,6 @@ const integrate = (type, subscriberOrgId, options = { getKey: false }, params = 
   };
 };
 
-export const integrateGoogle = (subscriberOrgId, newOptions = { getKey: false }) => {
-  return integrate('google', subscriberOrgId, newOptions, undefined);
-};
-
-export const integrateBox = (subscriberOrgId, newOptions = { getKey: false }) => {
-  return integrate('box', subscriberOrgId, newOptions, undefined);
-};
-
-export const integrateSharepoint = (subscriberOrgId, sharepointOrg, newOptions = { getKey: false }) => {
-  return integrate('sharepoint', subscriberOrgId, newOptions, { sharepointOrg });
+export const integrateIntegration = (key, subscriberOrgId, params) => { // eslint-disable-line import/prefer-default-export
+  return integrate(key, subscriberOrgId, undefined, params);
 };
