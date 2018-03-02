@@ -18,7 +18,6 @@ const integrate = (type, subscriberOrgId, options = { getKey: false }, params = 
     const paramsString = Object.keys(params).map(key => `${key}=${encodeURIComponent(params[key])}`).join('&');
     requestUrl += `?${paramsString}`;
   }
-  console.log(`requestUrl=${requestUrl}`);
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { type, subscriberOrgId };
