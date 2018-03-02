@@ -15,10 +15,10 @@ const integrate = (type, subscriberOrgId, options = { getKey: false }, params = 
   let requestUrl = `${config.hablaApiBaseUri}/integrations/${type}/integrate/${subscriberOrgId}`;
 
   if (params) {
-    requestUrl = `${requestUrl}?`;
     const paramsString = Object.keys(params).map(key => `${key}=${encodeURIComponent(params[key])}`).join('&');
     requestUrl += `?${paramsString}`;
   }
+  console.log(`requestUrl=${requestUrl}`);
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { type, subscriberOrgId };
