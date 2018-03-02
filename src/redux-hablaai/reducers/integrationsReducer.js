@@ -14,8 +14,8 @@ const integrationsReducer = (state = INITIAL_STATE, action) => {
     case INTEGRATIONS_FETCH_SUCCESS: {
       const updateIntegrationsBySubscriberOrgId = _.cloneDeep(state.integrationsBySubscriberOrgId);
       action.payload.integrations.forEach((integration) => {
-        const { subscriberOrgId, box, google } = integration;
-        const updateIntegration = { box, google };
+        const { subscriberOrgId, box, google, sharepoint } = integration;
+        const updateIntegration = { box, google, sharepoint };
         updateIntegrationsBySubscriberOrgId[subscriberOrgId] = updateIntegration;
       });
       return {
