@@ -184,14 +184,6 @@ class CKGPage extends Component {
                           newExcludeIntegrationsFilter[key] = (newExcludeIntegrationsFilter[key] ? null : true);
                           this.setState({ excludeIntegrationsFilter: newExcludeIntegrationsFilter });
                         }}
-                        onDoubleClick={() => {
-                          const newExcludeIntegrationsFilter = {};
-                          const keys = Object.keys(this.state.excludeIntegrationsFilter);
-                          if (keys.length < labels.length) {
-                            labels.forEach((file) => { newExcludeIntegrationsFilter[file.key] = true; });
-                          }
-                          this.setState({ excludeIntegrationsFilter: newExcludeIntegrationsFilter });
-                        }}
                       >
                         <img src={integrationImageFromKey(key)} width={32} height={32} alt="" className="img" />
                         <div className="fileTypeLabel">
@@ -221,7 +213,7 @@ class CKGPage extends Component {
                           className={btnClass}
                           onClick={() => {
                             const newExcludeTypesFilter = { ...this.state.excludeTypesFilter };
-                            excludeTypesFilter[key] = (newExcludeTypesFilter[key] ? null : true);
+                            newExcludeTypesFilter[key] = (newExcludeTypesFilter[key] ? null : true);
                             this.setState({ excludeTypesFilter: newExcludeTypesFilter });
                           }}
                           onDoubleClick={() => {
