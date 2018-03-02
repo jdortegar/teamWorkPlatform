@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import IntegrationsPage from '../../pages/IntegrationsPage';
-import { fetchIntegrations, integrateBox, integrateGoogle, integrateSharepoint } from '../../actions';
+import { fetchIntegrations, integrateIntegration } from '../../actions';
 
 function mapStateToProps(state) {
   return {
@@ -13,9 +13,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchIntegrations: subscriberOrgId => dispatch(fetchIntegrations(subscriberOrgId)),
-    integrateBox: subscriberOrgId => dispatch(integrateBox(subscriberOrgId)),
-    integrateGoogle: subscriberOrgId => dispatch(integrateGoogle(subscriberOrgId)),
-    integrateSharepoint: (subscriberOrgId, sharepointOrg) => dispatch(integrateSharepoint(subscriberOrgId, sharepointOrg))
+    integrateIntegration: (key, subscriberOrgId, params) => dispatch(integrateIntegration(key, subscriberOrgId, params))
   };
 }
 

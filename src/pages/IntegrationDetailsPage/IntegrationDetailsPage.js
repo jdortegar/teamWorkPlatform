@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Tooltip, notification } from 'antd';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
@@ -11,7 +10,8 @@ import String from '../../translations';
 import {
   integrationImageFromKey,
   integrationLabelFromKey,
-  integrationLinkFromKey
+  integrationLinkFromKey,
+  availableIntegrations
 } from '../../utils/dataIntegrations';
 import './styles/style.css';
 
@@ -27,39 +27,6 @@ function determineStatus(integration) {
 
   return false;
 }
-
-const providers = {
-  box: {
-    integrate: (props, subscriberOrgId) => {
-      props.integrateBox(subscriberOrgId);
-    },
-    revoke: (props, subscriberOrgId, notify) => {
-      props.revokeBox(subscriberOrgId).then(res => notify(res, 'box'));
-    }
-  },
-  google: {
-    integrate: (props, subscriberOrgId) => {
-      props.integrateGoogle(subscriberOrgId);
-    },
-    revoke: (props, subscriberOrgId, notify) => {
-      _.debounce(
-        props.revokeGoogle(subscriberOrgId).then(res => notify(res, 'google')),
-        50
-      );
-    }
-  },
-  sharepoint: {
-    integrate: (props, subscriberOrgId, sharepointOrg) => {
-      props.integrateSharepoint(subscriberOrgId, sharepointOrg);
-    },
-    revoke: (props, subscriberOrgId, notify) => {
-      _.debounce(
-        props.revokeSharepoint(subscriberOrgId).then(res => notify(res, 'sharepoint')),
-        50
-      );
-    }
-  }
-};
 
 function showNotification(response, integration) {
   const { status } = response;
@@ -90,12 +57,8 @@ function showNotification(response, integration) {
 
 const propTypes = {
   history: PropTypes.object.isRequired,
-  integrateBox: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
-  integrateGoogle: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
-  integrateSharepoint: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
-  revokeBox: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
-  revokeGoogle: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
-  revokeSharepoint: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
+  integrateIntegration: PropTypes.func.isRequired,
+  revokeIntegration: PropTypes.func.isRequired,
   integrations: PropTypes.object.isRequired,
   fetchIntegrations: PropTypes.func.isRequired,
   match: PropTypes.shape({
@@ -142,10 +105,18 @@ class IntegrationDetailsPage extends Component {
     const { integrationDetails, subscriberOrgId } = this.props.match.params;
     if (checked) {
       // const sharepointOrg = 'hablaaiinc'; // TODO: Mike: Obtain org name from user.  Prompt should be:  https://${sharepointOrg}.sharepoint.com to be clear to user.
-      const sharepointOrg = 'korrelated';
-      providers[integrationDetails].integrate(this.props, subscriberOrgId, sharepointOrg);
+      const integration = availableIntegrations()[integrationDetails];
+      let configParams = null;
+      if (integration.config && integration.config.params) {
+        configParams = {};
+        integration.config.params.forEach((param) => {
+          configParams[param.key] = 'korrelated';
+        });
+      }
+      this.props.integrateIntegration(integrationDetails, subscriberOrgId, configParams);
     } else {
-      providers[integrationDetails].revoke(this.props, subscriberOrgId, showNotification);
+      this.props.revokeIntegration(integrationDetails, subscriberOrgId)
+        .then(res => showNotification(res, integrationDetails));
     }
   }
 

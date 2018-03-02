@@ -64,14 +64,6 @@ function revoke(type, subscriberOrgId) {
   };
 }
 
-export function revokeGoogle(subscriberOrgId) {
-  return revoke('google', subscriberOrgId);
-}
-
-export function revokeBox(subscriberOrgId) {
-  return revoke('box', subscriberOrgId);
-}
-
-export function revokeSharepoint(subscriberOrgId) {
-  return revoke('sharepoint', subscriberOrgId);
+export function revokeIntegration(key, subscriberOrgId) {
+  return revoke(key, subscriberOrgId);
 }

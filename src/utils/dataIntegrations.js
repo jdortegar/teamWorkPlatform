@@ -18,7 +18,14 @@ const possibleIntegrations = {
     label: 'SharePoint',
     logo: sharepointLogo,
     uniqueUrl: 'sharepoint.com', // TODO: test this out
-    link: 'https://sharepoint.com'
+    link: 'https://sharepoint.com',
+    config: {
+      params: [{
+        key: 'sharepointOrg',
+        label: 'Site ID',
+        placeholder: 'Enter Sharepoint Site ID'
+      }]
+    }
   },
   oneDrive: {
     label: 'OneDrive',
@@ -58,10 +65,15 @@ function integrationImageFromResourceUri(resourceUri) {
   return key ? possibleIntegrations[key].logo : null;
 }
 
+function integrationLinkFromKey(key) {
+  return possibleIntegrations[key].link;
+}
+
 export {
   availableIntegrations,
   integrationFromResourceUri,
   integrationImageFromKey,
   integrationLabelFromKey,
-  integrationImageFromResourceUri
+  integrationImageFromResourceUri,
+  integrationLinkFromKey
 };
