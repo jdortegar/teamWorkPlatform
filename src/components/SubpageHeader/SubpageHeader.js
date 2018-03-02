@@ -12,15 +12,17 @@ const propTypes = {
     PropTypes.string,
     PropTypes.node
   ]).isRequired,
+  ckgLink: PropTypes.bool,
   editButton: PropTypes.object
 };
 
 const defaultProps = {
+  ckgLink: false,
   editButton: {}
 };
 
 
-function SubpageHeader({ breadcrumb, subscriberOrgId, history, editButton }) {
+function SubpageHeader({ breadcrumb, subscriberOrgId, history, editButton, ckgLink }) {
   const { showButton, isAdmin, url } = editButton;
   return (
     <div className="habla-main-content-header padding-class-a border-bottom-lighter">
@@ -28,6 +30,7 @@ function SubpageHeader({ breadcrumb, subscriberOrgId, history, editButton }) {
         <h1 className="Subpage-header__title habla-title">{breadcrumb}</h1>
       </div>
       <div className="habla-main-content-header-actions">
+        {ckgLink &&
         <Tooltip placement="top" title={String.t('subPageHeader.linkToCKG')}>
           <div
             className="ckg-link"
@@ -38,6 +41,7 @@ function SubpageHeader({ breadcrumb, subscriberOrgId, history, editButton }) {
             <i className="fas fa-chart-area" />
           </div>
         </Tooltip>
+        }
         {showButton && isAdmin && <EditButton url={url} />}
       </div>
     </div>
