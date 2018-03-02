@@ -16,7 +16,8 @@ const integrate = (type, subscriberOrgId, options = { getKey: false }, params = 
 
   if (params) {
     requestUrl = `${requestUrl}?`;
-    Object.keys(params).forEach(param => requestUrl.concat(`${param}=${params[param]}&`));
+    const paramsString = Object.keys(params).map(key => `${key}=${encodeURIComponent(params[key])}`).join('&');
+    requestUrl += `?${paramsString}`;
   }
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
