@@ -6,7 +6,7 @@ import * as d3 from 'd3';
 import String from '../../translations';
 import {
   integrationLabelFromKey,
-  integrationFromResourceUri,
+  integrationKeyFromResourceUri,
   integrationImageFromKey
 } from '../../utils/dataIntegrations';
 
@@ -70,7 +70,7 @@ class CKGPage extends Component {
     const { excludeTypesFilter, excludeIntegrationsFilter } = this.state;
     const filesFiltered = files.filter(({ fileExtension, resourceUri }) => {
       const label = fileExtension || other;
-      const key = integrationFromResourceUri(resourceUri);
+      const key = integrationKeyFromResourceUri(resourceUri);
       return !excludeTypesFilter[label] && !excludeIntegrationsFilter[key];
     });
 
@@ -168,8 +168,8 @@ class CKGPage extends Component {
           </div>
           <div className="bottomBar-files-filter">
             <div className="bottomBar-files-filter-content">
-              {Object.keys(integrations).map((integration) => {
-                const { key, count } = integrations[integration];
+              {Object.keys(integrations).map((integrationKey) => {
+                const { key, count } = integrations[integrationKey];
                 const btnClass = this.state.excludeIntegrationsFilter[key] ? 'fileTypeButton fileTypeButtonGrayed' : 'fileTypeButton';
                 const label = integrationLabelFromKey(key);
                 return (

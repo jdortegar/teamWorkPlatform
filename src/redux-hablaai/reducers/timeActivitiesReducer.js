@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { TIMEACTIVITIES_FETCH_SUCCESS } from '../actions';
 import String from '../../translations';
-import { integrationFromResourceUri } from '../../utils/dataIntegrations';
+import { integrationKeyFromResourceUri } from '../../utils/dataIntegrations';
 
 const INITIAL_STATE = {
   fileTypes: [],
@@ -24,11 +24,11 @@ function getUniqueFileTypes(files) {
       count: count + 1
     };
 
-    const dataIntegration = integrationFromResourceUri(resourceUri);
-    if (dataIntegration) {
-      dataIntegrations[dataIntegration] = {
-        key: dataIntegration,
-        count: 1 + (dataIntegrations[dataIntegration] ? dataIntegrations[dataIntegration].count : 0)
+    const key = integrationKeyFromResourceUri(resourceUri);
+    if (key) {
+      dataIntegrations[key] = {
+        key,
+        count: 1 + (dataIntegrations[key] ? dataIntegrations[key].count : 0)
       };
     }
 
