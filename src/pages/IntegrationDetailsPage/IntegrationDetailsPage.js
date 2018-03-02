@@ -98,6 +98,11 @@ class IntegrationDetailsPage extends Component {
           duration: 5
         });
       }
+
+      // Remove status from visible url to disallow reloading and bookmarking of url with status.
+      let { pathname: path } = this.props.location;
+      path = path.substring(0, path.lastIndexOf('/'));
+      this.props.history.replace(path);
     }
   }
 
@@ -110,7 +115,7 @@ class IntegrationDetailsPage extends Component {
       if (integration.config && integration.config.params) {
         configParams = {};
         integration.config.params.forEach((param) => {
-          configParams[param.key] = 'korrelated';
+          configParams[param.key] = 'hablaaiinc'; // korrelated || hablaaiinc for testing.
         });
       }
       this.props.integrateIntegration(integrationDetails, subscriberOrgId, configParams);
