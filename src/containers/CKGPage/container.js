@@ -1,6 +1,9 @@
 import { connect } from 'react-redux';
-import CKGPage from '../../pages/CKGPage';
-import { fetchTimeActivitiesBySubscriberOrgId } from '../../actions';
+import CKGPage from 'pages/CKGPage';
+import {
+  fetchTimeActivitiesBySubscriberOrgId,
+  setCurrentSubscriberOrgId
+} from 'actions';
 
 const mapStateToProps = state => ({
   currentSubscriberOrgId: state.subscriberOrgs.currentSubscriberOrgId,
@@ -8,7 +11,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchTimeActivitiesBySubscriberOrgId: subscriberOrgId => dispatch(fetchTimeActivitiesBySubscriberOrgId(subscriberOrgId))
+  fetchTimeActivitiesBySubscriberOrgId: subscriberOrgId => dispatch(fetchTimeActivitiesBySubscriberOrgId(subscriberOrgId)),
+  setCurrentSubscriberOrgId: subscriberOrgId => dispatch(setCurrentSubscriberOrgId(subscriberOrgId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CKGPage);

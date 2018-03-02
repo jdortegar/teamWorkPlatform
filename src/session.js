@@ -9,12 +9,13 @@ import messaging from './redux-hablaai/messaging';
 import messagingActionAdapter from './redux-hablaai/actions/messagingActionAdapter';
 import reduxHablaaiConfig from './redux-hablaai/config';
 import { onlineOfflineListener, clearCachedGetRequests } from './redux-hablaai/actions/urlRequest';
-import { receiveUserMyself } from './actions';
+import { receiveUserMyself, setCurrentSubscriberOrgId } from './actions';
 
 const TOKEN_COOKIE_NAME = 'token';
 const WEBSOCKET_URL_COOKIE_NAME = 'websocketUrl';
 const RESOURCES_URL_COOKIE_NAME = 'resourcesUrl';
 const LAST_ROUTE_COOKIE_NAME_PREFIX = 'lastRoute';
+const LAST_SUBSCRIBER_ORG_ID = 'lastSubscriberOrgId';
 
 const AWS_CUSTOMER_ID_HEADER_NAME = 'x-hablaai-awsCustomerId';
 
@@ -44,11 +45,14 @@ export const closeMessaging = () => {
 const storeLastRoute = () => {
   const decoded = jwtDecode(jwt);
   const userId = decoded._id;
-  const { location: { pathname, search } } = store.getState().router;
+  const currentState = store.getState();
+  const { location: { pathname, search } } = currentState.router;
+  const { currentSubscriberOrgId } = currentState.subscriberOrgs;
   // if (process.env.NODE_ENV === 'production') {
   //   Cookie.set(`${LAST_ROUTE_COOKIE_NAME_PREFIX}__${userId}`, `${pathname}${search}`, { secure: true, expires: 7 });
   // } else {
   Cookie.set(`${LAST_ROUTE_COOKIE_NAME_PREFIX}__${userId}`, `${pathname}${search}`, { expires: 7 });
+  Cookie.set(`${LAST_SUBSCRIBER_ORG_ID}__${userId}`, currentSubscriberOrgId, { expires: 7 });
   // }
 };
 
@@ -150,6 +154,14 @@ export const login = (email, password) => {
           payload: { user }
         });
         store.dispatch(receiveUserMyself(user));
+
+        const userSpecificLastSubscriberOrgId = `${LAST_SUBSCRIBER_ORG_ID}__${user.userId}`;
+        const currentSubscriberOrgId = Cookie.get(userSpecificLastSubscriberOrgId);
+        if (currentSubscriberOrgId) {
+          store.dispatch(setCurrentSubscriberOrgId(currentSubscriberOrgId));
+          Cookie.remove(userSpecificLastSubscriberOrgId);
+        }
+
         persistStore(store);
 
         initMessaging();

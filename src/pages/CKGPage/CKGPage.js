@@ -32,13 +32,16 @@ const buildDataObject = (file) => {
 };
 
 const propTypes = {
-  currentSubscriberOrgId: PropTypes.string,
+  currentSubscriberOrgId: PropTypes.string.isRequired,
+  setCurrentSubscriberOrgId: PropTypes.func.isRequired,
   fetchTimeActivitiesBySubscriberOrgId: PropTypes.func.isRequired,
-  timeActivities: PropTypes.object
+  timeActivities: PropTypes.object,
+  match: PropTypes.shape({
+    params: PropTypes.object.isRequired
+  }).isRequired
 };
 
 const defaultProps = {
-  currentSubscriberOrgId: null,
   timeActivities: null
 };
 
@@ -49,16 +52,11 @@ class CKGPage extends Component {
   };
 
   componentDidMount() {
-    const { currentSubscriberOrgId, fetchTimeActivitiesBySubscriberOrgId } = this.props;
-    if (currentSubscriberOrgId) {
-      fetchTimeActivitiesBySubscriberOrgId(currentSubscriberOrgId);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { currentSubscriberOrgId, fetchTimeActivitiesBySubscriberOrgId } = this.props;
-    if (currentSubscriberOrgId !== nextProps.currentSubscriberOrgId) {
-      fetchTimeActivitiesBySubscriberOrgId(nextProps.currentSubscriberOrgId);
+    const { fetchTimeActivitiesBySubscriberOrgId, currentSubscriberOrgId } = this.props;
+    const { subscriberOrgId } = this.props.match.params;
+    fetchTimeActivitiesBySubscriberOrgId(subscriberOrgId);
+    if (currentSubscriberOrgId !== subscriberOrgId) {
+      this.props.setCurrentSubscriberOrgId(subscriberOrgId);
     }
   }
 

@@ -1,10 +1,9 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
-import { toggleOrgDialog,
-  fetchGlobalState,
-  toggleInvitePeopleDialog, toggleOrgSettingsDialog,
-  toggleTeamDialog, toggleTeamRoomDialog, setCurrentSubscriberOrgId,
+import Sidebar from 'components/Sidebar';
+import {
+  setCurrentSubscriberOrgId,
   showSideBar
 } from '../../actions';
 import {
@@ -14,7 +13,6 @@ import {
   getSubscribersOfSubscriberOrgId,
   getPresencesOfSubscribersOfOrgId
 } from '../../selectors';
-import Sidebar from '../../components/Sidebar';
 
 function mapStateToProps(state) {
   return {
@@ -35,13 +33,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     setCurrentSubscriberOrgId,
-    toggleOrgDialog,
-    fetchGlobalState,
-    showSideBar,
-    toggleInvitePeopleDialog,
-    toggleOrgSettingsDialog,
-    toggleTeamDialog,
-    toggleTeamRoomDialog }, dispatch);
+    showSideBar
+  }, dispatch);
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Sidebar));

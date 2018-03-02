@@ -19,10 +19,6 @@ const { Sider } = Layout;
 const { SubMenu } = Menu;
 
 const propTypes = {
-  fetchGlobalState: PropTypes.func.isRequired,
-  toggleOrgDialog: PropTypes.func.isRequired,
-  toggleTeamRoomDialog: PropTypes.func.isRequired,
-  toggleTeamDialog: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   subscriberOrgs: PropTypes.array.isRequired,
   subscribers: PropTypes.array,
@@ -114,11 +110,6 @@ class Sidebar extends Component {
       openKeys: []
     };
 
-    this.handleAddOrganization = this.handleAddOrganization.bind(this);
-
-    this.toogleOrgs = this.toogleOrgs.bind(this);
-    this.toogleTeams = this.toogleTeams.bind(this);
-
     this.goToOrgPage = this.goToOrgPage.bind(this);
     this.goToTeamRoomPage = this.goToTeamRoomPage.bind(this);
   }
@@ -130,27 +121,9 @@ class Sidebar extends Component {
     }
   }
 
-  componentDidMount() {
-    this.props.fetchGlobalState();
-  }
-
   getTeamsIds(orgId) {
     const teams = this.props.teams.filter(team => team.subscriberOrgId === orgId);
     return teams.map(team => team.teamId);
-  }
-
-  handleAddOrganization() {
-    this.props.toggleOrgDialog(true);
-  }
-
-  showTeamRoomDialog(e, teamId) {
-    e.stopPropagation();
-    this.props.toggleTeamRoomDialog(true, teamId);
-  }
-
-  showTeamDialog(e, orgId) {
-    e.stopPropagation();
-    this.props.toggleTeamDialog(true, orgId);
   }
 
   cancelClickEvent(e = window.event) {
@@ -423,7 +396,7 @@ class Sidebar extends Component {
             </Link>
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconCKGTooltip')} arrowPointAtCenter>
-            <Link to="/app/ckg" className="habla-top-menu-ckg">
+            <Link to={`/app/ckg/${currentSubscriberOrgId}`} className="habla-top-menu-ckg">
               <i className="fas fa-chart-area fa-2x" />
             </Link>
           </Tooltip>

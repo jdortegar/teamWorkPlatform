@@ -1,10 +1,10 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import _ from 'lodash';
-import { ProtectedRoute, PublicRoute } from './routing';
-import Main from './layouts/Main';
-import Login from './containers/Login';
-import SignUp from './layouts/SignUp';
+import { ProtectedRoute, PublicRoute } from 'routing';
+import Main from 'containers/Main';
+import Login from 'containers/Login';
+import SignUp from 'layouts/SignUp';
 
 export const routesPaths = {
   register: '/register',
@@ -34,7 +34,7 @@ export const routesPaths = {
   newTeamRoom: '/app/createTeamRoom/:teamId',
   member: '/app/teamMember/:teamMemberId',
   notifications: '/app/notifications',
-  ckg: '/app/ckg'
+  ckg: '/app/ckg/:subscriberOrgId'
 };
 
 export default (
