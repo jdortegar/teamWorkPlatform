@@ -16,6 +16,7 @@ const propTypes = {
   }).isRequired,
   setCurrentSubscriberOrgId: PropTypes.func.isRequired,
   fetchSubscribersBySubscriberOrgId: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       subscriberOrgId: PropTypes.string
@@ -100,7 +101,8 @@ class OrganizationPage extends Component {
       return (
         <div className="editOrgPage-main">
           <SubpageHeader
-            subscriberOrg={subscriberOrg}
+            subscriberOrgId={subscriberOrg.subscriberOrgId}
+            history={this.props.history}
             breadcrumb={
               <BreadCrumb
                 subscriberOrg={subscriberOrg}

@@ -10,6 +10,7 @@ import './styles/style.css';
 import String from '../../translations';
 
 const propTypes = {
+  history: PropTypes.object.isRequired,
   subscriberOrg: PropTypes.object.isRequired
 };
 
@@ -29,6 +30,8 @@ class TeamMemberPage extends Component {
     return (
       <div>
         <SubpageHeader
+          subscriberOrgId={subscriberOrg.subscriberOrgId}
+          history={this.props.history}
           breadcrumb={
             <BreadCrumb
               subscriberOrg={subscriberOrg}

@@ -83,6 +83,8 @@ class EditTeamRoomPage extends Component {
     return (
       <div className="EditTeamRoomPage-main">
         <SubpageHeader
+          subscriberOrgId={subscriberOrg.subscriberOrgId}
+          history={this.props.history}
           breadcrumb={
             <BreadCrumb
               subscriberOrg={subscriberOrg}

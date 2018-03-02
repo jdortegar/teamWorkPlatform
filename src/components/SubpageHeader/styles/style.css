@@ -14,5 +14,6 @@
 .ckg-link {
 	margin-right: 8px;
 	font-size: 18px;
-	color: #999;
+   color: #999;
+   cursor: pointer;
 }

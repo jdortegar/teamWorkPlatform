@@ -546,6 +546,8 @@ class TeamRoomPage extends Component {
         <div className={className}>
           <div className="team-room__top-page-container border-bottom-lighter">
             <SubpageHeader
+              subscriberOrgId={subscriberOrg.subscriberOrgId}
+              history={this.props.history}
               breadcrumb={
                 <BreadCrumb
                   subscriberOrg={subscriberOrg}

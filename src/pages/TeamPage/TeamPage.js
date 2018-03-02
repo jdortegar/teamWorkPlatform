@@ -17,6 +17,7 @@ import './styles/style.css';
 const propTypes = {
   fetchTeamRoomsByTeamId: PropTypes.func.isRequired,
   fetchTeamMembersByTeamId: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       teamId: PropTypes.string,
@@ -88,6 +89,8 @@ class TeamPage extends Component {
       return (
         <div>
           <SubpageHeader
+            subscriberOrgId={subscriberOrg.subscriberOrgId}
+            history={this.props.history}
             breadcrumb={
               <BreadCrumb
                 subscriberOrg={subscriberOrg}

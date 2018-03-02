@@ -98,6 +98,7 @@ function showNotification(response, integration) {
 }
 
 const propTypes = {
+  history: PropTypes.object.isRequired,
   integrateBox: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
   integrateGoogle: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
   integrateSharepoint: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
@@ -184,6 +185,8 @@ class IntegrationDetailsPage extends Component {
     return (
       <div>
         <SubpageHeader
+          subscriberOrgId={subscriberOrgId}
+          history={this.props.history}
           breadcrumb={
             <BreadCrumb
               subscriberOrg={subscriberOrg}

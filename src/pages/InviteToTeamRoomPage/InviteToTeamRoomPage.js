@@ -139,6 +139,8 @@ class InviteToTeamRoomPage extends Component {
     return (
       <div>
         <SubpageHeader
+          subscriberOrgId={subscriberOrg.subscriberOrgId}
+          history={this.props.history}
           breadcrumb={
             <BreadCrumb
               subscriberOrg={subscriberOrg}

@@ -151,6 +151,8 @@ class IntegrationsPage extends Component {
     return (
       <div>
         <SubpageHeader
+          subscriberOrgId={subscriberOrgId}
+          history={this.props.history}
           breadcrumb={
             <BreadCrumb
               subscriberOrg={subscriberOrg}
