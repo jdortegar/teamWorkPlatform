@@ -4,6 +4,7 @@ import _ from 'lodash';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
 import ListViewItem from '../../../components/ListViewItem/ListViewItem';
+import { integrationLabelFromKey } from '../../../utils/dataIntegrations';
 import String from '../../../translations';
 
 const propTypes = {
@@ -32,36 +33,27 @@ function ListView(props) {
     });
   };
 
+  const renderIntegration = (key, integration) => {
+    const label = integrationLabelFromKey(key);
+    const { expired, revoked } = integration;
+
+    if (((typeof expired === 'undefined') || (expired === false)) && ((typeof revoked === 'undefined') || (revoked === false))) {
+      return (
+        <ListViewItem name={label} key={key} />
+      );
+    }
+
+    return null;
+  };
+
   const renderIntegrations = () => {
     const integrationsArr = [];
-
-    if (!_.isEmpty(integrations.integrationsBySubscriberOrgId[subscriberOrgId])) {
-      if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].box) {
-        // let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
-        // if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].box.expired) {
-        //   extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
-        // }
-        const { box: integrationObj } = integrations.integrationsBySubscriberOrgId[subscriberOrgId];
-        const { expired, revoked } = integrationObj;
-        if (((typeof expired === 'undefined') || (expired === false)) && ((typeof revoked === 'undefined') || (revoked === false))) {
-          integrationsArr.push(
-            <ListViewItem name="Box" key="box" />
-          );
-        }
-      }
-      if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].google) {
-        // let extra = (<h1><i className="fa fa-check-circle icon_success" /></h1>);
-        // if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].google.expired) {
-        //   extra = (<h1><i className="fa fa-exclamation-triangle icon_fail" /></h1>);
-        // }
-        const { google: integrationObj } = integrations.integrationsBySubscriberOrgId[subscriberOrgId];
-        const { expired, revoked } = integrationObj;
-        if (((typeof expired === 'undefined') || (expired === false)) && ((typeof revoked === 'undefined') || (revoked === false))) {
-          integrationsArr.push(
-            <ListViewItem name="Google" key="google" />
-          );
-        }
-      }
+    const subscriberIntegrations = integrations.integrationsBySubscriberOrgId[subscriberOrgId];
+    if (!_.isEmpty(subscriberIntegrations)) {
+      Object.keys(subscriberIntegrations).forEach((key) => {
+        const integration = integrations.integrationsBySubscriberOrgId[subscriberOrgId];
+        integrationsArr.push(renderIntegration(key, integration));
+      });
     }
 
     return integrationsArr;

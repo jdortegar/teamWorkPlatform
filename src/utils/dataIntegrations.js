@@ -1,4 +1,5 @@
 import String from '../translations';
+
 import { boxLogo, googleDriveLogo, sharepointLogo, oneDriveLogo, salesforceLogo } from '../img';
 
 const possibleIntegrations = {
@@ -25,6 +26,7 @@ const possibleIntegrations = {
     config: {
       params: [{
         key: 'sharepointOrg',
+        type: 'edit',
         label: 'Site ID',
         placeholder: 'Enter Sharepoint Site ID'
       }]
