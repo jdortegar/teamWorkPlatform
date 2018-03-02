@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   MESSAGES_READ_FETCH_SUCCESS,
   MESSAGES_READ_RECEIVE

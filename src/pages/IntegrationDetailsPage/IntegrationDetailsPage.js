@@ -149,7 +149,8 @@ class IntegrationDetailsPage extends Component {
   handleIntegration(checked) {
     const { integrationDetails, subscriberOrgId } = this.props.match.params;
     if (checked) {
-      const sharepointOrg = 'hablaaiinc'; // TODO: Mike: Obtain org name from user.  Prompt should be:  https://${sharepointOrg}.sharepoint.com to be clear to user.
+      // const sharepointOrg = 'hablaaiinc'; // TODO: Mike: Obtain org name from user.  Prompt should be:  https://${sharepointOrg}.sharepoint.com to be clear to user.
+      const sharepointOrg = 'korrelated';
       providers[integrationDetails].integrate(this.props, subscriberOrgId, sharepointOrg);
     } else {
       providers[integrationDetails].revoke(this.props, subscriberOrgId, showNotification);

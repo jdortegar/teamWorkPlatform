@@ -3,7 +3,7 @@ import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const INTEGRATIONS_FETCH_SUCCESS = 'integrations/fetch/success';
 
-export const fetchIntegrations = (subscriberOrgId, options = { getKey: false, forceGet: false }) => {
+export const fetchIntegrations = (subscriberOrgId, options = { getKey: false, forceGet: true }) => {
   // requestUrl is the key into redux state.urlRequests.
   const requestUrl = `${config.hablaApiBaseUri}/integrations/getIntegrations?subscriberOrgId=${subscriberOrgId}`;
 

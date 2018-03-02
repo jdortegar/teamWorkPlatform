@@ -16,6 +16,7 @@ function integrationImageFromKey(key) {
 function integrationLabelFromKey(key) {
   if (key === 'google') return 'Google Drive';
   if (key === 'box') return 'Box';
+  if (key === 'sharepoint') return 'SharePoint';
   return String.t('integrationsPage.providerError');
 }
 
