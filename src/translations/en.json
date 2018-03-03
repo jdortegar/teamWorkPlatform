@@ -437,14 +437,10 @@
        "expired": "Expired",
        "revoked": "Revoked"
      },
-     "notification": {
-       "createdMessage": "CREATED",
+     "message": {
        "createdDescription": "Your {{name}} integration is good to go!",
-       "successMessage": "SUCCESS",
        "successDescription": "Habla AI no longer has access to your account.",
-       "goneMessage": "GONE",
-       "goneDescription": "Your integration to {{name}} has been revoked and Habla AI no longer has access to it. Please go to {{link}} to complete the revocation.",
-       "notFoundMessage": "NOT FOUND",
+       "goneDescription": "Your integration to {{name}} has been revoked and Habla AI no longer has access to it. Please go to {{uri}} to complete the revocation.",
        "notFoundDescription": "We’re sorry, but something must’ve gone terribly wrong."
      },
      "integrations": "Integrations",

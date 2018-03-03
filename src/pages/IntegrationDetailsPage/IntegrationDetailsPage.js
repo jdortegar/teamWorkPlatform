@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Tooltip, notification } from 'antd';
+import { Switch, Tooltip, message } from 'antd';
 import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
@@ -30,28 +30,15 @@ function determineStatus(integration) {
 
 function showNotification(response, integration) {
   const { status } = response;
-  const duration = 7;
   const name = integrationLabelFromKey(integration);
   const uri = integrationLinkFromKey(integration);
   const link = `<a target="_blank" href=${uri}>${uri}</a>`;
   if (status === 200) {
-    notification.success({
-      message: String.t('integrationDetailsPage.notification.successMessage'),
-      description: String.t('integrationDetailsPage.notification.successDescription'),
-      duration
-    });
+    message.success(String.t('integrationDetailsPage.message.successDescription'));
   } else if (status === 410) {
-    notification.error({
-      message: String.t('integrationDetailsPage.notification.goneMessage'),
-      description: <p>{String.t('integrationDetailsPage.notification.goneDescription', { name, link })}</p>,
-      duration
-    });
+    message.error(String.t('integrationDetailsPage.message.goneDescription', { name, link }));
   } else {
-    notification.error({
-      message: String.t('integrationDetailsPage.notification.notFoundMessage'),
-      description: String.t('integrationDetailsPage.notification.notFoundDescription'),
-      duration
-    });
+    message.error(String.t('integrationDetailsPage.message.notFoundDescription'));
   }
 }
 
@@ -91,17 +78,9 @@ class IntegrationDetailsPage extends Component {
     this.props.fetchIntegrations(subscriberOrgId);
     if (status) {
       if (status.includes('CREATED')) {
-        notification.success({
-          message: String.t('integrationDetailsPage.notification.createdMessage'),
-          description: String.t('integrationDetailsPage.notification.createdDescription', { name }),
-          duration: 5
-        });
+        message.success(String.t('integrationDetailsPage.message.createdDescription', { name }));
       } else {
-        notification.error({ // TODO: Figure what this should show and localize the strings
-          message: status,
-          description: null,
-          duration: 5
-        });
+        message.error(status);
       }
 
       // Remove status from visible url to disallow reloading and bookmarking of url with status.
@@ -175,9 +154,7 @@ class IntegrationDetailsPage extends Component {
         }
         extraFormFields.push((
           <div className="m-2">
-            <label className="Integration-details__config-label">
-              {label}:
-            </label>
+            <label className="Integration-details__config-label">{label}</label>
             <input
               ref={(ref) => { this[key] = ref; }}
               className="Integration-details__config-input"

@@ -27,7 +27,7 @@ const possibleIntegrations = {
       params: [{
         key: 'sharepointOrg', // used to set value and to returned it via integrations.sharepoint.sharepointOrg
         type: 'edit',
-        label: 'Site ID', // TODO: localize
+        label: 'Site ID:', // TODO: localize
         value: 'site',
         placeholder: 'Enter Sharepoint Site ID' // TODO: localize
       }],
