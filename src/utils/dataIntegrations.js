@@ -5,31 +5,41 @@ import { boxLogo, googleDriveLogo, sharepointLogo, oneDriveLogo, salesforceLogo 
 const possibleIntegrations = {
   box: {
     key: 'box',
-    label: 'Box',
+    label: 'Box', // TODO: localize??
     logo: boxLogo,
     uniqueUrl: 'box.com',
     link: 'https://app.box.com/apps'
   },
   google: {
     key: 'google',
-    label: 'Google Drive',
+    label: 'Google Drive', // TODO: localize??
     logo: googleDriveLogo,
     uniqueUrl: 'google.com',
     link: 'https://drive.google.com/drive/u/0/my-drive'
   },
   sharepoint: {
     key: 'sharepoint',
-    label: 'SharePoint',
+    label: 'SharePoint', // TODO: localize??
     logo: sharepointLogo,
     uniqueUrl: 'sharepoint.com', // TODO: test this out
     link: 'https://sharepoint.com',
     config: {
       params: [{
-        key: 'sharepointOrg',
+        key: 'sharepointOrg', // used to set value and to returned it via integrations.sharepoint.sharepointOrg
         type: 'edit',
-        label: 'Site ID',
-        placeholder: 'Enter Sharepoint Site ID'
-      }]
+        label: 'Site ID', // TODO: localize
+        value: 'site',
+        placeholder: 'Enter Sharepoint Site ID' // TODO: localize
+      }],
+      folders: {
+        label: 'Sites', // TODO: localize
+        key: 'sites', // integrations.sharepoint.sites (type is an array)
+        folder: {
+          selected: 'selected', // integrations.sharepoint.sites[index].selected (type is boolean)
+          folder: 'site', // integrations.sharepoint.sites[index].site (type is string)
+          subFolders: 'sites' // site.sites (type is an array)
+        }
+      }
     }
   },
   oneDrive: {

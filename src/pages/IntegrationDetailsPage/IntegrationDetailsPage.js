@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { /* Form, */ Switch, Tooltip, notification } from 'antd';
+import { Switch, Tooltip, notification } from 'antd';
 import PropTypes from 'prop-types';
-// import { formShape } from 'propTypes';
-// import TextField from 'components/formFields/TextField';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
@@ -153,20 +151,27 @@ class IntegrationDetailsPage extends Component {
     const imgSrc = integrationImageFromKey(integrationDetails);
     const name = integrationLabelFromKey(integrationDetails);
     const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || {};
-    const currStatus = determineStatus(integrations[integrationDetails]);
+    const integration = integrations[integrationDetails];
+    const currStatus = determineStatus(integration);
     const tooltipTitle = currStatus === 'Active' ? String.t('integrationDetailsPage.deactivate') : String.t('integrationDetailsPage.activate');
-    let disabled = false;
+    let disabledSwitch = false;
+    let disabledFields = false;
 
     let extraFormFields = null;
     const { configParams } = this.state;
     if (configParams) {
       extraFormFields = [];
       configParams.forEach(({ key, label, placeholder }) => {
-        const inputField = this[key];
-        if (inputField) {
-          const value = inputField.value;
-          const len = value.length;
-          disabled = disabled || (len < 3);
+        const savedValue = integration[key];
+        if (savedValue && savedValue.length) {
+          disabledFields = true;
+        } else {
+          const inputField = this[key];
+          if (inputField) {
+            const value = inputField.value;
+            const len = value.length;
+            disabledSwitch = disabledSwitch || (len < 3);
+          }
         }
         extraFormFields.push((
           <div className="m-2">
@@ -177,9 +182,9 @@ class IntegrationDetailsPage extends Component {
               ref={(ref) => { this[key] = ref; }}
               className="Integration-details__config-input"
               placeholder={placeholder}
-              onChange={() => {
-                this.setState({});
-              }}
+              onChange={() => this.setState({})}
+              value={savedValue}
+              disabled={disabledFields}
             />
           </div>
         ));
@@ -223,7 +228,7 @@ class IntegrationDetailsPage extends Component {
           {extraFormFields}
           <Tooltip placement="top" title={tooltipTitle}>
             <Switch
-              disabled={disabled}
+              disabled={disabledSwitch}
               checkedChildren={String.t('integrationDetailsPage.on')}
               unCheckedChildren={String.t('integrationDetailsPage.off')}
               onChange={this.handleIntegration}
