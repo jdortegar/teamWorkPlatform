@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Switch, Tooltip, notification } from 'antd';
+import { /* Form, */ Switch, Tooltip, notification } from 'antd';
 import PropTypes from 'prop-types';
+// import { formShape } from 'propTypes';
+// import TextField from 'components/formFields/TextField';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
@@ -150,6 +152,28 @@ class IntegrationDetailsPage extends Component {
     const name = integrationLabelFromKey(integrationDetails);
     const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || {};
     const currStatus = determineStatus(integrations[integrationDetails]);
+    const possibleIntegrations = availableIntegrations();
+    const currentIntegration = possibleIntegrations[integrationDetails];
+    const tooltipTitle = currStatus === 'Active' ? String.t('integrationDetailsPage.deactivate') : String.t('integrationDetailsPage.activate');
+
+    let extraFormFields = null;
+    if (currentIntegration && currentIntegration.config && currentIntegration.config.params) {
+      extraFormFields = [];
+      currentIntegration.config.params.forEach(({ /* key, type, */ label, placeholder }, index) => {
+        extraFormFields.push((
+          <div className="m-2">
+            <label className="Integration-details__config-label">
+              {label}:
+            </label>
+            <input
+              ref={(ref) => { this[`_input${index}`] = ref; }}
+              className="Integration-details__config-input"
+              placeholder={placeholder}
+            />
+          </div>
+        ));
+      });
+    }
 
     return (
       <div>
@@ -185,7 +209,8 @@ class IntegrationDetailsPage extends Component {
           </div>
         </SimpleCardContainer>
         <div className="Integration-details__switch-container align-center-class">
-          <Tooltip placement="top" title={currStatus === 'Active' ? String.t('integrationDetailsPage.deactivate') : String.t('integrationDetailsPage.activate')}>
+          {extraFormFields}
+          <Tooltip placement="top" title={tooltipTitle}>
             <Switch
               checkedChildren={String.t('integrationDetailsPage.on')}
               unCheckedChildren={String.t('integrationDetailsPage.off')}
