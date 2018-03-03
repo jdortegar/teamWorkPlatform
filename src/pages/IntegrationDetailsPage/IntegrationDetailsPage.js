@@ -78,7 +78,11 @@ class IntegrationDetailsPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { view: 'card' };
+    const possibleIntegrations = availableIntegrations();
+    const { integrationDetails } = props.match.params;
+    const currentIntegration = possibleIntegrations[integrationDetails];
+    const configParams = (currentIntegration && currentIntegration.config) ? currentIntegration.config.params : null;
+    this.state = { view: 'card', configParams };
 
     this.handleIntegration = this.handleIntegration.bind(this);
   }
@@ -112,13 +116,11 @@ class IntegrationDetailsPage extends Component {
   handleIntegration(checked) {
     const { integrationDetails, subscriberOrgId } = this.props.match.params;
     if (checked) {
-      // const sharepointOrg = 'hablaaiinc'; // TODO: Mike: Obtain org name from user.  Prompt should be:  https://${sharepointOrg}.sharepoint.com to be clear to user.
-      const integration = availableIntegrations()[integrationDetails];
       let configParams = null;
-      if (integration.config && integration.config.params) {
+      if (this.state.configParams) {
         configParams = {};
-        integration.config.params.forEach((param) => {
-          configParams[param.key] = 'hablaaiinc'; // korrelated || hablaaiinc for testing.
+        this.state.configParams.forEach((param) => {
+          configParams[param.key] = this[param.key].value;
         });
       }
       this.props.integrateIntegration(integrationDetails, subscriberOrgId, configParams);
@@ -152,23 +154,32 @@ class IntegrationDetailsPage extends Component {
     const name = integrationLabelFromKey(integrationDetails);
     const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || {};
     const currStatus = determineStatus(integrations[integrationDetails]);
-    const possibleIntegrations = availableIntegrations();
-    const currentIntegration = possibleIntegrations[integrationDetails];
     const tooltipTitle = currStatus === 'Active' ? String.t('integrationDetailsPage.deactivate') : String.t('integrationDetailsPage.activate');
+    let disabled = false;
 
     let extraFormFields = null;
-    if (currentIntegration && currentIntegration.config && currentIntegration.config.params) {
+    const { configParams } = this.state;
+    if (configParams) {
       extraFormFields = [];
-      currentIntegration.config.params.forEach(({ /* key, type, */ label, placeholder }, index) => {
+      configParams.forEach(({ key, label, placeholder }) => {
+        const inputField = this[key];
+        if (inputField) {
+          const value = inputField.value;
+          const len = value.length;
+          disabled = disabled || (len < 3);
+        }
         extraFormFields.push((
           <div className="m-2">
             <label className="Integration-details__config-label">
               {label}:
             </label>
             <input
-              ref={(ref) => { this[`_input${index}`] = ref; }}
+              ref={(ref) => { this[key] = ref; }}
               className="Integration-details__config-input"
               placeholder={placeholder}
+              onChange={() => {
+                this.setState({});
+              }}
             />
           </div>
         ));
@@ -212,6 +223,7 @@ class IntegrationDetailsPage extends Component {
           {extraFormFields}
           <Tooltip placement="top" title={tooltipTitle}>
             <Switch
+              disabled={disabled}
               checkedChildren={String.t('integrationDetailsPage.on')}
               unCheckedChildren={String.t('integrationDetailsPage.off')}
               onChange={this.handleIntegration}
