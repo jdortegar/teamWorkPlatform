@@ -40,6 +40,7 @@
    font-family: 'Lato', sans-serif;
    color: #000;
    justify-content: center;
+   padding-left: 70px;
 }
 .Integration-details__config-folders-label {
   font-weight: 600;
@@ -59,4 +60,8 @@
    margin: 8px;
    align-items: flex-start;
    width: 100%;
+}
+.Integration-details__config-folders-save-button {
+   margin: 10px!important;
+   justify-content: center;
 }

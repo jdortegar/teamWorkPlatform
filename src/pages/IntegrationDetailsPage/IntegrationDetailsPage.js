@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
+import Button from '../../components/common/Button';
 import Spinner from '../../components/Spinner';
 import { ImageCard } from '../../components/cards';
 import String from '../../translations';
@@ -72,9 +73,15 @@ class IntegrationDetailsPage extends Component {
       configParams = currentIntegration.config.params;
       configFolders = currentIntegration.config.folders;
     }
-    this.state = { view: 'card', configParams, configFolders };
+    this.state = {
+      view: 'card',
+      configParams,
+      configFolders,
+      changedFolderOptions: {}
+    };
 
     this.handleIntegration = this.handleIntegration.bind(this);
+    this.onSaveConfigChanges = this.onSaveConfigChanges.bind(this);
   }
 
   componentDidMount() {
@@ -92,6 +99,33 @@ class IntegrationDetailsPage extends Component {
       let { pathname: path } = this.props.location;
       path = path.substring(0, path.lastIndexOf('/'));
       this.props.history.replace(path);
+    }
+  }
+
+  onSaveConfigChanges() {
+    const changedFolderKeys = Object.keys(this.state.changedFolderOptions);
+    if (changedFolderKeys.length > 0) {
+      // initialize collection of folders with the saved selection flags
+      const { integrationsBySubscriberOrgId } = this.props.integrations;
+      const { integrationDetails, subscriberOrgId } = this.props.match.params;
+      const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || {};
+      const integration = integrations[integrationDetails];
+      const { configFolders, changedFolderOptions } = this.state;
+      const folders = integration[configFolders.key];
+      const saveFolders = folders.map((folder) => {
+        let selected = (folder[configFolders.folderKeys.selected] === 'selected'); // default
+        const path = folder[configFolders.folderKeys.folderKey];
+        if (changedFolderOptions[path]) {
+          selected = changedFolderOptions[path];
+        }
+        const folderObj = { selected };
+        folderObj[configFolders.key] = path;
+        return folderObj;
+      });
+
+      // TODO: Add code here to save changes
+      if (saveFolders);
+      this.setState({});
     }
   }
 
@@ -121,11 +155,17 @@ class IntegrationDetailsPage extends Component {
         <Checkbox
           className="Integration-details__config-folder-checkbox"
           defaultChecked={selected}
+          onChange={(e) => {
+            const checked = e.target.checked;
+            const changedFolderOptions = { ...this.state.changedFolderOptions };
+            changedFolderOptions[label] = checked;
+            this.setState({ changedFolderOptions });
+          }}
         >
           <div className="Integration-details__config-folder">{label}</div>
         </Checkbox>
         {folder[subFolders] &&
-            folder[subFolders].map(subFolder => this.renderFolder(subFolder, level + 1))
+         folder[subFolders].map(subFolder => this.renderFolder(subFolder, level + 1))
         }
       </div>
     );
@@ -194,11 +234,23 @@ class IntegrationDetailsPage extends Component {
         const { key, label } = configFolders;
         const folders = integration[key];
         if (folders) {
+          const optionsChanged = Object.keys(this.state.changedFolderOptions).length > 0;
           extraFormFields.push((
             <div className="m-2 Integration-details__config-container">
               <label className="Integration-details__config-folders-label">{label}</label>
               <div className="Integration-details__config-folders">
                 {folders.map(fldr => this.renderFolder(fldr, 0))}
+              </div>
+              <div className="Integration-details__config-folders-save-button">
+                <Button
+                  type={optionsChanged ? 'main' : 'disabled'}
+                  fitText
+                  onClick={this.onSaveConfigChanges}
+                  loading={this.state.loading}
+                  disabled={!optionsChanged}
+                >
+                  {String.t('integrationDetailsPage.saveButtonLabel')}
+                </Button>
               </div>
             </div>
           ));

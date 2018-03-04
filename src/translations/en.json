@@ -444,6 +444,7 @@
        "notFoundDescription": "We’re sorry, but something must’ve gone terribly wrong."
      },
      "integrations": "Integrations",
+     "saveButtonLabel": "Save Changes",
      "on": "ON",
      "off": "OFF",
      "activate": "Activate",
