@@ -32,11 +32,11 @@ const possibleIntegrations = {
         placeholder: 'Enter Sharepoint Site ID' // TODO: localize
       }],
       folders: {
-        label: 'Sites', // TODO: localize
+        label: 'Sites:', // TODO: localize
         key: 'sites', // integrations.sharepoint.sites (type is an array)
-        folder: {
+        folderKeys: {
           selected: 'selected', // integrations.sharepoint.sites[index].selected (type is boolean)
-          folder: 'site', // integrations.sharepoint.sites[index].site (type is string)
+          folderKey: 'site', // integrations.sharepoint.sites[index].site (type is string)
           subFolders: 'sites' // site.sites (type is an array)
         }
       }

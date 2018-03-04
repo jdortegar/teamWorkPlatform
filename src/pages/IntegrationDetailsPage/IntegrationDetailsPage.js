@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Tooltip, message } from 'antd';
+import { Checkbox, Switch, Tooltip, message } from 'antd';
 import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
@@ -66,8 +66,13 @@ class IntegrationDetailsPage extends Component {
     const possibleIntegrations = availableIntegrations();
     const { integrationDetails } = props.match.params;
     const currentIntegration = possibleIntegrations[integrationDetails];
-    const configParams = (currentIntegration && currentIntegration.config) ? currentIntegration.config.params : null;
-    this.state = { view: 'card', configParams };
+    let configParams = null;
+    let configFolders = null;
+    if (currentIntegration && currentIntegration.config) {
+      configParams = currentIntegration.config.params;
+      configFolders = currentIntegration.config.folders;
+    }
+    this.state = { view: 'card', configParams, configFolders };
 
     this.handleIntegration = this.handleIntegration.bind(this);
   }
@@ -107,6 +112,25 @@ class IntegrationDetailsPage extends Component {
     }
   }
 
+  renderFolder(folder, level) {
+    const { folderKeys } = this.state.configFolders;
+    const { selected, folderKey, subFolders } = folderKeys;
+    const label = folder[folderKey];
+    return (
+      <div key={`${label}-${level}`}>
+        <Checkbox
+          className="Integration-details__config-folder-checkbox"
+          defaultChecked={selected}
+        >
+          <div className="Integration-details__config-folder">{label}</div>
+        </Checkbox>
+        {folder[subFolders] &&
+            folder[subFolders].map(subFolder => this.renderFolder(subFolder, level + 1))
+        }
+      </div>
+    );
+  }
+
   render() {
     const { integrationsBySubscriberOrgId, working, error } = this.props.integrations;
 
@@ -137,7 +161,7 @@ class IntegrationDetailsPage extends Component {
     let disabledFields = false;
 
     let extraFormFields = null;
-    const { configParams } = this.state;
+    const { configParams, configFolders } = this.state;
     if (configParams) {
       extraFormFields = [];
       configParams.forEach(({ key, label, placeholder }) => {
@@ -166,6 +190,20 @@ class IntegrationDetailsPage extends Component {
           </div>
         ));
       });
+      if (configFolders) {
+        const { key, label } = configFolders;
+        const folders = integration[key];
+        if (folders) {
+          extraFormFields.push((
+            <div className="m-2 Integration-details__config-container">
+              <label className="Integration-details__config-folders-label">{label}</label>
+              <div className="Integration-details__config-folders">
+                {folders.map(fldr => this.renderFolder(fldr, 0))}
+              </div>
+            </div>
+          ));
+        }
+      }
     }
 
     return (
