@@ -89,14 +89,14 @@ class CKGPage extends Component {
       </Menu>
     );
 
-    const dateSelectorMenu = (
+    /* const dateSelectorMenu = (
       <Menu className="dateSelectorMenu">
         <div className="habla-label padding-class-a">{String.t('ckgPage.dateLabel')}</div>
         <Menu.Item key="dateSelectorMenu">
           <a><span>Add calendar selector here</span></a>
         </Menu.Item>
       </Menu>
-    );
+    ); */
 
     return (
       <div className="CKGPage">
@@ -132,7 +132,7 @@ class CKGPage extends Component {
             </div>
           </div>
 
-          <div className="habla-ckg-date-picker">
+          {/* <div className="habla-ckg-date-picker">
             <div className="habla-ckg-date-picker-content">
               <Dropdown overlay={dateSelectorMenu} trigger={['click']}>
                 <a>
@@ -141,7 +141,7 @@ class CKGPage extends Component {
                 </a>
               </Dropdown>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <TimeActivityGraph files={filesFiltered.map(buildDataObject)} />

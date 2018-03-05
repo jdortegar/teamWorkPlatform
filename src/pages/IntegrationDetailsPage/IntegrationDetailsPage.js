@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Switch, Tooltip, notification } from 'antd';
+import { Checkbox, Switch, Tooltip, message } from 'antd';
 import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
+import Button from '../../components/common/Button';
 import Spinner from '../../components/Spinner';
 import { ImageCard } from '../../components/cards';
 import String from '../../translations';
@@ -30,28 +31,15 @@ function determineStatus(integration) {
 
 function showNotification(response, integration) {
   const { status } = response;
-  const duration = 7;
   const name = integrationLabelFromKey(integration);
   const uri = integrationLinkFromKey(integration);
   const link = `<a target="_blank" href=${uri}>${uri}</a>`;
   if (status === 200) {
-    notification.success({
-      message: String.t('integrationDetailsPage.notification.successMessage'),
-      description: String.t('integrationDetailsPage.notification.successDescription'),
-      duration
-    });
+    message.success(String.t('integrationDetailsPage.message.successDescription'));
   } else if (status === 410) {
-    notification.error({
-      message: String.t('integrationDetailsPage.notification.goneMessage'),
-      description: <p>{String.t('integrationDetailsPage.notification.goneDescription', { name, link })}</p>,
-      duration
-    });
+    message.error(String.t('integrationDetailsPage.message.goneDescription', { name, link }));
   } else {
-    notification.error({
-      message: String.t('integrationDetailsPage.notification.notFoundMessage'),
-      description: String.t('integrationDetailsPage.notification.notFoundDescription'),
-      duration
-    });
+    message.error(String.t('integrationDetailsPage.message.notFoundDescription'));
   }
 }
 
@@ -76,9 +64,24 @@ class IntegrationDetailsPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { view: 'card' };
+    const possibleIntegrations = availableIntegrations();
+    const { integrationDetails } = props.match.params;
+    const currentIntegration = possibleIntegrations[integrationDetails];
+    let configParams = null;
+    let configFolders = null;
+    if (currentIntegration && currentIntegration.config) {
+      configParams = currentIntegration.config.params;
+      configFolders = currentIntegration.config.folders;
+    }
+    this.state = {
+      view: 'card',
+      configParams,
+      configFolders,
+      changedFolderOptions: {}
+    };
 
     this.handleIntegration = this.handleIntegration.bind(this);
+    this.onSaveConfigChanges = this.onSaveConfigChanges.bind(this);
   }
 
   componentDidMount() {
@@ -87,17 +90,9 @@ class IntegrationDetailsPage extends Component {
     this.props.fetchIntegrations(subscriberOrgId);
     if (status) {
       if (status.includes('CREATED')) {
-        notification.success({
-          message: String.t('integrationDetailsPage.notification.createdMessage'),
-          description: String.t('integrationDetailsPage.notification.createdDescription', { name }),
-          duration: 5
-        });
+        message.success(String.t('integrationDetailsPage.message.createdDescription', { name }));
       } else {
-        notification.error({ // TODO: Figure what this should show and localize the strings
-          message: status,
-          description: null,
-          duration: 5
-        });
+        message.error(status);
       }
 
       // Remove status from visible url to disallow reloading and bookmarking of url with status.
@@ -107,16 +102,41 @@ class IntegrationDetailsPage extends Component {
     }
   }
 
+  onSaveConfigChanges() {
+    const changedFolderKeys = Object.keys(this.state.changedFolderOptions);
+    if (changedFolderKeys.length > 0) {
+      // initialize collection of folders with the saved selection flags
+      const { integrationsBySubscriberOrgId } = this.props.integrations;
+      const { integrationDetails, subscriberOrgId } = this.props.match.params;
+      const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || {};
+      const integration = integrations[integrationDetails];
+      const { configFolders, changedFolderOptions } = this.state;
+      const folders = integration[configFolders.key];
+      const saveFolders = folders.map((folder) => {
+        let selected = (folder[configFolders.folderKeys.selected] === 'selected'); // default
+        const path = folder[configFolders.folderKeys.folderKey];
+        if (changedFolderOptions[path]) {
+          selected = changedFolderOptions[path];
+        }
+        const folderObj = { selected };
+        folderObj[configFolders.key] = path;
+        return folderObj;
+      });
+
+      // TODO: Add code here to save changes
+      if (saveFolders);
+      this.setState({});
+    }
+  }
+
   handleIntegration(checked) {
     const { integrationDetails, subscriberOrgId } = this.props.match.params;
     if (checked) {
-      // const sharepointOrg = 'hablaaiinc'; // TODO: Mike: Obtain org name from user.  Prompt should be:  https://${sharepointOrg}.sharepoint.com to be clear to user.
-      const integration = availableIntegrations()[integrationDetails];
       let configParams = null;
-      if (integration.config && integration.config.params) {
+      if (this.state.configParams) {
         configParams = {};
-        integration.config.params.forEach((param) => {
-          configParams[param.key] = 'hablaaiinc'; // korrelated || hablaaiinc for testing.
+        this.state.configParams.forEach((param) => {
+          configParams[param.key] = this[param.key].value;
         });
       }
       this.props.integrateIntegration(integrationDetails, subscriberOrgId, configParams);
@@ -124,6 +144,31 @@ class IntegrationDetailsPage extends Component {
       this.props.revokeIntegration(integrationDetails, subscriberOrgId)
         .then(res => showNotification(res, integrationDetails));
     }
+  }
+
+  renderFolder(folder, level) {
+    const { folderKeys } = this.state.configFolders;
+    const { selected, folderKey, subFolders } = folderKeys;
+    const label = folder[folderKey];
+    return (
+      <div key={`${label}-${level}`}>
+        <Checkbox
+          className="Integration-details__config-folder-checkbox"
+          defaultChecked={selected}
+          onChange={(e) => {
+            const checked = e.target.checked;
+            const changedFolderOptions = { ...this.state.changedFolderOptions };
+            changedFolderOptions[label] = checked;
+            this.setState({ changedFolderOptions });
+          }}
+        >
+          <div className="Integration-details__config-folder">{label}</div>
+        </Checkbox>
+        {folder[subFolders] &&
+         folder[subFolders].map(subFolder => this.renderFolder(subFolder, level + 1))
+        }
+      </div>
+    );
   }
 
   render() {
@@ -149,7 +194,69 @@ class IntegrationDetailsPage extends Component {
     const imgSrc = integrationImageFromKey(integrationDetails);
     const name = integrationLabelFromKey(integrationDetails);
     const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || {};
-    const currStatus = determineStatus(integrations[integrationDetails]);
+    const integration = integrations[integrationDetails];
+    const currStatus = determineStatus(integration);
+    const tooltipTitle = currStatus === 'Active' ? String.t('integrationDetailsPage.deactivate') : String.t('integrationDetailsPage.activate');
+    let disabledSwitch = false;
+    let disabledFields = false;
+
+    let extraFormFields = null;
+    const { configParams, configFolders } = this.state;
+    if (configParams) {
+      extraFormFields = [];
+      configParams.forEach(({ key, label, placeholder }) => {
+        const savedValue = integration[key];
+        if (savedValue && savedValue.length) {
+          disabledFields = true;
+        } else {
+          const inputField = this[key];
+          if (inputField) {
+            const value = inputField.value;
+            const len = value.length;
+            disabledSwitch = disabledSwitch || (len < 3);
+          }
+        }
+        extraFormFields.push((
+          <div className="m-2">
+            <label className="Integration-details__config-label">{label}</label>
+            <input
+              ref={(ref) => { this[key] = ref; }}
+              className="Integration-details__config-input"
+              placeholder={placeholder}
+              onChange={() => this.setState({})}
+              value={savedValue}
+              disabled={disabledFields}
+            />
+          </div>
+        ));
+      });
+      if (configFolders) {
+        const { key, label } = configFolders;
+        const folders = integration[key];
+        if (folders) {
+          const optionsChanged = Object.keys(this.state.changedFolderOptions).length > 0;
+          extraFormFields.push((
+            <div className="m-2 Integration-details__config-container">
+              <label className="Integration-details__config-folders-label">{label}</label>
+              <div className="Integration-details__config-folders">
+                {folders.map(fldr => this.renderFolder(fldr, 0))}
+              </div>
+              <div className="Integration-details__config-folders-save-button">
+                <Button
+                  type={optionsChanged ? 'main' : 'disabled'}
+                  fitText
+                  onClick={this.onSaveConfigChanges}
+                  loading={this.state.loading}
+                  disabled={!optionsChanged}
+                >
+                  {String.t('integrationDetailsPage.saveButtonLabel')}
+                </Button>
+              </div>
+            </div>
+          ));
+        }
+      }
+    }
 
     return (
       <div>
@@ -185,8 +292,10 @@ class IntegrationDetailsPage extends Component {
           </div>
         </SimpleCardContainer>
         <div className="Integration-details__switch-container align-center-class">
-          <Tooltip placement="top" title={currStatus === 'Active' ? String.t('integrationDetailsPage.deactivate') : String.t('integrationDetailsPage.activate')}>
+          {extraFormFields}
+          <Tooltip placement="top" title={tooltipTitle}>
             <Switch
+              disabled={disabledSwitch}
               checkedChildren={String.t('integrationDetailsPage.on')}
               unCheckedChildren={String.t('integrationDetailsPage.off')}
               onChange={this.handleIntegration}
