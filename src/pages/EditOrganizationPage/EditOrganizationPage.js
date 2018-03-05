@@ -40,12 +40,15 @@ class EditOrganizationPage extends Component {
     super(props);
     const { subscriberOrgId } = this.props.match.params;
     const { subscriberOrgs } = this.props;
-    this.organization = subscriberOrgs.subscriberOrgById[subscriberOrgId];
+    let org = null;
+    if (subscriberOrgs && subscriberOrgs.subscriberOrgById) {
+      org = subscriberOrgs.subscriberOrgById[subscriberOrgId];
+    }
 
     this.state = {
       loading: false,
-      avatarBase64: this.organization.preferences.avatarBase64 || null,
-      logo: this.organization.preferences.logo || null
+      avatarBase64: (org && org.preferences) ? org.preferences.avatarBase64 : null,
+      logo: (org && org.preferences) ? org.preferences.logo : null
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -194,8 +197,8 @@ class EditOrganizationPage extends Component {
               </Button>
               <Button
                 type="main"
+                htmlType="submit"
                 fitText
-                onClick={this.handleSubmit}
                 loading={this.state.loading}
               >
                 {String.t('editOrgPage.saveButtonLabel')}
