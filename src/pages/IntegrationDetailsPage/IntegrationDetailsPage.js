@@ -219,7 +219,10 @@ class IntegrationDetailsPage extends Component {
     if (configParams) {
       extraFormFields = [];
       configParams.forEach(({ key, label, placeholder }) => {
-        const savedValue = integration[key];
+        let savedValue = null;
+        if (integration) {
+          savedValue = integration[key];
+        }
         if (savedValue && savedValue.length) {
           disabledFields = true;
         } else {
@@ -244,7 +247,7 @@ class IntegrationDetailsPage extends Component {
           </div>
         ));
       });
-      if (configFolders) {
+      if (integration && configFolders) {
         const { key, label } = configFolders;
         const folders = integration[key];
         if (folders) {
