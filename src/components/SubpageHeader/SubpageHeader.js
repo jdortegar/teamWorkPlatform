@@ -42,8 +42,8 @@ function SubpageHeader({ breadcrumb, subscriberOrgId, history, editButton, ckgLi
           </div>
         </Tooltip>
         }
-        {showButton && isAdmin && <EditButton url={url} />}
       </div>
+      {showButton && isAdmin && <EditButton url={url} />}
     </div>
   );
 }
