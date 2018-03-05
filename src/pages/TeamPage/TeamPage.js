@@ -71,7 +71,7 @@ class TeamPage extends Component {
 
   render() {
     const { match, teamRooms, teams, teamMembers, teamMembersPresences, subscriberOrgById, user } = this.props;
-    if (teamRooms && match && match.params && match.params.teamId && teamRooms && teams &&
+    if (teamRooms && match && match.params && match.params.teamId && teamRooms && teams && teams.teamById[match.params.teamId] &&
         teamMembers && (teamMembers.length > 0) && teamMembersPresences && subscriberOrgById &&
         this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
       const teamId = match.params.teamId;

@@ -27,8 +27,9 @@ function CardView(props) {
   const { integrations, subscribers, subscriberOrgId, teams, user, subscribersPresences } = props;
   const subscriberByMyUser = subscribers.find(subscriber => subscriber.userId === user.userId);
 
-  const teamShouldRender = (isOrgAdmin, role, team) => {
-    if (isOrgAdmin || (!role || (!team.active && role.role === 'admin') || team.active)) {
+  const teamShouldRender = (isOrgAdmin, team) => {
+    const role = subscriberByMyUser.teams[team.teamId];
+    if (isOrgAdmin || ((!role || (!team.active && role.role === 'admin')) && team.active)) {
       /* role is undefined for default team (ALL) */
       return true;
     }
@@ -42,8 +43,7 @@ function CardView(props) {
 
   const renderTeams = (isOrgAdmin) => {
     return props.teams.map((team) => {
-      const role = subscriberByMyUser.teams[team.teamId];
-      const teamRender = teamShouldRender(isOrgAdmin, role, team);
+      const teamRender = teamShouldRender(isOrgAdmin, team);
       const initials = getInitials(team.name);
       if (teamRender) {
         const className = classNames({ 'opacity-low': !team.active });
@@ -168,7 +168,7 @@ function CardView(props) {
           </SimpleCardContainer>
         </Panel>
         <Panel
-          header={<SimpleHeader text={String.t('OrganizationPage.teamsHeader', { count: teams.length })} />}
+          header={<SimpleHeader text={String.t('OrganizationPage.teamsHeader', { count: teams.filter(t => teamShouldRender(isOrgAdmin, t)).length })} />}
           key="2"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">

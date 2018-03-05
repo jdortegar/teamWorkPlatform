@@ -28,12 +28,13 @@ function CardView(props) {
     online: _.some(_.values(teamMembersPresences[member.userId]), { presenceStatus: 'online' })
   }));
 
-  const renderTeamRooms = (isTeamAdmin) => {
-    return teamRooms.map(({ name, teamRoomId, preferences, active }) => {
-      // TODO: Add roles on a per team basis, not org
-      if (!isTeamAdmin && !active) {
-        return null;
-      }
+  const userMember = members.filter(({ userId }) => { return userId === props.userId; })[0];
+  const isAdmin = (userMember.teams[team.teamId].role === 'admin');
+
+  const filteredRooms = teamRooms.filter(r => isAdmin || r.active);
+
+  const renderTeamRooms = () => {
+    return filteredRooms.map(({ name, teamRoomId, preferences, active }) => {
       const initials = getInitials(name);
       const className = classNames({ 'opacity-low': !active });
       return (
@@ -99,9 +100,7 @@ function CardView(props) {
     );
   };
 
-  const userMember = members.filter(({ userId }) => { return userId === props.userId; })[0];
-  const isTeamAdmin = (userMember.teams[team.teamId].role === 'admin');
-  const roomsSection = String.t('cardView.roomsHeader', { count: teamRooms.length });
+  const roomsSection = String.t('cardView.roomsHeader', { count: filteredRooms.length });
   const membersSection = String.t('cardView.membersHeader', { count: members.length });
 
   return (
@@ -112,9 +111,9 @@ function CardView(props) {
           key="1"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {isTeamAdmin && team.active &&
+            {isAdmin && team.active &&
               renderAddCard(String.t('cardView.addNewTeamRoom'), `/app/createTeamRoom/${team.teamId}`) }
-            { renderTeamRooms(isTeamAdmin) }
+            { renderTeamRooms(isAdmin) }
           </SimpleCardContainer>
         </Panel>
         <Panel
@@ -122,7 +121,7 @@ function CardView(props) {
           key="2"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {isTeamAdmin && team.active &&
+            {isAdmin && team.active &&
               renderAddCard(String.t('cardView.inviteNewMember'), `/app/inviteToTeam/${team.teamId}`) }
             { renderTeamMembers() }
           </SimpleCardContainer>
