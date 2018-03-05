@@ -29,7 +29,7 @@ function CardView(props) {
 
   const teamShouldRender = (isOrgAdmin, team) => {
     const role = subscriberByMyUser.teams[team.teamId];
-    if (isOrgAdmin || ((!role || (!team.active && role.role === 'admin')) && team.active)) {
+    if (isOrgAdmin || team.active || (role && (role.role === 'admin'))) {
       /* role is undefined for default team (ALL) */
       return true;
     }

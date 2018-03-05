@@ -3,6 +3,7 @@ import String from '../translations';
 import {
   boxLogo,
   googleDriveLogo,
+  gSuiteLogo,
   sharepointLogo,
   oneDriveLogo,
   office365Logo,
@@ -27,6 +28,13 @@ const possibleIntegrations = {
     key: 'google',
     label: 'Google Drive', // TODO: localize??
     logo: googleDriveLogo,
+    uniqueUrl: 'google.com',
+    link: 'https://drive.google.com/drive/u/0/my-drive'
+  },
+  gsuite: {
+    key: 'google', // *** maps to the Google Drive integration ***
+    label: 'G Suite by Google Cloud', // TODO: localize??
+    logo: gSuiteLogo,
     uniqueUrl: 'google.com',
     link: 'https://drive.google.com/drive/u/0/my-drive'
   },
@@ -63,10 +71,10 @@ const possibleIntegrations = {
     link: null
   },
   office365: {
-    key: 'office365',
+    key: 'onedrive', // *** maps to the oneDrive integration ***
     label: 'Office365',
     logo: office365Logo,
-    uniqueUrl: 'office365.com', // TODO: test this out
+    uniqueUrl: 'onedrive.com', // TODO: test this out
     link: null
   },
   salesforce: {

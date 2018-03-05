@@ -145,6 +145,8 @@ class IntegrationDetailsPage extends Component {
 
   handleIntegration(checked) {
     const { integrationDetails, subscriberOrgId } = this.props.match.params;
+    const possibleIntegrations = availableIntegrations();
+    const currentIntegration = possibleIntegrations[integrationDetails];
     if (checked) {
       let configParams = null;
       if (this.state.configParams) {
@@ -153,10 +155,10 @@ class IntegrationDetailsPage extends Component {
           configParams[param.key] = this[param.key].value;
         });
       }
-      this.props.integrateIntegration(integrationDetails, subscriberOrgId, configParams);
+      this.props.integrateIntegration(currentIntegration.key, subscriberOrgId, configParams);
     } else {
-      this.props.revokeIntegration(integrationDetails, subscriberOrgId)
-        .then(res => showNotification(res, integrationDetails));
+      this.props.revokeIntegration(currentIntegration.key, subscriberOrgId)
+        .then(res => showNotification(res, currentIntegration.key));
     }
   }
 
@@ -205,10 +207,11 @@ class IntegrationDetailsPage extends Component {
       return <Spinner />;
     }
 
+    const possibleIntegrations = availableIntegrations();
     const imgSrc = integrationImageFromKey(integrationDetails);
     const name = integrationLabelFromKey(integrationDetails);
     const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || {};
-    const integration = integrations[integrationDetails];
+    const integration = integrations[possibleIntegrations[integrationDetails].key];
     const currStatus = determineStatus(integration);
     const tooltipTitle = currStatus === 'Active' ? String.t('integrationDetailsPage.deactivate') : String.t('integrationDetailsPage.activate');
     let disabledSwitch = false;

@@ -85,8 +85,8 @@ class IntegrationsPage extends Component {
       Object.keys(possibleIntegrations).forEach((key) => {
         if (active === (possibleIntegrations[key].link === null)) return;
         let extra = null;
-        if (!_.isEmpty(integrations) && integrations[key]) {
-          const { expired, revoked } = integrations[key];
+        if (!_.isEmpty(integrations) && integrations[possibleIntegrations[key].key]) {
+          const { expired, revoked } = integrations[possibleIntegrations[key].key];
           if ((typeof revoked === 'undefined') || (revoked === false)) {
             extra = (<i className="fa fa-check-circle icon_success habla-green" />);
             if (expired === true) {

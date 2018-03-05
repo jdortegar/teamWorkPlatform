@@ -456,7 +456,7 @@
   },
   "integrationsPage": {
     "breadcrumb": "Integrations",
-    "selectIntegration": "Select the integration that you want to add.",
+    "selectIntegration": "Select the Data Integration that you want to add to your Knowledge Graph.",
     "upcomingIntegrations": "Upcoming Data Integrations",
     "providerError": "Error",
     "errorMessage": "Request for Integrations failed.",
