@@ -79,10 +79,11 @@ class IntegrationsPage extends Component {
       return null;
     }
 
-    const renderIntegrations = () => {
+    const renderIntegrations = (active) => {
       const integrationsArr = [];
 
       Object.keys(possibleIntegrations).forEach((key) => {
+        if (active === (possibleIntegrations[key].link === null)) return;
         let extra = null;
         if (!_.isEmpty(integrations) && integrations[key]) {
           const { expired, revoked } = integrations[key];
@@ -96,9 +97,12 @@ class IntegrationsPage extends Component {
         integrationsArr.push(
           <div key={key}>
             <Tooltip placement="top" title={integrationLabelFromKey(key)}>
-              <Link to={`/app/integrations/${subscriberOrgId}/${key}`}>
+              {active ?
+                <Link to={`/app/integrations/${subscriberOrgId}/${key}`}>
+                  <ImageCard imgSrc={integrationImageFromKey(key)} extra={extra} />
+                </Link> :
                 <ImageCard imgSrc={integrationImageFromKey(key)} extra={extra} />
-              </Link>
+              }
             </Tooltip>
           </div>
         );
@@ -134,7 +138,15 @@ class IntegrationsPage extends Component {
           <div className="habla-paragraph">{String.t('integrationsPage.selectIntegration')}</div>
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex habla-integration-list margin-top-class-b">
             <Row type="flex">
-              {renderIntegrations()}
+              {renderIntegrations(true)}
+            </Row>
+          </SimpleCardContainer>
+        </div>
+        <div className="padding-class-b">
+          <div className="habla-paragraph">{String.t('integrationsPage.upcomingIntegrations')}</div>
+          <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex habla-integration-list margin-top-class-b">
+            <Row type="flex">
+              {renderIntegrations(false)}
             </Row>
           </SimpleCardContainer>
         </div>
