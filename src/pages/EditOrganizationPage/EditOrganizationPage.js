@@ -197,8 +197,8 @@ class EditOrganizationPage extends Component {
               </Button>
               <Button
                 type="main"
-                htmlType="submit"
                 fitText
+                onClick={this.handleSubmit}
                 loading={this.state.loading}
               >
                 {String.t('editOrgPage.saveButtonLabel')}
