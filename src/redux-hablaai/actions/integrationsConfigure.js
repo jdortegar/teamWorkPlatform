@@ -1,9 +1,7 @@
 import config from '../config';
 import { doAuthenticatedRequest } from './urlRequest';
 
-export const INTEGRATIONS_CONFIGURE_SUCCESS = 'integrations/configure/success';
-
-const configureIntegration = (type, subscriberOrgId, configuration) => {
+export const configureIntegration = (type, subscriberOrgId, configuration) => { // eslint-disable-line import/prefer-default-export
   // requestUrl is the key into redux state.urlRequests.
   const requestUrl = `${config.hablaApiBaseUri}/integrations/${type}/configure/${subscriberOrgId}`;
 
@@ -16,4 +14,3 @@ const configureIntegration = (type, subscriberOrgId, configuration) => {
     data: configuration
   }, reduxState);
 };
-export default configureIntegration;
