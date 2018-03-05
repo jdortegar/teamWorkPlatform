@@ -5,7 +5,7 @@ import {
   INTEGRATION_ERROR_BADSUBSCRIBERORG
 } from './integrations';
 
-export const INTEGRATIONS_REVOKE_SUCCESS = 'intgrations/revoke/success';
+export const INTEGRATIONS_REVOKE_SUCCESS = 'integrations/revoke/success';
 
 function revoke(type, subscriberOrgId) {
   // requestUrl is the key into redux state.urlRequests.
