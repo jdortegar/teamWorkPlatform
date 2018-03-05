@@ -1,6 +1,19 @@
 import String from '../translations';
 
-import { boxLogo, googleDriveLogo, sharepointLogo, oneDriveLogo, salesforceLogo } from '../img';
+import {
+  boxLogo,
+  googleDriveLogo,
+  sharepointLogo,
+  oneDriveLogo,
+  office365Logo,
+  salesforceLogo,
+  dropboxLogo,
+  jiraLogo,
+  slackLogo,
+  trelloLogo,
+  gitHubLogo,
+  ibmConnectionsLogo
+} from '../img';
 
 const possibleIntegrations = {
   box: {
@@ -49,11 +62,60 @@ const possibleIntegrations = {
     uniqueUrl: 'onedrive.com', // TODO: test this out
     link: null
   },
+  office365: {
+    key: 'office365',
+    label: 'Office365',
+    logo: office365Logo,
+    uniqueUrl: 'office365.com', // TODO: test this out
+    link: null
+  },
   salesforce: {
     key: 'salesforce',
     label: 'Salesforce',
     logo: salesforceLogo,
     uniqueUrl: 'salesforce.com', // TODO: test this out
+    link: null
+  },
+  dropBox: {
+    key: 'dropbox',
+    label: 'Dropbox',
+    logo: dropboxLogo,
+    uniqueUrl: 'dropbox.com',
+    link: null
+  },
+  jira: {
+    key: 'jira',
+    label: 'Jira',
+    logo: jiraLogo,
+    uniqueUrl: 'jira.com',
+    link: null
+  },
+  slack: {
+    key: 'slack',
+    label: 'Slack',
+    logo: slackLogo,
+    uniqueUrl: 'slack.com',
+    link: null
+  },
+  trello: {
+    key: 'trello',
+    label: 'Trello',
+    logo: trelloLogo,
+    uniqueUrl: 'trello.com',
+    link: null
+  },
+  github: {
+    key: 'github',
+    label: 'Github',
+    logo: gitHubLogo,
+    uniqueUrl: 'github.com',
+    link: null
+  },
+  ibmconn: {
+    key: 'ibmconn',
+    label: 'IBM Connections Cloud',
+    logo: ibmConnectionsLogo,
+    uniqueUrl: 'ibm.com',
     link: null
   }
 };

@@ -12,6 +12,9 @@ export { default as exchangeLogo } from './exchange-logo.png';
 export { default as oneDriveLogo } from './onedrive-logo.png';
 export { default as slackLogo } from './slack-logo.png';
 export { default as trelloLogo } from './trello-logo.png';
+export { default as jiraLogo } from './jira-logo.png';
+export { default as gitHubLogo } from './github-logo.png';
+export { default as ibmConnectionsLogo } from './ibmconnections-logo.png';
 
 /* eslint-disable camelcase */
 
