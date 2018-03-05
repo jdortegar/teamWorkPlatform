@@ -57,7 +57,7 @@
 }
 .Integration-details__config-folder-checkbox {
    display: inline-flex;
-   margin: 8px;
+   padding: 6px;
    align-items: flex-start;
    width: 100%;
 }

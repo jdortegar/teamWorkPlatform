@@ -50,6 +50,7 @@ const propTypes = {
   revokeIntegration: PropTypes.func.isRequired,
   integrations: PropTypes.object.isRequired,
   fetchIntegrations: PropTypes.func.isRequired,
+  configureIntegration: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       subscriberOrgId: PropTypes.string.isRequired,
@@ -112,20 +113,33 @@ class IntegrationDetailsPage extends Component {
       const integration = integrations[integrationDetails];
       const { configFolders, changedFolderOptions } = this.state;
       const folders = integration[configFolders.key];
+      const { selected, folderKey } = configFolders.folderKeys;
       const saveFolders = folders.map((folder) => {
-        let selected = (folder[configFolders.folderKeys.selected] === 'selected'); // default
-        const path = folder[configFolders.folderKeys.folderKey];
-        if (changedFolderOptions[path]) {
-          selected = changedFolderOptions[path];
+        let isSelected = folder[configFolders.folderKeys.selected]; // default
+        const path = folder[folderKey];
+        if (changedFolderOptions[path] !== undefined) {
+          isSelected = changedFolderOptions[path];
         }
-        const folderObj = { selected };
-        folderObj[configFolders.key] = path;
+        const folderObj = {};
+        folderObj[selected] = isSelected;
+        folderObj[folderKey] = path;
         return folderObj;
       });
 
-      // TODO: Add code here to save changes
-      if (saveFolders);
-      this.setState({});
+      const config = {};
+      config[configFolders.key] = saveFolders;
+      const configTop = {};
+      configTop[integrationDetails] = config;
+
+      // save the changes
+      const name = integrationLabelFromKey(integrationDetails);
+      this.props.configureIntegration(integrationDetails, subscriberOrgId, configTop)
+        .then(() => {
+          message.success(String.t('integrationDetailsPage.message.configUpdated', { name }));
+          this.setState({ changedFolderOptions: {} });
+        }).catch((error) => {
+          message.error(error.message);
+        });
     }
   }
 
@@ -154,7 +168,7 @@ class IntegrationDetailsPage extends Component {
       <div key={`${label}-${level}`}>
         <Checkbox
           className="Integration-details__config-folder-checkbox"
-          defaultChecked={selected}
+          defaultChecked={folder[selected]}
           onChange={(e) => {
             const checked = e.target.checked;
             const changedFolderOptions = { ...this.state.changedFolderOptions };

@@ -57,5 +57,6 @@ export * from './integrations';
 export * from './integrationsFetch';
 export * from './integrationsIntegrate';
 export * from './integrationsRevoke';
+export * from './integrationsConfigure';
 
 export * from './globalStateFetch';
