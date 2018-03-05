@@ -560,6 +560,9 @@
   "teamMemberPage": {
     "breadcrumb": "Team Member",
     "profilePictureLabel": "Profile Picture",
+    "displayName": "Display Name: {{displayName}}",
+    "timeZone": "Time Zone: {{timeZone}}",
+    "memberSince": "Member since {{date}}",
     "activeStatus": "Online"
   },
   "notificationPage": {
