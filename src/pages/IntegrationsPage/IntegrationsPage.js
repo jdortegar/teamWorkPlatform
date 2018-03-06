@@ -30,7 +30,11 @@ class IntegrationsPage extends Component {
   componentDidMount() {
     const { match, subscriberOrgs } = this.props;
     if (!match || !match.params || !match.params.subscriberOrgId || (match.params.subscriberOrgId !== subscriberOrgs.currentSubscriberOrgId)) {
-      this.props.history.replace('/app');
+      if (subscriberOrgs) {
+        this.props.history.replace(`/app/integrations/${subscriberOrgs.currentSubscriberOrgId}`);
+      } else {
+        this.props.history.replace('/app');
+      }
       return;
     }
     const { subscriberOrgId } = this.props.match.params;
@@ -80,7 +84,7 @@ class IntegrationsPage extends Component {
     const { subscriberOrgId } = match.params;
     const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || [];
     if (!integrations) {
-      this.props.history.replace('/app');
+      this.props.history.replace(`/app/integrations/${subscriberOrgs.currentSubscriberOrgId}`);
       return null;
     }
 

@@ -88,7 +88,11 @@ class IntegrationDetailsPage extends Component {
   componentDidMount() {
     const { match, subscriberOrgs } = this.props;
     if (!match || !match.params || !match.params.subscriberOrgId || (match.params.subscriberOrgId !== subscriberOrgs.currentSubscriberOrgId)) {
-      this.props.history.replace('/app');
+      if (subscriberOrgs) {
+        this.props.history.replace(`/app/integrations/${subscriberOrgs.currentSubscriberOrgId}`);
+      } else {
+        this.props.history.replace('/app');
+      }
       return;
     }
     const { subscriberOrgId, status, integrationDetails } = match.params;
