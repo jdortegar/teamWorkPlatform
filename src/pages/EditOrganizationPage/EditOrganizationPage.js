@@ -38,8 +38,14 @@ const validURL = (url) => {
 class EditOrganizationPage extends Component {
   constructor(props) {
     super(props);
+
+    const { match, subscriberOrgs } = this.props;
+    if (!match || !match.params || !match.params.subscriberOrgId || (match.params.subscriberOrgId !== subscriberOrgs.currentSubscriberOrgId)) {
+      this.props.history.replace('/app');
+      return;
+    }
+
     const { subscriberOrgId } = this.props.match.params;
-    const { subscriberOrgs } = this.props;
     let org = null;
     if (subscriberOrgs && subscriberOrgs.subscriberOrgById) {
       org = subscriberOrgs.subscriberOrgById[subscriberOrgId];

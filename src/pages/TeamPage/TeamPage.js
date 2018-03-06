@@ -44,7 +44,12 @@ class TeamPage extends Component {
   }
 
   componentDidMount() {
-    const { teamId, status } = this.props.match.params;
+    const { match, teams } = this.props;
+    if (!match || !match.params || !teams.teamById[match.params.teamId]) {
+      this.props.history.replace('/app');
+      return;
+    }
+    const { teamId, status } = match.params;
 
     this.props.fetchTeamRoomsByTeamId(teamId).then(() => this.setState({ teamRoomsLoaded: true }));
     this.props.fetchTeamMembersByTeamId(teamId).then(() => this.setState({ teamMembersLoaded: true }));

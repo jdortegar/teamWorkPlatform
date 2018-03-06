@@ -44,6 +44,11 @@ class OrganizationPage extends Component {
   }
 
   componentDidMount() {
+    const { match, subscriberOrgs } = this.props;
+    if (!match || !match.params || !match.params.subscriberOrgId || (match.params.subscriberOrgId !== subscriberOrgs.currentSubscriberOrgId)) {
+      this.props.history.replace('/app');
+      return;
+    }
     const { subscriberOrgId } = this.props.match.params;
 
     if (subscriberOrgId !== this.props.subscriberOrgs.currentSubscriberOrgId) {

@@ -36,7 +36,10 @@ class TeamMemberPage extends Component {
     }
 
     const memberArray = subscribers.filter(m => m.userId === match.params.teamMemberId);
-    if (memberArray.length < 1) return <Spinner />;
+    if (memberArray.length < 1) {
+      this.props.history.replace('/app');
+      return null;
+    }
     const member = memberArray[0];
     const { created, displayName, firstName, lastName, timeZone } = member;
 

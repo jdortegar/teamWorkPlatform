@@ -32,6 +32,7 @@ const buildDataObject = (file) => {
 };
 
 const propTypes = {
+  history: PropTypes.object.isRequired,
   currentSubscriberOrgId: PropTypes.string.isRequired,
   setCurrentSubscriberOrgId: PropTypes.func.isRequired,
   fetchTimeActivitiesBySubscriberOrgId: PropTypes.func.isRequired,
@@ -53,6 +54,13 @@ class CKGPage extends Component {
 
   componentDidMount() {
     const { fetchTimeActivitiesBySubscriberOrgId, currentSubscriberOrgId } = this.props;
+
+    const { match } = this.props;
+    if (!match || !match.params || !match.params.subscriberOrgId || (match.params.subscriberOrgId !== currentSubscriberOrgId)) {
+      this.props.history.replace('/app');
+      return;
+    }
+
     const { subscriberOrgId } = this.props.match.params;
     fetchTimeActivitiesBySubscriberOrgId(subscriberOrgId);
     if (currentSubscriberOrgId !== subscriberOrgId) {

@@ -133,6 +133,7 @@ function availableIntegrations() {
 }
 
 function integrationKeyFromResourceUri(resourceUri) {
+  if (!resourceUri) return null;
   const match = Object.keys(possibleIntegrations).filter(key => resourceUri.indexOf(possibleIntegrations[key].uniqueUrl) > 0);
   return (match && match.length) ? possibleIntegrations[match[0]].key : null;
 }
@@ -148,6 +149,7 @@ function integrationLabelFromKey(key) {
 }
 
 function integrationImageFromResourceUri(resourceUri) {
+  if (!resourceUri) return null;
   const key = integrationKeyFromResourceUri(resourceUri);
   return key ? possibleIntegrations[key].logo : null;
 }
