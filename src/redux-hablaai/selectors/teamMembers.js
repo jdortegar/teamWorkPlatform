@@ -1,8 +1,10 @@
 import createCachedSelector from 're-reselect';
 import {
   getUserByUserId,
-  getUserIdsByTeamId
+  getUserIdsByTeamId,
+  getPresencesByUserId
 } from './state';
+import { sortByFirstName } from './helpers';
 
 export {
   getTeamMemberIdByUserId,
@@ -17,8 +19,26 @@ export const getTeamMembersOfTeamId = createCachedSelector( // eslint-disable-li
     }
 
     const userIds = userIdsByTeamId[teamId];
-    return Object.keys(userIds).map(userId => userByUserId[userId]);
+    return Object.keys(userIds).map(userId => userByUserId[userId]).sort(sortByFirstName);
   }
 )(
   (state, teamId) => teamId
 );
+
+export const getPresencesOfTeamMembersOfTeamId = createCachedSelector(
+  [getUserIdsByTeamId, getUserByUserId, getPresencesByUserId, (state, teamId) => teamId],
+  (userIdsByTeamId, userByUserId, presencesByUserId, teamId) => {
+    if ((!teamId) || (!userIdsByTeamId[teamId])) {
+      return {};
+    }
+    const userIds = userIdsByTeamId[teamId];
+    const allPresences = {};
+    Object.keys(userIds).forEach((userId) => {
+      allPresences[userId] = presencesByUserId[userId];
+    });
+    return allPresences;
+  }
+)(
+  (state, teamId) => teamId
+);
+

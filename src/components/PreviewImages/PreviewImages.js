@@ -10,11 +10,13 @@ const propTypes = {
   images: PropTypes.array,
   subscriberOrgId: PropTypes.string.isRequired,
   teamId: PropTypes.string.isRequired,
-  teamRoomId: PropTypes.string.isRequired
+  teamRoomId: PropTypes.string.isRequired,
+  onLoadImage: PropTypes.func
 };
 
 const defaultProps = {
-  images: []
+  images: [],
+  onLoadImage: null
 };
 
 class PreviewImages extends Component {
@@ -83,7 +85,7 @@ class PreviewImages extends Component {
         return (
           <div className="image-wrapper" key={index}>
             <a onClick={() => this.handlePreview(file.src, isImage, extension)} role="button" tabIndex={0}>
-              <img src={file.src} alt={file.fileName} />
+              <img src={file.src} alt={file.fileName} onLoad={this.props.onLoadImage} />
             </a>
           </div>);
       }

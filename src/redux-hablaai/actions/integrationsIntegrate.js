@@ -5,14 +5,19 @@ import {
   INTEGRATION_ERROR_BADSUBSCRIBERORG
 } from './integrations';
 
-const integrate = (type, subscriberOrgId, sharepointOrg, options = { getKey: false }) => {
+
+const integrate = (type, subscriberOrgId, options = { getKey: false }, params = undefined) => {
   const newOptions = {
     getKey: options.getKey,
     forceGet: true
   };
   // requestUrl is the key into redux state.urlRequests.
   let requestUrl = `${config.hablaApiBaseUri}/integrations/${type}/integrate/${subscriberOrgId}`;
-  requestUrl = (sharepointOrg) ? `${requestUrl}/${sharepointOrg}` : requestUrl;
+
+  if (params) {
+    const paramsString = Object.keys(params).map(key => `${key}=${encodeURIComponent(params[key])}`).join('&');
+    requestUrl += `?${paramsString}`;
+  }
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { type, subscriberOrgId };
@@ -52,14 +57,6 @@ const integrate = (type, subscriberOrgId, sharepointOrg, options = { getKey: fal
   };
 };
 
-export const integrateGoogle = (subscriberOrgId, newOptions = { getKey: false }) => {
-  return integrate('google', subscriberOrgId, undefined, newOptions);
-};
-
-export const integrateBox = (subscriberOrgId, newOptions = { getKey: false }) => {
-  return integrate('box', subscriberOrgId, undefined, newOptions);
-};
-
-export const integrateSharepoint = (subscriberOrgId, sharepointOrg, newOptions = { getKey: false }) => {
-  return integrate('sharepoint', subscriberOrgId, sharepointOrg, newOptions);
+export const integrateIntegration = (key, subscriberOrgId, params) => { // eslint-disable-line import/prefer-default-export
+  return integrate(key, subscriberOrgId, undefined, params);
 };

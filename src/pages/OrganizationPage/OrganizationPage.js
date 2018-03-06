@@ -16,12 +16,14 @@ const propTypes = {
   }).isRequired,
   setCurrentSubscriberOrgId: PropTypes.func.isRequired,
   fetchSubscribersBySubscriberOrgId: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       subscriberOrgId: PropTypes.string
     })
   }).isRequired,
   subscribers: PropTypes.array.isRequired,
+  subscribersPresences: PropTypes.object.isRequired,
   teams: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired
 };
@@ -42,6 +44,11 @@ class OrganizationPage extends Component {
   }
 
   componentDidMount() {
+    const { match, subscriberOrgs } = this.props;
+    if (!match || !match.params || !match.params.subscriberOrgId || (match.params.subscriberOrgId !== subscriberOrgs.currentSubscriberOrgId)) {
+      this.props.history.replace('/app');
+      return;
+    }
     const { subscriberOrgId } = this.props.match.params;
 
     if (subscriberOrgId !== this.props.subscriberOrgs.currentSubscriberOrgId) {
@@ -70,25 +77,18 @@ class OrganizationPage extends Component {
 
 
   render() {
-    const { teams, integrations, subscribers, subscriberOrgs, user, match } = this.props;
-    if (match && match.params && match.params.subscriberOrgId &&
-        teams && integrations && this.state.subscribersLoaded && this.state.integrationsLoaded) {
+    const { teams, integrations, subscribers, subscribersPresences, subscriberOrgs, user, match } = this.props;
+    if (match && match.params && match.params.subscriberOrgId && subscribers && subscribersPresences &&
+        subscriberOrgs && subscriberOrgs.subscriberOrgById && subscriberOrgs.subscriberOrgById[match.params.subscriberOrgId] &&
+        teams && integrations && this.state.subscribersLoaded && this.state.integrationsLoaded && user) {
       const subscriberOrgId = match.params.subscriberOrgId;
       let isOrgAdmin = false;
       if (subscribers.length > 0) {
-        const subscriberByMyUser = subscribers.find(subscriber => subscriber.userId === user.userId);
+        const currentUserId = user.userId;
+        const subscriberByMyUser = subscribers.find(subscriber => subscriber.userId === currentUserId);
         isOrgAdmin = (subscriberByMyUser.subscriberOrgs[subscriberOrgId].role === 'admin');
       }
 
-      // if (integrations && integrations.integrationsBySubscriberOrgId[subscriberOrgId]) {
-      //   let numberOfIntegrations = 0;
-      //   if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].box) {
-      //     numberOfIntegrations += 1;
-      //   }
-      //   if (integrations.integrationsBySubscriberOrgId[subscriberOrgId].google) {
-      //     numberOfIntegrations += 1;
-      //   }
-      // }
       const subscriberOrg = subscriberOrgs.subscriberOrgById[subscriberOrgId];
 
       const editButton = {
@@ -99,7 +99,8 @@ class OrganizationPage extends Component {
       return (
         <div className="editOrgPage-main">
           <SubpageHeader
-            subscriberOrg={subscriberOrg}
+            subscriberOrgId={subscriberOrg.subscriberOrgId}
+            history={this.props.history}
             breadcrumb={
               <BreadCrumb
                 subscriberOrg={subscriberOrg}
@@ -112,6 +113,7 @@ class OrganizationPage extends Component {
             integrations={integrations}
             onSwitchView={() => this.setState({ view: 'list' })}
             subscribers={subscribers}
+            subscribersPresences={subscribersPresences}
             subscriberOrgId={subscriberOrgId}
             teams={teams}
             user={user}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, notification } from 'antd';
+import { Row, Col, Form, message } from 'antd';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import BreadCrumb from '../../components/BreadCrumb';
@@ -62,26 +62,18 @@ class InviteNewMemberPage extends Component {
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/organization/${subscriberOrgId}/invitationSent`);
-            notification.open({
-              message: String.t('successToastTitle'),
-              description: String.t('inviteNewMemberPage.invitationSent', { count: users.length }),
-              duration: 4
-            });
+            message.success(String.t('inviteNewMemberPage.invitationSent', { count: users.length }));
           })
           .catch((error) => {
             this.setState({ loading: false });
-            notification.open({
-              message: String.t('errorToastTitle'),
-              description: error.message,
-              duration: 4
-            });
+            message.error(error.message);
           });
       }
     });
   }
 
   renderInvitees() {
-    return this.state.inviteesArr.map((el) => {
+    return this.state.inviteesArr.map((el, index) => {
       return (
         <Row key={el} gutter={16} type="flex" className="Invite-New-Member__email-row">
           <Col className="gutter-row" span={20}>
@@ -92,6 +84,7 @@ class InviteNewMemberPage extends Component {
               placeholder=" "
               label=""
               required
+              autoFocus={index === this.state.inviteesArr.length - 1}
             />
           </Col>
           {
@@ -120,6 +113,8 @@ class InviteNewMemberPage extends Component {
     return (
       <div>
         <SubpageHeader
+          subscriberOrgId={subscriberOrgId}
+          history={this.props.history}
           breadcrumb={
             <BreadCrumb
               subscriberOrg={subscriberOrg}

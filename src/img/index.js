@@ -4,6 +4,7 @@ export { default as hablaBlackLogoIcon } from './habla-ai-logo-icon.png';
 export { default as RobotHumanHandshake } from './robot-human-hand-shake.jpg';
 export { default as boxLogo } from './box-logo.png';
 export { default as googleDriveLogo } from './drive-logo.png';
+export { default as gSuiteLogo } from './gsuite-logo.png';
 export { default as sharepointLogo } from './sharepoint-logo.png';
 export { default as office365Logo } from './office365-logo.png';
 export { default as salesforceLogo } from './salesforce-logo.png';
@@ -12,6 +13,9 @@ export { default as exchangeLogo } from './exchange-logo.png';
 export { default as oneDriveLogo } from './onedrive-logo.png';
 export { default as slackLogo } from './slack-logo.png';
 export { default as trelloLogo } from './trello-logo.png';
+export { default as jiraLogo } from './jira-logo.png';
+export { default as gitHubLogo } from './github-logo.png';
+export { default as ibmConnectionsLogo } from './ibmconnections-logo.png';
 
 /* eslint-disable camelcase */
 

@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
 import { Tooltip } from 'antd';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
-import Avatar from '../../components/common/Avatar';
+import AvatarWrapper from '../../components/common/Avatar/AvatarWrapper';
 import Spinner from '../../components/Spinner';
 import './styles/style.css';
 import String from '../../translations';
 
 const propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      userId: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired,
+  subscribers: PropTypes.array.isRequired,
+  subscribersPresences: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   subscriberOrg: PropTypes.object.isRequired
 };
 
@@ -21,14 +30,24 @@ class TeamMemberPage extends Component {
   }
 
   render() {
-    const { subscriberOrg } = this.props;
-    if (!subscriberOrg) {
+    const { subscriberOrg, subscribers, subscribersPresences, match } = this.props;
+    if (!subscriberOrg || !subscribers || !subscribersPresences) {
       return <Spinner />;
     }
+
+    const memberArray = subscribers.filter(m => m.userId === match.params.teamMemberId);
+    if (memberArray.length < 1) {
+      this.props.history.replace('/app');
+      return null;
+    }
+    const member = memberArray[0];
+    const { created, displayName, firstName, lastName, timeZone } = member;
 
     return (
       <div>
         <SubpageHeader
+          subscriberOrgId={subscriberOrg.subscriberOrgId}
+          history={this.props.history}
           breadcrumb={
             <BreadCrumb
               subscriberOrg={subscriberOrg}
@@ -43,16 +62,22 @@ class TeamMemberPage extends Component {
           }
         />
         <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
-          <Avatar size="x-large" color="#cccccc">T</Avatar>
+          <AvatarWrapper size="x-large" user={member} />
           <div className="margin-top-class-b">
             <h1 className="New-team__title habla-big-title habla-bold-text">
-              Team Member Name
+              {String.t('fullName', { firstName, lastName })}
               <Tooltip placement="top" title={String.t('teamMemberPage.activeStatus')}>
                 <div className="habla-main-content-item-signal habla-color-green" />
               </Tooltip>
             </h1>
             <div className="habla-secondary-paragraph">
-              Member since November 27, 2017
+              {String.t('teamMemberPage.displayName', { displayName })}
+            </div>
+            <div className="habla-secondary-paragraph">
+              {String.t('teamMemberPage.timeZone', { timeZone })}
+            </div>
+            <div className="habla-secondary-paragraph">
+              {String.t('teamMemberPage.memberSince', { date: moment(created).format('LL') })}
             </div>
           </div>
         </SimpleCardContainer>

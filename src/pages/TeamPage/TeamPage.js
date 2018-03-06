@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Tooltip, notification } from 'antd';
+import { Tooltip, message } from 'antd';
 import _ from 'lodash';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
 import CardView from './CardView';
@@ -16,6 +17,7 @@ import './styles/style.css';
 const propTypes = {
   fetchTeamRoomsByTeamId: PropTypes.func.isRequired,
   fetchTeamMembersByTeamId: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       teamId: PropTypes.string,
@@ -23,6 +25,7 @@ const propTypes = {
     })
   }).isRequired,
   teamMembers: PropTypes.array.isRequired,
+  teamMembersPresences: PropTypes.object.isRequired,
   teamRooms: PropTypes.array.isRequired,
   subscriberOrgById: PropTypes.object.isRequired,
   teams: PropTypes.object.isRequired,
@@ -41,16 +44,17 @@ class TeamPage extends Component {
   }
 
   componentDidMount() {
-    const { teamId, status } = this.props.match.params;
+    const { match, teams } = this.props;
+    if (!match || !match.params || !teams.teamById[match.params.teamId]) {
+      this.props.history.replace('/app');
+      return;
+    }
+    const { teamId, status } = match.params;
 
     this.props.fetchTeamRoomsByTeamId(teamId).then(() => this.setState({ teamRoomsLoaded: true }));
     this.props.fetchTeamMembersByTeamId(teamId).then(() => this.setState({ teamMembersLoaded: true }));
     if (status) {
-      notification.open({
-        message: messages.success,
-        description: messages[status],
-        duration: 4
-      });
+      message.success(messages[status]);
     }
   }
 
@@ -71,9 +75,9 @@ class TeamPage extends Component {
   }
 
   render() {
-    const { match, teamRooms, teams, teamMembers, subscriberOrgById, user } = this.props;
-    if (teamRooms && match && match.params && match.params.teamId &&
-        teamRooms && teams && teamMembers && subscriberOrgById &&
+    const { match, teamRooms, teams, teamMembers, teamMembersPresences, subscriberOrgById, user } = this.props;
+    if (teamRooms && match && match.params && match.params.teamId && teamRooms && teams && teams.teamById[match.params.teamId] &&
+        teamMembers && (teamMembers.length > 0) && teamMembersPresences && subscriberOrgById &&
         this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
       const teamId = match.params.teamId;
       const team = teams.teamById[teamId];
@@ -86,9 +90,13 @@ class TeamPage extends Component {
         isAdmin,
         url: `/app/editTeam/${teamId}`
       };
+      const className = classNames({ 'opacity-low': !team.active });
       return (
         <div>
           <SubpageHeader
+            subscriberOrgId={subscriberOrg.subscriberOrgId}
+            ckgLink
+            history={this.props.history}
             breadcrumb={
               <BreadCrumb
                 subscriberOrg={subscriberOrg}
@@ -104,7 +112,9 @@ class TeamPage extends Component {
             editButton={editButton}
           />
           <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
-            <Avatar size="x-large" color={team.preferences.iconColor}>{initials}</Avatar>
+            <Avatar size="x-large" color={team.preferences.iconColor} className={className}>
+              {initials}
+            </Avatar>
             <div className="margin-top-class-b">
               <h1 className="New-team__title habla-big-title habla-bold-text">
                 {team.name}
@@ -120,9 +130,10 @@ class TeamPage extends Component {
           <div className="teamPage-list">
             <CardView
               userId={user.userId}
-              teamId={teamId}
+              team={team}
               teamRooms={teamRooms}
               teamMembers={teamMembers}
+              teamMembersPresences={teamMembersPresences}
               onSwitchView={() => this.setState({ view: 'list' })}
             />
           </div>

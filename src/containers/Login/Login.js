@@ -1,6 +1,5 @@
 import React from 'react';
 import { Row, Col, Form, Checkbox, Spin, message } from 'antd';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -51,11 +50,17 @@ class Login extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onForgotPassword = this.onForgotPassword.bind(this);
+    this.onNewUserSignUp = this.onNewUserSignUp.bind(this);
   }
 
   onForgotPassword() {
-    sessionStorage.setItem('habla-user-email', this.props.form.getFieldValue('email'));
+    sessionStorage.setItem('habla-user-email', this.props.form.getFieldValue('email') || '');
     this.props.history.push('/recoverPassword');
+  }
+
+  onNewUserSignUp() {
+    sessionStorage.setItem('habla-user-email', this.props.form.getFieldValue('email') || '');
+    this.props.history.push('/register');
   }
 
   handleSubmit(e) {
@@ -93,9 +98,8 @@ class Login extends React.Component {
         submited: false
       });
     }
-    const remember = sessionStorage.getItem('habla-user-remember-me');
-    const rememberMe = remember && remember !== '';
-
+    const initialEmail = sessionStorage.getItem('habla-user-remember-me');
+    const rememberMe = initialEmail && initialEmail.length;
     return (
       <div className="login-main-div" style={loginpage}>
         <Row type="flex" justify="center" align="middle">
@@ -110,8 +114,9 @@ class Login extends React.Component {
                   layout={layout}
                   required
                   placeholder={String.t('register.emailPlaceholder')}
-                  initialValue={sessionStorage.getItem('habla-user-remember-me')}
+                  initialValue={initialEmail}
                   noLabel
+                  autoFocus={!initialEmail || !initialEmail.length}
                 />
                 <PasswordField
                   form={this.props.form}
@@ -120,6 +125,7 @@ class Login extends React.Component {
                   placeholder={String.t('register.passwordPlaceholder')}
                   noLabel
                   validatePassword={false}
+                  autoFocus={initialEmail && initialEmail.length}
                 />
                 <FormItem>
                   {
@@ -137,8 +143,7 @@ class Login extends React.Component {
                     <a className="login-form-forgot" onClick={this.onForgotPassword}>{String.t('login.forgotPasswordLabel')}</a>
                   </div>
                   <div className="login-main-signup">
-                    <Link to="/register">{String.t('login.signUpLabel')}
-                    </Link>
+                    <a onClick={this.onNewUserSignUp}>{String.t('login.signUpLabel')}</a>
                   </div>
                 </FormItem>
               </Form>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Spin, notification } from 'antd';
+import { Form, Spin, message } from 'antd';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import config from '../../config/env';
@@ -48,11 +48,7 @@ class RecoverPassword extends Component {
             this.setState({ sending: false, emailSent: true });
           }).catch((error) => {
             this.setState({ sending: false, error });
-            notification.open({
-              message: String.t('errorToastTitle'),
-              description: error.message,
-              duration: 4
-            });
+            message.error(error.message);
           });
       }
     });
@@ -88,6 +84,7 @@ class RecoverPassword extends Component {
                       required
                       placeholder="Email"
                       initialValue={sessionStorage.getItem('habla-user-email')}
+                      autoFocus
                     />
                   </div>
                 </div>

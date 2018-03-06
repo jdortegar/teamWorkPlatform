@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import countriesAndTimezones from 'countries-and-timezones';
 import classNames from 'classnames';
-import { Collapse, Form, notification } from 'antd';
+import { Collapse, Form, message } from 'antd';
 import Button from '../../components/common/Button';
 import String from '../../translations';
 import { formShape } from '../../propTypes';
@@ -94,19 +94,11 @@ class EditUserPage extends Component {
         this.props.updateUser(dataToUpdate)
           .then(() => {
             this.setState({ loading: false });
-            notification.open({
-              message: String.t('editUserPage.successToastTitle'),
-              description: String.t('editUserPage.userUpdated'),
-              duration: 4
-            });
+            message.success(String.t('editUserPage.userUpdated'));
           })
           .catch((error) => {
             this.setState({ loading: false });
-            notification.open({
-              message: String.t('errorToastTitle'),
-              description: error.message,
-              duration: 4
-            });
+            message.error(error.message);
           });
       }
     });

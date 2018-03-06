@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, notification, Tooltip } from 'antd';
+import { Form, message, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
@@ -48,25 +48,13 @@ class EditTeamRoomPage extends Component {
         this.props.updateTeamRoom(valuesToSend, teamRoomId).then(() => {
           this.setState({ loading: false });
           this.props.history.push(`/app/teamRoom/${teamRoomId}`);
-          notification.open({
-            message: String.t('editTeamRoomPage.successToastTitle'),
-            description: String.t('editTeamRoomPage.teamRoomUpdated'),
-            duration: 4
-          });
+          message.success(String.t('editTeamRoomPage.teamRoomUpdated'));
         }).catch((error) => {
           this.setState({ loading: false });
           if (error.response && error.response.status === 409) {
-            notification.open({
-              message: String.t('errorToastTitle'),
-              description: String.t('editTeamRoomPage.errorNameAlreadyTaken'),
-              duration: 4
-            });
+            message.error(String.t('editTeamRoomPage.errorNameAlreadyTaken'));
           } else {
-            notification.open({
-              message: String.t('errorToastTitle'),
-              description: error.message,
-              duration: 4
-            });
+            message.error(error.message);
           }
         });
       }
@@ -95,6 +83,8 @@ class EditTeamRoomPage extends Component {
     return (
       <div className="EditTeamRoomPage-main">
         <SubpageHeader
+          subscriberOrgId={subscriberOrg.subscriberOrgId}
+          history={this.props.history}
           breadcrumb={
             <BreadCrumb
               subscriberOrg={subscriberOrg}

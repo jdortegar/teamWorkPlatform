@@ -2,12 +2,9 @@ import { connect } from 'react-redux';
 import IntegrationDetailsPage from '../../pages/IntegrationDetailsPage';
 import {
   fetchIntegrations,
-  integrateBox,
-  integrateGoogle,
-  integrateSharepoint,
-  revokeBox,
-  revokeGoogle,
-  revokeSharepoint
+  integrateIntegration,
+  configureIntegration,
+  revokeIntegration
 } from '../../actions';
 
 function mapStateToProps(state) {
@@ -20,12 +17,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchIntegrations: subscriberOrgId => dispatch(fetchIntegrations(subscriberOrgId)),
-    integrateBox: subscriberOrgId => dispatch(integrateBox(subscriberOrgId)),
-    integrateGoogle: subscriberOrgId => dispatch(integrateGoogle(subscriberOrgId)),
-    integrateSharepoint: (subscriberOrgId, sharepointOrg) => dispatch(integrateSharepoint(subscriberOrgId, sharepointOrg)),
-    revokeBox: subscriberOrgId => dispatch(revokeBox(subscriberOrgId)),
-    revokeGoogle: subscriberOrgId => dispatch(revokeGoogle(subscriberOrgId)),
-    revokeSharepoint: subscriberOrgId => dispatch(revokeSharepoint(subscriberOrgId))
+    integrateIntegration: (key, subscriberOrgId, params) => dispatch(integrateIntegration(key, subscriberOrgId, params)),
+    configureIntegration: (key, subscriberOrgId, configuration) => dispatch(configureIntegration(key, subscriberOrgId, configuration)),
+    revokeIntegration: (key, subscriberOrgId) => dispatch(revokeIntegration(key, subscriberOrgId))
   };
 }
 

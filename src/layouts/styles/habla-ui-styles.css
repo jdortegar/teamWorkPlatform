@@ -588,7 +588,10 @@ p {
 .ml-0 {
   margin-left: 0;
 }
-.ml-1 {
+.ml-05 {
+   margin-left: 4px;
+}
+ .ml-1 {
   margin-left: 8px;
 }
 .ml-2 {
@@ -726,7 +729,9 @@ p {
 .m-5 {
   margin: 40px;
 }
-
+.opacity-low {
+  opacity: 0.3;
+}
 
 
 /* ---------------------------- ANT ELEMENTS To review -------------------------------- */

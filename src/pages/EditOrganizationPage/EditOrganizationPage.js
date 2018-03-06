@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, notification } from 'antd';
+import { Form, message } from 'antd';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import NewSubpageHeader from '../../components/NewSubpageHeader';
@@ -38,14 +38,23 @@ const validURL = (url) => {
 class EditOrganizationPage extends Component {
   constructor(props) {
     super(props);
+
+    const { match, subscriberOrgs } = this.props;
+    if (!match || !match.params || !match.params.subscriberOrgId || (match.params.subscriberOrgId !== subscriberOrgs.currentSubscriberOrgId)) {
+      this.props.history.replace('/app');
+      return;
+    }
+
     const { subscriberOrgId } = this.props.match.params;
-    const { subscriberOrgs } = this.props;
-    this.organization = subscriberOrgs.subscriberOrgById[subscriberOrgId];
+    let org = null;
+    if (subscriberOrgs && subscriberOrgs.subscriberOrgById) {
+      org = subscriberOrgs.subscriberOrgById[subscriberOrgId];
+    }
 
     this.state = {
       loading: false,
-      avatarBase64: this.organization.preferences.avatarBase64 || null,
-      logo: this.organization.preferences.logo || null
+      avatarBase64: (org && org.preferences) ? org.preferences.avatarBase64 : null,
+      logo: (org && org.preferences) ? org.preferences.logo : null
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -94,26 +103,14 @@ class EditOrganizationPage extends Component {
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/organization/${subscriberOrgId}`);
-            notification.open({
-              message: String.t('editOrgPage.successToastTitle'),
-              description: String.t('editOrgPage.organizationUpdated'),
-              duration: 4
-            });
+            message.success(String.t('editOrgPage.organizationUpdated'));
           })
           .catch((error) => {
             this.setState({ loading: false });
             if (error.response && error.response.status === 409) {
-              notification.open({
-                message: String.t('errorToastTitle'),
-                description: String.t('editOrgPage.errorNameAlreadyTaken'),
-                duration: 4
-              });
+              message.error(String.t('editOrgPage.errorNameAlreadyTaken'));
             } else {
-              notification.open({
-                message: String.t('errorToastTitle'),
-                description: error.message,
-                duration: 4
-              });
+              message.error(error.message);
             }
           });
       }

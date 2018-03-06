@@ -118,6 +118,16 @@
       "airbnb"
     ],
     "parser": "babel-eslint",
+    "settings": {
+      "import/resolver": {
+        "webpack": {
+          "config": "./webpack.config.js"
+        },
+        "node": {
+          "paths": ["./src"]
+        }
+      }
+    },
     "env": {
       "browser": true,
       "node": true,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Modal, notification } from 'antd';
+import { Form, Modal, message } from 'antd';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -43,17 +43,9 @@ class AddOrgDialog extends Component {
           })
           .catch((error) => {
             if (error.response && error.response.status === 409) {
-              notification.open({
-                message: String.t('errorToastTitle'),
-                description: String.t('addOrgDialog.errorNameAlreadyTaken'),
-                duration: 4
-              });
+              message.error(String.t('addOrgDialog.errorNameAlreadyTaken'));
             } else {
-              notification.open({
-                message: String.t('errorToastTitle'),
-                description: error.message,
-                duration: 4
-              });
+              message.error(error.message);
             }
           });
       }

@@ -88,3 +88,6 @@
   display: flex;
   justify-content: flex-end;
 }
+.editOrgPage-main .habla-main-content-header-actions {
+	display: none;
+}

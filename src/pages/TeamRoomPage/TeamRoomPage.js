@@ -1,27 +1,31 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Form, Tooltip, notification } from 'antd';
+import { Form, Tooltip, message as msg } from 'antd';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { formShape } from '../../propTypes';
-import BreadCrumb from '../../components/BreadCrumb';
-import SubpageHeader from '../../components/SubpageHeader';
-import SimpleHeader from '../../components/SimpleHeader';
-import Spinner from '../../components/Spinner';
-import SimpleCardContainer from '../../components/SimpleCardContainer';
-import TextField from '../../components/formFields/TextField';
-import UserIcon from '../../components/UserIcon';
-import Avatar from '../../components/common/Avatar';
-import PreviewBar from '../../components/PreviewBar';
-import Message from '../../components/Message';
-import { getJwt, getResourcesUrl } from '../../session';
-import String from '../../translations';
-import getInitials from '../../utils/helpers';
+import { formShape } from 'propTypes';
+import BreadCrumb from 'components/BreadCrumb';
+import SubpageHeader from 'components/SubpageHeader';
+import SimpleHeader from 'components/SimpleHeader';
+import Spinner from 'components/Spinner';
+import SimpleCardContainer from 'components/SimpleCardContainer';
+import TextField from 'components/formFields/TextField';
+import Avatar from 'components/common/Avatar';
+import PreviewBar from 'components/PreviewBar';
+import Message from 'components/Message';
+import { getJwt, getResourcesUrl } from 'session';
+import String from 'translations';
+import getInitials from 'utils/helpers';
 import './styles/style.css';
+import { sortByFirstName } from '../../redux-hablaai/selectors/helpers';
+import { messageAction } from '../../components/Message/Message';
+
+const BOTTOM_SCROLL_LIMIT = 200;
 
 const propTypes = {
+  history: PropTypes.object.isRequired,
   files: PropTypes.array,
   form: formShape.isRequired,
   fetchTeamRoomMembersByTeamRoomId: PropTypes.func.isRequired,
@@ -59,10 +63,11 @@ const propTypes = {
   conversations: PropTypes.shape({
     conversationId: PropTypes.string.isRequired,
     transcript: PropTypes.array
-  }).isRequired,
+  }),
   unreadMessagesCount: PropTypes.number,
   membersTyping: PropTypes.object,
   createMessage: PropTypes.func.isRequired,
+  deleteMessage: PropTypes.func.isRequired,
   readMessage: PropTypes.func.isRequired,
   iAmTyping: PropTypes.func.isRequired,
   updateFileList: PropTypes.func.isRequired,
@@ -73,6 +78,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  conversations: {},
   files: [],
   readMessages: null,
   unreadMessagesCount: 0,
@@ -102,7 +108,7 @@ class TeamRoomPage extends Component {
     };
 
     this.onCancelReply = this.onCancelReply.bind(this);
-    this.onReplyTo = this.onReplyTo.bind(this);
+    this.onMessageAction = this.onMessageAction.bind(this);
     this.handleHeaderClick = this.handleHeaderClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -114,11 +120,14 @@ class TeamRoomPage extends Component {
   componentDidMount() {
     const teamRoomId = this.props.match.params.teamRoomId;
 
+    // TODO: What do we do if the fetch fails???
     this.props.fetchTeamRoomMembersByTeamRoomId(teamRoomId)
       .then(() => this.setState({
         teamRoomMembersLoaded: true,
         teamRoomMembers: this.props.teamRoomMembers
-      }));
+      }))
+      .catch(() => this.props.history.replace('/app'));
+
     this.props.fetchConversations(teamRoomId)
       .then((response) => {
         if (response.data.conversations) {
@@ -127,14 +136,16 @@ class TeamRoomPage extends Component {
           this.props.fetchTranscript(conversationId)
             .then(() => this.setState({
               conversationsLoaded: true
-            }));
+            }))
+            .then(this.scrollToBottom);
         }
         if (response.data === 'STALE') {
           this.setState({
             conversationsLoaded: true
           });
         }
-      });
+      })
+      .catch(() => this.props.history.replace('/app'));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -170,14 +181,13 @@ class TeamRoomPage extends Component {
     }
   }
 
-  componentDidUpdate() {
-    const chatDiv = document.getElementsByClassName('team-room__messages')[0];
-    if (chatDiv && (chatDiv.scrollHeight - chatDiv.scrollTop) < 500) {
-      chatDiv.scrollTop = chatDiv.scrollHeight;
-    }
-    if (chatDiv && chatDiv.scrollTop === 0) {
-      chatDiv.scrollTop = chatDiv.scrollHeight;
-    }
+  componentDidUpdate(prevProps) {
+    const { conversations, user } = this.props;
+    if (!prevProps.conversations || !conversations) return;
+    if (prevProps.conversations.transcript.length === conversations.transcript.length) return;
+
+    const ownMessage = _.last(conversations.transcript).createdBy === user.userId;
+    if (ownMessage || this.isNearBottom()) this.scrollToBottom();
   }
 
   onCancelReply() {
@@ -187,8 +197,23 @@ class TeamRoomPage extends Component {
     this.setState({ replyTo: null, showPreviewBox: false });
   }
 
-  onReplyTo(replyObj) {
-    this.setState({ showPreviewBox: true, replyTo: replyObj });
+  onMessageAction({ message, extraInfo }, action) {
+    switch (action) {
+      case messageAction.replyTo:
+        this.setState({ showPreviewBox: true, replyTo: extraInfo });
+        break;
+      case messageAction.delete:
+        this.props.deleteMessage(message.messageId, message.conversationId)
+          .then(() => {
+            msg.success(String.t('message.deleteSuccessToast'));
+          })
+          .catch((error) => {
+            msg.error(error.message);
+          });
+        break;
+      default:
+        break;
+    }
   }
 
   onFileChange(event) {
@@ -196,6 +221,26 @@ class TeamRoomPage extends Component {
     if (files) {
       this.props.updateFileList(files);
       this.setState({ showPreviewBox: true });
+    }
+  }
+
+  isNearBottom = () => {
+    const messagesContainer = document.getElementsByClassName('team-room__messages')[0];
+    if (!messagesContainer) return false;
+
+    const { scrollHeight, scrollTop, clientHeight } = messagesContainer;
+    const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+
+    return distanceFromBottom < BOTTOM_SCROLL_LIMIT;
+  }
+
+  scrollToBottom = () => {
+    const messagesContainer = document.getElementsByClassName('team-room__messages')[0];
+    if (!messagesContainer) return;
+
+    const { clientHeight, scrollHeight } = messagesContainer;
+    if (clientHeight < scrollHeight) {
+      messagesContainer.scrollTop = scrollHeight;
     }
   }
 
@@ -291,11 +336,7 @@ class TeamRoomPage extends Component {
             .catch((error) => {
               this.props.updateFileList(this.props.files);
               this.setState({ file: null });
-              notification.open({
-                message: String.t('errorToastTitle'),
-                description: error.message,
-                duration: 4
-              });
+              msg.error(error.message);
             });
         } else if (message) {
           postBody.content.push({ type: 'text/plain', text: message });
@@ -310,11 +351,7 @@ class TeamRoomPage extends Component {
               this.props.form.resetFields();
             })
             .catch((error) => {
-              notification.open({
-                message: String.t('errorToastTitle'),
-                description: error.message,
-                duration: 4
-              });
+              msg.error(error.message);
             });
         }
       }
@@ -359,8 +396,8 @@ class TeamRoomPage extends Component {
     this.props.updateFileList(files);
   }
 
-  renderMessages() {
-    const { match, teamRooms, teams, conversations, teamRoomMembersObj } = this.props;
+  renderMessages(isAdmin) {
+    const { match, teamRooms, teams, conversations, teamRoomMembersObj, user } = this.props;
     const { lastSubmittedMessage } = this.state;
     const currentPath = lastSubmittedMessage ? lastSubmittedMessage.path : null;
     const disableConversation = this.shouldDisableConversation();
@@ -368,13 +405,15 @@ class TeamRoomPage extends Component {
     const teamId = teamRooms.teamRoomById[teamRoomId].teamId;
     const subscriberOrgId = teams.teamById[teamId].subscriberOrgId;
 
-    return conversations.transcript.map(message => (
-      <Message
+    return conversations.transcript.map((message) => {
+      if (message.deleted) return null;
+      return (<Message
         conversationDisabled={disableConversation}
         message={message}
         user={teamRoomMembersObj[message.createdBy]}
+        currentUserId={user.userId}
         key={message.messageId}
-        replyTo={this.onReplyTo}
+        onMessageAction={this.onMessageAction}
         hide={false}
         currentPath={currentPath}
         teamRoomMembersObj={teamRoomMembersObj}
@@ -382,8 +421,10 @@ class TeamRoomPage extends Component {
         subscriberOrgId={subscriberOrgId}
         teamId={teamId}
         teamRoomId={teamRoomId}
-      />
-    ));
+        isAdmin={isAdmin}
+        onLoadImages={this.scrollToBottom}
+      />);
+    });
   }
 
   renderTeamRoomMembers() {
@@ -396,11 +437,17 @@ class TeamRoomPage extends Component {
     }));
     const currentUser = _.find(members, { userId: user.userId });
     const otherMembers = _.reject(members, { userId: user.userId });
-    const orderedMembers = _.orderBy(otherMembers, ['online', 'firstName', 'lastName', 'displayName'], ['desc', 'asc', 'asc', 'asc']);
+    //  const orderedMembers = _.orderBy(otherMembers, ['online', 'firstName', 'lastName', 'displayName'], ['desc', 'asc', 'asc', 'asc']);
+    const orderedMembers = otherMembers.sort(sortByFirstName);
 
-    return [currentUser, ...orderedMembers].map(({ firstName, lastName, userId, preferences, icon }) => {
+    return [currentUser, ...orderedMembers].map(({ firstName, lastName, userId, preferences, icon, online }) => {
       const fullName = String.t('fullName', { firstName, lastName });
       const initials = getInitials(fullName);
+      const className = classNames({
+        'mr-05': true,
+        'opacity-low': !online
+      });
+
       return (
         <Tooltip
           key={userId}
@@ -408,13 +455,13 @@ class TeamRoomPage extends Component {
           title={fullName}
         >
           {icon ?
-            <Avatar size="small" src={`data:image/jpeg;base64, ${icon}`} className="mr-05" />
+            <Avatar size="small" src={`data:image/jpeg;base64, ${icon}`} className={className} />
             :
             <Avatar
               size="small"
-              ey={userId}
+              key={userId}
               color={preferences.iconColor}
-              className="mr-05"
+              className={className}
             >
               {initials}
             </Avatar>
@@ -456,9 +503,9 @@ class TeamRoomPage extends Component {
 
   render() {
     const { teamRoomMembersLoaded, conversationsLoaded } = this.state;
-    const { match, teamRooms, user, teamRoomMembers, unreadMessagesCount, conversations, subscriberOrgById } = this.props;
-    if (match && match.params && match.params.teamRoomId && teamRoomMembersLoaded && conversationsLoaded &&
-        this.state.teamRoomMembers && conversations && subscriberOrgById) {
+    const { match, teamRooms, user, teamRoomMembers, teamRoomMembersObj, unreadMessagesCount, conversations, subscriberOrgById } = this.props;
+    if (match && match.params && match.params.teamRoomId && teamRoomMembersLoaded && conversationsLoaded && teamRoomMembers &&
+        teamRoomMembersObj && this.state.teamRoomMembers && conversations && subscriberOrgById) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
       const { conversationId } = conversations;
       const lastMessage = _.last(conversations.transcript) || {};
@@ -466,6 +513,9 @@ class TeamRoomPage extends Component {
       const teamRoom = teamRooms.teamRoomById[teamRoomId];
       const team = this.props.teams.teamById[teamRoom.teamId];
       const subscriberOrg = subscriberOrgById[team.subscriberOrgId];
+      const { firstName, lastName } = user;
+      const fullName = String.t('fullName', { firstName, lastName });
+      const initials = getInitials(fullName);
       const className = classNames({
         'team-room-chat': true,
         'team-room__main-container--opacity': this.state.isDraggingOver
@@ -496,6 +546,9 @@ class TeamRoomPage extends Component {
         <div className={className}>
           <div className="team-room__top-page-container border-bottom-lighter">
             <SubpageHeader
+              subscriberOrgId={subscriberOrg.subscriberOrgId}
+              ckgLink
+              history={this.props.history}
               breadcrumb={
                 <BreadCrumb
                   subscriberOrg={subscriberOrg}
@@ -520,6 +573,7 @@ class TeamRoomPage extends Component {
                 <div className="team-room__member-cards-container">
                   <span className="team-room__member-cards-span habla-label">{String.t('teamRoomPage.membersHeader', { count: numberOfTeamRoomMembers })}</span>
                   {this.renderTeamRoomMembers()}
+                  {isAdmin && teamRoom.active && team.active &&
                   <Tooltip
                     placement="top"
                     title={String.t('teamRoomPage.addTeamMember')}
@@ -528,6 +582,7 @@ class TeamRoomPage extends Component {
                       <Avatar size="small" color="#ccc" className="teamRoomInviteMembers">+</Avatar>
                     </Link>
                   </Tooltip>
+                  }
                 </div>
               }
             />
@@ -554,7 +609,7 @@ class TeamRoomPage extends Component {
           )}
 
           <SimpleCardContainer className="team-room__messages">
-            {this.renderMessages()}
+            {this.renderMessages(isAdmin)}
           </SimpleCardContainer>
 
           <SimpleCardContainer className="team-room__chat-container">
@@ -573,7 +628,9 @@ class TeamRoomPage extends Component {
             }
             <div className="team-room__chat-input">
               <div className="team-room__chat-input__image-wrapper">
-                <UserIcon user={user} type="user" minWidth="2.5em" width="2.5em" height="2.5em" key={user.userId} />
+                <Avatar size="large" key={user.userId} color={user.preferences.iconColor}>
+                  {initials}
+                </Avatar>
               </div>
               <div className="team-room__chat-input-wrapper">
                 <Form
@@ -592,6 +649,7 @@ class TeamRoomPage extends Component {
                     className="team-room__chat-input-form-item"
                     inputClassName="team-room__chat-input-textfield"
                     onChange={this.handleTyping}
+                    autoFocus
                   />
                 </Form>
               </div>

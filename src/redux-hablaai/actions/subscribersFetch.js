@@ -1,5 +1,6 @@
 import config from '../config';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
+import { sortByFirstName } from '../selectors/helpers';
 
 export const SUBSCRIBERS_FETCH_SUCCESS = 'subscribers/fetch/success';
 
@@ -19,7 +20,7 @@ export const fetchSubscribersBySubscriberOrgId = (subscriberOrgId, options = { g
     if (!options.getKey) {
       thunk.then((response) => {
         if ((response.data) && (response.data !== RESPONSE_STALE)) {
-          const { subscribers } = response.data;
+          const subscribers = response.data.subscribers.sort(sortByFirstName);
           dispatch({
             type: SUBSCRIBERS_FETCH_SUCCESS,
             payload: { subscribers, subscriberOrgId }

@@ -4,6 +4,7 @@ import {
   getUserIdsByTeamRoomId,
   getPresencesByUserId
 } from './state';
+import { sortByFirstName } from './helpers';
 
 export {
   getTeamRoomMemberIdByUserId,
@@ -18,7 +19,7 @@ export const getTeamRoomMembersOfTeamRoomId = createCachedSelector(
     }
 
     const userIds = userIdsByTeamRoomId[teamRoomId];
-    return Object.keys(userIds).map(userId => userByUserId[userId]);
+    return Object.keys(userIds).map(userId => userByUserId[userId]).sort(sortByFirstName);
   }
 )(
   (state, teamRoomId) => teamRoomId
@@ -31,7 +32,9 @@ export const getTeamRoomMembersAsObjectsOfTeamRoomId = createCachedSelector(
       return {};
     }
     const userIds = userIdsByTeamRoomId[teamRoomId];
-    const userIdsObj = Object.keys(userIds).reduce((acc, userId) => { acc[userId] = userByUserId[userId]; return acc; }, {});
+
+    const members = Object.keys(userIds).map(id => userByUserId[id]).sort(sortByFirstName);
+    const userIdsObj = members.reduce((acc, user) => { acc[user.userId] = user; return acc; }, {});
     return userIdsObj;
   }
 )(

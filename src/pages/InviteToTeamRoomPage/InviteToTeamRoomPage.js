@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, notification } from 'antd';
+import { Row, Col, Form, message } from 'antd';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import BreadCrumb from '../../components/BreadCrumb';
@@ -65,20 +65,12 @@ class InviteToTeamRoomPage extends Component {
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/teamRoom/${teamRoomId}`);
-            notification.open({
-              message: String.t('successToastTitle'),
-              description: String.t('inviteToTeamRoomPage.invitationSent', { count: users.length }),
-              duration: 4
-            });
+            message.success(String.t('inviteToTeamRoomPage.invitationSent', { count: users.length }));
           })
           .catch((error) => {
             this.setState({ loading: false });
             if (error.response && error.response.status !== 202) {
-              notification.open({
-                message: String.t('errorToastTitle'),
-                description: error.message,
-                duration: 4
-              });
+              message.error(error.message);
             }
           });
       }
@@ -95,7 +87,7 @@ class InviteToTeamRoomPage extends Component {
       return acc;
     }, []);
 
-    return this.state.inviteesArr.map((el) => {
+    return this.state.inviteesArr.map((el, index) => {
       return (
         <Row key={el} gutter={16} type="flex" className="Invite-To-TeamRoom__email-row">
           <Col className="gutter-row" span={20}>
@@ -106,6 +98,7 @@ class InviteToTeamRoomPage extends Component {
               placeholder={String.t('inviteToTeamRoomPage.usernamePlaceholder')}
               label=""
               required
+              autoFocus={index === this.state.inviteesArr.length - 1}
               dataSource={dataSource}
             />
           </Col>
@@ -146,6 +139,8 @@ class InviteToTeamRoomPage extends Component {
     return (
       <div>
         <SubpageHeader
+          subscriberOrgId={subscriberOrg.subscriberOrgId}
+          history={this.props.history}
           breadcrumb={
             <BreadCrumb
               subscriberOrg={subscriberOrg}

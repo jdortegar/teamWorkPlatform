@@ -7,7 +7,9 @@ import { fetchSubscribersBySubscriberOrgId,
   toggleTeamDialog,
   toggleInvitePeopleDialog
 } from '../../actions';
-import { getSubscribersOfSubscriberOrgId,
+import {
+  getSubscribersOfSubscriberOrgId,
+  getPresencesOfSubscribersOfOrgId,
   getTeamsOfSubscriberOrgIdSortedAlphabetically,
   getIntegrationsOfSubscriberOrgId
 } from '../../selectors';
@@ -20,6 +22,7 @@ function mapStateToProps(state, props) {
     subscriberOrgs: state.subscriberOrgs,
     integrations: state.integrations,
     subscribers: getSubscribersOfSubscriberOrgId(state, subscriberOrgId),
+    subscribersPresences: getPresencesOfSubscribersOfOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
     teams: getTeamsOfSubscriberOrgIdSortedAlphabetically(state, subscriberOrgId),
     integrations2: getIntegrationsOfSubscriberOrgId(state, subscriberOrgId),
     teamRooms: state.teamRooms

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Tooltip } from 'antd';
+import { Popconfirm, Row, Col, Tooltip } from 'antd';
 import _ from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
-import UserIcon from '../UserIcon';
+import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
 import PreviewImages from '../PreviewImages';
 import './styles/style.css';
 import String from '../../translations';
@@ -13,21 +13,34 @@ const propTypes = {
   hide: PropTypes.bool.isRequired,
   currentPath: PropTypes.string,
   conversationDisabled: PropTypes.bool,
-  replyTo: PropTypes.func.isRequired,
+  onMessageAction: PropTypes.func.isRequired,
   teamRoomMembersObj: PropTypes.object.isRequired,
   message: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  currentUserId: PropTypes.string.isRequired,
   subscriberOrgId: PropTypes.string.isRequired,
   teamId: PropTypes.string.isRequired,
   teamRoomId: PropTypes.string.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+  onLoadImages: PropTypes.func,
   lastRead: PropTypes.bool
 };
 
 const defaultProps = {
   conversationDisabled: false,
   onFileChange: null,
+  onLoadImages: null,
   lastRead: false,
   currentPath: null
+};
+
+export const messageAction = {
+  replyTo: 'replyTo',
+  thumb: 'thumb', // "up" or "down"
+  bookmark: 'bookmark',
+  flag: 'flag',
+  delete: 'delete',
+  edit: 'edit'
 };
 
 class Message extends Component {
@@ -40,7 +53,12 @@ class Message extends Component {
     };
 
     this.handleReplyTo = this.handleReplyTo.bind(this);
+    this.handleBookmark = this.handleBookmark.bind(this);
+    this.handleThumb = this.handleThumb.bind(this);
+    this.handleFlag = this.handleFlag.bind(this);
+    // this.handleEdit = this.handleEdit.bind(this);
     this.changeVolume = this.changeVolume.bind(this);
+    this.onDeleteConfirmed = this.onDeleteConfirmed.bind(this);
     this.handleShowReplies = this.handleShowReplies.bind(this);
   }
 
@@ -50,15 +68,41 @@ class Message extends Component {
     }
   }
 
+  onDeleteConfirmed() {
+    const { message } = this.props;
+    this.props.onMessageAction({ message }, messageAction.delete);
+  }
+
   handleShowReplies() {
     this.setState({
       isExpanded: !this.state.isExpanded
     });
   }
 
-  handleReplyTo(user) {
-    this.props.replyTo(user);
+  handleReplyTo(extraInfo) {
+    const { message } = this.props;
+    this.props.onMessageAction({ message, extraInfo }, messageAction.replyTo);
   }
+
+  handleBookmark() {
+    const { message } = this.props;
+    this.props.onMessageAction({ message }, messageAction.bookmark);
+  }
+
+  handleThumb(direction) {
+    const { message } = this.props;
+    const extraInfo = { direction };
+    this.props.onMessageAction({ message, extraInfo }, messageAction.thumb);
+  }
+
+  handleFlag() {
+    const { message } = this.props;
+    this.props.onMessageAction({ message }, messageAction.flag);
+  }
+
+  /*
+  handleEdit() {
+  } */
 
   changeVolume() {
     this.setState({
@@ -67,7 +111,7 @@ class Message extends Component {
   }
 
   render() {
-    const { message, user, teamRoomMembersObj, hide, lastRead, conversationDisabled } = this.props;
+    const { message, user, currentUserId, teamRoomMembersObj, hide, lastRead, conversationDisabled, isAdmin } = this.props;
     const { messageId, children, level, content } = message;
     const { firstName, lastName, preferences, userId } = user;
     const date = moment(message.created).fromNow();
@@ -75,6 +119,7 @@ class Message extends Component {
     const contentJustImage = content.filter(resource => resource.type !== 'text/plain');
     const text = !!justTextContent;
     const name = String.t('message.sentByName', { firstName, lastName });
+    const childrenNonDeleted = children.filter(msg => !msg.deleted);
     const messageBody = (
       <div>
         <p className="message__body-name">{name}</p>
@@ -84,7 +129,7 @@ class Message extends Component {
         </p>
       </div>
     );
-
+    const avatarClassName = classNames({ 'opacity-low': !user.online });
     const messageReplyPaddingLeft = classNames({
       'message-nested': level !== 0,
       hide // hide all replies and level 1
@@ -95,7 +140,7 @@ class Message extends Component {
         <div className={classNames('message__main-container', `border-bottom-${lastRead ? 'red' : 'lighter'}`)}>
           <Row type="flex" justify="start" gutter={20}>
             <Col xs={{ span: 5 }} sm={{ span: 3 }} md={{ span: 2 }} className="message__col-user-icon">
-              <UserIcon user={user} type="user" minWidth="2.5em" width="2.5em" height="2.5em" key={userId} />
+              <AvatarWrapper key={userId} user={user} size="default" className={avatarClassName} />
             </Col>
             <Col xs={{ span: 15 }} sm={{ span: 16 }} md={{ span: 18 }}>
               {messageBody}
@@ -105,14 +150,15 @@ class Message extends Component {
                   subscriberOrgId={this.props.subscriberOrgId}
                   teamId={this.props.teamId}
                   teamRoomId={this.props.teamRoomId}
+                  onLoadImage={this.props.onLoadImages}
                 />
               )}
             </Col>
           </Row>
-          { children.length > 0 &&
+          { childrenNonDeleted.length > 0 &&
           <div className="habla-label message__main-counter" onClick={this.handleShowReplies}>
             <span className="message__main-counter-number" >
-              { children.length }
+              { childrenNonDeleted.length }
             </span>
             <i className="fas fa-reply" data-fa-transform="rotate-180" />
           </div>
@@ -133,37 +179,76 @@ class Message extends Component {
               </a>
             </Tooltip>
             <Tooltip placement="topLeft" title={String.t('message.tooltipBookmark')} arrowPointAtCenter>
-              <a className="message__icons"><i className="fas fa-bookmark" /></a>
+              <a
+                className="message__icons"
+                onClick={() => this.handleBookmark()}
+              >
+                <i className="fas fa-bookmark" />
+              </a>
             </Tooltip>
             <Tooltip placement="topLeft" title={String.t('message.tooltipThumbsUp')} arrowPointAtCenter>
-              <a className="message__icons"><i className="fas fa-thumbs-up" /></a>
+              <a
+                className="message__icons"
+                onClick={() => this.handleThumb('up')}
+              >
+                <i className="fas fa-thumbs-up" />
+              </a>
             </Tooltip>
             <Tooltip placement="topLeft" title={String.t('message.tooltipThumbsDown')} arrowPointAtCenter>
-              <a className="message__icons"><i className="fas fa-thumbs-down" /></a>
+              <a
+                className="message__icons"
+                onClick={() => this.handleThumb('down')}
+              >
+                <i className="fas fa-thumbs-down" />
+              </a>
             </Tooltip>
             <Tooltip placement="topLeft" title={String.t('message.tooltipFlag')} arrowPointAtCenter>
-              <a className="message__icons"><i className="fas fa-flag" /></a>
+              <a
+                className="message__icons"
+                onClick={() => this.handleFlag()}
+              >
+                <i className="fas fa-flag" />
+              </a>
             </Tooltip>
-            <Tooltip placement="topLeft" title={String.t('message.tooltipEdit')} arrowPointAtCenter>
-              <a className="message__icons"><i className="fas fa-pencil-alt" /></a>
-            </Tooltip>
+            {/* <Tooltip placement="topLeft" title={String.t('message.tooltipEdit')} arrowPointAtCenter> */}
+            {(isAdmin || message.createdBy === currentUserId) &&
+            <Popconfirm
+              title={String.t('message.deleteConfirmationQuestion')}
+              okText={String.t('okButton')}
+              cancelText={String.t('cancelButton')}
+              arrowPointAtCenter
+              onConfirm={() => this.onDeleteConfirmed()}
+            >
+              <a
+                className="message__icons"
+                /* onClick={() => this.handleEdit()} */
+              >
+                <i className="fas fa-pencil-alt" />
+              </a>
+            </Popconfirm>
+            }
+            {/* </Tooltip> */}
           </div>
           }
         </div>
-        { children.length > 0 && children.map(childMessage => (
-          <Message
-            conversationDisabled={conversationDisabled}
-            message={childMessage}
-            user={teamRoomMembersObj[childMessage.createdBy]}
-            key={childMessage.messageId}
-            replyTo={this.props.replyTo}
-            hide={!this.state.isExpanded}
-            currentPath={this.props.currentPath}
-            teamRoomMembersObj={this.props.teamRoomMembersObj}
-            subscriberOrgId={this.props.subscriberOrgId}
-            teamId={this.props.teamId}
-            teamRoomId={this.props.teamRoomId}
-          />)
+        { childrenNonDeleted.length > 0 && childrenNonDeleted.map((childMessage) => {
+          return (
+            <Message
+              conversationDisabled={conversationDisabled}
+              message={childMessage}
+              user={teamRoomMembersObj[childMessage.createdBy]}
+              currentUserId={this.props.currentUserId}
+              key={childMessage.messageId}
+              onMessageAction={this.props.onMessageAction}
+              hide={!this.state.isExpanded}
+              currentPath={this.props.currentPath}
+              teamRoomMembersObj={this.props.teamRoomMembersObj}
+              subscriberOrgId={this.props.subscriberOrgId}
+              teamId={this.props.teamId}
+              teamRoomId={this.props.teamRoomId}
+            />
+          );
+        }
         )}
       </div>
     );

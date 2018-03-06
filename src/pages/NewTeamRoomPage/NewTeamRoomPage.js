@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form } from 'antd';
+import { Form, message } from 'antd';
 import PropTypes from 'prop-types';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
@@ -46,6 +46,11 @@ class NewTeamRoomPage extends Component {
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/team/${teamId}`);
+            message.success(String.t('newTeamRoomPage.teamRoomAddedToast'));
+          })
+          .catch((error) => {
+            this.setState({ loading: false });
+            message.error(error.message);
           });
       }
     });
@@ -71,6 +76,8 @@ class NewTeamRoomPage extends Component {
     return (
       <div>
         <SubpageHeader
+          subscriberOrgId={subscriberOrg.subscriberOrgId}
+          history={this.props.history}
           breadcrumb={
             <BreadCrumb
               subscriberOrg={subscriberOrg}
@@ -100,6 +107,7 @@ class NewTeamRoomPage extends Component {
                 placeholder=" "
                 label=""
                 required
+                autoFocus
               />
             </div>
             <div className="edit-org__buttons border-top-lighter margin-top-class-a">

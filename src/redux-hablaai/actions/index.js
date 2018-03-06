@@ -43,6 +43,7 @@ export * from './conversationsFetch';
 export * from './transcriptFetch';
 export * from './messagesReceive';
 export * from './messageCreate';
+export * from './messageDelete';
 export * from './messageRead';
 export * from './readMessagesFetch';
 export * from './readMessagesReceive';
@@ -56,5 +57,6 @@ export * from './integrations';
 export * from './integrationsFetch';
 export * from './integrationsIntegrate';
 export * from './integrationsRevoke';
+export * from './integrationsConfigure';
 
 export * from './globalStateFetch';

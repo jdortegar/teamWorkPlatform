@@ -6,8 +6,6 @@
   "dataIntegrations": "Data Integrations",
   "alertTitleDatabaseError": "DB Integrity Error",
   "alertLastPhotoErrorTitle": "Last Photo Error",
-  "successToastTitle": "Success",
-  "errorToastTitle": "Error",
 
   "enterMsgPostPlaceholder": "What do you want to tell the team?",
   "enterMsgReplyPlaceholder": "Leave a reply...",
@@ -174,12 +172,10 @@
   "listViewTitle": "Details View",
   "OrganizationPage": {
     "newButtonLabel": "New",
-    "gdriveIntegrationLabel": "Google Drive",
     "boxIntegrationLabel": "Box",
     "addNewTeam": "Add New Team",
     "addNewMember": "Add New Team Member",
     "addNewIntegration": "Add New Integration",
-    "teamCreated": "Team has been successfully created.",
     "integrationsHeader": "Data Integrations ({{count}})",
     "membersHeader": "Organization Members ({{count}})",
     "teamsHeader": "Teams ({{count}})",
@@ -292,7 +288,9 @@
     "tooltipMute": "Mute",
     "tooltipUnmute": "Unmute",
     "tooltipEdit": "Edit",
-    "unreadMessageSeparator": "New"
+    "unreadMessageSeparator": "New",
+    "deleteConfirmationQuestion": "This will delete this message. Are you sure?",
+    "deleteSuccessToast": "Your message has been deleted."
   },
   "previewBar": {
     "name": "{{firstName}} {{lastName}}",
@@ -400,25 +398,22 @@
     "webSitePlaceholder": "http://",
     "changeAvatarText": "Change Avatar",
     "removeImageLabel": "Remove",
-    "successToastTitle": "Success",
     "organizationUpdated": "Your organization changes have been saved.",
     "errorNameAlreadyTaken": "The Organization Name is already being used. Please enter a different name."
   },
   "editTeamPage": {
-    "teamUpdated": "Your team changes have been saved.",
+    "teamUpdated": "Your Team changes have been saved.",
     "errorNameAlreadyTaken": "The Team Name is already being used. Please enter a different name.",
     "changeAvatarText": "Change Avatar",
     "teamName": "Team Name",
     "saveButtonLabel": "Save",
-    "successToastTitle": "Success",
     "setActive": "Set Active",
     "setInactive": "Set Inactive",
     "activeState": "Active",
     "inactiveState": "Inactive"
   },
   "editTeamRoomPage": {
-    "successToastTitle": "Success",
-    "teamRoomUpdated": "Your team room changes have been saved.",
+    "teamRoomUpdated": "Your Team Room changes have been saved.",
     "errorNameAlreadyTaken": "The Team Room Name is already being used. Please enter a different name.",
     "changeAvatarTitle": "Change Avatar",
     "saveButtonLabel": "Save",
@@ -430,7 +425,6 @@
   },
   "editUserPage": {
    "title": "Account Settings",
-   "successToastTitle": "Success",
    "userUpdated": "Your user profile changes have been saved.",
    "saveButtonLabel": "Save",
    "profileSettings": "Profile Settings",
@@ -443,17 +437,15 @@
        "expired": "Expired",
        "revoked": "Revoked"
      },
-     "notification": {
-       "createdMessage": "CREATED",
+     "message": {
        "createdDescription": "Your {{name}} integration is good to go!",
-       "successMessage": "SUCCESS",
        "successDescription": "Habla AI no longer has access to your account.",
-       "goneMessage": "GONE",
-       "goneDescription": "Your integration to {{name}} has been revoked and Habla AI no longer has access to it. Please go to {{link}} to complete the revocation.",
-       "notFoundMessage": "NOT FOUND",
-       "notFoundDescription": "We’re sorry, but something must’ve gone terribly wrong."
+       "goneDescription": "Your integration to {{name}} has been revoked and Habla AI no longer has access to it. Please go to {{uri}} to complete the revocation.",
+       "notFoundDescription": "We’re sorry, but something must’ve gone terribly wrong.",
+       "configUpdated": "Your {{name}} integration configuration has been updated."
      },
-     "integrations": "Integrations",
+     "integrations": "Data Integrations",
+     "saveButtonLabel": "Save Changes",
      "on": "ON",
      "off": "OFF",
      "activate": "Activate",
@@ -463,8 +455,9 @@
      "INTERNAL_SERVER_ERROR": "We’re sorry, but something must’ve gone terribly wrong"
   },
   "integrationsPage": {
-    "breadcrumb": "Integrations",
-    "selectIntegration": "Select the integration that you want to add.",
+    "breadcrumb": "Data Integrations",
+    "selectIntegration": "Select the Data Integration that you want to add to your Knowledge Graph.",
+    "upcomingIntegrations": "Upcoming Data Integrations",
     "providerError": "Error",
     "errorMessage": "Request for Integrations failed.",
     "successMessage": "Successful Integration",
@@ -501,7 +494,6 @@
     "usernamePlaceholder": "Enter Name of Person to Add",
     "removeLink": "Remove",
     "breadcrumb": "Invite to Team",
-    "errorToastMessage": "The specified user may not be a valid team member of the organization.",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
@@ -527,11 +519,13 @@
     "createNewTeamButtonLabel": "Create",
     "chooseTeamName": "Team Name",
     "uploadAvatar": "Upload Avatar",
-    "breadcrumb": "Add New Team"
+    "breadcrumb": "Add New Team",
+    "teamAddedToast": "Your Team has been created."
   },
   "newTeamRoomPage": {
     "title": "Choose a new Team Room Name",
     "createNewTeamRoomButtonLabel": "Create Team Room",
+    "teamRoomAddedToast": "Your Team Room has been created.",
     "breadcrumb": "Add New Team Room"
   },
   "cardView": {
@@ -567,6 +561,9 @@
   "teamMemberPage": {
     "breadcrumb": "Team Member",
     "profilePictureLabel": "Profile Picture",
+    "displayName": "Display Name: {{displayName}}",
+    "timeZone": "Time Zone: {{timeZone}}",
+    "memberSince": "Member since {{date}}",
     "activeStatus": "Online"
   },
   "notificationPage": {
@@ -581,16 +578,35 @@
   },
   "ckgPage": {
     "title": "CKG Time Activity Knowledge Graph",
+    "activityLabel": "Activity",
+    "allActivity": "All Activity",
+    "viewsActivity": "Views",
+    "sharesActivity": "Shares",
+    "dateLabel": "Select a Range of Dates",
+    "filterTypes": {
+      "one": "Data Type",
+      "zero": "No Data Currently Available",
+      "other": "Data Types"
+    },
+    "filterCount": {
+      "one": "1 {{label}}",
+      "other": "{{count}} {{label}}"
+    },
+    "integrationFileCount": {
+      "one": "1 {{label}} file",
+      "other": "{{count}} {{label}} files"
+    },
     "filterTypeOther": "Other"
   },
   "setNewPassword": {
     "submitLabel": "Next",
-    "passwordChangedToastTitle": "Password Changed",
-    "passwordChangedToastMessage": "Please sign in using your new password.",
+    "passwordChangedToastMessage": "Your password is changed. Please sign in using your new password.",
     "errorToastMessage": "The link to reset your password seems to be expired. Please try again.",
     "newPasswordPlaceholder": "New Password",
     "confirmNewPasswordPlaceholder": "Confirm New Password"
-
+  },
+  "subPageHeader": {
+	"linkToCKG": "View CKG"
   },
 
   "validationError": {

@@ -85,6 +85,7 @@ class CreateAccount extends React.Component {
                   form={this.props.form}
                   layout={layout}
                   required
+                  autoFocus
                 />
               </Col>
               <Col className="gutter-row" span={12}>

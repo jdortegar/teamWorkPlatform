@@ -172,6 +172,8 @@ class Register extends React.Component {
                 noLabel
                 required
                 componentKey="email"
+                initialValue={sessionStorage.getItem('habla-user-email')}
+                autoFocus
               />
               { this.renderPreRegisteredButtons() }
             </div>
