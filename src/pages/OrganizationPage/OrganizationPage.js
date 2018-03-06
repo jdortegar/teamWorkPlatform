@@ -79,6 +79,7 @@ class OrganizationPage extends Component {
   render() {
     const { teams, integrations, subscribers, subscribersPresences, subscriberOrgs, user, match } = this.props;
     if (match && match.params && match.params.subscriberOrgId && subscribers && subscribersPresences &&
+        subscriberOrgs && subscriberOrgs.subscriberOrgById && subscriberOrgs.subscriberOrgById[match.params.subscriberOrgId] &&
         teams && integrations && this.state.subscribersLoaded && this.state.integrationsLoaded && user) {
       const subscriberOrgId = match.params.subscriberOrgId;
       let isOrgAdmin = false;
