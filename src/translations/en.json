@@ -444,7 +444,7 @@
        "notFoundDescription": "We’re sorry, but something must’ve gone terribly wrong.",
        "configUpdated": "Your {{name}} integration configuration has been updated."
      },
-     "integrations": "Integrations",
+     "integrations": "Data Integrations",
      "saveButtonLabel": "Save Changes",
      "on": "ON",
      "off": "OFF",
@@ -455,7 +455,7 @@
      "INTERNAL_SERVER_ERROR": "We’re sorry, but something must’ve gone terribly wrong"
   },
   "integrationsPage": {
-    "breadcrumb": "Integrations",
+    "breadcrumb": "Data Integrations",
     "selectIntegration": "Select the Data Integration that you want to add to your Knowledge Graph.",
     "upcomingIntegrations": "Upcoming Data Integrations",
     "providerError": "Error",
