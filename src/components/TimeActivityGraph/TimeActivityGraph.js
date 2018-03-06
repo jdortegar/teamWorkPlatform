@@ -12,7 +12,7 @@ import {
 
 import String from '../../translations';
 import formatSize from '../../lib/formatSize';
-import { integrationImageFromResourceUri } from '../../utils/dataIntegrations';
+import { integrationKeyFromFile, integrationImageFromKey } from '../../utils/dataIntegrations';
 
 import FilePoint from './FilePoint';
 import styles from './styles/style';
@@ -98,14 +98,14 @@ class TimeActivityGraph extends Component {
   renderTooltipViews() {
     const { /* width, height, */ offsetLeft, offsetTop, tooltipPoint } = this.state;
     const { x, y, datum } = tooltipPoint;
-    const { date, fileName, fileSize, resourceUri } = datum;
+    const { date, fileName, fileSize } = datum;
     //  const top = offsetTop + (height - y) + 4;
     //  const left = -offsetLeft + -CHART_PADDING + (width - x) + (isChrome() ? 102 : -136);
     const top = y - offsetTop;
     const left = x - (offsetLeft - CHART_PADDING);
     const displayDate = moment(date).format(String.t('timeActivityGraph.dateFormat'));
     const displayTime = moment(date).format(String.t('timeActivityGraph.timeFormat'));
-    const imgSrc = integrationImageFromResourceUri(resourceUri);
+    const imgSrc = integrationImageFromKey(integrationKeyFromFile(datum));
 
     return (
       <div

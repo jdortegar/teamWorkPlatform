@@ -132,7 +132,9 @@ function availableIntegrations() {
   return possibleIntegrations;
 }
 
-function integrationKeyFromResourceUri(resourceUri) {
+function integrationKeyFromFile(file) {
+  const { source, resourceUri } = file;
+  if (source) return source;
   if (!resourceUri) return null;
   const match = Object.keys(possibleIntegrations).filter(key => resourceUri.indexOf(possibleIntegrations[key].uniqueUrl) > 0);
   return (match && match.length) ? possibleIntegrations[match[0]].key : null;
@@ -148,21 +150,14 @@ function integrationLabelFromKey(key) {
   return possibleIntegrations[key].label;
 }
 
-function integrationImageFromResourceUri(resourceUri) {
-  if (!resourceUri) return null;
-  const key = integrationKeyFromResourceUri(resourceUri);
-  return key ? possibleIntegrations[key].logo : null;
-}
-
 function integrationLinkFromKey(key) {
   return possibleIntegrations[key].link;
 }
 
 export {
   availableIntegrations,
-  integrationKeyFromResourceUri,
+  integrationKeyFromFile,
   integrationImageFromKey,
   integrationLabelFromKey,
-  integrationImageFromResourceUri,
   integrationLinkFromKey
 };

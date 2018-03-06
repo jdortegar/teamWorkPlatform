@@ -6,7 +6,7 @@ import * as d3 from 'd3';
 import String from '../../translations';
 import {
   integrationLabelFromKey,
-  integrationKeyFromResourceUri,
+  integrationKeyFromFile,
   integrationImageFromKey
 } from '../../utils/dataIntegrations';
 
@@ -76,9 +76,9 @@ class CKGPage extends Component {
     const { labels, integrations } = fileTypes;
     const other = String.t('ckgPage.filterTypeOther');
     const { excludeTypesFilter, excludeIntegrationsFilter } = this.state;
-    const filesFiltered = files.filter(({ fileExtension, resourceUri }) => {
-      const label = fileExtension || other;
-      const key = integrationKeyFromResourceUri(resourceUri);
+    const filesFiltered = files.filter((file) => {
+      const label = file.fileExtension || other;
+      const key = integrationKeyFromFile(file);
       return !excludeTypesFilter[label] && !excludeIntegrationsFilter[key];
     });
 

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { TIMEACTIVITIES_FETCH_SUCCESS } from '../actions';
 import String from '../../translations';
-import { integrationKeyFromResourceUri } from '../../utils/dataIntegrations';
+import { integrationKeyFromFile } from '../../utils/dataIntegrations';
 
 const INITIAL_STATE = {
   fileTypes: [],
@@ -14,7 +14,8 @@ function getUniqueFileTypes(files) {
   const other = String.t('ckgPage.filterTypeOther');
   const foundLabels = {};
   const dataIntegrations = {};
-  const filteredFiles = files.filter(({ fileType, fileExtension, resourceUri }) => {
+  const filteredFiles = files.filter((file) => {
+    const { fileType, fileExtension } = file;
     const label = fileExtension || other;
     const count = foundLabels[label] ? foundLabels[label].count : 0;
     foundLabels[label] = {
@@ -24,7 +25,7 @@ function getUniqueFileTypes(files) {
       count: count + 1
     };
 
-    const key = integrationKeyFromResourceUri(resourceUri);
+    const key = integrationKeyFromFile(file);
     if (key) {
       dataIntegrations[key] = {
         key,
