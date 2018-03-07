@@ -87,7 +87,7 @@ function renderAvatar(item, enabled) {
     'opacity-low': !enabled
   });
   if (preferences.logo) {
-    return <Avatar src={preferences.logo} className={className} />;
+    return <Avatar src={preferences.logo} color="#FFF" className={className} />;
   }
   if (preferences.avatarBase64) {
     return <Avatar src={`data:image/jpeg;base64, ${preferences.avatarBase64}`} className={className} />;
