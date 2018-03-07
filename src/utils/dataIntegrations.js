@@ -21,28 +21,24 @@ const possibleIntegrations = {
     key: 'box',
     label: 'Box', // TODO: localize??
     logo: boxLogo,
-    uniqueUrl: 'box.com',
     link: 'https://app.box.com/apps'
   },
   google: {
     key: 'google',
     label: 'Google Drive', // TODO: localize??
     logo: googleDriveLogo,
-    uniqueUrl: 'google.com',
     link: 'https://drive.google.com/drive/u/0/my-drive'
   },
   gsuite: {
     key: 'google', // *** maps to the Google Drive integration ***
     label: 'G Suite by Google Cloud', // TODO: localize??
     logo: gSuiteLogo,
-    uniqueUrl: 'google.com',
     link: 'https://drive.google.com/drive/u/0/my-drive'
   },
   sharepoint: {
     key: 'sharepoint',
     label: 'SharePoint', // TODO: localize??
     logo: sharepointLogo,
-    uniqueUrl: 'sharepoint.com', // TODO: test this out
     link: 'https://sharepoint.com',
     config: {
       params: [{
@@ -67,63 +63,54 @@ const possibleIntegrations = {
     key: 'onedrive',
     label: 'OneDrive',
     logo: oneDriveLogo,
-    uniqueUrl: 'onedrive.com', // TODO: test this out
     link: null
   },
   office365: {
     key: 'onedrive', // *** maps to the oneDrive integration ***
     label: 'Office365',
     logo: office365Logo,
-    uniqueUrl: 'onedrive.com', // TODO: test this out
     link: null
   },
   salesforce: {
     key: 'salesforce',
     label: 'Salesforce',
     logo: salesforceLogo,
-    uniqueUrl: 'salesforce.com', // TODO: test this out
     link: null
   },
   dropBox: {
     key: 'dropbox',
     label: 'Dropbox',
     logo: dropboxLogo,
-    uniqueUrl: 'dropbox.com',
     link: null
   },
   jira: {
     key: 'jira',
     label: 'Jira',
     logo: jiraLogo,
-    uniqueUrl: 'jira.com',
     link: null
   },
   slack: {
     key: 'slack',
     label: 'Slack',
     logo: slackLogo,
-    uniqueUrl: 'slack.com',
     link: null
   },
   trello: {
     key: 'trello',
     label: 'Trello',
     logo: trelloLogo,
-    uniqueUrl: 'trello.com',
     link: null
   },
   github: {
     key: 'github',
     label: 'Github',
     logo: gitHubLogo,
-    uniqueUrl: 'github.com',
     link: null
   },
   ibmconn: {
     key: 'ibmconn',
     label: 'IBM Connections Cloud',
     logo: ibmConnectionsLogo,
-    uniqueUrl: 'ibm.com',
     link: null
   }
 };
@@ -133,11 +120,7 @@ function availableIntegrations() {
 }
 
 function integrationKeyFromFile(file) {
-  const { fileSource, resourceUri } = file;
-  if (fileSource) return fileSource;
-  if (!resourceUri) return null;
-  const match = Object.keys(possibleIntegrations).filter(key => resourceUri.indexOf(possibleIntegrations[key].uniqueUrl) > 0);
-  return (match && match.length) ? possibleIntegrations[match[0]].key : null;
+  return file.fileSource;
 }
 
 function integrationImageFromKey(key) {
