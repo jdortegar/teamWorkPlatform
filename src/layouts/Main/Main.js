@@ -4,21 +4,26 @@ import PropTypes from 'prop-types';
 import Header from 'containers/Header';
 import Sidebar from 'containers/Sidebar';
 import MainContent from 'containers/MainContent';
-import { AddOrgDialog,
-  OrgSettingsDialog,
-  InvitePeopleDialog,
+import {
   AddTeamDialog,
   AddTeamRoomDialog
 } from 'containers/dialogs';
 import './styles/main.css';
 
 const propTypes = {
-  fetchGlobalState: PropTypes.func.isRequired
+  fetchGlobalState: PropTypes.func.isRequired,
+  subscriberOrgs: PropTypes.object.isRequired
 };
 
 class Main extends React.Component {
   componentDidMount() {
     this.props.fetchGlobalState();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.subscriberOrgs.currentSubscriberOrgId !== nextProps.subscriberOrgs.currentSubscriberOrgId) {
+      this.props.fetchGlobalState();
+    }
   }
 
   render() {
@@ -29,10 +34,7 @@ class Main extends React.Component {
           <Sidebar />
           <Layout className="habla-main-content">
             <MainContent />
-            <AddOrgDialog />
             <AddTeamDialog />
-            <InvitePeopleDialog />
-            <OrgSettingsDialog />
             <AddTeamRoomDialog />
           </Layout>
         </Layout>
