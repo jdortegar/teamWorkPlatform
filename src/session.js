@@ -51,8 +51,10 @@ const storeLastRoute = () => {
   // if (process.env.NODE_ENV === 'production') {
   //   Cookie.set(`${LAST_ROUTE_COOKIE_NAME_PREFIX}__${userId}`, `${pathname}${search}`, { secure: true, expires: 7 });
   // } else {
-  Cookie.set(`${LAST_ROUTE_COOKIE_NAME_PREFIX}__${userId}`, `${pathname}${search}`, { expires: 7 });
-  Cookie.set(`${LAST_SUBSCRIBER_ORG_ID}__${userId}`, currentSubscriberOrgId, { expires: 7 });
+  if (currentSubscriberOrgId) {
+    Cookie.set(`${LAST_ROUTE_COOKIE_NAME_PREFIX}__${userId}`, `${pathname}${search}`, { expires: 7 });
+    Cookie.set(`${LAST_SUBSCRIBER_ORG_ID}__${userId}`, currentSubscriberOrgId, { expires: 7 });
+  }
   // }
 };
 
@@ -157,7 +159,7 @@ export const login = (email, password) => {
 
         const userSpecificLastSubscriberOrgId = `${LAST_SUBSCRIBER_ORG_ID}__${user.userId}`;
         const currentSubscriberOrgId = Cookie.get(userSpecificLastSubscriberOrgId);
-        if (currentSubscriberOrgId) {
+        if (currentSubscriberOrgId && (currentSubscriberOrgId !== 'null')) {
           store.dispatch(setCurrentSubscriberOrgId(currentSubscriberOrgId));
           Cookie.remove(userSpecificLastSubscriberOrgId);
         }

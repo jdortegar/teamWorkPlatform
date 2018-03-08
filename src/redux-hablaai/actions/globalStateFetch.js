@@ -12,10 +12,11 @@ import { fetchSubscribersBySubscriberOrgId } from './subscribersFetch';
 export const fetchGlobalState = () => { // eslint-disable-line import/prefer-default-export
   return (dispatch, getState) => {
     const state = getState();
+    const { currentSubscriberOrgId } = state.subscriberOrgs;
     if (Object.keys(state.subscriberOrgs.subscriberOrgById).length === 0) {
       dispatch(fetchSubscriberOrgs());
     }
-    if (Object.keys(state.teams.teamById).length === 0) {
+    if (Object.keys(state.teams.teamById).length === 0 || (!state.teams.teamIdsBySubscriberOrgId[currentSubscriberOrgId] && currentSubscriberOrgId)) {
       dispatch(fetchTeams());
     }
     if (Object.keys(state.teamRooms.teamRoomById).length === 0) {
@@ -25,7 +26,6 @@ export const fetchGlobalState = () => { // eslint-disable-line import/prefer-def
       dispatch(fetchReadMessages());
     }
     if (Object.keys(state.subscribers.subscriberUserIdBySubscriberOrgIdByUserId).length === 0) {
-      const { currentSubscriberOrgId } = state.subscriberOrgs;
       if (currentSubscriberOrgId) {
         dispatch(fetchSubscribersBySubscriberOrgId(currentSubscriberOrgId));
       }

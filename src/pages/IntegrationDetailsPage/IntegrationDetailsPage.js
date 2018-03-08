@@ -11,8 +11,8 @@ import String from '../../translations';
 import {
   integrationImageFromKey,
   integrationLabelFromKey,
-  integrationLinkFromKey,
-  availableIntegrations
+  integrationConfigFromKey,
+  integrationMapping
 } from '../../utils/dataIntegrations';
 import './styles/style.css';
 
@@ -32,12 +32,10 @@ function determineStatus(integration) {
 function showNotification(response, integration) {
   const { status } = response;
   const name = integrationLabelFromKey(integration);
-  const uri = integrationLinkFromKey(integration);
-  const link = `<a target="_blank" href=${uri}>${uri}</a>`;
   if (status === 200) {
     message.success(String.t('integrationDetailsPage.message.successDescription'));
   } else if (status === 410) {
-    message.error(String.t('integrationDetailsPage.message.goneDescription', { name, link }));
+    message.error(String.t('integrationDetailsPage.message.goneDescription', { name }));
   } else {
     message.error(String.t('integrationDetailsPage.message.notFoundDescription'));
   }
@@ -65,14 +63,13 @@ class IntegrationDetailsPage extends Component {
   constructor(props) {
     super(props);
 
-    const possibleIntegrations = availableIntegrations();
     const { integrationDetails } = props.match.params;
-    const currentIntegration = possibleIntegrations[integrationDetails];
+    const config = integrationConfigFromKey(integrationDetails);
     let configParams = null;
     let configFolders = null;
-    if (currentIntegration && currentIntegration.config) {
-      configParams = currentIntegration.config.params;
-      configFolders = currentIntegration.config.folders;
+    if (config) {
+      configParams = config.params;
+      configFolders = config.folders;
     }
     this.state = {
       view: 'card',
@@ -154,8 +151,7 @@ class IntegrationDetailsPage extends Component {
 
   handleIntegration(checked) {
     const { integrationDetails, subscriberOrgId } = this.props.match.params;
-    const possibleIntegrations = availableIntegrations();
-    const currentIntegration = possibleIntegrations[integrationDetails];
+    const key = integrationMapping(integrationDetails);
     if (checked) {
       let configParams = null;
       if (this.state.configParams) {
@@ -164,10 +160,10 @@ class IntegrationDetailsPage extends Component {
           configParams[param.key] = this[param.key].value;
         });
       }
-      this.props.integrateIntegration(currentIntegration.key, subscriberOrgId, configParams);
+      this.props.integrateIntegration(key, subscriberOrgId, configParams);
     } else {
-      this.props.revokeIntegration(currentIntegration.key, subscriberOrgId)
-        .then(res => showNotification(res, currentIntegration.key));
+      this.props.revokeIntegration(key, subscriberOrgId)
+        .then(res => showNotification(res, key));
     }
   }
 
@@ -216,11 +212,11 @@ class IntegrationDetailsPage extends Component {
       return <Spinner />;
     }
 
-    const possibleIntegrations = availableIntegrations();
-    const imgSrc = integrationImageFromKey(integrationDetails);
-    const name = integrationLabelFromKey(integrationDetails);
+    const integrationKey = integrationMapping(integrationDetails);
+    const imgSrc = integrationImageFromKey(integrationKey);
+    const name = integrationLabelFromKey(integrationKey);
     const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || {};
-    const integration = integrations[possibleIntegrations[integrationDetails].key];
+    const integration = integrations[integrationKey];
     const currStatus = determineStatus(integration);
     const tooltipTitle = currStatus === 'Active' ? String.t('integrationDetailsPage.deactivate') : String.t('integrationDetailsPage.activate');
     let disabledSwitch = false;

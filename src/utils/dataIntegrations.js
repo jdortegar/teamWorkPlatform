@@ -18,32 +18,27 @@ import {
 
 const possibleIntegrations = {
   box: {
-    key: 'box',
     label: 'Box', // TODO: localize??
     logo: boxLogo,
-    uniqueUrl: 'box.com',
-    link: 'https://app.box.com/apps'
+    isSupported: true
   },
   google: {
-    key: 'google',
     label: 'Google Drive', // TODO: localize??
     logo: googleDriveLogo,
-    uniqueUrl: 'google.com',
-    link: 'https://drive.google.com/drive/u/0/my-drive'
+    isSupported: true
   },
   gsuite: {
     key: 'google', // *** maps to the Google Drive integration ***
     label: 'G Suite by Google Cloud', // TODO: localize??
     logo: gSuiteLogo,
-    uniqueUrl: 'google.com',
-    link: 'https://drive.google.com/drive/u/0/my-drive'
+    isSupported: true,
+    mappedToKey: 'google'
   },
   sharepoint: {
     key: 'sharepoint',
     label: 'SharePoint', // TODO: localize??
     logo: sharepointLogo,
-    uniqueUrl: 'sharepoint.com', // TODO: test this out
-    link: 'https://sharepoint.com',
+    isSupported: true,
     config: {
       params: [{
         key: 'sharepointOrg', // used to set value and to returned it via integrations.sharepoint.sharepointOrg
@@ -66,78 +61,57 @@ const possibleIntegrations = {
   oneDrive: {
     key: 'onedrive',
     label: 'OneDrive',
-    logo: oneDriveLogo,
-    uniqueUrl: 'onedrive.com', // TODO: test this out
-    link: null
+    logo: oneDriveLogo
   },
   office365: {
     key: 'onedrive', // *** maps to the oneDrive integration ***
     label: 'Office365',
     logo: office365Logo,
-    uniqueUrl: 'onedrive.com', // TODO: test this out
-    link: null
+    mappedToKey: 'onedrive'
   },
   salesforce: {
     key: 'salesforce',
     label: 'Salesforce',
-    logo: salesforceLogo,
-    uniqueUrl: 'salesforce.com', // TODO: test this out
-    link: null
+    logo: salesforceLogo
   },
   dropBox: {
     key: 'dropbox',
     label: 'Dropbox',
-    logo: dropboxLogo,
-    uniqueUrl: 'dropbox.com',
-    link: null
+    logo: dropboxLogo
   },
   jira: {
     key: 'jira',
     label: 'Jira',
-    logo: jiraLogo,
-    uniqueUrl: 'jira.com',
-    link: null
+    logo: jiraLogo
   },
   slack: {
     key: 'slack',
     label: 'Slack',
-    logo: slackLogo,
-    uniqueUrl: 'slack.com',
-    link: null
+    logo: slackLogo
   },
   trello: {
     key: 'trello',
     label: 'Trello',
-    logo: trelloLogo,
-    uniqueUrl: 'trello.com',
-    link: null
+    logo: trelloLogo
   },
   github: {
     key: 'github',
     label: 'Github',
-    logo: gitHubLogo,
-    uniqueUrl: 'github.com',
-    link: null
+    logo: gitHubLogo
   },
   ibmconn: {
     key: 'ibmconn',
     label: 'IBM Connections Cloud',
-    logo: ibmConnectionsLogo,
-    uniqueUrl: 'ibm.com',
-    link: null
+    logo: ibmConnectionsLogo
   }
 };
 
-function availableIntegrations() {
-  return possibleIntegrations;
+function availableIntegrationKeys() {
+  return Object.keys(possibleIntegrations);
 }
 
 function integrationKeyFromFile(file) {
-  const { fileSource, resourceUri } = file;
-  if (fileSource) return fileSource;
-  if (!resourceUri) return null;
-  const match = Object.keys(possibleIntegrations).filter(key => resourceUri.indexOf(possibleIntegrations[key].uniqueUrl) > 0);
-  return (match && match.length) ? possibleIntegrations[match[0]].key : null;
+  return file.fileSource;
 }
 
 function integrationImageFromKey(key) {
@@ -150,14 +124,24 @@ function integrationLabelFromKey(key) {
   return possibleIntegrations[key].label;
 }
 
-function integrationLinkFromKey(key) {
-  return possibleIntegrations[key].link;
+function integrationIsSupported(key) {
+  return possibleIntegrations[key].isSupported;
+}
+
+function integrationMapping(key) {
+  return possibleIntegrations[key].mappedToKey || key;
+}
+
+function integrationConfigFromKey(key) {
+  return possibleIntegrations[key].config;
 }
 
 export {
-  availableIntegrations,
+  availableIntegrationKeys,
   integrationKeyFromFile,
   integrationImageFromKey,
   integrationLabelFromKey,
-  integrationLinkFromKey
+  integrationIsSupported,
+  integrationMapping,
+  integrationConfigFromKey
 };
