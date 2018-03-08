@@ -77,7 +77,8 @@ class MainContent extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.invitation.length > this.props.invitation) {
+    const invitations = nextProps.invitation ? this.getValidInvites(nextProps.invitation) : [];
+    if (invitations.length > this.props.invitation) {
       const audio = new Audio(sound1);
       audio.play();
     }

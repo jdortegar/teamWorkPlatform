@@ -440,7 +440,7 @@
      "message": {
        "createdDescription": "Your {{name}} integration is good to go!",
        "successDescription": "Habla AI no longer has access to your account.",
-       "goneDescription": "Your integration to {{name}} has been revoked and Habla AI no longer has access to it. Please go to {{uri}} to complete the revocation.",
+       "goneDescription": "Your integration to {{name}} has been revoked and Habla AI no longer has access to it. Please go to the {{name}} web site to complete the revocation.",
        "notFoundDescription": "We’re sorry, but something must’ve gone terribly wrong.",
        "configUpdated": "Your {{name}} integration configuration has been updated."
      },
