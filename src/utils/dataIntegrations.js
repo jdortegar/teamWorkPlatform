@@ -18,28 +18,27 @@ import {
 
 const possibleIntegrations = {
   box: {
-    key: 'box',
     label: 'Box', // TODO: localize??
     logo: boxLogo,
-    link: 'https://app.box.com/apps'
+    isSupported: true
   },
   google: {
-    key: 'google',
     label: 'Google Drive', // TODO: localize??
     logo: googleDriveLogo,
-    link: 'https://drive.google.com/drive/u/0/my-drive'
+    isSupported: true
   },
   gsuite: {
     key: 'google', // *** maps to the Google Drive integration ***
     label: 'G Suite by Google Cloud', // TODO: localize??
     logo: gSuiteLogo,
-    link: 'https://drive.google.com/drive/u/0/my-drive'
+    isSupported: true,
+    mappedToKey: 'google'
   },
   sharepoint: {
     key: 'sharepoint',
     label: 'SharePoint', // TODO: localize??
     logo: sharepointLogo,
-    link: 'https://sharepoint.com',
+    isSupported: true,
     config: {
       params: [{
         key: 'sharepointOrg', // used to set value and to returned it via integrations.sharepoint.sharepointOrg
@@ -62,61 +61,53 @@ const possibleIntegrations = {
   oneDrive: {
     key: 'onedrive',
     label: 'OneDrive',
-    logo: oneDriveLogo,
-    link: null
+    logo: oneDriveLogo
   },
   office365: {
     key: 'onedrive', // *** maps to the oneDrive integration ***
     label: 'Office365',
     logo: office365Logo,
-    link: null
+    mappedToKey: 'onedrive'
   },
   salesforce: {
     key: 'salesforce',
     label: 'Salesforce',
-    logo: salesforceLogo,
-    link: null
+    logo: salesforceLogo
   },
   dropBox: {
     key: 'dropbox',
     label: 'Dropbox',
-    logo: dropboxLogo,
-    link: null
+    logo: dropboxLogo
   },
   jira: {
     key: 'jira',
     label: 'Jira',
-    logo: jiraLogo,
-    link: null
+    logo: jiraLogo
   },
   slack: {
     key: 'slack',
     label: 'Slack',
-    logo: slackLogo,
-    link: null
+    logo: slackLogo
   },
   trello: {
     key: 'trello',
     label: 'Trello',
-    logo: trelloLogo,
-    link: null
+    logo: trelloLogo
   },
   github: {
     key: 'github',
     label: 'Github',
-    logo: gitHubLogo,
-    link: null
+    logo: gitHubLogo
   },
   ibmconn: {
     key: 'ibmconn',
     label: 'IBM Connections Cloud',
-    logo: ibmConnectionsLogo,
-    link: null
+    logo: ibmConnectionsLogo
   }
 };
 
-function availableIntegrations() {
-  return possibleIntegrations;
+function availableIntegrationKeys() {
+  return Object.keys(possibleIntegrations);
 }
 
 function integrationKeyFromFile(file) {
@@ -133,14 +124,24 @@ function integrationLabelFromKey(key) {
   return possibleIntegrations[key].label;
 }
 
-function integrationLinkFromKey(key) {
-  return possibleIntegrations[key].link;
+function integrationIsSupported(key) {
+  return possibleIntegrations[key].isSupported;
+}
+
+function integrationMapping(key) {
+  return possibleIntegrations[key].mappedToKey || key;
+}
+
+function integrationConfigFromKey(key) {
+  return possibleIntegrations[key].config;
 }
 
 export {
-  availableIntegrations,
+  availableIntegrationKeys,
   integrationKeyFromFile,
   integrationImageFromKey,
   integrationLabelFromKey,
-  integrationLinkFromKey
+  integrationIsSupported,
+  integrationMapping,
+  integrationConfigFromKey
 };

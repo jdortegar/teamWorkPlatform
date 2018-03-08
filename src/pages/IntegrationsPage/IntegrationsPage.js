@@ -11,9 +11,11 @@ import { ImageCard } from '../../components/cards';
 import Spinner from '../../components/Spinner';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
 import {
-  availableIntegrations,
+  availableIntegrationKeys,
   integrationImageFromKey,
-  integrationLabelFromKey
+  integrationIsSupported,
+  integrationLabelFromKey,
+  integrationMapping
 } from '../../utils/dataIntegrations';
 import String from '../../translations';
 import './styles/style.css';
@@ -68,7 +70,7 @@ class IntegrationsPage extends Component {
 
   render() {
     const { integrationsBySubscriberOrgId, working, error } = this.props.integrations;
-    const possibleIntegrations = availableIntegrations();
+    const possibleIntegrationKeys = availableIntegrationKeys();
 
     if (error) {
       return (
@@ -91,11 +93,12 @@ class IntegrationsPage extends Component {
     const renderIntegrations = (active) => {
       const integrationsArr = [];
 
-      Object.keys(possibleIntegrations).forEach((key) => {
-        if (active === (possibleIntegrations[key].link === null)) return;
+      possibleIntegrationKeys.forEach((key) => {
+        if (active === (!integrationIsSupported(key))) return; // put this mapping in the correct section
         let extra = null;
-        if (!_.isEmpty(integrations) && integrations[possibleIntegrations[key].key]) {
-          const { expired, revoked } = integrations[possibleIntegrations[key].key];
+        const mappedKey = integrationMapping(key);
+        if (!_.isEmpty(integrations) && integrations[mappedKey]) {
+          const { expired, revoked } = integrations[mappedKey];
           if ((typeof revoked === 'undefined') || (revoked === false)) {
             extra = (<i className="fa fa-check-circle icon_success habla-green" />);
             if (expired === true) {
