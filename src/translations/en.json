@@ -487,7 +487,7 @@
    "sendInvitationsButtonLabel": {
       "zero": "Send Invitation",
       "one": "Send Invitation",
-      "other": "Send Invitations"
+      "other": "Send {{count}} Invitations"
     },
     "inviteButtonLabel": "INVITE",
     "reInviteButtonLabel": "RE-INVITE",
@@ -503,7 +503,7 @@
    "sendInvitationsButtonLabel": {
       "zero": "Send Invitation",
       "one": "Send Invitation",
-      "other": "Send Invitations"
+      "other": "Send {{count}} Invitations"
     },
     "addAnother": "Add Another",
     "username": "New Team Room Member",

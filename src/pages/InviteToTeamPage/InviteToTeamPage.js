@@ -34,17 +34,21 @@ class InviteToTeamPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { loading: false, inviteesArr: [0], dataSource: [] };
+    this.state = { loading: false, invitees: [] };
 
     this.invitePressed = this.invitePressed.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   invitePressed(member) {
-    if (member) return;
-    this.setState(previousState => ({
-      inviteesArr: [...previousState.inviteesArr, member]
-    }));
+    const invitees = { ...this.state.invitees };
+    if (this.state.invitees[member.userId]) { // found, so remove member
+      delete invitees[member.userId];
+      this.setState({ invitees });
+    } else { // not found, so add member
+      invitees[member.userId] = true;
+      this.setState({ invitees });
+    }
   }
 
   handleSubmit() {
@@ -67,9 +71,11 @@ class InviteToTeamPage extends Component {
     });
   }
 
-  renderInvitees() {
+  renderInvitees(team) {
     return this.props.subscribers.map((member, index) => {
       const { userId, online } = member;
+      const isMember = member.teams && (member.teams[team.teamId] !== undefined);
+      const isPending = this.state.invitees[member.userId] != null;
       const avatarClassName = classNames({ 'opacity-low': !online });
       return (
         <div
@@ -83,15 +89,35 @@ class InviteToTeamPage extends Component {
           <div className="Invite-To-Team__member-text">
             <div>{String.t('inviteToTeamPage.membersListItem', member)}</div>
           </div>
-          <a className="Invite-To-Team__inviteButton-text">
-            {String.t('inviteToTeamPage.inviteButtonLabel')}
-          </a>
-          <div
-            claseName="Invite-To-Team-InviteButton"
-            onClick={() => this.invitePressed(member)}
+          <a
+            onClick={() => {
+              if (!isMember) {
+                this.invitePressed(member);
+              }
+            }}
+            className="Invite-To-Team__inviteButton-text"
           >
-            <i className="fas fa-check-circle" style={{ color: '#32a953', fontSize: 20 }} />
-          </div>
+            {!isMember && !isPending && String.t('inviteToTeamPage.inviteButtonLabel')}
+            {(isMember || isPending) &&
+            <div
+              claseName="Invite-To-Team-InviteButton"
+              onClick={() => {
+                if (!isMember) {
+                  this.invitePressed(member);
+                }
+              }}
+            >
+              <i
+                className={isMember ? 'far fa-check-circle' : 'fas fa-check'}
+                style={{
+                  color: isMember ? 'black' : '#32a953',
+                  opacity: isMember ? 0.5 : 1.0,
+                  fontSize: 20
+                }}
+              />
+            </div>
+            }
+          </a>
         </div>
       );
     });
@@ -142,7 +168,7 @@ class InviteToTeamPage extends Component {
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="padding-class-a">
               <h1 className="Invite-To-Team__title mb-1">{instructions}</h1>
-              {this.renderInvitees()}
+              {this.renderInvitees(team)}
             </div>
             <div className="edit-org__buttons border-top-light margin-top-class-a">
               <Button
@@ -159,7 +185,7 @@ class InviteToTeamPage extends Component {
                 onClick={this.handleSubmit}
                 loading={this.state.loading}
               >
-                {String.t('inviteToTeamPage.sendInvitationsButtonLabel', { count: this.state.inviteesArr.length })}
+                {String.t('inviteToTeamPage.sendInvitationsButtonLabel', { count: Object.keys(this.state.invitees).length })}
               </Button>
             </div>
           </Form>
