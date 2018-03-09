@@ -124,10 +124,9 @@ function CardView(props) {
 
   const renderIntegrations = () => {
     const integrationsArr = [];
-    const subscriberIntegrations = integrations.integrationsBySubscriberOrgId[subscriberOrgId];
-    if (!_.isEmpty(subscriberIntegrations)) {
-      Object.keys(subscriberIntegrations).forEach((key) => {
-        const integration = integrations.integrationsBySubscriberOrgId[subscriberOrgId];
+    if (!_.isEmpty(integrations)) {
+      Object.keys(integrations).forEach((key) => {
+        const integration = integrations[key];
         integrationsArr.push(renderIntegration(key, integration));
       });
     }
