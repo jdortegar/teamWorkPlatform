@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, message } from 'antd';
+import { Form, message } from 'antd';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import classNames from 'classnames';
 import BreadCrumb from '../../components/BreadCrumb';
+import AvatarWrapper from '../../components/common/Avatar/AvatarWrapper';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
-import AutoCompleteField from '../../components/formFields/AutoCompleteField/';
 import { formShape } from '../../propTypes';
 import Button from '../../components/common/Button';
 import Spinner from '../../components/Spinner';
@@ -33,25 +34,17 @@ class InviteToTeamPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { loading: false, invitees: 0, inviteesArr: [0], dataSource: [] };
+    this.state = { loading: false, inviteesArr: [0], dataSource: [] };
 
-    this.addInvitees = this.addInvitees.bind(this);
-    this.removeInvitees = this.removeInvitees.bind(this);
+    this.invitePressed = this.invitePressed.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  addInvitees() {
-    if (this.state.invitees < 5) {
-      this.setState(previousState => ({ invitees: previousState.invitees + 1, inviteesArr: [...previousState.inviteesArr, previousState.invitees + 1] }));
-    }
-  }
-
-  removeInvitees(field) {
-    const updatedInvitees = this.state.inviteesArr.filter((el) => {
-      return el !== field;
-    });
-
-    this.setState({ inviteesArr: updatedInvitees });
+  invitePressed(member) {
+    if (member) return;
+    this.setState(previousState => ({
+      inviteesArr: [...previousState.inviteesArr, member]
+    }));
   }
 
   handleSubmit() {
@@ -75,37 +68,31 @@ class InviteToTeamPage extends Component {
   }
 
   renderInvitees() {
-    const users = this.props.subscribers;
-    const { teamId } = this.props.match.params;
-    const dataSource = users.reduce((acc, { firstName, lastName, displayName, userId, teams }) => {
-      if (!teams[teamId]) {
-        acc.push({ text: `${displayName} - ${firstName} ${lastName}`, value: userId });
-      }
-      return acc;
-    }, []);
-
-    return this.state.inviteesArr.map((el, index) => {
+    return this.props.subscribers.map((member, index) => {
+      const { userId, online } = member;
+      const avatarClassName = classNames({ 'opacity-low': !online });
       return (
-        <Row key={el} gutter={16} type="flex" className="Invite-To-Team__email-row">
-          <Col className="gutter-row" span={20}>
-            <AutoCompleteField
-              componentKey={`username${el}`}
-              autoCompleteClassName="Invite-To-Team__textfield"
-              form={this.props.form}
-              placeholder={String.t('inviteToTeamPage.usernamePlaceholder')}
-              label=""
-              required
-              autoFocus={index === this.state.inviteesArr.length - 1}
-              dataSource={dataSource}
-            />
-          </Col>
-          {
-            this.state.inviteesArr.length > 1 ?
-              <Col className="gutter-row" span={3}>
-                <a onClick={() => this.removeInvitees(el)} className="remove-field">{String.t('inviteToTeamPage.removeLink')}</a>
-              </Col> : null
-          }
-        </Row>
+        <div
+          key={userId}
+          className="Invite-To-Team__member-row"
+          style={{ backgroundColor: ((index % 2) === 0) ? '#f4f4f4' : 'white' }}
+        >
+          <div className="Invite-To-Team__member-image">
+            <AvatarWrapper key={userId} user={member} size="default" className={avatarClassName} />
+          </div>
+          <div className="Invite-To-Team__member-text">
+            <div>{String.t('inviteToTeamPage.membersListItem', member)}</div>
+          </div>
+          <a className="Invite-To-Team__inviteButton-text">
+            {String.t('inviteToTeamPage.inviteButtonLabel')}
+          </a>
+          <div
+            claseName="Invite-To-Team-InviteButton"
+            onClick={() => this.invitePressed(member)}
+          >
+            <i className="fas fa-check-circle" style={{ color: '#32a953', fontSize: 20 }} />
+          </div>
+        </div>
       );
     });
   }
@@ -128,6 +115,7 @@ class InviteToTeamPage extends Component {
       return null;
     }
 
+    const instructions = String.t('inviteToTeamPage.instructions', { name: team.name });
     return (
       <div>
         <SubpageHeader
@@ -153,17 +141,10 @@ class InviteToTeamPage extends Component {
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="padding-class-a">
-              <h1 className="Invite-To-Team__title">{String.t('inviteToTeamPage.username')}</h1>
+              <h1 className="Invite-To-Team__title mb-1">{instructions}</h1>
               {this.renderInvitees()}
             </div>
-            <div className="padding-class-a">
-              <a onClick={this.addInvitees} className="Invite-To-Team__add-another">
-                <span>
-                  <i className="fa fa-plus-circle margin-right-class-a" />{String.t('inviteToTeamPage.addAnother')}
-                </span>
-              </a>
-            </div>
-            <div className="edit-org__buttons border-top-lighter margin-top-class-a">
+            <div className="edit-org__buttons border-top-light margin-top-class-a">
               <Button
                 type="secondary"
                 fitText

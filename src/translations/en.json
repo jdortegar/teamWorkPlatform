@@ -489,11 +489,11 @@
       "one": "Send Invitation",
       "other": "Send Invitations"
     },
-    "addAnother": "Add Another",
-    "username": "New Team Member",
-    "usernamePlaceholder": "Enter Name of Person to Add",
-    "removeLink": "Remove",
-    "breadcrumb": "Invite to Team",
+    "inviteButtonLabel": "INVITE",
+    "reInviteButtonLabel": "RE-INVITE",
+    "instructions": "Invite Teams Members to Join \"{{name}}\"",
+    "membersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
+    "breadcrumb": "Invite Team Members",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
