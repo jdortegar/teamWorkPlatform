@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, message } from 'antd';
+import { Form, message } from 'antd';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import classNames from 'classnames';
 import BreadCrumb from '../../components/BreadCrumb';
+import AvatarWrapper from '../../components/common/Avatar/AvatarWrapper';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
-import AutoCompleteField from '../../components/formFields/AutoCompleteField/';
-import { formShape } from '../../propTypes';
 import Button from '../../components/common/Button';
 import Spinner from '../../components/Spinner';
 import String from '../../translations';
 import './styles/style.css';
 
 const propTypes = {
-  form: formShape.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
     replace: PropTypes.func.isRequired
@@ -33,79 +31,80 @@ class InviteToTeamPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { loading: false, invitees: 0, inviteesArr: [0], dataSource: [] };
+    this.state = { loading: false, invitees: [] };
 
-    this.addInvitees = this.addInvitees.bind(this);
-    this.removeInvitees = this.removeInvitees.bind(this);
+    this.invitePressed = this.invitePressed.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  addInvitees() {
-    if (this.state.invitees < 5) {
-      this.setState(previousState => ({ invitees: previousState.invitees + 1, inviteesArr: [...previousState.inviteesArr, previousState.invitees + 1] }));
+  invitePressed(member) {
+    const invitees = { ...this.state.invitees };
+    if (this.state.invitees[member.userId]) { // found, so remove member
+      delete invitees[member.userId];
+      this.setState({ invitees });
+    } else { // not found, so add member
+      invitees[member.userId] = true;
+      this.setState({ invitees });
     }
-  }
-
-  removeInvitees(field) {
-    const updatedInvitees = this.state.inviteesArr.filter((el) => {
-      return el !== field;
-    });
-
-    this.setState({ inviteesArr: updatedInvitees });
   }
 
   handleSubmit() {
     const { teamId } = this.props.match.params;
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        const users = _.values(values);
-        this.setState({ loading: true });
-        this.props.inviteMembersToTeam(users)
-          .then(() => {
-            this.setState({ loading: false });
-            this.props.history.push(`/app/team/${teamId}/invitationSent`);
-            message.success(String.t('inviteToTeamPage.invitationSent', { count: users.length }));
-          })
-          .catch((error) => {
-            this.setState({ loading: false });
-            message.error(error.message);
-          });
-      }
-    });
+    const users = Object.keys(this.state.invitees);
+    this.setState({ loading: true });
+    this.props.inviteMembersToTeam(users)
+      .then(() => {
+        this.setState({ loading: false });
+        this.props.history.push(`/app/team/${teamId}`);
+        message.success(String.t('inviteToTeamPage.invitationSent', { count: users.length }));
+      })
+      .catch((error) => {
+        this.setState({ loading: false });
+        message.error(error.message);
+      });
   }
 
-  renderInvitees() {
-    const users = this.props.subscribers;
-    const { teamId } = this.props.match.params;
-    const dataSource = users.reduce((acc, { firstName, lastName, displayName, userId, teams }) => {
-      if (!teams[teamId]) {
-        acc.push({ text: `${displayName} - ${firstName} ${lastName}`, value: userId });
-      }
-      return acc;
-    }, []);
-
-    return this.state.inviteesArr.map((el, index) => {
+  renderInvitees(team) {
+    return this.props.subscribers.map((member, index) => {
+      const { userId, online } = member;
+      const isMember = member.teams && (member.teams[team.teamId] !== undefined);
+      const isPending = this.state.invitees[member.userId] != null;
+      const avatarClassName = classNames({ 'opacity-low': !online });
       return (
-        <Row key={el} gutter={16} type="flex" className="Invite-To-Team__email-row">
-          <Col className="gutter-row" span={20}>
-            <AutoCompleteField
-              componentKey={`username${el}`}
-              autoCompleteClassName="Invite-To-Team__textfield"
-              form={this.props.form}
-              placeholder={String.t('inviteToTeamPage.usernamePlaceholder')}
-              label=""
-              required
-              autoFocus={index === this.state.inviteesArr.length - 1}
-              dataSource={dataSource}
-            />
-          </Col>
-          {
-            this.state.inviteesArr.length > 1 ?
-              <Col className="gutter-row" span={3}>
-                <a onClick={() => this.removeInvitees(el)} className="remove-field">{String.t('inviteToTeamPage.removeLink')}</a>
-              </Col> : null
-          }
-        </Row>
+        <div
+          key={userId}
+          className="habla-MemberListing__member-row"
+          style={{ backgroundColor: ((index % 2) === 0) ? '#f4f4f4' : 'white' }}
+          onClick={() => {
+            if (!isMember) {
+              this.invitePressed(member);
+            }
+          }}
+        >
+          <div className="habla-MemberListing__member-image">
+            <AvatarWrapper key={userId} user={member} size="default" className={avatarClassName} />
+          </div>
+          <div className="habla-MemberListing__member-text" style={{ color: isPending ? '#32a953' : '#666' }}>
+            {String.t('inviteToTeamPage.membersListItem', member)}
+          </div>
+          <a
+            className="habla-MemberListing__inviteButton-text"
+          >
+            {!isMember && !isPending && String.t('inviteToTeamPage.inviteButtonLabel')}
+            {(isMember || isPending) &&
+            <div>
+              <i
+                className={isMember ? 'far fa-check-circle' : 'fas fa-check'}
+                style={{
+                  color: isMember ? 'black' : '#32a953',
+                  opacity: isMember ? 0.3 : 1.0,
+                  fontSize: isMember ? 22 : 20
+                }}
+              />
+            </div>
+            }
+          </a>
+        </div>
       );
     });
   }
@@ -128,6 +127,7 @@ class InviteToTeamPage extends Component {
       return null;
     }
 
+    const instructions = String.t('inviteToTeamPage.instructions', { name: team.name });
     return (
       <div>
         <SubpageHeader
@@ -153,17 +153,10 @@ class InviteToTeamPage extends Component {
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="padding-class-a">
-              <h1 className="Invite-To-Team__title">{String.t('inviteToTeamPage.username')}</h1>
-              {this.renderInvitees()}
+              <h1 className="habla-MemberListing__title mb-1">{instructions}</h1>
+              {this.renderInvitees(team)}
             </div>
-            <div className="padding-class-a">
-              <a onClick={this.addInvitees} className="Invite-To-Team__add-another">
-                <span>
-                  <i className="fa fa-plus-circle margin-right-class-a" />{String.t('inviteToTeamPage.addAnother')}
-                </span>
-              </a>
-            </div>
-            <div className="edit-org__buttons border-top-lighter margin-top-class-a">
+            <div className="edit-org__buttons border-top-light margin-top-class-a">
               <Button
                 type="secondary"
                 fitText
@@ -177,8 +170,9 @@ class InviteToTeamPage extends Component {
                 fitText
                 onClick={this.handleSubmit}
                 loading={this.state.loading}
+                disabled={Object.keys(this.state.invitees).length === 0}
               >
-                {String.t('inviteToTeamPage.sendInvitationsButtonLabel', { count: this.state.inviteesArr.length })}
+                {String.t('inviteToTeamPage.sendInvitationsButtonLabel', { count: Object.keys(this.state.invitees).length })}
               </Button>
             </div>
           </Form>
