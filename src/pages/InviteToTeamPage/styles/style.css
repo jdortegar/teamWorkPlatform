@@ -8,6 +8,7 @@
    padding: 6px;
    justify-items: center;
    align-items: center;
+   cursor: pointer;
 }
 .Invite-To-Team__member-image {
    justify-content: center;

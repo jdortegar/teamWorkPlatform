@@ -75,37 +75,30 @@ class InviteToTeamPage extends Component {
           key={userId}
           className="Invite-To-Team__member-row"
           style={{ backgroundColor: ((index % 2) === 0) ? '#f4f4f4' : 'white' }}
+          onClick={() => {
+            if (!isMember) {
+              this.invitePressed(member);
+            }
+          }}
         >
           <div className="Invite-To-Team__member-image">
             <AvatarWrapper key={userId} user={member} size="default" className={avatarClassName} />
           </div>
-          <div className="Invite-To-Team__member-text">
-            <div>{String.t('inviteToTeamPage.membersListItem', member)}</div>
+          <div className="Invite-To-Team__member-text" style={{ color: isPending ? '#32a953' : '#666' }}>
+            {String.t('inviteToTeamPage.membersListItem', member)}
           </div>
           <a
-            onClick={() => {
-              if (!isMember) {
-                this.invitePressed(member);
-              }
-            }}
             className="Invite-To-Team__inviteButton-text"
           >
             {!isMember && !isPending && String.t('inviteToTeamPage.inviteButtonLabel')}
             {(isMember || isPending) &&
-            <div
-              claseName="Invite-To-Team-InviteButton"
-              onClick={() => {
-                if (!isMember) {
-                  this.invitePressed(member);
-                }
-              }}
-            >
+            <div>
               <i
                 className={isMember ? 'far fa-check-circle' : 'fas fa-check'}
                 style={{
                   color: isMember ? 'black' : '#32a953',
-                  opacity: isMember ? 0.5 : 1.0,
-                  fontSize: 20
+                  opacity: isMember ? 0.3 : 1.0,
+                  fontSize: isMember ? 22 : 20
                 }}
               />
             </div>
