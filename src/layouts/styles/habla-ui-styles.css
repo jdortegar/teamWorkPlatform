@@ -422,6 +422,32 @@ p {
   width: 100%;
 }
 }
+.habla-MemberListing__title {
+   font-weight: 600;
+}
+.habla-MemberListing__member-row {
+   display: flex;
+   margin: 0px;
+   margin-right: 8px;
+   padding: 6px;
+   justify-items: center;
+   align-items: center;
+   cursor: pointer;
+}
+.habla-MemberListing__member-image {
+   justify-content: center;
+}
+.habla-MemberListing__member-text {
+   margin-left: 8px;
+   margin-right: 8px;
+   width: 100%;
+}
+.habla-MemberListing__inviteButton-text {
+  font-size: 12px;
+  font-weight: 800;
+  margin-right: 6px;
+}
+
 @media only screen and (max-width:420px) {
 .habla-logo-image
 , .habla-ckg-date-picker-content-text {

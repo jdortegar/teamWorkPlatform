@@ -73,7 +73,7 @@ class InviteToTeamPage extends Component {
       return (
         <div
           key={userId}
-          className="Invite-To-Team__member-row"
+          className="habla-MemberListing__member-row"
           style={{ backgroundColor: ((index % 2) === 0) ? '#f4f4f4' : 'white' }}
           onClick={() => {
             if (!isMember) {
@@ -81,14 +81,14 @@ class InviteToTeamPage extends Component {
             }
           }}
         >
-          <div className="Invite-To-Team__member-image">
+          <div className="habla-MemberListing__member-image">
             <AvatarWrapper key={userId} user={member} size="default" className={avatarClassName} />
           </div>
-          <div className="Invite-To-Team__member-text" style={{ color: isPending ? '#32a953' : '#666' }}>
+          <div className="habla-MemberListing__member-text" style={{ color: isPending ? '#32a953' : '#666' }}>
             {String.t('inviteToTeamPage.membersListItem', member)}
           </div>
           <a
-            className="Invite-To-Team__inviteButton-text"
+            className="habla-MemberListing__inviteButton-text"
           >
             {!isMember && !isPending && String.t('inviteToTeamPage.inviteButtonLabel')}
             {(isMember || isPending) &&
@@ -153,7 +153,7 @@ class InviteToTeamPage extends Component {
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="padding-class-a">
-              <h1 className="Invite-To-Team__title mb-1">{instructions}</h1>
+              <h1 className="habla-MemberListing__title mb-1">{instructions}</h1>
               {this.renderInvitees(team)}
             </div>
             <div className="edit-org__buttons border-top-light margin-top-class-a">

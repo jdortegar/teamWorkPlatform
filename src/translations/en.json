@@ -491,7 +491,7 @@
     },
     "inviteButtonLabel": "INVITE",
     "reInviteButtonLabel": "RE-INVITE",
-    "instructions": "Invite Teams Members to Join \"{{name}}\"",
+    "instructions": "Invite Team Members to Join \"{{name}}\"",
     "membersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
     "breadcrumb": "Invite Team Members",
     "invitationSent": {
@@ -505,10 +505,10 @@
       "one": "Send Invitation",
       "other": "Send {{count}} Invitations"
     },
-    "addAnother": "Add Another",
-    "username": "New Team Room Member",
-    "usernamePlaceholder": "Enter Name of Person to Add",
-    "removeLink": "Remove",
+    "inviteButtonLabel": "INVITE",
+    "reInviteButtonLabel": "RE-INVITE",
+    "instructions": "Invite Team Room Members to Join \"{{name}}\"",
+    "membersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
     "breadcrumb": "Invite to Team Room",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
