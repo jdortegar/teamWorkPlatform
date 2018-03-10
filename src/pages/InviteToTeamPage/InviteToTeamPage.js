@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
 import { Form, message } from 'antd';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import classNames from 'classnames';
 import BreadCrumb from '../../components/BreadCrumb';
 import AvatarWrapper from '../../components/common/Avatar/AvatarWrapper';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
-import { formShape } from '../../propTypes';
 import Button from '../../components/common/Button';
 import Spinner from '../../components/Spinner';
 import String from '../../translations';
 import './styles/style.css';
 
 const propTypes = {
-  form: formShape.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
     replace: PropTypes.func.isRequired
@@ -53,22 +50,18 @@ class InviteToTeamPage extends Component {
 
   handleSubmit() {
     const { teamId } = this.props.match.params;
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        const users = _.values(values);
-        this.setState({ loading: true });
-        this.props.inviteMembersToTeam(users)
-          .then(() => {
-            this.setState({ loading: false });
-            this.props.history.push(`/app/team/${teamId}/invitationSent`);
-            message.success(String.t('inviteToTeamPage.invitationSent', { count: users.length }));
-          })
-          .catch((error) => {
-            this.setState({ loading: false });
-            message.error(error.message);
-          });
-      }
-    });
+    const users = Object.keys(this.state.invitees);
+    this.setState({ loading: true });
+    this.props.inviteMembersToTeam(users)
+      .then(() => {
+        this.setState({ loading: false });
+        this.props.history.push(`/app/team/${teamId}`);
+        message.success(String.t('inviteToTeamPage.invitationSent', { count: users.length }));
+      })
+      .catch((error) => {
+        this.setState({ loading: false });
+        message.error(error.message);
+      });
   }
 
   renderInvitees(team) {
@@ -184,6 +177,7 @@ class InviteToTeamPage extends Component {
                 fitText
                 onClick={this.handleSubmit}
                 loading={this.state.loading}
+                disabled={Object.keys(this.state.invitees).length === 0}
               >
                 {String.t('inviteToTeamPage.sendInvitationsButtonLabel', { count: Object.keys(this.state.invitees).length })}
               </Button>
