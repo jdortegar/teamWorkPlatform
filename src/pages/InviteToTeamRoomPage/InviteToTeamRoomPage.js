@@ -25,7 +25,11 @@ const propTypes = {
   teams: PropTypes.object.isRequired,
   teamRooms: PropTypes.object.isRequired,
   subscriberOrgById: PropTypes.object.isRequired,
-  subscribers: PropTypes.object.isRequired
+  subscribers: PropTypes.array
+};
+
+const defaultProps = {
+  subscribers: null
 };
 
 class InviteToTeamRoomPage extends Component {
@@ -68,7 +72,6 @@ class InviteToTeamRoomPage extends Component {
   }
 
   renderInvitees(teamRoom) {
-    // return members = this.props.subscribers(m => m)
     return this.props.subscribers.map((member, index) => {
       const { userId, online } = member;
       const isMember = member.teamRooms && (member.teamRooms[teamRoom.teamRoomId] !== undefined);
@@ -196,5 +199,6 @@ class InviteToTeamRoomPage extends Component {
 }
 
 InviteToTeamRoomPage.propTypes = propTypes;
+InviteToTeamRoomPage.defaultProps = defaultProps;
 
 export default Form.create()(InviteToTeamRoomPage);

@@ -24,7 +24,7 @@ const propTypes = {
   inviteMembersToTeam: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
   subscriberOrgById: PropTypes.object.isRequired,
-  subscribers: PropTypes.object
+  subscribers: PropTypes.array
 };
 
 const defaultProps = {

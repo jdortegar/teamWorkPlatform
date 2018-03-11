@@ -13,7 +13,7 @@ import String from '../../translations';
 const propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      userId: PropTypes.string.isRequired
+      teamMemberId: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
   subscribers: PropTypes.array.isRequired,

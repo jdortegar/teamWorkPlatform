@@ -242,7 +242,7 @@ class IntegrationDetailsPage extends Component {
           }
         }
         extraFormFields.push((
-          <div className="m-2">
+          <div key={`${key}-configInput`} className="m-2">
             <label className="Integration-details__config-label">{label}</label>
             <input
               ref={(ref) => { this[key] = ref; }}
@@ -261,7 +261,7 @@ class IntegrationDetailsPage extends Component {
         if (folders) {
           const optionsChanged = Object.keys(this.state.changedFolderOptions).length > 0;
           extraFormFields.push((
-            <div className="m-2 Integration-details__config-container">
+            <div key="folders" className="m-2 Integration-details__config-container">
               <label className="Integration-details__config-folders-label">{label}</label>
               <div className="Integration-details__config-folders">
                 {folders.map(fldr => this.renderFolder(fldr, 0))}

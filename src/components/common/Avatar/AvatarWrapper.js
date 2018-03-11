@@ -20,7 +20,14 @@ const defaultProps = {
 };
 
 function AvatarWrapper(props) {
-  const { firstName, lastName, userId, preferences, icon, ...rest } = props.user;
+  const {
+    firstName,
+    lastName,
+    userId,
+    preferences,
+    icon
+    //  ...rest
+  } = props.user;
   if (icon) {
     return (<Avatar size={props.size} src={`data:image/jpeg;base64, ${icon}`} />);
   }
@@ -31,7 +38,7 @@ function AvatarWrapper(props) {
       size={props.size}
       key={userId}
       color={preferences.iconColor}
-      {...rest}
+      // {...rest}
     >
       {initials}
     </Avatar>
