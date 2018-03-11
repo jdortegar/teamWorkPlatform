@@ -465,7 +465,7 @@
     "forbiddenMessage": "Something Wrong",
     "forbiddenDescription": "You did not authorize {{name}} access.",
     "notFoundMessage": "Something Wrong",
-    "notFoundDescription": "You don't have permission to do add a provider.",
+    "notFoundDescription": "You don't have permission to do add {{name}} access.",
     "unknownMessage": "Something Wrong",
     "unknownDescription": "We were unable to add {{name}} access."
   },
