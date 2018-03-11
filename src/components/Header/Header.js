@@ -25,7 +25,9 @@ class Header extends Component {
 
     const muteNotificationMenu = (
       <Menu className="muteNotificationMenu">
-        <div className="habla-label padding-class-a">{String.t('Header.muteTitle')}</div>
+        <Menu.Item key="header">
+          <div className="habla-label padding-class-a">{String.t('Header.muteTitle')}</div>
+        </Menu.Item>
         <Menu.Item key="mute30min">
           <a><span><i className="fas fa-volume-up" /> {String.t('Header.muteThirtyMins')}</span></a>
         </Menu.Item>
@@ -46,7 +48,9 @@ class Header extends Component {
 
     const userMenu = (
       <Menu className="userMenu">
-        <div className="habla-label padding-class-a">{String.t('Header.statusTitle')}</div>
+        <Menu.Item key="statusHeader">
+          <div className="habla-label padding-class-a">{String.t('Header.statusTitle')}</div>
+        </Menu.Item>
         <Menu.Item key="online">
           <a><div className="habla-top-navigation-dropdown-signal habla-color-green" /> {String.t('Header.onlineStatus')}</a>
         </Menu.Item>
@@ -56,7 +60,9 @@ class Header extends Component {
         <Menu.Item key="busy">
           <a><div className="habla-top-navigation-dropdown-signal habla-color-red" />  {String.t('Header.busyStatus')}</a>
         </Menu.Item>
-        <div className="habla-label padding-class-a">{String.t('Header.adminTitle')}</div>
+        <Menu.Item key="adminHeader">
+          <div className="habla-label padding-class-a">{String.t('Header.adminTitle')}</div>
+        </Menu.Item>
         <Menu.Item key="accountSettings">
           <Link to="/app/editUser">
             <span><i className="fas fa-cog" /> {String.t('Header.accountSettings')}</span>

@@ -315,7 +315,9 @@ class Sidebar extends Component {
     const { subscriberOrgs } = this.props;
     return (
       <Menu className="organizationList">
-        <div className="habla-label padding-class-a">{String.t('sideBar.organizationsLabel')}</div>
+        <Menu.Item key="orgsHeader">
+          <div className="habla-label padding-class-a">{String.t('sideBar.organizationsLabel')}</div>
+        </Menu.Item>
         <Menu.Item key="organizationList">
           {subscriberOrgs.map(org => this.renderOrg(org))}
         </Menu.Item>
@@ -343,7 +345,9 @@ class Sidebar extends Component {
     const teamsActive = teams.filter(team => (team.subscriberOrgId === currentSubscriberOrgId) && team.active);
     const addLinkSidebar = (
       <Menu className="addLinkSidebar">
-        <div className="habla-label padding-class-a">{String.t('sideBar.addNewLabel')}</div>
+        <Menu.Item key="addLinksHeader">
+          <div className="habla-label padding-class-a">{String.t('sideBar.addNewLabel')}</div>
+        </Menu.Item>
         <Menu.Item key="addMember">
           <a><span><i className="fas fa-plus-circle" /> {String.t('sideBar.addNewTeamMember')}</span></a>
         </Menu.Item>
@@ -357,7 +361,9 @@ class Sidebar extends Component {
     );
     const sortLinkSidebar = (
       <Menu className="sortLinkSidebar">
-        <div className="habla-label padding-class-a">{String.t('sideBar.sortByLabel')}</div>
+        <Menu.Item key="sortLinkHeader">
+          <div className="habla-label padding-class-a">{String.t('sideBar.sortByLabel')}</div>
+        </Menu.Item>
         <Menu.Item key="sortByAlph">
           <a><span><i className="fas fa-check" /> {String.t('sideBar.sortByAlphabetical')}</span></a>
         </Menu.Item>

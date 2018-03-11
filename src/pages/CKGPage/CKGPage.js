@@ -84,14 +84,16 @@ class CKGPage extends Component {
 
     const activitySelectorMenu = (
       <Menu className="activitySelectorMenu">
-        <div className="habla-label padding-class-a">{String.t('ckgPage.activityLabel')}</div>
-        <Menu.Item key="activitySelectorMenu">
+        <Menu.Item key="activityHeader">
+          <div className="habla-label padding-class-a">{String.t('ckgPage.activityLabel')}</div>
+        </Menu.Item>
+        <Menu.Item key="all">
           <a><span><i className="fas fa-tasks" /> {String.t('ckgPage.allActivity')}</span></a>
         </Menu.Item>
-        <Menu.Item key="activitySelectorMenu">
+        <Menu.Item key="view">
           <a><span><i className="fas fa-eye" /> {String.t('ckgPage.viewsActivity')}</span></a>
         </Menu.Item>
-        <Menu.Item key="activitySelectorMenu" className="dropdown-last-menu-item">
+        <Menu.Item key="shares" className="dropdown-last-menu-item">
           <a><span><i className="fas fa-share" /> {String.t('ckgPage.sharesActivity')}</span></a>
         </Menu.Item>
       </Menu>
@@ -99,7 +101,9 @@ class CKGPage extends Component {
 
     /* const dateSelectorMenu = (
       <Menu className="dateSelectorMenu">
-        <div className="habla-label padding-class-a">{String.t('ckgPage.dateLabel')}</div>
+        <Menu.Item key="dateSelectorHeader">
+          <div className="habla-label padding-class-a">{String.t('ckgPage.dateLabel')}</div>
+        </Menu.Item>
         <Menu.Item key="dateSelectorMenu">
           <a><span>Add calendar selector here</span></a>
         </Menu.Item>
