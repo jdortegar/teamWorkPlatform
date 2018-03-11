@@ -31,7 +31,7 @@ class TeamMemberPage extends Component {
 
   render() {
     const { subscriberOrg, subscribers, subscribersPresences, match } = this.props;
-    if (!subscriberOrg || !subscribers || !subscribersPresences) {
+    if (!subscriberOrg || !subscribers || !subscribersPresences || !match || !match.params) {
       return <Spinner />;
     }
 
