@@ -24,7 +24,11 @@ const propTypes = {
   inviteMembersToTeam: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
   subscriberOrgById: PropTypes.object.isRequired,
-  subscribers: PropTypes.object.isRequired
+  subscribers: PropTypes.object
+};
+
+const defaultProps = {
+  subscribers: null
 };
 
 class InviteToTeamPage extends Component {
@@ -183,5 +187,6 @@ class InviteToTeamPage extends Component {
 }
 
 InviteToTeamPage.propTypes = propTypes;
+InviteToTeamPage.defaultProps = defaultProps;
 
 export default Form.create()(InviteToTeamPage);
