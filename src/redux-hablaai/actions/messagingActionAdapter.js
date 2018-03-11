@@ -35,6 +35,9 @@ const eventHandler = (eventType, event) => {
     case EventTypes.userPrivateInfoUpdated:
       config.store.dispatch(receiveUser(event)); // Same as userUpdated except contains preferences.private.
       break;
+    case EventTypes.userBookmarksUpdated:
+      Object.values(event.messages).forEach((message) => { config.store.dispatch(receiveMessages([message], message.conversationId)); });
+      break;
     // case EventTypes.userInvitationAccepted:
     //   // TODO:
     //   break;

@@ -4,6 +4,7 @@ const EventTypes = Object.freeze({
   userCreated: 'userCreated',
   userUpdated: 'userUpdated',
   userPrivateInfoUpdated: 'userPrivateInfoUpdated',
+  userBookmarksUpdated: 'userBookmarksUpdated',
   userInvitationAccepted: 'userInvitationAccepted',
   userInvitationDeclined: 'userInvitationDeclined',
   sentInvitationStatus: 'sentInvitationStatus',
