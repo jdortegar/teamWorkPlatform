@@ -53,7 +53,7 @@ const propTypes = {
     params: PropTypes.shape({
       subscriberOrgId: PropTypes.string.isRequired,
       integrationDetails: PropTypes.string.isRequired,
-      status: PropTypes.string.isRequired
+      status: PropTypes.string
     }).isRequired
   }).isRequired,
   subscriberOrgs: PropTypes.object.isRequired
@@ -268,7 +268,7 @@ class IntegrationDetailsPage extends Component {
               </div>
               <div className="Integration-details__config-folders-save-button">
                 <Button
-                  type={optionsChanged ? 'main' : 'disabled'}
+                  type={optionsChanged ? 'main' : 'disable'}
                   fitText
                   onClick={this.onSaveConfigChanges}
                   loading={this.state.loading}
