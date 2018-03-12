@@ -160,10 +160,16 @@ class IntegrationDetailsPage extends Component {
           configParams[param.key] = this[param.key].value;
         });
       }
-      this.props.integrateIntegration(key, subscriberOrgId, configParams);
+      this.props.integrateIntegration(key, subscriberOrgId, configParams)
+        .catch((error) => {
+          message.error(error.message);
+        });
     } else {
       this.props.revokeIntegration(key, subscriberOrgId)
-        .then(res => showNotification(res, key));
+        .then(res => showNotification(res, key))
+        .catch((error) => {
+          message.error(error.message);
+        });
     }
   }
 
