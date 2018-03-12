@@ -61,13 +61,15 @@ const possibleIntegrations = {
   oneDrive: {
     key: 'onedrive',
     label: 'OneDrive',
-    logo: oneDriveLogo
+    logo: oneDriveLogo,
+    isSupported: true
   },
   office365: {
     key: 'onedrive', // *** maps to the oneDrive integration ***
     label: 'Office365',
     logo: office365Logo,
-    mappedToKey: 'onedrive'
+    mappedToKey: 'onedrive',
+    isSupported: true
   },
   salesforce: {
     key: 'salesforce',
