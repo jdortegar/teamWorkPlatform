@@ -3,7 +3,8 @@ import {
   CONVERSATIONS_FETCH_SUCCESS,
   CONVERSATIONS_RECEIVE,
   TRANSCRIPT_FETCH_SUCCESS,
-  MESSAGES_RECEIVE
+  MESSAGES_RECEIVE,
+  MESSAGES_FETCH_SUCCESS
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -145,6 +146,31 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
       const { conversationId, messages } = action.payload;
       const transcriptByConversationId = _.cloneDeep(state.transcriptByConversationId);
       transcriptByConversationId[conversationId] = addOrUpdateMessages(messages, transcriptByConversationId[conversationId]);
+
+      return {
+        ...state,
+        transcriptByConversationId
+      };
+    }
+    case MESSAGES_FETCH_SUCCESS: {
+      const { messages } = action.payload;
+      const transcriptByConversationId = _.cloneDeep(state.transcriptByConversationId);
+
+      const conversationIdMessages = {};
+      messages.forEach((message) => {
+        let conversationMessages = conversationIdMessages[message.conversationId];
+        if (!conversationMessages) {
+          conversationMessages = [message];
+          conversationIdMessages[message.conversationId] = conversationMessages;
+        } else {
+          conversationMessages.push(message);
+        }
+      });
+
+      Object.values(conversationIdMessages).forEach((conversationMessages) => {
+        const conversationId = conversationMessages[0].conversationId;
+        transcriptByConversationId[conversationId] = addOrUpdateMessages(conversationMessages, transcriptByConversationId[conversationId]);
+      });
 
       return {
         ...state,

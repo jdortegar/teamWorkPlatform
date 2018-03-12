@@ -44,6 +44,7 @@ export * from './transcriptFetch';
 export * from './messagesReceive';
 export * from './messageCreate';
 export * from './messageDelete';
+export * from './messagesFetch';
 export * from './messageRead';
 export * from './readMessagesFetch';
 export * from './readMessagesReceive';
