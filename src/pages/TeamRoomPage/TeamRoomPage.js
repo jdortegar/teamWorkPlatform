@@ -226,6 +226,15 @@ class TeamRoomPage extends Component {
     }
   }
 
+  getTeamMembersObjFromSubscribers() {
+    const { teamRoomMembersObj, subscribers } = this.props;
+    const members = subscribers.filter(mem => teamRoomMembersObj[mem.userId]);
+    const membersObj = {};
+    members.forEach((mem) => { membersObj[mem.userId] = mem; });
+    return membersObj;
+  }
+
+
   isNearBottom = () => {
     const messagesContainer = document.getElementsByClassName('team-room__messages')[0];
     if (!messagesContainer) return false;
@@ -399,16 +408,14 @@ class TeamRoomPage extends Component {
   }
 
   renderMessages(isAdmin) {
-    const { match, teamRooms, teams, conversations, teamRoomMembersObj, subscribers, user } = this.props;
+    const { match, teamRooms, teams, conversations, teamRoomMembersObj, user } = this.props;
     const { lastSubmittedMessage } = this.state;
     const currentPath = lastSubmittedMessage ? lastSubmittedMessage.path : null;
     const disableConversation = this.shouldDisableConversation();
     const teamRoomId = match.params.teamRoomId;
     const teamId = teamRooms.teamRoomById[teamRoomId].teamId;
     const subscriberOrgId = teams.teamById[teamId].subscriberOrgId;
-    const members = subscribers.filter(mem => teamRoomMembersObj[mem.userId]);
-    const membersObj = {};
-    members.forEach((mem) => { membersObj[mem.userId] = mem; });
+    const membersObj = this.getTeamMembersObjFromSubscribers();
 
     return conversations.transcript.map((message) => {
       if (message.deleted) return null;
@@ -433,13 +440,17 @@ class TeamRoomPage extends Component {
   }
 
   renderTeamRoomMembers() {
-    const { teamRoomMembers } = this.state;
     const { teamRoomMembersPresences, user } = this.props;
 
-    const members = teamRoomMembers.map(member => ({
-      ...member,
-      online: _.some(_.values(teamRoomMembersPresences[member.userId]), { presenceStatus: 'online' })
-    }));
+    const membersObj = this.getTeamMembersObjFromSubscribers();
+    const members = Object.keys(membersObj).map((key) => {
+      const member = (membersObj[key]);
+      return {
+        ...member,
+        online: _.some(_.values(teamRoomMembersPresences[member.userId]), { presenceStatus: 'online' })
+      };
+    });
+
     const currentUser = _.find(members, { userId: user.userId });
     const otherMembers = _.reject(members, { userId: user.userId });
     //  const orderedMembers = _.orderBy(otherMembers, ['online', 'firstName', 'lastName', 'displayName'], ['desc', 'asc', 'asc', 'asc']);
