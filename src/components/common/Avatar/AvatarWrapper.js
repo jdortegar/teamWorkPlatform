@@ -69,13 +69,14 @@ class AvatarWrapper extends React.Component {
       //  ...rest
     } = this.props.user;
     const { className } = this.props;
-    const topClass = (className || '').concat(' habla-top-menu-subitem');
-    const avatarClass = (online !== undefined && !online) ? ' opacity-low' : '';
+    let topClass = (className || '').concat(' habla-top-menu-subitem');
+    if (online !== undefined && !online) topClass += ' opacity-low';
+
     if (icon) {
       return (
         <div className={topClass}>
           {presenceStatus && this.renderUserStatus(presenceStatus)}
-          <div className={avatarClass}>
+          <div>
             <Avatar size={this.props.size} src={`data:image/jpeg;base64, ${icon}`} />
           </div>
         </div>
@@ -86,7 +87,7 @@ class AvatarWrapper extends React.Component {
     return (
       <div className={topClass}>
         {presenceStatus && this.renderUserStatus(presenceStatus)}
-        <div className={avatarClass}>
+        <div>
           <Avatar size={this.props.size} key={userId} color={preferences.iconColor}>
             {initials}
           </Avatar>
