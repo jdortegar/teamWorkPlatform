@@ -322,7 +322,7 @@ class Sidebar extends Component {
     const currentOrg = subscriberOrgs.find(({ subscriberOrgId }) => subscriberOrgId === currentSubscriberOrgId);
     const teamsActive = teams.filter(team => (team.subscriberOrgId === currentSubscriberOrgId) && team.active);
     const addLinkSidebar = (
-      <Menu className="addLinkSidebar">
+      <Menu>
         <Menu.Item key="addLinksHeader">
           <div className="habla-label padding-class-a">{String.t('sideBar.addNewLabel')}</div>
         </Menu.Item>
