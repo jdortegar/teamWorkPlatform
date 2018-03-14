@@ -103,6 +103,7 @@ function CardView(props) {
           <Tooltip placement="top" title={label}>
             <Link to={`/app/integrations/${subscriberOrgId}/${key}`}>
               <Avatar size="large" src={integrationImageFromKey(key)} className={desaturated} />
+              <i className="fa fa-check-circle icon_success habla-green" />
               <div className="habla-label align-center-class card-label">
                 {label}
               </div>
