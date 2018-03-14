@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Tooltip } from 'antd';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import BreadCrumb from '../../components/BreadCrumb';
@@ -66,9 +65,6 @@ class TeamMemberPage extends Component {
           <div className="margin-top-class-b">
             <h1 className="New-team__title habla-big-title habla-bold-text">
               {String.t('fullName', { firstName, lastName })}
-              <Tooltip placement="top" title={String.t('teamMemberPage.activeStatus')}>
-                <div className="habla-main-content-item-signal habla-color-green" />
-              </Tooltip>
             </h1>
             <div className="habla-secondary-paragraph">
               {String.t('teamMemberPage.displayName', { displayName })}
