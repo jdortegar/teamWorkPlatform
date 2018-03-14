@@ -36,7 +36,8 @@ class AvatarWrapper extends React.Component {
     switch (presenceStatus) {
       case 'online':
         tip = String.t('teamMemberPage.statusOnline');
-        className += ' habla-color-green';
+        // className += ' habla-color-green';
+        className = null;
         break;
       case 'away':
         tip = String.t('teamMemberPage.statusAway');
