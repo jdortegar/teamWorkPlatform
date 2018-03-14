@@ -35,6 +35,7 @@ class AvatarWrapper extends React.Component {
     let className = `habla-top-navigation-avatar-signal habla-avatar-signal-${size}`;
     switch (presenceStatus) {
       case 'online':
+      case null:
         tip = String.t('teamMemberPage.statusOnline');
         className += ' habla-color-green';
         // className = null;
@@ -72,25 +73,16 @@ class AvatarWrapper extends React.Component {
     let topClass = (className || '').concat(' habla-top-menu-subitem');
     if (online !== undefined && !online) topClass += ' opacity-low';
 
-    if (icon) {
-      return (
-        <div className={topClass}>
-          {presenceStatus && this.renderUserStatus(presenceStatus)}
-          <div>
-            <Avatar size={this.props.size} src={`data:image/jpeg;base64, ${icon}`} />
-          </div>
-        </div>
-      );
-    }
     const fullName = String.t('fullName', { firstName, lastName });
     const initials = getInitials(fullName);
     return (
       <div className={topClass}>
-        {presenceStatus && this.renderUserStatus(presenceStatus)}
+        {(online === undefined || online) && this.renderUserStatus(presenceStatus)}
         <div>
-          <Avatar size={this.props.size} key={userId} color={preferences.iconColor}>
-            {initials}
-          </Avatar>
+          {icon ?
+            (<Avatar size={this.props.size} src={`data:image/jpeg;base64, ${icon}`} />) :
+            (<Avatar size={this.props.size} key={userId} color={preferences.iconColor}>{initials}</Avatar>)
+          }
         </div>
       </div>
     );
