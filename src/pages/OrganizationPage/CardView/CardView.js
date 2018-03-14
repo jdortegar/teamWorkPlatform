@@ -92,28 +92,20 @@ function CardView(props) {
 
   const renderIntegration = (key, integration) => {
     const label = integrationLabelFromKey(key);
-    const { expired, revoked } = integration;
-    const desaturated = classNames({
-      desaturate: expired
-    });
-
-    if ((typeof revoked === 'undefined') || (revoked === false)) {
-      return (
-        <div key={key} className="mr-1 integration-card">
-          <Tooltip placement="top" title={label}>
-            <Link to={`/app/integrations/${subscriberOrgId}/${key}`}>
-              <Avatar size="large" src={integrationImageFromKey(key)} className={desaturated} />
-              <i className="fa fa-check-circle icon_success habla-green" />
-              <div className="habla-label align-center-class card-label">
-                {label}
-              </div>
-            </Link>
-          </Tooltip>
-        </div>
-      );
-    }
-
-    return null;
+    const desaturated = classNames({ desaturate: integration.expired });
+    return (
+      <div key={key} className="mr-1 integration-card">
+        <Tooltip placement="top" title={label}>
+          <Link to={`/app/integrations/${subscriberOrgId}/${key}`}>
+            <Avatar size="large" src={integrationImageFromKey(key)} className={desaturated} />
+            <i className="fa fa-check-circle icon_success habla-green" />
+            <div className="habla-label align-center-class card-label">
+              {label}
+            </div>
+          </Link>
+        </Tooltip>
+      </div>
+    );
   };
 
   const renderIntegrations = () => {
@@ -121,7 +113,10 @@ function CardView(props) {
     if (!_.isEmpty(integrations)) {
       Object.keys(integrations).forEach((key) => {
         const integration = integrations[key];
-        integrationsArr.push(renderIntegration(key, integration));
+        const { revoked } = integration;
+        if ((typeof revoked === 'undefined') || (revoked === false)) {
+          integrationsArr.push(renderIntegration(key, integration));
+        }
       });
     }
 
