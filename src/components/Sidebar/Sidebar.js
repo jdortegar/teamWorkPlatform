@@ -6,12 +6,12 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import String from '../../translations';
 import Avatar from '../../components/common/Avatar';
+import AvatarWrapper from '../common/Avatar/AvatarWrapper';
 import Badge from '../../components/Badge';
 import {
   sortByName,
   primaryAtTop
 } from '../../redux-hablaai/selectors/helpers';
-import getInitials from '../../utils/helpers';
 import './styles/style.css';
 
 
@@ -50,33 +50,11 @@ const ROUTERS_TO_HIDE_SIDEBAR = [
 ];
 
 function renderSubscriberAvatar(subscriber) {
-  const { firstName, lastName, userId, preferences, icon, online } = subscriber;
+  const { firstName, lastName, userId } = subscriber;
   const fullName = String.t('fullName', { firstName, lastName });
-  const initials = getInitials(fullName);
-  const className = classNames({
-    'sidebar-subscriber-avatar': true,
-    'sidebar-direct-messages-content': !icon,
-    'opacity-low': !online
-  });
-
   return (
-    <Tooltip
-      key={userId}
-      placement="top"
-      title={fullName}
-    >
-      {icon ?
-        <Avatar size="default" src={`data:image/jpeg;base64, ${icon}`} className={className} />
-        :
-        <Avatar
-          size="default"
-          ey={userId}
-          color={preferences.iconColor}
-          className={className}
-        >
-          {initials}
-        </Avatar>
-      }
+    <Tooltip key={userId} placement="top" title={fullName}>
+      <AvatarWrapper size="default" user={subscriber} className="mr-05 mb-05" hideStatusTooltip />
     </Tooltip>
   );
 }

@@ -83,7 +83,7 @@ class AvatarWrapper extends React.Component {
     const fullName = String.t('fullName', { firstName, lastName });
     const initials = getInitials(fullName);
     return (
-      <div className={className}>
+      <div className={topClass}>
         {presenceStatus && this.renderUserStatus(presenceStatus)}
         <div className={avatarClass}>
           <Avatar size={this.props.size} key={userId} color={preferences.iconColor}>
