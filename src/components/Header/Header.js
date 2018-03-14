@@ -58,7 +58,7 @@ class Header extends Component {
     );
 
     const userMenu = (
-      <Menu className="userMenu">
+      <Menu>
         <Menu.Item key="statusHeader">
           <div className="habla-label padding-class-a">{String.t('Header.statusTitle')}</div>
         </Menu.Item>
@@ -117,14 +117,14 @@ class Header extends Component {
         </div>
         <div className="habla-top-menu-item habla-top-menu-item-last">
           <div className="habla-top-menu-item-content">
-            <Link to="/app" className="habla-top-menu-user">
+            <div className="habla-top-menu-user" style={{ color: '#aaa' }}>
               <Dropdown overlay={userMenu} trigger={['click']}>
                 <div className="ant-dropdown-link">
                   <AvatarWrapper size="default" user={user} hideStatusTooltip />
                   <span className="habla-top-menu-label">{user.firstName}</span>
                 </div>
               </Dropdown>
-            </Link>
+            </div>
           </div>
         </div>
         <div className="clear" />

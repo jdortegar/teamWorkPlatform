@@ -82,7 +82,8 @@
 	.habla-top-menu-user .habla-top-menu-label {
 		margin-left: 10px;
 		position: relative;
-		top: 2px;
+      top: 2px;
+      cursor: pointer;
 	}
 	.habla-top-menu-items .user-icon__main-container {
 		margin: 0;
