@@ -71,13 +71,17 @@ class AvatarWrapper extends React.Component {
     } = this.props.user;
     const { className } = this.props;
     let topClass = (className || '').concat(' habla-top-menu-subitem');
-    if (online !== undefined && !online) topClass += ' opacity-low';
+    let lowOpacity = false;
+    if (online !== undefined && !online) {
+      topClass += ' opacity-low';
+      lowOpacity = true;
+    }
 
     const fullName = String.t('fullName', { firstName, lastName });
     const initials = getInitials(fullName);
     return (
       <div className={topClass}>
-        {(online === undefined || online) && this.renderUserStatus(presenceStatus)}
+        {!lowOpacity && this.renderUserStatus(presenceStatus)}
         <div>
           {icon ?
             (<Avatar size={this.props.size} src={`data:image/jpeg;base64, ${icon}`} />) :

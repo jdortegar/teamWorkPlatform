@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import _ from 'lodash';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
@@ -39,7 +40,10 @@ class TeamMemberPage extends Component {
       this.props.history.replace('/app');
       return null;
     }
-    const member = memberArray[0];
+    const member = {
+      ...memberArray[0],
+      online: _.some(_.values(subscribersPresences[memberArray[0].userId]), { presenceStatus: 'online' })
+    };
     const { created, displayName, firstName, lastName, timeZone } = member;
 
     return (
