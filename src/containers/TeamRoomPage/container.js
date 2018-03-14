@@ -12,6 +12,7 @@ import {
 } from '../../actions';
 import {
   getConversationOfTeamRoomId,
+  getSubscribersOfSubscriberOrgId,
   getReadMessagesOfTeamRoomId,
   getTypingsOfConversationId,
   getTeamRoomMembersOfTeamRoomId,
@@ -28,6 +29,7 @@ function mapStateToProps(state, props) {
   return {
     user: state.auth.user,
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
+    subscribers: getSubscribersOfSubscriberOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
     teams: state.teams,
     teamRooms: state.teamRooms,
     conversations,

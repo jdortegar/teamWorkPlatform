@@ -333,6 +333,44 @@ p {
 	font-size: 13px!important;
 }
 
+/* Overlays */
+
+.habla-top-navigation-avatar-signal {
+   border-radius: 50%;
+   border: 1px solid #4d4d4d;
+   position: absolute;
+   z-index: 2;
+   overflow: visible;
+}
+.habla-avatar-signal-default {
+   width: 11px;
+   height: 11px;
+   right: -4px;
+   top: -4px;
+}
+.habla-avatar-signal-small {
+   width: 9px;
+   height: 9px;
+   right: -5px;
+   top: -5px; 
+}
+.habla-avatar-signal-large {
+   width: 15px;
+   height: 15px;
+   right: -6px;
+   top: -4px; 
+}
+.habla-avatar-signal-x-large {
+   width: 18px;
+   height: 18px;
+   right: -6px;
+   top: -6px; 
+}
+
+.habla-top-menu-subitem {
+   position: relative;
+   display: inline-block;
+}
 
 
 /* RESPONSIVE ELEMENTS AND STYLES ---------- */

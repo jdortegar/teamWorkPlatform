@@ -129,7 +129,6 @@ class Message extends Component {
         </p>
       </div>
     );
-    const avatarClassName = classNames({ 'opacity-low': !user.online });
     const messageReplyPaddingLeft = classNames({
       'message-nested': level !== 0,
       hide // hide all replies and level 1
@@ -140,7 +139,7 @@ class Message extends Component {
         <div className={classNames('message__main-container', `border-bottom-${lastRead ? 'red' : 'lighter'}`)}>
           <Row type="flex" justify="start" gutter={20}>
             <Col xs={{ span: 5 }} sm={{ span: 3 }} md={{ span: 2 }} className="message__col-user-icon">
-              <AvatarWrapper key={userId} user={user} size="default" className={avatarClassName} />
+              <AvatarWrapper key={userId} user={user} size="default" />
             </Col>
             <Col xs={{ span: 15 }} sm={{ span: 16 }} md={{ span: 18 }}>
               {messageBody}

@@ -193,6 +193,7 @@
     "activeStatus": "Active",
     "inviteNewMember": "Invite a New Team Member",
     "addNewTeamRoom": "Add New Team Room",
+    "teamCreated": "Created on {{date}}",
     "membersHeader": {
       "one": "1 Team Member",
       "other": "{{count}} Team Members",
@@ -564,7 +565,9 @@
     "displayName": "Display Name: {{displayName}}",
     "timeZone": "Time Zone: {{timeZone}}",
     "memberSince": "Member since {{date}}",
-    "activeStatus": "Online"
+    "statusOnline": "Online",
+    "statusAway": "Away",
+    "statusBusy": "Busy"
   },
   "notificationPage": {
     "title": "Notifications",

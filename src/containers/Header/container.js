@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Header from '../../components/Header';
-import { logoutUser } from '../../actions';
+import { logoutUser, updateUser } from '../../actions';
 import { getCurrentUser } from '../../redux-hablaai/selectors';
 
 function mapStateToProps(state) {
@@ -11,7 +11,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    logoutUser: () => dispatch(logoutUser())
+    logoutUser: () => dispatch(logoutUser()),
+    updateUser: data => dispatch(updateUser(data))
   };
 }
 

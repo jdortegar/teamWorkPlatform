@@ -11,6 +11,7 @@ import String from '../../../translations';
 import getInitials from '../../../utils/helpers';
 import { integrationLabelFromKey, integrationImageFromKey } from '../../../utils/dataIntegrations';
 import './styles/style.css';
+import AvatarWrapper from '../../../components/common/Avatar/AvatarWrapper';
 
 const Panel = Collapse.Panel;
 
@@ -70,23 +71,15 @@ function CardView(props) {
 
   const renderMembers = () => {
     return orgSubscribers.map((member) => {
-      const { userId, firstName, lastName, preferences, icon, online } = member;
+      const { userId, firstName, lastName } = member;
       const fullName = String.t('fullName', { firstName, lastName });
-      const className = classNames({
-        'mr-05': true,
-        'opacity-low': !online
-      });
       return (
         <div key={userId} className="mr-1">
           <Tooltip placement="top" title={fullName}>
             <Link to={`/app/teamMember/${userId}`}>
-              {
-                icon ?
-                  <Avatar size="large" src={`data:image/jpeg;base64, ${icon}`} className={className} /> :
-                  <Avatar size="large" color={preferences.iconColor} className={className}>
-                    {getInitials(fullName)}
-                  </Avatar>
-              }
+              <div>
+                <AvatarWrapper size="large" user={member} hideStatusTooltip />
+              </div>
               <div className="habla-label align-center-class card-label">
                 {firstName}
               </div>

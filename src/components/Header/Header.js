@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Dropdown } from 'antd';
+import { Layout, Menu, Dropdown, message } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
@@ -14,6 +14,17 @@ class Header extends Component {
     super(props);
 
     this.logOut = this.logOut.bind(this);
+    this.onStatusChange = this.onStatusChange.bind(this);
+  }
+
+  onStatusChange(presenceStatus) {
+    const { user } = this.props;
+    if (user.presenceStatus && (user.presenceStatus === presenceStatus)) return;
+
+    this.props.updateUser({ presenceStatus })
+      .catch((error) => {
+        message.error(error.message);
+      });
   }
 
   logOut() {
@@ -52,13 +63,22 @@ class Header extends Component {
           <div className="habla-label padding-class-a">{String.t('Header.statusTitle')}</div>
         </Menu.Item>
         <Menu.Item key="online">
-          <a><div className="habla-top-navigation-dropdown-signal habla-color-green" /> {String.t('Header.onlineStatus')}</a>
+          <a onClick={() => this.onStatusChange('online')}>
+            <div className="habla-top-navigation-dropdown-signal habla-color-green" />
+            {String.t('Header.onlineStatus')}
+          </a>
         </Menu.Item>
         <Menu.Item key="away">
-          <a><div className="habla-top-navigation-dropdown-signal habla-color-yellow" />  {String.t('Header.awayStatus')}</a>
+          <a onClick={() => this.onStatusChange('away')}>
+            <div className="habla-top-navigation-dropdown-signal habla-color-yellow" />
+            {String.t('Header.awayStatus')}
+          </a>
         </Menu.Item>
         <Menu.Item key="busy">
-          <a><div className="habla-top-navigation-dropdown-signal habla-color-red" />  {String.t('Header.busyStatus')}</a>
+          <a onClick={() => this.onStatusChange('busy')}>
+            <div className="habla-top-navigation-dropdown-signal habla-color-red" />
+            {String.t('Header.busyStatus')}
+          </a>
         </Menu.Item>
         <Menu.Item key="adminHeader">
           <div className="habla-label padding-class-a">{String.t('Header.adminTitle')}</div>
@@ -100,10 +120,7 @@ class Header extends Component {
             <Link to="/app" className="habla-top-menu-user">
               <Dropdown overlay={userMenu} trigger={['click']}>
                 <div className="ant-dropdown-link">
-                  <div className="habla-top-menu-subitem">
-                    <div className="habla-top-navigation-avatar-signal habla-color-green" />
-                    <AvatarWrapper size="default" user={user} />
-                  </div>
+                  <AvatarWrapper size="default" user={user} hideStatusTooltip />
                   <span className="habla-top-menu-label">{user.firstName}</span>
                 </div>
               </Dropdown>
@@ -137,11 +154,13 @@ class Header extends Component {
 
 Header.propTypes = {
   logoutUser: PropTypes.func,
+  updateUser: PropTypes.func,
   user: PropTypes.object
 };
 
 Header.defaultProps = {
   logoutUser: null,
+  updateUser: null,
   user: null
 };
 

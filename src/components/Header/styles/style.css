@@ -90,25 +90,9 @@
 	.habla-top-menu-items .ant-dropdown-link {
 		display: inline-block;
 	}
-	.habla-top-menu-subitem {
-		position: relative;
-	}
 	.habla-top-menu-items .habla-top-menu-subitem a {
 		color: #fff;
 	}
-   .habla-top-menu-subitem {
-      display: inline-block;
-   }
-   .habla-top-navigation-avatar-signal {
-   width: 11px;
-   height: 11px;
-   border-radius: 50%;
-   border: 1px solid #4d4d4d;
-   position: absolute;
-   right: -4px;
-   top: -4px;
-   z-index: 2;
-}
 .habla-header-search-input {
 	border-radius: 15px;
 	border: none;
