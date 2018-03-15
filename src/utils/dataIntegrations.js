@@ -58,7 +58,7 @@ const possibleIntegrations = {
       }
     }
   },
-  oneDrive: {
+  onedrive: {
     key: 'onedrive',
     label: 'OneDrive',
     logo: oneDriveLogo,
