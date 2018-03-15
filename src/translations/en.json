@@ -533,7 +533,7 @@
     "inviteNewMember": "Invite a New Team Member",
     "addNewTeamRoom": "Add New Team Room",
     "roomsHeader": "Team Rooms ({{count}})",
-    "newButtonLabel": "New",    
+    "newButtonLabel": "New",
     "membersHeader": "Team Members ({{count}})"
   },
   "teamRoomPage": {
@@ -579,12 +579,19 @@
     "unReadNotifications": "UNREAD NOTIFICATIONS",
     "markAllAsRead": "Mark all as read"
   },
-  "ckgPage": {
-    "title": "CKG Time Activity Knowledge Graph",
+  "graphActivityMenu": {
     "activityLabel": "Activity",
     "allActivity": "All Activity",
     "viewsActivity": "Views",
-    "sharesActivity": "Shares",
+    "sharesActivity": "Shares"
+  },
+  "graphZoomActions": {
+    "zoomInLabel": "Zoom In",
+    "zoomOutLabel": "Zoom Out",
+    "viewAllLabel": "View All"
+  },
+  "ckgPage": {
+    "title": "CKG Time Activity Knowledge Graph",
     "dateLabel": "Select a Range of Dates",
     "filterTypes": {
       "one": "Data Type",

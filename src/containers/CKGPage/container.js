@@ -6,6 +6,9 @@ import {
 } from 'actions';
 
 const mapStateToProps = state => ({
+  teamById: state.teams.teamById,
+  teamRoomById: state.teamRooms.teamRoomById,
+  subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
   currentSubscriberOrgId: state.subscriberOrgs.currentSubscriberOrgId,
   timeActivities: state.timeActivities
 });

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Menu, Tooltip, Dropdown } from 'antd';
+import { Tooltip } from 'antd';
 import * as d3 from 'd3';
 import String from '../../translations';
 import {
@@ -10,7 +10,12 @@ import {
   integrationImageFromKey
 } from '../../utils/dataIntegrations';
 
-import { NewSubpageHeader, TimeActivityGraph } from '../../components';
+import {
+  NewSubpageHeader,
+  TimeActivityGraph,
+  GraphActivitySelector,
+  GraphZoomActions
+} from '../../components';
 import imageSrcFromFileExtension from '../../lib/imageFiles';
 import './styles/style.css';
 
@@ -48,6 +53,8 @@ const defaultProps = {
 
 class CKGPage extends Component {
   state = {
+    zoomLevel: 0,
+    viewAll: false,
     excludeTypesFilter: {},
     excludeIntegrationsFilter: {}
   };
@@ -68,6 +75,24 @@ class CKGPage extends Component {
     }
   }
 
+  handleZoomIn = () => {
+    this.setState(prevState => ({
+      zoomLevel: prevState.zoomLevel + 1,
+      viewAll: false
+    }));
+  }
+
+  handleZoomOut = () => {
+    this.setState(prevState => ({
+      zoomLevel: prevState.zoomLevel - 1,
+      viewAll: false
+    }));
+  }
+
+  handleViewAll = () => {
+    this.setState({ viewAll: true });
+  }
+
   render() {
     const { timeActivities } = this.props;
     if (!timeActivities) return null;
@@ -82,34 +107,6 @@ class CKGPage extends Component {
       return !excludeTypesFilter[label] && !excludeIntegrationsFilter[key];
     });
 
-    const activitySelectorMenu = (
-      <Menu className="activitySelectorMenu">
-        <Menu.Item key="activityHeader">
-          <div className="habla-label padding-class-a">{String.t('ckgPage.activityLabel')}</div>
-        </Menu.Item>
-        <Menu.Item key="all">
-          <a><span><i className="fas fa-tasks" /> {String.t('ckgPage.allActivity')}</span></a>
-        </Menu.Item>
-        <Menu.Item key="view">
-          <a><span><i className="fas fa-eye" /> {String.t('ckgPage.viewsActivity')}</span></a>
-        </Menu.Item>
-        <Menu.Item key="shares" className="dropdown-last-menu-item">
-          <a><span><i className="fas fa-share" /> {String.t('ckgPage.sharesActivity')}</span></a>
-        </Menu.Item>
-      </Menu>
-    );
-
-    /* const dateSelectorMenu = (
-      <Menu className="dateSelectorMenu">
-        <Menu.Item key="dateSelectorHeader">
-          <div className="habla-label padding-class-a">{String.t('ckgPage.dateLabel')}</div>
-        </Menu.Item>
-        <Menu.Item key="dateSelectorMenu">
-          <a><span>Add calendar selector here</span></a>
-        </Menu.Item>
-      </Menu>
-    ); */
-
     return (
       <div className="CKGPage">
         <NewSubpageHeader>
@@ -121,42 +118,26 @@ class CKGPage extends Component {
 
         <div className="ckg-tools-container">
           <div className="habla-ckg-tools">
-            <div className="habla-ckg-tools-bar habla-ckg-activity-selector">
-              <Dropdown overlay={activitySelectorMenu} trigger={['click']}>
-                <a className="no-border">
-                  <i className="fas fa-tasks" />
-                  <span className="ckg-activity-label">All Activity</span>
-                  <i className="fas fa-angle-down" />
-                </a>
-              </Dropdown>
-            </div>
-
-            <div className="habla-ckg-tools-bar habla-ckg-actions-selector">
-              <Tooltip placement="bottom" title="Zoom In" arrowPointAtCenter>
-                <a><i className="fas fa-search-plus" /></a>
-              </Tooltip>
-              <Tooltip placement="bottom" title="Zoom Out" arrowPointAtCenter>
-                <a><i className="fas fa-search-minus" /></a>
-              </Tooltip>
-              <Tooltip placement="bottom" title="View All" arrowPointAtCenter>
-                <a className="no-border"><i className="fa fa-expand" /></a>
-              </Tooltip>
-            </div>
+            <GraphActivitySelector />
+            <GraphZoomActions
+              onZoomIn={this.handleZoomIn}
+              onZoomOut={this.handleZoomOut}
+              onViewAll={this.handleViewAll}
+            />
           </div>
 
           {/* <div className="habla-ckg-date-picker">
             <div className="habla-ckg-date-picker-content">
-              <Dropdown overlay={dateSelectorMenu} trigger={['click']}>
-                <a>
-                  <span className="habla-ckg-date-picker-content-text">Aug 9, 2017 - Aug 17, 2017</span>
-                  <span className="habla-ckg-date-picker-content-icon"><i className="fa fa-calendar" /></span>
-                </a>
-              </Dropdown>
+              <GraphDateSelector />
             </div>
           </div> */}
         </div>
 
-        <TimeActivityGraph files={filesFiltered.map(buildDataObject)} />
+        <TimeActivityGraph
+          files={filesFiltered.map(buildDataObject)}
+          zoomLevel={this.state.zoomLevel}
+          viewAll={this.state.viewAll}
+        />
 
         <div className="bottomBar">
           <div className="bottomBar-selectors">
