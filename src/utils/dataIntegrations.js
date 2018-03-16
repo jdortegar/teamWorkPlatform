@@ -28,14 +28,12 @@ const possibleIntegrations = {
     isSupported: true
   },
   gsuite: {
-    key: 'google', // *** maps to the Google Drive integration ***
     label: 'G Suite by Google Cloud', // TODO: localize??
     logo: gSuiteLogo,
     isSupported: true,
-    mappedToKey: 'google'
+    mappedToKey: 'google' // *** maps to the Google Drive integration ***
   },
   sharepoint: {
-    key: 'sharepoint',
     label: 'SharePoint', // TODO: localize??
     logo: sharepointLogo,
     isSupported: true,
@@ -59,50 +57,41 @@ const possibleIntegrations = {
     }
   },
   onedrive: {
-    key: 'onedrive',
     label: 'OneDrive',
     logo: oneDriveLogo,
     isSupported: true
   },
   office365: {
-    key: 'onedrive', // *** maps to the oneDrive integration ***
     label: 'Office365',
     logo: office365Logo,
-    mappedToKey: 'onedrive',
+    mappedToKey: 'onedrive', // *** maps to the oneDrive integration ***
     isSupported: true
   },
   salesforce: {
-    key: 'salesforce',
     label: 'Salesforce',
     logo: salesforceLogo
   },
-  dropBox: {
-    key: 'dropbox',
+  dropbox: {
     label: 'Dropbox',
     logo: dropboxLogo
   },
   jira: {
-    key: 'jira',
     label: 'Jira',
     logo: jiraLogo
   },
   slack: {
-    key: 'slack',
     label: 'Slack',
     logo: slackLogo
   },
   trello: {
-    key: 'trello',
     label: 'Trello',
     logo: trelloLogo
   },
   github: {
-    key: 'github',
     label: 'Github',
     logo: gitHubLogo
   },
   ibmconn: {
-    key: 'ibmconn',
     label: 'IBM Connections Cloud',
     logo: ibmConnectionsLogo
   }
