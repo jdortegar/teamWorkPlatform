@@ -618,6 +618,9 @@
   "subPageHeader": {
 	"linkToCKG": "View CKG"
   },
+  "homePage": {
+    "latestHeader": "Latest Activity"
+  },
 
   "validationError": {
     "usernameNotEndsWithPeriod": "Display Name cannot end with a period.",
