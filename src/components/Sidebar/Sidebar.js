@@ -261,12 +261,14 @@ class Sidebar extends Component {
             </div>
           }
         >
-          <div className="sidebar-block-label">
-            <span className="habla-label">
-              {String.t('teamRooms')}
-              {/* <span className="sidebar-label-number-badge">81</span> */}
-            </span>
-          </div>
+          <Menu.Item key="roomsLabel">
+            <div className="sidebar-block-label">
+              <span className="habla-label">
+                {String.t('teamRooms')}
+                {/* <span className="sidebar-label-number-badge">81</span> */}
+              </span>
+            </div>
+          </Menu.Item>
           { teamRooms }
         </SubMenu>);
     });
