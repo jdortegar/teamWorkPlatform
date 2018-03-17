@@ -24,6 +24,7 @@ const propTypes = {
   inviteMembersToTeamRoom: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
   teamRooms: PropTypes.object.isRequired,
+  currentUserId: PropTypes.string.isRequired,
   subscriberOrgById: PropTypes.object.isRequired,
   subscribers: PropTypes.array
 };
@@ -72,8 +73,10 @@ class InviteToTeamRoomPage extends Component {
   }
 
   renderInvitees(teamRoom) {
-    return this.props.subscribers.map((member, index) => {
+    const { currentUserId, subscribers } = this.props;
+    return subscribers.map((member, index) => {
       const { userId, online } = member;
+      if (userId === currentUserId) return null; // skip current user
       const isMember = member.teamRooms && (member.teamRooms[teamRoom.teamRoomId] !== undefined);
       const isPending = this.state.invitees[member.userId] != null;
       const avatarClassName = classNames({ 'opacity-low': !online });
@@ -117,9 +120,9 @@ class InviteToTeamRoomPage extends Component {
   }
 
   render() {
-    const { subscribers, match, teamRooms, teams, subscriberOrgById } = this.props;
+    const { subscribers, match, teamRooms, teams, subscriberOrgById, currentUserId } = this.props;
     if (!subscribers || !match || !match.params || !match.params.teamRoomId ||
-        !teamRooms || !teams || !subscriberOrgById) {
+        !teamRooms || !teams || !subscriberOrgById || !currentUserId) {
       return <Spinner />;
     }
     const { teamRoomId } = match.params;

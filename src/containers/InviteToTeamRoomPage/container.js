@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
 import InviteToTeamRoomPage from '../../pages/InviteToTeamRoomPage';
 import { inviteMembersToTeamRoom } from '../../actions';
-import { getSubscribersOfTeamRoomId } from '../../selectors';
+import { getMyselfUserId, getSubscribersOfTeamRoomId } from '../../selectors';
 
 function mapStateToProps(state, props) {
   const { teamRoomId } = props.match.params;
   return {
+    currentUserId: getMyselfUserId(state),
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     teams: state.teams,
     teamRooms: state.teamRooms,

@@ -23,6 +23,7 @@ const propTypes = {
   }).isRequired,
   inviteMembersToTeam: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
+  currentUserId: PropTypes.string.isRequired,
   subscriberOrgById: PropTypes.object.isRequired,
   subscribers: PropTypes.array
 };
@@ -69,8 +70,10 @@ class InviteToTeamPage extends Component {
   }
 
   renderInvitees(team) {
-    return this.props.subscribers.map((member, index) => {
+    const { currentUserId, subscribers } = this.props;
+    return subscribers.map((member, index) => {
       const { userId, online } = member;
+      if (userId === currentUserId) return null; // skip current user
       const isMember = member.teams && (member.teams[team.teamId] !== undefined);
       const isPending = this.state.invitees[member.userId] != null;
       const avatarClassName = classNames({ 'opacity-low': !online });
@@ -114,9 +117,9 @@ class InviteToTeamPage extends Component {
   }
 
   render() {
-    const { subscribers, match, teams, subscriberOrgById } = this.props;
+    const { subscribers, match, teams, subscriberOrgById, currentUserId } = this.props;
     if (!subscribers || !match || !match.params || !match.params.teamId ||
-        !teams || !subscriberOrgById) {
+        !teams || !subscriberOrgById || !currentUserId) {
       return <Spinner />;
     }
     const { teamId } = match.params;
