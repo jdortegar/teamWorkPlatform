@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, message } from 'antd';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import _ from 'lodash';
 import BreadCrumb from '../../components/BreadCrumb';
 import AvatarWrapper from '../../components/common/Avatar/AvatarWrapper';
 import SubpageHeader from '../../components/SubpageHeader';
@@ -25,11 +26,13 @@ const propTypes = {
   teams: PropTypes.object.isRequired,
   currentUserId: PropTypes.string.isRequired,
   subscriberOrgById: PropTypes.object.isRequired,
+  subscribersPresences: PropTypes.object,
   subscribers: PropTypes.array
 };
 
 const defaultProps = {
-  subscribers: null
+  subscribers: null,
+  subscribersPresences: null
 };
 
 class InviteToTeamPage extends Component {
@@ -70,8 +73,13 @@ class InviteToTeamPage extends Component {
   }
 
   renderInvitees(team) {
-    const { currentUserId, subscribers } = this.props;
-    return subscribers.map((member, index) => {
+    const { currentUserId, subscribers, subscribersPresences } = this.props;
+    const orgSubscribers = subscribers.map(subscriber => ({
+      ...subscriber,
+      online: _.some(_.values(subscribersPresences[subscriber.userId]), { presenceStatus: 'online' })
+    }));
+
+    return orgSubscribers.map((member, index) => {
       const { userId, online } = member;
       if (userId === currentUserId) return null; // skip current user
       const isMember = member.teams && (member.teams[team.teamId] !== undefined);
@@ -117,9 +125,9 @@ class InviteToTeamPage extends Component {
   }
 
   render() {
-    const { subscribers, match, teams, subscriberOrgById, currentUserId } = this.props;
+    const { subscribers, match, teams, subscriberOrgById, currentUserId, subscribersPresences } = this.props;
     if (!subscribers || !match || !match.params || !match.params.teamId ||
-        !teams || !subscriberOrgById || !currentUserId) {
+        !teams || !subscriberOrgById || !currentUserId || !subscribersPresences) {
       return <Spinner />;
     }
     const { teamId } = match.params;

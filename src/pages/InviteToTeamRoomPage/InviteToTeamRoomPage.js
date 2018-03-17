@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, message } from 'antd';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import _ from 'lodash';
 import BreadCrumb from '../../components/BreadCrumb';
 import AvatarWrapper from '../../components/common/Avatar/AvatarWrapper';
 import SubpageHeader from '../../components/SubpageHeader';
@@ -26,10 +27,12 @@ const propTypes = {
   teamRooms: PropTypes.object.isRequired,
   currentUserId: PropTypes.string.isRequired,
   subscriberOrgById: PropTypes.object.isRequired,
+  subscribersPresences: PropTypes.object,
   subscribers: PropTypes.array
 };
 
 const defaultProps = {
+  subscribersPresences: null,
   subscribers: null
 };
 
@@ -73,8 +76,13 @@ class InviteToTeamRoomPage extends Component {
   }
 
   renderInvitees(teamRoom) {
-    const { currentUserId, subscribers } = this.props;
-    return subscribers.map((member, index) => {
+    const { currentUserId, subscribers, subscribersPresences } = this.props;
+    const orgSubscribers = subscribers.map(subscriber => ({
+      ...subscriber,
+      online: _.some(_.values(subscribersPresences[subscriber.userId]), { presenceStatus: 'online' })
+    }));
+
+    return orgSubscribers.map((member, index) => {
       const { userId, online } = member;
       if (userId === currentUserId) return null; // skip current user
       const isMember = member.teamRooms && (member.teamRooms[teamRoom.teamRoomId] !== undefined);
@@ -120,8 +128,8 @@ class InviteToTeamRoomPage extends Component {
   }
 
   render() {
-    const { subscribers, match, teamRooms, teams, subscriberOrgById, currentUserId } = this.props;
-    if (!subscribers || !match || !match.params || !match.params.teamRoomId ||
+    const { subscribers, match, teamRooms, teams, subscriberOrgById, currentUserId, subscribersPresences } = this.props;
+    if (!subscribers || !match || !match.params || !match.params.teamRoomId || !subscribersPresences ||
         !teamRooms || !teams || !subscriberOrgById || !currentUserId) {
       return <Spinner />;
     }
