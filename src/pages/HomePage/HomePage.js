@@ -28,7 +28,7 @@ class HomePage extends Component {
 
     return this.state.activity.map(({ logo, from }) => {
       return (
-        <div className="homePage__activity-container">
+        <div key={date} className="homePage__activity-container">
           <div className="homePage__activity-avatar">
             <img src={logo} alt={String.t('Header.logoAlt')} className="homePage__activity-avatar" />
           </div>
