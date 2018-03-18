@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import InviteToTeamPage from '../../pages/InviteToTeamPage';
-import { inviteMembersToTeam } from '../../actions';
+import { inviteMembersToTeam, fetchSentInvitations } from '../../actions';
 import { getMyselfUserId, getPresencesOfSubscribersOfOrgId, getSubscribersOfTeamId } from '../../selectors';
 
 function mapStateToProps(state, props) {
@@ -8,6 +8,7 @@ function mapStateToProps(state, props) {
   return {
     teams: state.teams,
     currentUserId: getMyselfUserId(state),
+    sentInvitations: state.sentInvitations,
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     subscribers: getSubscribersOfTeamId(state, teamId)
@@ -17,6 +18,7 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch, props) {
   const { teamId } = props.match.params;
   return {
+    fetchSentInvitations: fetchFilter => dispatch(fetchSentInvitations(fetchFilter)),
     inviteMembersToTeam: users => dispatch(inviteMembersToTeam(users, teamId))
   };
 }

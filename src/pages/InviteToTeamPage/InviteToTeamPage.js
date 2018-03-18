@@ -23,6 +23,8 @@ const propTypes = {
     }).isRequired
   }).isRequired,
   inviteMembersToTeam: PropTypes.func.isRequired,
+  fetchSentInvitations: PropTypes.func.isRequired,
+  sentInvitations: PropTypes.object,
   teams: PropTypes.object.isRequired,
   currentUserId: PropTypes.string.isRequired,
   subscriberOrgById: PropTypes.object.isRequired,
@@ -31,8 +33,9 @@ const propTypes = {
 };
 
 const defaultProps = {
-  subscribers: null,
-  subscribersPresences: null
+  sentInvitations: null,
+  subscribersPresences: null,
+  subscribers: null
 };
 
 class InviteToTeamPage extends Component {
@@ -43,6 +46,10 @@ class InviteToTeamPage extends Component {
 
     this.invitePressed = this.invitePressed.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.fetchSentInvitations(null);
   }
 
   invitePressed(member) {
@@ -73,17 +80,24 @@ class InviteToTeamPage extends Component {
   }
 
   renderInvitees(team) {
-    const { currentUserId, subscribers, subscribersPresences } = this.props;
+    const { currentUserId, subscribers, subscribersPresences, sentInvitations } = this.props;
     const orgSubscribers = subscribers.map(subscriber => ({
       ...subscriber,
       online: _.some(_.values(subscribersPresences[subscriber.userId]), { presenceStatus: 'online' })
     }));
-
-    return orgSubscribers.map((member, index) => {
+    const subscribersWithoutCurrentUser = orgSubscribers.filter(sub => sub.userId !== currentUserId);
+    return subscribersWithoutCurrentUser.map((member, index) => {
       const { userId, online } = member;
-      if (userId === currentUserId) return null; // skip current user
+      const sentPendingInvitesForUser = _.find(sentInvitations.pending, { inviteeUserId: userId });
       const isMember = member.teams && (member.teams[team.teamId] !== undefined);
       const isPending = this.state.invitees[member.userId] != null;
+      let inviteLabel = '';
+      if (!isMember && !isPending) {
+        inviteLabel = !sentPendingInvitesForUser ?
+          String.t('inviteToTeamPage.inviteButtonLabel') :
+          String.t('inviteToTeamPage.reInviteButtonLabel');
+      }
+
       const avatarClassName = classNames({ 'opacity-low': !online });
       return (
         <div
@@ -105,7 +119,7 @@ class InviteToTeamPage extends Component {
           <a
             className="habla-MemberListing__inviteButton-text"
           >
-            {!isMember && !isPending && String.t('inviteToTeamPage.inviteButtonLabel')}
+            {inviteLabel}
             {(isMember || isPending) &&
             <div>
               <i
@@ -125,11 +139,13 @@ class InviteToTeamPage extends Component {
   }
 
   render() {
-    const { subscribers, match, teams, subscriberOrgById, currentUserId, subscribersPresences } = this.props;
-    if (!subscribers || !match || !match.params || !match.params.teamId ||
-        !teams || !subscriberOrgById || !currentUserId || !subscribersPresences) {
+    const { subscribers, match, teams, subscriberOrgById, currentUserId, subscribersPresences, sentInvitations } = this.props;
+    if (!subscribers || !match || !match.params || !match.params.teamId || !teams ||
+      !subscriberOrgById || !currentUserId || !subscribersPresences || !sentInvitations ||
+      !sentInvitations.pending) {
       return <Spinner />;
     }
+
     const { teamId } = match.params;
     const team = teams.teamById[teamId];
     if (!team) {

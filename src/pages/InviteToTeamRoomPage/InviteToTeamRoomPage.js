@@ -23,6 +23,8 @@ const propTypes = {
     }).isRequired
   }).isRequired,
   inviteMembersToTeamRoom: PropTypes.func.isRequired,
+  fetchSentInvitations: PropTypes.func.isRequired,
+  sentInvitations: PropTypes.object,
   teams: PropTypes.object.isRequired,
   teamRooms: PropTypes.object.isRequired,
   currentUserId: PropTypes.string.isRequired,
@@ -32,6 +34,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  sentInvitations: null,
   subscribersPresences: null,
   subscribers: null
 };
@@ -44,6 +47,10 @@ class InviteToTeamRoomPage extends Component {
 
     this.invitePressed = this.invitePressed.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.fetchSentInvitations(null);
   }
 
   invitePressed(member) {
@@ -76,17 +83,24 @@ class InviteToTeamRoomPage extends Component {
   }
 
   renderInvitees(teamRoom) {
-    const { currentUserId, subscribers, subscribersPresences } = this.props;
+    const { currentUserId, subscribers, subscribersPresences, sentInvitations } = this.props;
     const orgSubscribers = subscribers.map(subscriber => ({
       ...subscriber,
       online: _.some(_.values(subscribersPresences[subscriber.userId]), { presenceStatus: 'online' })
     }));
-
-    return orgSubscribers.map((member, index) => {
+    const subscribersWithoutCurrentUser = orgSubscribers.filter(sub => sub.userId !== currentUserId);
+    return subscribersWithoutCurrentUser.map((member, index) => {
       const { userId, online } = member;
-      if (userId === currentUserId) return null; // skip current user
+      const sentPendingInvitesForUser = _.find(sentInvitations.pending, { inviteeUserId: userId });
       const isMember = member.teamRooms && (member.teamRooms[teamRoom.teamRoomId] !== undefined);
       const isPending = this.state.invitees[member.userId] != null;
+      let inviteLabel = '';
+      if (!isMember && !isPending) {
+        inviteLabel = !sentPendingInvitesForUser ?
+          String.t('inviteToTeamRoomPage.inviteButtonLabel') :
+          String.t('inviteToTeamRoomPage.reInviteButtonLabel');
+      }
+
       const avatarClassName = classNames({ 'opacity-low': !online });
       return (
         <div
@@ -108,7 +122,7 @@ class InviteToTeamRoomPage extends Component {
           <a
             className="habla-MemberListing__inviteButton-text"
           >
-            {!isMember && !isPending && String.t('inviteToTeamPage.inviteButtonLabel')}
+            {inviteLabel}
             {(isMember || isPending) &&
             <div>
               <i
@@ -128,9 +142,9 @@ class InviteToTeamRoomPage extends Component {
   }
 
   render() {
-    const { subscribers, match, teamRooms, teams, subscriberOrgById, currentUserId, subscribersPresences } = this.props;
+    const { subscribers, match, teamRooms, teams, subscriberOrgById, currentUserId, subscribersPresences, sentInvitations } = this.props;
     if (!subscribers || !match || !match.params || !match.params.teamRoomId || !subscribersPresences ||
-        !teamRooms || !teams || !subscriberOrgById || !currentUserId) {
+        !teamRooms || !teams || !subscriberOrgById || !currentUserId || !sentInvitations || !sentInvitations.pending) {
       return <Spinner />;
     }
     const { teamRoomId } = match.params;
