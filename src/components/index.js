@@ -5,6 +5,8 @@ export TimeActivityGraph from './TimeActivityGraph';
 export GraphDateSelector from './GraphDateSelector';
 export GraphActivitySelector from './GraphActivitySelector';
 export GraphZoomActions from './GraphZoomActions';
+export TeamPicker from './TeamPicker';
+export TeamRoomPicker from './TeamRoomPicker';
 
 // FORMS
 export FirstNameField from './formFields/FirstNameField';

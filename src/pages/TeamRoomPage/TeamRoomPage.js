@@ -542,7 +542,7 @@ class TeamRoomPage extends Component {
           <div className="team-room__top-page-container border-bottom-lighter">
             <SubpageHeader
               subscriberOrgId={subscriberOrg.subscriberOrgId}
-              ckgLink
+              ckgLink={{ teamId: team.teamId, teamRoomId }}
               history={this.props.history}
               breadcrumb={
                 <BreadCrumb

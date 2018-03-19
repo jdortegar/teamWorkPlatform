@@ -96,7 +96,7 @@ class TeamPage extends Component {
         <div>
           <SubpageHeader
             subscriberOrgId={subscriberOrg.subscriberOrgId}
-            ckgLink
+            ckgLink={{ teamId }}
             history={this.props.history}
             breadcrumb={
               <BreadCrumb
