@@ -1,5 +1,5 @@
 .Notification__container {
-  height: 50px !important;
+  height: auto!important;
   flex-direction: row !important;
   background: #666;
   border-bottom: 1px solid #999;
@@ -11,13 +11,9 @@
 .Notification__title {
     color: white;
     font-size: 10pt;
-    position: relative;
-    top: 7px;
     display: inline-block;
     width: 60%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    font-weight: 300;
 }
 .Notification__title svg {
     font-size: 15px;
