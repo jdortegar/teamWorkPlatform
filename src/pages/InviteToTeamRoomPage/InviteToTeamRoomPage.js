@@ -91,7 +91,7 @@ class InviteToTeamRoomPage extends Component {
     const subscribersWithoutCurrentUser = orgSubscribers.filter(sub => sub.userId !== currentUserId);
     return subscribersWithoutCurrentUser.map((member, index) => {
       const { userId, online } = member;
-      const sentPendingInvitesForUser = _.find(sentInvitations.pending, { inviteeUserId: userId });
+      const sentPendingInvitesForUser = _.find(sentInvitations.pending, { inviteeUserId: userId, teamRoomId: teamRoom.teamRoomId });
       const isMember = member.teamRooms && (member.teamRooms[teamRoom.teamRoomId] !== undefined);
       const isPending = this.state.invitees[member.userId] != null;
       let inviteLabel = '';
