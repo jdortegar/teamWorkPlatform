@@ -933,3 +933,18 @@ ul.ant-menu li.ant-menu-submenu:hover {
 .ant-avatar-string {
   left: 30px;
 }
+.ant-progress-line { 
+    bottom: 0!important;
+    padding: 0 5px!important;
+    position: absolute!important;
+}
+.ant-progress-inner {
+	background-color: transparent;
+}
+.image-wrapper .ant-card {
+	background: none;
+	width: inherit;
+	height: inherit;
+	border: none;
+	margin: 0;
+}

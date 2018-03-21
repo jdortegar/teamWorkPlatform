@@ -1,8 +1,3 @@
-.PreviewCard__container, .PreviewCard__image {
-  height: 116px;
-  margin-bottom: 0 !important;
-  margin-left: 0 !important;
-}
 .PreviewCard__container > div.ant-card-head {
   position: absolute;
   right: 5px;
@@ -21,34 +16,41 @@
   top: -5px;
 }
 .PreviewCard__close-button {
-  color: #888888;
+  color: #999;
   font-size: 18px;
 }
-.PreviewCard__close-button {
-  color: #bbbbbb;
+.PreviewCard__close-button svg {
+	background: #fff;
+	border-radius: 50%;
 }
-
+.PreviewCard__close-button:hover {
+  color: #666;
+}
 .PreviewCard__is-file {
   height: auto;
 }
-
 .file-wrapper {
-  text-align: center;
-  margin: .5em 1.8em 0.2em 1.8em;
-  position: relative;
-  width: fit-content;
+	position: absolute;
+	bottom: 14px;
+	left: 0;
+	right: 0;
+	text-align: center;
+	background-color: transparent;
+	text-transform: uppercase;
+	color: #fff;
+	font-size: 11px;
 }
-
 .file-name {
   display: block;
   text-align: center;
 }
-
 .file-icon {
-  font-size: 6em !important;
+  font-size: 6em;
   overflow: hidden;
 }
-
+.PreviewBar__image-wrapper .file-icon {
+	font-size: 7em;
+}
 .file-type {
   position: absolute;
   bottom: 0;
@@ -57,4 +59,11 @@
   background-color: #75d2ec;
   color: #fff;
   text-transform: uppercase;
+}
+.PreviewCard__container img {
+	width: 52px;
+    margin-right: .35em;
+    margin-left: .35em;
+    margin-top: .35em;
+    cursor: pointer;
 }

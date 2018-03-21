@@ -1,44 +1,61 @@
 .PreviewBar__files-container {
   display: flex;
   flex-wrap: wrap;
+  margin: 0 13px 0 8px;
 }
 .PreviewBar__message-body-name {
   color: #999999;
   font-size: 11px;
+  display: inline-flex;
 }
 .PreviewBar__message-body-text {
   font-size: 13px;
   color: black;
 }
-.PreviewBar__message-cancel-reply {
-  font-size: 22px;
+.PreviewBar__message-cancel-reply:hover {
+  color: #666;
 }
 .PreviewBar__message_reply-container {
-  padding: 5px 8px;
-  background-color: #f9f9f9;
+  padding: 8px;
+  margin: 0 10px 1px 10px;
+  border-radius: 4px 4px 0 0;
+  background-color: #eee;
+  color: #999;
+  position: relative;
 }
 .PreviewBar__message-cancel-reply-col {
-  display: flex;
-  justify-content: center;
+  text-align: right;
+  position: absolute;
+  right: 8px;
+  top: 4px;
+  font-size: 22px;
+  color: #ccc;
+}
+.PreviewBar__message-cancel-reply-col a {
+  color: #ccc;
+  font-size: 20px;
 }
 .PreviewBar__file-placeholder-icon {
-  font-size: 100px;
+  font-size: 70px;
+  color: #666;
 }
 .PreviewBar__file-placeholder-title {
-  padding-bottom: 15px;
+  padding-top: 15px;
+  color: #666;
 }
 .PreviewBar__file-placeholder-container {
   width: 100%;
   text-align: center;
-  border: 2px dashed;
+  margin: 10px 8px 10px 0;
 }
-.PreviewBar__image-wrapper {
-  background-color: #fff;
-  margin-right: .5em;
-  border-radius: 2px;
-  position: relative;
-  width: 112px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.team-room__chat-container .fa-reply {
+	display: inline-flex;
+	margin: 0 8px 0 0;
+	color: #ccc;
+}
+.replyBorder {
+	border-radius: 2px;
+}
+.PreviewBar__files-container .image-wrapper-content {
+ 	background-color: #fff;
 }
