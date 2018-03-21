@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Modal } from 'antd';
+import { Modal, Tooltip } from 'antd';
 import classNames from 'classnames';
 import { getJwt } from '../../session';
 import './styles/style.css';
@@ -84,6 +84,14 @@ class PreviewImages extends Component {
       if (isImage) {
         return (
           <div className="image-wrapper" key={index}>
+            <Tooltip placement="top" title={decodeURI(name)} arrowPointAtCenter>
+              <div className="image-wrapper-content">
+                <a onClick={() => this.handlePreview(file.src, isImage, extension)} role="button" tabIndex={0}>
+                  <img src={file.src} alt={file.fileName} />
+                </a>
+              </div>
+              <span className="file-name habla-label">{decodeURI(name)}</span>
+            </Tooltip>
             <a onClick={() => this.handlePreview(file.src, isImage, extension)} role="button" tabIndex={0}>
               <img src={file.src} alt={file.fileName} onLoad={this.props.onLoadImage} />
             </a>
@@ -93,23 +101,31 @@ class PreviewImages extends Component {
       if (extension === 'pdf') {
         return (
           <div className="image-wrapper preview__file-wrapper" key={index} onClick={() => this.handlePreview(file.src, isImage, extension)}>
-            <div className="file-wrapper__extension">
-              <i className="fa fa-file file-icon" aria-hidden="true" />
-              <span className="file-wrapper__file-type">{extension}</span>
-            </div>
-            <span className="file-name">{decodeURI(name)}</span>
+            <Tooltip placement="top" title={decodeURI(name)} arrowPointAtCenter>
+              <div className="image-wrapper-content">
+                <div className="file-wrapper__extension">
+                  <i className="fa fa-file file-icon" aria-hidden="true" />
+                  <span className="file-wrapper__file-type">{extension}</span>
+                </div>
+              </div>
+              <span className="file-name habla-label">{decodeURI(name)}</span>
+            </Tooltip>
           </div>);
       }
 
       return (
         <div className="image-wrapper preview__file-wrapper" key={index} onClick={() => this.handlePreview(file.src, isImage, extension)}>
-          <a href={file.src} download={decodeURI(file.fileName)}>
-            <div className="file-wrapper__extension">
-              <i className="fa fa-file file-icon" aria-hidden="true" />
-              <span className="file-wrapper__file-type">{extension}</span>
+          <Tooltip placement="top" title={decodeURI(name)} arrowPointAtCenter>
+            <div className="image-wrapper-content">
+              <a href={file.src} download={decodeURI(file.fileName)}>
+                <div className="file-wrapper__extension">
+                  <i className="fa fa-file file-icon" aria-hidden="true" />
+                  <span className="file-wrapper__file-type">{extension}</span>
+                </div>
+              </a>
             </div>
-            <span className="file-name">{decodeURI(name)}</span>
-          </a>
+            <span className="file-name habla-label">{decodeURI(name)}</span>
+          </Tooltip>
         </div>);
     });
   }
