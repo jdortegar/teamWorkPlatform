@@ -193,6 +193,7 @@
     "activeStatus": "Active",
     "inviteNewMember": "Invite a New Team Member",
     "addNewTeamRoom": "Add New Team Room",
+    "teamCreated": "Created on {{date}}",
     "membersHeader": {
       "one": "1 Team Member",
       "other": "{{count}} Team Members",
@@ -465,7 +466,7 @@
     "forbiddenMessage": "Something Wrong",
     "forbiddenDescription": "You did not authorize {{name}} access.",
     "notFoundMessage": "Something Wrong",
-    "notFoundDescription": "You don't have permission to do add a provider.",
+    "notFoundDescription": "You don't have permission to do add {{name}} access.",
     "unknownMessage": "Something Wrong",
     "unknownDescription": "We were unable to add {{name}} access."
   },
@@ -487,13 +488,13 @@
    "sendInvitationsButtonLabel": {
       "zero": "Send Invitation",
       "one": "Send Invitation",
-      "other": "Send Invitations"
+      "other": "Send {{count}} Invitations"
     },
-    "addAnother": "Add Another",
-    "username": "New Team Member",
-    "usernamePlaceholder": "Enter Name of Person to Add",
-    "removeLink": "Remove",
-    "breadcrumb": "Invite to Team",
+    "inviteButtonLabel": "INVITE",
+    "reInviteButtonLabel": "RE-INVITE",
+    "instructions": "Invite Team Members to Join \"{{name}}\"",
+    "membersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
+    "breadcrumb": "Invite Team Members",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
@@ -503,12 +504,12 @@
    "sendInvitationsButtonLabel": {
       "zero": "Send Invitation",
       "one": "Send Invitation",
-      "other": "Send Invitations"
+      "other": "Send {{count}} Invitations"
     },
-    "addAnother": "Add Another",
-    "username": "New Team Room Member",
-    "usernamePlaceholder": "Enter Name of Person to Add",
-    "removeLink": "Remove",
+    "inviteButtonLabel": "INVITE",
+    "reInviteButtonLabel": "RE-INVITE",
+    "instructions": "Invite Team Room Members to Join \"{{name}}\"",
+    "membersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
     "breadcrumb": "Invite to Team Room",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
@@ -532,7 +533,7 @@
     "inviteNewMember": "Invite a New Team Member",
     "addNewTeamRoom": "Add New Team Room",
     "roomsHeader": "Team Rooms ({{count}})",
-    "newButtonLabel": "New",    
+    "newButtonLabel": "New",
     "membersHeader": "Team Members ({{count}})"
   },
   "teamRoomPage": {
@@ -564,7 +565,9 @@
     "displayName": "Display Name: {{displayName}}",
     "timeZone": "Time Zone: {{timeZone}}",
     "memberSince": "Member since {{date}}",
-    "activeStatus": "Online"
+    "statusOnline": "Online",
+    "statusAway": "Away",
+    "statusBusy": "Busy"
   },
   "notificationPage": {
     "title": "Notifications",
@@ -576,12 +579,19 @@
     "unReadNotifications": "UNREAD NOTIFICATIONS",
     "markAllAsRead": "Mark all as read"
   },
-  "ckgPage": {
-    "title": "CKG Time Activity Knowledge Graph",
+  "graphActivityMenu": {
     "activityLabel": "Activity",
     "allActivity": "All Activity",
     "viewsActivity": "Views",
-    "sharesActivity": "Shares",
+    "sharesActivity": "Shares"
+  },
+  "graphZoomActions": {
+    "zoomInLabel": "Zoom In",
+    "zoomOutLabel": "Zoom Out",
+    "viewAllLabel": "View All"
+  },
+  "ckgPage": {
+    "title": "CKG Time Activity Knowledge Graph",
     "dateLabel": "Select a Range of Dates",
     "filterTypes": {
       "one": "Data Type",
@@ -607,6 +617,9 @@
   },
   "subPageHeader": {
 	"linkToCKG": "View CKG"
+  },
+  "homePage": {
+    "latestHeader": "Latest Activity"
   },
 
   "validationError": {

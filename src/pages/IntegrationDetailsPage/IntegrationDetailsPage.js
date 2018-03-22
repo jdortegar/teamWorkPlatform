@@ -53,7 +53,7 @@ const propTypes = {
     params: PropTypes.shape({
       subscriberOrgId: PropTypes.string.isRequired,
       integrationDetails: PropTypes.string.isRequired,
-      status: PropTypes.string.isRequired
+      status: PropTypes.string
     }).isRequired
   }).isRequired,
   subscriberOrgs: PropTypes.object.isRequired
@@ -160,10 +160,16 @@ class IntegrationDetailsPage extends Component {
           configParams[param.key] = this[param.key].value;
         });
       }
-      this.props.integrateIntegration(key, subscriberOrgId, configParams);
+      this.props.integrateIntegration(key, subscriberOrgId, configParams)
+        .catch((error) => {
+          message.error(error.message);
+        });
     } else {
       this.props.revokeIntegration(key, subscriberOrgId)
-        .then(res => showNotification(res, key));
+        .then(res => showNotification(res, key))
+        .catch((error) => {
+          message.error(error.message);
+        });
     }
   }
 
@@ -242,7 +248,7 @@ class IntegrationDetailsPage extends Component {
           }
         }
         extraFormFields.push((
-          <div className="m-2">
+          <div key={`${key}-configInput`} className="m-2">
             <label className="Integration-details__config-label">{label}</label>
             <input
               ref={(ref) => { this[key] = ref; }}
@@ -261,14 +267,14 @@ class IntegrationDetailsPage extends Component {
         if (folders) {
           const optionsChanged = Object.keys(this.state.changedFolderOptions).length > 0;
           extraFormFields.push((
-            <div className="m-2 Integration-details__config-container">
+            <div key="folders" className="m-2 Integration-details__config-container">
               <label className="Integration-details__config-folders-label">{label}</label>
               <div className="Integration-details__config-folders">
                 {folders.map(fldr => this.renderFolder(fldr, 0))}
               </div>
               <div className="Integration-details__config-folders-save-button">
                 <Button
-                  type={optionsChanged ? 'main' : 'disabled'}
+                  type={optionsChanged ? 'main' : 'disable'}
                   fitText
                   onClick={this.onSaveConfigChanges}
                   loading={this.state.loading}

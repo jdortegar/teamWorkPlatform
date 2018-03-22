@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import classNames from 'classnames';
 import Avatar from '../../../components/common/Avatar';
+import AvatarWrapper from '../../../components/common/Avatar/AvatarWrapper';
 import SimpleCardContainer from '../../../components/SimpleCardContainer';
 import SimpleHeader from '../../../components/SimpleHeader';
 import getInitials from '../../../utils/helpers';
@@ -55,24 +56,16 @@ function CardView(props) {
   };
 
   const renderTeamMembers = () => {
-    return members.map(({ userId, firstName, lastName, preferences, icon, online }) => {
-      const className = classNames({
-        'mr-05': true,
-        'opacity-low': !online
-      });
-
+    return members.map((member) => {
+      const { userId, firstName, lastName } = member;
       const fullName = String.t('fullName', { firstName, lastName });
       return (
         <div key={userId} className="mr-1">
           <Tooltip placement="top" title={fullName}>
             <Link to={`/app/teamMember/${userId}`}>
-              {
-                icon ?
-                  <Avatar size="large" src={`data:image/jpeg;base64, ${icon}`} className={className} /> :
-                  <Avatar size="large" color={preferences.iconColor} className={className}>
-                    {getInitials(fullName)}
-                  </Avatar>
-              }
+              <div>
+                <AvatarWrapper size="large" user={member} hideStatusTooltip />
+              </div>
               <div className="habla-label align-center-class card-label">
                 {firstName}
               </div>

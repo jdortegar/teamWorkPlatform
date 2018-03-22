@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Tooltip, message } from 'antd';
+import { message } from 'antd';
+import moment from 'moment';
 import _ from 'lodash';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -95,7 +96,7 @@ class TeamPage extends Component {
         <div>
           <SubpageHeader
             subscriberOrgId={subscriberOrg.subscriberOrgId}
-            ckgLink
+            ckgLink={{ teamId }}
             history={this.props.history}
             breadcrumb={
               <BreadCrumb
@@ -118,13 +119,10 @@ class TeamPage extends Component {
             <div className="margin-top-class-b">
               <h1 className="New-team__title habla-big-title habla-bold-text">
                 {team.name}
-                <Tooltip placement="top" title={String.t('TeamPage.activeStatus')}>
-                  <div className="habla-main-content-item-signal habla-color-green" />
-                </Tooltip>
               </h1>
             </div>
             <div className="habla-secondary-paragraph margin-top-class-b">
-              Created on November 27, 2017 by Mike Somlo
+              {String.t('TeamPage.teamCreated', { date: moment(team.created).format('LL') })}
             </div>
           </SimpleCardContainer>
           <div className="teamPage-list">

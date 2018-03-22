@@ -1,3 +1,8 @@
+.CKGPage {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+}
 .VictoryContainer img {
 	cursor: pointer;
 }
@@ -17,7 +22,7 @@
 .fileTypeButton {
   border-radius: 4px;
   overflow: hidden;
-  display: -webkit-inline-box; 
+  display: -webkit-inline-box;
   vertical-align: -webkit-baseline-middle;
   cursor: pointer;
 }
@@ -49,6 +54,7 @@
   color: #fff;
   border-radius: 7px;
   z-index: 2;
+  user-select: none;
 }
 .habla-ckg-tools-bar a {
   padding: 8px;

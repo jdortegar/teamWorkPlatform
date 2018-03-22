@@ -2,7 +2,11 @@ export NewSubpageHeader from './NewSubpageHeader';
 export Avatar from './Avatar';
 export Badge from './Badge';
 export TimeActivityGraph from './TimeActivityGraph';
-export TimeActivityGraphReact from './TimeActivityGraphReact';
+export GraphDateSelector from './GraphDateSelector';
+export GraphActivitySelector from './GraphActivitySelector';
+export GraphZoomActions from './GraphZoomActions';
+export TeamPicker from './TeamPicker';
+export TeamRoomPicker from './TeamRoomPicker';
 
 // FORMS
 export FirstNameField from './formFields/FirstNameField';

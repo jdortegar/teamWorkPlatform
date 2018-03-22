@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Tooltip } from 'antd';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import _ from 'lodash';
 import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import SimpleCardContainer from '../../components/SimpleCardContainer';
@@ -13,7 +13,7 @@ import String from '../../translations';
 const propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      userId: PropTypes.string.isRequired
+      teamMemberId: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
   subscribers: PropTypes.array.isRequired,
@@ -31,7 +31,7 @@ class TeamMemberPage extends Component {
 
   render() {
     const { subscriberOrg, subscribers, subscribersPresences, match } = this.props;
-    if (!subscriberOrg || !subscribers || !subscribersPresences) {
+    if (!subscriberOrg || !subscribers || !subscribersPresences || !match || !match.params) {
       return <Spinner />;
     }
 
@@ -40,7 +40,10 @@ class TeamMemberPage extends Component {
       this.props.history.replace('/app');
       return null;
     }
-    const member = memberArray[0];
+    const member = {
+      ...memberArray[0],
+      online: _.some(_.values(subscribersPresences[memberArray[0].userId]), { presenceStatus: 'online' })
+    };
     const { created, displayName, firstName, lastName, timeZone } = member;
 
     return (
@@ -66,9 +69,6 @@ class TeamMemberPage extends Component {
           <div className="margin-top-class-b">
             <h1 className="New-team__title habla-big-title habla-bold-text">
               {String.t('fullName', { firstName, lastName })}
-              <Tooltip placement="top" title={String.t('teamMemberPage.activeStatus')}>
-                <div className="habla-main-content-item-signal habla-color-green" />
-              </Tooltip>
             </h1>
             <div className="habla-secondary-paragraph">
               {String.t('teamMemberPage.displayName', { displayName })}

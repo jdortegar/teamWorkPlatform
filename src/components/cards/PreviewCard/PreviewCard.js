@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Icon } from 'antd';
+import { Card, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import './styles/style.css';
@@ -42,22 +42,24 @@ class PreviewCard extends Component {
     const [name, extension] = fileName.split('.');
     if (isImage) {
       return (
-        <img
-          className="PreviewCard__image"
-          alt={String.t('PreviewCard.imageAlt')}
-          width="100%"
-          src={this.props.file.src}
-        />
+        <Tooltip placement="top" title={decodeURI(name)} arrowPointAtCenter>
+          <img
+            className="PreviewCard__image"
+            alt={String.t('PreviewCard.imageAlt')}
+            width="100%"
+            src={this.props.file.src}
+          />
+        </Tooltip>
       );
     }
     return (
-      <div>
-        <div className="file-wrapper">
+      <Tooltip placement="top" title={decodeURI(name)} arrowPointAtCenter>
+        <div className="file-wrapper__extension">
           <i className="fa fa-file file-icon" aria-hidden="true" />
-          <span className="file-type">{extension}</span>
+          <span className="file-wrapper__file-type">{extension}</span>
         </div>
-        <span className="file-name">{name}</span>
-      </div>);
+      </Tooltip>
+    );
   }
 
   render() {
@@ -73,7 +75,7 @@ class PreviewCard extends Component {
         className={previewCard}
         extra={
           <a className="PreviewCard__close-button" onClick={this.props.handleRemove}>
-            <Icon type="close-circle" />
+            <i className="fas fa-times-circle" />
           </a>
         }
         bordered={false}
@@ -85,5 +87,4 @@ class PreviewCard extends Component {
 }
 
 PreviewCard.propTypes = propTypes;
-
 export default PreviewCard;

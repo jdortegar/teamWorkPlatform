@@ -11,8 +11,8 @@
 }
 .message__main-counter {
   position: absolute;
-  left: 39px;
-  top: 42px;
+  left: 30px;
+  top: 33px;
 }
 .message__main-counter-number {
   background: #FBBC12;
@@ -40,7 +40,7 @@
   text-align: right;
 }
 .message__body-name {
-  color: #999999;
+  color: #ccc;
   font-size: 8pt;
 }
 .message__body-text {
@@ -48,7 +48,7 @@
   color: black;
 }
 .message__body-text-date {
-  color: #999999;
+  color: #ccc;
 }
 .message__body-thumbs-icon {
   margin-left: 8px;
@@ -57,7 +57,7 @@
   margin: 0 2px;
 }
 .message-nested {
-  border-left: 10px solid #ccc;
+  border-left: 10px solid #e3e3e3;
   -webkit-transition: display 2s;
 }
 .message__last-read {

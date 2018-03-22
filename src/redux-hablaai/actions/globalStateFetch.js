@@ -13,13 +13,15 @@ export const fetchGlobalState = () => { // eslint-disable-line import/prefer-def
   return (dispatch, getState) => {
     const state = getState();
     const { currentSubscriberOrgId } = state.subscriberOrgs;
+    const orgNotFetched = currentSubscriberOrgId && !state.teams.teamIdsBySubscriberOrgId[currentSubscriberOrgId];
+
     if (Object.keys(state.subscriberOrgs.subscriberOrgById).length === 0) {
       dispatch(fetchSubscriberOrgs());
     }
-    if (Object.keys(state.teams.teamById).length === 0 || (!state.teams.teamIdsBySubscriberOrgId[currentSubscriberOrgId] && currentSubscriberOrgId)) {
+    if (Object.keys(state.teams.teamById).length === 0 || orgNotFetched) {
       dispatch(fetchTeams());
     }
-    if (Object.keys(state.teamRooms.teamRoomById).length === 0) {
+    if (Object.keys(state.teamRooms.teamRoomById).length === 0 || orgNotFetched) {
       dispatch(fetchTeamRooms());
     }
     if (Object.keys(state.readMessages.readMessagesByConversationId).length === 0) {

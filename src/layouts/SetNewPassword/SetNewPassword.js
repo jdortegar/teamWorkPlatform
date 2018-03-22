@@ -45,7 +45,7 @@ class SetNewPassword extends Component {
           })
           .catch((error) => {
             this.setState({ processing: false });
-            if (error.response.status === 404) {
+            if (error.response && error.response.status === 404) {
               message.error(String.t('setNewPassword.errorToastMessage'));
               this.props.history.replace('/recoverPassword');
             } else {

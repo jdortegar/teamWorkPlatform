@@ -55,7 +55,7 @@ export default class NotificationsPage extends Component {
         </NewSubpageHeader>
         <div className="notification-body">
           <div className="notification-body__item unread">
-            <Avatar size="medium" />
+            <Avatar />
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
@@ -68,7 +68,7 @@ export default class NotificationsPage extends Component {
             </div>
           </div>
           <div className="notification-body__item unread">
-            <Avatar size="medium" />
+            <Avatar />
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
@@ -81,7 +81,7 @@ export default class NotificationsPage extends Component {
             </div>
           </div>
           <div className="notification-body__item">
-            <Avatar size="medium" />
+            <Avatar />
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
@@ -94,7 +94,7 @@ export default class NotificationsPage extends Component {
             </div>
           </div>
           <div className="notification-body__item">
-            <Avatar size="medium" />
+            <Avatar />
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
@@ -107,7 +107,7 @@ export default class NotificationsPage extends Component {
             </div>
           </div>
           <div className="notification-body__item unread">
-            <Avatar size="medium" />
+            <Avatar />
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
@@ -120,7 +120,7 @@ export default class NotificationsPage extends Component {
             </div>
           </div>
           <div className="notification-body__item">
-            <Avatar size="medium" />
+            <Avatar />
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
@@ -133,7 +133,7 @@ export default class NotificationsPage extends Component {
             </div>
           </div>
           <div className="notification-body__item">
-            <Avatar size="medium" />
+            <Avatar />
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
@@ -146,7 +146,7 @@ export default class NotificationsPage extends Component {
             </div>
           </div>
           <div className="notification-body__item unread">
-            <Avatar size="medium" />
+            <Avatar />
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
@@ -159,7 +159,7 @@ export default class NotificationsPage extends Component {
             </div>
           </div>
           <div className="notification-body__item">
-            <Avatar size="medium" />
+            <Avatar />
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
@@ -172,7 +172,7 @@ export default class NotificationsPage extends Component {
             </div>
           </div>
           <div className="notification-body__item">
-            <Avatar size="medium" />
+            <Avatar />
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
@@ -185,7 +185,7 @@ export default class NotificationsPage extends Component {
             </div>
           </div>
           <div className="notification-body__item">
-            <Avatar size="medium" />
+            <Avatar />
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
@@ -198,7 +198,7 @@ export default class NotificationsPage extends Component {
             </div>
           </div>
           <div className="notification-body__item no-border">
-            <Avatar size="medium" />
+            <Avatar />
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">

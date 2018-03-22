@@ -333,6 +333,44 @@ p {
 	font-size: 13px!important;
 }
 
+/* Overlays */
+
+.habla-top-navigation-avatar-signal {
+   border-radius: 50%;
+   border: 1px solid #4d4d4d;
+   position: absolute;
+   z-index: 2;
+   overflow: visible;
+}
+.habla-avatar-signal-default {
+   width: 11px;
+   height: 11px;
+   right: -4px;
+   top: -4px;
+}
+.habla-avatar-signal-small {
+   width: 9px;
+   height: 9px;
+   right: -5px;
+   top: -5px; 
+}
+.habla-avatar-signal-large {
+   width: 15px;
+   height: 15px;
+   right: -6px;
+   top: -4px; 
+}
+.habla-avatar-signal-x-large {
+   width: 18px;
+   height: 18px;
+   right: -6px;
+   top: -6px; 
+}
+
+.habla-top-menu-subitem {
+   position: relative;
+   display: inline-block;
+}
 
 
 /* RESPONSIVE ELEMENTS AND STYLES ---------- */
@@ -422,6 +460,34 @@ p {
   width: 100%;
 }
 }
+.habla-MemberListing__title {
+   font-weight: 600;
+}
+.habla-MemberListing__member-row {
+   display: flex;
+   margin: 0px;
+   margin-right: 8px;
+   padding: 6px;
+   justify-items: center;
+   align-items: center;
+   cursor: pointer;
+}
+.habla-MemberListing__member-image {
+   justify-content: center;
+}
+.habla-MemberListing__member-text {
+   margin-left: 8px;
+   margin-right: 8px;
+   width: 100%;
+}
+.habla-MemberListing__inviteButton-text {
+  font-size: 12px;
+  font-weight: 800;
+  margin-right: 6px;
+  min-width: 200px;
+  text-align: right;
+}
+
 @media only screen and (max-width:420px) {
 .habla-logo-image
 , .habla-ckg-date-picker-content-text {
@@ -442,6 +508,7 @@ p {
 .team-room__messages .ant-col-md-18 {
   width: 80%;
 }
+
 }
 
 
@@ -647,6 +714,9 @@ p {
 }
 .mb-0 {
   margin-bottom: 0;
+}
+.mb-05 {
+  margin-bottom: 4px;
 }
 .mb-1 {
   margin-bottom: 8px;
@@ -863,4 +933,19 @@ ul.ant-menu li.ant-menu-submenu:hover {
 }
 .ant-avatar-string {
   left: 30px;
+}
+.ant-progress-line { 
+    bottom: 0!important;
+    padding: 0 5px!important;
+    position: absolute!important;
+}
+.ant-progress-inner {
+	background-color: transparent;
+}
+.image-wrapper .ant-card {
+	background: none;
+	width: inherit;
+	height: inherit;
+	border: none;
+	margin: 0;
 }

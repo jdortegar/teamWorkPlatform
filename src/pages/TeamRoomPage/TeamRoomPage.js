@@ -13,11 +13,11 @@ import Spinner from 'components/Spinner';
 import SimpleCardContainer from 'components/SimpleCardContainer';
 import TextField from 'components/formFields/TextField';
 import Avatar from 'components/common/Avatar';
+import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
 import PreviewBar from 'components/PreviewBar';
 import Message from 'components/Message';
 import { getJwt, getResourcesUrl } from 'session';
 import String from 'translations';
-import getInitials from 'utils/helpers';
 import './styles/style.css';
 import { sortByFirstName } from '../../redux-hablaai/selectors/helpers';
 import { messageAction } from '../../components/Message/Message';
@@ -37,6 +37,7 @@ const propTypes = {
     })
   }).isRequired,
   user: PropTypes.object.isRequired,
+  subscribers: PropTypes.array.isRequired,
   subscriberOrgById: PropTypes.object.isRequired,
   teamRoomMembers: PropTypes.array.isRequired,
   teamRoomMembersObj: PropTypes.object.isRequired,
@@ -79,6 +80,7 @@ const propTypes = {
 
 const defaultProps = {
   conversations: {},
+  subscribers: null,
   files: [],
   readMessages: null,
   unreadMessagesCount: 0,
@@ -223,6 +225,15 @@ class TeamRoomPage extends Component {
       this.setState({ showPreviewBox: true });
     }
   }
+
+  getTeamMembersObjFromSubscribers() {
+    const { teamRoomMembersObj, subscribers } = this.props;
+    const members = subscribers.filter(mem => teamRoomMembersObj[mem.userId]);
+    const membersObj = {};
+    members.forEach((mem) => { membersObj[mem.userId] = mem; });
+    return membersObj;
+  }
+
 
   isNearBottom = () => {
     const messagesContainer = document.getElementsByClassName('team-room__messages')[0];
@@ -404,6 +415,7 @@ class TeamRoomPage extends Component {
     const teamRoomId = match.params.teamRoomId;
     const teamId = teamRooms.teamRoomById[teamRoomId].teamId;
     const subscriberOrgId = teams.teamById[teamId].subscriberOrgId;
+    const membersObj = this.getTeamMembersObjFromSubscribers();
 
     return conversations.transcript.map((message) => {
       if (message.deleted) return null;
@@ -416,7 +428,7 @@ class TeamRoomPage extends Component {
         onMessageAction={this.onMessageAction}
         hide={false}
         currentPath={currentPath}
-        teamRoomMembersObj={teamRoomMembersObj}
+        teamRoomMembersObj={membersObj}
         onFileChange={this.onFileChange}
         subscriberOrgId={subscriberOrgId}
         teamId={teamId}
@@ -428,44 +440,30 @@ class TeamRoomPage extends Component {
   }
 
   renderTeamRoomMembers() {
-    const { teamRoomMembers } = this.state;
     const { teamRoomMembersPresences, user } = this.props;
 
-    const members = teamRoomMembers.map(member => ({
-      ...member,
-      online: _.some(_.values(teamRoomMembersPresences[member.userId]), { presenceStatus: 'online' })
-    }));
+    const membersObj = this.getTeamMembersObjFromSubscribers();
+    const members = Object.keys(membersObj).map((key) => {
+      const member = (membersObj[key]);
+      return {
+        ...member,
+        online: _.some(_.values(teamRoomMembersPresences[member.userId]), { presenceStatus: 'online' })
+      };
+    });
+
     const currentUser = _.find(members, { userId: user.userId });
     const otherMembers = _.reject(members, { userId: user.userId });
     //  const orderedMembers = _.orderBy(otherMembers, ['online', 'firstName', 'lastName', 'displayName'], ['desc', 'asc', 'asc', 'asc']);
     const orderedMembers = otherMembers.sort(sortByFirstName);
 
-    return [currentUser, ...orderedMembers].map(({ firstName, lastName, userId, preferences, icon, online }) => {
+    return [currentUser, ...orderedMembers].map((member) => {
+      const { firstName, lastName, userId } = member;
       const fullName = String.t('fullName', { firstName, lastName });
-      const initials = getInitials(fullName);
-      const className = classNames({
-        'mr-05': true,
-        'opacity-low': !online
-      });
-
       return (
-        <Tooltip
-          key={userId}
-          placement="top"
-          title={fullName}
-        >
-          {icon ?
-            <Avatar size="small" src={`data:image/jpeg;base64, ${icon}`} className={className} />
-            :
-            <Avatar
-              size="small"
-              key={userId}
-              color={preferences.iconColor}
-              className={className}
-            >
-              {initials}
-            </Avatar>
-          }
+        <Tooltip key={userId} placement="top" title={fullName}>
+          <div className="mr-05">
+            <AvatarWrapper size="small" user={member} />
+          </div>
         </Tooltip>
       );
     });
@@ -503,9 +501,9 @@ class TeamRoomPage extends Component {
 
   render() {
     const { teamRoomMembersLoaded, conversationsLoaded } = this.state;
-    const { match, teamRooms, user, teamRoomMembers, teamRoomMembersObj, unreadMessagesCount, conversations, subscriberOrgById } = this.props;
+    const { match, teamRooms, user, teamRoomMembers, teamRoomMembersObj, unreadMessagesCount, conversations, subscribers, subscriberOrgById } = this.props;
     if (match && match.params && match.params.teamRoomId && teamRoomMembersLoaded && conversationsLoaded && teamRoomMembers &&
-        teamRoomMembersObj && this.state.teamRoomMembers && conversations && subscriberOrgById) {
+      subscribers && teamRoomMembersObj && this.state.teamRoomMembers && conversations && subscriberOrgById) {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
       const { conversationId } = conversations;
       const lastMessage = _.last(conversations.transcript) || {};
@@ -513,9 +511,6 @@ class TeamRoomPage extends Component {
       const teamRoom = teamRooms.teamRoomById[teamRoomId];
       const team = this.props.teams.teamById[teamRoom.teamId];
       const subscriberOrg = subscriberOrgById[team.subscriberOrgId];
-      const { firstName, lastName } = user;
-      const fullName = String.t('fullName', { firstName, lastName });
-      const initials = getInitials(fullName);
       const className = classNames({
         'team-room-chat': true,
         'team-room__main-container--opacity': this.state.isDraggingOver
@@ -547,7 +542,7 @@ class TeamRoomPage extends Component {
           <div className="team-room__top-page-container border-bottom-lighter">
             <SubpageHeader
               subscriberOrgId={subscriberOrg.subscriberOrgId}
-              ckgLink
+              ckgLink={{ teamId: team.teamId, teamRoomId }}
               history={this.props.history}
               breadcrumb={
                 <BreadCrumb
@@ -622,15 +617,13 @@ class TeamRoomPage extends Component {
                 onCancelReply={this.onCancelReply}
                 addBase={this.props.addBase}
                 replyTo={this.state.replyTo}
-                user={user}
+                user={teamRoomMemberFoundByUser}
                 isDraggingOver={this.props.isDraggingOver}
               />
             }
             <div className="team-room__chat-input">
               <div className="team-room__chat-input__image-wrapper">
-                <Avatar size="large" key={user.userId} color={user.preferences.iconColor}>
-                  {initials}
-                </Avatar>
+                <AvatarWrapper size="large" user={teamRoomMemberFoundByUser} />
               </div>
               <div className="team-room__chat-input-wrapper">
                 <Form

@@ -29,14 +29,29 @@
 .habla-integration-list .ant-card  {
 	background: #fff;
 	border: 1px solid #eee!important;
-	margin: 5px 10px 0 0;
+	margin: 5px 8px 0 0;
+	border-radius: 14%!important;
 }
 .habla-integration-list img  {
+	width: 57px;
+	height: 57px;
+	display: inline-block;
+    overflow: hidden;
+}
+.habla-integration-list .ant-card {
 	width: 60px;
-	height: 60px;
+    height: 60px;
 }
 .habla-integration-list .ant-card-head {
 	position: absolute;
-	top: -2px;
+	top: -1px;
 	right: 3px;
+}
+.integration-card {
+	position: relative;
+}
+.integration-card svg {
+	position: absolute;
+	top: 4px;
+	right: 4px;
 }

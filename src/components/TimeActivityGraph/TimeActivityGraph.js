@@ -19,11 +19,15 @@ import styles from './styles/style';
 import './styles/style.css';
 
 const propTypes = {
-  files: PropTypes.arrayOf(PropTypes.object)
+  files: PropTypes.arrayOf(PropTypes.object),
+  zoomLevel: PropTypes.number,
+  viewAll: PropTypes.bool
 };
 
 const defaultProps = {
-  files: []
+  files: [],
+  zoomLevel: 0,
+  viewAll: false
 };
 
 // chart size properties
@@ -35,6 +39,9 @@ const DOMAIN_TOP_PADDING = 20;
 // from Victory. Increasing this number restrains the zoom level
 const MINIMUM_ZOOM = 10000;
 
+// how much the zoom changes in each interaction
+const ZOOM_DIFFERENCE = 0.1;
+
 // from the beginning of the last year until tomorrow
 const DATE_DOMAIN = [moment().subtract(1, 'year').startOf('year'), moment().add(1, 'day')];
 const TIME_DOMAIN = [moment().startOf('day'), moment().endOf('day')];
@@ -42,7 +49,15 @@ const TIME_DOMAIN = [moment().startOf('day'), moment().endOf('day')];
 // from 2 weeks before the last file to one day after
 const defaultZoomDomain = (files) => {
   const lastFileDate = moment.max(files.map(file => file.date));
-  return [moment(lastFileDate).subtract(2, 'weeks'), moment(lastFileDate).add(1, 'day')];
+  return [+moment(lastFileDate).subtract(2, 'weeks'), +moment(lastFileDate).add(1, 'day')];
+};
+
+// from the first to the last file
+const allZoomDomain = (files) => {
+  const dates = files.map(file => file.date);
+  const lastFileDate = moment.max(dates);
+  const firstFileDate = moment.min(dates);
+  return [+moment(firstFileDate).subtract(1, 'day'), +moment(lastFileDate).add(1, 'day')];
 };
 
 const formatXTick = (date) => {
@@ -63,7 +78,8 @@ class TimeActivityGraph extends Component {
 
     this.state = {
       width: MIN_WIDTH,
-      height: MIN_HEIGHT
+      height: MIN_HEIGHT,
+      zoomDomain: defaultZoomDomain(props.files)
     };
 
     this.closeTooltip = this.closeTooltip.bind(this);
@@ -74,7 +90,41 @@ class TimeActivityGraph extends Component {
     this.updateDimensions();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.files.length === 0 && nextProps.files !== 0) {
+      this.setState({ zoomDomain: defaultZoomDomain(nextProps.files) });
+    }
+
+    if (nextProps.zoomLevel !== this.props.zoomLevel) {
+      this.applyZoom(nextProps.zoomLevel, this.props.zoomLevel);
+    } else if (nextProps.viewAll) {
+      this.setState({ zoomDomain: allZoomDomain(nextProps.files) });
+    }
+  }
+
   container = null;
+
+  handleZoomDomainChange = (domain) => {
+    this.setState({ zoomDomain: domain.x });
+  }
+
+  applyZoom = (newZoomLevel, oldZoomLevel) => {
+    return newZoomLevel > oldZoomLevel ? this.zoomIn() : this.zoomOut();
+  }
+
+  zoomIn() {
+    this.setState(({ zoomDomain }) => {
+      const diff = (zoomDomain[1] - zoomDomain[0]) * ZOOM_DIFFERENCE;
+      return { zoomDomain: [zoomDomain[0] + diff, zoomDomain[1] - diff] };
+    });
+  }
+
+  zoomOut() {
+    this.setState(({ zoomDomain }) => {
+      const diff = (zoomDomain[1] - zoomDomain[0]) * ZOOM_DIFFERENCE;
+      return { zoomDomain: [zoomDomain[0] - diff, zoomDomain[1] + diff] };
+    });
+  }
 
   updateDimensions() {
     if (!this.container || !this.container.parentNode) return;
@@ -155,8 +205,9 @@ class TimeActivityGraph extends Component {
           containerComponent={
             <VictoryZoomContainer
               zoomDimension="x"
-              zoomDomain={{ x: defaultZoomDomain(files) }}
+              zoomDomain={{ x: this.state.zoomDomain }}
               minimumZoom={{ x: MINIMUM_ZOOM }}
+              onZoomDomainChange={this.handleZoomDomainChange}
             />
           }
         >

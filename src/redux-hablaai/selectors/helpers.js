@@ -22,6 +22,7 @@ export const sortByLastCreatedFirst = (a, b) => {
 };
 
 export const primaryAtTop = (teams) => {
+  if (!teams || teams.length === 0) return [];
   const primaryTeam = _.find(teams, { primary: true });
   const index = teams.indexOf(primaryTeam);
   if (index > -1) {

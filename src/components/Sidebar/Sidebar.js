@@ -6,12 +6,12 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import String from '../../translations';
 import Avatar from '../../components/common/Avatar';
+import AvatarWrapper from '../common/Avatar/AvatarWrapper';
 import Badge from '../../components/Badge';
 import {
   sortByName,
   primaryAtTop
 } from '../../redux-hablaai/selectors/helpers';
-import getInitials from '../../utils/helpers';
 import './styles/style.css';
 
 
@@ -50,33 +50,11 @@ const ROUTERS_TO_HIDE_SIDEBAR = [
 ];
 
 function renderSubscriberAvatar(subscriber) {
-  const { firstName, lastName, userId, preferences, icon, online } = subscriber;
+  const { firstName, lastName, userId } = subscriber;
   const fullName = String.t('fullName', { firstName, lastName });
-  const initials = getInitials(fullName);
-  const className = classNames({
-    'sidebar-subscriber-avatar': true,
-    'sidebar-direct-messages-content': !icon,
-    'opacity-low': !online
-  });
-
   return (
-    <Tooltip
-      key={userId}
-      placement="top"
-      title={fullName}
-    >
-      {icon ?
-        <Avatar size="default" src={`data:image/jpeg;base64, ${icon}`} className={className} />
-        :
-        <Avatar
-          size="default"
-          ey={userId}
-          color={preferences.iconColor}
-          className={className}
-        >
-          {initials}
-        </Avatar>
-      }
+    <Tooltip key={userId} placement="top" title={fullName}>
+      <AvatarWrapper size="default" user={subscriber} className="mr-05 mb-05" hideStatusTooltip />
     </Tooltip>
   );
 }
@@ -283,12 +261,14 @@ class Sidebar extends Component {
             </div>
           }
         >
-          <div className="sidebar-block-label">
-            <span className="habla-label">
-              {String.t('teamRooms')}
-              {/* <span className="sidebar-label-number-badge">81</span> */}
-            </span>
-          </div>
+          <Menu.Item key="roomsLabel">
+            <div className="sidebar-block-label">
+              <span className="habla-label">
+                {String.t('teamRooms')}
+                {/* <span className="sidebar-label-number-badge">81</span> */}
+              </span>
+            </div>
+          </Menu.Item>
           { teamRooms }
         </SubMenu>);
     });
@@ -315,7 +295,9 @@ class Sidebar extends Component {
     const { subscriberOrgs } = this.props;
     return (
       <Menu className="organizationList">
-        <div className="habla-label padding-class-a">{String.t('sideBar.organizationsLabel')}</div>
+        <Menu.Item key="orgsHeader">
+          <div className="habla-label padding-class-a">{String.t('sideBar.organizationsLabel')}</div>
+        </Menu.Item>
         <Menu.Item key="organizationList">
           {subscriberOrgs.map(org => this.renderOrg(org))}
         </Menu.Item>
@@ -342,8 +324,10 @@ class Sidebar extends Component {
     const currentOrg = subscriberOrgs.find(({ subscriberOrgId }) => subscriberOrgId === currentSubscriberOrgId);
     const teamsActive = teams.filter(team => (team.subscriberOrgId === currentSubscriberOrgId) && team.active);
     const addLinkSidebar = (
-      <Menu className="addLinkSidebar">
-        <div className="habla-label padding-class-a">{String.t('sideBar.addNewLabel')}</div>
+      <Menu>
+        <Menu.Item key="addLinksHeader">
+          <div className="habla-label padding-class-a">{String.t('sideBar.addNewLabel')}</div>
+        </Menu.Item>
         <Menu.Item key="addMember">
           <a><span><i className="fas fa-plus-circle" /> {String.t('sideBar.addNewTeamMember')}</span></a>
         </Menu.Item>
@@ -357,7 +341,9 @@ class Sidebar extends Component {
     );
     const sortLinkSidebar = (
       <Menu className="sortLinkSidebar">
-        <div className="habla-label padding-class-a">{String.t('sideBar.sortByLabel')}</div>
+        <Menu.Item key="sortLinkHeader">
+          <div className="habla-label padding-class-a">{String.t('sideBar.sortByLabel')}</div>
+        </Menu.Item>
         <Menu.Item key="sortByAlph">
           <a><span><i className="fas fa-check" /> {String.t('sideBar.sortByAlphabetical')}</span></a>
         </Menu.Item>

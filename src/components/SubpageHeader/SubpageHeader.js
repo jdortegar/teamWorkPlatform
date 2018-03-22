@@ -12,12 +12,12 @@ const propTypes = {
     PropTypes.string,
     PropTypes.node
   ]).isRequired,
-  ckgLink: PropTypes.bool,
+  ckgLink: PropTypes.object,
   editButton: PropTypes.object
 };
 
 const defaultProps = {
-  ckgLink: false,
+  ckgLink: {},
   editButton: {}
 };
 
@@ -30,12 +30,12 @@ function SubpageHeader({ breadcrumb, subscriberOrgId, history, editButton, ckgLi
         <h1 className="Subpage-header__title habla-title">{breadcrumb}</h1>
       </div>
       <div className="habla-main-content-header-actions">
-        {ckgLink &&
+        {Object.keys(ckgLink).length > 0 &&
         <Tooltip placement="top" title={String.t('subPageHeader.linkToCKG')}>
           <div
             className="ckg-link"
             onClick={() => {
-              history.push(`/app/ckg/${subscriberOrgId}`);
+              history.push(`/app/ckg/${subscriberOrgId}`, { ...ckgLink });
             }}
           >
             <i className="fas fa-chart-area" />

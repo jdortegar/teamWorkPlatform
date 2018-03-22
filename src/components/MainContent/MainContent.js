@@ -3,6 +3,7 @@ import { Layout, notification } from 'antd';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import HomePage from '../../containers/HomePage';
 import OrganizationPage from '../../containers/OrganizationPage';
 import ChatContent from '../../containers/ChatContent';
 import IntegrationsPage from '../../containers/IntegrationsPage';
@@ -176,6 +177,7 @@ class MainContent extends Component {
           invitation.length > 0 ? invitation.map(inv => <Notification key={invitationKey(inv)} options={inv} />) : null
         }
         <Switch>
+          <Route exact path={routesPaths.app} component={HomePage} />
           <Route exact path={routesPaths.integrations} component={IntegrationsPage} />
           <Route exact path={routesPaths.integrationDetails} component={IntegrationDetailsPage} />
           <Route exact path={routesPaths.organization} component={OrganizationPage} />

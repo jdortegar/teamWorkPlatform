@@ -11,6 +11,7 @@ import String from '../../../translations';
 import getInitials from '../../../utils/helpers';
 import { integrationLabelFromKey, integrationImageFromKey } from '../../../utils/dataIntegrations';
 import './styles/style.css';
+import AvatarWrapper from '../../../components/common/Avatar/AvatarWrapper';
 
 const Panel = Collapse.Panel;
 
@@ -70,23 +71,15 @@ function CardView(props) {
 
   const renderMembers = () => {
     return orgSubscribers.map((member) => {
-      const { userId, firstName, lastName, preferences, icon, online } = member;
+      const { userId, firstName, lastName } = member;
       const fullName = String.t('fullName', { firstName, lastName });
-      const className = classNames({
-        'mr-05': true,
-        'opacity-low': !online
-      });
       return (
         <div key={userId} className="mr-1">
           <Tooltip placement="top" title={fullName}>
             <Link to={`/app/teamMember/${userId}`}>
-              {
-                icon ?
-                  <Avatar size="large" src={`data:image/jpeg;base64, ${icon}`} className={className} /> :
-                  <Avatar size="large" color={preferences.iconColor} className={className}>
-                    {getInitials(fullName)}
-                  </Avatar>
-              }
+              <div>
+                <AvatarWrapper size="large" user={member} hideStatusTooltip />
+              </div>
               <div className="habla-label align-center-class card-label">
                 {firstName}
               </div>
@@ -99,36 +92,31 @@ function CardView(props) {
 
   const renderIntegration = (key, integration) => {
     const label = integrationLabelFromKey(key);
-    const { expired, revoked } = integration;
-    const desaturated = classNames({
-      desaturate: expired
-    });
-
-    if ((typeof revoked === 'undefined') || (revoked === false)) {
-      return (
-        <div key={key} className="mr-1 integration-card">
-          <Tooltip placement="top" title={label}>
-            <Link to={`/app/integrations/${subscriberOrgId}/${key}`}>
-              <Avatar size="large" src={integrationImageFromKey(key)} className={desaturated} />
-              <div className="habla-label align-center-class card-label">
-                {label}
-              </div>
-            </Link>
-          </Tooltip>
-        </div>
-      );
-    }
-
-    return null;
+    const desaturated = classNames({ desaturate: integration.expired });
+    return (
+      <div key={key} className="mr-1 integration-card">
+        <Tooltip placement="top" title={label}>
+          <Link to={`/app/integrations/${subscriberOrgId}/${key}`}>
+            <Avatar size="large" src={integrationImageFromKey(key)} className={desaturated} />
+            <i className="fa fa-check-circle icon_success habla-green" />
+            <div className="habla-label align-center-class card-label">
+              {label}
+            </div>
+          </Link>
+        </Tooltip>
+      </div>
+    );
   };
 
   const renderIntegrations = () => {
     const integrationsArr = [];
-    const subscriberIntegrations = integrations.integrationsBySubscriberOrgId[subscriberOrgId];
-    if (!_.isEmpty(subscriberIntegrations)) {
-      Object.keys(subscriberIntegrations).forEach((key) => {
-        const integration = integrations.integrationsBySubscriberOrgId[subscriberOrgId];
-        integrationsArr.push(renderIntegration(key, integration));
+    if (!_.isEmpty(integrations)) {
+      Object.keys(integrations).forEach((key) => {
+        const integration = integrations[key];
+        const { revoked } = integration;
+        if ((typeof revoked === 'undefined') || (revoked === false)) {
+          integrationsArr.push(renderIntegration(key, integration));
+        }
       });
     }
 

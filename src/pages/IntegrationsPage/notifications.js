@@ -23,7 +23,7 @@ export function badIntegration({ integration, status }) {
   } else if (status === 'NOT_FOUND') {
     return {
       message: String.t('integrationsPage.notFoundMessage'),
-      description: String.t('integrationsPage.notFoundDescription'),
+      description: String.t('integrationsPage.notFoundDescription', { name }),
       duration: 4
     };
   }
