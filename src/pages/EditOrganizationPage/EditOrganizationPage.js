@@ -61,6 +61,7 @@ class EditOrganizationPage extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleWebSiteBlur = this.handleWebSiteBlur.bind(this);
     this.onRemoveImage = this.onRemoveImage.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   onRemoveImage() {
@@ -84,6 +85,11 @@ class EditOrganizationPage extends Component {
         logo: `https://www.google.com/s2/favicons?domain=${faviconUrl}`
       });
     }
+  }
+
+  handleCancel() {
+    const { subscriberOrgId } = this.props.match.params;
+    this.props.history.push(`/app/organization/${subscriberOrgId}`);
   }
 
   handleSubmit() {
@@ -197,7 +203,7 @@ class EditOrganizationPage extends Component {
                 type="secondary"
                 fitText
                 className="margin-right-class-a"
-                onClick={() => this.props.history.push(`/app/organization/${subscriberOrgId}`)}
+                onClick={this.handleCancel}
               >
                 {String.t('Buttons.cancel')}
               </Button>
