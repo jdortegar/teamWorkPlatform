@@ -47,7 +47,7 @@ function BaseInput(props) {
 
   const decorator = form.getFieldDecorator(componentKey, {
     initialValue,
-    validateTrigger: ['onBlur'],
+    validateTrigger: ['onChange'],
     validateFirst: true,
     rules
   });
