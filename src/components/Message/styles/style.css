@@ -27,8 +27,12 @@
   color: #ddd;
 }
 .message__icons {
-  font-size: 15px;
-  padding: 5px 8px;
+   font-size: 15px;
+   padding: 5px 8px;
+}
+.message__icons-selected {
+  /* color: #FBBC12; */
+   color: #BB8C12!important;
 }
 .message__icons:not(:last-child) {
   border-right: 1px solid #666;
@@ -49,6 +53,7 @@
 }
 .message__body-text-date {
   color: #ccc;
+  margin-left: 4px;
 }
 .message__body-thumbs-icon {
   margin-left: 8px;
@@ -57,8 +62,8 @@
   margin: 0 2px;
 }
 .message-nested {
-  border-left: 10px solid #e3e3e3;
-  -webkit-transition: display 2s;
+  border-left: 10px solid #ccc;
+  transition: display 2s;
 }
 .message__last-read {
   position: absolute;

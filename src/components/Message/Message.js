@@ -10,14 +10,14 @@ import './styles/style.css';
 import String from '../../translations';
 
 const propTypes = {
-  hide: PropTypes.bool.isRequired,
+  hide: PropTypes.bool,
   currentPath: PropTypes.string,
   conversationDisabled: PropTypes.bool,
   onMessageAction: PropTypes.func.isRequired,
-  teamRoomMembersObj: PropTypes.object.isRequired,
+  teamRoomMembersObj: PropTypes.object,
   message: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  currentUserId: PropTypes.string.isRequired,
+  currentUser: PropTypes.object.isRequired,
   subscriberOrgId: PropTypes.string.isRequired,
   teamId: PropTypes.string.isRequired,
   teamRoomId: PropTypes.string.isRequired,
@@ -27,7 +27,9 @@ const propTypes = {
 };
 
 const defaultProps = {
+  hide: false,
   conversationDisabled: false,
+  teamRoomMembersObj: null,
   onFileChange: null,
   onLoadImages: null,
   lastRead: false,
@@ -68,9 +70,10 @@ class Message extends Component {
     }
   }
 
-  onDeleteConfirmed() {
+  onDeleteConfirmed(e) {
     const { message } = this.props;
     this.props.onMessageAction({ message }, messageAction.delete);
+    e.stopPropagation();
   }
 
   handleShowReplies() {
@@ -84,9 +87,11 @@ class Message extends Component {
     this.props.onMessageAction({ message, extraInfo }, messageAction.replyTo);
   }
 
-  handleBookmark() {
-    const { message } = this.props;
-    this.props.onMessageAction({ message }, messageAction.bookmark);
+  handleBookmark(setBookmark) {
+    const { message, teamId, teamRoomId } = this.props;
+    const extraInfo = { setBookmark };
+    const bookmark = { ...message, teamId, teamRoomId };
+    this.props.onMessageAction({ bookmark, extraInfo }, messageAction.bookmark);
   }
 
   handleThumb(direction) {
@@ -111,8 +116,10 @@ class Message extends Component {
   }
 
   render() {
-    const { message, user, currentUserId, teamRoomMembersObj, hide, lastRead, conversationDisabled, isAdmin } = this.props;
+    const { message, user, currentUser, teamRoomMembersObj, hide, lastRead, conversationDisabled, isAdmin } = this.props;
     const { messageId, children, level, content } = message;
+    const orgBookmarks = currentUser.bookmarks[this.props.subscriberOrgId];
+    const hasBookmark = orgBookmarks && orgBookmarks.messageIds && orgBookmarks.messageIds[message.messageId];
     const { firstName, lastName, preferences, userId } = user;
     const date = moment(message.created).fromNow();
     const justTextContent = _.find(content, { type: 'text/plain' });
@@ -172,15 +179,25 @@ class Message extends Component {
             <Tooltip placement="topLeft" title={String.t('message.tooltipReply')} arrowPointAtCenter>
               <a
                 className="message__icons"
-                onClick={() => this.handleReplyTo({ firstName, lastName, text, messageId, preferences })}
+                onClick={(e) => {
+                  this.handleReplyTo({ firstName, lastName, text, messageId, preferences });
+                  e.stopPropagation();
+                }}
               >
                 <i className="fas fa-reply" />
               </a>
             </Tooltip>
-            <Tooltip placement="topLeft" title={String.t('message.tooltipBookmark')} arrowPointAtCenter>
+            <Tooltip
+              placement="topLeft"
+              title={String.t(hasBookmark ? 'message.tooltipBookmarkRemove' : 'message.tooltipBookmarkSet')}
+              arrowPointAtCenter
+            >
               <a
-                className="message__icons"
-                onClick={() => this.handleBookmark()}
+                className={hasBookmark ? 'message__icons message__icons-selected' : 'message__icons'}
+                onClick={(e) => {
+                  this.handleBookmark(!hasBookmark);
+                  e.stopPropagation();
+                }}
               >
                 <i className="fas fa-bookmark" />
               </a>
@@ -188,7 +205,11 @@ class Message extends Component {
             <Tooltip placement="topLeft" title={String.t('message.tooltipThumbsUp')} arrowPointAtCenter>
               <a
                 className="message__icons"
-                onClick={() => this.handleThumb('up')}
+                onClick={(e) => {
+                  this.handleThumb('up');
+                  e.stopPropagation();
+                  // e.nativeEvent.stopImmediatePropagation();
+                }}
               >
                 <i className="fas fa-thumbs-up" />
               </a>
@@ -196,7 +217,10 @@ class Message extends Component {
             <Tooltip placement="topLeft" title={String.t('message.tooltipThumbsDown')} arrowPointAtCenter>
               <a
                 className="message__icons"
-                onClick={() => this.handleThumb('down')}
+                onClick={(e) => {
+                  this.handleThumb('down');
+                  e.stopPropagation();
+                }}
               >
                 <i className="fas fa-thumbs-down" />
               </a>
@@ -204,19 +228,22 @@ class Message extends Component {
             <Tooltip placement="topLeft" title={String.t('message.tooltipFlag')} arrowPointAtCenter>
               <a
                 className="message__icons"
-                onClick={() => this.handleFlag()}
+                onClick={(e) => {
+                  this.handleFlag();
+                  e.stopPropagation();
+                }}
               >
                 <i className="fas fa-flag" />
               </a>
             </Tooltip>
             {/* <Tooltip placement="topLeft" title={String.t('message.tooltipEdit')} arrowPointAtCenter> */}
-            {(isAdmin || message.createdBy === currentUserId) &&
+            {(isAdmin || message.createdBy === currentUser.userId) &&
             <Popconfirm
               title={String.t('message.deleteConfirmationQuestion')}
               okText={String.t('okButton')}
               cancelText={String.t('cancelButton')}
               arrowPointAtCenter
-              onConfirm={() => this.onDeleteConfirmed()}
+              onConfirm={this.onDeleteConfirmed}
             >
               <a
                 className="message__icons"
@@ -230,13 +257,13 @@ class Message extends Component {
           </div>
           }
         </div>
-        { childrenNonDeleted.length > 0 && childrenNonDeleted.map((childMessage) => {
+        { childrenNonDeleted.length > 0 && teamRoomMembersObj && childrenNonDeleted.map((childMessage) => {
           return (
             <Message
               conversationDisabled={conversationDisabled}
               message={childMessage}
               user={teamRoomMembersObj[childMessage.createdBy]}
-              currentUserId={this.props.currentUserId}
+              currentUser={this.props.currentUser}
               key={childMessage.messageId}
               onMessageAction={this.props.onMessageAction}
               hide={!this.state.isExpanded}
@@ -245,6 +272,7 @@ class Message extends Component {
               subscriberOrgId={this.props.subscriberOrgId}
               teamId={this.props.teamId}
               teamRoomId={this.props.teamRoomId}
+              isAdmin={isAdmin}
             />
           );
         }

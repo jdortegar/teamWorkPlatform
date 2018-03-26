@@ -34,6 +34,7 @@ export const routesPaths = {
   newTeamRoom: '/app/createTeamRoom/:teamId',
   member: '/app/teamMember/:teamMemberId',
   notifications: '/app/notifications',
+  bookmarks: '/app/bookmarks/:subscriberOrgId',
   search: '/app/search',
   ckg: '/app/ckg/:subscriberOrgId'
 };

@@ -22,6 +22,12 @@ import './styles/style.css';
 import { sortByFirstName } from '../../redux-hablaai/selectors/helpers';
 import { messageAction } from '../../components/Message/Message';
 
+const filterOption = {
+  all: 'all',
+  unread: 'unread',
+  bookmarked: 'bookmarked'
+};
+
 const BOTTOM_SCROLL_LIMIT = 200;
 
 const propTypes = {
@@ -31,6 +37,7 @@ const propTypes = {
   fetchTeamRoomMembersByTeamRoomId: PropTypes.func.isRequired,
   addBase: PropTypes.func.isRequired,
   fetchTranscript: PropTypes.func.isRequired,
+  saveBookmark: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       teamRoomId: PropTypes.string
@@ -106,7 +113,8 @@ class TeamRoomPage extends Component {
       replyTo: null,
       showPreviewBox: false,
       barPercent: 0,
-      file: null
+      file: null,
+      filterBy: filterOption.all
     };
 
     this.onCancelReply = this.onCancelReply.bind(this);
@@ -199,10 +207,25 @@ class TeamRoomPage extends Component {
     this.setState({ replyTo: null, showPreviewBox: false });
   }
 
-  onMessageAction({ message, extraInfo }, action) {
+  onMessageAction(payload, action) {
+    const { message, bookmark, extraInfo } = payload;
+    const { match, teamRooms, teams, user } = this.props;
+    const teamRoomId = match.params.teamRoomId;
+    const teamId = teamRooms.teamRoomById[teamRoomId].teamId;
+    const subscriberOrgId = teams.teamById[teamId].subscriberOrgId;
+
     switch (action) {
       case messageAction.replyTo:
         this.setState({ showPreviewBox: true, replyTo: extraInfo });
+        break;
+      case messageAction.bookmark:
+        this.props.saveBookmark(user, subscriberOrgId, bookmark, extraInfo.setBookmark)
+          .then(() => {
+            msg.success(String.t(extraInfo.setBookmark ? 'message.bookmarkSetToast' : 'message.bookmarkRemovedToast'));
+          })
+          .catch((error) => {
+            msg.error(error.message);
+          });
         break;
       case messageAction.delete:
         this.props.deleteMessage(message.messageId, message.conversationId)
@@ -233,7 +256,6 @@ class TeamRoomPage extends Component {
     members.forEach((mem) => { membersObj[mem.userId] = mem; });
     return membersObj;
   }
-
 
   isNearBottom = () => {
     const messagesContainer = document.getElementsByClassName('team-room__messages')[0];
@@ -423,7 +445,7 @@ class TeamRoomPage extends Component {
         conversationDisabled={disableConversation}
         message={message}
         user={teamRoomMembersObj[message.createdBy]}
-        currentUserId={user.userId}
+        currentUser={user}
         key={message.messageId}
         onMessageAction={this.onMessageAction}
         hide={false}
@@ -500,7 +522,7 @@ class TeamRoomPage extends Component {
   }
 
   render() {
-    const { teamRoomMembersLoaded, conversationsLoaded } = this.state;
+    const { teamRoomMembersLoaded, conversationsLoaded, filterBy } = this.state;
     const { match, teamRooms, user, teamRoomMembers, teamRoomMembersObj, unreadMessagesCount, conversations, subscribers, subscriberOrgById } = this.props;
     if (match && match.params && match.params.teamRoomId && teamRoomMembersLoaded && conversationsLoaded && teamRoomMembers &&
       subscribers && teamRoomMembersObj && this.state.teamRoomMembers && conversations && subscriberOrgById) {
@@ -526,16 +548,16 @@ class TeamRoomPage extends Component {
         url: `/app/editTeamRoom/${teamRoomId}`
       };
       const menuOptionAll = classNames({
-        'notification-menu__item': true,
-        active: this.state.all
+        'habla-tab__item': true,
+        active: filterBy === filterOption.all
       });
-      const menuOptionReplies = classNames({
-        'notification-menu__item': true,
-        active: this.state.new
+      const menuOptionUnread = classNames({
+        'habla-tab__item': true,
+        active: filterBy === filterOption.unread
       });
       const menuOptionBookmarked = classNames({
-        'notification-menu__item': true,
-        active: this.state.bookmarked
+        'habla-tab__item': true,
+        active: filterBy === filterOption.bookmarked
       });
       return (
         <div className={className}>
@@ -582,9 +604,9 @@ class TeamRoomPage extends Component {
               }
             />
             <div className="habla-main-content-filters-links teamRoomFilters padding-class-a">
-              <div onClick={() => this.onMenuItemClick(true, false, false, false)} className={menuOptionAll}>{String.t('teamRoomPage.menu.bookmarked')}</div>
-              <div onClick={() => this.onMenuItemClick(false, true, false, false)} className={menuOptionReplies}>{String.t('teamRoomPage.menu.unread')} (12)</div>
-              <div onClick={() => this.onMenuItemClick(false, false, true, false)} className={menuOptionBookmarked}>{String.t('teamRoomPage.menu.all')}</div>
+              <div onClick={() => this.setState({ filterBy: filterOption.bookmarked })} className={menuOptionBookmarked}>{String.t('teamRoomPage.menu.bookmarked')}</div>
+              <div onClick={() => this.setState({ filterBy: filterOption.unread })} className={menuOptionUnread}>{String.t('teamRoomPage.menu.unread')}</div>
+              <div onClick={() => this.setState({ filterBy: filterOption.all })} className={menuOptionAll}>{String.t('teamRoomPage.menu.all')}</div>
             </div>
           </div>
 
