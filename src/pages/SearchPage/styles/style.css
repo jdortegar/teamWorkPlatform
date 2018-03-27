@@ -1,0 +1,11 @@
+.SearchPage {
+  background-color: #557dbf;
+}
+
+.SearchPage__results__fileName {
+  padding-left: 40px;
+}
+.SearchPage__results__fileIcon {
+  position: absolute;
+  margin-top: -4px;
+}

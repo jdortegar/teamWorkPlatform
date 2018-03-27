@@ -17,10 +17,12 @@ import NewTeamRoomPage from '../../containers/NewTeamRoomPage';
 import InviteNewMemberPage from '../../containers/InviteNewMemberPage';
 import TeamMemberPage from '../../containers/TeamMemberPage';
 import Notification from '../../containers/Notification';
+import BookmarksPage from '../../containers/BookmarksPage';
 import InviteToTeamPage from '../../containers/InviteToTeamPage';
 import InviteToTeamRoomPage from '../../containers/InviteToTeamRoomPage';
 import EditUserPage from '../../containers/EditUserPage';
 import CKGPage from '../../containers/CKGPage';
+import SearchPage from '../../containers/SearchPage';
 import NotificationsPage from '../../containers/NotificationsPage';
 import AcceptInvitationPage from '../../containers/AcceptInvitationPage';
 import { routesPaths } from '../../routes';
@@ -195,7 +197,9 @@ class MainContent extends Component {
           <Route exact path={routesPaths.member} component={TeamMemberPage} />
           <Route exact path={routesPaths.acceptInvitation} component={AcceptInvitationPage} />
           <Route exact path={routesPaths.ckg} component={CKGPage} />
+          <Route exact path={routesPaths.search} component={SearchPage} />
           <Route exact path={routesPaths.notifications} component={NotificationsPage} />
+          <Route exact path={routesPaths.bookmarks} component={BookmarksPage} />
         </Switch>
       </Content>
     );
