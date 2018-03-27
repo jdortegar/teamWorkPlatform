@@ -408,7 +408,7 @@ class Sidebar extends Component {
             </Link>
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconBookmarksTooltip')} arrowPointAtCenter>
-            <Link to="/app/bookmarks" className="habla-top-menu-bookmarks">
+            <Link to={`/app/bookmarks/${currentSubscriberOrgId}`} className="habla-top-menu-bookmarks">
               <i className="fa fa-bookmark fa-2x" />
             </Link>
           </Tooltip>

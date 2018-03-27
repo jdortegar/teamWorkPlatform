@@ -14,3 +14,15 @@ export const updateUser = (updateObject, getKey = false) => { // eslint-disable-
     data: updateObject
   }, reduxState, getKey);
 };
+
+export const saveBookmark = (currentUser, subscriberOrgId, message, setBookmark) => { // eslint-disable-line import/prefer-default-export
+  const bookmarks = { ...currentUser.bookmarks };
+  const orgBookmarks = bookmarks[subscriberOrgId] || { messageIds: {} };
+  if (setBookmark) {
+    orgBookmarks.messageIds[message.messageId] = message;
+  } else {
+    delete orgBookmarks.messageIds[message.messageId];
+  }
+  bookmarks[subscriberOrgId] = orgBookmarks;
+  return updateUser({ bookmarks });
+};

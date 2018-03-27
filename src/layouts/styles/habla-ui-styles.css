@@ -324,6 +324,7 @@ p {
   color: #fff;
   cursor: pointer;
 }
+ 
 .habla-main-content-header-actions i {
   font-size: 2em;
   vertical-align: middle;
@@ -486,6 +487,25 @@ p {
   margin-right: 6px;
   min-width: 200px;
   text-align: right;
+}
+.habla__placeholder-centered-container {
+  margin: 90px;
+  display: flex;
+  height: 100%;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+.habla__placeholder-centered-text {
+  text-align: center;
+}
+.habla-tab__item {
+  margin: 0px 6px;
+  padding: 3px 10px;
+}
+.habla-tab__item.active {
+  background: #888!important;
+  color: #fff!important;
 }
 
 @media only screen and (max-width:420px) {

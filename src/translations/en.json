@@ -282,7 +282,8 @@
     "sentByName": "{{firstName}} {{lastName}}",
     "tooltipReply": "Reply",
     "tooltipAddFile": "Add File",
-    "tooltipBookmark": "Bookmark",
+    "tooltipBookmarkSet": "Set Bookmark",
+    "tooltipBookmarkRemove": "Remove Bookmark",
     "tooltipThumbsUp": "Thumbs Up",
     "tooltipThumbsDown": "Thumbs Down",
     "tooltipFlag": "Flag",
@@ -291,7 +292,9 @@
     "tooltipEdit": "Edit",
     "unreadMessageSeparator": "New",
     "deleteConfirmationQuestion": "This will delete this message. Are you sure?",
-    "deleteSuccessToast": "Your message has been deleted."
+    "deleteSuccessToast": "Your message has been deleted.",
+    "bookmarkSetToast": "The bookmark has been saved.",
+    "bookmarkRemovedToast": "The bookmark has been removed."
   },
   "previewBar": {
     "name": "{{firstName}} {{lastName}}",
@@ -620,6 +623,22 @@
   },
   "homePage": {
     "latestHeader": "Latest Activity"
+  },
+  "bookmarksPage": {
+   "title": "Bookmarks",
+   "filterCount": {
+      "zero": "",
+      "one": "(1)",
+      "other": "({{count}})"
+    },
+   "menu" : {
+      "all": "All",
+      "sent": "Sent",
+      "received": "Received"
+    },
+    "noBookmarks": "You currently have no bookmarks. To set a bookmark in a conversation, go to a message, mouse over the message and click on the bookmark image.",
+    "noSentBookmarks": "You currently have no bookmarks for sent messages.",
+    "noReceivedBookmarks": "You currently have no bookmarks for received messages."
   },
 
   "validationError": {

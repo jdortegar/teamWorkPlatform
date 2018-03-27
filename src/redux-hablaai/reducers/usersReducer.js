@@ -88,6 +88,7 @@ const usersReducer = (state = INITIAL_STATE, action) => {
         user = action.payload.user;
       } else {
         user = _.merge(user, action.payload.user);
+        user.bookmarks = action.payload.user.bookmarks;
       }
 
       user.subscriberOrgs = user.subscriberOrgs || {};
