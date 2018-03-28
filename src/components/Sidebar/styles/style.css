@@ -108,7 +108,21 @@
 	color: #999;
 }
 .sidebar-actions {
-	padding: 0 10px 10px 10px;
+	padding: 2px 10px 10px 10px;
+}
+.sidebar-actions .ant-input-affix-wrapper {
+	width: 180px;
+}
+.sidebar-actions .ant-input-affix-wrapper .ant-input {
+	height: 25px;
+	background: #ddd;
+}
+.sidebar-actions .ant-input-affix-wrapper .ant-input-prefix {
+	left: 5px;
+	border-radius: 15px;
+}
+.sidebar-actions .ant-input-affix-wrapper .ant-input:not(:first-child) {
+	padding-left: 22px;
 }
 .sidebar-actions svg {
   color: #e6e6e6;
