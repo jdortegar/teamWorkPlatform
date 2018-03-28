@@ -1,5 +1,32 @@
 .SearchPage {
+  background-color: transparent !important; /* override MainContent style */
+}
+
+.SearchPage__header {
+  display: flex;
+  padding: 12px 12px 18px;
+  font-size: 22px;
+}
+
+.SearchPage__icon {
+  color: white;
+}
+
+.SearchPage__title {
+  font-weight: 300;
+  margin-left: 5px;
+  color: black;
+}
+
+.SearchPage__query {
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+.SearchPage__results {
   background-color: #557dbf;
+  flex-grow: 1;
+  border-radius: 4px;
 }
 
 .SearchPage__results__fileName {

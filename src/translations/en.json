@@ -640,6 +640,9 @@
     "noSentBookmarks": "You currently have no bookmarks for sent messages.",
     "noReceivedBookmarks": "You currently have no bookmarks for received messages."
   },
+  "searchPage": {
+    "title": "Results for"
+  },
 
   "validationError": {
     "usernameNotEndsWithPeriod": "Display Name cannot end with a period.",

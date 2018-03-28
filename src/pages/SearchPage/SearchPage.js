@@ -52,9 +52,21 @@ const columns = [
   }
 ];
 
+// TODO: get this from the search bar
+const query = 'knowledge graph';
+
 const SearchPage = () => (
   <div className="SearchPage">
-    <ResultsList columns={columns} dataSource={sampleData} rowKey="fileId" />
+    <div className="SearchPage__header">
+      <i className="SearchPage__icon fa fa-search" />
+      <div className="SearchPage__title">
+        {String.t('searchPage.title')}
+        <span className="SearchPage__query">&ldquo;{query}&rdquo;</span>
+      </div>
+    </div>
+    <div className="SearchPage__results">
+      <ResultsList columns={columns} dataSource={sampleData} rowKey="fileId" />
+    </div>
   </div>
 );
 
