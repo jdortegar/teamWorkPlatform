@@ -28,6 +28,8 @@ export const primaryAtTop = (teams) => {
   if (index > -1) {
     teams.splice(index, 1);
   }
-  teams.unshift(primaryTeam);
+  if (primaryTeam) {
+    teams.unshift(primaryTeam);
+  }
   return teams;
 };

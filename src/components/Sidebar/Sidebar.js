@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Tooltip, Dropdown } from 'antd';
+import { Layout, Menu, Tooltip, Dropdown, Input, Icon } from 'antd';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
@@ -79,17 +79,22 @@ class Sidebar extends Component {
     super(props);
 
     this.orgsOpen = {};
+    const { teams, currentSubscriberOrgId } = this.props;
+    const teamsActive = teams.filter(team => (team.subscriberOrgId === currentSubscriberOrgId) && team.active);
+
+    this.teamsActive = teamsActive;
 
     this.state = {
       orgsOpenKeys: [],
       teamsOpenKeys: [],
-
+      teamsActive,
       hovered: null,
       openKeys: []
     };
 
     this.goToOrgPage = this.goToOrgPage.bind(this);
     this.goToTeamRoomPage = this.goToTeamRoomPage.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentWillMount() {
@@ -122,6 +127,18 @@ class Sidebar extends Component {
       this.setState({
         teamsOpenKeys: [...teamsOpenKeys, teamId]
       });
+    }
+  }
+
+  handleSearch(e) {
+    const { value } = e.target;
+    if (value === '') {
+      this.setState({ teamsActive: this.teamsActive });
+    } else {
+      const filteredTeams = this.state.teamsActive.filter((el) => {
+        return el.name.toLowerCase().includes(value.toLowerCase().trim());
+      });
+      this.setState({ teamsActive: filteredTeams });
     }
   }
 
@@ -322,7 +339,6 @@ class Sidebar extends Component {
     }));
 
     const currentOrg = subscriberOrgs.find(({ subscriberOrgId }) => subscriberOrgId === currentSubscriberOrgId);
-    const teamsActive = teams.filter(team => (team.subscriberOrgId === currentSubscriberOrgId) && team.active);
     const addLinkSidebar = (
       <Menu>
         <Menu.Item key="addLinksHeader">
@@ -406,7 +422,7 @@ class Sidebar extends Component {
           <div className="sidebar-block-label">
             <span className="habla-label">
               {String.t('teams')}
-              <span className="sidebar-label-number-badge">{teamsActive.length}</span>
+              <span className="sidebar-label-number-badge">{this.state.teamsActive.length}</span>
             </span>
           </div>
 
@@ -416,7 +432,7 @@ class Sidebar extends Component {
               openKeys={this.state.teamsOpenKeys}
               className="habla-left-navigation-list habla-left-navigation-organization-list"
             >
-              {this.renderTeams(teamsActive)}
+              {this.renderTeams(this.state.teamsActive)}
             </Menu>
           </div>
         </div>
@@ -432,9 +448,10 @@ class Sidebar extends Component {
               <i className="fas fa-sliders-h" />
             </a>
           </Dropdown>
-          <a>
-            <i className="fas fa-search" />
-          </a>
+          <Input
+            prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            onChange={this.handleSearch}
+          />
         </div>
 
         <div className="sidebar-direct-messages">
