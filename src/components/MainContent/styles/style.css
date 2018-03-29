@@ -1,9 +1,9 @@
 .MainContent__layout-wrapper {
-	background-color: #fff;
 	margin: 0;
 	height: 85vh;
 }
 .MainContent__layout-wrapper > div {
+  background-color: #fff;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
