@@ -7,6 +7,7 @@ import SimpleCardContainer from '../../components/SimpleCardContainer';
 import Button from '../../components/common/Button';
 import Spinner from '../../components/Spinner';
 import { ImageCard } from '../../components/cards';
+import SharingSettings from '../../components/SharingSettings';
 import String from '../../translations';
 import {
   integrationImageFromKey,
@@ -56,7 +57,9 @@ const propTypes = {
       status: PropTypes.string
     }).isRequired
   }).isRequired,
-  subscriberOrgs: PropTypes.object.isRequired
+  subscriberOrgs: PropTypes.object.isRequired,
+  foldersAndFiles: PropTypes.object.isRequired,
+  teams: PropTypes.array.isRequired
 };
 
 class IntegrationDetailsPage extends Component {
@@ -289,6 +292,14 @@ class IntegrationDetailsPage extends Component {
       }
     }
 
+    // Sharing Settings
+    let primaryTree;
+    let secondaryTree;
+    if (currStatus === 'Active') {
+      primaryTree = this.props.foldersAndFiles;
+      secondaryTree = this.props.teams;
+    }
+
     return (
       <div>
         <SubpageHeader
@@ -334,6 +345,7 @@ class IntegrationDetailsPage extends Component {
             />
           </Tooltip>
         </div>
+        {(currStatus === 'Active') && <SharingSettings primaryTree={primaryTree} secondaryTree={secondaryTree} />}
       </div>
     );
   }
