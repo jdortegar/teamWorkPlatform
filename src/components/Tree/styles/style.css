@@ -43,6 +43,14 @@
   color: #ccc;
   font-size: .75em;
   margin-right: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.node-sharing-details-icon {
+  color: #ccc;
+  margin-left: 5px;
+  font-size: 1.2em;
 }
 
 .node-share {

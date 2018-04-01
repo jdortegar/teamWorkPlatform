@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Collapse } from 'antd';
 import imageSrcFromFileExtension from 'lib/imageFiles';
+import SimpleHeader from '../SimpleHeader';
 import './styles/style.css';
 // import 'pages/CKGPage/styles/style.css';
+
+const Panel = Collapse.Panel;
 
 const propTypes = {
   nodes: PropTypes.arrayOf(PropTypes.shape({
@@ -28,6 +31,7 @@ class Tree extends Component {
 
     this.onNodeClick = this.onNodeClick.bind(this);
     this.onShareChange = this.onShareChange.bind(this);
+    this.renderSharingLink = this.renderSharingLink.bind(this);
   }
 
   onNodeClick(e, nodeId, tree) {
@@ -52,6 +56,15 @@ class Tree extends Component {
       {
         primaryTree: tree
       }
+    );
+  }
+
+  renderSharingLink(nodeId) {
+    return (
+      <div className="node-sharing-details">
+        EDIT SHARING DETAILS
+        <a onClick={e => this.onNodeClick(e, nodeId)}><i className="fas fa-angle-right node-sharing-details-icon" /></a>
+      </div>
     );
   }
 
@@ -96,7 +109,7 @@ class Tree extends Component {
             <div className="node-icon">{icon}</div>
             <div className="node-info"><span className="node-name">{nodeName}</span> &nbsp;{childCount}</div>
             <div className="node-filler" />
-            {(selected) && <div className="node-sharing-details">EDIT SHARING DETAILS<Collapse /></div>}
+            {(selected) && this.renderSharingLink(node.id)}
             <div className="node-share">
               <Switch
                 checkedChildren="YES"
