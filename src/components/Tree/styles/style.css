@@ -39,6 +39,12 @@
   flex-grow: 1;
 }
 
+.node-sharing-details {
+  color: #ccc;
+  font-size: .75em;
+  margin-right: 20px;
+}
+
 .node-share {
 
 }

@@ -148,7 +148,10 @@ export const getIntegrationFilesAndFolders = createSelector(
         {
           id: 'spreadsheet.xls'
         }
-      ]
+      ],
+      selected: {
+        'my.pdf': 'some-team-id'
+      }
     };
   }
 );

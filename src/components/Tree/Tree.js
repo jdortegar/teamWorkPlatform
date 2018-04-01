@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form } from 'antd';
+import { Switch, Collapse } from 'antd';
 import imageSrcFromFileExtension from 'lib/imageFiles';
-import { formShape } from '../../propTypes';
-import SwitchField from '../formFields/SwitchField';
 import './styles/style.css';
 // import 'pages/CKGPage/styles/style.css';
 
 const propTypes = {
-  form: formShape.isRequired,
   nodes: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string,
     name: PropTypes.string,
@@ -44,9 +41,18 @@ class Tree extends Component {
     );
   }
 
-  onShareChange(e, nodeId, tree) {
-    e.preventDefault();
-    console.log(`AD: onShareChange(${nodeId})`);
+  onShareChange(checked, nodeId, tree) {
+    if (checked) {
+      tree.selected[nodeId] = true; // eslint-disable-line no-param-reassign
+    } else {
+      delete tree.selected[nodeId]; // eslint-disable-line no-param-reassign
+    }
+
+    this.setState(
+      {
+        primaryTree: tree
+      }
+    );
   }
 
   renderBoxedNodes(nodeArray, tree) {
@@ -71,6 +77,7 @@ class Tree extends Component {
       }
 
       const nodeName = nodeDetails.name;
+      const selected = (tree.selected[node.id]) ? true : false;
 
       let itemsString;
       if (node.children) {
@@ -89,15 +96,14 @@ class Tree extends Component {
             <div className="node-icon">{icon}</div>
             <div className="node-info"><span className="node-name">{nodeName}</span> &nbsp;{childCount}</div>
             <div className="node-filler" />
+            {(selected) && <div className="node-sharing-details">EDIT SHARING DETAILS<Collapse /></div>}
             <div className="node-share">
-              <SwitchField
-                disabled={false}
+              <Switch
                 checkedChildren="YES"
                 unCheckedChildren="NO"
-                form={this.props.form}
-                componentKey={node.id}
-                initialValue={false}
-                valuePropName="checked"
+                defaultChecked={selected}
+                onChange={(checked) => this.onShareChange(checked, node.id, tree)}
+                disabled={false}
               />
             </div>
           </div>
@@ -124,4 +130,4 @@ class Tree extends Component {
 Tree.propTypes = propTypes;
 Tree.defaultProps = defaultProps;
 
-export default Form.create()(Tree);
+export default Tree;
