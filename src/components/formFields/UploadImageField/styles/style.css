@@ -11,7 +11,7 @@
 }
 .UploadImageField__avatar__org {
   display: block;
-  object-fit: scale-down;
+  object-fit: cover;
   overflow: hidden;
   font-size: .9em;
 }
@@ -25,7 +25,7 @@
 }
 .avatar-uploader {
   display: flex;
-  object-fit: scale-down;
+  object-fit: cover;
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;

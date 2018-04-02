@@ -28,11 +28,10 @@
 }
 .message__icons {
    font-size: 15px;
-   padding: 5px 8px;
+   padding: 4px 8px 6px 8px;
 }
 .message__icons-selected {
-  /* color: #FBBC12; */
-   color: #BB8C12!important;
+   color: #FBBC12!important;
 }
 .message__icons:not(:last-child) {
   border-right: 1px solid #666;

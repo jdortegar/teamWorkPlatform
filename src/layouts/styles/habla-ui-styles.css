@@ -307,9 +307,12 @@ p {
 }
 .habla-main-content-header-title svg
 , .CKGPage__title svg {
-  margin-right: 5px;
+  margin-right: 10px;
   font-size: 18px;
   color: #ccc;
+}
+.habla-main-content-header-title .breadcrumbs-separator svg {
+  margin-right: 0!important;
 }
 .habla-main-content-filters-links div {
   background: #fff;
@@ -338,36 +341,35 @@ p {
 
 .habla-top-navigation-avatar-signal {
    border-radius: 50%;
-   border: 1px solid #4d4d4d;
+   border: 1px solid #fff;
    position: absolute;
    z-index: 2;
    overflow: visible;
 }
-.habla-avatar-signal-default {
-   width: 11px;
-   height: 11px;
-   right: -4px;
-   top: -4px;
-}
 .habla-avatar-signal-small {
-   width: 9px;
-   height: 9px;
-   right: -5px;
-   top: -5px; 
+   width: 8px;
+   height: 8px;
+   right: -3px;
+   top: -3px; 
+}
+.habla-avatar-signal-default {
+   width: 10px;
+   height: 10px;
+   right: -3px;
+   top: -3px;
 }
 .habla-avatar-signal-large {
-   width: 15px;
-   height: 15px;
-   right: -6px;
-   top: -4px; 
+   width: 14px;
+   height: 14px;
+   right: 3px;
+   top: 3px; 
 }
 .habla-avatar-signal-x-large {
    width: 18px;
    height: 18px;
-   right: -6px;
-   top: -6px; 
+   right: 5px;
+   top: 5px; 
 }
-
 .habla-top-menu-subitem {
    position: relative;
    display: inline-block;
@@ -498,9 +500,10 @@ p {
 }
 .habla__placeholder-centered-text {
   text-align: center;
+  color: #ccc;
 }
 .habla-tab__item {
-  margin: 0px 6px;
+  margin: 0px 0px 0px 3px;
   padding: 3px 10px;
 }
 .habla-tab__item.active {

@@ -282,8 +282,8 @@
     "sentByName": "{{firstName}} {{lastName}}",
     "tooltipReply": "Reply",
     "tooltipAddFile": "Add File",
-    "tooltipBookmarkSet": "Set Bookmark",
-    "tooltipBookmarkRemove": "Remove Bookmark",
+    "tooltipBookmarkSet": "Save in Bookmarks",
+    "tooltipBookmarkRemove": "Remove from Bookmarks",
     "tooltipThumbsUp": "Thumbs Up",
     "tooltipThumbsDown": "Thumbs Down",
     "tooltipFlag": "Flag",
@@ -565,8 +565,8 @@
   "teamMemberPage": {
     "breadcrumb": "Team Member",
     "profilePictureLabel": "Profile Picture",
-    "displayName": "Display Name: {{displayName}}",
-    "timeZone": "Time Zone: {{timeZone}}",
+    "displayName": "@{{displayName}}",
+    "timeZone": "({{timeZone}})",
     "memberSince": "Member since {{date}}",
     "statusOnline": "Online",
     "statusAway": "Away",
@@ -636,7 +636,7 @@
       "sent": "Sent",
       "received": "Received"
     },
-    "noBookmarks": "You currently have no bookmarks. To set a bookmark in a conversation, go to a message, mouse over the message and click on the bookmark image.",
+    "noBookmarks": "You currently have no bookmarks.",
     "noSentBookmarks": "You currently have no bookmarks for sent messages.",
     "noReceivedBookmarks": "You currently have no bookmarks for received messages."
   },

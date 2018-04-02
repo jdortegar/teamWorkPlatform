@@ -157,6 +157,7 @@
 .sidebar-direct-messages-content {
   background: #fff;
   border-radius: 4px;
+  padding-bottom: 6px!important;
 }
 .sidebar-block-label {
 	padding: 10px;

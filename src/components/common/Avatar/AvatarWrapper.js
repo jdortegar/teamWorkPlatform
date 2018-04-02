@@ -73,7 +73,7 @@ class AvatarWrapper extends React.Component {
     let topClass = (className || '').concat(' habla-top-menu-subitem');
     let lowOpacity = false;
     if (online !== undefined && !online) {
-      topClass += ' opacity-low';
+      topClass += ' ';
       lowOpacity = true;
     }
 
