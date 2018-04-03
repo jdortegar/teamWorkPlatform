@@ -149,7 +149,7 @@ class IntegrationsPage extends Component {
             />
           }
         />
-        <div className="padding-class-a">
+        <div className="padding-class-b">
           <div className="habla-paragraph">{String.t('integrationsPage.selectIntegration')}</div>
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex habla-integration-list margin-top-class-b">
             <Row type="flex">
@@ -157,7 +157,7 @@ class IntegrationsPage extends Component {
             </Row>
           </SimpleCardContainer>
         </div>
-        <div className="padding-class-a border-top-lighter mt-2">
+        <div className="padding-class-b border-top-lighter mt-2">
           <div className="habla-paragraph">{String.t('integrationsPage.upcomingIntegrations')}</div>
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex habla-integration-list margin-top-class-b">
             <Row type="flex">

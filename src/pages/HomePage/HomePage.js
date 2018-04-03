@@ -66,7 +66,7 @@ class HomePage extends Component {
           />
         </div>
         <div className="homepage_latest-container">
-          <div className="homepage_latest-header">{String.t('homePage.latestHeader')}</div>
+          <div className="homepage_latest-header habla-label">{String.t('homePage.latestHeader')}</div>
           {this.renderActivity()}
         </div>
       </div>

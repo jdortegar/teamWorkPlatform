@@ -10,21 +10,13 @@
    height: 50%;
    overflow: hidden;
 }
-.homepage_latest-header {
-   font-weight: bold;
-   font-size: 18px;
-   padding: 20px;
-   padding-bottom: 0px;
-}
 .homepage_latest-container {
    width: 100%;
    height: 50%;
-   padding: 5px;
-   border-top: #ccc 1px solid;
+   padding: 20px;
 }
 .homePage__activity-container {
    display: flex;
-   padding: 20px;
    border-bottom: #ccc 1px solid;
 }
 .homePage__activity-avatar {

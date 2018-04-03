@@ -8,7 +8,7 @@
 /* LEFT NAVIGATION ---------- */
 
 .Sidebar {
-  background-color: #ccc;
+  background-color: transparent;
   display: flex;
   flex-direction: column;
   border-radius: 4px;
@@ -157,7 +157,6 @@
 .sidebar-direct-messages-content {
   background: #fff;
   border-radius: 4px;
-  padding-bottom: 6px!important;
 }
 .sidebar-block-label {
 	padding: 10px;

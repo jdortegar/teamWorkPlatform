@@ -85,7 +85,7 @@ class Header extends Component {
         </Menu.Item>
         <Menu.Item key="accountSettings">
           <Link to="/app/editUser">
-            <span><i className="fas fa-cog" /> {String.t('Header.accountSettings')}</span>
+            <span><i className="fas fa-address-card" /> {String.t('Header.accountSettings')}</span>
           </Link>
         </Menu.Item>
         <Menu.Item key="logout" className="dropdown-last-menu-item">

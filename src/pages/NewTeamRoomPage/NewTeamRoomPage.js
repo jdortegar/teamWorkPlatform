@@ -97,7 +97,7 @@ class NewTeamRoomPage extends Component {
         />
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
-            <div className="New-team-room__container padding-class-a">
+            <div className="New-team-room__container padding-class-b">
               <h1 className="New-team-room__title">{String.t('newTeamRoomPage.title')}</h1>
               <TextField
                 componentKey="name"
