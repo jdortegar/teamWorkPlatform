@@ -104,6 +104,15 @@ class Sidebar extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.teams.length !== this.props.teams.length) {
+      const { currentSubscriberOrgId } = this.props;
+      const teamsActive = nextProps.teams.filter(team => (team.subscriberOrgId === currentSubscriberOrgId) && team.active);
+      this.teamsActive = teamsActive;
+      this.setState({ teamsActive });
+    }
+  }
+
   getTeamsIds(orgId) {
     const teams = this.props.teams.filter(team => team.subscriberOrgId === orgId);
     return teams.map(team => team.teamId);
