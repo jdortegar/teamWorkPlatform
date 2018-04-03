@@ -999,6 +999,9 @@ ul.ant-menu li.ant-menu-submenu:hover {
 	position: relative;
     left: -7px;
 }
+.ant-input-affix-wrapper {
+	width: 120px;
+}
 }
 
 @media only screen and (max-width:520px) {
