@@ -28,6 +28,11 @@
   flex-grow: 1;
   border-radius: 4px;
 }
+.SearchPage__results.loading {
+  display: flex;
+  align-items: center;
+  background-color: white;
+}
 
 .SearchPage__results__fileName {
   padding-left: 40px;

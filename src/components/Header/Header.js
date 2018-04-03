@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Dropdown, message } from 'antd';
+import { Layout, Menu, Dropdown, Input, Icon, message } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
@@ -17,6 +17,14 @@ class Header extends Component {
     this.onStatusChange = this.onStatusChange.bind(this);
   }
 
+  state = { query: this.props.query };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.query !== this.props.query) {
+      this.setState({ query: nextProps.query });
+    }
+  }
+
   onStatusChange(presenceStatus) {
     const { user } = this.props;
     if (user.presenceStatus && (user.presenceStatus === presenceStatus)) return;
@@ -31,8 +39,25 @@ class Header extends Component {
     this.props.logoutUser();
   }
 
+  clearInput = () => {
+    this.searchInput.focus();
+    this.setState({ query: '' });
+    this.props.clearSearch();
+  }
+
+  handleSearchChange = (event) => {
+    this.setState({ query: event.target.value });
+  }
+
+  handleSearchSubmit = (event) => {
+    event.preventDefault();
+    this.props.search(this.state.query);
+    this.props.history.push(`/app/search?q=${this.state.query}`);
+  }
+
   renderMenuItems() {
     const { user } = this.props;
+    const clearIconVisibility = this.state.query ? 'visible' : 'hidden';
 
     const muteNotificationMenu = (
       <Menu className="muteNotificationMenu">
@@ -98,10 +123,26 @@ class Header extends Component {
       <div className="habla-top-menu-items">
         <div className="habla-top-menu-item">
           <div className="habla-top-menu-item-content">
-            <input className="habla-header-search-input" placeholder={String.t('Header.semanticSearchPlaceholder')} />
-            <Link to="/app/search" className="habla-top-menu-search ">
-              <i className="fa fa-search" />
-            </Link>
+            <form
+              className="habla-top-menu-search"
+              onSubmit={this.handleSearchSubmit}
+            >
+              <Input
+                ref={(node) => { this.searchInput = node; }}
+                placeholder={String.t('Header.semanticSearchPlaceholder')}
+                onChange={this.handleSearchChange}
+                value={this.state.query}
+                suffix={<Icon
+                  type="close-circle"
+                  onClick={this.clearInput}
+                  className="habla-top-menu-search-clear"
+                  style={{ visibility: clearIconVisibility }}
+                />}
+              />
+              <button type="submit">
+                <i className="fa fa-search" />
+              </button>
+            </form>
           </div>
         </div>
         <div className="habla-top-menu-item">
@@ -155,12 +196,21 @@ class Header extends Component {
 Header.propTypes = {
   logoutUser: PropTypes.func,
   updateUser: PropTypes.func,
-  user: PropTypes.object
+  search: PropTypes.func,
+  clearSearch: PropTypes.func,
+  user: PropTypes.object,
+  query: PropTypes.string,
+  history: PropTypes.shape({
+    push: PropTypes.func
+  }).isRequired
 };
 
 Header.defaultProps = {
   logoutUser: null,
   updateUser: null,
+  search: null,
+  clearSearch: null,
+  query: '',
   user: null
 };
 

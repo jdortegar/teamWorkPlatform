@@ -11,6 +11,7 @@ import invitationsReducer from './invitationsReducer';
 import sentInvitationsReducer from './sentInvitationsReducer';
 import conversationsReducer from './conversationsReducer';
 import readMessagesReducer from './readMessagesReducer';
+import searchReducer from './searchReducer';
 import typingsReducer from './typingsReducer';
 import timeActivitiesReducer from './timeActivitiesReducer';
 import integrationsReducer from './integrationsReducer';
@@ -29,6 +30,7 @@ const reducers = {
   sentInvitations: sentInvitationsReducer,
   conversations: conversationsReducer,
   readMessages: readMessagesReducer,
+  search: searchReducer,
   typings: typingsReducer,
   timeActivities: timeActivitiesReducer,
   integrations: integrationsReducer
