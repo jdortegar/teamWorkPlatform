@@ -51,8 +51,10 @@ export * from './readMessagesReceive';
 
 export * from './timeActivitiesFetch';
 
-export * from './typing';
+export * from './search';
+export * from './searchClear';
 export * from './location';
+export * from './typing';
 
 export * from './integrations';
 export * from './integrationsFetch';
