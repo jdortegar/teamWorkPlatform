@@ -129,7 +129,7 @@ class Header extends Component {
             >
               <Input
                 ref={(node) => { this.searchInput = node; }}
-                placeholder={String.t('Header.semanticSearchPlaceholder')}
+                placeholder={String.t('Header.smartSearchPlaceholder')}
                 onChange={this.handleSearchChange}
                 value={this.state.query}
                 suffix={<Icon

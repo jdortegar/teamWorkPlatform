@@ -264,7 +264,7 @@
     "muteTitle": "Mute Notifications",
     "statusTitle": "Status",
     "adminTitle": "Admin",
-    "semanticSearchPlaceholder": "Semantic Search ..."
+    "smartSearchPlaceholder": "Smart Search..."
   },
   "IntegrationCard": {
     "expired": "Expired",
