@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { Tooltip } from 'antd';
 
+import { BasicFilter } from 'components';
 import {
   integrationLabelFromKey,
   integrationImageFromKey
 } from 'utils/dataIntegrations';
 import String from 'translations';
-import './styles/style.css';
 
 const propTypes = {
   integrationKey: PropTypes.string.isRequired,
@@ -25,23 +23,13 @@ const defaultProps = {
 const IntegrationFilter = ({ integrationKey, count, active, onClick }) => {
   const label = integrationLabelFromKey(integrationKey);
   return (
-    <div key={integrationKey} className="IntegrationFilter">
-      <Tooltip placement="top" title={String.t('ckgPage.integrationFileCount', { count, label })}>
-        <div
-          className={classNames('IntegrationFilter__content', { inactive: !active })}
-          onClick={onClick}
-        >
-          <img
-            src={integrationImageFromKey(integrationKey)}
-            className="IntegrationFilter__image"
-            width={32}
-            height={32}
-            alt=""
-          />
-          <div className="IntegrationFilter__label">{label}</div>
-        </div>
-      </Tooltip>
-    </div>
+    <BasicFilter
+      tooltipTitle={String.t('ckgPage.integrationFileCount', { count, label })}
+      imageSource={integrationImageFromKey(integrationKey)}
+      label={label}
+      active={active}
+      onClick={onClick}
+    />
   );
 };
 

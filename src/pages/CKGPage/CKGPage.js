@@ -171,10 +171,9 @@ class CKGPage extends Component {
             }
             {String.t('ckgPage.filterTypes', { count: labels.length })}
           </div>
-          {labels.map(({ key, label, fileExtension, count }) => (
+          {labels.map(({ key, count, label, fileExtension }) => (
             <FileTypeFilter
               key={key}
-              fileTypeKey={key}
               count={count}
               label={label}
               fileExtension={fileExtension}
