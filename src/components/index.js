@@ -3,6 +3,7 @@ export Badge from './Badge';
 export GraphActivitySelector from './GraphActivitySelector';
 export GraphDateSelector from './GraphDateSelector';
 export GraphZoomActions from './GraphZoomActions';
+export IntegrationFilter from './IntegrationFilter';
 export NewSubpageHeader from './NewSubpageHeader';
 export ResultsList from './ResultsList';
 export Spinner from './Spinner';

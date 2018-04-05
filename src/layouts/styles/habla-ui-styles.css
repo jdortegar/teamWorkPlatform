@@ -116,9 +116,6 @@ p {
 .flex-class {
   display: flex;
 }
-.inactive {
-  background-color: #c1c1c1;
-}
 
 
 /* COLORS ---------- */
@@ -249,7 +246,7 @@ p {
 /* General CSS Styles for Habla Web App Dopdown Menus */
 .ant-dropdown-menu {
   background-color: #444!important;
-  padding-bottom: 10px;	
+  padding-bottom: 10px;
 }
 .ant-dropdown-menu .habla-label {
   font-weight: 900;
@@ -329,7 +326,7 @@ p {
   color: #fff;
   cursor: pointer;
 }
- 
+
 .habla-main-content-header-actions i {
   font-size: 2em;
   vertical-align: middle;
@@ -352,7 +349,7 @@ p {
    width: 8px;
    height: 8px;
    right: -3px;
-   top: -3px; 
+   top: -3px;
 }
 .habla-avatar-signal-default {
    width: 10px;
@@ -364,13 +361,13 @@ p {
    width: 14px;
    height: 14px;
    right: 3px;
-   top: 3px; 
+   top: 3px;
 }
 .habla-avatar-signal-x-large {
    width: 18px;
    height: 18px;
    right: 5px;
-   top: 5px; 
+   top: 5px;
 }
 .habla-top-menu-subitem {
    position: relative;
@@ -777,7 +774,7 @@ p {
   background: transparent;
 }
 .ant-menu-submenu > .ant-menu {
-  background: transparent;	
+  background: transparent;
 }
 .Sidebar ul.ant-menu li.ant-menu-submenu {
 	background: #fff;
@@ -849,7 +846,7 @@ ul.ant-menu li.ant-menu-submenu:hover {
 .ant-avatar-string {
   left: 30px;
 }
-.ant-progress-line { 
+.ant-progress-line {
     bottom: 0!important;
     padding: 0 5px!important;
     position: absolute!important;
@@ -999,7 +996,7 @@ ul.ant-menu li.ant-menu-submenu:hover {
 	padding-left: 0;
 }
 .sidebar-actions {
-	text-align: center;	
+	text-align: center;
 }
 .sidebar-actions svg {
 	margin: 4px 0 4px 0;

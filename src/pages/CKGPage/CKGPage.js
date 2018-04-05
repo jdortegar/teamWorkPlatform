@@ -4,12 +4,9 @@ import moment from 'moment';
 import { Tooltip } from 'antd';
 import * as d3 from 'd3';
 
+import { integrationKeyFromFile } from 'utils/dataIntegrations';
 import {
-  integrationLabelFromKey,
-  integrationKeyFromFile,
-  integrationImageFromKey
-} from 'utils/dataIntegrations';
-import {
+  IntegrationFilter,
   NewSubpageHeader,
   TimeActivityGraph,
   GraphActivitySelector,
@@ -154,31 +151,19 @@ class CKGPage extends Component {
     return (
       <div className="bottomBar-files-filter">
         <div className="bottomBar-files-filter-content">
-          {Object.keys(integrations).map((integrationKey) => {
-            const { key, count } = integrations[integrationKey];
-            const btnClass = this.state.excludeIntegrationsFilter[key] ? 'fileTypeButton fileTypeButtonGrayed' : 'fileTypeButton';
-            const label = integrationLabelFromKey(key);
-            return (
-              <div key={key} className="fileTypeContainer mr-05">
-                <Tooltip placement="top" title={String.t('ckgPage.integrationFileCount', { count, label })}>
-                  <div
-                    className={btnClass}
-                    onClick={() => {
-                      const newExcludeIntegrationsFilter = { ...this.state.excludeIntegrationsFilter };
-                      newExcludeIntegrationsFilter[key] = (newExcludeIntegrationsFilter[key] ? null : true);
-                      this.setState({ excludeIntegrationsFilter: newExcludeIntegrationsFilter });
-                    }}
-                  >
-                    <img src={integrationImageFromKey(key)} width={32} height={32} alt="" className="img" />
-                    <div className="fileTypeLabel">
-                      {label}
-                    </div>
-                  </div>
-                </Tooltip>
-              </div>
-            );
-          })
-          }
+          {Object.values(integrations).map(({ key, count }) => (
+            <IntegrationFilter
+              key={key}
+              integrationKey={key}
+              count={count}
+              active={!this.state.excludeIntegrationsFilter[key]}
+              onClick={() => {
+                const newExcludeIntegrationsFilter = { ...this.state.excludeIntegrationsFilter };
+                newExcludeIntegrationsFilter[key] = (newExcludeIntegrationsFilter[key] ? null : true);
+                this.setState({ excludeIntegrationsFilter: newExcludeIntegrationsFilter });
+              }}
+            />
+          ))}
           <div className="filetype-label habla-label ml-05">
             {(labels.length > 0) && (
               <span className="filetype-label-number-badge">
