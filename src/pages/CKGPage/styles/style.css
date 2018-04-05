@@ -89,20 +89,14 @@
 	float: left;
 	height: 50px;
 }
-.bottomBar .bottomBar-selectors .team-select-container
-, .bottomBar .bottomBar-selectors .team-room-select-container {
+.bottomBar .bottomBar-selectors .team-select-container,
+.bottomBar .bottomBar-selectors .team-room-select-container {
 	width: 50%;
 	float: left;
 }
-.bottomBar .bottomBar-files-filter {
+.bottomBar .CKGPage__FilesFilters {
 	width: 70%;
 	float: right;
-	overflow: hidden;
-	height: 50px;
-}
-.bottomBar-files-filter-content {
-	display: inline-flex;
-	padding: 10px 10px 10px 0;
 }
 .bottomBar select {
 	height: 30px;
@@ -110,22 +104,6 @@
 	border-radius: 4px;
 	background: #fff;
 	width: 99%;
-}
-.filetype-label {
-	position: relative;
-	top: 11px;
-	margin-right: 10px;
-	display: table;
-}
-.filetype-label span {
-	margin-right: 3px;
-}
-.filetype-label-number-badge {
-  color: #fff;
-  background: #a8a8a8;
-  padding: 4px;
-  border-radius: 3px;
-  margin-left: 3px;
 }
 .team-select-container {
 	padding-right: 5px;

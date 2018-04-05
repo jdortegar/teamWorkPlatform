@@ -3,6 +3,7 @@ export Badge from './Badge';
 export GraphActivitySelector from './GraphActivitySelector';
 export GraphDateSelector from './GraphDateSelector';
 export GraphZoomActions from './GraphZoomActions';
+export FilesFilters from './FilesFilters';
 export BasicFilter from './BasicFilter';
 export IntegrationFilter from './IntegrationFilter';
 export FileTypeFilter from './FileTypeFilter';

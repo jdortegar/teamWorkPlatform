@@ -5,8 +5,7 @@ import * as d3 from 'd3';
 
 import { integrationKeyFromFile } from 'utils/dataIntegrations';
 import {
-  IntegrationFilter,
-  FileTypeFilter,
+  FilesFilters,
   NewSubpageHeader,
   TimeActivityGraph,
   GraphActivitySelector,
@@ -148,53 +147,31 @@ class CKGPage extends Component {
   renderFilesFilter() {
     const { labels, integrations } = this.props.timeActivities.fileTypes;
     return (
-      <div className="bottomBar-files-filter">
-        <div className="bottomBar-files-filter-content">
-          {integrations.map(({ key, count }) => (
-            <IntegrationFilter
-              key={key}
-              integrationKey={key}
-              count={count}
-              active={!this.state.excludeIntegrationsFilter[key]}
-              onClick={() => {
-                const newExcludeIntegrationsFilter = { ...this.state.excludeIntegrationsFilter };
-                newExcludeIntegrationsFilter[key] = (newExcludeIntegrationsFilter[key] ? null : true);
-                this.setState({ excludeIntegrationsFilter: newExcludeIntegrationsFilter });
-              }}
-            />
-          ))}
-          <div className="filetype-label habla-label ml-05">
-            {(labels.length > 0) && (
-              <span className="filetype-label-number-badge">
-                {labels.length}
-              </span>)
-            }
-            {String.t('ckgPage.filterTypes', { count: labels.length })}
-          </div>
-          {labels.map(({ key, count, label, fileExtension }) => (
-            <FileTypeFilter
-              key={key}
-              count={count}
-              label={label}
-              fileExtension={fileExtension}
-              active={!this.state.excludeTypesFilter[key]}
-              onClick={() => {
-                const newExcludeTypesFilter = { ...this.state.excludeTypesFilter };
-                newExcludeTypesFilter[key] = (newExcludeTypesFilter[key] ? null : true);
-                this.setState({ excludeTypesFilter: newExcludeTypesFilter });
-              }}
-              onDoubleClick={() => {
-                const newExcludeTypesFilter = {};
-                const keys = Object.keys(this.state.excludeTypesFilter);
-                if (keys.length < labels.length) {
-                  labels.forEach((file) => { newExcludeTypesFilter[file.key] = true; });
-                }
-                this.setState({ excludeTypesFilter: newExcludeTypesFilter });
-              }}
-            />
-          ))}
-        </div>
-      </div>
+      <FilesFilters
+        className={'CKGPage__FilesFilters'}
+        fileTypes={labels}
+        integrations={integrations}
+        excludeIntegrationsFilter={this.state.excludeIntegrationsFilter}
+        excludeTypesFilter={this.state.excludeTypesFilter}
+        onIntegrationFilterClick={(key) => {
+          const newExcludeIntegrationsFilter = { ...this.state.excludeIntegrationsFilter };
+          newExcludeIntegrationsFilter[key] = (newExcludeIntegrationsFilter[key] ? null : true);
+          this.setState({ excludeIntegrationsFilter: newExcludeIntegrationsFilter });
+        }}
+        onFileTypeFilterClick={(key) => {
+          const newExcludeTypesFilter = { ...this.state.excludeTypesFilter };
+          newExcludeTypesFilter[key] = (newExcludeTypesFilter[key] ? null : true);
+          this.setState({ excludeTypesFilter: newExcludeTypesFilter });
+        }}
+        onFileTypeFilterDoubleClick={() => {
+          const newExcludeTypesFilter = {};
+          const keys = Object.keys(this.state.excludeTypesFilter);
+          if (keys.length < labels.length) {
+            labels.forEach((file) => { newExcludeTypesFilter[file.key] = true; });
+          }
+          this.setState({ excludeTypesFilter: newExcludeTypesFilter });
+        }}
+      />
     );
   }
 
