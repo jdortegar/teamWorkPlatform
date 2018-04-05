@@ -1,0 +1,28 @@
+.FileTypeFilter {
+  display: inline-flex;
+  vertical-align: -webkit-baseline-middle;
+  margin-right: 4px;
+}
+
+.FileTypeFilter__content {
+  border-radius: 4px;
+  overflow: hidden;
+  display: -webkit-inline-box;
+  vertical-align: -webkit-baseline-middle;
+  cursor: pointer;
+}
+.FileTypeFilter__content.inactive {
+  opacity: 0.3;
+}
+.FileTypeFilter__image {
+  width: 30px;
+  height: 30px;
+}
+
+.FileTypeFilter__label {
+  margin-top: 10px;
+  margin-left: 1px;
+  font-size: 11px;
+  vertical-align: -webkit-baseline-middle;
+  display: none;
+}

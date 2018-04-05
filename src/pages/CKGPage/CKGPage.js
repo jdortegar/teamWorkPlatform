@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Tooltip } from 'antd';
 import * as d3 from 'd3';
 
 import { integrationKeyFromFile } from 'utils/dataIntegrations';
 import {
   IntegrationFilter,
+  FileTypeFilter,
   NewSubpageHeader,
   TimeActivityGraph,
   GraphActivitySelector,
@@ -16,7 +16,6 @@ import {
 } from 'components';
 import { primaryAtTop } from 'redux-hablaai/selectors/helpers';
 import String from 'translations';
-import imageSrcFromFileExtension from 'lib/imageFiles';
 import './styles/style.css';
 
 const color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -151,7 +150,7 @@ class CKGPage extends Component {
     return (
       <div className="bottomBar-files-filter">
         <div className="bottomBar-files-filter-content">
-          {Object.values(integrations).map(({ key, count }) => (
+          {integrations.map(({ key, count }) => (
             <IntegrationFilter
               key={key}
               integrationKey={key}
@@ -172,38 +171,29 @@ class CKGPage extends Component {
             }
             {String.t('ckgPage.filterTypes', { count: labels.length })}
           </div>
-          {
-            labels.map(({ key, label, fileExtension, count }) => {
-              const btnClass = this.state.excludeTypesFilter[key] ? 'fileTypeButton fileTypeButtonGrayed' : 'fileTypeButton';
-              return (
-                <div key={key} className="fileTypeContainer">
-                  <Tooltip placement="top" title={String.t('ckgPage.filterCount', { count, label })}>
-                    <div
-                      className={btnClass}
-                      onClick={() => {
-                        const newExcludeTypesFilter = { ...this.state.excludeTypesFilter };
-                        newExcludeTypesFilter[key] = (newExcludeTypesFilter[key] ? null : true);
-                        this.setState({ excludeTypesFilter: newExcludeTypesFilter });
-                      }}
-                      onDoubleClick={() => {
-                        const newExcludeTypesFilter = {};
-                        const keys = Object.keys(this.state.excludeTypesFilter);
-                        if (keys.length < labels.length) {
-                          labels.forEach((file) => { newExcludeTypesFilter[file.key] = true; });
-                        }
-                        this.setState({ excludeTypesFilter: newExcludeTypesFilter });
-                      }}
-                    >
-                      <img src={imageSrcFromFileExtension(fileExtension)} width={32} height={32} alt="" className="img" />
-                      <div className="fileTypeLabel">
-                        {label}
-                      </div>
-                    </div>
-                  </Tooltip>
-                </div>
-              );
-            })
-          }
+          {labels.map(({ key, label, fileExtension, count }) => (
+            <FileTypeFilter
+              key={key}
+              fileTypeKey={key}
+              count={count}
+              label={label}
+              fileExtension={fileExtension}
+              active={!this.state.excludeTypesFilter[key]}
+              onClick={() => {
+                const newExcludeTypesFilter = { ...this.state.excludeTypesFilter };
+                newExcludeTypesFilter[key] = (newExcludeTypesFilter[key] ? null : true);
+                this.setState({ excludeTypesFilter: newExcludeTypesFilter });
+              }}
+              onDoubleClick={() => {
+                const newExcludeTypesFilter = {};
+                const keys = Object.keys(this.state.excludeTypesFilter);
+                if (keys.length < labels.length) {
+                  labels.forEach((file) => { newExcludeTypesFilter[file.key] = true; });
+                }
+                this.setState({ excludeTypesFilter: newExcludeTypesFilter });
+              }}
+            />
+          ))}
         </div>
       </div>
     );

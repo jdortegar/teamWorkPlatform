@@ -15,31 +15,6 @@
 .bottomBar {
   height: 50px;
 }
-.fileTypeContainer {
-  display: inline-flex;
-  vertical-align: -webkit-baseline-middle;
-}
-.fileTypeButton {
-  border-radius: 4px;
-  overflow: hidden;
-  display: -webkit-inline-box;
-  vertical-align: -webkit-baseline-middle;
-  cursor: pointer;
-}
-.fileTypeButton img {
-  width: 30px;
-  height: 30px;
-}
-.fileTypeButtonGrayed {
-  opacity: 0.3;
-}
-.fileTypeLabel {
-  margin-top: 10px; /* TODO: Mario, please help!!!! */
-  margin-left: 1px;
-  font-size: 11px;
-  vertical-align: -webkit-baseline-middle;
-  display: none;
-}
 
 
 /* CKG UI TOOLS ---------- */

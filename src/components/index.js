@@ -4,6 +4,7 @@ export GraphActivitySelector from './GraphActivitySelector';
 export GraphDateSelector from './GraphDateSelector';
 export GraphZoomActions from './GraphZoomActions';
 export IntegrationFilter from './IntegrationFilter';
+export FileTypeFilter from './FileTypeFilter';
 export NewSubpageHeader from './NewSubpageHeader';
 export ResultsList from './ResultsList';
 export Spinner from './Spinner';
