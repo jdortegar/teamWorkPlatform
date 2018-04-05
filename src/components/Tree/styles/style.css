@@ -1,6 +1,5 @@
 .nodes-boxed {
   margin-left: 10px;
-  background-color: #eee;
 }
 
 .node {
@@ -54,5 +53,9 @@
 }
 
 .node-share {
+}
 
+.sharing-settings-boxed {
+  margin-left: 15px;
+  background-color: #eee;
 }
