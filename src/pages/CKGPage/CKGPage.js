@@ -145,11 +145,11 @@ class CKGPage extends Component {
   }
 
   renderFilesFilter() {
-    const { labels, integrations } = this.props.timeActivities.fileTypes;
+    const { fileTypes, integrations } = this.props.timeActivities;
     return (
       <FilesFilters
         className={'CKGPage__FilesFilters'}
-        fileTypes={labels}
+        fileTypes={fileTypes}
         integrations={integrations}
         excludeIntegrationsFilter={this.state.excludeIntegrationsFilter}
         excludeTypesFilter={this.state.excludeTypesFilter}
@@ -166,8 +166,8 @@ class CKGPage extends Component {
         onFileTypeFilterDoubleClick={() => {
           const newExcludeTypesFilter = {};
           const keys = Object.keys(this.state.excludeTypesFilter);
-          if (keys.length < labels.length) {
-            labels.forEach((file) => { newExcludeTypesFilter[file.key] = true; });
+          if (keys.length < fileTypes.length) {
+            fileTypes.forEach((file) => { newExcludeTypesFilter[file.key] = true; });
           }
           this.setState({ excludeTypesFilter: newExcludeTypesFilter });
         }}
@@ -176,15 +176,12 @@ class CKGPage extends Component {
   }
 
   render() {
-    const { timeActivities } = this.props;
-    if (!timeActivities) return null;
-    const { files, fileTypes } = this.props.timeActivities;
-    if (!files || !fileTypes || !fileTypes.files) return null;
+    if (!this.props.timeActivities || !this.props.timeActivities.files) return null;
 
-    const other = String.t('ckgPage.filterTypeOther');
+    const { files } = this.props.timeActivities;
     const { excludeTypesFilter, excludeIntegrationsFilter } = this.state;
     const filesFiltered = files.filter((file) => {
-      const label = file.fileExtension || other;
+      const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
       const key = integrationKeyFromFile(file);
       return !excludeTypesFilter[label] && !excludeIntegrationsFilter[key];
     });
@@ -210,12 +207,6 @@ class CKGPage extends Component {
               onViewAll={this.handleViewAll}
             />
           </div>
-
-          {/* <div className="habla-ckg-date-picker">
-            <div className="habla-ckg-date-picker-content">
-              <GraphDateSelector />
-            </div>
-          </div> */}
         </div>
 
         <TimeActivityGraph
