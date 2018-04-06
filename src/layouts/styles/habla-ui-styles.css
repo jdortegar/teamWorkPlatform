@@ -105,7 +105,8 @@ a:hover {
 .habla-full-content {
   width: 50%;
 }
-.habla-logo-image-responsive {
+.habla-logo-image-responsive
+, .habla-title-responsive {
   display: none;
 }
 p {
@@ -863,6 +864,16 @@ ul.ant-menu li.ant-menu-submenu:hover {
 	border: none;
 	margin: 0;
 }
+.ant-table-placeholder {
+	background: transparent;
+	border: none;
+	color: #bbd4ff;
+}
+.ResultsList__row img {
+	width: 26px;
+	height: 26px;
+
+}
 
 
 
@@ -999,9 +1010,29 @@ ul.ant-menu li.ant-menu-submenu:hover {
 	position: relative;
     left: -7px;
 }
-.ant-input-affix-wrapper {
-	width: 120px;
+.team-room__messages .ant-col-md-18 {
+  width: 80%;
 }
+.ant-input-affix-wrapper {
+	width: 130px;
+	font-size: 0.9em;
+}
+.ant-input-affix-wrapper .ant-input {
+	font-size: 12px;
+}
+.ant-table-tbody > tr > td {
+	font-size: 12px;
+}
+.ResultsList__row img {
+	width: 20px;
+	height: 20px;
+	position: relative;
+	top: 5px;
+}
+.SearchPage__results__fileName {
+	padding-left: 10px;
+}
+
 }
 
 @media only screen and (max-width:520px) {
@@ -1010,7 +1041,8 @@ ul.ant-menu li.ant-menu-submenu:hover {
 , .habla-ckg-tools .ckg-activity-label{
   display: none;
 }
-.habla-logo-image-responsive {
+.habla-logo-image-responsive
+, .habla-title-responsive {
   display: block;
 }
 .habla-main-content-header-breadcrumb .habla-title {
@@ -1019,11 +1051,9 @@ ul.ant-menu li.ant-menu-submenu:hover {
 .habla-big-title {
   font-size: 16pt;
 }
-.habla-main-content-filters-members-responsive {
+.habla-main-content-filters-members-responsive
+, .habla-title-normal {
   display: none;
-}
-.team-room__messages .ant-col-md-18 {
-  width: 80%;
 }
 .habla-ckg-actions-selector {
 	left: 63px;

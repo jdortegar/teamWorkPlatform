@@ -143,7 +143,7 @@ class Login extends React.Component {
                     <a className="login-form-forgot" onClick={this.onForgotPassword}>{String.t('login.forgotPasswordLabel')}</a>
                   </div>
                   <div className="login-main-signup">
-                    <a onClick={this.onNewUserSignUp}>{String.t('login.signUpLabel')}</a>
+                    <a onClick={this.onNewUserSignUp}><span className="habla-bold-text">{String.t('login.newUserLabel')}</span> {String.t('login.signUpLabel')}</a>
                   </div>
                 </FormItem>
               </Form>

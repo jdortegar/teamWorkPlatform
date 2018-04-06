@@ -119,6 +119,8 @@ a.habla-top-menu-active {
   border: none;
   margin-left: 13px;
   padding: 0;
+  position: relative;
+  top: 6px;
 }
 .habla-top-menu-search button:hover {
   color: #ffffff;
@@ -130,7 +132,7 @@ a.habla-top-menu-active {
 	margin-top: 6px;
 }
 .habla-top-menu-search .svg-inline--fa {
-	margin-top: 6px;
+
 }
 .habla-top-navigation-dropdown-signal {
   width: 11px;

@@ -243,7 +243,10 @@ class CKGPage extends Component {
         <NewSubpageHeader>
           <div className="habla-main-content-header-title">
             <i className="fas fa-chart-area fa-2x" />
-            <div className="habla-title">{String.t('ckgPage.title')}</div>
+            <div className="habla-title">
+              <div className="habla-title-responsive">{String.t('ckgPage.titleResponsive')}</div>
+              <div className="habla-title-normal">{String.t('ckgPage.title')}</div>
+            </div>
           </div>
         </NewSubpageHeader>
 
