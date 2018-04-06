@@ -25,6 +25,7 @@
 
 .SearchPage__results {
   background-color: #557dbf;
+  display: flex;
   flex-grow: 1;
   border-radius: 4px;
 }
@@ -61,4 +62,16 @@
 .SearchPage__results tbody tr:hover {
 	background: #476dad;
 	cursor: pointer;
+}
+
+.SearchPage__results-inner {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.SearchPage__bottomBar {
+  background-color: white;
+  padding: 0 10px;
 }

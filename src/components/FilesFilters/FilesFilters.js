@@ -47,42 +47,40 @@ const FilesFilters = ({
   onIntegrationFilterClick,
   onFileTypeFilterClick,
   onFileTypeFilterDoubleClick
-}) => {
-  return (
-    <div className={classNames('FilesFilters', className)}>
-      <div className="FilesFilters__content">
-        {integrations.map(({ key, count }) => (
-          <IntegrationFilter
-            key={key}
-            integrationKey={key}
-            count={count}
-            active={!excludeIntegrationsFilter[key]}
-            onClick={() => onIntegrationFilterClick(key)}
-          />
-        ))}
-        <div className="FilesFilters__dataTypes habla-label">
-          {(fileTypes.length > 0) && (
-            <span className="FilesFilters__dataTypes__badge">
-              {fileTypes.length}
-            </span>
-          )}
-          {String.t('ckgPage.filterTypes', { count: fileTypes.length })}
-        </div>
-        {fileTypes.map(({ key, count, label, fileExtension }) => (
-          <FileTypeFilter
-            key={key}
-            count={count}
-            label={label}
-            fileExtension={fileExtension}
-            active={!excludeTypesFilter[key]}
-            onClick={() => onFileTypeFilterClick(key)}
-            onDoubleClick={onFileTypeFilterDoubleClick}
-          />
-        ))}
+}) => (
+  <div className={classNames('FilesFilters', className)}>
+    <div className="FilesFilters__content">
+      {integrations.map(({ key, count }) => (
+        <IntegrationFilter
+          key={key}
+          integrationKey={key}
+          count={count}
+          active={!excludeIntegrationsFilter[key]}
+          onClick={() => onIntegrationFilterClick(key)}
+        />
+      ))}
+      <div className="FilesFilters__dataTypes habla-label">
+        {(fileTypes.length > 0) && (
+          <span className="FilesFilters__dataTypes__badge">
+            {fileTypes.length}
+          </span>
+        )}
+        {String.t('ckgPage.filterTypes', { count: fileTypes.length })}
       </div>
+      {fileTypes.map(({ key, count, label, fileExtension }) => (
+        <FileTypeFilter
+          key={key}
+          count={count}
+          label={label}
+          fileExtension={fileExtension}
+          active={!excludeTypesFilter[key]}
+          onClick={() => onFileTypeFilterClick(key)}
+          onDoubleClick={onFileTypeFilterDoubleClick}
+        />
+      ))}
     </div>
-  );
-};
+  </div>
+);
 
 FilesFilters.propTypes = propTypes;
 FilesFilters.defaultProps = defaultProps;
