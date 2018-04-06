@@ -292,9 +292,12 @@ class IntegrationDetailsPage extends Component {
       }
     }
 
-    // Sharing Settings
+    // Sharing Settings.
+    const integrationType = integrationLabelFromKey(integrationDetails);
     let primaryTree;
     let secondaryTree;
+    const allText = 'Share all information in all Teams and Team Rooms';
+    const customText = 'Select what to share in specific Teams or Team Rooms';
     if (currStatus === 'Active') {
       primaryTree = this.props.foldersAndFiles;
       secondaryTree = this.props.teams;
@@ -345,7 +348,7 @@ class IntegrationDetailsPage extends Component {
             />
           </Tooltip>
         </div>
-        {(currStatus === 'Active') && <SharingSettings primaryTree={primaryTree} secondaryTree={secondaryTree} />}
+        {(currStatus === 'Active') && <SharingSettings integrationType={integrationType} primaryTree={primaryTree} sharingType={primaryTree.share} allText={allText} customText={customText} secondaryTree={secondaryTree} shareWithIds={primaryTree.shareWithIds} collapsible />}
       </div>
     );
   }

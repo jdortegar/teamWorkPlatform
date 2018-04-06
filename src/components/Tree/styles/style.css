@@ -55,6 +55,14 @@
 .node-share {
 }
 
+.node-share-no {
+  color: #ccc;
+}
+
+.node-share-yes {
+  color: #008c3f;
+}
+
 .sharing-settings-boxed {
   margin-left: 15px;
   background-color: #eee;
