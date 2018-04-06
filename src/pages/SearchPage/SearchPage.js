@@ -7,7 +7,7 @@ import {
   integrationKeyFromFile,
   integrationLabelFromKey
 } from 'utils/dataIntegrations';
-import { Spinner, ResultsList } from 'components';
+import { Spinner, ResultsList, FilesFilters } from 'components';
 import imageSrcFromFileExtension from 'lib/imageFiles';
 import formatSize from 'lib/formatSize';
 import String from 'translations';
@@ -59,7 +59,11 @@ class SearchPage extends Component {
     this.updateSearch(props.queryParams.q);
   }
 
-  state = { query: this.props.query }
+  state = {
+    query: this.props.query,
+    excludeTypesFilter: {},
+    excludeIntegrationsFilter: {}
+  }
 
   componentWillReceiveProps(nextProps) {
     this.updateSearch(nextProps.queryParams.q, true);
@@ -72,8 +76,15 @@ class SearchPage extends Component {
   }
 
   render() {
-    const { loading, results } = this.props;
-    const { query } = this.state;
+    const { loading, results, fileTypes, integrations } = this.props;
+    const { query, excludeIntegrationsFilter, excludeTypesFilter } = this.state;
+
+    const resultsFiltered = results.filter((file) => {
+      const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
+      const key = integrationKeyFromFile(file);
+      return !excludeTypesFilter[label] && !excludeIntegrationsFilter[key];
+    });
+
     return (
       <div className="SearchPage">
         <div className="SearchPage__header">
@@ -85,12 +96,40 @@ class SearchPage extends Component {
         </div>
         <div className={classNames('SearchPage__results', { loading })}>
           {loading ? <Spinner /> : (
-            <ResultsList
-              columns={columns}
-              dataSource={results}
-              loading={loading}
-              rowKey="fileId"
-            />
+            <div className="SearchPage__results-inner">
+              <ResultsList
+                columns={columns}
+                dataSource={resultsFiltered}
+                loading={loading}
+                rowKey="fileId"
+              />
+              <div className="SearchPage__bottomBar">
+                <FilesFilters
+                  fileTypes={fileTypes}
+                  integrations={integrations}
+                  excludeIntegrationsFilter={excludeIntegrationsFilter}
+                  excludeTypesFilter={excludeTypesFilter}
+                  onIntegrationFilterClick={(key) => {
+                    const newExcludeIntegrationsFilter = { ...this.state.excludeIntegrationsFilter };
+                    newExcludeIntegrationsFilter[key] = (newExcludeIntegrationsFilter[key] ? null : true);
+                    this.setState({ excludeIntegrationsFilter: newExcludeIntegrationsFilter });
+                  }}
+                  onFileTypeFilterClick={(key) => {
+                    const newExcludeTypesFilter = { ...this.state.excludeTypesFilter };
+                    newExcludeTypesFilter[key] = (newExcludeTypesFilter[key] ? null : true);
+                    this.setState({ excludeTypesFilter: newExcludeTypesFilter });
+                  }}
+                  onFileTypeFilterDoubleClick={() => {
+                    const newExcludeTypesFilter = {};
+                    const keys = Object.keys(this.state.excludeTypesFilter);
+                    if (keys.length < fileTypes.length) {
+                      fileTypes.forEach((file) => { newExcludeTypesFilter[file.key] = true; });
+                    }
+                    this.setState({ excludeTypesFilter: newExcludeTypesFilter });
+                  }}
+                />
+              </div>
+            </div>
           )}
         </div>
       </div>
@@ -102,6 +141,8 @@ SearchPage.propTypes = {
   loading: PropTypes.bool,
   query: PropTypes.string,
   results: PropTypes.array,
+  fileTypes: PropTypes.array,
+  integrations: PropTypes.array,
   search: PropTypes.func,
   queryParams: PropTypes.shape({
     q: PropTypes.string
@@ -112,6 +153,8 @@ SearchPage.defaultProps = {
   loading: false,
   query: '',
   results: [],
+  fileTypes: [],
+  integrations: [],
   search: null
 };
 

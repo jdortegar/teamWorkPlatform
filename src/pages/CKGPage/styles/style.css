@@ -15,31 +15,6 @@
 .bottomBar {
   height: 50px;
 }
-.fileTypeContainer {
-  display: inline-flex;
-  vertical-align: -webkit-baseline-middle;
-}
-.fileTypeButton {
-  border-radius: 4px;
-  overflow: hidden;
-  display: -webkit-inline-box;
-  vertical-align: -webkit-baseline-middle;
-  cursor: pointer;
-}
-.fileTypeButton img {
-  width: 30px;
-  height: 30px;
-}
-.fileTypeButtonGrayed {
-  opacity: 0.3;
-}
-.fileTypeLabel {
-  margin-top: 10px; /* TODO: Mario, please help!!!! */
-  margin-left: 1px;
-  font-size: 11px;
-  vertical-align: -webkit-baseline-middle;
-  display: none;
-}
 
 
 /* CKG UI TOOLS ---------- */
@@ -114,20 +89,14 @@
 	float: left;
 	height: 50px;
 }
-.bottomBar .bottomBar-selectors .team-select-container
-, .bottomBar .bottomBar-selectors .team-room-select-container {
+.bottomBar .bottomBar-selectors .team-select-container,
+.bottomBar .bottomBar-selectors .team-room-select-container {
 	width: 50%;
 	float: left;
 }
-.bottomBar .bottomBar-files-filter {
+.bottomBar .CKGPage__FilesFilters {
 	width: 70%;
 	float: right;
-	overflow: hidden;
-	height: 50px;
-}
-.bottomBar-files-filter-content {
-	display: inline-flex;
-	padding: 10px 10px 10px 0;
 }
 .bottomBar select {
 	height: 30px;
@@ -135,22 +104,6 @@
 	border-radius: 4px;
 	background: #fff;
 	width: 99%;
-}
-.filetype-label {
-	position: relative;
-	top: 11px;
-	margin-right: 10px;
-	display: table;
-}
-.filetype-label span {
-	margin-right: 3px;
-}
-.filetype-label-number-badge {
-  color: #fff;
-  background: #a8a8a8;
-  padding: 4px;
-  border-radius: 3px;
-  margin-left: 3px;
 }
 .team-select-container {
 	padding-right: 5px;
