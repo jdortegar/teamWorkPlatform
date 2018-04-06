@@ -1,14 +1,19 @@
 .homePage-main {
-   display: table;
-   height: 100%;
-   margin: 0;
-   padding: 0;
-   width: 100%;
+  display: table;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 .homepage_graph-container {
-   width: 100%;
-   height: 50%;
-   overflow: hidden;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  border-bottom: #ccc 1px solid;
+}
+.homepage_graph-container > div {
+  display: flex;
+  flex-direction: column;
 }
 .homepage_latest-container {
    width: 100%;
@@ -40,8 +45,35 @@
 .homePage__activity-content-message {
    color: black;
    font-size: 13px;
+  width: 100%;
+  height: 50%;
+  padding: 20px;
+}
+.homePage__activity-container {
+  display: flex;
+  border-bottom: #ccc 1px solid;
+}
+.homePage__activity-avatar {
+  display: inline-block;
+  object-fit: scale-down;
+  overflow: hidden;
+  border-radius: 14px;
+  width: 60px;
+  height: 60px;
+}
+.homePage__activity-content-container {
+  margin: 15px;
+  margin-top: 8px;
+}
+.homePage__activity-content-header {
+  color: '#ccc';
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.homePage__activity-content-message {
+  color: black;
+  font-size: 16px;
 }
 .homePage__activity-content-date {
-   color: #ccc;
+  color: #ccc;
 }
- 
