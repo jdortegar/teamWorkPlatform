@@ -120,6 +120,23 @@ class CKGPage extends Component {
     this.setState({ selectedTeamRoomId: event.target.value });
   }
 
+  handleIntegrationFilterClick = (key) => {
+    const { excludeIntegrationsFilter } = this.state;
+    this.setState({ excludeIntegrationsFilter: { ...excludeIntegrationsFilter, [key]: excludeIntegrationsFilter[key] ? null : true } });
+  }
+
+  handleFileTypeFilterClick = (key) => {
+    const { excludeTypesFilter } = this.state;
+    this.setState({ excludeTypesFilter: { ...excludeTypesFilter, [key]: excludeTypesFilter[key] ? null : true } });
+  }
+
+  handleFileTypeFilterDoubleClick = () => {
+    const { fileTypes } = this.props.timeActivities;
+    const allSelected = Object.keys(this.state.excludeTypesFilter).length === fileTypes.length;
+    const allFilters = fileTypes.reduce((obj, file) => ({ ...obj, [file.key]: true }), {});
+    this.setState({ excludeTypesFilter: allSelected ? {} : allFilters });
+  }
+
   renderSelectors = () => {
     const { teams, teamRooms } = this.props;
     const { selectedTeamId, selectedTeamRoomId } = this.state;
@@ -153,24 +170,9 @@ class CKGPage extends Component {
         integrations={integrations}
         excludeIntegrationsFilter={this.state.excludeIntegrationsFilter}
         excludeTypesFilter={this.state.excludeTypesFilter}
-        onIntegrationFilterClick={(key) => {
-          const newExcludeIntegrationsFilter = { ...this.state.excludeIntegrationsFilter };
-          newExcludeIntegrationsFilter[key] = (newExcludeIntegrationsFilter[key] ? null : true);
-          this.setState({ excludeIntegrationsFilter: newExcludeIntegrationsFilter });
-        }}
-        onFileTypeFilterClick={(key) => {
-          const newExcludeTypesFilter = { ...this.state.excludeTypesFilter };
-          newExcludeTypesFilter[key] = (newExcludeTypesFilter[key] ? null : true);
-          this.setState({ excludeTypesFilter: newExcludeTypesFilter });
-        }}
-        onFileTypeFilterDoubleClick={() => {
-          const newExcludeTypesFilter = {};
-          const keys = Object.keys(this.state.excludeTypesFilter);
-          if (keys.length < fileTypes.length) {
-            fileTypes.forEach((file) => { newExcludeTypesFilter[file.key] = true; });
-          }
-          this.setState({ excludeTypesFilter: newExcludeTypesFilter });
-        }}
+        onIntegrationFilterClick={this.handleIntegrationFilterClick}
+        onFileTypeFilterClick={this.handleFileTypeFilterClick}
+        onFileTypeFilterDoubleClick={this.handleFileTypeFilterDoubleClick}
       />
     );
   }

@@ -75,6 +75,23 @@ class SearchPage extends Component {
     this.props.search(newQuery);
   }
 
+  handleIntegrationFilterClick = (key) => {
+    const { excludeIntegrationsFilter } = this.state;
+    this.setState({ excludeIntegrationsFilter: { ...excludeIntegrationsFilter, [key]: excludeIntegrationsFilter[key] ? null : true } });
+  }
+
+  handleFileTypeFilterClick = (key) => {
+    const { excludeTypesFilter } = this.state;
+    this.setState({ excludeTypesFilter: { ...excludeTypesFilter, [key]: excludeTypesFilter[key] ? null : true } });
+  }
+
+  handleFileTypeFilterDoubleClick = () => {
+    const { fileTypes } = this.props;
+    const allSelected = Object.keys(this.state.excludeTypesFilter).length === fileTypes.length;
+    const allFilters = fileTypes.reduce((obj, file) => ({ ...obj, [file.key]: true }), {});
+    this.setState({ excludeTypesFilter: allSelected ? {} : allFilters });
+  }
+
   render() {
     const { loading, results, fileTypes, integrations } = this.props;
     const { query, excludeIntegrationsFilter, excludeTypesFilter } = this.state;
@@ -95,7 +112,8 @@ class SearchPage extends Component {
           </div>
         </div>
         <div className={classNames('SearchPage__results', { loading })}>
-          {loading ? <Spinner /> : (
+          {loading && <Spinner />}
+          {!loading && (
             <div className="SearchPage__results-inner">
               <ResultsList
                 columns={columns}
@@ -109,24 +127,9 @@ class SearchPage extends Component {
                   integrations={integrations}
                   excludeIntegrationsFilter={excludeIntegrationsFilter}
                   excludeTypesFilter={excludeTypesFilter}
-                  onIntegrationFilterClick={(key) => {
-                    const newExcludeIntegrationsFilter = { ...this.state.excludeIntegrationsFilter };
-                    newExcludeIntegrationsFilter[key] = (newExcludeIntegrationsFilter[key] ? null : true);
-                    this.setState({ excludeIntegrationsFilter: newExcludeIntegrationsFilter });
-                  }}
-                  onFileTypeFilterClick={(key) => {
-                    const newExcludeTypesFilter = { ...this.state.excludeTypesFilter };
-                    newExcludeTypesFilter[key] = (newExcludeTypesFilter[key] ? null : true);
-                    this.setState({ excludeTypesFilter: newExcludeTypesFilter });
-                  }}
-                  onFileTypeFilterDoubleClick={() => {
-                    const newExcludeTypesFilter = {};
-                    const keys = Object.keys(this.state.excludeTypesFilter);
-                    if (keys.length < fileTypes.length) {
-                      fileTypes.forEach((file) => { newExcludeTypesFilter[file.key] = true; });
-                    }
-                    this.setState({ excludeTypesFilter: newExcludeTypesFilter });
-                  }}
+                  onIntegrationFilterClick={this.handleIntegrationFilterClick}
+                  onFileTypeFilterClick={this.handleFileTypeFilterClick}
+                  onFileTypeFilterDoubleClick={this.handleFileTypeFilterDoubleClick}
                 />
               </div>
             </div>
