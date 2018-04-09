@@ -4,6 +4,7 @@ import { Form, Collapse, Radio } from 'antd';
 import { formShape } from '../../propTypes';
 import SimpleHeader from '../SimpleHeader';
 import Tree from '../Tree';
+import { SharingTypes } from '../../redux-hablaai/selectors';
 import './styles/style.css';
 // import 'pages/CKGPage/styles/style.css';
 
@@ -29,35 +30,66 @@ class SharingSettings extends Component {
   constructor(props) {
     super(props);
 
-    const { primaryTree, secondaryTree } = this.props;
-    this.state = { share: 'all' , primaryTree, secondaryTree };
+    const { primaryTree, secondaryTree, integrationType } = this.props;
+    let share;
+    if (props.sharingType === SharingTypes.ALL) {
+      share = 'all';
+    } else if (props.sharingType === SharingTypes.SOME) {
+      share = 'custom';
+    }
+    this.state = {
+      share,
+      primaryTree,
+      secondaryTree
+    };
 
     this.onShareChange = this.onShareChange.bind(this);
   }
 
   onShareChange(e) {
     e.preventDefault();
+    const sharingType = e.target.value;
+    const { shareWithIds, parentNode } = this.props;
+    parentNode.share = sharingType;
     this.setState({ share: e.target.value });
+  }
+
+  renderContent(primaryTree, secondaryTree) {
+    return (
+      <div>
+        <RadioGroup onChange={this.onShareChange} value={this.state.share}>
+          <Radio value="all">{this.props.allText}</Radio>
+          <Radio value="custom">{this.props.customText}</Radio>
+        </RadioGroup>
+        {((this.props.collapsible) && (this.state.share === 'custom')) && <div><br /><span>{this.props.integrationType} Folders and Files</span></div>}
+        {(this.state.share === 'custom') && <Tree primaryTree={primaryTree} secondaryTree={secondaryTree} parentNode={this.props.parentNode} shareWithIds={this.props.shareWithIds}/>}
+      </div>
+    );
   }
 
   render() {
     const { primaryTree, secondaryTree } = this.state;
+    let content = this.renderContent(primaryTree, secondaryTree);
+    if (this.props.collapsible) {
+      content = (
+        <div className="sharing-settings">
+          <hr />
+          <Collapse bordered>
+            <Panel header={<SimpleHeader text="Sharing Settings" />} key="1">
+              {content}
+            </Panel>
+          </Collapse>
+        </div>
+      );
+    } else {
+      content = (
+        <div className="sharing-settings">
+          {content}
+        </div>
+      );
+    }
 
-    return (
-      <Form onSubmit={this.handleSubmit} layout="vertical" className="sharing-settings">
-        <hr />
-        <Collapse bordered>
-          <Panel header={<SimpleHeader text="Sharing Settings" />} key="1">
-            <RadioGroup onChange={this.onShareChange} value={this.state.share}>
-              <Radio value="all">Share all information in all Teams and Team Rooms</Radio>
-              <Radio value="custom">Select what to share in specific Teams or Team Rooms</Radio>
-            </RadioGroup>
-            {(this.state.share === 'custom') && <div><br /><span>Sharepoint Folders and Files</span></div>}
-            {(this.state.share === 'custom') && <Tree primaryTree={primaryTree} secondaryTree={secondaryTree} />}
-          </Panel>
-        </Collapse>
-      </Form>
-    );
+    return content;
   }
 }
 
