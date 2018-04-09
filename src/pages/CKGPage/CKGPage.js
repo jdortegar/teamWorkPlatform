@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Tooltip } from 'antd';
+import { Tooltip, Menu, Dropdown } from 'antd';
 import * as d3 from 'd3';
 
 import {
@@ -57,6 +57,7 @@ const defaultProps = {
   teams: [],
   teamRooms: []
 };
+
 
 class CKGPage extends Component {
   state = {
@@ -238,11 +239,36 @@ class CKGPage extends Component {
       return !excludeTypesFilter[label] && !excludeIntegrationsFilter[key];
     });
 
+    const graphSelector = (
+      <Menu>
+        <Menu.Item key="graphSelector">
+          <div className="habla-label padding-class-a">{String.t('graphViewsSelector.label')}</div>
+        </Menu.Item>
+        <Menu.Item key="graphViewCKG">
+          <a><span><i className="fas fa-chart-area" /> {String.t('graphViewsSelector.ckg')}</span></a>
+        </Menu.Item>
+        <Menu.Item key="fileLineage">
+          <a><span><i className="fas fa-clone" /> {String.t('graphViewsSelector.fileLineage')}</span></a>
+        </Menu.Item>
+        <Menu.Item key="conceptMap">
+          <a><span><i className="fas fa-bullseye" /> {String.t('graphViewsSelector.conceptMap')}</span></a>
+        </Menu.Item>
+        <Menu.Item key="mute30min">
+          <a><span><i className="fas fa-th-large" /> {String.t('graphViewsSelector.dashboard')}</span></a>
+        </Menu.Item>
+      </Menu>
+    );
+
     return (
       <div className="CKGPage">
         <NewSubpageHeader>
           <div className="habla-main-content-header-title">
-            <i className="fas fa-chart-area fa-2x" />
+            <Dropdown overlay={graphSelector} trigger={['click']}>
+              <a className="graphViewSelectorLink">
+                <i className="fas fa-chart-area fa-2x" />
+                <i className="fas fa-chevron-down" />
+              </a>
+            </Dropdown>
             <div className="habla-title">
               <div className="habla-title-responsive">{String.t('ckgPage.titleResponsive')}</div>
               <div className="habla-title-normal">{String.t('ckgPage.title')}</div>

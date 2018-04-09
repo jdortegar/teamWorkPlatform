@@ -584,7 +584,7 @@
     "markAllAsRead": "Mark all as read"
   },
   "graphActivityMenu": {
-    "activityLabel": "Activity",
+    "activityLabel": "Select Activity",
     "allActivity": "All Activity",
     "viewsActivity": "Views",
     "sharesActivity": "Shares"
@@ -593,6 +593,13 @@
     "zoomInLabel": "Zoom In",
     "zoomOutLabel": "Zoom Out",
     "viewAllLabel": "View All"
+  },
+  "graphViewsSelector": {
+    "label": "Select Graph View",
+    "ckg": "CKG",
+    "fileLineage": "File Lineage",
+    "conceptMap": "Concept Map",
+    "dashboard": "Dashboard"
   },
   "ckgPage": {
     "titleResponsive": "CKG Time Activity",
