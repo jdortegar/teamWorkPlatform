@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Tooltip, Menu, Dropdown } from 'antd';
+import { Menu, Dropdown } from 'antd';
 import * as d3 from 'd3';
-
+import { integrationKeyFromFile } from 'utils/dataIntegrations';
 import {
-  integrationLabelFromKey,
-  integrationKeyFromFile,
-  integrationImageFromKey
-} from 'utils/dataIntegrations';
-import {
+  FilesFilters,
   NewSubpageHeader,
   TimeActivityGraph,
   GraphActivitySelector,
@@ -19,7 +15,6 @@ import {
 } from 'components';
 import { primaryAtTop } from 'redux-hablaai/selectors/helpers';
 import String from 'translations';
-import imageSrcFromFileExtension from 'lib/imageFiles';
 import './styles/style.css';
 
 const color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -126,6 +121,23 @@ class CKGPage extends Component {
     this.setState({ selectedTeamRoomId: event.target.value });
   }
 
+  handleIntegrationFilterClick = (key) => {
+    const { excludeIntegrationsFilter } = this.state;
+    this.setState({ excludeIntegrationsFilter: { ...excludeIntegrationsFilter, [key]: excludeIntegrationsFilter[key] ? null : true } });
+  }
+
+  handleFileTypeFilterClick = (key) => {
+    const { excludeTypesFilter } = this.state;
+    this.setState({ excludeTypesFilter: { ...excludeTypesFilter, [key]: excludeTypesFilter[key] ? null : true } });
+  }
+
+  handleFileTypeFilterDoubleClick = () => {
+    const { fileTypes } = this.props.timeActivities;
+    const allSelected = Object.keys(this.state.excludeTypesFilter).length === fileTypes.length;
+    const allFilters = fileTypes.reduce((obj, file) => ({ ...obj, [file.key]: true }), {});
+    this.setState({ excludeTypesFilter: allSelected ? {} : allFilters });
+  }
+
   renderSelectors = () => {
     const { teams, teamRooms } = this.props;
     const { selectedTeamId, selectedTeamRoomId } = this.state;
@@ -151,90 +163,28 @@ class CKGPage extends Component {
   }
 
   renderFilesFilter() {
-    const { labels, integrations } = this.props.timeActivities.fileTypes;
+    const { fileTypes, integrations } = this.props.timeActivities;
     return (
-      <div className="bottomBar-files-filter">
-        <div className="bottomBar-files-filter-content">
-          {Object.keys(integrations).map((integrationKey) => {
-            const { key, count } = integrations[integrationKey];
-            const btnClass = this.state.excludeIntegrationsFilter[key] ? 'fileTypeButton fileTypeButtonGrayed' : 'fileTypeButton';
-            const label = integrationLabelFromKey(key);
-            return (
-              <div key={key} className="fileTypeContainer mr-05">
-                <Tooltip placement="top" title={String.t('ckgPage.integrationFileCount', { count, label })}>
-                  <div
-                    className={btnClass}
-                    onClick={() => {
-                      const newExcludeIntegrationsFilter = { ...this.state.excludeIntegrationsFilter };
-                      newExcludeIntegrationsFilter[key] = (newExcludeIntegrationsFilter[key] ? null : true);
-                      this.setState({ excludeIntegrationsFilter: newExcludeIntegrationsFilter });
-                    }}
-                  >
-                    <img src={integrationImageFromKey(key)} width={32} height={32} alt="" className="img" />
-                    <div className="fileTypeLabel">
-                      {label}
-                    </div>
-                  </div>
-                </Tooltip>
-              </div>
-            );
-          })
-          }
-          <div className="filetype-label habla-label ml-05">
-            {(labels.length > 0) && (
-              <span className="filetype-label-number-badge">
-                {labels.length}
-              </span>)
-            }
-            {String.t('ckgPage.filterTypes', { count: labels.length })}
-          </div>
-          {
-            labels.map(({ key, label, fileExtension, count }) => {
-              const btnClass = this.state.excludeTypesFilter[key] ? 'fileTypeButton fileTypeButtonGrayed' : 'fileTypeButton';
-              return (
-                <div key={key} className="fileTypeContainer">
-                  <Tooltip placement="top" title={String.t('ckgPage.filterCount', { count, label })}>
-                    <div
-                      className={btnClass}
-                      onClick={() => {
-                        const newExcludeTypesFilter = { ...this.state.excludeTypesFilter };
-                        newExcludeTypesFilter[key] = (newExcludeTypesFilter[key] ? null : true);
-                        this.setState({ excludeTypesFilter: newExcludeTypesFilter });
-                      }}
-                      onDoubleClick={() => {
-                        const newExcludeTypesFilter = {};
-                        const keys = Object.keys(this.state.excludeTypesFilter);
-                        if (keys.length < labels.length) {
-                          labels.forEach((file) => { newExcludeTypesFilter[file.key] = true; });
-                        }
-                        this.setState({ excludeTypesFilter: newExcludeTypesFilter });
-                      }}
-                    >
-                      <img src={imageSrcFromFileExtension(fileExtension)} width={32} height={32} alt="" className="img" />
-                      <div className="fileTypeLabel">
-                        {label}
-                      </div>
-                    </div>
-                  </Tooltip>
-                </div>
-              );
-            })
-          }
-        </div>
-      </div>
+      <FilesFilters
+        className={'CKGPage__FilesFilters'}
+        fileTypes={fileTypes}
+        integrations={integrations}
+        excludeIntegrationsFilter={this.state.excludeIntegrationsFilter}
+        excludeTypesFilter={this.state.excludeTypesFilter}
+        onIntegrationFilterClick={this.handleIntegrationFilterClick}
+        onFileTypeFilterClick={this.handleFileTypeFilterClick}
+        onFileTypeFilterDoubleClick={this.handleFileTypeFilterDoubleClick}
+      />
     );
   }
 
   render() {
-    const { timeActivities } = this.props;
-    if (!timeActivities) return null;
-    const { files, fileTypes } = this.props.timeActivities;
-    if (!files || !fileTypes || !fileTypes.files) return null;
+    if (!this.props.timeActivities || !this.props.timeActivities.files) return null;
 
-    const other = String.t('ckgPage.filterTypeOther');
+    const { files } = this.props.timeActivities;
     const { excludeTypesFilter, excludeIntegrationsFilter } = this.state;
     const filesFiltered = files.filter((file) => {
-      const label = file.fileExtension || other;
+      const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
       const key = integrationKeyFromFile(file);
       return !excludeTypesFilter[label] && !excludeIntegrationsFilter[key];
     });
@@ -285,12 +235,6 @@ class CKGPage extends Component {
               onViewAll={this.handleViewAll}
             />
           </div>
-
-          {/* <div className="habla-ckg-date-picker">
-            <div className="habla-ckg-date-picker-content">
-              <GraphDateSelector />
-            </div>
-          </div> */}
         </div>
 
         <TimeActivityGraph

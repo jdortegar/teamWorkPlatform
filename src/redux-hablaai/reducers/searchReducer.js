@@ -1,9 +1,16 @@
+import {
+  getFileTypesFromFiles,
+  getIntegrationsFromFiles
+} from 'lib/files';
+
 import { SEARCH_REQUEST, SEARCH_SUCCESS, SEARCH_CLEAR } from '../actions';
 
 const INITIAL_STATE = {
   loading: false,
   query: '',
-  results: []
+  results: [],
+  fileTypes: [],
+  integrations: []
 };
 
 const searchReducer = (state = INITIAL_STATE, action) => {
@@ -18,14 +25,18 @@ const searchReducer = (state = INITIAL_STATE, action) => {
         ...state,
         loading: true,
         query: action.payload.query,
-        results: []
+        results: [],
+        fileTypes: [],
+        integrations: []
       };
     case SEARCH_SUCCESS:
       return {
         ...state,
         loading: false,
         query: action.payload.query,
-        results: action.payload.results
+        results: action.payload.results,
+        fileTypes: getFileTypesFromFiles(action.payload.results),
+        integrations: getIntegrationsFromFiles(action.payload.results)
       };
     default:
       return state;
