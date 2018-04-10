@@ -29,9 +29,7 @@ const propTypes = {
     push: PropTypes.func.isRequired
   }).isRequired,
   user: PropTypes.object.isRequired,
-  sideBarIsHidden: PropTypes.bool.isRequired,
-  updateUser: PropTypes.func.isRequired,
-  toggleSideBar: PropTypes.func.isRequired
+  updateUser: PropTypes.func.isRequired
 };
 
 class EditUserPage extends Component {
@@ -49,16 +47,6 @@ class EditUserPage extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCountryChange = this.handleCountryChange.bind(this);
     this.onRemoveImage = this.onRemoveImage.bind(this);
-  }
-
-  componentDidMount() {
-    if (!this.props.sideBarIsHidden) {
-      this.props.toggleSideBar();
-    }
-  }
-
-  componentWillUnmount() {
-    this.props.toggleSideBar();
   }
 
   onRemoveImage() {
@@ -112,9 +100,9 @@ class EditUserPage extends Component {
       'with-no-image': !this.state.userIcon
     });
     return (
-      <div>
+      <div className="userAccountSetting">
         <NewSubpageHeader>
-          <div className="habla-title">{String.t('editUserPage.title')}</div>
+          <div className="habla-title"><i className="fas fa-address-card" /> {String.t('editUserPage.title')}</div>
         </NewSubpageHeader>
         <Form onSubmit={this.handleSubmit} layout="vertical">
           <Collapse defaultActiveKey={['1']} className="edituser_collapse">
@@ -194,7 +182,7 @@ class EditUserPage extends Component {
               </div>
             </Panel>
           </Collapse>
-          <div className="edit-org__buttons border-top-lighter margin-top-class-a">
+          <div className="edit-org__buttons border-top-lighter margin-top-class-b">
             <Button
               type="secondary"
               fitText

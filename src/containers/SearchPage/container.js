@@ -1,11 +1,21 @@
 import { connect } from 'react-redux';
-import SearchPage from '../../pages/SearchPage';
-import { getCurrentUser } from '../../redux-hablaai/selectors';
+import { withRouter } from 'react-router';
 
-function mapStateToProps(state) {
-  return {
-    user: getCurrentUser(state)
-  };
-}
+import SearchPage from 'pages/SearchPage';
+import { search } from 'redux-hablaai/actions';
+import { extractQueryParams } from 'routes';
 
-export default connect(mapStateToProps)(SearchPage);
+const mapStateToProps = (state, props) => ({
+  query: state.search.query,
+  results: state.search.results,
+  fileTypes: state.search.fileTypes,
+  integrations: state.search.integrations,
+  loading: state.search.loading,
+  queryParams: extractQueryParams(props)
+});
+
+const mapDispatchToProps = dispatch => ({
+  search: query => dispatch(search(query))
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchPage));

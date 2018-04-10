@@ -264,7 +264,7 @@
     "muteTitle": "Mute Notifications",
     "statusTitle": "Status",
     "adminTitle": "Admin",
-    "semanticSearchPlaceholder": "Semantic Search ..."
+    "smartSearchPlaceholder": "Smart Search..."
   },
   "IntegrationCard": {
     "expired": "Expired",
@@ -282,8 +282,8 @@
     "sentByName": "{{firstName}} {{lastName}}",
     "tooltipReply": "Reply",
     "tooltipAddFile": "Add File",
-    "tooltipBookmarkSet": "Set Bookmark",
-    "tooltipBookmarkRemove": "Remove Bookmark",
+    "tooltipBookmarkSet": "Save in Bookmarks",
+    "tooltipBookmarkRemove": "Remove from Bookmarks",
     "tooltipThumbsUp": "Thumbs Up",
     "tooltipThumbsDown": "Thumbs Down",
     "tooltipFlag": "Flag",
@@ -365,7 +365,8 @@
   "login": {
     "rememberMeCheckboxLabel": "Remember Me",
     "forgotPasswordLabel": "Forgot Password?",
-    "signUpLabel": "New User? Sign Up",
+    "newUserLabel": "New User?",
+    "signUpLabel": "Sign Up",
     "loginButtonLabel": "Log In"
   },
   "register": {
@@ -376,7 +377,7 @@
     "successTitleBold": "Hi!",
     "successTitleDetails": " We just sent your verification email to:",
     "successTextLine1": "The email may take a few seconds to arrive.",
-    "successTextLine2": "If you don't see it after a few minutes, please check your spam folder.",
+    "successTextLine2": "If you don't see it after a few minutes, please check your spam folder or use the Change Email button to try again",
     "changeEmailButton": "Change Email",
     "resendButton": "Resend",
     "registerButtonLabel": "Register",
@@ -565,8 +566,8 @@
   "teamMemberPage": {
     "breadcrumb": "Team Member",
     "profilePictureLabel": "Profile Picture",
-    "displayName": "Display Name: {{displayName}}",
-    "timeZone": "Time Zone: {{timeZone}}",
+    "displayName": "@{{displayName}}",
+    "timeZone": "({{timeZone}})",
     "memberSince": "Member since {{date}}",
     "statusOnline": "Online",
     "statusAway": "Away",
@@ -583,7 +584,7 @@
     "markAllAsRead": "Mark all as read"
   },
   "graphActivityMenu": {
-    "activityLabel": "Activity",
+    "activityLabel": "Select Activity",
     "allActivity": "All Activity",
     "viewsActivity": "Views",
     "sharesActivity": "Shares"
@@ -593,7 +594,15 @@
     "zoomOutLabel": "Zoom Out",
     "viewAllLabel": "View All"
   },
+  "graphViewsSelector": {
+    "label": "Select Graph View",
+    "ckg": "CKG",
+    "fileLineage": "File Lineage",
+    "conceptMap": "Concept Map",
+    "dashboard": "Dashboard"
+  },
   "ckgPage": {
+    "titleResponsive": "CKG Time Activity",
     "title": "CKG Time Activity Knowledge Graph",
     "dateLabel": "Select a Range of Dates",
     "filterTypes": {
@@ -636,7 +645,7 @@
       "sent": "Sent",
       "received": "Received"
     },
-    "noBookmarks": "You currently have no bookmarks. To set a bookmark in a conversation, go to a message, mouse over the message and click on the bookmark image.",
+    "noBookmarks": "You currently have no bookmarks.",
     "noSentBookmarks": "You currently have no bookmarks for sent messages.",
     "noReceivedBookmarks": "You currently have no bookmarks for received messages."
   },

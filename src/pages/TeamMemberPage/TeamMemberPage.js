@@ -74,11 +74,12 @@ class TeamMemberPage extends Component {
               {String.t('teamMemberPage.displayName', { displayName })}
             </div>
             <div className="habla-secondary-paragraph">
-              {String.t('teamMemberPage.timeZone', { timeZone })}
-            </div>
-            <div className="habla-secondary-paragraph">
               {String.t('teamMemberPage.memberSince', { date: moment(created).format('LL') })}
             </div>
+            <div className="habla-secondary-paragraph">
+              {String.t('teamMemberPage.timeZone', { timeZone })}
+            </div>
+
           </div>
         </SimpleCardContainer>
       </div>

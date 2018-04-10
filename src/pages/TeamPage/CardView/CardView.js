@@ -39,7 +39,7 @@ function CardView(props) {
       const initials = getInitials(name);
       const className = classNames({ 'opacity-low': !active });
       return (
-        <div key={teamRoomId} className="mr-1">
+        <div key={teamRoomId} className="mr-1 mb-2">
           <Tooltip placement="top" title={name}>
             <Link to={`/app/teamRoom/${teamRoomId}`}>
               <Avatar size="large" color={preferences.iconColor} className={className}>
@@ -60,7 +60,7 @@ function CardView(props) {
       const { userId, firstName, lastName } = member;
       const fullName = String.t('fullName', { firstName, lastName });
       return (
-        <div key={userId} className="mr-1">
+        <div key={userId} className="mr-1 mb-2">
           <Tooltip placement="top" title={fullName}>
             <Link to={`/app/teamMember/${userId}`}>
               <div>
@@ -78,7 +78,7 @@ function CardView(props) {
 
   const renderAddCard = (title, url = null) => {
     return (
-      <div className="mr-1">
+      <div className="mr-1 mb-2">
         <Tooltip placement="top" title={title}>
           <Link to={url}>
             <Avatar size="large">

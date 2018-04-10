@@ -1,7 +1,7 @@
 .message__main-container {
   position: relative;
   cursor: pointer;
-  padding: 10px 10px 20px 10px;
+  padding: 20px 10px;
 }
 .message__main-container:hover {
   background-color: #f9f9f9;
@@ -12,7 +12,7 @@
 .message__main-counter {
   position: absolute;
   left: 30px;
-  top: 33px;
+  top: 43px;
 }
 .message__main-counter-number {
   background: #FBBC12;
@@ -28,11 +28,10 @@
 }
 .message__icons {
    font-size: 15px;
-   padding: 5px 8px;
+   padding: 4px 8px 6px 8px;
 }
 .message__icons-selected {
-  /* color: #FBBC12; */
-   color: #BB8C12!important;
+   color: #FBBC12!important;
 }
 .message__icons:not(:last-child) {
   border-right: 1px solid #666;

@@ -3,7 +3,7 @@
 }
 .habla-avatar--size-x-large, .habla-avatar--size-x-large img {
   display: inline-block;
-  object-fit: contain;
+  object-fit: cover;
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
@@ -15,7 +15,7 @@
 }
 .habla-avatar--size-large, .habla-avatar--size-large img {
   display: inline-block;
-  object-fit: scale-down;
+  object-fit: cover;
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
@@ -27,7 +27,7 @@
 }
 .habla-avatar--size-default, .habla-avatar--size-default img {
   display: inline-block;
-  object-fit: scale-down;
+  object-fit: cover;
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
@@ -40,18 +40,18 @@
 }
 .habla-avatar--size-small, .habla-avatar--size-small img {
   display: inline-block;
-  object-fit: scale-down;
+  object-fit: cover;
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
-  width: 25px;
-  height: 25px;
-  line-height: 25px;
+  width: 24px;
+  height: 24px;
+  line-height: 20px;
 }
 .habla-avatar--size-small > * {
-  line-height: 25px;
-  width: 25px;
-  height: 25px;
+  line-height: 24px;
+  width: 24px;
+  height: 24px;
 }
 
 /* Letters in avatars */

@@ -7,7 +7,9 @@ import '../../pages/CKGPage/styles/style.css';
 const GraphActivitySelector = () => {
   const activityMenu = (
     <Menu className="activitySelectorMenu">
-      <a className="habla-label padding-class-a">{String.t('graphActivityMenu.activityLabel')}</a>
+      <Menu.Item key="selectActivity">
+        <div className="habla-label padding-class-a">{String.t('graphActivityMenu.activityLabel')}</div>
+      </Menu.Item>
       <Menu.Item key="allActivity">
         <a><span><i className="fas fa-tasks" /> {String.t('graphActivityMenu.allActivity')}</span></a>
       </Menu.Item>

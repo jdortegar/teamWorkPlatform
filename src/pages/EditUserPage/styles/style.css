@@ -23,5 +23,11 @@
   margin-right: 2em;
 }
 .collapse-content {
-	padding: 10px 40px;
+}
+.userAccountSetting .ant-collapse > .ant-collapse-item {
+	border: none;
+}
+.userAccountSetting .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+	padding: 10px 55px;
+	font-weight: bold;
 }

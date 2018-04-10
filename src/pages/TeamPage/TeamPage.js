@@ -121,7 +121,7 @@ class TeamPage extends Component {
                 {team.name}
               </h1>
             </div>
-            <div className="habla-secondary-paragraph margin-top-class-b">
+            <div className="habla-secondary-paragraph">
               {String.t('TeamPage.teamCreated', { date: moment(team.created).format('LL') })}
             </div>
           </SimpleCardContainer>

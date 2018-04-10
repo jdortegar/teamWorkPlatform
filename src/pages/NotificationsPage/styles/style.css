@@ -27,7 +27,7 @@
   background-color: #F7F7F7;
 }
 .notification-body__item__content {
-  margin-left: 1em;
+  margin-left: 20px;
   width: 100%;
 }
 .content-body__time-ago {

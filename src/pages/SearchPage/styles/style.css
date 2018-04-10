@@ -25,8 +25,14 @@
 
 .SearchPage__results {
   background-color: #557dbf;
+  display: flex;
   flex-grow: 1;
   border-radius: 4px;
+}
+.SearchPage__results.loading {
+  display: flex;
+  align-items: center;
+  background-color: white;
 }
 
 .SearchPage__results__fileName {
@@ -35,4 +41,37 @@
 .SearchPage__results__fileIcon {
   position: absolute;
   margin-top: -4px;
+}
+.ResultsList thead > tr > th {
+  font-size: 7pt;
+  text-transform: uppercase;
+  color: #fff;
+}
+.ResultsList thead > tr > th {
+	padding: 6px 10px;
+}
+.ant-table-row-level-0 {
+	border-bottom: 1px solid #fff;
+}
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+	padding: 10px;
+}
+.ant-table-tbody > tr > td {
+	font-size: 14px;
+}
+.SearchPage__results tbody tr:hover {
+	background: #476dad;
+	cursor: pointer;
+}
+
+.SearchPage__results-inner {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.SearchPage__bottomBar {
+  background-color: white;
+  padding: 0 10px;
 }

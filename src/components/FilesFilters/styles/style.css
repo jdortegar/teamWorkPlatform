@@ -1,0 +1,22 @@
+.FilesFilters {
+  overflow: hidden;
+  height: 50px;
+}
+
+.FilesFilters__content {
+  display: inline-flex;
+  padding: 10px 10px 10px 0;
+}
+
+.FilesFilters__dataTypes {
+  margin: 0 10px 0 4px;
+  display: flex;
+  align-items: center;
+}
+.FilesFilters__dataTypes__badge {
+  color: #fff;
+  background: #a8a8a8;
+  padding: 4px;
+  border-radius: 3px;
+  margin: 0 3px;
+}

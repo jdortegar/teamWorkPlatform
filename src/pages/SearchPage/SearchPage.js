@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import moment from 'moment';
 
 import {
   integrationKeyFromFile,
   integrationLabelFromKey
 } from 'utils/dataIntegrations';
-import { ResultsList } from 'components';
+import { Spinner, ResultsList, FilesFilters } from 'components';
 import imageSrcFromFileExtension from 'lib/imageFiles';
 import formatSize from 'lib/formatSize';
 import String from 'translations';
-import sampleData from './sample-data.json';
 import './styles/style.css';
 
 const formatTime = date => String.t('timeActivityGraph.displayTime', {
@@ -52,22 +53,112 @@ const columns = [
   }
 ];
 
-// TODO: get this from the search bar
-const query = 'knowledge graph';
+class SearchPage extends Component {
+  constructor(props) {
+    super(props);
+    this.updateSearch(props.queryParams.q);
+  }
 
-const SearchPage = () => (
-  <div className="SearchPage">
-    <div className="SearchPage__header">
-      <i className="SearchPage__icon fa fa-search" />
-      <div className="SearchPage__title">
-        {String.t('searchPage.title')}
-        <span className="SearchPage__query">&ldquo;{query}&rdquo;</span>
+  state = {
+    query: this.props.query,
+    excludeTypesFilter: {},
+    excludeIntegrationsFilter: {}
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.updateSearch(nextProps.queryParams.q, true);
+  }
+
+  updateSearch(newQuery, shouldUpdateState = false) {
+    if (!newQuery || newQuery === this.props.query) return;
+    if (shouldUpdateState) this.setState({ query: newQuery });
+    this.props.search(newQuery);
+  }
+
+  handleIntegrationFilterClick = (key) => {
+    const { excludeIntegrationsFilter } = this.state;
+    this.setState({ excludeIntegrationsFilter: { ...excludeIntegrationsFilter, [key]: excludeIntegrationsFilter[key] ? null : true } });
+  }
+
+  handleFileTypeFilterClick = (key) => {
+    const { excludeTypesFilter } = this.state;
+    this.setState({ excludeTypesFilter: { ...excludeTypesFilter, [key]: excludeTypesFilter[key] ? null : true } });
+  }
+
+  handleFileTypeFilterDoubleClick = () => {
+    const { fileTypes } = this.props;
+    const allSelected = Object.keys(this.state.excludeTypesFilter).length === fileTypes.length;
+    const allFilters = fileTypes.reduce((obj, file) => ({ ...obj, [file.key]: true }), {});
+    this.setState({ excludeTypesFilter: allSelected ? {} : allFilters });
+  }
+
+  render() {
+    const { loading, results, fileTypes, integrations } = this.props;
+    const { query, excludeIntegrationsFilter, excludeTypesFilter } = this.state;
+
+    const resultsFiltered = results.filter((file) => {
+      const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
+      const key = integrationKeyFromFile(file);
+      return !excludeTypesFilter[label] && !excludeIntegrationsFilter[key];
+    });
+
+    return (
+      <div className="SearchPage">
+        <div className="SearchPage__header">
+          <i className="SearchPage__icon fa fa-search" />
+          <div className="SearchPage__title">
+            {String.t('searchPage.title')}
+            <span className="SearchPage__query">&ldquo;{query}&rdquo;</span>
+          </div>
+        </div>
+        <div className={classNames('SearchPage__results', { loading })}>
+          {loading && <Spinner />}
+          {!loading && (
+            <div className="SearchPage__results-inner">
+              <ResultsList
+                columns={columns}
+                dataSource={resultsFiltered}
+                loading={loading}
+                rowKey="fileId"
+              />
+              <div className="SearchPage__bottomBar">
+                <FilesFilters
+                  fileTypes={fileTypes}
+                  integrations={integrations}
+                  excludeIntegrationsFilter={excludeIntegrationsFilter}
+                  excludeTypesFilter={excludeTypesFilter}
+                  onIntegrationFilterClick={this.handleIntegrationFilterClick}
+                  onFileTypeFilterClick={this.handleFileTypeFilterClick}
+                  onFileTypeFilterDoubleClick={this.handleFileTypeFilterDoubleClick}
+                />
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-    <div className="SearchPage__results">
-      <ResultsList columns={columns} dataSource={sampleData} rowKey="fileId" />
-    </div>
-  </div>
-);
+    );
+  }
+}
+
+SearchPage.propTypes = {
+  loading: PropTypes.bool,
+  query: PropTypes.string,
+  results: PropTypes.array,
+  fileTypes: PropTypes.array,
+  integrations: PropTypes.array,
+  search: PropTypes.func,
+  queryParams: PropTypes.shape({
+    q: PropTypes.string
+  }).isRequired
+};
+
+SearchPage.defaultProps = {
+  loading: false,
+  query: '',
+  results: [],
+  fileTypes: [],
+  integrations: [],
+  search: null
+};
 
 export default SearchPage;

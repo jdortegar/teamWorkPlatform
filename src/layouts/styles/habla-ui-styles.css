@@ -105,7 +105,8 @@ a:hover {
 .habla-full-content {
   width: 50%;
 }
-.habla-logo-image-responsive {
+.habla-logo-image-responsive
+, .habla-title-responsive {
   display: none;
 }
 p {
@@ -114,9 +115,6 @@ p {
 }
 .flex-class {
   display: flex;
-}
-.inactive {
-  background-color: #c1c1c1;
 }
 
 
@@ -248,7 +246,7 @@ p {
 /* General CSS Styles for Habla Web App Dopdown Menus */
 .ant-dropdown-menu {
   background-color: #444!important;
-  padding-bottom: 10px;	
+  padding-bottom: 10px;
 }
 .ant-dropdown-menu .habla-label {
   font-weight: 900;
@@ -306,10 +304,14 @@ p {
   flex: 1;
 }
 .habla-main-content-header-title svg
-, .CKGPage__title svg {
-  margin-right: 5px;
+, .CKGPage__title svg
+, .userAccountSetting .habla-main-content-header svg {
+  margin-right: 10px;
   font-size: 18px;
   color: #ccc;
+}
+.habla-main-content-header-title .breadcrumbs-separator svg {
+  margin-right: 0!important;
 }
 .habla-main-content-filters-links div {
   background: #fff;
@@ -324,7 +326,7 @@ p {
   color: #fff;
   cursor: pointer;
 }
- 
+
 .habla-main-content-header-actions i {
   font-size: 2em;
   vertical-align: middle;
@@ -338,129 +340,40 @@ p {
 
 .habla-top-navigation-avatar-signal {
    border-radius: 50%;
-   border: 1px solid #4d4d4d;
+   border: 1px solid #fff;
    position: absolute;
    z-index: 2;
    overflow: visible;
 }
-.habla-avatar-signal-default {
-   width: 11px;
-   height: 11px;
-   right: -4px;
-   top: -4px;
-}
 .habla-avatar-signal-small {
-   width: 9px;
-   height: 9px;
-   right: -5px;
-   top: -5px; 
+   width: 8px;
+   height: 8px;
+   right: -3px;
+   top: -3px;
+}
+.habla-avatar-signal-default {
+   width: 10px;
+   height: 10px;
+   right: -3px;
+   top: -3px;
 }
 .habla-avatar-signal-large {
-   width: 15px;
-   height: 15px;
-   right: -6px;
-   top: -4px; 
+   width: 14px;
+   height: 14px;
+   right: 3px;
+   top: 3px;
 }
 .habla-avatar-signal-x-large {
    width: 18px;
    height: 18px;
-   right: -6px;
-   top: -6px; 
+   right: 5px;
+   top: 5px;
 }
-
 .habla-top-menu-subitem {
    position: relative;
    display: inline-block;
 }
 
-
-/* RESPONSIVE ELEMENTS AND STYLES ---------- */
-
-@media only screen and (max-width: 800px) {
-.header .ant-menu span {
-  display: none;
-}
-.header .ant-menu-item {
-  padding: 0 10px;
-}
-.header .ant-menu li i {
-  margin: 0;
-}
-.user-avatar {
-  height: 67px;
-}
-}
-
-@media only screen and (max-width:680px) {
-.habla-top-menu-label
-, .habla-main-content-header-actions .habla-label
-, .habla-main-content-header-breadcrumb-links-responsive
-, .habla-main-content-header-breadcrumb-links .habla-title-light
-, .habla-main-content-header-breadcrumb-links i
-, .habla-ckg-filters-item span
-, .habla-header-search-input {
-  display: none;
-}
-.habla-main-content-header-breadcrumb {
-  width: 80%;
-}
-.habla-main-content-header-actions {
-  width: 20%;
-}
-.habla-main-content-collapsable-content-section {
-  padding: 10px 15px 20px 15px;
-}
-.habla-main-content-collapsable-content-item {
-  display: block;
-  width: 100%;
-}
-.habla-main-content-collapsable-content-item {
-  border-top: 1px solid #f7f7f7;
-  padding-top: 5px;
-}
-.habla-main-content-collapsable-content-item .habla-big-avatar
-, .habla-main-content-collapsable-content-item .habla-big-avatar img {
-  width: 30px;
-  height: 30px;
-}
-.habla-main-content-collapsable-content-item .habla-big-avatar .habla-avatar-letters {
-  font-size: 10pt;
-  padding-top: 9px;
-}
-.habla-main-content-collapsable-content-item .habla-label {
-  display: inline-block;
-  margin-left: 5px;
-  font-size: 10pt;
-}
-.habla-alert-content-buttons .habla-button-alert {
-  margin-bottom: 5px;
-}
-.habla-main-content-filters-links {
-  display: none;
-}
-.habla-main-content-filters-members {
-  float: none;
-  width: 100%;
-}
-.habla-main-content-collapsable-content-section .habla-main-content-item-signal {
-  position: absolute;
-  right: 2px;
-  top: 17px;
-}
-.habla-modal-window {
-  width: 80%;
-}
-.habla-profile-settings-form .habla-form-item {
-  float: none;
-  width: 100%;
-}
-.habla-top-menu-items a i {
-  margin-right: 0;
-}
-.habla-full-content {
-  width: 100%;
-}
-}
 .habla-MemberListing__title {
    font-weight: 600;
 }
@@ -498,9 +411,10 @@ p {
 }
 .habla__placeholder-centered-text {
   text-align: center;
+  color: #ccc;
 }
 .habla-tab__item {
-  margin: 0px 6px;
+  margin: 0px 0px 0px 3px;
   padding: 3px 10px;
 }
 .habla-tab__item.active {
@@ -508,28 +422,6 @@ p {
   color: #fff!important;
 }
 
-@media only screen and (max-width:420px) {
-.habla-logo-image
-, .habla-ckg-date-picker-content-text {
-  display: none;
-}
-.habla-logo-image-responsive {
-  display: block;
-}
-.habla-main-content-header-breadcrumb .habla-title {
-  font-size: 11pt;
-}
-.habla-big-title {
-  font-size: 16pt;
-}
-.habla-main-content-filters-members-responsive {
-  display: none;
-}
-.team-room__messages .ant-col-md-18 {
-  width: 80%;
-}
-
-}
 
 
 /* Standard Margin and Padding Classes */
@@ -882,7 +774,7 @@ p {
   background: transparent;
 }
 .ant-menu-submenu > .ant-menu {
-  background: transparent;	
+  background: transparent;
 }
 .Sidebar ul.ant-menu li.ant-menu-submenu {
 	background: #fff;
@@ -945,7 +837,7 @@ ul.ant-menu li.ant-menu-submenu:hover {
   padding: 0;
 }
 .ant-collapse-content {
-  padding: 0 50px;
+  padding: 0 20px;
 }
 .ant-dropdown-menu {
   top: 7px;
@@ -954,7 +846,7 @@ ul.ant-menu li.ant-menu-submenu:hover {
 .ant-avatar-string {
   left: 30px;
 }
-.ant-progress-line { 
+.ant-progress-line {
     bottom: 0!important;
     padding: 0 5px!important;
     position: absolute!important;
@@ -968,4 +860,201 @@ ul.ant-menu li.ant-menu-submenu:hover {
 	height: inherit;
 	border: none;
 	margin: 0;
+}
+.ant-table-placeholder {
+	background: transparent;
+	border: none;
+	color: #bbd4ff;
+}
+.ResultsList__row img {
+	width: 26px;
+	height: 26px;
+
+}
+
+
+
+
+
+
+/* RESPONSIVE ELEMENTS AND STYLES ---------- */
+
+
+@media only screen and (max-width:768px) {
+.habla-top-menu-label
+, .habla-main-content-header-actions .habla-label
+, .habla-main-content-header-breadcrumb-links-responsive
+, .habla-main-content-header-breadcrumb-links .habla-title-light
+, .habla-main-content-header-breadcrumb-links i
+, .habla-ckg-filters-item span
+, i.ant-menu-submenu-arrow  {
+  display: none;
+}
+.habla-top-menu-items {
+	float: left;
+	margin-left: 17px;
+}
+.header .ant-menu span {
+  display: none;
+}
+.header .ant-menu-item {
+  padding: 0 10px;
+}
+.header .ant-menu li i {
+  margin: 0;
+}
+.user-avatar {
+  height: 67px;
+}
+.habla-main-content-header-breadcrumb {
+  width: 80%;
+}
+.habla-main-content-header-actions {
+  flex-flow: column-reverse;
+}
+.habla-main-content-collapsable-content-section {
+  padding: 10px 15px 20px 15px;
+}
+.habla-main-content-collapsable-content-item {
+  display: block;
+  width: 100%;
+}
+.habla-main-content-collapsable-content-item {
+  border-top: 1px solid #f7f7f7;
+  padding-top: 5px;
+}
+.habla-main-content-collapsable-content-item .habla-big-avatar
+, .habla-main-content-collapsable-content-item .habla-big-avatar img {
+  width: 30px;
+  height: 30px;
+}
+.habla-main-content-collapsable-content-item .habla-big-avatar .habla-avatar-letters {
+  font-size: 10pt;
+  padding-top: 9px;
+}
+.habla-main-content-collapsable-content-item .habla-label {
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 10pt;
+}
+.habla-alert-content-buttons .habla-button-alert {
+  margin-bottom: 5px;
+}
+.habla-main-content-filters-links {
+  display: none;
+}
+.habla-main-content-filters-members {
+  float: none;
+  width: 100%;
+}
+.habla-main-content-collapsable-content-section .habla-main-content-item-signal {
+  position: absolute;
+  right: 2px;
+  top: 17px;
+}
+.habla-modal-window {
+  width: 80%;
+}
+.habla-profile-settings-form .habla-form-item {
+  float: none;
+  width: 100%;
+}
+.habla-top-menu-items a i {
+  margin-right: 0;
+}
+.habla-full-content {
+  width: 100%;
+}
+.Sidebar {
+  flex: 0 0 50px!important;
+  max-width: 50px!important;
+  min-width: 50px!important;
+  width: 50px!important;
+}
+.organizationLinks svg {
+	width: 100%!important;
+	text-align: center;
+}
+.organizationLinks svg.fa-home
+, .organizationLinks svg.fa-chart-area
+, .organizationLinks svg.fa-globe
+, .organizationLinks svg.fa-bookmark {
+	margin-bottom: 5px;
+}
+.organizationHeader .organizationsList {
+	top: 4px;
+	left: 7px;
+	float: none;
+}
+.sidebar-label-number-badge {
+	display: block;
+	margin-left: 0;
+	margin-top: 2px;
+	text-align: center;
+}
+.habla-left-navigation-teamroom-list {
+	padding-left: 0;
+}
+.sidebar-actions {
+	text-align: center;
+}
+.sidebar-actions svg {
+	margin: 4px 0 4px 0;
+}
+.sidebar-actions .ant-input-affix-wrapper {
+	margin-top: 4px;
+	width: 20px;
+	position: relative;
+    left: -7px;
+}
+.team-room__messages .ant-col-md-18 {
+  width: 80%;
+}
+.ant-input-affix-wrapper {
+	width: 130px;
+	font-size: 0.9em;
+}
+.ant-input-affix-wrapper .ant-input {
+	font-size: 12px;
+}
+.ant-table-tbody > tr > td {
+	font-size: 12px;
+}
+.ResultsList__row img {
+	width: 20px;
+	height: 20px;
+	position: relative;
+	top: 5px;
+}
+.SearchPage__results__fileName {
+	padding-left: 10px;
+}
+
+}
+
+@media only screen and (max-width:520px) {
+.habla-logo-image
+, .habla-ckg-date-picker-content-text
+, .habla-ckg-tools .ckg-activity-label{
+  display: none;
+}
+.habla-logo-image-responsive
+, .habla-title-responsive {
+  display: block;
+}
+.habla-main-content-header-breadcrumb .habla-title {
+  font-size: 11pt;
+}
+.habla-big-title {
+  font-size: 16pt;
+}
+.habla-main-content-filters-members-responsive
+, .habla-title-normal {
+  display: none;
+}
+.habla-ckg-actions-selector {
+	left: 63px;
+}
+
+
 }

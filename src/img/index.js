@@ -1,6 +1,7 @@
 export { default as hablaWhiteLogo } from './habla-ai-logo-color.png';
 export { default as hablaBlackLogo } from './habla-ai-logo.png';
 export { default as hablaBlackLogoIcon } from './habla-ai-logo-icon.png';
+export { default as hablaLogoAvatar } from './habla-ai-logo-avatar.png';
 export { default as RobotHumanHandshake } from './robot-human-hand-shake.jpg';
 export { default as boxLogo } from './box-logo.png';
 export { default as googleDriveLogo } from './drive-logo.png';

@@ -17,3 +17,9 @@
    margin: 0 8px;
    color: #ccc;
 }
+.breadcrumbs-container .habla-avatar {
+  margin-right: 10px;
+}
+.breadcrumbs-container .ant-avatar-image {
+  border: 1px solid #ddd;
+}

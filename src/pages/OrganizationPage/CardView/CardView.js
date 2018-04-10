@@ -49,7 +49,7 @@ function CardView(props) {
       if (teamRender) {
         const className = classNames({ 'opacity-low': !team.active });
         return (
-          <div key={team.teamId} className="mr-1">
+          <div key={team.teamId} className="mr-1 mb-2">
             <Tooltip placement="top" title={team.name}>
               <Link to={`/app/team/${team.teamId}`}>
                 {team.icon ?
@@ -74,7 +74,7 @@ function CardView(props) {
       const { userId, firstName, lastName } = member;
       const fullName = String.t('fullName', { firstName, lastName });
       return (
-        <div key={userId} className="mr-1">
+        <div key={userId} className="mr-1 mb-2">
           <Tooltip placement="top" title={fullName}>
             <Link to={`/app/teamMember/${userId}`}>
               <div>
@@ -94,7 +94,7 @@ function CardView(props) {
     const label = integrationLabelFromKey(key);
     const desaturated = classNames({ desaturate: integration.expired });
     return (
-      <div key={key} className="mr-1 integration-card">
+      <div key={key} className="mr-1  mb-2 integration-card">
         <Tooltip placement="top" title={label}>
           <Link to={`/app/integrations/${subscriberOrgId}/${key}`}>
             <Avatar size="large" src={integrationImageFromKey(key)} className={desaturated} />
@@ -125,7 +125,7 @@ function CardView(props) {
 
   const renderAddCard = (title, url) => {
     return (
-      <div className="mr-1">
+      <div className="mr-1 mb-2">
         <Tooltip placement="top" title={title}>
           <Link to={url}>
             <Avatar size="large">

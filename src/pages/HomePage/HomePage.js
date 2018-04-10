@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { hablaBlackLogoIcon } from '../../img';
+import { hablaLogoAvatar } from '../../img';
 import Spinner from '../../components/Spinner';
 import CKGPage from '../../containers/CKGPage';
 import String from '../../translations';
@@ -12,8 +12,8 @@ class HomePage extends Component {
     // TODO: This is temporary... we'll need an API to get activity
     activity: [
       {
-        logo: hablaBlackLogoIcon,
-        from: 'Habla AI Inc.',
+        logo: hablaLogoAvatar,
+        from: 'Habla AI Bot',
         text: (`Welcome to Habla AI. <a href="/app/ckg/${this.props.currentSubscriberOrgId}>Click here</a> to start integrating data into your Knowledge Graph.`),
         created: null
       }
@@ -28,18 +28,20 @@ class HomePage extends Component {
 
     return this.state.activity.map(({ logo, from }) => {
       return (
-        <div key={date} className="homePage__activity-container">
-          <div className="homePage__activity-avatar">
-            <img src={logo} alt={String.t('Header.logoAlt')} className="homePage__activity-avatar" />
-          </div>
-          <div className="homePage__activity-content-container">
-            <div className="homePage__activity-content-header">
-              {from}
+        <div key={date} className="homePage__activity-container margin-top-class-b">
+          <div className="homePage__activity-item">
+            <div className="homePage__activity-avatar">
+              <img src={logo} alt={String.t('Header.logoAlt')} className="homePage__activity-avatar" />
             </div>
-            <div className="homePage__activity-content-message">
-              Welcome to Habla AI.  <a onClick={() => this.props.history.push(`/app/integrations/${this.props.currentSubscriberOrgId}`)}> Click here
-              </a> to start integrating data into your Knowledge Graph.
-              <span className="homePage__activity-content-date"> ({date})</span>
+            <div className="homePage__activity-content-container">
+              <div className="homePage__activity-content-header">
+                {from}
+              </div>
+              <div className="homePage__activity-content-message">
+                Welcome to Habla AI.  <a onClick={() => this.props.history.push(`/app/integrations/${this.props.currentSubscriberOrgId}`)}> Click here
+                </a> to start integrating data into your Knowledge Graph.
+                <span className="homePage__activity-content-date"> ({date})</span>
+              </div>
             </div>
           </div>
         </div>
@@ -66,7 +68,7 @@ class HomePage extends Component {
           />
         </div>
         <div className="homepage_latest-container">
-          <div className="homepage_latest-header">{String.t('homePage.latestHeader')}</div>
+          <div className="homepage_latest-header habla-label">{String.t('homePage.latestHeader')}</div>
           {this.renderActivity()}
         </div>
       </div>
