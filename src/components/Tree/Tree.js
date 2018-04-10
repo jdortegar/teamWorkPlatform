@@ -8,6 +8,7 @@ import SharingSettings from '../SharingSettings';
 import Avatar from '../common/Avatar';
 import getInitials from '../../utils/helpers';
 import { SharingTypes } from '../../redux-hablaai/selectors';
+import String from '../../translations';
 import './styles/style.css';
 // import 'pages/CKGPage/styles/style.css';
 
@@ -102,7 +103,7 @@ class Tree extends Component {
 
     return (
       <div className="node-sharing-details">
-        EDIT SHARING DETAILS
+        {String.t('integrationDetailsPage.sharing.editSharingDetails')}
         <a onClick={e => this.onShareSettingsClick(e, node)}><i className={`fas ${shareIcon} node-sharing-details-icon`} /></a>
       </div>
     );
@@ -112,8 +113,8 @@ class Tree extends Component {
     node.sharingSettingsTree = node.sharingSettingsTree || _.cloneDeep(this.state.secondaryTree); // eslint-disable-line no-param-reassign
     const { parentNode, shareWithIds } = this.props;
     const sharingType = shareWithIds.getSharingType(node.id, parentNode.id);
-    const allText = 'SHARE IN ALL TEAMS AND TEAM ROOMS';
-    const customText = 'SHARE ONLY ON SPECIFIC TEAMS AND TEAM ROOMS';
+    const allText = String.t('integrationDetailsPage.sharing.shareInAllTeamsAndRooms');
+    const customText = String.t('integrationDetailsPage.sharing.shareInSpecificTeamsAndRooms');
     return (
       <div className="sharing-settings-boxed">
         <SharingSettings
@@ -181,8 +182,8 @@ class Tree extends Component {
       if (this.props.secondaryTree) {
         selectionField = (
           <Switch
-            checkedChildren="YES"
-            unCheckedChildren="NO"
+            checkedChildren={String.t('integrationDetailsPage.sharing.yes')}
+            unCheckedChildren={String.t('integrationDetailsPage.sharing.no')}
             defaultChecked={sharedChecked}
             onChange={checked => this.onShareChange(checked, nodeDetails)}
             disabled={false}

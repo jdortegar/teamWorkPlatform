@@ -4,6 +4,7 @@ import { Form, Collapse, Radio } from 'antd';
 import SimpleHeader from '../SimpleHeader';
 import Tree from '../Tree';
 import { SharingTypes } from '../../redux-hablaai/selectors';
+import String from '../../translations';
 import './styles/style.css';
 // import 'pages/CKGPage/styles/style.css';
 
@@ -64,7 +65,12 @@ class SharingSettings extends Component {
           <br />
           <Radio value="custom">{this.props.customText}</Radio>
         </RadioGroup>
-        {((this.props.collapsible) && (this.state.share === 'custom')) && <div><br /><span>{this.props.integrationType} Folders and Files</span></div>}
+        {
+          ((this.props.collapsible) && (this.state.share === 'custom')) &&
+          <div>
+            <br />
+            <span>{this.props.integrationType} {String.t('integrationDetailsPage.sharing.foldersAndFiles')}</span>
+          </div>}
         {
           (this.state.share === 'custom') &&
           <Tree
@@ -86,7 +92,10 @@ class SharingSettings extends Component {
         <div className="sharing-settings">
           <hr />
           <Collapse bordered>
-            <Panel header={<SimpleHeader text="Sharing Settings" />} key="1">
+            <Panel
+              header={<SimpleHeader text={String.t('integrationDetailsPage.sharing.settings')} />}
+              key="1"
+            >
               {content}
             </Panel>
           </Collapse>

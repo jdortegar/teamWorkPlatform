@@ -298,8 +298,8 @@ class IntegrationDetailsPage extends Component {
     let primaryTree;
     let secondaryTree;
     let sharingType;
-    const allText = 'Share all information in all Teams and Team Rooms';
-    const customText = 'Select what to share in specific Teams or Team Rooms';
+    const allText = String.t('integrationDetailsPage.sharing.all');
+    const customText = String.t('integrationDetailsPage.sharing.custom');
     if (currStatus === 'Active') {
       primaryTree = this.props.foldersAndFiles;
       secondaryTree = this.props.teams;
