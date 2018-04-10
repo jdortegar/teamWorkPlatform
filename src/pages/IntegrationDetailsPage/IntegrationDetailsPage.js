@@ -348,7 +348,7 @@ class IntegrationDetailsPage extends Component {
             />
           </Tooltip>
         </div>
-        {(currStatus === 'Active') && <SharingSettings integrationType={integrationType} primaryTree={primaryTree} sharingType={primaryTree.share} allText={allText} customText={customText} secondaryTree={secondaryTree} shareWithIds={primaryTree.shareWithIds} collapsible />}
+        {(currStatus === 'Active') && <SharingSettings integrationType={integrationType} primaryTree={primaryTree} sharingType={primaryTree.share} allText={allText} customText={customText} secondaryTree={secondaryTree} shareWithIds={primaryTree.shareWithIds} parentNode={{ id: 'ROOT' }} collapsible />}
       </div>
     );
   }

@@ -30,7 +30,7 @@ class SharingSettings extends Component {
   constructor(props) {
     super(props);
 
-    const { primaryTree, secondaryTree, integrationType } = this.props;
+    const { primaryTree, secondaryTree,  } = this.props;
     let share;
     if (props.sharingType === SharingTypes.ALL) {
       share = 'all';
@@ -49,8 +49,8 @@ class SharingSettings extends Component {
   onShareChange(e) {
     e.preventDefault();
     const sharingType = e.target.value;
-    const { shareWithIds, parentNode } = this.props;
-    parentNode.share = sharingType;
+    const { parentNode, shareWithIds } = this.props;
+    shareWithIds.addShare(parentNode.id, 'ROOT', (sharingType === 'all') ? SharingTypes.ALL : SharingTypes.SOME);
     this.setState({ share: e.target.value });
   }
 
@@ -59,10 +59,11 @@ class SharingSettings extends Component {
       <div>
         <RadioGroup onChange={this.onShareChange} value={this.state.share}>
           <Radio value="all">{this.props.allText}</Radio>
+          <br />
           <Radio value="custom">{this.props.customText}</Radio>
         </RadioGroup>
         {((this.props.collapsible) && (this.state.share === 'custom')) && <div><br /><span>{this.props.integrationType} Folders and Files</span></div>}
-        {(this.state.share === 'custom') && <Tree primaryTree={primaryTree} secondaryTree={secondaryTree} parentNode={this.props.parentNode} shareWithIds={this.props.shareWithIds}/>}
+        {(this.state.share === 'custom') && <Tree primaryTree={primaryTree} secondaryTree={secondaryTree} parentNode={this.props.parentNode} shareWithIds={this.props.shareWithIds} />}
       </div>
     );
   }

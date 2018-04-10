@@ -66,12 +66,11 @@ class Tree extends Component {
 
   onShareChange(checked, node) {
     const { primaryTree: tree } = this.state;
-    console.log(`AD: ${node.id} checked=${checked}`);
     const { parentNode, shareWithIds } = this.props;
     if (checked) {
-      node.share = SharingTypes.ALL; // eslint-disable-line no-param-reassign
+      shareWithIds.addShare(node.id, parentNode.id, SharingTypes.ALL);
     } else {
-      node.share = SharingTypes.NONE; // eslint-disable-line no-param-reassign
+      shareWithIds.deleteShare(node.id, parentNode.id);
       node.showSharingSettings = false; // eslint-disable-line no-param-reassign
       node.sharingSettingsTree = undefined; // eslint-disable-line no-param-reassign
     }
@@ -113,7 +112,8 @@ class Tree extends Component {
 
   renderSharingSettings(node) {
     node.sharingSettingsTree = node.sharingSettingsTree || _.cloneDeep(this.state.secondaryTree); // eslint-disable-line no-param-reassign
-    const sharingType = node.share;
+    const { parentNode, shareWithIds } = this.props;
+    const sharingType = shareWithIds.getSharingType(node.id, parentNode.id);
     const allText = 'SHARE IN ALL TEAMS AND TEAM ROOMS';
     const customText = 'SHARE ONLY ON SPECIFIC TEAMS AND TEAM ROOMS';
     return (
@@ -166,18 +166,9 @@ class Tree extends Component {
       }
       const childCount = (itemsString) ? (<span className="node-child-count">{itemsString}</span>) : '';
 
-      let shared;
-      if (nodeDetails.share) {
-        shared = nodeDetails.share;
-      } else {
-        const { parentNode, shareWithIds } = this.props;
-        if (shareWithIds[node.id]) {
-          shared = shareWithIds[node.id][parentNode.id] || SharingTypes.NONE;
-        } else {
-          shared = SharingTypes.NONE;
-        }
-      }
-      const sharedChecked = (shared === SharingTypes.NONE) ? false : true;
+      const { parentNode, shareWithIds } = this.props;
+      const shared = shareWithIds.getSharingType(node.id, parentNode.id);
+      const sharedChecked = (shared !== SharingTypes.NONE);
 
       let selectionField;
       if (this.props.secondaryTree) {
@@ -202,12 +193,12 @@ class Tree extends Component {
             <div className="node-icon">{icon}</div>
             <div className="node-info"><span className="node-name">{nodeName}</span> &nbsp;{childCount}</div>
             <div className="node-filler" />
-            {(this.state.secondaryTree) && ((nodeDetails.share === SharingTypes.ALL) || (nodeDetails.share === SharingTypes.SOME)) && this.renderSharingLink(nodeDetails)}
+            {(this.state.secondaryTree) && ((shared === SharingTypes.ALL) || (shared === SharingTypes.SOME)) && this.renderSharingLink(nodeDetails)}
             <div className="node-share">
               {selectionField}
             </div>
           </div>
-          {(((nodeDetails.share === SharingTypes.ALL) || (nodeDetails.share === SharingTypes.SOME)) && (nodeDetails.showSharingSettings)) && this.renderSharingSettings(nodeDetails)}
+          {(((shared === SharingTypes.ALL) || (shared === SharingTypes.SOME)) && (nodeDetails.showSharingSettings)) && this.renderSharingSettings(nodeDetails)}
           {((node.children) && (node.children.length > 0) && (nodeDetails.expanded)) && this.renderBoxedNodes(node.children, tree)}
           <hr />
         </div>
