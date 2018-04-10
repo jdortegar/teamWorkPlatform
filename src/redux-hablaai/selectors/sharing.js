@@ -128,7 +128,10 @@ class ShareWithIds {
     let shares1 = this._shareWithIds[id1];
     let shares2 = this._shareWithIds[id2];
 
-    if ((shares1) && (id2 === 'ROOT')) {
+    if ((id1 === 'ROOT') && (id2 === 'ROOT')) {
+      // Delete everything because this is the absolute root.
+      Object.keys(this._shareWithIds).forEach(id => delete this._shareWithIds[id]);
+    } else if ((shares1) && (id2 === 'ROOT')) {
       // Delete all relations.
       Object.keys(shares1).forEach((id) => {
         if (id === 'ROOT') {
@@ -244,15 +247,17 @@ export const getIntegrationFilesAndFolders = createSelector(
           id: 'spreadsheet.xls'
         }
       ],
-      shareWithIds: new ShareWithIds({
-        '0ac5d3d5-689f-4137-af05-20435ce1ba35': {
-          'my.pdf': SharingTypes.ALL
-        },
-        'my.pdf': {
-          ROOT: SharingTypes.SOME,
-          '0ac5d3d5-689f-4137-af05-20435ce1ba35': SharingTypes.ALL
-        }
-      })
+      shareWithIds: new ShareWithIds({})
+      // TODO: remove.  For testing only.
+      // shareWithIds: new ShareWithIds({
+      //   '0ac5d3d5-689f-4137-af05-20435ce1ba35': {
+      //     'my.pdf': SharingTypes.ALL
+      //   },
+      //   'my.pdf': {
+      //     ROOT: SharingTypes.SOME,
+      //     '0ac5d3d5-689f-4137-af05-20435ce1ba35': SharingTypes.ALL
+      //   }
+      // })
     };
   }
 );
