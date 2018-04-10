@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Collapse, Radio } from 'antd';
-import { formShape } from '../../propTypes';
 import SimpleHeader from '../SimpleHeader';
 import Tree from '../Tree';
 import { SharingTypes } from '../../redux-hablaai/selectors';
@@ -12,25 +11,28 @@ const Panel = Collapse.Panel;
 const RadioGroup = Radio.Group;
 
 const propTypes = {
-  form: formShape.isRequired,
-  nodes: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string,
-    name: PropTypes.string,
-    icon: PropTypes.string,
-    selected: PropTypes.boolean,
-    children: PropTypes.arrayOf(PropTypes.object)
-  }))
+  primaryTree: PropTypes.object.isRequired,
+  secondaryTree: PropTypes.object,
+  integrationType: PropTypes.string,
+  allText: PropTypes.string.isRequired,
+  customText: PropTypes.string.isRequired,
+  collapsible: PropTypes.boolean,
+  sharingType: PropTypes.string.isRequired,
+  parentNode: PropTypes.object.isRequired,
+  shareWithIds: PropTypes.object.isRequired
 };
 
 const defaultProps = {
-  nodes: []
+  secondaryTree: undefined,
+  integrationType: undefined,
+  collapsible: false
 };
 
 class SharingSettings extends Component {
   constructor(props) {
     super(props);
 
-    const { primaryTree, secondaryTree,  } = this.props;
+    const { primaryTree, secondaryTree } = this.props;
     let share;
     if (props.sharingType === SharingTypes.ALL) {
       share = 'all';
@@ -63,7 +65,15 @@ class SharingSettings extends Component {
           <Radio value="custom">{this.props.customText}</Radio>
         </RadioGroup>
         {((this.props.collapsible) && (this.state.share === 'custom')) && <div><br /><span>{this.props.integrationType} Folders and Files</span></div>}
-        {(this.state.share === 'custom') && <Tree primaryTree={primaryTree} secondaryTree={secondaryTree} parentNode={this.props.parentNode} shareWithIds={this.props.shareWithIds} />}
+        {
+          (this.state.share === 'custom') &&
+          <Tree
+            primaryTree={primaryTree}
+            secondaryTree={secondaryTree}
+            parentNode={this.props.parentNode}
+            shareWithIds={this.props.shareWithIds}
+          />
+        }
       </div>
     );
   }

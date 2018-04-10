@@ -4,7 +4,7 @@ import {
 } from './helpers';
 import {
   getSubscriberOrgById,
-  getCurrentSubscriberOrgId,
+  getCurrentSubscriberOrgId
 } from './state';
 
 export {

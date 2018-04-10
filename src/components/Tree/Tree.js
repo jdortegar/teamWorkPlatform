@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import { Switch } from 'antd';
 import classNames from 'classnames';
 import imageSrcFromFileExtension from 'lib/imageFiles';
@@ -11,17 +12,14 @@ import './styles/style.css';
 // import 'pages/CKGPage/styles/style.css';
 
 const propTypes = {
-  nodes: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string,
-    name: PropTypes.string,
-    icon: PropTypes.string,
-    selected: PropTypes.boolean,
-    children: PropTypes.arrayOf(PropTypes.object)
-  }))
+  primaryTree: PropTypes.object.isRequired,
+  secondaryTree: PropTypes.object,
+  parentNode: PropTypes.object.isRequired,
+  shareWithIds: PropTypes.object.isRequired
 };
 
 const defaultProps = {
-  nodes: []
+  secondaryTree: undefined
 };
 
 const renderAvatar = (item) => {
@@ -117,7 +115,16 @@ class Tree extends Component {
     const allText = 'SHARE IN ALL TEAMS AND TEAM ROOMS';
     const customText = 'SHARE ONLY ON SPECIFIC TEAMS AND TEAM ROOMS';
     return (
-      <div className="sharing-settings-boxed"><SharingSettings primaryTree={node.sharingSettingsTree} sharingType={sharingType} allText={allText} customText={customText} parentNode={node} shareWithIds={this.props.shareWithIds} /></div>
+      <div className="sharing-settings-boxed">
+        <SharingSettings
+          primaryTree={node.sharingSettingsTree}
+          sharingType={sharingType}
+          allText={allText}
+          customText={customText}
+          parentNode={node}
+          shareWithIds={this.props.shareWithIds}
+        />
+      </div>
     );
   }
 
@@ -130,7 +137,7 @@ class Tree extends Component {
       const nodeDetails = tree.nodesById[node.id];
       let icon;
       if (nodeDetails.type === 'FOLDER') {
-        icon = (<a onClick={e => this.onNodeClick(e, node.id, tree)}><i className="fas fa-folder fa-2x node-icon-color"/></a>);
+        icon = (<a onClick={e => this.onNodeClick(e, node.id, tree)}><i className="fas fa-folder fa-2x node-icon-color" /></a>);
       } else if (nodeDetails.type === 'TEAM') {
         const initials = getInitials(nodeDetails.name);
         const className = classNames({ 'opacity-low': !nodeDetails.active });

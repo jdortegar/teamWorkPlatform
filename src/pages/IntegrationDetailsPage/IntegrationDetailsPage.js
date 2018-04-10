@@ -8,6 +8,7 @@ import Button from '../../components/common/Button';
 import Spinner from '../../components/Spinner';
 import { ImageCard } from '../../components/cards';
 import SharingSettings from '../../components/SharingSettings';
+import { SharingTypes } from '../../redux-hablaai/selectors';
 import String from '../../translations';
 import {
   integrationImageFromKey,
@@ -59,7 +60,7 @@ const propTypes = {
   }).isRequired,
   subscriberOrgs: PropTypes.object.isRequired,
   foldersAndFiles: PropTypes.object.isRequired,
-  teams: PropTypes.array.isRequired
+  teams: PropTypes.object.isRequired
 };
 
 class IntegrationDetailsPage extends Component {
@@ -296,11 +297,13 @@ class IntegrationDetailsPage extends Component {
     const integrationType = integrationLabelFromKey(integrationDetails);
     let primaryTree;
     let secondaryTree;
+    let sharingType;
     const allText = 'Share all information in all Teams and Team Rooms';
     const customText = 'Select what to share in specific Teams or Team Rooms';
     if (currStatus === 'Active') {
       primaryTree = this.props.foldersAndFiles;
       secondaryTree = this.props.teams;
+      sharingType = (Object.keys(primaryTree.shareWithIds).length > 0) ? SharingTypes.SOME : SharingTypes.ALL;
     }
 
     return (
@@ -348,7 +351,20 @@ class IntegrationDetailsPage extends Component {
             />
           </Tooltip>
         </div>
-        {(currStatus === 'Active') && <SharingSettings integrationType={integrationType} primaryTree={primaryTree} sharingType={primaryTree.share} allText={allText} customText={customText} secondaryTree={secondaryTree} shareWithIds={primaryTree.shareWithIds} parentNode={{ id: 'ROOT' }} collapsible />}
+        {
+          (currStatus === 'Active') &&
+          <SharingSettings
+            integrationType={integrationType}
+            primaryTree={primaryTree}
+            sharingType={sharingType}
+            allText={allText}
+            customText={customText}
+            secondaryTree={secondaryTree}
+            shareWithIds={primaryTree.shareWithIds}
+            parentNode={{ id: 'ROOT' }}
+            collapsible
+          />
+        }
       </div>
     );
   }
