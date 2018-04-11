@@ -303,7 +303,7 @@ class IntegrationDetailsPage extends Component {
     if (currStatus === 'Active') {
       primaryTree = this.props.foldersAndFiles;
       secondaryTree = this.props.teams;
-      sharingType = (Object.keys(primaryTree.shareWithIds).length > 0) ? SharingTypes.SOME : SharingTypes.ALL;
+      sharingType = (primaryTree.shareWithIds.length() > 0) ? SharingTypes.SOME : SharingTypes.ALL;
     }
 
     return (
