@@ -7,6 +7,8 @@ import SimpleCardContainer from '../../components/SimpleCardContainer';
 import Button from '../../components/common/Button';
 import Spinner from '../../components/Spinner';
 import { ImageCard } from '../../components/cards';
+import SharingSettings from '../../components/SharingSettings';
+import { SharingTypes } from '../../redux-hablaai/selectors';
 import String from '../../translations';
 import {
   integrationImageFromKey,
@@ -56,7 +58,9 @@ const propTypes = {
       status: PropTypes.string
     }).isRequired
   }).isRequired,
-  subscriberOrgs: PropTypes.object.isRequired
+  subscriberOrgs: PropTypes.object.isRequired,
+  foldersAndFiles: PropTypes.object.isRequired,
+  teams: PropTypes.object.isRequired
 };
 
 class IntegrationDetailsPage extends Component {
@@ -289,6 +293,19 @@ class IntegrationDetailsPage extends Component {
       }
     }
 
+    // Sharing Settings.
+    const integrationType = integrationLabelFromKey(integrationDetails);
+    let primaryTree;
+    let secondaryTree;
+    let sharingType;
+    const allText = String.t('integrationDetailsPage.sharing.all');
+    const customText = String.t('integrationDetailsPage.sharing.custom');
+    if (currStatus === 'Active') {
+      primaryTree = this.props.foldersAndFiles;
+      secondaryTree = this.props.teams;
+      sharingType = (Object.keys(primaryTree.shareWithIds).length > 0) ? SharingTypes.SOME : SharingTypes.ALL;
+    }
+
     return (
       <div>
         <SubpageHeader
@@ -334,6 +351,20 @@ class IntegrationDetailsPage extends Component {
             />
           </Tooltip>
         </div>
+        {
+          (currStatus === 'Active') &&
+          <SharingSettings
+            integrationType={integrationType}
+            primaryTree={primaryTree}
+            sharingType={sharingType}
+            allText={allText}
+            customText={customText}
+            secondaryTree={secondaryTree}
+            shareWithIds={primaryTree.shareWithIds}
+            parentNode={{ id: 'ROOT' }}
+            collapsible
+          />
+        }
       </div>
     );
   }
