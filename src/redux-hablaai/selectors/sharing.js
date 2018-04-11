@@ -89,8 +89,8 @@ class ShareWithIds {
     if (share1) {
       if (share1[id2]) {
         shareType = share1[id2];
-      } else if (Object.keys(share1).length > 0) {
-        shareType = SharingTypes.SOME;
+      // } else if (Object.keys(share1).length > 0) {
+      //   shareType = SharingTypes.SOME;
       }
     }
     return shareType;
