@@ -457,7 +457,18 @@
      "deactivate": "Revoke Access",
      "FORBIDDEN": "You didn’t seem to allow Habla AI to access your documents",
      "NOT_FOUND": "We’re sorry, but something must’ve gone terribly wrong",
-     "INTERNAL_SERVER_ERROR": "We’re sorry, but something must’ve gone terribly wrong"
+     "INTERNAL_SERVER_ERROR": "We’re sorry, but something must’ve gone terribly wrong",
+     "sharing": {
+       "settings": "Sharing Settings",
+       "all": "Share all information in all Teams and Team Rooms",
+       "custom": "Select what to share in specific Teams or Team Rooms",
+       "foldersAndFiles": "Folders and Files",
+       "editSharingDetails": "EDIT SHARING DETAILS",
+       "yes": "YES",
+       "no": "NO",
+       "shareInAllTeamsAndRooms": "SHARE IN ALL TEAMS AND TEAM ROOMS",
+       "shareInSpecificTeamsAndRooms": "SHARE ONLY ON SPECIFIC TEAMS AND TEAM ROOMS"
+     }
   },
   "integrationsPage": {
     "breadcrumb": "Data Integrations",

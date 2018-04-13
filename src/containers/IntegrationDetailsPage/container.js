@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import IntegrationDetailsPage from '../../pages/IntegrationDetailsPage';
+import { getIntegrationFilesAndFolders, getCurrentSubscriberOrgTeamsAndTeamRooms } from '../../redux-hablaai/selectors';
 import {
   fetchIntegrations,
   integrateIntegration,
@@ -10,7 +11,9 @@ import {
 function mapStateToProps(state) {
   return {
     integrations: state.integrations,
-    subscriberOrgs: state.subscriberOrgs
+    subscriberOrgs: state.subscriberOrgs,
+    foldersAndFiles: getIntegrationFilesAndFolders(state),
+    teams: getCurrentSubscriberOrgTeamsAndTeamRooms(state)
   };
 }
 

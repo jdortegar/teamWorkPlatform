@@ -1,0 +1,38 @@
+.sharing-settings {
+  margin: 5px;
+}
+
+.node {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.node-icon {
+  margin: 5px;
+}
+
+.node-icon-color {
+  color: #ccc;
+}
+
+.node-info {
+
+}
+
+.node-name {
+  font-weight: bold;
+}
+
+.node-child-count {
+}
+
+.node-filler {
+  flex-grow: 1;
+}
+
+.node-share {
+
+}
