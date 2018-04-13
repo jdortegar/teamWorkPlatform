@@ -256,14 +256,39 @@ p {
   background-color: #444!important;
   color: #ddd!important;
 }
-.ant-dropdown-menu-item a {
+.ant-dropdown-menu-item a  {
   color: #7c7c7c!important;
+}
+.ant-dropdown-menu-submenu-title {
+  color: #7c7c7c!important;
+  padding: 0 10px!important;
+}
+.ant-dropdown-menu-item .ant-dropdown-menu-submenu-arrow:after, .ant-dropdown-menu-submenu-title .ant-dropdown-menu-submenu-arrow:after {
+  color: #7c7c7c!important;
+}
+.ant-dropdown-menu-submenu-title::before { 
+    display: none; 
+    font-family: "Font Awesome 5 Solid";
+    content: "\f080";
+}
+.ant-dropdown-menu-submenu ul {
+	font-family: sans-serif!important;
+}
+.ant-dropdown-menu-submenu-title svg {
+    margin: 0 10px 0 0;
+}
+.ant-dropdown-menu-item .ant-dropdown-menu-submenu-arrow, .ant-dropdown-menu-submenu-title .ant-dropdown-menu-submenu-arrow {
+    position: relative!important;
+    right: -4px!important;   
+    color: #7c7c7c;
+    margin: 0 5px;
 }
 .ant-dropdown-menu-item-selected, .ant-dropdown-menu-submenu-title-selected, .ant-dropdown-menu-item-selected > a, .ant-dropdown-menu-submenu-title-selected > a {
   background: #333;
   color: #fff;
 }
-.ant-dropdown-menu-item a:hover {
+.ant-dropdown-menu-item a:hover
+, .ant-dropdown-menu-submenu-title:hover  {
   background: #333;
   color: #fff!important;
 }

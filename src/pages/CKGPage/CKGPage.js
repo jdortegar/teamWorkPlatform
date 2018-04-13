@@ -17,6 +17,7 @@ import { primaryAtTop } from 'redux-hablaai/selectors/helpers';
 import String from 'translations';
 import './styles/style.css';
 
+const SubMenu = Menu.SubMenu;
 const color = d3.scaleOrdinal(d3.schemeCategory10);
 const buildTime = dateTime => moment().startOf('day').set({
   hour: dateTime.hour(),
@@ -203,9 +204,13 @@ class CKGPage extends Component {
         <Menu.Item key="conceptMap">
           <a><span><i className="fas fa-bullseye" /> {String.t('graphViewsSelector.conceptMap')}</span></a>
         </Menu.Item>
-        <Menu.Item key="mute30min">
-          <a><span><i className="fas fa-th-large" /> {String.t('graphViewsSelector.dashboard')}</span></a>
-        </Menu.Item>
+        <SubMenu title={String.t('graphViewsSelector.dashboard')}>
+          <div className="habla-label padding-class-a">{String.t('graphViewsSelector.dashboardLabel')}</div>
+          <Menu.Item><a><span><i className="fas fa-chart-bar" /> {String.t('graphViewsSelector.cpg')}</span></a></Menu.Item>
+          <Menu.Item><a><span><i className="fas fa-chart-bar" /> {String.t('graphViewsSelector.electronics')}</span></a></Menu.Item>
+          <Menu.Item><a><span><i className="fas fa-chart-bar" /> {String.t('graphViewsSelector.manufacturing')}</span></a></Menu.Item>
+          <Menu.Item><a><span><i className="fas fa-chart-bar" /> {String.t('graphViewsSelector.retail')}</span></a></Menu.Item>
+        </SubMenu>
       </Menu>
     );
 

@@ -599,7 +599,12 @@
     "ckg": "CKG",
     "fileLineage": "File Lineage",
     "conceptMap": "Concept Map",
-    "dashboard": "Dashboard"
+    "dashboard": "Industry Dashboards",
+    "dashboardLabel": "Select Dashboard",
+    "cpg": "CPG",
+    "electronics": "Electronics",
+    "manufacturing": "Manufacturing",
+    "retail": "Retail"
   },
   "ckgPage": {
     "titleResponsive": "CKG Time Activity",
