@@ -8,6 +8,18 @@ import {
   getTeamRoomIdsByTeamId
 } from './state';
 
+// // Redux.
+// sharingSettings: {
+//   google: {
+//     nodesById: {},
+//     nodeHierarchy: []
+//   },
+//   box: {
+//     nodesById: {},
+//     nodeHierarchy: []
+//   }
+// }
+
 export const getCurrentSubscriberOrgTeamsAndTeamRooms = createSelector(
   [getCurrentSubscriberOrgId, getTeamById, getTeamIdsBySubscriberOrgId, getTeamRoomById, getTeamRoomIdsByTeamId],
   (currentSubscriberOrgId, teamById, teamIdsBySubscriberOrgId, teamRoomById, teamRoomIdsByTeamId) => {

@@ -69,7 +69,8 @@ const possibleIntegrations = {
   },
   salesforce: {
     label: 'Salesforce',
-    logo: salesforceLogo
+    logo: salesforceLogo,
+    isSupported: true
   },
   dropbox: {
     label: 'Dropbox',

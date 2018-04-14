@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Switch } from 'antd';
 import classNames from 'classnames';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import imageSrcFromFileExtension from 'lib/imageFiles';
 import SharingSettings from '../SharingSettings';
 import Avatar from '../common/Avatar';
@@ -96,15 +97,15 @@ class Tree extends Component {
     node.showSharingSettings = node.showSharingSettings || false; // eslint-disable-line no-param-reassign
     let shareIcon;
     if (node.showSharingSettings) {
-      shareIcon = 'fa-angle-down';
+      shareIcon = 'angle-down';
     } else {
-      shareIcon = 'fa-angle-right';
+      shareIcon = 'angle-right';
     }
 
     return (
       <div className="node-sharing-details">
         {String.t('integrationDetailsPage.sharing.editSharingDetails')}
-        <a onClick={e => this.onShareSettingsClick(e, node)}><i className={`fas ${shareIcon} node-sharing-details-icon`} /></a>
+        <a onClick={e => this.onShareSettingsClick(e, node)}><FontAwesomeIcon icon={shareIcon} size="2x" className="node-sharing-details-icon" /></a>
       </div>
     );
   }
@@ -190,9 +191,9 @@ class Tree extends Component {
           />
         );
       } else {
-        const shareIcon = 'fa-check-circle';
+        const shareIcon = 'check-circle';
         const onOff = (sharedChecked) ? 'node-share-yes' : 'node-share-no';
-        selectionField = (<a onClick={() => this.onShareChange(!sharedChecked, nodeDetails)}><i className={`fas ${shareIcon} fa-2x ${onOff}`} /></a>);
+        selectionField = (<a onClick={() => this.onShareChange(!sharedChecked, nodeDetails)}><FontAwesomeIcon icon={shareIcon} size="2x" className={onOff} /></a>);
       }
 
       return (

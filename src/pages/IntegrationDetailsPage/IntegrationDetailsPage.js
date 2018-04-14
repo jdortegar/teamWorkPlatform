@@ -361,7 +361,7 @@ class IntegrationDetailsPage extends Component {
             customText={customText}
             secondaryTree={secondaryTree}
             shareWithIds={primaryTree.shareWithIds}
-            parentNode={{ id: 'ROOT' }}
+            parentNode={{ id: 'ROOT' }} // Parent is node in other tree.
             collapsible
           />
         }

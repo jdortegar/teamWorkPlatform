@@ -46,6 +46,8 @@
     "lint-staged": "^4.3.0"
   },
   "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.5",
+    "@fortawesome/react-fontawesome": "0.0.18",
     "antd": "^3.4.1",
     "autoprefixer": "^7.2.6",
     "axios": "^0.16.2",
