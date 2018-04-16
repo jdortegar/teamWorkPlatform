@@ -1,6 +1,14 @@
 .sharing-settings {
   border-top: 1px solid #eee;
 }
+.sharing-settings img {
+	width: 25px;
+	height: 25px;
+}
+.sharing-settings-boxed {
+  border-left: 1px solid #eee;
+  padding-left: 20px
+}
 .sharing-settings-boxed .sharing-settings {
   border-top: none;
 }
@@ -9,9 +17,7 @@
 }
 .sharing-settings .ant-collapse-content-box {
 	padding-top: 0;
-}
-.sharing-settings .ant-radio-group {
-	margin-bottom: 10px;
+	padding-bottom: 5px;
 }
 .integration-settings-title-label {
 	margin: 20px 0 5px 0;
@@ -38,4 +44,7 @@
 }
 .node-filler {
   flex-grow: 1;
+}
+.TeamAndTeamRoomList {
+	margin-top: 10px;
 }

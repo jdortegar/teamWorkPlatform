@@ -65,20 +65,22 @@ class SharingSettings extends Component {
           <br />
           <Radio value="custom">{this.props.customText}</Radio>
         </RadioGroup>
-        {
-          ((this.props.collapsible) && (this.state.share === 'custom')) &&
-          <div>
-            <div className="habla-label integration-settings-title-label">{this.props.integrationType} {String.t('integrationDetailsPage.sharing.foldersAndFiles')}</div>
-          </div>}
-        {
-          (this.state.share === 'custom') &&
-          <Tree
-            primaryTree={primaryTree}
-            secondaryTree={secondaryTree}
-            parentNode={this.props.parentNode}
-            shareWithIds={this.props.shareWithIds}
-          />
-        }
+        <div className="TeamAndTeamRoomList">
+          {
+            ((this.props.collapsible) && (this.state.share === 'custom')) &&
+            <div>
+              <div className="habla-label integration-settings-title-label">{this.props.integrationType} {String.t('integrationDetailsPage.sharing.foldersAndFiles')}</div>
+            </div>}
+          {
+            (this.state.share === 'custom') &&
+            <Tree
+              primaryTree={primaryTree}
+              secondaryTree={secondaryTree}
+              parentNode={this.props.parentNode}
+              shareWithIds={this.props.shareWithIds}
+            />
+          }
+        </div>
       </div>
     );
   }
