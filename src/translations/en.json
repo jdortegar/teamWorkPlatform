@@ -463,11 +463,11 @@
        "all": "Share all information in all Teams and Team Rooms",
        "custom": "Select what to share in specific Teams or Team Rooms",
        "foldersAndFiles": "Folders and Files",
-       "editSharingDetails": "EDIT SHARING DETAILS",
+       "editSharingDetails": "Edit Sharing Details",
        "yes": "YES",
        "no": "NO",
-       "shareInAllTeamsAndRooms": "SHARE IN ALL TEAMS AND TEAM ROOMS",
-       "shareInSpecificTeamsAndRooms": "SHARE ONLY ON SPECIFIC TEAMS AND TEAM ROOMS"
+       "shareInAllTeamsAndRooms": "Share in All Teams and Team Rooms",
+       "shareInSpecificTeamsAndRooms": "Share only on specific Teams and Team Rooms"
      }
   },
   "integrationsPage": {

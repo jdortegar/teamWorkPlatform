@@ -68,8 +68,7 @@ class SharingSettings extends Component {
         {
           ((this.props.collapsible) && (this.state.share === 'custom')) &&
           <div>
-            <br />
-            <span>{this.props.integrationType} {String.t('integrationDetailsPage.sharing.foldersAndFiles')}</span>
+            <div className="habla-label integration-settings-title-label">{this.props.integrationType} {String.t('integrationDetailsPage.sharing.foldersAndFiles')}</div>
           </div>}
         {
           (this.state.share === 'custom') &&
@@ -90,7 +89,6 @@ class SharingSettings extends Component {
     if (this.props.collapsible) {
       content = (
         <div className="sharing-settings">
-          <hr />
           <Collapse bordered>
             <Panel
               header={<SimpleHeader text={String.t('integrationDetailsPage.sharing.settings')} />}

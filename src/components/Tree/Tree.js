@@ -104,8 +104,10 @@ class Tree extends Component {
 
     return (
       <div className="node-sharing-details">
-        {String.t('integrationDetailsPage.sharing.editSharingDetails')}
-        <a onClick={e => this.onShareSettingsClick(e, node)}><FontAwesomeIcon icon={shareIcon} size="2x" className="node-sharing-details-icon" /></a>
+        <a onClick={e => this.onShareSettingsClick(e, node)}>
+          {String.t('integrationDetailsPage.sharing.editSharingDetails')}
+          <FontAwesomeIcon icon={shareIcon} size="2x" className="node-sharing-details-icon" />
+        </a>
       </div>
     );
   }
@@ -198,7 +200,7 @@ class Tree extends Component {
 
       return (
         <div key={node.id}>
-          <div className="node" key={node.id}>
+          <div className="node integration-sharing-node" key={node.id}>
             <div className="node-icon">{icon}</div>
             <div className="node-info"><span className="node-name">{nodeName}</span> &nbsp;{childCount}</div>
             <div className="node-filler" />
@@ -209,7 +211,6 @@ class Tree extends Component {
           </div>
           {(((shared === SharingTypes.ALL) || (shared === SharingTypes.SOME)) && (nodeDetails.showSharingSettings)) && this.renderSharingSettings(nodeDetails)}
           {((node.children) && (node.children.length > 0) && (nodeDetails.expanded)) && this.renderBoxedNodes(node.children, tree)}
-          <hr />
         </div>
       );
     });

@@ -1,7 +1,6 @@
 .nodes-boxed {
   margin-left: 10px;
 }
-
 .node {
   display: flex;
   justify-content: space-around;
@@ -9,61 +8,49 @@
   flex-wrap: nowrap;
   align-items: center;
 }
-
-.node-icon {
-  margin: 5px;
-}
-
 .node-icon-file {
   position: absolute;
   margin-top: -4px;
 }
-
 .node-icon-color {
   color: #ccc;
 }
-
-.node-info {
-
-}
-
 .node-name {
   font-weight: bold;
 }
-
 .node-child-count {
 }
-
 .node-filler {
   flex-grow: 1;
 }
-
 .node-sharing-details {
   color: #ccc;
   font-size: .75em;
   margin-right: 20px;
   display: flex;
   align-items: center;
+  text-transform: uppercase;
 }
-
 .node-sharing-details-icon {
   color: #ccc;
   margin-left: 5px;
   font-size: 1.2em;
 }
-
+.node-sharing-details a {
+  color: #ccc;
+}
+.node-sharing-details a:hover {
+  color: #999;
+}
 .node-share {
 }
-
 .node-share-no {
   color: #ccc;
 }
-
 .node-share-yes {
-  color: #008c3f;
+  color: #32A953;
 }
-
 .sharing-settings-boxed {
-  margin-left: 15px;
-  background-color: #eee;
+  margin: 0 0 10px 20px;
+  
 }

@@ -821,7 +821,8 @@ ul.ant-menu li.ant-menu-submenu:hover {
 .ant-collapse > .ant-collapse-item > .ant-collapse-header {
   padding: 0 0 0 40px;
 }
-.ant-collapse-borderless > .ant-collapse-item {
+.ant-collapse > .ant-collapse-item
+, .ant-collapse-borderless > .ant-collapse-item {
   border-bottom: 1px solid #eee!important;
 }
 .team-room__chat-input .ant-form-item {

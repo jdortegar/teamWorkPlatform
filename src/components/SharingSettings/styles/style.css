@@ -1,7 +1,21 @@
 .sharing-settings {
-  margin: 5px;
+  border-top: 1px solid #eee;
 }
-
+.sharing-settings-boxed .sharing-settings {
+  border-top: none;
+}
+.sharing-settings .ant-collapse {
+	background: #fff;
+}
+.sharing-settings .ant-collapse-content-box {
+	padding-top: 0;
+}
+.sharing-settings .ant-radio-group {
+	margin-bottom: 10px;
+}
+.integration-settings-title-label {
+	margin: 20px 0 5px 0;
+}
 .node {
   display: flex;
   justify-content: space-around;
@@ -9,30 +23,19 @@
   flex-wrap: nowrap;
   align-items: center;
 }
-
-.node-icon {
-  margin: 5px;
+.integration-sharing-node {
+	border-top: 1px solid #eee;
+	padding: 8px 0;
 }
-
 .node-icon-color {
   color: #ccc;
 }
-
-.node-info {
-
-}
-
 .node-name {
   font-weight: bold;
+  margin-left: 10px;
 }
-
 .node-child-count {
 }
-
 .node-filler {
   flex-grow: 1;
-}
-
-.node-share {
-
 }
