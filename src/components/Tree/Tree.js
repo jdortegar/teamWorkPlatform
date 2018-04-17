@@ -193,8 +193,8 @@ class Tree extends Component {
           />
         );
       } else {
-        const shareIcon = 'check-circle';
-        const onOff = (sharedChecked) ? 'node-share-yes' : 'node-share-no';
+        // const shareIcon = 'check-circle';
+        // const onOff = (sharedChecked) ? 'node-share-yes' : 'node-share-no';
         selectionField = (<a onClick={() => this.onShareChange(!sharedChecked, nodeDetails)}><i className="fa fa-angle-right fa-2x" /></a>);
       }
 
