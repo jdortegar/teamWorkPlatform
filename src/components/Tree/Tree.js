@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Switch } from 'antd';
 import classNames from 'classnames';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+// import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import imageSrcFromFileExtension from 'lib/imageFiles';
 import SharingSettings from '../SharingSettings';
 import Avatar from '../common/Avatar';
@@ -106,7 +106,7 @@ class Tree extends Component {
       <div className="node-sharing-details">
         <a onClick={e => this.onShareSettingsClick(e, node)}>
           {String.t('integrationDetailsPage.sharing.editSharingDetails')}
-          <FontAwesomeIcon icon={shareIcon} size="2x" className="node-sharing-details-icon" />
+          <i className="fas fa-clone" />
         </a>
       </div>
     );
@@ -141,7 +141,7 @@ class Tree extends Component {
       const nodeDetails = tree.nodesById[node.id];
       let icon;
       if (nodeDetails.type === 'FOLDER') {
-        icon = (<a onClick={e => this.onNodeClick(e, node.id, tree)}><i className="fas fa-folder fa-2x node-icon-color" /></a>);
+        icon = (<a onClick={e => this.onNodeClick(e, node.id, tree)}><i className="fa fa-angle-down fa-2x" /></a>);
       } else if (nodeDetails.type === 'TEAM') {
         const initials = getInitials(nodeDetails.name);
         const className = classNames({ 'opacity-low': !nodeDetails.active });
@@ -195,7 +195,7 @@ class Tree extends Component {
       } else {
         const shareIcon = 'check-circle';
         const onOff = (sharedChecked) ? 'node-share-yes' : 'node-share-no';
-        selectionField = (<a onClick={() => this.onShareChange(!sharedChecked, nodeDetails)}><FontAwesomeIcon icon={shareIcon} size="2x" className={onOff} /></a>);
+        selectionField = (<a onClick={() => this.onShareChange(!sharedChecked, nodeDetails)}><i className="fa fa-angle-right fa-2x" /></a>);
       }
 
       return (
