@@ -470,7 +470,7 @@ class Sidebar extends Component {
               {/* <span className="sidebar-label-number-badge">23</span> */}
             </span>
           </div>
-          <div className="sidebar-direct-messages-content padding-class-a">
+          <div className="sidebar-direct-messages-content">
             {orgSubscribers.map(subscriber => renderSubscriberAvatar(subscriber))}
             <Tooltip placement="topLeft" title={String.t('sideBar.newDirectMessageTooltip')} arrowPointAtCenter>
               <a>

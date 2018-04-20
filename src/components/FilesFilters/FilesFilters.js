@@ -65,7 +65,9 @@ const FilesFilters = ({
             {fileTypes.length}
           </span>
         )}
-        {String.t('ckgPage.filterTypes', { count: fileTypes.length })}
+        <div className="FilesFilters__dataTypes__text">
+          {String.t('ckgPage.filterTypes', { count: fileTypes.length })}
+        </div>
       </div>
       {fileTypes.map(({ key, count, label, fileExtension }) => (
         <FileTypeFilter

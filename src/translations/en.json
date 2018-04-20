@@ -463,9 +463,10 @@
        "all": "Share all information in all Teams and Team Rooms",
        "custom": "Select what to share in specific Teams or Team Rooms",
        "foldersAndFiles": "Folders and Files",
+       "selectAll": "Select All",
        "editSharingDetails": "Edit Sharing Details",
-       "yes": "YES",
-       "no": "NO",
+       "yes": "ON",
+       "no": "OFF",
        "shareInAllTeamsAndRooms": "Share in All Teams and Team Rooms",
        "shareInSpecificTeamsAndRooms": "Share only on specific Teams and Team Rooms"
      }

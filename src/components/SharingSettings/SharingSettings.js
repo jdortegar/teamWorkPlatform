@@ -69,7 +69,12 @@ class SharingSettings extends Component {
           {
             ((this.props.collapsible) && (this.state.share === 'custom')) &&
             <div>
-              <div className="habla-label integration-settings-title-label">{this.props.integrationType} {String.t('integrationDetailsPage.sharing.foldersAndFiles')}</div>
+              <div className="habla-label integration-settings-title-label">
+                {this.props.integrationType} {String.t('integrationDetailsPage.sharing.foldersAndFiles')}
+              </div>
+              <div className="habla-label integration-settings-sellect-all-label">
+                <a>{String.t('integrationDetailsPage.sharing.selectAll')}</a>
+              </div>
             </div>}
           {
             (this.state.share === 'custom') &&

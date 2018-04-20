@@ -42,7 +42,8 @@
 .node-sharing-details a:hover {
   color: #999;
 }
-.node-share {
+.node-sharing-details svg {
+	margin-left: 8px;
 }
 .node-share-no {
   color: #ccc;
@@ -51,6 +52,9 @@
   color: #32A953;
 }
 .sharing-settings-boxed {
-  margin: 0 0 18px 15px;
-  
+  margin: 0 0 18px 13px;
+}
+.integration-sharing-node a
+, .integration-sharing-node a:hover {
+  color: #ccc; 
 }

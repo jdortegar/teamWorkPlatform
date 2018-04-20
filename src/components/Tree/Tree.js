@@ -95,18 +95,12 @@ class Tree extends Component {
 
   renderSharingLink(node) {
     node.showSharingSettings = node.showSharingSettings || false; // eslint-disable-line no-param-reassign
-    let shareIcon;
-    if (node.showSharingSettings) {
-      shareIcon = 'angle-down';
-    } else {
-      shareIcon = 'angle-right';
-    }
 
     return (
       <div className="node-sharing-details">
         <a onClick={e => this.onShareSettingsClick(e, node)}>
           {String.t('integrationDetailsPage.sharing.editSharingDetails')}
-          <i className="fas fa-clone" />
+          <i className="fas fa-angle-right" />
         </a>
       </div>
     );
@@ -141,7 +135,7 @@ class Tree extends Component {
       const nodeDetails = tree.nodesById[node.id];
       let icon;
       if (nodeDetails.type === 'FOLDER') {
-        icon = (<a onClick={e => this.onNodeClick(e, node.id, tree)}><i className="fa fa-angle-down fa-2x" /></a>);
+        icon = (<a onClick={e => this.onNodeClick(e, node.id, tree)}><i className="fa fa-folder fa-2x" /></a>);
       } else if (nodeDetails.type === 'TEAM') {
         const initials = getInitials(nodeDetails.name);
         const className = classNames({ 'opacity-low': !nodeDetails.active });
@@ -195,7 +189,7 @@ class Tree extends Component {
       } else {
         // const shareIcon = 'check-circle';
         // const onOff = (sharedChecked) ? 'node-share-yes' : 'node-share-no';
-        selectionField = (<a onClick={() => this.onShareChange(!sharedChecked, nodeDetails)}><i className="fa fa-angle-right fa-2x" /></a>);
+        selectionField = (<a onClick={() => this.onShareChange(!sharedChecked, nodeDetails)}><i className="fas fa-check-circle fa-2x" /></a>);
       }
 
       return (
