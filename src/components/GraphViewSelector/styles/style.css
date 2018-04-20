@@ -1,0 +1,17 @@
+.graphViewSelectorLink {
+  border: 1px solid #eee;
+  padding: 5px 6px;
+  border-radius: 4px;
+  margin-right: 6px;
+}
+.graphViewSelectorLink:hover {
+  border: 1px solid #ddd;
+}
+.graphViewSelectorLink .fa-chevron-down {
+  font-size: 9px;
+  font-weight: 300;
+  margin-left: 0;
+  margin-right: 3px;
+  position: relative;
+  top: -2px;
+}
