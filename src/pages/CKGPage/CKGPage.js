@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Menu, Dropdown } from 'antd';
 import * as d3 from 'd3';
+
 import { integrationKeyFromFile } from 'utils/dataIntegrations';
 import {
   FilesFilters,
   NewSubpageHeader,
   TimeActivityGraph,
+  GraphViewSelector,
   GraphActivitySelector,
   GraphZoomActions,
   TeamPicker,
@@ -17,7 +18,6 @@ import { primaryAtTop } from 'redux-hablaai/selectors/helpers';
 import String from 'translations';
 import './styles/style.css';
 
-const SubMenu = Menu.SubMenu;
 const color = d3.scaleOrdinal(d3.schemeCategory10);
 const buildTime = dateTime => moment().startOf('day').set({
   hour: dateTime.hour(),
@@ -190,40 +190,11 @@ class CKGPage extends Component {
       return !excludeTypesFilter[label] && !excludeIntegrationsFilter[key];
     });
 
-    const graphSelector = (
-      <Menu>
-        <Menu.Item key="graphSelector">
-          <div className="habla-label padding-class-a">{String.t('graphViewsSelector.label')}</div>
-        </Menu.Item>
-        <Menu.Item key="graphViewCKG">
-          <a><span><i className="fas fa-chart-area" /> {String.t('graphViewsSelector.ckg')}</span></a>
-        </Menu.Item>
-        <Menu.Item key="fileLineage">
-          <a><span><i className="fas fa-clone" /> {String.t('graphViewsSelector.fileLineage')}</span></a>
-        </Menu.Item>
-        <Menu.Item key="conceptMap">
-          <a><span><i className="fas fa-bullseye" /> {String.t('graphViewsSelector.conceptMap')}</span></a>
-        </Menu.Item>
-        <SubMenu title={String.t('graphViewsSelector.dashboard')}>
-          <div className="habla-label padding-class-a">{String.t('graphViewsSelector.dashboardLabel')}</div>
-          <Menu.Item><a><span><i className="fas fa-chart-bar" /> {String.t('graphViewsSelector.cpg')}</span></a></Menu.Item>
-          <Menu.Item><a><span><i className="fas fa-chart-bar" /> {String.t('graphViewsSelector.electronics')}</span></a></Menu.Item>
-          <Menu.Item><a><span><i className="fas fa-chart-bar" /> {String.t('graphViewsSelector.manufacturing')}</span></a></Menu.Item>
-          <Menu.Item><a><span><i className="fas fa-chart-bar" /> {String.t('graphViewsSelector.retail')}</span></a></Menu.Item>
-        </SubMenu>
-      </Menu>
-    );
-
     return (
       <div className="CKGPage">
         <NewSubpageHeader>
           <div className="habla-main-content-header-title">
-            <Dropdown overlay={graphSelector} trigger={['click']}>
-              <a className="graphViewSelectorLink">
-                <i className="fas fa-chart-area fa-2x" />
-                <i className="fas fa-chevron-down" />
-              </a>
-            </Dropdown>
+            <GraphViewSelector />
             <div className="habla-title">
               <div className="habla-title-responsive">{String.t('ckgPage.titleResponsive')}</div>
               <div className="habla-title-normal">{String.t('ckgPage.title')}</div>

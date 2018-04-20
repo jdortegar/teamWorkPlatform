@@ -636,6 +636,9 @@
     },
     "filterTypeOther": "Other"
   },
+  "dashboardPage": {
+    "title": "Dashboard"
+  },
   "setNewPassword": {
     "submitLabel": "Next",
     "passwordChangedToastMessage": "Your password is changed. Please sign in using your new password.",

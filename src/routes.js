@@ -35,6 +35,7 @@ export const routesPaths = {
   member: '/app/teamMember/:teamMemberId',
   notifications: '/app/notifications',
   bookmarks: '/app/bookmarks/:subscriberOrgId',
+  dashboard: '/app/dashboard',
   search: '/app/search',
   ckg: '/app/ckg/:subscriberOrgId'
 };
