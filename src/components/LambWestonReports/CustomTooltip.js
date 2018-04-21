@@ -11,6 +11,7 @@ const CustomTooltip = (props) => {
     <VictoryTooltip
       {...props}
       text={text}
+      style={{ padding: 5 }}
     />
   );
 };

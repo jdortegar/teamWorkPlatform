@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   VictoryChart,
   VictoryLine,
@@ -44,63 +44,82 @@ const filters = Object.keys(data).map((item, index) => ({ label: item, color: CO
 
 const VictoryZoomVoronoiContainer = createContainer('zoom', 'voronoi');
 
-const ReportB = () => (
-  <div className="ReportB">
-    <VictoryChart
-      scale={{ x: 'time' }}
-      width={1200}
-      height={850}
-      domainPadding={{ x: 50 }}
-      domain={{ y: [0, 24] }}
-      style={styles.container}
-      containerComponent={
-        <VictoryZoomVoronoiContainer
-          zoomDimension="x"
-          voronoiDimension="x"
-          minimumZoom={{ x: MINIMUM_ZOOM }}
-          labels={d => `${d.key}: ${d.y.toFixed(2)}`}
-          labelComponent={<CustomTooltip />}
-        />
-      }
-    >
-      <VictoryAxis
-        style={{
-          axis: styles.lines,
-          tickLabels: styles.tickLabels,
-          axisLabel: styles.axisLabel,
-          grid: styles.hidden
-        }}
-      />
-      <VictoryAxis
-        dependentAxis
-        tickLabelComponent={
-          <VictoryLabel
-            lineHeight={1.3}
-            style={styles.compoundTickLabels}
-          />
-        }
-        style={{
-          axis: styles.hidden,
-          grid: styles.lines
-        }}
-      />
-      <VictoryGroup offset={10}>
-        {_.map(data, (value, key) => (
-          <VictoryLine
-            key={key}
-            data={value}
+class ReportB extends Component {
+  state = {
+    excludeFilter: {}
+  }
+
+  handleFilterClick = (key) => {
+    const { excludeFilter } = this.state;
+    this.setState({ excludeFilter: { ...excludeFilter, [key]: excludeFilter[key] ? null : true } });
+  }
+
+  render() {
+    const filteredData = _.omitBy(data, (value, key) => this.state.excludeFilter[key]);
+
+    return (
+      <div className="ReportB">
+        <VictoryChart
+          scale={{ x: 'time' }}
+          width={1200}
+          height={850}
+          domainPadding={{ x: 50 }}
+          domain={{ y: [0, 24] }}
+          style={styles.container}
+          containerComponent={
+            <VictoryZoomVoronoiContainer
+              zoomDimension="x"
+              voronoiDimension="x"
+              minimumZoom={{ x: MINIMUM_ZOOM }}
+              labels={d => `${d.key}: ${d.y.toFixed(2)}`}
+              labelComponent={<CustomTooltip />}
+            />
+          }
+        >
+          <VictoryAxis
             style={{
-              data: { stroke: _.find(filters, ({ label }) => label === key).color }
+              axis: styles.lines,
+              tickLabels: styles.tickLabels,
+              axisLabel: styles.axisLabel,
+              grid: styles.hidden
             }}
           />
-        ))}
-      </VictoryGroup>
-    </VictoryChart>
+          <VictoryAxis
+            dependentAxis
+            tickLabelComponent={
+              <VictoryLabel
+                lineHeight={1.3}
+                style={styles.compoundTickLabels}
+              />
+            }
+            style={{
+              axis: styles.hidden,
+              grid: styles.lines
+            }}
+          />
+          <VictoryGroup offset={10}>
+            {_.map(filteredData, (value, key) => (
+              <VictoryLine
+                key={key}
+                data={value}
+                style={{
+                  data: { stroke: _.find(filters, ({ label }) => label === key).color }
+                }}
+              />
+            ))}
+          </VictoryGroup>
+        </VictoryChart>
 
-    <div className="ReportB__bottomBar">
-      <AssetsFilters assets={filters} />
-    </div>
-  </div>
-);
+        <div className="ReportB__bottomBar">
+          <AssetsFilters
+            assets={filters}
+            excludeFilter={this.state.excludeFilter}
+            onFilterClick={this.handleFilterClick}
+          />
+        </div>
+      </div>
+    );
+  }
+}
 
 export default ReportB;
