@@ -19,9 +19,6 @@
 	padding-top: 0;
 	padding-bottom: 5px;
 }
-.integration-settings-title-label {
-	margin: 20px 0 5px 0;
-}
 .node {
   display: flex;
   justify-content: space-around;
@@ -47,4 +44,14 @@
 }
 .TeamAndTeamRoomList {
 	margin-top: 10px;
+}
+.integrationTitleLabelContainer {
+	margin: 20px 0 5px 0;
+	width: 100%;
+}
+.integration-settings-title-label {
+	float: left;
+}
+.integration-settings-sellect-all-label {
+	float: right;
 }

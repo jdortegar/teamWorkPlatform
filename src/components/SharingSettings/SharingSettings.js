@@ -68,13 +68,14 @@ class SharingSettings extends Component {
         <div className="TeamAndTeamRoomList">
           {
             ((this.props.collapsible) && (this.state.share === 'custom')) &&
-            <div>
+            <div className="integrationTitleLabelContainer">
               <div className="habla-label integration-settings-title-label">
                 {this.props.integrationType} {String.t('integrationDetailsPage.sharing.foldersAndFiles')}
               </div>
               <div className="habla-label integration-settings-sellect-all-label">
                 <a>{String.t('integrationDetailsPage.sharing.selectAll')}</a>
               </div>
+              <div className="clear" />
             </div>}
           {
             (this.state.share === 'custom') &&
