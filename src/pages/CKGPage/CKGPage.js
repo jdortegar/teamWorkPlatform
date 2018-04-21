@@ -180,9 +180,10 @@ class CKGPage extends Component {
   }
 
   render() {
-    if (!this.props.timeActivities || !this.props.timeActivities.files) return null;
+    const { timeActivities, currentSubscriberOrgId } = this.props;
+    if (!timeActivities || !timeActivities.files) return null;
 
-    const { files } = this.props.timeActivities;
+    const { files } = timeActivities;
     const { excludeTypesFilter, excludeIntegrationsFilter } = this.state;
     const filesFiltered = files.filter((file) => {
       const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
@@ -194,7 +195,7 @@ class CKGPage extends Component {
       <div className="CKGPage">
         <NewSubpageHeader>
           <div className="habla-main-content-header-title">
-            <GraphViewSelector />
+            <GraphViewSelector currentSubscriberOrgId={currentSubscriberOrgId} />
             <div className="habla-title">
               <div className="habla-title-responsive">{String.t('ckgPage.titleResponsive')}</div>
               <div className="habla-title-normal">{String.t('ckgPage.title')}</div>

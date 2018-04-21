@@ -638,7 +638,8 @@
     "filterTypeOther": "Other"
   },
   "dashboardPage": {
-    "title": "Dashboard"
+    "breadcrumb": "Dashboard",
+    "dailyPlantUptimeBreadcrumb": "Daily Plant Uptime By Line and String"
   },
   "setNewPassword": {
     "submitLabel": "Next",

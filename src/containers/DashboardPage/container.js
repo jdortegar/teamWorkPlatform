@@ -2,5 +2,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import DashboardPage from 'pages/DashboardPage';
+import { getCurrentSubscriberOrgId } from 'selectors';
 
-export default withRouter(connect()(DashboardPage));
+const mapStateToProps = state => ({
+  currentSubscriberOrgId: getCurrentSubscriberOrgId(state)
+});
+
+export default withRouter(connect(mapStateToProps)(DashboardPage));
