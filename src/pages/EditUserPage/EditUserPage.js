@@ -182,7 +182,7 @@ class EditUserPage extends Component {
               </div>
             </Panel>
           </Collapse>
-          <div className="edit-org__buttons border-top-lighter margin-top-class-b">
+          <div className="edit-org__buttons margin-top-class-b">
             <Button
               type="secondary"
               fitText

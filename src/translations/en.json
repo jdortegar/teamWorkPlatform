@@ -423,6 +423,7 @@
     "changeAvatarTitle": "Change Avatar",
     "saveButtonLabel": "Save",
     "teamName": "Team Name",
+    "teamRoomName": "Team Room Name",
     "setActive": "Set Active",
     "setInactive": "Set Inactive",
     "activeState": "Active",
