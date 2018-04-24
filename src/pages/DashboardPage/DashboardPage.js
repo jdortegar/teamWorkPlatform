@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { NewSubpageHeader, GraphViewSelector, LambWestonReports } from 'components';
 import String from 'translations';
+import './styles/style.css';
 
 const DashboardPage = ({ currentSubscriberOrgId }) => (
   <div className="DashboardPage">
@@ -21,7 +22,7 @@ const DashboardPage = ({ currentSubscriberOrgId }) => (
       </div>
     </NewSubpageHeader>
 
-    <div>
+    <div className="DashboardPage__reports">
       <LambWestonReports.ReportB />
     </div>
   </div>

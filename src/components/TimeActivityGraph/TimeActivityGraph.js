@@ -146,11 +146,9 @@ class TimeActivityGraph extends Component {
   }
 
   renderTooltipViews() {
-    const { /* width, height, */ offsetLeft, offsetTop, tooltipPoint } = this.state;
+    const { offsetLeft, offsetTop, tooltipPoint } = this.state;
     const { x, y, datum } = tooltipPoint;
     const { date, fileName, fileSize } = datum;
-    //  const top = offsetTop + (height - y) + 4;
-    //  const left = -offsetLeft + -CHART_PADDING + (width - x) + (isChrome() ? 102 : -136);
     const top = y - offsetTop;
     const left = x - (offsetLeft - CHART_PADDING);
     const displayDate = moment(date).format(String.t('timeActivityGraph.dateFormat'));
@@ -163,17 +161,6 @@ class TimeActivityGraph extends Component {
         className="tooltipOverlay"
         style={{ left, top }}
       >
-        {/* <div
-          data-tip
-          data-for="global"
-          className="tooltip"
-          style={{
-            position: 'absolute',
-            left: offsetLeft,
-            width,
-            height
-          }}
-        /> */}
         <div className="tooltipContainer">
           <img src={imgSrc} alt="" width={32} height={32} className="img" />
           <div className="tooltipTextContainer">
