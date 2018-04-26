@@ -446,7 +446,9 @@ p {
   background: #888!important;
   color: #fff!important;
 }
-
+.DashboardPage {
+	display: inherit!important;
+}
 
 
 /* Standard Margin and Padding Classes */

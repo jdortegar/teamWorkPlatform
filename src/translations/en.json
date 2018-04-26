@@ -171,6 +171,7 @@
   "cardViewTitle": "Card View",
   "listViewTitle": "Details View",
   "OrganizationPage": {
+	"title": "Manage Organization", 
     "newButtonLabel": "New",
     "boxIntegrationLabel": "Box",
     "addNewTeam": "Add New Team",
@@ -318,7 +319,7 @@
     "iconCKGTooltip": "CKG",
     "iconNotificationsTooltip": "Notifications",
     "iconBookmarksTooltip": "Bookmarks",
-    "iconSettingsTooltip": "Edit Organization"
+    "iconSettingsTooltip": "Manage Organization"
   },
   "timeActivityGraph": {
     "yAxisLabel": "Activity",

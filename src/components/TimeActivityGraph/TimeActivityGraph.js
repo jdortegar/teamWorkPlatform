@@ -33,8 +33,8 @@ const defaultProps = {
 // chart size properties
 const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
-const CHART_PADDING = 50;
-const DOMAIN_TOP_PADDING = 20;
+const CHART_PADDING = 0;
+const DOMAIN_TOP_PADDING = 0;
 
 // from Victory. Increasing this number restrains the zoom level
 const MINIMUM_ZOOM = 10000;
@@ -200,7 +200,7 @@ class TimeActivityGraph extends Component {
           domainPadding={{ y: [DOMAIN_TOP_PADDING, 0] }}
           width={this.state.width - CHART_PADDING}
           height={this.state.height - CHART_PADDING}
-          padding={styles.chart.padding}
+          padding={{ top: 0, left: 0, right: 0, bottom: 60 }}
           style={styles.container}
           containerComponent={
             <VictoryZoomContainer
@@ -227,7 +227,6 @@ class TimeActivityGraph extends Component {
           <VictoryAxis
             invertAxis
             dependentAxis
-            label={String.t('timeActivityGraph.yAxisLabel')}
             tickFormat={() => null}
             style={{
               axis: styles.lines,
