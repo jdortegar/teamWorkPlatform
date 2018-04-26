@@ -15,6 +15,10 @@ import CustomTooltip from './CustomTooltip';
 import styles, { COLORS } from './styles/style';
 import './styles/style.css';
 
+// chart size properties
+const MIN_WIDTH = 400;
+const MIN_HEIGHT = 300;
+const CHART_PADDING = 50;
 const MINIMUM_ZOOM = 500000000;
 
 // simulate API data
@@ -46,7 +50,26 @@ const VictoryZoomVoronoiContainer = createContainer('zoom', 'voronoi');
 
 class ReportB extends Component {
   state = {
-    excludeFilter: {}
+    excludeFilter: {},
+    width: MIN_WIDTH,
+    height: MIN_HEIGHT
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.updateDimensions.bind(this));
+    this.updateDimensions();
+  }
+
+  container = null;
+
+  updateDimensions() {
+    if (!this.container || !this.container.parentNode) return;
+    const { clientWidth, clientHeight } = this.container.parentNode;
+
+    this.setState({
+      width: Math.max(clientWidth, MIN_WIDTH),
+      height: Math.max(clientHeight, MIN_HEIGHT)
+    });
   }
 
   handleFilterClick = (key) => {
@@ -58,59 +81,65 @@ class ReportB extends Component {
     const filteredData = _.omitBy(data, (value, key) => this.state.excludeFilter[key]);
 
     return (
-      <div className="ReportB">
-        <VictoryChart
-          scale={{ x: 'time' }}
-          width={1200}
-          height={850}
-          domainPadding={{ x: 50 }}
-          domain={{ y: [0, 24] }}
-          style={styles.container}
-          containerComponent={
-            <VictoryZoomVoronoiContainer
-              zoomDimension="x"
-              voronoiDimension="x"
-              minimumZoom={{ x: MINIMUM_ZOOM }}
-              labels={d => `${d.key}: ${d.y.toFixed(2)}`}
-              labelComponent={<CustomTooltip />}
-            />
-          }
+      <div className="Report__container">
+        <div
+          className="ReportB"
+          ref={(node) => { this.container = node; }}
+          style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
-          <VictoryAxis
-            style={{
-              axis: styles.lines,
-              tickLabels: styles.tickLabels,
-              axisLabel: styles.axisLabel,
-              grid: styles.hidden
-            }}
-          />
-          <VictoryAxis
-            dependentAxis
-            tickLabelComponent={
-              <VictoryLabel
-                lineHeight={1.3}
-                style={styles.compoundTickLabels}
+          <VictoryChart
+            scale={{ x: 'time' }}
+            width={this.state.width - CHART_PADDING}
+            height={this.state.height - CHART_PADDING}
+            domainPadding={{ x: CHART_PADDING }}
+            domain={{ y: [0, 24] }}
+            style={styles.container}
+            containerComponent={
+              <VictoryZoomVoronoiContainer
+                zoomDimension="x"
+                voronoiDimension="x"
+                minimumZoom={{ x: MINIMUM_ZOOM }}
+                labels={d => `${d.key}: ${d.y.toFixed(2)}`}
+                labelComponent={<CustomTooltip />}
               />
             }
-            style={{
-              axis: styles.hidden,
-              grid: styles.lines
-            }}
-          />
-          <VictoryGroup offset={10}>
-            {_.map(filteredData, (value, key) => (
-              <VictoryLine
-                key={key}
-                data={value}
-                style={{
-                  data: { stroke: _.find(filters, ({ label }) => label === key).color }
-                }}
-              />
-            ))}
-          </VictoryGroup>
-        </VictoryChart>
+          >
+            <VictoryAxis
+              style={{
+                axis: styles.lines,
+                tickLabels: styles.tickLabels,
+                axisLabel: styles.axisLabel,
+                grid: styles.hidden
+              }}
+            />
+            <VictoryAxis
+              dependentAxis
+              tickLabelComponent={
+                <VictoryLabel
+                  lineHeight={1.3}
+                  style={styles.compoundTickLabels}
+                />
+              }
+              style={{
+                axis: styles.hidden,
+                grid: styles.lines
+              }}
+            />
+            <VictoryGroup offset={10}>
+              {_.map(filteredData, (value, key) => (
+                <VictoryLine
+                  key={key}
+                  data={value}
+                  style={{
+                    data: { stroke: _.find(filters, ({ label }) => label === key).color }
+                  }}
+                />
+              ))}
+            </VictoryGroup>
+          </VictoryChart>
+        </div>
 
-        <div className="ReportB__bottomBar">
+        <div className="Report__bottomBar">
           <AssetsFilters
             assets={filters}
             excludeFilter={this.state.excludeFilter}
