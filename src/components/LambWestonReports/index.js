@@ -1,4 +1,7 @@
-import ReportA from './ReportA';
-import ReportB from './ReportB';
+import DowntimeAndReasonsLevelOne from './DowntimeAndReasonsLevelOne';
+import DailyPlantUptimeByLineAndString from './DailyPlantUptimeByLineAndString';
 
-export default { ReportA, ReportB };
+export default {
+  DowntimeAndReasonsLevelOne,
+  DailyPlantUptimeByLineAndString
+};
