@@ -187,7 +187,7 @@ class TimeActivityGraph extends Component {
           domainPadding={{ y: [DOMAIN_TOP_PADDING, 0] }}
           width={this.state.width - CHART_PADDING}
           height={this.state.height - CHART_PADDING}
-          padding={{ top: 0, left: 0, right: 0, bottom: 60 }}
+          padding={{ top: 0, left: 0, right: 0, bottom: 100 }}
           style={styles.container}
           containerComponent={
             <VictoryZoomContainer
