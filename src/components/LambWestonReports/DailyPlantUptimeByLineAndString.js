@@ -17,7 +17,7 @@ import './styles/style.css';
 
 // chart size properties
 const MIN_WIDTH = 400;
-const MIN_HEIGHT = 300;
+const MIN_HEIGHT = 0;
 const CHART_PADDING = 50;
 const MINIMUM_ZOOM = 500000000;
 
@@ -92,6 +92,7 @@ class DailyPlantUptimeByLineAndString extends Component {
             width={this.state.width - CHART_PADDING}
             height={this.state.height - CHART_PADDING}
             domainPadding={{ x: CHART_PADDING }}
+            padding={{ top: 30, left: 20, right: 0, bottom: 60 }}
             domain={{ y: [0, 24] }}
             style={styles.container}
             containerComponent={

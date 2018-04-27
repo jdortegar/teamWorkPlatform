@@ -113,7 +113,8 @@ p {
   font-size: 10pt;
   line-height: 1.4em;
 }
-.flex-class {
+.flex-class,
+.flexClass {
   display: flex;
 }
 
@@ -319,11 +320,17 @@ p {
   position: relative;
   bottom: 3px;
 }
-.habla-main-content-header,
+
 .habla-main-content-header-title,
 .habla-main-content-filters-links {
   display: flex;
   align-items: center;
+}
+.habla-main-content-header {
+	display: initial;
+}
+.habla-main-content-header.flexClass {
+	display: flex;
 }
 .habla-main-content-header-title {
   flex: 1;
@@ -359,6 +366,9 @@ p {
 }
 .breadcrumb-icon {
 	font-size: 13px!important;
+}
+.habla-main-content-header .EditButton__button {
+	margin: 8px;
 }
 
 /* Overlays */
@@ -445,9 +455,6 @@ p {
 .habla-tab__item.active {
   background: #888!important;
   color: #fff!important;
-}
-.DashboardPage {
-	display: inherit!important;
 }
 
 

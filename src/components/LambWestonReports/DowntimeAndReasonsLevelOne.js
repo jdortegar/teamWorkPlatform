@@ -7,7 +7,7 @@ import './styles/style.css';
 
 // chart size properties
 const MIN_WIDTH = 400;
-const MIN_HEIGHT = 300;
+const MIN_HEIGHT = 0;
 const CHART_PADDING = 50;
 
 // simulate API data
@@ -59,6 +59,7 @@ class DowntimeAndReasonsLevelOne extends Component {
             width={this.state.width - CHART_PADDING}
             height={this.state.height - CHART_PADDING}
             domainPadding={{ x: CHART_PADDING }}
+            padding={{ top: 30, left: 20, right: 0, bottom: 40 }}
             style={styles.container}
           >
             <VictoryAxis

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-
 import { NewSubpageHeader, GraphViewSelector, LambWestonReports } from 'components';
 import String from 'translations';
 import './styles/style.css';
@@ -32,15 +31,16 @@ const DashboardPage = ({ currentSubscriberOrgId, match }) => {
             </div>
           </div>
         </NewSubpageHeader>
-        <div className="DashboardPage__reports-list">
-          <h1 className="habla-title">Reports</h1>
-          <ul>
+        <div className="DashboardPage__reports-list habla-color-blue">
+          <div className="DashboardPage__reports-list-content">
             {Object.entries(reports).map(([key, value]) => (
-              <li className="DashboardPage__report-link">
-                <Link to={`/app/dashboard/${key}`}>{String.t(value.breadcrumb)}</Link>
-              </li>
+              <div className="DashboardPage__report-item">
+                <div className="DashboardPage__report-item-content">
+                  <Link className="habla-label" to={`/app/dashboard/${key}`}>{String.t(value.breadcrumb)}</Link>
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       </div>
     );
@@ -52,14 +52,16 @@ const DashboardPage = ({ currentSubscriberOrgId, match }) => {
       <NewSubpageHeader>
         <div className="habla-main-content-header-title">
           <GraphViewSelector currentSubscriberOrgId={currentSubscriberOrgId} />
-          <Link to={'/app/dashboard'} style={{ color: 'black' }}>
-            {String.t('dashboardPage.breadcrumb')}
-          </Link>
-          <span className="breadcrumbs-separator">
-            <i className="fas fa-angle-right" />
-          </span>
           <div className="habla-title">
-            {String.t(breadcrumb)}
+            <Link to={'/app/dashboard'} style={{ color: 'black' }}>
+              {String.t('dashboardPage.breadcrumb')}
+            </Link>
+            <span className="breadcrumbs-separator">
+              <i className="fas fa-angle-right" />
+            </span>
+            <div className="habla-title">
+              {String.t(breadcrumb)}
+            </div>
           </div>
         </div>
       </NewSubpageHeader>

@@ -31,8 +31,8 @@ const defaultProps = {
 };
 
 // chart size properties
-const MIN_WIDTH = 400;
-const MIN_HEIGHT = 300;
+const MIN_WIDTH = 0;
+const MIN_HEIGHT = 0;
 const CHART_PADDING = 0;
 const DOMAIN_TOP_PADDING = 0;
 
@@ -187,7 +187,7 @@ class TimeActivityGraph extends Component {
           domainPadding={{ y: [DOMAIN_TOP_PADDING, 0] }}
           width={this.state.width - CHART_PADDING}
           height={this.state.height - CHART_PADDING}
-          padding={{ top: 0, left: 0, right: 0, bottom: 100 }}
+          padding={{ top: 0, left: 0, right: 0, bottom: 60 }}
           style={styles.container}
           containerComponent={
             <VictoryZoomContainer
@@ -214,9 +214,10 @@ class TimeActivityGraph extends Component {
           <VictoryAxis
             invertAxis
             dependentAxis
+            // label={String.t('timeActivityGraph.yAxisLabel')}
             tickFormat={() => null}
             style={{
-              axis: styles.lines,
+              axis: styles.hidden,
               tickLabels: styles.tickLabels,
               axisLabel: styles.axisLabel,
               grid: styles.hidden
