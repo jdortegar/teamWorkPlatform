@@ -26,8 +26,10 @@ const DashboardPage = ({ currentSubscriberOrgId, match }) => {
         <NewSubpageHeader>
           <div className="habla-main-content-header-title">
             <GraphViewSelector currentSubscriberOrgId={currentSubscriberOrgId} />
-            <div className="habla-title">
-              {String.t('dashboardPage.breadcrumb')}
+            <div className="flexClass breadcrumbLevels">
+              <div className="habla-title-light">{String.t('dashboardPage.industryGraphsTitle')}</div>
+              <i className="fas fa-angle-right" />
+              <div className="habla-title">{String.t('dashboardPage.industryTitleManufacturing')}</div>
             </div>
           </div>
         </NewSubpageHeader>
@@ -36,7 +38,10 @@ const DashboardPage = ({ currentSubscriberOrgId, match }) => {
             {Object.entries(reports).map(([key, value]) => (
               <div className="DashboardPage__report-item">
                 <div className="DashboardPage__report-item-content">
-                  <Link className="habla-label" to={`/app/dashboard/${key}`}>{String.t(value.breadcrumb)}</Link>
+                  <Link className="habla-label" to={`/app/dashboard/${key}`}>
+                    <i className="far fa-chart-bar mr-1" />
+                    {String.t(value.breadcrumb)}
+                  </Link>
                 </div>
               </div>
             ))}
@@ -52,16 +57,14 @@ const DashboardPage = ({ currentSubscriberOrgId, match }) => {
       <NewSubpageHeader>
         <div className="habla-main-content-header-title">
           <GraphViewSelector currentSubscriberOrgId={currentSubscriberOrgId} />
-          <div className="habla-title">
+          <div className="flexClass breadcrumbLevels">
+            <div className="habla-title-light">{String.t('dashboardPage.industryGraphsTitle')}</div>
+            <i className="fas fa-angle-right" />
             <Link to={'/app/dashboard'} style={{ color: 'black' }}>
-              {String.t('dashboardPage.breadcrumb')}
+              <div className="habla-title-light">{String.t('dashboardPage.industryTitleManufacturing')}</div>
             </Link>
-            <span className="breadcrumbs-separator">
-              <i className="fas fa-angle-right" />
-            </span>
-            <div className="habla-title">
-              {String.t(breadcrumb)}
-            </div>
+            <i className="fas fa-angle-right" />
+            <div className="habla-title">{String.t(breadcrumb)}</div>
           </div>
         </div>
       </NewSubpageHeader>

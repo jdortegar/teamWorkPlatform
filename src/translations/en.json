@@ -316,7 +316,7 @@
     "sortByActivity": "Latest Activity First",
     "newDirectMessageTooltip": "New Direct Message",
     "iconHomeTooltip": "Home",
-    "iconCKGTooltip": "CKG",
+    "iconCKGTooltip": "Corporate Knowledge Graphs",
     "iconNotificationsTooltip": "Notifications",
     "iconBookmarksTooltip": "Bookmarks",
     "iconSettingsTooltip": "Manage Organization"
@@ -609,20 +609,20 @@
     "viewAllLabel": "View All"
   },
   "graphViewsSelector": {
-    "label": "Select Graph View",
-    "ckg": "CKG",
+    "label": "Select Knowledge Graph",
+    "timeActivity": "Time Activity",
     "fileLineage": "File Lineage",
     "conceptMap": "Concept Map",
-    "dashboard": "Industry Dashboards",
-    "dashboardLabel": "Select Dashboard",
+    "dashboard": "Industry Knowledge Graphs",
+    "industryLabel": "Select Industry",
     "cpg": "CPG",
     "electronics": "Electronics",
     "manufacturing": "Manufacturing",
     "retail": "Retail"
   },
   "ckgPage": {
-    "titleResponsive": "CKG Time Activity",
-    "title": "CKG Time Activity Knowledge Graph",
+    "title": "Corporate Knowledge Graphs",
+    "timeActivityGraph": "Time Activity",
     "dateLabel": "Select a Range of Dates",
     "filterTypes": {
       "one": "Data Type",
@@ -640,7 +640,8 @@
     "filterTypeOther": "Other"
   },
   "dashboardPage": {
-    "breadcrumb": "Dashboard",
+    "industryGraphsTitle": "Industry Knowledge Graphs",
+    "industryTitleManufacturing": "Manufacturing",
     "dailyPlantUptimeBreadcrumb": "Daily Plant Uptime By Line and String",
     "downtimeReasonsLevel1Breadcrumb": "Downtime and Reasons Level 1"
   },

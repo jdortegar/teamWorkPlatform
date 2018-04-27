@@ -196,9 +196,10 @@ class CKGPage extends Component {
         <NewSubpageHeader>
           <div className="habla-main-content-header-title">
             <GraphViewSelector currentSubscriberOrgId={currentSubscriberOrgId} />
-            <div className="habla-title">
-              <div className="habla-title-responsive">{String.t('ckgPage.titleResponsive')}</div>
-              <div className="habla-title-normal">{String.t('ckgPage.title')}</div>
+            <div className="habla-title flexClass breadcrumbLevels">
+              <div className="habla-title-light">{String.t('ckgPage.title')}</div>
+              <i className="fas fa-angle-right" />
+              <div className="habla-title-normal">{String.t('ckgPage.timeActivityGraph')}</div>
             </div>
           </div>
         </NewSubpageHeader>

@@ -225,6 +225,7 @@ p {
   top: 0px;
 }
 
+
 /* Others */
 .EditButton__button {
 	color: #999;
@@ -369,6 +370,9 @@ p {
 }
 .habla-main-content-header .EditButton__button {
 	margin: 8px;
+}
+.breadcrumbLevels svg {
+	margin: 4px 8px 0 8px;
 }
 
 /* Overlays */
