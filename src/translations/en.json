@@ -641,7 +641,8 @@
   },
   "dashboardPage": {
     "breadcrumb": "Dashboard",
-    "dailyPlantUptimeBreadcrumb": "Daily Plant Uptime By Line and String"
+    "dailyPlantUptimeBreadcrumb": "Daily Plant Uptime By Line and String",
+    "downtimeReasonsLevel1Breadcrumb": "Downtime and Reasons Level 1"
   },
   "setNewPassword": {
     "submitLabel": "Next",

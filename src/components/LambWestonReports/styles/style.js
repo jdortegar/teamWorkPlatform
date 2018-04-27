@@ -28,6 +28,10 @@ const styles = {
     }
   },
   tickLabels,
+  smallTickLabels: {
+    ...tickLabels,
+    fontSize: 11
+  },
   compoundTickLabels: [
     tickLabels,
     { ...tickLabels, fillOpacity: 0.7 }
