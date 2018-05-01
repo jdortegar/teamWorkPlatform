@@ -36,7 +36,7 @@ const DashboardPage = ({ currentSubscriberOrgId, match }) => {
         <div className="DashboardPage__reports-list habla-color-blue">
           <div className="DashboardPage__reports-list-content">
             {Object.entries(reports).map(([key, value]) => (
-              <div className="DashboardPage__report-item">
+              <div className="DashboardPage__report-item" key={key}>
                 <div className="DashboardPage__report-item-content">
                   <Link className="habla-label" to={`/app/dashboard/${key}`}>
                     <i className="far fa-chart-bar mr-1" />
