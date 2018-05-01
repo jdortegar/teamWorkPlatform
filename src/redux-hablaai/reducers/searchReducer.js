@@ -3,7 +3,7 @@ import {
   getIntegrationsFromFiles
 } from 'lib/files';
 
-import { SEARCH_REQUEST, SEARCH_SUCCESS, SEARCH_CLEAR } from '../actions';
+import { SEARCH_REQUEST, SEARCH_SUCCESS, SEARCH_ERROR, SEARCH_CLEAR, SEARCH_STALE } from '../actions';
 
 const INITIAL_STATE = {
   loading: false,
@@ -24,19 +24,29 @@ const searchReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: true,
-        query: action.payload.query,
-        results: [],
-        fileTypes: [],
-        integrations: []
+        query: action.payload.query
       };
     case SEARCH_SUCCESS:
       return {
         ...state,
         loading: false,
+        results: action.payload.files,
+        fileTypes: getFileTypesFromFiles(action.payload.files),
+        integrations: getIntegrationsFromFiles(action.payload.files)
+      };
+    case SEARCH_ERROR:
+      return {
+        ...state,
+        loading: false,
         query: action.payload.query,
-        results: action.payload.results,
-        fileTypes: getFileTypesFromFiles(action.payload.results),
-        integrations: getIntegrationsFromFiles(action.payload.results)
+        results: INITIAL_STATE.results,
+        fileTypes: INITIAL_STATE.fileTypes,
+        integrations: INITIAL_STATE.integrations
+      };
+    case SEARCH_STALE:
+      return {
+        ...state,
+        loading: false
       };
     default:
       return state;

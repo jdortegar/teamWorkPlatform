@@ -35,6 +35,11 @@
   background-color: white;
 }
 
+.SearchPage__results__link,
+.SearchPage__results__link:hover {
+  color: #fff;
+  text-decoration: none;
+}
 .SearchPage__results__fileName {
   padding-left: 40px;
 }
