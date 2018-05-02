@@ -1,5 +1,5 @@
 .ResultsList {
-  overflow: scroll;
+  overflow-y: auto;
 }
 
 .ResultsList table {
