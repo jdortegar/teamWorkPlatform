@@ -5,7 +5,8 @@ export const SEARCH_SUCCESS = 'search/success';
 export const SEARCH_ERROR = 'search/error';
 export const SEARCH_STALE = 'search/stale';
 
-export const search = (query = undefined, subscriberOrgId, options = { getKey: false, forceGet: false }) => {
+// forceGet: true - disabling cache in search requests
+export const search = (query = undefined, subscriberOrgId, options = { getKey: false, forceGet: true }) => {
   // requestUrl is the key into redux state.urlRequests.
   const requestUrl = `https://y2rhikgvq4.execute-api.us-west-2.amazonaws.com/dev/graphapi/ckg/files/${subscriberOrgId}/${query}`;
 

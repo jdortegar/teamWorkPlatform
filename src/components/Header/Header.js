@@ -51,7 +51,6 @@ class Header extends Component {
 
   handleSearchSubmit = (event) => {
     event.preventDefault();
-    this.props.search(this.state.query, this.props.currentSubscriberOrgId);
     this.props.history.push(`/app/search?q=${this.state.query}`);
   }
 
@@ -196,14 +195,12 @@ class Header extends Component {
 Header.propTypes = {
   logoutUser: PropTypes.func,
   updateUser: PropTypes.func,
-  search: PropTypes.func,
   clearSearch: PropTypes.func,
   user: PropTypes.object,
   query: PropTypes.string,
   history: PropTypes.shape({
     push: PropTypes.func
-  }).isRequired,
-  currentSubscriberOrgId: PropTypes.string.isRequired
+  }).isRequired
 };
 
 Header.defaultProps = {
