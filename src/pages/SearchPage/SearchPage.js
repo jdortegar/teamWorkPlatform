@@ -46,6 +46,10 @@ const columns = [
     key: 'fileSize',
     render: x => formatSize(x)
   }, {
+    title: 'Owner',
+    dataIndex: 'fileOwnerName',
+    key: 'fileOwnerName'
+  }, {
     title: 'Source',
     dataIndex: 'fileSource',
     key: 'fileSource',
