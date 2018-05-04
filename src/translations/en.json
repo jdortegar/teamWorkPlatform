@@ -224,8 +224,8 @@
     "continue": "Continue",
     "login": "Log In",
     "back": "Back",
-    "changeEmail": "Change Email",
-    "createAccount": "Create your Account"
+    "changeEmail": "Use another Email",
+    "createAccount": "Create your Habla AI Account"
   },
   "PreviewCard": {
     "imageAlt": "example"

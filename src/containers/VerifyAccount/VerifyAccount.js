@@ -38,6 +38,7 @@ class VerifyAccount extends Component {
         <Row className="account-block align-center-class">
           <Col span="24">
             <div className="padding-class-b">
+              <i className="fas fa-check-circle fa-3x habla-green mb-1" />
               <div className="habla-big-title habla-bold-text">{String.t('verifyAccount.successText')}</div>
               <div className="margin-top-class-a">
                 <Link to="/createAccount">
