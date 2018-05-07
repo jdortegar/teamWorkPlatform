@@ -489,14 +489,14 @@
     "unknownDescription": "We were unable to add {{name}} access."
   },
   "inviteNewMemberPage": {
-    "title": "New Member Email",
+    "title": "User Email",
     "addEmail": "Add another Email",
     "sendInvitationsButtonLabel": {
       "zero": "Send Invitation",
       "one": "Send Invitation",
       "other": "Send Invitations"
     },
-    "breadcrumb": "Invite to Organization",
+    "breadcrumb": "Invite Users to this Organization",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
@@ -526,9 +526,9 @@
     },
     "inviteButtonLabel": "INVITE",
     "reInviteButtonLabel": "RE-INVITE",
-    "instructions": "Invite Team Room Members to Join \"{{name}}\"",
+    "instructions": "Invite users to join this Team Room",
     "membersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
-    "breadcrumb": "Invite to Team Room",
+    "breadcrumb": "Add Team Room Members",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
@@ -560,7 +560,7 @@
     "bookmarked": "Bookmarked",
     "active": "active",
     "replyPlaceholder": "Leave a reply...",
-    "addTeamMember": "Invite a Team Member",
+    "addTeamMember": "Add Team Room Members",
     "markAllAsRead": "Mark All as Read",
     "unreadMessagesCount": {
     "one": "1 new message",

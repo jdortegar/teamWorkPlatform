@@ -1094,6 +1094,10 @@ ul.ant-menu li.ant-menu-submenu:hover {
 .habla-ckg-actions-selector {
 	left: 63px;
 }
+}
 
-
+@media only screen and (max-width:360px) {
+.ant-input-affix-wrapper {
+	width: 85px;
+}
 }
