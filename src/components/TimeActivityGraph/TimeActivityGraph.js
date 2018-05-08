@@ -31,13 +31,13 @@ const defaultProps = {
 };
 
 // chart size properties
-const MIN_WIDTH = 400;
-const MIN_HEIGHT = 300;
-const CHART_PADDING = 50;
-const DOMAIN_TOP_PADDING = 20;
+const MIN_WIDTH = 0;
+const MIN_HEIGHT = 0;
+const CHART_PADDING = 0;
+const DOMAIN_TOP_PADDING = 0;
 
 // from Victory. Increasing this number restrains the zoom level
-const MINIMUM_ZOOM = 10000;
+const MINIMUM_ZOOM = 500000;
 
 // how much the zoom changes in each interaction
 const ZOOM_DIFFERENCE = 0.1;
@@ -186,8 +186,8 @@ class TimeActivityGraph extends Component {
           domain={{ x: DATE_DOMAIN, y: TIME_DOMAIN }}
           domainPadding={{ y: [DOMAIN_TOP_PADDING, 0] }}
           width={this.state.width - CHART_PADDING}
-          height={this.state.height - CHART_PADDING}
-          padding={styles.chart.padding}
+          height={this.state.height}
+          padding={{ top: 0, left: 0, right: 0, bottom: 60 }}
           style={styles.container}
           containerComponent={
             <VictoryZoomContainer
@@ -214,10 +214,10 @@ class TimeActivityGraph extends Component {
           <VictoryAxis
             invertAxis
             dependentAxis
-            label={String.t('timeActivityGraph.yAxisLabel')}
+            // label={String.t('timeActivityGraph.yAxisLabel')}
             tickFormat={() => null}
             style={{
-              axis: styles.lines,
+              axis: styles.hidden,
               tickLabels: styles.tickLabels,
               axisLabel: styles.axisLabel,
               grid: styles.hidden
@@ -247,7 +247,6 @@ class TimeActivityGraph extends Component {
               }
             }]}
             style={styles.scatter}
-            size={5}
             data={files}
             x="date"
             y="time"

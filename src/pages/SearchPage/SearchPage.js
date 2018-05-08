@@ -24,7 +24,7 @@ const columns = [
     dataIndex: 'fileName',
     key: 'fileName',
     render: (text, file) => (
-      <div>
+      <a className="SearchPage__results__link" href={file.resourceUri} target="_blank">
         <img
           src={imageSrcFromFileExtension(file.fileExtension)}
           className="SearchPage__results__fileIcon"
@@ -33,7 +33,7 @@ const columns = [
           height={32}
         />
         <span className="SearchPage__results__fileName">{text}</span>
-      </div>
+      </a>
     )
   }, {
     title: 'Last Modified',
@@ -45,6 +45,10 @@ const columns = [
     dataIndex: 'fileSize',
     key: 'fileSize',
     render: x => formatSize(x)
+  }, {
+    title: 'Owner',
+    dataIndex: 'fileOwnerName',
+    key: 'fileOwnerName'
   }, {
     title: 'Source',
     dataIndex: 'fileSource',
@@ -72,7 +76,7 @@ class SearchPage extends Component {
   updateSearch(newQuery, shouldUpdateState = false) {
     if (!newQuery || newQuery === this.props.query) return;
     if (shouldUpdateState) this.setState({ query: newQuery });
-    this.props.search(newQuery);
+    this.props.search(newQuery, this.props.currentSubscriberOrgId);
   }
 
   handleIntegrationFilterClick = (key) => {
@@ -149,7 +153,8 @@ SearchPage.propTypes = {
   search: PropTypes.func,
   queryParams: PropTypes.shape({
     q: PropTypes.string
-  }).isRequired
+  }).isRequired,
+  currentSubscriberOrgId: PropTypes.string.isRequired
 };
 
 SearchPage.defaultProps = {

@@ -25,7 +25,7 @@ const defaultProps = {
 function SubpageHeader({ breadcrumb, subscriberOrgId, history, editButton, ckgLink }) {
   const { showButton, isAdmin, url } = editButton;
   return (
-    <div className="habla-main-content-header padding-class-a border-bottom-lighter">
+    <div className="habla-main-content-header padding-class-a border-bottom-lighter flexClass">
       <div className="habla-main-content-header-title">
         <h1 className="Subpage-header__title habla-title">{breadcrumb}</h1>
       </div>

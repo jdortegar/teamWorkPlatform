@@ -1,3 +1,7 @@
+.ResultsList {
+  overflow-y: auto;
+}
+
 .ResultsList table {
   font-family: 'Lato', sans-serif;
 }

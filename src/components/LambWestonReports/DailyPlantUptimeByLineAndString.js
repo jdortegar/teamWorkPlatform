@@ -48,7 +48,7 @@ const filters = Object.keys(data).map((item, index) => ({ label: item, color: CO
 
 const VictoryZoomVoronoiContainer = createContainer('zoom', 'voronoi');
 
-class ReportB extends Component {
+class DailyPlantUptimeByLineAndString extends Component {
   state = {
     excludeFilter: {},
     width: MIN_WIDTH,
@@ -83,7 +83,7 @@ class ReportB extends Component {
     return (
       <div className="Report__container">
         <div
-          className="ReportB"
+          className="DailyPlantUptimeByLineAndString"
           ref={(node) => { this.container = node; }}
           style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
@@ -92,6 +92,7 @@ class ReportB extends Component {
             width={this.state.width - CHART_PADDING}
             height={this.state.height - CHART_PADDING}
             domainPadding={{ x: CHART_PADDING }}
+            padding={{ top: 30, left: 45, right: 0, bottom: 60 }}
             domain={{ y: [0, 24] }}
             style={styles.container}
             containerComponent={
@@ -151,4 +152,4 @@ class ReportB extends Component {
   }
 }
 
-export default ReportB;
+export default DailyPlantUptimeByLineAndString;

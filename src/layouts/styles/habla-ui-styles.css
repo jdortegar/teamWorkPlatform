@@ -113,7 +113,8 @@ p {
   font-size: 10pt;
   line-height: 1.4em;
 }
-.flex-class {
+.flex-class,
+.flexClass {
   display: flex;
 }
 
@@ -224,6 +225,7 @@ p {
   top: 0px;
 }
 
+
 /* Others */
 .EditButton__button {
 	color: #999;
@@ -319,11 +321,17 @@ p {
   position: relative;
   bottom: 3px;
 }
-.habla-main-content-header,
+
 .habla-main-content-header-title,
 .habla-main-content-filters-links {
   display: flex;
   align-items: center;
+}
+.habla-main-content-header {
+	display: initial;
+}
+.habla-main-content-header.flexClass {
+	display: flex;
 }
 .habla-main-content-header-title {
   flex: 1;
@@ -359,6 +367,12 @@ p {
 }
 .breadcrumb-icon {
 	font-size: 13px!important;
+}
+.habla-main-content-header .EditButton__button {
+	margin: 8px;
+}
+.breadcrumbLevels svg {
+	margin: 4px 8px 0 8px;
 }
 
 /* Overlays */
@@ -446,7 +460,6 @@ p {
   background: #888!important;
   color: #fff!important;
 }
-
 
 
 /* Standard Margin and Padding Classes */
@@ -1081,6 +1094,10 @@ ul.ant-menu li.ant-menu-submenu:hover {
 .habla-ckg-actions-selector {
 	left: 63px;
 }
+}
 
-
+@media only screen and (max-width:360px) {
+.ant-input-affix-wrapper {
+	width: 85px;
+}
 }

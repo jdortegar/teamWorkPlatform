@@ -1,19 +1,19 @@
 .Subpage-header__title a {
-	font-weight: 300;
-	color: #000;
+  font-weight: 300;
+  color: #000;
 }
 .Subpage-header__title a:hover {
-	color: #666;
+  color: #666;
 }
 .Subpage-header__title.habla-title {
-	line-height: 12pt;
+  line-height: 12pt;
 }
 .habla-main-content-header-actions {
-	display: inline-flex;
+  display: inline-flex;
 }
 .ckg-link {
-	margin-right: 8px;
-	font-size: 18px;
-   color: #999;
-   cursor: pointer;
+  margin: 8px;
+  font-size: 18px;
+  color: #999;
+  cursor: pointer;
 }

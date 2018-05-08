@@ -1,17 +1,14 @@
-import sampleData from 'pages/SearchPage/sample-data.json';
-import config from '../config';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const SEARCH_REQUEST = 'search/request';
 export const SEARCH_SUCCESS = 'search/success';
+export const SEARCH_ERROR = 'search/error';
+export const SEARCH_STALE = 'search/stale';
 
-// TODO: get the correct endpoint from backend
-const IS_BACKEND_DONE = false;
-
-export const search = (query = undefined, options = { getKey: false, forceGet: false }) => {
+// forceGet: true - disabling cache in search requests
+export const search = (query = undefined, subscriberOrgId, options = { getKey: false, forceGet: true }) => {
   // requestUrl is the key into redux state.urlRequests.
-  let requestUrl = `${config.hablaApiBaseUri}/search`;
-  requestUrl = (query) ? `${requestUrl}?q=${query}` : requestUrl;
+  const requestUrl = `https://y2rhikgvq4.execute-api.us-west-2.amazonaws.com/dev/graphapi/ckg/files/${subscriberOrgId}/${query}`;
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { query };
@@ -22,16 +19,11 @@ export const search = (query = undefined, options = { getKey: false, forceGet: f
       payload: { query }
     });
 
-    if (!IS_BACKEND_DONE) {
-      setTimeout(() => {
-        dispatch({
-          type: SEARCH_SUCCESS,
-          payload: {
-            query,
-            results: sampleData.filter(r => r.fileName.includes(query))
-          }
-        });
-      }, 1500);
+    if (!query) {
+      dispatch({
+        type: SEARCH_ERROR,
+        payload: { query }
+      });
       return null;
     }
 
@@ -42,15 +34,23 @@ export const search = (query = undefined, options = { getKey: false, forceGet: f
 
     if (!options.getKey) {
       thunk.then((response) => {
-        if ((response.data) && (response.data !== RESPONSE_STALE)) {
-          const { results } = response.data;
+        if (response.data && response.data !== RESPONSE_STALE) {
+          const { files } = response.data;
           dispatch({
             type: SEARCH_SUCCESS,
-            payload: { results }
+            payload: { files }
           });
-          return results;
+        }
+        if (response.data && response.data === RESPONSE_STALE) {
+          dispatch({ type: SEARCH_STALE });
         }
         return response;
+      }, (error) => {
+        dispatch({
+          type: SEARCH_ERROR,
+          payload: { query }
+        });
+        return error;
       });
     }
 

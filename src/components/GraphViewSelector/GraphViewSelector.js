@@ -15,7 +15,7 @@ const GraphViewSelector = ({ currentSubscriberOrgId }) => {
       <Menu.Item key="graphViewCKG">
         <Link to={`/app/ckg/${currentSubscriberOrgId}`}>
           <span>
-            <i className="fas fa-chart-area" /> {String.t('graphViewsSelector.ckg')}
+            <i className="fas fa-chart-area" /> {String.t('graphViewsSelector.timeActivity')}
           </span>
         </Link>
       </Menu.Item>
@@ -26,7 +26,7 @@ const GraphViewSelector = ({ currentSubscriberOrgId }) => {
         <a><span><i className="fas fa-bullseye" /> {String.t('graphViewsSelector.conceptMap')}</span></a>
       </Menu.Item>
       <Menu.SubMenu title={String.t('graphViewsSelector.dashboard')}>
-        <div className="habla-label padding-class-a">{String.t('graphViewsSelector.dashboardLabel')}</div>
+        <div className="habla-label padding-class-a">{String.t('graphViewsSelector.industryLabel')}</div>
         <Menu.Item><a><span><i className="fas fa-chart-bar" /> {String.t('graphViewsSelector.cpg')}</span></a></Menu.Item>
         <Menu.Item><a><span><i className="fas fa-chart-bar" /> {String.t('graphViewsSelector.electronics')}</span></a></Menu.Item>
         <Menu.Item>

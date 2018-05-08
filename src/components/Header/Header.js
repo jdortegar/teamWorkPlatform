@@ -51,7 +51,6 @@ class Header extends Component {
 
   handleSearchSubmit = (event) => {
     event.preventDefault();
-    this.props.search(this.state.query);
     this.props.history.push(`/app/search?q=${this.state.query}`);
   }
 
@@ -139,7 +138,7 @@ class Header extends Component {
                   style={{ visibility: clearIconVisibility }}
                 />}
               />
-              <button type="submit">
+              <button type="submit" disabled={this.state.query.length === 0}>
                 <i className="fa fa-search" />
               </button>
             </form>
@@ -196,7 +195,6 @@ class Header extends Component {
 Header.propTypes = {
   logoutUser: PropTypes.func,
   updateUser: PropTypes.func,
-  search: PropTypes.func,
   clearSearch: PropTypes.func,
   user: PropTypes.object,
   query: PropTypes.string,

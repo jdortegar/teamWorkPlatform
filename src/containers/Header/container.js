@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Header from 'components/Header';
 import { logoutUser, updateUser } from 'actions';
-import { search, clearSearch } from 'redux-hablaai/actions';
+import { clearSearch } from 'redux-hablaai/actions';
 import { getCurrentUser } from 'redux-hablaai/selectors';
 
 function mapStateToProps(state) {
@@ -16,7 +16,6 @@ function mapDispatchToProps(dispatch) {
   return {
     logoutUser: () => dispatch(logoutUser()),
     updateUser: data => dispatch(updateUser(data)),
-    search: query => dispatch(search(query)),
     clearSearch: () => dispatch(clearSearch())
   };
 }

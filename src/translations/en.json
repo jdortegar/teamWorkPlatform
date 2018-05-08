@@ -171,6 +171,7 @@
   "cardViewTitle": "Card View",
   "listViewTitle": "Details View",
   "OrganizationPage": {
+	"title": "Manage Organization", 
     "newButtonLabel": "New",
     "boxIntegrationLabel": "Box",
     "addNewTeam": "Add New Team",
@@ -223,8 +224,8 @@
     "continue": "Continue",
     "login": "Log In",
     "back": "Back",
-    "changeEmail": "Change Email",
-    "createAccount": "Create your Account"
+    "changeEmail": "Use another Email",
+    "createAccount": "Create your Habla AI Account"
   },
   "PreviewCard": {
     "imageAlt": "example"
@@ -315,10 +316,10 @@
     "sortByActivity": "Latest Activity First",
     "newDirectMessageTooltip": "New Direct Message",
     "iconHomeTooltip": "Home",
-    "iconCKGTooltip": "CKG",
+    "iconCKGTooltip": "Corporate Knowledge Graphs",
     "iconNotificationsTooltip": "Notifications",
     "iconBookmarksTooltip": "Bookmarks",
-    "iconSettingsTooltip": "Edit Organization"
+    "iconSettingsTooltip": "Manage Organization"
   },
   "timeActivityGraph": {
     "yAxisLabel": "Activity",
@@ -488,14 +489,14 @@
     "unknownDescription": "We were unable to add {{name}} access."
   },
   "inviteNewMemberPage": {
-    "title": "New Member Email",
+    "title": "User Email",
     "addEmail": "Add another Email",
     "sendInvitationsButtonLabel": {
       "zero": "Send Invitation",
       "one": "Send Invitation",
       "other": "Send Invitations"
     },
-    "breadcrumb": "Invite to Organization",
+    "breadcrumb": "Invite Users to this Organization",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
@@ -525,9 +526,9 @@
     },
     "inviteButtonLabel": "INVITE",
     "reInviteButtonLabel": "RE-INVITE",
-    "instructions": "Invite Team Room Members to Join \"{{name}}\"",
+    "instructions": "Invite users to join this Team Room",
     "membersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
-    "breadcrumb": "Invite to Team Room",
+    "breadcrumb": "Add Team Room Members",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
@@ -559,7 +560,7 @@
     "bookmarked": "Bookmarked",
     "active": "active",
     "replyPlaceholder": "Leave a reply...",
-    "addTeamMember": "Invite a Team Member",
+    "addTeamMember": "Add Team Room Members",
     "markAllAsRead": "Mark All as Read",
     "unreadMessagesCount": {
     "one": "1 new message",
@@ -608,20 +609,20 @@
     "viewAllLabel": "View All"
   },
   "graphViewsSelector": {
-    "label": "Select Graph View",
-    "ckg": "CKG",
+    "label": "Select Knowledge Graph",
+    "timeActivity": "Time Activity",
     "fileLineage": "File Lineage",
     "conceptMap": "Concept Map",
-    "dashboard": "Industry Dashboards",
-    "dashboardLabel": "Select Dashboard",
+    "dashboard": "Industry Knowledge Graphs",
+    "industryLabel": "Select Industry",
     "cpg": "CPG",
     "electronics": "Electronics",
     "manufacturing": "Manufacturing",
     "retail": "Retail"
   },
   "ckgPage": {
-    "titleResponsive": "CKG Time Activity",
-    "title": "CKG Time Activity Knowledge Graph",
+    "title": "Corporate Knowledge Graphs",
+    "timeActivityGraph": "Time Activity",
     "dateLabel": "Select a Range of Dates",
     "filterTypes": {
       "one": "Data Type",
@@ -639,8 +640,10 @@
     "filterTypeOther": "Other"
   },
   "dashboardPage": {
-    "breadcrumb": "Dashboard",
-    "dailyPlantUptimeBreadcrumb": "Daily Plant Uptime By Line and String"
+    "industryGraphsTitle": "Industry Knowledge Graphs",
+    "industryTitleManufacturing": "Manufacturing",
+    "dailyPlantUptimeBreadcrumb": "Daily Plant Uptime By Line and String",
+    "downtimeReasonsLevel1Breadcrumb": "Downtime and Reasons Level 1"
   },
   "setNewPassword": {
     "submitLabel": "Next",

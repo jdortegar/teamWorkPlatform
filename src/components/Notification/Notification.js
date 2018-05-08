@@ -77,7 +77,7 @@ class Notification extends Component {
     return (
       <div className="Notification__container">
         <div className="Notification__container__content">
-          <span className="Notification__title">
+          <span className="Notification__title habla-label">
             {typeObj.message}
           </span>
           <div className="Notification__buttons">
