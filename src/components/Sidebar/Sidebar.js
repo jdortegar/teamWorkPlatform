@@ -290,7 +290,8 @@ class Sidebar extends Component {
           <Menu.Item key="roomsLabel">
             <div className="sidebar-block-label">
               <span className="habla-label">
-                {String.t('teamRooms')}
+                <span className="teamRoomTitle">{String.t('teamRooms')}</span>
+                <span className="teamRoomResponsiveTitle">{String.t('teamRoomsResponsive')}</span>
                 {/* <span className="sidebar-label-number-badge">81</span> */}
               </span>
             </div>

@@ -343,6 +343,9 @@ p {
   font-size: 18px;
   color: #ccc;
 }
+.habla-main-content-header-title .fa-angle-right {
+	font-size: 10px;
+}
 .habla-main-content-header-title .breadcrumbs-separator svg {
   margin-right: 0!important;
 }
@@ -369,11 +372,25 @@ p {
 	font-size: 13px!important;
 }
 .habla-main-content-header .EditButton__button {
-	margin: 8px;
+	margin-left: 10px;
 }
 .breadcrumbLevels svg {
 	margin: 4px 8px 0 8px;
 }
+
+.habla-main-content-header-breadcrumb .habla-title
+, .habla-main-content-header-breadcrumb .habla-title-light
+, .habla-main-content-header-title .habla-title
+, .habla-main-content-header-title .habla-title-light
+, .Subpage-header__title.habla-title
+, .Subpage-header__title.habla-title-light
+, .subpage__header__title.habla-title
+, .subpage__header__title.habla-title-light
+, .hablaTitleBreadcrumb {
+  font-size: 12pt;
+}
+
+
 
 /* Overlays */
 
@@ -876,7 +893,7 @@ ul.ant-menu li.ant-menu-submenu:hover {
   padding: 0;
 }
 .ant-collapse-content {
-  padding: 0 20px;
+  padding: 0 10px;
 }
 .ant-dropdown-menu {
   top: 7px;
@@ -919,6 +936,12 @@ ul.ant-menu li.ant-menu-submenu:hover {
 /* RESPONSIVE ELEMENTS AND STYLES ---------- */
 
 
+/* Hidden Elements */
+.teamRoomResponsiveTitle {
+	display: none;
+}
+
+
 @media only screen and (max-width:768px) {
 .habla-top-menu-label
 , .habla-main-content-header-actions .habla-label
@@ -926,8 +949,16 @@ ul.ant-menu li.ant-menu-submenu:hover {
 , .habla-main-content-header-breadcrumb-links .habla-title-light
 , .habla-main-content-header-breadcrumb-links i
 , .habla-ckg-filters-item span
-, i.ant-menu-submenu-arrow  {
+, i.ant-menu-submenu-arrow
+, .responsiveHideClass
+, .teamRoomTitle {
   display: none;
+}
+.teamRoomResponsiveTitle {
+  display: inline-block;	
+}
+.habla-label .teamRoomResponsiveTitle {
+	font-size: 6pt;
 }
 .habla-top-menu-items {
 	float: left;
@@ -1068,7 +1099,6 @@ ul.ant-menu li.ant-menu-submenu:hover {
 .SearchPage__results__fileName {
 	padding-left: 10px;
 }
-
 }
 
 @media only screen and (max-width:520px) {
@@ -1078,26 +1108,38 @@ ul.ant-menu li.ant-menu-submenu:hover {
   display: none;
 }
 .habla-logo-image-responsive
-, .habla-title-responsive {
+, .habla-title-responsive
+ {
   display: block;
-}
-.habla-main-content-header-breadcrumb .habla-title {
-  font-size: 11pt;
 }
 .habla-big-title {
   font-size: 16pt;
 }
-.habla-main-content-filters-members-responsive
-, .habla-title-normal {
+.habla-main-content-filters-members-responsive {
   display: none;
 }
 .habla-ckg-actions-selector {
 	left: 63px;
 }
+.Notification__container__content .habla-label {
+	display: inline-block;
+	width: 50%;
+	line-height: 1.4em;
+}
+.bottomBar .CKGPage__FilesFilters
+, .bottomBar .bottomBar-selectors {
+	width: 50%;
+}
 }
 
 @media only screen and (max-width:360px) {
 .ant-input-affix-wrapper {
-	width: 85px;
+	width: 126px;
+}
+}
+
+@media only screen and (max-width:320px) {
+.ant-input-affix-wrapper {
+	width: 88px;
 }
 }

@@ -3,7 +3,7 @@
 }
 .breadcrumbs-container {
   display: -webkit-inline-box;
-  vertical-align: -webkit-baseline-middle;
+  vertical-align: text-bottom;
 }
 .breadcrumbs-avatar {
   display: -webkit-inline-box;
