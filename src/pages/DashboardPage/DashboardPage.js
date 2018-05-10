@@ -13,6 +13,10 @@ const reports = {
   downtimeReasonLevel1: {
     breadcrumb: 'dashboardPage.downtimeReasonsLevel1Breadcrumb',
     ReportComponent: LambWestonReports.DowntimeAndReasonsLevelOne
+  },
+  downtimeReasonLevel1HC: {
+    breadcrumb: 'dashboardPage.downtimeReasonsLevel1Breadcrumb',
+    ReportComponent: LambWestonReports.DowntimeAndReasonsLevelOneHC
   }
 };
 

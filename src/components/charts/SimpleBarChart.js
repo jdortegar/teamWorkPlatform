@@ -23,6 +23,7 @@ class SimpleBarChart extends React.Component {
     return React.createElement('div', { id: this.props.container });
   }
 }
+
 SimpleBarChart.defaultProps = {
   modules: null,
   container: null,
