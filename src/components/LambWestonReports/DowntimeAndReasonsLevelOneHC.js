@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import Higchcarts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
 import { COLORS } from './styles/style';
 import './styles/style.css';
-import { SimpleBarChart } from '../charts/SimpleBarChart';
 
 // chart size properties
 const MIN_WIDTH = 400;
@@ -23,21 +24,12 @@ const data = _.range(9).map((i) => {
 });
 
 class DowntimeAndReasonsLevelOneHC extends Component {
-  state = {
-    width: MIN_WIDTH,
-    height: MIN_HEIGHT
-  }
-
-  componentDidMount() {
-    window.addEventListener('resize', this.updateDimensions.bind(this));
-    this.updateDimensions();
-    this.createChartOptions();
-  }
-
-  createChartOptions() {
+  constructor() {
+    super();
     this.chartOptions = {
       chart: {
-        type: 'column'
+        type: 'column',
+        backgroundColor: 'rgb(85, 125, 191)'
       },
       title: {
         text: null
@@ -46,7 +38,7 @@ class DowntimeAndReasonsLevelOneHC extends Component {
         type: 'category'
       },
       legend: {
-        enabled: false
+        enaDowntimeAndReasonsLevelOneHCbled: false
       },
       series: [
         {
@@ -57,6 +49,15 @@ class DowntimeAndReasonsLevelOneHC extends Component {
     };
   }
 
+  state = {
+    width: MIN_WIDTH,
+    height: MIN_HEIGHT
+  }
+  componentDidMount() {
+    window.addEventListener('resize', this.updateDimensions.bind(this));
+    this.updateDimensions();
+  }
+
   container = null;
 
   updateDimensions() {
@@ -64,7 +65,7 @@ class DowntimeAndReasonsLevelOneHC extends Component {
     const { clientWidth, clientHeight } = this.container.parentNode;
     this.setState({
       width: Math.max(clientWidth, MIN_WIDTH),
-      height: Math.max(clientHeight, MIN_HEIGHT``)
+      height: Math.max(clientHeight, MIN_HEIGHT)
     });
   }
 
@@ -76,7 +77,8 @@ class DowntimeAndReasonsLevelOneHC extends Component {
           ref={(node) => { this.container = node; }}
           style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
-          <SimpleBarChart
+          <HighchartsReact
+            highcharts={Higchcarts}
             options={this.chartOptions}
           />
         </div>
