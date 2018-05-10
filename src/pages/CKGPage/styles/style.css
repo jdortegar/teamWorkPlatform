@@ -12,11 +12,6 @@
 .display-row {
   display: flex;
 }
-.bottomBar {
-  height: 50px;
-  z-index: 1;
-}
-
 
 /* CKG UI TOOLS ---------- */
 .ckg-tools-container {
@@ -85,19 +80,16 @@
   font-weight: 300;
   margin-left: 5px;
 }
-.bottomBar .bottomBar-selectors {
-	width: 30%;
-	float: left;
-	height: 50px;
+.bottomBar {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 50px;
+  z-index: 1;
 }
 .bottomBar .bottomBar-selectors .team-select-container,
 .bottomBar .bottomBar-selectors .team-room-select-container {
 	width: 50%;
 	float: left;
-}
-.bottomBar .CKGPage__FilesFilters {
-	width: 70%;
-	float: right;
 }
 .bottomBar select {
 	height: 30px;
