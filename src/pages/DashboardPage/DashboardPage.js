@@ -27,8 +27,8 @@ const DashboardPage = ({ currentSubscriberOrgId, match }) => {
           <div className="habla-main-content-header-title">
             <GraphViewSelector currentSubscriberOrgId={currentSubscriberOrgId} />
             <div className="flexClass breadcrumbLevels">
-              <div className="habla-title-light">{String.t('dashboardPage.industryGraphsTitle')}</div>
-              <i className="fas fa-angle-right" />
+              <div className="habla-title-light responsiveHideClass">{String.t('dashboardPage.industryGraphsTitle')}</div>
+              <i className="fas fa-angle-right responsiveHideClass" />
               <div className="habla-title">{String.t('dashboardPage.industryTitleManufacturing')}</div>
             </div>
           </div>
@@ -58,12 +58,12 @@ const DashboardPage = ({ currentSubscriberOrgId, match }) => {
         <div className="habla-main-content-header-title">
           <GraphViewSelector currentSubscriberOrgId={currentSubscriberOrgId} />
           <div className="flexClass breadcrumbLevels">
-            <div className="habla-title-light">{String.t('dashboardPage.industryGraphsTitle')}</div>
-            <i className="fas fa-angle-right" />
+            <div className="habla-title-light responsiveHideClass">{String.t('dashboardPage.industryGraphsTitle')}</div>
+            <i className="fas fa-angle-right responsiveHideClass" />
             <Link to={'/app/dashboard'} style={{ color: 'black' }}>
-              <div className="habla-title-light">{String.t('dashboardPage.industryTitleManufacturing')}</div>
+              <div className="habla-title-light responsiveHideClass">{String.t('dashboardPage.industryTitleManufacturing')}</div>
             </Link>
-            <i className="fas fa-angle-right" />
+            <i className="fas fa-angle-right responsiveHideClass" />
             <div className="habla-title">{String.t(breadcrumb)}</div>
           </div>
         </div>

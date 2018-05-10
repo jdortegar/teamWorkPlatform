@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import String from 'translations';
 import './styles/style.css';
-import BreadCrumb from '../../components/BreadCrumb';
 import SubpageHeader from '../../components/SubpageHeader';
 import Spinner from '../../components/Spinner';
 import CardView from './CardView';
@@ -101,13 +101,9 @@ class OrganizationPage extends Component {
           <SubpageHeader
             subscriberOrgId={subscriberOrg.subscriberOrgId}
             history={this.props.history}
-            breadcrumb={
-              <BreadCrumb
-                subscriberOrg={subscriberOrg}
-                routes={[{ title: subscriberOrg.name }]}
-              />
-            }
             editButton={editButton}
+            breadcrumb={<div><i className="fas fa-cog" />{String.t('OrganizationPage.title')}</div>
+            }
           />
           <CardView
             integrations={integrations}

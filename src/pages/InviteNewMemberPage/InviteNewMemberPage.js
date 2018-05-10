@@ -130,11 +130,11 @@ class InviteNewMemberPage extends Component {
         />
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
-            <div className="padding-class-b">
+            <div className="padding-class-a">
               <h1 className="Invite-New-Member__title">{String.t('inviteNewMemberPage.title')}</h1>
               {this.renderInvitees()}
             </div>
-            <div className="padding-class-b">
+            <div className="inviteMoreUsersLink">
               <a onClick={this.addInvitees} className="Invite-New-Member__add-another">
                 <span>
                   <i className="fa fa-plus-circle margin-right-class-a" />{String.t('inviteNewMemberPage.addEmail')}

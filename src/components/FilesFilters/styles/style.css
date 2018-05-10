@@ -1,6 +1,6 @@
 .FilesFilters {
   overflow: hidden;
-  height: 50px;
+  min-height: 50px;
 }
 .FilesFilters__dataTypes {
   margin: 0 10px 0 4px;
@@ -9,7 +9,8 @@
 }
 .FilesFilters__content {
   display: inline-flex;
-  padding: 10px 10px 0 0;
+  padding: 10px;
+  flex-wrap: wrap;
 }
 .FilesFilters__dataTypes__badge {
   color: #fff;

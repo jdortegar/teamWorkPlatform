@@ -16,10 +16,10 @@
   background: #e8e8e8;
 }
 .graphViewSelectorLink .fa-chevron-down {
-  font-size: 9px;
+  font-size: 6px;
   font-weight: 300;
-  margin-left: 0;
-  margin-right: 3px;
+  margin-left: -1px;
+  margin-right: 0;
   position: relative;
-  top: -2px;
+  top: -4px;
 }

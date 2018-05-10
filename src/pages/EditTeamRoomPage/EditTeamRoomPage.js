@@ -107,7 +107,7 @@ class EditTeamRoomPage extends Component {
         />
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
-            <div className="padding-class-b">
+            <div className="padding-class-a">
               <div className="Edit-team__container">
                 <h1 className="Edit-team__title">{String.t('editTeamRoomPage.teamRoomName')}</h1>
                 <TextField

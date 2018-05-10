@@ -107,7 +107,6 @@
 }
 .team-room__chat-col-icons {
   display: flex;
-  margin-right: 1em;
 }
 .team-room__chat-col-icons a
 , .team-room__chat-col-icons svg {

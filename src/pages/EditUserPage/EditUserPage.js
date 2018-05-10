@@ -102,7 +102,7 @@ class EditUserPage extends Component {
     return (
       <div className="userAccountSetting">
         <NewSubpageHeader>
-          <div className="habla-title"><i className="fas fa-address-card" /> {String.t('editUserPage.title')}</div>
+          <div className="habla-title hablaTitleBreadcrumb"><i className="fas fa-address-card" /> {String.t('editUserPage.title')}</div>
         </NewSubpageHeader>
         <Form onSubmit={this.handleSubmit} layout="vertical">
           <Collapse defaultActiveKey={['1']} className="edituser_collapse">

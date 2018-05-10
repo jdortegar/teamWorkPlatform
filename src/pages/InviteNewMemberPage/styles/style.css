@@ -12,3 +12,19 @@
   border-color: #777777;
   box-shadow: none;
 }
+.inviteMoreUsersLink {
+	margin: 0 10px;
+}
+.inviteMoreUsersLink a {
+    color: #ccc;
+}
+.inviteMoreUsersLink a:hover {
+    color: #666;
+}
+a.remove-field {
+	color: #eb4435;
+	font-size: 0.8em;
+	position: relative;
+	top: 14px;
+	left: -5px;
+}
