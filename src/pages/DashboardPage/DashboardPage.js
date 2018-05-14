@@ -21,6 +21,10 @@ const reports = {
   downtimeReasonLevel1: {
     breadcrumb: 'dashboardPage.downtimeReasonsLevel1Breadcrumb',
     ReportComponent: LambWestonReports.DowntimeAndReasonsLevelOne
+  },
+  downtimeComparisonMultiplePlants: {
+    breadcrumb: 'dashboardPage.downtimeComparisonMultiplePlantsBreadcrumb',
+    ReportComponent: LambWestonReports.DowntimeComparisonMultiplePlants
   }
 };
 
