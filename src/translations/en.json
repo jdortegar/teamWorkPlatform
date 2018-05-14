@@ -645,7 +645,8 @@
     "industryTitleManufacturing": "Manufacturing",
     "dailyPlantUptimeBreadcrumb": "Daily Plant Uptime By Line and String",
     "downtimeReasonsLevel1Breadcrumb": "Downtime and Reasons Level 1",
-    "plantUptimeByLineAndString": "Plant Uptime By Line and String"
+    "plantUptimeByLineAndStringBreadcrumb": "Plant Uptime By Line and String",
+    "planUpMultipleComparissionsBreadcrumb": "Plan Uptime by Week or Month for Multiple Plants Comparison"
   },
   "setNewPassword": {
     "submitLabel": "Next",
