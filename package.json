@@ -73,6 +73,7 @@
     "file-loader": "^0.11.2",
     "helmet": "^3.11.0",
     "highcharts": "^6.1.0",
+    "highcharts-react-official": "^1.1.0",
     "history": "^4.7.2",
     "html-webpack-plugin": "^2.30.1",
     "i18n-js": "^3.0.3",
