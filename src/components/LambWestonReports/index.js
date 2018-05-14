@@ -1,9 +1,9 @@
 import DowntimeAndReasonsLevelOne from './DowntimeAndReasonsLevelOne';
 import DailyPlantUptimeByLineAndString from './DailyPlantUptimeByLineAndString';
-import DowntimeAndReasonsLevelOneHC from './DowntimeAndReasonsLevelOneHC';
+import PlantUptimeByLineAndString from './PlantUptimeByLineAndString';
 
 export default {
   DowntimeAndReasonsLevelOne,
   DailyPlantUptimeByLineAndString,
-  DowntimeAndReasonsLevelOneHC
+  PlantUptimeByLineAndString
 };
