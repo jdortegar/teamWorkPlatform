@@ -33,6 +33,7 @@ const defaultProps = {
 // chart size properties
 const MIN_WIDTH = 0;
 const MIN_HEIGHT = 0;
+const TOOLTIP_VERTICAL_PADDING = 30;
 const CHART_PADDING = 0;
 const DOMAIN_TOP_PADDING = 0;
 
@@ -149,7 +150,7 @@ class TimeActivityGraph extends Component {
     const { offsetLeft, offsetTop, tooltipPoint } = this.state;
     const { x, y, datum } = tooltipPoint;
     const { date, fileName, fileSize } = datum;
-    const top = y - offsetTop;
+    const top = y - (offsetTop - TOOLTIP_VERTICAL_PADDING);
     const left = x - (offsetLeft - CHART_PADDING);
     const displayDate = moment(date).format(String.t('timeActivityGraph.dateFormat'));
     const displayTime = moment(date).format(String.t('timeActivityGraph.timeFormat'));
