@@ -14,9 +14,9 @@ const reports = {
     breadcrumb: 'dashboardPage.dailyPlantUptimeBreadcrumb',
     ReportComponent: LambWestonReports.DailyPlantUptimeByLineAndString
   },
-  planUpMultipleComparissions: {
-    breadcrumb: 'dashboardPage.planUpMultipleComparissionsBreadcrumb',
-    ReportComponent: LambWestonReports.PlanUpMultipleComparissions
+  plantUpMultipleComparisons: {
+    breadcrumb: 'dashboardPage.plantUpMultipleComparisonsBreadcrumb',
+    ReportComponent: LambWestonReports.PlantUpMultipleComparisons
   },
   downtimeReasonLevel1: {
     breadcrumb: 'dashboardPage.downtimeReasonsLevel1Breadcrumb',

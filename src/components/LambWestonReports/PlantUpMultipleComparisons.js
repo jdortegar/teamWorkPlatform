@@ -23,7 +23,7 @@ const values = _.range(7).map(() => {
   return _.random(5, 120);
 });
 
-class PlanUpMultipleComparissions extends Component {
+class PlanUpMultipleComparisons extends Component {
   constructor() {
     super();
     this.chartOptions = {
@@ -41,38 +41,28 @@ class PlanUpMultipleComparissions extends Component {
       },
       series: [
         {
-          name: 'Regions',
-          colorByPoint: true,
-          data: [
-            {
-              name: labels[0],
-              y: values[0]
-            },
-            {
-              name: labels[1],
-              y: values[1]
-            },
-            {
-              name: labels[2],
-              y: values[2]
-            },
-            {
-              name: labels[3],
-              y: values[3]
-            },
-            {
-              name: labels[4],
-              y: values[4]
-            },
-            {
-              name: labels[5],
-              y: values[5]
-            },
-            {
-              name: labels[6],
-              y: values[6]
-            }
-          ]
+          name: labels[0],
+          data: [values[0]]
+        },
+        {
+          name: labels[1],
+          data: [values[1]]
+        },
+        {
+          name: labels[2],
+          data: [values[2]]
+        },
+        {
+          name: labels[3],
+          data: [values[3]]
+        },
+        {
+          name: labels[4],
+          data: [values[4]]
+        },
+        {
+          name: labels[5],
+          data: [values[5]]
         }
       ]
     };
@@ -116,4 +106,4 @@ class PlanUpMultipleComparissions extends Component {
   }
 }
 
-export default PlanUpMultipleComparissions;
+export default PlanUpMultipleComparisons;
