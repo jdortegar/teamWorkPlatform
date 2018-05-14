@@ -11,76 +11,68 @@ const MIN_HEIGHT = 300;
 
 // simulate API data
 const labels = [
-  'Pasco L1 S6',
-  'Pasco L1 S7',
-  'Pasco L1 S8',
-  'Pasco L1 S9',
-  'Pasco L1 S10',
-  'Pasco L2 S2',
-  'Pasco L2 S3',
-  'Pasco L2 S4',
-  'Pasco L2 S5'
+  'American Falls',
+  'Boardman East',
+  'Connel',
+  'Delhi',
+  'Park Rapids',
+  'Pasco',
+  'Richland'
 ];
-const categories = ['2017/10/01', '2017/10/02', '2017/10/03', '2017/10/04', '2017/10/05', '2017/10/06'];
-const dataRanges = _.range(9).map(() => {
-  return _.range(6).map(() => {
-    return _.random(5, 120);
-  });
+const values = _.range(7).map(() => {
+  return _.random(5, 120);
 });
 
-class PlantUptimeByLineAndString extends Component {
+class PlanUpMultipleComparissions extends Component {
   constructor() {
     super();
     this.chartOptions = {
       chart: {
         type: 'column',
         backgroundColor: 'rgb(85, 125, 191)',
-        height: '100%',
-        zoomType: 'x'
+        height: '100%'
       },
       colors: COLORS,
       title: {
         text: null
       },
       xAxis: {
-        categories
+        type: 'category'
       },
       series: [
         {
-          name: labels[0],
-          data: dataRanges[0]
-        },
-        {
-          name: labels[1],
-          data: dataRanges[1]
-        },
-        {
-          name: labels[2],
-          data: dataRanges[2]
-        },
-        {
-          name: labels[3],
-          data: dataRanges[3]
-        },
-        {
-          name: labels[4],
-          data: dataRanges[4]
-        },
-        {
-          name: labels[5],
-          data: dataRanges[5]
-        },
-        {
-          name: labels[6],
-          data: dataRanges[6]
-        },
-        {
-          name: labels[7],
-          data: dataRanges[7]
-        },
-        {
-          name: labels[8],
-          data: dataRanges[8]
+          name: 'Regions',
+          colorByPoint: true,
+          data: [
+            {
+              name: labels[0],
+              y: values[0]
+            },
+            {
+              name: labels[1],
+              y: values[1]
+            },
+            {
+              name: labels[2],
+              y: values[2]
+            },
+            {
+              name: labels[3],
+              y: values[3]
+            },
+            {
+              name: labels[4],
+              y: values[4]
+            },
+            {
+              name: labels[5],
+              y: values[5]
+            },
+            {
+              name: labels[6],
+              y: values[6]
+            }
+          ]
         }
       ]
     };
@@ -110,7 +102,7 @@ class PlantUptimeByLineAndString extends Component {
     return (
       <div className="Report__container">
         <div
-          className="PlantUptimeByLineAndString"
+          className="PlanUpMultipeComparissions"
           ref={(node) => { this.container = node; }}
           style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
@@ -124,4 +116,4 @@ class PlantUptimeByLineAndString extends Component {
   }
 }
 
-export default PlantUptimeByLineAndString;
+export default PlanUpMultipleComparissions;

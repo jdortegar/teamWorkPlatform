@@ -6,17 +6,21 @@ import String from 'translations';
 import './styles/style.css';
 
 const reports = {
+  plantUptime: {
+    breadcrumb: 'dashboardPage.plantUptimeByLineAndStringBreadcrumb',
+    ReportComponent: LambWestonReports.PlantUptimeByLineAndString
+  },
   dailyPlantUptime: {
     breadcrumb: 'dashboardPage.dailyPlantUptimeBreadcrumb',
     ReportComponent: LambWestonReports.DailyPlantUptimeByLineAndString
   },
+  planUpMultipleComparissions: {
+    breadcrumb: 'dashboardPage.planUpMultipleComparissionsBreadcrumb',
+    ReportComponent: LambWestonReports.PlanUpMultipleComparissions
+  },
   downtimeReasonLevel1: {
     breadcrumb: 'dashboardPage.downtimeReasonsLevel1Breadcrumb',
     ReportComponent: LambWestonReports.DowntimeAndReasonsLevelOne
-  },
-  plantUptime: {
-    breadcrumb: 'dashboardPage.plantUptimeByLineAndString',
-    ReportComponent: LambWestonReports.PlantUptimeByLineAndString
   }
 };
 
