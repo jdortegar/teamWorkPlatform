@@ -6,9 +6,17 @@ import String from 'translations';
 import './styles/style.css';
 
 const reports = {
+  plantUptime: {
+    breadcrumb: 'dashboardPage.plantUptimeByLineAndStringBreadcrumb',
+    ReportComponent: LambWestonReports.PlantUptimeByLineAndString
+  },
   dailyPlantUptime: {
     breadcrumb: 'dashboardPage.dailyPlantUptimeBreadcrumb',
     ReportComponent: LambWestonReports.DailyPlantUptimeByLineAndString
+  },
+  plantUpMultipleComparisons: {
+    breadcrumb: 'dashboardPage.plantUpMultipleComparisonsBreadcrumb',
+    ReportComponent: LambWestonReports.PlantUpMultipleComparisons
   },
   downtimeReasonLevel1: {
     breadcrumb: 'dashboardPage.downtimeReasonsLevel1Breadcrumb',
