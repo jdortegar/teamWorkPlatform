@@ -789,6 +789,7 @@ p {
 .register-body .ant-checkbox-wrapper {
   margin: 0 10px 20px 0;
   float: left;
+  z-index: 1;
 }
  .register-success-email {
   color: #000;
