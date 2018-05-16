@@ -29,15 +29,56 @@ class PlanUpMultipleComparisons extends Component {
     this.chartOptions = {
       chart: {
         type: 'column',
-        backgroundColor: 'rgb(85, 125, 191)',
-        height: '100%'
+        backgroundColor: 'rgb(85, 125, 191)'
       },
       colors: COLORS,
       title: {
         text: null
       },
       xAxis: {
-        type: 'category'
+        type: 'category',
+        lineColor: '#819fd1',
+        labels: {
+          style: {
+            color: '#819fd1'
+          }
+        }
+      },
+      yAxis: {
+        title: false,
+        gridLineColor: '#819fd1',
+        labels: {
+          align: 'left',
+          x: 0,
+          y: -10,
+          style: {
+            color: '#819fd1'
+          }
+        },
+        minorGridLineColor: '#5e83bf',
+        minorGridLineWidth: 1,
+        minorTickLength: 0,
+        minorTickInterval: 'auto'
+      },
+      plotOptions: {
+        column: {
+          borderRadius: 4
+        },
+        series: {
+          borderWidth: 0,
+          pointWidth: 10
+        }
+      },
+      legend: {
+        backgroundColor: '#FFFFFF',
+        borderColor: '#ffffff',
+        borderWidth: 8,
+        itemHiddenStyle: {
+          color: '#ddd'
+        }
+      },
+      credits: {
+        enabled: false
       },
       series: [
         {
