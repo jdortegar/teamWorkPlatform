@@ -25,6 +25,7 @@ const columns = [
     title: 'File Name',
     dataIndex: 'fileName',
     key: 'fileName',
+    sorter: (a, b) => a.fileName.localeCompare(b.fileName),
     render: (text, file) => (
       <a className="SearchPage__results__link" href={file.resourceUri} target="_blank">
         <img
@@ -41,16 +42,19 @@ const columns = [
     title: 'Last Modified',
     dataIndex: 'lastModified',
     key: 'lastModified',
+    sorter: (a, b) => moment(a.lastModified) - moment(b.lastModified),
     render: x => formatTime(x)
   }, {
     title: 'Size',
     dataIndex: 'fileSize',
     key: 'fileSize',
+    sorter: (a, b) => a.fileSize - b.fileSize,
     render: x => formatSize(x)
   }, {
     title: 'Owner',
     dataIndex: 'fileOwnerName',
     key: 'fileOwnerName',
+    sorter: (a, b) => a.fileOwnerName.localeCompare(b.fileOwnerName),
     render: (text, file) => (
       <div>
         <AvatarWrapper
@@ -65,6 +69,7 @@ const columns = [
     title: 'Source',
     dataIndex: 'fileSource',
     key: 'fileSource',
+    sorter: (a, b) => a.fileSource.localeCompare(b.fileSource),
     render: (_, file) => (
       <div>
         <div className="SearchPage__results__integrationIcon">

@@ -85,6 +85,14 @@
 	cursor: pointer;
 }
 
+/* column sorting */
+.ResultsList .ant-table-column-sort {
+  background-color: #557dbf !important;
+}
+.ResultsList .ant-table-column-sorter .on i {
+  color: #fff;
+}
+
 .SearchPage__results-inner {
   display: flex;
   flex-direction: column;
