@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import createCachedSelector from 're-reselect';
 import {
   getUserByUserId,
   getMyselfUserId,
@@ -16,6 +17,13 @@ export const getCurrentUser = createSelector(
   (userByUserId, myselfUserId) => {
     return userByUserId[myselfUserId];
   }
+);
+
+export const getUserById = createCachedSelector(
+  [getUserByUserId, (state, userId) => userId],
+  (usersByUserId, userId) => usersByUserId[userId]
+)(
+  (state, userId) => userId
 );
 
 export const getResolvedBookmarks = createSelector(
