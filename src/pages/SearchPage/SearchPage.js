@@ -8,6 +8,7 @@ import {
   integrationLabelFromKey
 } from 'utils/dataIntegrations';
 import { Spinner, ResultsList, FilesFilters } from 'components';
+import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
 import imageSrcFromFileExtension from 'lib/imageFiles';
 import formatSize from 'lib/formatSize';
 import String from 'translations';
@@ -48,7 +49,17 @@ const columns = [
   }, {
     title: 'Owner',
     dataIndex: 'fileOwnerName',
-    key: 'fileOwnerName'
+    key: 'fileOwnerName',
+    render: (text, file) => (
+      <div>
+        <AvatarWrapper
+          user={file.owner}
+          size="small"
+          hideStatusTooltip
+        />
+        <span className="SearchPage__results__fileOwnerName">{text}</span>
+      </div>
+    )
   }, {
     title: 'Source',
     dataIndex: 'fileSource',

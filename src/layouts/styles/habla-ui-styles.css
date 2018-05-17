@@ -268,8 +268,8 @@ p {
 .ant-dropdown-menu-item .ant-dropdown-menu-submenu-arrow:after, .ant-dropdown-menu-submenu-title .ant-dropdown-menu-submenu-arrow:after {
   color: #7c7c7c!important;
 }
-.ant-dropdown-menu-submenu-title::before { 
-    display: none; 
+.ant-dropdown-menu-submenu-title::before {
+    display: none;
     font-family: "Font Awesome 5 Solid";
     content: "\f080";
 }
@@ -281,7 +281,7 @@ p {
 }
 .ant-dropdown-menu-item .ant-dropdown-menu-submenu-arrow, .ant-dropdown-menu-submenu-title .ant-dropdown-menu-submenu-arrow {
     position: relative!important;
-    right: -4px!important;   
+    right: -4px!important;
     color: #7c7c7c;
     margin: 0 5px;
 }
@@ -926,7 +926,6 @@ ul.ant-menu li.ant-menu-submenu:hover {
 .ResultsList__row img {
 	width: 26px;
 	height: 26px;
-
 }
 
 
@@ -956,7 +955,7 @@ ul.ant-menu li.ant-menu-submenu:hover {
   display: none;
 }
 .teamRoomResponsiveTitle {
-  display: inline-block;	
+  display: inline-block;
 }
 .habla-label .teamRoomResponsiveTitle {
 	font-size: 6pt;

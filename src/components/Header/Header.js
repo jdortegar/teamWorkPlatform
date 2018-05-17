@@ -182,9 +182,7 @@ class Header extends Component {
               <img src={hablaBlackLogoIcon} alt={String.t('Header.iconAlt')} className="habla-logo-image-responsive" />
             </Link>
           </div>
-          {this.props.user && this.props.logoutUser &&
-          this.renderMenuItems()
-          }
+          {this.props.user && this.props.logoutUser && this.renderMenuItems()}
           <div className="clear" />
         </div>
       </AntdHeader>
