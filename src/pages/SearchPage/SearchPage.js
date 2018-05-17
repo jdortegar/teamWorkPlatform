@@ -5,7 +5,8 @@ import moment from 'moment';
 
 import {
   integrationKeyFromFile,
-  integrationLabelFromKey
+  integrationLabelFromKey,
+  integrationImageFromKey
 } from 'utils/dataIntegrations';
 import { Spinner, ResultsList, FilesFilters } from 'components';
 import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
@@ -64,7 +65,21 @@ const columns = [
     title: 'Source',
     dataIndex: 'fileSource',
     key: 'fileSource',
-    render: (_, file) => integrationLabelFromKey(integrationKeyFromFile(file))
+    render: (_, file) => (
+      <div>
+        <div className="SearchPage__results__integrationIcon">
+          <img
+            src={integrationImageFromKey('box')}
+            width={26}
+            height={26}
+            alt=""
+          />
+        </div>
+        <span className="SearchPage__results__integrationLabel">
+          {integrationLabelFromKey(integrationKeyFromFile(file))}
+        </span>
+      </div>
+    )
   }
 ];
 
