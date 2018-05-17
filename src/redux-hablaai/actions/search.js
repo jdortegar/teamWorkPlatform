@@ -1,4 +1,5 @@
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
+import config from '../../config/env';
 
 export const SEARCH_REQUEST = 'search/request';
 export const SEARCH_SUCCESS = 'search/success';
@@ -8,7 +9,8 @@ export const SEARCH_STALE = 'search/stale';
 // forceGet: true - disabling cache in search requests
 export const search = (query = undefined, subscriberOrgId, options = { getKey: false, forceGet: true }) => {
   // requestUrl is the key into redux state.urlRequests.
-  const requestUrl = `https://y2rhikgvq4.execute-api.us-west-2.amazonaws.com/dev/graphapi/ckg/files/${subscriberOrgId}/${query}`;
+
+  const requestUrl = `https://y2rhikgvq4.execute-api.us-west-2.amazonaws.com/${config.hablaApiEnv}/graphapi/ckg/files/${subscriberOrgId}/${query}`;
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { query };
