@@ -5,7 +5,8 @@ import moment from 'moment';
 
 import {
   integrationKeyFromFile,
-  integrationLabelFromKey
+  integrationLabelFromKey,
+  integrationImageFromKey
 } from 'utils/dataIntegrations';
 import { Spinner, ResultsList, FilesFilters } from 'components';
 import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
@@ -24,6 +25,7 @@ const columns = [
     title: 'File Name',
     dataIndex: 'fileName',
     key: 'fileName',
+    sorter: (a, b) => a.fileName.localeCompare(b.fileName),
     render: (text, file) => (
       <a className="SearchPage__results__link" href={file.resourceUri} target="_blank">
         <img
@@ -40,16 +42,19 @@ const columns = [
     title: 'Last Modified',
     dataIndex: 'lastModified',
     key: 'lastModified',
+    sorter: (a, b) => moment(a.lastModified) - moment(b.lastModified),
     render: x => formatTime(x)
   }, {
     title: 'Size',
     dataIndex: 'fileSize',
     key: 'fileSize',
+    sorter: (a, b) => a.fileSize - b.fileSize,
     render: x => formatSize(x)
   }, {
     title: 'Owner',
     dataIndex: 'fileOwnerName',
     key: 'fileOwnerName',
+    sorter: (a, b) => a.fileOwnerName.localeCompare(b.fileOwnerName),
     render: (text, file) => (
       <div>
         <AvatarWrapper
@@ -64,7 +69,22 @@ const columns = [
     title: 'Source',
     dataIndex: 'fileSource',
     key: 'fileSource',
-    render: (_, file) => integrationLabelFromKey(integrationKeyFromFile(file))
+    sorter: (a, b) => a.fileSource.localeCompare(b.fileSource),
+    render: (_, file) => (
+      <div>
+        <div className="SearchPage__results__integrationIcon">
+          <img
+            src={integrationImageFromKey('box')}
+            width={26}
+            height={26}
+            alt=""
+          />
+        </div>
+        <span className="SearchPage__results__integrationLabel">
+          {integrationLabelFromKey(integrationKeyFromFile(file))}
+        </span>
+      </div>
+    )
   }
 ];
 
