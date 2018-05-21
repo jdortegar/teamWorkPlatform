@@ -36,7 +36,8 @@ class PlantUptimeByLineAndString extends Component {
         type: 'column',
         backgroundColor: 'rgb(85, 125, 191)',
         zoomType: 'x',
-        spacing: [0, 0, 0, 0]
+        spacing: [0, 0, 0, 0],
+        height: '100%'
       },
       colors: COLORS,
       title: {

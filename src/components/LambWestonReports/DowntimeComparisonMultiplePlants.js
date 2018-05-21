@@ -32,7 +32,8 @@ class DowntimeComparisonMultiplePlants extends Component {
       chart: {
         type: 'column',
         backgroundColor: 'rgb(85, 125, 191)',
-        spacing: [0, 0, 0, 0]
+        spacing: [0, 0, 0, 0],
+        height: '100%'
       },
       colors: COLORS,
       title: {
