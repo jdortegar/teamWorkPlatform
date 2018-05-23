@@ -8,6 +8,7 @@ export FilesFilters from './FilesFilters';
 export BasicFilter from './BasicFilter';
 export IntegrationFilter from './IntegrationFilter';
 export FileTypeFilter from './FileTypeFilter';
+export OwnerFilter from './OwnerFilter';
 export AssetsFilters from './AssetsFilters';
 export NewSubpageHeader from './NewSubpageHeader';
 export ResultsList from './ResultsList';

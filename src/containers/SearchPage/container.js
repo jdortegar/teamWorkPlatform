@@ -6,21 +6,16 @@ import { search } from 'redux-hablaai/actions';
 import { getCurrentSubscriberOrgId, getUserById } from 'selectors';
 import { extractQueryParams } from 'routes';
 
-const mapStateToProps = (state, props) => {
-  const results = state.search.results.map(result => ({
-    ...result,
-    owner: getUserById(state, result.fileOwnerId)
-  }));
-  return {
-    results,
-    query: state.search.query,
-    fileTypes: state.search.fileTypes,
-    integrations: state.search.integrations,
-    loading: state.search.loading,
-    queryParams: extractQueryParams(props),
-    currentSubscriberOrgId: getCurrentSubscriberOrgId(state)
-  };
-};
+const mapStateToProps = (state, props) => ({
+  owners: state.search.owners.map(({ key, count }) => ({ ...getUserById(state, key), key, count })),
+  results: state.search.results,
+  query: state.search.query,
+  fileTypes: state.search.fileTypes,
+  integrations: state.search.integrations,
+  loading: state.search.loading,
+  queryParams: extractQueryParams(props),
+  currentSubscriberOrgId: getCurrentSubscriberOrgId(state)
+});
 
 const mapDispatchToProps = dispatch => ({
   search: (query, subscriberOrgId) => dispatch(search(query, subscriberOrgId))

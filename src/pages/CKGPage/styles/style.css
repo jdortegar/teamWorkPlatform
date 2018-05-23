@@ -86,6 +86,9 @@
   min-height: 50px;
   z-index: 1;
 }
+.bottomBar-selectors {
+  border-right: solid 1px #ddd;
+}
 .bottomBar .bottomBar-selectors .team-select-container,
 .bottomBar .bottomBar-selectors .team-room-select-container {
 	width: 50%;

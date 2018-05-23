@@ -626,6 +626,10 @@
     "timeActivityGraph": "Time Activity",
     "dateLabel": "Select a Range of Dates",
     "noData": "No Data Currently Available",
+    "ownerFileCount": {
+      "one": "1 file from {{fullName}}",
+      "other": "{{count}} files from {{fullName}}"
+    },
     "filterCount": {
       "one": "1 {{label}}",
       "other": "{{count}} {{label}}"
