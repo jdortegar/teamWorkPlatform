@@ -167,7 +167,8 @@ class PlantUptimeByLineAndString extends Component {
               ...this.chartOptions,
               chart: {
                 ...this.chartOptions.chart,
-                height: this.state.height
+                height: this.state.height,
+                width: this.state.width
               }
             }}
           />

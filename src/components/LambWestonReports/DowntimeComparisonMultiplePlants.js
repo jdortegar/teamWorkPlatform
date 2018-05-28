@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import Higchcarts from 'highcharts';
+import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { COLORS } from './styles/style';
 import './styles/style.css';
@@ -32,8 +32,7 @@ class DowntimeComparisonMultiplePlants extends Component {
       chart: {
         type: 'column',
         backgroundColor: 'rgb(85, 125, 191)',
-        spacing: [0, 0, 0, 0],
-        height: '100%'
+        spacing: [0, 0, 0, 0]
       },
       colors: COLORS,
       title: {
@@ -158,8 +157,15 @@ class DowntimeComparisonMultiplePlants extends Component {
           style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
           <HighchartsReact
-            highcharts={Higchcarts}
-            options={this.chartOptions}
+            highcharts={Highcharts}
+            options={{
+              ...this.chartOptions,
+              chart: {
+                ...this.chartOptions.chart,
+                height: this.state.height,
+                width: this.state.width
+              }
+            }}
           />
         </div>
       </div>
