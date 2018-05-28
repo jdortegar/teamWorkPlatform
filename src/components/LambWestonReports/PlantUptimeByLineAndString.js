@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import Higchcarts from 'highcharts';
+import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { COLORS } from './styles/style';
 import './styles/style.css';
@@ -36,8 +36,7 @@ class PlantUptimeByLineAndString extends Component {
         type: 'column',
         backgroundColor: 'rgb(85, 125, 191)',
         zoomType: 'x',
-        spacing: [0, 0, 0, 0],
-        height: '100%'
+        spacing: [0, 0, 0, 0]
       },
       colors: COLORS,
       title: {
@@ -137,6 +136,7 @@ class PlantUptimeByLineAndString extends Component {
     width: MIN_WIDTH,
     height: MIN_HEIGHT
   }
+
   componentDidMount() {
     window.addEventListener('resize', this.updateDimensions.bind(this));
     this.updateDimensions();
@@ -162,8 +162,14 @@ class PlantUptimeByLineAndString extends Component {
           style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
           <HighchartsReact
-            highcharts={Higchcarts}
-            options={this.chartOptions}
+            highcharts={Highcharts}
+            options={{
+              ...this.chartOptions,
+              chart: {
+                ...this.chartOptions.chart,
+                height: this.state.height
+              }
+            }}
           />
         </div>
       </div>
