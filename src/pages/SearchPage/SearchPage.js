@@ -74,7 +74,7 @@ const getColumns = owners => [
       <div>
         <div className="SearchPage__results__integrationIcon">
           <img
-            src={integrationImageFromKey('box')}
+            src={integrationImageFromKey(integrationKeyFromFile(file))}
             width={26}
             height={26}
             alt=""
