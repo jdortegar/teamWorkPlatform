@@ -47,6 +47,22 @@
   position: absolute;
   margin-top: -4px;
 }
+.SearchPage__results__fileOwnerName {
+  padding-left: 10px;
+}
+.SearchPage__results__integrationIcon {
+  position: absolute;
+  background-color: white;
+  display: inline-block;
+  border-radius: 14%;
+  line-height: 20px;
+  width: 26px;
+  height: 26px;
+}
+.SearchPage__results__integrationLabel {
+  padding-left: 35px;
+}
+
 .ResultsList thead > tr > th {
   font-size: 7pt;
   text-transform: uppercase;
@@ -69,6 +85,14 @@
 	cursor: pointer;
 }
 
+/* column sorting */
+.ResultsList .ant-table-column-sort {
+  background-color: #557dbf !important;
+}
+.ResultsList .ant-table-column-sorter .on i {
+  color: #fff;
+}
+
 .SearchPage__results-inner {
   display: flex;
   flex-direction: column;
@@ -78,5 +102,4 @@
 
 .SearchPage__bottomBar {
   background-color: white;
-  padding: 0 10px;
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import Higchcarts from 'highcharts';
+import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { COLORS } from './styles/style';
 import './styles/style.css';
@@ -29,7 +29,8 @@ class PlanUpMultipleComparisons extends Component {
     this.chartOptions = {
       chart: {
         type: 'column',
-        backgroundColor: 'rgb(85, 125, 191)'
+        backgroundColor: 'rgb(85, 125, 191)',
+        spacing: [0, 0, 0, 0]
       },
       colors: COLORS,
       title: {
@@ -47,18 +48,15 @@ class PlanUpMultipleComparisons extends Component {
       yAxis: {
         title: false,
         gridLineColor: '#819fd1',
+        tickWidth: 0,
         labels: {
           align: 'left',
-          x: 0,
+          x: 10,
           y: -10,
           style: {
             color: '#819fd1'
           }
-        },
-        minorGridLineColor: '#5e83bf',
-        minorGridLineWidth: 1,
-        minorTickLength: 0,
-        minorTickInterval: 'auto'
+        }
       },
       plotOptions: {
         column: {
@@ -70,9 +68,16 @@ class PlanUpMultipleComparisons extends Component {
         }
       },
       legend: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#ffffff',
         borderColor: '#ffffff',
-        borderWidth: 8,
+        padding: 15,
+        margin: 10,
+        y: -10,
+        borderRadius: 4,
+        itemStyle: {
+          fontSize: 11,
+          color: '#999'
+        },
         itemHiddenStyle: {
           color: '#ddd'
         }
@@ -138,8 +143,15 @@ class PlanUpMultipleComparisons extends Component {
           style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
           <HighchartsReact
-            highcharts={Higchcarts}
-            options={this.chartOptions}
+            highcharts={Highcharts}
+            options={{
+              ...this.chartOptions,
+              chart: {
+                ...this.chartOptions.chart,
+                height: this.state.height,
+                width: this.state.width
+              }
+            }}
           />
         </div>
       </div>

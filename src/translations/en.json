@@ -172,7 +172,7 @@
   "cardViewTitle": "Card View",
   "listViewTitle": "Details View",
   "OrganizationPage": {
-	"title": "Manage Organization", 
+	"title": "Manage Organization",
     "newButtonLabel": "New",
     "boxIntegrationLabel": "Box",
     "addNewTeam": "Add New Team",
@@ -625,10 +625,10 @@
     "title": "Corporate Knowledge Graphs",
     "timeActivityGraph": "Time Activity",
     "dateLabel": "Select a Range of Dates",
-    "filterTypes": {
-      "one": "Data Type",
-      "zero": "No Data Currently Available",
-      "other": "Data Types"
+    "noData": "No Data Currently Available",
+    "ownerFileCount": {
+      "one": "1 file from {{fullName}}",
+      "other": "{{count}} files from {{fullName}}"
     },
     "filterCount": {
       "one": "1 {{label}}",
