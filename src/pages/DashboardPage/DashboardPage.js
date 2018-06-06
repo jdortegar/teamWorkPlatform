@@ -14,12 +14,25 @@ const reportComponents = {
 };
 
 class DashboardPage extends React.Component {
+  state = {
+    params: {
+      plant: 'pasco',
+      from: '2017-10-01',
+      until: '2017-10-07',
+      measure: 'hours'
+    }
+  }
+
+  componentDidMount() {
+    this.props.fetchPlantUptimeReport(this.state.params);
+  }
+
   renderReport = (reportId) => {
     const ReportComponent = reportComponents[reportId];
     if (!ReportComponent) return null;
     return (
       <div className="DashboardPage__reports">
-        <ReportComponent />
+        <ReportComponent {...this.props.selectedReport} />
       </div>
     );
   };
@@ -78,6 +91,7 @@ class DashboardPage extends React.Component {
 DashboardPage.propTypes = {
   currentSubscriberOrgId: PropTypes.string.isRequired,
   reports: PropTypes.object.isRequired,
+  fetchPlantUptimeReport: PropTypes.func.isRequired,
   reportId: PropTypes.string,
   selectedReport: PropTypes.shape({
     breadcrumb: PropTypes.string.isRequired

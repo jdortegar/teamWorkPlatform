@@ -1,4 +1,6 @@
-import { TIMEACTIVITIES_FETCH_SUCCESS } from '../actions';
+import _ from 'lodash';
+
+import { LW_PLANTUPTIMEREPORT_FETCH_SUCCESS } from '../actions';
 
 const INITIAL_STATE = {
   reports: {
@@ -25,8 +27,10 @@ const INITIAL_STATE = {
 
 const dashboardReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case TIMEACTIVITIES_FETCH_SUCCESS:
-      return state;
+    case LW_PLANTUPTIMEREPORT_FETCH_SUCCESS: {
+      const { categories, series, measure } = action.payload;
+      return _.merge(state, { reports: { plantUptime: { categories, series, measure } } });
+    }
     default:
       return state;
   }

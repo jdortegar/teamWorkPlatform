@@ -3,9 +3,16 @@ import { withRouter } from 'react-router';
 
 import DashboardPage from 'pages/DashboardPage';
 import { getCurrentSubscriberOrgId } from 'selectors';
+import { fetchPlantUptimeReport } from 'actions';
 
 const mapStateToProps = (state, ownProps) => {
   const reportId = ownProps.match.params.reportId;
+  console.warn('---------------------------------------------');
+  console.warn('reportId', reportId);
+  console.warn('reports', state.dashboard.reports);
+  console.warn('report', state.dashboard.reports[reportId]);
+  console.warn('------------------ END ----------------------');
+
   return {
     reportId,
     currentSubscriberOrgId: getCurrentSubscriberOrgId(state),
@@ -14,4 +21,9 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps)(DashboardPage));
+const mapDispatchToProps = dispatch => ({
+  fetchPlantUptimeReport: params => dispatch(fetchPlantUptimeReport(params))
+});
+
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DashboardPage));

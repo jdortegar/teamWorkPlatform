@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
+import PropTypes from 'prop-types';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { COLORS } from './styles/style';
@@ -8,25 +8,6 @@ import './styles/style.css';
 // chart size properties
 const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
-
-// simulate API data
-const labels = [
-  'Pasco L1 S6',
-  'Pasco L1 S7',
-  'Pasco L1 S8',
-  'Pasco L1 S9',
-  'Pasco L1 S10',
-  'Pasco L2 S2',
-  'Pasco L2 S3',
-  'Pasco L2 S4',
-  'Pasco L2 S5'
-];
-const categories = ['2017/10/01', '2017/10/02', '2017/10/03', '2017/10/04', '2017/10/05', '2017/10/06'];
-const dataRanges = _.range(9).map(() => {
-  return _.range(6).map(() => {
-    return _.random(5, 120);
-  });
-});
 
 class PlantUptimeByLineAndString extends Component {
   constructor() {
@@ -43,7 +24,6 @@ class PlantUptimeByLineAndString extends Component {
         text: null
       },
       xAxis: {
-        categories,
         lineColor: '#819fd1',
         tickWidth: 0,
         labels: {
@@ -90,45 +70,7 @@ class PlantUptimeByLineAndString extends Component {
       },
       credits: {
         enabled: false
-      },
-      series: [
-        {
-          name: labels[0],
-          data: dataRanges[0]
-        },
-        {
-          name: labels[1],
-          data: dataRanges[1]
-        },
-        {
-          name: labels[2],
-          data: dataRanges[2]
-        },
-        {
-          name: labels[3],
-          data: dataRanges[3]
-        },
-        {
-          name: labels[4],
-          data: dataRanges[4]
-        },
-        {
-          name: labels[5],
-          data: dataRanges[5]
-        },
-        {
-          name: labels[6],
-          data: dataRanges[6]
-        },
-        {
-          name: labels[7],
-          data: dataRanges[7]
-        },
-        {
-          name: labels[8],
-          data: dataRanges[8]
-        }
-      ]
+      }
     };
   }
 
@@ -136,6 +78,7 @@ class PlantUptimeByLineAndString extends Component {
     width: MIN_WIDTH,
     height: MIN_HEIGHT
   }
+
   componentDidMount() {
     window.addEventListener('resize', this.updateDimensions.bind(this));
     this.updateDimensions();
@@ -153,6 +96,8 @@ class PlantUptimeByLineAndString extends Component {
   }
 
   render() {
+    const { categories, series } = this.props;
+
     return (
       <div className="Report__container">
         <div
@@ -164,6 +109,8 @@ class PlantUptimeByLineAndString extends Component {
             highcharts={Highcharts}
             options={{
               ...this.chartOptions,
+              series,
+              xAxis: { ...this.chartOptions.xAxis, categories },
               chart: {
                 ...this.chartOptions.chart,
                 height: this.state.height,
@@ -176,5 +123,10 @@ class PlantUptimeByLineAndString extends Component {
     );
   }
 }
+
+PlantUptimeByLineAndString.propTypes = {
+  categories: PropTypes.array.isRequired,
+  series: PropTypes.array.isRequired
+};
 
 export default PlantUptimeByLineAndString;
