@@ -644,7 +644,7 @@
     "industryGraphsTitle": "Industry Knowledge Graphs",
     "industryTitleManufacturing": "Manufacturing",
     "dailyPlantUptimeBreadcrumb": "Daily Plant Uptime By Line and String",
-    "downtimeReasonsLevel1Breadcrumb": "Downtime and Reasons Level 1",
+    "downtimeReasonsLevelOneBreadcrumb": "Downtime and Reasons Level 1",
     "plantUptimeByLineAndStringBreadcrumb": "Plant Uptime By Line and String",
     "plantUpMultipleComparisonsBreadcrumb": "Plant Uptime by Week or Month for Multiple Plants Comparison",
     "downtimeComparisonMultiplePlantsBreadcrumb": "Downtime Comparison Across Multiple Plants by Month"

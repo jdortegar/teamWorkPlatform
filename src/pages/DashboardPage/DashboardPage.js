@@ -5,34 +5,47 @@ import { NewSubpageHeader, GraphViewSelector, LambWestonReports } from 'componen
 import String from 'translations';
 import './styles/style.css';
 
-const reports = {
-  plantUptime: {
-    breadcrumb: 'dashboardPage.plantUptimeByLineAndStringBreadcrumb',
-    ReportComponent: LambWestonReports.PlantUptimeByLineAndString
-  },
-  dailyPlantUptime: {
-    breadcrumb: 'dashboardPage.dailyPlantUptimeBreadcrumb',
-    ReportComponent: LambWestonReports.DailyPlantUptimeByLineAndString
-  },
-  plantUpMultipleComparisons: {
-    breadcrumb: 'dashboardPage.plantUpMultipleComparisonsBreadcrumb',
-    ReportComponent: LambWestonReports.PlantUpMultipleComparisons
-  },
-  downtimeReasonLevel1: {
-    breadcrumb: 'dashboardPage.downtimeReasonsLevel1Breadcrumb',
-    ReportComponent: LambWestonReports.DowntimeAndReasonsLevelOne
-  },
-  downtimeComparisonMultiplePlants: {
-    breadcrumb: 'dashboardPage.downtimeComparisonMultiplePlantsBreadcrumb',
-    ReportComponent: LambWestonReports.DowntimeComparisonMultiplePlants
-  }
+const reportComponents = {
+  plantUptime: LambWestonReports.PlantUptimeByLineAndString,
+  dailyPlantUptime: LambWestonReports.DailyPlantUptimeByLineAndString,
+  plantUpMultipleComparisons: LambWestonReports.PlantUpMultipleComparisons,
+  downtimeReasonLevelOne: LambWestonReports.DowntimeAndReasonsLevelOne,
+  downtimeComparisonMultiplePlants: LambWestonReports.DowntimeComparisonMultiplePlants
 };
 
-const DashboardPage = ({ currentSubscriberOrgId, match }) => {
-  const { reportId } = match.params;
-  const report = reports[reportId];
+class DashboardPage extends React.Component {
+  renderReport = (reportId) => {
+    const ReportComponent = reportComponents[reportId];
+    if (!ReportComponent) return null;
+    return (
+      <div className="DashboardPage__reports">
+        <ReportComponent />
+      </div>
+    );
+  };
 
-  if (!report) {
+  renderReportsList() {
+    return (
+      <div className="DashboardPage__reports-list habla-color-blue">
+        <div className="DashboardPage__reports-list-content">
+          {Object.entries(this.props.reports).map(([key, value]) => (
+            <div className="DashboardPage__report-item" key={key}>
+              <div className="DashboardPage__report-item-content">
+                <Link className="habla-label" to={`/app/dashboard/${key}`}>
+                  <i className="far fa-chart-bar mr-1" />
+                  {String.t(value.breadcrumb)}
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    const { currentSubscriberOrgId, selectedReport, reportId } = this.props;
+
     return (
       <div className="DashboardPage">
         <NewSubpageHeader>
@@ -41,61 +54,39 @@ const DashboardPage = ({ currentSubscriberOrgId, match }) => {
             <div className="flexClass breadcrumbLevels">
               <div className="habla-title-light responsiveHideClass">{String.t('dashboardPage.industryGraphsTitle')}</div>
               <i className="fas fa-angle-right responsiveHideClass" />
-              <div className="habla-title">{String.t('dashboardPage.industryTitleManufacturing')}</div>
+              {!selectedReport && <div className="habla-title">{String.t('dashboardPage.industryTitleManufacturing')}</div>}
+              {selectedReport && (
+                <div className="flexClass">
+                  <Link to={'/app/dashboard'} style={{ color: 'black' }}>
+                    <div className="habla-title-light responsiveHideClass">{String.t('dashboardPage.industryTitleManufacturing')}</div>
+                  </Link>
+                  <i className="fas fa-angle-right responsiveHideClass" />
+                  <div className="habla-title">{String.t(selectedReport.breadcrumb)}</div>
+                </div>
+              )}
             </div>
           </div>
         </NewSubpageHeader>
-        <div className="DashboardPage__reports-list habla-color-blue">
-          <div className="DashboardPage__reports-list-content">
-            {Object.entries(reports).map(([key, value]) => (
-              <div className="DashboardPage__report-item" key={key}>
-                <div className="DashboardPage__report-item-content">
-                  <Link className="habla-label" to={`/app/dashboard/${key}`}>
-                    <i className="far fa-chart-bar mr-1" />
-                    {String.t(value.breadcrumb)}
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+
+        {!selectedReport && this.renderReportsList()}
+        {selectedReport && this.renderReport(reportId)}
       </div>
     );
   }
-
-  const { ReportComponent, breadcrumb } = report;
-  return (
-    <div className="DashboardPage">
-      <NewSubpageHeader>
-        <div className="habla-main-content-header-title">
-          <GraphViewSelector currentSubscriberOrgId={currentSubscriberOrgId} />
-          <div className="flexClass breadcrumbLevels">
-            <div className="habla-title-light responsiveHideClass">{String.t('dashboardPage.industryGraphsTitle')}</div>
-            <i className="fas fa-angle-right responsiveHideClass" />
-            <Link to={'/app/dashboard'} style={{ color: 'black' }}>
-              <div className="habla-title-light responsiveHideClass">{String.t('dashboardPage.industryTitleManufacturing')}</div>
-            </Link>
-            <i className="fas fa-angle-right responsiveHideClass" />
-            <div className="habla-title">{String.t(breadcrumb)}</div>
-          </div>
-        </div>
-      </NewSubpageHeader>
-
-      <div className="DashboardPage__reports">
-        {<ReportComponent />}
-      </div>
-    </div>
-  );
-};
+}
 
 DashboardPage.propTypes = {
   currentSubscriberOrgId: PropTypes.string.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      teamId: PropTypes.string,
-      status: PropTypes.string
-    })
-  }).isRequired
+  reports: PropTypes.object.isRequired,
+  reportId: PropTypes.string,
+  selectedReport: PropTypes.shape({
+    breadcrumb: PropTypes.string.isRequired
+  })
+};
+
+DashboardPage.defaultProps = {
+  reportId: null,
+  selectedReport: null
 };
 
 export default DashboardPage;
