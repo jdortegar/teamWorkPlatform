@@ -1,6 +1,8 @@
 import {
   LWREPORTS_PLANTUPTIME_FETCH_SUCCESS,
-  LWREPORTS_PLANTUPTIMEMULTIPLE_FETCH_SUCCESS
+  LWREPORTS_DAILYPLANTUPTIME_FETCH_SUCCESS,
+  LWREPORTS_PLANTUPTIMEMULTIPLE_FETCH_SUCCESS,
+  LWREPORTS_DOWNTIMEREASONSLEVELONE_FETCH_SUCCESS
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -12,15 +14,19 @@ const INITIAL_STATE = {
       measure: 'minutes'
     },
     dailyPlantUptime: {
-      breadcrumb: 'dashboardPage.dailyPlantUptimeBreadcrumb'
+      breadcrumb: 'dashboardPage.dailyPlantUptimeBreadcrumb',
+      series: [],
+      measure: 'minutes'
     },
     plantUptimeMultiple: {
       breadcrumb: 'dashboardPage.plantUptimeMultipleBreadcrumb',
       series: [],
       measure: 'minutes'
     },
-    downtimeReasonLevelOne: {
-      breadcrumb: 'dashboardPage.downtimeReasonsLevelOneBreadcrumb'
+    downtimeReasonsLevelOne: {
+      breadcrumb: 'dashboardPage.downtimeReasonsLevelOneBreadcrumb',
+      series: [],
+      measure: 'minutes'
     },
     downtimeComparisonMultiplePlants: {
       breadcrumb: 'dashboardPage.downtimeComparisonMultiplePlantsBreadcrumb'
@@ -45,6 +51,20 @@ const dashboardReducer = (state = INITIAL_STATE, action) => {
         }
       };
     }
+    case LWREPORTS_DAILYPLANTUPTIME_FETCH_SUCCESS: {
+      const { series, measure } = action.payload;
+      return {
+        ...state,
+        reports: {
+          ...state.reports,
+          dailyPlantUptime: {
+            ...state.reports.dailyPlantUptime,
+            series,
+            measure
+          }
+        }
+      };
+    }
     case LWREPORTS_PLANTUPTIMEMULTIPLE_FETCH_SUCCESS: {
       const { series, measure } = action.payload;
       return {
@@ -52,6 +72,20 @@ const dashboardReducer = (state = INITIAL_STATE, action) => {
         reports: {
           ...state.reports,
           plantUptimeMultiple: {
+            ...state.reports.plantUptimeMultiple,
+            series,
+            measure
+          }
+        }
+      };
+    }
+    case LWREPORTS_DOWNTIMEREASONSLEVELONE_FETCH_SUCCESS: {
+      const { series, measure } = action.payload;
+      return {
+        ...state,
+        reports: {
+          ...state.reports,
+          downtimeReasonsLevelOne: {
             ...state.reports.plantUptimeMultiple,
             series,
             measure
