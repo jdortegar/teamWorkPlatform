@@ -1,38 +1,48 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { NewSubpageHeader, GraphViewSelector, LambWestonReports } from 'components';
+import {
+  NewSubpageHeader,
+  GraphViewSelector,
+  LambWestonReports
+} from 'components';
 import String from 'translations';
 import './styles/style.css';
 
-const reportComponents = {
-  plantUptime: LambWestonReports.PlantUptimeByLineAndString,
-  dailyPlantUptime: LambWestonReports.DailyPlantUptimeByLineAndString,
-  plantUpMultipleComparisons: LambWestonReports.PlantUpMultipleComparisons,
-  downtimeReasonLevelOne: LambWestonReports.DowntimeAndReasonsLevelOne,
-  downtimeComparisonMultiplePlants: LambWestonReports.DowntimeComparisonMultiplePlants
-};
-
 class DashboardPage extends React.Component {
-  state = {
-    params: {
-      plant: 'pasco',
-      from: '2017-10-01',
-      until: '2017-10-07',
-      measure: 'hours'
-    }
-  }
+  constructor(props) {
+    super(props);
 
-  componentDidMount() {
-    this.props.fetchPlantUptimeReport(this.state.params);
+    this.reportComponents = {
+      plantUptime: {
+        ReportComponent: LambWestonReports.PlantUptimeByLineAndString,
+        fetchData: props.fetchPlantUptimeReport
+      },
+      dailyPlantUptime: {
+        ReportComponent: LambWestonReports.DailyPlantUptimeByLineAndString,
+        fetchData: null
+      },
+      plantUpMultipleComparisons: {
+        ReportComponent: LambWestonReports.PlantUpMultipleComparisons,
+        fetchData: null
+      },
+      downtimeReasonLevelOne: {
+        ReportComponent: LambWestonReports.DowntimeAndReasonsLevelOne,
+        fetchData: null
+      },
+      downtimeComparisonMultiplePlants: {
+        ReportComponent: LambWestonReports.DowntimeComparisonMultiplePlants,
+        fetchData: null
+      }
+    };
   }
 
   renderReport = (reportId) => {
-    const ReportComponent = reportComponents[reportId];
+    const { ReportComponent, fetchData } = this.reportComponents[reportId];
     if (!ReportComponent) return null;
     return (
       <div className="DashboardPage__reports">
-        <ReportComponent {...this.props.selectedReport} />
+        <ReportComponent {...this.props.selectedReport} fetchData={fetchData} />
       </div>
     );
   };
@@ -63,18 +73,30 @@ class DashboardPage extends React.Component {
       <div className="DashboardPage">
         <NewSubpageHeader>
           <div className="habla-main-content-header-title">
-            <GraphViewSelector currentSubscriberOrgId={currentSubscriberOrgId} />
+            <GraphViewSelector
+              currentSubscriberOrgId={currentSubscriberOrgId}
+            />
             <div className="flexClass breadcrumbLevels">
-              <div className="habla-title-light responsiveHideClass">{String.t('dashboardPage.industryGraphsTitle')}</div>
+              <div className="habla-title-light responsiveHideClass">
+                {String.t('dashboardPage.industryGraphsTitle')}
+              </div>
               <i className="fas fa-angle-right responsiveHideClass" />
-              {!selectedReport && <div className="habla-title">{String.t('dashboardPage.industryTitleManufacturing')}</div>}
+              {!selectedReport && (
+                <div className="habla-title">
+                  {String.t('dashboardPage.industryTitleManufacturing')}
+                </div>
+              )}
               {selectedReport && (
                 <div className="flexClass">
                   <Link to={'/app/dashboard'} style={{ color: 'black' }}>
-                    <div className="habla-title-light responsiveHideClass">{String.t('dashboardPage.industryTitleManufacturing')}</div>
+                    <div className="habla-title-light responsiveHideClass">
+                      {String.t('dashboardPage.industryTitleManufacturing')}
+                    </div>
                   </Link>
                   <i className="fas fa-angle-right responsiveHideClass" />
-                  <div className="habla-title">{String.t(selectedReport.breadcrumb)}</div>
+                  <div className="habla-title">
+                    {String.t(selectedReport.breadcrumb)}
+                  </div>
                 </div>
               )}
             </div>

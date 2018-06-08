@@ -76,10 +76,17 @@ class PlantUptimeByLineAndString extends Component {
 
   state = {
     width: MIN_WIDTH,
-    height: MIN_HEIGHT
+    height: MIN_HEIGHT,
+    params: {
+      plant: 'pasco',
+      from: '2017-10-01',
+      until: '2017-10-07',
+      measure: 'minutes'
+    }
   }
 
   componentDidMount() {
+    this.props.fetchData(this.state.params);
     window.addEventListener('resize', this.updateDimensions.bind(this));
     this.updateDimensions();
   }
@@ -126,7 +133,8 @@ class PlantUptimeByLineAndString extends Component {
 
 PlantUptimeByLineAndString.propTypes = {
   categories: PropTypes.array.isRequired,
-  series: PropTypes.array.isRequired
+  series: PropTypes.array.isRequired,
+  fetchData: PropTypes.func.isRequired
 };
 
 export default PlantUptimeByLineAndString;
