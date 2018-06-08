@@ -26,9 +26,9 @@ class DashboardPage extends React.Component {
         ReportComponent: LambWestonReports.PlantUptimeMultiple,
         fetchData: props.fetchPlantUptimeMultipleReport
       },
-      downtimeReasonLevelOne: {
+      downtimeReasonsLevelOne: {
         ReportComponent: LambWestonReports.DowntimeAndReasonsLevelOne,
-        fetchData: null
+        fetchData: props.fetchDowntimeReasonsLevelOneReport
       },
       downtimeComparisonMultiplePlants: {
         ReportComponent: LambWestonReports.DowntimeComparisonMultiplePlants,
@@ -116,6 +116,7 @@ DashboardPage.propTypes = {
   fetchPlantUptimeReport: PropTypes.func.isRequired,
   fetchDailyPlantUptimeReport: PropTypes.func.isRequired,
   fetchPlantUptimeMultipleReport: PropTypes.func.isRequired,
+  fetchDowntimeReasonsLevelOneReport: PropTypes.func.isRequired,
   reportId: PropTypes.string,
   selectedReport: PropTypes.shape({
     breadcrumb: PropTypes.string.isRequired

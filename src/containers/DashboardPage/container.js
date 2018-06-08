@@ -6,7 +6,8 @@ import { getCurrentSubscriberOrgId } from 'selectors';
 import {
   fetchPlantUptimeReport,
   fetchDailyPlantUptimeReport,
-  fetchPlantUptimeMultipleReport
+  fetchPlantUptimeMultipleReport,
+  fetchDowntimeReasonsLevelOneReport
 } from 'actions';
 
 const mapStateToProps = (state, ownProps) => {
@@ -23,7 +24,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => ({
   fetchPlantUptimeReport: params => dispatch(fetchPlantUptimeReport(params)),
   fetchDailyPlantUptimeReport: params => dispatch(fetchDailyPlantUptimeReport(params)),
-  fetchPlantUptimeMultipleReport: params => dispatch(fetchPlantUptimeMultipleReport(params))
+  fetchPlantUptimeMultipleReport: params => dispatch(fetchPlantUptimeMultipleReport(params)),
+  fetchDowntimeReasonsLevelOneReport: params => dispatch(fetchDowntimeReasonsLevelOneReport(params))
 });
 
 export default withRouter(

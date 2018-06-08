@@ -1,7 +1,8 @@
 import {
   LWREPORTS_PLANTUPTIME_FETCH_SUCCESS,
   LWREPORTS_DAILYPLANTUPTIME_FETCH_SUCCESS,
-  LWREPORTS_PLANTUPTIMEMULTIPLE_FETCH_SUCCESS
+  LWREPORTS_PLANTUPTIMEMULTIPLE_FETCH_SUCCESS,
+  LWREPORTS_DOWNTIMEREASONSLEVELONE_FETCH_SUCCESS
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -22,8 +23,10 @@ const INITIAL_STATE = {
       series: [],
       measure: 'minutes'
     },
-    downtimeReasonLevelOne: {
-      breadcrumb: 'dashboardPage.downtimeReasonsLevelOneBreadcrumb'
+    downtimeReasonsLevelOne: {
+      breadcrumb: 'dashboardPage.downtimeReasonsLevelOneBreadcrumb',
+      series: [],
+      measure: 'minutes'
     },
     downtimeComparisonMultiplePlants: {
       breadcrumb: 'dashboardPage.downtimeComparisonMultiplePlantsBreadcrumb'
@@ -69,6 +72,20 @@ const dashboardReducer = (state = INITIAL_STATE, action) => {
         reports: {
           ...state.reports,
           plantUptimeMultiple: {
+            ...state.reports.plantUptimeMultiple,
+            series,
+            measure
+          }
+        }
+      };
+    }
+    case LWREPORTS_DOWNTIMEREASONSLEVELONE_FETCH_SUCCESS: {
+      const { series, measure } = action.payload;
+      return {
+        ...state,
+        reports: {
+          ...state.reports,
+          downtimeReasonsLevelOne: {
             ...state.reports.plantUptimeMultiple,
             series,
             measure
