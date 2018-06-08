@@ -1,10 +1,10 @@
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 import config from '../../config/env';
 
-export const LWREPORTS_PLANTUPTIME_FETCH_SUCCESS = 'lwReports/plantUptime/fetch/success';
+export const LWREPORTS_PLANTUPTIMEMULTIPLE_FETCH_SUCCESS = 'lwReports/plantUptimeMultiple/fetch/success';
 
-export const fetchPlantUptimeReport = (params, options = { getKey: false, forceGet: true }) => {
-  let requestUrl = `${config.hablaApiBaseUri}/reports/lamb-weston/report-a`;
+export const fetchPlantUptimeMultipleReport = (params, options = { getKey: false, forceGet: true }) => {
+  let requestUrl = `${config.hablaApiBaseUri}/reports/lamb-weston/report-c`;
 
   const paramsString = Object.keys(params).map(key => `${key}=${encodeURIComponent(params[key])}`).join('&');
   requestUrl += `?${paramsString}`;
@@ -27,10 +27,10 @@ export const fetchPlantUptimeReport = (params, options = { getKey: false, forceG
     if (!options.getKey) {
       thunk.then((response) => {
         if (response.data && response.data !== RESPONSE_STALE) {
-          const { categories, series, measure } = response.data.report;
+          const { title, series, measure } = response.data.report;
           dispatch({
-            type: LWREPORTS_PLANTUPTIME_FETCH_SUCCESS,
-            payload: { categories, series, measure }
+            type: LWREPORTS_PLANTUPTIMEMULTIPLE_FETCH_SUCCESS,
+            payload: { title, series, measure }
           });
         }
         return response;

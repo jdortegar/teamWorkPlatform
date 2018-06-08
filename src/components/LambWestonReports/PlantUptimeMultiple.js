@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
+import PropTypes from 'prop-types';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { COLORS } from './styles/style';
@@ -9,21 +9,7 @@ import './styles/style.css';
 const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
 
-// simulate API data
-const labels = [
-  'American Falls',
-  'Boardman East',
-  'Connel',
-  'Delhi',
-  'Park Rapids',
-  'Pasco',
-  'Richland'
-];
-const values = _.range(7).map(() => {
-  return _.random(5, 120);
-});
-
-class PlanUpMultipleComparisons extends Component {
+class PlantUptimeMultiple extends Component {
   constructor() {
     super();
     this.chartOptions = {
@@ -84,41 +70,21 @@ class PlanUpMultipleComparisons extends Component {
       },
       credits: {
         enabled: false
-      },
-      series: [
-        {
-          name: labels[0],
-          data: [values[0]]
-        },
-        {
-          name: labels[1],
-          data: [values[1]]
-        },
-        {
-          name: labels[2],
-          data: [values[2]]
-        },
-        {
-          name: labels[3],
-          data: [values[3]]
-        },
-        {
-          name: labels[4],
-          data: [values[4]]
-        },
-        {
-          name: labels[5],
-          data: [values[5]]
-        }
-      ]
+      }
     };
   }
 
   state = {
     width: MIN_WIDTH,
-    height: MIN_HEIGHT
-  }
+    height: MIN_HEIGHT,
+    params: {
+      from: '2017-10-01',
+      until: '2017-10-31'
+    }
+  };
+
   componentDidMount() {
+    this.props.fetchData(this.state.params);
     window.addEventListener('resize', this.updateDimensions.bind(this));
     this.updateDimensions();
   }
@@ -135,10 +101,12 @@ class PlanUpMultipleComparisons extends Component {
   }
 
   render() {
+    const { series } = this.props;
+
     return (
       <div className="Report__container">
         <div
-          className="PlanUpMultipeComparissions"
+          className="PlantUptimeMultiple"
           ref={(node) => { this.container = node; }}
           style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
@@ -146,6 +114,7 @@ class PlanUpMultipleComparisons extends Component {
             highcharts={Highcharts}
             options={{
               ...this.chartOptions,
+              series,
               chart: {
                 ...this.chartOptions.chart,
                 height: this.state.height,
@@ -159,4 +128,9 @@ class PlanUpMultipleComparisons extends Component {
   }
 }
 
-export default PlanUpMultipleComparisons;
+PlantUptimeMultiple.propTypes = {
+  series: PropTypes.array.isRequired,
+  fetchData: PropTypes.func.isRequired
+};
+
+export default PlantUptimeMultiple;

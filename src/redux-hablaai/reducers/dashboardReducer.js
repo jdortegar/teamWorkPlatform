@@ -1,6 +1,9 @@
 import _ from 'lodash';
 
-import { LW_PLANTUPTIMEREPORT_FETCH_SUCCESS } from '../actions';
+import {
+  LWREPORTS_PLANTUPTIME_FETCH_SUCCESS,
+  LWREPORTS_PLANTUPTIMEMULTIPLE_FETCH_SUCCESS
+} from '../actions';
 
 const INITIAL_STATE = {
   reports: {
@@ -13,8 +16,10 @@ const INITIAL_STATE = {
     dailyPlantUptime: {
       breadcrumb: 'dashboardPage.dailyPlantUptimeBreadcrumb'
     },
-    plantUpMultipleComparisons: {
-      breadcrumb: 'dashboardPage.plantUpMultipleComparisonsBreadcrumb'
+    plantUptimeMultiple: {
+      breadcrumb: 'dashboardPage.plantUptimeMultipleBreadcrumb',
+      series: [],
+      measure: 'minutes'
     },
     downtimeReasonLevelOne: {
       breadcrumb: 'dashboardPage.downtimeReasonsLevelOneBreadcrumb'
@@ -27,9 +32,17 @@ const INITIAL_STATE = {
 
 const dashboardReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case LW_PLANTUPTIMEREPORT_FETCH_SUCCESS: {
+    case LWREPORTS_PLANTUPTIME_FETCH_SUCCESS: {
       const { categories, series, measure } = action.payload;
-      return _.merge(state, { reports: { plantUptime: { categories, series, measure } } });
+      return _.merge(state, {
+        reports: { plantUptime: { categories, series, measure } }
+      });
+    }
+    case LWREPORTS_PLANTUPTIMEMULTIPLE_FETCH_SUCCESS: {
+      const { series, measure } = action.payload;
+      return _.merge(state, {
+        reports: { plantUptimeMultiple: { series, measure } }
+      });
     }
     default:
       return state;

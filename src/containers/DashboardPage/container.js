@@ -3,15 +3,15 @@ import { withRouter } from 'react-router';
 
 import DashboardPage from 'pages/DashboardPage';
 import { getCurrentSubscriberOrgId } from 'selectors';
-import { fetchPlantUptimeReport } from 'actions';
+import { fetchPlantUptimeReport, fetchPlantUptimeMultipleReport } from 'actions';
 
 const mapStateToProps = (state, ownProps) => {
   const reportId = ownProps.match.params.reportId;
-  console.warn('---------------------------------------------');
-  console.warn('reportId', reportId);
-  console.warn('reports', state.dashboard.reports);
-  console.warn('report', state.dashboard.reports[reportId]);
-  console.warn('------------------ END ----------------------');
+  // console.warn('---------------------------------------------');
+  // console.warn('reportId', reportId);
+  // console.warn('reports', state.dashboard.reports);
+  // console.warn('report', state.dashboard.reports[reportId]);
+  // console.warn('------------------ END ----------------------');
 
   return {
     reportId,
@@ -22,8 +22,13 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  fetchPlantUptimeReport: params => dispatch(fetchPlantUptimeReport(params))
+  fetchPlantUptimeReport: params => dispatch(fetchPlantUptimeReport(params)),
+  fetchPlantUptimeMultipleReport: params => dispatch(fetchPlantUptimeMultipleReport(params))
 });
 
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DashboardPage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(DashboardPage)
+);
