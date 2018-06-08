@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
@@ -91,7 +92,15 @@ class PlantUptimeByLineAndString extends Component {
     this.updateDimensions();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!this.highchart.chart) return;
+    if (_.isEqual(this.props.series, nextProps.series)) return;
+
+    this.highchart.chart.update({ series: nextProps.series }, true, true);
+  }
+
   container = null;
+  highchart = null;
 
   updateDimensions() {
     if (!this.container || !this.container.parentNode) return;
@@ -113,6 +122,7 @@ class PlantUptimeByLineAndString extends Component {
           style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
           <HighchartsReact
+            ref={(node) => { this.highchart = node; }}
             highcharts={Highcharts}
             options={{
               ...this.chartOptions,

@@ -7,11 +7,6 @@ import { fetchPlantUptimeReport, fetchPlantUptimeMultipleReport } from 'actions'
 
 const mapStateToProps = (state, ownProps) => {
   const reportId = ownProps.match.params.reportId;
-  // console.warn('---------------------------------------------');
-  // console.warn('reportId', reportId);
-  // console.warn('reports', state.dashboard.reports);
-  // console.warn('report', state.dashboard.reports[reportId]);
-  // console.warn('------------------ END ----------------------');
 
   return {
     reportId,
