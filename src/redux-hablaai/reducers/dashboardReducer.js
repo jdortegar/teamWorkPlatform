@@ -1,5 +1,6 @@
 import {
   LWREPORTS_PLANTUPTIME_FETCH_SUCCESS,
+  LWREPORTS_DAILYPLANTUPTIME_FETCH_SUCCESS,
   LWREPORTS_PLANTUPTIMEMULTIPLE_FETCH_SUCCESS
 } from '../actions';
 
@@ -12,7 +13,9 @@ const INITIAL_STATE = {
       measure: 'minutes'
     },
     dailyPlantUptime: {
-      breadcrumb: 'dashboardPage.dailyPlantUptimeBreadcrumb'
+      breadcrumb: 'dashboardPage.dailyPlantUptimeBreadcrumb',
+      series: [],
+      measure: 'minutes'
     },
     plantUptimeMultiple: {
       breadcrumb: 'dashboardPage.plantUptimeMultipleBreadcrumb',
@@ -39,6 +42,20 @@ const dashboardReducer = (state = INITIAL_STATE, action) => {
           plantUptime: {
             ...state.reports.plantUptime,
             categories,
+            series,
+            measure
+          }
+        }
+      };
+    }
+    case LWREPORTS_DAILYPLANTUPTIME_FETCH_SUCCESS: {
+      const { series, measure } = action.payload;
+      return {
+        ...state,
+        reports: {
+          ...state.reports,
+          dailyPlantUptime: {
+            ...state.reports.dailyPlantUptime,
             series,
             measure
           }

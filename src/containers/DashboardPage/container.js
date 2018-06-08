@@ -3,7 +3,11 @@ import { withRouter } from 'react-router';
 
 import DashboardPage from 'pages/DashboardPage';
 import { getCurrentSubscriberOrgId } from 'selectors';
-import { fetchPlantUptimeReport, fetchPlantUptimeMultipleReport } from 'actions';
+import {
+  fetchPlantUptimeReport,
+  fetchDailyPlantUptimeReport,
+  fetchPlantUptimeMultipleReport
+} from 'actions';
 
 const mapStateToProps = (state, ownProps) => {
   const reportId = ownProps.match.params.reportId;
@@ -18,6 +22,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   fetchPlantUptimeReport: params => dispatch(fetchPlantUptimeReport(params)),
+  fetchDailyPlantUptimeReport: params => dispatch(fetchDailyPlantUptimeReport(params)),
   fetchPlantUptimeMultipleReport: params => dispatch(fetchPlantUptimeMultipleReport(params))
 });
 
