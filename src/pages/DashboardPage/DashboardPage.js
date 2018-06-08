@@ -1,89 +1,129 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { NewSubpageHeader, GraphViewSelector, LambWestonReports } from 'components';
+import {
+  NewSubpageHeader,
+  GraphViewSelector,
+  LambWestonReports
+} from 'components';
 import String from 'translations';
 import './styles/style.css';
 
-const reports = {
-  dailyPlantUptime: {
-    breadcrumb: 'dashboardPage.dailyPlantUptimeBreadcrumb',
-    ReportComponent: LambWestonReports.DailyPlantUptimeByLineAndString
-  },
-  downtimeReasonLevel1: {
-    breadcrumb: 'dashboardPage.downtimeReasonsLevel1Breadcrumb',
-    ReportComponent: LambWestonReports.DowntimeAndReasonsLevelOne
+class DashboardPage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.reportComponents = {
+      plantUptime: {
+        ReportComponent: LambWestonReports.PlantUptimeByLineAndString,
+        fetchData: props.fetchPlantUptimeReport
+      },
+      dailyPlantUptime: {
+        ReportComponent: LambWestonReports.DailyPlantUptimeByLineAndString,
+        fetchData: null
+      },
+      plantUptimeMultiple: {
+        ReportComponent: LambWestonReports.PlantUptimeMultiple,
+        fetchData: props.fetchPlantUptimeMultipleReport
+      },
+      downtimeReasonLevelOne: {
+        ReportComponent: LambWestonReports.DowntimeAndReasonsLevelOne,
+        fetchData: null
+      },
+      downtimeComparisonMultiplePlants: {
+        ReportComponent: LambWestonReports.DowntimeComparisonMultiplePlants,
+        fetchData: null
+      }
+    };
   }
-};
 
-const DashboardPage = ({ currentSubscriberOrgId, match }) => {
-  const { reportId } = match.params;
-  const report = reports[reportId];
-
-  if (!report) {
+  renderReport = (reportId) => {
+    const { ReportComponent, fetchData } = this.reportComponents[reportId];
+    if (!ReportComponent) return null;
     return (
-      <div className="DashboardPage">
-        <NewSubpageHeader>
-          <div className="habla-main-content-header-title">
-            <GraphViewSelector currentSubscriberOrgId={currentSubscriberOrgId} />
-            <div className="flexClass breadcrumbLevels">
-              <div className="habla-title-light responsiveHideClass">{String.t('dashboardPage.industryGraphsTitle')}</div>
-              <i className="fas fa-angle-right responsiveHideClass" />
-              <div className="habla-title">{String.t('dashboardPage.industryTitleManufacturing')}</div>
-            </div>
-          </div>
-        </NewSubpageHeader>
-        <div className="DashboardPage__reports-list habla-color-blue">
-          <div className="DashboardPage__reports-list-content">
-            {Object.entries(reports).map(([key, value]) => (
-              <div className="DashboardPage__report-item" key={key}>
-                <div className="DashboardPage__report-item-content">
-                  <Link className="habla-label" to={`/app/dashboard/${key}`}>
-                    <i className="far fa-chart-bar mr-1" />
-                    {String.t(value.breadcrumb)}
-                  </Link>
-                </div>
+      <div className="DashboardPage__reports">
+        <ReportComponent {...this.props.selectedReport} fetchData={fetchData} />
+      </div>
+    );
+  };
+
+  renderReportsList() {
+    return (
+      <div className="DashboardPage__reports-list habla-color-blue">
+        <div className="DashboardPage__reports-list-content">
+          {Object.entries(this.props.reports).map(([key, value]) => (
+            <div className="DashboardPage__report-item" key={key}>
+              <div className="DashboardPage__report-item-content">
+                <Link className="habla-label" to={`/app/dashboard/${key}`}>
+                  <i className="far fa-chart-bar mr-1" />
+                  {String.t(value.breadcrumb)}
+                </Link>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     );
   }
 
-  const { ReportComponent, breadcrumb } = report;
-  return (
-    <div className="DashboardPage">
-      <NewSubpageHeader>
-        <div className="habla-main-content-header-title">
-          <GraphViewSelector currentSubscriberOrgId={currentSubscriberOrgId} />
-          <div className="flexClass breadcrumbLevels">
-            <div className="habla-title-light responsiveHideClass">{String.t('dashboardPage.industryGraphsTitle')}</div>
-            <i className="fas fa-angle-right responsiveHideClass" />
-            <Link to={'/app/dashboard'} style={{ color: 'black' }}>
-              <div className="habla-title-light responsiveHideClass">{String.t('dashboardPage.industryTitleManufacturing')}</div>
-            </Link>
-            <i className="fas fa-angle-right responsiveHideClass" />
-            <div className="habla-title">{String.t(breadcrumb)}</div>
-          </div>
-        </div>
-      </NewSubpageHeader>
+  render() {
+    const { currentSubscriberOrgId, selectedReport, reportId } = this.props;
 
-      <div className="DashboardPage__reports">
-        {<ReportComponent />}
+    return (
+      <div className="DashboardPage">
+        <NewSubpageHeader>
+          <div className="habla-main-content-header-title">
+            <GraphViewSelector
+              currentSubscriberOrgId={currentSubscriberOrgId}
+            />
+            <div className="flexClass breadcrumbLevels">
+              <div className="habla-title-light responsiveHideClass">
+                {String.t('dashboardPage.industryGraphsTitle')}
+              </div>
+              <i className="fas fa-angle-right responsiveHideClass" />
+              {!selectedReport && (
+                <div className="habla-title">
+                  {String.t('dashboardPage.industryTitleManufacturing')}
+                </div>
+              )}
+              {selectedReport && (
+                <div className="flexClass">
+                  <Link to={'/app/dashboard'} style={{ color: 'black' }}>
+                    <div className="habla-title-light responsiveHideClass">
+                      {String.t('dashboardPage.industryTitleManufacturing')}
+                    </div>
+                  </Link>
+                  <i className="fas fa-angle-right responsiveHideClass" />
+                  <div className="habla-title">
+                    {String.t(selectedReport.breadcrumb)}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </NewSubpageHeader>
+
+        {!selectedReport && this.renderReportsList()}
+        {selectedReport && this.renderReport(reportId)}
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 DashboardPage.propTypes = {
   currentSubscriberOrgId: PropTypes.string.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      teamId: PropTypes.string,
-      status: PropTypes.string
-    })
-  }).isRequired
+  reports: PropTypes.object.isRequired,
+  fetchPlantUptimeReport: PropTypes.func.isRequired,
+  fetchPlantUptimeMultipleReport: PropTypes.func.isRequired,
+  reportId: PropTypes.string,
+  selectedReport: PropTypes.shape({
+    breadcrumb: PropTypes.string.isRequired
+  })
+};
+
+DashboardPage.defaultProps = {
+  reportId: null,
+  selectedReport: null
 };
 
 export default DashboardPage;

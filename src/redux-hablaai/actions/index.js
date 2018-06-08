@@ -62,4 +62,7 @@ export * from './integrationsIntegrate';
 export * from './integrationsRevoke';
 export * from './integrationsConfigure';
 
+export * from './lwPlantUptimeReportFetch';
+export * from './lwPlantUptimeMultipleReportFetch';
+
 export * from './globalStateFetch';

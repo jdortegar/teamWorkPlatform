@@ -1,7 +1,7 @@
 .Report__container {
+  display: grid;
   height: 100%;
   width: 100%;
-  display: inline-grid;
 }
 .Report__bottomBar {
   height: 50px;
