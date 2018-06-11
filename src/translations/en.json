@@ -647,7 +647,7 @@
     "downtimeReasonsLevelOneBreadcrumb": "Downtime and Reasons Level 1",
     "plantUptimeByLineAndStringBreadcrumb": "Plant Uptime By Line and String",
     "plantUptimeMultipleBreadcrumb": "Plant Uptime by Week or Month for Multiple Plants Comparison",
-    "downtimeComparisonMultiplePlantsBreadcrumb": "Downtime Comparison Across Multiple Plants by Month"
+    "downtimeComparisonMultipleBreadcrumb": "Downtime Comparison Across Multiple Plants by Month"
   },
   "setNewPassword": {
     "submitLabel": "Next",

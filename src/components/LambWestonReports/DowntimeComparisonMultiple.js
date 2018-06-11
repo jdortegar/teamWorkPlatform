@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
@@ -9,23 +10,7 @@ import './styles/style.css';
 const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
 
-// simulate API data
-const labels = [
-  'Pasco Oct',
-  'Pasco Nov',
-  'Pasco Dec',
-  'Park Rapids Oct',
-  'Park Rapids Nov',
-  'Park Rapids Dec',
-  'Delhi Oct',
-  'Delhi Nov',
-  'Delhi Dec'
-];
-const values = _.range(9).map(() => {
-  return _.random(5, 120);
-});
-
-class DowntimeComparisonMultiplePlants extends Component {
+class DowntimeComparisonMultiple extends Component {
   constructor() {
     super();
     this.chartOptions = {
@@ -86,58 +71,34 @@ class DowntimeComparisonMultiplePlants extends Component {
       },
       credits: {
         enabled: false
-      },
-      series: [
-        {
-          name: labels[0],
-          data: [values[0]]
-        },
-        {
-          name: labels[1],
-          data: [values[1]]
-        },
-        {
-          name: labels[2],
-          data: [values[2]]
-        },
-        {
-          name: labels[3],
-          data: [values[3]]
-        },
-        {
-          name: labels[4],
-          data: [values[4]]
-        },
-        {
-          name: labels[5],
-          data: [values[5]]
-        },
-        {
-          name: labels[6],
-          data: [values[6]]
-        },
-        {
-          name: labels[7],
-          data: [values[7]]
-        },
-        {
-          name: labels[8],
-          data: [values[8]]
-        }
-      ]
+      }
     };
   }
 
   state = {
     width: MIN_WIDTH,
-    height: MIN_HEIGHT
+    height: MIN_HEIGHT,
+    params: {
+      plants: 'pasco,delhi',
+      months: '2017-10,2017-11',
+      measure: 'minutes'
+    }
   }
   componentDidMount() {
+    this.props.fetchData(this.state.params);
     window.addEventListener('resize', this.updateDimensions.bind(this));
     this.updateDimensions();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!this.highchart.chart) return;
+    if (_.isEqual(this.props.series, nextProps.series)) return;
+
+    this.highchart.chart.update({ series: nextProps.series }, true, true);
+  }
+
   container = null;
+  highchart = null;
 
   updateDimensions() {
     if (!this.container || !this.container.parentNode) return;
@@ -149,6 +110,8 @@ class DowntimeComparisonMultiplePlants extends Component {
   }
 
   render() {
+    const { categories, series } = this.props;
+
     return (
       <div className="Report__container">
         <div
@@ -157,9 +120,12 @@ class DowntimeComparisonMultiplePlants extends Component {
           style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
           <HighchartsReact
+            ref={(node) => { this.highchart = node; }}
             highcharts={Highcharts}
             options={{
               ...this.chartOptions,
+              series,
+              xAxis: { ...this.chartOptions.xAxis, categories },
               chart: {
                 ...this.chartOptions.chart,
                 height: this.state.height,
@@ -173,4 +139,10 @@ class DowntimeComparisonMultiplePlants extends Component {
   }
 }
 
-export default DowntimeComparisonMultiplePlants;
+DowntimeComparisonMultiple.propTypes = {
+  categories: PropTypes.array.isRequired,
+  series: PropTypes.array.isRequired,
+  fetchData: PropTypes.func.isRequired
+};
+
+export default DowntimeComparisonMultiple;
