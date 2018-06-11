@@ -626,6 +626,10 @@
     "timeActivityGraph": "Time Activity",
     "dateLabel": "Select a Range of Dates",
     "noData": "No Data Currently Available",
+    "ownerFileCount": {
+      "one": "1 file from {{fullName}}",
+      "other": "{{count}} files from {{fullName}}"
+    },
     "filterCount": {
       "one": "1 {{label}}",
       "other": "{{count}} {{label}}"
@@ -640,7 +644,10 @@
     "industryGraphsTitle": "Industry Knowledge Graphs",
     "industryTitleManufacturing": "Manufacturing",
     "dailyPlantUptimeBreadcrumb": "Daily Plant Uptime By Line and String",
-    "downtimeReasonsLevel1Breadcrumb": "Downtime and Reasons Level 1"
+    "downtimeReasonsLevelOneBreadcrumb": "Downtime and Reasons Level 1",
+    "plantUptimeByLineAndStringBreadcrumb": "Plant Uptime By Line and String",
+    "plantUptimeMultipleBreadcrumb": "Plant Uptime by Week or Month for Multiple Plants Comparison",
+    "downtimeComparisonMultipleBreadcrumb": "Downtime Comparison Across Multiple Plants by Month"
   },
   "setNewPassword": {
     "submitLabel": "Next",

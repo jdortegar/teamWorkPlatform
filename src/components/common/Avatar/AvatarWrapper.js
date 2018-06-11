@@ -9,6 +9,7 @@ const propTypes = {
   className: PropTypes.string,
   size: PropTypes.string.isRequired,
   hideStatusTooltip: PropTypes.bool,
+  hidePresence: PropTypes.bool,
   user: PropTypes.shape({
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
@@ -22,6 +23,7 @@ const propTypes = {
 
 const defaultProps = {
   className: '',
+  hidePresence: false,
   hideStatusTooltip: false,
   icon: null,
   online: true
@@ -69,7 +71,7 @@ class AvatarWrapper extends React.Component {
       icon
       //  ...rest
     } = this.props.user;
-    const { className } = this.props;
+    const { className, hidePresence } = this.props;
     let topClass = (className || '').concat(' habla-top-menu-subitem');
     let lowOpacity = false;
     if (online !== undefined && !online) {
@@ -81,7 +83,7 @@ class AvatarWrapper extends React.Component {
     const initials = getInitials(fullName);
     return (
       <div className={topClass}>
-        {!lowOpacity && this.renderUserStatus(presenceStatus)}
+        {!hidePresence && !lowOpacity && this.renderUserStatus(presenceStatus)}
         <div>
           {icon ?
             (<Avatar size={this.props.size} src={`data:image/jpeg;base64, ${icon}`} />) :

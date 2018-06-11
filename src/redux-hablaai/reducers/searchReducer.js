@@ -1,4 +1,5 @@
 import {
+  getOwnersFromFiles,
   getFileTypesFromFiles,
   getIntegrationsFromFiles
 } from 'lib/files';
@@ -9,6 +10,7 @@ const INITIAL_STATE = {
   loading: false,
   query: '',
   results: [],
+  owners: [],
   fileTypes: [],
   integrations: []
 };
@@ -31,6 +33,7 @@ const searchReducer = (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         results: action.payload.files,
+        owners: getOwnersFromFiles(action.payload.files),
         fileTypes: getFileTypesFromFiles(action.payload.files),
         integrations: getIntegrationsFromFiles(action.payload.files)
       };
@@ -40,6 +43,7 @@ const searchReducer = (state = INITIAL_STATE, action) => {
         loading: false,
         query: action.payload.query,
         results: INITIAL_STATE.results,
+        owners: INITIAL_STATE.owners,
         fileTypes: INITIAL_STATE.fileTypes,
         integrations: INITIAL_STATE.integrations
       };

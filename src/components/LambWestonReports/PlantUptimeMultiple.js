@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import _ from 'lodash';
-
 import { COLORS } from './styles/style';
 import './styles/style.css';
 
@@ -11,14 +10,13 @@ import './styles/style.css';
 const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
 
-class DailyPlantUptimeByLineAndString extends Component {
+class PlantUptimeMultiple extends Component {
   constructor() {
     super();
     this.chartOptions = {
       chart: {
-        type: 'line',
+        type: 'column',
         backgroundColor: 'rgb(85, 125, 191)',
-        zoomType: 'x',
         spacing: [0, 0, 0, 0]
       },
       colors: COLORS,
@@ -26,9 +24,8 @@ class DailyPlantUptimeByLineAndString extends Component {
         text: null
       },
       xAxis: {
-        type: 'datetime',
+        type: 'category',
         lineColor: '#819fd1',
-        tickWidth: 0,
         labels: {
           style: {
             color: '#819fd1'
@@ -38,6 +35,7 @@ class DailyPlantUptimeByLineAndString extends Component {
       yAxis: {
         title: false,
         gridLineColor: '#819fd1',
+        tickWidth: 0,
         labels: {
           align: 'left',
           x: 10,
@@ -48,11 +46,12 @@ class DailyPlantUptimeByLineAndString extends Component {
         }
       },
       plotOptions: {
+        column: {
+          borderRadius: 4
+        },
         series: {
-          lineWidth: 1,
-          marker: {
-            enabled: false
-          }
+          borderWidth: 0,
+          pointWidth: 10
         }
       },
       legend: {
@@ -80,8 +79,8 @@ class DailyPlantUptimeByLineAndString extends Component {
     width: MIN_WIDTH,
     height: MIN_HEIGHT,
     params: {
-      plant: 'pasco',
-      month: '2017-10'
+      from: '2017-10-01',
+      until: '2017-10-31'
     }
   };
 
@@ -104,7 +103,6 @@ class DailyPlantUptimeByLineAndString extends Component {
   updateDimensions() {
     if (!this.container || !this.container.parentNode) return;
     const { clientWidth, clientHeight } = this.container.parentNode;
-
     this.setState({
       width: Math.max(clientWidth, MIN_WIDTH),
       height: Math.max(clientHeight, MIN_HEIGHT)
@@ -117,7 +115,7 @@ class DailyPlantUptimeByLineAndString extends Component {
     return (
       <div className="Report__container">
         <div
-          className="DailyPlantUptimeByLineAndString"
+          className="PlantUptimeMultiple"
           ref={(node) => { this.container = node; }}
           style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
@@ -140,9 +138,9 @@ class DailyPlantUptimeByLineAndString extends Component {
   }
 }
 
-DailyPlantUptimeByLineAndString.propTypes = {
+PlantUptimeMultiple.propTypes = {
   series: PropTypes.array.isRequired,
   fetchData: PropTypes.func.isRequired
 };
 
-export default DailyPlantUptimeByLineAndString;
+export default PlantUptimeMultiple;

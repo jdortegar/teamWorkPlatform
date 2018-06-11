@@ -15,6 +15,7 @@ import searchReducer from './searchReducer';
 import typingsReducer from './typingsReducer';
 import timeActivitiesReducer from './timeActivitiesReducer';
 import integrationsReducer from './integrationsReducer';
+import dashboardReducer from './dashboardReducer';
 
 const reducers = {
   urlRequests: urlRequestsReducer,
@@ -33,7 +34,8 @@ const reducers = {
   search: searchReducer,
   typings: typingsReducer,
   timeActivities: timeActivitiesReducer,
-  integrations: integrationsReducer
+  integrations: integrationsReducer,
+  dashboard: dashboardReducer
 };
 
 export default reducers;
