@@ -12,8 +12,9 @@ const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
 
 class DailyPlantUptimeByLineAndString extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
     this.chartOptions = {
       chart: {
         type: 'line',
@@ -74,16 +75,16 @@ class DailyPlantUptimeByLineAndString extends Component {
         enabled: false
       }
     };
-  }
 
-  state = {
-    width: MIN_WIDTH,
-    height: MIN_HEIGHT,
-    params: {
-      plant: 'pasco',
-      month: '2017-10'
-    }
-  };
+    this.state = {
+      width: MIN_WIDTH,
+      height: MIN_HEIGHT,
+      params: {
+        plant: props.plant,
+        month: '2017-10'
+      }
+    };
+  }
 
   componentDidMount() {
     this.props.fetchData(this.state.params);
@@ -92,6 +93,10 @@ class DailyPlantUptimeByLineAndString extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.plant !== this.props.plant) {
+      this.props.fetchData({ ...this.state.params, plant: nextProps.plant });
+    }
+
     if (!this.highchart.chart) return;
     if (_.isEqual(this.props.series, nextProps.series)) return;
 
@@ -141,6 +146,7 @@ class DailyPlantUptimeByLineAndString extends Component {
 }
 
 DailyPlantUptimeByLineAndString.propTypes = {
+  plant: PropTypes.string.isRequired,
   series: PropTypes.array.isRequired,
   fetchData: PropTypes.func.isRequired
 };

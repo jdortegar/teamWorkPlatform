@@ -24,7 +24,8 @@ class DashboardPage extends React.Component {
       },
       dailyPlantUptime: {
         ReportComponent: LambWestonReports.DailyPlantUptimeByLineAndString,
-        fetchData: props.fetchDailyPlantUptimeReport
+        fetchData: props.fetchDailyPlantUptimeReport,
+        showMenu: true
       },
       plantUptimeMultiple: {
         ReportComponent: LambWestonReports.PlantUptimeMultiple,
