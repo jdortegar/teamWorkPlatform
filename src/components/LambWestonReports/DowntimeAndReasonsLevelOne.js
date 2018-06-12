@@ -11,8 +11,9 @@ const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
 
 class DowntimeAndReasonsLevelOne extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
     this.chartOptions = {
       chart: {
         type: 'column',
@@ -73,18 +74,18 @@ class DowntimeAndReasonsLevelOne extends Component {
         enabled: false
       }
     };
-  }
 
-  state = {
-    width: MIN_WIDTH,
-    height: MIN_HEIGHT,
-    params: {
-      plant: 'pasco',
-      from: '2017-10-01',
-      until: '2017-10-31',
-      measure: 'minutes'
-    }
-  };
+    this.state = {
+      width: MIN_WIDTH,
+      height: MIN_HEIGHT,
+      params: {
+        plant: props.plant,
+        from: '2017-10-01',
+        until: '2017-10-31',
+        measure: 'minutes'
+      }
+    };
+  }
 
   componentDidMount() {
     this.props.fetchData(this.state.params);
@@ -93,6 +94,10 @@ class DowntimeAndReasonsLevelOne extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.plant !== this.props.plant) {
+      this.props.fetchData({ ...this.state.params, plant: nextProps.plant });
+    }
+
     if (!this.highchart.chart) return;
     if (_.isEqual(this.props.series, nextProps.series)) return;
 
@@ -142,6 +147,7 @@ class DowntimeAndReasonsLevelOne extends Component {
 }
 
 DowntimeAndReasonsLevelOne.propTypes = {
+  plant: PropTypes.string.isRequired,
   series: PropTypes.array.isRequired,
   fetchData: PropTypes.func.isRequired
 };

@@ -33,7 +33,8 @@ class DashboardPage extends React.Component {
       },
       downtimeReasonsLevelOne: {
         ReportComponent: LambWestonReports.DowntimeAndReasonsLevelOne,
-        fetchData: props.fetchDowntimeReasonsLevelOneReport
+        fetchData: props.fetchDowntimeReasonsLevelOneReport,
+        showMenu: true
       },
       downtimeComparisonMultiple: {
         ReportComponent: LambWestonReports.DowntimeComparisonMultiple,
