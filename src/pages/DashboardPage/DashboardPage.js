@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { Dropdown, Menu } from 'antd';
 import {
   NewSubpageHeader,
   GraphViewSelector,
@@ -9,6 +10,8 @@ import {
 import String from 'translations';
 import './styles/style.css';
 
+const DEFAULT_PLANT = 'american falls';
+
 class DashboardPage extends React.Component {
   constructor(props) {
     super(props);
@@ -16,11 +19,13 @@ class DashboardPage extends React.Component {
     this.reportComponents = {
       plantUptime: {
         ReportComponent: LambWestonReports.PlantUptimeByLineAndString,
-        fetchData: props.fetchPlantUptimeReport
+        fetchData: props.fetchPlantUptimeReport,
+        showMenu: true
       },
       dailyPlantUptime: {
         ReportComponent: LambWestonReports.DailyPlantUptimeByLineAndString,
-        fetchData: props.fetchDailyPlantUptimeReport
+        fetchData: props.fetchDailyPlantUptimeReport,
+        showMenu: true
       },
       plantUptimeMultiple: {
         ReportComponent: LambWestonReports.PlantUptimeMultiple,
@@ -28,7 +33,8 @@ class DashboardPage extends React.Component {
       },
       downtimeReasonsLevelOne: {
         ReportComponent: LambWestonReports.DowntimeAndReasonsLevelOne,
-        fetchData: props.fetchDowntimeReasonsLevelOneReport
+        fetchData: props.fetchDowntimeReasonsLevelOneReport,
+        showMenu: true
       },
       downtimeComparisonMultiple: {
         ReportComponent: LambWestonReports.DowntimeComparisonMultiple,
@@ -37,12 +43,78 @@ class DashboardPage extends React.Component {
     };
   }
 
+  state = {
+    plant: DEFAULT_PLANT
+  }
+
+  handleSelectPlant = (plant) => {
+    this.setState({ plant });
+  }
+
+  renderSelectors = (reportId) => {
+    const { showMenu } = this.reportComponents[reportId];
+    if (!showMenu) return null;
+
+    const menu = (
+      <Menu
+        selectable
+        defaultSelectedKeys={[DEFAULT_PLANT]}
+        onClick={({ key }) => this.handleSelectPlant(key)}
+      >
+        <Menu.Item key="graphSelector">
+          <div className="habla-label padding-class-a">Select plant</div>
+        </Menu.Item>
+        <Menu.Item key="american falls">
+          <a><span><i className="fas fa-industry" /> American Falls</span></a>
+        </Menu.Item>
+        <Menu.Item key="boardman east">
+          <a><span><i className="fas fa-industry" /> Boardman East</span></a>
+        </Menu.Item>
+        <Menu.Item key="connell">
+          <a><span><i className="fas fa-industry" /> Connell</span></a>
+        </Menu.Item>
+        <Menu.Item key="delhi">
+          <a><span><i className="fas fa-industry" /> Delhi</span></a>
+        </Menu.Item>
+        <Menu.Item key="park rapids">
+          <a><span><i className="fas fa-industry" /> Park Rapids</span></a>
+        </Menu.Item>
+        <Menu.Item key="pasco">
+          <a><span><i className="fas fa-industry" /> Pasco</span></a>
+        </Menu.Item>
+        <Menu.Item key="richland">
+          <a><span><i className="fas fa-industry" /> Richland</span></a>
+        </Menu.Item>
+      </Menu>
+    );
+
+    return (
+      <div>
+        <Dropdown
+          overlay={menu}
+          trigger={['click']}
+          placement="bottomRight"
+        >
+          <a className="graphOptionsLink">
+            <i className="fas fa-industry fa-2x" />
+          </a>
+        </Dropdown>
+      </div>
+    );
+  }
+
   renderReport = (reportId) => {
+    const { plant } = this.state;
     const { ReportComponent, fetchData } = this.reportComponents[reportId];
     if (!ReportComponent) return null;
+
     return (
       <div className="DashboardPage__reports">
-        <ReportComponent {...this.props.selectedReport} fetchData={fetchData} />
+        <ReportComponent
+          {...this.props.selectedReport}
+          fetchData={fetchData}
+          plant={plant}
+        />
       </div>
     );
   };
@@ -100,6 +172,7 @@ class DashboardPage extends React.Component {
                 </div>
               )}
             </div>
+            {selectedReport && this.renderSelectors(reportId)}
           </div>
         </NewSubpageHeader>
 
