@@ -10,7 +10,15 @@ import {
 import String from 'translations';
 import './styles/style.css';
 
-const DEFAULT_PLANT = 'american falls';
+const PLANTS = [
+  { key: 'american falls', name: 'American Falls' },
+  { key: 'boardman east', name: 'Boardman East' },
+  { key: 'connell', name: 'Connell' },
+  { key: 'delhi', name: 'Delhi' },
+  { key: 'park rapids', name: 'Park Rapids' },
+  { key: 'pasco', name: 'Pasco' },
+  { key: 'richland', name: 'Richland' }
+];
 
 class DashboardPage extends React.Component {
   constructor(props) {
@@ -44,10 +52,11 @@ class DashboardPage extends React.Component {
   }
 
   state = {
-    plant: DEFAULT_PLANT
+    plant: PLANTS[0]
   }
 
-  handleSelectPlant = (plant) => {
+  handleSelectPlant = (key) => {
+    const plant = PLANTS.find(item => item.key === key);
     this.setState({ plant });
   }
 
@@ -58,33 +67,17 @@ class DashboardPage extends React.Component {
     const menu = (
       <Menu
         selectable
-        defaultSelectedKeys={[DEFAULT_PLANT]}
+        defaultSelectedKeys={[this.state.plant.key]}
         onClick={({ key }) => this.handleSelectPlant(key)}
       >
         <Menu.Item key="graphSelector">
-          <div className="habla-label padding-class-a">Select plant</div>
+          <div className="habla-label padding-class-a">{String.t('dashboardPage.labelSelectPlant')}</div>
         </Menu.Item>
-        <Menu.Item key="american falls">
-          <a><span><i className="fas fa-industry" /> American Falls</span></a>
-        </Menu.Item>
-        <Menu.Item key="boardman east">
-          <a><span><i className="fas fa-industry" /> Boardman East</span></a>
-        </Menu.Item>
-        <Menu.Item key="connell">
-          <a><span><i className="fas fa-industry" /> Connell</span></a>
-        </Menu.Item>
-        <Menu.Item key="delhi">
-          <a><span><i className="fas fa-industry" /> Delhi</span></a>
-        </Menu.Item>
-        <Menu.Item key="park rapids">
-          <a><span><i className="fas fa-industry" /> Park Rapids</span></a>
-        </Menu.Item>
-        <Menu.Item key="pasco">
-          <a><span><i className="fas fa-industry" /> Pasco</span></a>
-        </Menu.Item>
-        <Menu.Item key="richland">
-          <a><span><i className="fas fa-industry" /> Richland</span></a>
-        </Menu.Item>
+        {PLANTS.map(plant => (
+          <Menu.Item key={plant.key}>
+            <a><span><i className="fas fa-industry" /> {plant.name}</span></a>
+          </Menu.Item>
+        ))}
       </Menu>
     );
 
@@ -113,7 +106,7 @@ class DashboardPage extends React.Component {
         <ReportComponent
           {...this.props.selectedReport}
           fetchData={fetchData}
-          plant={plant}
+          plant={plant.key}
         />
       </div>
     );
@@ -128,7 +121,7 @@ class DashboardPage extends React.Component {
               <div className="DashboardPage__report-item-content">
                 <Link className="habla-label" to={`/app/dashboard/${key}`}>
                   <i className="far fa-chart-bar mr-1" />
-                  {String.t(value.breadcrumb)}
+                  {String.t(value.breadcrumb, { plant: String.t('dashboardPage.plant') })}
                 </Link>
               </div>
             </div>
@@ -167,7 +160,7 @@ class DashboardPage extends React.Component {
                   </Link>
                   <i className="fas fa-angle-right responsiveHideClass" />
                   <div className="habla-title">
-                    {String.t(selectedReport.breadcrumb)}
+                    {String.t(selectedReport.breadcrumb, { plant: this.state.plant.name })}
                   </div>
                 </div>
               )}
