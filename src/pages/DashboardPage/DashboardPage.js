@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Dropdown, Menu } from 'antd';
 import {
@@ -9,6 +10,16 @@ import {
 } from 'components';
 import String from 'translations';
 import './styles/style.css';
+
+const BASELINE_DATE = '2017-10-01';
+const DATES = [...Array(8).keys()].map((i) => {
+  const date = moment(BASELINE_DATE).add(i, 'weeks');
+  return {
+    key: `week-${date.format('ww')}`,
+    name: `Week from ${date.format('ll')}`,
+    value: date
+  };
+});
 
 const PLANTS = [
   { key: 'american falls', name: 'American Falls' },
@@ -28,12 +39,17 @@ class DashboardPage extends React.Component {
       plantUptime: {
         ReportComponent: LambWestonReports.PlantUptimeByLineAndString,
         fetchData: props.fetchPlantUptimeReport,
-        showMenu: true
+        menuOptions: {
+          plant: true,
+          date: true
+        }
       },
       dailyPlantUptime: {
         ReportComponent: LambWestonReports.DailyPlantUptimeByLineAndString,
         fetchData: props.fetchDailyPlantUptimeReport,
-        showMenu: true
+        menuOptions: {
+          plant: true
+        }
       },
       plantUptimeMultiple: {
         ReportComponent: LambWestonReports.PlantUptimeMultiple,
@@ -42,7 +58,9 @@ class DashboardPage extends React.Component {
       downtimeReasonsLevelOne: {
         ReportComponent: LambWestonReports.DowntimeAndReasonsLevelOne,
         fetchData: props.fetchDowntimeReasonsLevelOneReport,
-        showMenu: true
+        menuOptions: {
+          plant: true
+        }
       },
       downtimeComparisonMultiple: {
         ReportComponent: LambWestonReports.DowntimeComparisonMultiple,
@@ -52,7 +70,13 @@ class DashboardPage extends React.Component {
   }
 
   state = {
-    plant: PLANTS[0]
+    plant: PLANTS[0],
+    date: DATES[0]
+  }
+
+  handleSelectDate = (key) => {
+    const date = DATES.find(item => item.key === key);
+    this.setState({ date });
   }
 
   handleSelectPlant = (key) => {
@@ -60,10 +84,40 @@ class DashboardPage extends React.Component {
     this.setState({ plant });
   }
 
-  renderSelectors = (reportId) => {
-    const { showMenu } = this.reportComponents[reportId];
-    if (!showMenu) return null;
+  renderDateSelector = () => {
+    const menu = (
+      <Menu
+        selectable
+        defaultSelectedKeys={[this.state.date.key]}
+        onClick={({ key }) => this.handleSelectDate(key)}
+      >
+        <Menu.Item key="graphSelector">
+          <div className="habla-label padding-class-a">{String.t('dashboardPage.labelSelectDate')}</div>
+        </Menu.Item>
+        {DATES.map(date => (
+          <Menu.Item key={date.key}>
+            <a><span><i className="fas fa-calendar-alt" /> {date.name}</span></a>
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
 
+    return (
+      <div>
+        <Dropdown
+          overlay={menu}
+          trigger={['click']}
+          placement="bottomRight"
+        >
+          <a className="graphOptionsLink">
+            <i className="fas fa-calendar-alt fa-2x" />
+          </a>
+        </Dropdown>
+      </div>
+    );
+  }
+
+  renderPlantSelector = () => {
     const menu = (
       <Menu
         selectable
@@ -96,10 +150,28 @@ class DashboardPage extends React.Component {
     );
   }
 
+  renderSelectors = (reportId) => {
+    const { menuOptions } = this.reportComponents[reportId];
+    if (!menuOptions) return null;
+
+    return (
+      <div style={{ display: 'flex' }}>
+        {menuOptions.date && this.renderDateSelector()}
+        {menuOptions.plant && this.renderPlantSelector()}
+      </div>
+    );
+  }
+
   renderReport = (reportId) => {
-    const { plant } = this.state;
-    const { ReportComponent, fetchData } = this.reportComponents[reportId];
+    const { plant, date } = this.state;
+    const { ReportComponent, fetchData, menuOptions } = this.reportComponents[reportId];
     if (!ReportComponent) return null;
+
+    const dateProps = {};
+    if (menuOptions && menuOptions.date) {
+      dateProps.from = moment(date.value).startOf('week').format('YYYY-MM-DD');
+      dateProps.until = moment(date.value).endOf('week').format('YYYY-MM-DD');
+    }
 
     return (
       <div className="DashboardPage__reports">
@@ -107,6 +179,7 @@ class DashboardPage extends React.Component {
           {...this.props.selectedReport}
           fetchData={fetchData}
           plant={plant.key}
+          {...dateProps}
         />
       </div>
     );
