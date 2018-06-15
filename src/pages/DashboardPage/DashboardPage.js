@@ -62,7 +62,8 @@ class DashboardPage extends React.Component {
         ReportComponent: LambWestonReports.DowntimeAndReasonsLevelOne,
         fetchData: props.fetchDowntimeReasonsLevelOneReport,
         menuOptions: {
-          plant: true
+          plant: true,
+          date: true
         }
       },
       downtimeComparisonMultiple: {
