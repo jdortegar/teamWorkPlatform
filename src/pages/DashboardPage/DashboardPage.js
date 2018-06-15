@@ -53,7 +53,10 @@ class DashboardPage extends React.Component {
       },
       plantUptimeMultiple: {
         ReportComponent: LambWestonReports.PlantUptimeMultiple,
-        fetchData: props.fetchPlantUptimeMultipleReport
+        fetchData: props.fetchPlantUptimeMultipleReport,
+        menuOptions: {
+          date: true
+        }
       },
       downtimeReasonsLevelOne: {
         ReportComponent: LambWestonReports.DowntimeAndReasonsLevelOne,
