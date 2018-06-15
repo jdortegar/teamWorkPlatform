@@ -645,6 +645,7 @@
     "industryGraphsTitle": "Industry Knowledge Graphs",
     "industryTitleManufacturing": "Manufacturing",
     "labelSelectPlant": "Select plant",
+    "labelSelectDate": "Select date range",
     "plantUptimeByLineAndStringBreadcrumb": "{{plant}} Uptime By Line and String",
     "dailyPlantUptimeBreadcrumb": "Daily {{plant}} Uptime By Line and String",
     "plantUptimeMultipleBreadcrumb": "Plant Uptime by Week or Month for Multiple Plants Comparison",
