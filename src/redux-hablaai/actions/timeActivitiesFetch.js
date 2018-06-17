@@ -24,7 +24,7 @@ export const fetchTimeActivitiesBySubscriberOrgId = (subscriberOrgId, options = 
     if (!options.getKey) {
       thunk.then((response) => {
         if (response.data && response.data !== RESPONSE_STALE) {
-          const { edges, files } = response.data;
+          const { edges, files } = response.data.message;
           dispatch({
             type: TIMEACTIVITIES_FETCH_SUCCESS,
             payload: { edges, files }
