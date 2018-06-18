@@ -1,6 +1,7 @@
 import createHistory from 'history/createBrowserHistory';
 import { routerMiddleware } from 'react-router-redux';
-import { applyMiddleware, createStore, compose } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { getStoredState, createPersistor, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
@@ -16,16 +17,12 @@ function composeMiddleware() {
     applyMiddleware(routerMiddleware(history))
   ];
 
-  if (process.env.NODE_ENV !== 'production') {
-    const DevTools = require('./containers/DevTools').default; // eslint-disable-line global-require
-    middleware = [...middleware, DevTools.instrument()];
-  }
   if (process.env.REDUX_LOGGING) {
     const { logger } = require('redux-logger'); // eslint-disable-line global-require
     middleware = [...middleware, applyMiddleware(logger)];
   }
 
-  return compose(...middleware);
+  return composeWithDevTools(...middleware);
 }
 
 export function configureStore() {
