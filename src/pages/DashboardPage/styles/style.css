@@ -18,24 +18,34 @@
   width: 100%;
 }
 .DashboardPage__report-item-content {
-	background: #6d8bbe;
-	padding: 20px;
-	border-radius: 6px;
-	margin: 20px;
+  background: #6d8bbe;
+  padding: 20px;
+  border-radius: 6px;
+  margin: 20px;
 }
 .DashboardPage__report-item-content a {
-	color: #a2b6d7;
+  color: #a2b6d7;
 }
 .DashboardPage__report-item-content a:hover {
-	color: #fff;
+  color: #fff;
 }
 .DashboardPage__report-item {
-	width: 50%;
+  width: 50%;
 }
 .DashboardPage .habla-title {
-	display: inline-flex;
+  display: inline-flex;
 }
 .DashboardPage .habla-main-content-header.flexClass {
-	display: initial;
+  display: initial;
 }
-
+.DashboardPage .breadcrumbLevels {
+  flex-grow: 1;
+}
+.DashboardPage .graphOptionsLink {
+  border: 1px solid #dedede;
+  border-radius: 4px;
+  padding: 5px 6px;
+}
+.DashboardPage .graphOptionsLink svg {
+  margin: 0;
+}

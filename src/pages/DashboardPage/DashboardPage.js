@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { Link } from 'react-router-dom';
+import { Dropdown, Menu } from 'antd';
 import {
   NewSubpageHeader,
   GraphViewSelector,
@@ -9,6 +11,26 @@ import {
 import String from 'translations';
 import './styles/style.css';
 
+const BASELINE_DATE = '2017-10-01';
+const DATES = [...Array(8).keys()].map((i) => {
+  const date = moment(BASELINE_DATE).add(i, 'weeks');
+  return {
+    key: `week-${date.format('ww')}`,
+    name: `Week from ${date.format('ll')}`,
+    value: date
+  };
+});
+
+const PLANTS = [
+  { key: 'american falls', name: 'American Falls' },
+  { key: 'boardman east', name: 'Boardman East' },
+  { key: 'connell', name: 'Connell' },
+  { key: 'delhi', name: 'Delhi' },
+  { key: 'park rapids', name: 'Park Rapids' },
+  { key: 'pasco', name: 'Pasco' },
+  { key: 'richland', name: 'Richland' }
+];
+
 class DashboardPage extends React.Component {
   constructor(props) {
     super(props);
@@ -16,19 +38,33 @@ class DashboardPage extends React.Component {
     this.reportComponents = {
       plantUptime: {
         ReportComponent: LambWestonReports.PlantUptimeByLineAndString,
-        fetchData: props.fetchPlantUptimeReport
+        fetchData: props.fetchPlantUptimeReport,
+        menuOptions: {
+          plant: true,
+          date: true
+        }
       },
       dailyPlantUptime: {
         ReportComponent: LambWestonReports.DailyPlantUptimeByLineAndString,
-        fetchData: props.fetchDailyPlantUptimeReport
+        fetchData: props.fetchDailyPlantUptimeReport,
+        menuOptions: {
+          plant: true
+        }
       },
       plantUptimeMultiple: {
         ReportComponent: LambWestonReports.PlantUptimeMultiple,
-        fetchData: props.fetchPlantUptimeMultipleReport
+        fetchData: props.fetchPlantUptimeMultipleReport,
+        menuOptions: {
+          date: true
+        }
       },
       downtimeReasonsLevelOne: {
         ReportComponent: LambWestonReports.DowntimeAndReasonsLevelOne,
-        fetchData: props.fetchDowntimeReasonsLevelOneReport
+        fetchData: props.fetchDowntimeReasonsLevelOneReport,
+        menuOptions: {
+          plant: true,
+          date: true
+        }
       },
       downtimeComparisonMultiple: {
         ReportComponent: LambWestonReports.DowntimeComparisonMultiple,
@@ -37,12 +73,118 @@ class DashboardPage extends React.Component {
     };
   }
 
+  state = {
+    plant: PLANTS[0],
+    date: DATES[0]
+  }
+
+  handleSelectDate = (key) => {
+    const date = DATES.find(item => item.key === key);
+    this.setState({ date });
+  }
+
+  handleSelectPlant = (key) => {
+    const plant = PLANTS.find(item => item.key === key);
+    this.setState({ plant });
+  }
+
+  renderDateSelector = () => {
+    const menu = (
+      <Menu
+        selectable
+        defaultSelectedKeys={[this.state.date.key]}
+        onClick={({ key }) => this.handleSelectDate(key)}
+      >
+        <Menu.Item key="graphSelector">
+          <div className="habla-label padding-class-a">{String.t('dashboardPage.labelSelectDate')}</div>
+        </Menu.Item>
+        {DATES.map(date => (
+          <Menu.Item key={date.key}>
+            <a><span><i className="fas fa-calendar-alt" /> {date.name}</span></a>
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
+
+    return (
+      <div>
+        <Dropdown
+          overlay={menu}
+          trigger={['click']}
+          placement="bottomRight"
+        >
+          <a className="graphOptionsLink">
+            <i className="fas fa-calendar-alt fa-2x" />
+          </a>
+        </Dropdown>
+      </div>
+    );
+  }
+
+  renderPlantSelector = () => {
+    const menu = (
+      <Menu
+        selectable
+        defaultSelectedKeys={[this.state.plant.key]}
+        onClick={({ key }) => this.handleSelectPlant(key)}
+      >
+        <Menu.Item key="graphSelector">
+          <div className="habla-label padding-class-a">{String.t('dashboardPage.labelSelectPlant')}</div>
+        </Menu.Item>
+        {PLANTS.map(plant => (
+          <Menu.Item key={plant.key}>
+            <a><span><i className="fas fa-industry" /> {plant.name}</span></a>
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
+
+    return (
+      <div>
+        <Dropdown
+          overlay={menu}
+          trigger={['click']}
+          placement="bottomRight"
+        >
+          <a className="graphOptionsLink">
+            <i className="fas fa-industry fa-2x" />
+          </a>
+        </Dropdown>
+      </div>
+    );
+  }
+
+  renderSelectors = (reportId) => {
+    const { menuOptions } = this.reportComponents[reportId];
+    if (!menuOptions) return null;
+
+    return (
+      <div style={{ display: 'flex' }}>
+        {menuOptions.date && this.renderDateSelector()}
+        {menuOptions.plant && this.renderPlantSelector()}
+      </div>
+    );
+  }
+
   renderReport = (reportId) => {
-    const { ReportComponent, fetchData } = this.reportComponents[reportId];
+    const { plant, date } = this.state;
+    const { ReportComponent, fetchData, menuOptions } = this.reportComponents[reportId];
     if (!ReportComponent) return null;
+
+    const dateProps = {};
+    if (menuOptions && menuOptions.date) {
+      dateProps.from = moment(date.value).startOf('week').format('YYYY-MM-DD');
+      dateProps.until = moment(date.value).endOf('week').format('YYYY-MM-DD');
+    }
+
     return (
       <div className="DashboardPage__reports">
-        <ReportComponent {...this.props.selectedReport} fetchData={fetchData} />
+        <ReportComponent
+          {...this.props.selectedReport}
+          fetchData={fetchData}
+          plant={plant.key}
+          {...dateProps}
+        />
       </div>
     );
   };
@@ -56,7 +198,7 @@ class DashboardPage extends React.Component {
               <div className="DashboardPage__report-item-content">
                 <Link className="habla-label" to={`/app/dashboard/${key}`}>
                   <i className="far fa-chart-bar mr-1" />
-                  {String.t(value.breadcrumb)}
+                  {String.t(value.breadcrumb, { plant: String.t('dashboardPage.plant') })}
                 </Link>
               </div>
             </div>
@@ -95,11 +237,12 @@ class DashboardPage extends React.Component {
                   </Link>
                   <i className="fas fa-angle-right responsiveHideClass" />
                   <div className="habla-title">
-                    {String.t(selectedReport.breadcrumb)}
+                    {String.t(selectedReport.breadcrumb, { plant: this.state.plant.name })}
                   </div>
                 </div>
               )}
             </div>
+            {selectedReport && this.renderSelectors(reportId)}
           </div>
         </NewSubpageHeader>
 

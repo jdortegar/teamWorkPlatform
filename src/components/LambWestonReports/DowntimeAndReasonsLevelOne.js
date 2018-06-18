@@ -11,8 +11,9 @@ const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
 
 class DowntimeAndReasonsLevelOne extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
     this.chartOptions = {
       chart: {
         type: 'column',
@@ -77,22 +78,28 @@ class DowntimeAndReasonsLevelOne extends Component {
 
   state = {
     width: MIN_WIDTH,
-    height: MIN_HEIGHT,
-    params: {
-      plant: 'pasco',
-      from: '2017-10-01',
-      until: '2017-10-31',
-      measure: 'minutes'
-    }
+    height: MIN_HEIGHT
   };
 
   componentDidMount() {
-    this.props.fetchData(this.state.params);
+    const { plant, from, until } = this.props;
+    this.props.fetchData({ plant, from, until, measure: 'minutes' });
+
     window.addEventListener('resize', this.updateDimensions.bind(this));
     this.updateDimensions();
   }
 
   componentWillReceiveProps(nextProps) {
+    const { plant, from, until } = nextProps;
+    const shouldFetch = (
+      plant !== this.props.plant ||
+      from !== this.props.from ||
+      until !== this.props.until
+    );
+    if (shouldFetch) {
+      this.props.fetchData({ plant, from, until, measure: 'minutes' });
+    }
+
     if (!this.highchart.chart) return;
     if (_.isEqual(this.props.series, nextProps.series)) return;
 
@@ -119,11 +126,15 @@ class DowntimeAndReasonsLevelOne extends Component {
       <div className="Report__container">
         <div
           className="DowntimeAndReasonsLevelOne"
-          ref={(node) => { this.container = node; }}
+          ref={(node) => {
+            this.container = node;
+          }}
           style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
           <HighchartsReact
-            ref={(node) => { this.highchart = node; }}
+            ref={(node) => {
+              this.highchart = node;
+            }}
             highcharts={Highcharts}
             options={{
               ...this.chartOptions,
@@ -142,6 +153,9 @@ class DowntimeAndReasonsLevelOne extends Component {
 }
 
 DowntimeAndReasonsLevelOne.propTypes = {
+  plant: PropTypes.string.isRequired,
+  from: PropTypes.string.isRequired,
+  until: PropTypes.string.isRequired,
   series: PropTypes.array.isRequired,
   fetchData: PropTypes.func.isRequired
 };

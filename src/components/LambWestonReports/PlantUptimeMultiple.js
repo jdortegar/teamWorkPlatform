@@ -77,20 +77,23 @@ class PlantUptimeMultiple extends Component {
 
   state = {
     width: MIN_WIDTH,
-    height: MIN_HEIGHT,
-    params: {
-      from: '2017-10-01',
-      until: '2017-10-31'
-    }
+    height: MIN_HEIGHT
   };
 
   componentDidMount() {
-    this.props.fetchData(this.state.params);
+    const { from, until } = this.props;
+    this.props.fetchData({ from, until, measure: 'minutes' });
+
     window.addEventListener('resize', this.updateDimensions.bind(this));
     this.updateDimensions();
   }
 
   componentWillReceiveProps(nextProps) {
+    const { from, until } = nextProps;
+    if (from !== this.props.from || until !== this.props.until) {
+      this.props.fetchData({ from, until, measure: 'minutes' });
+    }
+
     if (!this.highchart.chart) return;
     if (_.isEqual(this.props.series, nextProps.series)) return;
 
@@ -139,6 +142,8 @@ class PlantUptimeMultiple extends Component {
 }
 
 PlantUptimeMultiple.propTypes = {
+  from: PropTypes.string.isRequired,
+  until: PropTypes.string.isRequired,
   series: PropTypes.array.isRequired,
   fetchData: PropTypes.func.isRequired
 };

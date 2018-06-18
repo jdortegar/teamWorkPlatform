@@ -4,7 +4,7 @@ import config from '../../config/env';
 export const TIMEACTIVITIES_FETCH_SUCCESS = 'timeactivities/fetch/success';
 
 export const fetchTimeActivitiesBySubscriberOrgId = (subscriberOrgId, options = { getKey: false, forceGet: true }) => {
-  const requestUrl = `https://y2rhikgvq4.execute-api.us-west-2.amazonaws.com/${config.hablaApiEnv}/graphapi/ckg/${subscriberOrgId}`;
+  const requestUrl = `${config.hablaApiBaseUri}/ckg/getFiles/${subscriberOrgId}`;
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { subscriberOrgId };
@@ -24,7 +24,7 @@ export const fetchTimeActivitiesBySubscriberOrgId = (subscriberOrgId, options = 
     if (!options.getKey) {
       thunk.then((response) => {
         if (response.data && response.data !== RESPONSE_STALE) {
-          const { edges, files } = response.data;
+          const { edges, files } = response.data.message;
           dispatch({
             type: TIMEACTIVITIES_FETCH_SUCCESS,
             payload: { edges, files }

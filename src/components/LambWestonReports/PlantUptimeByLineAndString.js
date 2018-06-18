@@ -13,6 +13,7 @@ const MIN_HEIGHT = 300;
 class PlantUptimeByLineAndString extends Component {
   constructor() {
     super();
+
     this.chartOptions = {
       chart: {
         type: 'column',
@@ -77,22 +78,28 @@ class PlantUptimeByLineAndString extends Component {
 
   state = {
     width: MIN_WIDTH,
-    height: MIN_HEIGHT,
-    params: {
-      plant: 'pasco',
-      from: '2017-10-01',
-      until: '2017-10-07',
-      measure: 'minutes'
-    }
-  }
+    height: MIN_HEIGHT
+  };
 
   componentDidMount() {
-    this.props.fetchData(this.state.params);
+    const { plant, from, until } = this.props;
+    this.props.fetchData({ plant, from, until, measure: 'minutes' });
+
     window.addEventListener('resize', this.updateDimensions.bind(this));
     this.updateDimensions();
   }
 
   componentWillReceiveProps(nextProps) {
+    const { plant, from, until } = nextProps;
+    const shouldFetch = (
+      plant !== this.props.plant ||
+      from !== this.props.from ||
+      until !== this.props.until
+    );
+    if (shouldFetch) {
+      this.props.fetchData({ plant, from, until });
+    }
+
     if (!this.highchart.chart) return;
     if (_.isEqual(this.props.series, nextProps.series)) return;
 
@@ -142,6 +149,9 @@ class PlantUptimeByLineAndString extends Component {
 }
 
 PlantUptimeByLineAndString.propTypes = {
+  plant: PropTypes.string.isRequired,
+  from: PropTypes.string.isRequired,
+  until: PropTypes.string.isRequired,
   categories: PropTypes.array.isRequired,
   series: PropTypes.array.isRequired,
   fetchData: PropTypes.func.isRequired
