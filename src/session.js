@@ -51,6 +51,8 @@ const storeLastRoute = () => {
   // if (process.env.NODE_ENV === 'production') {
   //   Cookie.set(`${LAST_ROUTE_COOKIE_NAME_PREFIX}__${userId}`, `${pathname}${search}`, { secure: true, expires: 7 });
   // } else {
+  console.warn('SLR decoded', decoded);
+  console.warn('SLR current state', currentState);
   if (currentSubscriberOrgId) {
     Cookie.set(`${LAST_ROUTE_COOKIE_NAME_PREFIX}__${userId}`, `${pathname}${search}`, { expires: 7 });
     Cookie.set(`${LAST_SUBSCRIBER_ORG_ID}__${userId}`, currentSubscriberOrgId, { expires: 7 });
@@ -59,9 +61,13 @@ const storeLastRoute = () => {
 };
 
 window.onbeforeunload = () => {
+  console.warn('onbeforeunload');
   closeMessaging();
   storeLastRoute();
+  console.warn('persisting store...', store.getState());
   persistStore(store);
+  console.warn('persisted store!', store.getState());
+  console.warn('onbeforeunload END');
 };
 
 
@@ -70,6 +76,11 @@ const loadCookieData = () => {
   reduxHablaaiConfig.jwt = jwt;
   websocketUrl = Cookie.get(WEBSOCKET_URL_COOKIE_NAME);
   resourcesUrl = Cookie.get(RESOURCES_URL_COOKIE_NAME);
+  console.warn('Loading cookies...', {
+    jwt: Cookie.get(TOKEN_COOKIE_NAME),
+    websocketUrl: Cookie.get(WEBSOCKET_URL_COOKIE_NAME),
+    resourcesUrl: Cookie.get(RESOURCES_URL_COOKIE_NAME)
+  });
   reduxHablaaiConfig.resourceBaseUri = resourcesUrl;
 };
 
@@ -79,10 +90,13 @@ export const sessionState = (restoredState) => {
   }
 
   // Sync.  Blow away storage data if cookie user does not match storage user.
+  console.warn('SS Is JWT set?', jwt);
   if (jwt) {
     const decoded = jwtDecode(jwt);
     const userId = decoded._id;
     const persistedUser = (restoredState.auth) ? restoredState.auth.user : undefined;
+    console.warn('SS Restored state', restoredState);
+    console.warn('SS Decoded jwt', decoded);
     if ((persistedUser) && (userId === persistedUser.userId)) {
       return restoredState;
     }
