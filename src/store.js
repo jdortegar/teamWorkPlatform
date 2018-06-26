@@ -31,6 +31,7 @@ export function configureStore() {
 
   return new Promise((resolve) => {
     getStoredState(persistConfig, (err, restoredState) => {
+      console.warn('ERROR RESTORING STATE', err);
       const resolvedState = sessionState(restoredState);
       const store = createStore(rootReducer, resolvedState, composeMiddleware());
       const persistor = createPersistor(store, persistConfig);
