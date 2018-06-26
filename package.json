@@ -22,6 +22,7 @@
   },
   "scripts": {
     "start": "node server.js",
+    "debug": "node server.js --exec babel-node --inspect-brk",
     "precommit": "lint-staged && npm test",
     "build": "cross-env NODE_ENV=production npm run clean && webpack --colors --profile --config webpack.config.prod.js",
     "start:prod": "cross-env NODE_ENV=production NODE_PORT=8081 node server.js",
