@@ -8,4 +8,3 @@ const config = {
   autoFetchStaleData: true
 };
 export default config;
-

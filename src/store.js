@@ -2,12 +2,16 @@ import createHistory from 'history/createBrowserHistory';
 import { routerMiddleware } from 'react-router-redux';
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { getStoredState, createPersistor, persistStore } from 'redux-persist';
+import { persistReducer, persistStore } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
-import config from './config/env';
-import { sessionState, setPersistor, setStore } from './session';
-import reduxHablaaiConfig from './redux-hablaai/config';
+
+// TODO: remove all dependencies from session
+// import { sessionState, setPersistor, setStore } from './session';
+
+// TODO: remove all dependencies from redux-hablaai/config
+// import reduxHablaaiConfig from './redux-hablaai/config';
 
 export const history = createHistory();
 
@@ -25,24 +29,14 @@ function composeMiddleware() {
   return composeWithDevTools(...middleware);
 }
 
+const persistConfig = { key: 'root', storage };
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 export function configureStore() {
-  reduxHablaaiConfig.hablaApiBaseUri = config.hablaApiBaseUri;
-  const persistConfig = {};
-
   return new Promise((resolve) => {
-    getStoredState(persistConfig, (err, restoredState) => {
-      const resolvedState = sessionState(restoredState);
-      const store = createStore(rootReducer, resolvedState, composeMiddleware());
-      const persistor = createPersistor(store, persistConfig);
+    const store = createStore(persistedReducer, composeMiddleware());
+    const persistor = persistStore(store);
 
-      if (!resolvedState) {
-        persistStore(store);
-      }
-
-      reduxHablaaiConfig.store = store;
-      setStore(store);
-      setPersistor(persistor);
-      resolve(store);
-    });
+    resolve({ store, persistor });
   });
 }
