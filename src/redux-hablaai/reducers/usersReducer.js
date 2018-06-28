@@ -81,6 +81,11 @@ const usersReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case USER_RECEIVE:
     case USER_RECEIVE_MYSELF: {
+      console.warn('Reducer', {
+        type: action.type,
+        action,
+        state
+      });
       const myselfUserId = (action.type === USER_RECEIVE_MYSELF) ? action.payload.user.userId : state.myselfUserId;
       const userByUserId = _.cloneDeep(state.userByUserId);
       let user = userByUserId[action.payload.user.userId];
@@ -95,6 +100,12 @@ const usersReducer = (state = INITIAL_STATE, action) => {
       user.teams = user.teams || {};
       user.teamRooms = user.teamRooms || {};
       userByUserId[action.payload.user.userId] = user;
+
+      console.warn('Reducer result', {
+        ...state,
+        userByUserId,
+        myselfUserId
+      });
 
       return {
         ...state,

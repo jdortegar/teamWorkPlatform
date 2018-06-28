@@ -13,25 +13,15 @@ const propTypes = {
   history: object.isRequired
 };
 
-const App = ({ store, history }) => {
-  let DevTools = '';
-  if (process.env.NODE_ENV !== 'production') {
-    DevTools = require('./containers/DevTools').default; // eslint-disable-line global-require
-  }
-
-  return (
-    <LocaleProvider locale={enUS}>
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <div>
-            {routes}
-            {(!window.devToolsExtension) && (process.env.NODE_ENV !== 'production') && <DevTools />}
-          </div>
-        </ConnectedRouter>
-      </Provider>
-    </LocaleProvider>
-  );
-};
+const App = ({ store, history }) => (
+  <LocaleProvider locale={enUS}>
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <div>{routes}</div>
+      </ConnectedRouter>
+    </Provider>
+  </LocaleProvider>
+);
 
 App.propTypes = propTypes;
 
