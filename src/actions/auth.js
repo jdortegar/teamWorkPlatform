@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { push } from 'react-router-redux';
 import config from '../config/env';
-import { routesPaths } from '../routes';
+import { paths } from '../routes';
 import {
   LOGGING_IN,
   LOGGING_IN_ERROR,
@@ -20,7 +20,7 @@ export const loginUser = ({ email, password, targetRoute }) => {
       .then((lastRoute) => {
         // If the user is just going to the home page, and their last route on logout was somewhere else, send them there.
         let resolvedRoute = targetRoute;
-        if ((targetRoute === routesPaths.app) && (lastRoute)) {
+        if ((targetRoute === paths.app) && (lastRoute)) {
           resolvedRoute = lastRoute;
         }
         dispatch(fetchInvitations());
@@ -41,7 +41,7 @@ export const logoutUser = (error) => {
     });
     logout();
 
-    dispatch(push(routesPaths.login));
+    dispatch(push(paths.login));
   };
 };
 
@@ -75,7 +75,7 @@ export const setNewPassword = (rid, password) => {
         `${hablaApiBaseUri}/users/resetPassword/${rid}`,
         { password }
       ).then(() => {
-        dispatch(push(routesPaths.login));
+        dispatch(push(paths.login));
       });
   };
 };

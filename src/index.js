@@ -6,9 +6,8 @@ import App from './App';
 import { initMessaging, isAuthenticated } from './session';
 import { configureStore, history } from './store';
 
-
 configureStore()
-  .then((store) => {
+  .then(({ store, persistor }) => {
     // Render main React component.
     const render = (Component, props = {}) => {
       ReactDOM.render(
@@ -20,12 +19,12 @@ configureStore()
         , document.getElementById('app'));
     };
 
-    render(App, { store, history });
+    render(App, { store, persistor, history });
 
     // Hot Module Replacement API.
     if (module.hot) {
       module.hot.accept('./App', () => {
-        render(App, { store, history });
+        render(App, { store, persistor, history });
       });
     }
   })

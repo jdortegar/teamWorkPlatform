@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { setAwsCustomerId } from '../../session';
-import { routesPaths, extractQueryParams } from '../../routes';
+import { paths, extractQueryParams } from '../../routes';
 import { formShape } from '../../propTypes';
 import EmailField from '../../components/formFields/EmailField';
 import PasswordField from '../../components/formFields/PasswordField';
@@ -41,11 +41,11 @@ class Login extends React.Component {
     const { awsCustomerId } = extractQueryParams(props);
     if (awsCustomerId) {
       setAwsCustomerId(awsCustomerId);
-      props.history.replace(routesPaths.login);
+      props.history.replace(paths.login);
     }
 
     this.state = {
-      submited: false
+      submitted: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -68,7 +68,7 @@ class Login extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { email, password } = values;
-        let targetRoute = routesPaths.app;
+        let targetRoute = paths.app;
         if (this.props.history.location.state) { // Send user directly to requested URL, or app if cannot be deduced.
           const { state } = this.props.history.location;
           targetRoute = state.from.pathname;
@@ -82,7 +82,7 @@ class Login extends React.Component {
         sessionStorage.setItem('habla-user-remember-me', rememberMeEmail);
         this.props.loginUser({ email, password, targetRoute });
         this.setState({
-          submited: true
+          submitted: true
         });
       }
     });
@@ -91,11 +91,11 @@ class Login extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
 
-    if (this.state.submited && this.props.error) {
+    if (this.state.submitted && this.props.error) {
       message.error(String.t('errLoginPasswordInvalid'));
       this.props.form.resetFields(['password']);
       this.setState({
-        submited: false
+        submitted: false
       });
     }
     const initialEmail = sessionStorage.getItem('habla-user-remember-me');

@@ -5,7 +5,8 @@ import enUS from 'antd/lib/locale-provider/en_US';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ConnectedRouter } from 'react-router-redux';
-import routes from './routes';
+
+import { Router } from './routes';
 import './layouts/styles/reset.css';
 import './layouts/styles/habla-ui-styles.css';
 
@@ -20,7 +21,7 @@ const App = ({ store, persistor, history }) => (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ConnectedRouter history={history}>
-          <div>{routes}</div>
+          <div><Router /></div>
         </ConnectedRouter>
       </PersistGate>
     </Provider>

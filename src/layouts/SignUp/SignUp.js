@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { routesPaths } from '../../routes';
+import { paths } from '../../routes';
 import Register from '../../pages/Register';
 import CreateAccount from '../../containers/CreateAccount';
 import VerifyAccount from '../../containers/VerifyAccount';
@@ -16,11 +16,11 @@ function SignUp() {
       <Header />
       <div className="signup-body">
         <Switch>
-          <Route exact path={routesPaths.register} component={Register} />
-          <Route exact path={routesPaths.createAccount} component={CreateAccount} />
-          <Route exact path={routesPaths.verifyAccount} component={VerifyAccount} />
-          <Route exact path={routesPaths.recoverPassword} component={RecoverPassword} />
-          <Route exact path={routesPaths.setNewPassword} component={SetNewPassword} />
+          <Route exact path={paths.register} component={Register} />
+          <Route exact path={paths.createAccount} component={CreateAccount} />
+          <Route exact path={paths.verifyAccount} component={VerifyAccount} />
+          <Route exact path={paths.recoverPassword} component={RecoverPassword} />
+          <Route exact path={paths.setNewPassword} component={SetNewPassword} />
         </Switch>
       </div>
     </div>
