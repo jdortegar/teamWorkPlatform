@@ -349,42 +349,6 @@ class Sidebar extends Component {
     }));
 
     const currentOrg = subscriberOrgs.find(({ subscriberOrgId }) => subscriberOrgId === currentSubscriberOrgId);
-    const addLinkSidebar = (
-      <Menu>
-        <Menu.Item key="addLinksHeader">
-          <div className="habla-label padding-class-a">{String.t('sideBar.addNewLabel')}</div>
-        </Menu.Item>
-        <Menu.Item key="addMember">
-          <a><span><i className="fas fa-plus-circle" /> {String.t('sideBar.addNewTeamMember')}</span></a>
-        </Menu.Item>
-        <Menu.Item key="addRoom">
-          <a><span><i className="fas fa-plus-circle" /> {String.t('sideBar.addNewTeamRoom')}</span></a>
-        </Menu.Item>
-        <Menu.Item key="addTeam" className="dropdown-last-menu-item">
-          <a><span><i className="fas fa-plus-circle" /> {String.t('sideBar.addNewTeam')}</span></a>
-        </Menu.Item>
-      </Menu>
-    );
-    const sortLinkSidebar = (
-      <Menu className="sortLinkSidebar">
-        <Menu.Item key="sortLinkHeader">
-          <div className="habla-label padding-class-a">{String.t('sideBar.sortByLabel')}</div>
-        </Menu.Item>
-        <Menu.Item key="sortByAlph">
-          <a><span><i className="fas fa-check" /> {String.t('sideBar.sortByAlphabetical')}</span></a>
-        </Menu.Item>
-        <Menu.Item key="sortByDate">
-          <a><span><i className="fas fa-check" /> {String.t('sideBar.sortByNewest')}</span></a>
-        </Menu.Item>
-        <Menu.Item key="sortByUnread">
-          <a><span><i className="fas fa-check" /> {String.t('sideBar.sortByUnread')}</span></a>
-        </Menu.Item>
-        <Menu.Item key="sortByActivity" className="dropdown-last-menu-item">
-          <a><span><i className="fas fa-check" /> {String.t('sideBar.sortByActivity')}</span></a>
-        </Menu.Item>
-      </Menu>
-    );
-
     return (
       <Sider width={250} className={sideClass}>
         <div className="organizationHeader padding-class-a">
@@ -448,16 +412,6 @@ class Sidebar extends Component {
         </div>
 
         <div className="sidebar-actions">
-          <Dropdown overlay={addLinkSidebar} trigger={['click']}>
-            <a>
-              <i className="fas fa-plus-circle" />
-            </a>
-          </Dropdown>
-          <Dropdown overlay={sortLinkSidebar} trigger={['click']}>
-            <a>
-              <i className="fas fa-sliders-h" />
-            </a>
-          </Dropdown>
           <Input
             prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
             onChange={this.handleSearch}

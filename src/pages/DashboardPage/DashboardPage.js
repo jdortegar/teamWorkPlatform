@@ -195,12 +195,10 @@ class DashboardPage extends React.Component {
         <div className="DashboardPage__reports-list-content">
           {Object.entries(this.props.reports).map(([key, value]) => (
             <div className="DashboardPage__report-item" key={key}>
-              <div className="DashboardPage__report-item-content">
-                <Link className="habla-label" to={`/app/dashboard/${key}`}>
-                  <i className="far fa-chart-bar mr-1" />
-                  {String.t(value.breadcrumb, { plant: String.t('dashboardPage.plant') })}
-                </Link>
-              </div>
+              <Link className="habla-label DashboardPage__report-item-content" to={`/app/dashboard/${key}`}>
+                {String.t(value.breadcrumb, { plant: String.t('dashboardPage.plant') })}
+                <div className="DashboardPage__report-item-minigraph" />
+              </Link>
             </div>
           ))}
         </div>

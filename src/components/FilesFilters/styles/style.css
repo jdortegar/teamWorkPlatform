@@ -4,7 +4,7 @@
 }
 .FilesFilters__group {
   display: flex;
-  padding: 9px 10px;
+  padding: 12px 10px 11px 10px;
   border-right: solid 1px #ddd;
 }
 .FilesFilters__group:last-child {
