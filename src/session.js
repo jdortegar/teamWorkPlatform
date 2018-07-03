@@ -48,26 +48,17 @@ const storeLastRoute = () => {
   const currentState = store.getState();
   const { location: { pathname, search } } = currentState.router;
   const { currentSubscriberOrgId } = currentState.subscriberOrgs;
-  // if (process.env.NODE_ENV === 'production') {
-  //   Cookie.set(`${LAST_ROUTE_COOKIE_NAME_PREFIX}__${userId}`, `${pathname}${search}`, { secure: true, expires: 7 });
-  // } else {
-  console.warn('SLR decoded', decoded);
-  console.warn('SLR current state', currentState);
+
   if (currentSubscriberOrgId) {
     Cookie.set(`${LAST_ROUTE_COOKIE_NAME_PREFIX}__${userId}`, `${pathname}${search}`, { expires: 7 });
     Cookie.set(`${LAST_SUBSCRIBER_ORG_ID}__${userId}`, currentSubscriberOrgId, { expires: 7 });
   }
-  // }
 };
 
 window.onbeforeunload = () => {
-  console.warn('onbeforeunload');
   closeMessaging();
   storeLastRoute();
-  console.warn('persisting store...', store.getState());
   persistStore(store);
-  console.warn('persisted store!', store.getState());
-  console.warn('onbeforeunload END');
 };
 
 
@@ -76,11 +67,6 @@ const loadCookieData = () => {
   reduxHablaaiConfig.jwt = jwt;
   websocketUrl = Cookie.get(WEBSOCKET_URL_COOKIE_NAME);
   resourcesUrl = Cookie.get(RESOURCES_URL_COOKIE_NAME);
-  console.warn('Loading cookies...', {
-    jwt: Cookie.get(TOKEN_COOKIE_NAME),
-    websocketUrl: Cookie.get(WEBSOCKET_URL_COOKIE_NAME),
-    resourcesUrl: Cookie.get(RESOURCES_URL_COOKIE_NAME)
-  });
   reduxHablaaiConfig.resourceBaseUri = resourcesUrl;
 };
 
@@ -90,13 +76,11 @@ export const sessionState = (restoredState) => {
   }
 
   // Sync.  Blow away storage data if cookie user does not match storage user.
-  console.warn('SS Is JWT set?', jwt);
   if (jwt) {
     const decoded = jwtDecode(jwt);
     const userId = decoded._id;
     const persistedUser = (restoredState.auth) ? restoredState.auth.user : undefined;
-    console.warn('SS Restored state', restoredState);
-    console.warn('SS Decoded jwt', decoded);
+
     if ((persistedUser) && (userId === persistedUser.userId)) {
       return restoredState;
     }
@@ -155,15 +139,9 @@ export const login = (email, password) => {
         reduxHablaaiConfig.resourceBaseUri = resourcesUrl;
         const user = _.cloneDeep(response.data.user);
 
-        // if (process.env.NODE_ENV === 'production') {
-        //   Cookie.set(TOKEN_COOKIE_NAME, jwt, { secure: true });
-        //   Cookie.set(WEBSOCKET_URL_COOKIE_NAME, websocketUrl, { secure: true });
-        //   Cookie.set(RESOURCES_URL_COOKIE_NAME, resourcesUrl, { secure: true });
-        // } else {
         Cookie.set(TOKEN_COOKIE_NAME, jwt);
         Cookie.set(WEBSOCKET_URL_COOKIE_NAME, websocketUrl);
         Cookie.set(RESOURCES_URL_COOKIE_NAME, resourcesUrl);
-        // }
 
         store.dispatch({
           type: AUTH_USER,
@@ -202,15 +180,10 @@ export const logout = () => {
   websocketUrl = undefined;
   resourcesUrl = undefined;
   reduxHablaaiConfig.resourceBaseUri = resourcesUrl;
-  // if (process.env.NODE_ENV === 'production') {
-  //   Cookie.remove(TOKEN_COOKIE_NAME, { secure: true });
-  //   Cookie.remove(WEBSOCKET_URL_COOKIE_NAME, { secure: true });
-  //   Cookie.remove(RESOURCES_URL_COOKIE_NAME, { secure: true });
-  // } else {
+
   Cookie.remove(TOKEN_COOKIE_NAME);
   Cookie.remove(WEBSOCKET_URL_COOKIE_NAME);
   Cookie.remove(RESOURCES_URL_COOKIE_NAME);
-  // }
 
   closeMessaging();
   clearCachedGetRequests();
