@@ -1,34 +1,59 @@
 import axios from 'axios';
+import Cookie from 'js-cookie';
 import { push } from 'react-router-redux';
+
 import config from '../config/env';
 import { paths } from '../routes';
 import {
-  LOGGING_IN,
-  LOGGING_IN_ERROR,
   UNAUTH_USER,
   SUBMIT_REGISTRATION_FORM
 } from './types';
-import { fetchInvitations } from './index';
-import { login, logout } from '../session';
+import { login, fetchInvitations, receiveUserMyself, setCurrentSubscriberOrgId } from './index';
+import { logout } from '../session';
 
 const { hablaApiBaseUri } = config;
 
+const LAST_ROUTE_COOKIE = 'lastRoute';
+const LAST_SUBSCRIBER_ORG_ID_COOKIE = 'lastSubscriberOrgId';
+
+// If the user is just going to /app, and their last route on logout was somewhere else, send them there.
+const resolveRoute = (userId, targetRoute) => {
+  const lastRouteCookieName = `${LAST_ROUTE_COOKIE}__${userId}`;
+  const lastRoute = Cookie.get(lastRouteCookieName);
+  let resolvedRoute = targetRoute;
+
+  if (targetRoute === paths.app && lastRoute) {
+    resolvedRoute = lastRoute;
+    Cookie.remove(lastRouteCookieName);
+  }
+  return push(resolvedRoute);
+};
+
+const resolveSubscriberOrgId = (userId) => {
+  const lastSubscriberOrgIdCookieName = `${LAST_SUBSCRIBER_ORG_ID_COOKIE}__${userId}`;
+  const lastSubscriberOrgId = Cookie.get(lastSubscriberOrgIdCookieName);
+
+  if (lastSubscriberOrgId && (lastSubscriberOrgId !== 'null')) {
+    Cookie.remove(lastSubscriberOrgIdCookieName);
+    return lastSubscriberOrgId;
+  }
+  return null;
+};
+
 export const loginUser = ({ email, password, targetRoute }) => {
   return (dispatch) => {
-    dispatch({ type: LOGGING_IN, payload: true });
-    login(email, password)
-      .then((lastRoute) => {
-        // If the user is just going to the home page, and their last route on logout was somewhere else, send them there.
-        let resolvedRoute = targetRoute;
-        if ((targetRoute === paths.app) && (lastRoute)) {
-          resolvedRoute = lastRoute;
+    dispatch(login({ email, password }))
+      .then(({ data }) => {
+        const { user } = data;
+        const lastSubscriberOrgId = resolveSubscriberOrgId(user.userId);
+
+        if (lastSubscriberOrgId) {
+          dispatch(setCurrentSubscriberOrgId());
         }
+
+        dispatch(receiveUserMyself(user));
         dispatch(fetchInvitations());
-        dispatch({ type: LOGGING_IN, payload: false });
-        dispatch(push(resolvedRoute));
-      })
-      .catch(() => {
-        dispatch({ type: LOGGING_IN_ERROR, payload: false });
+        dispatch(resolveRoute(user.userId, targetRoute));
       });
   };
 };

@@ -3,7 +3,6 @@ import axios from 'axios';
 import Cookie from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import { persistStore } from 'redux-persist';
-import { AUTH_USER } from './actions/types';
 import config from './config/env';
 import messaging from './redux-hablaai/messaging';
 import messagingActionAdapter from './redux-hablaai/actions/messagingActionAdapter';
@@ -28,7 +27,7 @@ let _awsCustomerId;
 let store;
 let persistor;
 
-
+// TODO: implement messaging
 export const initMessaging = () => {
   messaging(websocketUrl).connect(jwt);
   messaging().addEventListener(messagingActionAdapter);
@@ -128,7 +127,6 @@ export const login = (email, password) => {
     params.append('username', email);
     params.append('password', password);
 
-    // axios.post(loginUrl, params, { withCredentials: true })
     const axiosOptions = axiosOptionsForNewCustomer();
     axios.post(loginUrl, params, axiosOptions)
       .then((response) => {
@@ -143,10 +141,6 @@ export const login = (email, password) => {
         Cookie.set(WEBSOCKET_URL_COOKIE_NAME, websocketUrl);
         Cookie.set(RESOURCES_URL_COOKIE_NAME, resourcesUrl);
 
-        store.dispatch({
-          type: AUTH_USER,
-          payload: { user }
-        });
         store.dispatch(receiveUserMyself(user));
 
         const userSpecificLastSubscriberOrgId = `${LAST_SUBSCRIBER_ORG_ID}__${user.userId}`;
@@ -168,7 +162,9 @@ export const login = (email, password) => {
         }
         resolve(lastRoute);
       })
-      .catch(err => reject(err));
+      .catch((err) => {
+        return reject(err);
+      });
   });
 };
 

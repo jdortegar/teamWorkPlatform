@@ -25,8 +25,12 @@ const propTypes = {
   form: formShape.isRequired,
   loginUser: PropTypes.func.isRequired,
   loggingIn: PropTypes.bool.isRequired,
-  error: PropTypes.bool.isRequired,
+  error: PropTypes.object,
   history: PropTypes.object.isRequired
+};
+
+const defaultProps = {
+  error: null
 };
 
 const layout = {
@@ -156,6 +160,7 @@ class Login extends React.Component {
 }
 
 Login.propTypes = propTypes;
+Login.defaultProps = defaultProps;
 
 const mapStateToProps = (state) => {
   return {
