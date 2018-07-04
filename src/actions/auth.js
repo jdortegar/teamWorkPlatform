@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Cookie from 'js-cookie';
 import { push } from 'react-router-redux';
 
 import config from '../config/env';
@@ -8,6 +7,9 @@ import { SUBMIT_REGISTRATION_FORM } from './types';
 import {
   login,
   logout,
+  getLastRouteCookie,
+  getLastSubscriberOrgIdCookie,
+  saveCookies,
   fetchInvitations,
   receiveUserMyself,
   setCurrentSubscriberOrgId,
@@ -16,31 +18,15 @@ import {
 
 const { hablaApiBaseUri } = config;
 
-const LAST_ROUTE_COOKIE = 'lastRoute';
-const LAST_SUBSCRIBER_ORG_ID_COOKIE = 'lastSubscriberOrgId';
-
 // If the user is just going to /app, and their last route on logout was somewhere else, send them there.
 const resolveRoute = (userId, targetRoute) => {
-  const lastRouteCookieName = `${LAST_ROUTE_COOKIE}__${userId}`;
-  const lastRoute = Cookie.get(lastRouteCookieName);
   let resolvedRoute = targetRoute;
+  const lastRoute = getLastRouteCookie(userId);
 
   if (targetRoute === paths.app && lastRoute) {
     resolvedRoute = lastRoute;
-    Cookie.remove(lastRouteCookieName);
   }
   return push(resolvedRoute);
-};
-
-const resolveSubscriberOrgId = (userId) => {
-  const lastSubscriberOrgIdCookieName = `${LAST_SUBSCRIBER_ORG_ID_COOKIE}__${userId}`;
-  const lastSubscriberOrgId = Cookie.get(lastSubscriberOrgIdCookieName);
-
-  if (lastSubscriberOrgId && (lastSubscriberOrgId !== 'null')) {
-    Cookie.remove(lastSubscriberOrgIdCookieName);
-    return lastSubscriberOrgId;
-  }
-  return null;
 };
 
 export const loginUser = ({ email, password, targetRoute }) => {
@@ -48,7 +34,7 @@ export const loginUser = ({ email, password, targetRoute }) => {
     dispatch(login(email, password))
       .then(({ data }) => {
         const { user } = data;
-        const lastSubscriberOrgId = resolveSubscriberOrgId(user.userId);
+        const lastSubscriberOrgId = getLastSubscriberOrgIdCookie(user.userId);
         if (lastSubscriberOrgId) {
           dispatch(setCurrentSubscriberOrgId(lastSubscriberOrgId));
         }
@@ -62,8 +48,9 @@ export const loginUser = ({ email, password, targetRoute }) => {
 
 export const logoutUser = () => {
   return (dispatch) => {
+    dispatch(saveCookies());
     dispatch(logout());
-    dispatch(clearCachedGetRequests());
+    clearCachedGetRequests();
     dispatch(push(paths.login));
   };
 };

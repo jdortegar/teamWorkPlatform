@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { AppContainer } from 'react-hot-loader';
 import App from './App';
-import { initMessaging, isAuthenticated } from './session';
+// import { initMessaging, isAuthenticated } from './session';
 import { configureStore, history } from './store';
 
 configureStore()
@@ -29,7 +29,8 @@ configureStore()
     }
   })
   .then(() => {
-    if (isAuthenticated()) {
-      initMessaging();
-    }
+    // TODO: init messaging
+    // if (isAuthenticated()) {
+    //   initMessaging();
+    // }
   });

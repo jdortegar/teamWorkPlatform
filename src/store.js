@@ -7,12 +7,6 @@ import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
 
-// TODO: remove all dependencies from session
-// import { sessionState, setPersistor, setStore } from './session';
-
-// TODO: remove all dependencies from redux-hablaai/config
-// import reduxHablaaiConfig from './redux-hablaai/config';
-
 export const history = createHistory();
 
 function composeMiddleware() {

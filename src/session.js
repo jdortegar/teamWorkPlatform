@@ -52,12 +52,11 @@ const storeLastRoute = () => {
   }
 };
 
-window.onbeforeunload = () => {
-  closeMessaging();
-  storeLastRoute();
-  persistStore(store);
-};
-
+// window.onbeforeunload = () => {
+  // closeMessaging();
+  // storeLastRoute();
+  // persistStore(store);
+// };
 
 const loadCookieData = () => {
   jwt = Cookie.get(TOKEN_COOKIE_NAME);
