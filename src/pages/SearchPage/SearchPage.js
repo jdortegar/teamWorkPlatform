@@ -27,7 +27,7 @@ const getColumns = owners => [
     key: 'fileName',
     sorter: (a, b) => a.fileName.localeCompare(b.fileName),
     render: (text, file) => (
-      <a className="SearchPage__results__link" href={file.resourceUri} target="_blank">
+      <a className="SearchPage__results__link" href={file.resourceUri} target="_blank" rel="noopener noreferrer">
         <img
           src={imageSrcFromFileExtension(file.fileExtension)}
           className="SearchPage__results__fileIcon"
