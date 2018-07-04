@@ -1,4 +1,4 @@
-import config from '../config';
+import config from 'config/env';
 import { doAuthenticatedRequest } from './urlRequest';
 
 export const readMessage = (messageId, conversationId) => { // eslint-disable-line import/prefer-default-export

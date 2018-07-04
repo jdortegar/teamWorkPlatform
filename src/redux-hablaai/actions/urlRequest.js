@@ -1,5 +1,4 @@
 import axios from 'axios';
-import config from '../config';
 
 export const URLREQUEST = 'urlrequest';
 export const URLREQUEST_SUCCESS = 'urlrequest/success';
@@ -7,6 +6,9 @@ export const URLREQUEST_ERROR = 'urlrequest/error';
 export const URLREQUEST_CLEAR = 'urlrequest/clear';
 
 export const RESPONSE_STALE = 'STALE';
+
+const CACHE_GET_REQUESTS = true;
+const AUTO_FETCH_STALE_DATE = true;
 
 export const cachedGetRequests = {};
 export const cachedGetRequestsOrdered = [];
@@ -54,7 +56,7 @@ export const doRequest = ({ requestUrl, method, headers, data }, reduxState, opt
     // Do the request.
     const request = axios({ method, url: requestUrl, headers, data })
       .then((response) => { // eslint-disable-line no-unused-vars
-        if (config.cacheGetRequests) {
+        if (CACHE_GET_REQUESTS) {
           // Cache GET requests.
           if (method.toLowerCase() === 'get') {
             cachedGetRequests[requestUrl] = { response, request, reduxState };
@@ -100,7 +102,7 @@ let _online = false;
 export const onlineOfflineListener = (online) => {
   // When back online after being offline.
   if ((online) && (!_online)) {
-    if (config.autoFetchStaleData) {
+    if (AUTO_FETCH_STALE_DATE) {
       cachedGetRequestsOrdered.forEach((requestUrl) => {
         const { reduxState } = cachedGetRequests[requestUrl];
         doAuthenticatedRequest({

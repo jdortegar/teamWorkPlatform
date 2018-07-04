@@ -1,4 +1,4 @@
-import config from '../config';
+import config from 'config/env';
 import { doAuthenticatedRequest } from './urlRequest';
 
 export const inviteNewSubscribers = (users, subscriberOrgId) => {

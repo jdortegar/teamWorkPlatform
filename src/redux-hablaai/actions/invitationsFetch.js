@@ -1,4 +1,4 @@
-import config from '../config';
+import config from 'config/env';
 import { doAuthenticatedRequest } from './urlRequest';
 
 export const INVITATIONS_FETCH_SUCCESS = 'invitations/fetch/success';

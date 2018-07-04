@@ -6,7 +6,6 @@ import { persistStore } from 'redux-persist';
 import config from './config/env';
 import messaging from './redux-hablaai/messaging';
 import messagingActionAdapter from './redux-hablaai/actions/messagingActionAdapter';
-import reduxHablaaiConfig from './redux-hablaai/config';
 import { onlineOfflineListener, clearCachedGetRequests } from './redux-hablaai/actions/urlRequest';
 import { receiveUserMyself, setCurrentSubscriberOrgId } from './actions';
 
@@ -18,6 +17,7 @@ const LAST_SUBSCRIBER_ORG_ID = 'lastSubscriberOrgId';
 
 const AWS_CUSTOMER_ID_HEADER_NAME = 'x-hablaai-awsCustomerId';
 
+const reduxHablaaiConfig = {};
 
 let jwt;
 let websocketUrl;

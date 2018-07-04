@@ -70,4 +70,5 @@ export * from './lwPlantUptimeMultipleReportFetch';
 export * from './lwDowntimeReasonsLevelOneReportFetch';
 export * from './lwDowntimeComparisonMultipleReportFetch';
 
+export * from './urlRequest';
 export * from './globalStateFetch';

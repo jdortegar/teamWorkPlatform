@@ -1,4 +1,4 @@
-import config from '../config';
+import config from 'config/env';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const INTEGRATIONS_FETCH_SUCCESS = 'integrations/fetch/success';

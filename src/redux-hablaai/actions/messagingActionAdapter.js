@@ -1,4 +1,4 @@
-import config from '../config';
+import config from 'config/env';
 import EventTypes from '../../common-hablaai/EventTypes';
 import {
   changePresence,
