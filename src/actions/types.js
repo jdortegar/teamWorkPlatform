@@ -6,10 +6,6 @@ export const SUBMIT_REGISTRATION_FORM = 'submit_registration_form';
 export const TOGGLE_SIDEBAR = 'toogle_sidebar';
 export const SHOW_SIDEBAR = 'show_sidebar';
 //= =====================
-// Auth Actions
-//= =====================
-export const UNAUTH_USER = 'unauth_user';
-//= =====================
 // SubscriberOrgs Actions
 //= =====================
 export const SHOW_INVITE_DIALOG = 'show_invite_dialog';

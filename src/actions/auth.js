@@ -4,12 +4,15 @@ import { push } from 'react-router-redux';
 
 import config from '../config/env';
 import { paths } from '../routes';
+import { SUBMIT_REGISTRATION_FORM } from './types';
 import {
-  UNAUTH_USER,
-  SUBMIT_REGISTRATION_FORM
-} from './types';
-import { login, fetchInvitations, receiveUserMyself, setCurrentSubscriberOrgId } from './index';
-import { logout } from '../session';
+  login,
+  logout,
+  fetchInvitations,
+  receiveUserMyself,
+  setCurrentSubscriberOrgId
+} from './index';
+import { clearCachedGetRequests } from '../redux-hablaai/actions';
 
 const { hablaApiBaseUri } = config;
 
@@ -42,13 +45,12 @@ const resolveSubscriberOrgId = (userId) => {
 
 export const loginUser = ({ email, password, targetRoute }) => {
   return (dispatch) => {
-    dispatch(login({ email, password }))
+    dispatch(login(email, password))
       .then(({ data }) => {
         const { user } = data;
         const lastSubscriberOrgId = resolveSubscriberOrgId(user.userId);
-
         if (lastSubscriberOrgId) {
-          dispatch(setCurrentSubscriberOrgId());
+          dispatch(setCurrentSubscriberOrgId(lastSubscriberOrgId));
         }
 
         dispatch(receiveUserMyself(user));
@@ -58,14 +60,10 @@ export const loginUser = ({ email, password, targetRoute }) => {
   };
 };
 
-export const logoutUser = (error) => {
+export const logoutUser = () => {
   return (dispatch) => {
-    dispatch({
-      type: UNAUTH_USER,
-      payload: error || ''
-    });
-    logout();
-
+    dispatch(logout());
+    dispatch(clearCachedGetRequests());
     dispatch(push(paths.login));
   };
 };

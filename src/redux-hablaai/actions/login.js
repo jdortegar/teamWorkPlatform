@@ -6,7 +6,7 @@ export const LOGIN_REQUEST = 'auth/login/request';
 export const LOGIN_SUCCESS = 'auth/login/success';
 export const LOGIN_FAILURE = 'auth/login/failure';
 
-export const login = ({ email, password }) => {
+export const login = (email, password) => {
   const requestUrl = `${config.hablaApiBaseUri}/auth/login`;
   const params = new URLSearchParams();
   params.append('username', email);

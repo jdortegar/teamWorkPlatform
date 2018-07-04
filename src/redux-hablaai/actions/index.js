@@ -1,6 +1,7 @@
 // All actions here are [flux-standard-action](https://github.com/acdlite/flux-standard-action) compliant.
 
 export * from './login';
+export * from './logout';
 export * from './presenceChange';
 
 export * from './userReceive';
