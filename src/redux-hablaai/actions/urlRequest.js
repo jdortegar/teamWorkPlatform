@@ -92,9 +92,11 @@ export const doRequest = ({ requestUrl, method, headers, data }, reduxState, opt
 };
 
 export const doAuthenticatedRequest = ({ requestUrl, method, additionalHeaders, data }, reduxState, options = { getKey: false, forceGet: false }) => {
-  const secureHeaders = additionalHeaders || {};
-  secureHeaders.Authorization = `Bearer ${config.jwt}`;
-  return doRequest({ requestUrl, method, headers: secureHeaders, data }, reduxState, options);
+  return (dispatch, getState) => {
+    const secureHeaders = additionalHeaders || {};
+    secureHeaders.Authorization = `Bearer ${getState().auth.token}`;
+    return dispatch(doRequest({ requestUrl, method, headers: secureHeaders, data }, reduxState, options));
+  };
 };
 
 
