@@ -18,7 +18,7 @@ import {
   updateIntegrations
 } from '../actions';
 
-const eventHandler = (eventType, event) => {
+export const eventHandler = (eventType, event) => { // eslint-disable-line import/prefer-default-export
   switch (eventType) {
     case EventTypes.presenceChanged:
       config.store.dispatch(changePresence(event));
@@ -122,5 +122,3 @@ const eventHandler = (eventType, event) => {
   }
   return true;
 };
-
-export default eventHandler;

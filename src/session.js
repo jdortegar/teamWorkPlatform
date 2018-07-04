@@ -3,11 +3,9 @@ import axios from 'axios';
 import Cookie from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import { persistStore } from 'redux-persist';
+import { onlineOfflineListener, clearCachedGetRequests, receiveUserMyself, setCurrentSubscriberOrgId, eventHandler } from 'actions';
 import config from './config/env';
 import messaging from './redux-hablaai/messaging';
-import messagingActionAdapter from './redux-hablaai/actions/messagingActionAdapter';
-import { onlineOfflineListener, clearCachedGetRequests } from './redux-hablaai/actions/urlRequest';
-import { receiveUserMyself, setCurrentSubscriberOrgId } from './actions';
 
 const TOKEN_COOKIE_NAME = 'token';
 const WEBSOCKET_URL_COOKIE_NAME = 'websocketUrl';
@@ -30,7 +28,7 @@ let persistor;
 // TODO: implement messaging
 export const initMessaging = () => {
   messaging(websocketUrl).connect(jwt);
-  messaging().addEventListener(messagingActionAdapter);
+  messaging().addEventListener(eventHandler);
   messaging().addOnlineOfflineListener(onlineOfflineListener);
 };
 

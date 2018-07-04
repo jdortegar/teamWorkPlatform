@@ -10,9 +10,9 @@ import {
   logout,
   fetchInvitations,
   receiveUserMyself,
-  setCurrentSubscriberOrgId
+  setCurrentSubscriberOrgId,
+  clearCachedGetRequests
 } from './index';
-import { clearCachedGetRequests } from '../redux-hablaai/actions';
 
 const { hablaApiBaseUri } = config;
 

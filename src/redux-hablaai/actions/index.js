@@ -72,3 +72,4 @@ export * from './lwDowntimeComparisonMultipleReportFetch';
 
 export * from './urlRequest';
 export * from './globalStateFetch';
+export * from './eventHandler';
