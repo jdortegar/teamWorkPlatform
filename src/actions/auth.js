@@ -7,6 +7,7 @@ import { SUBMIT_REGISTRATION_FORM } from './types';
 import {
   login,
   logout,
+  closeMessaging,
   getLastRouteCookie,
   getLastSubscriberOrgIdCookie,
   saveCookies,
@@ -48,6 +49,7 @@ export const loginUser = ({ email, password, targetRoute }) => {
 
 export const logoutUser = () => {
   return (dispatch) => {
+    dispatch(closeMessaging());
     dispatch(saveCookies());
     dispatch(logout());
     clearCachedGetRequests();

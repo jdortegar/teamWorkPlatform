@@ -19,14 +19,14 @@ export const login = (email, password) => {
 
     thunk
       .then((response) => {
-        const { user, token, websocketUrl, resourcesUrl } = response.data;
+        const { user, token, websocketUrl, resourcesBaseUrl } = response.data;
         dispatch({
           type: LOGIN_SUCCESS,
           payload: {
             user,
             token,
             websocketUrl,
-            resourcesUrl: `${resourcesUrl}/resource`
+            resourcesUrl: `${resourcesBaseUrl}/resource`
           }
         });
       })

@@ -1,30 +1,30 @@
 // import _ from 'lodash';
-import axios from 'axios';
-import Cookie from 'js-cookie';
+// import axios from 'axios';
+// import Cookie from 'js-cookie';
 // import jwtDecode from 'jwt-decode';
 // import { persistStore } from 'redux-persist';
-import {
-  onlineOfflineListener,
-  // clearCachedGetRequests,
-  // receiveUserMyself,
-  // setCurrentSubscriberOrgId,
-  eventHandler
-} from 'actions';
-import config from './config/env';
-import messaging from './redux-hablaai/messaging';
+// import {
+//   onlineOfflineListener,
+//   clearCachedGetRequests,
+//   receiveUserMyself,
+//   setCurrentSubscriberOrgId,
+//   eventHandler
+// } from 'actions';
+// import config from './config/env';
+// import messaging from './redux-hablaai/messaging';
 
-const TOKEN_COOKIE_NAME = 'token';
-const WEBSOCKET_URL_COOKIE_NAME = 'websocketUrl';
+// const TOKEN_COOKIE_NAME = 'token';
+// const WEBSOCKET_URL_COOKIE_NAME = 'websocketUrl';
 // const RESOURCES_URL_COOKIE_NAME = 'resourcesUrl';
 // const LAST_ROUTE_COOKIE_NAME_PREFIX = 'lastRoute';
 // const LAST_SUBSCRIBER_ORG_ID = 'lastSubscriberOrgId';
 
 const AWS_CUSTOMER_ID_HEADER_NAME = 'x-hablaai-awsCustomerId';
 
-const reduxHablaaiConfig = {};
+// const reduxHablaaiConfig = {};
 
-let jwt;
-let websocketUrl;
+// let jwt;
+// let websocketUrl;
 // let resourcesUrl;
 let _awsCustomerId;
 
@@ -32,18 +32,18 @@ let _awsCustomerId;
 // let persistor;
 
 // TODO: implement messaging
-export const initMessaging = () => {
-  messaging(websocketUrl).connect(jwt);
-  messaging().addEventListener(eventHandler);
-  messaging().addOnlineOfflineListener(onlineOfflineListener);
-};
+// export const initMessaging = () => {
+//   messaging(websocketUrl).connect(jwt);
+//   messaging().addEventListener(eventHandler);
+//   messaging().addOnlineOfflineListener(onlineOfflineListener);
+// };
 
-export const closeMessaging = () => {
-  const messagingInstance = messaging();
-  if (messagingInstance) {
-    messagingInstance.close();
-  }
-};
+// export const closeMessaging = () => {
+//   const messagingInstance = messaging();
+//   if (messagingInstance) {
+//     messagingInstance.close();
+//   }
+// };
 
 // const storeLastRoute = () => {
 //   const decoded = jwtDecode(jwt);
@@ -59,18 +59,18 @@ export const closeMessaging = () => {
 // };
 
 // window.onbeforeunload = () => {
-  // closeMessaging();
-  // storeLastRoute();
-  // persistStore(store);
+// closeMessaging();
+// storeLastRoute();
+// persistStore(store);
 // };
 
-export const loadCookieData = () => {
-  jwt = Cookie.get(TOKEN_COOKIE_NAME);
-  reduxHablaaiConfig.jwt = jwt;
-  websocketUrl = Cookie.get(WEBSOCKET_URL_COOKIE_NAME);
-  // resourcesUrl = Cookie.get(RESOURCES_URL_COOKIE_NAME);
-  // reduxHablaaiConfig.resourceBaseUri = resourcesUrl;
-};
+// export const loadCookieData = () => {
+//   jwt = Cookie.get(TOKEN_COOKIE_NAME);
+//   reduxHablaaiConfig.jwt = jwt;
+//   websocketUrl = Cookie.get(WEBSOCKET_URL_COOKIE_NAME);
+//   resourcesUrl = Cookie.get(RESOURCES_URL_COOKIE_NAME);
+//   reduxHablaaiConfig.resourceBaseUri = resourcesUrl;
+// };
 
 // export const sessionState = (restoredState) => {
 //   if (!jwt) {
@@ -101,9 +101,9 @@ export const loadCookieData = () => {
 // };
 
 
-export const getJwt = () => {
-  return jwt;
-};
+// export const getJwt = () => {
+//   return jwt;
+// };
 
 // export const getResourcesUrl = () => {
 //   return resourcesUrl;
@@ -123,78 +123,78 @@ export const axiosOptionsForNewCustomer = () => {
 };
 
 
-export const login = (/* email, password */) => {
-  return new Promise((resolve, reject) => {
-    const loginUrl = `${config.hablaApiBaseUri}/auth/login`;
-    const params = new URLSearchParams();
-    // params.append('username', email);
-    // params.append('password', password);
+// export const login = (email, password) => {
+//   return new Promise((resolve, reject) => {
+//     const loginUrl = `${config.hablaApiBaseUri}/auth/login`;
+//     const params = new URLSearchParams();
+//     params.append('username', email);
+//     params.append('password', password);
 
-    const axiosOptions = axiosOptionsForNewCustomer();
-    axios.post(loginUrl, params, axiosOptions)
-      .then((response) => {
-        jwt = response.data.token;
-        reduxHablaaiConfig.jwt = jwt;
-        websocketUrl = response.data.websocketUrl;
-        // resourcesUrl = `${response.data.resourcesBaseUrl}/resource`;
-        // reduxHablaaiConfig.resourceBaseUri = resourcesUrl;
-        // const user = _.cloneDeep(response.data.user);
+//     const axiosOptions = axiosOptionsForNewCustomer();
+//     axios.post(loginUrl, params, axiosOptions)
+//       .then((response) => {
+//         jwt = response.data.token;
+//         reduxHablaaiConfig.jwt = jwt;
+//         websocketUrl = response.data.websocketUrl;
+//         resourcesUrl = `${response.data.resourcesBaseUrl}/resource`;
+//         reduxHablaaiConfig.resourceBaseUri = resourcesUrl;
+//         const user = _.cloneDeep(response.data.user);
 
-        Cookie.set(TOKEN_COOKIE_NAME, jwt);
-        Cookie.set(WEBSOCKET_URL_COOKIE_NAME, websocketUrl);
-        // Cookie.set(RESOURCES_URL_COOKIE_NAME, resourcesUrl);
+//         Cookie.set(TOKEN_COOKIE_NAME, jwt);
+//         Cookie.set(WEBSOCKET_URL_COOKIE_NAME, websocketUrl);
+//         Cookie.set(RESOURCES_URL_COOKIE_NAME, resourcesUrl);
 
-        // store.dispatch(receiveUserMyself(user));
+//         store.dispatch(receiveUserMyself(user));
 
-        // const userSpecificLastSubscriberOrgId = `${LAST_SUBSCRIBER_ORG_ID}__${user.userId}`;
-        // const currentSubscriberOrgId = Cookie.get(userSpecificLastSubscriberOrgId);
-        // if (currentSubscriberOrgId && (currentSubscriberOrgId !== 'null')) {
-        //   store.dispatch(setCurrentSubscriberOrgId(currentSubscriberOrgId));
-        //   Cookie.remove(userSpecificLastSubscriberOrgId);
-        // }
+//         const userSpecificLastSubscriberOrgId = `${LAST_SUBSCRIBER_ORG_ID}__${user.userId}`;
+//         const currentSubscriberOrgId = Cookie.get(userSpecificLastSubscriberOrgId);
+//         if (currentSubscriberOrgId && (currentSubscriberOrgId !== 'null')) {
+//           store.dispatch(setCurrentSubscriberOrgId(currentSubscriberOrgId));
+//           Cookie.remove(userSpecificLastSubscriberOrgId);
+//         }
 
-        // persistStore(store);
+//         persistStore(store);
 
-        initMessaging();
+//         initMessaging();
 
-        // Get last know route if available.
-        // const userSpecificLastRouteCookieName = `${LAST_ROUTE_COOKIE_NAME_PREFIX}__${user.userId}`;
-        // const lastRoute = Cookie.get(userSpecificLastRouteCookieName);
-        // if (lastRoute) {
-        //   Cookie.remove(userSpecificLastRouteCookieName);
-        // }
-        // resolve(lastRoute);
-      })
-      .catch((err) => {
-        return reject(err);
-      });
-  });
-};
+//         Get last know route if available.
+//         const userSpecificLastRouteCookieName = `${LAST_ROUTE_COOKIE_NAME_PREFIX}__${user.userId}`;
+//         const lastRoute = Cookie.get(userSpecificLastRouteCookieName);
+//         if (lastRoute) {
+//           Cookie.remove(userSpecificLastRouteCookieName);
+//         }
+//         resolve(lastRoute);
+//       })
+//       .catch((err) => {
+//         return reject(err);
+//       });
+//   });
+// };
 
-export const logout = () => {
-  // storeLastRoute();
+// export const logout = () => {
+//   storeLastRoute();
 
-  jwt = undefined;
-  reduxHablaaiConfig.jwt = jwt;
-  websocketUrl = undefined;
-  // resourcesUrl = undefined;
-  // reduxHablaaiConfig.resourceBaseUri = resourcesUrl;
+//   jwt = undefined;
+//   reduxHablaaiConfig.jwt = jwt;
+//   websocketUrl = undefined;
+//   resourcesUrl = undefined;
+//   reduxHablaaiConfig.resourceBaseUri = resourcesUrl;
 
-  Cookie.remove(TOKEN_COOKIE_NAME);
-  Cookie.remove(WEBSOCKET_URL_COOKIE_NAME);
-  // Cookie.remove(RESOURCES_URL_COOKIE_NAME);
+//   Cookie.remove(TOKEN_COOKIE_NAME);
+//   Cookie.remove(WEBSOCKET_URL_COOKIE_NAME);
+//   Cookie.remove(RESOURCES_URL_COOKIE_NAME);
 
-  closeMessaging();
-  // clearCachedGetRequests();
+//   closeMessaging();
+//   clearCachedGetRequests();
 
-  // persistor.purge();
+//   persistor.purge();
 
-  // Logout with server, just in case any backend cleanup is necessary.
-  // const logoutUrl = `${config.hablaApiBaseUri}/auth/logout`;
-  // const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
-  // axios.get(logoutUrl, axiosOptions);
-};
+//   // Logout with server, just in case any backend cleanup is necessary.
+//   const logoutUrl = `${config.hablaApiBaseUri}/auth/logout`;
+//   const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
+//   axios.get(logoutUrl, axiosOptions);
+// };
 
-export const isAuthenticated = () => {
-  return (getJwt() !== undefined);
-};
+// export const isAuthenticated = () => {
+//   return (getJwt() !== undefined);
+// };

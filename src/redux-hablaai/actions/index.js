@@ -55,6 +55,10 @@ export * from './timeActivitiesFetch';
 
 export * from './search';
 export * from './searchClear';
+
+export * from './messagingInit';
+export * from './messagingClose';
+
 export * from './location';
 export * from './typing';
 

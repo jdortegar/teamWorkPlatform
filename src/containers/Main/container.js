@@ -1,12 +1,14 @@
 import { connect } from 'react-redux';
 import Main from 'layouts/Main';
-import { fetchGlobalState } from 'actions';
+import { initMessaging, closeMessaging, fetchGlobalState } from 'actions';
 
 const mapStateToProps = state => ({
   subscriberOrgs: state.subscriberOrgs
 });
 
 const mapDispatchToProps = dispatch => ({
+  initMessaging: () => dispatch(initMessaging()),
+  closeMessaging: () => dispatch(closeMessaging()),
   fetchGlobalState: () => dispatch(fetchGlobalState())
 });
 

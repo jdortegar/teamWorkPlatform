@@ -11,6 +11,8 @@ import {
 import './styles/main.css';
 
 const propTypes = {
+  initMessaging: PropTypes.func.isRequired,
+  closeMessaging: PropTypes.func.isRequired,
   fetchGlobalState: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.object.isRequired
 };
@@ -18,12 +20,22 @@ const propTypes = {
 class Main extends React.Component {
   componentDidMount() {
     this.props.fetchGlobalState();
+    this.props.initMessaging();
+    window.addEventListener('beforeunload', this.onUnload);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.subscriberOrgs.currentSubscriberOrgId !== nextProps.subscriberOrgs.currentSubscriberOrgId) {
       this.props.fetchGlobalState();
     }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.onUnload);
+  }
+
+  onUnload = () => {
+    this.props.closeMessaging();
   }
 
   render() {
