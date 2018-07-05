@@ -258,17 +258,6 @@ export const getIntegrationFilesAndFolders = createSelector(
         }
       ],
       shareWithIds: new ShareWithIds({})
-      // TODO: remove.  For testing only.
-      // shareWithIds: new ShareWithIds({
-      //   '0ac5d3d5-689f-4137-af05-20435ce1ba35': {
-      //     'my.pdf': SharingTypes.ALL
-      //   },
-      //   'my.pdf': {
-      //     ROOT: SharingTypes.SOME,
-      //     '0ac5d3d5-689f-4137-af05-20435ce1ba35': SharingTypes.ALL
-      //   }
-      // })
     };
   }
 );
-

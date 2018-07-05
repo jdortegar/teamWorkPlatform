@@ -4,10 +4,6 @@ import PropTypes from 'prop-types';
 import Header from 'containers/Header';
 import Sidebar from 'containers/Sidebar';
 import MainContent from 'containers/MainContent';
-import {
-  AddTeamDialog,
-  AddTeamRoomDialog
-} from 'containers/dialogs';
 import './styles/main.css';
 
 const propTypes = {
@@ -46,8 +42,6 @@ class Main extends React.Component {
           <Sidebar />
           <Layout className="habla-main-content">
             <MainContent />
-            <AddTeamDialog />
-            <AddTeamRoomDialog />
           </Layout>
         </Layout>
       </Layout>

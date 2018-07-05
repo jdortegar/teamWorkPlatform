@@ -13,8 +13,7 @@ import {
   fetchInvitations,
   receiveUser,
   setCurrentSubscriberOrgId,
-  clearCachedGetRequests,
-  SUBMIT_REGISTRATION_FORM
+  clearCachedGetRequests
 } from './index';
 
 const { hablaApiBaseUri } = config;
@@ -54,13 +53,6 @@ export const logoutUser = () => {
     dispatch(logout());
     clearCachedGetRequests();
     dispatch(push(paths.login));
-  };
-};
-
-export const submitRegistrationForm = (status) => {
-  return {
-    type: SUBMIT_REGISTRATION_FORM,
-    payload: status
   };
 };
 

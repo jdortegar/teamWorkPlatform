@@ -10,7 +10,6 @@ import Header from '../../components/Header';
 import './styles/signup.css';
 
 function SignUp() {
-  // TODO: need VerifyAccount component.
   return (
     <div className="signup-main-div">
       <Header />

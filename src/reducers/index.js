@@ -4,13 +4,11 @@ import reduxHablaaiReducers from '../redux-hablaai/reducers';
 import authReducer from './authReducer';
 import sideBarReducer from './sideBarReducer';
 import notificationsReducer from './notificationsReducer';
-import dialogsReducer from './dialogsReducer';
 import { LOGOUT_REQUEST } from '../actions';
 
 const mainReducer = combineReducers({
   ...reduxHablaaiReducers,
   auth: authReducer,
-  dialogs: dialogsReducer,
   notifications: notificationsReducer,
   router: routerReducer,
   sideBar: sideBarReducer
