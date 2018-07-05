@@ -16,7 +16,6 @@ import Avatar from 'components/common/Avatar';
 import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
 import PreviewBar from 'components/PreviewBar';
 import Message from 'components/Message';
-import { getJwt } from 'session';
 import String from 'translations';
 import './styles/style.css';
 import { sortByFirstName } from '../../redux-hablaai/selectors/helpers';
@@ -45,6 +44,7 @@ const propTypes = {
   }).isRequired,
   user: PropTypes.object.isRequired,
   resourcesUrl: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
   subscribers: PropTypes.array.isRequired,
   subscriberOrgById: PropTypes.object.isRequired,
   teamRoomMembers: PropTypes.array.isRequired,
@@ -290,7 +290,7 @@ class TeamRoomPage extends Component {
 
     const requestConfig = {
       headers: {
-        Authorization: `Bearer ${getJwt()}`,
+        Authorization: `Bearer ${this.props.token}`,
         'Content-Type': 'application/octet-stream',
         'x-hablaai-content-type': file.type,
         'x-hablaai-content-length': fileSource.length,

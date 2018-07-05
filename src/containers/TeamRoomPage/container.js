@@ -12,6 +12,7 @@ import {
   iAmTyping
 } from '../../actions';
 import {
+  getToken,
   getCurrentUser,
   getResourcesUrl,
   getConversationOfTeamRoomId,
@@ -32,6 +33,7 @@ function mapStateToProps(state, props) {
   return {
     user: getCurrentUser(state),
     resourcesUrl: getResourcesUrl(state),
+    token: getToken(state),
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     subscribers: getSubscribersOfSubscriberOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
     teams: state.teams,
