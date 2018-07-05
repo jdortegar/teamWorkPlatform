@@ -11,7 +11,7 @@ import {
   getLastSubscriberOrgIdCookie,
   saveCookies,
   fetchInvitations,
-  receiveUserMyself,
+  receiveUser,
   setCurrentSubscriberOrgId,
   clearCachedGetRequests
 } from './index';
@@ -39,7 +39,7 @@ export const loginUser = ({ email, password, targetRoute }) => {
           dispatch(setCurrentSubscriberOrgId(lastSubscriberOrgId));
         }
 
-        dispatch(receiveUserMyself(user));
+        dispatch(receiveUser(user));
         dispatch(fetchInvitations());
         dispatch(resolveRoute(user.userId, targetRoute));
       });

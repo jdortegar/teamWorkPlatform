@@ -3,6 +3,7 @@ import { Row, Col, Form, Checkbox, Spin, message } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
+import { isLoggingIn, getAuthError } from 'selectors';
 import { setAwsCustomerId } from '../../session';
 import { paths, extractQueryParams } from '../../routes';
 import { formShape } from '../../propTypes';
@@ -162,15 +163,11 @@ class Login extends React.Component {
 Login.propTypes = propTypes;
 Login.defaultProps = defaultProps;
 
-const mapStateToProps = (state) => {
-  return {
-    loggingIn: state.auth.loggingIn,
-    error: state.auth.error
-  };
-};
+const mapStateToProps = state => ({
+  loggingIn: isLoggingIn(state),
+  error: getAuthError(state)
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ loginUser }, dispatch);
-};
+const mapDispatchToProps = dispatch => bindActionCreators({ loginUser }, dispatch);
 
 export default Form.create()(connect(mapStateToProps, mapDispatchToProps)(Login));

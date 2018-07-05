@@ -8,6 +8,7 @@ import { fetchSubscribersBySubscriberOrgId,
   toggleInvitePeopleDialog
 } from '../../actions';
 import {
+  getCurrentUser,
   getSubscribersOfSubscriberOrgId,
   getPresencesOfSubscribersOfOrgId,
   getTeamsOfSubscriberOrgIdSortedAlphabetically,
@@ -18,7 +19,7 @@ function mapStateToProps(state, props) {
   const subscriberOrgId = props.match.params.subscriberOrgId;
 
   return {
-    user: state.auth.user,
+    user: getCurrentUser(state),
     subscriberOrgs: state.subscriberOrgs,
     subscribers: getSubscribersOfSubscriberOrgId(state, subscriberOrgId),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),

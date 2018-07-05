@@ -22,7 +22,7 @@ const saveCookie = userId => (value, name) => {
   Cookie.set(`${name}__${userId}`, value, { expires: 7 });
 };
 
-export function saveCookies() {
+export const saveCookies = () => {
   return (dispatch, getState) => {
     const { auth, subscriberOrgs, router } = getState();
     const { userId } = auth.user;
@@ -37,4 +37,4 @@ export function saveCookies() {
 
     dispatch({ type: SAVE_COOKIES, payload: cookies });
   };
-}
+};

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import MainContent from '../../components/MainContent';
 import { notifyMessage, updateInvitationDeclined } from '../../actions';
-import { getMyselfUserId, getInvitations, getDeclinedInvitations, getUserByUserId } from '../../selectors';
+import { getCurrentUserId, getInvitations, getDeclinedInvitations, getUserByUserId } from '../../selectors';
 
 function mapStateToProps(state) {
   return {
@@ -10,7 +10,7 @@ function mapStateToProps(state) {
     invitation: getInvitations(state),
     pushMessage: state.notifications.pushMessage,
     users: getUserByUserId(state),
-    currentUserId: getMyselfUserId(state),
+    currentUserId: getCurrentUserId(state),
     subscriberOrgs: state.subscriberOrgs,
     teams: state.teams,
     teamRooms: state.teamRooms

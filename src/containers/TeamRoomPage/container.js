@@ -12,6 +12,8 @@ import {
   iAmTyping
 } from '../../actions';
 import {
+  getCurrentUser,
+  getResourcesUrl,
   getConversationOfTeamRoomId,
   getSubscribersOfSubscriberOrgId,
   getReadMessagesOfTeamRoomId,
@@ -28,7 +30,8 @@ function mapStateToProps(state, props) {
   const conversationId = conversations ? conversations.conversationId : null;
 
   return {
-    user: state.auth.user,
+    user: getCurrentUser(state),
+    resourcesUrl: getResourcesUrl(state),
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     subscribers: getSubscribersOfSubscriberOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
     teams: state.teams,

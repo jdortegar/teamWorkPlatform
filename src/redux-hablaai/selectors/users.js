@@ -2,20 +2,19 @@ import { createSelector } from 'reselect';
 import createCachedSelector from 're-reselect';
 import {
   getUserByUserId,
-  getMyselfUserId,
   getTranscriptByConversationId
 } from './state';
+import { getCurrentUserId } from './index';
 
 export {
   getUserByUserId,
-  getMyselfUserId,
   getPresencesByUserId
 } from './state';
 
 export const getCurrentUser = createSelector(
-  [getUserByUserId, getMyselfUserId],
-  (userByUserId, myselfUserId) => {
-    return userByUserId[myselfUserId];
+  [getUserByUserId, getCurrentUserId],
+  (userByUserId, currentUserId) => {
+    return userByUserId[currentUserId];
   }
 );
 

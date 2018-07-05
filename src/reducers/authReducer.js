@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   loggingIn: false,
   error: null,
   authenticated: false,
+  userId: null,
   user: null,
   token: null,
   websocketUrl: null,
@@ -27,6 +28,7 @@ export default (state = INITIAL_STATE, action) => {
         error: null,
         authenticated: true,
         user: action.payload.user,
+        userId: action.payload.user.userId,
         token: action.payload.token,
         websocketUrl: action.payload.websocketUrl,
         resourcesUrl: action.payload.resourcesUrl

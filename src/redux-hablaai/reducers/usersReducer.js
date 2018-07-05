@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import {
   USER_RECEIVE,
-  USER_RECEIVE_MYSELF,
   SUBSCRIBERS_FETCH_SUCCESS,
   TEAMMEMBERS_FETCH_SUCCESS,
   TEAMROOMMEMBERS_FETCH_SUCCESS,
@@ -11,8 +10,7 @@ import {
 } from '../actions';
 
 const INITIAL_STATE = {
-  userByUserId: {},
-  myselfUserId: null
+  userByUserId: {}
 };
 
 // Merge with existing, since there might be additional information.
@@ -79,9 +77,7 @@ function receiverUsers(state, payload) {
 
 const usersReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case USER_RECEIVE:
-    case USER_RECEIVE_MYSELF: {
-      const myselfUserId = (action.type === USER_RECEIVE_MYSELF) ? action.payload.user.userId : state.myselfUserId;
+    case USER_RECEIVE: {
       const userByUserId = _.cloneDeep(state.userByUserId);
       let user = userByUserId[action.payload.user.userId];
       if (!user) {
@@ -98,8 +94,7 @@ const usersReducer = (state = INITIAL_STATE, action) => {
 
       return {
         ...state,
-        userByUserId,
-        myselfUserId
+        userByUserId
       };
     }
     case SUBSCRIBERS_FETCH_SUCCESS:

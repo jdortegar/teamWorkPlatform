@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import { isAuthenticated } from 'selectors';
 import Main from 'containers/Main';
 import Login from 'containers/Login';
 import SignUp from 'layouts/SignUp';
@@ -30,6 +31,6 @@ Router.defaultProps = {
   authenticated: false
 };
 
-const mapStateToProps = state => ({ authenticated: state.auth.authenticated });
+const mapStateToProps = state => ({ authenticated: isAuthenticated(state) });
 
 export default withRouter(connect(mapStateToProps)(Router));

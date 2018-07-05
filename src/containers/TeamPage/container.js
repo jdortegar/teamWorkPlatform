@@ -3,6 +3,7 @@ import { withRouter } from 'react-router';
 import TeamPage from '../../pages/TeamPage';
 import { fetchTeamRoomsByTeamId, fetchTeamMembersByTeamId } from '../../actions';
 import {
+  getCurrentUser,
   getTeamRoomsOfTeamIdSortedAlphabetically,
   getTeamMembersOfTeamId,
   getPresencesOfTeamMembersOfTeamId
@@ -12,12 +13,12 @@ function mapStateToProps(state, props) {
   const teamId = props.match.params.teamId;
 
   return {
+    user: getCurrentUser(state),
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     teams: state.teams,
     teamMembers: getTeamMembersOfTeamId(state, teamId),
     teamMembersPresences: getPresencesOfTeamMembersOfTeamId(state, teamId),
-    teamRooms: getTeamRoomsOfTeamIdSortedAlphabetically(state, teamId),
-    user: state.auth.user
+    teamRooms: getTeamRoomsOfTeamIdSortedAlphabetically(state, teamId)
   };
 }
 
