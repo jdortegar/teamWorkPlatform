@@ -109,8 +109,6 @@ class ShareWithIds {
   }
 
   deleteShare(id1, id2) {
-     console.log(`\nAD: deleteShare(${id1}, ${id2})`);
-    console.log(`AD: before: ${JSON.stringify(this._shareWithIds, null, 2)}`);
     const shares1 = this._shareWithIds[id1];
     const shares2 = this._shareWithIds[id2];
 
@@ -135,12 +133,9 @@ class ShareWithIds {
         }
       }
     }
-    console.log(`AD: after: ${JSON.stringify(this._shareWithIds, null, 2)}\n`);
   }
 
   addShare(id1, id2, sharingType) {
-    console.log(`\nAD: addShare(${id1}, ${id2}, ${sharingType})`);
-    console.log(`AD: before: ${JSON.stringify(this._shareWithIds, null, 2)}`);
     let shares1 = this._shareWithIds[id1];
     let shares2 = this._shareWithIds[id2];
 
@@ -173,7 +168,6 @@ class ShareWithIds {
       }
       shares2[id1] = sharingType;
     }
-    console.log(`AD: after: ${JSON.stringify(this._shareWithIds, null, 2)}\n`);
   }
 }
 
