@@ -3,7 +3,6 @@ import { push } from 'react-router-redux';
 
 import config from '../config/env';
 import { paths } from '../routes';
-import { SUBMIT_REGISTRATION_FORM } from './types';
 import {
   login,
   logout,
@@ -14,7 +13,8 @@ import {
   fetchInvitations,
   receiveUser,
   setCurrentSubscriberOrgId,
-  clearCachedGetRequests
+  clearCachedGetRequests,
+  SUBMIT_REGISTRATION_FORM
 } from './index';
 
 const { hablaApiBaseUri } = config;

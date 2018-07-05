@@ -355,15 +355,6 @@
     "namePlaceholder": "Team Room Name",
     "errorNameAlreadyTaken": "The Team Room Name is already being used. Please enter a different name."
   },
-  "invitePeopleDialog": {
-    "title": "Invite People",
-    "removeLink": "Remove"
-  },
-  "orgSettingsDialog": {
-    "title": "Organization Settings",
-    "saveButtonLabel": "Save",
-    "tabTeamRooms": "Team Rooms"
-  },
   "login": {
     "rememberMeCheckboxLabel": "Remember Me",
     "forgotPasswordLabel": "Forgot Password?",

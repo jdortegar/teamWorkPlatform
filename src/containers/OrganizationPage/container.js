@@ -3,9 +3,7 @@ import { withRouter } from 'react-router';
 import OrganizationPage from '../../pages/OrganizationPage';
 import { fetchSubscribersBySubscriberOrgId,
   fetchIntegrations,
-  setCurrentSubscriberOrgId,
-  toggleTeamDialog,
-  toggleInvitePeopleDialog
+  setCurrentSubscriberOrgId
 } from '../../actions';
 import {
   getCurrentUser,
@@ -33,9 +31,7 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchSubscribersBySubscriberOrgId: subscriberOrgId => dispatch(fetchSubscribersBySubscriberOrgId(subscriberOrgId)),
     fetchIntegrations: subscriberOrgId => dispatch(fetchIntegrations(subscriberOrgId)),
-    setCurrentSubscriberOrgId: subscriberOrgId => dispatch(setCurrentSubscriberOrgId(subscriberOrgId)),
-    toggleTeamDialog: status => dispatch(toggleTeamDialog(status)),
-    toggleInvitePeopleDialog: status => dispatch(toggleInvitePeopleDialog(status))
+    setCurrentSubscriberOrgId: subscriberOrgId => dispatch(setCurrentSubscriberOrgId(subscriberOrgId))
   };
 }
 
