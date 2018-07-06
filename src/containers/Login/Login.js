@@ -50,7 +50,8 @@ class Login extends React.Component {
     }
 
     this.state = {
-      submitted: false
+      submitted: false,
+      awsCustomerId
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -85,10 +86,10 @@ class Login extends React.Component {
         const rememberMe = this.props.form.getFieldValue('remember');
         const rememberMeEmail = rememberMe ? email : '';
         sessionStorage.setItem('habla-user-remember-me', rememberMeEmail);
-        this.props.loginUser({ email, password, targetRoute });
-        this.setState({
-          submitted: true
-        });
+
+        const { awsCustomerId } = this.state;
+        this.props.loginUser({ email, password, targetRoute, awsCustomerId });
+        this.setState({ submitted: true });
       }
     });
   }

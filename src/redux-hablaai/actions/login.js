@@ -6,7 +6,14 @@ export const LOGIN_REQUEST = 'auth/login/request';
 export const LOGIN_SUCCESS = 'auth/login/success';
 export const LOGIN_FAILURE = 'auth/login/failure';
 
-export const login = (email, password) => {
+const AWS_CUSTOMER_ID_HEADER_NAME = 'x-hablaai-awsCustomerId';
+
+const getExtraHeaders = (awsCustomerId) => {
+  if (!awsCustomerId) return null;
+  return { headers: { [AWS_CUSTOMER_ID_HEADER_NAME]: awsCustomerId } };
+};
+
+export const login = (email, password, awsCustomerId) => {
   const requestUrl = `${config.hablaApiBaseUri}/auth/login`;
   const params = new URLSearchParams();
   params.append('username', email);
@@ -15,7 +22,7 @@ export const login = (email, password) => {
   return (dispatch) => {
     dispatch({ type: LOGIN_REQUEST });
 
-    const thunk = axios.post(requestUrl, params);
+    const thunk = axios.post(requestUrl, params, getExtraHeaders(awsCustomerId));
 
     thunk
       .then((response) => {

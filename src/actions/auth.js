@@ -29,9 +29,9 @@ const resolveRoute = (userId, targetRoute) => {
   return push(resolvedRoute);
 };
 
-export const loginUser = ({ email, password, targetRoute }) => {
+export const loginUser = ({ email, password, targetRoute, awsCustomerId }) => {
   return (dispatch) => {
-    dispatch(login(email, password))
+    dispatch(login(email, password, awsCustomerId))
       .then(({ data }) => {
         const { user } = data;
         const lastSubscriberOrgId = getLastSubscriberOrgIdCookie(user.userId);
