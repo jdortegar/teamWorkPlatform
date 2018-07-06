@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Spin, Checkbox } from 'antd';
 import axios from 'axios';
+import { getAwsHeaders } from 'actions';
 import { formShape } from '../../propTypes';
 import config from '../../config/env';
-import { axiosOptionsForNewCustomer } from '../../session';
+import { paths, extractQueryParams } from '../../routes';
 import EmailField from '../../components/formFields/EmailField';
 import String from '../../translations';
 import Button from '../../components/common/Button';
@@ -33,7 +34,15 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { submitting: false, registered: false };
+    const { awsCustomerId } = extractQueryParams(props);
+    if (awsCustomerId) {
+      props.history.replace(paths.register);
+    }
+    this.state = {
+      submitting: false,
+      registered: false,
+      awsCustomerId
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
@@ -55,12 +64,12 @@ class Register extends React.Component {
 
   doSubmit(email) {
     this.setState({ submitting: true, email });
+    const { awsCustomerId } = this.state;
 
-    const axiosOptions = axiosOptionsForNewCustomer();
     axios.post(
       `${config.hablaApiBaseUri}/users/registerUser/`,
       { email },
-      axiosOptions
+      getAwsHeaders(awsCustomerId)
     ).then(() => {
       this.setState({ submitting: false, registered: true });
     });

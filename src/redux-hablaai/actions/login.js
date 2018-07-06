@@ -8,7 +8,7 @@ export const LOGIN_FAILURE = 'auth/login/failure';
 
 const AWS_CUSTOMER_ID_HEADER_NAME = 'x-hablaai-awsCustomerId';
 
-const getExtraHeaders = (awsCustomerId) => {
+export const getAwsHeaders = (awsCustomerId) => {
   if (!awsCustomerId) return null;
   return { headers: { [AWS_CUSTOMER_ID_HEADER_NAME]: awsCustomerId } };
 };
@@ -22,7 +22,7 @@ export const login = (email, password, awsCustomerId) => {
   return (dispatch) => {
     dispatch({ type: LOGIN_REQUEST });
 
-    const thunk = axios.post(requestUrl, params, getExtraHeaders(awsCustomerId));
+    const thunk = axios.post(requestUrl, params, getAwsHeaders(awsCustomerId));
 
     thunk
       .then((response) => {

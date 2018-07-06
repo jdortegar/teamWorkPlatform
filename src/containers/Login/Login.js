@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { isLoggingIn, getAuthError } from 'selectors';
-import { setAwsCustomerId } from '../../session';
 import { paths, extractQueryParams } from '../../routes';
 import { formShape } from '../../propTypes';
 import EmailField from '../../components/formFields/EmailField';
@@ -45,7 +44,6 @@ class Login extends React.Component {
 
     const { awsCustomerId } = extractQueryParams(props);
     if (awsCustomerId) {
-      setAwsCustomerId(awsCustomerId);
       props.history.replace(paths.login);
     }
 
@@ -66,7 +64,8 @@ class Login extends React.Component {
 
   onNewUserSignUp() {
     sessionStorage.setItem('habla-user-email', this.props.form.getFieldValue('email') || '');
-    this.props.history.push('/register');
+    const params = this.state.awsCustomerId ? `?awsCustomerId=${this.state.awsCustomerId}` : '';
+    this.props.history.push(`/register${params}`);
   }
 
   handleSubmit(e) {
