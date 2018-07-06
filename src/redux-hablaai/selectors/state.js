@@ -3,7 +3,6 @@ import createCachedSelector from 're-reselect';
 export const getUrlRequests = state => state.urlRequests;
 
 export const getUserByUserId = state => state.users.userByUserId;
-export const getMyselfUserId = state => state.users.myselfUserId;
 
 export const getPresencesByUserId = state => state.presences.presencesByUserId;
 

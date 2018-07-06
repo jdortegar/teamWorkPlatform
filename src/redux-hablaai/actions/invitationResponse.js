@@ -1,4 +1,4 @@
-import config from '../config';
+import config from 'config/env';
 import { doAuthenticatedRequest } from './urlRequest';
 
 export const invitationResponse = (invitationObject, typeObject) => { // eslint-disable-line import/prefer-default-export
@@ -15,4 +15,3 @@ export const invitationResponse = (invitationObject, typeObject) => { // eslint-
     data: invitationObject
   }, reduxState);
 };
-

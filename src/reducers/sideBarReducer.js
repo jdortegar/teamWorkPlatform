@@ -1,8 +1,7 @@
-// TODO: remove this file if not needed.
 import {
   TOGGLE_SIDEBAR,
   SHOW_SIDEBAR
-} from '../actions/types';
+} from '../actions';
 
 const INITIAL_STATE = {
   hidden: false

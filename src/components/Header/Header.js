@@ -182,7 +182,7 @@ class Header extends Component {
               <img src={hablaBlackLogoIcon} alt={String.t('Header.iconAlt')} className="habla-logo-image-responsive" />
             </Link>
           </div>
-          {this.props.user && this.props.logoutUser && this.renderMenuItems()}
+          {this.props.user && this.renderMenuItems()}
           <div className="clear" />
         </div>
       </AntdHeader>
@@ -191,9 +191,9 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  logoutUser: PropTypes.func,
-  updateUser: PropTypes.func,
-  clearSearch: PropTypes.func,
+  logoutUser: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
+  clearSearch: PropTypes.func.isRequired,
   user: PropTypes.object,
   query: PropTypes.string,
   history: PropTypes.shape({
@@ -202,9 +202,6 @@ Header.propTypes = {
 };
 
 Header.defaultProps = {
-  logoutUser: null,
-  updateUser: null,
-  search: null,
   clearSearch: null,
   query: '',
   user: null

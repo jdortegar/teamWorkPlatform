@@ -218,4 +218,3 @@ export default function messaging(websocketUrl = undefined) {
   }
   return messagingInstance;
 }
-

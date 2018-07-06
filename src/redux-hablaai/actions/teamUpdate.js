@@ -1,4 +1,4 @@
-import config from '../config';
+import config from 'config/env';
 import { doAuthenticatedRequest } from './urlRequest';
 
 export const updateTeam = (updateObject, teamId) => { // eslint-disable-line import/prefer-default-export
@@ -14,4 +14,3 @@ export const updateTeam = (updateObject, teamId) => { // eslint-disable-line imp
     data: updateObject
   }, reduxState);
 };
-

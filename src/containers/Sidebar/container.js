@@ -7,6 +7,7 @@ import {
   showSideBar
 } from '../../actions';
 import {
+  getCurrentUser,
   getSubscriberOrgsSortedAlphabetically,
   getTeamsOfSubscriberOrgIdSortedAlphabetically,
   getTeamRooms,
@@ -16,7 +17,7 @@ import {
 
 function mapStateToProps(state) {
   return {
-    user: state.auth.user,
+    user: getCurrentUser(state),
     subscriberOrgs: getSubscriberOrgsSortedAlphabetically(state),
     subscribers: getSubscribersOfSubscriberOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),

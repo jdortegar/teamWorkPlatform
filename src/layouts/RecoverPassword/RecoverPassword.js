@@ -3,7 +3,6 @@ import { Form, Spin, message } from 'antd';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import config from '../../config/env';
-import { getJwt } from '../../session';
 import { formShape } from '../../propTypes';
 import EmailField from '../../components/formFields/EmailField';
 import String from '../../translations';
@@ -38,12 +37,10 @@ class RecoverPassword extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const email = values.email;
-        const axiosOptions = { headers: { Authorization: `Bearer ${getJwt()}` } };
         this.setState({ sending: true, email });
 
         // TODO: Move this to Redux
-
-        axios.post(`${config.hablaApiBaseUri}/users/forgotPassword`, { email }, axiosOptions)
+        axios.post(`${config.hablaApiBaseUri}/users/forgotPassword`, { email })
           .then(() => {
             this.setState({ sending: false, emailSent: true });
           }).catch((error) => {

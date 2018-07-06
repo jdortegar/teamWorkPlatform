@@ -5,7 +5,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
 import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
-import PreviewImages from '../PreviewImages';
+import PreviewImages from 'containers/PreviewImages';
 import './styles/style.css';
 import String from '../../translations';
 

@@ -1,5 +1,5 @@
+import config from 'config/env';
 import { doAuthenticatedRequest } from './urlRequest';
-import config from '../config';
 import {
   INTEGRATION_ERROR,
   INTEGRATION_ERROR_BADSUBSCRIBERORG

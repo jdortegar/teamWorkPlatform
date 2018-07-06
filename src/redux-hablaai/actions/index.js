@@ -1,5 +1,7 @@
 // All actions here are [flux-standard-action](https://github.com/acdlite/flux-standard-action) compliant.
 
+export * from './login';
+export * from './logout';
 export * from './presenceChange';
 
 export * from './userReceive';
@@ -53,6 +55,10 @@ export * from './timeActivitiesFetch';
 
 export * from './search';
 export * from './searchClear';
+
+export * from './messagingInit';
+export * from './messagingClose';
+
 export * from './location';
 export * from './typing';
 
@@ -68,4 +74,6 @@ export * from './lwPlantUptimeMultipleReportFetch';
 export * from './lwDowntimeReasonsLevelOneReportFetch';
 export * from './lwDowntimeComparisonMultipleReportFetch';
 
+export * from './urlRequest';
 export * from './globalStateFetch';
+export * from './eventHandler';

@@ -1,4 +1,4 @@
-import config from '../config';
+import config from 'config/env';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const TEAMROOMS_FETCH_SUCCESS = 'teamrooms/fetch/success';

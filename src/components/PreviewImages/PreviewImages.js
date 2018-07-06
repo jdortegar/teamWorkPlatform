@@ -3,7 +3,6 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Modal, Tooltip } from 'antd';
 import classNames from 'classnames';
-import { getJwt } from '../../session';
 import './styles/style.css';
 
 const propTypes = {
@@ -11,6 +10,7 @@ const propTypes = {
   subscriberOrgId: PropTypes.string.isRequired,
   teamId: PropTypes.string.isRequired,
   teamRoomId: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
   onLoadImage: PropTypes.func
 };
 
@@ -34,13 +34,13 @@ class PreviewImages extends Component {
   }
 
   componentDidMount() {
-    const { images } = this.props;
+    const { images, teamRoomId, teamId, subscriberOrgId, token } = this.props;
     const putHeaders = {
       headers: {
-        Authorization: `Bearer ${getJwt()}`,
-        'x-hablaai-teamroomid': this.props.teamRoomId,
-        'x-hablaai-teamid': this.props.teamId,
-        'x-hablaai-subscriberorgid': this.props.subscriberOrgId
+        Authorization: `Bearer ${token}`,
+        'x-hablaai-teamroomid': teamRoomId,
+        'x-hablaai-teamid': teamId,
+        'x-hablaai-subscriberorgid': subscriberOrgId
       }
     };
     const imagesBase64 = [];

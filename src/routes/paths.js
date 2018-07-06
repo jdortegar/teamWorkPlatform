@@ -1,12 +1,5 @@
-import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import _ from 'lodash';
-import { ProtectedRoute, PublicRoute } from 'routing';
-import Main from 'containers/Main';
-import Login from 'containers/Login';
-import SignUp from 'layouts/SignUp';
-
-export const routesPaths = {
+// eslint-disable-next-line import/prefer-default-export
+export const paths = {
   register: '/register',
   verifyAccount: '/verifyAccount/:uuid',
   createAccount: '/createAccount',
@@ -38,26 +31,4 @@ export const routesPaths = {
   dashboard: '/app/dashboard/:reportId?',
   search: '/app/search',
   ckg: '/app/ckg/:subscriberOrgId'
-};
-
-export default (
-  <Switch>
-    <Redirect exact from={routesPaths.home} to={routesPaths.app} />
-    <Route exact path={routesPaths.register} component={SignUp} />
-    <Route exact path={routesPaths.verifyAccount} component={SignUp} />
-    <Route exact path={routesPaths.setNewPassword} component={SignUp} />
-    <Route exact path={routesPaths.createAccount} component={SignUp} />
-    <PublicRoute path={routesPaths.login} component={Login} />
-    <PublicRoute path={routesPaths.recoverPassword} component={SignUp} />
-    <ProtectedRoute component={Main} />
-  </Switch>
-);
-
-export const extractQueryParams = (props) => {
-  const { search } = props.location;
-  if ((search) && (search.length > 0)) {
-    const searchParams = new URLSearchParams(search.slice(1));
-    return searchParams ? _.fromPairs(Array.from(searchParams.entries())) : {};
-  }
-  return {};
 };

@@ -3,13 +3,10 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { AppContainer } from 'react-hot-loader';
 import App from './App';
-import { initMessaging, isAuthenticated } from './session';
 import { configureStore, history } from './store';
 
-
 configureStore()
-  .then((store) => {
-    // Render main React component.
+  .then(({ store, persistor }) => {
     const render = (Component, props = {}) => {
       ReactDOM.render(
         <AppContainer>
@@ -20,17 +17,12 @@ configureStore()
         , document.getElementById('app'));
     };
 
-    render(App, { store, history });
+    render(App, { store, persistor, history });
 
     // Hot Module Replacement API.
     if (module.hot) {
       module.hot.accept('./App', () => {
-        render(App, { store, history });
+        render(App, { store, persistor, history });
       });
-    }
-  })
-  .then(() => {
-    if (isAuthenticated()) {
-      initMessaging();
     }
   });
