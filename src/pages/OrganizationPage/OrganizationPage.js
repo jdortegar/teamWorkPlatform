@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import String from 'translations';
 import config from '../../config/env';
 import './styles/style.css';
-import { hanblaFullBlackLogoIcon } from '../../img';
+import { hablaFullBlackLogoIcon } from '../../img';
 import SubpageHeader from '../../components/SubpageHeader';
 import Spinner from '../../components/Spinner';
 import CardView from './CardView';
@@ -117,7 +117,7 @@ class OrganizationPage extends Component {
             user={user}
           />
           <div className="app-version">
-            <img src={hanblaFullBlackLogoIcon} alt="habla.ai" />
+            <img src={hablaFullBlackLogoIcon} alt="habla.ai" />
             HABLA.AI - { (config.hablaApiEnv !== 'prod') ? config.hablaApiEnv.toUpperCase() : 'APP' } { config.hablaWebAppVersion }
           </div>
         </div>
