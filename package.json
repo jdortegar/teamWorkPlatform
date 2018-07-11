@@ -1,7 +1,7 @@
 {
   "name": "webapp",
   "description": "The Habla UI",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "main": "index.js",
   "repository": {
