@@ -25,9 +25,10 @@
   },
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "no-else-return": ["error", { "allowElseIf": true }],
+
     // TODO: fix the following eslint rules:
     "prettier/prettier": "warn",
-    "no-else-return": "warn",
     "arrow-body-style": "warn",
     "no-underscore-dangle": "warn",
     "prefer-destructuring": "warn",
