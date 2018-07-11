@@ -1,0 +1,58 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "parser": "babel-eslint",
+  "extends": ["airbnb", "plugin:react/recommended", "plugin:prettier/recommended"],
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "./webpack.config.js"
+      },
+      "node": {
+        "paths": ["./src"]
+      }
+    }
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    // TODO: fix the following eslint rules:
+    "prettier/prettier": "warn",
+    "no-else-return": "warn",
+    "arrow-body-style": "warn",
+    "no-underscore-dangle": "warn",
+    "prefer-destructuring": "warn",
+    "lines-between-class-members": "warn",
+    "react/sort-comp": "warn",
+    "react/display-name": "warn",
+    "react/no-unused-state": "warn",
+    "react/forbid-prop-types": "warn",
+    "react/no-array-index-key": "warn",
+    "react/require-default-props": "warn",
+    "react/destructuring-assignment": "warn",
+    "react/no-access-state-in-setstate": "warn",
+    "react/default-props-match-prop-types": "warn",
+    "react/jsx-tag-spacing": "warn",
+    "react/jsx-wrap-multilines": "warn",
+    "react/jsx-curly-brace-presence": "warn",
+    "react/jsx-closing-tag-location": "warn",
+    "react/jsx-one-expression-per-line": "warn",
+    "jsx-a11y/label-has-for": "warn",
+    "jsx-a11y/anchor-is-valid": "warn",
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn",
+    "import/no-extraneous-dependencies": "warn",
+    "import/no-useless-path-segments": "warn",
+    "import/no-cycle": "warn",
+    "import/named": "warn"
+  }
+}
