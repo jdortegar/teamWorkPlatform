@@ -15,7 +15,8 @@ export const receiveTyping = ({ userId, conversationId, isTyping }) => {
  * Typically, this is some amount of time (ex. 15 seconds) after the last key press.
  */
 export const iAmTyping = (conversationId, typing) => {
-  return (dispatch) => { // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars
+  return dispatch => {
     messaging().typing(conversationId, typing);
   };
 };

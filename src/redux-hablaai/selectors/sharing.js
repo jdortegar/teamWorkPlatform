@@ -28,10 +28,11 @@ export const getCurrentSubscriberOrgTeamsAndTeamRooms = createSelector(
       nodeHierarchy: []
     };
 
-    if ((currentSubscriberOrgId) && (teamIdsBySubscriberOrgId[currentSubscriberOrgId])) {
-      for (const teamId of teamIdsBySubscriberOrgId[currentSubscriberOrgId]) { // eslint-disable-line no-restricted-syntax
+    if (currentSubscriberOrgId && teamIdsBySubscriberOrgId[currentSubscriberOrgId]) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const teamId of teamIdsBySubscriberOrgId[currentSubscriberOrgId]) {
         const teamRoomIds = teamRoomIdsByTeamId[teamId];
-        if ((!teamRoomIds) || (teamRoomIds.length === 0)) {
+        if (!teamRoomIds || teamRoomIds.length === 0) {
           ret.nodeHierarchy.length = 0; // Clear any previous retrieved teams/rooms.
           break;
         }
@@ -46,7 +47,7 @@ export const getCurrentSubscriberOrgTeamsAndTeamRooms = createSelector(
           children: []
         };
         ret.nodeHierarchy.push(hierarchyTeam);
-        teamRoomIds.forEach((teamRoomId) => {
+        teamRoomIds.forEach(teamRoomId => {
           const teamRoom = _.cloneDeep(teamRoomById[teamRoomId]);
           teamRoom.id = teamRoom.teamRoomId;
           teamRoom.type = 'TEAMROOM';
@@ -57,7 +58,7 @@ export const getCurrentSubscriberOrgTeamsAndTeamRooms = createSelector(
       }
     }
 
-    return (ret.nodeHierarchy.length > 0) ? ret : undefined;
+    return ret.nodeHierarchy.length > 0 ? ret : undefined;
   }
 );
 
@@ -101,8 +102,8 @@ class ShareWithIds {
     if (share1) {
       if (share1[id2]) {
         shareType = share1[id2];
-      // } else if (Object.keys(share1).length > 0) {
-      //   shareType = SharingTypes.SOME;
+        // } else if (Object.keys(share1).length > 0) {
+        //   shareType = SharingTypes.SOME;
       }
     }
     return shareType;
@@ -112,12 +113,12 @@ class ShareWithIds {
     const shares1 = this._shareWithIds[id1];
     const shares2 = this._shareWithIds[id2];
 
-    if ((shares1) && (id2 === 'ROOT')) {
+    if (shares1 && id2 === 'ROOT') {
       // Delete all relations.
       Object.keys(shares1).forEach(id => delete this._shareWithIds[id]);
       delete this._shareWithIds[id1];
     } else {
-      if ((shares1) && (shares1[id2])) {
+      if (shares1 && shares1[id2]) {
         if (Object.keys(shares1).length > 1) {
           delete shares1[id2];
         } else {
@@ -125,7 +126,7 @@ class ShareWithIds {
         }
       }
 
-      if ((shares2) && (shares2[id1])) {
+      if (shares2 && shares2[id1]) {
         if (Object.keys(shares2).length > 1) {
           delete shares2[id1];
         } else {
@@ -139,12 +140,12 @@ class ShareWithIds {
     let shares1 = this._shareWithIds[id1];
     let shares2 = this._shareWithIds[id2];
 
-    if ((id1 === 'ROOT') && (id2 === 'ROOT')) {
+    if (id1 === 'ROOT' && id2 === 'ROOT') {
       // Delete everything because this is the absolute root.
       Object.keys(this._shareWithIds).forEach(id => delete this._shareWithIds[id]);
-    } else if ((shares1) && (id2 === 'ROOT')) {
+    } else if (shares1 && id2 === 'ROOT') {
       // Delete all relations.
-      Object.keys(shares1).forEach((id) => {
+      Object.keys(shares1).forEach(id => {
         if (id === 'ROOT') {
           if (sharingType === SharingTypes.NONE) {
             this._delete(id1, 'ROOT');
@@ -171,93 +172,92 @@ class ShareWithIds {
   }
 }
 
-export const getIntegrationFilesAndFolders = createSelector(
-  [getCurrentSubscriberOrgId],
-  (currentSubscriberOrgId) => { // eslint-disable-line no-unused-vars
-    return {
-      nodesById: {
-        'Folder 1': {
-          id: 'Folder 1',
-          type: 'FOLDER',
-          name: 'Folder 1',
-          expanded: false,
-          childNodeIds: {
-            'Folder 1.1': 'Folder 1.1'
-          }
-        },
-        'Folder 1.1': { // ALL or NONE
-          id: 'Folder 1.1',
-          type: 'FOLDER',
-          name: 'Folder 1.1',
-          expanded: false,
-          childNodeIds: {
-            'my.pdf': 'my.pdf'
-          }
-        },
-        'my.pdf': {
-          id: 'my.pdf',
-          type: 'PDF',
-          name: 'my.pdf',
-          share: SharingTypes.SOME,
-          shareWithIds: {
-            '0ac5d3d5-689f-4137-af05-20435ce1ba35': '0ac5d3d5-689f-4137-af05-20435ce1ba35'
-          }
-        },
-        'my first.pdf': {
-          id: 'my first.pdf',
-          type: 'PDF',
-          name: 'my first.pdf'
-        },
-        'Folder 2': {
-          id: 'Folder 2',
-          type: 'FOLDER',
-          name: 'Folder 2',
-          expanded: false,
-          childNodeIds: {
-            'hello World.doc': 'hello World.doc'
-          }
-        },
-        'hello World.doc': {
-          id: 'hello World.doc',
-          type: 'DOC',
-          name: 'hello World.doc'
-        },
-        'spreadsheet.xls': {
-          id: 'spreadsheet.xls',
-          type: 'XLS',
-          name: 'spreadsheet.xls'
+// eslint-disable-next-line no-unused-vars
+export const getIntegrationFilesAndFolders = createSelector([getCurrentSubscriberOrgId], currentSubscriberOrgId => {
+  return {
+    nodesById: {
+      'Folder 1': {
+        id: 'Folder 1',
+        type: 'FOLDER',
+        name: 'Folder 1',
+        expanded: false,
+        childNodeIds: {
+          'Folder 1.1': 'Folder 1.1'
         }
       },
-      nodeHierarchy: [
-        {
-          id: 'Folder 1',
-          children: [
-            {
-              id: 'Folder 1.1',
-              children: [
-                {
-                  id: 'my.pdf'
-                }
-              ]
-            },
-            {
-              id: 'my first.pdf'
-            }
-          ]
-        },
-        {
-          id: 'Folder 2',
-          children: [
-            {
-              id: 'hello World.doc'
-            }
-          ]
-        },
-        {
-          id: 'spreadsheet.xls'
+      'Folder 1.1': {
+        // ALL or NONE
+        id: 'Folder 1.1',
+        type: 'FOLDER',
+        name: 'Folder 1.1',
+        expanded: false,
+        childNodeIds: {
+          'my.pdf': 'my.pdf'
         }
-      ],
-      shareWithIds: new ShareWithIds({})
-    };
-  }
-);
+      },
+      'my.pdf': {
+        id: 'my.pdf',
+        type: 'PDF',
+        name: 'my.pdf',
+        share: SharingTypes.SOME,
+        shareWithIds: {
+          '0ac5d3d5-689f-4137-af05-20435ce1ba35': '0ac5d3d5-689f-4137-af05-20435ce1ba35'
+        }
+      },
+      'my first.pdf': {
+        id: 'my first.pdf',
+        type: 'PDF',
+        name: 'my first.pdf'
+      },
+      'Folder 2': {
+        id: 'Folder 2',
+        type: 'FOLDER',
+        name: 'Folder 2',
+        expanded: false,
+        childNodeIds: {
+          'hello World.doc': 'hello World.doc'
+        }
+      },
+      'hello World.doc': {
+        id: 'hello World.doc',
+        type: 'DOC',
+        name: 'hello World.doc'
+      },
+      'spreadsheet.xls': {
+        id: 'spreadsheet.xls',
+        type: 'XLS',
+        name: 'spreadsheet.xls'
+      }
+    },
+    nodeHierarchy: [
+      {
+        id: 'Folder 1',
+        children: [
+          {
+            id: 'Folder 1.1',
+            children: [
+              {
+                id: 'my.pdf'
+              }
+            ]
+          },
+          {
+            id: 'my first.pdf'
+          }
+        ]
+      },
+      {
+        id: 'Folder 2',
+        children: [
+          {
+            id: 'hello World.doc'
+          }
+        ]
+      },
+      {
+        id: 'spreadsheet.xls'
+      }
+    ],
+    shareWithIds: new ShareWithIds({})
+  };
+});

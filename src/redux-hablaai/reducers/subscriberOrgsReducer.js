@@ -1,9 +1,5 @@
 import _ from 'lodash';
-import {
-  SUBSCRIBERORGS_FETCH_SUCCESS,
-  SUBSCRIBERORG_RECEIVE,
-  SUBSCRIBERORG_SETCURRENT
-} from '../actions';
+import { SUBSCRIBERORGS_FETCH_SUCCESS, SUBSCRIBERORG_RECEIVE, SUBSCRIBERORG_SETCURRENT } from '../actions';
 
 const INITIAL_STATE = {
   subscriberOrgById: {},
@@ -13,7 +9,7 @@ const INITIAL_STATE = {
 function defaultSubscriberOrg(subscriberOrgs) {
   // The first enabled subscriberOrg.
   let selectedOrg = null;
-  subscriberOrgs.some((subscriberOrg) => {
+  subscriberOrgs.some(subscriberOrg => {
     if (subscriberOrg.enabled === true) {
       selectedOrg = subscriberOrg;
       return true;
@@ -28,10 +24,16 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
     case SUBSCRIBERORGS_FETCH_SUCCESS: {
       const subscriberOrgById = {};
       let currentSubscriberOrgId = state.currentSubscriberOrgId;
-      action.payload.subscriberOrgs.forEach((subscriberOrg) => { subscriberOrgById[subscriberOrg.subscriberOrgId] = subscriberOrg; });
+      action.payload.subscriberOrgs.forEach(subscriberOrg => {
+        subscriberOrgById[subscriberOrg.subscriberOrgId] = subscriberOrg;
+      });
       const data = action.payload.subscriberOrgs;
-      const notInList = (currentSubscriberOrgId === null) || data.every(subscriberOrg => (currentSubscriberOrgId !== subscriberOrg.subscriberOrgId));
-      currentSubscriberOrgId = (notInList) ? defaultSubscriberOrg(action.payload.subscriberOrgs).subscriberOrgId : currentSubscriberOrgId;
+      const notInList =
+        currentSubscriberOrgId === null ||
+        data.every(subscriberOrg => currentSubscriberOrgId !== subscriberOrg.subscriberOrgId);
+      currentSubscriberOrgId = notInList
+        ? defaultSubscriberOrg(action.payload.subscriberOrgs).subscriberOrgId
+        : currentSubscriberOrgId;
       return {
         ...state,
         subscriberOrgById,

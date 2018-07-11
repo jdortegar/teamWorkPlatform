@@ -1,8 +1,5 @@
 import _ from 'lodash';
-import {
-  TEAMROOMS_FETCH_SUCCESS,
-  TEAMROOM_RECEIVE
-} from '../actions';
+import { TEAMROOMS_FETCH_SUCCESS, TEAMROOM_RECEIVE } from '../actions';
 
 const INITIAL_STATE = {
   teamRoomById: {},
@@ -37,7 +34,7 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
         // Clear out team rooms of teamId.
         teamRoomIds = teamRoomIdsByTeamId[teamId];
         if (teamRoomIds) {
-          teamRoomIds.forEach((teamRoomId) => {
+          teamRoomIds.forEach(teamRoomId => {
             delete teamRoomById[teamRoomId];
           });
           delete teamRoomIdsByTeamId[teamId];
@@ -47,7 +44,9 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
         teamRoomIdsByTeamId = {};
       }
 
-      teamRooms.forEach((teamRoom) => { addTeamRoom(teamRoom, teamRoomById, teamRoomIdsByTeamId); });
+      teamRooms.forEach(teamRoom => {
+        addTeamRoom(teamRoom, teamRoomById, teamRoomIdsByTeamId);
+      });
 
       return {
         ...state,

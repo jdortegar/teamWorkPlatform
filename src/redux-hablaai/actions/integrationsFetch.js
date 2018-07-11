@@ -10,15 +10,21 @@ export const fetchIntegrations = (subscriberOrgId, options = { getKey: false, fo
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { subscriberOrgId };
 
-  return (dispatch) => {
-    const thunk = dispatch(doAuthenticatedRequest({
-      requestUrl,
-      method: 'get'
-    }, reduxState, options));
+  return dispatch => {
+    const thunk = dispatch(
+      doAuthenticatedRequest(
+        {
+          requestUrl,
+          method: 'get'
+        },
+        reduxState,
+        options
+      )
+    );
 
     if (!options.getKey) {
-      thunk.then((response) => {
-        if ((response.data) && (response.data !== RESPONSE_STALE)) {
+      thunk.then(response => {
+        if (response.data && response.data !== RESPONSE_STALE) {
           const { integrations } = response.data;
           dispatch({
             type: INTEGRATIONS_FETCH_SUCCESS,

@@ -53,19 +53,18 @@ class Messaging {
     this.unauthorizedListeners.delete(listener);
   }
 
-
   _verbose(verbose = true) {
     this.verbose = verbose;
   }
 
   _initializeConnectionListeners() {
     if (!this.connectionListenersInitialized) {
-      this.socket.on('unauthorized', (error) => {
+      this.socket.on('unauthorized', error => {
         if (this.verbose) {
           console.log(`Messaging unauthorized.  ${JSON.stringify(error)}`);
         }
 
-        if ((error.data.type === 'UnauthorizedError') || (error.data.code === 'invalid_token')) {
+        if (error.data.type === 'UnauthorizedError' || error.data.code === 'invalid_token') {
           if (this.verbose) {
             console.log("User's token has expired");
           }
@@ -74,23 +73,23 @@ class Messaging {
         }
       });
 
-      this.socket.on('reconnect_failed', (a) => {
+      this.socket.on('reconnect_failed', a => {
         if (this.verbose) {
           console.log(`\n\t\t\tMessaging reconnect_failed: a=${a}  [${new Date()}]`);
         }
       });
-      this.socket.on('reconnect', (attemptNumber) => {
+      this.socket.on('reconnect', attemptNumber => {
         if (this.verbose) {
           console.log(`\n\t\t\tMessaging reconnect: attemptNumber=${attemptNumber}  [${new Date()}]`);
         }
       });
-      this.socket.on('connect_error', (err) => {
+      this.socket.on('connect_error', err => {
         if (this.verbose) {
           console.log(`\n\t\t\tMessaging connect_error: ${JSON.stringify(err)}  [${new Date()}]`);
         }
         this._notifyOnlineOfflineListener(false);
       });
-      this.socket.on('reconnect_error', (err) => {
+      this.socket.on('reconnect_error', err => {
         if (this.verbose) {
           console.log(`\n\t\t\tMessaging reconnect_error: ${JSON.stringify(err)}  [${new Date()}]`);
         }
@@ -100,7 +99,7 @@ class Messaging {
           console.log(`\n\t\t\tMessaging connect_timeout: [${new Date()}]`);
         }
       });
-      this.socket.on('error', (err) => {
+      this.socket.on('error', err => {
         if (this.verbose) {
           console.log(`\n\t\t\tMessaging error: ${JSON.stringify(err)}  [${new Date()}]`);
         }
@@ -110,19 +109,21 @@ class Messaging {
           console.log(`\n\t\t\tMessaging ping  [${new Date()}]`);
         }
       });
-      this.socket.on('pong', (ms) => {
+      this.socket.on('pong', ms => {
         if (this.verbose) {
           console.log(`\n\t\t\tMessaging pong (${ms}ms)  [${new Date()}]`);
         }
       });
 
-      this.socket.on('*', (payload) => {
+      this.socket.on('*', payload => {
         const eventType = payload.data[0];
         const event = payload.data[1];
 
         if (eventType !== 'authenticated') {
           if (this.verbose) {
-            console.log(`\n\t\t\tMessaging received eventType=${eventType}  event=${JSON.stringify(event)}  [${new Date()}]`);
+            console.log(
+              `\n\t\t\tMessaging received eventType=${eventType}  event=${JSON.stringify(event)}  [${new Date()}]`
+            );
           }
 
           this._notifyEventListeners(eventType, event);
@@ -135,7 +136,7 @@ class Messaging {
 
   _notifyEventListeners(eventType, event) {
     let accepted = false;
-    this.eventListeners.forEach((listener) => {
+    this.eventListeners.forEach(listener => {
       accepted = listener(eventType, event) || accepted;
     });
     if (!accepted) {
@@ -154,7 +155,7 @@ class Messaging {
   connect(jwt) {
     this.close(); // If connection exists, close it.
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       this.socket = new IO(this.url);
       const wildcardPatch = new SocketIOWildcard(IO.Manager);
       wildcardPatch(this.socket);
@@ -181,7 +182,6 @@ class Messaging {
     });
   }
 
-
   typing(conversationId, isTyping) {
     this.socket.send(EventTypes.typing, { conversationId, isTyping });
   }
@@ -200,11 +200,10 @@ class Messaging {
   }
 }
 
-
 let messagingInstance;
 
 export default function messaging(websocketUrl = undefined) {
-  if ((messagingInstance === undefined) && (websocketUrl)) {
+  if (messagingInstance === undefined && websocketUrl) {
     let url = websocketUrl;
     const urlToks = websocketUrl.split(':');
     if (urlToks.length <= 2) {

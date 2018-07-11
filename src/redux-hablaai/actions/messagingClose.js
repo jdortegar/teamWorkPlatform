@@ -3,7 +3,7 @@ import messaging from '../messaging';
 export const MESSAGING_CLOSED = 'messaging/close';
 
 export const closeMessaging = () => {
-  return (dispatch) => {
+  return dispatch => {
     const messagingInstance = messaging();
 
     if (messagingInstance) {

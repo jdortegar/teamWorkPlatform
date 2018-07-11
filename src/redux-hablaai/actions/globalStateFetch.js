@@ -9,7 +9,8 @@ import { fetchSubscribersBySubscriberOrgId } from './subscribersFetch';
  *
  * @returns {function(*, *)}
  */
-export const fetchGlobalState = () => { // eslint-disable-line import/prefer-default-export
+// eslint-disable-next-line import/prefer-default-export
+export const fetchGlobalState = () => {
   return (dispatch, getState) => {
     const state = getState();
     const { currentSubscriberOrgId } = state.subscriberOrgs;

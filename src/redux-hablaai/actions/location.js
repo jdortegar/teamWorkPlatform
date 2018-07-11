@@ -1,7 +1,9 @@
 import messaging from '../messaging';
 
-export const myLocation = (lat, lon, alt = undefined, accuracy = undefined) => { // eslint-disable-line import/prefer-default-export
-  return (dispatch) => { // eslint-disable-line no-unused-vars
+// eslint-disable-next-line import/prefer-default-export
+export const myLocation = (lat, lon, alt = undefined, accuracy = undefined) => {
+  // eslint-disable-next-line no-unused-vars
+  return dispatch => {
     messaging().location(lat, lon, alt, accuracy);
   };
 };

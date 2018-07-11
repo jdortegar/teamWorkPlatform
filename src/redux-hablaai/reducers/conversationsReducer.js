@@ -30,7 +30,7 @@ const getNodeFromFlattenedTree = (messageId, array) => {
   return null;
 };
 
-const flattenedArrayMessage = (message) => {
+const flattenedArrayMessage = message => {
   return { messageId: message.messageId, created: message.created, children: [], expanded: defaultExpanded };
 };
 
@@ -68,7 +68,7 @@ const addMessageToFlattenedTree = (message, flattenedTree) => {
 
 const addMessagesToFlattenedTree = (messages, flattenedTree) => {
   const unaddedMessagesToFlattenedTree = [];
-  messages.forEach((message) => {
+  messages.forEach(message => {
     if (!addMessageToFlattenedTree(message, flattenedTree)) {
       unaddedMessagesToFlattenedTree.push(message);
     }
@@ -79,19 +79,18 @@ const addMessagesToFlattenedTree = (messages, flattenedTree) => {
     if (unaddedMessagesToFlattenedTree.length < messages.length) {
       addMessagesToFlattenedTree(unaddedMessagesToFlattenedTree, flattenedTree);
     } else {
-      unaddedMessagesToFlattenedTree.forEach((message) => {
+      unaddedMessagesToFlattenedTree.forEach(message => {
         console.error(`Can't find parent ${message.replyTo} of messageId ${message.messageId}`); // eslint-disable-line no-console
       });
     }
   }
 };
 
-
 const addOrUpdateMessages = (messages, transcript) => {
   const mergedTranscript = transcript || { messages: {}, flattenedTree: [] };
 
   const unaddedMessagesToFlattenedTree = [];
-  messages.forEach((message) => {
+  messages.forEach(message => {
     const existingMessage = mergedTranscript.messages[message.messageId];
     mergedTranscript.messages[message.messageId] = message;
 
@@ -109,7 +108,6 @@ const addOrUpdateMessages = (messages, transcript) => {
   return mergedTranscript;
 };
 
-
 const conversationsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case CONVERSATIONS_FETCH_SUCCESS:
@@ -118,7 +116,7 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
       const conversationById = _.cloneDeep(state.conversationById);
       const conversationIdsByTeamRoomId = _.cloneDeep(state.conversationIdsByTeamRoomId);
 
-      conversations.forEach((newConversation) => {
+      conversations.forEach(newConversation => {
         const conversation = _.cloneDeep(newConversation);
         if (conversation.participants) {
           const participants = conversation.participants.map(participant => participant.userId);
@@ -145,7 +143,10 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
     case MESSAGES_RECEIVE: {
       const { conversationId, messages } = action.payload;
       const transcriptByConversationId = _.cloneDeep(state.transcriptByConversationId);
-      transcriptByConversationId[conversationId] = addOrUpdateMessages(messages, transcriptByConversationId[conversationId]);
+      transcriptByConversationId[conversationId] = addOrUpdateMessages(
+        messages,
+        transcriptByConversationId[conversationId]
+      );
 
       return {
         ...state,
@@ -157,7 +158,7 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
       const transcriptByConversationId = _.cloneDeep(state.transcriptByConversationId);
 
       const conversationIdMessages = {};
-      messages.forEach((message) => {
+      messages.forEach(message => {
         let conversationMessages = conversationIdMessages[message.conversationId];
         if (!conversationMessages) {
           conversationMessages = [message];
@@ -167,9 +168,12 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
         }
       });
 
-      Object.values(conversationIdMessages).forEach((conversationMessages) => {
+      Object.values(conversationIdMessages).forEach(conversationMessages => {
         const conversationId = conversationMessages[0].conversationId;
-        transcriptByConversationId[conversationId] = addOrUpdateMessages(conversationMessages, transcriptByConversationId[conversationId]);
+        transcriptByConversationId[conversationId] = addOrUpdateMessages(
+          conversationMessages,
+          transcriptByConversationId[conversationId]
+        );
       });
 
       return {

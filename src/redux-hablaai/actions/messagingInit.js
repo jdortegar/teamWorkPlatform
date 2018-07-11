@@ -5,7 +5,9 @@ export const MESSAGING_STARTED = 'messaging/start';
 
 export const initMessaging = () => {
   return (dispatch, getState) => {
-    const { auth: { websocketUrl, token } } = getState();
+    const {
+      auth: { websocketUrl, token }
+    } = getState();
     if (!websocketUrl || !token) return;
 
     const messagingInstance = messaging(websocketUrl);

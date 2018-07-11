@@ -13,7 +13,7 @@ const subscribersReducer = (state = INITIAL_STATE, action) => {
       const userIdsBySubscriberOrgId = _.cloneDeep(state.userIdsBySubscriberOrgId);
 
       const subscriberOrgId = action.payload.subscriberOrgId;
-      action.payload.subscribers.forEach((subscriber) => {
+      action.payload.subscribers.forEach(subscriber => {
         let subscriberOrgs = subscriberUserIdBySubscriberOrgIdByUserId[subscriber.userId];
         if (!subscriberOrgs) {
           subscriberOrgs = {};

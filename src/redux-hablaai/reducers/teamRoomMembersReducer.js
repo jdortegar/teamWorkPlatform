@@ -13,7 +13,7 @@ const teamRoomMembersReducer = (state = INITIAL_STATE, action) => {
       const userIdsByTeamRoomId = _.cloneDeep(state.userIdsByTeamRoomId);
 
       const teamRoomId = action.payload.teamRoomId;
-      action.payload.teamRoomMembers.forEach((teamRoomMember) => {
+      action.payload.teamRoomMembers.forEach(teamRoomMember => {
         teamRoomMemberIdByUserId[teamRoomMember.userId] = teamRoomMember.teamRoomMemberId;
         let teamRoomMembers = userIdsByTeamRoomId[teamRoomId];
         if (!teamRoomMembers) {

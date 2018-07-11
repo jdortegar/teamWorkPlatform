@@ -17,7 +17,8 @@ import {
   updateIntegrations
 } from '../actions';
 
-export const eventHandler = dispatch => (eventType, event) => { // eslint-disable-line import/prefer-default-export
+// eslint-disable-next-line import/prefer-default-export
+export const eventHandler = dispatch => (eventType, event) => {
   switch (eventType) {
     case EventTypes.presenceChanged:
       dispatch(changePresence(event));
@@ -35,7 +36,9 @@ export const eventHandler = dispatch => (eventType, event) => { // eslint-disabl
       dispatch(receiveUser(event)); // Same as userUpdated except contains preferences.private.
       break;
     case EventTypes.userBookmarksUpdated:
-      Object.values(event.messages).forEach((message) => { dispatch(receiveMessages([message], message.conversationId)); });
+      Object.values(event.messages).forEach(message => {
+        dispatch(receiveMessages([message], message.conversationId));
+      });
       break;
     // case EventTypes.userInvitationAccepted:
     //   // TODO:

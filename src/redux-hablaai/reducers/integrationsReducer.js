@@ -1,9 +1,5 @@
 import _ from 'lodash';
-import {
-  INTEGRATIONS_FETCH_SUCCESS,
-  INTEGRATIONS_REVOKE_SUCCESS,
-  INTEGRATIONS_UPDATE
-} from '../actions';
+import { INTEGRATIONS_FETCH_SUCCESS, INTEGRATIONS_REVOKE_SUCCESS, INTEGRATIONS_UPDATE } from '../actions';
 
 const INITIAL_STATE = {
   integrationsBySubscriberOrgId: {}
@@ -13,7 +9,7 @@ const integrationsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case INTEGRATIONS_FETCH_SUCCESS: {
       const updateIntegrationsBySubscriberOrgId = _.cloneDeep(state.integrationsBySubscriberOrgId);
-      action.payload.integrations.forEach((integration) => {
+      action.payload.integrations.forEach(integration => {
         const updateIntegration = { ...integration };
         const subscriberOrgId = updateIntegration.subscriberOrgId;
         delete updateIntegration.subscriberOrgId;
