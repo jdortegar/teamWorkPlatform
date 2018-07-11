@@ -84,6 +84,7 @@ class DowntimeComparisonMultiple extends Component {
       measure: 'minutes'
     }
   }
+
   componentDidMount() {
     this.props.fetchData(this.state.params);
     window.addEventListener('resize', this.updateDimensions.bind(this));

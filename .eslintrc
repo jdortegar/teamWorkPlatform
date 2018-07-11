@@ -26,13 +26,13 @@
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "no-else-return": ["error", { "allowElseIf": true }],
+    "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
 
     // TODO: fix the following eslint rules:
     "prettier/prettier": "warn",
     "arrow-body-style": "warn",
     "no-underscore-dangle": "warn",
     "prefer-destructuring": "warn",
-    "lines-between-class-members": "warn",
     "react/sort-comp": "warn",
     "react/display-name": "warn",
     "react/no-unused-state": "warn",
