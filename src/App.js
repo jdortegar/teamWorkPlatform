@@ -1,5 +1,5 @@
 import React from 'react';
-import { object } from 'prop-types';
+import PropTypes from 'prop-types';
 import { LocaleProvider } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 import { Provider } from 'react-redux';
@@ -11,9 +11,9 @@ import './layouts/styles/reset.css';
 import './layouts/styles/habla-ui-styles.css';
 
 const propTypes = {
-  store: object.isRequired,
-  persistor: object.isRequired,
-  history: object.isRequired
+  store: PropTypes.object.isRequired,
+  persistor: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 const App = ({ store, persistor, history }) => (
@@ -21,7 +21,9 @@ const App = ({ store, persistor, history }) => (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ConnectedRouter history={history}>
-          <div><Router /></div>
+          <div>
+            <Router />
+          </div>
         </ConnectedRouter>
       </PersistGate>
     </Provider>

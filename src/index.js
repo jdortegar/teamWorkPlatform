@@ -5,24 +5,24 @@ import { AppContainer } from 'react-hot-loader';
 import App from './App';
 import { configureStore, history } from './store';
 
-configureStore()
-  .then(({ store, persistor }) => {
-    const render = (Component, props = {}) => {
-      ReactDOM.render(
-        <AppContainer>
-          <BrowserRouter>
-            <Component {...props} />
-          </BrowserRouter>
-        </AppContainer>
-        , document.getElementById('app'));
-    };
+configureStore().then(({ store, persistor }) => {
+  const render = (Component, props = {}) => {
+    ReactDOM.render(
+      <AppContainer>
+        <BrowserRouter>
+          <Component {...props} />
+        </BrowserRouter>
+      </AppContainer>,
+      document.getElementById('app')
+    );
+  };
 
-    render(App, { store, persistor, history });
+  render(App, { store, persistor, history });
 
-    // Hot Module Replacement API.
-    if (module.hot) {
-      module.hot.accept('./App', () => {
-        render(App, { store, persistor, history });
-      });
-    }
-  });
+  // Hot Module Replacement API.
+  if (module.hot) {
+    module.hot.accept('./App', () => {
+      render(App, { store, persistor, history });
+    });
+  }
+});
