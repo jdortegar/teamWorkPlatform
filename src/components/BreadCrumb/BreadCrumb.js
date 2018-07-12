@@ -30,7 +30,7 @@ class BreadCrumb extends React.Component {
         {routes.map((route, index) => {
           if (route.link) {
             return (
-              <span className="breadcrumbs-text responsiveHideClass" key={index}>
+              <span className="breadcrumbs-text responsiveHideClass" key={route.title}>
                 <Link to={route.link}>
                   <span>{route.title}</span>
                 </Link>
@@ -43,7 +43,7 @@ class BreadCrumb extends React.Component {
             );
           }
           return (
-            <span className="breadcrumbs-text" key={index}>
+            <span className="breadcrumbs-text" key={route.title}>
               {route.title}
             </span>
           );

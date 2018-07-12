@@ -39,13 +39,13 @@ function getProgressBar(percent) {
 class PreviewBar extends Component {
   renderPreviewCards() {
     const { fileWithPercent } = this.props;
-    return this.props.files.map((el, index) => {
+    return this.props.files.map(el => {
       const item = el;
       if (fileWithPercent !== null && el.name === fileWithPercent.name && el.size === fileWithPercent.size) {
         item.percent = fileWithPercent.percent;
       }
       return (
-        <div key={index} className="PreviewBar__image-wrapper image-wrapper">
+        <div key={item.name} className="PreviewBar__image-wrapper image-wrapper">
           <div className="image-wrapper-content">
             <PreviewCard
               file={item}

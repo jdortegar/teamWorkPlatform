@@ -33,7 +33,6 @@
     "react/display-name": "off",
 
     // TODO: fix the following eslint rules:
-    "react/no-array-index-key": "warn",
     "react/require-default-props": "warn",
     "react/destructuring-assignment": "warn",
     "react/no-access-state-in-setstate": "warn",

@@ -78,13 +78,13 @@ class PreviewImages extends Component {
   }
 
   renderFiles(files) {
-    return files.map((file, index) => {
+    return files.map(file => {
       const fileType = file.contentType.split('/')[0];
       const isImage = fileType === 'image';
       const [name, extension] = file.fileName.split('.');
       if (isImage) {
         return (
-          <div className="image-wrapper" key={index}>
+          <div className="image-wrapper" key={file.fileName}>
             <Tooltip placement="top" title={decodeURI(name)} arrowPointAtCenter>
               <div className="image-wrapper-content">
                 <a onClick={() => this.handlePreview(file.src, isImage, extension)} role="button" tabIndex={0}>
@@ -101,7 +101,7 @@ class PreviewImages extends Component {
         return (
           <div
             className="image-wrapper preview__file-wrapper"
-            key={index}
+            key={file.fileName}
             onClick={() => this.handlePreview(file.src, isImage, extension)}
           >
             <Tooltip placement="top" title={decodeURI(name)} arrowPointAtCenter>
@@ -120,7 +120,7 @@ class PreviewImages extends Component {
       return (
         <div
           className="image-wrapper preview__file-wrapper"
-          key={index}
+          key={file.fileName}
           onClick={() => this.handlePreview(file.src, isImage, extension)}
         >
           <Tooltip placement="top" title={decodeURI(name)} arrowPointAtCenter>
