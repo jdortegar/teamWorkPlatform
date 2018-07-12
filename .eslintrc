@@ -30,7 +30,6 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
 
     // TODO: fix the following eslint rules:
-    "no-underscore-dangle": "warn",
     "prefer-destructuring": "warn",
     "react/sort-comp": "warn",
     "react/display-name": "warn",

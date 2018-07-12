@@ -104,10 +104,10 @@ export const doAuthenticatedRequest = (
   return dispatch(doRequest({ requestUrl, method, headers: secureHeaders, data }, reduxState, options));
 };
 
-let _online = false;
+let previouslyOnline = false;
 export const onlineOfflineListener = online => {
   // When back online after being offline.
-  if (online && !_online) {
+  if (online && !previouslyOnline) {
     if (AUTO_FETCH_STALE_DATE) {
       cachedGetRequestsOrdered.forEach(requestUrl => {
         const { reduxState } = cachedGetRequests[requestUrl];
@@ -126,7 +126,7 @@ export const onlineOfflineListener = online => {
     });
     cachedGetRequestsOrdered.length = 0;
   }
-  _online = online;
+  previouslyOnline = online;
 };
 
 export const clearCachedGetRequests = () => {

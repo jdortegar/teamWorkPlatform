@@ -69,36 +69,36 @@ export const SharingTypes = Object.freeze({
 });
 
 class ShareWithIds {
-  _shareWithIds;
+  shareWithIdsObj;
 
   constructor(shareWithIds) {
-    this._shareWithIds = shareWithIds;
+    this.shareWithIdsObj = shareWithIds;
   }
 
   length() {
-    return Object.keys(this._shareWithIds).length;
+    return Object.keys(this.shareWithIdsObj).length;
   }
 
   getShares(id) {
-    return this._shareWithIds[id];
+    return this.shareWithIdsObj[id];
   }
 
-  _delete(id1, id2) {
-    const share1 = this._shareWithIds[id1];
+  delete(id1, id2) {
+    const share1 = this.shareWithIdsObj[id1];
     if (share1) {
       const share2 = share1[id2];
       if (share2) {
         delete share1[id2];
       }
       if (Object.keys(share1).length === 0) {
-        delete this._shareWithIds[id1];
+        delete this.shareWithIdsObj[id1];
       }
     }
   }
 
   getSharingType(id1, id2) {
     let shareType = SharingTypes.NONE;
-    const share1 = this._shareWithIds[id1];
+    const share1 = this.shareWithIdsObj[id1];
     if (share1) {
       if (share1[id2]) {
         shareType = share1[id2];
@@ -110,19 +110,19 @@ class ShareWithIds {
   }
 
   deleteShare(id1, id2) {
-    const shares1 = this._shareWithIds[id1];
-    const shares2 = this._shareWithIds[id2];
+    const shares1 = this.shareWithIdsObj[id1];
+    const shares2 = this.shareWithIdsObj[id2];
 
     if (shares1 && id2 === 'ROOT') {
       // Delete all relations.
-      Object.keys(shares1).forEach(id => delete this._shareWithIds[id]);
-      delete this._shareWithIds[id1];
+      Object.keys(shares1).forEach(id => delete this.shareWithIdsObj[id]);
+      delete this.shareWithIdsObj[id1];
     } else {
       if (shares1 && shares1[id2]) {
         if (Object.keys(shares1).length > 1) {
           delete shares1[id2];
         } else {
-          delete this._shareWithIds[id1];
+          delete this.shareWithIdsObj[id1];
         }
       }
 
@@ -130,42 +130,42 @@ class ShareWithIds {
         if (Object.keys(shares2).length > 1) {
           delete shares2[id1];
         } else {
-          delete this._shareWithIds[id2];
+          delete this.shareWithIdsObj[id2];
         }
       }
     }
   }
 
   addShare(id1, id2, sharingType) {
-    let shares1 = this._shareWithIds[id1];
-    let shares2 = this._shareWithIds[id2];
+    let shares1 = this.shareWithIdsObj[id1];
+    let shares2 = this.shareWithIdsObj[id2];
 
     if (id1 === 'ROOT' && id2 === 'ROOT') {
       // Delete everything because this is the absolute root.
-      Object.keys(this._shareWithIds).forEach(id => delete this._shareWithIds[id]);
+      Object.keys(this.shareWithIdsObj).forEach(id => delete this.shareWithIdsObj[id]);
     } else if (shares1 && id2 === 'ROOT') {
       // Delete all relations.
       Object.keys(shares1).forEach(id => {
         if (id === 'ROOT') {
           if (sharingType === SharingTypes.NONE) {
-            this._delete(id1, 'ROOT');
+            this.delete(id1, 'ROOT');
           } else {
             shares1.ROOT = sharingType;
           }
         } else {
-          this._delete(id, id1);
+          this.delete(id, id1);
         }
       });
     } else {
       if (!shares1) {
         shares1 = {};
-        this._shareWithIds[id1] = shares1;
+        this.shareWithIdsObj[id1] = shares1;
       }
       shares1[id2] = sharingType;
 
       if (!shares2) {
         shares2 = {};
-        this._shareWithIds[id2] = shares2;
+        this.shareWithIdsObj[id2] = shares2;
       }
       shares2[id1] = sharingType;
     }

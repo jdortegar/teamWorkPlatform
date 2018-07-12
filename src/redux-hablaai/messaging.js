@@ -53,11 +53,11 @@ class Messaging {
     this.unauthorizedListeners.delete(listener);
   }
 
-  _verbose(verbose = true) {
+  setVerbose(verbose = true) {
     this.verbose = verbose;
   }
 
-  _initializeConnectionListeners() {
+  initializeConnectionListeners() {
     if (!this.connectionListenersInitialized) {
       this.socket.on('unauthorized', error => {
         if (this.verbose) {
@@ -69,7 +69,7 @@ class Messaging {
             console.log("User's token has expired");
           }
 
-          this._notifyUnauthorizedListeners();
+          this.notifyUnauthorizedListeners();
         }
       });
 
@@ -87,7 +87,7 @@ class Messaging {
         if (this.verbose) {
           console.log(`\n\t\t\tMessaging connect_error: ${JSON.stringify(err)}  [${new Date()}]`);
         }
-        this._notifyOnlineOfflineListener(false);
+        this.notifyOnlineOfflineListener(false);
       });
       this.socket.on('reconnect_error', err => {
         if (this.verbose) {
@@ -126,7 +126,7 @@ class Messaging {
             );
           }
 
-          this._notifyEventListeners(eventType, event);
+          this.notifyEventListeners(eventType, event);
         }
       });
 
@@ -134,7 +134,7 @@ class Messaging {
     }
   }
 
-  _notifyEventListeners(eventType, event) {
+  notifyEventListeners(eventType, event) {
     let accepted = false;
     this.eventListeners.forEach(listener => {
       accepted = listener(eventType, event) || accepted;
@@ -144,11 +144,11 @@ class Messaging {
     }
   }
 
-  _notifyOnlineOfflineListener(online) {
+  notifyOnlineOfflineListener(online) {
     this.onlineOfflineListeners.forEach(listener => listener(online));
   }
 
-  _notifyUnauthorizedListeners() {
+  notifyUnauthorizedListeners() {
     this.unauthorizedListeners.forEach(listener => listener());
   }
 
@@ -172,12 +172,12 @@ class Messaging {
               console.log(`\n\t\t\tMessaging authenticated.  [${new Date()}]`);
             }
 
-            this._notifyOnlineOfflineListener(true);
+            this.notifyOnlineOfflineListener(true);
             resolve();
           });
         }
 
-        this._initializeConnectionListeners();
+        this.initializeConnectionListeners();
       });
     });
   }
@@ -192,7 +192,7 @@ class Messaging {
 
   close() {
     if (this.socket) {
-      this._notifyOnlineOfflineListener(false);
+      this.notifyOnlineOfflineListener(false);
       this.socket.close();
       this.socket = undefined;
       this.connectionListenersInitialized = false;
