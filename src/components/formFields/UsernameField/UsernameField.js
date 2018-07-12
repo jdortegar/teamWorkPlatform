@@ -37,18 +37,15 @@ function UsernameField(props) {
     ...rest,
     placeholder: translatedPlaceHolder,
     missingMessage: translatedMissingMessage,
-    extraRules: [{
-      validator: antValidate(username)
-    }]
+    extraRules: [
+      {
+        validator: antValidate(username)
+      }
+    ]
   });
 
   return (
-    <FormItem
-      labelCol={layout.labelCol}
-      wrapperCol={layout.wrapperCol}
-      label={label}
-      hasFeedback
-    >
+    <FormItem labelCol={layout.labelCol} wrapperCol={layout.wrapperCol} label={label} hasFeedback>
       {decoratedInput}
     </FormItem>
   );

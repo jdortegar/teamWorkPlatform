@@ -64,9 +64,9 @@ function invitationKey(inv) {
 
 class MainContent extends Component {
   componentDidMount() {
-    if ((this.props.pushMessage) && (this.props.pushMessage.length > 0)) {
+    if (this.props.pushMessage && this.props.pushMessage.length > 0) {
       const text = this.props.pushMessage[0].content.reduce((prevVal, content) => {
-        return prevVal || (content.type === 'text/plain') ? content.text : undefined;
+        return prevVal || content.type === 'text/plain' ? content.text : undefined;
       }, undefined);
       const args = {
         message: String.t('MainContent.newMessage'),
@@ -93,12 +93,20 @@ class MainContent extends Component {
       if (invitation.teamName || invitation.teamRoomName) {
         const { firstName, lastName } = this.props.users[invitation.inviteeUserIdOrEmail];
         if (invitation.teamRoomName) {
-          text = String.t('MainContent.declinedRoom', { firstName, lastName, teamRoomName: invitation.teamRoomName, teamName: invitation.teamName });
+          text = String.t('MainContent.declinedRoom', {
+            firstName,
+            lastName,
+            teamRoomName: invitation.teamRoomName,
+            teamName: invitation.teamName
+          });
         } else if (invitation.teamName) {
           text = String.t('MainContent.declinedTeam', { firstName, lastName, teamName: invitation.teamName });
         }
       } else {
-        text = String.t('MainContent.declinedOrg', { inviteeUserIdOrEmail: invitation.inviteeUserIdOrEmail, subscriberOrgName: invitation.subscriberOrgName });
+        text = String.t('MainContent.declinedOrg', {
+          inviteeUserIdOrEmail: invitation.inviteeUserIdOrEmail,
+          subscriberOrgName: invitation.subscriberOrgName
+        });
       }
       const args = {
         message: text,
@@ -110,7 +118,7 @@ class MainContent extends Component {
       notification.open(args);
     }
 
-    if (nextProps.pushMessage && (nextProps.pushMessage.length > 0)) {
+    if (nextProps.pushMessage && nextProps.pushMessage.length > 0) {
       if (this.props.pushMessage) {
         notification.destroy();
       }
@@ -136,13 +144,14 @@ class MainContent extends Component {
   getValidInvites() {
     const { teamRooms, teams, subscriberOrgs } = this.props;
     const { currentSubscriberOrgId, subscriberOrgById } = subscriberOrgs;
-    if (!subscriberOrgById[currentSubscriberOrgId]) { // data not available yet
+    if (!subscriberOrgById[currentSubscriberOrgId]) {
+      // data not available yet
       return [];
     }
     let { invitation } = this.props;
     if (invitation.length > 0) {
       const invitationsByKey = {};
-      invitation = invitation.sort(sortByLastCreatedFirst).filter((inv) => {
+      invitation = invitation.sort(sortByLastCreatedFirst).filter(inv => {
         // if already a member of the org, team or team room, don't include the invite
         const { teamRoomId, teamId, subscriberOrgId } = inv;
         if (teamRoomId) {
@@ -176,9 +185,7 @@ class MainContent extends Component {
     const invitation = this.getValidInvites();
     return (
       <Content className="MainContent__layout-wrapper">
-        {
-          invitation.length > 0 ? invitation.map(inv => <Notification key={invitationKey(inv)} options={inv} />) : null
-        }
+        {invitation.length > 0 ? invitation.map(inv => <Notification key={invitationKey(inv)} options={inv} />) : null}
         <Switch>
           <Route exact path={paths.app} component={HomePage} />
           <Route exact path={paths.integrations} component={IntegrationsPage} />

@@ -8,12 +8,8 @@ import String from '../../translations';
 import Avatar from '../../components/common/Avatar';
 import AvatarWrapper from '../common/Avatar/AvatarWrapper';
 import Badge from '../../components/Badge';
-import {
-  sortByName,
-  primaryAtTop
-} from '../../redux-hablaai/selectors/helpers';
+import { sortByName, primaryAtTop } from '../../redux-hablaai/selectors/helpers';
 import './styles/style.css';
-
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -45,9 +41,7 @@ const defaultProps = {
   teamRooms: []
 };
 
-const ROUTERS_TO_HIDE_SIDEBAR = [
-  '/app/userDetails'
-];
+const ROUTERS_TO_HIDE_SIDEBAR = ['/app/userDetails'];
 
 function renderSubscriberAvatar(subscriber) {
   const { firstName, lastName, userId } = subscriber;
@@ -71,7 +65,11 @@ function renderAvatar(item, enabled) {
     return <Avatar src={`data:image/jpeg;base64, ${preferences.avatarBase64}`} className={className} />;
   }
   const nameInitial = item.name.substring(0, 1).toUpperCase();
-  return <Avatar color={preferences.iconColor} className={className}>{nameInitial}</Avatar>;
+  return (
+    <Avatar color={preferences.iconColor} className={className}>
+      {nameInitial}
+    </Avatar>
+  );
 }
 
 class Sidebar extends Component {
@@ -80,7 +78,7 @@ class Sidebar extends Component {
 
     this.orgsOpen = {};
     const { teams, currentSubscriberOrgId } = this.props;
-    const teamsActive = teams.filter(team => (team.subscriberOrgId === currentSubscriberOrgId) && team.active);
+    const teamsActive = teams.filter(team => team.subscriberOrgId === currentSubscriberOrgId && team.active);
 
     this.teamsActive = teamsActive;
 
@@ -107,7 +105,9 @@ class Sidebar extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.teams.length !== this.props.teams.length) {
       const { currentSubscriberOrgId } = this.props;
-      const teamsActive = nextProps.teams.filter(team => (team.subscriberOrgId === currentSubscriberOrgId) && team.active);
+      const teamsActive = nextProps.teams.filter(
+        team => team.subscriberOrgId === currentSubscriberOrgId && team.active
+      );
       this.teamsActive = teamsActive;
       this.setState({ teamsActive });
     }
@@ -144,7 +144,7 @@ class Sidebar extends Component {
     if (value === '') {
       this.setState({ teamsActive: this.teamsActive });
     } else {
-      const filteredTeams = this.state.teamsActive.filter((el) => {
+      const filteredTeams = this.state.teamsActive.filter(el => {
         return el.name.toLowerCase().includes(value.toLowerCase().trim());
       });
       this.setState({ teamsActive: filteredTeams });
@@ -207,15 +207,13 @@ class Sidebar extends Component {
       return null;
     }
 
-    let teamRoomsByTeamId = teamRooms
-      .filter(teamRoom => teamRoom.teamId === teamId)
-      .sort(sortByName);
+    let teamRoomsByTeamId = teamRooms.filter(teamRoom => teamRoom.teamId === teamId).sort(sortByName);
 
     if (teamRoomsByTeamId.length > 0) {
       teamRoomsByTeamId = primaryAtTop(teamRoomsByTeamId);
     }
 
-    return teamRoomsByTeamId.map((teamRoom) => {
+    return teamRoomsByTeamId.map(teamRoom => {
       let isAdmin = false;
       if (teamRoom.teamRoommMembers) {
         const teamRoomMemberFoundByUser = _.find(teamRoom.teamRoomMembers, { userId: user.userId });
@@ -227,10 +225,13 @@ class Sidebar extends Component {
         <Menu.Item key={teamRoom.teamRoomId}>
           <div className="habla-left-navigation-teamroom-list">
             <div className="habla-left-navigation-teamroom-list-item padding-class-a">
-              <div className="float-left-class">
-                {renderAvatar(teamRoom, teamRoom.active)}
-              </div>
-              <span className="habla-left-navigation-item-label" onClick={() => this.goToTeamRoomPage(teamRoom.teamRoomId)}>{teamRoom.name}</span>
+              <div className="float-left-class">{renderAvatar(teamRoom, teamRoom.active)}</div>
+              <span
+                className="habla-left-navigation-item-label"
+                onClick={() => this.goToTeamRoomPage(teamRoom.teamRoomId)}
+              >
+                {teamRoom.name}
+              </span>
               <div className="clear" />
               <Badge count={0 /* TODO: get the actual count of unread messages */} />
             </div>
@@ -248,9 +249,9 @@ class Sidebar extends Component {
 
     let teamsByOrgId = teamsActive.sort(sortByName);
 
-    teamsByOrgId = ((teamsByOrgId.length === 0) && (teamsByOrgId[0] === undefined)) ? [] : primaryAtTop(teamsByOrgId);
+    teamsByOrgId = teamsByOrgId.length === 0 && teamsByOrgId[0] === undefined ? [] : primaryAtTop(teamsByOrgId);
 
-    return teamsByOrgId.map((team) => {
+    return teamsByOrgId.map(team => {
       let isAdmin = false;
       if (team.teamMembers) {
         const teamMemberFoundByUser = _.find(team.teamMembers, { userId: user.userId });
@@ -275,9 +276,7 @@ class Sidebar extends Component {
           title={
             <div className="habla-left-navigation-team-list">
               <div className="habla-left-navigation-team-list-item padding-class-a">
-                <div className="float-left-class">
-                  {renderAvatar(team, team.active)}
-                </div>
+                <div className="float-left-class">{renderAvatar(team, team.active)}</div>
                 <span className="habla-left-navigation-item-label" onClick={e => this.goToTeamPage(e, team)}>
                   {team.name}
                 </span>
@@ -296,19 +295,21 @@ class Sidebar extends Component {
               </span>
             </div>
           </Menu.Item>
-          { teamRooms }
-        </SubMenu>);
+          {teamRooms}
+        </SubMenu>
+      );
     });
   }
 
   renderOrg(org) {
     const { currentSubscriberOrgId } = this.props;
-    const className = (org.subscriberOrgId === currentSubscriberOrgId) ? 'subscriberorg-name-current' : 'subscriberorg-name';
+    const className =
+      org.subscriberOrgId === currentSubscriberOrgId ? 'subscriberorg-name-current' : 'subscriberorg-name';
     return (
       <a
         className="habla-top-menu-settings"
         key={org.subscriberOrgId}
-        onClick={(e) => {
+        onClick={e => {
           this.goToOrgPage(e, org.subscriberOrgId);
         }}
       >
@@ -325,17 +326,30 @@ class Sidebar extends Component {
         <Menu.Item key="orgsHeader">
           <div className="habla-label padding-class-a">{String.t('sideBar.organizationsLabel')}</div>
         </Menu.Item>
-        <Menu.Item key="organizationList">
-          {subscriberOrgs.map(org => this.renderOrg(org))}
-        </Menu.Item>
+        <Menu.Item key="organizationList">{subscriberOrgs.map(org => this.renderOrg(org))}</Menu.Item>
       </Menu>
     );
   }
 
   render() {
-    const { teams, subscriberOrgs, subscribers, subscribersPresences, sideBarIsHidden, currentSubscriberOrgId, teamIdsBySubscriberOrgId } = this.props;
-    if (!teamIdsBySubscriberOrgId || !currentSubscriberOrgId || !teamIdsBySubscriberOrgId[currentSubscriberOrgId] ||
-        !teams || subscriberOrgs.length === 0 || !subscribers || !subscribersPresences) {
+    const {
+      teams,
+      subscriberOrgs,
+      subscribers,
+      subscribersPresences,
+      sideBarIsHidden,
+      currentSubscriberOrgId,
+      teamIdsBySubscriberOrgId
+    } = this.props;
+    if (
+      !teamIdsBySubscriberOrgId ||
+      !currentSubscriberOrgId ||
+      !teamIdsBySubscriberOrgId[currentSubscriberOrgId] ||
+      !teams ||
+      subscriberOrgs.length === 0 ||
+      !subscribers ||
+      !subscribersPresences
+    ) {
       return null;
     }
     const sideClass = classNames({
@@ -352,16 +366,14 @@ class Sidebar extends Component {
     return (
       <Sider width={250} className={sideClass}>
         <div className="organizationHeader padding-class-a">
-          <div className="organizationHeader_org_info">
-            {this.renderOrg(currentOrg)}
-          </div>
-          {subscriberOrgs.length > 1 &&
+          <div className="organizationHeader_org_info">{this.renderOrg(currentOrg)}</div>
+          {subscriberOrgs.length > 1 && (
             <Dropdown overlay={this.renderOrgs()} trigger={['click']}>
               <a>
                 <i className="fas fa-ellipsis-h organizationsList" />
               </a>
             </Dropdown>
-          }
+          )}
           <div className="clear" />
         </div>
 
@@ -412,10 +424,7 @@ class Sidebar extends Component {
         </div>
 
         <div className="sidebar-actions">
-          <Input
-            prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            onChange={this.handleSearch}
-          />
+          <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleSearch} />
         </div>
 
         <div className="sidebar-direct-messages">

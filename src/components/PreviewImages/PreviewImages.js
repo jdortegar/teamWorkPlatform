@@ -44,10 +44,11 @@ class PreviewImages extends Component {
       }
     };
     const imagesBase64 = [];
-    images.forEach((image) => {
+    images.forEach(image => {
       const { resourceId } = image;
-      axios.get(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${resourceId}`, putHeaders)
-        .then((resource) => {
+      axios
+        .get(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${resourceId}`, putHeaders)
+        .then(resource => {
           const imageSrc = `data:${resource.headers['x-hablaai-content-type']};base64,${resource.data}`;
           imagesBase64.push({
             src: imageSrc,
@@ -68,7 +69,7 @@ class PreviewImages extends Component {
   }
 
   handlePreview(file, isImage, extension) {
-    const previewVisible = isImage || (extension === 'pdf');
+    const previewVisible = isImage || extension === 'pdf';
     this.setState({
       isImage,
       previewVisible,
@@ -92,12 +93,17 @@ class PreviewImages extends Component {
               </div>
               <span className="file-name habla-label">{decodeURI(name)}</span>
             </Tooltip>
-          </div>);
+          </div>
+        );
       }
 
       if (extension === 'pdf') {
         return (
-          <div className="image-wrapper preview__file-wrapper" key={index} onClick={() => this.handlePreview(file.src, isImage, extension)}>
+          <div
+            className="image-wrapper preview__file-wrapper"
+            key={index}
+            onClick={() => this.handlePreview(file.src, isImage, extension)}
+          >
             <Tooltip placement="top" title={decodeURI(name)} arrowPointAtCenter>
               <div className="image-wrapper-content">
                 <div className="file-wrapper__extension">
@@ -107,11 +113,16 @@ class PreviewImages extends Component {
               </div>
               <span className="file-name habla-label">{decodeURI(name)}</span>
             </Tooltip>
-          </div>);
+          </div>
+        );
       }
 
       return (
-        <div className="image-wrapper preview__file-wrapper" key={index} onClick={() => this.handlePreview(file.src, isImage, extension)}>
+        <div
+          className="image-wrapper preview__file-wrapper"
+          key={index}
+          onClick={() => this.handlePreview(file.src, isImage, extension)}
+        >
           <Tooltip placement="top" title={decodeURI(name)} arrowPointAtCenter>
             <div className="image-wrapper-content">
               <a href={file.src} download={decodeURI(file.fileName)}>
@@ -123,7 +134,8 @@ class PreviewImages extends Component {
             </div>
             <span className="file-name habla-label">{decodeURI(name)}</span>
           </Tooltip>
-        </div>);
+        </div>
+      );
     });
   }
 
@@ -134,14 +146,16 @@ class PreviewImages extends Component {
     });
     return (
       <div className="preview-images">
-        <div className="attachment-icon"><i className="fas fa-paperclip" /></div>
+        <div className="attachment-icon">
+          <i className="fas fa-paperclip" />
+        </div>
         {this.renderFiles(images)}
         <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel} className={isFile}>
-          { isImage ?
+          {isImage ? (
             <img className="PreviewImages__modal-img" alt="" src={previewImage} />
-            :
+          ) : (
             <iframe title="image-preview" src={previewImage} width="970" height="700" />
-          }
+          )}
         </Modal>
       </div>
     );

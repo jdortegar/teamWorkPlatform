@@ -91,11 +91,7 @@ class DowntimeAndReasonsLevelOne extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { plant, from, until } = nextProps;
-    const shouldFetch = (
-      plant !== this.props.plant ||
-      from !== this.props.from ||
-      until !== this.props.until
-    );
+    const shouldFetch = plant !== this.props.plant || from !== this.props.from || until !== this.props.until;
     if (shouldFetch) {
       this.props.fetchData({ plant, from, until, measure: 'minutes' });
     }
@@ -126,13 +122,13 @@ class DowntimeAndReasonsLevelOne extends Component {
       <div className="Report__container">
         <div
           className="DowntimeAndReasonsLevelOne"
-          ref={(node) => {
+          ref={node => {
             this.container = node;
           }}
           style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
           <HighchartsReact
-            ref={(node) => {
+            ref={node => {
               this.highchart = node;
             }}
             highcharts={Highcharts}

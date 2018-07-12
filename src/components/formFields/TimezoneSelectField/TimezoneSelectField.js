@@ -40,8 +40,18 @@ const defaultProps = {
 
 function TimezoneSelectField(props) {
   const {
-    componentKey, layout, form, label, required, missingMessage, initialValue,
-    placeholder, className, selectClassName, countryCode, ...other
+    componentKey,
+    layout,
+    form,
+    label,
+    required,
+    missingMessage,
+    initialValue,
+    placeholder,
+    className,
+    selectClassName,
+    countryCode,
+    ...other
   } = props;
 
   const translatedMissingMessage = missingMessage || String.t('errTimeZoneNotSelected');
@@ -52,8 +62,12 @@ function TimezoneSelectField(props) {
     timezones = timezonesByCountry[countryCode].timezones;
   }
 
-  const selectTimezones = timezones.map((timezone) => {
-    return <Option key={timezone} value={timezone}>{timezone}</Option>;
+  const selectTimezones = timezones.map(timezone => {
+    return (
+      <Option key={timezone} value={timezone}>
+        {timezone}
+      </Option>
+    );
   });
 
   return (
@@ -77,7 +91,8 @@ function TimezoneSelectField(props) {
           className={selectClassName}
         >
           {selectTimezones}
-        </Select>)}
+        </Select>
+      )}
     </FormItem>
   );
 }

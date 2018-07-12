@@ -50,15 +50,28 @@ class CountrySelectField extends Component {
 
   render() {
     const {
-      componentKey, layout, form, label, required, missingMessage,
-      placeholder, className, selectClassName, initialValue, ...other
+      componentKey,
+      layout,
+      form,
+      label,
+      required,
+      missingMessage,
+      placeholder,
+      className,
+      selectClassName,
+      initialValue,
+      ...other
     } = this.props;
 
     const translatedMissingMessage = missingMessage || String.t('Country.errNoText');
     const translatedPlaceHolder = placeholder || String.t('labelCountryPlaceholder');
 
     const countries = countriesObj.map(({ name, code }) => {
-      return <Option key={code} value={code}>{name}</Option>;
+      return (
+        <Option key={code} value={code}>
+          {name}
+        </Option>
+      );
     });
 
     return (
@@ -83,7 +96,8 @@ class CountrySelectField extends Component {
             className={selectClassName}
           >
             {countries}
-          </Select>)}
+          </Select>
+        )}
       </FormItem>
     );
   }

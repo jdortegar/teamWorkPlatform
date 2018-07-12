@@ -43,9 +43,21 @@ const defaultProps = {
 
 function TextField(props) {
   const {
-    componentKey, layout, label, initialValue, required, extraRules,
-    placeholder, form, missingMessage, validateStatus, colon, hasFeedback,
-    className, inputClassName, ...other
+    componentKey,
+    layout,
+    label,
+    initialValue,
+    required,
+    extraRules,
+    placeholder,
+    form,
+    missingMessage,
+    validateStatus,
+    colon,
+    hasFeedback,
+    className,
+    inputClassName,
+    ...other
   } = props;
 
   const translatedPlaceHolder = placeholder || String.t('InputField.defaultPlaceholder');

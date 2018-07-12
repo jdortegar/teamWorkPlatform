@@ -2,13 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import * as d3 from 'd3';
-import {
-  VictoryAxis,
-  VictoryChart,
-  VictoryLabel,
-  VictoryScatter,
-  VictoryZoomContainer
-} from 'victory';
+import { VictoryAxis, VictoryChart, VictoryLabel, VictoryScatter, VictoryZoomContainer } from 'victory';
 
 import String from '../../translations';
 import formatSize from '../../lib/formatSize';
@@ -44,24 +38,29 @@ const MINIMUM_ZOOM = 500000;
 const ZOOM_DIFFERENCE = 0.1;
 
 // from the beginning of the last year until tomorrow
-const DATE_DOMAIN = [moment().subtract(1, 'year').startOf('year'), moment().add(1, 'day')];
+const DATE_DOMAIN = [
+  moment()
+    .subtract(1, 'year')
+    .startOf('year'),
+  moment().add(1, 'day')
+];
 const TIME_DOMAIN = [moment().startOf('day'), moment().endOf('day')];
 
 // from 2 weeks before the last file to one day after
-const defaultZoomDomain = (files) => {
+const defaultZoomDomain = files => {
   const lastFileDate = moment.max(files.map(file => file.date));
   return [+moment(lastFileDate).subtract(2, 'weeks'), +moment(lastFileDate).add(1, 'day')];
 };
 
 // from the first to the last file
-const allZoomDomain = (files) => {
+const allZoomDomain = files => {
   const dates = files.map(file => file.date);
   const lastFileDate = moment.max(dates);
   const firstFileDate = moment.min(dates);
   return [+moment(firstFileDate).subtract(1, 'day'), +moment(lastFileDate).add(1, 'day')];
 };
 
-const formatXTick = (date) => {
+const formatXTick = date => {
   const getFormat = () => {
     if (d3.timeMinute(date) < date) return String.t('timeActivityGraph.tickFormat.timeMinute'); // eg: "14:28:32 \n Dec 21"
     if (d3.timeDay(date) < date) return String.t('timeActivityGraph.tickFormat.timeDay'); // eg: "14:28 \n Dec 21"
@@ -105,13 +104,13 @@ class TimeActivityGraph extends Component {
 
   container = null;
 
-  handleZoomDomainChange = (domain) => {
+  handleZoomDomainChange = domain => {
     this.setState({ zoomDomain: domain.x });
-  }
+  };
 
   applyZoom = (newZoomLevel, oldZoomLevel) => {
     return newZoomLevel > oldZoomLevel ? this.zoomIn() : this.zoomOut();
-  }
+  };
 
   zoomIn() {
     this.setState(({ zoomDomain }) => {
@@ -135,8 +134,8 @@ class TimeActivityGraph extends Component {
     const height = clientHeight;
 
     this.setState({
-      width: (width < MIN_WIDTH ? MIN_WIDTH : width),
-      height: (height < MIN_HEIGHT ? MIN_HEIGHT : height),
+      width: width < MIN_WIDTH ? MIN_WIDTH : width,
+      height: height < MIN_HEIGHT ? MIN_HEIGHT : height,
       offsetLeft,
       offsetTop
     });
@@ -157,16 +156,14 @@ class TimeActivityGraph extends Component {
     const imgSrc = integrationImageFromKey(integrationKeyFromFile(datum));
 
     return (
-      <div
-        onClick={() => this.closeTooltip()}
-        className="tooltipOverlay"
-        style={{ left, top }}
-      >
+      <div onClick={() => this.closeTooltip()} className="tooltipOverlay" style={{ left, top }}>
         <div className="tooltipContainer">
           <img src={imgSrc} alt="" width={32} height={32} className="img" />
           <div className="tooltipTextContainer">
             <p className="toolTipTextPrimary">{fileName}</p>
-            <p className="toolTipTextSecondary">{String.t('timeActivityGraph.displayTime', { displayDate, displayTime })}</p>
+            <p className="toolTipTextSecondary">
+              {String.t('timeActivityGraph.displayTime', { displayDate, displayTime })}
+            </p>
             <p className="toolTipTextSecondary">{formatSize(fileSize)}</p>
           </div>
         </div>
@@ -178,7 +175,9 @@ class TimeActivityGraph extends Component {
     const { files } = this.props;
     return (
       <div
-        ref={(node) => { this.container = node; }}
+        ref={node => {
+          this.container = node;
+        }}
         style={{ flex: 1, minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
       >
         {this.state.tooltipPoint && this.renderTooltipViews()}
@@ -201,12 +200,7 @@ class TimeActivityGraph extends Component {
         >
           <VictoryAxis
             tickFormat={formatXTick}
-            tickLabelComponent={
-              <VictoryLabel
-                lineHeight={1.3}
-                style={styles.compoundTickLabels}
-              />
-            }
+            tickLabelComponent={<VictoryLabel lineHeight={1.3} style={styles.compoundTickLabels} />}
             style={{
               axis: styles.hidden,
               grid: styles.lines
@@ -227,26 +221,28 @@ class TimeActivityGraph extends Component {
           <VictoryScatter
             labelComponent={<div />}
             dataComponent={<FilePoint />}
-            events={[{
-              target: 'data',
-              eventHandlers: {
-                onMouseOver: (evt, clickedProps) => {
-                  const { index, data } = clickedProps;
-                  const { tooltipPoint } = this.state;
-                  if (!tooltipPoint || tooltipPoint.datum.index !== index) {
-                    this.setState({ tooltipPoint: { x: evt.clientX, y: evt.clientY, datum: data[index] } });
+            events={[
+              {
+                target: 'data',
+                eventHandlers: {
+                  onMouseOver: (evt, clickedProps) => {
+                    const { index, data } = clickedProps;
+                    const { tooltipPoint } = this.state;
+                    if (!tooltipPoint || tooltipPoint.datum.index !== index) {
+                      this.setState({ tooltipPoint: { x: evt.clientX, y: evt.clientY, datum: data[index] } });
+                    }
+                  },
+                  onMouseOut: () => {
+                    this.setState({ tooltipPoint: null });
+                  },
+                  onClick: (evt, clickedProps) => {
+                    const { index, data } = clickedProps;
+                    window.open(data[index].resourceUri, '_blank');
+                    this.setState({ tooltipPoint: null });
                   }
-                },
-                onMouseOut: () => {
-                  this.setState({ tooltipPoint: null });
-                },
-                onClick: (evt, clickedProps) => {
-                  const { index, data } = clickedProps;
-                  window.open(data[index].resourceUri, '_blank');
-                  this.setState({ tooltipPoint: null });
                 }
               }
-            }]}
+            ]}
             style={styles.scatter}
             data={files}
             x="date"

@@ -83,7 +83,7 @@ class DowntimeComparisonMultiple extends Component {
       months: '2017-10,2017-11',
       measure: 'minutes'
     }
-  }
+  };
 
   componentDidMount() {
     this.props.fetchData(this.state.params);
@@ -117,11 +117,15 @@ class DowntimeComparisonMultiple extends Component {
       <div className="Report__container">
         <div
           className="PlanUpMultipeComparissions"
-          ref={(node) => { this.container = node; }}
+          ref={node => {
+            this.container = node;
+          }}
           style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
           <HighchartsReact
-            ref={(node) => { this.highchart = node; }}
+            ref={node => {
+              this.highchart = node;
+            }}
             highcharts={Highcharts}
             options={{
               ...this.chartOptions,

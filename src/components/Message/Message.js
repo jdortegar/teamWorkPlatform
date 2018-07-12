@@ -116,7 +116,16 @@ class Message extends Component {
   }
 
   render() {
-    const { message, user, currentUser, teamRoomMembersObj, hide, lastRead, conversationDisabled, isAdmin } = this.props;
+    const {
+      message,
+      user,
+      currentUser,
+      teamRoomMembersObj,
+      hide,
+      lastRead,
+      conversationDisabled,
+      isAdmin
+    } = this.props;
     const { messageId, children, level, content } = message;
     const orgBookmarks = currentUser.bookmarks[this.props.subscriberOrgId];
     const hasBookmark = orgBookmarks && orgBookmarks.messageIds && orgBookmarks.messageIds[message.messageId];
@@ -131,7 +140,7 @@ class Message extends Component {
       <div>
         <p className="message__body-name">{name}</p>
         <p className="message__body-text">
-          { text && justTextContent.text }
+          {text && justTextContent.text}
           <span className="message__body-text-date"> ({date})</span>
         </p>
       </div>
@@ -161,122 +170,117 @@ class Message extends Component {
               )}
             </Col>
           </Row>
-          { childrenNonDeleted.length > 0 &&
-          <div className="habla-label message__main-counter" onClick={this.handleShowReplies}>
-            <span className="message__main-counter-number" >
-              { childrenNonDeleted.length }
-            </span>
-            <i className="fas fa-reply" data-fa-transform="rotate-180" />
-          </div>
-          }
-          { lastRead &&
-            <div className="message__last-read">
-              {String.t('message.unreadMessageSeparator')}
+          {childrenNonDeleted.length > 0 && (
+            <div className="habla-label message__main-counter" onClick={this.handleShowReplies}>
+              <span className="message__main-counter-number">{childrenNonDeleted.length}</span>
+              <i className="fas fa-reply" data-fa-transform="rotate-180" />
             </div>
-          }
-          {!conversationDisabled &&
-          <div className="message__options hide">
-            <Tooltip placement="topLeft" title={String.t('message.tooltipReply')} arrowPointAtCenter>
-              <a
-                className="message__icons"
-                onClick={(e) => {
-                  this.handleReplyTo({ firstName, lastName, text, messageId, preferences });
-                  e.stopPropagation();
-                }}
+          )}
+          {lastRead && <div className="message__last-read">{String.t('message.unreadMessageSeparator')}</div>}
+          {!conversationDisabled && (
+            <div className="message__options hide">
+              <Tooltip placement="topLeft" title={String.t('message.tooltipReply')} arrowPointAtCenter>
+                <a
+                  className="message__icons"
+                  onClick={e => {
+                    this.handleReplyTo({ firstName, lastName, text, messageId, preferences });
+                    e.stopPropagation();
+                  }}
+                >
+                  <i className="fas fa-reply" />
+                </a>
+              </Tooltip>
+              <Tooltip
+                placement="topLeft"
+                title={String.t(hasBookmark ? 'message.tooltipBookmarkRemove' : 'message.tooltipBookmarkSet')}
+                arrowPointAtCenter
               >
-                <i className="fas fa-reply" />
-              </a>
-            </Tooltip>
-            <Tooltip
-              placement="topLeft"
-              title={String.t(hasBookmark ? 'message.tooltipBookmarkRemove' : 'message.tooltipBookmarkSet')}
-              arrowPointAtCenter
-            >
-              <a
-                className={hasBookmark ? 'message__icons message__icons-selected' : 'message__icons'}
-                onClick={(e) => {
-                  this.handleBookmark(!hasBookmark);
-                  e.stopPropagation();
-                }}
-              >
-                <i className="fas fa-bookmark" />
-              </a>
-            </Tooltip>
-            <Tooltip placement="topLeft" title={String.t('message.tooltipThumbsUp')} arrowPointAtCenter>
-              <a
-                className="message__icons"
-                onClick={(e) => {
-                  this.handleThumb('up');
-                  e.stopPropagation();
-                  // e.nativeEvent.stopImmediatePropagation();
-                }}
-              >
-                <i className="fas fa-thumbs-up" />
-              </a>
-            </Tooltip>
-            <Tooltip placement="topLeft" title={String.t('message.tooltipThumbsDown')} arrowPointAtCenter>
-              <a
-                className="message__icons"
-                onClick={(e) => {
-                  this.handleThumb('down');
-                  e.stopPropagation();
-                }}
-              >
-                <i className="fas fa-thumbs-down" />
-              </a>
-            </Tooltip>
-            <Tooltip placement="topLeft" title={String.t('message.tooltipFlag')} arrowPointAtCenter>
-              <a
-                className="message__icons"
-                onClick={(e) => {
-                  this.handleFlag();
-                  e.stopPropagation();
-                }}
-              >
-                <i className="fas fa-flag" />
-              </a>
-            </Tooltip>
-            {/* <Tooltip placement="topLeft" title={String.t('message.tooltipEdit')} arrowPointAtCenter> */}
-            {(isAdmin || message.createdBy === currentUser.userId) &&
-            <Popconfirm
-              title={String.t('message.deleteConfirmationQuestion')}
-              okText={String.t('okButton')}
-              cancelText={String.t('cancelButton')}
-              arrowPointAtCenter
-              onConfirm={this.onDeleteConfirmed}
-            >
-              <a
-                className="message__icons"
-                /* onClick={() => this.handleEdit()} */
-              >
-                <i className="fas fa-pencil-alt" />
-              </a>
-            </Popconfirm>
-            }
-            {/* </Tooltip> */}
-          </div>
-          }
+                <a
+                  className={hasBookmark ? 'message__icons message__icons-selected' : 'message__icons'}
+                  onClick={e => {
+                    this.handleBookmark(!hasBookmark);
+                    e.stopPropagation();
+                  }}
+                >
+                  <i className="fas fa-bookmark" />
+                </a>
+              </Tooltip>
+              <Tooltip placement="topLeft" title={String.t('message.tooltipThumbsUp')} arrowPointAtCenter>
+                <a
+                  className="message__icons"
+                  onClick={e => {
+                    this.handleThumb('up');
+                    e.stopPropagation();
+                    // e.nativeEvent.stopImmediatePropagation();
+                  }}
+                >
+                  <i className="fas fa-thumbs-up" />
+                </a>
+              </Tooltip>
+              <Tooltip placement="topLeft" title={String.t('message.tooltipThumbsDown')} arrowPointAtCenter>
+                <a
+                  className="message__icons"
+                  onClick={e => {
+                    this.handleThumb('down');
+                    e.stopPropagation();
+                  }}
+                >
+                  <i className="fas fa-thumbs-down" />
+                </a>
+              </Tooltip>
+              <Tooltip placement="topLeft" title={String.t('message.tooltipFlag')} arrowPointAtCenter>
+                <a
+                  className="message__icons"
+                  onClick={e => {
+                    this.handleFlag();
+                    e.stopPropagation();
+                  }}
+                >
+                  <i className="fas fa-flag" />
+                </a>
+              </Tooltip>
+              {/* <Tooltip placement="topLeft" title={String.t('message.tooltipEdit')} arrowPointAtCenter> */}
+              {(isAdmin || message.createdBy === currentUser.userId) && (
+                <Popconfirm
+                  title={String.t('message.deleteConfirmationQuestion')}
+                  okText={String.t('okButton')}
+                  cancelText={String.t('cancelButton')}
+                  arrowPointAtCenter
+                  onConfirm={this.onDeleteConfirmed}
+                >
+                  <a
+                    className="message__icons"
+                    /* onClick={() => this.handleEdit()} */
+                  >
+                    <i className="fas fa-pencil-alt" />
+                  </a>
+                </Popconfirm>
+              )}
+              {/* </Tooltip> */}
+            </div>
+          )}
         </div>
-        { childrenNonDeleted.length > 0 && teamRoomMembersObj && childrenNonDeleted.map((childMessage) => {
-          return (
-            <Message
-              conversationDisabled={conversationDisabled}
-              message={childMessage}
-              user={teamRoomMembersObj[childMessage.createdBy]}
-              currentUser={this.props.currentUser}
-              key={childMessage.messageId}
-              onMessageAction={this.props.onMessageAction}
-              hide={!this.state.isExpanded}
-              currentPath={this.props.currentPath}
-              teamRoomMembersObj={this.props.teamRoomMembersObj}
-              subscriberOrgId={this.props.subscriberOrgId}
-              teamId={this.props.teamId}
-              teamRoomId={this.props.teamRoomId}
-              isAdmin={isAdmin}
-            />
-          );
-        }
-        )}
+        {childrenNonDeleted.length > 0 &&
+          teamRoomMembersObj &&
+          childrenNonDeleted.map(childMessage => {
+            return (
+              <Message
+                conversationDisabled={conversationDisabled}
+                message={childMessage}
+                user={teamRoomMembersObj[childMessage.createdBy]}
+                currentUser={this.props.currentUser}
+                key={childMessage.messageId}
+                onMessageAction={this.props.onMessageAction}
+                hide={!this.state.isExpanded}
+                currentPath={this.props.currentPath}
+                teamRoomMembersObj={this.props.teamRoomMembersObj}
+                subscriberOrgId={this.props.subscriberOrgId}
+                teamId={this.props.teamId}
+                teamRoomId={this.props.teamRoomId}
+                isAdmin={isAdmin}
+              />
+            );
+          })}
       </div>
     );
   }

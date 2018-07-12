@@ -105,16 +105,15 @@ class UploadImageField extends Component {
         name="avatar"
         showUploadList={false}
         beforeUpload={file => beforeUpload(file, allowedTypes)}
-        customRequest={(callback) => {
+        customRequest={callback => {
           getBase64(callback.file, imageUrl => this.handleChange(imageUrl));
-        }
-        }
+        }}
       >
-        {
-          image ?
-            <img src={imageToShow} alt={String.t('UploadImageField.alt')} className={imageClass} /> :
-            <p className="avatar-uploader-trigger">{this.props.text}</p>
-        }
+        {image ? (
+          <img src={imageToShow} alt={String.t('UploadImageField.alt')} className={imageClass} />
+        ) : (
+          <p className="avatar-uploader-trigger">{this.props.text}</p>
+        )}
       </Upload>
     );
   }

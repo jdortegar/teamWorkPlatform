@@ -15,10 +15,12 @@ const defaultProps = {
 };
 
 const Badge = ({ count, styles }) => {
-  return count > 0 && (
-    <div className="Badge" style={styles}>
-      {count > 99 ? String.t('sideBar.badgeTopLimit') : count}
-    </div>
+  return (
+    count > 0 && (
+      <div className="Badge" style={styles}>
+        {count > 99 ? String.t('sideBar.badgeTopLimit') : count}
+      </div>
+    )
   );
 };
 

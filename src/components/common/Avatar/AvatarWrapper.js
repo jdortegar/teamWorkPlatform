@@ -54,10 +54,13 @@ class AvatarWrapper extends React.Component {
         tip = presenceStatus;
         break;
     }
-    return hideStatusTooltip ? (<div className={className} />) :
-      (<Tooltip placement="top" title={tip}>
+    return hideStatusTooltip ? (
+      <div className={className} />
+    ) : (
+      <Tooltip placement="top" title={tip}>
         <div className={className} />
-      </Tooltip>);
+      </Tooltip>
+    );
   }
 
   render() {
@@ -85,10 +88,13 @@ class AvatarWrapper extends React.Component {
       <div className={topClass}>
         {!hidePresence && !lowOpacity && this.renderUserStatus(presenceStatus)}
         <div>
-          {icon ?
-            (<Avatar size={this.props.size} src={`data:image/jpeg;base64, ${icon}`} />) :
-            (<Avatar size={this.props.size} key={userId} color={preferences.iconColor}>{initials}</Avatar>)
-          }
+          {icon ? (
+            <Avatar size={this.props.size} src={`data:image/jpeg;base64, ${icon}`} />
+          ) : (
+            <Avatar size={this.props.size} key={userId} color={preferences.iconColor}>
+              {initials}
+            </Avatar>
+          )}
         </div>
       </div>
     );

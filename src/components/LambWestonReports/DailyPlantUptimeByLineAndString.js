@@ -123,11 +123,15 @@ class DailyPlantUptimeByLineAndString extends Component {
       <div className="Report__container">
         <div
           className="DailyPlantUptimeByLineAndString"
-          ref={(node) => { this.container = node; }}
+          ref={node => {
+            this.container = node;
+          }}
           style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
           <HighchartsReact
-            ref={(node) => { this.highchart = node; }}
+            ref={node => {
+              this.highchart = node;
+            }}
             highcharts={Highcharts}
             options={{
               ...this.chartOptions,

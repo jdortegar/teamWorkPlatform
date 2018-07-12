@@ -5,14 +5,11 @@ import PropTypes from 'prop-types';
 class SimpleBarChart extends React.Component {
   componentDidMount() {
     if (this.props.modules) {
-      this.props.modules.forEach((module) => {
+      this.props.modules.forEach(module => {
         module(Highcharts);
       });
     }
-    this.chart = new Highcharts[this.props.type || 'Chart'](
-      this.props.container,
-      this.props.options
-    );
+    this.chart = new Highcharts[this.props.type || 'Chart'](this.props.container, this.props.options);
   }
 
   componentWillUnmount() {

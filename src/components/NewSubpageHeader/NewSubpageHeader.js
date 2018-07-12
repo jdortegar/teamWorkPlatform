@@ -7,11 +7,7 @@ const propTypes = {
 };
 
 const NewSubpageHeader = ({ children }) => {
-  return (
-    <div className="habla-main-content-header padding-class-a border-bottom-lighter flexClass">
-      {children}
-    </div>
-  );
+  return <div className="habla-main-content-header padding-class-a border-bottom-lighter flexClass">{children}</div>;
 };
 
 NewSubpageHeader.propTypes = propTypes;

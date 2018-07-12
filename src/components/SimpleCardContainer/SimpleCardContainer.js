@@ -12,11 +12,7 @@ const defaultProps = {
 };
 
 function SimpleCardContainer(props) {
-  return (
-    <div className={props.className}>
-      {props.children}
-    </div>
-  );
+  return <div className={props.className}>{props.children}</div>;
 }
 
 SimpleCardContainer.propTypes = propTypes;

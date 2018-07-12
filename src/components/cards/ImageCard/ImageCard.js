@@ -5,10 +5,7 @@ import SimpleCard from '../SimpleCard';
 const propTypes = {
   imgSrc: PropTypes.string.isRequired,
   altText: PropTypes.string,
-  extra: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node
-  ])
+  extra: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
 };
 
 const defaultProps = {

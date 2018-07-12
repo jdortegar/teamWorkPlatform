@@ -5,7 +5,6 @@ import { antValidate, password } from '../../../validations';
 import BaseInput from '../BaseInput';
 import String from '../../../translations';
 
-
 const FormItem = Form.Item;
 
 const propTypes = {
@@ -34,15 +33,7 @@ const defaultProps = {
 };
 
 function PasswordField(props) {
-  const {
-    layout,
-    label,
-    missingMessage,
-    placeholder,
-    validatePassword,
-    noLabel,
-    ...rest
-  } = props;
+  const { layout, label, missingMessage, placeholder, validatePassword, noLabel, ...rest } = props;
 
   const translatedPlaceHolder = placeholder || String.t('labelPasswordPlaceholder');
   const translatedMissingMessage = missingMessage || String.t('errPasswordMissing');
@@ -62,22 +53,13 @@ function PasswordField(props) {
 
   if (noLabel) {
     return (
-      <FormItem
-        labelCol={layout.labelCol}
-        wrapperCol={layout.wrapperCol}
-        hasFeedback
-      >
+      <FormItem labelCol={layout.labelCol} wrapperCol={layout.wrapperCol} hasFeedback>
         {decoratedInput}
       </FormItem>
     );
   }
   return (
-    <FormItem
-      labelCol={layout.labelCol}
-      wrapperCol={layout.wrapperCol}
-      label={label}
-      hasFeedback
-    >
+    <FormItem labelCol={layout.labelCol} wrapperCol={layout.wrapperCol} label={label} hasFeedback>
       {decoratedInput}
     </FormItem>
   );

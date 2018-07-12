@@ -12,7 +12,14 @@ const propTypes = {
 };
 
 const defaultProps = {
-  bodyStyle: { display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', wordBreak: 'break-word', padding: '14px' },
+  bodyStyle: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    wordBreak: 'break-word',
+    padding: '14px'
+  },
   className: 'Simple-card--square',
   size: 'small'
 };

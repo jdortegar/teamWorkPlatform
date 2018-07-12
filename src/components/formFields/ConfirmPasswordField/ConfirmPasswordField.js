@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Col, Row } from 'antd';
-import {
-  antValidate,
-  equality, password
-} from '../../../validations';
+import { antValidate, equality, password } from '../../../validations';
 import { formShape, layoutShape } from '../../../propTypes';
 import BaseInput from '../BaseInput';
 import String from '../../../translations';
@@ -35,7 +32,6 @@ const defaultProps = {
   vertical: false,
   noLabel: false
 };
-
 
 class ConfirmPasswordField extends Component {
   constructor(props) {
@@ -68,9 +64,7 @@ class ConfirmPasswordField extends Component {
       form,
       componentKey,
       type: 'password',
-      extraRules: [
-        { validator: antValidate(password) }
-      ],
+      extraRules: [{ validator: antValidate(password) }],
       onChange: this.updatePassword,
       onFocus: this.showPopover,
       onBlur: this.hidePopover,
@@ -80,22 +74,13 @@ class ConfirmPasswordField extends Component {
 
     if (noLabel) {
       return (
-        <FormItem
-          labelCol={layout.labelCol}
-          wrapperCol={layout.wrapperCol}
-          hasFeedback
-        >
+        <FormItem labelCol={layout.labelCol} wrapperCol={layout.wrapperCol} hasFeedback>
           {decoratedInput}
         </FormItem>
       );
     }
     return (
-      <FormItem
-        labelCol={layout.labelCol}
-        wrapperCol={layout.wrapperCol}
-        label={String.t('labelPassword')}
-        hasFeedback
-      >
+      <FormItem labelCol={layout.labelCol} wrapperCol={layout.wrapperCol} label={String.t('labelPassword')} hasFeedback>
         {decoratedInput}
       </FormItem>
     );
@@ -112,20 +97,14 @@ class ConfirmPasswordField extends Component {
       form,
       componentKey: `${componentKey}Confirm`,
       type: 'password',
-      extraRules: [
-        { validator: antValidate(equality(comparator, { equality: message })) }
-      ],
+      extraRules: [{ validator: antValidate(equality(comparator, { equality: message })) }],
       placeholder: placeholder || String.t('confirmPasswordPlaceholder'),
       missingMessage: String.t('errPasswordMissing')
     });
 
     if (noLabel) {
       return (
-        <FormItem
-          labelCol={layout.labelCol}
-          wrapperCol={layout.wrapperCol}
-          hasFeedback
-        >
+        <FormItem labelCol={layout.labelCol} wrapperCol={layout.wrapperCol} hasFeedback>
           {decoratedInput}
         </FormItem>
       );

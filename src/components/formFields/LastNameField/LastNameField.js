@@ -37,18 +37,11 @@ function LastNameField(props) {
     ...rest,
     placeholder: translatedPlaceHolder,
     missingMessage: translatedMissingMessage,
-    extraRules: [{
-      validator: antValidate(lastName)
-    }]
+    extraRules: [{ validator: antValidate(lastName) }]
   });
 
   return (
-    <FormItem
-      labelCol={layout.labelCol}
-      wrapperCol={layout.wrapperCol}
-      label={label}
-      hasFeedback
-    >
+    <FormItem labelCol={layout.labelCol} wrapperCol={layout.wrapperCol} label={label} hasFeedback>
       {decoratedInput}
     </FormItem>
   );

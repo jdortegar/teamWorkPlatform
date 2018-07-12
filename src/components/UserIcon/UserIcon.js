@@ -40,11 +40,9 @@ const defaultProps = {
 };
 
 function UserIcon(props) {
-  const className = classNames(
-    'user-icon__main-container',
-    `user-icon__main-container--${props.shape}`,
-    { 'user-icon__main-container--offline': !props.online }
-  );
+  const className = classNames('user-icon__main-container', `user-icon__main-container--${props.shape}`, {
+    'user-icon__main-container--offline': !props.online
+  });
   const { preferences, icon } = props.user;
   const { logo } = preferences;
   const style = {
@@ -70,47 +68,38 @@ function UserIcon(props) {
     initials = `${firstName.substring(0, 1).toUpperCase()}${lastName.substring(0, 1).toUpperCase()}`;
   }
 
-  return (
-    props.clickable ?
-      <div
-        className={className}
-        style={style}
-        title={name}
-      >
-        {
-          (!icon && !logo) ?
-            initials
-            :
-            <img
-              alt={name}
-              src={imageToShow}
-              style={{
-                width: props.width,
-                height: props.height,
-                minWidth: props.minWidth
-              }}
-            />
-        }
-      </div> :
-      <div
-        className={className}
-        style={style}
-      >
-        {
-          (!icon && !logo) ?
-            initials
-            :
-            <img
-              alt={name}
-              src={imageToShow}
-              style={{
-                width: props.width,
-                height: props.height,
-                minWidth: props.minWidth
-              }}
-            />
-        }
-      </div>
+  return props.clickable ? (
+    <div className={className} style={style} title={name}>
+      {!icon && !logo ? (
+        initials
+      ) : (
+        <img
+          alt={name}
+          src={imageToShow}
+          style={{
+            width: props.width,
+            height: props.height,
+            minWidth: props.minWidth
+          }}
+        />
+      )}
+    </div>
+  ) : (
+    <div className={className} style={style}>
+      {!icon && !logo ? (
+        initials
+      ) : (
+        <img
+          alt={name}
+          src={imageToShow}
+          style={{
+            width: props.width,
+            height: props.height,
+            minWidth: props.minWidth
+          }}
+        />
+      )}
+    </div>
   );
 }
 

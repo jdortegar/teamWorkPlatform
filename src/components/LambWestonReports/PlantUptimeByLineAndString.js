@@ -91,11 +91,7 @@ class PlantUptimeByLineAndString extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { plant, from, until } = nextProps;
-    const shouldFetch = (
-      plant !== this.props.plant ||
-      from !== this.props.from ||
-      until !== this.props.until
-    );
+    const shouldFetch = plant !== this.props.plant || from !== this.props.from || until !== this.props.until;
     if (shouldFetch) {
       this.props.fetchData({ plant, from, until });
     }
@@ -125,11 +121,15 @@ class PlantUptimeByLineAndString extends Component {
       <div className="Report__container">
         <div
           className="PlantUptimeByLineAndString"
-          ref={(node) => { this.container = node; }}
+          ref={node => {
+            this.container = node;
+          }}
           style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
           <HighchartsReact
-            ref={(node) => { this.highchart = node; }}
+            ref={node => {
+              this.highchart = node;
+            }}
             highcharts={Highcharts}
             options={{
               ...this.chartOptions,

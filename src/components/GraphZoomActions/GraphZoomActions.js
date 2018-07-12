@@ -19,13 +19,10 @@ const defaultProps = {
 
 const GraphZoomActions = ({ onZoomIn, onZoomOut, onViewAll }) => (
   <div className="habla-ckg-tools-bar habla-ckg-actions-selector">
-    <Tooltip
-      arrowPointAtCenter
-      placement="bottom"
-      title={String.t('graphZoomActions.zoomInLabel')}
-      onClick={onZoomIn}
-    >
-      <a><i className="fas fa-search-plus" /></a>
+    <Tooltip arrowPointAtCenter placement="bottom" title={String.t('graphZoomActions.zoomInLabel')} onClick={onZoomIn}>
+      <a>
+        <i className="fas fa-search-plus" />
+      </a>
     </Tooltip>
     <Tooltip
       arrowPointAtCenter
@@ -33,7 +30,9 @@ const GraphZoomActions = ({ onZoomIn, onZoomOut, onViewAll }) => (
       title={String.t('graphZoomActions.zoomOutLabel')}
       onClick={onZoomOut}
     >
-      <a><i className="fas fa-search-minus" /></a>
+      <a>
+        <i className="fas fa-search-minus" />
+      </a>
     </Tooltip>
     <Tooltip
       arrowPointAtCenter
@@ -41,7 +40,9 @@ const GraphZoomActions = ({ onZoomIn, onZoomOut, onViewAll }) => (
       title={String.t('graphZoomActions.viewAllLabel')}
       onClick={onViewAll}
     >
-      <a className="no-border"><i className="fa fa-expand" /></a>
+      <a className="no-border">
+        <i className="fa fa-expand" />
+      </a>
     </Tooltip>
   </div>
 );

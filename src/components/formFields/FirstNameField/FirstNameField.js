@@ -36,18 +36,11 @@ function FirstNameField(props) {
     ...rest,
     placeholder,
     missingMessage: translatedMissingMessage,
-    extraRules: [{
-      validator: antValidate(firstName)
-    }]
+    extraRules: [{ validator: antValidate(firstName) }]
   });
 
   return (
-    <FormItem
-      labelCol={layout.labelCol}
-      wrapperCol={layout.wrapperCol}
-      label={label}
-      hasFeedback
-    >
+    <FormItem labelCol={layout.labelCol} wrapperCol={layout.wrapperCol} label={label} hasFeedback>
       {decoratedInput}
     </FormItem>
   );
