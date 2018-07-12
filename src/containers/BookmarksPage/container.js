@@ -19,8 +19,12 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     deleteMessage: (message, conversationId) => dispatch(deleteMessage(message, conversationId)),
-    saveBookmark: (user, subscriberOrgId, message, setBookmark) => dispatch(saveBookmark(user, subscriberOrgId, message, setBookmark))
+    saveBookmark: (user, subscriberOrgId, message, setBookmark) =>
+      dispatch(saveBookmark(user, subscriberOrgId, message, setBookmark))
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BookmarksPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BookmarksPage);

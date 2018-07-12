@@ -9,8 +9,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchTimeActivitiesBySubscriberOrgId: subscriberOrgId => dispatch(fetchTimeActivitiesBySubscriberOrgId(subscriberOrgId)),
+  fetchTimeActivitiesBySubscriberOrgId: subscriberOrgId =>
+    dispatch(fetchTimeActivitiesBySubscriberOrgId(subscriberOrgId)),
   setCurrentSubscriberOrgId: subscriberOrgId => dispatch(setCurrentSubscriberOrgId(subscriberOrgId))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomePage);

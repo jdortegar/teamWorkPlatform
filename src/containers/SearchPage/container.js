@@ -21,4 +21,9 @@ const mapDispatchToProps = dispatch => ({
   search: (query, subscriberOrgId) => dispatch(search(query, subscriberOrgId))
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchPage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(SearchPage)
+);

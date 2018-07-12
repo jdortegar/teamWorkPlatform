@@ -10,4 +10,7 @@ const mapDispatchToProps = dispatch => ({
   updateSubscriberOrg: (name, subscriberOrgId) => dispatch(updateSubscriberOrg(name, subscriberOrgId))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditOrganizationPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditOrganizationPage);

@@ -24,4 +24,7 @@ function mapDispatchToProps(dispatch, props) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InviteToTeamRoomPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InviteToTeamRoomPage);

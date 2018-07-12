@@ -19,4 +19,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Header)
+);
