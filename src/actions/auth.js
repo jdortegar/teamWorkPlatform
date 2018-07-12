@@ -30,24 +30,23 @@ const resolveRoute = (userId, targetRoute) => {
 };
 
 export const loginUser = ({ email, password, targetRoute, awsCustomerId }) => {
-  return (dispatch) => {
-    dispatch(login(email, password, awsCustomerId))
-      .then(({ data }) => {
-        const { user } = data;
-        const lastSubscriberOrgId = getLastSubscriberOrgIdCookie(user.userId);
-        if (lastSubscriberOrgId) {
-          dispatch(setCurrentSubscriberOrgId(lastSubscriberOrgId));
-        }
+  return dispatch => {
+    dispatch(login(email, password, awsCustomerId)).then(({ data }) => {
+      const { user } = data;
+      const lastSubscriberOrgId = getLastSubscriberOrgIdCookie(user.userId);
+      if (lastSubscriberOrgId) {
+        dispatch(setCurrentSubscriberOrgId(lastSubscriberOrgId));
+      }
 
-        dispatch(receiveUser(user));
-        dispatch(fetchInvitations());
-        dispatch(resolveRoute(user.userId, targetRoute));
-      });
+      dispatch(receiveUser(user));
+      dispatch(fetchInvitations());
+      dispatch(resolveRoute(user.userId, targetRoute));
+    });
   };
 };
 
 export const logoutUser = () => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(closeMessaging());
     dispatch(saveCookies());
     dispatch(logout());
@@ -56,30 +55,24 @@ export const logoutUser = () => {
   };
 };
 
-export const verifyEmailAccount = (uuid) => {
+export const verifyEmailAccount = uuid => {
   return () => {
-    return axios
-      .get(`${hablaApiBaseUri}/users/validateEmail/${uuid}`)
-      .then((response) => {
-        sessionStorage.setItem('habla-user-email', response.data.email);
-      });
+    return axios.get(`${hablaApiBaseUri}/users/validateEmail/${uuid}`).then(response => {
+      sessionStorage.setItem('habla-user-email', response.data.email);
+    });
   };
 };
 
-export const createAccount = (form) => {
+export const createAccount = form => {
   return () => {
     return axios.post(`${hablaApiBaseUri}/users/createUser`, form);
   };
 };
 
 export const setNewPassword = (rid, password) => {
-  return (dispatch) => {
-    return axios
-      .post(
-        `${hablaApiBaseUri}/users/resetPassword/${rid}`,
-        { password }
-      ).then(() => {
-        dispatch(push(paths.login));
-      });
+  return dispatch => {
+    return axios.post(`${hablaApiBaseUri}/users/resetPassword/${rid}`, { password }).then(() => {
+      dispatch(push(paths.login));
+    });
   };
 };

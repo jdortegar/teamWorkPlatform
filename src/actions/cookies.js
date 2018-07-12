@@ -5,7 +5,7 @@ const SAVE_COOKIES = 'cookies/save';
 export const LAST_ROUTE = 'lastRoute';
 export const LAST_SUBSCRIBER_ORG_ID = 'lastSubscriberOrgId';
 
-const getFromCookies = cookieName => (userId) => {
+const getFromCookies = cookieName => userId => {
   const id = `${cookieName}__${userId}`;
   const value = Cookie.get(id);
   Cookie.remove(id);

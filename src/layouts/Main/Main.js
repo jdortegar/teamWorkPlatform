@@ -32,7 +32,7 @@ class Main extends React.Component {
 
   onUnload = () => {
     this.props.closeMessaging();
-  }
+  };
 
   render() {
     return (

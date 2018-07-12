@@ -40,10 +40,12 @@ class RecoverPassword extends Component {
         this.setState({ sending: true, email });
 
         // TODO: Move this to Redux
-        axios.post(`${config.hablaApiBaseUri}/users/forgotPassword`, { email })
+        axios
+          .post(`${config.hablaApiBaseUri}/users/forgotPassword`, { email })
           .then(() => {
             this.setState({ sending: false, emailSent: true });
-          }).catch((error) => {
+          })
+          .catch(error => {
             this.setState({ sending: false, error });
             message.error(error.message);
           });
@@ -55,25 +57,21 @@ class RecoverPassword extends Component {
     return (
       <div className="recoverPassword-body">
         <Form onSubmit={this.handleSubmit} layout="vertical" className="recoverPassword-form">
-          {!this.state.emailSent ?
-            <div className="habla-big-title habla-bold-text align-center-class padding-class-b">{String.t('RecoverPassword.forgotYourPassword')}</div>
-            :
-            <div className="habla-big-title align-center-class padding-class-b">
-              <span className="habla-bold-text">
-                {String.t('RecoverPassword.emailSent')}
-              </span>
-              <span className="email-sent__info">
-                {String.t('RecoverPassword.checkEmail')}
-              </span>
+          {!this.state.emailSent ? (
+            <div className="habla-big-title habla-bold-text align-center-class padding-class-b">
+              {String.t('RecoverPassword.forgotYourPassword')}
             </div>
-          }
+          ) : (
+            <div className="habla-big-title align-center-class padding-class-b">
+              <span className="habla-bold-text">{String.t('RecoverPassword.emailSent')}</span>
+              <span className="email-sent__info">{String.t('RecoverPassword.checkEmail')}</span>
+            </div>
+          )}
           <div className="recoverPassword-body__main habla-color-lightergrey padding-class-b align-center-class">
             <div className="habla-full-content float-center-class">
-              {!this.state.emailSent ?
+              {!this.state.emailSent ? (
                 <div className="recoverPassword__field-wrapper">
-                  <p className="recoverPassword__text">
-                    {String.t('RecoverPassword.infoParagraph')}
-                  </p>
+                  <p className="recoverPassword__text">{String.t('RecoverPassword.infoParagraph')}</p>
                   <div className="margin-top-class-a">
                     <EmailField
                       form={this.props.form}
@@ -85,21 +83,21 @@ class RecoverPassword extends Component {
                     />
                   </div>
                 </div>
-                :
+              ) : (
                 <div className="recoverPassword__field-wrapper">
                   <h2 className="recoverPassword__user-email habla-big-title habla-bold-text">
                     <i className="fa fa-envelope" aria-hidden="true" /> {this.state.email}
                   </h2>
                   <p className="margin-top-class-a">{String.t('RecoverPassword.infoParagraphAfterSentImage')}</p>
                 </div>
-              }
+              )}
             </div>
           </div>
-          { this.state.sending ?
+          {this.state.sending ? (
             <div className="align-center-class margin-top-class-a">
               <Spin size="large" />
             </div>
-            :
+          ) : (
             <div className="align-center-class margin-top-class-a">
               <Button
                 disabled={this.state.sending}
@@ -110,18 +108,13 @@ class RecoverPassword extends Component {
               >
                 {String.t('Buttons.cancel')}
               </Button>
-              {!this.state.emailSent &&
-                <Button
-                  disabled={this.state.sending}
-                  type="main"
-                  fitText
-                  htmlType="submit"
-                >
+              {!this.state.emailSent && (
+                <Button disabled={this.state.sending} type="main" fitText htmlType="submit">
                   {String.t('Buttons.next')}
                 </Button>
-              }
+              )}
             </div>
-          }
+          )}
         </Form>
       </div>
     );
