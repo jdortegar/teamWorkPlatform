@@ -29,6 +29,7 @@
     "prefer-destructuring": ["warn", { "array": false, "object": true }],
     "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
     "react/no-access-state-in-setstate": "off",
+    "react/jsx-one-expression-per-line": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/forbid-prop-types": "off",
     "react/display-name": "off",
@@ -43,6 +44,5 @@
     "react/jsx-wrap-multilines": "warn",
     "react/jsx-curly-brace-presence": "warn",
     "react/jsx-closing-tag-location": "warn",
-    "react/jsx-one-expression-per-line": "warn"
   }
 }
