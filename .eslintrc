@@ -50,7 +50,6 @@
     "jsx-a11y/anchor-is-valid": "warn",
     "jsx-a11y/click-events-have-key-events": "warn",
     "jsx-a11y/no-static-element-interactions": "warn",
-    "import/no-extraneous-dependencies": "warn",
     "import/no-useless-path-segments": "warn",
     "import/no-cycle": "warn",
     "import/named": "warn"
