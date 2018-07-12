@@ -30,7 +30,9 @@
     "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
     "react/no-access-state-in-setstate": "off",
     "react/jsx-one-expression-per-line": "off",
+    "react/jsx-closing-tag-location": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-wrap-multilines": "off",
     "react/forbid-prop-types": "off",
     "react/display-name": "off",
     "jsx-a11y/no-static-element-interactions": "off",
@@ -40,8 +42,6 @@
 
     // TODO: fix the following eslint rules:
     "react/destructuring-assignment": "warn",
-    "react/jsx-wrap-multilines": "warn",
-    "react/jsx-curly-brace-presence": "warn",
-    "react/jsx-closing-tag-location": "warn"
+    "react/jsx-curly-brace-presence": "warn"
   }
 }
