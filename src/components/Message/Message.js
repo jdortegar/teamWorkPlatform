@@ -30,7 +30,6 @@ const defaultProps = {
   hide: false,
   conversationDisabled: false,
   teamRoomMembersObj: null,
-  onFileChange: null,
   onLoadImages: null,
   lastRead: false,
   currentPath: null

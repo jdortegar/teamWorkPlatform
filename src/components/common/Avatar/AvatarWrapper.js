@@ -24,9 +24,7 @@ const propTypes = {
 const defaultProps = {
   className: '',
   hidePresence: false,
-  hideStatusTooltip: false,
-  icon: null,
-  online: true
+  hideStatusTooltip: false
 };
 
 class AvatarWrapper extends React.Component {
