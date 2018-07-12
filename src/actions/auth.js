@@ -7,14 +7,12 @@ import {
   login,
   logout,
   closeMessaging,
-  getLastRouteCookie,
-  getLastSubscriberOrgIdCookie,
-  saveCookies,
   fetchInvitations,
   receiveUser,
   setCurrentSubscriberOrgId,
   clearCachedGetRequests
-} from './index';
+} from '../redux-hablaai/actions';
+import { getLastRouteCookie, getLastSubscriberOrgIdCookie, saveCookies } from './cookies';
 
 const { hablaApiBaseUri } = config;
 

@@ -1,5 +1,6 @@
 import messaging from '../messaging';
-import { eventHandler, onlineOfflineListener } from '.';
+import { eventHandler } from './eventHandler';
+import { onlineOfflineListener } from './urlRequest';
 
 export const MESSAGING_STARTED = 'messaging/start';
 

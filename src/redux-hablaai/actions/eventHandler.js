@@ -1,21 +1,19 @@
 import EventTypes from 'common-hablaai/EventTypes';
-import {
-  changePresence,
-  receiveUser,
-  receiveSubscriberOrg,
-  receiveSubscriber,
-  receiveTeam,
-  receiveTeamMember,
-  receiveTeamRoom,
-  receiveTeamRoomMember,
-  receiveInvitation,
-  declinedInvitation,
-  receiveConversations,
-  receiveMessages,
-  receiveReadMessages,
-  receiveTyping,
-  updateIntegrations
-} from '.';
+import { changePresence } from './presenceChange';
+import { receiveUser } from './userReceive';
+import { receiveSubscriberOrg } from './subscriberOrgReceive';
+import { receiveSubscriber } from './subscriberReceive';
+import { receiveTeam } from './teamReceive';
+import { receiveTeamMember } from './teamMemberReceive';
+import { receiveTeamRoom } from './teamRoomReceive';
+import { receiveTeamRoomMember } from './teamRoomMemberReceive';
+import { receiveInvitation } from './invitationReceive';
+import { declinedInvitation } from './invitationDeclined';
+import { receiveConversations } from './conversationsReceive';
+import { receiveMessages } from './messagesReceive';
+import { receiveReadMessages } from './readMessagesReceive';
+import { receiveTyping } from './typing';
+import { updateIntegrations } from './integrations';
 
 // eslint-disable-next-line import/prefer-default-export
 export const eventHandler = dispatch => (eventType, event) => {

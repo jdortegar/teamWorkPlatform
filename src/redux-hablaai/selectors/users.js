@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import createCachedSelector from 're-reselect';
 import { getUserByUserId, getTranscriptByConversationId } from './state';
-import { getCurrentUserId } from './index';
+import { getCurrentUserId } from './auth';
 
 export { getUserByUserId, getPresencesByUserId } from './state';
 
