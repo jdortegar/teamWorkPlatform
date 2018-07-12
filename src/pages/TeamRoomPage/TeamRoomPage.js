@@ -89,7 +89,6 @@ const propTypes = {
 
 const defaultProps = {
   conversations: {},
-  subscribers: null,
   files: [],
   readMessages: null,
   unreadMessagesCount: 0,

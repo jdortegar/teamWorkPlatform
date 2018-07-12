@@ -226,7 +226,6 @@ Header.propTypes = {
 };
 
 Header.defaultProps = {
-  clearSearch: null,
   query: '',
   user: null
 };

@@ -16,11 +16,11 @@ const { SubMenu } = Menu;
 
 const propTypes = {
   user: PropTypes.object.isRequired,
-  subscriberOrgs: PropTypes.array.isRequired,
+  subscriberOrgs: PropTypes.array,
   subscribers: PropTypes.array,
   subscribersPresences: PropTypes.object,
-  teams: PropTypes.array.isRequired,
-  teamRooms: PropTypes.array.isRequired,
+  teams: PropTypes.array,
+  teamRooms: PropTypes.array,
   history: PropTypes.shape({
     push: PropTypes.func
   }).isRequired,

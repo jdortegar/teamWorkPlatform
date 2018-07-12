@@ -38,7 +38,6 @@
     "jsx-a11y/anchor-is-valid": "off",
 
     // TODO: fix the following eslint rules:
-    "react/require-default-props": "warn",
     "react/destructuring-assignment": "warn",
     "react/default-props-match-prop-types": "warn",
     "react/jsx-tag-spacing": "warn",

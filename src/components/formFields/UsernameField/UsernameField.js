@@ -10,7 +10,7 @@ const FormItem = Form.Item;
 const propTypes = {
   form: PropTypes.object.isRequired,
   componentKey: PropTypes.string,
-  initialValue: PropTypes.string.isRequired,
+  initialValue: PropTypes.string,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   placeholder: PropTypes.string,
   layout: PropTypes.object,

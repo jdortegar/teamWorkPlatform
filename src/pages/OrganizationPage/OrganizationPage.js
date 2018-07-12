@@ -30,14 +30,6 @@ const propTypes = {
   user: PropTypes.object.isRequired
 };
 
-const defaultProps = {
-  teams: {
-    teamIdsBySubscriberOrgId: {
-      ids: []
-    }
-  }
-};
-
 class OrganizationPage extends Component {
   constructor(props) {
     super(props);
@@ -151,6 +143,5 @@ class OrganizationPage extends Component {
 }
 
 OrganizationPage.propTypes = propTypes;
-OrganizationPage.defaultProps = defaultProps;
 
 export default OrganizationPage;
