@@ -36,7 +36,7 @@ class SetNewPassword extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ processing: true });
-        const uuid = this.props.match.params.uuid;
+        const { uuid } = this.props.match.params;
         this.props
           .setNewPassword(uuid, values.password)
           .then(() => {

@@ -60,7 +60,7 @@ function UserIcon(props) {
   let name;
   let initials;
   if (props.type === 'team') {
-    name = props.user.name;
+    name = props.user.name; // eslint-disable-line prefer-destructuring
     initials = name.substring(0, 1).toUpperCase();
   } else {
     const { firstName, lastName } = props.user;

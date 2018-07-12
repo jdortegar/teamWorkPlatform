@@ -11,7 +11,7 @@ const integrationsReducer = (state = INITIAL_STATE, action) => {
       const updateIntegrationsBySubscriberOrgId = _.cloneDeep(state.integrationsBySubscriberOrgId);
       action.payload.integrations.forEach(integration => {
         const updateIntegration = { ...integration };
-        const subscriberOrgId = updateIntegration.subscriberOrgId;
+        const { subscriberOrgId } = updateIntegration;
         delete updateIntegration.subscriberOrgId;
         updateIntegrationsBySubscriberOrgId[subscriberOrgId] = updateIntegration;
       });

@@ -6,7 +6,7 @@ import { formShape } from '../../../propTypes';
 import String from '../../../translations';
 
 const FormItem = Form.Item;
-const Option = Select.Option;
+const { Option } = Select;
 
 const timezonesByCountry = getAllCountries();
 
@@ -59,7 +59,7 @@ function TimezoneSelectField(props) {
 
   let timezones = [];
   if (countryCode) {
-    timezones = timezonesByCountry[countryCode].timezones;
+    timezones = timezonesByCountry[countryCode].timezones; // eslint-disable-line prefer-destructuring
   }
 
   const selectTimezones = timezones.map(timezone => (

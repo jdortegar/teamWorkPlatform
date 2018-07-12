@@ -101,7 +101,7 @@ class OrganizationPage extends Component {
       this.state.integrationsLoaded &&
       user
     ) {
-      const subscriberOrgId = match.params.subscriberOrgId;
+      const { subscriberOrgId } = match.params;
       let isOrgAdmin = false;
       if (subscribers.length > 0) {
         const currentUserId = user.userId;

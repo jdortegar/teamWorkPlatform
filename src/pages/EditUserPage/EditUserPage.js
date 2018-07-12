@@ -18,7 +18,7 @@ import {
 } from '../../components';
 import './styles/style.css';
 
-const Panel = Collapse.Panel;
+const { Panel } = Collapse;
 
 const defaultTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const defaultCountry = countriesAndTimezones.getCountriesForTimezone(defaultTimeZone)[0];

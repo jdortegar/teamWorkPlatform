@@ -56,11 +56,11 @@ const teamRoomsReducer = (state = INITIAL_STATE, action) => {
     }
     case TEAMROOM_RECEIVE: {
       const { teamRoom } = action.payload;
-      const teamId = teamRoom.teamId;
+      const { teamId } = teamRoom;
       const teamRoomById = _.cloneDeep(state.teamRoomById);
       const existingTeamRoom = teamRoomById[teamRoom.teamRoomId];
       teamRoomById[teamRoom.teamRoomId] = teamRoom;
-      let teamRoomIdsByTeamId = state.teamRoomIdsByTeamId;
+      let { teamRoomIdsByTeamId } = state;
 
       if (!existingTeamRoom) {
         teamRoomIdsByTeamId = _.cloneDeep(state.teamRoomIdsByTeamId);

@@ -11,7 +11,7 @@ import SimpleHeader from '../../../components/SimpleHeader';
 import getInitials from '../../../utils/helpers';
 import String from '../../../translations';
 
-const Panel = Collapse.Panel;
+const { Panel } = Collapse;
 
 const propTypes = {
   userId: PropTypes.string.isRequired,

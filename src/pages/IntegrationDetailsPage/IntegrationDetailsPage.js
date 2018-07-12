@@ -194,7 +194,7 @@ class IntegrationDetailsPage extends Component {
           className="Integration-details__config-folder-checkbox"
           defaultChecked={folder[selected]}
           onChange={e => {
-            const checked = e.target.checked;
+            const { checked } = e.target;
             const changedFolderOptions = { ...this.state.changedFolderOptions };
             changedFolderOptions[label] = checked;
             this.setState({ changedFolderOptions });
@@ -259,7 +259,7 @@ class IntegrationDetailsPage extends Component {
         } else {
           const inputField = this[key];
           if (inputField) {
-            const value = inputField.value;
+            const { value } = inputField;
             const len = value.length;
             disabledSwitch = disabledSwitch || len < 3;
           }

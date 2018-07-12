@@ -13,7 +13,7 @@ import { integrationLabelFromKey, integrationImageFromKey } from '../../../utils
 import './styles/style.css';
 import AvatarWrapper from '../../../components/common/Avatar/AvatarWrapper';
 
-const Panel = Collapse.Panel;
+const { Panel } = Collapse;
 
 const propTypes = {
   integrations: PropTypes.object.isRequired,

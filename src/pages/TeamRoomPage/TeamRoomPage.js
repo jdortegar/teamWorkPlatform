@@ -54,6 +54,7 @@ const propTypes = {
     teamRoomById: PropTypes.shape({
       teamRoomId: PropTypes.PropTypes.shape({
         name: PropTypes.string,
+        teamId: PropTypes.string,
         teamRoomId: PropTypes.string
       })
     }),
@@ -128,7 +129,7 @@ class TeamRoomPage extends Component {
   }
 
   componentDidMount() {
-    const teamRoomId = this.props.match.params.teamRoomId;
+    const { teamRoomId } = this.props.match.params;
 
     // TODO: What do we do if the fetch fails???
     this.props
@@ -218,9 +219,9 @@ class TeamRoomPage extends Component {
   onMessageAction(payload, action) {
     const { message, bookmark, extraInfo } = payload;
     const { match, teamRooms, teams, user } = this.props;
-    const teamRoomId = match.params.teamRoomId;
-    const teamId = teamRooms.teamRoomById[teamRoomId].teamId;
-    const subscriberOrgId = teams.teamById[teamId].subscriberOrgId;
+    const { teamRoomId } = match.params;
+    const { teamId } = teamRooms.teamRoomById[teamRoomId];
+    const { subscriberOrgId } = teams.teamById[teamId];
 
     switch (action) {
       case messageAction.replyTo:
@@ -291,9 +292,9 @@ class TeamRoomPage extends Component {
 
   createResource(file) {
     const fileSource = file.src.split('base64,')[1] || file.src;
-    const teamRoomId = this.props.match.params.teamRoomId;
-    const teamId = this.props.teamRooms.teamRoomById[teamRoomId].teamId;
-    const subscriberOrgId = this.props.teams.teamById[teamId].subscriberOrgId;
+    const { teamRoomId } = this.props.match.params;
+    const { teamId } = this.props.teamRooms.teamRoomById[teamRoomId];
+    const { subscriberOrgId } = this.props.teams.teamById[teamId];
     if (!teamRoomId || !teamId || !subscriberOrgId) {
       // Todo throw error invalid team, team room or subscriberOrg
       throw new Error();
@@ -407,7 +408,7 @@ class TeamRoomPage extends Component {
   }
 
   handleSearch(value) {
-    const teamRoomId = this.props.match.params.teamRoomId;
+    const { teamRoomId } = this.props.match.params;
     const filteredTeamMembers = this.props.teamRoomMembers.teamRoomMembersByTeamRoomId[teamRoomId].filter(
       ({ displayName }) => displayName.toLowerCase().includes(value.toLowerCase())
     );
@@ -445,9 +446,9 @@ class TeamRoomPage extends Component {
     const { lastSubmittedMessage } = this.state;
     const currentPath = lastSubmittedMessage ? lastSubmittedMessage.path : null;
     const disableConversation = this.shouldDisableConversation();
-    const teamRoomId = match.params.teamRoomId;
-    const teamId = teamRooms.teamRoomById[teamRoomId].teamId;
-    const subscriberOrgId = teams.teamById[teamId].subscriberOrgId;
+    const { teamRoomId } = match.params;
+    const { teamId } = teamRooms.teamRoomById[teamRoomId];
+    const { subscriberOrgId } = teams.teamById[teamId];
     const membersObj = this.getTeamMembersObjFromSubscribers();
 
     return conversations.transcript.map(message => {
@@ -563,7 +564,7 @@ class TeamRoomPage extends Component {
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
       const { conversationId } = conversations;
       const lastMessage = _.last(conversations.transcript) || {};
-      const teamRoomId = match.params.teamRoomId;
+      const { teamRoomId } = match.params;
       const teamRoom = teamRooms.teamRoomById[teamRoomId];
       const team = this.props.teams.teamById[teamRoom.teamId];
       const subscriberOrg = subscriberOrgById[team.subscriberOrgId];

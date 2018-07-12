@@ -36,7 +36,7 @@ class RecoverPassword extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const email = values.email;
+        const { email } = values;
         this.setState({ sending: true, email });
 
         // TODO: Move this to Redux

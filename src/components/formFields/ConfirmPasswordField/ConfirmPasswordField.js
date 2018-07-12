@@ -52,7 +52,7 @@ class ConfirmPasswordField extends Component {
   }
 
   updatePassword(event) {
-    const value = event.target.value;
+    const { value } = event.target;
     this.setState({ password: value });
   }
 

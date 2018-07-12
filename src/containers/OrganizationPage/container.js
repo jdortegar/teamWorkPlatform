@@ -11,7 +11,7 @@ import {
 } from '../../selectors';
 
 function mapStateToProps(state, props) {
-  const subscriberOrgId = props.match.params.subscriberOrgId;
+  const { subscriberOrgId } = props.match.params;
 
   return {
     user: getCurrentUser(state),

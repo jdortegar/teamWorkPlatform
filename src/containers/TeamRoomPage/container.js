@@ -26,7 +26,7 @@ import {
 } from '../../selectors';
 
 function mapStateToProps(state, props) {
-  const teamRoomId = props.match.params.teamRoomId;
+  const { teamRoomId } = props.match.params;
   const conversations = getConversationOfTeamRoomId(state, teamRoomId);
   const conversationId = conversations ? conversations.conversationId : null;
 

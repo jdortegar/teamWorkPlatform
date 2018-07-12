@@ -8,7 +8,7 @@ import String from '../../translations';
 import './styles/style.css';
 // import 'pages/CKGPage/styles/style.css';
 
-const Panel = Collapse.Panel;
+const { Panel } = Collapse;
 const RadioGroup = Radio.Group;
 
 const propTypes = {

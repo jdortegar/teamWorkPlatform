@@ -172,7 +172,7 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
       });
 
       Object.values(conversationIdMessages).forEach(conversationMessages => {
-        const conversationId = conversationMessages[0].conversationId;
+        const { conversationId } = conversationMessages[0];
         transcriptByConversationId[conversationId] = addOrUpdateMessages(
           conversationMessages,
           transcriptByConversationId[conversationId]

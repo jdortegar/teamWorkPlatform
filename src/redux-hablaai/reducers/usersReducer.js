@@ -77,7 +77,7 @@ const usersReducer = (state = INITIAL_STATE, action) => {
       const userByUserId = _.cloneDeep(state.userByUserId);
       let user = userByUserId[action.payload.user.userId];
       if (!user) {
-        user = action.payload.user;
+        user = action.payload.user; // eslint-disable-line prefer-destructuring
       } else {
         user = _.merge(user, action.payload.user);
         user.bookmarks = action.payload.user.bookmarks;
@@ -105,11 +105,11 @@ const usersReducer = (state = INITIAL_STATE, action) => {
 
       let userId;
       if (subscriber) {
-        userId = subscriber.userId;
+        userId = subscriber.userId; // eslint-disable-line prefer-destructuring
       } else if (teamMember) {
-        userId = teamMember.userId;
+        userId = teamMember.userId; // eslint-disable-line prefer-destructuring
       } else if (teamRoomMember) {
-        userId = teamRoomMember.userId;
+        userId = teamRoomMember.userId; // eslint-disable-line prefer-destructuring
       }
       let user = userByUserId[userId];
       if (!user) {

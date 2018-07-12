@@ -25,7 +25,7 @@ class VerifyAccount extends Component {
   }
 
   componentDidMount() {
-    const uuid = this.props.match.params.uuid;
+    const { uuid } = this.props.match.params;
     this.props
       .verifyEmailAccount(uuid)
       .then(() => this.setState({ verified: true }))

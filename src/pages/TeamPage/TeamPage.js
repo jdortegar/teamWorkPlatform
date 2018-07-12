@@ -92,7 +92,7 @@ class TeamPage extends Component {
       this.state.teamMembersLoaded &&
       this.state.teamRoomsLoaded
     ) {
-      const teamId = match.params.teamId;
+      const { teamId } = match.params;
       const team = teams.teamById[teamId];
       const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
       const teamMemberFoundByUser = _.find(teamMembers, { userId: user.userId });

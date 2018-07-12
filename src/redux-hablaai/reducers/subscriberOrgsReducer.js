@@ -23,7 +23,7 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SUBSCRIBERORGS_FETCH_SUCCESS: {
       const subscriberOrgById = {};
-      let currentSubscriberOrgId = state.currentSubscriberOrgId;
+      let { currentSubscriberOrgId } = state;
       action.payload.subscriberOrgs.forEach(subscriberOrg => {
         subscriberOrgById[subscriberOrg.subscriberOrgId] = subscriberOrg;
       });

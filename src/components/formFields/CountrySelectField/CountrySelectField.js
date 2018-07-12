@@ -6,7 +6,7 @@ import countriesObj from './countries';
 import String from '../../../translations';
 
 const FormItem = Form.Item;
-const Option = Select.Option;
+const { Option } = Select;
 
 const propTypes = {
   form: formShape.isRequired,
