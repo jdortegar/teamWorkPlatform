@@ -28,11 +28,11 @@
     "no-else-return": ["error", { "allowElseIf": true }],
     "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/display-name": "off",
 
     // TODO: fix the following eslint rules:
     "prefer-destructuring": "warn",
     "react/sort-comp": "warn",
-    "react/display-name": "warn",
     "react/no-unused-state": "warn",
     "react/forbid-prop-types": "warn",
     "react/no-array-index-key": "warn",
