@@ -36,12 +36,7 @@ const propTypes = {
 class TeamPage extends Component {
   constructor(props) {
     super(props);
-
-    // this.state = { teamRoomsLoaded: false, teamMembersLoaded: false, teamRooms: [], teamMembers: [], view: 'card' };
-    this.state = { teamRoomsLoaded: false, teamMembersLoaded: false, view: 'card' };
-
-    this.handleTeamMemberSearch = this.handleTeamMemberSearch.bind(this);
-    this.handleTeamRoomSearch = this.handleTeamRoomSearch.bind(this);
+    this.state = { teamRoomsLoaded: false, teamMembersLoaded: false };
   }
 
   componentDidMount() {
@@ -57,22 +52,6 @@ class TeamPage extends Component {
     if (status) {
       message.success(messages[status]);
     }
-  }
-
-  handleTeamRoomSearch(value) {
-    const filteredTeamRooms = this.props.teamRooms.filter(({ name }) =>
-      name.toLowerCase().includes(value.toLowerCase())
-    );
-
-    this.setState({ teamRooms: filteredTeamRooms });
-  }
-
-  handleTeamMemberSearch(value) {
-    const filteredTeamMembers = this.props.teamMembers.filter(({ displayName }) =>
-      displayName.toLowerCase().includes(value.toLowerCase())
-    );
-
-    this.setState({ teamMembers: filteredTeamMembers });
   }
 
   render() {
@@ -142,7 +121,6 @@ class TeamPage extends Component {
               teamRooms={teamRooms}
               teamMembers={teamMembers}
               teamMembersPresences={teamMembersPresences}
-              onSwitchView={() => this.setState({ view: 'list' })}
             />
           </div>
         </div>

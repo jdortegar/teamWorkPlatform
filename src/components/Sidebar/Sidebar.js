@@ -83,11 +83,8 @@ class Sidebar extends Component {
     this.teamsActive = teamsActive;
 
     this.state = {
-      orgsOpenKeys: [],
       teamsOpenKeys: [],
-      teamsActive,
-      hovered: null,
-      openKeys: []
+      teamsActive
     };
 
     this.goToOrgPage = this.goToOrgPage.bind(this);
@@ -162,17 +159,11 @@ class Sidebar extends Component {
     const teamIds = this.getTeamsIds(orgId);
 
     if (this.orgsOpen[orgId]) {
-      this.setState({
-        orgsOpenKeys: [orgId],
-        teamsOpenKeys: [...this.state.teamsOpenKeys]
-      });
+      this.setState({ teamsOpenKeys: [...this.state.teamsOpenKeys] });
     } else {
       /* FIRST TIME USER CLICK ON A ORGANIZATION */
       this.orgsOpen[orgId] = true;
-      this.setState({
-        orgsOpenKeys: [orgId],
-        teamsOpenKeys: [...this.state.teamsOpenKeys, ...teamIds]
-      });
+      this.setState({ teamsOpenKeys: [...this.state.teamsOpenKeys, ...teamIds] });
     }
   }
 
@@ -180,17 +171,11 @@ class Sidebar extends Component {
     const teamIds = this.getTeamsIds(orgId);
 
     if (this.orgsOpen[orgId]) {
-      this.setState({
-        orgsOpenKeys: [orgId],
-        teamsOpenKeys: [...this.state.teamsOpenKeys]
-      });
+      this.setState({ teamsOpenKeys: [...this.state.teamsOpenKeys] });
     } else {
       /* FIRST TIME USER CLICK ON A ORGANIZATION */
       this.orgsOpen[orgId] = true;
-      this.setState({
-        orgsOpenKeys: [orgId],
-        teamsOpenKeys: [...this.state.teamsOpenKeys, ...teamIds]
-      });
+      this.setState({ teamsOpenKeys: [...this.state.teamsOpenKeys, ...teamIds] });
     }
 
     this.props.setCurrentSubscriberOrgId(orgId);
@@ -269,8 +254,6 @@ class Sidebar extends Component {
         <SubMenu
           className="habla-left-navigation-item"
           key={team.teamId}
-          onMouseEnter={() => this.setState({ hovered: team.teamId })}
-          onMouseLeave={() => this.setState({ hovered: null })}
           openKeys={this.state.teamsOpenKeys}
           onTitleClick={() => this.toogleTeams(team.teamId)}
           title={

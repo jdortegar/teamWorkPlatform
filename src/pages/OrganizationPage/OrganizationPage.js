@@ -42,7 +42,7 @@ class OrganizationPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { integrationsLoaded: false, subscribersLoaded: false, view: 'card' };
+    this.state = { integrationsLoaded: false, subscribersLoaded: false };
   }
 
   componentDidMount() {
@@ -131,7 +131,6 @@ class OrganizationPage extends Component {
           />
           <CardView
             integrations={integrations}
-            onSwitchView={() => this.setState({ view: 'list' })}
             subscribers={subscribers}
             subscribersPresences={subscribersPresences}
             subscriberOrgId={subscriberOrgId}

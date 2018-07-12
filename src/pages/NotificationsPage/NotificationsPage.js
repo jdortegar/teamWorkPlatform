@@ -8,23 +8,12 @@ import './styles/style.css';
 export default class NotificationsPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      all: true,
-      messages: false,
-      replies: false,
-      notifications: false
-    };
-
+    this.state = { all: true };
     this.onMenuItemClick = this.onMenuItemClick.bind(this);
   }
 
-  onMenuItemClick(all, messages, replies, notifications) {
-    this.setState({
-      all,
-      messages,
-      replies,
-      notifications
-    });
+  onMenuItemClick({ all }) {
+    this.setState({ all });
   }
 
   render() {
@@ -48,13 +37,13 @@ export default class NotificationsPage extends Component {
             <div className="habla-title">{String.t('notificationPage.title')}</div>
           </div>
           <div className="habla-main-content-filters-links">
-            <div onClick={() => this.onMenuItemClick(true, false, false, false)} className={menuOptionAll}>
+            <div onClick={() => this.onMenuItemClick({ all: true })} className={menuOptionAll}>
               {String.t('notificationPage.menu.all')}
             </div>
-            <div onClick={() => this.onMenuItemClick(false, true, false, false)} className={menuOptionUnread}>
+            <div onClick={() => this.onMenuItemClick({ all: true })} className={menuOptionUnread}>
               {String.t('notificationPage.menu.unread')} (12)
             </div>
-            <div onClick={() => this.onMenuItemClick(false, false, true, false)} className={menuOptionBookmarked}>
+            <div onClick={() => this.onMenuItemClick({ all: true })} className={menuOptionBookmarked}>
               {String.t('notificationPage.menu.bookmarked')}
             </div>
           </div>

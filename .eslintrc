@@ -33,7 +33,6 @@
 
     // TODO: fix the following eslint rules:
     "react/sort-comp": "warn",
-    "react/no-unused-state": "warn",
     "react/forbid-prop-types": "warn",
     "react/no-array-index-key": "warn",
     "react/require-default-props": "warn",

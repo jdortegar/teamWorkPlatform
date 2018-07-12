@@ -76,7 +76,6 @@ class IntegrationDetailsPage extends Component {
       configFolders = config.folders;
     }
     this.state = {
-      view: 'card',
       configParams,
       configFolders,
       changedFolderOptions: {}

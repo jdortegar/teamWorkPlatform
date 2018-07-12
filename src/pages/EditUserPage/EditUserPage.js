@@ -37,7 +37,6 @@ class EditUserPage extends Component {
     super(props);
 
     this.state = {
-      timeZone: defaultTimeZone,
       countryCode: defaultCountry && defaultCountry.id ? defaultCountry.id : null,
       loading: false,
       userIcon: props.user.icon || null

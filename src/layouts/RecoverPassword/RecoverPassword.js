@@ -21,7 +21,7 @@ class RecoverPassword extends Component {
     this.state = {
       email: null,
       sending: false,
-      sentEmail: false
+      emailSent: false
     };
 
     this.onCancel = this.onCancel.bind(this);
@@ -46,7 +46,7 @@ class RecoverPassword extends Component {
             this.setState({ sending: false, emailSent: true });
           })
           .catch(error => {
-            this.setState({ sending: false, error });
+            this.setState({ sending: false });
             message.error(error.message);
           });
       }

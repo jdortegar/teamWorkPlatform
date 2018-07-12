@@ -25,12 +25,6 @@ function readFileAsBinary(file) {
 }
 
 class PreviewCard extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { src: '' };
-  }
-
   componentDidMount() {
     readFileAsBinary(this.props.file).then(binary => {
       this.props.addBase(this.props.file, binary);

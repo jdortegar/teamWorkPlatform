@@ -110,17 +110,14 @@ class TeamRoomPage extends Component {
       teamRoomMembersLoaded: false,
       conversationsLoaded: false,
       teamRoomMembers: [],
-      activeLink: String.t('teamRoomPage.all'),
       replyTo: null,
       showPreviewBox: false,
-      barPercent: 0,
       file: null,
       filterBy: filterOption.all
     };
 
     this.onCancelReply = this.onCancelReply.bind(this);
     this.onMessageAction = this.onMessageAction.bind(this);
-    this.handleHeaderClick = this.handleHeaderClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.onFileChange = this.onFileChange.bind(this);
@@ -401,10 +398,6 @@ class TeamRoomPage extends Component {
         }
       }
     });
-  }
-
-  handleHeaderClick(value) {
-    this.setState({ activeLink: value });
   }
 
   handleSearch(value) {
