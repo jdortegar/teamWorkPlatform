@@ -13,12 +13,10 @@ const AUTO_FETCH_STALE_DATE = true;
 export const cachedGetRequests = {};
 export const cachedGetRequestsOrdered = [];
 
-export const clearUrlRequest = requestUrl => {
-  return {
-    type: URLREQUEST_CLEAR,
-    payload: { requestUrl }
-  };
-};
+export const clearUrlRequest = requestUrl => ({
+  type: URLREQUEST_CLEAR,
+  payload: { requestUrl }
+});
 
 export const doRequest = (
   { requestUrl, method, headers, data },
@@ -100,12 +98,10 @@ export const doAuthenticatedRequest = (
   { requestUrl, method, additionalHeaders, data },
   reduxState,
   options = { getKey: false, forceGet: false }
-) => {
-  return (dispatch, getState) => {
-    const secureHeaders = additionalHeaders || {};
-    secureHeaders.Authorization = `Bearer ${getState().auth.token}`;
-    return dispatch(doRequest({ requestUrl, method, headers: secureHeaders, data }, reduxState, options));
-  };
+) => (dispatch, getState) => {
+  const secureHeaders = additionalHeaders || {};
+  secureHeaders.Authorization = `Bearer ${getState().auth.token}`;
+  return dispatch(doRequest({ requestUrl, method, headers: secureHeaders, data }, reduxState, options));
 };
 
 let _online = false;

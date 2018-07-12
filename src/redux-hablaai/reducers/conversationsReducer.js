@@ -30,9 +30,12 @@ const getNodeFromFlattenedTree = (messageId, array) => {
   return null;
 };
 
-const flattenedArrayMessage = message => {
-  return { messageId: message.messageId, created: message.created, children: [], expanded: defaultExpanded };
-};
+const flattenedArrayMessage = message => ({
+  messageId: message.messageId,
+  created: message.created,
+  children: [],
+  expanded: defaultExpanded
+});
 
 const addMessageToArray = (message, array) => {
   if (array.length === 0) {

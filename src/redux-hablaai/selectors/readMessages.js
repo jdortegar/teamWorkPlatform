@@ -5,9 +5,7 @@ export { getReadMessagesByConversationId } from './state';
 
 export const getReadMessagesOfConversationId = createCachedSelector(
   [getReadMessagesByConversationId, (state, conversationId) => conversationId],
-  (readMessagesOfConversationId, conversationId) => {
-    return readMessagesOfConversationId[conversationId];
-  }
+  (readMessagesOfConversationId, conversationId) => readMessagesOfConversationId[conversationId]
 )((state, conversationId) => conversationId);
 
 export const getReadMessagesOfTeamRoomId = createCachedSelector(

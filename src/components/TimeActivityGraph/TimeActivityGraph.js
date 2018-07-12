@@ -108,9 +108,7 @@ class TimeActivityGraph extends Component {
     this.setState({ zoomDomain: domain.x });
   };
 
-  applyZoom = (newZoomLevel, oldZoomLevel) => {
-    return newZoomLevel > oldZoomLevel ? this.zoomIn() : this.zoomOut();
-  };
+  applyZoom = (newZoomLevel, oldZoomLevel) => (newZoomLevel > oldZoomLevel ? this.zoomIn() : this.zoomOut());
 
   zoomIn() {
     this.setState(({ zoomDomain }) => {

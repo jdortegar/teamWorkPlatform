@@ -262,25 +262,23 @@ class Message extends Component {
         </div>
         {childrenNonDeleted.length > 0 &&
           teamRoomMembersObj &&
-          childrenNonDeleted.map(childMessage => {
-            return (
-              <Message
-                conversationDisabled={conversationDisabled}
-                message={childMessage}
-                user={teamRoomMembersObj[childMessage.createdBy]}
-                currentUser={this.props.currentUser}
-                key={childMessage.messageId}
-                onMessageAction={this.props.onMessageAction}
-                hide={!this.state.isExpanded}
-                currentPath={this.props.currentPath}
-                teamRoomMembersObj={this.props.teamRoomMembersObj}
-                subscriberOrgId={this.props.subscriberOrgId}
-                teamId={this.props.teamId}
-                teamRoomId={this.props.teamRoomId}
-                isAdmin={isAdmin}
-              />
-            );
-          })}
+          childrenNonDeleted.map(childMessage => (
+            <Message
+              conversationDisabled={conversationDisabled}
+              message={childMessage}
+              user={teamRoomMembersObj[childMessage.createdBy]}
+              currentUser={this.props.currentUser}
+              key={childMessage.messageId}
+              onMessageAction={this.props.onMessageAction}
+              hide={!this.state.isExpanded}
+              currentPath={this.props.currentPath}
+              teamRoomMembersObj={this.props.teamRoomMembersObj}
+              subscriberOrgId={this.props.subscriberOrgId}
+              teamId={this.props.teamId}
+              teamRoomId={this.props.teamRoomId}
+              isAdmin={isAdmin}
+            />
+          ))}
       </div>
     );
   }

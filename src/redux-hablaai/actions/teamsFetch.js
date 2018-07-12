@@ -40,6 +40,5 @@ export const fetchTeamsBySubscriberOrgId = (subscriberOrgId, options = { getKey:
   };
 };
 
-export const fetchTeams = (options = { getKey: false, forceGet: false }) => {
-  return fetchTeamsBySubscriberOrgId(undefined, options);
-};
+export const fetchTeams = (options = { getKey: false, forceGet: false }) =>
+  fetchTeamsBySubscriberOrgId(undefined, options);

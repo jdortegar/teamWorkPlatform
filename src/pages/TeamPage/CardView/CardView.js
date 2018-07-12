@@ -34,8 +34,8 @@ function CardView(props) {
 
   const filteredRooms = teamRooms.filter(r => isAdmin || r.active);
 
-  const renderTeamRooms = () => {
-    return filteredRooms.map(({ name, teamRoomId, preferences, active }) => {
+  const renderTeamRooms = () =>
+    filteredRooms.map(({ name, teamRoomId, preferences, active }) => {
       const initials = getInitials(name);
       const className = classNames({ 'opacity-low': !active });
       return (
@@ -51,10 +51,9 @@ function CardView(props) {
         </div>
       );
     });
-  };
 
-  const renderTeamMembers = () => {
-    return members.map(member => {
+  const renderTeamMembers = () =>
+    members.map(member => {
       const { userId, firstName, lastName } = member;
       const fullName = String.t('fullName', { firstName, lastName });
       return (
@@ -70,22 +69,19 @@ function CardView(props) {
         </div>
       );
     });
-  };
 
-  const renderAddCard = (title, url = null) => {
-    return (
-      <div className="mr-1 mb-2">
-        <Tooltip placement="top" title={title}>
-          <Link to={url}>
-            <Avatar size="large">
-              <i className="fa fa-plus" />
-            </Avatar>
-            <div className="habla-label align-center-class card-label">{String.t('cardView.newButtonLabel')}</div>
-          </Link>
-        </Tooltip>
-      </div>
-    );
-  };
+  const renderAddCard = (title, url = null) => (
+    <div className="mr-1 mb-2">
+      <Tooltip placement="top" title={title}>
+        <Link to={url}>
+          <Avatar size="large">
+            <i className="fa fa-plus" />
+          </Avatar>
+          <div className="habla-label align-center-class card-label">{String.t('cardView.newButtonLabel')}</div>
+        </Link>
+      </Tooltip>
+    </div>
+  );
 
   const roomsSection = String.t('cardView.roomsHeader', { count: filteredRooms.length });
   const membersSection = String.t('cardView.membersHeader', { count: members.length });

@@ -144,9 +144,9 @@ class Sidebar extends Component {
     if (value === '') {
       this.setState({ teamsActive: this.teamsActive });
     } else {
-      const filteredTeams = this.state.teamsActive.filter(el => {
-        return el.name.toLowerCase().includes(value.toLowerCase().trim());
-      });
+      const filteredTeams = this.state.teamsActive.filter(el =>
+        el.name.toLowerCase().includes(value.toLowerCase().trim())
+      );
       this.setState({ teamsActive: filteredTeams });
     }
   }

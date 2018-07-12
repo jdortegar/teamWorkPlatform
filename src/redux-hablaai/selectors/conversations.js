@@ -61,7 +61,5 @@ export const getConversationOfTeamRoomId = createCachedSelector(
 
 export const getTypingsOfConversationId = createCachedSelector(
   [getTypingByUserIdsByConversationId, (state, conversationId) => conversationId],
-  (typingByUserIdsByConversationId, conversationId) => {
-    return typingByUserIdsByConversationId[conversationId];
-  }
+  (typingByUserIdsByConversationId, conversationId) => typingByUserIdsByConversationId[conversationId]
 )((state, conversationId) => conversationId);

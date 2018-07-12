@@ -355,17 +355,15 @@ class TeamRoomPage extends Component {
           Promise.all(resources)
             .then(res => {
               this.props.form.resetFields();
-              postBody.content = res.map((createdResource, index) => {
-                return {
-                  type: this.props.files[index].type,
-                  resourceId: createdResource.data.resourceId,
-                  meta: {
-                    fileName: this.props.files[index].name,
-                    fileSize: this.props.files[index].size,
-                    lastModified: this.props.files[index].lastModifiedDate
-                  }
-                };
-              });
+              postBody.content = res.map((createdResource, index) => ({
+                type: this.props.files[index].type,
+                resourceId: createdResource.data.resourceId,
+                meta: {
+                  fileName: this.props.files[index].name,
+                  fileSize: this.props.files[index].size,
+                  lastModified: this.props.files[index].lastModifiedDate
+                }
+              }));
               if (message) {
                 postBody.content.push({ type: 'text/plain', text: message });
               }

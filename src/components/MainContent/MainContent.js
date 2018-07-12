@@ -65,9 +65,10 @@ function invitationKey(inv) {
 class MainContent extends Component {
   componentDidMount() {
     if (this.props.pushMessage && this.props.pushMessage.length > 0) {
-      const text = this.props.pushMessage[0].content.reduce((prevVal, content) => {
-        return prevVal || content.type === 'text/plain' ? content.text : undefined;
-      }, undefined);
+      const text = this.props.pushMessage[0].content.reduce(
+        (prevVal, content) => (prevVal || content.type === 'text/plain' ? content.text : undefined),
+        undefined
+      );
       const args = {
         message: String.t('MainContent.newMessage'),
         description: text,

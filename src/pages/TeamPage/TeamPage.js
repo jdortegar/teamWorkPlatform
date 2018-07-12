@@ -60,17 +60,17 @@ class TeamPage extends Component {
   }
 
   handleTeamRoomSearch(value) {
-    const filteredTeamRooms = this.props.teamRooms.filter(({ name }) => {
-      return name.toLowerCase().includes(value.toLowerCase());
-    });
+    const filteredTeamRooms = this.props.teamRooms.filter(({ name }) =>
+      name.toLowerCase().includes(value.toLowerCase())
+    );
 
     this.setState({ teamRooms: filteredTeamRooms });
   }
 
   handleTeamMemberSearch(value) {
-    const filteredTeamMembers = this.props.teamMembers.filter(({ displayName }) => {
-      return displayName.toLowerCase().includes(value.toLowerCase());
-    });
+    const filteredTeamMembers = this.props.teamMembers.filter(({ displayName }) =>
+      displayName.toLowerCase().includes(value.toLowerCase())
+    );
 
     this.setState({ teamMembers: filteredTeamMembers });
   }

@@ -24,13 +24,12 @@
     "es6": true
   },
   "rules": {
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "prettier/prettier": "error",
     "no-else-return": ["error", { "allowElseIf": true }],
     "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
-    "prettier/prettier": "error",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
 
     // TODO: fix the following eslint rules:
-    "arrow-body-style": "warn",
     "no-underscore-dangle": "warn",
     "prefer-destructuring": "warn",
     "react/sort-comp": "warn",

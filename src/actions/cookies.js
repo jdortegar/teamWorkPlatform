@@ -22,19 +22,17 @@ const saveCookie = userId => (value, name) => {
   Cookie.set(`${name}__${userId}`, value, { expires: 7 });
 };
 
-export const saveCookies = () => {
-  return (dispatch, getState) => {
-    const { auth, subscriberOrgs, router } = getState();
-    const { userId } = auth.user;
-    const { currentSubscriberOrgId } = subscriberOrgs;
-    const { pathname, search } = router.location;
+export const saveCookies = () => (dispatch, getState) => {
+  const { auth, subscriberOrgs, router } = getState();
+  const { userId } = auth.user;
+  const { currentSubscriberOrgId } = subscriberOrgs;
+  const { pathname, search } = router.location;
 
-    const cookies = {
-      [LAST_ROUTE]: `${pathname}${search}`,
-      [LAST_SUBSCRIBER_ORG_ID]: currentSubscriberOrgId
-    };
-    _.map(cookies, saveCookie(userId));
-
-    dispatch({ type: SAVE_COOKIES, payload: cookies });
+  const cookies = {
+    [LAST_ROUTE]: `${pathname}${search}`,
+    [LAST_SUBSCRIBER_ORG_ID]: currentSubscriberOrgId
   };
+  _.map(cookies, saveCookie(userId));
+
+  dispatch({ type: SAVE_COOKIES, payload: cookies });
 };

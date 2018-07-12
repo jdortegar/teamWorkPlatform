@@ -42,8 +42,8 @@ function CardView(props) {
     online: _.some(_.values(subscribersPresences[subscriber.userId]), { presenceStatus: 'online' })
   }));
 
-  const renderTeams = isOrgAdmin => {
-    return props.teams.map(team => {
+  const renderTeams = isOrgAdmin =>
+    props.teams.map(team => {
       const teamRender = teamShouldRender(isOrgAdmin, team);
       const initials = getInitials(team.name);
       if (teamRender) {
@@ -68,10 +68,9 @@ function CardView(props) {
 
       return null;
     });
-  };
 
-  const renderMembers = () => {
-    return orgSubscribers.map(member => {
+  const renderMembers = () =>
+    orgSubscribers.map(member => {
       const { userId, firstName, lastName } = member;
       const fullName = String.t('fullName', { firstName, lastName });
       return (
@@ -87,7 +86,6 @@ function CardView(props) {
         </div>
       );
     });
-  };
 
   const renderIntegration = (key, integration) => {
     const label = integrationLabelFromKey(key);
@@ -120,22 +118,18 @@ function CardView(props) {
     return integrationsArr;
   };
 
-  const renderAddCard = (title, url) => {
-    return (
-      <div className="mr-1 mb-2">
-        <Tooltip placement="top" title={title}>
-          <Link to={url}>
-            <Avatar size="large">
-              <i className="fa fa-plus" />
-            </Avatar>
-            <div className="habla-label align-center-class card-label">
-              {String.t('OrganizationPage.newButtonLabel')}
-            </div>
-          </Link>
-        </Tooltip>
-      </div>
-    );
-  };
+  const renderAddCard = (title, url) => (
+    <div className="mr-1 mb-2">
+      <Tooltip placement="top" title={title}>
+        <Link to={url}>
+          <Avatar size="large">
+            <i className="fa fa-plus" />
+          </Avatar>
+          <div className="habla-label align-center-class card-label">{String.t('OrganizationPage.newButtonLabel')}</div>
+        </Link>
+      </Tooltip>
+    </div>
+  );
 
   const integrationsArr = renderIntegrations();
   const isOrgAdmin = subscriberByMyUser.subscriberOrgs[subscriberOrgId].role === 'admin';

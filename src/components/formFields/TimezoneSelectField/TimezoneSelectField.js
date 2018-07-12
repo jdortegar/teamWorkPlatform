@@ -62,13 +62,11 @@ function TimezoneSelectField(props) {
     timezones = timezonesByCountry[countryCode].timezones;
   }
 
-  const selectTimezones = timezones.map(timezone => {
-    return (
-      <Option key={timezone} value={timezone}>
-        {timezone}
-      </Option>
-    );
-  });
+  const selectTimezones = timezones.map(timezone => (
+    <Option key={timezone} value={timezone}>
+      {timezone}
+    </Option>
+  ));
 
   return (
     <FormItem

@@ -173,91 +173,89 @@ class ShareWithIds {
 }
 
 // eslint-disable-next-line no-unused-vars
-export const getIntegrationFilesAndFolders = createSelector([getCurrentSubscriberOrgId], currentSubscriberOrgId => {
-  return {
-    nodesById: {
-      'Folder 1': {
-        id: 'Folder 1',
-        type: 'FOLDER',
-        name: 'Folder 1',
-        expanded: false,
-        childNodeIds: {
-          'Folder 1.1': 'Folder 1.1'
-        }
-      },
-      'Folder 1.1': {
-        // ALL or NONE
-        id: 'Folder 1.1',
-        type: 'FOLDER',
-        name: 'Folder 1.1',
-        expanded: false,
-        childNodeIds: {
-          'my.pdf': 'my.pdf'
-        }
-      },
-      'my.pdf': {
-        id: 'my.pdf',
-        type: 'PDF',
-        name: 'my.pdf',
-        share: SharingTypes.SOME,
-        shareWithIds: {
-          '0ac5d3d5-689f-4137-af05-20435ce1ba35': '0ac5d3d5-689f-4137-af05-20435ce1ba35'
-        }
-      },
-      'my first.pdf': {
-        id: 'my first.pdf',
-        type: 'PDF',
-        name: 'my first.pdf'
-      },
-      'Folder 2': {
-        id: 'Folder 2',
-        type: 'FOLDER',
-        name: 'Folder 2',
-        expanded: false,
-        childNodeIds: {
-          'hello World.doc': 'hello World.doc'
-        }
-      },
-      'hello World.doc': {
-        id: 'hello World.doc',
-        type: 'DOC',
-        name: 'hello World.doc'
-      },
-      'spreadsheet.xls': {
-        id: 'spreadsheet.xls',
-        type: 'XLS',
-        name: 'spreadsheet.xls'
+export const getIntegrationFilesAndFolders = createSelector([getCurrentSubscriberOrgId], currentSubscriberOrgId => ({
+  nodesById: {
+    'Folder 1': {
+      id: 'Folder 1',
+      type: 'FOLDER',
+      name: 'Folder 1',
+      expanded: false,
+      childNodeIds: {
+        'Folder 1.1': 'Folder 1.1'
       }
     },
-    nodeHierarchy: [
-      {
-        id: 'Folder 1',
-        children: [
-          {
-            id: 'Folder 1.1',
-            children: [
-              {
-                id: 'my.pdf'
-              }
-            ]
-          },
-          {
-            id: 'my first.pdf'
-          }
-        ]
-      },
-      {
-        id: 'Folder 2',
-        children: [
-          {
-            id: 'hello World.doc'
-          }
-        ]
-      },
-      {
-        id: 'spreadsheet.xls'
+    'Folder 1.1': {
+      // ALL or NONE
+      id: 'Folder 1.1',
+      type: 'FOLDER',
+      name: 'Folder 1.1',
+      expanded: false,
+      childNodeIds: {
+        'my.pdf': 'my.pdf'
       }
-    ],
-    shareWithIds: new ShareWithIds({})
-  };
-});
+    },
+    'my.pdf': {
+      id: 'my.pdf',
+      type: 'PDF',
+      name: 'my.pdf',
+      share: SharingTypes.SOME,
+      shareWithIds: {
+        '0ac5d3d5-689f-4137-af05-20435ce1ba35': '0ac5d3d5-689f-4137-af05-20435ce1ba35'
+      }
+    },
+    'my first.pdf': {
+      id: 'my first.pdf',
+      type: 'PDF',
+      name: 'my first.pdf'
+    },
+    'Folder 2': {
+      id: 'Folder 2',
+      type: 'FOLDER',
+      name: 'Folder 2',
+      expanded: false,
+      childNodeIds: {
+        'hello World.doc': 'hello World.doc'
+      }
+    },
+    'hello World.doc': {
+      id: 'hello World.doc',
+      type: 'DOC',
+      name: 'hello World.doc'
+    },
+    'spreadsheet.xls': {
+      id: 'spreadsheet.xls',
+      type: 'XLS',
+      name: 'spreadsheet.xls'
+    }
+  },
+  nodeHierarchy: [
+    {
+      id: 'Folder 1',
+      children: [
+        {
+          id: 'Folder 1.1',
+          children: [
+            {
+              id: 'my.pdf'
+            }
+          ]
+        },
+        {
+          id: 'my first.pdf'
+        }
+      ]
+    },
+    {
+      id: 'Folder 2',
+      children: [
+        {
+          id: 'hello World.doc'
+        }
+      ]
+    },
+    {
+      id: 'spreadsheet.xls'
+    }
+  ],
+  shareWithIds: new ShareWithIds({})
+}));

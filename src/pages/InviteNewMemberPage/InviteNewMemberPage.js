@@ -48,9 +48,7 @@ class InviteNewMemberPage extends Component {
   }
 
   removeInvitees(field) {
-    const updatedInvitees = this.state.inviteesArr.filter(el => {
-      return el !== field;
-    });
+    const updatedInvitees = this.state.inviteesArr.filter(el => el !== field);
 
     this.setState({ inviteesArr: updatedInvitees });
   }
@@ -77,30 +75,28 @@ class InviteNewMemberPage extends Component {
   }
 
   renderInvitees() {
-    return this.state.inviteesArr.map((el, index) => {
-      return (
-        <Row key={el} gutter={16} type="flex" className="Invite-New-Member__email-row">
-          <Col className="gutter-row" span={20}>
-            <EmailField
-              componentKey={`email${el}`}
-              inputClassName="Invite-New-Member__email-field"
-              form={this.props.form}
-              placeholder=" "
-              label=""
-              required
-              autoFocus={index === this.state.inviteesArr.length - 1}
-            />
+    return this.state.inviteesArr.map((el, index) => (
+      <Row key={el} gutter={16} type="flex" className="Invite-New-Member__email-row">
+        <Col className="gutter-row" span={20}>
+          <EmailField
+            componentKey={`email${el}`}
+            inputClassName="Invite-New-Member__email-field"
+            form={this.props.form}
+            placeholder=" "
+            label=""
+            required
+            autoFocus={index === this.state.inviteesArr.length - 1}
+          />
+        </Col>
+        {this.state.inviteesArr.length > 1 ? (
+          <Col className="gutter-row" span={3}>
+            <a onClick={() => this.removeInvitees(el)} className="remove-field">
+              Remove
+            </a>
           </Col>
-          {this.state.inviteesArr.length > 1 ? (
-            <Col className="gutter-row" span={3}>
-              <a onClick={() => this.removeInvitees(el)} className="remove-field">
-                Remove
-              </a>
-            </Col>
-          ) : null}
-        </Row>
-      );
-    });
+        ) : null}
+      </Row>
+    ));
   }
 
   render() {

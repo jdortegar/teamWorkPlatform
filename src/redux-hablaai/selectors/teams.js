@@ -5,9 +5,7 @@ import { sortByName, primaryAtTop } from './helpers';
 
 export { getTeamById, getTeamIdsBySubscriberOrgId } from './state';
 
-export const getTeams = createSelector([getTeamById], teamById => {
-  return Object.values(teamById);
-});
+export const getTeams = createSelector([getTeamById], teamById => Object.values(teamById));
 
 /**
  * Return array of teams given a subscriberOrgId.

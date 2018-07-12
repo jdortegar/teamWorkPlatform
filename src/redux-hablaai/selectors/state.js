@@ -41,7 +41,5 @@ export const getIntegrationsBySubscriberOrgId = state => state.integrations.inte
 
 export const getUrlRequestStatus = createCachedSelector(
   [getUrlRequests, (state, requestUrl) => requestUrl],
-  (urlRequests, requestUrl) => {
-    return urlRequests[requestUrl];
-  }
+  (urlRequests, requestUrl) => urlRequests[requestUrl]
 )((state, requestUrl) => requestUrl);

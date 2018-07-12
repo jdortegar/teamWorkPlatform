@@ -40,6 +40,5 @@ export const fetchTeamRoomsByTeamId = (teamId, options = { getKey: false, forceG
   };
 };
 
-export const fetchTeamRooms = (options = { getKey: false, forceGet: false }) => {
-  return fetchTeamRoomsByTeamId(undefined, options);
-};
+export const fetchTeamRooms = (options = { getKey: false, forceGet: false }) =>
+  fetchTeamRoomsByTeamId(undefined, options);

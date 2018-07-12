@@ -66,13 +66,11 @@ class CountrySelectField extends Component {
     const translatedMissingMessage = missingMessage || String.t('Country.errNoText');
     const translatedPlaceHolder = placeholder || String.t('labelCountryPlaceholder');
 
-    const countries = countriesObj.map(({ name, code }) => {
-      return (
-        <Option key={code} value={code}>
-          {name}
-        </Option>
-      );
-    });
+    const countries = countriesObj.map(({ name, code }) => (
+      <Option key={code} value={code}>
+        {name}
+      </Option>
+    ));
 
     return (
       <FormItem

@@ -63,6 +63,5 @@ const integrate = (type, subscriberOrgId, options = { getKey: false }, params = 
 };
 
 // eslint-disable-next-line import/prefer-default-export
-export const integrateIntegration = (key, subscriberOrgId, params) => {
-  return integrate(key, subscriberOrgId, undefined, params);
-};
+export const integrateIntegration = (key, subscriberOrgId, params) =>
+  integrate(key, subscriberOrgId, undefined, params);
