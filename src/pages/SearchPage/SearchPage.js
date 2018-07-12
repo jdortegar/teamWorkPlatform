@@ -97,12 +97,6 @@ class SearchPage extends Component {
     this.updateSearch(nextProps.queryParams.q, true);
   }
 
-  updateSearch(newQuery, shouldUpdateState = false) {
-    if (!newQuery || newQuery === this.props.query) return;
-    if (shouldUpdateState) this.setState({ query: newQuery });
-    this.props.search(newQuery, this.props.currentSubscriberOrgId);
-  }
-
   handleOwnerFilterClick = key => {
     const { excludeOwnersFilter } = this.state;
     this.setState({ excludeOwnersFilter: { ...excludeOwnersFilter, [key]: excludeOwnersFilter[key] ? null : true } });
@@ -126,6 +120,12 @@ class SearchPage extends Component {
     const allFilters = fileTypes.reduce((obj, file) => ({ ...obj, [file.key]: true }), {});
     this.setState({ excludeTypesFilter: allSelected ? {} : allFilters });
   };
+
+  updateSearch(newQuery, shouldUpdateState = false) {
+    if (!newQuery || newQuery === this.props.query) return;
+    if (shouldUpdateState) this.setState({ query: newQuery });
+    this.props.search(newQuery, this.props.currentSubscriberOrgId);
+  }
 
   render() {
     const { loading, results, owners, fileTypes, integrations } = this.props;

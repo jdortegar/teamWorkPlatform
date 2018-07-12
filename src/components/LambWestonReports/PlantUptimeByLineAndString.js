@@ -11,6 +11,9 @@ const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
 
 class PlantUptimeByLineAndString extends Component {
+  container = null;
+  highchart = null;
+
   constructor() {
     super();
 
@@ -101,9 +104,6 @@ class PlantUptimeByLineAndString extends Component {
 
     this.highchart.chart.update({ series: nextProps.series }, true, true);
   }
-
-  container = null;
-  highchart = null;
 
   updateDimensions() {
     if (!this.container || !this.container.parentNode) return;

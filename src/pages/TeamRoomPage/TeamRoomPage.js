@@ -287,37 +287,23 @@ class TeamRoomPage extends Component {
     }
   };
 
-  createResource(file) {
-    const fileSource = file.src.split('base64,')[1] || file.src;
-    const { teamRoomId } = this.props.match.params;
-    const { teamId } = this.props.teamRooms.teamRoomById[teamRoomId];
-    const { subscriberOrgId } = this.props.teams.teamById[teamId];
-    if (!teamRoomId || !teamId || !subscriberOrgId) {
-      // Todo throw error invalid team, team room or subscriberOrg
-      throw new Error();
+  handleTyping = () => {
+    const { conversationId } = this.props.conversations;
+    this.clearTypingTimer();
+    this.typingTimer = setTimeout(this.stopTyping, 5000);
+    this.props.iAmTyping(conversationId, true);
+  };
+
+  stopTyping = () => {
+    const { conversationId } = this.props.conversations;
+    this.props.iAmTyping(conversationId, false);
+  };
+
+  clearTypingTimer = () => {
+    if (this.typingTimer) {
+      clearTimeout(this.typingTimer);
     }
-
-    const requestConfig = {
-      headers: {
-        Authorization: `Bearer ${this.props.token}`,
-        'Content-Type': 'application/octet-stream',
-        'x-hablaai-content-type': file.type,
-        'x-hablaai-content-length': fileSource.length,
-        'x-hablaai-teamroomid': teamRoomId,
-        'x-hablaai-teamid': teamId,
-        'x-hablaai-subscriberorgid': subscriberOrgId
-      },
-      onUploadProgress: progressEvent => {
-        const { total, loaded } = progressEvent;
-        const fileWithPercent = Object.assign(file, { percent: getPercentOfRequest(total, loaded) });
-        this.setState({
-          file: fileWithPercent
-        });
-      }
-    };
-
-    return axios.put(`${this.props.resourcesUrl}/${file.name}`, fileSource, requestConfig);
-  }
+  };
 
   shouldDisableConversation() {
     const teamRoom = this.props.teamRooms.teamRoomById[this.props.match.params.teamRoomId];
@@ -409,23 +395,37 @@ class TeamRoomPage extends Component {
     this.setState({ teamRoomMembers: filteredTeamMembers });
   }
 
-  handleTyping = () => {
-    const { conversationId } = this.props.conversations;
-    this.clearTypingTimer();
-    this.typingTimer = setTimeout(this.stopTyping, 5000);
-    this.props.iAmTyping(conversationId, true);
-  };
-
-  stopTyping = () => {
-    const { conversationId } = this.props.conversations;
-    this.props.iAmTyping(conversationId, false);
-  };
-
-  clearTypingTimer = () => {
-    if (this.typingTimer) {
-      clearTimeout(this.typingTimer);
+  createResource(file) {
+    const fileSource = file.src.split('base64,')[1] || file.src;
+    const { teamRoomId } = this.props.match.params;
+    const { teamId } = this.props.teamRooms.teamRoomById[teamRoomId];
+    const { subscriberOrgId } = this.props.teams.teamById[teamId];
+    if (!teamRoomId || !teamId || !subscriberOrgId) {
+      // Todo throw error invalid team, team room or subscriberOrg
+      throw new Error();
     }
-  };
+
+    const requestConfig = {
+      headers: {
+        Authorization: `Bearer ${this.props.token}`,
+        'Content-Type': 'application/octet-stream',
+        'x-hablaai-content-type': file.type,
+        'x-hablaai-content-length': fileSource.length,
+        'x-hablaai-teamroomid': teamRoomId,
+        'x-hablaai-teamid': teamId,
+        'x-hablaai-subscriberorgid': subscriberOrgId
+      },
+      onUploadProgress: progressEvent => {
+        const { total, loaded } = progressEvent;
+        const fileWithPercent = Object.assign(file, { percent: getPercentOfRequest(total, loaded) });
+        this.setState({
+          file: fileWithPercent
+        });
+      }
+    };
+
+    return axios.put(`${this.props.resourcesUrl}/${file.name}`, fileSource, requestConfig);
+  }
 
   updateFiles(files) {
     if (files.length === 0 && !this.state.replyTo) {

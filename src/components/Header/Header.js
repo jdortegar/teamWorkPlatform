@@ -34,10 +34,6 @@ class Header extends Component {
     });
   }
 
-  logOut() {
-    this.props.logoutUser();
-  }
-
   clearInput = () => {
     this.searchInput.focus();
     this.setState({ query: '' });
@@ -52,6 +48,10 @@ class Header extends Component {
     event.preventDefault();
     this.props.history.push(`/app/search?q=${this.state.query}`);
   };
+
+  logOut() {
+    this.props.logoutUser();
+  }
 
   renderMenuItems() {
     const { user } = this.props;

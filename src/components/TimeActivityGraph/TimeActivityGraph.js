@@ -73,6 +73,8 @@ const formatXTick = date => {
 };
 
 class TimeActivityGraph extends Component {
+  container = null;
+
   constructor(props) {
     super(props);
 
@@ -101,8 +103,6 @@ class TimeActivityGraph extends Component {
       this.setState({ zoomDomain: allZoomDomain(nextProps.files) });
     }
   }
-
-  container = null;
 
   handleZoomDomainChange = domain => {
     this.setState({ zoomDomain: domain.x });
