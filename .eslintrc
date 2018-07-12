@@ -29,10 +29,10 @@
     "prefer-destructuring": ["warn", { "array": false, "object": true }],
     "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/forbid-prop-types": "off",
     "react/display-name": "off",
 
     // TODO: fix the following eslint rules:
-    "react/forbid-prop-types": "warn",
     "react/no-array-index-key": "warn",
     "react/require-default-props": "warn",
     "react/destructuring-assignment": "warn",
