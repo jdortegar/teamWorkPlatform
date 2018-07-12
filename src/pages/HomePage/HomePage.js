@@ -14,11 +14,13 @@ class HomePage extends Component {
       {
         logo: hablaLogoAvatar,
         from: 'Habla AI Bot',
-        text: (`Welcome to Habla AI. <a href="/app/ckg/${this.props.currentSubscriberOrgId}>Click here</a> to start integrating data into your Knowledge Graph.`),
+        text: `Welcome to Habla AI. <a href="/app/ckg/${
+          this.props.currentSubscriberOrgId
+        }>Click here</a> to start integrating data into your Knowledge Graph.`,
         created: null
       }
     ]
-  }
+  };
 
   renderActivity() {
     // TODO: This is temporary... get and show the date that the subscriberOrg was created
@@ -34,12 +36,14 @@ class HomePage extends Component {
               <img src={logo} alt={String.t('Header.logoAlt')} className="homePage__activity-avatar" />
             </div>
             <div className="homePage__activity-content-container">
-              <div className="homePage__activity-content-header">
-                {from}
-              </div>
+              <div className="homePage__activity-content-header">{from}</div>
               <div className="homePage__activity-content-message">
-                Welcome to Habla AI.  <a onClick={() => this.props.history.push(`/app/integrations/${this.props.currentSubscriberOrgId}`)}> Click here
-                </a> to start integrating data into your Knowledge Graph.
+                Welcome to Habla AI.{' '}
+                <a onClick={() => this.props.history.push(`/app/integrations/${this.props.currentSubscriberOrgId}`)}>
+                  {' '}
+                  Click here
+                </a>{' '}
+                to start integrating data into your Knowledge Graph.
                 <span className="homePage__activity-content-date"> ({date})</span>
               </div>
             </div>
@@ -50,7 +54,12 @@ class HomePage extends Component {
   }
 
   render() {
-    const { fetchTimeActivitiesBySubscriberOrgId, setCurrentSubscriberOrgId, subscriberOrgById, currentSubscriberOrgId } = this.props;
+    const {
+      fetchTimeActivitiesBySubscriberOrgId,
+      setCurrentSubscriberOrgId,
+      subscriberOrgById,
+      currentSubscriberOrgId
+    } = this.props;
     if (!subscriberOrgById || !subscriberOrgById[currentSubscriberOrgId]) {
       return <Spinner />;
     }

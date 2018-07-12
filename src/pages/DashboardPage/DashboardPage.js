@@ -3,16 +3,12 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Dropdown, Menu } from 'antd';
-import {
-  NewSubpageHeader,
-  GraphViewSelector,
-  LambWestonReports
-} from 'components';
+import { NewSubpageHeader, GraphViewSelector, LambWestonReports } from 'components';
 import String from 'translations';
 import './styles/style.css';
 
 const BASELINE_DATE = '2017-10-01';
-const DATES = [...Array(8).keys()].map((i) => {
+const DATES = [...Array(8).keys()].map(i => {
   const date = moment(BASELINE_DATE).add(i, 'weeks');
   return {
     key: `week-${date.format('ww')}`,
@@ -76,31 +72,31 @@ class DashboardPage extends React.Component {
   state = {
     plant: PLANTS[0],
     date: DATES[0]
-  }
+  };
 
-  handleSelectDate = (key) => {
+  handleSelectDate = key => {
     const date = DATES.find(item => item.key === key);
     this.setState({ date });
-  }
+  };
 
-  handleSelectPlant = (key) => {
+  handleSelectPlant = key => {
     const plant = PLANTS.find(item => item.key === key);
     this.setState({ plant });
-  }
+  };
 
   renderDateSelector = () => {
     const menu = (
-      <Menu
-        selectable
-        defaultSelectedKeys={[this.state.date.key]}
-        onClick={({ key }) => this.handleSelectDate(key)}
-      >
+      <Menu selectable defaultSelectedKeys={[this.state.date.key]} onClick={({ key }) => this.handleSelectDate(key)}>
         <Menu.Item key="graphSelector">
           <div className="habla-label padding-class-a">{String.t('dashboardPage.labelSelectDate')}</div>
         </Menu.Item>
         {DATES.map(date => (
           <Menu.Item key={date.key}>
-            <a><span><i className="fas fa-calendar-alt" /> {date.name}</span></a>
+            <a>
+              <span>
+                <i className="fas fa-calendar-alt" /> {date.name}
+              </span>
+            </a>
           </Menu.Item>
         ))}
       </Menu>
@@ -108,32 +104,28 @@ class DashboardPage extends React.Component {
 
     return (
       <div>
-        <Dropdown
-          overlay={menu}
-          trigger={['click']}
-          placement="bottomRight"
-        >
+        <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
           <a className="graphOptionsLink">
             <i className="fas fa-calendar-alt fa-2x" />
           </a>
         </Dropdown>
       </div>
     );
-  }
+  };
 
   renderPlantSelector = () => {
     const menu = (
-      <Menu
-        selectable
-        defaultSelectedKeys={[this.state.plant.key]}
-        onClick={({ key }) => this.handleSelectPlant(key)}
-      >
+      <Menu selectable defaultSelectedKeys={[this.state.plant.key]} onClick={({ key }) => this.handleSelectPlant(key)}>
         <Menu.Item key="graphSelector">
           <div className="habla-label padding-class-a">{String.t('dashboardPage.labelSelectPlant')}</div>
         </Menu.Item>
         {PLANTS.map(plant => (
           <Menu.Item key={plant.key}>
-            <a><span><i className="fas fa-industry" /> {plant.name}</span></a>
+            <a>
+              <span>
+                <i className="fas fa-industry" /> {plant.name}
+              </span>
+            </a>
           </Menu.Item>
         ))}
       </Menu>
@@ -141,20 +133,16 @@ class DashboardPage extends React.Component {
 
     return (
       <div>
-        <Dropdown
-          overlay={menu}
-          trigger={['click']}
-          placement="bottomRight"
-        >
+        <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
           <a className="graphOptionsLink">
             <i className="fas fa-industry fa-2x" />
           </a>
         </Dropdown>
       </div>
     );
-  }
+  };
 
-  renderSelectors = (reportId) => {
+  renderSelectors = reportId => {
     const { menuOptions } = this.reportComponents[reportId];
     if (!menuOptions) return null;
 
@@ -164,27 +152,26 @@ class DashboardPage extends React.Component {
         {menuOptions.plant && this.renderPlantSelector()}
       </div>
     );
-  }
+  };
 
-  renderReport = (reportId) => {
+  renderReport = reportId => {
     const { plant, date } = this.state;
     const { ReportComponent, fetchData, menuOptions } = this.reportComponents[reportId];
     if (!ReportComponent) return null;
 
     const dateProps = {};
     if (menuOptions && menuOptions.date) {
-      dateProps.from = moment(date.value).startOf('week').format('YYYY-MM-DD');
-      dateProps.until = moment(date.value).endOf('week').format('YYYY-MM-DD');
+      dateProps.from = moment(date.value)
+        .startOf('week')
+        .format('YYYY-MM-DD');
+      dateProps.until = moment(date.value)
+        .endOf('week')
+        .format('YYYY-MM-DD');
     }
 
     return (
       <div className="DashboardPage__reports">
-        <ReportComponent
-          {...this.props.selectedReport}
-          fetchData={fetchData}
-          plant={plant.key}
-          {...dateProps}
-        />
+        <ReportComponent {...this.props.selectedReport} fetchData={fetchData} plant={plant.key} {...dateProps} />
       </div>
     );
   };
@@ -213,18 +200,14 @@ class DashboardPage extends React.Component {
       <div className="DashboardPage">
         <NewSubpageHeader>
           <div className="habla-main-content-header-title">
-            <GraphViewSelector
-              currentSubscriberOrgId={currentSubscriberOrgId}
-            />
+            <GraphViewSelector currentSubscriberOrgId={currentSubscriberOrgId} />
             <div className="flexClass breadcrumbLevels">
               <div className="habla-title-light responsiveHideClass">
                 {String.t('dashboardPage.industryGraphsTitle')}
               </div>
               <i className="fas fa-angle-right responsiveHideClass" />
               {!selectedReport && (
-                <div className="habla-title">
-                  {String.t('dashboardPage.industryTitleManufacturing')}
-                </div>
+                <div className="habla-title">{String.t('dashboardPage.industryTitleManufacturing')}</div>
               )}
               {selectedReport && (
                 <div className="flexClass">

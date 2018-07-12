@@ -48,9 +48,15 @@ export default class NotificationsPage extends Component {
             <div className="habla-title">{String.t('notificationPage.title')}</div>
           </div>
           <div className="habla-main-content-filters-links">
-            <div onClick={() => this.onMenuItemClick(true, false, false, false)} className={menuOptionAll}>{String.t('notificationPage.menu.all')}</div>
-            <div onClick={() => this.onMenuItemClick(false, true, false, false)} className={menuOptionUnread}>{String.t('notificationPage.menu.unread')} (12)</div>
-            <div onClick={() => this.onMenuItemClick(false, false, true, false)} className={menuOptionBookmarked}>{String.t('notificationPage.menu.bookmarked')}</div>
+            <div onClick={() => this.onMenuItemClick(true, false, false, false)} className={menuOptionAll}>
+              {String.t('notificationPage.menu.all')}
+            </div>
+            <div onClick={() => this.onMenuItemClick(false, true, false, false)} className={menuOptionUnread}>
+              {String.t('notificationPage.menu.unread')} (12)
+            </div>
+            <div onClick={() => this.onMenuItemClick(false, false, true, false)} className={menuOptionBookmarked}>
+              {String.t('notificationPage.menu.bookmarked')}
+            </div>
           </div>
         </NewSubpageHeader>
         <div className="notification-body">
@@ -59,10 +65,9 @@ export default class NotificationsPage extends Component {
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
-                nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
-                repellendus, exercitationem incidunt saepe asperiores dignissimos, porro
-                quidem impedit, sed obcaecati!.
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
+                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
+                dignissimos, porro quidem impedit, sed obcaecati!.
                 <span className="content-body__time-ago">(11 hours ago)</span>
               </p>
             </div>
@@ -72,10 +77,9 @@ export default class NotificationsPage extends Component {
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
-                nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
-                repellendus, exercitationem incidunt saepe asperiores dignissimos, porro
-                quidem impedit, sed obcaecati!.
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
+                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
+                dignissimos, porro quidem impedit, sed obcaecati!.
                 <span className="content-body__time-ago">(11 hours ago)</span>
               </p>
             </div>
@@ -85,10 +89,9 @@ export default class NotificationsPage extends Component {
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
-                nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
-                repellendus, exercitationem incidunt saepe asperiores dignissimos, porro
-                quidem impedit, sed obcaecati!.
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
+                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
+                dignissimos, porro quidem impedit, sed obcaecati!.
                 <span className="content-body__time-ago">(11 hours ago)</span>
               </p>
             </div>
@@ -98,10 +101,9 @@ export default class NotificationsPage extends Component {
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
-                nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
-                repellendus, exercitationem incidunt saepe asperiores dignissimos, porro
-                quidem impedit, sed obcaecati!.
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
+                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
+                dignissimos, porro quidem impedit, sed obcaecati!.
                 <span className="content-body__time-ago">(11 hours ago)</span>
               </p>
             </div>
@@ -111,10 +113,9 @@ export default class NotificationsPage extends Component {
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
-                nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
-                repellendus, exercitationem incidunt saepe asperiores dignissimos, porro
-                quidem impedit, sed obcaecati!.
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
+                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
+                dignissimos, porro quidem impedit, sed obcaecati!.
                 <span className="content-body__time-ago">(11 hours ago)</span>
               </p>
             </div>
@@ -124,10 +125,9 @@ export default class NotificationsPage extends Component {
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
-                nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
-                repellendus, exercitationem incidunt saepe asperiores dignissimos, porro
-                quidem impedit, sed obcaecati!.
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
+                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
+                dignissimos, porro quidem impedit, sed obcaecati!.
                 <span className="content-body__time-ago">(11 hours ago)</span>
               </p>
             </div>
@@ -137,10 +137,9 @@ export default class NotificationsPage extends Component {
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
-                nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
-                repellendus, exercitationem incidunt saepe asperiores dignissimos, porro
-                quidem impedit, sed obcaecati!.
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
+                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
+                dignissimos, porro quidem impedit, sed obcaecati!.
                 <span className="content-body__time-ago">(11 hours ago)</span>
               </p>
             </div>
@@ -150,10 +149,9 @@ export default class NotificationsPage extends Component {
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
-                nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
-                repellendus, exercitationem incidunt saepe asperiores dignissimos, porro
-                quidem impedit, sed obcaecati!.
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
+                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
+                dignissimos, porro quidem impedit, sed obcaecati!.
                 <span className="content-body__time-ago">(11 hours ago)</span>
               </p>
             </div>
@@ -163,10 +161,9 @@ export default class NotificationsPage extends Component {
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
-                nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
-                repellendus, exercitationem incidunt saepe asperiores dignissimos, porro
-                quidem impedit, sed obcaecati!.
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
+                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
+                dignissimos, porro quidem impedit, sed obcaecati!.
                 <span className="content-body__time-ago">(11 hours ago)</span>
               </p>
             </div>
@@ -176,10 +173,9 @@ export default class NotificationsPage extends Component {
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
-                nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
-                repellendus, exercitationem incidunt saepe asperiores dignissimos, porro
-                quidem impedit, sed obcaecati!.
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
+                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
+                dignissimos, porro quidem impedit, sed obcaecati!.
                 <span className="content-body__time-ago">(11 hours ago)</span>
               </p>
             </div>
@@ -189,10 +185,9 @@ export default class NotificationsPage extends Component {
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
-                nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
-                repellendus, exercitationem incidunt saepe asperiores dignissimos, porro
-                quidem impedit, sed obcaecati!.
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
+                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
+                dignissimos, porro quidem impedit, sed obcaecati!.
                 <span className="content-body__time-ago">(11 hours ago)</span>
               </p>
             </div>
@@ -202,10 +197,9 @@ export default class NotificationsPage extends Component {
             <div className="notification-body__item__content">
               <span className="content-name habla-label">Habla AI. Inc</span>
               <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam
-                nostrum modi eligendi. Ipsam, cupiditate? Et repudiandae mollitia minima
-                repellendus, exercitationem incidunt saepe asperiores dignissimos, porro
-                quidem impedit, sed obcaecati!.
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
+                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
+                dignissimos, porro quidem impedit, sed obcaecati!.
                 <span className="content-body__time-ago">(11 hours ago)</span>
               </p>
             </div>

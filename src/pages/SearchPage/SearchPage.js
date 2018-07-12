@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
 
-import {
-  integrationKeyFromFile,
-  integrationLabelFromKey,
-  integrationImageFromKey
-} from 'utils/dataIntegrations';
+import { integrationKeyFromFile, integrationLabelFromKey, integrationImageFromKey } from 'utils/dataIntegrations';
 import { Spinner, ResultsList, FilesFilters } from 'components';
 import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
 import imageSrcFromFileExtension from 'lib/imageFiles';
@@ -15,10 +11,11 @@ import formatSize from 'lib/formatSize';
 import String from 'translations';
 import './styles/style.css';
 
-const formatTime = date => String.t('timeActivityGraph.displayTime', {
-  displayDate: moment(date).format(String.t('timeActivityGraph.dateFormat')),
-  displayTime: moment(date).format(String.t('timeActivityGraph.timeFormat'))
-});
+const formatTime = date =>
+  String.t('timeActivityGraph.displayTime', {
+    displayDate: moment(date).format(String.t('timeActivityGraph.dateFormat')),
+    displayTime: moment(date).format(String.t('timeActivityGraph.timeFormat'))
+  });
 
 const getColumns = owners => [
   {
@@ -38,34 +35,34 @@ const getColumns = owners => [
         <span className="SearchPage__results__fileName">{text}</span>
       </a>
     )
-  }, {
+  },
+  {
     title: 'Last Modified',
     dataIndex: 'lastModified',
     key: 'lastModified',
     sorter: (a, b) => moment(a.lastModified) - moment(b.lastModified),
     render: x => formatTime(x)
-  }, {
+  },
+  {
     title: 'Size',
     dataIndex: 'fileSize',
     key: 'fileSize',
     sorter: (a, b) => a.fileSize - b.fileSize,
     render: x => formatSize(x)
-  }, {
+  },
+  {
     title: 'Owner',
     dataIndex: 'fileOwnerName',
     key: 'fileOwnerName',
     sorter: (a, b) => a.fileOwnerName.localeCompare(b.fileOwnerName),
     render: (text, file) => (
       <div>
-        <AvatarWrapper
-          user={owners.find(({ userId }) => userId === file.fileOwnerId)}
-          size="small"
-          hideStatusTooltip
-        />
+        <AvatarWrapper user={owners.find(({ userId }) => userId === file.fileOwnerId)} size="small" hideStatusTooltip />
         <span className="SearchPage__results__fileOwnerName">{text}</span>
       </div>
     )
-  }, {
+  },
+  {
     title: 'Source',
     dataIndex: 'fileSource',
     key: 'fileSource',
@@ -73,12 +70,7 @@ const getColumns = owners => [
     render: (_, file) => (
       <div>
         <div className="SearchPage__results__integrationIcon">
-          <img
-            src={integrationImageFromKey(integrationKeyFromFile(file))}
-            width={26}
-            height={26}
-            alt=""
-          />
+          <img src={integrationImageFromKey(integrationKeyFromFile(file))} width={26} height={26} alt="" />
         </div>
         <span className="SearchPage__results__integrationLabel">
           {integrationLabelFromKey(integrationKeyFromFile(file))}
@@ -99,7 +91,7 @@ class SearchPage extends Component {
     excludeOwnersFilter: {},
     excludeTypesFilter: {},
     excludeIntegrationsFilter: {}
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     this.updateSearch(nextProps.queryParams.q, true);
@@ -111,33 +103,35 @@ class SearchPage extends Component {
     this.props.search(newQuery, this.props.currentSubscriberOrgId);
   }
 
-  handleOwnerFilterClick = (key) => {
+  handleOwnerFilterClick = key => {
     const { excludeOwnersFilter } = this.state;
     this.setState({ excludeOwnersFilter: { ...excludeOwnersFilter, [key]: excludeOwnersFilter[key] ? null : true } });
-  }
+  };
 
-  handleIntegrationFilterClick = (key) => {
+  handleIntegrationFilterClick = key => {
     const { excludeIntegrationsFilter } = this.state;
-    this.setState({ excludeIntegrationsFilter: { ...excludeIntegrationsFilter, [key]: excludeIntegrationsFilter[key] ? null : true } });
-  }
+    this.setState({
+      excludeIntegrationsFilter: { ...excludeIntegrationsFilter, [key]: excludeIntegrationsFilter[key] ? null : true }
+    });
+  };
 
-  handleFileTypeFilterClick = (key) => {
+  handleFileTypeFilterClick = key => {
     const { excludeTypesFilter } = this.state;
     this.setState({ excludeTypesFilter: { ...excludeTypesFilter, [key]: excludeTypesFilter[key] ? null : true } });
-  }
+  };
 
   handleFileTypeFilterDoubleClick = () => {
     const { fileTypes } = this.props;
     const allSelected = Object.keys(this.state.excludeTypesFilter).length === fileTypes.length;
     const allFilters = fileTypes.reduce((obj, file) => ({ ...obj, [file.key]: true }), {});
     this.setState({ excludeTypesFilter: allSelected ? {} : allFilters });
-  }
+  };
 
   render() {
     const { loading, results, owners, fileTypes, integrations } = this.props;
     const { query, excludeOwnersFilter, excludeIntegrationsFilter, excludeTypesFilter } = this.state;
 
-    const resultsFiltered = results.filter((file) => {
+    const resultsFiltered = results.filter(file => {
       const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
       const integrationKey = integrationKeyFromFile(file);
       const ownerKey = file.fileOwnerId;

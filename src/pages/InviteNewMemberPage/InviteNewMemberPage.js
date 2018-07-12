@@ -40,12 +40,15 @@ class InviteNewMemberPage extends Component {
 
   addInvitees() {
     if (this.state.invitees < 5) {
-      this.setState(previousState => ({ invitees: previousState.invitees + 1, inviteesArr: [...previousState.inviteesArr, previousState.invitees + 1] }));
+      this.setState(previousState => ({
+        invitees: previousState.invitees + 1,
+        inviteesArr: [...previousState.inviteesArr, previousState.invitees + 1]
+      }));
     }
   }
 
   removeInvitees(field) {
-    const updatedInvitees = this.state.inviteesArr.filter((el) => {
+    const updatedInvitees = this.state.inviteesArr.filter(el => {
       return el !== field;
     });
 
@@ -58,13 +61,14 @@ class InviteNewMemberPage extends Component {
       if (!err) {
         const users = _.values(emails);
         this.setState({ loading: true });
-        this.props.inviteNewSubscribers(users, subscriberOrgId)
+        this.props
+          .inviteNewSubscribers(users, subscriberOrgId)
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/organization/${subscriberOrgId}/invitationSent`);
             message.success(String.t('inviteNewMemberPage.invitationSent', { count: users.length }));
           })
-          .catch((error) => {
+          .catch(error => {
             this.setState({ loading: false });
             message.error(error.message);
           });
@@ -87,12 +91,13 @@ class InviteNewMemberPage extends Component {
               autoFocus={index === this.state.inviteesArr.length - 1}
             />
           </Col>
-          {
-            this.state.inviteesArr.length > 1 ?
-              <Col className="gutter-row" span={3}>
-                <a onClick={() => this.removeInvitees(el)} className="remove-field">Remove</a>
-              </Col> : null
-          }
+          {this.state.inviteesArr.length > 1 ? (
+            <Col className="gutter-row" span={3}>
+              <a onClick={() => this.removeInvitees(el)} className="remove-field">
+                Remove
+              </a>
+            </Col>
+          ) : null}
         </Row>
       );
     });
@@ -137,7 +142,8 @@ class InviteNewMemberPage extends Component {
             <div className="inviteMoreUsersLink">
               <a onClick={this.addInvitees} className="Invite-New-Member__add-another">
                 <span>
-                  <i className="fa fa-plus-circle margin-right-class-a" />{String.t('inviteNewMemberPage.addEmail')}
+                  <i className="fa fa-plus-circle margin-right-class-a" />
+                  {String.t('inviteNewMemberPage.addEmail')}
                 </span>
               </a>
             </div>
@@ -150,12 +156,7 @@ class InviteNewMemberPage extends Component {
               >
                 {String.t('Buttons.cancel')}
               </Button>
-              <Button
-                type="main"
-                fitText
-                onClick={this.handleSubmit}
-                loading={this.state.loading}
-              >
+              <Button type="main" fitText onClick={this.handleSubmit} loading={this.state.loading}>
                 {String.t('inviteNewMemberPage.sendInvitationsButtonLabel', { count: this.state.inviteesArr.length })}
               </Button>
             </div>

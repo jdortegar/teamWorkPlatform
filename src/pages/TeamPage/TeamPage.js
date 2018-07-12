@@ -77,9 +77,21 @@ class TeamPage extends Component {
 
   render() {
     const { match, teamRooms, teams, teamMembers, teamMembersPresences, subscriberOrgById, user } = this.props;
-    if (teamRooms && match && match.params && match.params.teamId && teamRooms && teams && teams.teamById[match.params.teamId] &&
-        teamMembers && (teamMembers.length > 0) && teamMembersPresences && subscriberOrgById &&
-        this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
+    if (
+      teamRooms &&
+      match &&
+      match.params &&
+      match.params.teamId &&
+      teamRooms &&
+      teams &&
+      teams.teamById[match.params.teamId] &&
+      teamMembers &&
+      teamMembers.length > 0 &&
+      teamMembersPresences &&
+      subscriberOrgById &&
+      this.state.teamMembersLoaded &&
+      this.state.teamRoomsLoaded
+    ) {
       const teamId = match.params.teamId;
       const team = teams.teamById[teamId];
       const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
@@ -117,9 +129,7 @@ class TeamPage extends Component {
               {initials}
             </Avatar>
             <div className="margin-top-class-b">
-              <h1 className="New-team__title habla-big-title habla-bold-text">
-                {team.name}
-              </h1>
+              <h1 className="New-team__title habla-big-title habla-bold-text">{team.name}</h1>
             </div>
             <div className="habla-secondary-paragraph">
               {String.t('TeamPage.teamCreated', { date: moment(team.created).format('LL') })}

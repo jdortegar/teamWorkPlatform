@@ -43,13 +43,14 @@ class NewTeamPage extends Component {
         const valuesToSend = { ...values };
         valuesToSend.name = values.name.trim();
         this.setState({ loading: true });
-        this.props.createTeam(valuesToSend, subscriberOrgId)
+        this.props
+          .createTeam(valuesToSend, subscriberOrgId)
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/organization/${subscriberOrgId}`);
             message.success(String.t('newTeamPage.teamAddedToast'));
           })
-          .catch((error) => {
+          .catch(error => {
             this.setState({ loading: false });
             message.error(error.message);
           });
@@ -112,12 +113,7 @@ class NewTeamPage extends Component {
               >
                 {String.t('Buttons.cancel')}
               </Button>
-              <Button
-                type="main"
-                fitText
-                onClick={this.handleSubmit}
-                loading={this.state.loading}
-              >
+              <Button type="main" fitText onClick={this.handleSubmit} loading={this.state.loading}>
                 {String.t('newTeamPage.createNewTeamButtonLabel')}
               </Button>
             </div>

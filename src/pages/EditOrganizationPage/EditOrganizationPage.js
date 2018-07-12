@@ -26,7 +26,7 @@ const propTypes = {
   subscriberOrgs: PropTypes.object.isRequired
 };
 
-const validURL = (url) => {
+const validURL = url => {
   let websiteUrl = url;
   if (websiteUrl.indexOf('http') === -1) {
     websiteUrl = `http://${url}`;
@@ -40,7 +40,12 @@ class EditOrganizationPage extends Component {
     super(props);
 
     const { match, subscriberOrgs } = this.props;
-    if (!match || !match.params || !match.params.subscriberOrgId || (match.params.subscriberOrgId !== subscriberOrgs.currentSubscriberOrgId)) {
+    if (
+      !match ||
+      !match.params ||
+      !match.params.subscriberOrgId ||
+      match.params.subscriberOrgId !== subscriberOrgs.currentSubscriberOrgId
+    ) {
       this.props.history.replace('/app');
       return;
     }
@@ -53,8 +58,8 @@ class EditOrganizationPage extends Component {
 
     this.state = {
       loading: false,
-      avatarBase64: (org && org.preferences) ? org.preferences.avatarBase64 : null,
-      logo: (org && org.preferences) ? org.preferences.logo : null
+      avatarBase64: org && org.preferences ? org.preferences.avatarBase64 : null,
+      logo: org && org.preferences ? org.preferences.logo : null
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -105,13 +110,14 @@ class EditOrganizationPage extends Component {
             avatarBase64: this.state.avatarBase64
           }
         };
-        this.props.updateSubscriberOrg(dataToUpdate, subscriberOrgId)
+        this.props
+          .updateSubscriberOrg(dataToUpdate, subscriberOrgId)
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/organization/${subscriberOrgId}`);
             message.success(String.t('editOrgPage.organizationUpdated'));
           })
-          .catch((error) => {
+          .catch(error => {
             this.setState({ loading: false });
             if (error.response && error.response.status === 409) {
               message.error(String.t('editOrgPage.errorNameAlreadyTaken'));
@@ -151,7 +157,9 @@ class EditOrganizationPage extends Component {
             <div className="edit-org__form padding-class-a">
               <div className="edit__container">
                 <div>
-                  <div className="edit__form__title habla-paragraph margin-bottom-class-a">{String.t('editOrgPage.organizationName')}</div>
+                  <div className="edit__form__title habla-paragraph margin-bottom-class-a">
+                    {String.t('editOrgPage.organizationName')}
+                  </div>
                   <TextField
                     componentKey="name"
                     initialValue={organization.name}
@@ -165,7 +173,9 @@ class EditOrganizationPage extends Component {
                 </div>
                 <div className="edit__container__image_wrapper">
                   <div className="edit__container__image__website">
-                    <div className="edit__form__title habla-paragraph margin-bottom-class-a">{String.t('editOrgPage.webSiteLabel')}</div>
+                    <div className="edit__form__title habla-paragraph margin-bottom-class-a">
+                      {String.t('editOrgPage.webSiteLabel')}
+                    </div>
                     <TextField
                       componentKey="webSite"
                       initialValue={organization.preferences.webSite || ''}
@@ -186,33 +196,20 @@ class EditOrganizationPage extends Component {
                       editOrg
                       resize
                     />
-                    {(this.state.avatarBase64 || this.state.logo) &&
-                      <span
-                        className="container__image__remove"
-                        onClick={this.onRemoveImage}
-                      >
+                    {(this.state.avatarBase64 || this.state.logo) && (
+                      <span className="container__image__remove" onClick={this.onRemoveImage}>
                         {String.t('editOrgPage.removeImageLabel')}
                       </span>
-                    }
+                    )}
                   </div>
                 </div>
               </div>
             </div>
             <div className="edit-org__buttons border-top-lighter margin-top-class-a">
-              <Button
-                type="secondary"
-                fitText
-                className="margin-right-class-a"
-                onClick={this.handleCancel}
-              >
+              <Button type="secondary" fitText className="margin-right-class-a" onClick={this.handleCancel}>
                 {String.t('Buttons.cancel')}
               </Button>
-              <Button
-                type="main"
-                fitText
-                onClick={this.handleSubmit}
-                loading={this.state.loading}
-              >
+              <Button type="main" fitText onClick={this.handleSubmit} loading={this.state.loading}>
                 {String.t('editOrgPage.saveButtonLabel')}
               </Button>
             </div>

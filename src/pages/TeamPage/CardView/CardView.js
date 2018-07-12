@@ -29,8 +29,8 @@ function CardView(props) {
     online: _.some(_.values(teamMembersPresences[member.userId]), { presenceStatus: 'online' })
   }));
 
-  const userMember = members.filter(({ userId }) => { return userId === props.userId; })[0];
-  const isAdmin = (userMember.teams[team.teamId].role === 'admin');
+  const userMember = members.filter(({ userId }) => userId === props.userId)[0];
+  const isAdmin = userMember.teams[team.teamId].role === 'admin';
 
   const filteredRooms = teamRooms.filter(r => isAdmin || r.active);
 
@@ -45,9 +45,7 @@ function CardView(props) {
               <Avatar size="large" color={preferences.iconColor} className={className}>
                 {initials}
               </Avatar>
-              <div className="habla-label align-center-class card-label">
-                {name}
-              </div>
+              <div className="habla-label align-center-class card-label">{name}</div>
             </Link>
           </Tooltip>
         </div>
@@ -56,7 +54,7 @@ function CardView(props) {
   };
 
   const renderTeamMembers = () => {
-    return members.map((member) => {
+    return members.map(member => {
       const { userId, firstName, lastName } = member;
       const fullName = String.t('fullName', { firstName, lastName });
       return (
@@ -66,9 +64,7 @@ function CardView(props) {
               <div>
                 <AvatarWrapper size="large" user={member} hideStatusTooltip />
               </div>
-              <div className="habla-label align-center-class card-label">
-                {firstName}
-              </div>
+              <div className="habla-label align-center-class card-label">{firstName}</div>
             </Link>
           </Tooltip>
         </div>
@@ -84,9 +80,7 @@ function CardView(props) {
             <Avatar size="large">
               <i className="fa fa-plus" />
             </Avatar>
-            <div className="habla-label align-center-class card-label">
-              {String.t('cardView.newButtonLabel')}
-            </div>
+            <div className="habla-label align-center-class card-label">{String.t('cardView.newButtonLabel')}</div>
           </Link>
         </Tooltip>
       </div>
@@ -99,24 +93,20 @@ function CardView(props) {
   return (
     <div>
       <Collapse defaultActiveKey={['1', '2', '3']} bordered={false}>
-        <Panel
-          header={<SimpleHeader text={roomsSection} />}
-          key="1"
-        >
+        <Panel header={<SimpleHeader text={roomsSection} />} key="1">
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {isAdmin && team.active &&
-              renderAddCard(String.t('cardView.addNewTeamRoom'), `/app/createTeamRoom/${team.teamId}`) }
-            { renderTeamRooms(isAdmin) }
+            {isAdmin &&
+              team.active &&
+              renderAddCard(String.t('cardView.addNewTeamRoom'), `/app/createTeamRoom/${team.teamId}`)}
+            {renderTeamRooms(isAdmin)}
           </SimpleCardContainer>
         </Panel>
-        <Panel
-          header={<SimpleHeader text={membersSection} />}
-          key="2"
-        >
+        <Panel header={<SimpleHeader text={membersSection} />} key="2">
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {isAdmin && team.active &&
-              renderAddCard(String.t('cardView.inviteNewMember'), `/app/inviteToTeam/${team.teamId}`) }
-            { renderTeamMembers() }
+            {isAdmin &&
+              team.active &&
+              renderAddCard(String.t('cardView.inviteNewMember'), `/app/inviteToTeam/${team.teamId}`)}
+            {renderTeamMembers()}
           </SimpleCardContainer>
         </Panel>
       </Collapse>

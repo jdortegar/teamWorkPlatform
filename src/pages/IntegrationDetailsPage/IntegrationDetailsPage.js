@@ -88,7 +88,12 @@ class IntegrationDetailsPage extends Component {
 
   componentDidMount() {
     const { match, subscriberOrgs } = this.props;
-    if (!match || !match.params || !match.params.subscriberOrgId || (match.params.subscriberOrgId !== subscriberOrgs.currentSubscriberOrgId)) {
+    if (
+      !match ||
+      !match.params ||
+      !match.params.subscriberOrgId ||
+      match.params.subscriberOrgId !== subscriberOrgs.currentSubscriberOrgId
+    ) {
       if (subscriberOrgs) {
         this.props.history.replace(`/app/integrations/${subscriberOrgs.currentSubscriberOrgId}`);
       } else {
@@ -124,7 +129,7 @@ class IntegrationDetailsPage extends Component {
       const { configFolders, changedFolderOptions } = this.state;
       const folders = integration[configFolders.key];
       const { selected, folderKey } = configFolders.folderKeys;
-      const saveFolders = folders.map((folder) => {
+      const saveFolders = folders.map(folder => {
         let isSelected = folder[configFolders.folderKeys.selected]; // default
         const path = folder[folderKey];
         if (changedFolderOptions[path] !== undefined) {
@@ -143,11 +148,13 @@ class IntegrationDetailsPage extends Component {
 
       // save the changes
       const name = integrationLabelFromKey(integrationDetails);
-      this.props.configureIntegration(integrationDetails, subscriberOrgId, configTop)
+      this.props
+        .configureIntegration(integrationDetails, subscriberOrgId, configTop)
         .then(() => {
           message.success(String.t('integrationDetailsPage.message.configUpdated', { name }));
           this.setState({ changedFolderOptions: {} });
-        }).catch((error) => {
+        })
+        .catch(error => {
           message.error(error.message);
         });
     }
@@ -160,18 +167,18 @@ class IntegrationDetailsPage extends Component {
       let configParams = null;
       if (this.state.configParams) {
         configParams = {};
-        this.state.configParams.forEach((param) => {
+        this.state.configParams.forEach(param => {
           configParams[param.key] = this[param.key].value;
         });
       }
-      this.props.integrateIntegration(key, subscriberOrgId, configParams)
-        .catch((error) => {
-          message.error(error.message);
-        });
+      this.props.integrateIntegration(key, subscriberOrgId, configParams).catch(error => {
+        message.error(error.message);
+      });
     } else {
-      this.props.revokeIntegration(key, subscriberOrgId)
+      this.props
+        .revokeIntegration(key, subscriberOrgId)
         .then(res => showNotification(res, key))
-        .catch((error) => {
+        .catch(error => {
           message.error(error.message);
         });
     }
@@ -186,7 +193,7 @@ class IntegrationDetailsPage extends Component {
         <Checkbox
           className="Integration-details__config-folder-checkbox"
           defaultChecked={folder[selected]}
-          onChange={(e) => {
+          onChange={e => {
             const checked = e.target.checked;
             const changedFolderOptions = { ...this.state.changedFolderOptions };
             changedFolderOptions[label] = checked;
@@ -195,9 +202,7 @@ class IntegrationDetailsPage extends Component {
         >
           <div className="Integration-details__config-folder">{label}</div>
         </Checkbox>
-        {folder[subFolders] &&
-         folder[subFolders].map(subFolder => this.renderFolder(subFolder, level + 1))
-        }
+        {folder[subFolders] && folder[subFolders].map(subFolder => this.renderFolder(subFolder, level + 1))}
       </div>
     );
   }
@@ -206,14 +211,19 @@ class IntegrationDetailsPage extends Component {
     const { integrationsBySubscriberOrgId, working, error } = this.props.integrations;
 
     if (error) {
-      return (
-        <div>Request for Integrations failed.</div>
-      );
+      return <div>Request for Integrations failed.</div>;
     }
 
     const { match, subscriberOrgs } = this.props;
-    if (!match || !match.params || !match.params.subscriberOrgId || !match.params.integrationDetails ||
-      !integrationsBySubscriberOrgId || !subscriberOrgs || working) {
+    if (
+      !match ||
+      !match.params ||
+      !match.params.subscriberOrgId ||
+      !match.params.integrationDetails ||
+      !integrationsBySubscriberOrgId ||
+      !subscriberOrgs ||
+      working
+    ) {
       return <Spinner />;
     }
     const { integrationDetails, subscriberOrgId } = match.params;
@@ -228,7 +238,10 @@ class IntegrationDetailsPage extends Component {
     const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || {};
     const integration = integrations[integrationKey];
     const currStatus = determineStatus(integration);
-    const tooltipTitle = currStatus === 'Active' ? String.t('integrationDetailsPage.deactivate') : String.t('integrationDetailsPage.activate');
+    const tooltipTitle =
+      currStatus === 'Active'
+        ? String.t('integrationDetailsPage.deactivate')
+        : String.t('integrationDetailsPage.activate');
     let disabledSwitch = false;
     let disabledFields = false;
 
@@ -248,14 +261,16 @@ class IntegrationDetailsPage extends Component {
           if (inputField) {
             const value = inputField.value;
             const len = value.length;
-            disabledSwitch = disabledSwitch || (len < 3);
+            disabledSwitch = disabledSwitch || len < 3;
           }
         }
-        extraFormFields.push((
+        extraFormFields.push(
           <div key={`${key}-configInput`} className="m-2">
             <label className="Integration-details__config-label">{label}</label>
             <input
-              ref={(ref) => { this[key] = ref; }}
+              ref={ref => {
+                this[key] = ref;
+              }}
               className="Integration-details__config-input"
               placeholder={placeholder}
               onChange={() => this.setState({})}
@@ -263,14 +278,14 @@ class IntegrationDetailsPage extends Component {
               disabled={disabledFields}
             />
           </div>
-        ));
+        );
       });
       if (integration && configFolders) {
         const { key, label } = configFolders;
         const folders = integration[key];
         if (folders) {
           const optionsChanged = Object.keys(this.state.changedFolderOptions).length > 0;
-          extraFormFields.push((
+          extraFormFields.push(
             <div key="folders" className="m-2 Integration-details__config-container">
               <label className="Integration-details__config-folders-label">{label}</label>
               <div className="Integration-details__config-folders">
@@ -288,7 +303,7 @@ class IntegrationDetailsPage extends Component {
                 </Button>
               </div>
             </div>
-          ));
+          );
         }
       }
     }
@@ -303,7 +318,7 @@ class IntegrationDetailsPage extends Component {
     if (currStatus === 'Active') {
       primaryTree = this.props.foldersAndFiles;
       secondaryTree = this.props.teams;
-      sharingType = (primaryTree.shareWithIds.length() > 0) ? SharingTypes.SOME : SharingTypes.ALL;
+      sharingType = primaryTree.shareWithIds.length() > 0 ? SharingTypes.SOME : SharingTypes.ALL;
     }
 
     return (
@@ -332,12 +347,8 @@ class IntegrationDetailsPage extends Component {
           <div className="Integration-details__icon-container">
             <ImageCard imgSrc={imgSrc} size="large" />
           </div>
-          <div className="habla-big-title habla-bold-text">
-            {name}
-          </div>
-          <div className="habla-secondary-paragraph margin-top-class-b">
-            {currStatus}
-          </div>
+          <div className="habla-big-title habla-bold-text">{name}</div>
+          <div className="habla-secondary-paragraph margin-top-class-b">{currStatus}</div>
         </SimpleCardContainer>
         <div className="Integration-details__switch-container align-center-class">
           {extraFormFields}
@@ -351,8 +362,7 @@ class IntegrationDetailsPage extends Component {
             />
           </Tooltip>
         </div>
-        {
-          (currStatus === 'Active') &&
+        {currStatus === 'Active' && (
           <SharingSettings
             integrationType={integrationType}
             primaryTree={primaryTree}
@@ -364,7 +374,7 @@ class IntegrationDetailsPage extends Component {
             parentNode={{ id: 'ROOT' }} // Parent is node in other tree.
             collapsible
           />
-        }
+        )}
       </div>
     );
   }

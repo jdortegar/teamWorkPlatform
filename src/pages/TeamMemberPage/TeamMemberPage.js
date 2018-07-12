@@ -70,16 +70,11 @@ class TeamMemberPage extends Component {
             <h1 className="New-team__title habla-big-title habla-bold-text">
               {String.t('fullName', { firstName, lastName })}
             </h1>
-            <div className="habla-secondary-paragraph">
-              {String.t('teamMemberPage.displayName', { displayName })}
-            </div>
+            <div className="habla-secondary-paragraph">{String.t('teamMemberPage.displayName', { displayName })}</div>
             <div className="habla-secondary-paragraph">
               {String.t('teamMemberPage.memberSince', { date: moment(created).format('LL') })}
             </div>
-            <div className="habla-secondary-paragraph">
-              {String.t('teamMemberPage.timeZone', { timeZone })}
-            </div>
-
+            <div className="habla-secondary-paragraph">{String.t('teamMemberPage.timeZone', { timeZone })}</div>
           </div>
         </SimpleCardContainer>
       </div>

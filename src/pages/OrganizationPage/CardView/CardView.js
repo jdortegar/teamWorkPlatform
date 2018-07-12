@@ -30,7 +30,7 @@ function CardView(props) {
 
   const teamShouldRender = (isOrgAdmin, team) => {
     const role = subscriberByMyUser.teams[team.teamId];
-    if (isOrgAdmin || team.active || (role && (role.role === 'admin'))) {
+    if (isOrgAdmin || team.active || (role && role.role === 'admin')) {
       /* role is undefined for default team (ALL) */
       return true;
     }
@@ -42,8 +42,8 @@ function CardView(props) {
     online: _.some(_.values(subscribersPresences[subscriber.userId]), { presenceStatus: 'online' })
   }));
 
-  const renderTeams = (isOrgAdmin) => {
-    return props.teams.map((team) => {
+  const renderTeams = isOrgAdmin => {
+    return props.teams.map(team => {
       const teamRender = teamShouldRender(isOrgAdmin, team);
       const initials = getInitials(team.name);
       if (teamRender) {
@@ -52,14 +52,15 @@ function CardView(props) {
           <div key={team.teamId} className="mr-1 mb-2">
             <Tooltip placement="top" title={team.name}>
               <Link to={`/app/team/${team.teamId}`}>
-                {team.icon ?
-                  <Avatar size="large" src={`data:image/jpeg;base64, ${team.icon}`} className={className} /> :
-                  <Avatar size="large" color={team.preferences.iconColor} className={className}>{initials}</Avatar>
-                }
+                {team.icon ? (
+                  <Avatar size="large" src={`data:image/jpeg;base64, ${team.icon}`} className={className} />
+                ) : (
+                  <Avatar size="large" color={team.preferences.iconColor} className={className}>
+                    {initials}
+                  </Avatar>
+                )}
               </Link>
-              <div className="habla-label align-center-class card-label">
-                {team.name}
-              </div>
+              <div className="habla-label align-center-class card-label">{team.name}</div>
             </Tooltip>
           </div>
         );
@@ -70,7 +71,7 @@ function CardView(props) {
   };
 
   const renderMembers = () => {
-    return orgSubscribers.map((member) => {
+    return orgSubscribers.map(member => {
       const { userId, firstName, lastName } = member;
       const fullName = String.t('fullName', { firstName, lastName });
       return (
@@ -80,9 +81,7 @@ function CardView(props) {
               <div>
                 <AvatarWrapper size="large" user={member} hideStatusTooltip />
               </div>
-              <div className="habla-label align-center-class card-label">
-                {firstName}
-              </div>
+              <div className="habla-label align-center-class card-label">{firstName}</div>
             </Link>
           </Tooltip>
         </div>
@@ -99,9 +98,7 @@ function CardView(props) {
           <Link to={`/app/integrations/${subscriberOrgId}/${key}`}>
             <Avatar size="large" src={integrationImageFromKey(key)} className={desaturated} />
             <i className="fa fa-check-circle icon_success habla-green" />
-            <div className="habla-label align-center-class card-label">
-              {label}
-            </div>
+            <div className="habla-label align-center-class card-label">{label}</div>
           </Link>
         </Tooltip>
       </div>
@@ -111,10 +108,10 @@ function CardView(props) {
   const renderIntegrations = () => {
     const integrationsArr = [];
     if (!_.isEmpty(integrations)) {
-      Object.keys(integrations).forEach((key) => {
+      Object.keys(integrations).forEach(key => {
         const integration = integrations[key];
         const { revoked } = integration;
-        if ((typeof revoked === 'undefined') || (revoked === false)) {
+        if (typeof revoked === 'undefined' || revoked === false) {
           integrationsArr.push(renderIntegration(key, integration));
         }
       });
@@ -141,13 +138,15 @@ function CardView(props) {
   };
 
   const integrationsArr = renderIntegrations();
-  const isOrgAdmin = (subscriberByMyUser.subscriberOrgs[subscriberOrgId].role === 'admin');
+  const isOrgAdmin = subscriberByMyUser.subscriberOrgs[subscriberOrgId].role === 'admin';
 
   return (
     <Fragment>
       <Collapse defaultActiveKey={['1', '2', '3']} bordered={false}>
         <Panel
-          header={<SimpleHeader text={String.t('OrganizationPage.integrationsHeader', { count: integrationsArr.length })} />}
+          header={
+            <SimpleHeader text={String.t('OrganizationPage.integrationsHeader', { count: integrationsArr.length })} />
+          }
           key="1"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex integration-list">
@@ -156,11 +155,18 @@ function CardView(props) {
           </SimpleCardContainer>
         </Panel>
         <Panel
-          header={<SimpleHeader text={String.t('OrganizationPage.teamsHeader', { count: teams.filter(t => teamShouldRender(isOrgAdmin, t)).length })} />}
+          header={
+            <SimpleHeader
+              text={String.t('OrganizationPage.teamsHeader', {
+                count: teams.filter(t => teamShouldRender(isOrgAdmin, t)).length
+              })}
+            />
+          }
           key="2"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {isOrgAdmin && renderAddCard(String.t('OrganizationPage.addNewTeam'), `/app/createTeam/${props.subscriberOrgId}`) }
+            {isOrgAdmin &&
+              renderAddCard(String.t('OrganizationPage.addNewTeam'), `/app/createTeam/${props.subscriberOrgId}`)}
             {renderTeams(isOrgAdmin)}
           </SimpleCardContainer>
         </Panel>
@@ -169,7 +175,8 @@ function CardView(props) {
           key="3"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {isOrgAdmin && renderAddCard(String.t('OrganizationPage.addNewMember'), `/app/inviteNewMember/${props.subscriberOrgId}`) }
+            {isOrgAdmin &&
+              renderAddCard(String.t('OrganizationPage.addNewMember'), `/app/inviteNewMember/${props.subscriberOrgId}`)}
             {renderMembers()}
           </SimpleCardContainer>
         </Panel>
