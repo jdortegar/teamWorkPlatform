@@ -211,7 +211,7 @@ class DashboardPage extends React.Component {
               )}
               {selectedReport && (
                 <div className="flexClass">
-                  <Link to={'/app/dashboard'} style={{ color: 'black' }}>
+                  <Link to="/app/dashboard" style={{ color: 'black' }}>
                     <div className="habla-title-light responsiveHideClass">
                       {String.t('dashboardPage.industryTitleManufacturing')}
                     </div>

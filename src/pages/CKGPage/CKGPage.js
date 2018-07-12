@@ -178,7 +178,7 @@ class CKGPage extends Component {
     const { fileTypes, integrations } = this.props.timeActivities;
     return (
       <FilesFilters
-        className={'CKGPage__FilesFilters'}
+        className="CKGPage__FilesFilters"
         fileTypes={fileTypes}
         integrations={integrations}
         excludeIntegrationsFilter={this.state.excludeIntegrationsFilter}

@@ -41,7 +41,6 @@
     "jsx-a11y/anchor-is-valid": "off",
 
     // TODO: fix the following eslint rules:
-    "react/destructuring-assignment": "warn",
-    "react/jsx-curly-brace-presence": "warn"
+    "react/destructuring-assignment": "warn"
   }
 }
