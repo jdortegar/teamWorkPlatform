@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { notification } from 'antd';
 import PropTypes from 'prop-types';
 import './styles/style.css';
-import Button from '../../components/common/Button';
+import Button from '../common/Button';
 import String from '../../translations';
 
 const propTypes = {

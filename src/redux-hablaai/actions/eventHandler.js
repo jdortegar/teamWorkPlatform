@@ -15,7 +15,7 @@ import {
   receiveReadMessages,
   receiveTyping,
   updateIntegrations
-} from '../actions';
+} from '.';
 
 // eslint-disable-next-line import/prefer-default-export
 export const eventHandler = dispatch => (eventType, event) => {

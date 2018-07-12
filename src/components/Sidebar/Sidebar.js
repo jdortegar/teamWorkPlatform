@@ -5,9 +5,9 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import String from '../../translations';
-import Avatar from '../../components/common/Avatar';
+import Avatar from '../common/Avatar';
 import AvatarWrapper from '../common/Avatar/AvatarWrapper';
-import Badge from '../../components/Badge';
+import Badge from '../Badge';
 import { sortByName, primaryAtTop } from '../../redux-hablaai/selectors/helpers';
 import './styles/style.css';
 

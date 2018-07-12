@@ -1,5 +1,5 @@
 import messaging from '../messaging';
-import { eventHandler, onlineOfflineListener } from './';
+import { eventHandler, onlineOfflineListener } from '.';
 
 export const MESSAGING_STARTED = 'messaging/start';
 

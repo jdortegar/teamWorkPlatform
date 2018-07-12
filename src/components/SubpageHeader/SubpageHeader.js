@@ -2,7 +2,7 @@ import React from 'react';
 import { Tooltip } from 'antd';
 import PropTypes from 'prop-types';
 import String from '../../translations';
-import EditButton from '../../components/buttons/EditButton';
+import EditButton from '../buttons/EditButton';
 import './styles/style.css';
 
 const propTypes = {
