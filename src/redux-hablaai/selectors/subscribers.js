@@ -8,8 +8,6 @@ import {
   getPresencesByUserId
 } from './state';
 
-export { getSubscriberUserIdByUserId } from './state';
-
 export const getSubscribersOfSubscriberOrgId = createCachedSelector(
   [getUserIdsBySubscriberOrgId, getUserByUserId, (state, subscriberOrgId) => subscriberOrgId],
   (userIdsBySubscriberOrgId, userByUserId, subscriberOrgId) => {

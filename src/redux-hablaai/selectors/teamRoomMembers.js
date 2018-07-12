@@ -2,7 +2,7 @@ import createCachedSelector from 're-reselect';
 import { getUserByUserId, getUserIdsByTeamRoomId, getPresencesByUserId } from './state';
 import { sortByFirstName } from './helpers';
 
-export { getTeamRoomMemberIdByUserId, getUserIdsByTeamRoomId } from './state';
+export { getUserIdsByTeamRoomId } from './state';
 
 export const getTeamRoomMembersOfTeamRoomId = createCachedSelector(
   [getUserIdsByTeamRoomId, getUserByUserId, (state, teamRoomId) => teamRoomId],
