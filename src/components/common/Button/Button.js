@@ -25,28 +25,14 @@ const defaultProps = {
 const CLASSNAME = 'habla-button';
 
 function Button(props) {
-  const {
-    children, fitText, type, size, disabled,
-    className: userClassName, ...rest
-  } = props;
+  const { children, fitText, type, size, disabled, className: userClassName, ...rest } = props;
 
-  const className = classNames(
-    CLASSNAME,
-    userClassName,
-    `${CLASSNAME}--type-${type}`,
-    {
-      [`${CLASSNAME}--size-${size}`]: !fitText
-    },
-  );
+  const className = classNames(CLASSNAME, userClassName, `${CLASSNAME}--type-${type}`, {
+    [`${CLASSNAME}--size-${size}`]: !fitText
+  });
 
   return (
-    <AntdButton
-      className={className}
-      size={size}
-      type={type}
-      disabled={disabled}
-      {...rest}
-    >
+    <AntdButton className={className} size={size} type={type} disabled={disabled} {...rest}>
       {children}
     </AntdButton>
   );

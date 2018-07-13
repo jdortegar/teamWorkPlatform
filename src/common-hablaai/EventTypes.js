@@ -41,7 +41,9 @@ const EventTypes = Object.freeze({
   boxWebhookEvent: 'boxWebhookEvent',
   googleWebhookEvent: 'googleWebhookEvent',
 
-  from(value) { return (this[value]); }
+  from(value) {
+    return this[value];
+  }
 });
 
 export default EventTypes;

@@ -8,15 +8,21 @@ export const fetchInvitations = (options = { getKey: false, forceGet: false }) =
   const requestUrl = `${config.hablaApiBaseUri}/users/getInvitations`;
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
-  const reduxState = { };
+  const reduxState = {};
 
-  return (dispatch) => {
-    const thunk = dispatch(doAuthenticatedRequest({
-      requestUrl,
-      method: 'get'
-    }, reduxState, options));
+  return dispatch => {
+    const thunk = dispatch(
+      doAuthenticatedRequest(
+        {
+          requestUrl,
+          method: 'get'
+        },
+        reduxState,
+        options
+      )
+    );
 
-    thunk.then((response) => {
+    thunk.then(response => {
       const { invitations } = response.data;
       dispatch({
         type: INVITATIONS_FETCH_SUCCESS,
@@ -39,13 +45,19 @@ export const fetchSentInvitations = (state = null, since = null, options = { get
   if (state) reduxState.state = state;
   if (since) reduxState.since = since;
 
-  return (dispatch) => {
-    const thunk = dispatch(doAuthenticatedRequest({
-      requestUrl,
-      method: 'get'
-    }, reduxState, options));
+  return dispatch => {
+    const thunk = dispatch(
+      doAuthenticatedRequest(
+        {
+          requestUrl,
+          method: 'get'
+        },
+        reduxState,
+        options
+      )
+    );
 
-    thunk.then((response) => {
+    thunk.then(response => {
       const { invitations } = response.data;
       if (invitations) {
         const nonAcceptedInvitations = invitations.filter(inv => inv.state !== 'ACCEPTED');

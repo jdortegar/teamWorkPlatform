@@ -1,10 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import OrganizationPage from '../../pages/OrganizationPage';
-import { fetchSubscribersBySubscriberOrgId,
-  fetchIntegrations,
-  setCurrentSubscriberOrgId
-} from '../../actions';
+import { fetchSubscribersBySubscriberOrgId, fetchIntegrations, setCurrentSubscriberOrgId } from '../../actions';
 import {
   getCurrentUser,
   getSubscribersOfSubscriberOrgId,
@@ -14,7 +11,7 @@ import {
 } from '../../selectors';
 
 function mapStateToProps(state, props) {
-  const subscriberOrgId = props.match.params.subscriberOrgId;
+  const { subscriberOrgId } = props.match.params;
 
   return {
     user: getCurrentUser(state),
@@ -35,4 +32,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OrganizationPage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(OrganizationPage)
+);

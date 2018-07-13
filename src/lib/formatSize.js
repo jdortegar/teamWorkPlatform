@@ -1,6 +1,6 @@
 import String from '../translations';
 
-const formatSize = (sizeInBytesStr) => {
+const formatSize = sizeInBytesStr => {
   const sizeInBytes = Number.parseInt(sizeInBytesStr, 10);
   if (!sizeInBytes) {
     return null;

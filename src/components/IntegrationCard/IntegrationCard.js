@@ -22,12 +22,17 @@ function IntegrationCard(props) {
 
   const renderCard = () => {
     if (integrated && !expired) {
-      return (<a onClick={onRevoke}>Revoke</a>);
+      return <a onClick={onRevoke}>Revoke</a>;
     } else if (integrated && expired) {
-      return (<p>{String.t('IntegrationCard.expired')} <a onClick={handleIntegration}>{String.t('IntegrationCard.reauthorize')}</a></p>);
+      return (
+        <p>
+          {String.t('IntegrationCard.expired')}{' '}
+          <a onClick={handleIntegration}>{String.t('IntegrationCard.reauthorize')}</a>
+        </p>
+      );
     }
 
-    return (<a onClick={handleIntegration}>{String.t('IntegrationCard.authorize')}</a>);
+    return <a onClick={handleIntegration}>{String.t('IntegrationCard.authorize')}</a>;
   };
 
   const renderIcon = () => {
@@ -60,9 +65,7 @@ function IntegrationCard(props) {
 
   return (
     <Card style={{ width: 220 }} bodyStyle={{ padding: 0 }}>
-      <div className="custom-image">
-        {renderIcon()}
-      </div>
+      <div className="custom-image">{renderIcon()}</div>
       <div className="custom-card">
         <h3 style={{ paddingBottom: '4px' }}>{name}</h3>
         {renderCard()}

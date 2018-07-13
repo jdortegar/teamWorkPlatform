@@ -27,13 +27,7 @@ const IMAGE_SIZE = 32;
 
 const BasicFilter = ({ tooltipTitle, label, active, avatar, imageSource, onClick, onDoubleClick }) => {
   const image = avatar || (
-    <img
-      src={imageSource}
-      className="BasicFilter__image"
-      width={IMAGE_SIZE}
-      height={IMAGE_SIZE}
-      alt=""
-    />
+    <img src={imageSource} className="BasicFilter__image" width={IMAGE_SIZE} height={IMAGE_SIZE} alt="" />
   );
   return (
     <div className="BasicFilter">

@@ -11,6 +11,9 @@ const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
 
 class DowntimeAndReasonsLevelOne extends Component {
+  container = null;
+  highchart = null;
+
   constructor(props) {
     super(props);
 
@@ -91,11 +94,7 @@ class DowntimeAndReasonsLevelOne extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { plant, from, until } = nextProps;
-    const shouldFetch = (
-      plant !== this.props.plant ||
-      from !== this.props.from ||
-      until !== this.props.until
-    );
+    const shouldFetch = plant !== this.props.plant || from !== this.props.from || until !== this.props.until;
     if (shouldFetch) {
       this.props.fetchData({ plant, from, until, measure: 'minutes' });
     }
@@ -105,9 +104,6 @@ class DowntimeAndReasonsLevelOne extends Component {
 
     this.highchart.chart.update({ series: nextProps.series }, true, true);
   }
-
-  container = null;
-  highchart = null;
 
   updateDimensions() {
     if (!this.container || !this.container.parentNode) return;
@@ -126,13 +122,13 @@ class DowntimeAndReasonsLevelOne extends Component {
       <div className="Report__container">
         <div
           className="DowntimeAndReasonsLevelOne"
-          ref={(node) => {
+          ref={node => {
             this.container = node;
           }}
           style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
           <HighchartsReact
-            ref={(node) => {
+            ref={node => {
               this.highchart = node;
             }}
             highcharts={Highcharts}

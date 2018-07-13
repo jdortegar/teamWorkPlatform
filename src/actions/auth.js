@@ -7,14 +7,12 @@ import {
   login,
   logout,
   closeMessaging,
-  getLastRouteCookie,
-  getLastSubscriberOrgIdCookie,
-  saveCookies,
   fetchInvitations,
   receiveUser,
   setCurrentSubscriberOrgId,
   clearCachedGetRequests
-} from './index';
+} from '../redux-hablaai/actions';
+import { getLastRouteCookie, getLastSubscriberOrgIdCookie, saveCookies } from './cookies';
 
 const { hablaApiBaseUri } = config;
 
@@ -29,57 +27,36 @@ const resolveRoute = (userId, targetRoute) => {
   return push(resolvedRoute);
 };
 
-export const loginUser = ({ email, password, targetRoute, awsCustomerId }) => {
-  return (dispatch) => {
-    dispatch(login(email, password, awsCustomerId))
-      .then(({ data }) => {
-        const { user } = data;
-        const lastSubscriberOrgId = getLastSubscriberOrgIdCookie(user.userId);
-        if (lastSubscriberOrgId) {
-          dispatch(setCurrentSubscriberOrgId(lastSubscriberOrgId));
-        }
+export const loginUser = ({ email, password, targetRoute, awsCustomerId }) => dispatch => {
+  dispatch(login(email, password, awsCustomerId)).then(({ data }) => {
+    const { user } = data;
+    const lastSubscriberOrgId = getLastSubscriberOrgIdCookie(user.userId);
+    if (lastSubscriberOrgId) {
+      dispatch(setCurrentSubscriberOrgId(lastSubscriberOrgId));
+    }
 
-        dispatch(receiveUser(user));
-        dispatch(fetchInvitations());
-        dispatch(resolveRoute(user.userId, targetRoute));
-      });
-  };
+    dispatch(receiveUser(user));
+    dispatch(fetchInvitations());
+    dispatch(resolveRoute(user.userId, targetRoute));
+  });
 };
 
-export const logoutUser = () => {
-  return (dispatch) => {
-    dispatch(closeMessaging());
-    dispatch(saveCookies());
-    dispatch(logout());
-    clearCachedGetRequests();
+export const logoutUser = () => dispatch => {
+  dispatch(closeMessaging());
+  dispatch(saveCookies());
+  dispatch(logout());
+  clearCachedGetRequests();
+  dispatch(push(paths.login));
+};
+
+export const verifyEmailAccount = uuid => () =>
+  axios.get(`${hablaApiBaseUri}/users/validateEmail/${uuid}`).then(response => {
+    sessionStorage.setItem('habla-user-email', response.data.email);
+  });
+
+export const createAccount = form => () => axios.post(`${hablaApiBaseUri}/users/createUser`, form);
+
+export const setNewPassword = (rid, password) => dispatch =>
+  axios.post(`${hablaApiBaseUri}/users/resetPassword/${rid}`, { password }).then(() => {
     dispatch(push(paths.login));
-  };
-};
-
-export const verifyEmailAccount = (uuid) => {
-  return () => {
-    return axios
-      .get(`${hablaApiBaseUri}/users/validateEmail/${uuid}`)
-      .then((response) => {
-        sessionStorage.setItem('habla-user-email', response.data.email);
-      });
-  };
-};
-
-export const createAccount = (form) => {
-  return () => {
-    return axios.post(`${hablaApiBaseUri}/users/createUser`, form);
-  };
-};
-
-export const setNewPassword = (rid, password) => {
-  return (dispatch) => {
-    return axios
-      .post(
-        `${hablaApiBaseUri}/users/resetPassword/${rid}`,
-        { password }
-      ).then(() => {
-        dispatch(push(paths.login));
-      });
-  };
-};
+  });

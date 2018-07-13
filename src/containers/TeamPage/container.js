@@ -10,7 +10,7 @@ import {
 } from '../../selectors';
 
 function mapStateToProps(state, props) {
-  const teamId = props.match.params.teamId;
+  const { teamId } = props.match.params;
 
   return {
     user: getCurrentUser(state),
@@ -29,4 +29,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TeamPage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(TeamPage)
+);

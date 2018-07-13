@@ -1,8 +1,6 @@
 export const INVITATION_DECLINED = 'invitation/declined';
 
-export const declinedInvitation = (invitation) => {
-  return {
-    type: INVITATION_DECLINED,
-    payload: { invitation }
-  };
-};
+export const declinedInvitation = invitation => ({
+  type: INVITATION_DECLINED,
+  payload: { invitation }
+});

@@ -66,11 +66,7 @@ class Register extends React.Component {
     this.setState({ submitting: true, email });
     const { awsCustomerId } = this.state;
 
-    axios.post(
-      `${config.hablaApiBaseUri}/users/registerUser/`,
-      { email },
-      getAwsHeaders(awsCustomerId)
-    ).then(() => {
+    axios.post(`${config.hablaApiBaseUri}/users/registerUser/`, { email }, getAwsHeaders(awsCustomerId)).then(() => {
       this.setState({ submitting: false, registered: true });
     });
   }
@@ -91,7 +87,8 @@ class Register extends React.Component {
     return (
       <div className="registration-success align-center-class">
         <div className="register-title-div padding-class-b">
-          <span className="habla-big-title habla-bold-text">{String.t('register.successTitleBold')}
+          <span className="habla-big-title habla-bold-text">
+            {String.t('register.successTitleBold')}
             <span className="habla-big-title">{String.t('register.successTitleDetails')}</span>
           </span>
         </div>
@@ -106,7 +103,9 @@ class Register extends React.Component {
           </p>
         </div>
         <div className="margin-top-class-a">
-          <Button type="main" fitText onClick={this.onChangeEmail}>{String.t('register.changeEmailButton')}</Button>
+          <Button type="main" fitText onClick={this.onChangeEmail}>
+            {String.t('register.changeEmailButton')}
+          </Button>
         </div>
       </div>
     );
@@ -121,16 +120,14 @@ class Register extends React.Component {
             valuePropName: 'checked',
             rules: [
               {
-                required: true, message: String.t('register.acceptTermsOfService')
+                required: true,
+                message: String.t('register.acceptTermsOfService')
               },
               {
                 validator: validateCheckbox
-              }]
-          })(
-            <Checkbox
-              tabIndex={0}
-            />
-          )}
+              }
+            ]
+          })(<Checkbox tabIndex={0} />)}
           <p>
             {String.t('register.checkAgreementsLabelBeforePrivacyPolicy')}
             <a
@@ -139,9 +136,7 @@ class Register extends React.Component {
               href="https://habla.ai/privacy-policy.html"
               className="register-link"
             >
-              <span className="register-link-body">
-                {String.t('register.checkAgreementsPrivacyPolicyLink')}
-              </span>
+              <span className="register-link-body">{String.t('register.checkAgreementsPrivacyPolicyLink')}</span>
             </a>
             {String.t('register.checkAgreementsLabelBeforeTermsOfUse')}
             <a
@@ -168,7 +163,8 @@ class Register extends React.Component {
       <div className="register-body">
         <Form onSubmit={this.handleSubmit} layout="vertical" className="register-form">
           <div className="register-title-div align-center-class padding-class-b">
-            <span className="habla-big-title habla-bold-text">{String.t('register.titleBold')}
+            <span className="habla-big-title habla-bold-text">
+              {String.t('register.titleBold')}
               <span className="habla-big-title">{String.t('register.titleDetails')}</span>
             </span>
           </div>
@@ -184,17 +180,14 @@ class Register extends React.Component {
                 initialValue={sessionStorage.getItem('habla-user-email')}
                 autoFocus
               />
-              { this.renderPreRegisteredButtons() }
+              {this.renderPreRegisteredButtons()}
             </div>
           </div>
           <div className="align-center-class margin-top-class-a">
-            <Button type="secondary" fitText onClick={this.onCancel} className="margin-right-class-a">{String.t('cancelButton')}</Button>
-            <Button
-              type="main"
-              fitText
-              htmlType="submit"
-              loading={this.state.submitting}
-            >
+            <Button type="secondary" fitText onClick={this.onCancel} className="margin-right-class-a">
+              {String.t('cancelButton')}
+            </Button>
+            <Button type="main" fitText htmlType="submit" loading={this.state.submitting}>
               {String.t('register.registerButtonLabel')}
             </Button>
           </div>

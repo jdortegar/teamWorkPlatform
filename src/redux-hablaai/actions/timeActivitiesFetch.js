@@ -9,7 +9,7 @@ export const fetchTimeActivitiesBySubscriberOrgId = (subscriberOrgId, options = 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { subscriberOrgId };
 
-  return (dispatch) => {
+  return dispatch => {
     const thunk = dispatch(
       doAuthenticatedRequest(
         {
@@ -22,7 +22,7 @@ export const fetchTimeActivitiesBySubscriberOrgId = (subscriberOrgId, options = 
     );
 
     if (!options.getKey) {
-      thunk.then((response) => {
+      thunk.then(response => {
         if (response.data && response.data !== RESPONSE_STALE) {
           const { edges, files } = response.data.message;
           dispatch({

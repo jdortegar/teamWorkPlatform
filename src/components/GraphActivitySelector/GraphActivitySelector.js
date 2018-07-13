@@ -11,13 +11,25 @@ const GraphActivitySelector = () => {
         <div className="habla-label padding-class-a">{String.t('graphActivityMenu.activityLabel')}</div>
       </Menu.Item>
       <Menu.Item key="allActivity">
-        <a><span><i className="fas fa-tasks" /> {String.t('graphActivityMenu.allActivity')}</span></a>
+        <a>
+          <span>
+            <i className="fas fa-tasks" /> {String.t('graphActivityMenu.allActivity')}
+          </span>
+        </a>
       </Menu.Item>
       <Menu.Item key="viewActivity">
-        <a><span><i className="fas fa-eye" /> {String.t('graphActivityMenu.viewsActivity')}</span></a>
+        <a>
+          <span>
+            <i className="fas fa-eye" /> {String.t('graphActivityMenu.viewsActivity')}
+          </span>
+        </a>
       </Menu.Item>
       <Menu.Item key="shareActivity" className="dropdown-last-menu-item">
-        <a><span><i className="fas fa-share" /> {String.t('graphActivityMenu.sharesActivity')}</span></a>
+        <a>
+          <span>
+            <i className="fas fa-share" /> {String.t('graphActivityMenu.sharesActivity')}
+          </span>
+        </a>
       </Menu.Item>
     </Menu>
   );

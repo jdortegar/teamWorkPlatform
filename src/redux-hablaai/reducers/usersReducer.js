@@ -15,15 +15,11 @@ const INITIAL_STATE = {
 
 // Merge with existing, since there might be additional information.
 function receiverUsers(state, payload) {
-  const {
-    subscribers, subscriberOrgId,
-    teamMembers, teamId,
-    teamRoomMembers, teamRoomId
-  } = payload;
+  const { subscribers, subscriberOrgId, teamMembers, teamId, teamRoomMembers, teamRoomId } = payload;
   const users = subscribers || teamMembers || teamRoomMembers;
 
   const userByUserId = _.cloneDeep(state.userByUserId);
-  users.forEach((userIter) => {
+  users.forEach(userIter => {
     let user = _.clone(userIter);
     delete user.presence; // Presence is maintained in a separate state.
     const { role, subscriberUserId, teamMemberId, teamRoomMemberId } = user;
@@ -81,7 +77,7 @@ const usersReducer = (state = INITIAL_STATE, action) => {
       const userByUserId = _.cloneDeep(state.userByUserId);
       let user = userByUserId[action.payload.user.userId];
       if (!user) {
-        user = action.payload.user;
+        user = action.payload.user; // eslint-disable-line prefer-destructuring
       } else {
         user = _.merge(user, action.payload.user);
         user.bookmarks = action.payload.user.bookmarks;
@@ -105,22 +101,15 @@ const usersReducer = (state = INITIAL_STATE, action) => {
     case TEAMMEMBER_RECEIVE:
     case TEAMROOMMEMBER_RECEIVE: {
       const userByUserId = _.cloneDeep(state.userByUserId);
-      const {
-        subscriber,
-        teamMember,
-        teamRoomMember,
-        subscriberOrgId,
-        teamId,
-        teamRoomId
-      } = action.payload;
+      const { subscriber, teamMember, teamRoomMember, subscriberOrgId, teamId, teamRoomId } = action.payload;
 
       let userId;
       if (subscriber) {
-        userId = subscriber.userId;
+        userId = subscriber.userId; // eslint-disable-line prefer-destructuring
       } else if (teamMember) {
-        userId = teamMember.userId;
+        userId = teamMember.userId; // eslint-disable-line prefer-destructuring
       } else if (teamRoomMember) {
-        userId = teamRoomMember.userId;
+        userId = teamRoomMember.userId; // eslint-disable-line prefer-destructuring
       }
       let user = userByUserId[userId];
       if (!user) {

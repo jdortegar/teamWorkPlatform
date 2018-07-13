@@ -3,17 +3,11 @@ import PropTypes from 'prop-types';
 import { VictoryTooltip } from 'victory';
 import moment from 'moment';
 
-const CustomTooltip = (props) => {
+const CustomTooltip = props => {
   const date = moment(props.datum.x);
   const text = date.isValid() ? [date.format('LL'), ' ', ...props.text] : props.text;
 
-  return (
-    <VictoryTooltip
-      {...props}
-      text={text}
-      style={{ padding: 5 }}
-    />
-  );
+  return <VictoryTooltip {...props} text={text} style={{ padding: 5 }} />;
 };
 
 CustomTooltip.propTypes = {

@@ -1,6 +1,4 @@
-import {
-  SENT_INVITATIONS_FETCH_SUCCESS
-} from '../actions';
+import { SENT_INVITATIONS_FETCH_SUCCESS } from '../actions';
 
 const INITIAL_STATE = {
   sentInvitations: []

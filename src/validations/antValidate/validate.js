@@ -1,14 +1,18 @@
 import validatejs from 'validate.js';
 
 function validate(value, constraints) {
-  const result = validatejs({
-    value
-  }, {
-    value: constraints
-  }, {
-    format: 'grouped',
-    fullMessages: false
-  });
+  const result = validatejs(
+    {
+      value
+    },
+    {
+      value: constraints
+    },
+    {
+      format: 'grouped',
+      fullMessages: false
+    }
+  );
 
   if (result === undefined) {
     return result;

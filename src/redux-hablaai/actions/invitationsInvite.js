@@ -8,11 +8,14 @@ export const inviteNewSubscribers = (users, subscriberOrgId) => {
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { users, subscriberOrgId };
 
-  return doAuthenticatedRequest({
-    requestUrl,
-    method: 'post',
-    data: { userIdOrEmails: users }
-  }, reduxState);
+  return doAuthenticatedRequest(
+    {
+      requestUrl,
+      method: 'post',
+      data: { userIdOrEmails: users }
+    },
+    reduxState
+  );
 };
 
 export const inviteMembersToTeam = (users, teamId) => {
@@ -22,11 +25,14 @@ export const inviteMembersToTeam = (users, teamId) => {
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { users, teamId };
 
-  return doAuthenticatedRequest({
-    requestUrl,
-    method: 'post',
-    data: { userIds: users }
-  }, reduxState);
+  return doAuthenticatedRequest(
+    {
+      requestUrl,
+      method: 'post',
+      data: { userIds: users }
+    },
+    reduxState
+  );
 };
 
 export const inviteMembersToTeamRoom = (users, teamRoomId) => {
@@ -36,9 +42,12 @@ export const inviteMembersToTeamRoom = (users, teamRoomId) => {
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { users, teamRoomId };
 
-  return doAuthenticatedRequest({
-    requestUrl,
-    method: 'post',
-    data: { userIds: users }
-  }, reduxState);
+  return doAuthenticatedRequest(
+    {
+      requestUrl,
+      method: 'post',
+      data: { userIds: users }
+    },
+    reduxState
+  );
 };

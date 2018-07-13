@@ -42,13 +42,14 @@ class NewTeamRoomPage extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
-        this.props.createTeamRoom({ name: values.name.trim(), active: true }, teamId)
+        this.props
+          .createTeamRoom({ name: values.name.trim(), active: true }, teamId)
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/team/${teamId}`);
             message.success(String.t('newTeamRoomPage.teamRoomAddedToast'));
           })
-          .catch((error) => {
+          .catch(error => {
             this.setState({ loading: false });
             message.error(error.message);
           });
@@ -119,12 +120,7 @@ class NewTeamRoomPage extends Component {
               >
                 {String.t('Buttons.cancel')}
               </Button>
-              <Button
-                type="main"
-                fitText
-                onClick={this.handleSubmit}
-                loading={this.state.loading}
-              >
+              <Button type="main" fitText onClick={this.handleSubmit} loading={this.state.loading}>
                 {String.t('newTeamRoomPage.createNewTeamRoomButtonLabel')}
               </Button>
             </div>

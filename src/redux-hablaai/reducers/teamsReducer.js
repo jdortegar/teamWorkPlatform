@@ -1,8 +1,5 @@
 import _ from 'lodash';
-import {
-  TEAMS_FETCH_SUCCESS,
-  TEAM_RECEIVE
-} from '../actions';
+import { TEAMS_FETCH_SUCCESS, TEAM_RECEIVE } from '../actions';
 
 const INITIAL_STATE = {
   teamById: {},
@@ -34,14 +31,16 @@ const teamsReducer = (state = INITIAL_STATE, action) => {
         // Clear out teams of subscriberOrgId.
         teamIds = teamIdsBySubscriberOrgId[subscriberOrgId];
         if (teamIds) {
-          teamIds.forEach((teamId) => {
+          teamIds.forEach(teamId => {
             delete teamById[teamId];
           });
         }
         delete teamIdsBySubscriberOrgId[subscriberOrgId];
       }
 
-      teams.forEach((team) => { addTeam(team, teamById, teamIdsBySubscriberOrgId); });
+      teams.forEach(team => {
+        addTeam(team, teamById, teamIdsBySubscriberOrgId);
+      });
 
       return {
         ...state,

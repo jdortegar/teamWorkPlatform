@@ -40,7 +40,7 @@ class CreateAccount extends React.Component {
 
   state = {
     timeZone: defaultTimeZone,
-    countryCode: (defaultCountry && defaultCountry.id) ? defaultCountry.id : null,
+    countryCode: defaultCountry && defaultCountry.id ? defaultCountry.id : null,
     loading: false
   };
 
@@ -54,17 +54,20 @@ class CreateAccount extends React.Component {
       if (!err) {
         this.setState({ loading: true });
         const { email, password } = values;
-        this.props.createAccount(values).then(() => {
-          this.setState({ loading: false });
-          this.props.loginUser({ email: email.trim(), password, targetRoute: '/app' });
-        }).catch((error) => {
-          this.setState({ loading: false });
-          if (error.response && error.response.status === 403) {
-            message.error(String.t('createAccount.errorEmailAlreadyRegistered'));
-          } else {
-            message.error(error.message);
-          }
-        });
+        this.props
+          .createAccount(values)
+          .then(() => {
+            this.setState({ loading: false });
+            this.props.loginUser({ email: email.trim(), password, targetRoute: '/app' });
+          })
+          .catch(error => {
+            this.setState({ loading: false });
+            if (error.response && error.response.status === 403) {
+              message.error(String.t('createAccount.errorEmailAlreadyRegistered'));
+            } else {
+              message.error(error.message);
+            }
+          });
       }
     });
   }
@@ -81,19 +84,10 @@ class CreateAccount extends React.Component {
           <div className="habla-full-content float-center-class">
             <Row gutter={16}>
               <Col className="gutter-row" span={12}>
-                <FirstNameField
-                  form={this.props.form}
-                  layout={layout}
-                  required
-                  autoFocus
-                />
+                <FirstNameField form={this.props.form} layout={layout} required autoFocus />
               </Col>
               <Col className="gutter-row" span={12}>
-                <LastNameField
-                  form={this.props.form}
-                  layout={layout}
-                  required
-                />
+                <LastNameField form={this.props.form} layout={layout} required />
               </Col>
             </Row>
             <Row gutter={16}>
@@ -116,12 +110,7 @@ class CreateAccount extends React.Component {
                 />
               </Col>
             </Row>
-            <ConfirmPasswordField
-              layout={layout}
-              componentKey="password"
-              form={this.props.form}
-              required
-            />
+            <ConfirmPasswordField layout={layout} componentKey="password" form={this.props.form} required />
             <Row gutter={16}>
               <Col className="gutter-row" span={12}>
                 <CountrySelectField
@@ -166,4 +155,9 @@ function mapDispatchToProps(dispatch) {
 
 CreateAccount.propTypes = propTypes;
 
-export default Form.create()(connect(null, mapDispatchToProps)(CreateAccount));
+export default Form.create()(
+  connect(
+    null,
+    mapDispatchToProps
+  )(CreateAccount)
+);

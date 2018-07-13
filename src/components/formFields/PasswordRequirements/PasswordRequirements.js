@@ -20,9 +20,7 @@ function renderRequirement(validationMap, key) {
     'c-password-requirements__requirement--fulfilled': fulfilled
   });
 
-  return (
-    <div className={className}>{message}</div>
-  );
+  return <div className={className}>{message}</div>;
 }
 
 function PasswordValidation({ password }) {
