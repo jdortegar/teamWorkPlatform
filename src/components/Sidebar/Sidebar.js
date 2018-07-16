@@ -100,8 +100,8 @@ class Sidebar extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.teams.length !== this.props.teams.length) {
-      const { currentSubscriberOrgId } = this.props;
+    const { currentSubscriberOrgId, teams } = nextProps;
+    if (currentSubscriberOrgId !== this.props.currentSubscriberOrgId || !_.isEqual(teams, this.props.teams)) {
       const teamsActive = nextProps.teams.filter(
         team => team.subscriberOrgId === currentSubscriberOrgId && team.active
       );
