@@ -13,7 +13,8 @@ import {
   slackLogo,
   trelloLogo,
   gitHubLogo,
-  ibmConnectionsLogo
+  ibmConnectionsLogo,
+  adobeLogo
 } from '../img';
 
 const possibleIntegrations = {
@@ -97,6 +98,10 @@ const possibleIntegrations = {
   ibmconn: {
     label: 'IBM Connections Cloud',
     logo: ibmConnectionsLogo
+  },
+  adobecloud: {
+    label:'Adobe Creative Cloud',
+    logo: adobeLogo
   }
 };
 
