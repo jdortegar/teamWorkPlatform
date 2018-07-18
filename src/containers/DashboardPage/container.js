@@ -12,7 +12,7 @@ import {
 } from 'actions';
 
 const mapStateToProps = (state, ownProps) => {
-  const reportId = ownProps.match.params.reportId;
+  const { reportId } = ownProps.match.params;
 
   return {
     reportId,

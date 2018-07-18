@@ -306,7 +306,22 @@ p {
 .ant-dropdown-menu-item .habla-top-navigation-dropdown-signal {
 	margin-right: 5px;
 }
-
+.ant-table-column-sorter {
+	top: 1px;
+	left: 0px;
+}
+.ant-table-column-sorter i:hover {
+	color: #5b7eba;
+}
+.ant-table-column-sorter-down {
+	margin: 0;
+}
+.habla-top-menu-search .ant-input-affix-wrapper .ant-input-suffix {
+	right: 8px;
+}
+.ant-table-thead th {
+	line-height: 0!important;
+}
 
 /* Habla Content Header  */
 
@@ -1129,6 +1144,9 @@ ul.ant-menu li.ant-menu-submenu:hover {
 .bottomBar .CKGPage__FilesFilters
 , .bottomBar .bottomBar-selectors {
 	width: 50%;
+}
+.DashboardPage__report-item {
+  width: 100%;
 }
 }
 

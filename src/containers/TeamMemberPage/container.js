@@ -16,9 +16,12 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps() {
-  return {
-
-  };
+  return {};
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TeamMemberPage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(TeamMemberPage)
+);

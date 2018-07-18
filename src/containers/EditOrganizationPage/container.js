@@ -1,22 +1,16 @@
 import { connect } from 'react-redux';
 import EditOrganizationPage from '../../pages/EditOrganizationPage';
 import { updateSubscriberOrg } from '../../actions';
-import { getUrlRequestStatus, getTeamMembersOfTeamId } from '../../selectors';
 
-function mapStateToProps(state, props) {
-  const { teamId } = props.match.params;
-  return {
-    subscriberOrgs: state.subscriberOrgs,
-    user: state.auth.user,
-    teamMembers: getTeamMembersOfTeamId(state, teamId),
-    updateSubscriberOrgRequestStatus: getUrlRequestStatus(state, updateSubscriberOrg(null, teamId, true))
-  };
-}
+const mapStateToProps = state => ({
+  subscriberOrgs: state.subscriberOrgs
+});
 
-function mapDispatchToProps(dispatch) {
-  return {
-    updateSubscriberOrg: (name, subscriberOrgId) => dispatch(updateSubscriberOrg(name, subscriberOrgId))
-  };
-}
+const mapDispatchToProps = dispatch => ({
+  updateSubscriberOrg: (name, subscriberOrgId) => dispatch(updateSubscriberOrg(name, subscriberOrgId))
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditOrganizationPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditOrganizationPage);

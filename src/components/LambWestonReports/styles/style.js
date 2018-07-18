@@ -32,10 +32,7 @@ const styles = {
     ...tickLabels,
     fontSize: 11
   },
-  compoundTickLabels: [
-    tickLabels,
-    { ...tickLabels, fillOpacity: 0.7 }
-  ],
+  compoundTickLabels: [tickLabels, { ...tickLabels, fillOpacity: 0.7 }],
   axisLabel: {
     ...tickLabels,
     letterSpacing: 10

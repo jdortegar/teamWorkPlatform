@@ -18,7 +18,7 @@ import {
 } from '../../components';
 import './styles/style.css';
 
-const Panel = Collapse.Panel;
+const { Panel } = Collapse;
 
 const defaultTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const defaultCountry = countriesAndTimezones.getCountriesForTimezone(defaultTimeZone)[0];
@@ -37,8 +37,7 @@ class EditUserPage extends Component {
     super(props);
 
     this.state = {
-      timeZone: defaultTimeZone,
-      countryCode: (defaultCountry && defaultCountry.id) ? defaultCountry.id : null,
+      countryCode: defaultCountry && defaultCountry.id ? defaultCountry.id : null,
       loading: false,
       userIcon: props.user.icon || null
     };
@@ -79,12 +78,13 @@ class EditUserPage extends Component {
           displayName: values.username.trim(),
           icon: this.state.userIcon
         };
-        this.props.updateUser(dataToUpdate)
+        this.props
+          .updateUser(dataToUpdate)
           .then(() => {
             this.setState({ loading: false });
             message.success(String.t('editUserPage.userUpdated'));
           })
-          .catch((error) => {
+          .catch(error => {
             this.setState({ loading: false });
             message.error(error.message);
           });
@@ -102,7 +102,9 @@ class EditUserPage extends Component {
     return (
       <div className="userAccountSetting">
         <NewSubpageHeader>
-          <div className="habla-title hablaTitleBreadcrumb"><i className="fas fa-address-card" /> {String.t('editUserPage.title')}</div>
+          <div className="habla-title hablaTitleBreadcrumb">
+            <i className="fas fa-address-card" /> {String.t('editUserPage.title')}
+          </div>
         </NewSubpageHeader>
         <Form onSubmit={this.handleSubmit} layout="vertical">
           <Collapse defaultActiveKey={['1']} className="edituser_collapse">
@@ -110,37 +112,20 @@ class EditUserPage extends Component {
               <div className="collapse-content">
                 <div className="row_input">
                   <div className="input-item input-firstname left">
-                    <FirstNameField
-                      form={this.props.form}
-                      required
-                      initialValue={user.firstName}
-                    />
+                    <FirstNameField form={this.props.form} required initialValue={user.firstName} />
                   </div>
                   <div className="input-item input-lastname">
-                    <LastNameField
-                      form={this.props.form}
-                      required
-                      initialValue={user.lastName}
-                    />
+                    <LastNameField form={this.props.form} required initialValue={user.lastName} />
                   </div>
                 </div>
                 <div className="row_input">
                   <div className="input-item">
-                    <EmailField
-                      form={this.props.form}
-                      disabled
-                      required
-                      initialValue={user.email}
-                    />
+                    <EmailField form={this.props.form} disabled required initialValue={user.email} />
                   </div>
                 </div>
                 <div className="row_input">
                   <div className="input-item">
-                    <UsernameField
-                      form={this.props.form}
-                      required
-                      initialValue={user.displayName}
-                    />
+                    <UsernameField form={this.props.form} required initialValue={user.displayName} />
                   </div>
                   <div className={containerImage}>
                     <UploadImageField
@@ -150,14 +135,11 @@ class EditUserPage extends Component {
                       editOrg
                       resize
                     />
-                    {this.state.userIcon &&
-                      <span
-                        className="container__image__remove"
-                        onClick={this.onRemoveImage}
-                      >
+                    {this.state.userIcon && (
+                      <span className="container__image__remove" onClick={this.onRemoveImage}>
                         {String.t('editUserPage.removeImageLabel')}
                       </span>
-                    }
+                    )}
                   </div>
                 </div>
                 <div className="row_input">
@@ -191,12 +173,7 @@ class EditUserPage extends Component {
             >
               {String.t('Buttons.cancel')}
             </Button>
-            <Button
-              type="main"
-              fitText
-              onClick={this.handleSubmit}
-              loading={this.state.loading}
-            >
+            <Button type="main" fitText onClick={this.handleSubmit} loading={this.state.loading}>
               {String.t('editUserPage.saveButtonLabel')}
             </Button>
           </div>

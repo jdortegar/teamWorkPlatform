@@ -1,35 +1,47 @@
-import {
-  LOGGING_IN,
-  LOGGING_IN_ERROR,
-  AUTH_USER
-} from '../actions/types';
+import { LOGIN_REQUEST, LOGIN_FAILURE, LOGIN_SUCCESS } from '../actions';
 
 const INITIAL_STATE = {
   loggingIn: false,
+  error: null,
+  authenticated: false,
+  userId: null,
   user: null,
-  error: false,
-  message: '',
-  content: '',
-  authenticated: false
+  token: null,
+  websocketUrl: null,
+  resourcesUrl: null
 };
 
-export default function (state = INITIAL_STATE, action) {
+export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case LOGGING_IN:
+    case LOGIN_REQUEST:
       return {
         ...state,
-        loggingIn: action.payload,
-        error: false
+        loggingIn: true,
+        error: null,
+        authenticated: false,
+        token: null
       };
-    case LOGGING_IN_ERROR:
+    case LOGIN_SUCCESS:
       return {
         ...state,
         loggingIn: false,
-        error: true
+        error: null,
+        authenticated: true,
+        user: action.payload.user,
+        userId: action.payload.user.userId,
+        token: action.payload.token,
+        websocketUrl: action.payload.websocketUrl,
+        resourcesUrl: action.payload.resourcesUrl
       };
-    case AUTH_USER:
-      return { ...state, user: action.payload.user, error: false, message: '', authenticated: true };
+    case LOGIN_FAILURE:
+      return {
+        ...state,
+        loggingIn: false,
+        error: action.payload.error,
+        authenticated: false,
+        token: null
+      };
     default:
       return state;
   }
-}
+};

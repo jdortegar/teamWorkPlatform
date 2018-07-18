@@ -1,4 +1,4 @@
-import config from '../config';
+import config from 'config/env';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 import { sortByFirstName } from '../selectors/helpers';
 
@@ -11,15 +11,21 @@ export const fetchSubscribersBySubscriberOrgId = (subscriberOrgId, options = { g
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { subscriberOrgId };
 
-  return (dispatch) => {
-    const thunk = dispatch(doAuthenticatedRequest({
-      requestUrl,
-      method: 'get'
-    }, reduxState, options));
+  return dispatch => {
+    const thunk = dispatch(
+      doAuthenticatedRequest(
+        {
+          requestUrl,
+          method: 'get'
+        },
+        reduxState,
+        options
+      )
+    );
 
     if (!options.getKey) {
-      thunk.then((response) => {
-        if ((response.data) && (response.data !== RESPONSE_STALE)) {
+      thunk.then(response => {
+        if (response.data && response.data !== RESPONSE_STALE) {
           const subscribers = response.data.subscribers.sort(sortByFirstName);
           dispatch({
             type: SUBSCRIBERS_FETCH_SUCCESS,

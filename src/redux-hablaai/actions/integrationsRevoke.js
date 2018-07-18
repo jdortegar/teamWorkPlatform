@@ -1,9 +1,6 @@
+import config from 'config/env';
 import { doAuthenticatedRequest } from './urlRequest';
-import config from '../config';
-import {
-  INTEGRATION_ERROR,
-  INTEGRATION_ERROR_BADSUBSCRIBERORG
-} from './integrations';
+import { INTEGRATION_ERROR, INTEGRATION_ERROR_BADSUBSCRIBERORG } from './integrations';
 
 export const INTEGRATIONS_REVOKE_SUCCESS = 'integrations/revoke/success';
 
@@ -14,15 +11,21 @@ function revoke(type, subscriberOrgId) {
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { type, subscriberOrgId };
 
-  return (dispatch) => {
-    const thunk = dispatch(doAuthenticatedRequest({
-      requestUrl,
-      method: 'post'
-    }, reduxState));
+  return dispatch => {
+    const thunk = dispatch(
+      doAuthenticatedRequest(
+        {
+          requestUrl,
+          method: 'post'
+        },
+        reduxState
+      )
+    );
 
     thunk
-      .then((response) => {
-        if (response.status === 200) { // OK.
+      .then(response => {
+        if (response.status === 200) {
+          // OK.
           dispatch({
             type: INTEGRATIONS_REVOKE_SUCCESS,
             payload: { type, subscriberOrgId, status: response.status, data: response.data }
@@ -30,16 +33,18 @@ function revoke(type, subscriberOrgId) {
         }
         return response.status;
       })
-      .catch((err) => {
+      .catch(err => {
         const { response } = err;
-        if (response.status === 404) { // Not Found.
+        if (response.status === 404) {
+          // Not Found.
           dispatch({
             type: INTEGRATION_ERROR_BADSUBSCRIBERORG,
             meta: { type, subscriberOrgId, status: response.status, data: response.data },
             payload: new Error(`Bad subscriberOrgId: ${subscriberOrgId}`),
             error: true
           });
-        } else if (response.status === 410) { // Gone.
+        } else if (response.status === 410) {
+          // Gone.
           dispatch({
             type: INTEGRATIONS_REVOKE_SUCCESS,
             meta: { type, subscriberOrgId, status: response.status, data: response.data },

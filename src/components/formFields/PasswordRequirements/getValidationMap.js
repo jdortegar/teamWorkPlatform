@@ -1,7 +1,4 @@
-import {
-  password as passwordRules,
-  validate
-} from '../../../validations';
+import { password as passwordRules, validate } from '../../../validations';
 
 const defaultValidationMap = {
   length: true,
@@ -12,13 +9,17 @@ const defaultValidationMap = {
 };
 
 function getValidationMap(password) {
-  const result = validate({
-    password
-  }, {
-    password: passwordRules
-  }, {
-    format: 'constraint'
-  });
+  const result = validate(
+    {
+      password
+    },
+    {
+      password: passwordRules
+    },
+    {
+      format: 'constraint'
+    }
+  );
 
   // always use a copy
   const validationMap = Object.assign({}, defaultValidationMap);

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import SearchPage from 'pages/SearchPage';
-import { search } from 'redux-hablaai/actions';
+import { search } from 'actions';
 import { getCurrentSubscriberOrgId, getUserById } from 'selectors';
 import { extractQueryParams } from 'routes';
 
@@ -21,4 +21,9 @@ const mapDispatchToProps = dispatch => ({
   search: (query, subscriberOrgId) => dispatch(search(query, subscriberOrgId))
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchPage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(SearchPage)
+);

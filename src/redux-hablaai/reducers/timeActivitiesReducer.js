@@ -1,8 +1,5 @@
 import _ from 'lodash';
-import {
-  getFileTypesFromFiles,
-  getIntegrationsFromFiles
-} from 'lib/files';
+import { getFileTypesFromFiles, getIntegrationsFromFiles } from 'lib/files';
 
 import { TIMEACTIVITIES_FETCH_SUCCESS } from '../actions';
 

@@ -1,13 +1,9 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import OrganizationPage from '../../pages/OrganizationPage';
-import { fetchSubscribersBySubscriberOrgId,
-  fetchIntegrations,
-  setCurrentSubscriberOrgId,
-  toggleTeamDialog,
-  toggleInvitePeopleDialog
-} from '../../actions';
+import { fetchSubscribersBySubscriberOrgId, fetchIntegrations, setCurrentSubscriberOrgId } from '../../actions';
 import {
+  getCurrentUser,
   getSubscribersOfSubscriberOrgId,
   getPresencesOfSubscribersOfOrgId,
   getTeamsOfSubscriberOrgIdSortedAlphabetically,
@@ -15,10 +11,10 @@ import {
 } from '../../selectors';
 
 function mapStateToProps(state, props) {
-  const subscriberOrgId = props.match.params.subscriberOrgId;
+  const { subscriberOrgId } = props.match.params;
 
   return {
-    user: state.auth.user,
+    user: getCurrentUser(state),
     subscriberOrgs: state.subscriberOrgs,
     subscribers: getSubscribersOfSubscriberOrgId(state, subscriberOrgId),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
@@ -32,10 +28,13 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchSubscribersBySubscriberOrgId: subscriberOrgId => dispatch(fetchSubscribersBySubscriberOrgId(subscriberOrgId)),
     fetchIntegrations: subscriberOrgId => dispatch(fetchIntegrations(subscriberOrgId)),
-    setCurrentSubscriberOrgId: subscriberOrgId => dispatch(setCurrentSubscriberOrgId(subscriberOrgId)),
-    toggleTeamDialog: status => dispatch(toggleTeamDialog(status)),
-    toggleInvitePeopleDialog: status => dispatch(toggleInvitePeopleDialog(status))
+    setCurrentSubscriberOrgId: subscriberOrgId => dispatch(setCurrentSubscriberOrgId(subscriberOrgId))
   };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OrganizationPage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(OrganizationPage)
+);

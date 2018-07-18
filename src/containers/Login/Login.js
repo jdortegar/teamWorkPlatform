@@ -3,8 +3,8 @@ import { Row, Col, Form, Checkbox, Spin, message } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { setAwsCustomerId } from '../../session';
-import { routesPaths, extractQueryParams } from '../../routes';
+import { isLoggingIn, getAuthError } from 'selectors';
+import { paths, extractQueryParams } from '../../routes';
 import { formShape } from '../../propTypes';
 import EmailField from '../../components/formFields/EmailField';
 import PasswordField from '../../components/formFields/PasswordField';
@@ -25,8 +25,12 @@ const propTypes = {
   form: formShape.isRequired,
   loginUser: PropTypes.func.isRequired,
   loggingIn: PropTypes.bool.isRequired,
-  error: PropTypes.bool.isRequired,
+  error: PropTypes.object,
   history: PropTypes.object.isRequired
+};
+
+const defaultProps = {
+  error: null
 };
 
 const layout = {
@@ -40,12 +44,12 @@ class Login extends React.Component {
 
     const { awsCustomerId } = extractQueryParams(props);
     if (awsCustomerId) {
-      setAwsCustomerId(awsCustomerId);
-      props.history.replace(routesPaths.login);
+      props.history.replace(paths.login);
     }
 
     this.state = {
-      submited: false
+      submitted: false,
+      awsCustomerId
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -60,7 +64,8 @@ class Login extends React.Component {
 
   onNewUserSignUp() {
     sessionStorage.setItem('habla-user-email', this.props.form.getFieldValue('email') || '');
-    this.props.history.push('/register');
+    const params = this.state.awsCustomerId ? `?awsCustomerId=${this.state.awsCustomerId}` : '';
+    this.props.history.push(`/register${params}`);
   }
 
   handleSubmit(e) {
@@ -68,8 +73,9 @@ class Login extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { email, password } = values;
-        let targetRoute = routesPaths.app;
-        if (this.props.history.location.state) { // Send user directly to requested URL, or app if cannot be deduced.
+        let targetRoute = paths.app;
+        if (this.props.history.location.state) {
+          // Send user directly to requested URL, or app if cannot be deduced.
           const { state } = this.props.history.location;
           targetRoute = state.from.pathname;
           if (state.from.search) {
@@ -80,10 +86,10 @@ class Login extends React.Component {
         const rememberMe = this.props.form.getFieldValue('remember');
         const rememberMeEmail = rememberMe ? email : '';
         sessionStorage.setItem('habla-user-remember-me', rememberMeEmail);
-        this.props.loginUser({ email, password, targetRoute });
-        this.setState({
-          submited: true
-        });
+
+        const { awsCustomerId } = this.state;
+        this.props.loginUser({ email, password, targetRoute, awsCustomerId });
+        this.setState({ submitted: true });
       }
     });
   }
@@ -91,11 +97,11 @@ class Login extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
 
-    if (this.state.submited && this.props.error) {
+    if (this.state.submitted && this.props.error) {
       message.error(String.t('errLoginPasswordInvalid'));
       this.props.form.resetFields(['password']);
       this.setState({
-        submited: false
+        submitted: false
       });
     }
     const initialEmail = sessionStorage.getItem('habla-user-remember-me');
@@ -128,22 +134,27 @@ class Login extends React.Component {
                   autoFocus={initialEmail && initialEmail.length}
                 />
                 <FormItem>
-                  {
-                    this.props.loggingIn ?
-                      <Spin size="large" style={{ width: '100%' }} /> :
-                      <Button className="ButtonFull" type="main" fitText htmlType="submit">{String.t('Buttons.login')}</Button>
-                  }
+                  {this.props.loggingIn ? (
+                    <Spin size="large" style={{ width: '100%' }} />
+                  ) : (
+                    <Button className="ButtonFull" type="main" fitText htmlType="submit">
+                      {String.t('Buttons.login')}
+                    </Button>
+                  )}
                   <div className="login-main-options">
                     {getFieldDecorator('remember', {
                       valuePropName: 'checked',
                       initialValue: rememberMe
-                    })(
-                      <Checkbox>{String.t('login.rememberMeCheckboxLabel')}</Checkbox>
-                    )}
-                    <a className="login-form-forgot" onClick={this.onForgotPassword}>{String.t('login.forgotPasswordLabel')}</a>
+                    })(<Checkbox>{String.t('login.rememberMeCheckboxLabel')}</Checkbox>)}
+                    <a className="login-form-forgot" onClick={this.onForgotPassword}>
+                      {String.t('login.forgotPasswordLabel')}
+                    </a>
                   </div>
                   <div className="login-main-signup">
-                    <a onClick={this.onNewUserSignUp}><span className="habla-bold-text">{String.t('login.newUserLabel')}</span> {String.t('login.signUpLabel')}</a>
+                    <a onClick={this.onNewUserSignUp}>
+                      <span className="habla-bold-text">{String.t('login.newUserLabel')}</span>{' '}
+                      {String.t('login.signUpLabel')}
+                    </a>
                   </div>
                 </FormItem>
               </Form>
@@ -156,16 +167,18 @@ class Login extends React.Component {
 }
 
 Login.propTypes = propTypes;
+Login.defaultProps = defaultProps;
 
-const mapStateToProps = (state) => {
-  return {
-    loggingIn: state.auth.loggingIn,
-    error: state.auth.error
-  };
-};
+const mapStateToProps = state => ({
+  loggingIn: isLoggingIn(state),
+  error: getAuthError(state)
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ loginUser }, dispatch);
-};
+const mapDispatchToProps = dispatch => bindActionCreators({ loginUser }, dispatch);
 
-export default Form.create()(connect(mapStateToProps, mapDispatchToProps)(Login));
+export default Form.create()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Login)
+);

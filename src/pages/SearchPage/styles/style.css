@@ -72,7 +72,7 @@
 	padding: 6px 10px;
 }
 .ant-table-row-level-0 {
-	border-bottom: 1px solid #fff;
+	border-bottom: 1px solid #889fc6;
 }
 .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
 	padding: 10px;
@@ -101,5 +101,5 @@
 }
 
 .SearchPage__bottomBar {
-  background-color: white;
+  background: #eef2f8;
 }

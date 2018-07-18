@@ -27,31 +27,30 @@ class Header extends Component {
 
   onStatusChange(presenceStatus) {
     const { user } = this.props;
-    if (user.presenceStatus && (user.presenceStatus === presenceStatus)) return;
+    if (user.presenceStatus && user.presenceStatus === presenceStatus) return;
 
-    this.props.updateUser({ presenceStatus })
-      .catch((error) => {
-        message.error(error.message);
-      });
-  }
-
-  logOut() {
-    this.props.logoutUser();
+    this.props.updateUser({ presenceStatus }).catch(error => {
+      message.error(error.message);
+    });
   }
 
   clearInput = () => {
     this.searchInput.focus();
     this.setState({ query: '' });
     this.props.clearSearch();
-  }
+  };
 
-  handleSearchChange = (event) => {
+  handleSearchChange = event => {
     this.setState({ query: event.target.value });
-  }
+  };
 
-  handleSearchSubmit = (event) => {
+  handleSearchSubmit = event => {
     event.preventDefault();
     this.props.history.push(`/app/search?q=${this.state.query}`);
+  };
+
+  logOut() {
+    this.props.logoutUser();
   }
 
   renderMenuItems() {
@@ -64,19 +63,39 @@ class Header extends Component {
           <div className="habla-label padding-class-a">{String.t('Header.muteTitle')}</div>
         </Menu.Item>
         <Menu.Item key="mute30min">
-          <a><span><i className="fas fa-volume-up" /> {String.t('Header.muteThirtyMins')}</span></a>
+          <a>
+            <span>
+              <i className="fas fa-volume-up" /> {String.t('Header.muteThirtyMins')}
+            </span>
+          </a>
         </Menu.Item>
         <Menu.Item key="mute1Hr">
-          <a><span><i className="fas fa-volume-down" /> {String.t('Header.muteOneHour')}</span></a>
+          <a>
+            <span>
+              <i className="fas fa-volume-down" /> {String.t('Header.muteOneHour')}
+            </span>
+          </a>
         </Menu.Item>
         <Menu.Item key="mute4Hrs">
-          <a><span><i className="fas fa-volume-off" /> {String.t('Header.muteFourHours')}</span></a>
+          <a>
+            <span>
+              <i className="fas fa-volume-off" /> {String.t('Header.muteFourHours')}
+            </span>
+          </a>
         </Menu.Item>
         <Menu.Item key="muteAllDay">
-          <a><span><i className="far fa-clock" /> {String.t('Header.muteAllDay')}</span></a>
+          <a>
+            <span>
+              <i className="far fa-clock" /> {String.t('Header.muteAllDay')}
+            </span>
+          </a>
         </Menu.Item>
         <Menu.Item key="muteOff" className="dropdown-last-menu-item">
-          <a><span><i className="fas fa-volume-up" /> {String.t('Header.muteNo')}</span></a>
+          <a>
+            <span>
+              <i className="fas fa-volume-up" /> {String.t('Header.muteNo')}
+            </span>
+          </a>
         </Menu.Item>
       </Menu>
     );
@@ -109,11 +128,15 @@ class Header extends Component {
         </Menu.Item>
         <Menu.Item key="accountSettings">
           <Link to="/app/editUser">
-            <span><i className="fas fa-address-card" /> {String.t('Header.accountSettings')}</span>
+            <span>
+              <i className="fas fa-address-card" /> {String.t('Header.accountSettings')}
+            </span>
           </Link>
         </Menu.Item>
         <Menu.Item key="logout" className="dropdown-last-menu-item">
-          <a onClick={this.logOut}><i className="fas fa-power-off" /> {String.t('Header.logOutMenu')}</a>
+          <a onClick={this.logOut}>
+            <i className="fas fa-power-off" /> {String.t('Header.logOutMenu')}
+          </a>
         </Menu.Item>
       </Menu>
     );
@@ -122,21 +145,22 @@ class Header extends Component {
       <div className="habla-top-menu-items">
         <div className="habla-top-menu-item">
           <div className="habla-top-menu-item-content">
-            <form
-              className="habla-top-menu-search"
-              onSubmit={this.handleSearchSubmit}
-            >
+            <form className="habla-top-menu-search" onSubmit={this.handleSearchSubmit}>
               <Input
-                ref={(node) => { this.searchInput = node; }}
+                ref={node => {
+                  this.searchInput = node;
+                }}
                 placeholder={String.t('Header.smartSearchPlaceholder')}
                 onChange={this.handleSearchChange}
                 value={this.state.query}
-                suffix={<Icon
-                  type="close-circle"
-                  onClick={this.clearInput}
-                  className="habla-top-menu-search-clear"
-                  style={{ visibility: clearIconVisibility }}
-                />}
+                suffix={
+                  <Icon
+                    type="close-circle"
+                    onClick={this.clearInput}
+                    className="habla-top-menu-search-clear"
+                    style={{ visibility: clearIconVisibility }}
+                  />
+                }
               />
               <button type="submit" disabled={this.state.query.length === 0}>
                 <i className="fa fa-search" />
@@ -182,7 +206,7 @@ class Header extends Component {
               <img src={hablaBlackLogoIcon} alt={String.t('Header.iconAlt')} className="habla-logo-image-responsive" />
             </Link>
           </div>
-          {this.props.user && this.props.logoutUser && this.renderMenuItems()}
+          {this.props.user && this.renderMenuItems()}
           <div className="clear" />
         </div>
       </AntdHeader>
@@ -191,9 +215,9 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  logoutUser: PropTypes.func,
-  updateUser: PropTypes.func,
-  clearSearch: PropTypes.func,
+  logoutUser: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
+  clearSearch: PropTypes.func.isRequired,
   user: PropTypes.object,
   query: PropTypes.string,
   history: PropTypes.shape({
@@ -202,10 +226,6 @@ Header.propTypes = {
 };
 
 Header.defaultProps = {
-  logoutUser: null,
-  updateUser: null,
-  search: null,
-  clearSearch: null,
   query: '',
   user: null
 };

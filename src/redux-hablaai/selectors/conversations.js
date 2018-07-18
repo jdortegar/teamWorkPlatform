@@ -17,7 +17,7 @@ export {
 
 function merge(tree, messages) {
   const ret = [];
-  tree.forEach((node) => {
+  tree.forEach(node => {
     const merged = _.merge({}, messages[node.messageId], node);
     ret.push(merged);
     if (node.children.length > 0) {
@@ -28,10 +28,15 @@ function merge(tree, messages) {
 }
 
 export const getConversationOfTeamRoomId = createCachedSelector(
-  [getConversationIdsByTeamRoomId, getConversationById, getTranscriptByConversationId, (state, teamRoomId) => teamRoomId],
+  [
+    getConversationIdsByTeamRoomId,
+    getConversationById,
+    getTranscriptByConversationId,
+    (state, teamRoomId) => teamRoomId
+  ],
   (conversationIdsByTeamRoomId, conversationById, transcriptByConversationId, teamRoomId) => {
     const conversationIds = conversationIdsByTeamRoomId[teamRoomId];
-    if ((!conversationIds) || (conversationIds.length === 0)) {
+    if (!conversationIds || conversationIds.length === 0) {
       return null;
     }
 
@@ -52,15 +57,9 @@ export const getConversationOfTeamRoomId = createCachedSelector(
     conversationClone.transcript = merge(transcript.flattenedTree, transcript.messages);
     return conversationClone;
   }
-)(
-  (state, teamRoomId) => teamRoomId
-);
+)((state, teamRoomId) => teamRoomId);
 
 export const getTypingsOfConversationId = createCachedSelector(
   [getTypingByUserIdsByConversationId, (state, conversationId) => conversationId],
-  (typingByUserIdsByConversationId, conversationId) => {
-    return typingByUserIdsByConversationId[conversationId];
-  }
-)(
-  (state, conversationId) => conversationId
-);
+  (typingByUserIdsByConversationId, conversationId) => typingByUserIdsByConversationId[conversationId]
+)((state, conversationId) => conversationId);

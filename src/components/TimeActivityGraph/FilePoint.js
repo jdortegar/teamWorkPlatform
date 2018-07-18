@@ -23,19 +23,8 @@ const FilePoint = ({ x, y, datum, events }) => {
   if (!x || !y || !datum) return null;
 
   return (
-    <foreignObject
-      x={x}
-      y={y}
-      height={ICON_SIZE}
-      width={ICON_SIZE}
-      {...events}
-    >
-      <img
-        src={imageSrcFromFile(datum.fileExtension)}
-        width={ICON_SIZE}
-        height={ICON_SIZE}
-        alt={datum.fileName}
-      />
+    <foreignObject x={x} y={y} height={ICON_SIZE} width={ICON_SIZE} {...events}>
+      <img src={imageSrcFromFile(datum.fileExtension)} width={ICON_SIZE} height={ICON_SIZE} alt={datum.fileName} />
     </foreignObject>
   );
 };

@@ -17,4 +17,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditUserPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditUserPage);

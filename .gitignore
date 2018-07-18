@@ -5,7 +5,6 @@ bundle.js
 dist/*
 vendor/
 .sass-cache/
-.eslintrc
 db.json
 resources/style/*.scss
 resources/style/app.css.map

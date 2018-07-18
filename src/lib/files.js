@@ -1,7 +1,7 @@
 import { integrationKeyFromFile } from 'utils/dataIntegrations';
 import String from 'translations';
 
-export const getOwnersFromFiles = (files) => {
+export const getOwnersFromFiles = files => {
   const owners = files.reduce((acc, file) => {
     const key = file.fileOwnerId;
     acc[key] = { key, count: (acc[key] ? acc[key].count : 0) + 1 };
@@ -11,7 +11,7 @@ export const getOwnersFromFiles = (files) => {
   return Object.values(owners).sort((a, b) => b.count - a.count);
 };
 
-export const getFileTypesFromFiles = (files) => {
+export const getFileTypesFromFiles = files => {
   const fileTypes = files.reduce((acc, file) => {
     const { fileType, fileExtension } = file;
     const key = fileExtension || String.t('ckgPage.filterTypeOther');
@@ -27,7 +27,7 @@ export const getFileTypesFromFiles = (files) => {
   return Object.values(fileTypes).sort((a, b) => b.count - a.count);
 };
 
-export const getIntegrationsFromFiles = (files) => {
+export const getIntegrationsFromFiles = files => {
   const integrations = files.reduce((acc, file) => {
     const key = integrationKeyFromFile(file);
     acc[key] = { key, count: (acc[key] ? acc[key].count : 0) + 1 };

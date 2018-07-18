@@ -54,10 +54,12 @@ class InviteToTeamPage extends Component {
 
   invitePressed(member) {
     const invitees = { ...this.state.invitees };
-    if (this.state.invitees[member.userId]) { // found, so remove member
+    if (this.state.invitees[member.userId]) {
+      // found, so remove member
       delete invitees[member.userId];
       this.setState({ invitees });
-    } else { // not found, so add member
+    } else {
+      // not found, so add member
       invitees[member.userId] = true;
       this.setState({ invitees });
     }
@@ -67,13 +69,14 @@ class InviteToTeamPage extends Component {
     const { teamId } = this.props.match.params;
     const users = Object.keys(this.state.invitees);
     this.setState({ loading: true });
-    this.props.inviteMembersToTeam(users)
+    this.props
+      .inviteMembersToTeam(users)
       .then(() => {
         this.setState({ loading: false });
         this.props.history.push(`/app/team/${teamId}`);
         message.success(String.t('inviteToTeamPage.invitationSent', { count: users.length }));
       })
-      .catch((error) => {
+      .catch(error => {
         this.setState({ loading: false });
         message.error(error.message);
       });
@@ -88,14 +91,17 @@ class InviteToTeamPage extends Component {
     const subscribersWithoutCurrentUser = orgSubscribers.filter(sub => sub.userId !== currentUserId);
     return subscribersWithoutCurrentUser.map((member, index) => {
       const { userId, online } = member;
-      const sentPendingInvitesForUser = _.find(sentInvitations.pending, { inviteeUserId: userId, teamId: team.teamRoomId });
-      const isMember = member.teams && (member.teams[team.teamId] !== undefined);
+      const sentPendingInvitesForUser = _.find(sentInvitations.pending, {
+        inviteeUserId: userId,
+        teamId: team.teamRoomId
+      });
+      const isMember = member.teams && member.teams[team.teamId] !== undefined;
       const isPending = this.state.invitees[member.userId] != null;
       let inviteLabel = '';
       if (!isMember && !isPending) {
-        inviteLabel = !sentPendingInvitesForUser ?
-          String.t('inviteToTeamPage.inviteButtonLabel') :
-          String.t('inviteToTeamPage.reInviteButtonLabel');
+        inviteLabel = !sentPendingInvitesForUser
+          ? String.t('inviteToTeamPage.inviteButtonLabel')
+          : String.t('inviteToTeamPage.reInviteButtonLabel');
       }
 
       const avatarClassName = classNames({ 'opacity-low': !online });
@@ -103,7 +109,7 @@ class InviteToTeamPage extends Component {
         <div
           key={userId}
           className="habla-MemberListing__member-row"
-          style={{ backgroundColor: ((index % 2) === 0) ? '#f4f4f4' : 'white' }}
+          style={{ backgroundColor: index % 2 === 0 ? '#f4f4f4' : 'white' }}
           onClick={() => {
             if (!isMember) {
               this.invitePressed(member);
@@ -116,22 +122,20 @@ class InviteToTeamPage extends Component {
           <div className="habla-MemberListing__member-text" style={{ color: isPending ? '#32a953' : '#666' }}>
             {String.t('inviteToTeamPage.membersListItem', member)}
           </div>
-          <a
-            className="habla-MemberListing__inviteButton-text"
-          >
+          <a className="habla-MemberListing__inviteButton-text">
             {inviteLabel}
-            {(isMember || isPending) &&
-            <div>
-              <i
-                className={isMember ? 'far fa-check-circle' : 'fas fa-check'}
-                style={{
-                  color: isMember ? 'black' : '#32a953',
-                  opacity: isMember ? 0.3 : 1.0,
-                  fontSize: isMember ? 22 : 20
-                }}
-              />
-            </div>
-            }
+            {(isMember || isPending) && (
+              <div>
+                <i
+                  className={isMember ? 'far fa-check-circle' : 'fas fa-check'}
+                  style={{
+                    color: isMember ? 'black' : '#32a953',
+                    opacity: isMember ? 0.3 : 1.0,
+                    fontSize: isMember ? 22 : 20
+                  }}
+                />
+              </div>
+            )}
           </a>
         </div>
       );
@@ -139,10 +143,27 @@ class InviteToTeamPage extends Component {
   }
 
   render() {
-    const { subscribers, match, teams, subscriberOrgById, currentUserId, subscribersPresences, sentInvitations } = this.props;
-    if (!subscribers || !match || !match.params || !match.params.teamId || !teams ||
-      !subscriberOrgById || !currentUserId || !subscribersPresences || !sentInvitations ||
-      !sentInvitations.pending) {
+    const {
+      subscribers,
+      match,
+      teams,
+      subscriberOrgById,
+      currentUserId,
+      subscribersPresences,
+      sentInvitations
+    } = this.props;
+    if (
+      !subscribers ||
+      !match ||
+      !match.params ||
+      !match.params.teamId ||
+      !teams ||
+      !subscriberOrgById ||
+      !currentUserId ||
+      !subscribersPresences ||
+      !sentInvitations ||
+      !sentInvitations.pending
+    ) {
       return <Spinner />;
     }
 
@@ -203,7 +224,9 @@ class InviteToTeamPage extends Component {
                 loading={this.state.loading}
                 disabled={Object.keys(this.state.invitees).length === 0}
               >
-                {String.t('inviteToTeamPage.sendInvitationsButtonLabel', { count: Object.keys(this.state.invitees).length })}
+                {String.t('inviteToTeamPage.sendInvitationsButtonLabel', {
+                  count: Object.keys(this.state.invitees).length
+                })}
               </Button>
             </div>
           </Form>

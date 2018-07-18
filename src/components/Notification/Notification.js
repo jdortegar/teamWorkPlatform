@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { notification } from 'antd';
 import PropTypes from 'prop-types';
 import './styles/style.css';
-import Button from '../../components/common/Button';
+import Button from '../common/Button';
 import String from '../../translations';
 
 const propTypes = {
@@ -55,7 +55,8 @@ class Notification extends Component {
     this.setState({ accepted: selection });
     const typeObj = checkType(this.props.options);
     const { name } = typeObj;
-    this.props.invitationResponse({ accept: selection }, typeObj)
+    this.props
+      .invitationResponse({ accept: selection }, typeObj)
       .then(() => {
         this.props.updateInvitation(this.props.options);
         if (selection) {
@@ -77,9 +78,7 @@ class Notification extends Component {
     return (
       <div className="Notification__container">
         <div className="Notification__container__content">
-          <span className="Notification__title habla-label">
-            {typeObj.message}
-          </span>
+          <span className="Notification__title habla-label">{typeObj.message}</span>
           <div className="Notification__buttons">
             <Button
               type="alert"

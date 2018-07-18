@@ -1,6 +1,7 @@
 export { default as hablaWhiteLogo } from './habla-ai-logo-color.png';
 export { default as hablaBlackLogo } from './habla-ai-logo.png';
 export { default as hablaBlackLogoIcon } from './habla-ai-logo-icon.png';
+export { default as hablaFullBlackLogoIcon } from './habla-icon-black-in-transparent.png';
 export { default as hablaLogoAvatar } from './habla-ai-logo-avatar.png';
 export { default as RobotHumanHandshake } from './robot-human-hand-shake.jpg';
 export { default as boxLogo } from './box-logo.png';
@@ -16,6 +17,7 @@ export { default as slackLogo } from './slack-logo.png';
 export { default as trelloLogo } from './trello-logo.png';
 export { default as jiraLogo } from './jira-logo.png';
 export { default as gitHubLogo } from './github-logo.png';
+export { default as adobeLogo } from './creativecloud-logo.png';
 export { default as ibmConnectionsLogo } from './ibmconnections-logo.png';
 
 /* eslint-disable camelcase */

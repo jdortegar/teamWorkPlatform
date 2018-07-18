@@ -1,81 +1,62 @@
 import axios from 'axios';
 import { push } from 'react-router-redux';
+
 import config from '../config/env';
-import { routesPaths } from '../routes';
+import { paths } from '../routes';
 import {
-  LOGGING_IN,
-  LOGGING_IN_ERROR,
-  UNAUTH_USER,
-  SUBMIT_REGISTRATION_FORM
-} from './types';
-import { fetchInvitations } from './index';
-import { login, logout } from '../session';
+  login,
+  logout,
+  closeMessaging,
+  fetchInvitations,
+  receiveUser,
+  setCurrentSubscriberOrgId,
+  clearCachedGetRequests
+} from '../redux-hablaai/actions';
+import { getLastRouteCookie, getLastSubscriberOrgIdCookie, saveCookies } from './cookies';
 
 const { hablaApiBaseUri } = config;
 
-export const loginUser = ({ email, password, targetRoute }) => {
-  return (dispatch) => {
-    dispatch({ type: LOGGING_IN, payload: true });
-    login(email, password)
-      .then((lastRoute) => {
-        // If the user is just going to the home page, and their last route on logout was somewhere else, send them there.
-        let resolvedRoute = targetRoute;
-        if ((targetRoute === routesPaths.app) && (lastRoute)) {
-          resolvedRoute = lastRoute;
-        }
-        dispatch(fetchInvitations());
-        dispatch({ type: LOGGING_IN, payload: false });
-        dispatch(push(resolvedRoute));
-      })
-      .catch(() => {
-        dispatch({ type: LOGGING_IN_ERROR, payload: false });
-      });
-  };
+// If the user is just going to /app, and their last route on logout was somewhere else, send them there.
+const resolveRoute = (userId, targetRoute) => {
+  let resolvedRoute = targetRoute;
+  const lastRoute = getLastRouteCookie(userId);
+
+  if (targetRoute === paths.app && lastRoute) {
+    resolvedRoute = lastRoute;
+  }
+  return push(resolvedRoute);
 };
 
-export const logoutUser = (error) => {
-  return (dispatch) => {
-    dispatch({
-      type: UNAUTH_USER,
-      payload: error || ''
-    });
-    logout();
+export const loginUser = ({ email, password, targetRoute, awsCustomerId }) => dispatch => {
+  dispatch(login(email, password, awsCustomerId)).then(({ data }) => {
+    const { user } = data;
+    const lastSubscriberOrgId = getLastSubscriberOrgIdCookie(user.userId);
+    if (lastSubscriberOrgId) {
+      dispatch(setCurrentSubscriberOrgId(lastSubscriberOrgId));
+    }
 
-    dispatch(push(routesPaths.login));
-  };
+    dispatch(receiveUser(user));
+    dispatch(fetchInvitations());
+    dispatch(resolveRoute(user.userId, targetRoute));
+  });
 };
 
-export const submitRegistrationForm = (status) => {
-  return {
-    type: SUBMIT_REGISTRATION_FORM,
-    payload: status
-  };
+export const logoutUser = () => dispatch => {
+  dispatch(closeMessaging());
+  dispatch(saveCookies());
+  dispatch(logout());
+  clearCachedGetRequests();
+  dispatch(push(paths.login));
 };
 
-export const verifyEmailAccount = (uuid) => {
-  return () => {
-    return axios
-      .get(`${hablaApiBaseUri}/users/validateEmail/${uuid}`)
-      .then((response) => {
-        sessionStorage.setItem('habla-user-email', response.data.email);
-      });
-  };
-};
+export const verifyEmailAccount = uuid => () =>
+  axios.get(`${hablaApiBaseUri}/users/validateEmail/${uuid}`).then(response => {
+    sessionStorage.setItem('habla-user-email', response.data.email);
+  });
 
-export const createAccount = (form) => {
-  return () => {
-    return axios.post(`${hablaApiBaseUri}/users/createUser`, form);
-  };
-};
+export const createAccount = form => () => axios.post(`${hablaApiBaseUri}/users/createUser`, form);
 
-export const setNewPassword = (rid, password) => {
-  return (dispatch) => {
-    return axios
-      .post(
-        `${hablaApiBaseUri}/users/resetPassword/${rid}`,
-        { password }
-      ).then(() => {
-        dispatch(push(routesPaths.login));
-      });
-  };
-};
+export const setNewPassword = (rid, password) => dispatch =>
+  axios.post(`${hablaApiBaseUri}/users/resetPassword/${rid}`, { password }).then(() => {
+    dispatch(push(paths.login));
+  });

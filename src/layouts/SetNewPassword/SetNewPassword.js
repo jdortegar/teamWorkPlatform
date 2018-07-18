@@ -36,14 +36,15 @@ class SetNewPassword extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ processing: true });
-        const uuid = this.props.match.params.uuid;
-        this.props.setNewPassword(uuid, values.password)
+        const { uuid } = this.props.match.params;
+        this.props
+          .setNewPassword(uuid, values.password)
           .then(() => {
             this.setState({ processing: false });
             this.props.history.replace('/login');
             message.success(String.t('setNewPassword.passwordChangedToastMessage'));
           })
-          .catch((error) => {
+          .catch(error => {
             this.setState({ processing: false });
             if (error.response && error.response.status === 404) {
               message.error(String.t('setNewPassword.errorToastMessage'));
@@ -60,12 +61,10 @@ class SetNewPassword extends Component {
     return (
       <div className="recoverPassword-main-container">
         <div className="recoverPassword-body">
-          <Form
-            onSubmit={this.handleSubmit}
-            layout="vertical"
-            className="setNewPassword-form"
-          >
-            <div className="habla-big-title habla-bold-text align-center-class padding-class-b">{String.t('chooseNewPassword')}</div>
+          <Form onSubmit={this.handleSubmit} layout="vertical" className="setNewPassword-form">
+            <div className="habla-big-title habla-bold-text align-center-class padding-class-b">
+              {String.t('chooseNewPassword')}
+            </div>
             <div className="recoverPassword-body__main habla-color-lightergrey padding-class-b align-center-class">
               <div className="habla-full-content float-center-class">
                 <div className="margin-top-class-a">
@@ -91,18 +90,8 @@ class SetNewPassword extends Component {
                 >
                   {String.t('Buttons.cancel')}
                 </Button>
-                <Button
-                  disabled={this.state.processing}
-                  type="main"
-                  fitText
-                  htmlType="submit"
-                >
-                  {
-                    this.state.processing ?
-                      <Spin size="large" />
-                      :
-                      String.t('setNewPassword.submitLabel')
-                  }
+                <Button disabled={this.state.processing} type="main" fitText htmlType="submit">
+                  {this.state.processing ? <Spin size="large" /> : String.t('setNewPassword.submitLabel')}
                 </Button>
               </div>
             </div>

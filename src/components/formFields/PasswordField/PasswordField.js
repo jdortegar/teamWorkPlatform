@@ -5,17 +5,16 @@ import { antValidate, password } from '../../../validations';
 import BaseInput from '../BaseInput';
 import String from '../../../translations';
 
-
 const FormItem = Form.Item;
 
 const propTypes = {
   form: PropTypes.object.isRequired,
   componentKey: PropTypes.string,
-  initialValue: PropTypes.string.isRequired,
+  initialValue: PropTypes.string,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   placeholder: PropTypes.string,
   layout: PropTypes.object,
-  required: PropTypes.bool.isRequired,
+  required: PropTypes.bool,
   missingMessage: PropTypes.string,
   validatePassword: PropTypes.bool,
   noLabel: PropTypes.bool
@@ -34,15 +33,7 @@ const defaultProps = {
 };
 
 function PasswordField(props) {
-  const {
-    layout,
-    label,
-    missingMessage,
-    placeholder,
-    validatePassword,
-    noLabel,
-    ...rest
-  } = props;
+  const { layout, label, missingMessage, placeholder, validatePassword, noLabel, ...rest } = props;
 
   const translatedPlaceHolder = placeholder || String.t('labelPasswordPlaceholder');
   const translatedMissingMessage = missingMessage || String.t('errPasswordMissing');
@@ -62,22 +53,13 @@ function PasswordField(props) {
 
   if (noLabel) {
     return (
-      <FormItem
-        labelCol={layout.labelCol}
-        wrapperCol={layout.wrapperCol}
-        hasFeedback
-      >
+      <FormItem labelCol={layout.labelCol} wrapperCol={layout.wrapperCol} hasFeedback>
         {decoratedInput}
       </FormItem>
     );
   }
   return (
-    <FormItem
-      labelCol={layout.labelCol}
-      wrapperCol={layout.wrapperCol}
-      label={label}
-      hasFeedback
-    >
+    <FormItem labelCol={layout.labelCol} wrapperCol={layout.wrapperCol} label={label} hasFeedback>
       {decoratedInput}
     </FormItem>
   );

@@ -3,9 +3,7 @@ export const INTEGRATION_ERROR_BADSUBSCRIBERORG = 'integration/error/badsubscrib
 
 export const INTEGRATIONS_UPDATE = 'integrations/update';
 
-export const updateIntegrations = (userId, subscriberOrgId, integrations) => {
-  return {
-    type: INTEGRATIONS_UPDATE,
-    payload: { userId, subscriberOrgId, integrations }
-  };
-};
+export const updateIntegrations = (userId, subscriberOrgId, integrations) => ({
+  type: INTEGRATIONS_UPDATE,
+  payload: { userId, subscriberOrgId, integrations }
+});

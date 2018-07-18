@@ -18,4 +18,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AcceptInvitationPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AcceptInvitationPage);

@@ -4,13 +4,11 @@ import PropTypes from 'prop-types';
 import Header from 'containers/Header';
 import Sidebar from 'containers/Sidebar';
 import MainContent from 'containers/MainContent';
-import {
-  AddTeamDialog,
-  AddTeamRoomDialog
-} from 'containers/dialogs';
 import './styles/main.css';
 
 const propTypes = {
+  initMessaging: PropTypes.func.isRequired,
+  closeMessaging: PropTypes.func.isRequired,
   fetchGlobalState: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.object.isRequired
 };
@@ -18,6 +16,8 @@ const propTypes = {
 class Main extends React.Component {
   componentDidMount() {
     this.props.fetchGlobalState();
+    this.props.initMessaging();
+    window.addEventListener('beforeunload', this.onUnload);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -25,6 +25,14 @@ class Main extends React.Component {
       this.props.fetchGlobalState();
     }
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.onUnload);
+  }
+
+  onUnload = () => {
+    this.props.closeMessaging();
+  };
 
   render() {
     return (
@@ -34,8 +42,6 @@ class Main extends React.Component {
           <Sidebar />
           <Layout className="habla-main-content">
             <MainContent />
-            <AddTeamDialog />
-            <AddTeamRoomDialog />
           </Layout>
         </Layout>
       </Layout>

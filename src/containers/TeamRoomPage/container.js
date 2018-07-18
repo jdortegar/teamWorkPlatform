@@ -12,6 +12,9 @@ import {
   iAmTyping
 } from '../../actions';
 import {
+  getToken,
+  getCurrentUser,
+  getResourcesUrl,
   getConversationOfTeamRoomId,
   getSubscribersOfSubscriberOrgId,
   getReadMessagesOfTeamRoomId,
@@ -23,12 +26,14 @@ import {
 } from '../../selectors';
 
 function mapStateToProps(state, props) {
-  const teamRoomId = props.match.params.teamRoomId;
+  const { teamRoomId } = props.match.params;
   const conversations = getConversationOfTeamRoomId(state, teamRoomId);
   const conversationId = conversations ? conversations.conversationId : null;
 
   return {
-    user: state.auth.user,
+    user: getCurrentUser(state),
+    resourcesUrl: getResourcesUrl(state),
+    token: getToken(state),
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     subscribers: getSubscribersOfSubscriberOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
     teams: state.teams,
@@ -50,10 +55,16 @@ function mapDispatchToProps(dispatch) {
     fetchTranscript: conversationId => dispatch(fetchTranscript(conversationId)),
     createMessage: (message, conversationId) => dispatch(createMessage(message, conversationId)),
     deleteMessage: (message, conversationId) => dispatch(deleteMessage(message, conversationId)),
-    saveBookmark: (user, subscriberOrgId, message, setBookmark) => dispatch(saveBookmark(user, subscriberOrgId, message, setBookmark)),
+    saveBookmark: (user, subscriberOrgId, message, setBookmark) =>
+      dispatch(saveBookmark(user, subscriberOrgId, message, setBookmark)),
     readMessage: (messageId, conversationId) => dispatch(readMessage(messageId, conversationId)),
     iAmTyping: (conversationId, typing) => dispatch(iAmTyping(conversationId, typing))
   };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TeamRoomPage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(TeamRoomPage)
+);

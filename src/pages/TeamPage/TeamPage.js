@@ -36,12 +36,7 @@ const propTypes = {
 class TeamPage extends Component {
   constructor(props) {
     super(props);
-
-    // this.state = { teamRoomsLoaded: false, teamMembersLoaded: false, teamRooms: [], teamMembers: [], view: 'card' };
-    this.state = { teamRoomsLoaded: false, teamMembersLoaded: false, view: 'card' };
-
-    this.handleTeamMemberSearch = this.handleTeamMemberSearch.bind(this);
-    this.handleTeamRoomSearch = this.handleTeamRoomSearch.bind(this);
+    this.state = { teamRoomsLoaded: false, teamMembersLoaded: false };
   }
 
   componentDidMount() {
@@ -59,28 +54,24 @@ class TeamPage extends Component {
     }
   }
 
-  handleTeamRoomSearch(value) {
-    const filteredTeamRooms = this.props.teamRooms.filter(({ name }) => {
-      return name.toLowerCase().includes(value.toLowerCase());
-    });
-
-    this.setState({ teamRooms: filteredTeamRooms });
-  }
-
-  handleTeamMemberSearch(value) {
-    const filteredTeamMembers = this.props.teamMembers.filter(({ displayName }) => {
-      return displayName.toLowerCase().includes(value.toLowerCase());
-    });
-
-    this.setState({ teamMembers: filteredTeamMembers });
-  }
-
   render() {
     const { match, teamRooms, teams, teamMembers, teamMembersPresences, subscriberOrgById, user } = this.props;
-    if (teamRooms && match && match.params && match.params.teamId && teamRooms && teams && teams.teamById[match.params.teamId] &&
-        teamMembers && (teamMembers.length > 0) && teamMembersPresences && subscriberOrgById &&
-        this.state.teamMembersLoaded && this.state.teamRoomsLoaded) {
-      const teamId = match.params.teamId;
+    if (
+      teamRooms &&
+      match &&
+      match.params &&
+      match.params.teamId &&
+      teamRooms &&
+      teams &&
+      teams.teamById[match.params.teamId] &&
+      teamMembers &&
+      teamMembers.length > 0 &&
+      teamMembersPresences &&
+      subscriberOrgById &&
+      this.state.teamMembersLoaded &&
+      this.state.teamRoomsLoaded
+    ) {
+      const { teamId } = match.params;
       const team = teams.teamById[teamId];
       const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
       const teamMemberFoundByUser = _.find(teamMembers, { userId: user.userId });
@@ -117,9 +108,7 @@ class TeamPage extends Component {
               {initials}
             </Avatar>
             <div className="margin-top-class-b">
-              <h1 className="New-team__title habla-big-title habla-bold-text">
-                {team.name}
-              </h1>
+              <h1 className="New-team__title habla-big-title habla-bold-text">{team.name}</h1>
             </div>
             <div className="habla-secondary-paragraph">
               {String.t('TeamPage.teamCreated', { date: moment(team.created).format('LL') })}
@@ -132,7 +121,6 @@ class TeamPage extends Component {
               teamRooms={teamRooms}
               teamMembers={teamMembers}
               teamMembersPresences={teamMembersPresences}
-              onSwitchView={() => this.setState({ view: 'list' })}
             />
           </div>
         </div>

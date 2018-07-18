@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import {
   USER_RECEIVE,
-  USER_RECEIVE_MYSELF,
   SUBSCRIBERS_FETCH_SUCCESS,
   TEAMMEMBERS_FETCH_SUCCESS,
   TEAMROOMMEMBERS_FETCH_SUCCESS,
@@ -11,21 +10,16 @@ import {
 } from '../actions';
 
 const INITIAL_STATE = {
-  userByUserId: {},
-  myselfUserId: null
+  userByUserId: {}
 };
 
 // Merge with existing, since there might be additional information.
 function receiverUsers(state, payload) {
-  const {
-    subscribers, subscriberOrgId,
-    teamMembers, teamId,
-    teamRoomMembers, teamRoomId
-  } = payload;
+  const { subscribers, subscriberOrgId, teamMembers, teamId, teamRoomMembers, teamRoomId } = payload;
   const users = subscribers || teamMembers || teamRoomMembers;
 
   const userByUserId = _.cloneDeep(state.userByUserId);
-  users.forEach((userIter) => {
+  users.forEach(userIter => {
     let user = _.clone(userIter);
     delete user.presence; // Presence is maintained in a separate state.
     const { role, subscriberUserId, teamMemberId, teamRoomMemberId } = user;
@@ -79,18 +73,11 @@ function receiverUsers(state, payload) {
 
 const usersReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case USER_RECEIVE:
-    case USER_RECEIVE_MYSELF: {
-      console.warn('Reducer', {
-        type: action.type,
-        action,
-        state
-      });
-      const myselfUserId = (action.type === USER_RECEIVE_MYSELF) ? action.payload.user.userId : state.myselfUserId;
+    case USER_RECEIVE: {
       const userByUserId = _.cloneDeep(state.userByUserId);
       let user = userByUserId[action.payload.user.userId];
       if (!user) {
-        user = action.payload.user;
+        user = action.payload.user; // eslint-disable-line prefer-destructuring
       } else {
         user = _.merge(user, action.payload.user);
         user.bookmarks = action.payload.user.bookmarks;
@@ -101,16 +88,9 @@ const usersReducer = (state = INITIAL_STATE, action) => {
       user.teamRooms = user.teamRooms || {};
       userByUserId[action.payload.user.userId] = user;
 
-      console.warn('Reducer result', {
-        ...state,
-        userByUserId,
-        myselfUserId
-      });
-
       return {
         ...state,
-        userByUserId,
-        myselfUserId
+        userByUserId
       };
     }
     case SUBSCRIBERS_FETCH_SUCCESS:
@@ -121,22 +101,15 @@ const usersReducer = (state = INITIAL_STATE, action) => {
     case TEAMMEMBER_RECEIVE:
     case TEAMROOMMEMBER_RECEIVE: {
       const userByUserId = _.cloneDeep(state.userByUserId);
-      const {
-        subscriber,
-        teamMember,
-        teamRoomMember,
-        subscriberOrgId,
-        teamId,
-        teamRoomId
-      } = action.payload;
+      const { subscriber, teamMember, teamRoomMember, subscriberOrgId, teamId, teamRoomId } = action.payload;
 
       let userId;
       if (subscriber) {
-        userId = subscriber.userId;
+        userId = subscriber.userId; // eslint-disable-line prefer-destructuring
       } else if (teamMember) {
-        userId = teamMember.userId;
+        userId = teamMember.userId; // eslint-disable-line prefer-destructuring
       } else if (teamRoomMember) {
-        userId = teamRoomMember.userId;
+        userId = teamRoomMember.userId; // eslint-disable-line prefer-destructuring
       }
       let user = userByUserId[userId];
       if (!user) {

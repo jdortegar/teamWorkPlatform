@@ -13,7 +13,8 @@ import {
   slackLogo,
   trelloLogo,
   gitHubLogo,
-  ibmConnectionsLogo
+  ibmConnectionsLogo,
+  adobeLogo
 } from '../img';
 
 const possibleIntegrations = {
@@ -38,13 +39,15 @@ const possibleIntegrations = {
     logo: sharepointLogo,
     isSupported: true,
     config: {
-      params: [{
-        key: 'sharepointOrg', // used to set value and to returned it via integrations.sharepoint.sharepointOrg
-        type: 'edit',
-        label: 'Site ID:', // TODO: localize
-        value: 'site',
-        placeholder: 'Enter Sharepoint Site ID' // TODO: localize
-      }],
+      params: [
+        {
+          key: 'sharepointOrg', // used to set value and to returned it via integrations.sharepoint.sharepointOrg
+          type: 'edit',
+          label: 'Site ID:', // TODO: localize
+          value: 'site',
+          placeholder: 'Enter Sharepoint Site ID' // TODO: localize
+        }
+      ],
       folders: {
         label: 'Sites:', // TODO: localize
         key: 'sites', // integrations.sharepoint.sites (type is an array)
@@ -95,6 +98,10 @@ const possibleIntegrations = {
   ibmconn: {
     label: 'IBM Connections Cloud',
     logo: ibmConnectionsLogo
+  },
+  adobecloud: {
+    label:'Adobe Creative Cloud',
+    logo: adobeLogo
   }
 };
 

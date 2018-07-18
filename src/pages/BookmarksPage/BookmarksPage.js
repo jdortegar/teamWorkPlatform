@@ -52,20 +52,22 @@ export default class BookmarksPage extends Component {
         // TODO: Add code to reply
         break;
       case messageAction.bookmark:
-        this.props.saveBookmark(user, subscriberOrgs.currentSubscriberOrgId, bookmark, extraInfo.setBookmark)
+        this.props
+          .saveBookmark(user, subscriberOrgs.currentSubscriberOrgId, bookmark, extraInfo.setBookmark)
           .then(() => {
             msg.success(String.t(extraInfo.setBookmark ? 'message.bookmarkSetToast' : 'message.bookmarkRemovedToast'));
           })
-          .catch((error) => {
+          .catch(error => {
             msg.error(error.message);
           });
         break;
       case messageAction.delete:
-        this.props.deleteMessage(message.messageId, message.conversationId)
+        this.props
+          .deleteMessage(message.messageId, message.conversationId)
           .then(() => {
             msg.success(String.t('message.deleteSuccessToast'));
           })
-          .catch((error) => {
+          .catch(error => {
             msg.error(error.message);
           });
         break;
@@ -98,10 +100,7 @@ export default class BookmarksPage extends Component {
     const isAdmin = false;
 
     return (
-      <div
-        key={messageId}
-        onClick={() => this.onBookmarkClick(bookmark)}
-      >
+      <div key={messageId} onClick={() => this.onBookmarkClick(bookmark)}>
         <Message
           conversationDisabled={disableConversation}
           message={bookmark}
@@ -121,15 +120,13 @@ export default class BookmarksPage extends Component {
     if (keys.length === 0) {
       return (
         <div className="habla__placeholder-centered-container">
-          <div className="habla__placeholder-centered-text">
-            {emptyMessage}
-          </div>
+          <div className="habla__placeholder-centered-text">{emptyMessage}</div>
         </div>
       );
     }
     const sortedKeys = keys.sort((aKey, bKey) => {
       if (orgBookmarks[aKey].created === orgBookmarks[bKey].created) return 0;
-      return (orgBookmarks[aKey].created < orgBookmarks[bKey].created) ? 1 : -1;
+      return orgBookmarks[aKey].created < orgBookmarks[bKey].created ? 1 : -1;
     });
 
     return (
@@ -141,8 +138,16 @@ export default class BookmarksPage extends Component {
 
   render() {
     const { match, subscribers, subscriberOrgs, subscribersPresences, user } = this.props;
-    if (!match || !match.params || !match.params.subscriberOrgId || !subscriberOrgs ||
-      !subscribers || !subscribers.length || !user || !subscribersPresences) {
+    if (
+      !match ||
+      !match.params ||
+      !match.params.subscriberOrgId ||
+      !subscriberOrgs ||
+      !subscribers ||
+      !subscribers.length ||
+      !user ||
+      !subscribersPresences
+    ) {
       return <Spinner />;
     }
 
@@ -175,13 +180,17 @@ export default class BookmarksPage extends Component {
               {String.t('bookmarksPage.menu.sent')} {String.t('bookmarksPage.filterCount', { count: sentKeys.length })}
             </div>
             <div onClick={() => this.setState({ filterBy: filterOption.received })} className={menuOptionReceived}>
-              {String.t('bookmarksPage.menu.received')} {String.t('bookmarksPage.filterCount', { count: receivedKeys.length })}
+              {String.t('bookmarksPage.menu.received')}{' '}
+              {String.t('bookmarksPage.filterCount', { count: receivedKeys.length })}
             </div>
           </div>
         </NewSubpageHeader>
-        {(filterBy === filterOption.all) && this.renderByFilter(orgBookmarks, allKeys, String.t('bookmarksPage.noBookmarks'))}
-        {(filterBy === filterOption.sent) && this.renderByFilter(orgBookmarks, sentKeys, String.t('bookmarksPage.noSentBookmarks'))}
-        {(filterBy === filterOption.received) && this.renderByFilter(orgBookmarks, receivedKeys, String.t('bookmarksPage.noReceivedBookmarks'))}
+        {filterBy === filterOption.all &&
+          this.renderByFilter(orgBookmarks, allKeys, String.t('bookmarksPage.noBookmarks'))}
+        {filterBy === filterOption.sent &&
+          this.renderByFilter(orgBookmarks, sentKeys, String.t('bookmarksPage.noSentBookmarks'))}
+        {filterBy === filterOption.received &&
+          this.renderByFilter(orgBookmarks, receivedKeys, String.t('bookmarksPage.noReceivedBookmarks'))}
       </div>
     );
   }

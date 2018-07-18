@@ -38,25 +38,29 @@ class EditTeamRoomPage extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit() {
+  handleSubmit(e) {
+    e.preventDefault();
     const { teamRoomId } = this.props.match.params;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
         const valuesToSend = { ...values };
         valuesToSend.name = values.name.trim();
-        this.props.updateTeamRoom(valuesToSend, teamRoomId).then(() => {
-          this.setState({ loading: false });
-          this.props.history.push(`/app/teamRoom/${teamRoomId}`);
-          message.success(String.t('editTeamRoomPage.teamRoomUpdated'));
-        }).catch((error) => {
-          this.setState({ loading: false });
-          if (error.response && error.response.status === 409) {
-            message.error(String.t('editTeamRoomPage.errorNameAlreadyTaken'));
-          } else {
-            message.error(error.message);
-          }
-        });
+        this.props
+          .updateTeamRoom(valuesToSend, teamRoomId)
+          .then(() => {
+            this.setState({ loading: false });
+            this.props.history.push(`/app/teamRoom/${teamRoomId}`);
+            message.success(String.t('editTeamRoomPage.teamRoomUpdated'));
+          })
+          .catch(error => {
+            this.setState({ loading: false });
+            if (error.response && error.response.status === 409) {
+              message.error(String.t('editTeamRoomPage.errorNameAlreadyTaken'));
+            } else {
+              message.error(error.message);
+            }
+          });
       }
     });
   }
@@ -122,7 +126,14 @@ class EditTeamRoomPage extends Component {
               </div>
               <div className="Edit-team__icon-container">
                 <div className="Edit-team__switch-container">
-                  <Tooltip placement="top" title={teamRoom.active ? String.t('editTeamRoomPage.setInactive') : String.t('editTeamRoomPage.setActive')}>
+                  <Tooltip
+                    placement="top"
+                    title={
+                      teamRoom.active
+                        ? String.t('editTeamRoomPage.setInactive')
+                        : String.t('editTeamRoomPage.setActive')
+                    }
+                  >
                     <SwitchField
                       disabled={teamRoom.primary}
                       checkedChildren={String.t('editTeamRoomPage.activeState')}
@@ -145,12 +156,7 @@ class EditTeamRoomPage extends Component {
               >
                 {String.t('Buttons.cancel')}
               </Button>
-              <Button
-                type="main"
-                fitText
-                onClick={this.handleSubmit}
-                loading={this.state.loading}
-              >
+              <Button type="main" fitText onClick={this.handleSubmit} loading={this.state.loading}>
                 {String.t('editTeamRoomPage.saveButtonLabel')}
               </Button>
             </div>

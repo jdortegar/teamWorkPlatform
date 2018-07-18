@@ -6,13 +6,15 @@ export const LWREPORTS_PLANTUPTIME_FETCH_SUCCESS = 'lwReports/plantUptime/fetch/
 export const fetchPlantUptimeReport = (params, options = { getKey: false, forceGet: true }) => {
   let requestUrl = `${config.hablaApiBaseUri}/reports/lamb-weston/report-a`;
 
-  const paramsString = Object.keys(params).map(key => `${key}=${encodeURIComponent(params[key])}`).join('&');
+  const paramsString = Object.keys(params)
+    .map(key => `${key}=${encodeURIComponent(params[key])}`)
+    .join('&');
   requestUrl += `?${paramsString}`;
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { ...params };
 
-  return (dispatch) => {
+  return dispatch => {
     const thunk = dispatch(
       doAuthenticatedRequest(
         {
@@ -25,7 +27,7 @@ export const fetchPlantUptimeReport = (params, options = { getKey: false, forceG
     );
 
     if (!options.getKey) {
-      thunk.then((response) => {
+      thunk.then(response => {
         if (response.data && response.data !== RESPONSE_STALE) {
           const { categories, series, measure } = response.data.report;
           dispatch({

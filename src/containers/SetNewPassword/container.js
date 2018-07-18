@@ -10,4 +10,11 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default Form.create()(withRouter(connect(null, mapDispatchToProps)(SetNewPassword)));
+export default Form.create()(
+  withRouter(
+    connect(
+      null,
+      mapDispatchToProps
+    )(SetNewPassword)
+  )
+);

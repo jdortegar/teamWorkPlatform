@@ -1,10 +1,6 @@
+import config from 'config/env';
 import { doAuthenticatedRequest } from './urlRequest';
-import config from '../config';
-import {
-  INTEGRATION_ERROR,
-  INTEGRATION_ERROR_BADSUBSCRIBERORG
-} from './integrations';
-
+import { INTEGRATION_ERROR, INTEGRATION_ERROR_BADSUBSCRIBERORG } from './integrations';
 
 const integrate = (type, subscriberOrgId, options = { getKey: false }, params = undefined) => {
   const newOptions = {
@@ -15,22 +11,31 @@ const integrate = (type, subscriberOrgId, options = { getKey: false }, params = 
   let requestUrl = `${config.hablaApiBaseUri}/integrations/${type}/integrate/${subscriberOrgId}`;
 
   if (params) {
-    const paramsString = Object.keys(params).map(key => `${key}=${encodeURIComponent(params[key])}`).join('&');
+    const paramsString = Object.keys(params)
+      .map(key => `${key}=${encodeURIComponent(params[key])}`)
+      .join('&');
     requestUrl += `?${paramsString}`;
   }
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { type, subscriberOrgId };
 
-  return (dispatch) => {
-    const thunk = dispatch(doAuthenticatedRequest({
-      requestUrl,
-      method: 'get'
-    }, reduxState, newOptions));
+  return dispatch => {
+    const thunk = dispatch(
+      doAuthenticatedRequest(
+        {
+          requestUrl,
+          method: 'get'
+        },
+        reduxState,
+        newOptions
+      )
+    );
 
     if (!newOptions.getKey) {
-      thunk.then((response) => {
-        if (response.status === 202) { // Redirect ourselves to target OAuth approval.
+      thunk.then(response => {
+        if (response.status === 202) {
+          // Redirect ourselves to target OAuth approval.
           window.location.href = response.data.location;
         } else if (response.status === 404) {
           dispatch({
@@ -57,6 +62,6 @@ const integrate = (type, subscriberOrgId, options = { getKey: false }, params = 
   };
 };
 
-export const integrateIntegration = (key, subscriberOrgId, params) => { // eslint-disable-line import/prefer-default-export
-  return integrate(key, subscriberOrgId, undefined, params);
-};
+// eslint-disable-next-line import/prefer-default-export
+export const integrateIntegration = (key, subscriberOrgId, params) =>
+  integrate(key, subscriberOrgId, undefined, params);
