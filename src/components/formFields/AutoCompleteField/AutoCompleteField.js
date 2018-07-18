@@ -48,8 +48,17 @@ class AutoCompleteField extends Component {
 
   render() {
     const {
-      componentKey, layout, form, label, required, missingMessage,
-      placeholder, className, autoCompleteClassName, dataSource, ...other
+      componentKey,
+      layout,
+      form,
+      label,
+      required,
+      missingMessage,
+      placeholder,
+      className,
+      autoCompleteClassName,
+      dataSource,
+      ...other
     } = this.props;
 
     const translatedMissingMessage = missingMessage || String.t('AutoCompleteField.errNoText');

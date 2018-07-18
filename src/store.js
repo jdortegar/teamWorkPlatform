@@ -10,10 +10,7 @@ import rootReducer from './reducers';
 export const history = createHistory();
 
 function composeMiddleware() {
-  let middleware = [
-    applyMiddleware(thunk),
-    applyMiddleware(routerMiddleware(history))
-  ];
+  let middleware = [applyMiddleware(thunk), applyMiddleware(routerMiddleware(history))];
 
   if (process.env.REDUX_LOGGING) {
     const { logger } = require('redux-logger'); // eslint-disable-line global-require
@@ -27,7 +24,7 @@ const persistConfig = { key: 'root', storage };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export function configureStore() {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const store = createStore(persistedReducer, composeMiddleware());
     const persistor = persistStore(store);
 

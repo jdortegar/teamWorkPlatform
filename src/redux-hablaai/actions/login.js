@@ -8,7 +8,7 @@ export const LOGIN_FAILURE = 'auth/login/failure';
 
 const AWS_CUSTOMER_ID_HEADER_NAME = 'x-hablaai-awsCustomerId';
 
-export const getAwsHeaders = (awsCustomerId) => {
+export const getAwsHeaders = awsCustomerId => {
   if (!awsCustomerId) return null;
   return { headers: { [AWS_CUSTOMER_ID_HEADER_NAME]: awsCustomerId } };
 };
@@ -19,13 +19,13 @@ export const login = (email, password, awsCustomerId) => {
   params.append('username', email);
   params.append('password', password);
 
-  return (dispatch) => {
+  return dispatch => {
     dispatch({ type: LOGIN_REQUEST });
 
     const thunk = axios.post(requestUrl, params, getAwsHeaders(awsCustomerId));
 
     thunk
-      .then((response) => {
+      .then(response => {
         const { user, token, websocketUrl, resourcesBaseUrl } = response.data;
         dispatch({
           type: LOGIN_SUCCESS,
@@ -37,7 +37,7 @@ export const login = (email, password, awsCustomerId) => {
           }
         });
       })
-      .catch((error) => {
+      .catch(error => {
         dispatch({
           type: LOGIN_FAILURE,
           payload: { error }

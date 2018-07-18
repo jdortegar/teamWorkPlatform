@@ -6,7 +6,7 @@ import countriesObj from './countries';
 import String from '../../../translations';
 
 const FormItem = Form.Item;
-const Option = Select.Option;
+const { Option } = Select;
 
 const propTypes = {
   form: formShape.isRequired,
@@ -50,16 +50,27 @@ class CountrySelectField extends Component {
 
   render() {
     const {
-      componentKey, layout, form, label, required, missingMessage,
-      placeholder, className, selectClassName, initialValue, ...other
+      componentKey,
+      layout,
+      form,
+      label,
+      required,
+      missingMessage,
+      placeholder,
+      className,
+      selectClassName,
+      initialValue,
+      ...other
     } = this.props;
 
     const translatedMissingMessage = missingMessage || String.t('Country.errNoText');
     const translatedPlaceHolder = placeholder || String.t('labelCountryPlaceholder');
 
-    const countries = countriesObj.map(({ name, code }) => {
-      return <Option key={code} value={code}>{name}</Option>;
-    });
+    const countries = countriesObj.map(({ name, code }) => (
+      <Option key={code} value={code}>
+        {name}
+      </Option>
+    ));
 
     return (
       <FormItem
@@ -83,7 +94,8 @@ class CountrySelectField extends Component {
             className={selectClassName}
           >
             {countries}
-          </Select>)}
+          </Select>
+        )}
       </FormItem>
     );
   }

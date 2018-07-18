@@ -12,8 +12,8 @@ const subscribersReducer = (state = INITIAL_STATE, action) => {
       const subscriberUserIdBySubscriberOrgIdByUserId = _.cloneDeep(state.subscriberUserIdBySubscriberOrgIdByUserId);
       const userIdsBySubscriberOrgId = _.cloneDeep(state.userIdsBySubscriberOrgId);
 
-      const subscriberOrgId = action.payload.subscriberOrgId;
-      action.payload.subscribers.forEach((subscriber) => {
+      const { subscriberOrgId } = action.payload;
+      action.payload.subscribers.forEach(subscriber => {
         let subscriberOrgs = subscriberUserIdBySubscriberOrgIdByUserId[subscriber.userId];
         if (!subscriberOrgs) {
           subscriberOrgs = {};
@@ -37,8 +37,7 @@ const subscribersReducer = (state = INITIAL_STATE, action) => {
     case SUBSCRIBER_RECEIVE: {
       const subscriberUserIdBySubscriberOrgIdByUserId = _.cloneDeep(state.subscriberUserIdBySubscriberOrgIdByUserId);
       const userIdsBySubscriberOrgId = _.cloneDeep(state.userIdsBySubscriberOrgId);
-      const subscriber = action.payload.subscriber;
-      const subscriberOrgId = action.payload.subscriberOrgId;
+      const { subscriber, subscriberOrgId } = action.payload;
 
       let subscriberOrgs = subscriberUserIdBySubscriberOrgIdByUserId[subscriber.userId];
       if (!subscriberOrgs) {

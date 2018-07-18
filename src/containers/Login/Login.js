@@ -74,7 +74,8 @@ class Login extends React.Component {
       if (!err) {
         const { email, password } = values;
         let targetRoute = paths.app;
-        if (this.props.history.location.state) { // Send user directly to requested URL, or app if cannot be deduced.
+        if (this.props.history.location.state) {
+          // Send user directly to requested URL, or app if cannot be deduced.
           const { state } = this.props.history.location;
           targetRoute = state.from.pathname;
           if (state.from.search) {
@@ -133,22 +134,27 @@ class Login extends React.Component {
                   autoFocus={initialEmail && initialEmail.length}
                 />
                 <FormItem>
-                  {
-                    this.props.loggingIn ?
-                      <Spin size="large" style={{ width: '100%' }} /> :
-                      <Button className="ButtonFull" type="main" fitText htmlType="submit">{String.t('Buttons.login')}</Button>
-                  }
+                  {this.props.loggingIn ? (
+                    <Spin size="large" style={{ width: '100%' }} />
+                  ) : (
+                    <Button className="ButtonFull" type="main" fitText htmlType="submit">
+                      {String.t('Buttons.login')}
+                    </Button>
+                  )}
                   <div className="login-main-options">
                     {getFieldDecorator('remember', {
                       valuePropName: 'checked',
                       initialValue: rememberMe
-                    })(
-                      <Checkbox>{String.t('login.rememberMeCheckboxLabel')}</Checkbox>
-                    )}
-                    <a className="login-form-forgot" onClick={this.onForgotPassword}>{String.t('login.forgotPasswordLabel')}</a>
+                    })(<Checkbox>{String.t('login.rememberMeCheckboxLabel')}</Checkbox>)}
+                    <a className="login-form-forgot" onClick={this.onForgotPassword}>
+                      {String.t('login.forgotPasswordLabel')}
+                    </a>
                   </div>
                   <div className="login-main-signup">
-                    <a onClick={this.onNewUserSignUp}><span className="habla-bold-text">{String.t('login.newUserLabel')}</span> {String.t('login.signUpLabel')}</a>
+                    <a onClick={this.onNewUserSignUp}>
+                      <span className="habla-bold-text">{String.t('login.newUserLabel')}</span>{' '}
+                      {String.t('login.signUpLabel')}
+                    </a>
                   </div>
                 </FormItem>
               </Form>
@@ -170,4 +176,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({ loginUser }, dispatch);
 
-export default Form.create()(connect(mapStateToProps, mapDispatchToProps)(Login));
+export default Form.create()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Login)
+);

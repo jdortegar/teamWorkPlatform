@@ -8,7 +8,7 @@ const FormItem = Form.Item;
 
 const propTypes = {
   form: PropTypes.object.isRequired,
-  componentKey: PropTypes.string.isRequired,
+  componentKey: PropTypes.string,
   initialValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   placeholder: PropTypes.string,
@@ -43,9 +43,21 @@ const defaultProps = {
 
 function TextField(props) {
   const {
-    componentKey, layout, label, initialValue, required, extraRules,
-    placeholder, form, missingMessage, validateStatus, colon, hasFeedback,
-    className, inputClassName, ...other
+    componentKey,
+    layout,
+    label,
+    initialValue,
+    required,
+    extraRules,
+    placeholder,
+    form,
+    missingMessage,
+    validateStatus,
+    colon,
+    hasFeedback,
+    className,
+    inputClassName,
+    ...other
   } = props;
 
   const translatedPlaceHolder = placeholder || String.t('InputField.defaultPlaceholder');

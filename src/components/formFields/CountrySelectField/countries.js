@@ -52,7 +52,7 @@ export default [
   { name: 'Democratic Republic of the Congo', code: 'CD' },
   { name: 'Cook Islands', code: 'CK' },
   { name: 'Costa Rica', code: 'CR' },
-  { name: 'Cote D\'Ivoire', code: 'CI' },
+  { name: "Cote D'Ivoire", code: 'CI' },
   { name: 'Croatia', code: 'HR' },
   { name: 'Cuba', code: 'CU' },
   { name: 'Cyprus', code: 'CY' },

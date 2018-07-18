@@ -24,7 +24,7 @@ const defaultProps = {
   secondaryTree: undefined
 };
 
-const renderAvatar = (item) => {
+const renderAvatar = item => {
   const { preferences } = item;
   const className = classNames({
     'opacity-low': false
@@ -36,7 +36,11 @@ const renderAvatar = (item) => {
     return <Avatar src={`data:image/jpeg;base64, ${preferences.avatarBase64}`} className={className} />;
   }
   const nameInitial = item.name.substring(0, 1).toUpperCase();
-  return <Avatar color={preferences.iconColor} className={className}>{nameInitial}</Avatar>;
+  return (
+    <Avatar color={preferences.iconColor} className={className}>
+      {nameInitial}
+    </Avatar>
+  );
 };
 
 class Tree extends Component {
@@ -57,11 +61,9 @@ class Tree extends Component {
     e.preventDefault();
     const node = tree.nodesById[nodeId];
     node.expanded = !node.expanded;
-    this.setState(
-      {
-        primaryTree: tree
-      }
-    );
+    this.setState({
+      primaryTree: tree
+    });
   }
 
   onShareChange(checked, node) {
@@ -75,22 +77,18 @@ class Tree extends Component {
       node.sharingSettingsTree = undefined; // eslint-disable-line no-param-reassign
     }
 
-    this.setState(
-      {
-        primaryTree: tree
-      }
-    );
+    this.setState({
+      primaryTree: tree
+    });
   }
 
   onShareSettingsClick(e, node) {
     e.preventDefault();
-    node.showSharingSettings = !(node.showSharingSettings); // eslint-disable-line no-param-reassign
+    node.showSharingSettings = !node.showSharingSettings; // eslint-disable-line no-param-reassign
 
-    this.setState(
-      {
-        primaryTree: this.state.primaryTree
-      }
-    );
+    this.setState({
+      primaryTree: this.state.primaryTree
+    });
   }
 
   renderSharingLink(node) {
@@ -127,15 +125,19 @@ class Tree extends Component {
   }
 
   renderBoxedNodes(nodeArray, tree) {
-    return (<div className="nodes-boxed">{this.renderNodes(nodeArray, tree)}</div>);
+    return <div className="nodes-boxed">{this.renderNodes(nodeArray, tree)}</div>;
   }
 
   renderNodes(nodeArray, tree) {
-    return nodeArray.map((node) => {
+    return nodeArray.map(node => {
       const nodeDetails = tree.nodesById[node.id];
       let icon;
       if (nodeDetails.type === 'FOLDER') {
-        icon = (<a onClick={e => this.onNodeClick(e, node.id, tree)}><i className="fa fa-folder fa-2x" /></a>);
+        icon = (
+          <a onClick={e => this.onNodeClick(e, node.id, tree)}>
+            <i className="fa fa-folder fa-2x" />
+          </a>
+        );
       } else if (nodeDetails.type === 'TEAM') {
         const initials = getInitials(nodeDetails.name);
         const className = classNames({ 'opacity-low': !nodeDetails.active });
@@ -144,18 +146,11 @@ class Tree extends Component {
             {initials}
           </Avatar>
         );
-        icon = (<a onClick={e => this.onNodeClick(e, node.id, tree)}>{teamIcon}</a>);
+        icon = <a onClick={e => this.onNodeClick(e, node.id, tree)}>{teamIcon}</a>;
       } else if (nodeDetails.type === 'TEAMROOM') {
         icon = renderAvatar(nodeDetails);
       } else {
-        icon = (
-          <img
-            src={imageSrcFromFileExtension(nodeDetails.type)}
-            alt=""
-            width={32}
-            height={32}
-          />
-        );
+        icon = <img src={imageSrcFromFileExtension(nodeDetails.type)} alt="" width={32} height={32} />;
       }
 
       const nodeName = nodeDetails.name;
@@ -169,11 +164,11 @@ class Tree extends Component {
           itemsString = `(${count} items)`;
         }
       }
-      const childCount = (itemsString) ? (<span className="node-child-count">{itemsString}</span>) : '';
+      const childCount = itemsString ? <span className="node-child-count">{itemsString}</span> : '';
 
       const { parentNode, shareWithIds } = this.props;
       const shared = shareWithIds.getSharingType(node.id, parentNode.id);
-      const sharedChecked = (shared !== SharingTypes.NONE);
+      const sharedChecked = shared !== SharingTypes.NONE;
 
       let selectionField;
       if (this.props.secondaryTree) {
@@ -189,22 +184,33 @@ class Tree extends Component {
       } else {
         // const shareIcon = 'check-circle';
         // const onOff = (sharedChecked) ? 'node-share-yes' : 'node-share-no';
-        selectionField = (<a onClick={() => this.onShareChange(!sharedChecked, nodeDetails)}><i className="fas fa-check-circle fa-2x" /></a>);
+        selectionField = (
+          <a onClick={() => this.onShareChange(!sharedChecked, nodeDetails)}>
+            <i className="fas fa-check-circle fa-2x" />
+          </a>
+        );
       }
 
       return (
         <div key={node.id}>
           <div className="node integration-sharing-node" key={node.id}>
             <div className="node-icon">{icon}</div>
-            <div className="node-info"><span className="node-name">{nodeName}</span> &nbsp;{childCount}</div>
-            <div className="node-filler" />
-            {(this.state.secondaryTree) && ((shared === SharingTypes.ALL) || (shared === SharingTypes.SOME)) && this.renderSharingLink(nodeDetails)}
-            <div className="node-share">
-              {selectionField}
+            <div className="node-info">
+              <span className="node-name">{nodeName}</span> &nbsp;{childCount}
             </div>
+            <div className="node-filler" />
+            {this.state.secondaryTree &&
+              (shared === SharingTypes.ALL || shared === SharingTypes.SOME) &&
+              this.renderSharingLink(nodeDetails)}
+            <div className="node-share">{selectionField}</div>
           </div>
-          {(((shared === SharingTypes.ALL) || (shared === SharingTypes.SOME)) && (nodeDetails.showSharingSettings)) && this.renderSharingSettings(nodeDetails)}
-          {((node.children) && (node.children.length > 0) && (nodeDetails.expanded)) && this.renderBoxedNodes(node.children, tree)}
+          {(shared === SharingTypes.ALL || shared === SharingTypes.SOME) &&
+            nodeDetails.showSharingSettings &&
+            this.renderSharingSettings(nodeDetails)}
+          {node.children &&
+            node.children.length > 0 &&
+            nodeDetails.expanded &&
+            this.renderBoxedNodes(node.children, tree)}
         </div>
       );
     });
@@ -215,11 +221,7 @@ class Tree extends Component {
     const tree = primaryTree;
     const { nodeHierarchy } = tree;
 
-    return (
-      <div>
-        {this.renderNodes(nodeHierarchy, tree)}
-      </div>
-    );
+    return <div>{this.renderNodes(nodeHierarchy, tree)}</div>;
   }
 }
 

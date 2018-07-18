@@ -2,10 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { BasicFilter } from 'components';
-import {
-  integrationLabelFromKey,
-  integrationImageFromKey
-} from 'utils/dataIntegrations';
+import { integrationLabelFromKey, integrationImageFromKey } from 'utils/dataIntegrations';
 import String from 'translations';
 
 const propTypes = {

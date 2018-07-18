@@ -29,7 +29,7 @@ class AcceptInvitationPage extends Component {
       if (type === 'subscriberOrg') {
         key = 'subscriberOrgId';
       } else {
-        key = (type === 'team') ? 'teamId' : 'teamRoomId';
+        key = type === 'team' ? 'teamId' : 'teamRoomId';
       }
 
       // if invitation active, show app home page which will have invitations at the top

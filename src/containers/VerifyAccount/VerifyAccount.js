@@ -25,29 +25,32 @@ class VerifyAccount extends Component {
   }
 
   componentDidMount() {
-    const uuid = this.props.match.params.uuid;
-    this.props.verifyEmailAccount(uuid)
+    const { uuid } = this.props.match.params;
+    this.props
+      .verifyEmailAccount(uuid)
       .then(() => this.setState({ verified: true }))
       .catch(() => this.props.history.replace('/app'));
   }
 
   render() {
-    return (
-      !this.state.verified ?
-        <div className="padding-class-a habla-label">Loading ...</div> :
-        <Row className="account-block align-center-class">
-          <Col span="24">
-            <div className="padding-class-b">
-              <i className="fas fa-check-circle fa-3x habla-green mb-1" />
-              <div className="habla-big-title habla-bold-text">{String.t('verifyAccount.successText')}</div>
-              <div className="margin-top-class-a">
-                <Link to="/createAccount">
-                  <Button type="main" fitText>{String.t('Buttons.createAccount')}</Button>
-                </Link>
-              </div>
+    return !this.state.verified ? (
+      <div className="padding-class-a habla-label">Loading ...</div>
+    ) : (
+      <Row className="account-block align-center-class">
+        <Col span="24">
+          <div className="padding-class-b">
+            <i className="fas fa-check-circle fa-3x habla-green mb-1" />
+            <div className="habla-big-title habla-bold-text">{String.t('verifyAccount.successText')}</div>
+            <div className="margin-top-class-a">
+              <Link to="/createAccount">
+                <Button type="main" fitText>
+                  {String.t('Buttons.createAccount')}
+                </Button>
+              </Link>
             </div>
-          </Col>
-        </Row>
+          </div>
+        </Col>
+      </Row>
     );
   }
 }
@@ -60,4 +63,7 @@ function mapDispatchToProps(dispatch) {
 
 VerifyAccount.propTypes = propTypes;
 
-export default connect(null, mapDispatchToProps)(VerifyAccount);
+export default connect(
+  null,
+  mapDispatchToProps
+)(VerifyAccount);

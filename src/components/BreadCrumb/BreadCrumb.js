@@ -9,16 +9,15 @@ class BreadCrumb extends React.Component {
     const { subscriberOrg } = this.props;
     const avatarClass = 'mr-1';
     if (subscriberOrg.preferences.avatarBase64) {
-      return (<Avatar className={avatarClass} src={`data:image/jpeg;base64, ${subscriberOrg.preferences.avatarBase64}`} />);
+      return (
+        <Avatar className={avatarClass} src={`data:image/jpeg;base64, ${subscriberOrg.preferences.avatarBase64}`} />
+      );
     } else if (subscriberOrg.preferences.logo) {
-      return (<Avatar className="{avatarClass}" color="#FFF" src={subscriberOrg.preferences.logo} />);
+      return <Avatar className="{avatarClass}" color="#FFF" src={subscriberOrg.preferences.logo} />;
     }
     const initial = subscriberOrg.name.substring(0, 1).toUpperCase();
     return (
-      <Avatar
-        color={subscriberOrg.preferences.iconColor}
-        className={avatarClass}
-      >
+      <Avatar color={subscriberOrg.preferences.iconColor} className={avatarClass}>
         {initial}
       </Avatar>
     );
@@ -31,23 +30,20 @@ class BreadCrumb extends React.Component {
         {routes.map((route, index) => {
           if (route.link) {
             return (
-              <span className="breadcrumbs-text responsiveHideClass" key={index}>
+              <span className="breadcrumbs-text responsiveHideClass" key={route.title}>
                 <Link to={route.link}>
                   <span>{route.title}</span>
                 </Link>
-                {index < routes.length - 1 &&
-                <span className="breadcrumbs-separator">
-                  <i className="fas fa-angle-right" />
-                </span>
-                }
+                {index < routes.length - 1 && (
+                  <span className="breadcrumbs-separator">
+                    <i className="fas fa-angle-right" />
+                  </span>
+                )}
               </span>
             );
           }
           return (
-            <span
-              className="breadcrumbs-text"
-              key={index}
-            >
+            <span className="breadcrumbs-text" key={route.title}>
               {route.title}
             </span>
           );

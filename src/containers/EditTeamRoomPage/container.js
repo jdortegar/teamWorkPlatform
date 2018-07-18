@@ -12,4 +12,7 @@ const mapDispatchToProps = dispatch => ({
   updateTeamRoom: (name, teamId) => dispatch(updateTeamRoom(name, teamId))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditTeamRoomPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditTeamRoomPage);

@@ -31,7 +31,12 @@ const propTypes = {
 class IntegrationsPage extends Component {
   componentDidMount() {
     const { match, subscriberOrgs } = this.props;
-    if (!match || !match.params || !match.params.subscriberOrgId || (match.params.subscriberOrgId !== subscriberOrgs.currentSubscriberOrgId)) {
+    if (
+      !match ||
+      !match.params ||
+      !match.params.subscriberOrgId ||
+      match.params.subscriberOrgId !== subscriberOrgs.currentSubscriberOrgId
+    ) {
       if (subscriberOrgs) {
         this.props.history.replace(`/app/integrations/${subscriberOrgs.currentSubscriberOrgId}`);
       } else {
@@ -47,10 +52,10 @@ class IntegrationsPage extends Component {
     if (notifyInfo) {
       if (notifyInfo.status !== 'CREATED') {
         args = badIntegration(notifyInfo);
-        args.icon = (<Icon type="close" className="icon_fail habla-red" />);
+        args.icon = <Icon type="close" className="icon_fail habla-red" />;
       } else {
         args = successfulIntegration(notifyInfo.integration);
-        args.icon = (<Icon type="check" className="icon_success habla-green" />);
+        args.icon = <Icon type="check" className="icon_success habla-green" />;
       }
       // TODO: show notification.
       // ex. notifyInfo = { integration: 'bogus', status: 'CREATED' } will say something like "You have successfully authorized Bogus Drive access."
@@ -65,7 +70,7 @@ class IntegrationsPage extends Component {
   notifyInfo() {
     const queryParams = extractQueryParams(this.props);
     const { integration, status } = queryParams;
-    return ((integration) && (status)) ? queryParams : undefined;
+    return integration && status ? queryParams : undefined;
   }
 
   render() {
@@ -73,14 +78,19 @@ class IntegrationsPage extends Component {
     const possibleIntegrationKeys = availableIntegrationKeys();
 
     if (error) {
-      return (
-        <div>{String.t('integrationsPage.errorMessage')}</div>
-      );
+      return <div>{String.t('integrationsPage.errorMessage')}</div>;
     }
 
     const { match, subscriberOrgs } = this.props;
-    if (!match || !match.params || !match.params.subscriberOrgId || !integrationsBySubscriberOrgId ||
-        !subscriberOrgs || !subscriberOrgs.subscriberOrgById || working) {
+    if (
+      !match ||
+      !match.params ||
+      !match.params.subscriberOrgId ||
+      !integrationsBySubscriberOrgId ||
+      !subscriberOrgs ||
+      !subscriberOrgs.subscriberOrgById ||
+      working
+    ) {
       return <Spinner />;
     }
     const { subscriberOrgId } = match.params;
@@ -90,35 +100,34 @@ class IntegrationsPage extends Component {
       return null;
     }
 
-    const renderIntegrations = (active) => {
+    const renderIntegrations = active => {
       const integrationsArr = [];
 
-      possibleIntegrationKeys.forEach((key) => {
-        if (active === (!integrationIsSupported(key))) return; // put this mapping in the correct section
+      possibleIntegrationKeys.forEach(key => {
+        if (active === !integrationIsSupported(key)) return; // put this mapping in the correct section
         let extra = null;
         const mappedKey = integrationMapping(key);
         if (!_.isEmpty(integrations) && integrations[mappedKey]) {
           const { expired, revoked } = integrations[mappedKey];
-          if ((typeof revoked === 'undefined') || (revoked === false)) {
-            extra = (<i className="fa fa-check-circle icon_success habla-green" />);
+          if (typeof revoked === 'undefined' || revoked === false) {
+            extra = <i className="fa fa-check-circle icon_success habla-green" />;
             if (expired === true) {
-              extra = (<i className="fa fa-times-circle habla-red" />);
+              extra = <i className="fa fa-times-circle habla-red" />;
             }
           }
         }
         integrationsArr.push(
           <div key={key}>
             <Tooltip placement="top" title={integrationLabelFromKey(key)}>
-              {active ?
+              {active ? (
                 <Link to={`/app/integrations/${subscriberOrgId}/${key}`}>
                   <ImageCard imgSrc={integrationImageFromKey(key)} extra={extra} />
-                </Link> :
+                </Link>
+              ) : (
                 <ImageCard imgSrc={integrationImageFromKey(key)} extra={extra} />
-              }
+              )}
             </Tooltip>
-            <div className="habla-label align-center-class card-label">
-              {integrationLabelFromKey(key)}
-            </div>
+            <div className="habla-label align-center-class card-label">{integrationLabelFromKey(key)}</div>
           </div>
         );
       });
@@ -152,17 +161,13 @@ class IntegrationsPage extends Component {
         <div className="padding-class-a">
           <div className="habla-paragraph">{String.t('integrationsPage.selectIntegration')}</div>
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex habla-integration-list margin-top-class-b">
-            <Row type="flex">
-              {renderIntegrations(true)}
-            </Row>
+            <Row type="flex">{renderIntegrations(true)}</Row>
           </SimpleCardContainer>
         </div>
         <div className="padding-class-a border-top-lighter mt-2">
           <div className="habla-paragraph">{String.t('integrationsPage.upcomingIntegrations')}</div>
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex habla-integration-list margin-top-class-b">
-            <Row type="flex">
-              {renderIntegrations(false)}
-            </Row>
+            <Row type="flex">{renderIntegrations(false)}</Row>
           </SimpleCardContainer>
         </div>
       </div>

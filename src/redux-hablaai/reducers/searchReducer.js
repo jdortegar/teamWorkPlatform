@@ -1,8 +1,4 @@
-import {
-  getOwnersFromFiles,
-  getFileTypesFromFiles,
-  getIntegrationsFromFiles
-} from 'lib/files';
+import { getOwnersFromFiles, getFileTypesFromFiles, getIntegrationsFromFiles } from 'lib/files';
 
 import { SEARCH_REQUEST, SEARCH_SUCCESS, SEARCH_ERROR, SEARCH_CLEAR, SEARCH_STALE } from '../actions';
 

@@ -2,10 +2,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import Sidebar from 'components/Sidebar';
-import {
-  setCurrentSubscriberOrgId,
-  showSideBar
-} from '../../actions';
+import { setCurrentSubscriberOrgId, showSideBar } from '../../actions';
 import {
   getCurrentUser,
   getSubscriberOrgsSortedAlphabetically,
@@ -32,10 +29,18 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    setCurrentSubscriberOrgId,
-    showSideBar
-  }, dispatch);
+  return bindActionCreators(
+    {
+      setCurrentSubscriberOrgId,
+      showSideBar
+    },
+    dispatch
+  );
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Sidebar));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Sidebar)
+);

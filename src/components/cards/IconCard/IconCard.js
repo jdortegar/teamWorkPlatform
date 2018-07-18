@@ -4,14 +4,8 @@ import SimpleCard from '../SimpleCard';
 
 const propTypes = {
   text: PropTypes.string,
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node
-  ]),
-  extra: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node
-  ])
+  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  extra: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
 };
 
 const defaultProps = {
@@ -25,7 +19,7 @@ function IconCard(props) {
   return (
     <SimpleCard extra={extra} {...rest}>
       <div>
-        { icon }
+        {icon}
         <h4>{text}</h4>
       </div>
     </SimpleCard>

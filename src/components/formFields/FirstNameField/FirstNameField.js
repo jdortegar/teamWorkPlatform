@@ -10,7 +10,7 @@ const FormItem = Form.Item;
 const propTypes = {
   form: PropTypes.object.isRequired,
   componentKey: PropTypes.string,
-  initialValue: PropTypes.string.isRequired,
+  initialValue: PropTypes.string,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   placeholder: PropTypes.string,
   layout: PropTypes.object,
@@ -36,18 +36,11 @@ function FirstNameField(props) {
     ...rest,
     placeholder,
     missingMessage: translatedMissingMessage,
-    extraRules: [{
-      validator: antValidate(firstName)
-    }]
+    extraRules: [{ validator: antValidate(firstName) }]
   });
 
   return (
-    <FormItem
-      labelCol={layout.labelCol}
-      wrapperCol={layout.wrapperCol}
-      label={label}
-      hasFeedback
-    >
+    <FormItem labelCol={layout.labelCol} wrapperCol={layout.wrapperCol} label={label} hasFeedback>
       {decoratedInput}
     </FormItem>
   );

@@ -12,4 +12,7 @@ const mapDispatchToProps = dispatch => ({
   fetchGlobalState: () => dispatch(fetchGlobalState())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Main);

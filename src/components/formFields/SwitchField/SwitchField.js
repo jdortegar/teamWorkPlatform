@@ -20,13 +20,7 @@ const defaultProps = {
 };
 
 function SwitchField(props) {
-  const {
-    form,
-    componentKey,
-    valuePropName,
-    className: userClassName,
-    initialValue,
-    ...rest } = props;
+  const { form, componentKey, valuePropName, className: userClassName, initialValue, ...rest } = props;
 
   const decorator = form.getFieldDecorator(componentKey, {
     valuePropName,
@@ -34,11 +28,7 @@ function SwitchField(props) {
   });
 
   const className = classNames('c-base-switch', userClassName);
-  return decorator(<Switch
-    {...rest}
-    name={componentKey}
-    className={className}
-  />);
+  return decorator(<Switch {...rest} name={componentKey} className={className} />);
 }
 
 SwitchField.propTypes = propTypes;

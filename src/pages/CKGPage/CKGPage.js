@@ -19,13 +19,16 @@ import String from 'translations';
 import './styles/style.css';
 
 const color = d3.scaleOrdinal(d3.schemeCategory10);
-const buildTime = dateTime => moment().startOf('day').set({
-  hour: dateTime.hour(),
-  minute: dateTime.minutes(),
-  second: dateTime.seconds()
-});
+const buildTime = dateTime =>
+  moment()
+    .startOf('day')
+    .set({
+      hour: dateTime.hour(),
+      minute: dateTime.minutes(),
+      second: dateTime.seconds()
+    });
 
-const buildDataObject = (file) => {
+const buildDataObject = file => {
   const dateTime = moment(file.lastModified);
   return {
     ...file,
@@ -54,7 +57,6 @@ const defaultProps = {
   teamRooms: []
 };
 
-
 class CKGPage extends Component {
   state = {
     zoomLevel: 0,
@@ -66,9 +68,20 @@ class CKGPage extends Component {
   };
 
   componentDidMount() {
-    const { fetchTimeActivitiesBySubscriberOrgId, setCurrentSubscriberOrgId, currentSubscriberOrgId, history, match } = this.props;
+    const {
+      fetchTimeActivitiesBySubscriberOrgId,
+      setCurrentSubscriberOrgId,
+      currentSubscriberOrgId,
+      history,
+      match
+    } = this.props;
 
-    if (!match || !match.params || !match.params.subscriberOrgId || (match.params.subscriberOrgId !== currentSubscriberOrgId)) {
+    if (
+      !match ||
+      !match.params ||
+      !match.params.subscriberOrgId ||
+      match.params.subscriberOrgId !== currentSubscriberOrgId
+    ) {
       history.replace('/app');
       return;
     }
@@ -101,43 +114,45 @@ class CKGPage extends Component {
       zoomLevel: prevState.zoomLevel + 1,
       viewAll: false
     }));
-  }
+  };
 
   handleZoomOut = () => {
     this.setState(prevState => ({
       zoomLevel: prevState.zoomLevel - 1,
       viewAll: false
     }));
-  }
+  };
 
   handleViewAll = () => {
     this.setState({ viewAll: true });
-  }
+  };
 
-  handleSelectTeam = (event) => {
+  handleSelectTeam = event => {
     this.setState({ selectedTeamId: event.target.value });
-  }
+  };
 
-  handleSelectTeamRoom = (event) => {
+  handleSelectTeamRoom = event => {
     this.setState({ selectedTeamRoomId: event.target.value });
-  }
+  };
 
-  handleIntegrationFilterClick = (key) => {
+  handleIntegrationFilterClick = key => {
     const { excludeIntegrationsFilter } = this.state;
-    this.setState({ excludeIntegrationsFilter: { ...excludeIntegrationsFilter, [key]: excludeIntegrationsFilter[key] ? null : true } });
-  }
+    this.setState({
+      excludeIntegrationsFilter: { ...excludeIntegrationsFilter, [key]: excludeIntegrationsFilter[key] ? null : true }
+    });
+  };
 
-  handleFileTypeFilterClick = (key) => {
+  handleFileTypeFilterClick = key => {
     const { excludeTypesFilter } = this.state;
     this.setState({ excludeTypesFilter: { ...excludeTypesFilter, [key]: excludeTypesFilter[key] ? null : true } });
-  }
+  };
 
   handleFileTypeFilterDoubleClick = () => {
     const { fileTypes } = this.props.timeActivities;
     const allSelected = Object.keys(this.state.excludeTypesFilter).length === fileTypes.length;
     const allFilters = fileTypes.reduce((obj, file) => ({ ...obj, [file.key]: true }), {});
     this.setState({ excludeTypesFilter: allSelected ? {} : allFilters });
-  }
+  };
 
   renderSelectors = () => {
     const { teams, teamRooms } = this.props;
@@ -147,11 +162,7 @@ class CKGPage extends Component {
     return (
       <div className="bottomBar-selectors">
         <div className="bottomBar-selectors-content padding-class-a">
-          <TeamPicker
-            teams={teams}
-            selected={selectedTeamId}
-            onSelect={this.handleSelectTeam}
-          />
+          <TeamPicker teams={teams} selected={selectedTeamId} onSelect={this.handleSelectTeam} />
           <TeamRoomPicker
             teamRooms={filteredTeamRooms}
             selected={selectedTeamRoomId}
@@ -161,13 +172,13 @@ class CKGPage extends Component {
         </div>
       </div>
     );
-  }
+  };
 
   renderFilesFilter() {
     const { fileTypes, integrations } = this.props.timeActivities;
     return (
       <FilesFilters
-        className={'CKGPage__FilesFilters'}
+        className="CKGPage__FilesFilters"
         fileTypes={fileTypes}
         integrations={integrations}
         excludeIntegrationsFilter={this.state.excludeIntegrationsFilter}
@@ -185,7 +196,7 @@ class CKGPage extends Component {
 
     const { files } = timeActivities;
     const { excludeTypesFilter, excludeIntegrationsFilter } = this.state;
-    const filesFiltered = files.filter((file) => {
+    const filesFiltered = files.filter(file => {
       const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
       const key = integrationKeyFromFile(file);
       return !excludeTypesFilter[label] && !excludeIntegrationsFilter[key];

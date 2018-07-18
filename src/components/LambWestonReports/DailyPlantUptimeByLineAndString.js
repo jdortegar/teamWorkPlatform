@@ -12,6 +12,9 @@ const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
 
 class DailyPlantUptimeByLineAndString extends Component {
+  container = null;
+  highchart = null;
+
   constructor(props) {
     super(props);
 
@@ -103,9 +106,6 @@ class DailyPlantUptimeByLineAndString extends Component {
     this.highchart.chart.update({ series: nextProps.series }, true, true);
   }
 
-  container = null;
-  highchart = null;
-
   updateDimensions() {
     if (!this.container || !this.container.parentNode) return;
     const { clientWidth, clientHeight } = this.container.parentNode;
@@ -123,11 +123,15 @@ class DailyPlantUptimeByLineAndString extends Component {
       <div className="Report__container">
         <div
           className="DailyPlantUptimeByLineAndString"
-          ref={(node) => { this.container = node; }}
+          ref={node => {
+            this.container = node;
+          }}
           style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
           <HighchartsReact
-            ref={(node) => { this.highchart = node; }}
+            ref={node => {
+              this.highchart = node;
+            }}
             highcharts={Highcharts}
             options={{
               ...this.chartOptions,
