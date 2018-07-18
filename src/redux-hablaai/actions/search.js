@@ -3,16 +3,15 @@ import config from '../../config/env';
 
 export const SEARCH_REQUEST = 'search/request';
 export const SEARCH_SUCCESS = 'search/success';
-export const SEARCH_ERROR = 'search/error';
+export const SEARCH_FAILURE = 'search/failure';
 export const SEARCH_STALE = 'search/stale';
 
 // forceGet: true - disabling cache in search requests
 export const search = (query = undefined, subscriberOrgId, options = { getKey: false, forceGet: true }) => {
   // requestUrl is the key into redux state.urlRequests.
 
-  const requestUrl = `https://y2rhikgvq4.execute-api.us-west-2.amazonaws.com/${
-    config.hablaApiEnv
-  }/graphapi/ckg/files/${subscriberOrgId}/${query}`;
+  const baseUrl = 'https://y2rhikgvq4.execute-api.us-west-2.amazonaws.com';
+  const requestUrl = `${baseUrl}/${config.hablaApiEnv}/graphapi/ckg/files/${subscriberOrgId}/${query}`;
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { query };
@@ -25,7 +24,7 @@ export const search = (query = undefined, subscriberOrgId, options = { getKey: f
 
     if (!query) {
       dispatch({
-        type: SEARCH_ERROR,
+        type: SEARCH_FAILURE,
         payload: { query }
       });
       return null;
@@ -59,7 +58,7 @@ export const search = (query = undefined, subscriberOrgId, options = { getKey: f
         },
         error => {
           dispatch({
-            type: SEARCH_ERROR,
+            type: SEARCH_FAILURE,
             payload: { query }
           });
           return error;

@@ -128,7 +128,7 @@ class SearchPage extends Component {
   }
 
   render() {
-    const { loading, results, owners, fileTypes, integrations } = this.props;
+    const { loading, results, resultsCount, owners, fileTypes, integrations } = this.props;
     const { query, excludeOwnersFilter, excludeIntegrationsFilter, excludeTypesFilter } = this.state;
 
     const resultsFiltered = results.filter(file => {
@@ -145,6 +145,7 @@ class SearchPage extends Component {
           <div className="SearchPage__title">
             {String.t('searchPage.title')}
             <span className="SearchPage__query">&ldquo;{query}&rdquo;</span>
+            <span>{loading ? '...' : `(${resultsCount})`}</span>
           </div>
         </div>
         <div className={classNames('SearchPage__results', { loading })}>
@@ -183,6 +184,7 @@ SearchPage.propTypes = {
   loading: PropTypes.bool,
   query: PropTypes.string,
   results: PropTypes.array,
+  resultsCount: PropTypes.number,
   owners: PropTypes.array,
   fileTypes: PropTypes.array,
   integrations: PropTypes.array,
@@ -197,6 +199,7 @@ SearchPage.defaultProps = {
   loading: false,
   query: '',
   results: [],
+  resultsCount: 0,
   owners: [],
   fileTypes: [],
   integrations: [],

@@ -9,6 +9,7 @@ import { extractQueryParams } from 'routes';
 const mapStateToProps = (state, props) => ({
   owners: state.search.owners.map(({ key, count }) => ({ ...getUserById(state, key), key, count })),
   results: state.search.results,
+  resultsCount: state.search.resultsCount,
   query: state.search.query,
   fileTypes: state.search.fileTypes,
   integrations: state.search.integrations,
