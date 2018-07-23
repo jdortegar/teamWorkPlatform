@@ -77,7 +77,8 @@ const possibleIntegrations = {
   },
   dropbox: {
     label: 'Dropbox',
-    logo: dropboxLogo
+    logo: dropboxLogo,
+    isSupported: true
   },
   jira: {
     label: 'Jira',
