@@ -10,37 +10,41 @@
   cursor: pointer;
   line-height: 0;
 }
-.habla-button:hover, .habla-button:focus {
+.habla-button:hover,
+.habla-button:focus {
   color: #fff;
 }
 .habla-button:hover {
   color: #fff;
 }
-.habla-button--type-main, .habla-button--type-main:focus {
+.habla-button--type-main,
+.habla-button--type-main:focus {
   background: #32a953;
 }
 .habla-button--type-main:hover {
   background: #008c3f;
   color: #fff;
 }
-.habla-button--type-secondary, .habla-button--type-secondary:focus {
+.habla-button--type-secondary,
+.habla-button--type-secondary:focus {
   background: #666666;
 }
-.habla-button--type-secondary:hover{
+.habla-button--type-secondary:hover {
   background: #555;
 }
-.habla-button--type-alert, .habla-button--type-alert:focus {
+.habla-button--type-alert,
+.habla-button--type-alert:focus {
   background: #eb4435;
 }
 .habla-button--type-alert:hover {
   background: #ce0f00;
 }
-.habla-button--type-disable, .habla-button--type-disable:focus {
+.habla-button--type-disable,
+.habla-button--type-disable:focus {
   background: #dddddd;
 }
 .habla-button--type-disable:hover {
   background: #f7f7f7;
-  cursor: help;
 }
 .habla-button--size-small {
   min-width: 140px;
