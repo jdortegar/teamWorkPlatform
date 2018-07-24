@@ -35,6 +35,13 @@
   background-color: white;
 }
 
+.SearchPage__results-highlighted {
+  border-bottom: dotted 1px #fbbc12; /* yellow-habla */
+  padding-bottom: 1px;
+  color: white;
+  background-color: transparent;
+}
+
 .SearchPage__results__link,
 .SearchPage__results__link:hover {
   color: #fff;

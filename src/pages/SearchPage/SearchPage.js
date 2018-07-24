@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
+import _ from 'lodash';
+import Highlighter from 'react-highlight-words';
 
 import { integrationKeyFromFile, integrationLabelFromKey, integrationImageFromKey } from 'utils/dataIntegrations';
 import { Spinner, ResultsList, FilesFilters } from 'components';
@@ -17,7 +19,10 @@ const formatTime = date =>
     displayTime: moment(date).format(String.t('timeActivityGraph.timeFormat'))
   });
 
-const getColumns = owners => [
+// transforms "habla AI, design" into ['habla', 'AI', 'design']
+const extractKeywords = str => _.uniq(_.words(str, /[^, ]+/g));
+
+const getColumns = (keywords, owners) => [
   {
     title: 'File Name',
     dataIndex: 'fileName',
@@ -32,7 +37,14 @@ const getColumns = owners => [
           width={32}
           height={32}
         />
-        <span className="SearchPage__results__fileName">{text}</span>
+        <Highlighter
+          className="SearchPage__results__fileName"
+          highlightClassName="SearchPage__results-highlighted"
+          searchWords={keywords}
+          textToHighlight={text}
+          caseSensitive
+          autoEscape
+        />
       </a>
     )
   },
@@ -67,7 +79,7 @@ const getColumns = owners => [
     dataIndex: 'fileSource',
     key: 'fileSource',
     sorter: (a, b) => a.fileSource.localeCompare(b.fileSource),
-    render: (_, file) => (
+    render: (text, file) => (
       <div>
         <div className="SearchPage__results__integrationIcon">
           <img src={integrationImageFromKey(integrationKeyFromFile(file))} width={26} height={26} alt="" />
@@ -153,7 +165,7 @@ class SearchPage extends Component {
           {!loading && (
             <div className="SearchPage__results-inner">
               <ResultsList
-                columns={getColumns(owners)}
+                columns={getColumns(extractKeywords(query), owners)}
                 dataSource={resultsFiltered}
                 loading={loading}
                 rowKey="fileId"
