@@ -4,6 +4,7 @@
 
 .SearchPage__header {
   display: flex;
+  flex-shrink: 0;
   padding: 12px 12px 18px;
   font-size: 22px;
 }
