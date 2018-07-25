@@ -21,7 +21,14 @@ const propTypes = {
 class AcceptInvitationPage extends Component {
   constructor(props) {
     super(props);
+    this.handleInvitations();
+  }
 
+  componentDidUpdate = () => {
+    this.handleInvitations();
+  };
+
+  handleInvitations() {
     const { invitations } = this.props;
     const { type, id } = this.props.match.params;
     if (invitations && invitations.length > 0) {
