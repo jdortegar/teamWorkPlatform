@@ -54,7 +54,10 @@ export const verifyEmailAccount = uuid => () =>
     sessionStorage.setItem('habla-user-email', response.data.email);
   });
 
-export const createAccount = form => () => axios.post(`${hablaApiBaseUri}/users/createUser`, form);
+export const createAccount = form => dispatch => {
+  dispatch(logout());
+  return axios.post(`${hablaApiBaseUri}/users/createUser`, form);
+};
 
 export const setNewPassword = (rid, password) => dispatch =>
   axios.post(`${hablaApiBaseUri}/users/resetPassword/${rid}`, { password }).then(() => {
