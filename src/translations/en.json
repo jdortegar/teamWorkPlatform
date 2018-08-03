@@ -626,7 +626,7 @@
     "title": "Corporate Knowledge Graphs",
     "timeActivityGraph": "Time Activity",
     "dateLabel": "Select a Range of Dates",
-    "noData": "No Data Currently Available",
+    "noData": "Add a Data Integration",
     "ownerFileCount": {
       "one": "1 file from {{fullName}}",
       "other": "{{count}} files from {{fullName}}"

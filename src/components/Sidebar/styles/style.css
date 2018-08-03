@@ -98,6 +98,7 @@
 	color: #92a4ce;
 	cursor: pointer;
 	font-size: 12px;
+	right: 3px;
 }
 .organizationList li a {
    padding: 5px 10px;
@@ -112,6 +113,7 @@
 .organizationLinks svg {
 	color: #5b7eba;
 	width: 20%!important;
+	height: 28px;
 }
 .organizationLinks svg:hover {
 	color: #3b5083;
@@ -127,12 +129,12 @@
 }
 .sidebar-actions .ant-input-affix-wrapper .ant-input {
 	height: 25px;
-	background: #e0e9ff;
+	background: #f0f0f0;
 	border: none;
 	border-radius: 15px;
 }
 .sidebar-actions .ant-input-affix-wrapper .ant-input-prefix i {
-	color: #5b7eba!important;
+	color: #a6a6a6!important;
 	font-weight: bold;
 }
 .sidebar-actions .ant-input-affix-wrapper .ant-input-prefix {
@@ -162,7 +164,7 @@
 .organizationHeader_org_info .subscriberorg-name-current {
   color: #fff;
   position: relative;
-  font-weight: 600;
+  font-weight: 400;
   top: 7px;
   left: 7px;
   margin-right: 30px;
@@ -191,7 +193,7 @@ ul.ant-menu-sub {
 	padding-bottom: 10px!important;
 }
 .sidebar-resize-icon {
-  color: #aeccff;
+  color: #cacaca;
   text-align: right;
   padding: 10px 0;
 }
@@ -223,8 +225,8 @@ ul.ant-menu-sub {
 , .sidebar-actions
 , .sidebar-direct-messages
 , .habla-main-content {
-	border-right: 1px solid #bac6de;
-	border-bottom: 1px solid #bac6de;
+	border-right: 1px solid #bcbcbc;
+	border-bottom: 1px solid #bcbcbc;
 }
 .habla-left-navigation-team-list-item.padding-class-a
 , .habla-left-navigation-teamroom-list-item.padding-class-a {

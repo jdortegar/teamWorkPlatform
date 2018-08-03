@@ -84,6 +84,7 @@ a.habla-top-menu-active {
   position: relative;
   top: 2px;
   cursor: pointer;
+  color: #fff;
 }
 .habla-top-menu-items .user-icon__main-container {
   margin: 0;

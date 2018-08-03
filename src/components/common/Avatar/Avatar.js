@@ -12,7 +12,7 @@ const propTypes = {
 
 const defaultProps = {
   size: 'default',
-  color: '#ccc'
+  color: '#5b7eba'
 };
 
 const CLASSNAME = 'habla-avatar';
