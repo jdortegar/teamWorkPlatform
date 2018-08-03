@@ -4,9 +4,8 @@ import { withRouter } from 'react-router';
 import SearchPage from 'pages/SearchPage';
 import { search } from 'actions';
 import { getCurrentSubscriberOrgId, getUserById } from 'selectors';
-import { extractQueryParams } from 'routes';
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = state => ({
   owners: state.search.owners.map(({ key, count }) => ({ ...getUserById(state, key), key, count })),
   results: state.search.results,
   resultsCount: state.search.resultsCount,
@@ -14,12 +13,12 @@ const mapStateToProps = (state, props) => ({
   fileTypes: state.search.fileTypes,
   integrations: state.search.integrations,
   loading: state.search.loading,
-  queryParams: extractQueryParams(props),
+  caseSensitive: state.search.caseSensitive,
   currentSubscriberOrgId: getCurrentSubscriberOrgId(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-  search: (query, subscriberOrgId) => dispatch(search(query, subscriberOrgId))
+  search: (query, subscriberOrgId, caseSensitive) => dispatch(search(query, subscriberOrgId, caseSensitive))
 });
 
 export default withRouter(

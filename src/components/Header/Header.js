@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Dropdown, Input, Icon, message } from 'antd';
+import { Layout, Menu, Dropdown, Input, Switch, message } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
@@ -34,10 +34,8 @@ class Header extends Component {
     });
   }
 
-  clearInput = () => {
-    this.searchInput.focus();
-    this.setState({ query: '' });
-    this.props.clearSearch();
+  handleToggleCaseSensitive = value => {
+    this.props.toggleCaseSensitive(value);
   };
 
   handleSearchChange = event => {
@@ -46,7 +44,9 @@ class Header extends Component {
 
   handleSearchSubmit = event => {
     event.preventDefault();
-    this.props.history.push(`/app/search?q=${this.state.query}`);
+    const { currentSubscriberOrgId, caseSensitive, history } = this.props;
+    this.props.search(this.state.query, currentSubscriberOrgId, caseSensitive);
+    history.push('/app/search');
   };
 
   logOut() {
@@ -54,8 +54,7 @@ class Header extends Component {
   }
 
   renderMenuItems() {
-    const { user } = this.props;
-    const clearIconVisibility = this.state.query ? 'visible' : 'hidden';
+    const { user, caseSensitive } = this.props;
 
     const muteNotificationMenu = (
       <Menu className="muteNotificationMenu">
@@ -150,15 +149,17 @@ class Header extends Component {
                 ref={node => {
                   this.searchInput = node;
                 }}
+                className="habla-top-menu-search-input"
                 placeholder={String.t('Header.smartSearchPlaceholder')}
                 onChange={this.handleSearchChange}
                 value={this.state.query}
                 suffix={
-                  <Icon
-                    type="close-circle"
-                    onClick={this.clearInput}
-                    className="habla-top-menu-search-clear"
-                    style={{ visibility: clearIconVisibility }}
+                  <Switch
+                    className="habla-top-menu-search-switch"
+                    checked={caseSensitive}
+                    checkedChildren="Aa"
+                    unCheckedChildren="Aa"
+                    onChange={this.handleToggleCaseSensitive}
                   />
                 }
               />
@@ -217,9 +218,12 @@ class Header extends Component {
 Header.propTypes = {
   logoutUser: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,
-  clearSearch: PropTypes.func.isRequired,
+  toggleCaseSensitive: PropTypes.func.isRequired,
+  search: PropTypes.func.isRequired,
+  currentSubscriberOrgId: PropTypes.string.isRequired,
   user: PropTypes.object,
   query: PropTypes.string,
+  caseSensitive: PropTypes.bool,
   history: PropTypes.shape({
     push: PropTypes.func
   }).isRequired
@@ -227,6 +231,7 @@ Header.propTypes = {
 
 Header.defaultProps = {
   query: '',
+  caseSensitive: false,
   user: null
 };
 

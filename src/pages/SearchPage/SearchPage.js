@@ -22,7 +22,7 @@ const formatTime = date =>
 // transforms "habla AI, design" into ['habla', 'AI', 'design']
 const extractKeywords = str => _.uniq(_.words(str, /[^, ]+/g));
 
-const getColumns = (keywords, owners) => [
+const getColumns = (keywords, caseSensitive, owners) => [
   {
     title: 'File Name',
     dataIndex: 'fileName',
@@ -42,7 +42,7 @@ const getColumns = (keywords, owners) => [
           highlightClassName="SearchPage__results-highlighted"
           searchWords={keywords}
           textToHighlight={text}
-          caseSensitive
+          caseSensitive={caseSensitive}
           autoEscape
         />
       </a>
@@ -93,21 +93,11 @@ const getColumns = (keywords, owners) => [
 ];
 
 class SearchPage extends Component {
-  constructor(props) {
-    super(props);
-    this.updateSearch(props.queryParams.q);
-  }
-
   state = {
-    query: this.props.query,
     excludeOwnersFilter: {},
     excludeTypesFilter: {},
     excludeIntegrationsFilter: {}
   };
-
-  componentWillReceiveProps(nextProps) {
-    this.updateSearch(nextProps.queryParams.q, true);
-  }
 
   handleOwnerFilterClick = key => {
     const { excludeOwnersFilter } = this.state;
@@ -133,15 +123,9 @@ class SearchPage extends Component {
     this.setState({ excludeTypesFilter: allSelected ? {} : allFilters });
   };
 
-  updateSearch(newQuery, shouldUpdateState = false) {
-    if (!newQuery || newQuery === this.props.query) return;
-    if (shouldUpdateState) this.setState({ query: newQuery });
-    this.props.search(newQuery, this.props.currentSubscriberOrgId);
-  }
-
   render() {
-    const { loading, results, resultsCount, owners, fileTypes, integrations } = this.props;
-    const { query, excludeOwnersFilter, excludeIntegrationsFilter, excludeTypesFilter } = this.state;
+    const { loading, query, caseSensitive, results, resultsCount, owners, fileTypes, integrations } = this.props;
+    const { excludeOwnersFilter, excludeIntegrationsFilter, excludeTypesFilter } = this.state;
 
     const resultsFiltered = results.filter(file => {
       const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
@@ -165,7 +149,7 @@ class SearchPage extends Component {
           {!loading && (
             <div className="SearchPage__results-inner">
               <ResultsList
-                columns={getColumns(extractKeywords(query), owners)}
+                columns={getColumns(extractKeywords(query), caseSensitive, owners)}
                 dataSource={resultsFiltered}
                 loading={loading}
                 rowKey="fileId"
@@ -194,28 +178,24 @@ class SearchPage extends Component {
 
 SearchPage.propTypes = {
   loading: PropTypes.bool,
+  caseSensitive: PropTypes.bool,
   query: PropTypes.string,
   results: PropTypes.array,
   resultsCount: PropTypes.number,
   owners: PropTypes.array,
   fileTypes: PropTypes.array,
-  integrations: PropTypes.array,
-  search: PropTypes.func,
-  queryParams: PropTypes.shape({
-    q: PropTypes.string
-  }).isRequired,
-  currentSubscriberOrgId: PropTypes.string.isRequired
+  integrations: PropTypes.array
 };
 
 SearchPage.defaultProps = {
   loading: false,
+  caseSensitive: false,
   query: '',
   results: [],
   resultsCount: 0,
   owners: [],
   fileTypes: [],
-  integrations: [],
-  search: null
+  integrations: []
 };
 
 export default SearchPage;

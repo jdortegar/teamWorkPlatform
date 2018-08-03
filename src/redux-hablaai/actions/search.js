@@ -1,19 +1,23 @@
+import config from 'config/env';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
-import config from '../../config/env';
 
 export const SEARCH_REQUEST = 'search/request';
 export const SEARCH_SUCCESS = 'search/success';
 export const SEARCH_FAILURE = 'search/failure';
 export const SEARCH_STALE = 'search/stale';
+export const TOGGLE_CASE_SENSITIVE = 'search/toggleCaseSensitive';
 
 // forceGet: true - disabling cache in search requests
-export const search = (query = undefined, subscriberOrgId, options = { getKey: false, forceGet: true }) => {
-  // requestUrl is the key into redux state.urlRequests.
+export const search = (
+  query = undefined,
+  subscriberOrgId,
+  caseSensitive = false,
+  options = { getKey: false, forceGet: true }
+) => {
+  const baseUrl = `${config.hablaApiBaseUri}/ckg/getFilesBySearchTerm`;
+  const requestUrl = `${baseUrl}/${subscriberOrgId}/${query}/${caseSensitive ? 0 : 1}`;
 
-  const baseUrl = 'https://y2rhikgvq4.execute-api.us-west-2.amazonaws.com';
-  const requestUrl = `${baseUrl}/${config.hablaApiEnv}/graphapi/ckg/files/${subscriberOrgId}/${query}`;
-
-  // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
+  // Passthrough data that you'll see after going through the reducer. Typically in you mapStateToProps.
   const reduxState = { query };
 
   return dispatch => {
@@ -45,7 +49,7 @@ export const search = (query = undefined, subscriberOrgId, options = { getKey: f
       thunk.then(
         response => {
           if (response.data && response.data !== RESPONSE_STALE) {
-            const { files } = response.data;
+            const { files } = response.data.message;
             dispatch({
               type: SEARCH_SUCCESS,
               payload: { files }
@@ -68,4 +72,11 @@ export const search = (query = undefined, subscriberOrgId, options = { getKey: f
 
     return thunk;
   };
+};
+
+export const toggleCaseSensitive = caseSensitive => dispatch => {
+  dispatch({
+    type: TOGGLE_CASE_SENSITIVE,
+    payload: { caseSensitive }
+  });
 };
