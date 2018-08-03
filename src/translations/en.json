@@ -14,9 +14,12 @@
   "errAppDeepLinkInvalid": "The specified link is invalid.",
   "errAppDeepLinkUnknownError": "An error occurred. Please try again later.",
   "msgAppInvitationWhileLoggedOut": "Please log in to reply to the invitation.",
-  "msgInvitationToTeamRoom": "{{byUserFirstName}} {{byUserLastName}} invited you to join Team Room \"{{teamRoomName}}\" for the \"{{teamName}}\" Team of \"{{subscriberOrgName}}\" Organization.",
-  "msgInvitationToTeam": "{{byUserFirstName}} {{byUserLastName}} invited you to join the \"{{teamName}}\" Team of the \"{{subscriberOrgName}}\" Organization.",
-  "msgInvitationToOrg": "{{byUserFirstName}} {{byUserLastName}} invited you to join the \"{{subscriberOrgName}}\" Organization.",
+  "msgInvitationToTeamRoom":
+    "{{byUserFirstName}} {{byUserLastName}} invited you to join Team Room \"{{teamRoomName}}\" for the \"{{teamName}}\" Team of \"{{subscriberOrgName}}\" Organization.",
+  "msgInvitationToTeam":
+    "{{byUserFirstName}} {{byUserLastName}} invited you to join the \"{{teamName}}\" Team of the \"{{subscriberOrgName}}\" Organization.",
+  "msgInvitationToOrg":
+    "{{byUserFirstName}} {{byUserLastName}} invited you to join the \"{{subscriberOrgName}}\" Organization.",
   "invitationAcceptedToast": "You have joined {{name}}.",
   "invalidInvitation": "The invitation has expired or is invalid.",
   "buttonAcceptInvitation": "Accept",
@@ -100,7 +103,8 @@
   "awaitingVerificationHeader": "Hi! \nWe just sent a \nverification email to:",
   "awaitingVerificationChangeEmailLink": "CHANGE EMAIL ADDRESS",
   "awaitingVerificationResendLink": "PLEASE RESEND VERIFICATION",
-  "awaitingVerificationExplanation": "It might take a few seconds to arrive. If you still don't see it after a few minutes, please check your spam folder.",
+  "awaitingVerificationExplanation":
+    "It might take a few seconds to arrive. If you still don't see it after a few minutes, please check your spam folder.",
   "createTeamTitle": "Create Team",
   "createTeamExplain": "Enter the details for your team.",
   "createTeamButtonLabel": "CREATE TEAM",
@@ -133,7 +137,8 @@
   "privacyPolicyModalTitle": "HABLA AI PRIVACY POLICY",
   "termsOfUseModalTitle": "HABLA AI TERMS OF USE",
   "incompleteProfileHeader": "Hello!\nHola!\n今日は",
-  "incompleteProfileExplain": "Welcome to Habla AI. You're well on your way to a more efficient, productive work day. As we work together we'll learn how we can best help you and the rest of the team.",
+  "incompleteProfileExplain":
+    "Welcome to Habla AI. You're well on your way to a more efficient, productive work day. As we work together we'll learn how we can best help you and the rest of the team.",
   "incompleteProfileContinue": "OK, LET'S GO",
   "inviteToOrgTitle": "Invite to Join Organization",
   "inviteToOrgExplain": "Enter email addresses for all people to invite.",
@@ -172,7 +177,7 @@
   "cardViewTitle": "Card View",
   "listViewTitle": "Details View",
   "OrganizationPage": {
-	"title": "Manage Organization",
+    "title": "Manage Organization",
     "newButtonLabel": "New",
     "boxIntegrationLabel": "Box",
     "addNewTeam": "Add New Team",
@@ -215,7 +220,8 @@
     "forgotYourPassword": "Forgot your Password?",
     "emailSent": "Email Sent! ",
     "checkEmail": "Check your email",
-    "infoParagraph": "Please enter the email address that you use in your Habla AI account and we will send you an email with the instructions to reset your password.",
+    "infoParagraph":
+      "Please enter the email address that you use in your Habla AI account and we will send you an email with the instructions to reset your password.",
     "infoParagraphAfterSentImage": "Please check your email to continue the process to recover your password."
   },
   "EditButtonLabel": "Edit",
@@ -266,7 +272,8 @@
     "muteTitle": "Mute Notifications",
     "statusTitle": "Status",
     "adminTitle": "Admin",
-    "smartSearchPlaceholder": "Smart Search..."
+    "smartSearchPlaceholder": "Smart Search...",
+    "searchCaseSensitive": "Case sensitive on/off"
   },
   "IntegrationCard": {
     "expired": "Expired",
@@ -274,11 +281,12 @@
     "reauthorize": "(Reauthorize)"
   },
   "MainContent": {
-     "newMessage": "New Message",
-     "newMessageFrom": "Message from {{firstName}} {{lastName}}",
-     "declinedOrg": "{{inviteeUserIdOrEmail}} declined your invitation to join the {{subscriberOrgName}} organization.",
-     "declinedTeam": "{{firstName}} {{lastName}} declined your invitation to join the {{teamName}} team.",
-     "declinedRoom": "{{firstName}} {{lastName}} declined your invitation to join the {{teamRoomName}} room in the {{teamName}} team."
+    "newMessage": "New Message",
+    "newMessageFrom": "Message from {{firstName}} {{lastName}}",
+    "declinedOrg": "{{inviteeUserIdOrEmail}} declined your invitation to join the {{subscriberOrgName}} organization.",
+    "declinedTeam": "{{firstName}} {{lastName}} declined your invitation to join the {{teamName}} team.",
+    "declinedRoom":
+      "{{firstName}} {{lastName}} declined your invitation to join the {{teamRoomName}} room in the {{teamName}} team."
   },
   "message": {
     "sentByName": "{{firstName}} {{lastName}}",
@@ -348,7 +356,7 @@
     "addButtonLabel": "Add",
     "namePlaceholder": "Team Name",
     "errorNameAlreadyTaken": "The Team Name is already being used. Please enter a different name."
-   },
+  },
   "addTeamRoomDialog": {
     "title": "Add Team Room",
     "addButtonLabel": "Add",
@@ -370,7 +378,8 @@
     "successTitleBold": "Hi!",
     "successTitleDetails": " We just sent your verification email to:",
     "successTextLine1": "The email may take a few seconds to arrive.",
-    "successTextLine2": "If you don't see it after a few minutes, please check your spam folder or use the Change Email button to try again",
+    "successTextLine2":
+      "If you don't see it after a few minutes, please check your spam folder or use the Change Email button to try again",
     "changeEmailButton": "Change Email",
     "resendButton": "Resend",
     "registerButtonLabel": "Register",
@@ -386,7 +395,7 @@
   "verifyAccount": {
     "successText": "Your email has been verified!",
     "continueLink": "Create your account"
-   },
+  },
   "editOrgPage": {
     "title": "Edit  Organization",
     "namePlaceholder": "",
@@ -423,47 +432,48 @@
     "inactiveState": "Inactive"
   },
   "editUserPage": {
-   "title": "Account Settings",
-   "userUpdated": "Your user profile changes have been saved.",
-   "saveButtonLabel": "Save",
-   "profileSettings": "Profile Settings",
-   "setProfilePhoto": "Add a Photo",
-   "removeImageLabel": "Remove"
+    "title": "Account Settings",
+    "userUpdated": "Your user profile changes have been saved.",
+    "saveButtonLabel": "Save",
+    "profileSettings": "Profile Settings",
+    "setProfilePhoto": "Add a Photo",
+    "removeImageLabel": "Remove"
   },
   "integrationDetailsPage": {
-     "status": {
-       "active": "Active",
-       "expired": "Expired",
-       "revoked": "Revoked"
-     },
-     "message": {
-       "createdDescription": "Your {{name}} integration is good to go!",
-       "successDescription": "Habla AI no longer has access to your account.",
-       "goneDescription": "Your integration to {{name}} has been revoked and Habla AI no longer has access to it. Please go to the {{name}} web site to complete the revocation.",
-       "notFoundDescription": "We’re sorry, but something must’ve gone terribly wrong.",
-       "configUpdated": "Your {{name}} integration configuration has been updated."
-     },
-     "integrations": "Data Integrations",
-     "saveButtonLabel": "Save Changes",
-     "on": "ON",
-     "off": "OFF",
-     "activate": "Activate",
-     "deactivate": "Revoke Access",
-     "FORBIDDEN": "You didn’t seem to allow Habla AI to access your documents",
-     "NOT_FOUND": "We’re sorry, but something must’ve gone terribly wrong",
-     "INTERNAL_SERVER_ERROR": "We’re sorry, but something must’ve gone terribly wrong",
-     "sharing": {
-       "settings": "Sharing Settings",
-       "all": "Share all information in all Teams and Team Rooms",
-       "custom": "Select what to share in specific Teams or Team Rooms",
-       "foldersAndFiles": "Folders and Files",
-       "selectAll": "Select All",
-       "editSharingDetails": "Sharing Details",
-       "yes": "ON",
-       "no": "OFF",
-       "shareInAllTeamsAndRooms": "Share in All Teams and Team Rooms",
-       "shareInSpecificTeamsAndRooms": "Share only on specific Teams and Team Rooms"
-     }
+    "status": {
+      "active": "Active",
+      "expired": "Expired",
+      "revoked": "Revoked"
+    },
+    "message": {
+      "createdDescription": "Your {{name}} integration is good to go!",
+      "successDescription": "Habla AI no longer has access to your account.",
+      "goneDescription":
+        "Your integration to {{name}} has been revoked and Habla AI no longer has access to it. Please go to the {{name}} web site to complete the revocation.",
+      "notFoundDescription": "We’re sorry, but something must’ve gone terribly wrong.",
+      "configUpdated": "Your {{name}} integration configuration has been updated."
+    },
+    "integrations": "Data Integrations",
+    "saveButtonLabel": "Save Changes",
+    "on": "ON",
+    "off": "OFF",
+    "activate": "Activate",
+    "deactivate": "Revoke Access",
+    "FORBIDDEN": "You didn’t seem to allow Habla AI to access your documents",
+    "NOT_FOUND": "We’re sorry, but something must’ve gone terribly wrong",
+    "INTERNAL_SERVER_ERROR": "We’re sorry, but something must’ve gone terribly wrong",
+    "sharing": {
+      "settings": "Sharing Settings",
+      "all": "Share all information in all Teams and Team Rooms",
+      "custom": "Select what to share in specific Teams or Team Rooms",
+      "foldersAndFiles": "Folders and Files",
+      "selectAll": "Select All",
+      "editSharingDetails": "Sharing Details",
+      "yes": "ON",
+      "no": "OFF",
+      "shareInAllTeamsAndRooms": "Share in All Teams and Team Rooms",
+      "shareInSpecificTeamsAndRooms": "Share only on specific Teams and Team Rooms"
+    }
   },
   "integrationsPage": {
     "breadcrumb": "Data Integrations",
@@ -495,7 +505,7 @@
     }
   },
   "inviteToTeamPage": {
-   "sendInvitationsButtonLabel": {
+    "sendInvitationsButtonLabel": {
       "zero": "Send Invitation",
       "one": "Send Invitation",
       "other": "Send {{count}} Invitations"
@@ -511,7 +521,7 @@
     }
   },
   "inviteToTeamRoomPage": {
-   "sendInvitationsButtonLabel": {
+    "sendInvitationsButtonLabel": {
       "zero": "Send Invitation",
       "one": "Send Invitation",
       "other": "Send {{count}} Invitations"
@@ -555,11 +565,11 @@
     "addTeamMember": "Add Team Room Members",
     "markAllAsRead": "Mark All as Read",
     "unreadMessagesCount": {
-    "one": "1 new message",
-    "other": "{{count}} new messages",
-    "tooltipAttachments": "Attach a file"
+      "one": "1 new message",
+      "other": "{{count}} new messages",
+      "tooltipAttachments": "Attach a file"
     },
-    "menu" : {
+    "menu": {
       "all": "All",
       "unread": "Unread",
       "bookmarked": "Bookmarked"
@@ -581,7 +591,7 @@
   },
   "notificationPage": {
     "title": "Notifications",
-    "menu" : {
+    "menu": {
       "all": "All",
       "unread": "Unread",
       "bookmarked": "Bookmarked"
@@ -651,19 +661,19 @@
     "confirmNewPasswordPlaceholder": "Confirm New Password"
   },
   "subPageHeader": {
-	"linkToCKG": "View CKG"
+    "linkToCKG": "View CKG"
   },
   "homePage": {
     "latestHeader": "Latest Activity"
   },
   "bookmarksPage": {
-   "title": "Bookmarks",
-   "filterCount": {
+    "title": "Bookmarks",
+    "filterCount": {
       "zero": "",
       "one": "(1)",
       "other": "({{count}})"
     },
-   "menu" : {
+    "menu": {
       "all": "All",
       "sent": "Sent",
       "received": "Received"
@@ -691,5 +701,5 @@
     "lastNameTooLong": "Last Name is too limited to 30 characters.",
     "lastNameFormat": "Last Name must contain alphabetic characters only.",
     "constraintsEmpty": "An internal error occurred: Constraints Empty"
-   }
+  }
 }

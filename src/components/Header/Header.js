@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Dropdown, Input, Switch, message } from 'antd';
+import { Layout, Menu, Dropdown, Input, Switch, Tooltip, message } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
@@ -154,13 +154,15 @@ class Header extends Component {
                 onChange={this.handleSearchChange}
                 value={this.state.query}
                 suffix={
-                  <Switch
-                    className="habla-top-menu-search-switch"
-                    checked={caseSensitive}
-                    checkedChildren="Aa"
-                    unCheckedChildren="Aa"
-                    onChange={this.handleToggleCaseSensitive}
-                  />
+                  <Tooltip placement="top" title={String.t('Header.searchCaseSensitive')}>
+                    <Switch
+                      className="habla-top-menu-search-switch"
+                      checked={caseSensitive}
+                      checkedChildren="Aa"
+                      unCheckedChildren="Aa"
+                      onChange={this.handleToggleCaseSensitive}
+                    />
+                  </Tooltip>
                 }
               />
               <button type="submit" disabled={this.state.query.length === 0}>
