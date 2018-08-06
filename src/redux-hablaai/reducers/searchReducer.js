@@ -12,6 +12,7 @@ import {
 const INITIAL_STATE = {
   loading: false,
   query: '',
+  keywords: [],
   caseSensitive: false,
   results: [],
   resultsCount: 0,
@@ -25,7 +26,13 @@ const searchReducer = (state = INITIAL_STATE, action) => {
     case SEARCH_CLEAR:
       return { ...state, query: INITIAL_STATE.query };
     case SEARCH_REQUEST:
-      return { ...state, loading: true, query: action.payload.query, resultsCount: INITIAL_STATE.resultsCount };
+      return {
+        ...state,
+        loading: true,
+        query: action.payload.query,
+        keywords: action.payload.keywords,
+        resultsCount: INITIAL_STATE.resultsCount
+      };
     case SEARCH_SUCCESS: {
       const { files } = action.payload;
       return {
@@ -39,7 +46,12 @@ const searchReducer = (state = INITIAL_STATE, action) => {
       };
     }
     case SEARCH_FAILURE:
-      return { ...INITIAL_STATE, query: action.payload.query };
+      return {
+        ...INITIAL_STATE,
+        loading: false,
+        query: action.payload.query,
+        keywords: action.payload.keywords
+      };
     case SEARCH_STALE:
       return { ...state, loading: false };
     case TOGGLE_CASE_SENSITIVE:

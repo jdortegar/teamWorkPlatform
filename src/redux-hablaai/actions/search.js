@@ -1,4 +1,5 @@
 import config from 'config/env';
+import { extractKeywords } from 'lib/keywords';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const SEARCH_REQUEST = 'search/request';
@@ -14,8 +15,10 @@ export const search = (
   caseSensitive = false,
   options = { getKey: false, forceGet: true }
 ) => {
+  const keywords = extractKeywords(query);
+  const formattedQuery = keywords.join(' ');
   const baseUrl = `${config.hablaApiBaseUri}/ckg/getFilesBySearchTerm`;
-  const requestUrl = `${baseUrl}/${subscriberOrgId}/${query}/${caseSensitive ? 0 : 1}`;
+  const requestUrl = `${baseUrl}/${subscriberOrgId}/${formattedQuery}/${caseSensitive ? 0 : 1}`;
 
   // Passthrough data that you'll see after going through the reducer. Typically in you mapStateToProps.
   const reduxState = { query };
@@ -23,13 +26,13 @@ export const search = (
   return dispatch => {
     dispatch({
       type: SEARCH_REQUEST,
-      payload: { query }
+      payload: { query: formattedQuery, keywords }
     });
 
     if (!query) {
       dispatch({
         type: SEARCH_FAILURE,
-        payload: { query }
+        payload: { query, keywords }
       });
       return null;
     }
@@ -63,7 +66,7 @@ export const search = (
         error => {
           dispatch({
             type: SEARCH_FAILURE,
-            payload: { query }
+            payload: { query: formattedQuery, keywords }
           });
           return error;
         }

@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import _ from 'lodash';
 import Highlighter from 'react-highlight-words';
+import { Tag } from 'antd';
 
 import { integrationKeyFromFile, integrationLabelFromKey, integrationImageFromKey } from 'utils/dataIntegrations';
 import { Spinner, ResultsList, FilesFilters } from 'components';
@@ -18,9 +19,6 @@ const formatTime = date =>
     displayDate: moment(date).format(String.t('timeActivityGraph.dateFormat')),
     displayTime: moment(date).format(String.t('timeActivityGraph.timeFormat'))
   });
-
-// transforms "habla AI, design" into ['habla', 'AI', 'design']
-const extractKeywords = str => _.uniq(_.words(str, /[^, ]+/g));
 
 const getColumns = (keywords, caseSensitive, owners) => [
   {
@@ -99,6 +97,12 @@ class SearchPage extends Component {
     excludeIntegrationsFilter: {}
   };
 
+  handleRemoveKeywordClick = keyword => {
+    const { keywords, currentSubscriberOrgId, caseSensitive } = this.props;
+    const query = _.without(keywords, keyword).join(' ');
+    this.props.search(query, currentSubscriberOrgId, caseSensitive);
+  };
+
   handleOwnerFilterClick = key => {
     const { excludeOwnersFilter } = this.state;
     this.setState({ excludeOwnersFilter: { ...excludeOwnersFilter, [key]: excludeOwnersFilter[key] ? null : true } });
@@ -124,7 +128,7 @@ class SearchPage extends Component {
   };
 
   render() {
-    const { loading, query, caseSensitive, results, resultsCount, owners, fileTypes, integrations } = this.props;
+    const { loading, keywords, caseSensitive, results, resultsCount, owners, fileTypes, integrations } = this.props;
     const { excludeOwnersFilter, excludeIntegrationsFilter, excludeTypesFilter } = this.state;
 
     const resultsFiltered = results.filter(file => {
@@ -139,17 +143,29 @@ class SearchPage extends Component {
         <div className="SearchPage__header">
           <i className="SearchPage__icon fa fa-search" />
           <div className="SearchPage__title">
+            <span className="SearchPage__results-count">{loading ? '...' : `${resultsCount}`}</span>
             {String.t('searchPage.title')}
-            <span className="SearchPage__query">&ldquo;{query}&rdquo;</span>
-            <span>{loading ? '...' : `(${resultsCount})`}</span>
           </div>
+          <span className="SearchPage__keywords">
+            {keywords.map(keyword => (
+              <Tag
+                closable
+                key={keyword}
+                className="SearchPage__tag"
+                onClose={() => this.handleRemoveKeywordClick(keyword)}
+                visible={keywords.includes(keyword)}
+              >
+                {keyword}
+              </Tag>
+            ))}
+          </span>
         </div>
         <div className={classNames('SearchPage__results', { loading })}>
           {loading && <Spinner />}
           {!loading && (
             <div className="SearchPage__results-inner">
               <ResultsList
-                columns={getColumns(extractKeywords(query), caseSensitive, owners)}
+                columns={getColumns(keywords, caseSensitive, owners)}
                 dataSource={resultsFiltered}
                 loading={loading}
                 rowKey="fileId"
@@ -177,9 +193,11 @@ class SearchPage extends Component {
 }
 
 SearchPage.propTypes = {
+  currentSubscriberOrgId: PropTypes.string.isRequired,
+  search: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   caseSensitive: PropTypes.bool,
-  query: PropTypes.string,
+  keywords: PropTypes.array,
   results: PropTypes.array,
   resultsCount: PropTypes.number,
   owners: PropTypes.array,
@@ -190,7 +208,7 @@ SearchPage.propTypes = {
 SearchPage.defaultProps = {
   loading: false,
   caseSensitive: false,
-  query: '',
+  keywords: [],
   results: [],
   resultsCount: 0,
   owners: [],
