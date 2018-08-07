@@ -9,6 +9,4 @@ export const getIntegrationsOfSubscriberOrgId = createCachedSelector(
     const integrations = integrationsBySubscriberOrgId[subscriberOrgId];
     return integrations || {};
   }
-)(
-  (state, subscriberOrgId) => subscriberOrgId
-);
+)((state, subscriberOrgId) => subscriberOrgId);

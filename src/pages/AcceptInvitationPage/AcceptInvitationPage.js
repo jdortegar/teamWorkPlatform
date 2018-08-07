@@ -21,7 +21,14 @@ const propTypes = {
 class AcceptInvitationPage extends Component {
   constructor(props) {
     super(props);
+    this.handleInvitations();
+  }
 
+  componentDidUpdate = () => {
+    this.handleInvitations();
+  };
+
+  handleInvitations() {
     const { invitations } = this.props;
     const { type, id } = this.props.match.params;
     if (invitations && invitations.length > 0) {
@@ -29,7 +36,7 @@ class AcceptInvitationPage extends Component {
       if (type === 'subscriberOrg') {
         key = 'subscriberOrgId';
       } else {
-        key = (type === 'team') ? 'teamId' : 'teamRoomId';
+        key = type === 'team' ? 'teamId' : 'teamRoomId';
       }
 
       // if invitation active, show app home page which will have invitations at the top

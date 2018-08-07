@@ -1,119 +1,126 @@
 /* TOP MENU ---------- */
 
 .habla-top-menu {
-	background: #000;
-	height: 56px;
-	font-size: 14px;
+  background: #000;
+  height: 56px;
+  font-size: 14px;
 }
 .habla-top-menu-content {
-	padding: 0 17px;
+  padding: 0 17px;
 }
 .habla-top-menu-logo {
-	float: left;
-	padding: 12.5px 0;
+  float: left;
+  padding: 12.5px 0;
 }
 .habla-top-menu-logo a {
-	display: block;
-	line-height: 0;
+  display: block;
+  line-height: 0;
 }
 .habla-top-menu-logo img {
-	height: 30px;
+  height: 30px;
 }
 .habla-top-menu-items {
-	float: right;
-	height: 55px;
+  float: right;
+  height: 55px;
 }
 .habla-top-menu-item {
-	border-left: 1px solid #262626;
-	padding: 12.5px 13px;
-	float: left;
+  border-left: 1px solid #262626;
+  padding: 12.5px 13px;
+  float: left;
 }
 .habla-top-menu-item-last {
-	padding: 12.5px 0 12.5px 13px!important
+  padding: 12.5px 0 12.5px 13px !important;
 }
 .habla-top-menu-item-content {
-	height: 30px;
+  height: 30px;
 }
 .habla-top-menu-items a {
-	color: #4d4d4d;
-	font-weight: 700;
-	text-decoration: none;
-	vertical-align: middle;
+  color: #4d4d4d;
+  font-weight: 700;
+  text-decoration: none;
+  vertical-align: middle;
 }
 .habla-top-menu-items a:hover {
-	color: #ffffff;
-	text-decoration: none;
+  color: #ffffff;
+  text-decoration: none;
 }
 .habla-top-menu-items .habla-top-menu-user .habla-top-menu-subitem a {
-	display: inline-flex;
+  display: inline-flex;
 }
 .habla-top-menu-items .habla-top-menu-user {
-	display: inline-block;
+  display: inline-block;
 }
 .habla-top-menu-items .svg-inline--fa {
-	font-size: 18px;
+  font-size: 18px;
 }
 .habla-top-menu-notifications {
-	position: relative;
+  position: relative;
 }
 .habla-notification-globe {
-	position: absolute;
-	top: -8px;
-	left: 7px;
-	background: #eb4435;
-	padding: 3px;
-	border-radius: 3px;
-	color: #fff;
-	font-size: 10px;
+  position: absolute;
+  top: -8px;
+  left: 7px;
+  background: #eb4435;
+  padding: 3px;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 10px;
 }
 a.habla-top-menu-active {
-	color: #ffffff;
+  color: #ffffff;
 }
 .habla-top-menu-active-signal {
-	height: 4px;
-	width: 5px;
-	background: #ccc;
-	border-radius: 3px 3px 0px 0px;
-	position: absolute;
-	bottom: -17px;
-	left: 0;
-	width: -webkit-fill-available;
+  height: 4px;
+  width: 5px;
+  background: #ccc;
+  border-radius: 3px 3px 0px 0px;
+  position: absolute;
+  bottom: -17px;
+  left: 0;
+  width: -webkit-fill-available;
 }
 .habla-top-menu-user .habla-top-menu-label {
-	margin-left: 10px;
-	position: relative;
-	top: 2px;
-	cursor: pointer;
+  margin-left: 10px;
+  position: relative;
+  top: 2px;
+  cursor: pointer;
+  color: #fff;
 }
 .habla-top-menu-items .user-icon__main-container {
-	margin: 0;
+  margin: 0;
 }
 .habla-top-menu-items .ant-dropdown-link {
-	display: inline-block;
+  display: inline-block;
 }
 .habla-top-menu-items .habla-top-menu-subitem a {
-	color: #fff;
+  color: #fff;
 }
 .habla-top-menu-search {
   display: flex;
 }
-.habla-top-menu-search-clear {
-  cursor: pointer;
+.habla-top-menu-search-switch {
+  background-color: #eb4435;
 }
-.habla-top-menu-search input {
-	border-radius: 15px;
-	border: none;
-	height: 30px;
-	padding: 0 10px;
-	outline: none;
+.habla-top-menu-search-input {
+  width: 300px;
 }
-.habla-top-menu-search input::placeholder {
-	color: #ddd;
+.habla-top-menu-search-input input {
+  border-radius: 15px;
+  border: none;
+  height: 30px;
+  padding: 0 60px 0 10px;
+  outline: none;
+}
+.habla-top-menu-search-input.ant-input-affix-wrapper .ant-input:not(:last-child) {
+  padding-right: 60px;
+}
+.habla-top-menu-search-input::placeholder {
+  color: #ddd;
 }
 .habla-top-menu-search button {
   background-color: transparent;
   font-weight: 700;
-  color: #4d4d4d;
+  color: #fff;
   align-self: end;
   cursor: pointer;
   border: none;
@@ -129,10 +136,7 @@ a.habla-top-menu-active {
   outline: 0;
 }
 .habla-top-menu-notification-sounds .svg-inline--fa {
-	margin-top: 6px;
-}
-.habla-top-menu-search .svg-inline--fa {
-
+  margin-top: 6px;
 }
 .habla-top-navigation-dropdown-signal {
   width: 11px;
@@ -141,5 +145,5 @@ a.habla-top-menu-active {
   display: inline-flex;
 }
 .muteNotificationMenu svg {
-	width: 20px!important;
+  width: 20px !important;
 }

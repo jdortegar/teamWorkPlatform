@@ -25,21 +25,18 @@ class ChatContent extends Component {
   }
 
   updateFileList(fileList) {
-    const filesToState = [...fileList].filter((file) => {
+    const filesToState = [...fileList].filter(file => {
       const fileFound = this.state.fileList.find(fileInState => fileInState.name === file.name);
       return !fileFound;
     });
     this.setState({
-      fileList: [
-        ...this.state.fileList,
-        ...filesToState
-      ],
+      fileList: [...this.state.fileList, ...filesToState],
       isDraggingOver: false
     });
   }
 
   addBase(file, binary) {
-    const files = this.state.fileList.map((el) => {
+    const files = this.state.fileList.map(el => {
       if (el === file) {
         const newFile = el;
         newFile.src = binary;

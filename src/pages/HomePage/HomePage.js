@@ -14,11 +14,13 @@ class HomePage extends Component {
       {
         logo: hablaLogoAvatar,
         from: 'Habla AI Bot',
-        text: (`Welcome to Habla AI. <a href="/app/ckg/${this.props.currentSubscriberOrgId}>Click here</a> to start integrating data into your Knowledge Graph.`),
+        text: `Welcome to Habla AI. <a href="/app/ckg/${
+          this.props.currentSubscriberOrgId
+        }>Click here</a> to start integrating data into your Knowledge Graph.`,
         created: null
       }
     ]
-  }
+  };
 
   renderActivity() {
     // TODO: This is temporary... get and show the date that the subscriberOrg was created
@@ -26,31 +28,36 @@ class HomePage extends Component {
     const org = subscriberOrgById[currentSubscriberOrgId];
     const date = moment(org.created).fromNow();
 
-    return this.state.activity.map(({ logo, from }) => {
-      return (
-        <div key={date} className="homePage__activity-container margin-top-class-b">
-          <div className="homePage__activity-item">
-            <div className="homePage__activity-avatar">
-              <img src={logo} alt={String.t('Header.logoAlt')} className="homePage__activity-avatar" />
-            </div>
-            <div className="homePage__activity-content-container">
-              <div className="homePage__activity-content-header">
-                {from}
-              </div>
-              <div className="homePage__activity-content-message">
-                Welcome to Habla AI.  <a onClick={() => this.props.history.push(`/app/integrations/${this.props.currentSubscriberOrgId}`)}> Click here
-                </a> to start integrating data into your Knowledge Graph.
-                <span className="homePage__activity-content-date"> ({date})</span>
-              </div>
+    return this.state.activity.map(({ logo, from }) => (
+      <div key={date} className="homePage__activity-container margin-top-class-b">
+        <div className="homePage__activity-item">
+          <div className="homePage__activity-avatar">
+            <img src={logo} alt={String.t('Header.logoAlt')} className="homePage__activity-avatar" />
+          </div>
+          <div className="homePage__activity-content-container">
+            <div className="homePage__activity-content-header">{from}</div>
+            <div className="homePage__activity-content-message">
+              Welcome to Habla AI. To start using our tool as is best, please{' '}
+              <a onClick={() => this.props.history.push(`/app/integrations/${this.props.currentSubscriberOrgId}`)}>
+                add a data integration
+              </a>{' '}
+              to see your files on the Corporate Knowledge Graphs. We hope that now you spend minutes finding the right
+              data instead of searching folders for hours.
+              <span className="homePage__activity-content-date"> ({date})</span>
             </div>
           </div>
         </div>
-      );
-    });
+      </div>
+    ));
   }
 
   render() {
-    const { fetchTimeActivitiesBySubscriberOrgId, setCurrentSubscriberOrgId, subscriberOrgById, currentSubscriberOrgId } = this.props;
+    const {
+      fetchTimeActivitiesBySubscriberOrgId,
+      setCurrentSubscriberOrgId,
+      subscriberOrgById,
+      currentSubscriberOrgId
+    } = this.props;
     if (!subscriberOrgById || !subscriberOrgById[currentSubscriberOrgId]) {
       return <Spinner />;
     }
@@ -67,10 +74,7 @@ class HomePage extends Component {
             setCurrentSubscriberOrgId={setCurrentSubscriberOrgId}
           />
         </div>
-        <div className="homepage_latest-container">
-          <div className="homepage_latest-header habla-label">{String.t('homePage.latestHeader')}</div>
-          {this.renderActivity()}
-        </div>
+        <div className="homepage_latest-container">{this.renderActivity()}</div>
       </div>
     );
   }

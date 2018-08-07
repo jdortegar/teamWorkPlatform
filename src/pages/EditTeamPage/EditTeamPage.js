@@ -37,20 +37,22 @@ class EditTeamPage extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit() {
+  handleSubmit(e) {
+    e.preventDefault();
     const { teamId } = this.props.match.params;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
         const valuesToSend = { ...values };
         valuesToSend.name = values.name.trim();
-        this.props.updateTeam(valuesToSend, teamId)
+        this.props
+          .updateTeam(valuesToSend, teamId)
           .then(() => {
             this.setState({ loading: false });
             this.props.history.push(`/app/team/${teamId}`);
             message.success(String.t('editTeamPage.teamUpdated'));
           })
-          .catch((error) => {
+          .catch(error => {
             this.setState({ loading: false });
             if (error.response && error.response.status === 409) {
               message.error(String.t('editTeamPage.errorNameAlreadyTaken'));
@@ -119,7 +121,10 @@ class EditTeamPage extends Component {
               </div>
               <div className="Edit-team__icon-container">
                 <div className="Edit-team__switch-container">
-                  <Tooltip placement="top" title={team.active ? String.t('editTeamPage.setInactive') : String.t('editTeamPage.setActive')}>
+                  <Tooltip
+                    placement="top"
+                    title={team.active ? String.t('editTeamPage.setInactive') : String.t('editTeamPage.setActive')}
+                  >
                     <SwitchField
                       disabled={team.primary}
                       checkedChildren={String.t('editTeamPage.activeState')}
@@ -142,12 +147,7 @@ class EditTeamPage extends Component {
               >
                 {String.t('Buttons.cancel')}
               </Button>
-              <Button
-                type="main"
-                fitText
-                onClick={this.handleSubmit}
-                loading={this.state.loading}
-              >
+              <Button type="main" fitText onClick={this.handleSubmit} loading={this.state.loading}>
                 {String.t('editTeamRoomPage.saveButtonLabel')}
               </Button>
             </div>

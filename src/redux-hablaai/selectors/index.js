@@ -1,3 +1,4 @@
+export * from './auth';
 export * from './requests';
 export * from './users';
 export * from './subscriberOrgs';
@@ -10,4 +11,5 @@ export * from './invitations';
 export * from './conversations';
 export * from './readMessages';
 export * from './integrations';
+export * from './search';
 export * from './sharing';

@@ -11,6 +11,9 @@ const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
 
 class DowntimeComparisonMultiple extends Component {
+  container = null;
+  highchart = null;
+
   constructor() {
     super();
     this.chartOptions = {
@@ -83,7 +86,8 @@ class DowntimeComparisonMultiple extends Component {
       months: '2017-10,2017-11',
       measure: 'minutes'
     }
-  }
+  };
+
   componentDidMount() {
     this.props.fetchData(this.state.params);
     window.addEventListener('resize', this.updateDimensions.bind(this));
@@ -96,9 +100,6 @@ class DowntimeComparisonMultiple extends Component {
 
     this.highchart.chart.update({ series: nextProps.series }, true, true);
   }
-
-  container = null;
-  highchart = null;
 
   updateDimensions() {
     if (!this.container || !this.container.parentNode) return;
@@ -116,11 +117,15 @@ class DowntimeComparisonMultiple extends Component {
       <div className="Report__container">
         <div
           className="PlanUpMultipeComparissions"
-          ref={(node) => { this.container = node; }}
+          ref={node => {
+            this.container = node;
+          }}
           style={{ minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
         >
           <HighchartsReact
-            ref={(node) => { this.highchart = node; }}
+            ref={node => {
+              this.highchart = node;
+            }}
             highcharts={Highcharts}
             options={{
               ...this.chartOptions,

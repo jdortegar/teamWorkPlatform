@@ -9,7 +9,6 @@
   width: 100%;
   height: 60%;
   overflow: hidden;
-  border-bottom: #eee 1px solid;
 }
 .homepage_graph-container > div {
   display: flex;
@@ -68,9 +67,8 @@
 .homePage__activity-content-container {
   margin: 15px;
   margin-top: 8px;
-   margin: 0 0 0 20px;
-   line-height: 1.2em;
-
+  margin: 0 0 0 15px;
+  line-height: 1.2em;
 }
 .homePage__activity-content-header {
   font-size: 14px;

@@ -12,26 +12,17 @@ const propTypes = {
 
 const defaultProps = {
   size: 'default',
-  color: '#ccc'
+  color: '#5b7eba'
 };
 
 const CLASSNAME = 'habla-avatar';
 
 function Avatar(props) {
   const { children, size, color, className: userClassName, ...rest } = props;
-  const className = classNames(
-    CLASSNAME,
-    userClassName,
-    `${CLASSNAME}--size-${size}`
-  );
+  const className = classNames(CLASSNAME, userClassName, `${CLASSNAME}--size-${size}`);
 
   return (
-    <AntdAvatar
-      size={size}
-      className={className}
-      style={{ backgroundColor: color }}
-      {...rest}
-    >
+    <AntdAvatar size={size} className={className} style={{ backgroundColor: color }} {...rest}>
       {children}
     </AntdAvatar>
   );

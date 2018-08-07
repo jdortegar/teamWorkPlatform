@@ -1,4 +1,4 @@
-import config from '../config';
+import config from 'config/env';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const MESSAGES_READ_FETCH_SUCCESS = 'messages/read/fetch/success';
@@ -6,20 +6,26 @@ export const MESSAGES_READ_FETCH_SUCCESS = 'messages/read/fetch/success';
 export const fetchReadMessages = (conversationId = undefined, options = { getKey: false, forceGet: false }) => {
   // requestUrl is the key into redux state.urlRequests.
   let requestUrl = `${config.hablaApiBaseUri}/conversations/getReadMessages`;
-  requestUrl = (conversationId) ? `${requestUrl}/${conversationId}` : requestUrl;
+  requestUrl = conversationId ? `${requestUrl}/${conversationId}` : requestUrl;
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { conversationId };
 
-  return (dispatch) => {
-    const thunk = dispatch(doAuthenticatedRequest({
-      requestUrl,
-      method: 'get'
-    }, reduxState, options));
+  return dispatch => {
+    const thunk = dispatch(
+      doAuthenticatedRequest(
+        {
+          requestUrl,
+          method: 'get'
+        },
+        reduxState,
+        options
+      )
+    );
 
     if (!options.getKey) {
-      thunk.then((response) => {
-        if ((response.data) && (response.data !== RESPONSE_STALE)) {
+      thunk.then(response => {
+        if (response.data && response.data !== RESPONSE_STALE) {
           const { readMessages } = response.data;
           dispatch({
             type: MESSAGES_READ_FETCH_SUCCESS,

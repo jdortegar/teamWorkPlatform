@@ -26,7 +26,7 @@ import SearchPage from '../../containers/SearchPage';
 import DashboardPage from '../../containers/DashboardPage';
 import NotificationsPage from '../../containers/NotificationsPage';
 import AcceptInvitationPage from '../../containers/AcceptInvitationPage';
-import { routesPaths } from '../../routes';
+import { paths } from '../../routes';
 import { sound1 } from '../../sounds';
 import './styles/style.css';
 import String from '../../translations';
@@ -64,10 +64,11 @@ function invitationKey(inv) {
 
 class MainContent extends Component {
   componentDidMount() {
-    if ((this.props.pushMessage) && (this.props.pushMessage.length > 0)) {
-      const text = this.props.pushMessage[0].content.reduce((prevVal, content) => {
-        return prevVal || (content.type === 'text/plain') ? content.text : undefined;
-      }, undefined);
+    if (this.props.pushMessage && this.props.pushMessage.length > 0) {
+      const text = this.props.pushMessage[0].content.reduce(
+        (prevVal, content) => (prevVal || content.type === 'text/plain' ? content.text : undefined),
+        undefined
+      );
       const args = {
         message: String.t('MainContent.newMessage'),
         description: text,
@@ -93,12 +94,20 @@ class MainContent extends Component {
       if (invitation.teamName || invitation.teamRoomName) {
         const { firstName, lastName } = this.props.users[invitation.inviteeUserIdOrEmail];
         if (invitation.teamRoomName) {
-          text = String.t('MainContent.declinedRoom', { firstName, lastName, teamRoomName: invitation.teamRoomName, teamName: invitation.teamName });
+          text = String.t('MainContent.declinedRoom', {
+            firstName,
+            lastName,
+            teamRoomName: invitation.teamRoomName,
+            teamName: invitation.teamName
+          });
         } else if (invitation.teamName) {
           text = String.t('MainContent.declinedTeam', { firstName, lastName, teamName: invitation.teamName });
         }
       } else {
-        text = String.t('MainContent.declinedOrg', { inviteeUserIdOrEmail: invitation.inviteeUserIdOrEmail, subscriberOrgName: invitation.subscriberOrgName });
+        text = String.t('MainContent.declinedOrg', {
+          inviteeUserIdOrEmail: invitation.inviteeUserIdOrEmail,
+          subscriberOrgName: invitation.subscriberOrgName
+        });
       }
       const args = {
         message: text,
@@ -110,7 +119,7 @@ class MainContent extends Component {
       notification.open(args);
     }
 
-    if (nextProps.pushMessage && (nextProps.pushMessage.length > 0)) {
+    if (nextProps.pushMessage && nextProps.pushMessage.length > 0) {
       if (this.props.pushMessage) {
         notification.destroy();
       }
@@ -136,13 +145,14 @@ class MainContent extends Component {
   getValidInvites() {
     const { teamRooms, teams, subscriberOrgs } = this.props;
     const { currentSubscriberOrgId, subscriberOrgById } = subscriberOrgs;
-    if (!subscriberOrgById[currentSubscriberOrgId]) { // data not available yet
+    if (!subscriberOrgById[currentSubscriberOrgId]) {
+      // data not available yet
       return [];
     }
     let { invitation } = this.props;
     if (invitation.length > 0) {
       const invitationsByKey = {};
-      invitation = invitation.sort(sortByLastCreatedFirst).filter((inv) => {
+      invitation = invitation.sort(sortByLastCreatedFirst).filter(inv => {
         // if already a member of the org, team or team room, don't include the invite
         const { teamRoomId, teamId, subscriberOrgId } = inv;
         if (teamRoomId) {
@@ -176,32 +186,30 @@ class MainContent extends Component {
     const invitation = this.getValidInvites();
     return (
       <Content className="MainContent__layout-wrapper">
-        {
-          invitation.length > 0 ? invitation.map(inv => <Notification key={invitationKey(inv)} options={inv} />) : null
-        }
+        {invitation.length > 0 ? invitation.map(inv => <Notification key={invitationKey(inv)} options={inv} />) : null}
         <Switch>
-          <Route exact path={routesPaths.app} component={HomePage} />
-          <Route exact path={routesPaths.integrations} component={IntegrationsPage} />
-          <Route exact path={routesPaths.integrationDetails} component={IntegrationDetailsPage} />
-          <Route exact path={routesPaths.organization} component={OrganizationPage} />
-          <Route exact path={routesPaths.team} component={TeamPage} />
-          <Route exact path={routesPaths.newTeamRoom} component={NewTeamRoomPage} />
-          <Route exact path={routesPaths.newTeam} component={NewTeamPage} />
-          <Route exact path={routesPaths.editTeam} component={EditTeamPage} />
-          <Route exact path={routesPaths.editTeamRoom} component={EditTeamRoomPage} />
-          <Route exact path={routesPaths.editOrganization} component={EditOrganizationPage} />
-          <Route exact path={routesPaths.editUser} component={EditUserPage} />
-          <Route exact path={routesPaths.inviteNewMember} component={InviteNewMemberPage} />
-          <Route exact path={routesPaths.inviteToTeam} component={InviteToTeamPage} />
-          <Route exact path={routesPaths.inviteToTeamRoom} component={InviteToTeamRoomPage} />
-          <Route exact path={routesPaths.teamRoom} component={ChatContent} />
-          <Route exact path={routesPaths.member} component={TeamMemberPage} />
-          <Route exact path={routesPaths.acceptInvitation} component={AcceptInvitationPage} />
-          <Route exact path={routesPaths.ckg} component={CKGPage} />
-          <Route exact path={routesPaths.dashboard} component={DashboardPage} />
-          <Route exact path={routesPaths.search} component={SearchPage} />
-          <Route exact path={routesPaths.notifications} component={NotificationsPage} />
-          <Route exact path={routesPaths.bookmarks} component={BookmarksPage} />
+          <Route exact path={paths.app} component={HomePage} />
+          <Route exact path={paths.integrations} component={IntegrationsPage} />
+          <Route exact path={paths.integrationDetails} component={IntegrationDetailsPage} />
+          <Route exact path={paths.organization} component={OrganizationPage} />
+          <Route exact path={paths.team} component={TeamPage} />
+          <Route exact path={paths.newTeamRoom} component={NewTeamRoomPage} />
+          <Route exact path={paths.newTeam} component={NewTeamPage} />
+          <Route exact path={paths.editTeam} component={EditTeamPage} />
+          <Route exact path={paths.editTeamRoom} component={EditTeamRoomPage} />
+          <Route exact path={paths.editOrganization} component={EditOrganizationPage} />
+          <Route exact path={paths.editUser} component={EditUserPage} />
+          <Route exact path={paths.inviteNewMember} component={InviteNewMemberPage} />
+          <Route exact path={paths.inviteToTeam} component={InviteToTeamPage} />
+          <Route exact path={paths.inviteToTeamRoom} component={InviteToTeamRoomPage} />
+          <Route exact path={paths.teamRoom} component={ChatContent} />
+          <Route exact path={paths.member} component={TeamMemberPage} />
+          <Route exact path={paths.acceptInvitation} component={AcceptInvitationPage} />
+          <Route exact path={paths.ckg} component={CKGPage} />
+          <Route exact path={paths.dashboard} component={DashboardPage} />
+          <Route exact path={paths.search} component={SearchPage} />
+          <Route exact path={paths.notifications} component={NotificationsPage} />
+          <Route exact path={paths.bookmarks} component={BookmarksPage} />
         </Switch>
       </Content>
     );

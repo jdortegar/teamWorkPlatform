@@ -2,11 +2,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import Sidebar from 'components/Sidebar';
+import { setCurrentSubscriberOrgId, showSideBar } from '../../actions';
 import {
-  setCurrentSubscriberOrgId,
-  showSideBar
-} from '../../actions';
-import {
+  getCurrentUser,
   getSubscriberOrgsSortedAlphabetically,
   getTeamsOfSubscriberOrgIdSortedAlphabetically,
   getTeamRooms,
@@ -16,7 +14,7 @@ import {
 
 function mapStateToProps(state) {
   return {
-    user: state.auth.user,
+    user: getCurrentUser(state),
     subscriberOrgs: getSubscriberOrgsSortedAlphabetically(state),
     subscribers: getSubscribersOfSubscriberOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
@@ -31,10 +29,18 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    setCurrentSubscriberOrgId,
-    showSideBar
-  }, dispatch);
+  return bindActionCreators(
+    {
+      setCurrentSubscriberOrgId,
+      showSideBar
+    },
+    dispatch
+  );
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Sidebar));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Sidebar)
+);

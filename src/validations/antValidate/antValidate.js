@@ -6,9 +6,7 @@ function antValidate(constraints) {
     throw new Error(String.t('validationError.constraintsEmpty'));
   }
 
-  return (rule, value, callback) => (
-    callback(validate(value, constraints))
-  );
+  return (rule, value, callback) => callback(validate(value, constraints));
 }
 
 export default antValidate;

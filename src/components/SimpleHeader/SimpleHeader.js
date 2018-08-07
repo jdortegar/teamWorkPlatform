@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import './styles/style.css';
 
 const propTypes = {
-  text: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node
-  ]).isRequired,
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   type: PropTypes.string
 };
 
@@ -17,11 +14,7 @@ const defaultProps = {
 function SimpleHeader(props) {
   return (
     <div className="SimpleHeader-block SimpleHeader__container padding-class-a">
-      {
-        props.type === 'text' ?
-          <h2 className="SimpleHeader__title">{props.text}</h2> :
-          props.text
-      }
+      {props.type === 'text' ? <h2>{props.text}</h2> : props.text}
     </div>
   );
 }

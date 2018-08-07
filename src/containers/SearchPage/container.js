@@ -2,23 +2,29 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import SearchPage from 'pages/SearchPage';
-import { search } from 'redux-hablaai/actions';
-import { getCurrentSubscriberOrgId, getUserById } from 'selectors';
-import { extractQueryParams } from 'routes';
+import { search } from 'actions';
+import { getCurrentSubscriberOrgId, getUserById, getSearchKeywords } from 'selectors';
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = state => ({
   owners: state.search.owners.map(({ key, count }) => ({ ...getUserById(state, key), key, count })),
   results: state.search.results,
+  resultsCount: state.search.resultsCount,
   query: state.search.query,
   fileTypes: state.search.fileTypes,
   integrations: state.search.integrations,
   loading: state.search.loading,
-  queryParams: extractQueryParams(props),
+  caseSensitive: state.search.caseSensitive,
+  keywords: getSearchKeywords(state),
   currentSubscriberOrgId: getCurrentSubscriberOrgId(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-  search: (query, subscriberOrgId) => dispatch(search(query, subscriberOrgId))
+  search: (query, subscriberOrgId, caseSensitive) => dispatch(search(query, subscriberOrgId, caseSensitive))
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchPage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(SearchPage)
+);

@@ -16,14 +16,14 @@ const buildPresenceUniqueId = ({ address, userAgent }) => `${address}##${userAge
 
 const updatePresences = (users, presencesByUserId) => {
   const result = _.cloneDeep(presencesByUserId);
-  users.forEach(({ presence = [], userId }) => (
-    presence.forEach((item) => {
+  users.forEach(({ presence = [], userId }) =>
+    presence.forEach(item => {
       result[userId] = {
         ...result[userId],
         [buildPresenceUniqueId(item)]: item
       };
     })
-  ));
+  );
   return result;
 };
 

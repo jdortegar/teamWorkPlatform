@@ -5,12 +5,15 @@
   /*padding-bottom: 66px;*/
 }
 .team-room__chat-input {
-    border: 1px solid #ccc;
     border-radius: 4px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+    background: #eef2f8;
+}
+.team-room__chat-input .ant-input {
+	background: #eef2f8;
 }
 .team-room__header-links {
   padding: 6px 10px;
@@ -110,7 +113,7 @@
 }
 .team-room__chat-col-icons a
 , .team-room__chat-col-icons svg {
-  color: #ddd;
+  color: #a9b7d7;
   font-size: 24px;
 }
 .team-room__chat-col-icons a:hover

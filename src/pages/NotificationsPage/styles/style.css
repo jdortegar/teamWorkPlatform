@@ -2,7 +2,7 @@
   flex: 1;
 }
 .notificationHeader-options {
-  flex: .5;
+  flex: 0.5;
   justify-content: space-between;
   align-items: center;
 }
@@ -20,29 +20,29 @@
 }
 
 .notification-body__item.unread {
-  background-color: #fffbf3;
+  background-color: #f7f7f7;
 }
-.notification-body__item:hover
-, .notification-body__item.unread:hover  {
-  background-color: #F7F7F7;
+.notification-body__item:hover,
+.notification-body__item.unread:hover {
+  background-color: #f7f7f7;
 }
 .notification-body__item__content {
   margin-left: 20px;
   width: 100%;
 }
 .content-body__time-ago {
-  color: #DDDDDD;
-  margin-left: .6em;
+  color: #dddddd;
+  margin-left: 0.6em;
 }
 .notification-body__unread {
   background-color: #fffbf3;
-  color: #EB4435!important;
+  color: #eb4435 !important;
   justify-content: flex-end;
   padding: 15px 15px 5px 15px;
 }
 .notification-body__unread > .total-unread {
   font-weight: 800;
-  margin-right: .2em;
+  margin-right: 0.2em;
 }
 .notification-body__unread > .mark-as-read {
   cursor: pointer;

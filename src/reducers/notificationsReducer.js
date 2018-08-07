@@ -1,7 +1,4 @@
-import {
-  MESSAGES_RECEIVE,
-  NOTIFY_MESSAGE
-} from '../actions';
+import { MESSAGES_RECEIVE, NOTIFY_MESSAGE } from '../actions';
 
 const INITIAL_STATE = {
   pushMessage: null

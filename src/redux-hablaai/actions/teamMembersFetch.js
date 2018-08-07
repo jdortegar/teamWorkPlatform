@@ -1,4 +1,4 @@
-import config from '../config';
+import config from 'config/env';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 import { sortByFirstName } from '../selectors/helpers';
 
@@ -11,15 +11,21 @@ export const fetchTeamMembersByTeamId = (teamId, options = { getKey: false, forc
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { teamId };
 
-  return (dispatch) => {
-    const thunk = dispatch(doAuthenticatedRequest({
-      requestUrl,
-      method: 'get'
-    }, reduxState, options));
+  return dispatch => {
+    const thunk = dispatch(
+      doAuthenticatedRequest(
+        {
+          requestUrl,
+          method: 'get'
+        },
+        reduxState,
+        options
+      )
+    );
 
     if (!options.getKey) {
-      thunk.then((response) => {
-        if ((response.data) && (response.data !== RESPONSE_STALE)) {
+      thunk.then(response => {
+        if (response.data && response.data !== RESPONSE_STALE) {
           const teamMembers = response.data.teamMembers.sort(sortByFirstName);
           dispatch({
             type: TEAMMEMBERS_FETCH_SUCCESS,

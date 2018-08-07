@@ -2,28 +2,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import {
-  IntegrationFilter,
-  FileTypeFilter,
-  OwnerFilter
-} from 'components';
+import { IntegrationFilter, FileTypeFilter, OwnerFilter } from 'components';
 import String from 'translations';
 import './styles/style.css';
 
 const propTypes = {
-  owners: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string.isRequired,
-    count: PropTypes.number.isRequired
-  })),
-  fileTypes: PropTypes.arrayOf(PropTypes.shape({
-    count: PropTypes.number.isRequired,
-    label: PropTypes.string.isRequired,
-    fileExtension: PropTypes.string
-  })),
-  integrations: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string.isRequired,
-    count: PropTypes.number.isRequired
-  })),
+  owners: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      count: PropTypes.number.isRequired
+    })
+  ),
+  fileTypes: PropTypes.arrayOf(
+    PropTypes.shape({
+      count: PropTypes.number.isRequired,
+      label: PropTypes.string.isRequired,
+      fileExtension: PropTypes.string
+    })
+  ),
+  integrations: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      count: PropTypes.number.isRequired
+    })
+  ),
   className: PropTypes.string,
   excludeOwnersFilter: PropTypes.object,
   excludeIntegrationsFilter: PropTypes.object,

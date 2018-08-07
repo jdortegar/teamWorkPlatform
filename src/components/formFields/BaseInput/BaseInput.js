@@ -33,7 +33,8 @@ function BaseInput(props) {
     required,
     className: userClassName,
     placeholder,
-    ...rest } = props;
+    ...rest
+  } = props;
 
   const rules = [
     {
@@ -54,13 +55,7 @@ function BaseInput(props) {
 
   const className = classNames('c-base-input', userClassName);
 
-  return decorator(<Input
-    {...rest}
-    type={type}
-    name={componentKey}
-    className={className}
-    placeholder={placeholder}
-  />);
+  return decorator(<Input {...rest} type={type} name={componentKey} className={className} placeholder={placeholder} />);
 }
 
 BaseInput.defaultProps = defaultProps;

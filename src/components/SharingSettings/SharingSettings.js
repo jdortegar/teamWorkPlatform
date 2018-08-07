@@ -8,7 +8,7 @@ import String from '../../translations';
 import './styles/style.css';
 // import 'pages/CKGPage/styles/style.css';
 
-const Panel = Collapse.Panel;
+const { Panel } = Collapse;
 const RadioGroup = Radio.Group;
 
 const propTypes = {
@@ -53,7 +53,7 @@ class SharingSettings extends Component {
     e.preventDefault();
     const sharingType = e.target.value;
     const { parentNode, shareWithIds } = this.props;
-    shareWithIds.addShare(parentNode.id, 'ROOT', (sharingType === 'all') ? SharingTypes.ALL : SharingTypes.SOME);
+    shareWithIds.addShare(parentNode.id, 'ROOT', sharingType === 'all' ? SharingTypes.ALL : SharingTypes.SOME);
     this.setState({ share: e.target.value });
   }
 
@@ -66,26 +66,26 @@ class SharingSettings extends Component {
           <Radio value="custom">{this.props.customText}</Radio>
         </RadioGroup>
         <div className="TeamAndTeamRoomList">
-          {
-            ((this.props.collapsible) && (this.state.share === 'custom')) &&
-            <div className="integrationTitleLabelContainer">
-              <div className="habla-label integration-settings-title-label">
-                {this.props.integrationType} {String.t('integrationDetailsPage.sharing.foldersAndFiles')}
+          {this.props.collapsible &&
+            this.state.share === 'custom' && (
+              <div className="integrationTitleLabelContainer">
+                <div className="habla-label integration-settings-title-label">
+                  {this.props.integrationType} {String.t('integrationDetailsPage.sharing.foldersAndFiles')}
+                </div>
+                <div className="habla-label integration-settings-sellect-all-label">
+                  <a>{String.t('integrationDetailsPage.sharing.selectAll')}</a>
+                </div>
+                <div className="clear" />
               </div>
-              <div className="habla-label integration-settings-sellect-all-label">
-                <a>{String.t('integrationDetailsPage.sharing.selectAll')}</a>
-              </div>
-              <div className="clear" />
-            </div>}
-          {
-            (this.state.share === 'custom') &&
+            )}
+          {this.state.share === 'custom' && (
             <Tree
               primaryTree={primaryTree}
               secondaryTree={secondaryTree}
               parentNode={this.props.parentNode}
               shareWithIds={this.props.shareWithIds}
             />
-          }
+          )}
         </div>
       </div>
     );
@@ -98,21 +98,14 @@ class SharingSettings extends Component {
       content = (
         <div className="sharing-settings">
           <Collapse bordered>
-            <Panel
-              header={<SimpleHeader text={String.t('integrationDetailsPage.sharing.settings')} />}
-              key="1"
-            >
+            <Panel header={<SimpleHeader text={String.t('integrationDetailsPage.sharing.settings')} />} key="1">
               {content}
             </Panel>
           </Collapse>
         </div>
       );
     } else {
-      content = (
-        <div className="sharing-settings">
-          {content}
-        </div>
-      );
+      content = <div className="sharing-settings">{content}</div>;
     }
 
     return content;

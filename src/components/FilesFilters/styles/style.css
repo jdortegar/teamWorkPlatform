@@ -4,8 +4,8 @@
 }
 .FilesFilters__group {
   display: flex;
-  padding: 9px 10px;
-  border-right: solid 1px #ddd;
+  padding: 12px 10px 11px 10px;
+  border-right: solid 1px #e5efff;
 }
 .FilesFilters__group:last-child {
   margin-right: 0;
@@ -21,7 +21,7 @@
 }
 .FilesFilters__dataTypes__badge {
   color: #fff;
-  background: #a8a8a8;
+  background: #547dbf;
   text-align: center;
   min-width: 20px;
   border-radius: 3px;

@@ -15,27 +15,20 @@ function readFileAsBinary(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = (event) => {
+    reader.onload = event => {
       resolve(event.target.result);
     };
-    reader.onerror = (err) => {
+    reader.onerror = err => {
       reject(err);
     };
   });
 }
 
 class PreviewCard extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { src: '' };
-  }
-
   componentDidMount() {
-    readFileAsBinary(this.props.file)
-      .then((binary) => {
-        this.props.addBase(this.props.file, binary);
-      });
+    readFileAsBinary(this.props.file).then(binary => {
+      this.props.addBase(this.props.file, binary);
+    });
   }
 
   renderFile(isImage, fileName) {

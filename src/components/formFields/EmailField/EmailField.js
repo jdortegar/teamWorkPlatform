@@ -58,33 +58,20 @@ function EmailField(props) {
     initialValue,
     placeholder: translatedPlaceHolder,
     required,
-    extraRules: [
-      { validator: antValidate(email) }
-    ],
+    extraRules: [{ validator: antValidate(email) }],
     className: inputClassName,
     missingMessage: translatedMissingMessage
   });
 
   if (noLabel) {
     return (
-      <FormItem
-        labelCol={layout.labelCol}
-        wrapperCol={layout.wrapperCol}
-        hasFeedback
-        required={required}
-      >
+      <FormItem labelCol={layout.labelCol} wrapperCol={layout.wrapperCol} hasFeedback required={required}>
         {decoratedInput}
       </FormItem>
     );
   }
   return (
-    <FormItem
-      labelCol={layout.labelCol}
-      wrapperCol={layout.wrapperCol}
-      label={label}
-      hasFeedback
-      required={required}
-    >
+    <FormItem labelCol={layout.labelCol} wrapperCol={layout.wrapperCol} label={label} hasFeedback required={required}>
       {decoratedInput}
     </FormItem>
   );
