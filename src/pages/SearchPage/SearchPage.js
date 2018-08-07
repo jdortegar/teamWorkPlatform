@@ -20,6 +20,8 @@ const formatTime = date =>
     displayTime: moment(date).format(String.t('timeActivityGraph.timeFormat'))
   });
 
+const findUserByFile = (users, file) => users.find(({ userId }) => userId === file.fileOwnerId) || {};
+
 const getColumns = (keywords, caseSensitive, owners) => [
   {
     title: 'File Name',
@@ -62,15 +64,22 @@ const getColumns = (keywords, caseSensitive, owners) => [
   },
   {
     title: 'Owner',
-    dataIndex: 'fileOwnerName',
-    key: 'fileOwnerName',
-    sorter: (a, b) => a.fileOwnerName.localeCompare(b.fileOwnerName),
-    render: (text, file) => (
-      <div>
-        <AvatarWrapper user={owners.find(({ userId }) => userId === file.fileOwnerId)} size="small" hideStatusTooltip />
-        <span className="SearchPage__results__fileOwnerName">{text}</span>
-      </div>
-    )
+    dataIndex: 'fileOwnerId',
+    key: 'fileOwnerId',
+    sorter: (a, b) => {
+      const nameA = findUserByFile(owners, a).fullName;
+      const nameB = findUserByFile(owners, b).fullName;
+      return nameA.localeCompare(nameB);
+    },
+    render: (text, file) => {
+      const user = findUserByFile(owners, file);
+      return (
+        <div>
+          <AvatarWrapper user={user} size="small" hideStatusTooltip />
+          <span className="SearchPage__results__fileOwnerName">{user.fullName}</span>
+        </div>
+      );
+    }
   },
   {
     title: 'Source',
