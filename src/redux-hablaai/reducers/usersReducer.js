@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import String from 'translations';
 import {
   USER_RECEIVE,
   SUBSCRIBERS_FETCH_SUCCESS,
@@ -63,6 +64,9 @@ function receiverUsers(state, payload) {
       teamRoom.role = role;
       teamRoom.teamRoomMemberId = teamRoomMemberId;
     }
+
+    const { firstName, lastName } = user;
+    user.fullName = String.t('fullName', { firstName, lastName });
   });
 
   return {
@@ -87,6 +91,9 @@ const usersReducer = (state = INITIAL_STATE, action) => {
       user.teams = user.teams || {};
       user.teamRooms = user.teamRooms || {};
       userByUserId[action.payload.user.userId] = user;
+
+      const { firstName, lastName } = user;
+      user.fullName = String.t('fullName', { firstName, lastName });
 
       return {
         ...state,
@@ -152,6 +159,9 @@ const usersReducer = (state = INITIAL_STATE, action) => {
         teamRoom.role = role;
         teamRoom.teamRoomMemberId = teamRoomMemberId;
       }
+
+      const { firstName, lastName } = user;
+      user.fullName = String.t('fullName', { firstName, lastName });
 
       return {
         ...state,

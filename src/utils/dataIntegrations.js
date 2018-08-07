@@ -77,7 +77,8 @@ const possibleIntegrations = {
   },
   dropbox: {
     label: 'Dropbox',
-    logo: dropboxLogo
+    logo: dropboxLogo,
+    isSupported: true
   },
   jira: {
     label: 'Jira',
@@ -100,7 +101,7 @@ const possibleIntegrations = {
     logo: ibmConnectionsLogo
   },
   adobecloud: {
-    label:'Adobe Creative Cloud',
+    label: 'Adobe Creative Cloud',
     logo: adobeLogo
   }
 };

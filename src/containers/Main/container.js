@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Main from 'layouts/Main';
-import { initMessaging, closeMessaging, fetchGlobalState } from 'actions';
+import { initMessaging, closeMessaging, fetchGlobalState, fetchInvitations } from 'actions';
 
 const mapStateToProps = state => ({
   subscriberOrgs: state.subscriberOrgs
@@ -9,7 +9,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   initMessaging: () => dispatch(initMessaging()),
   closeMessaging: () => dispatch(closeMessaging()),
-  fetchGlobalState: () => dispatch(fetchGlobalState())
+  fetchGlobalState: () => dispatch(fetchGlobalState()),
+  fetchInvitations: () => dispatch(fetchInvitations())
 });
 
 export default connect(

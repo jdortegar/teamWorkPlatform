@@ -37,12 +37,12 @@ class HomePage extends Component {
           <div className="homePage__activity-content-container">
             <div className="homePage__activity-content-header">{from}</div>
             <div className="homePage__activity-content-message">
-              Welcome to Habla AI.{' '}
+              Welcome to Habla AI. To start using our tool as is best, please{' '}
               <a onClick={() => this.props.history.push(`/app/integrations/${this.props.currentSubscriberOrgId}`)}>
-                {' '}
-                Click here
+                add a data integration
               </a>{' '}
-              to start integrating data into your Knowledge Graph.
+              to see your files on the Corporate Knowledge Graphs. We hope that now you spend minutes finding the right
+              data instead of searching folders for hours.
               <span className="homePage__activity-content-date"> ({date})</span>
             </div>
           </div>
@@ -74,10 +74,7 @@ class HomePage extends Component {
             setCurrentSubscriberOrgId={setCurrentSubscriberOrgId}
           />
         </div>
-        <div className="homepage_latest-container">
-          <div className="homepage_latest-header habla-label">{String.t('homePage.latestHeader')}</div>
-          {this.renderActivity()}
-        </div>
+        <div className="homepage_latest-container">{this.renderActivity()}</div>
       </div>
     );
   }

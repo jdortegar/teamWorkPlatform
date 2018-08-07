@@ -10,6 +10,7 @@ const propTypes = {
   initMessaging: PropTypes.func.isRequired,
   closeMessaging: PropTypes.func.isRequired,
   fetchGlobalState: PropTypes.func.isRequired,
+  fetchInvitations: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.object.isRequired
 };
 
@@ -17,6 +18,7 @@ class Main extends React.Component {
   componentDidMount() {
     this.props.fetchGlobalState();
     this.props.initMessaging();
+    this.props.fetchInvitations();
     window.addEventListener('beforeunload', this.onUnload);
   }
 

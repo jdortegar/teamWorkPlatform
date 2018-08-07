@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
+import _ from 'lodash';
+import Highlighter from 'react-highlight-words';
+import { Tag } from 'antd';
 
 import { integrationKeyFromFile, integrationLabelFromKey, integrationImageFromKey } from 'utils/dataIntegrations';
 import { Spinner, ResultsList, FilesFilters } from 'components';
@@ -17,7 +20,9 @@ const formatTime = date =>
     displayTime: moment(date).format(String.t('timeActivityGraph.timeFormat'))
   });
 
-const getColumns = owners => [
+const findUserByFile = (users, file) => users.find(({ userId }) => userId === file.fileOwnerId) || {};
+
+const getColumns = (keywords, caseSensitive, owners) => [
   {
     title: 'File Name',
     dataIndex: 'fileName',
@@ -32,7 +37,14 @@ const getColumns = owners => [
           width={32}
           height={32}
         />
-        <span className="SearchPage__results__fileName">{text}</span>
+        <Highlighter
+          className="SearchPage__results__fileName"
+          highlightClassName="SearchPage__results-highlighted"
+          searchWords={keywords}
+          textToHighlight={text}
+          caseSensitive={caseSensitive}
+          autoEscape
+        />
       </a>
     )
   },
@@ -52,22 +64,29 @@ const getColumns = owners => [
   },
   {
     title: 'Owner',
-    dataIndex: 'fileOwnerName',
-    key: 'fileOwnerName',
-    sorter: (a, b) => a.fileOwnerName.localeCompare(b.fileOwnerName),
-    render: (text, file) => (
-      <div>
-        <AvatarWrapper user={owners.find(({ userId }) => userId === file.fileOwnerId)} size="small" hideStatusTooltip />
-        <span className="SearchPage__results__fileOwnerName">{text}</span>
-      </div>
-    )
+    dataIndex: 'fileOwnerId',
+    key: 'fileOwnerId',
+    sorter: (a, b) => {
+      const nameA = findUserByFile(owners, a).fullName;
+      const nameB = findUserByFile(owners, b).fullName;
+      return nameA.localeCompare(nameB);
+    },
+    render: (text, file) => {
+      const user = findUserByFile(owners, file);
+      return (
+        <div>
+          <AvatarWrapper user={user} size="small" hideStatusTooltip />
+          <span className="SearchPage__results__fileOwnerName">{user.fullName}</span>
+        </div>
+      );
+    }
   },
   {
     title: 'Source',
     dataIndex: 'fileSource',
     key: 'fileSource',
     sorter: (a, b) => a.fileSource.localeCompare(b.fileSource),
-    render: (_, file) => (
+    render: (text, file) => (
       <div>
         <div className="SearchPage__results__integrationIcon">
           <img src={integrationImageFromKey(integrationKeyFromFile(file))} width={26} height={26} alt="" />
@@ -81,21 +100,17 @@ const getColumns = owners => [
 ];
 
 class SearchPage extends Component {
-  constructor(props) {
-    super(props);
-    this.updateSearch(props.queryParams.q);
-  }
-
   state = {
-    query: this.props.query,
     excludeOwnersFilter: {},
     excludeTypesFilter: {},
     excludeIntegrationsFilter: {}
   };
 
-  componentWillReceiveProps(nextProps) {
-    this.updateSearch(nextProps.queryParams.q, true);
-  }
+  handleRemoveKeywordClick = keyword => {
+    const { keywords, currentSubscriberOrgId, caseSensitive } = this.props;
+    const query = _.without(keywords, keyword).join(' ');
+    this.props.search(query, currentSubscriberOrgId, caseSensitive);
+  };
 
   handleOwnerFilterClick = key => {
     const { excludeOwnersFilter } = this.state;
@@ -121,15 +136,9 @@ class SearchPage extends Component {
     this.setState({ excludeTypesFilter: allSelected ? {} : allFilters });
   };
 
-  updateSearch(newQuery, shouldUpdateState = false) {
-    if (!newQuery || newQuery === this.props.query) return;
-    if (shouldUpdateState) this.setState({ query: newQuery });
-    this.props.search(newQuery, this.props.currentSubscriberOrgId);
-  }
-
   render() {
-    const { loading, results, owners, fileTypes, integrations } = this.props;
-    const { query, excludeOwnersFilter, excludeIntegrationsFilter, excludeTypesFilter } = this.state;
+    const { loading, keywords, caseSensitive, results, resultsCount, owners, fileTypes, integrations } = this.props;
+    const { excludeOwnersFilter, excludeIntegrationsFilter, excludeTypesFilter } = this.state;
 
     const resultsFiltered = results.filter(file => {
       const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
@@ -143,16 +152,29 @@ class SearchPage extends Component {
         <div className="SearchPage__header">
           <i className="SearchPage__icon fa fa-search" />
           <div className="SearchPage__title">
+            <span className="SearchPage__results-count">{loading ? '...' : `${resultsCount}`}</span>
             {String.t('searchPage.title')}
-            <span className="SearchPage__query">&ldquo;{query}&rdquo;</span>
           </div>
+          <span className="SearchPage__keywords">
+            {keywords.map(keyword => (
+              <Tag
+                closable
+                key={keyword}
+                className="SearchPage__tag"
+                onClose={() => this.handleRemoveKeywordClick(keyword)}
+                visible={keywords.includes(keyword)}
+              >
+                {keyword}
+              </Tag>
+            ))}
+          </span>
         </div>
         <div className={classNames('SearchPage__results', { loading })}>
           {loading && <Spinner />}
           {!loading && (
             <div className="SearchPage__results-inner">
               <ResultsList
-                columns={getColumns(owners)}
+                columns={getColumns(keywords, caseSensitive, owners)}
                 dataSource={resultsFiltered}
                 loading={loading}
                 rowKey="fileId"
@@ -180,27 +202,27 @@ class SearchPage extends Component {
 }
 
 SearchPage.propTypes = {
+  currentSubscriberOrgId: PropTypes.string.isRequired,
+  search: PropTypes.func.isRequired,
   loading: PropTypes.bool,
-  query: PropTypes.string,
+  caseSensitive: PropTypes.bool,
+  keywords: PropTypes.array,
   results: PropTypes.array,
+  resultsCount: PropTypes.number,
   owners: PropTypes.array,
   fileTypes: PropTypes.array,
-  integrations: PropTypes.array,
-  search: PropTypes.func,
-  queryParams: PropTypes.shape({
-    q: PropTypes.string
-  }).isRequired,
-  currentSubscriberOrgId: PropTypes.string.isRequired
+  integrations: PropTypes.array
 };
 
 SearchPage.defaultProps = {
   loading: false,
-  query: '',
+  caseSensitive: false,
+  keywords: [],
   results: [],
+  resultsCount: 0,
   owners: [],
   fileTypes: [],
-  integrations: [],
-  search: null
+  integrations: []
 };
 
 export default SearchPage;

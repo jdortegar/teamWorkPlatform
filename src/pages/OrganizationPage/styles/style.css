@@ -1,9 +1,12 @@
 .app-version {
-    padding: 10px 0px 0px 23px;
-    color: #CCCCCC
+    padding: 10px;
+    color: #d9d9d9;
+    font-size: 8px;
+    font-weight: 300;
 }
 .app-version img {
-    height: 30px;
+    height: 13px;
     position: relative;
-    top: 10px;
+    top: 3px;
+    margin-right: 5px;
 }

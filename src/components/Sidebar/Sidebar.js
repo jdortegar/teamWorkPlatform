@@ -353,7 +353,7 @@ class Sidebar extends Component {
           {subscriberOrgs.length > 1 && (
             <Dropdown overlay={this.renderOrgs()} trigger={['click']}>
               <a>
-                <i className="fas fa-ellipsis-h organizationsList" />
+                <i className="fas fa-chevron-down organizationsList" />
               </a>
             </Dropdown>
           )}

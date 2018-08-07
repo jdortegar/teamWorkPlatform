@@ -85,10 +85,10 @@
   flex-wrap: wrap;
   min-height: 50px;
   z-index: 1;
-  background: #eef2f8;
+  background: #f0f6ff;
 }
 .bottomBar-selectors {
-  border-right: solid 1px #e1e2e3;
+  border-right: solid 1px #e5efff;
 }
 .bottomBar .bottomBar-selectors .team-select-container,
 .bottomBar .bottomBar-selectors .team-room-select-container {
