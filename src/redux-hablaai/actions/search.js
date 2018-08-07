@@ -10,15 +10,15 @@ export const TOGGLE_CASE_SENSITIVE = 'search/toggleCaseSensitive';
 
 // forceGet: true - disabling cache in search requests
 export const search = (
-  query = undefined,
+  rawQuery = undefined,
   subscriberOrgId,
   caseSensitive = false,
   options = { getKey: false, forceGet: true }
 ) => {
-  const keywords = extractKeywords(query);
-  const formattedQuery = keywords.join(' ');
+  const keywords = extractKeywords(rawQuery);
+  const query = keywords.join(' ');
   const baseUrl = `${config.hablaApiBaseUri}/ckg/getFilesBySearchTerm`;
-  const requestUrl = `${baseUrl}/${subscriberOrgId}/${formattedQuery}/${caseSensitive ? 0 : 1}`;
+  const requestUrl = `${baseUrl}/${subscriberOrgId}/${query}/${caseSensitive ? 0 : 1}`;
 
   // Passthrough data that you'll see after going through the reducer. Typically in you mapStateToProps.
   const reduxState = { query };
@@ -26,7 +26,7 @@ export const search = (
   return dispatch => {
     dispatch({
       type: SEARCH_REQUEST,
-      payload: { query: formattedQuery, keywords }
+      payload: { query, keywords }
     });
 
     if (!query) {
@@ -66,7 +66,7 @@ export const search = (
         error => {
           dispatch({
             type: SEARCH_FAILURE,
-            payload: { query: formattedQuery, keywords }
+            payload: { query, keywords }
           });
           return error;
         }

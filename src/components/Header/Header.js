@@ -20,7 +20,7 @@ class Header extends Component {
   state = { query: this.props.query };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.query !== this.props.query) {
+    if (nextProps.query !== this.props.query || nextProps.query !== this.state.query) {
       this.setState({ query: nextProps.query });
     }
   }
