@@ -1,0 +1,58 @@
+.habla-button {
+  border: none;
+  background: #666;
+  padding: 9px 15px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  display: inline-block;
+  border-radius: 3px;
+  cursor: pointer;
+  line-height: 0;
+}
+.habla-button:hover,
+.habla-button:focus {
+  color: #fff;
+}
+.habla-button:hover {
+  color: #fff;
+}
+.habla-button--type-main,
+.habla-button--type-main:focus {
+  background: #32a953;
+}
+.habla-button--type-main:hover {
+  background: #008c3f;
+  color: #fff;
+}
+.habla-button--type-secondary,
+.habla-button--type-secondary:focus {
+  background: #666666;
+}
+.habla-button--type-secondary:hover {
+  background: #555;
+}
+.habla-button--type-alert,
+.habla-button--type-alert:focus {
+  background: #eb4435;
+}
+.habla-button--type-alert:hover {
+  background: #ce0f00;
+}
+.habla-button--type-disable,
+.habla-button--type-disable:focus {
+  background: #dddddd;
+}
+.habla-button--type-disable:hover {
+  background: #f7f7f7;
+}
+.habla-button--size-small {
+  min-width: 140px;
+  padding: 4px 15px;
+}
+.habla-button--size-default {
+  min-width: 180px;
+}
+.habla-button--size-large {
+  min-width: 220px;
+}

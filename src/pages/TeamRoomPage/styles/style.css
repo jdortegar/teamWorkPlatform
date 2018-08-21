@@ -1,0 +1,161 @@
+.team-room__main-container--opacity {
+  opacity: .3;
+}
+.team-room__top-page-container {
+  /*padding-bottom: 66px;*/
+}
+.team-room__chat-input {
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #eef2f8;
+}
+.team-room__chat-input .ant-input {
+	background: #eef2f8;
+}
+.team-room__header-links {
+  padding: 6px 10px;
+  font-size: 20px;
+  border-radius: 3px;
+}
+.team-room__header-links.active {
+  background: #ddd;
+  color:#fff;
+}
+.team-room__header-links a:hover {
+  text-decoration: underline;
+  color: #222222;
+}
+.team-room__header-links.active a:hover {
+  text-decoration: none;
+}
+.team-room__header-container {
+  display: flex;
+  justify-content: flex-end;
+}
+.team-room__chat-input-textfield {
+  border: none;
+  height: 40px;
+  font-size: 15px;
+}
+.team-room__chat-input-textfield:focus, .team-room__chat-input-textfield:hover{
+  border-color: transparent;
+  box-shadow: none;
+}
+.team-room__chat-input-form-item {
+  margin-bottom: 0;
+}
+.team-room__icons {
+  font-size: 18px;
+  padding: 0 5px;
+}
+.team-room__chat-container {
+  padding: 10px 10px 0;
+}
+.team-room__chat-input-wrapper {
+  flex: 1;
+}
+.team-room-chat {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.team-room__unread-messages {
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 10px;
+  color: #eb4435;
+}
+.team-room__unread-messages-count {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.team-room__unread-messages-dot {
+  padding: 0 5px;
+  font-weight: bold;
+}
+.team-room__unread-messages-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.team-room__messages {
+  flex: 6;
+  overflow-y: scroll;
+}
+.team-room__member-cards-container {
+  display: flex;
+}
+.team-room__member-cards-span {
+  align-self: center;
+  font-size: 14px;
+  margin-right: 8px;
+}
+.team-room__file-upload-input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.team-room__file-upload-input + label {
+  display: inline-block;
+  cursor: pointer;
+}
+.team-room__file-upload-input:focus + label, .team-room__icons:focus {
+  outline: 1px dotted #000;
+  outline: -webkit-focus-ring-color auto 5px;
+}
+.team-room__chat-col-icons {
+  display: flex;
+}
+.team-room__chat-col-icons a
+, .team-room__chat-col-icons svg {
+  color: #a9b7d7;
+  font-size: 24px;
+}
+.team-room__chat-col-icons a:hover
+, .team-room__chat-col-icons svg:hover {
+  color: #999;
+  cursor: pointer;
+}
+.team-room__members-typing {
+  min-height: 2em;
+  font-size: .75em;
+  padding: .5em 0;
+  color: #999;
+}
+.team-room__members-typing-name {
+  font-weight: bold;
+}
+.file-drop {
+  display: flex;
+  flex: 1;
+}
+.file-drop > .file-drop-target {
+  display: flex;
+  flex: 1;
+}
+.team-room__messages .ant-col-md-18 {
+	width: 91%;
+}
+.team-room__messages .ant-col-md-2 {
+	width: 50px;
+}
+
+.teamRoomFilters {
+	float: right;
+	width: 50%;
+}
+.team-room__top-page-container .SimpleHeader-block {
+	float: left;
+	width: 50%;
+}
+.team-room__top-page-container .habla-main-content-filters-links {
+	flex-flow: row-reverse;
+}
+.teamRoomInviteMembers .ant-avatar-string {
+  font-size: 22px;
+}

@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android",
+    "package_name": "ai.habla",
+    "sha256_cert_fingerprints":
+    ["AC:AF:34:8A:FD:0B:FC:B2:37:66:14:19:8E:26:AD:D6:BE:81:6C:32:22:9B:49:DC:EE:01:17:FA:DE:53:00:25"]
+  }
+}]
