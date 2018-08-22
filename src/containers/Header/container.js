@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Header from 'components/Header';
-import { logoutUser, updateUser, search, toggleCaseSensitive } from 'actions';
+import { logoutUser, updateUser, search, clearSearch, toggleCaseSensitive, toggleAndOperator } from 'actions';
 import { getCurrentUser, getCurrentSubscriberOrgId } from 'redux-hablaai/selectors';
 
 function mapStateToProps(state) {
@@ -9,18 +9,19 @@ function mapStateToProps(state) {
     user: getCurrentUser(state),
     query: state.search.query,
     caseSensitive: state.search.caseSensitive,
+    andOperator: state.search.andOperator,
     currentSubscriberOrgId: getCurrentSubscriberOrgId(state)
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    logoutUser: () => dispatch(logoutUser()),
-    updateUser: data => dispatch(updateUser(data)),
-    toggleCaseSensitive: value => dispatch(toggleCaseSensitive(value)),
-    search: (query, subscriberOrgId, caseSensitive) => dispatch(search(query, subscriberOrgId, caseSensitive))
-  };
-}
+const mapDispatchToProps = {
+  logoutUser,
+  updateUser,
+  search,
+  clearSearch,
+  toggleCaseSensitive,
+  toggleAndOperator
+};
 
 export default withRouter(
   connect(

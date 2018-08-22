@@ -107,9 +107,9 @@ class SearchPage extends Component {
   };
 
   handleRemoveKeywordClick = keyword => {
-    const { keywords, currentSubscriberOrgId, caseSensitive } = this.props;
+    const { keywords, currentSubscriberOrgId, caseSensitive, andOperator } = this.props;
     const query = _.without(keywords, keyword).join(' ');
-    this.props.search(query, currentSubscriberOrgId, caseSensitive);
+    this.props.search(query, currentSubscriberOrgId, caseSensitive, andOperator);
   };
 
   handleOwnerFilterClick = key => {
@@ -206,6 +206,7 @@ SearchPage.propTypes = {
   search: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   caseSensitive: PropTypes.bool,
+  andOperator: PropTypes.bool,
   keywords: PropTypes.array,
   results: PropTypes.array,
   resultsCount: PropTypes.number,
@@ -217,6 +218,7 @@ SearchPage.propTypes = {
 SearchPage.defaultProps = {
   loading: false,
   caseSensitive: false,
+  andOperator: false,
   keywords: [],
   results: [],
   resultsCount: 0,

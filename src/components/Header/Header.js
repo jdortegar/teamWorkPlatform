@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Dropdown, Input, Switch, Tooltip, message } from 'antd';
+import { Layout, Menu, Dropdown, Input, Icon, message } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
 import { hablaBlackLogo, hablaBlackLogoIcon } from '../../img';
+import SearchMenu from './SearchMenu';
 import './styles/style.css';
 import String from '../../translations';
 
@@ -17,7 +18,9 @@ class Header extends Component {
     this.onStatusChange = this.onStatusChange.bind(this);
   }
 
-  state = { query: this.props.query };
+  state = {
+    query: this.props.query
+  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.query !== this.props.query || nextProps.query !== this.state.query) {
@@ -34,8 +37,10 @@ class Header extends Component {
     });
   }
 
-  handleToggleCaseSensitive = value => {
-    this.props.toggleCaseSensitive(value);
+  clearSearchInput = () => {
+    this.searchInput.focus();
+    this.setState({ query: '' });
+    this.props.clearSearch();
   };
 
   handleSearchChange = event => {
@@ -44,8 +49,8 @@ class Header extends Component {
 
   handleSearchSubmit = event => {
     event.preventDefault();
-    const { currentSubscriberOrgId, caseSensitive, history } = this.props;
-    this.props.search(this.state.query, currentSubscriberOrgId, caseSensitive);
+    const { currentSubscriberOrgId, caseSensitive, andOperator, history } = this.props;
+    this.props.search(this.state.query, currentSubscriberOrgId, caseSensitive, andOperator);
     history.push('/app/search');
   };
 
@@ -54,7 +59,8 @@ class Header extends Component {
   }
 
   renderMenuItems() {
-    const { user, caseSensitive } = this.props;
+    const { user, caseSensitive, andOperator, toggleCaseSensitive, toggleAndOperator } = this.props;
+    const clearIconVisibility = this.state.query ? 'visible' : 'hidden';
 
     const muteNotificationMenu = (
       <Menu className="muteNotificationMenu">
@@ -154,20 +160,23 @@ class Header extends Component {
                 onChange={this.handleSearchChange}
                 value={this.state.query}
                 suffix={
-                  <Tooltip placement="top" title={String.t('Header.searchCaseSensitive')}>
-                    <Switch
-                      className="habla-top-menu-search-switch"
-                      checked={caseSensitive}
-                      checkedChildren="Aa"
-                      unCheckedChildren="Aa"
-                      onChange={this.handleToggleCaseSensitive}
-                    />
-                  </Tooltip>
+                  <Icon
+                    type="close-circle"
+                    className="habla-top-menu-search-clear"
+                    onClick={this.clearSearchInput}
+                    style={{ visibility: clearIconVisibility }}
+                  />
                 }
               />
               <button type="submit" disabled={this.state.query.length === 0}>
                 <i className="fa fa-search" />
               </button>
+              <SearchMenu
+                caseSensitive={caseSensitive}
+                andOperator={andOperator}
+                onToggleCaseSensitive={toggleCaseSensitive}
+                onToggleAndOperator={toggleAndOperator}
+              />
             </form>
           </div>
         </div>
@@ -221,11 +230,14 @@ Header.propTypes = {
   logoutUser: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,
   toggleCaseSensitive: PropTypes.func.isRequired,
+  toggleAndOperator: PropTypes.func.isRequired,
   search: PropTypes.func.isRequired,
+  clearSearch: PropTypes.func.isRequired,
   currentSubscriberOrgId: PropTypes.string.isRequired,
   user: PropTypes.object,
   query: PropTypes.string,
   caseSensitive: PropTypes.bool,
+  andOperator: PropTypes.bool,
   history: PropTypes.shape({
     push: PropTypes.func
   }).isRequired
@@ -234,6 +246,7 @@ Header.propTypes = {
 Header.defaultProps = {
   query: '',
   caseSensitive: false,
+  andOperator: false,
   user: null
 };
 

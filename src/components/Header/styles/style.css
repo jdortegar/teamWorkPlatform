@@ -98,8 +98,8 @@ a.habla-top-menu-active {
 .habla-top-menu-search {
   display: flex;
 }
-.habla-top-menu-search-switch {
-  background-color: #eb4435;
+.habla-top-menu-search-clear {
+  cursor: pointer;
 }
 .habla-top-menu-search-input {
   width: 300px;
@@ -135,6 +135,7 @@ a.habla-top-menu-active {
 .habla-top-menu-search button:focus {
   outline: 0;
 }
+
 .habla-top-menu-notification-sounds .svg-inline--fa {
   margin-top: 6px;
 }

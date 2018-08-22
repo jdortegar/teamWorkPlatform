@@ -14,12 +14,9 @@
   "errAppDeepLinkInvalid": "The specified link is invalid.",
   "errAppDeepLinkUnknownError": "An error occurred. Please try again later.",
   "msgAppInvitationWhileLoggedOut": "Please log in to reply to the invitation.",
-  "msgInvitationToTeamRoom":
-    "{{byUserFirstName}} {{byUserLastName}} invited you to join Team Room \"{{teamRoomName}}\" for the \"{{teamName}}\" Team of \"{{subscriberOrgName}}\" Organization.",
-  "msgInvitationToTeam":
-    "{{byUserFirstName}} {{byUserLastName}} invited you to join the \"{{teamName}}\" Team of the \"{{subscriberOrgName}}\" Organization.",
-  "msgInvitationToOrg":
-    "{{byUserFirstName}} {{byUserLastName}} invited you to join the \"{{subscriberOrgName}}\" Organization.",
+  "msgInvitationToTeamRoom": "{{byUserFirstName}} {{byUserLastName}} invited you to join Team Room \"{{teamRoomName}}\" for the \"{{teamName}}\" Team of \"{{subscriberOrgName}}\" Organization.",
+  "msgInvitationToTeam": "{{byUserFirstName}} {{byUserLastName}} invited you to join the \"{{teamName}}\" Team of the \"{{subscriberOrgName}}\" Organization.",
+  "msgInvitationToOrg": "{{byUserFirstName}} {{byUserLastName}} invited you to join the \"{{subscriberOrgName}}\" Organization.",
   "invitationAcceptedToast": "You have joined {{name}}.",
   "invalidInvitation": "The invitation has expired or is invalid.",
   "buttonAcceptInvitation": "Accept",
@@ -103,8 +100,7 @@
   "awaitingVerificationHeader": "Hi! \nWe just sent a \nverification email to:",
   "awaitingVerificationChangeEmailLink": "CHANGE EMAIL ADDRESS",
   "awaitingVerificationResendLink": "PLEASE RESEND VERIFICATION",
-  "awaitingVerificationExplanation":
-    "It might take a few seconds to arrive. If you still don't see it after a few minutes, please check your spam folder.",
+  "awaitingVerificationExplanation": "It might take a few seconds to arrive. If you still don't see it after a few minutes, please check your spam folder.",
   "createTeamTitle": "Create Team",
   "createTeamExplain": "Enter the details for your team.",
   "createTeamButtonLabel": "CREATE TEAM",
@@ -137,8 +133,7 @@
   "privacyPolicyModalTitle": "HABLA AI PRIVACY POLICY",
   "termsOfUseModalTitle": "HABLA AI TERMS OF USE",
   "incompleteProfileHeader": "Hello!\nHola!\n今日は",
-  "incompleteProfileExplain":
-    "Welcome to Habla AI. You're well on your way to a more efficient, productive work day. As we work together we'll learn how we can best help you and the rest of the team.",
+  "incompleteProfileExplain": "Welcome to Habla AI. You're well on your way to a more efficient, productive work day. As we work together we'll learn how we can best help you and the rest of the team.",
   "incompleteProfileContinue": "OK, LET'S GO",
   "inviteToOrgTitle": "Invite to Join Organization",
   "inviteToOrgExplain": "Enter email addresses for all people to invite.",
@@ -220,8 +215,7 @@
     "forgotYourPassword": "Forgot your Password?",
     "emailSent": "Email Sent! ",
     "checkEmail": "Check your email",
-    "infoParagraph":
-      "Please enter the email address that you use in your Habla AI account and we will send you an email with the instructions to reset your password.",
+    "infoParagraph": "Please enter the email address that you use in your Habla AI account and we will send you an email with the instructions to reset your password.",
     "infoParagraphAfterSentImage": "Please check your email to continue the process to recover your password."
   },
   "EditButtonLabel": "Edit",
@@ -273,7 +267,9 @@
     "statusTitle": "Status",
     "adminTitle": "Admin",
     "smartSearchPlaceholder": "Smart Search...",
-    "searchCaseSensitive": "Case sensitive on/off"
+    "searchMenuTitle": "Smart Search filters",
+    "searchCaseSensitive": "Case sensitive",
+    "searchAndOperator": "AND operator"
   },
   "IntegrationCard": {
     "expired": "Expired",
@@ -285,8 +281,7 @@
     "newMessageFrom": "Message from {{firstName}} {{lastName}}",
     "declinedOrg": "{{inviteeUserIdOrEmail}} declined your invitation to join the {{subscriberOrgName}} organization.",
     "declinedTeam": "{{firstName}} {{lastName}} declined your invitation to join the {{teamName}} team.",
-    "declinedRoom":
-      "{{firstName}} {{lastName}} declined your invitation to join the {{teamRoomName}} room in the {{teamName}} team."
+    "declinedRoom": "{{firstName}} {{lastName}} declined your invitation to join the {{teamRoomName}} room in the {{teamName}} team."
   },
   "message": {
     "sentByName": "{{firstName}} {{lastName}}",
@@ -378,8 +373,7 @@
     "successTitleBold": "Hi!",
     "successTitleDetails": " We just sent your verification email to:",
     "successTextLine1": "The email may take a few seconds to arrive.",
-    "successTextLine2":
-      "If you don't see it after a few minutes, please check your spam folder or use the Change Email button to try again",
+    "successTextLine2": "If you don't see it after a few minutes, please check your spam folder or use the Change Email button to try again",
     "changeEmailButton": "Change Email",
     "resendButton": "Resend",
     "registerButtonLabel": "Register",
@@ -448,8 +442,7 @@
     "message": {
       "createdDescription": "Your {{name}} integration is good to go!",
       "successDescription": "Habla AI no longer has access to your account.",
-      "goneDescription":
-        "Your integration to {{name}} has been revoked and Habla AI no longer has access to it. Please go to the {{name}} web site to complete the revocation.",
+      "goneDescription": "Your integration to {{name}} has been revoked and Habla AI no longer has access to it. Please go to the {{name}} web site to complete the revocation.",
       "notFoundDescription": "We’re sorry, but something must’ve gone terribly wrong.",
       "configUpdated": "Your {{name}} integration configuration has been updated."
     },
