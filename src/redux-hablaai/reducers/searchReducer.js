@@ -6,7 +6,8 @@ import {
   SEARCH_FAILURE,
   SEARCH_CLEAR,
   SEARCH_STALE,
-  TOGGLE_CASE_SENSITIVE
+  TOGGLE_CASE_SENSITIVE,
+  TOGGLE_AND_OPERATOR
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -14,6 +15,7 @@ const INITIAL_STATE = {
   query: '',
   keywords: [],
   caseSensitive: false,
+  andOperator: false,
   results: [],
   resultsCount: 0,
   owners: [],
@@ -56,6 +58,8 @@ const searchReducer = (state = INITIAL_STATE, action) => {
       return { ...state, loading: false };
     case TOGGLE_CASE_SENSITIVE:
       return { ...state, caseSensitive: action.payload.caseSensitive };
+    case TOGGLE_AND_OPERATOR:
+      return { ...state, andOperator: action.payload.andOperator };
     default:
       return state;
   }

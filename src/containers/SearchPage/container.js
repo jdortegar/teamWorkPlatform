@@ -14,13 +14,12 @@ const mapStateToProps = state => ({
   integrations: state.search.integrations,
   loading: state.search.loading,
   caseSensitive: state.search.caseSensitive,
+  andOperator: state.search.andOperator,
   keywords: getSearchKeywords(state),
   currentSubscriberOrgId: getCurrentSubscriberOrgId(state)
 });
 
-const mapDispatchToProps = dispatch => ({
-  search: (query, subscriberOrgId, caseSensitive) => dispatch(search(query, subscriberOrgId, caseSensitive))
-});
+const mapDispatchToProps = { search };
 
 export default withRouter(
   connect(
