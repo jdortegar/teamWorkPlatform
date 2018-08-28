@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { Modal } from 'antd';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { hablaLogoAvatar } from '../../img';
 import Spinner from '../../components/Spinner';
 import CKGPage from '../../containers/CKGPage';
 import String from '../../translations';
+import Button from '../../components/common/Button';
 import './styles/style.css';
 
 class HomePage extends Component {
@@ -39,10 +41,11 @@ class HomePage extends Component {
             <div className="homePage__activity-content-message">
               Welcome to Habla AI. To start using our tool as is best, please{' '}
               <a onClick={() => this.props.history.push(`/app/integrations/${this.props.currentSubscriberOrgId}`)}>
-                add a data integration
-              </a>{' '}
+                {' '}
+                add a data integration{' '}
+              </a>
               to see your files on the Corporate Knowledge Graphs. We hope that now you spend minutes finding the right
-              data instead of searching folders for hours.
+              data instead of searching folders for hours.{' '}
               <span className="homePage__activity-content-date"> ({date})</span>
             </div>
           </div>
@@ -73,6 +76,49 @@ class HomePage extends Component {
             fetchTimeActivitiesBySubscriberOrgId={fetchTimeActivitiesBySubscriberOrgId}
             setCurrentSubscriberOrgId={setCurrentSubscriberOrgId}
           />
+
+          <div className="hablaModalSurvey">
+            <Modal
+              visible={false}
+              centered
+              closable={false}
+              footer={[
+                <Button
+                  key="submit"
+                  type="main"
+                  onClick={this.handleCancel}
+                  className="habla-button align-center-class"
+                >
+                  Next (1 of 3)
+                </Button>
+              ]}
+            >
+              <div className="align-center-class">
+                <div className="surveyHeeader padding-class-b">
+                  <p className="habla-title">Welcome Thomas!</p>
+                  <p className="habla-title-light">Please take a minute to help us improve.</p>
+                </div>
+                <div className="surveyContent padding-class-b habla-color-lightergrey">
+                  <p className="habla-bold-text">
+                    How many hours per week do you currently spend searching for and finding relevant files?
+                  </p>
+                  <div className="surveyAnswer mt-1">
+                    <select>
+                      <option value="0">Select one or more options:</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </Modal>
+          </div>
         </div>
         <div className="homepage_latest-container">{this.renderActivity()}</div>
       </div>
