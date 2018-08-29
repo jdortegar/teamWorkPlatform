@@ -18,6 +18,7 @@ export TeamRoomPicker from './TeamRoomPicker';
 export TimeActivityGraph from './TimeActivityGraph';
 export LambWestonReports from './LambWestonReports';
 export PreviewImages from './PreviewImages';
+export SurveyModal from './SurveyModal';
 
 // FORMS
 export FirstNameField from './formFields/FirstNameField';

@@ -56,6 +56,8 @@ export * from './timeActivitiesFetch';
 export * from './search';
 export * from './searchClear';
 
+export * from './surveys';
+
 export * from './messagingInit';
 export * from './messagingClose';
 

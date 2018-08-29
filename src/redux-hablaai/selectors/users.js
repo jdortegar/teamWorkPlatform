@@ -10,6 +10,11 @@ export const getCurrentUser = createSelector(
   (userByUserId, currentUserId) => userByUserId[currentUserId]
 );
 
+export const getCurrentUserFirstName = createSelector(
+  getCurrentUser,
+  currentUser => (currentUser ? currentUser.firstName : '')
+);
+
 export const getUserById = createCachedSelector(
   [getUserByUserId, (state, userId) => userId],
   (usersByUserId, userId) => usersByUserId[userId]
