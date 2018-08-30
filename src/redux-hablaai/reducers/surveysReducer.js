@@ -4,7 +4,8 @@ import { SURVEYS_FETCH_SUCCESS, SUBMIT_SURVEY_REQUEST, SUBMIT_SURVEY_SUCCESS, SU
 const INITIAL_STATE = {
   dates: [],
   loaded: false,
-  isSubmitting: false
+  isSubmitting: false,
+  error: false
 };
 
 const searchReducer = (state = INITIAL_STATE, action) => {
@@ -12,11 +13,11 @@ const searchReducer = (state = INITIAL_STATE, action) => {
     case SURVEYS_FETCH_SUCCESS:
       return { ...state, loaded: true, dates: action.payload.dates };
     case SUBMIT_SURVEY_REQUEST:
-      return { ...state, isSubmitting: true };
+      return { ...state, isSubmitting: true, error: false };
     case SUBMIT_SURVEY_SUCCESS:
-      return { ...state, isSubmitting: false, dates: [...state.dates, moment().format('YYYY-MM-DD')] };
+      return { ...state, isSubmitting: false, error: false, dates: [...state.dates, moment().format('YYYY-MM-DD')] };
     case SUBMIT_SURVEY_FAILURE:
-      return { ...state, isSubmitting: false };
+      return { ...state, isSubmitting: false, error: true };
     default:
       return state;
   }

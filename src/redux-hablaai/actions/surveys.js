@@ -54,7 +54,6 @@ export const submitSurvey = data => (dispatch, getState) => {
     })
   );
 
-  return thunk
-    .then(() => dispatch({ type: SUBMIT_SURVEY_SUCCESS }))
-    .catch(() => dispatch({ type: SUBMIT_SURVEY_FAILURE }));
+  thunk.then(() => dispatch({ type: SUBMIT_SURVEY_SUCCESS })).catch(() => dispatch({ type: SUBMIT_SURVEY_FAILURE }));
+  return thunk;
 };

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Select } from 'antd';
+import { Modal, Select, message } from 'antd';
 import { range } from 'lodash';
 import { Button } from 'components/common';
 import { availableIntegrationKeys, integrationLabelFromKey } from 'utils/dataIntegrations';
@@ -23,7 +23,10 @@ class SurveyModal extends Component {
   };
 
   handleSubmit = () => {
-    this.props.submitSurvey(Object.values(this.state.answers));
+    this.props
+      .submitSurvey(Object.values(this.state.answers))
+      .then(() => message.success('Thanks for your feedback. Welcome to Habla AI.'))
+      .catch(() => message.error('Sorry, something went wrong.'));
   };
 
   handleStep1Select = value => {
@@ -45,9 +48,10 @@ class SurveyModal extends Component {
       </p>
       <div className="surveyAnswer mt-1">
         <Select onChange={this.handleStep1Select} placeholder="Choose an option" style={{ minWidth: 200 }}>
-          {range(1, 9).map(option => (
-            <Option key={option}>{option}</Option>
-          ))}
+          {range(1, 9).map((value, index, array) => {
+            const option = index === array.length - 1 ? `${value}+` : value;
+            return <Option key={option}>{option}</Option>;
+          })}
         </Select>
       </div>
     </div>
