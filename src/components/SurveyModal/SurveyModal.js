@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Select, message } from 'antd';
 import { range } from 'lodash';
+import String from 'translations';
 import { Button } from 'components/common';
 import { availableIntegrationKeys, integrationLabelFromKey } from 'utils/dataIntegrations';
 
@@ -41,13 +42,15 @@ class SurveyModal extends Component {
     this.setState({ answers: { ...this.state.answers, step3: values } });
   };
 
-  renderStep1 = () => (
+  renderStep1 = surveyType => (
     <div className="surveyContent padding-class-b habla-color-lightergrey">
-      <p className="habla-bold-text">
-        How many hours per week do you currently spend searching for and finding relevant files?
-      </p>
+      <p className="habla-bold-text">{String.t(`surveys.${surveyType}.question-1.title`)}</p>
       <div className="surveyAnswer mt-1">
-        <Select onChange={this.handleStep1Select} placeholder="Choose an option" style={{ minWidth: 200 }}>
+        <Select
+          onChange={this.handleStep1Select}
+          placeholder={String.t(`surveys.${surveyType}.question-1.select`)}
+          style={{ minWidth: 200 }}
+        >
           {range(1, 9).map((value, index, array) => {
             const option = index === array.length - 1 ? `${value}+` : value;
             return <Option key={option}>{option}</Option>;
@@ -57,14 +60,14 @@ class SurveyModal extends Component {
     </div>
   );
 
-  renderStep2 = () => (
+  renderStep2 = surveyType => (
     <div className="surveyContent padding-class-b habla-color-lightergrey">
-      <p className="habla-bold-text">What tools do you spend your time in doing this?</p>
+      <p className="habla-bold-text">{String.t(`surveys.${surveyType}.question-2.title`)}</p>
       <div className="surveyAnswer mt-1">
         <Select
           onChange={this.handleStep2Select}
           mode="multiple"
-          placeholder="Choose one or more options"
+          placeholder={String.t(`surveys.${surveyType}.question-2.select`)}
           style={{ minWidth: 250 }}
         >
           {availableIntegrationKeys().map(key => (
@@ -75,14 +78,14 @@ class SurveyModal extends Component {
     </div>
   );
 
-  renderStep3 = () => (
+  renderStep3 = surveyType => (
     <div className="surveyContent padding-class-b habla-color-lightergrey">
-      <p className="habla-bold-text">What would you rather be working on?</p>
+      <p className="habla-bold-text">{String.t(`surveys.${surveyType}.question-3.title`)}</p>
       <div className="surveyAnswer mt-1">
         <Select
           onChange={this.handleStep3Select}
           mode="multiple"
-          placeholder="Choose one or more options"
+          placeholder={String.t(`surveys.${surveyType}.question-3.select`)}
           style={{ minWidth: 250 }}
         >
           {[
@@ -104,7 +107,9 @@ class SurveyModal extends Component {
     const { currentStep, answers } = this.state;
     const { isSubmitting } = this.props;
     const lastStep = currentStep === 3;
-    const buttonText = lastStep ? 'Finish' : `Next (${currentStep} of 3)`;
+    const buttonText = lastStep
+      ? String.t('surveys.finish')
+      : String.t('surveys.next', { current: currentStep, total: 3 });
     const handleSubmit = lastStep ? this.handleSubmit : this.handleNext;
     const noAnswers = answers[`step${currentStep}`].length === 0;
 
@@ -124,19 +129,20 @@ class SurveyModal extends Component {
 
   render() {
     const { currentStep } = this.state;
-    const { userName, visible } = this.props;
+    const { userName, visible, isFirstSurvey } = this.props;
+    const surveyType = isFirstSurvey ? 'first' : 'recurrent';
 
     return (
       <div className="hablaModalSurvey">
         <Modal visible={visible} centered closable={false} footer={[this.renderFooterButton()]}>
           <div className="align-center-class">
             <div className="surveyHeeader padding-class-b">
-              <p className="habla-title">Welcome {userName}!</p>
-              <p className="habla-title-light">Please take a minute to help us improve.</p>
+              <p className="habla-title">{String.t('surveys.title', { name: userName })}</p>
+              <p className="habla-title-light">{String.t('surveys.description')}</p>
             </div>
-            {currentStep === 1 && this.renderStep1()}
-            {currentStep === 2 && this.renderStep2()}
-            {currentStep === 3 && this.renderStep3()}
+            {currentStep === 1 && this.renderStep1(surveyType)}
+            {currentStep === 2 && this.renderStep2(surveyType)}
+            {currentStep === 3 && this.renderStep3(surveyType)}
           </div>
         </Modal>
       </div>
@@ -148,12 +154,14 @@ SurveyModal.propTypes = {
   submitSurvey: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired,
   visible: PropTypes.bool,
-  isSubmitting: PropTypes.bool
+  isSubmitting: PropTypes.bool,
+  isFirstSurvey: PropTypes.bool
 };
 
 SurveyModal.defaultProps = {
   visible: false,
-  isSubmitting: false
+  isSubmitting: false,
+  isFirstSurvey: true
 };
 
 export default SurveyModal;

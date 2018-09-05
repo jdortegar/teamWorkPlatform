@@ -1,3 +1,18 @@
+import moment from 'moment';
+import { last } from 'lodash';
+
+const SURVEY_FREQUENCY = 30;
+
 export const getSurveys = state => state.surveys;
 export const isSubmittingSurvey = state => state.surveys.isSubmitting;
-export const isSurveyVisible = state => state.surveys.loaded && !state.surveys.error && !state.surveys.dates[0];
+export const isFirstSurvey = state => state.surveys.dates.length === 0;
+
+const isRecurrentSurveyTime = state => {
+  const { dates } = state.surveys;
+  const lastSurvey = last(dates.sort((a, b) => moment(a).isAfter(b)));
+  const difference = moment().diff(moment(lastSurvey), 'days');
+  return difference >= SURVEY_FREQUENCY;
+};
+
+export const isSurveyVisible = state =>
+  state.surveys.loaded && !state.surveys.error && (isFirstSurvey(state) || isRecurrentSurveyTime(state));
