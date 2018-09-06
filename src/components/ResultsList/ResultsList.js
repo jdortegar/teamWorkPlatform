@@ -4,14 +4,14 @@ import { Table } from 'antd';
 
 import './styles/style.css';
 
-const ResultsList = ({ columns, dataSource, loading, rowKey }) => {
+const ResultsList = ({ columns, dataSource, pagination, loading, rowKey }) => {
   if (loading) return null;
 
   return (
     <Table
       columns={columns}
       dataSource={dataSource}
-      pagination={false}
+      pagination={pagination}
       className="ResultsList"
       rowClassName="ResultsList__row"
       rowKey={rowKey}
@@ -22,6 +22,7 @@ const ResultsList = ({ columns, dataSource, loading, rowKey }) => {
 ResultsList.propTypes = {
   columns: PropTypes.array,
   dataSource: PropTypes.array,
+  pagination: PropTypes.object,
   loading: PropTypes.bool,
   rowKey: PropTypes.string
 };
@@ -29,6 +30,7 @@ ResultsList.propTypes = {
 ResultsList.defaultProps = {
   columns: [],
   dataSource: [],
+  pagination: false,
   loading: false,
   rowKey: null
 };

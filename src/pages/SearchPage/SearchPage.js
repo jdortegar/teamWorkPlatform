@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import _ from 'lodash';
 import Highlighter from 'react-highlight-words';
-import { Tag } from 'antd';
+import { Pagination, Tag } from 'antd';
 
 import { integrationKeyFromFile, integrationLabelFromKey, integrationImageFromKey } from 'utils/dataIntegrations';
 import { Spinner, ResultsList, FilesFilters } from 'components';
@@ -13,6 +13,8 @@ import imageSrcFromFileExtension from 'lib/imageFiles';
 import formatSize from 'lib/formatSize';
 import String from 'translations';
 import './styles/style.css';
+
+const PAGE_SIZE = 20;
 
 const formatTime = date =>
   String.t('timeActivityGraph.displayTime', {
@@ -103,7 +105,8 @@ class SearchPage extends Component {
   state = {
     excludeOwnersFilter: {},
     excludeTypesFilter: {},
-    excludeIntegrationsFilter: {}
+    excludeIntegrationsFilter: {},
+    page: 1
   };
 
   handleRemoveKeywordClick = keyword => {
@@ -136,9 +139,13 @@ class SearchPage extends Component {
     this.setState({ excludeTypesFilter: allSelected ? {} : allFilters });
   };
 
+  handlePageChange = page => {
+    this.setState({ page });
+  };
+
   render() {
-    const { loading, keywords, caseSensitive, results, resultsCount, owners, fileTypes, integrations } = this.props;
-    const { excludeOwnersFilter, excludeIntegrationsFilter, excludeTypesFilter } = this.state;
+    const { loading, keywords, caseSensitive, results, owners, fileTypes, integrations } = this.props;
+    const { page, excludeOwnersFilter, excludeIntegrationsFilter, excludeTypesFilter } = this.state;
 
     const resultsFiltered = results.filter(file => {
       const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
@@ -146,6 +153,7 @@ class SearchPage extends Component {
       const ownerKey = file.fileOwnerId;
       return !excludeTypesFilter[label] && !excludeIntegrationsFilter[integrationKey] && !excludeOwnersFilter[ownerKey];
     });
+    const resultsCount = resultsFiltered.length;
 
     return (
       <div className="SearchPage">
@@ -168,6 +176,15 @@ class SearchPage extends Component {
               </Tag>
             ))}
           </span>
+          <span>
+            <Pagination
+              size="small"
+              current={page}
+              total={resultsCount}
+              pageSize={PAGE_SIZE}
+              onChange={this.handlePageChange}
+            />
+          </span>
         </div>
         <div className={classNames('SearchPage__results', { loading })}>
           {loading && <Spinner />}
@@ -178,6 +195,11 @@ class SearchPage extends Component {
                 dataSource={resultsFiltered}
                 loading={loading}
                 rowKey="fileId"
+                pagination={{
+                  className: 'hidden',
+                  pageSize: PAGE_SIZE,
+                  current: page
+                }}
               />
               <div className="SearchPage__bottomBar">
                 <FilesFilters
@@ -209,7 +231,6 @@ SearchPage.propTypes = {
   andOperator: PropTypes.bool,
   keywords: PropTypes.array,
   results: PropTypes.array,
-  resultsCount: PropTypes.number,
   owners: PropTypes.array,
   fileTypes: PropTypes.array,
   integrations: PropTypes.array
@@ -221,7 +242,6 @@ SearchPage.defaultProps = {
   andOperator: false,
   keywords: [],
   results: [],
-  resultsCount: 0,
   owners: [],
   fileTypes: [],
   integrations: []
