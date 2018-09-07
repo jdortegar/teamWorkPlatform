@@ -8,7 +8,6 @@ import { getCurrentSubscriberOrgId, getUserById, getSearchKeywords } from 'selec
 const mapStateToProps = state => ({
   owners: state.search.owners.map(({ key, count }) => ({ ...getUserById(state, key), key, count })),
   results: state.search.results,
-  resultsCount: state.search.resultsCount,
   query: state.search.query,
   fileTypes: state.search.fileTypes,
   integrations: state.search.integrations,

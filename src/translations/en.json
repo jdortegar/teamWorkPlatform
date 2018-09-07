@@ -694,5 +694,39 @@
     "lastNameTooLong": "Last Name is too limited to 30 characters.",
     "lastNameFormat": "Last Name must contain alphabetic characters only.",
     "constraintsEmpty": "An internal error occurred: Constraints Empty"
+  },
+  "surveys": {
+    "title": "Welcome {{name}}!",
+    "description": "Please take a minute to help us improve.",
+    "finish": "Finish",
+    "next": "Next ({{current}} of {{total}})",
+    "first": {
+      "question-1": {
+        "title": "How many hours do you spend each week searching for, retrieving, and finding relevant files?",
+        "select": "Choose an option"
+      },
+      "question-2": {
+        "title": "What tools do you spend your time in doing this?",
+        "select": "Choose one or more options"
+      },
+      "question-3": {
+        "title": "What would you rather be working on?",
+        "select": "Choose one or more options"
+      }
+    },
+    "recurrent": {
+      "question-1": {
+        "title": "How many hours did you spend each week during the last month searching for, retrieving and finding files?",
+        "select": "Choose an option"
+      },
+      "question-2": {
+        "title": "What tools do you spend your time in doing this?",
+        "select": "Choose one or more options"
+      },
+      "question-3": {
+        "title": "What did you spend your time on instead during the last month?",
+        "select": "Choose one or more options"
+      }
+    }
   }
 }

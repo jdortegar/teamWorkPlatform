@@ -20,8 +20,6 @@
   font-size: 12px;
   font-weight: 300;
 }
-.ResultsList__row > td:not(:first-child) {
-}
 
 .ResultsList__row:hover > td {
   background: none !important;
@@ -30,12 +28,16 @@
 
 .ResultsList thead > tr > th,
 .ResultsList__row > td {
-  border-bottom: 1px solid #6288c6!important;
-  border-right: 0!important;
+  border-bottom: 1px solid #6288c6 !important;
+  border-right: 0 !important;
 }
 .ResultsList__row:last-child > td {
   border-bottom: none !important;
 }
 .ResultsList__row > td:last-child {
   border-right: none !important;
+}
+
+.ResultsList .ant-pagination.hidden {
+  display: none;
 }

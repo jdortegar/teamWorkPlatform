@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { hablaLogoAvatar } from '../../img';
-import Spinner from '../../components/Spinner';
+import { Spinner } from '../../components';
 import CKGPage from '../../containers/CKGPage';
 import String from '../../translations';
 import './styles/style.css';
@@ -39,10 +39,11 @@ class HomePage extends Component {
             <div className="homePage__activity-content-message">
               Welcome to Habla AI. To start using our tool as is best, please{' '}
               <a onClick={() => this.props.history.push(`/app/integrations/${this.props.currentSubscriberOrgId}`)}>
-                add a data integration
-              </a>{' '}
+                {' '}
+                add a data integration{' '}
+              </a>
               to see your files on the Corporate Knowledge Graphs. We hope that now you spend minutes finding the right
-              data instead of searching folders for hours.
+              data instead of searching folders for hours.{' '}
               <span className="homePage__activity-content-date"> ({date})</span>
             </div>
           </div>

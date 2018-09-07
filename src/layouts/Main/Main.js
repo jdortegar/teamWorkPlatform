@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Header from 'containers/Header';
 import Sidebar from 'containers/Sidebar';
 import MainContent from 'containers/MainContent';
+import SurveyModal from 'containers/SurveyModal';
 import './styles/main.css';
 
 const propTypes = {
@@ -45,6 +46,7 @@ class Main extends React.Component {
           <Layout className="habla-main-content">
             <MainContent />
           </Layout>
+          <SurveyModal />
         </Layout>
       </Layout>
     );

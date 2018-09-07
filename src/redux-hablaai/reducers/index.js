@@ -3,6 +3,7 @@ import usersReducer from './usersReducer';
 import presencesReducer from './presencesReducer';
 import subscriberOrgsReducer from './subscriberOrgsReducer';
 import subscribersReducer from './subscribersReducer';
+import surveysReducer from './surveysReducer';
 import teamsReducer from './teamsReducer';
 import teamMembersReducer from './teamMembersReducer';
 import teamRoomsReducer from './teamRoomsReducer';
@@ -31,6 +32,7 @@ const reducers = {
   sentInvitations: sentInvitationsReducer,
   conversations: conversationsReducer,
   readMessages: readMessagesReducer,
+  surveys: surveysReducer,
   search: searchReducer,
   typings: typingsReducer,
   timeActivities: timeActivitiesReducer,

@@ -21,6 +21,10 @@
   margin: 0 5px;
 }
 
+.SearchPage__keywords {
+  flex-grow: 1;
+}
+
 .SearchPage__tag {
   font-family: 'Lato', sans-serif;
   font-weight: 300;

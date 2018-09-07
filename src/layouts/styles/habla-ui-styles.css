@@ -232,9 +232,15 @@ p {
 
 .ant-modal-footer {
   border: none;
+  text-align: center;
+  padding: 20px;
 }
 .ant-modal-title {
   font-weight: bold;
+}
+.ant-modal-body {
+  padding: 0;
+  font-family: 'Lato', sans-serif;
 }
 .ant-layout-has-sider {
   position: relative;
