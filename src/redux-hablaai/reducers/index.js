@@ -14,7 +14,7 @@ import conversationsReducer from './conversationsReducer';
 import readMessagesReducer from './readMessagesReducer';
 import searchReducer from './searchReducer';
 import typingsReducer from './typingsReducer';
-import timeActivitiesReducer from './timeActivitiesReducer';
+import filesReducer from './filesReducer';
 import integrationsReducer from './integrationsReducer';
 import dashboardReducer from './dashboardReducer';
 
@@ -35,7 +35,7 @@ const reducers = {
   surveys: surveysReducer,
   search: searchReducer,
   typings: typingsReducer,
-  timeActivities: timeActivitiesReducer,
+  files: filesReducer,
   integrations: integrationsReducer,
   dashboard: dashboardReducer
 };

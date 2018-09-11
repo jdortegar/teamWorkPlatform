@@ -4,8 +4,7 @@ import HomePage from '../../pages/HomePage';
 
 const mapStateToProps = state => ({
   currentSubscriberOrgId: state.subscriberOrgs.currentSubscriberOrgId,
-  subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
-  timeActivities: state.timeActivities
+  subscriberOrgById: state.subscriberOrgs.subscriberOrgById
 });
 
 const mapDispatchToProps = dispatch => ({

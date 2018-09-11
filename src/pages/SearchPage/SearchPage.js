@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import _ from 'lodash';
 import Highlighter from 'react-highlight-words';
-import { Pagination, Tag } from 'antd';
+import { Icon, Pagination, Tag } from 'antd';
 
 import { integrationKeyFromFile, integrationLabelFromKey, integrationImageFromKey } from 'utils/dataIntegrations';
 import { Spinner, ResultsList, FilesFilters } from 'components';
@@ -102,12 +102,15 @@ const getColumns = (keywords, caseSensitive, owners) => [
 ];
 
 class SearchPage extends Component {
-  state = {
-    excludeOwnersFilter: {},
-    excludeTypesFilter: {},
-    excludeIntegrationsFilter: {},
-    page: 1
-  };
+  state = { page: 1 };
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.currentSubscriberOrgId !== nextProps.currentSubscriberOrgId) {
+      const { keywords, currentSubscriberOrgId, caseSensitive, andOperator } = nextProps;
+      const query = keywords.join(' ');
+      this.props.search(query, currentSubscriberOrgId, caseSensitive, andOperator);
+    }
+  }
 
   handleRemoveKeywordClick = keyword => {
     const { keywords, currentSubscriberOrgId, caseSensitive, andOperator } = this.props;
@@ -116,42 +119,46 @@ class SearchPage extends Component {
   };
 
   handleOwnerFilterClick = key => {
-    const { excludeOwnersFilter } = this.state;
-    this.setState({ excludeOwnersFilter: { ...excludeOwnersFilter, [key]: excludeOwnersFilter[key] ? null : true } });
+    this.props.toggleOwnerFilter(key);
   };
 
   handleIntegrationFilterClick = key => {
-    const { excludeIntegrationsFilter } = this.state;
-    this.setState({
-      excludeIntegrationsFilter: { ...excludeIntegrationsFilter, [key]: excludeIntegrationsFilter[key] ? null : true }
-    });
+    this.props.toggleIntegrationFilter(key);
   };
 
   handleFileTypeFilterClick = key => {
-    const { excludeTypesFilter } = this.state;
-    this.setState({ excludeTypesFilter: { ...excludeTypesFilter, [key]: excludeTypesFilter[key] ? null : true } });
+    this.props.toggleFileTypeFilter(key);
   };
 
   handleFileTypeFilterDoubleClick = () => {
-    const { fileTypes } = this.props;
-    const allSelected = Object.keys(this.state.excludeTypesFilter).length === fileTypes.length;
-    const allFilters = fileTypes.reduce((obj, file) => ({ ...obj, [file.key]: true }), {});
-    this.setState({ excludeTypesFilter: allSelected ? {} : allFilters });
+    // const { fileTypes } = this.props;
+    // const allSelected = Object.keys(this.state.excludeTypesFilter).length === fileTypes.length;
+    // const allFilters = fileTypes.reduce((obj, file) => ({ ...obj, [file.key]: true }), {});
+    // this.setState({ excludeTypesFilter: allSelected ? {} : allFilters });
   };
 
   handlePageChange = page => {
     this.setState({ page });
   };
 
+  handleArrowClick = () => {
+    const { currentSubscriberOrgId, history } = this.props;
+    history.push(`/app/ckg/${currentSubscriberOrgId}`);
+  };
+
   render() {
-    const { loading, keywords, caseSensitive, results, owners, fileTypes, integrations } = this.props;
-    const { page, excludeOwnersFilter, excludeIntegrationsFilter, excludeTypesFilter } = this.state;
+    const { loading, keywords, caseSensitive, results, owners, fileTypes, integrations, excludeFilters } = this.props;
+    const { page } = this.state;
 
     const resultsFiltered = results.filter(file => {
       const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
       const integrationKey = integrationKeyFromFile(file);
       const ownerKey = file.fileOwnerId;
-      return !excludeTypesFilter[label] && !excludeIntegrationsFilter[integrationKey] && !excludeOwnersFilter[ownerKey];
+      return (
+        !excludeFilters.fileTypes[label] &&
+        !excludeFilters.integrations[integrationKey] &&
+        !excludeFilters.owners[ownerKey]
+      );
     });
     const resultsCount = resultsFiltered.length;
 
@@ -190,6 +197,22 @@ class SearchPage extends Component {
           {loading && <Spinner />}
           {!loading && (
             <div className="SearchPage__results-inner">
+              <div className="CKGPage__arrows-container arrow-left">
+                <div className="CKGPage__arrows">
+                  <a onClick={this.handleArrowClick}>
+                    <Icon type="arrow-left" className="CKGPage__arrow" />
+                  </a>
+                </div>
+              </div>
+
+              <div className="CKGPage__arrows-container arrow-right">
+                <div className="CKGPage__arrows">
+                  <a onClick={this.handleArrowClick}>
+                    <Icon type="arrow-right" className="CKGPage__arrow" />
+                  </a>
+                </div>
+              </div>
+
               <ResultsList
                 columns={getColumns(keywords, caseSensitive, owners)}
                 dataSource={resultsFiltered}
@@ -201,20 +224,22 @@ class SearchPage extends Component {
                   current: page
                 }}
               />
-              <div className="SearchPage__bottomBar">
-                <FilesFilters
-                  owners={owners}
-                  fileTypes={fileTypes}
-                  integrations={integrations}
-                  excludeOwnersFilter={excludeOwnersFilter}
-                  excludeIntegrationsFilter={excludeIntegrationsFilter}
-                  excludeTypesFilter={excludeTypesFilter}
-                  onOwnerFilterClick={this.handleOwnerFilterClick}
-                  onIntegrationFilterClick={this.handleIntegrationFilterClick}
-                  onFileTypeFilterClick={this.handleFileTypeFilterClick}
-                  onFileTypeFilterDoubleClick={this.handleFileTypeFilterDoubleClick}
-                />
-              </div>
+            </div>
+          )}
+          {!loading && (
+            <div className="SearchPage__bottomBar">
+              <FilesFilters
+                owners={owners}
+                fileTypes={fileTypes}
+                integrations={integrations}
+                excludeOwnersFilter={excludeFilters.owners}
+                excludeIntegrationsFilter={excludeFilters.integrations}
+                excludeTypesFilter={excludeFilters.fileTypes}
+                onOwnerFilterClick={this.handleOwnerFilterClick}
+                onIntegrationFilterClick={this.handleIntegrationFilterClick}
+                onFileTypeFilterClick={this.handleFileTypeFilterClick}
+                onFileTypeFilterDoubleClick={this.handleFileTypeFilterDoubleClick}
+              />
             </div>
           )}
         </div>
@@ -224,8 +249,12 @@ class SearchPage extends Component {
 }
 
 SearchPage.propTypes = {
+  history: PropTypes.object.isRequired,
   currentSubscriberOrgId: PropTypes.string.isRequired,
   search: PropTypes.func.isRequired,
+  toggleOwnerFilter: PropTypes.func.isRequired,
+  toggleIntegrationFilter: PropTypes.func.isRequired,
+  toggleFileTypeFilter: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   caseSensitive: PropTypes.bool,
   andOperator: PropTypes.bool,
@@ -233,7 +262,8 @@ SearchPage.propTypes = {
   results: PropTypes.array,
   owners: PropTypes.array,
   fileTypes: PropTypes.array,
-  integrations: PropTypes.array
+  integrations: PropTypes.array,
+  excludeFilters: PropTypes.object
 };
 
 SearchPage.defaultProps = {
@@ -244,7 +274,8 @@ SearchPage.defaultProps = {
   results: [],
   owners: [],
   fileTypes: [],
-  integrations: []
+  integrations: [],
+  excludeFilters: {}
 };
 
 export default SearchPage;
