@@ -13,7 +13,7 @@ const GraphActivitySelector = () => {
       <Menu.Item key="allActivity">
         <a>
           <span>
-            <i className="fas fa-tasks" /> {String.t('graphActivityMenu.allActivity')}
+            <i className="fas fa-history" /> {String.t('graphActivityMenu.allActivity')}
           </span>
         </a>
       </Menu.Item>
@@ -38,7 +38,7 @@ const GraphActivitySelector = () => {
     <div className="habla-ckg-tools-bar habla-ckg-activity-selector">
       <Dropdown overlay={activityMenu} trigger={['click']}>
         <a className="no-border">
-          <i className="fas fa-tasks" />
+          <i className="fas fa-history" />
           <span className="ckg-activity-label">{String.t('graphActivityMenu.allActivity')}</span>
           <i className="fas fa-angle-down" />
         </a>

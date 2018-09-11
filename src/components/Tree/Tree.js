@@ -196,7 +196,8 @@ class Tree extends Component {
           <div className="node integration-sharing-node" key={node.id}>
             <div className="node-icon">{icon}</div>
             <div className="node-info">
-              <span className="node-name">{nodeName}</span> &nbsp;{childCount}
+              <span className="node-name">{nodeName}</span> &nbsp;
+              {childCount}
             </div>
             <div className="node-filler" />
             {this.state.secondaryTree &&
