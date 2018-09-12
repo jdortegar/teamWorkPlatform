@@ -38,9 +38,12 @@ class Header extends Component {
   }
 
   clearSearchInput = () => {
+    const { currentSubscriberOrgId } = this.props;
     this.searchInput.focus();
     this.setState({ query: '' });
+
     this.props.clearSearch();
+    this.props.search('', currentSubscriberOrgId);
   };
 
   handleSearchChange = event => {
@@ -49,9 +52,8 @@ class Header extends Component {
 
   handleSearchSubmit = event => {
     event.preventDefault();
-    const { currentSubscriberOrgId, caseSensitive, andOperator, history } = this.props;
+    const { currentSubscriberOrgId, caseSensitive, andOperator } = this.props;
     this.props.search(this.state.query, currentSubscriberOrgId, caseSensitive, andOperator);
-    history.push('/app/search');
   };
 
   logOut() {
@@ -168,7 +170,7 @@ class Header extends Component {
                   />
                 }
               />
-              <button type="submit" disabled={this.state.query.length === 0}>
+              <button type="submit">
                 <i className="fa fa-search" />
               </button>
               <SearchMenu
