@@ -1,0 +1,34 @@
+.tooltipOverlay {
+  position: fixed;
+  background-color: black;
+  border-radius: 6px;
+  width: fit-content;
+  max-width: 300px;
+  overflow: hidden;
+  z-index: 1000;
+}
+.tooltip {
+  position: absolute;
+  z-index: 2000;
+}
+.toolTipTextPrimary {
+  color: #f9b816;
+  max-width: 230px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 4px;
+}
+.toolTipTextSecondary {
+  color: white;
+}
+.tooltipContainer {
+  display: -webkit-inline-box;
+  vertical-align: -webkit-baseline-middle;
+  margin: 10px;
+}
+.tooltipTextContainer {
+  border-left: 1px solid #444;
+  height: 100%;
+  padding-left: 10px;
+  margin-left: 10px;
+}

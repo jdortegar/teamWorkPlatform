@@ -1,0 +1,25 @@
+.breadcrumbs-text {
+   vertical-align: inherit;
+}
+.breadcrumbs-container {
+  display: -webkit-inline-box;
+  vertical-align: text-bottom;
+}
+.breadcrumbs-avatar {
+  display: -webkit-inline-box;
+  vertical-align: top;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-right: 10px;
+}
+.breadcrumbs-separator {
+   vertical-align: middle;
+   margin: 0 8px;
+   color: #ccc;
+}
+.breadcrumbs-container .habla-avatar {
+  margin-right: 10px;
+}
+.breadcrumbs-container .ant-avatar-image {
+  border: 1px solid #ddd;
+}

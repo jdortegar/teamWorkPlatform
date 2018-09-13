@@ -1,0 +1,137 @@
+.CKGPage {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.VictoryContainer img {
+  cursor: pointer;
+}
+.CKGPage__title {
+  flex: 1;
+}
+.display-row {
+  display: flex;
+}
+
+.CKGPage__arrows-container {
+  position: absolute;
+  top: 50%;
+}
+.CKGPage__arrows-container.arrow-left {
+  left: 0;
+}
+.CKGPage__arrows-container.arrow-right {
+  right: 54px;
+}
+
+.CKGPage__arrow {
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+}
+
+.ckg-tools-container {
+  position: relative;
+}
+.CKGPage__arrows,
+.habla-ckg-tools-bar {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #3b5083;
+  color: #fff;
+  border-radius: 7px;
+  z-index: 2;
+  user-select: none;
+}
+.CKGPage__arrows {
+  border-radius: 50%;
+  padding: 2px;
+}
+.habla-ckg-tools-bar a {
+  padding: 8px;
+  display: inline-block;
+  color: #fff;
+  border-right: 1px solid #4b66ab;
+}
+.habla-ckg-tools-bar a:hover {
+  color: #acbbe0;
+}
+.habla-ckg-tools-bar a.no-border {
+  border: none;
+}
+.habla-ckg-actions-selector {
+  left: 140px;
+}
+.habla-ckg-date-picker {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #fff;
+  border-radius: 7px;
+  color: #999;
+  z-index: 2;
+}
+.habla-ckg-date-picker-content {
+  padding: 9px;
+  font-size: 13px;
+}
+.habla-ckg-date-picker-content-text {
+  margin-right: 10px;
+}
+.habla-ckg-date-picker-content a {
+  color: #999;
+  text-decoration: none;
+}
+.habla-ckg-date-picker-content a:hover {
+  color: #333;
+  text-decoration: none;
+}
+.habla-ckg-tools .ckg-activity-label {
+  font-size: 10px;
+  font-weight: 300;
+  text-transform: uppercase;
+  padding-left: 10px;
+  padding-right: 5px;
+  position: relative;
+  top: -2px;
+}
+.habla-ckg-activity-selector .fa-angle-down {
+  font-size: 11px;
+  font-weight: 300;
+  margin-left: 5px;
+}
+.bottomBar {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 50px;
+  z-index: 1;
+  background: #f0f6ff;
+}
+.bottomBar-selectors {
+  border-right: solid 1px #e5efff;
+}
+/* .bottomBar .bottomBar-selectors .team-select-container,
+.bottomBar .bottomBar-selectors .team-room-select-container {
+  width: 50%;
+  float: left;
+} */
+.bottomBar select {
+  height: 30px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  width: 99%;
+}
+.ant-dropdown-menu.activitySelectorMenu,
+.ant-dropdown-menu.activitySelectorMenu .ant-dropdown-menu-item {
+  background-color: #3b5083 !important;
+}
+.ant-dropdown-menu.activitySelectorMenu .ant-dropdown-menu-item a {
+  color: #acbbe0 !important;
+}
+.ant-dropdown-menu.activitySelectorMenu .ant-dropdown-menu-item a:hover {
+  color: #fff !important;
+  background-color: #304270;
+}

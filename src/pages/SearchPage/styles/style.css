@@ -1,0 +1,135 @@
+.SearchPage__header {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  font-size: 22px;
+  padding: 8px;
+}
+
+.SearchPage__icon {
+  margin: 4px 0;
+}
+
+.SearchPage__title {
+  font-weight: 300;
+  margin: 0 15px 0 5px;
+  color: black;
+}
+
+.SearchPage__results-count {
+  font-weight: bold;
+  margin: 0 5px;
+}
+
+.SearchPage__keywords {
+  flex-grow: 1;
+}
+
+.SearchPage__tag {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  background-color: #999;
+  color: white;
+  border: none;
+  margin: 2px 5px 2px 0;
+  line-height: 27px;
+  height: 29px;
+}
+.SearchPage__tag i.anticon.anticon-cross {
+  background: white;
+  border-radius: 50%;
+  font-size: 10px;
+  margin-left: 7px;
+  padding: 3px;
+}
+
+.SearchPage__results {
+  background-color: #557dbf;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+.SearchPage__results.loading {
+  display: flex;
+  align-items: center;
+  background-color: white;
+}
+
+.SearchPage__results-highlighted {
+  border-bottom: dotted 1px #fbbc12; /* yellow-habla */
+  padding-bottom: 1px;
+  color: white;
+  background-color: transparent;
+}
+
+.SearchPage__results__link,
+.SearchPage__results__link:hover {
+  color: #fff;
+  text-decoration: none;
+}
+.SearchPage__results__fileName {
+  padding-left: 40px;
+}
+.SearchPage__results__fileIcon {
+  position: absolute;
+  margin-top: -4px;
+}
+.SearchPage__results__fileOwnerName {
+  padding-left: 10px;
+}
+.SearchPage__results__integrationIcon {
+  position: absolute;
+  background-color: white;
+  display: inline-block;
+  border-radius: 14%;
+  line-height: 20px;
+  width: 26px;
+  height: 26px;
+}
+.SearchPage__results__integrationLabel {
+  padding-left: 35px;
+}
+
+.ResultsList thead > tr > th {
+  font-size: 7pt;
+  text-transform: uppercase;
+  color: #fff;
+}
+.ResultsList thead > tr > th {
+  padding: 6px 10px;
+}
+.ant-table-row-level-0 {
+  border-bottom: 1px solid #889fc6;
+}
+.ant-table-thead > tr > th,
+.ant-table-tbody > tr > td {
+  padding: 10px;
+}
+.ant-table-tbody > tr > td {
+  font-size: 14px;
+}
+.SearchPage__results tbody tr:hover {
+  background: #476dad;
+  cursor: pointer;
+}
+
+/* column sorting */
+.ResultsList .ant-table-column-sort {
+  background-color: #557dbf !important;
+}
+.ResultsList .ant-table-column-sorter .on i {
+  color: #fff;
+}
+
+.SearchPage__results-inner {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+  position: relative;
+}
+
+.SearchPage__bottomBar {
+  background: #eef2f8;
+}

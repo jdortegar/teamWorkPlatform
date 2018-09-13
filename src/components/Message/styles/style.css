@@ -1,0 +1,107 @@
+.message__main-container {
+  position: relative;
+  cursor: pointer;
+  padding: 20px 10px;
+}
+.message__main-container:hover {
+  background-color: #f9f9f9;
+}
+.message__main-container:hover .message__options {
+  display: block;
+}
+.message__main-counter {
+  position: absolute;
+  left: 30px;
+  top: 43px;
+}
+.message__main-counter-number {
+  background: #FBBC12;
+  padding: 3px 5px;
+  color: #000!important;
+  border-radius: 3px;
+}
+.message__main-counter svg {
+  position: relative;
+  top: 14px;
+  left: -12px;
+  color: #ddd;
+}
+.message__icons {
+   font-size: 15px;
+   padding: 4px 8px 6px 8px;
+}
+.message__icons-selected {
+   color: #FBBC12!important;
+}
+.message__icons:not(:last-child) {
+  border-right: 1px solid #666;
+}
+.message__col-user-icon {
+  display: flex;
+}
+.message__col-icons {
+  text-align: right;
+}
+.message__body-name {
+  color: #ccc;
+  font-size: 8pt;
+}
+.message__body-text {
+  font-size: 13px;
+  color: black;
+}
+.message__body-text-date {
+  color: #ccc;
+  margin-left: 4px;
+}
+.message__body-thumbs-icon {
+  margin-left: 8px;
+}
+.message__body-thumbs-icon i {
+  margin: 0 2px;
+}
+.message-nested {
+  border-left: 10px solid #e0e9ff;
+  transition: display 2s;
+}
+.message__last-read {
+  position: absolute;
+  text-transform: uppercase;
+  background-color: #eb4435;
+  color: white;
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 10px 12px;
+  right: 10px;
+  bottom: -16px;
+  z-index: 1;
+}
+.message__options {
+  background-color: #000;
+  border-radius: 4px;
+  padding: 5px 0 7px 0;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 1;
+}
+.message__options a {
+  color: #fff;
+}
+.message__options a:hover {
+  color: #FBBC12;
+}
+.hide {
+  display: none;
+}
+.team-room__file-upload-input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.counter {
+  padding: .2em .5em;
+}

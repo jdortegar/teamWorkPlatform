@@ -1,0 +1,13 @@
+.signup-main-div {
+  background-color: #ccc;
+  align-items: 'center';
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.signup-body {
+   flex: 1;
+   background-color: white;
+   margin: 7px;
+   border-radius: 4px;
+ }

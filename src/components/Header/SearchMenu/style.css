@@ -1,0 +1,20 @@
+.SearchMenu__dropdown-icon {
+  color: #fff;
+  cursor: pointer;
+  position: relative;
+  top: 7px;
+  margin-left: 7px;
+}
+.SearchMenu {
+  padding: 10px;
+}
+.SearchMenu__item {
+  padding: 5px 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.SearchMenu__switch {
+  margin-left: 25px;
+  background-color: #eb4435;
+}

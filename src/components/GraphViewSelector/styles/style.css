@@ -1,0 +1,25 @@
+.graphViewSelectorLink {
+  border: 1px solid #dedede;
+  padding: 5px 6px;
+  border-radius: 4px;
+  margin-right: 6px;
+  background: #e8e7e7;
+}
+.graphViewSelectorLink svg {
+  color: #999!important;
+}
+.graphViewSelectorLink:hover svg {
+  color: #666!important;
+}
+.graphViewSelectorLink:hover {
+  border: 1px solid #ccc;
+  background: #e8e8e8;
+}
+.graphViewSelectorLink .fa-chevron-down {
+  font-size: 6px;
+  font-weight: 300;
+  margin-left: -1px;
+  margin-right: 0;
+  position: relative;
+  top: -4px;
+}
