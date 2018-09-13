@@ -61,7 +61,7 @@
   margin: 0 2px;
 }
 .message-nested {
-  border-left: 10px solid #e0e9ff;
+  border-left: 10px solid #e5e5e5;
   transition: display 2s;
 }
 .message__last-read {

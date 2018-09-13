@@ -200,6 +200,7 @@ class Header extends Component {
                 <div className="ant-dropdown-link">
                   <AvatarWrapper size="default" user={user} hideStatusTooltip />
                   <span className="habla-top-menu-label">{user.firstName}</span>
+                  <Icon type="down" className="userMenu__dropdown-icon" />
                 </div>
               </Dropdown>
             </div>

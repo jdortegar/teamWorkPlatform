@@ -267,9 +267,9 @@
     "statusTitle": "Status",
     "adminTitle": "Admin",
     "smartSearchPlaceholder": "Smart Search...",
-    "searchMenuTitle": "Smart Search filters",
-    "searchCaseSensitive": "Case sensitive",
-    "searchAndOperator": "AND operator"
+    "searchMenuTitle": "Smart Search Filters",
+    "searchCaseSensitive": "Case Sensitive",
+    "searchAndOperator": "AND Operator"
   },
   "IntegrationCard": {
     "expired": "Expired",

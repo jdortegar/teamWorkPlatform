@@ -70,7 +70,7 @@ const GraphViewSelector = ({ currentSubscriberOrgId }) => {
   return (
     <Dropdown overlay={menu} trigger={['click']}>
       <a className="graphViewSelectorLink">
-        <i className="fas fa-chart-area fa-2x" />
+        <i className="fas fa-bars fa-2x" />
         <i className="fas fa-chevron-down" />
       </a>
     </Dropdown>
