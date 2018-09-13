@@ -1,5 +1,3 @@
-import { getOwnersFromFiles, getFileTypesFromFiles, getIntegrationsFromFiles } from 'lib/files';
-
 import {
   SEARCH_REQUEST,
   SEARCH_SUCCESS,
@@ -7,7 +5,8 @@ import {
   SEARCH_CLEAR,
   SEARCH_STALE,
   TOGGLE_CASE_SENSITIVE,
-  TOGGLE_AND_OPERATOR
+  TOGGLE_AND_OPERATOR,
+  SUBSCRIBERORG_SETCURRENT
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -16,11 +15,7 @@ const INITIAL_STATE = {
   keywords: [],
   caseSensitive: false,
   andOperator: false,
-  results: [],
-  resultsCount: 0,
-  owners: [],
-  fileTypes: [],
-  integrations: []
+  resultsCount: 0
 };
 
 const searchReducer = (state = INITIAL_STATE, action) => {
@@ -35,18 +30,12 @@ const searchReducer = (state = INITIAL_STATE, action) => {
         keywords: action.payload.keywords,
         resultsCount: INITIAL_STATE.resultsCount
       };
-    case SEARCH_SUCCESS: {
-      const { files } = action.payload;
+    case SEARCH_SUCCESS:
       return {
         ...state,
         loading: false,
-        results: files,
-        resultsCount: files.length,
-        owners: getOwnersFromFiles(files),
-        fileTypes: getFileTypesFromFiles(files),
-        integrations: getIntegrationsFromFiles(files)
+        resultsCount: action.payload.files.length
       };
-    }
     case SEARCH_FAILURE:
       return {
         ...INITIAL_STATE,
@@ -60,6 +49,8 @@ const searchReducer = (state = INITIAL_STATE, action) => {
       return { ...state, caseSensitive: action.payload.caseSensitive };
     case TOGGLE_AND_OPERATOR:
       return { ...state, andOperator: action.payload.andOperator };
+    case SUBSCRIBERORG_SETCURRENT:
+      return { ...INITIAL_STATE };
     default:
       return state;
   }

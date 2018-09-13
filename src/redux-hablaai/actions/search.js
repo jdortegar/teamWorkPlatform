@@ -1,3 +1,5 @@
+import queryString from 'querystring';
+import { pickBy } from 'lodash';
 import config from 'config/env';
 import { extractKeywords } from 'lib/keywords';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
@@ -19,8 +21,15 @@ export const search = (
 ) => {
   const keywords = extractKeywords(rawQuery);
   const query = keywords.join(' ');
-  const baseUrl = `${config.hablaApiBaseUri}/ckg/getFilesBySearchTerm`;
-  const requestUrl = `${baseUrl}/${subscriberOrgId}/${query}/${caseSensitive ? 0 : 1}/${andOperator ? 1 : 0}`;
+  const params = queryString.stringify(
+    pickBy({
+      query,
+      caseSensitive: caseSensitive ? 1 : 0,
+      andOperator: andOperator ? 1 : 0
+    })
+  );
+
+  const requestUrl = `${config.hablaApiBaseUri.replace('v1', 'v2')}/ckg/${subscriberOrgId}/files?${params}`;
 
   // Passthrough data that you'll see after going through the reducer. Typically in you mapStateToProps.
   const reduxState = { query };
@@ -30,14 +39,6 @@ export const search = (
       type: SEARCH_REQUEST,
       payload: { query, keywords }
     });
-
-    if (!query) {
-      dispatch({
-        type: SEARCH_FAILURE,
-        payload: { query, keywords }
-      });
-      return null;
-    }
 
     const thunk = dispatch(
       doAuthenticatedRequest(
@@ -53,14 +54,13 @@ export const search = (
     if (!options.getKey) {
       thunk.then(
         response => {
-          if (response.data && response.data !== RESPONSE_STALE) {
-            const { files } = response.data.message;
+          if (response.data !== RESPONSE_STALE) {
             dispatch({
               type: SEARCH_SUCCESS,
-              payload: { files }
+              payload: { files: response.data }
             });
           }
-          if (response.data && response.data === RESPONSE_STALE) {
+          if (response.data === RESPONSE_STALE) {
             dispatch({ type: SEARCH_STALE });
           }
           return response;

@@ -52,7 +52,7 @@ export * from './readMessagesFetch';
 export * from './readMessagesReceive';
 
 export * from './timeActivitiesFetch';
-
+export * from './filters';
 export * from './search';
 export * from './searchClear';
 

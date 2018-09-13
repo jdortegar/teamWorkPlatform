@@ -53,6 +53,7 @@
   background-color: #557dbf;
   display: flex;
   flex-grow: 1;
+  flex-direction: column;
 }
 .SearchPage__results.loading {
   display: flex;
@@ -131,6 +132,7 @@
   flex-direction: column;
   flex-grow: 1;
   justify-content: space-between;
+  position: relative;
 }
 
 .SearchPage__bottomBar {

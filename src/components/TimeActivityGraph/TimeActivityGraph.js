@@ -27,7 +27,8 @@ const defaultProps = {
 // chart size properties
 const MIN_WIDTH = 0;
 const MIN_HEIGHT = 0;
-const TOOLTIP_VERTICAL_PADDING = 30;
+const TOOLTIP_VERTICAL_OFFSET = 10;
+const TOOLTIP_HORIZONTAL_OFFSET = 30;
 const CHART_PADDING = 0;
 const DOMAIN_TOP_PADDING = 0;
 
@@ -126,16 +127,13 @@ class TimeActivityGraph extends Component {
 
   updateDimensions() {
     if (!this.container || !this.container.parentNode) return;
-    const { offsetLeft, offsetTop } = this.container;
     const { clientWidth, clientHeight } = this.container.parentNode;
     const width = clientWidth;
     const height = clientHeight;
 
     this.setState({
       width: width < MIN_WIDTH ? MIN_WIDTH : width,
-      height: height < MIN_HEIGHT ? MIN_HEIGHT : height,
-      offsetLeft,
-      offsetTop
+      height: height < MIN_HEIGHT ? MIN_HEIGHT : height
     });
   }
 
@@ -144,11 +142,10 @@ class TimeActivityGraph extends Component {
   }
 
   renderTooltipViews() {
-    const { offsetLeft, offsetTop, tooltipPoint } = this.state;
-    const { x, y, datum } = tooltipPoint;
+    const { x, y, datum } = this.state.tooltipPoint;
     const { date, fileName, fileSize } = datum;
-    const top = y - (offsetTop - TOOLTIP_VERTICAL_PADDING);
-    const left = x - (offsetLeft - CHART_PADDING);
+    const top = y + TOOLTIP_VERTICAL_OFFSET;
+    const left = x + TOOLTIP_HORIZONTAL_OFFSET;
     const displayDate = moment(date).format(String.t('timeActivityGraph.dateFormat'));
     const displayTime = moment(date).format(String.t('timeActivityGraph.timeFormat'));
     const imgSrc = integrationImageFromKey(integrationKeyFromFile(datum));
@@ -176,7 +173,7 @@ class TimeActivityGraph extends Component {
         ref={node => {
           this.container = node;
         }}
-        style={{ flex: 1, minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT }}
+        style={{ flex: 1, minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT, position: 'relative' }}
       >
         {this.state.tooltipPoint && this.renderTooltipViews()}
         <VictoryChart

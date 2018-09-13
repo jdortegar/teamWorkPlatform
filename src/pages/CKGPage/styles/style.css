@@ -2,9 +2,10 @@
   flex: 1;
   width: 100%;
   height: 100%;
+  position: relative;
 }
 .VictoryContainer img {
-	cursor: pointer;
+  cursor: pointer;
 }
 .CKGPage__title {
   flex: 1;
@@ -13,10 +14,27 @@
   display: flex;
 }
 
-/* CKG UI TOOLS ---------- */
+.CKGPage__arrows-container {
+  position: absolute;
+  top: 50%;
+}
+.CKGPage__arrows-container.arrow-left {
+  left: 0;
+}
+.CKGPage__arrows-container.arrow-right {
+  right: 54px;
+}
+
+.CKGPage__arrow {
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+}
+
 .ckg-tools-container {
   position: relative;
 }
+.CKGPage__arrows,
 .habla-ckg-tools-bar {
   position: absolute;
   top: 10px;
@@ -26,6 +44,10 @@
   border-radius: 7px;
   z-index: 2;
   user-select: none;
+}
+.CKGPage__arrows {
+  border-radius: 50%;
+  padding: 2px;
 }
 .habla-ckg-tools-bar a {
   padding: 8px;
@@ -37,7 +59,7 @@
   color: #acbbe0;
 }
 .habla-ckg-tools-bar a.no-border {
-	border: none;
+  border: none;
 }
 .habla-ckg-actions-selector {
   left: 140px;
@@ -90,32 +112,26 @@
 .bottomBar-selectors {
   border-right: solid 1px #e5efff;
 }
-.bottomBar .bottomBar-selectors .team-select-container,
+/* .bottomBar .bottomBar-selectors .team-select-container,
 .bottomBar .bottomBar-selectors .team-room-select-container {
-	width: 50%;
-	float: left;
-}
+  width: 50%;
+  float: left;
+} */
 .bottomBar select {
-	height: 30px;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-	background: #fff;
-	width: 99%;
+  height: 30px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  width: 99%;
 }
-.team-select-container {
-	padding-right: 5px;
-}
-.team-room-select-container {
-	padding-left: 5px;
-}
-.ant-dropdown-menu.activitySelectorMenu
-, .ant-dropdown-menu.activitySelectorMenu .ant-dropdown-menu-item  {
-	background-color: #3b5083!important;
+.ant-dropdown-menu.activitySelectorMenu,
+.ant-dropdown-menu.activitySelectorMenu .ant-dropdown-menu-item {
+  background-color: #3b5083 !important;
 }
 .ant-dropdown-menu.activitySelectorMenu .ant-dropdown-menu-item a {
-	color: #acbbe0!important;
+  color: #acbbe0 !important;
 }
 .ant-dropdown-menu.activitySelectorMenu .ant-dropdown-menu-item a:hover {
-	color: #fff!important;
-	background-color: #304270;
+  color: #fff !important;
+  background-color: #304270;
 }
