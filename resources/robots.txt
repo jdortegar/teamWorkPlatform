@@ -1,6 +1,0 @@
-User-agent: *
-Disallow: /
-Allow: /.well-known/*
-Allow: /manifest.json
-Allow: /android-launcher-icon-144x144.png
-
