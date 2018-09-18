@@ -44,6 +44,7 @@ const propTypes = {
   currentSubscriberOrgId: PropTypes.string.isRequired,
   setCurrentSubscriberOrgId: PropTypes.func.isRequired,
   fetchTimeActivitiesBySubscriberOrgId: PropTypes.func.isRequired,
+  search: PropTypes.func.isRequired,
   toggleIntegrationFilter: PropTypes.func.isRequired,
   toggleFileTypeFilter: PropTypes.func.isRequired,
   files: PropTypes.object,
@@ -53,7 +54,9 @@ const propTypes = {
   match: PropTypes.shape({
     params: PropTypes.object.isRequired
   }).isRequired,
-  query: PropTypes.string
+  query: PropTypes.string,
+  caseSensitive: PropTypes.bool,
+  andOperator: PropTypes.bool
 };
 
 const defaultProps = {
@@ -61,7 +64,9 @@ const defaultProps = {
   excludeFilters: {},
   teams: [],
   teamRooms: [],
-  query: ''
+  query: '',
+  caseSensitive: false,
+  andOperator: false
 };
 
 class CKGPage extends Component {
@@ -74,13 +79,14 @@ class CKGPage extends Component {
 
   componentDidMount() {
     const {
-      fetchTimeActivitiesBySubscriberOrgId,
+      search,
       setCurrentSubscriberOrgId,
       currentSubscriberOrgId,
       history,
       match,
-      files,
-      query
+      query,
+      caseSensitive,
+      andOperator
     } = this.props;
 
     if (
@@ -94,9 +100,8 @@ class CKGPage extends Component {
     }
 
     const { subscriberOrgId } = match.params;
-    if (!query && !files.items) {
-      fetchTimeActivitiesBySubscriberOrgId(subscriberOrgId);
-    }
+    search(query, subscriberOrgId, caseSensitive, andOperator);
+
     if (currentSubscriberOrgId !== subscriberOrgId) {
       setCurrentSubscriberOrgId(subscriberOrgId);
     }

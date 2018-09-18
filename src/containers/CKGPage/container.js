@@ -4,13 +4,16 @@ import {
   getCurrentSubscriberOrgId,
   getTeamsOfSubscriberOrgIdSortedAlphabetically,
   getTeamRooms,
-  getSearchQuery
+  getSearchQuery,
+  isSearchCaseSensitive,
+  hasSearchAndOperator
 } from 'selectors';
 import {
   fetchTimeActivitiesBySubscriberOrgId,
   setCurrentSubscriberOrgId,
   toggleIntegrationFilter,
-  toggleFileTypeFilter
+  toggleFileTypeFilter,
+  search
 } from 'actions';
 
 const mapStateToProps = state => ({
@@ -22,10 +25,13 @@ const mapStateToProps = state => ({
   excludeFilters: state.files.excludeFilters,
   teams: getTeamsOfSubscriberOrgIdSortedAlphabetically(state, getCurrentSubscriberOrgId(state)),
   teamRooms: getTeamRooms(state),
-  query: getSearchQuery(state)
+  query: getSearchQuery(state),
+  caseSensitive: isSearchCaseSensitive(state),
+  andOperator: hasSearchAndOperator(state)
 });
 
 const mapDispatchToProps = {
+  search,
   fetchTimeActivitiesBySubscriberOrgId,
   setCurrentSubscriberOrgId,
   toggleIntegrationFilter,
