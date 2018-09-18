@@ -52,20 +52,22 @@ const propTypes = {
   teamRooms: PropTypes.array,
   match: PropTypes.shape({
     params: PropTypes.object.isRequired
-  }).isRequired
+  }).isRequired,
+  query: PropTypes.string
 };
 
 const defaultProps = {
   files: {},
   excludeFilters: {},
   teams: [],
-  teamRooms: []
+  teamRooms: [],
+  query: ''
 };
 
 class CKGPage extends Component {
   state = {
     zoomLevel: 0,
-    viewAll: false,
+    viewAll: true,
     selectedTeamId: '',
     selectedTeamRoomId: ''
   };
@@ -77,7 +79,8 @@ class CKGPage extends Component {
       currentSubscriberOrgId,
       history,
       match,
-      files
+      files,
+      query
     } = this.props;
 
     if (
@@ -91,7 +94,7 @@ class CKGPage extends Component {
     }
 
     const { subscriberOrgId } = match.params;
-    if (!files.items || files.items.length === 0) {
+    if (!query && !files.items) {
       fetchTimeActivitiesBySubscriberOrgId(subscriberOrgId);
     }
     if (currentSubscriberOrgId !== subscriberOrgId) {

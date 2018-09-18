@@ -21,7 +21,7 @@ const propTypes = {
 const defaultProps = {
   files: [],
   zoomLevel: 0,
-  viewAll: false
+  viewAll: true
 };
 
 // chart size properties
@@ -46,12 +46,6 @@ const DATE_DOMAIN = [
   moment().add(1, 'day')
 ];
 const TIME_DOMAIN = [moment().startOf('day'), moment().endOf('day')];
-
-// from 2 weeks before the last file to one day after
-const defaultZoomDomain = files => {
-  const lastFileDate = moment.max(files.map(file => file.date));
-  return [+moment(lastFileDate).subtract(2, 'weeks'), +moment(lastFileDate).add(1, 'day')];
-};
 
 // from the first to the last file
 const allZoomDomain = files => {
@@ -82,7 +76,7 @@ class TimeActivityGraph extends Component {
     this.state = {
       width: MIN_WIDTH,
       height: MIN_HEIGHT,
-      zoomDomain: defaultZoomDomain(props.files)
+      zoomDomain: allZoomDomain(props.files)
     };
 
     this.closeTooltip = this.closeTooltip.bind(this);
@@ -95,7 +89,7 @@ class TimeActivityGraph extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.files.length === 0 && nextProps.files !== 0) {
-      this.setState({ zoomDomain: defaultZoomDomain(nextProps.files) });
+      this.setState({ zoomDomain: allZoomDomain(nextProps.files) });
     }
 
     if (nextProps.zoomLevel !== this.props.zoomLevel) {

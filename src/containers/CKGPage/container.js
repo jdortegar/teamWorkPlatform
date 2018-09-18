@@ -1,6 +1,11 @@
 import { connect } from 'react-redux';
 import CKGPage from 'pages/CKGPage';
-import { getCurrentSubscriberOrgId, getTeamsOfSubscriberOrgIdSortedAlphabetically, getTeamRooms } from 'selectors';
+import {
+  getCurrentSubscriberOrgId,
+  getTeamsOfSubscriberOrgIdSortedAlphabetically,
+  getTeamRooms,
+  getSearchQuery
+} from 'selectors';
 import {
   fetchTimeActivitiesBySubscriberOrgId,
   setCurrentSubscriberOrgId,
@@ -16,7 +21,8 @@ const mapStateToProps = state => ({
   files: state.files,
   excludeFilters: state.files.excludeFilters,
   teams: getTeamsOfSubscriberOrgIdSortedAlphabetically(state, getCurrentSubscriberOrgId(state)),
-  teamRooms: getTeamRooms(state)
+  teamRooms: getTeamRooms(state),
+  query: getSearchQuery(state)
 });
 
 const mapDispatchToProps = {
