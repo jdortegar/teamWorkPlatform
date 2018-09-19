@@ -42,8 +42,12 @@ class HomePage extends Component {
                 {' '}
                 add a data integration{' '}
               </a>
-              to see your files on the Corporate Knowledge Graphs. We hope that now you spend minutes finding the right
-              data instead of searching folders for hours.{' '}
+              to see your files on the time activity view on the CKG.{' '}
+              <a onClick={() => this.props.history.push(`/app/organization/${this.props.currentSubscriberOrgId}`)}>
+                 Invite people
+              </a>
+              {' '}
+              to your teams and start new conversations. We hope that now you spend minutes finding the right data instead of searching folders for hours. The Habla Ai Team.
               <span className="homePage__activity-content-date"> ({date})</span>
             </div>
           </div>
