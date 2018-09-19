@@ -44,10 +44,10 @@ class HomePage extends Component {
               </a>
               to see your files on the time activity view on the CKG.{' '}
               <a onClick={() => this.props.history.push(`/app/organization/${this.props.currentSubscriberOrgId}`)}>
-                 Invite people
-              </a>
-              {' '}
-              to your teams and start new conversations. We hope that now you spend minutes finding the right data instead of searching folders for hours. The Habla Ai Team.
+                Invite people
+              </a>{' '}
+              to your teams and start new conversations. We hope that now you spend minutes finding the right data
+              instead of searching folders for hours. The Habla Ai Team.
               <span className="homePage__activity-content-date"> ({date})</span>
             </div>
           </div>

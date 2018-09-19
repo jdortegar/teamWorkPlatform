@@ -31,6 +31,7 @@ module.exports = {
     publicPath: `${nodeUrl}/`
   },
   plugins: [
+    new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
       favicon: './src/favicon.ico',
       template: './src/index.html',
@@ -45,25 +46,27 @@ module.exports = {
     })
   ],
   module: {
-    rules: [{
-      test: /\.jsx?$/,
-      exclude: /(node_modules)/,
-      use: [
-        { loader: 'babel-loader' }
-      ]
-    }, {
-      test: /\.css$/,
-      use: ['style-loader', 'css-loader']
-    }, {
-      test: /\.(woff|woff2|eot|ttf|otf|jpg|png|svg|mp3)$/,
-      use: ['file-loader']
-    }]
+    rules: [
+      {
+        test: /\.jsx?$/,
+        exclude: /(node_modules)/,
+        use: [{ loader: 'babel-loader' }]
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf|jpg|png|svg|mp3)$/,
+        use: ['file-loader']
+      }
+    ]
   },
   resolve: {
-    modules: [
-      path.join(__dirname, 'src'),
-      'node_modules'
-    ],
+    alias: {
+      src: path.resolve(__dirname, 'src')
+    },
+    modules: [path.join(__dirname, 'src'), 'node_modules'],
     extensions: ['.js', '.jsx', '.json', '.css', '.scss', '.png', '.svg', '.jpg', '.gif']
   }
 };

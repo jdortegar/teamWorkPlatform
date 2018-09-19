@@ -54,7 +54,7 @@ config.plugins = [
   new webpack.optimize.CommonsChunkPlugin({
     name: 'vendor',
     minChunks(module) {
-      return ((module.context && module.context.indexOf('node_modules')) !== -1);
+      return (module.context && module.context.indexOf('node_modules')) !== -1;
     }
   }),
   new webpack.optimize.CommonsChunkPlugin({
@@ -63,19 +63,21 @@ config.plugins = [
   new CopyWebpackPlugin([{ from: './resources' }])
 ];
 
-config.module.rules = [{
-  test: /\.js$/,
-  exclude: /(node_modules)/,
-  use: [
-    { loader: 'babel-loader' }
-  ]
-}, {
-  test: /\.css$/,
-  use: ['style-loader', 'css-loader']
-}, {
-  test: /\.(woff|woff2|eot|ttf|otf|jpg|png|svg|mp3)$/,
-  exclude: /(node_modules)/,
-  use: ['file-loader']
-}];
+config.module.rules = [
+  {
+    test: /\.js$/,
+    exclude: /(node_modules)/,
+    use: [{ loader: 'babel-loader' }]
+  },
+  {
+    test: /\.css$/,
+    use: ['style-loader', 'css-loader']
+  },
+  {
+    test: /\.(woff|woff2|eot|ttf|otf|jpg|png|svg|mp3)$/,
+    exclude: /(node_modules)/,
+    use: ['file-loader']
+  }
+];
 
 module.exports = config;

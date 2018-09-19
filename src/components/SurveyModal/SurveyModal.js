@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Select, message } from 'antd';
 import { range } from 'lodash';
-import String from '../../translations';
+
+import String from 'src/translations';
+import { availableIntegrationKeys, integrationLabelFromKey } from 'src/utils/dataIntegrations';
 import { Button } from '../common';
-import { availableIntegrationKeys, integrationLabelFromKey } from '../../utils/dataIntegrations';
 
 const { Option } = Select;
 

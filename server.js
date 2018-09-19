@@ -1,10 +1,10 @@
 require('babel-polyfill');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
-const config = require('./webpack.config');
 const express = require('express');
 const Helmet = require('helmet');
 const fs = require('fs');
+const config = require('./webpack.config');
 
 const mobileAppleAppId = process.env.MOBILE_APPLE_APP_ID || '1223813655';
 let indexPageBeginHeadStart;
@@ -12,18 +12,21 @@ let indexPageAfterHeadStart;
 
 // <meta name="apple-itunes-app" content="app-id=1223813655, affiliate-data=myAffiliateData, app-argument=/login">
 function compileIndexPage(requestUrl) {
-  if ((indexPageBeginHeadStart) && (indexPageAfterHeadStart)) {
+  if (indexPageBeginHeadStart && indexPageAfterHeadStart) {
     return `${indexPageBeginHeadStart}  <meta name="apple-itunes-app" content="app-id=${mobileAppleAppId}, affiliate-data=myAffiliateData, app-argument=${requestUrl}">\n  <link rel="manifest" href="/manifest.json">\n${indexPageAfterHeadStart}`;
   }
 
   let buf = '';
-  fs.readFileSync(`${__dirname}/dist/index.html`).toString().split('\n').forEach((line) => {
-    buf += `${line}\n`;
-    if (line === '<head>') {
-      indexPageBeginHeadStart = buf;
-      buf = '';
-    }
-  });
+  fs.readFileSync(`${__dirname}/dist/index.html`)
+    .toString()
+    .split('\n')
+    .forEach(line => {
+      buf += `${line}\n`;
+      if (line === '<head>') {
+        indexPageBeginHeadStart = buf;
+        buf = '';
+      }
+    });
   indexPageAfterHeadStart = buf;
   return compileIndexPage(requestUrl);
 }
@@ -68,7 +71,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const nodePort = process.env.NODE_PORT || 9090;
-server.listen(nodePort, (err) => {
+server.listen(nodePort, err => {
   if (err) {
     // console.error(err);
   }
