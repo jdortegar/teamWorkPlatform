@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import String from 'translations';
+import classNames from 'classnames';
 import config from '../../config/env';
 import './styles/style.css';
 import { hablaFullBlackLogoIcon } from '../../img';
 import SubpageHeader from '../../components/SubpageHeader';
 import Spinner from '../../components/Spinner';
 import CardView from './CardView';
+import SimpleCardContainer from '../../components/SimpleCardContainer';
+import Avatar from '../../components/common/Avatar';
+import ProgressBar from '../../components/common/ProgressBar';
 
 const propTypes = {
   integrations: PropTypes.PropTypes.shape({
@@ -29,6 +33,27 @@ const propTypes = {
   teams: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired
 };
+
+// Get subscriber avatar or Initials
+function renderAvatar(item, enabled, size) {
+  const { preferences } = item;
+  const className = classNames({
+    'opacity-low': !enabled,
+    'border-white-2': true
+  });
+  if (preferences.logo) {
+    return <Avatar src={preferences.logo} color="#FFF" className={className} size={size} />;
+  }
+  if (preferences.avatarBase64) {
+    return <Avatar src={`data:image/jpeg;base64, ${preferences.avatarBase64}`} className={className} size={size} />;
+  }
+  const nameInitial = item.name.substring(0, 1).toUpperCase();
+  return (
+    <Avatar color={preferences.iconColor} className={className} size={size}>
+      {nameInitial}
+    </Avatar>
+  );
+}
 
 class OrganizationPage extends Component {
   constructor(props) {
@@ -121,6 +146,26 @@ class OrganizationPage extends Component {
               </div>
             }
           />
+          <SimpleCardContainer className="subpage-block habla-color-blue align-center-class">
+            {renderAvatar(subscriberOrg, subscriberOrg.enabled, 'x-large')}
+            <div className="mt-2">
+              <h1 className="habla-organization-title">{subscriberOrg.name}</h1>
+            </div>
+          </SimpleCardContainer>
+          <SimpleCardContainer className="subpage-block habla-color-lightblue padding-class-a align-center-class habla-white">
+            {/* To do: make this dynamic */}
+            <div>
+              <span className="mr-5">
+                <i className="fas fa-check mr-05 habla-lighertblue" />
+                {String.t('OrganizationPage.occupiedSpace', { occupied: 18, remain: 50 })}
+              </span>
+              <span>
+                <i className="fas fa-file-alt mr-05 habla-lighertblue" />
+                {String.t('OrganizationPage.filesShared', { count: 17389 })}
+              </span>
+            </div>
+            <ProgressBar strokeColor="#384f83" percent={30} />
+          </SimpleCardContainer>
           <CardView
             integrations={integrations}
             subscribers={subscribers}

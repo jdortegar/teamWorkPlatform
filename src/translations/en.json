@@ -189,7 +189,9 @@
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
-    }
+    },
+    "occupiedSpace": "{{occupied}}GB of {{remain}}GB",
+    "filesShared": "{{count}} Files Shared"
   },
   "TeamPage": {
     "activeStatus": "Active",

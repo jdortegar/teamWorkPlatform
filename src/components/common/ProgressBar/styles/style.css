@@ -1,0 +1,22 @@
+.habla-progress--type-line{
+  position: relative;
+  display: inline-block;
+  clear: both;
+  margin: 10px auto 0;
+}
+
+.habla-progress--type-line .ant-progress-inner {
+  display: inline-block;
+  width: 100%;
+  background-color: #a8bada;
+  border-radius: 100px;
+  vertical-align: middle;
+  position: relative;
+}
+
+.habla-progress--type-line .ant-progress-line{
+  top:0;
+  left:0;
+  position: relative !important;
+}
+

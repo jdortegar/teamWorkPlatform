@@ -63,7 +63,7 @@ class UploadImageField extends Component {
       const img = new Image();
       img.src = imageUrl;
       img.onload = () => {
-        const side = 60.0;
+        const side = 200.0;
         let width = side;
         let height = side;
         const aspectRatio = img.width / img.height;
