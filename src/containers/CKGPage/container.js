@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import CKGPage from 'pages/CKGPage';
+import { CKGPage } from 'src/pages';
 import {
   getCurrentSubscriberOrgId,
   getTeamsOfSubscriberOrgIdSortedAlphabetically,
@@ -7,14 +7,14 @@ import {
   getSearchQuery,
   isSearchCaseSensitive,
   hasSearchAndOperator
-} from 'selectors';
+} from 'src/selectors';
 import {
   fetchTimeActivitiesBySubscriberOrgId,
   setCurrentSubscriberOrgId,
   toggleIntegrationFilter,
   toggleFileTypeFilter,
   search
-} from 'actions';
+} from 'src/actions';
 
 const mapStateToProps = state => ({
   teamById: state.teams.teamById,

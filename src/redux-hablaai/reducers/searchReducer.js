@@ -7,7 +7,7 @@ import {
   TOGGLE_CASE_SENSITIVE,
   TOGGLE_AND_OPERATOR,
   SUBSCRIBERORG_SETCURRENT
-} from '../actions';
+} from 'src/actions';
 
 const INITIAL_STATE = {
   loading: false,

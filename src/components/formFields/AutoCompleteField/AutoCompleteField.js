@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Form, AutoComplete, Input } from 'antd';
 import PropTypes from 'prop-types';
-import { formShape } from '../../../propTypes';
-import String from '../../../translations';
+
+import String from 'src/translations';
+import { formShape } from 'src/propTypes';
 
 const FormItem = Form.Item;
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { BasicFilter } from 'components';
-import { integrationLabelFromKey, integrationImageFromKey } from 'utils/dataIntegrations';
-import String from 'translations';
+import String from 'src/translations';
+import { integrationLabelFromKey, integrationImageFromKey } from 'src/utils/dataIntegrations';
+import { BasicFilter } from 'src/components';
 
 const propTypes = {
   integrationKey: PropTypes.string.isRequired,

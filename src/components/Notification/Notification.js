@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { notification } from 'antd';
 import PropTypes from 'prop-types';
+
+import { Button } from 'src/components';
+import String from 'src/translations';
 import './styles/style.css';
-import Button from '../common/Button';
-import String from '../../translations';
 
 const propTypes = {
   options: PropTypes.shape({

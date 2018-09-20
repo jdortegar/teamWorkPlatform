@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { INTEGRATIONS_FETCH_SUCCESS, INTEGRATIONS_REVOKE_SUCCESS, INTEGRATIONS_UPDATE } from '../actions';
+import { INTEGRATIONS_FETCH_SUCCESS, INTEGRATIONS_REVOKE_SUCCESS, INTEGRATIONS_UPDATE } from 'src/actions';
 
 const INITIAL_STATE = {
   integrationsBySubscriberOrgId: {}

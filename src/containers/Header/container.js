@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import Header from 'components/Header';
-import { logoutUser, updateUser, search, clearSearch, toggleCaseSensitive, toggleAndOperator } from 'actions';
-import { getCurrentUser, getCurrentSubscriberOrgId } from 'redux-hablaai/selectors';
+import { Header } from 'src/components';
+import { getCurrentUser, getCurrentSubscriberOrgId } from 'src/selectors';
+import { logoutUser, updateUser, search, clearSearch, toggleCaseSensitive, toggleAndOperator } from 'src/actions';
 
 function mapStateToProps(state) {
   return {

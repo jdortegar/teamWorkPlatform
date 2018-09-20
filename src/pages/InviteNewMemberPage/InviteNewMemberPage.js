@@ -2,14 +2,10 @@ import React, { Component } from 'react';
 import { Row, Col, Form, message } from 'antd';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import BreadCrumb from '../../components/BreadCrumb';
-import SubpageHeader from '../../components/SubpageHeader';
-import SimpleCardContainer from '../../components/SimpleCardContainer';
-import EmailField from '../../components/formFields/EmailField';
-import Spinner from '../../components/Spinner';
-import { formShape } from '../../propTypes';
-import String from '../../translations';
-import Button from '../../components/common/Button';
+
+import String from 'src/translations';
+import { formShape } from 'src/propTypes';
+import { BreadCrumb, SubpageHeader, SimpleCardContainer, EmailField, Spinner, Button } from 'src/components';
 import './styles/style.css';
 
 const propTypes = {

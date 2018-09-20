@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { hablaLogoAvatar } from '../../img';
-import { Spinner } from '../../components';
-import CKGPage from '../../containers/CKGPage';
-import String from '../../translations';
+
+import String from 'src/translations';
+import { hablaLogoAvatar } from 'src/img';
+import { CKGPage } from 'src/containers';
+import { Spinner } from 'src/components';
 import './styles/style.css';
 
 class HomePage extends Component {

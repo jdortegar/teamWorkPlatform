@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Form, Spin, message } from 'antd';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import config from '../../config/env';
-import { formShape } from '../../propTypes';
-import EmailField from '../../components/formFields/EmailField';
-import String from '../../translations';
-import Button from '../../components/common/Button';
+
+import config from 'src/config/env';
+import String from 'src/translations';
+import { formShape } from 'src/propTypes';
+import { Button, EmailField } from 'src/components';
 import './styles/style.css';
 
 const propTypes = {

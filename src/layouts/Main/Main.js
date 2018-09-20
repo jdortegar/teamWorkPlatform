@@ -1,10 +1,7 @@
 import React from 'react';
 import { Layout } from 'antd';
 import PropTypes from 'prop-types';
-import Header from 'containers/Header';
-import Sidebar from 'containers/Sidebar';
-import MainContent from 'containers/MainContent';
-import SurveyModal from 'containers/SurveyModal';
+import { Header, Sidebar, MainContent, SurveyModal } from 'src/containers';
 import './styles/main.css';
 
 const propTypes = {

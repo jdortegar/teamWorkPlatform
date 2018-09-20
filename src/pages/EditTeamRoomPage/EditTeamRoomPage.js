@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import { Form, message, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
-import BreadCrumb from '../../components/BreadCrumb';
-import SubpageHeader from '../../components/SubpageHeader';
-import SimpleCardContainer from '../../components/SimpleCardContainer';
-import Spinner from '../../components/Spinner';
-import TextField from '../../components/formFields/TextField';
-import SwitchField from '../../components/formFields/SwitchField';
-import { formShape } from '../../propTypes';
-import Button from '../../components/common/Button';
-import String from '../../translations';
+
+import String from 'src/translations';
+import { formShape } from 'src/propTypes';
+import {
+  BreadCrumb,
+  SubpageHeader,
+  SimpleCardContainer,
+  Spinner,
+  TextField,
+  SwitchField,
+  Button
+} from 'src/components';
 import './styles/style.css';
 
 const propTypes = {

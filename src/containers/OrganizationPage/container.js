@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import OrganizationPage from '../../pages/OrganizationPage';
-import { fetchSubscribersBySubscriberOrgId, fetchIntegrations, setCurrentSubscriberOrgId } from '../../actions';
+import { fetchSubscribersBySubscriberOrgId, fetchIntegrations, setCurrentSubscriberOrgId } from 'src/actions';
 import {
   getCurrentUser,
   getSubscribersOfSubscriberOrgId,
   getPresencesOfSubscribersOfOrgId,
   getTeamsOfSubscriberOrgIdSortedAlphabetically,
   getIntegrationsOfSubscriberOrgId
-} from '../../selectors';
+} from 'src/selectors';
+import { OrganizationPage } from 'src/pages';
 
 function mapStateToProps(state, props) {
   const { subscriberOrgId } = props.match.params;

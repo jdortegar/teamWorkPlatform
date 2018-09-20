@@ -6,12 +6,11 @@ import _ from 'lodash';
 import Highlighter from 'react-highlight-words';
 import { Icon, Pagination, Tag } from 'antd';
 
-import { integrationKeyFromFile, integrationLabelFromKey, integrationImageFromKey } from 'utils/dataIntegrations';
-import { Spinner, ResultsList, FilesFilters } from 'components';
-import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
-import imageSrcFromFileExtension from 'lib/imageFiles';
-import formatSize from 'lib/formatSize';
-import String from 'translations';
+import String from 'src/translations';
+import formatSize from 'src/lib/formatSize';
+import imageSrcFromFileExtension from 'src/lib/imageFiles';
+import { integrationKeyFromFile, integrationLabelFromKey, integrationImageFromKey } from 'src/utils/dataIntegrations';
+import { AvatarWrapper, Spinner, ResultsList, FilesFilters } from 'src/components';
 import './styles/style.css';
 
 const PAGE_SIZE = 20;

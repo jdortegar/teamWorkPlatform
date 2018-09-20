@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Collapse, Radio } from 'antd';
-import SimpleHeader from '../SimpleHeader';
-import Tree from '../Tree';
-import { SharingTypes } from '../../redux-hablaai/selectors';
-import String from '../../translations';
+
+import String from 'src/translations';
+import { SharingTypes } from 'src/redux-hablaai/selectors';
+import { SimpleHeader, Tree } from 'src/components';
 import './styles/style.css';
 // import 'pages/CKGPage/styles/style.css';
 

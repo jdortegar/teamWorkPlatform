@@ -1,8 +1,8 @@
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { Form } from 'antd';
-import { setNewPassword } from '../../actions';
-import SetNewPassword from '../../layouts/SetNewPassword';
+import { setNewPassword } from 'src/actions';
+import { SetNewPassword } from 'src/layouts';
 
 function mapDispatchToProps(dispatch) {
   return {

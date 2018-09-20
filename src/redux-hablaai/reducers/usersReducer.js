@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import String from 'translations';
+import String from 'src/translations';
 import {
   USER_RECEIVE,
   SUBSCRIBERS_FETCH_SUCCESS,
@@ -8,7 +8,7 @@ import {
   SUBSCRIBER_RECEIVE,
   TEAMMEMBER_RECEIVE,
   TEAMROOMMEMBER_RECEIVE
-} from '../actions';
+} from 'src/actions';
 
 const INITIAL_STATE = {
   userByUserId: {}

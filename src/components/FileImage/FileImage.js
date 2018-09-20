@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // eslint-disable-next-line global-require, import/no-dynamic-require
-const requireImageFile = fileName => require(`../../img/file-types/${fileName}.png`);
+const requireImageFile = fileName => require(`src/img/file-types/${fileName}.png`);
 
 const FileImage = ({ extension, size }) => {
   let file;

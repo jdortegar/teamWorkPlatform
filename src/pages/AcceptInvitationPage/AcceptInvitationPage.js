@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
-import String from '../../translations';
+import String from 'src/translations';
 
 const propTypes = {
   match: PropTypes.shape({

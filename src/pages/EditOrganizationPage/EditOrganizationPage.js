@@ -2,14 +2,11 @@ import React, { Component } from 'react';
 import { Form, message } from 'antd';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import NewSubpageHeader from '../../components/NewSubpageHeader';
-import UploadImageField from '../../components/formFields/UploadImageField';
-import TextField from '../../components/formFields/TextField';
-import { formShape } from '../../propTypes';
-import Button from '../../components/common/Button';
-import Spinner from '../../components/Spinner';
+
+import String from 'src/translations';
+import { formShape } from 'src/propTypes';
+import { NewSubpageHeader, UploadImageField, TextField, Spinner, Button } from 'src/components';
 import './styles/style.css';
-import String from '../../translations';
 
 const propTypes = {
   form: formShape.isRequired,

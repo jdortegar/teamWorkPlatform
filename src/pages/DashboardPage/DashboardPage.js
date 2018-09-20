@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Dropdown, Menu } from 'antd';
-import { NewSubpageHeader, GraphViewSelector, LambWestonReports } from 'components';
-import String from 'translations';
+
+import String from 'src/translations';
+import { NewSubpageHeader, GraphViewSelector, LambWestonReports } from 'src/components';
 import './styles/style.css';
 
 const BASELINE_DATE = '2017-10-01';

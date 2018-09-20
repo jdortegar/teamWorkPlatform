@@ -5,7 +5,7 @@ import { range } from 'lodash';
 
 import String from 'src/translations';
 import { availableIntegrationKeys, integrationLabelFromKey } from 'src/utils/dataIntegrations';
-import { Button } from '../common';
+import { Button } from 'src/components';
 
 const { Option } = Select;
 

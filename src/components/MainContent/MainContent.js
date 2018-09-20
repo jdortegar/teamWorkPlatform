@@ -3,34 +3,37 @@ import { Layout, notification } from 'antd';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import HomePage from '../../containers/HomePage';
-import OrganizationPage from '../../containers/OrganizationPage';
-import ChatContent from '../../containers/ChatContent';
-import IntegrationsPage from '../../containers/IntegrationsPage';
-import IntegrationDetailsPage from '../../containers/IntegrationDetailsPage';
-import TeamPage from '../../containers/TeamPage';
-import NewTeamPage from '../../containers/NewTeamPage';
-import EditOrganizationPage from '../../containers/EditOrganizationPage';
-import EditTeamPage from '../../containers/EditTeamPage';
-import EditTeamRoomPage from '../../containers/EditTeamRoomPage';
-import NewTeamRoomPage from '../../containers/NewTeamRoomPage';
-import InviteNewMemberPage from '../../containers/InviteNewMemberPage';
-import TeamMemberPage from '../../containers/TeamMemberPage';
-import Notification from '../../containers/Notification';
-import BookmarksPage from '../../containers/BookmarksPage';
-import InviteToTeamPage from '../../containers/InviteToTeamPage';
-import InviteToTeamRoomPage from '../../containers/InviteToTeamRoomPage';
-import EditUserPage from '../../containers/EditUserPage';
-import CKGPage from '../../containers/CKGPage';
-import SearchPage from '../../containers/SearchPage';
-import DashboardPage from '../../containers/DashboardPage';
-import NotificationsPage from '../../containers/NotificationsPage';
-import AcceptInvitationPage from '../../containers/AcceptInvitationPage';
-import { paths } from '../../routes';
-import { sound1 } from '../../sounds';
+
+import { paths } from 'src/routes';
+import { sound1 } from 'src/sounds';
+import String from 'src/translations';
+import { sortByLastCreatedFirst } from 'src/redux-hablaai/selectors/helpers';
+import {
+  HomePage,
+  OrganizationPage,
+  ChatContent,
+  IntegrationsPage,
+  IntegrationDetailsPage,
+  TeamPage,
+  NewTeamPage,
+  EditOrganizationPage,
+  EditTeamPage,
+  EditTeamRoomPage,
+  NewTeamRoomPage,
+  InviteNewMemberPage,
+  TeamMemberPage,
+  Notification,
+  BookmarksPage,
+  InviteToTeamPage,
+  InviteToTeamRoomPage,
+  EditUserPage,
+  CKGPage,
+  SearchPage,
+  DashboardPage,
+  NotificationsPage,
+  AcceptInvitationPage
+} from 'src/containers';
 import './styles/style.css';
-import String from '../../translations';
-import { sortByLastCreatedFirst } from '../../redux-hablaai/selectors/helpers';
 
 const { Content } = Layout;
 

@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Layout, Menu, Dropdown, Input, Icon, message } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
-import { hablaBlackLogo, hablaBlackLogoIcon } from '../../img';
+
+import String from 'src/translations';
+import { AvatarWrapper } from 'src/components';
+import { hablaBlackLogo, hablaBlackLogoIcon } from 'src/img';
 import SearchMenu from './SearchMenu';
 import './styles/style.css';
-import String from '../../translations';
 
 const AntdHeader = Layout.Header;
 

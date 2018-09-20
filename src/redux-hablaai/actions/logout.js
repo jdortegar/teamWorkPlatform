@@ -1,4 +1,4 @@
-import config from '../../config/env';
+import config from 'src/config/env';
 import { doAuthenticatedRequest } from './urlRequest';
 
 export const LOGOUT_REQUEST = 'auth/logout/request';

@@ -1,7 +1,8 @@
 import queryString from 'querystring';
 import { pickBy } from 'lodash';
-import config from 'config/env';
-import { extractKeywords } from 'lib/keywords';
+
+import config from 'src/config/env';
+import { extractKeywords } from 'src/lib/keywords';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const SEARCH_REQUEST = 'search/request';

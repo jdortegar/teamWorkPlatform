@@ -2,8 +2,9 @@ import React from 'react';
 import { Form, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { getAllCountries } from 'countries-and-timezones';
-import { formShape } from '../../../propTypes';
-import String from '../../../translations';
+
+import String from 'src/translations';
+import { formShape } from 'src/propTypes';
 
 const FormItem = Form.Item;
 const { Option } = Select;

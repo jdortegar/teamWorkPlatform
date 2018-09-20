@@ -1,8 +1,8 @@
 import React from 'react';
 import { Dropdown, Menu } from 'antd';
 
-import String from '../../translations';
-import '../../pages/CKGPage/styles/style.css';
+import String from 'src/translations';
+import 'src/pages/CKGPage/styles/style.css';
 
 const GraphActivitySelector = () => {
   const activityMenu = (

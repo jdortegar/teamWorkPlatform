@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import SearchPage from 'pages/SearchPage';
-import { search, toggleOwnerFilter, toggleIntegrationFilter, toggleFileTypeFilter } from 'actions';
+import { SearchPage } from 'src/pages';
+import { search, toggleOwnerFilter, toggleIntegrationFilter, toggleFileTypeFilter } from 'src/actions';
 import {
   getCurrentSubscriberOrgId,
   getUserById,
@@ -11,7 +11,7 @@ import {
   isSearchLoading,
   isSearchCaseSensitive,
   hasSearchAndOperator
-} from 'selectors';
+} from 'src/selectors';
 
 const mapStateToProps = state => ({
   results: state.files.items,

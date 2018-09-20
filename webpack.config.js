@@ -66,7 +66,6 @@ module.exports = {
     alias: {
       src: path.resolve(__dirname, 'src')
     },
-    modules: [path.join(__dirname, 'src'), 'node_modules'],
     extensions: ['.js', '.jsx', '.json', '.css', '.scss', '.png', '.svg', '.jpg', '.gif']
   }
 };

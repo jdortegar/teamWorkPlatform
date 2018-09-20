@@ -4,9 +4,9 @@ import moment from 'moment';
 import * as d3 from 'd3';
 import { VictoryAxis, VictoryChart, VictoryLabel, VictoryScatter, VictoryZoomContainer } from 'victory';
 
-import String from '../../translations';
-import formatSize from '../../lib/formatSize';
-import { integrationKeyFromFile, integrationImageFromKey } from '../../utils/dataIntegrations';
+import String from 'src/translations';
+import formatSize from 'src/lib/formatSize';
+import { integrationKeyFromFile, integrationImageFromKey } from 'src/utils/dataIntegrations';
 
 import FilePoint from './FilePoint';
 import styles from './styles/style';

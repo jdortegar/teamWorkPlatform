@@ -1,5 +1,5 @@
+import config from 'src/config/env';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
-import config from '../../config/env';
 
 export const TIMEACTIVITIES_FETCH_SUCCESS = 'timeactivities/fetch/success';
 

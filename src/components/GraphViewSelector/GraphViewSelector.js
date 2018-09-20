@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Menu, Dropdown } from 'antd';
 import { Link } from 'react-router-dom';
 
-import String from 'translations';
+import String from 'src/translations';
 import './styles/style.css';
 
 const GraphViewSelector = ({ currentSubscriberOrgId }) => {

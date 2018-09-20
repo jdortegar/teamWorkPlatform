@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import Main from 'layouts/Main';
-import { initMessaging, closeMessaging, fetchGlobalState, fetchInvitations } from 'actions';
+import { Main } from 'src/layouts';
+import { initMessaging, closeMessaging, fetchGlobalState, fetchInvitations } from 'src/actions';
 
 const mapStateToProps = state => ({
   subscriberOrgs: state.subscriberOrgs

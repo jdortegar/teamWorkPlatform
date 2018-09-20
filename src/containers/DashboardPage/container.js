@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import DashboardPage from 'pages/DashboardPage';
-import { getCurrentSubscriberOrgId } from 'selectors';
+import { DashboardPage } from 'src/pages';
+import { getCurrentSubscriberOrgId } from 'src/selectors';
 import {
   fetchPlantUptimeReport,
   fetchDailyPlantUptimeReport,
   fetchPlantUptimeMultipleReport,
   fetchDowntimeReasonsLevelOneReport,
   fetchDowntimeComparisonMultipleReport
-} from 'actions';
+} from 'src/actions';
 
 const mapStateToProps = (state, ownProps) => {
   const { reportId } = ownProps.match.params;

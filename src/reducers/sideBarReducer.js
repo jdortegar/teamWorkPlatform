@@ -1,4 +1,4 @@
-import { TOGGLE_SIDEBAR, SHOW_SIDEBAR } from '../actions';
+import { TOGGLE_SIDEBAR, SHOW_SIDEBAR } from 'src/actions';
 
 const INITIAL_STATE = {
   hidden: false

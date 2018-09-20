@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { Row, Col } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { verifyEmailAccount } from '../../actions';
-import String from '../../translations';
-import Button from '../../components/common/Button';
+
+import String from 'src/translations';
+import { verifyEmailAccount } from 'src/actions';
+import { Button } from 'src/components';
 
 const propTypes = {
   verifyEmailAccount: PropTypes.func.isRequired,

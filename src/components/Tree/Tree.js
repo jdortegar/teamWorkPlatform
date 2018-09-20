@@ -4,12 +4,13 @@ import _ from 'lodash';
 import { Switch } from 'antd';
 import classNames from 'classnames';
 // import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import imageSrcFromFileExtension from 'lib/imageFiles';
-import SharingSettings from '../SharingSettings';
-import Avatar from '../common/Avatar';
-import getInitials from '../../utils/helpers';
-import { SharingTypes } from '../../redux-hablaai/selectors';
-import String from '../../translations';
+
+import String from 'src/translations';
+import getInitials from 'src/utils/helpers';
+import imageSrcFromFileExtension from 'src/lib/imageFiles';
+import Avatar from 'src/components/common/Avatar';
+import { SharingTypes } from 'src/selectors';
+import { SharingSettings } from 'src/components';
 import './styles/style.css';
 // import 'pages/CKGPage/styles/style.css';
 

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import TeamRoomPage from '../../pages/TeamRoomPage';
+import { TeamRoomPage } from 'src/pages';
 import {
   fetchTeamRoomMembersByTeamRoomId,
   fetchConversations,
@@ -10,7 +10,7 @@ import {
   saveBookmark,
   readMessage,
   iAmTyping
-} from '../../actions';
+} from 'src/actions';
 import {
   getToken,
   getCurrentUser,
@@ -23,7 +23,7 @@ import {
   getTeamRoomMembersAsObjectsOfTeamRoomId,
   getPresencesOfTeamRoomMembersOfTeamRoomId,
   getUnreadMessagesCountOfTeamRoomId
-} from '../../selectors';
+} from 'src/selectors';
 
 function mapStateToProps(state, props) {
   const { teamRoomId } = props.match.params;

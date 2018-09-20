@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Form, Select } from 'antd';
 import PropTypes from 'prop-types';
-import { formShape } from '../../../propTypes';
+
+import String from 'src/translations';
+import { formShape } from 'src/propTypes';
 import countriesObj from './countries';
-import String from '../../../translations';
 
 const FormItem = Form.Item;
 const { Option } = Select;

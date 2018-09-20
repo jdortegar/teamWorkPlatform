@@ -4,10 +4,11 @@ import { Popconfirm, Row, Col, Tooltip } from 'antd';
 import _ from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
-import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
-import PreviewImages from 'containers/PreviewImages';
+
+import String from 'src/translations';
+import { AvatarWrapper } from 'src/components';
+import { PreviewImages } from 'src/containers';
 import './styles/style.css';
-import String from '../../translations';
 
 const propTypes = {
   hide: PropTypes.bool,

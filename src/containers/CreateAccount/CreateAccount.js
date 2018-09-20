@@ -3,17 +3,20 @@ import { Form, Row, Col, message } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import countriesAndTimezones from 'countries-and-timezones';
-import { formShape } from '../../propTypes';
-import FirstNameField from '../../components/formFields/FirstNameField';
-import LastNameField from '../../components/formFields/LastNameField';
-import UsernameField from '../../components/formFields/UsernameField';
-import EmailField from '../../components/formFields/EmailField';
-import ConfirmPasswordField from '../../components/formFields/ConfirmPasswordField';
-import CountrySelectField from '../../components/formFields/CountrySelectField';
-import TimezoneSelectField from '../../components/formFields/TimezoneSelectField';
-import { createAccount, loginUser } from '../../actions';
-import String from '../../translations';
-import Button from '../../components/common/Button';
+
+import String from 'src/translations';
+import { formShape } from 'src/propTypes';
+import { createAccount, loginUser } from 'src/actions';
+import {
+  Button,
+  FirstNameField,
+  LastNameField,
+  UsernameField,
+  EmailField,
+  ConfirmPasswordField,
+  CountrySelectField,
+  TimezoneSelectField
+} from 'src/components';
 
 const FormItem = Form.Item;
 const defaultTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;

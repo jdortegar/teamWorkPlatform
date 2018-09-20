@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
 import { Checkbox, Switch, Tooltip, message } from 'antd';
 import PropTypes from 'prop-types';
-import BreadCrumb from '../../components/BreadCrumb';
-import SubpageHeader from '../../components/SubpageHeader';
-import SimpleCardContainer from '../../components/SimpleCardContainer';
-import Button from '../../components/common/Button';
-import Spinner from '../../components/Spinner';
-import { ImageCard } from '../../components/cards';
-import SharingSettings from '../../components/SharingSettings';
-import { SharingTypes } from '../../redux-hablaai/selectors';
-import String from '../../translations';
+
+import String from 'src/translations';
+import { SharingTypes } from 'src/selectors';
 import {
   integrationImageFromKey,
   integrationLabelFromKey,
   integrationConfigFromKey,
   integrationMapping
-} from '../../utils/dataIntegrations';
+} from 'src/utils/dataIntegrations';
+import {
+  BreadCrumb,
+  SubpageHeader,
+  SimpleCardContainer,
+  Button,
+  Spinner,
+  SharingSettings,
+  ImageCard
+} from 'src/components';
 import './styles/style.css';
 
 function determineStatus(integration) {

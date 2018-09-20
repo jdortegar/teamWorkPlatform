@@ -1,4 +1,4 @@
-import config from 'config/env';
+import config from 'src/config/env';
 import { doAuthenticatedRequest } from './urlRequest';
 
 // eslint-disable-next-line import/prefer-default-export

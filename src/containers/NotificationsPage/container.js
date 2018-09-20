@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import NotificationsPage from '../../pages/NotificationsPage';
-import { toggleSideBar } from '../../actions';
-import { getCurrentUser } from '../../redux-hablaai/selectors';
+import { toggleSideBar } from 'src/actions';
+import { getCurrentUser } from 'src/selectors';
+import { NotificationsPage } from 'src/pages';
 
 function mapStateToProps(state) {
   return {

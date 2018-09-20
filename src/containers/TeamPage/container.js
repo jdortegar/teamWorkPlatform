@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import TeamPage from '../../pages/TeamPage';
-import { fetchTeamRoomsByTeamId, fetchTeamMembersByTeamId } from '../../actions';
+import { fetchTeamRoomsByTeamId, fetchTeamMembersByTeamId } from 'src/actions';
 import {
   getCurrentUser,
   getTeamRoomsOfTeamIdSortedAlphabetically,
   getTeamMembersOfTeamId,
   getPresencesOfTeamMembersOfTeamId
-} from '../../selectors';
+} from 'src/selectors';
+import { TeamPage } from 'src/pages';
 
 function mapStateToProps(state, props) {
   const { teamId } = props.match.params;

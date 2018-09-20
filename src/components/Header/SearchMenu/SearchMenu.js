@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, Icon, Menu, Switch } from 'antd';
-import String from 'translations';
+import String from 'src/translations';
 import './style.css';
 
 class SearchMenu extends Component {

@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import String from 'translations';
 import classNames from 'classnames';
-import config from '../../config/env';
-import './styles/style.css';
-import { hablaFullBlackLogoIcon } from '../../img';
-import SubpageHeader from '../../components/SubpageHeader';
-import Spinner from '../../components/Spinner';
+
+import String from 'src/translations';
+import config from 'src/config/env';
+import { hablaFullBlackLogoIcon } from 'src/img';
+import { SubpageHeader, SimpleCardContainer, Spinner, ProgressBar } from 'src/components';
+import Avatar from 'src/components/common/Avatar';
 import CardView from './CardView';
-import SimpleCardContainer from '../../components/SimpleCardContainer';
-import Avatar from '../../components/common/Avatar';
-import ProgressBar from '../../components/common/ProgressBar';
+import './styles/style.css';
 
 const propTypes = {
   integrations: PropTypes.PropTypes.shape({

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Progress, Icon } from 'antd';
 import PropTypes from 'prop-types';
-import PreviewCard from '../cards/PreviewCard';
+
+import String from 'src/translations';
+import { PreviewCard } from 'src/components';
 import './styles/style.css';
-import String from '../../translations';
 
 const propTypes = {
   files: PropTypes.array,

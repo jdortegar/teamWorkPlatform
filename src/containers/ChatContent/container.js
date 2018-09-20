@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import ChatContent from '../../components/ChatContent';
-import { getInvitations } from '../../selectors';
+import { ChatContent } from 'src/components';
+import { getInvitations } from 'src/selectors';
 
 function mapStateToProps(state) {
   return {

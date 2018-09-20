@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import IntegrationsPage from '../../pages/IntegrationsPage';
-import { fetchIntegrations, integrateIntegration } from '../../actions';
+import { fetchIntegrations, integrateIntegration } from 'src/actions';
+import { IntegrationsPage } from 'src/pages';
 
 function mapStateToProps(state) {
   return {

@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import String from '../../translations';
+
+import String from 'src/translations';
+import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
+import { AvatarWrapper, Badge } from 'src/components';
 import Avatar from '../common/Avatar';
-import AvatarWrapper from '../common/Avatar/AvatarWrapper';
-import Badge from '../Badge';
-import { sortByName, primaryAtTop } from '../../redux-hablaai/selectors/helpers';
 import './styles/style.css';
 
 const { Sider } = Layout;

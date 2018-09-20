@@ -1,4 +1,4 @@
-import String from '../../translations';
+import String from 'src/translations';
 
 export const defaultMessages = {
   length: String.t('errPasswordTooShort'),

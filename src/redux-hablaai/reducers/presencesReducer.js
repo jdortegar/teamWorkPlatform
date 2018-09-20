@@ -5,7 +5,7 @@ import {
   SUBSCRIBERS_FETCH_SUCCESS,
   TEAMMEMBERS_FETCH_SUCCESS,
   TEAMROOMMEMBERS_FETCH_SUCCESS
-} from '../actions';
+} from 'src/actions';
 
 const INITIAL_STATE = {
   presencesByUserId: {}

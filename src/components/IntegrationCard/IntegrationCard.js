@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card } from 'antd';
 import PropTypes from 'prop-types';
+import String from 'src/translations';
 import './styles/style.css';
-import String from '../../translations';
 
 const propTypes = {
   integrated: PropTypes.bool.isRequired,

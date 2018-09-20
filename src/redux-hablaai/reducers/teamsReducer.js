@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { TEAMS_FETCH_SUCCESS, TEAM_RECEIVE } from '../actions';
+import { TEAMS_FETCH_SUCCESS, TEAM_RECEIVE } from 'src/actions';
 
 const INITIAL_STATE = {
   teamById: {},

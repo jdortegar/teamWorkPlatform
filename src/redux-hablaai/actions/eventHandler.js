@@ -1,4 +1,4 @@
-import EventTypes from 'common-hablaai/EventTypes';
+import EventTypes from 'src/common-hablaai/EventTypes';
 import { changePresence } from './presenceChange';
 import { receiveUser } from './userReceive';
 import { receiveSubscriberOrg } from './subscriberOrgReceive';

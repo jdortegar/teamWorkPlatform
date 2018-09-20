@@ -2,13 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import _ from 'lodash';
-import BreadCrumb from '../../components/BreadCrumb';
-import SubpageHeader from '../../components/SubpageHeader';
-import SimpleCardContainer from '../../components/SimpleCardContainer';
-import AvatarWrapper from '../../components/common/Avatar/AvatarWrapper';
-import Spinner from '../../components/Spinner';
+
+import String from 'src/translations';
+import { BreadCrumb, SubpageHeader, SimpleCardContainer, AvatarWrapper, Spinner } from 'src/components';
 import './styles/style.css';
-import String from '../../translations';
 
 const propTypes = {
   match: PropTypes.shape({

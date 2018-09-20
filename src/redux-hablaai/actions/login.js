@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-import config from '../../config/env';
+import config from 'src/config/env';
 
 export const LOGIN_REQUEST = 'auth/login/request';
 export const LOGIN_SUCCESS = 'auth/login/success';

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { NewSubpageHeader } from '../../components';
-import Avatar from '../../components/common/Avatar';
-import String from '../../translations';
+
+import String from 'src/translations';
+import { NewSubpageHeader } from 'src/components';
+import Avatar from 'src/components/common/Avatar';
 import './styles/style.css';
 
 export default class NotificationsPage extends Component {

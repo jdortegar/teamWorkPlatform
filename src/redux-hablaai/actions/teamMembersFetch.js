@@ -1,6 +1,6 @@
-import config from 'config/env';
-import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
+import config from 'src/config/env';
 import { sortByFirstName } from '../selectors/helpers';
+import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const TEAMMEMBERS_FETCH_SUCCESS = 'teammembers/fetch/success';
 

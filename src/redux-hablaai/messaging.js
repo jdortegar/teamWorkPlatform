@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import IO from 'socket.io-client';
 import SocketIOWildcard from 'socketio-wildcard';
-import EventTypes from '../common-hablaai/EventTypes';
+import EventTypes from 'src/common-hablaai/EventTypes';
 
 class Messaging {
   constructor(url) {

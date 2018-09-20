@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'antd';
+
+import String from 'src/translations';
 import BaseInput from '../BaseInput';
-import String from '../../../translations';
 
 const FormItem = Form.Item;
 

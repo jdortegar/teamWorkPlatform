@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Spin, message } from 'antd';
-import { formShape } from '../../propTypes';
-import ConfirmPasswordField from '../../components/formFields/ConfirmPasswordField';
-import String from '../../translations';
-import Button from '../../components/common/Button';
+
+import String from 'src/translations';
+import { formShape } from 'src/propTypes';
+import { Button, ConfirmPasswordField } from 'src/components';
 import './styles/style.css';
 
 const propTypes = {

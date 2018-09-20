@@ -1,1 +1,1 @@
-export * from '../redux-hablaai/selectors';
+export * from 'src/redux-hablaai/selectors';

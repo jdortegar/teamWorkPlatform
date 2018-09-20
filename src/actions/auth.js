@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { push } from 'react-router-redux';
 
-import config from '../config/env';
-import { paths } from '../routes';
+import config from 'src/config/env';
+import { paths } from 'src/routes';
 import {
   login,
   logout,
@@ -11,7 +11,7 @@ import {
   receiveUser,
   setCurrentSubscriberOrgId,
   clearCachedGetRequests
-} from '../redux-hablaai/actions';
+} from 'src/redux-hablaai/actions';
 import { getLastRouteCookie, getLastSubscriberOrgIdCookie, saveCookies } from './cookies';
 
 const { hablaApiBaseUri } = config;

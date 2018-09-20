@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { TYPING_RECEIVE } from '../actions';
+import { TYPING_RECEIVE } from 'src/actions';
 
 const INITIAL_STATE = {
   typingByConversationIdsByUserId: {},

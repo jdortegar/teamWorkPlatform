@@ -1,5 +1,5 @@
 import validate from 'validate.js';
-import String from '../../../translations';
+import String from 'src/translations';
 
 const regex = /(?=.*[0-9])/;
 const message = String.t('validationError.passwordOneNumber');

@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { message as msg } from 'antd';
-import Message from 'components/Message';
-import SimpleCardContainer from 'components/SimpleCardContainer';
-import { NewSubpageHeader } from '../../components';
-import Spinner from '../../components/Spinner';
-import String from '../../translations';
-import { messageAction } from '../../components/Message/Message';
+
+import String from 'src/translations';
+import { messageAction } from 'src/components/Message/Message';
+import { Message, SimpleCardContainer, NewSubpageHeader, Spinner } from 'src/components';
 
 const propTypes = {
   history: PropTypes.shape({

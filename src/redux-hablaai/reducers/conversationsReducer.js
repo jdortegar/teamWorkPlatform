@@ -5,7 +5,7 @@ import {
   TRANSCRIPT_FETCH_SUCCESS,
   MESSAGES_RECEIVE,
   MESSAGES_FETCH_SUCCESS
-} from '../actions';
+} from 'src/actions';
 
 const INITIAL_STATE = {
   conversationById: {},

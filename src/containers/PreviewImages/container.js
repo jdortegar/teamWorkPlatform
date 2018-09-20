@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
-import { PreviewImages } from 'components';
-import { getToken } from 'selectors';
+import { getToken } from 'src/selectors';
+import { PreviewImages } from 'src/components';
 
 const mapStateToProps = state => ({
   token: getToken(state)

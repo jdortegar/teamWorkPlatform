@@ -4,7 +4,8 @@ import moment from 'moment';
 import * as d3 from 'd3';
 import { Icon } from 'antd';
 
-import { integrationKeyFromFile } from 'utils/dataIntegrations';
+import String from 'src/translations';
+import { integrationKeyFromFile } from 'src/utils/dataIntegrations';
 import {
   FilesFilters,
   NewSubpageHeader,
@@ -14,9 +15,8 @@ import {
   GraphZoomActions,
   TeamPicker
   // TeamRoomPicker
-} from 'components';
+} from 'src/components';
 // import { primaryAtTop } from 'redux-hablaai/selectors/helpers';
-import String from 'translations';
 import './styles/style.css';
 
 const color = d3.scaleOrdinal(d3.schemeCategory10);

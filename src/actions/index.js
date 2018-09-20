@@ -14,7 +14,7 @@
   An action MUST NOT include properties other than type, payload, error, and meta.
 */
 
-export * from '../redux-hablaai/actions';
+export * from 'src/redux-hablaai/actions';
 
 export * from './auth';
 export * from './cookies';

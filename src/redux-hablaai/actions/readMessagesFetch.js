@@ -1,4 +1,4 @@
-import config from 'config/env';
+import config from 'src/config/env';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const MESSAGES_READ_FETCH_SUCCESS = 'messages/read/fetch/success';

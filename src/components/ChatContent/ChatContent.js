@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Layout } from 'antd';
 import FileDrop from 'react-file-drop';
-import TeamRoomPage from '../../containers/TeamRoomPage';
+import { TeamRoomPage } from 'src/containers';
 
 const { Content } = Layout;
 

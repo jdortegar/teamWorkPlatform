@@ -1,4 +1,4 @@
-import config from 'config/env';
+import config from 'src/config/env';
 import { doAuthenticatedRequest } from './urlRequest';
 
 export const MESSAGES_FETCH_SUCCESS = 'messages/fetch/success';

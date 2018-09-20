@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { URLREQUEST, URLREQUEST_SUCCESS, URLREQUEST_ERROR, URLREQUEST_CLEAR } from '../actions/urlRequest';
+import { URLREQUEST, URLREQUEST_SUCCESS, URLREQUEST_ERROR, URLREQUEST_CLEAR } from 'src/actions';
 
 const INITIAL_STATE = {
   urlRequests: {}

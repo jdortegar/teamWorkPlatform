@@ -59,10 +59,6 @@ if (process.env.NODE_ENV !== 'production') {
     res.set({ 'Content-Type': 'application/json' });
     next();
   });
-  // server.get('/.well-known/assetlinks.json', (req, res, next) => {
-  //   res.set({ 'Content-Type': 'application/json' });
-  //   next();
-  // });
 
   server.use(express.static('dist', { fallthrough: true }));
   server.use('/', (req, res) => {

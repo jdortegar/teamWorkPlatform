@@ -1,12 +1,11 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { paths } from '../../routes';
-import Register from '../../pages/Register';
-import CreateAccount from '../../containers/CreateAccount';
-import VerifyAccount from '../../containers/VerifyAccount';
-import RecoverPassword from '../RecoverPassword';
-import SetNewPassword from '../../containers/SetNewPassword';
-import Header from '../../components/Header';
+
+import { paths } from 'src/routes';
+import { Register } from 'src/pages';
+import { RecoverPassword } from 'src/layouts';
+import { CreateAccount, VerifyAccount, SetNewPassword } from 'src/containers';
+import { Header } from 'src/components';
 import './styles/signup.css';
 
 function SignUp() {

@@ -4,15 +4,13 @@ import moment from 'moment';
 import _ from 'lodash';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import BreadCrumb from '../../components/BreadCrumb';
+
+import String from 'src/translations';
+import getInitials from 'src/utils/helpers';
+import { BreadCrumb, SubpageHeader, Spinner, SimpleCardContainer } from 'src/components';
+import Avatar from 'src/components/common/Avatar';
 import CardView from './CardView';
-import String from '../../translations';
-import SubpageHeader from '../../components/SubpageHeader';
-import Spinner from '../../components/Spinner';
-import SimpleCardContainer from '../../components/SimpleCardContainer';
 import messages from './messages';
-import Avatar from '../../components/common/Avatar';
-import getInitials from '../../utils/helpers';
 import './styles/style.css';
 
 const propTypes = {

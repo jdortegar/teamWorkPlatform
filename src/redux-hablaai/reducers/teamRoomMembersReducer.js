@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { TEAMROOMMEMBERS_FETCH_SUCCESS, TEAMROOMMEMBER_RECEIVE } from '../actions';
+import { TEAMROOMMEMBERS_FETCH_SUCCESS, TEAMROOMMEMBER_RECEIVE } from 'src/actions';
 
 const INITIAL_STATE = {
   teamRoomMemberIdByUserId: {},

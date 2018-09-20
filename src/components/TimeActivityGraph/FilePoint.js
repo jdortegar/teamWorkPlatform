@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import imageSrcFromFile from '../../lib/imageFiles';
+import imageSrcFromFile from 'src/lib/imageFiles';
 
 const ICON_SIZE = 32;
 

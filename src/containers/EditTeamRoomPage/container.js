@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import EditTeamRoomPage from '../../pages/EditTeamRoomPage';
-import { updateTeamRoom } from '../../actions';
+import { updateTeamRoom } from 'src/actions';
+import { EditTeamRoomPage } from 'src/pages';
 
 const mapStateToProps = state => ({
   teams: state.teams,

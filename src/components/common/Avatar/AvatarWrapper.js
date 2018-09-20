@@ -1,8 +1,8 @@
 import React from 'react';
 import { Tooltip } from 'antd';
 import PropTypes from 'prop-types';
-import String from 'translations';
-import getInitials from 'utils/helpers';
+import String from 'src/translations';
+import getInitials from 'src/utils/helpers';
 import Avatar from './Avatar';
 
 const propTypes = {

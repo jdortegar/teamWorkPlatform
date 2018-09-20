@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import SimpleCardContainer from '../../../components/SimpleCardContainer';
-import SimpleHeader from '../../../components/SimpleHeader';
-import Avatar from '../../../components/common/Avatar';
-import String from '../../../translations';
-import getInitials from '../../../utils/helpers';
-import { integrationLabelFromKey, integrationImageFromKey } from '../../../utils/dataIntegrations';
+
+import String from 'src/translations';
+import getInitials from 'src/utils/helpers';
+import { integrationLabelFromKey, integrationImageFromKey } from 'src/utils/dataIntegrations';
+import { SimpleCardContainer, SimpleHeader, AvatarWrapper } from 'src/components';
+import Avatar from 'src/components/common/Avatar';
 import './styles/style.css';
-import AvatarWrapper from '../../../components/common/Avatar/AvatarWrapper';
 
 const { Panel } = Collapse;
 

@@ -3,13 +3,9 @@ import { Form, message } from 'antd';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import BreadCrumb from '../../components/BreadCrumb';
-import AvatarWrapper from '../../components/common/Avatar/AvatarWrapper';
-import SubpageHeader from '../../components/SubpageHeader';
-import SimpleCardContainer from '../../components/SimpleCardContainer';
-import Button from '../../components/common/Button';
-import Spinner from '../../components/Spinner';
-import String from '../../translations';
+
+import String from 'src/translations';
+import { BreadCrumb, AvatarWrapper, SubpageHeader, SimpleCardContainer, Spinner, Button } from 'src/components';
 import './styles/style.css';
 
 const propTypes = {

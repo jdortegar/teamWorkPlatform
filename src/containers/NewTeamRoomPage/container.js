@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import NewTeamRoomPage from '../../pages/NewTeamRoomPage';
-import { createTeamRoom } from '../../actions';
+import { createTeamRoom } from 'src/actions';
+import { NewTeamRoomPage } from 'src/pages';
 
 function mapStateToProps(state) {
   return {

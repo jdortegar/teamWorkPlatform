@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { isAuthenticated } from 'selectors';
-import Main from 'containers/Main';
-import Login from 'containers/Login';
-import SignUp from 'layouts/SignUp';
+import { isAuthenticated } from 'src/selectors';
+import { Main, Login } from 'src/containers';
+import { SignUp } from 'src/layouts';
 import { ProtectedRoute, PublicRoute } from './routing';
 import { paths } from './paths';
 

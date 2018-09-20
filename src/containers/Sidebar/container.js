@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
-import Sidebar from 'components/Sidebar';
-import { setCurrentSubscriberOrgId, showSideBar } from '../../actions';
+
+import { Sidebar } from 'src/components';
+import { setCurrentSubscriberOrgId, showSideBar } from 'src/actions';
 import {
   getCurrentUser,
   getSubscriberOrgsSortedAlphabetically,
@@ -10,7 +11,7 @@ import {
   getTeamRooms,
   getSubscribersOfSubscriberOrgId,
   getPresencesOfSubscribersOfOrgId
-} from '../../selectors';
+} from 'src/selectors';
 
 function mapStateToProps(state) {
   return {
