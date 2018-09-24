@@ -946,6 +946,13 @@ p {
   padding: 0;
   margin: 0;
 }
+
+.ant-menu-inline > .ant-menu-item {
+  line-height: 0 !important;
+  height: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
 .ant-menu-vertical .ant-menu-item:after,
 .ant-menu-vertical-left .ant-menu-item:after,
 .ant-menu-vertical-right .ant-menu-item:after,
@@ -960,7 +967,7 @@ p {
   font-family: 'Lato', sans-serif;
   background: transparent;
 }
-.ant-menu-submenu > .ant-menu {
+.habla-left-navigation-item .ant-menu-submenu > .ant-menu {
   background: transparent;
 }
 .Sidebar ul.ant-menu li.ant-menu-submenu {
