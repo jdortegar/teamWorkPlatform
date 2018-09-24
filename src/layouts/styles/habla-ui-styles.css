@@ -1,9 +1,8 @@
-/* 
+/*
 ==========================================================================
-HABLA CSS GENERAL STYLES 
-========================================================================== 
+HABLA CSS GENERAL STYLES
+==========================================================================
 */
-
 
 /* ----------- FORMATING --------------- */
 
@@ -380,7 +379,7 @@ HABLA CSS GENERAL STYLES
   color: #000;
 }
 .habla-white {
-  color: #FFF;
+  color: #fff;
 }
 .habla-yellow {
   color: #fbbc12;
@@ -427,7 +426,7 @@ HABLA CSS GENERAL STYLES
 .habla-color-blue {
   background: #557dbf;
 }
-.habla-color-lightblue{
+.habla-color-lightblue {
   background: #6f86bc;
 }
 .habla-color-red {
@@ -448,8 +447,8 @@ HABLA CSS GENERAL STYLES
 .no-border {
   border: none;
 }
-.border-white-2{
-  border: 2px solid #FFFFFF;
+.border-white-2 {
+  border: 2px solid #ffffff;
 }
 .border-bottom-light {
   border-bottom: 1px solid #eeeeee;
@@ -479,6 +478,21 @@ HABLA CSS GENERAL STYLES
 
 /* ----------- FONT STYLES --------------- */
 
+/* Weights */
+
+.habla-light-text {
+  font-weight: 300;
+}
+.habla-regular-text {
+  font-weight: 400;
+}
+.habla-bold-text {
+  font-weight: 700;
+}
+.habla-black-text {
+  font-weight: 900;
+}
+
 /* Anchors */
 a {
   text-decoration: none;
@@ -502,10 +516,10 @@ p {
 
 /* Titles */
 
-.habla-organization-title{
+.habla-organization-title {
   font-size: 20pt;
   line-height: 24pt;
-  color: #FFF;
+  color: #fff;
   font-weight: 900;
 }
 .habla-big-title {
@@ -548,9 +562,6 @@ p {
 .habla-label a {
   color: #999999;
 }
-.habla-bold-text {
-  font-weight: 700;
-}
 .habla-main-content-item-signal {
   width: 10px;
   height: 10px;
@@ -558,6 +569,18 @@ p {
   position: absolute;
   right: -15px;
   top: 0px;
+}
+
+/* ----------- FLEX STYLES --------------- */
+
+.flex-class,
+.flexClass {
+  display: flex;
+}
+
+.flexClass-valign-middle {
+  display: flex;
+  align-items: center;
 }
 
 /* ----------- STYLES TO REVIEW AND GROUP --------------- */
@@ -576,10 +599,6 @@ p {
 .habla-logo-image-responsive,
 .habla-title-responsive {
   display: none;
-}
-.flex-class,
-.flexClass {
-  display: flex;
 }
 
 /* Others */
@@ -763,7 +782,7 @@ p {
   margin-left: 10px;
 }
 .breadcrumbLevels svg {
-  margin: 4px 8px 0 8px;
+  margin: 0 8px;
 }
 
 .habla-main-content-header-breadcrumb .habla-title,
@@ -922,10 +941,10 @@ p {
 .ant-menu-vertical-left > .ant-menu-submenu > .ant-menu-submenu-title,
 .ant-menu-vertical-right > .ant-menu-submenu > .ant-menu-submenu-title,
 .ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
-  line-height: 0 !important;
-  height: auto !important;
-  padding: 0 !important;
-  margin: 0 !important;
+  line-height: 0;
+  height: auto;
+  padding: 0;
+  margin: 0;
 }
 .ant-menu-vertical .ant-menu-item:after,
 .ant-menu-vertical-left .ant-menu-item:after,

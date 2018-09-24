@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import String from 'src/translations';
 import config from 'src/config/env';
 import { hablaFullBlackLogoIcon } from 'src/img';
-import { SubpageHeader, SimpleCardContainer, Spinner, ProgressBar } from 'src/components';
+import { PageHeader, SimpleCardContainer, Spinner, ProgressBar } from 'src/components';
 import Avatar from 'src/components/common/Avatar';
 import CardView from './CardView';
 import './styles/style.css';
@@ -117,32 +117,24 @@ class OrganizationPage extends Component {
       user
     ) {
       const { subscriberOrgId } = match.params;
-      let isOrgAdmin = false;
-      if (subscribers.length > 0) {
-        const currentUserId = user.userId;
-        const subscriberByMyUser = subscribers.find(subscriber => subscriber.userId === currentUserId);
-        isOrgAdmin = subscriberByMyUser.subscriberOrgs[subscriberOrgId].role === 'admin';
-      }
-
       const subscriberOrg = subscriberOrgs.subscriberOrgById[subscriberOrgId];
 
-      const editButton = {
-        showButton: true,
-        isAdmin: isOrgAdmin, // this is gonna change later
-        url: `/app/editOrganization/${subscriberOrgId}`
-      };
+      // Page Menu
+      const menuPageHeader = [
+        {
+          icon: 'fas fa-pencil-alt',
+          title: 'OrganizationPage.editSection',
+          link: `/app/editOrganization/${subscriberOrgId}`
+        }
+      ];
+
       return (
         <div className="editOrgPage-main">
-          <SubpageHeader
-            subscriberOrgId={subscriberOrg.subscriberOrgId}
-            history={this.props.history}
-            editButton={editButton}
-            breadcrumb={
-              <div>
-                <i className="fas fa-cog" />
-                {String.t('OrganizationPage.title')}
-              </div>
-            }
+          <PageHeader
+            pageNameLevelOne="OrganizationPage.title"
+            hasMenu
+            menuName="settings"
+            menuPageHeader={menuPageHeader}
           />
           <SimpleCardContainer className="subpage-block habla-color-blue align-center-class">
             {renderAvatar(subscriberOrg, subscriberOrg.enabled, 'x-large')}
@@ -153,11 +145,11 @@ class OrganizationPage extends Component {
           <SimpleCardContainer className="subpage-block habla-color-lightblue padding-class-a align-center-class habla-white">
             {/* To do: make this dynamic */}
             <div>
-              <span className="mr-5">
+              <span className="mr-5 habla-light-text">
                 <i className="fas fa-check mr-05 habla-lighertblue" />
                 {String.t('OrganizationPage.occupiedSpace', { occupied: 18, remain: 50 })}
               </span>
-              <span>
+              <span className="habla-light-text">
                 <i className="fas fa-file-alt mr-05 habla-lighertblue" />
                 {String.t('OrganizationPage.filesShared', { count: 17389 })}
               </span>

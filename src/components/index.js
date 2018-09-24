@@ -25,6 +25,7 @@ export Message from './Message';
 export NewSubpageHeader from './NewSubpageHeader';
 export Notification from './Notification';
 export OwnerFilter from './OwnerFilter';
+export PageHeader from './PageHeader';
 export PreviewBar from './PreviewBar';
 export PreviewImages from './PreviewImages';
 export ResultsList from './ResultsList';

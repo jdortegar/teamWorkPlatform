@@ -38,7 +38,7 @@ import './styles/style.css';
 const { Content } = Layout;
 
 const propTypes = {
-  invitation: PropTypes.array.isRequired,
+  invitation: PropTypes.array,
   declinedInvitations: PropTypes.object,
   pushMessage: PropTypes.object,
   users: PropTypes.object.isRequired,
@@ -52,7 +52,8 @@ const propTypes = {
 
 const defaultProps = {
   pushMessage: null,
-  declinedInvitations: null
+  declinedInvitations: null,
+  invitation: []
 };
 
 function invitationKey(inv) {
