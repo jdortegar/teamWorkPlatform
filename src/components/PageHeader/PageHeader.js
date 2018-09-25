@@ -3,33 +3,32 @@ import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
 import { Popover, Menu } from 'antd';
+import { BreadCrumb } from 'src/components';
 import String from 'src/translations';
 import './styles/style.css';
 
 const propTypes = {
-  menuPageHeader: PropTypes.arrayOf(PropTypes.object),
+  pageBreadCrumb: PropTypes.object,
+  menuPageHeader: PropTypes.array,
   menuName: PropTypes.string,
-  pageNameLevelOne: PropTypes.string,
-  pageNameLevelTwo: PropTypes.string,
   hasMenu: PropTypes.bool
 };
 
 const defaultProps = {
-  pageNameLevelOne: 'defaultInfo.pageTitle',
-  pageNameLevelTwo: null,
+  pageBreadCrumb: {},
   menuName: null,
   hasMenu: false,
   menuPageHeader: []
 };
 
-function PageHeader({ menuName, pageNameLevelOne, pageNameLevelTwo, hasMenu, menuPageHeader }) {
+function PageHeader({ pageBreadCrumb, menuName, hasMenu, menuPageHeader }) {
   const menuItems = menuPageHeader.map(
     (item, index) =>
       item.submenu ? (
         <Menu.SubMenu title={String.t(item.title)}>
           {item.submenu.map((subitem, subindex) => (
             <Menu.Item key={item.key || `item-${subindex}`}>
-              <Link to={subitem.link || ''}>
+              <Link to={subitem.url || ''}>
                 <span className={subitem.className}>
                   <i className={subitem.icon} /> {String.t(subitem.title)}
                 </span>
@@ -39,7 +38,7 @@ function PageHeader({ menuName, pageNameLevelOne, pageNameLevelTwo, hasMenu, men
         </Menu.SubMenu>
       ) : (
         <Menu.Item key={item.key || `item-${index}`}>
-          <Link to={item.link}>
+          <Link to={item.url}>
             <span className="item.class">
               <i className={item.icon} /> {String.t(item.title)}
             </span>
@@ -58,7 +57,7 @@ function PageHeader({ menuName, pageNameLevelOne, pageNameLevelTwo, hasMenu, men
     <div className="habla-main-content-header padding-class-a border-bottom-lighter">
       <div className="habla-main-content-header-title">
         <div className="actionButtonsContainer">
-          {pageNameLevelTwo && (
+          {pageBreadCrumb.routes.length > 1 && (
             <a>
               <i className="fas fa-arrow-left fa-2x" />
             </a>
@@ -72,16 +71,10 @@ function PageHeader({ menuName, pageNameLevelOne, pageNameLevelTwo, hasMenu, men
             </Popover>
           )}
         </div>
-        <div className="habla-title flexClass-valign-middle breadcrumbLevels">
-          <div className={`responsiveHideClass  ${pageNameLevelTwo ? 'habla-title-light' : 'habla-title-normal'}`}>
-            {String.t(pageNameLevelOne)}
-          </div>
-          {pageNameLevelTwo && (
-            <div className="flexClass-valign-middle">
-              <i className="fas fa-angle-right responsiveHideClass" />
-              <div className="habla-title-normal">{String.t(pageNameLevelTwo)}</div>
-            </div>
-          )}
+        <div className="habla-main-content-header-title">
+          <h1 className="Subpage-header__title habla-title">
+            <BreadCrumb subscriberOrg={pageBreadCrumb.subscriberOrg} routes={pageBreadCrumb.routes} />
+          </h1>
         </div>
       </div>
     </div>

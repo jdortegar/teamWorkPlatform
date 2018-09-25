@@ -1,5 +1,5 @@
 .breadcrumbs-text {
-   vertical-align: inherit;
+  vertical-align: inherit;
 }
 .breadcrumbs-container {
   display: -webkit-inline-box;
@@ -13,9 +13,8 @@
   margin-right: 10px;
 }
 .breadcrumbs-separator {
-   vertical-align: middle;
-   margin: 0 8px;
-   color: #ccc;
+  margin: 0 8px;
+  color: #ccc;
 }
 .breadcrumbs-container .habla-avatar {
   margin-right: 10px;

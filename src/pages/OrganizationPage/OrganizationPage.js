@@ -119,23 +119,28 @@ class OrganizationPage extends Component {
       const { subscriberOrgId } = match.params;
       const subscriberOrg = subscriberOrgs.subscriberOrgById[subscriberOrgId];
 
+      // Breadcrumb
+      const pageBreadCrumb = {
+        subscriberOrg,
+        routes: [
+          {
+            title: String.t('OrganizationPage.title')
+          }
+        ]
+      };
+
       // Page Menu
       const menuPageHeader = [
         {
           icon: 'fas fa-pencil-alt',
           title: 'OrganizationPage.editSection',
-          link: `/app/editOrganization/${subscriberOrgId}`
+          url: `/app/editOrganization/${subscriberOrgId}`
         }
       ];
 
       return (
         <div className="editOrgPage-main">
-          <PageHeader
-            pageNameLevelOne="OrganizationPage.title"
-            hasMenu
-            menuName="settings"
-            menuPageHeader={menuPageHeader}
-          />
+          <PageHeader pageBreadCrumb={pageBreadCrumb} hasMenu menuName="settings" menuPageHeader={menuPageHeader} />
           <SimpleCardContainer className="subpage-block habla-color-blue align-center-class">
             {renderAvatar(subscriberOrg, subscriberOrg.enabled, 'x-large')}
             <div className="mt-2">
