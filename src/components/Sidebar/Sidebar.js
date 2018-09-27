@@ -12,7 +12,6 @@ import Avatar from '../common/Avatar';
 import './styles/style.css';
 
 const { Sider } = Layout;
-const { SubMenu } = Menu;
 
 const propTypes = {
   user: PropTypes.object.isRequired,
@@ -245,41 +244,20 @@ class Sidebar extends Component {
       if (!isAdmin && (!team.active || team.deleted)) {
         return null;
       }
-
-      const teamRooms = this.renderTeamRooms(team.teamId);
       const isTeamOpen = _.includes(this.state.teamsOpenKeys, team.teamId);
       const unreadMessagesCount = 0; /* TODO: get the actual count of unread messages */
 
       return (
-        <SubMenu
-          className="habla-left-navigation-item"
-          key={team.teamId}
-          openKeys={this.state.teamsOpenKeys}
-          onTitleClick={() => this.toogleTeams(team.teamId)}
-          title={
-            <div className="habla-left-navigation-team-list">
-              <div className="habla-left-navigation-team-list-item padding-class-a">
-                <div className="float-left-class">{renderAvatar(team, team.active)}</div>
-                <span className="habla-left-navigation-item-label" onClick={e => this.goToTeamPage(e, team)}>
-                  {team.name}
-                </span>
-                <div className="clear" />
-                <Badge count={isTeamOpen ? 0 : unreadMessagesCount} />
-              </div>
+        <Menu.Item key={team.teamId}>
+          <div className="habla-left-navigation-team-list" onClick={e => this.goToTeamPage(e, team)}>
+            <div className="habla-left-navigation-team-list-item padding-class-a">
+              <div className="float-left-class">{renderAvatar(team, team.active)}</div>
+              <span className="habla-left-navigation-item-label">{team.name}</span>
+              <div className="clear" />
+              <Badge count={isTeamOpen ? 0 : unreadMessagesCount} />
             </div>
-          }
-        >
-          <Menu.Item key="roomsLabel">
-            <div className="sidebar-block-label">
-              <span className="habla-label">
-                <span className="teamRoomTitle">{String.t('teamRooms')}</span>
-                <span className="teamRoomResponsiveTitle">{String.t('teamRoomsResponsive')}</span>
-                {/* <span className="sidebar-label-number-badge">81</span> */}
-              </span>
-            </div>
-          </Menu.Item>
-          {teamRooms}
-        </SubMenu>
+          </div>
+        </Menu.Item>
       );
     });
   }

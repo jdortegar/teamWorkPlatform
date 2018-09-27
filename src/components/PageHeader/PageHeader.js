@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
-import { Popover, Menu } from 'antd';
+import { Badge, Popover, Menu } from 'antd';
 import { BreadCrumb } from 'src/components';
 import String from 'src/translations';
 import './styles/style.css';
@@ -23,11 +23,11 @@ const defaultProps = {
 
 function PageHeader({ pageBreadCrumb, menuName, hasMenu, menuPageHeader }) {
   const menuItems = menuPageHeader.map(
-    (item, index) =>
+    item =>
       item.submenu ? (
-        <Menu.SubMenu title={String.t(item.title)}>
-          {item.submenu.map((subitem, subindex) => (
-            <Menu.Item key={item.key || `item-${subindex}`}>
+        <Menu.SubMenu title={String.t(item.title)} key={item.key || item.title}>
+          {item.submenu.map(subitem => (
+            <Menu.Item key={subitem.key || subitem.title}>
               <Link to={subitem.url || ''}>
                 <span className={subitem.className}>
                   <i className={subitem.icon} /> {String.t(subitem.title)}
@@ -37,9 +37,9 @@ function PageHeader({ pageBreadCrumb, menuName, hasMenu, menuPageHeader }) {
           ))}
         </Menu.SubMenu>
       ) : (
-        <Menu.Item key={item.key || `item-${index}`}>
+        <Menu.Item key={item.key || item.title}>
           <Link to={item.url}>
-            <span className="item.class">
+            <span className={item.className}>
               <i className={item.icon} /> {String.t(item.title)}
             </span>
           </Link>
@@ -57,10 +57,10 @@ function PageHeader({ pageBreadCrumb, menuName, hasMenu, menuPageHeader }) {
     <div className="habla-main-content-header padding-class-a border-bottom-lighter">
       <div className="habla-main-content-header-title">
         <div className="actionButtonsContainer">
-          {pageBreadCrumb.routes.length > 1 && (
-            <a>
+          {pageBreadCrumb.routes.length > 2 && (
+            <Link to={pageBreadCrumb.routes[0].url}>
               <i className="fas fa-arrow-left fa-2x" />
-            </a>
+            </Link>
           )}
           {hasMenu && (
             <Popover placement="bottomLeft" title={String.t(menuName)} content={buttonMenu} trigger="click">
@@ -76,6 +76,11 @@ function PageHeader({ pageBreadCrumb, menuName, hasMenu, menuPageHeader }) {
             <BreadCrumb subscriberOrg={pageBreadCrumb.subscriberOrg} routes={pageBreadCrumb.routes} />
           </h1>
         </div>
+        <Badge
+          count={0}
+          title="Notifications"
+          style={{ justifyContent: 'flex-end', boxShadow: '#AB1E16 -1px -1px 0px 0px inset' }}
+        />
       </div>
     </div>
   );

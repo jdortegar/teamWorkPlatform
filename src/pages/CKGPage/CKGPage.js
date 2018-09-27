@@ -8,9 +8,8 @@ import String from 'src/translations';
 import { integrationKeyFromFile } from 'src/utils/dataIntegrations';
 import {
   FilesFilters,
-  NewSubpageHeader,
+  PageHeader,
   TimeActivityGraph,
-  GraphViewSelector,
   GraphActivitySelector,
   GraphZoomActions,
   TeamPicker
@@ -213,8 +212,7 @@ class CKGPage extends Component {
   render() {
     const {
       files: { items },
-      excludeFilters,
-      currentSubscriberOrgId
+      excludeFilters
     } = this.props;
     if (!items) return null;
 
@@ -224,19 +222,92 @@ class CKGPage extends Component {
       return !excludeFilters.fileTypes[label] && !excludeFilters.integrations[key];
     });
 
+    // Breadcrumb
+    const pageBreadCrumb = {
+      routes: [
+        {
+          title: 'Corporate Knowledge Graphs'
+        },
+        {
+          title: String.t('graphViewsSelector.timeActivity')
+        }
+      ]
+    };
+
+    // Page Menu
+    const menuPageHeader = [
+      {
+        icon: 'fas fa-chart-area',
+        title: 'graphViewsSelector.timeActivity',
+        url: ''
+      },
+      {
+        icon: 'fas fa-bullseye',
+        title: 'graphViewsSelector.teamMemberContribution',
+        url: ''
+      },
+      {
+        icon: 'fas fa-clone',
+        title: 'graphViewsSelector.fileLineage',
+        url: ''
+      },
+      {
+        icon: 'fas fa-sitemap',
+        title: 'graphViewsSelector.relationshipHeatMap',
+        url: ''
+      },
+      {
+        icon: 'fas fa-bars',
+        title: 'graphViewsSelector.smartListView',
+        url: ''
+      },
+      {
+        icon: 'fas fa-stop',
+        title: 'graphViewsSelector.customGraph',
+        url: ''
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.dashboard',
+        url: '',
+        submenu: [
+          {
+            title: 'graphViewsSelector.industryLabel',
+            url: '',
+            className: 'submenuTitle'
+          },
+          {
+            icon: 'fas fa-chart-bar',
+            title: 'graphViewsSelector.electronics',
+            url: ''
+          },
+          {
+            icon: 'fas fa-chart-bar',
+            title: 'graphViewsSelector.cpg',
+            url: ''
+          },
+          {
+            icon: 'fas fa-chart-bar',
+            title: 'graphViewsSelector.manufacturing',
+            url: ''
+          },
+          {
+            icon: 'fas fa-chart-bar',
+            title: 'graphViewsSelector.retail',
+            url: ''
+          },
+          {
+            icon: 'fas fa-chart-bar',
+            title: 'graphViewsSelector.relationshipHeatMap',
+            url: ''
+          }
+        ]
+      }
+    ];
+
     return (
       <div className="CKGPage">
-        <NewSubpageHeader>
-          <div className="habla-main-content-header-title">
-            <GraphViewSelector currentSubscriberOrgId={currentSubscriberOrgId} />
-            <div className="habla-title flexClass breadcrumbLevels">
-              <div className="habla-title-light responsiveHideClass">{String.t('ckgPage.title')}</div>
-              <i className="fas fa-angle-right responsiveHideClass" />
-              <div className="habla-title-normal">{String.t('ckgPage.timeActivityGraph')}</div>
-            </div>
-          </div>
-        </NewSubpageHeader>
-
+        <PageHeader pageBreadCrumb={pageBreadCrumb} hasMenu menuName="settings" menuPageHeader={menuPageHeader} />
         <div className="ckg-tools-container">
           <div className="habla-ckg-tools">
             <GraphActivitySelector />
