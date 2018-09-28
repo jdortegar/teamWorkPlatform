@@ -1,10 +1,10 @@
-import config from 'src/config/env';
+import { buildApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const LWREPORTS_PLANTUPTIME_FETCH_SUCCESS = 'lwReports/plantUptime/fetch/success';
 
 export const fetchPlantUptimeReport = (params, options = { getKey: false, forceGet: true }) => {
-  let requestUrl = `${config.hablaApiBaseUri}/reports/lamb-weston/report-a`;
+  let requestUrl = buildApiUrl('reports/lamb-weston/report-a');
 
   const paramsString = Object.keys(params)
     .map(key => `${key}=${encodeURIComponent(params[key])}`)

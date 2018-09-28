@@ -1,11 +1,10 @@
-import config from 'src/config/env';
+import { buildApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const TRANSCRIPT_FETCH_SUCCESS = 'transcript/fetch/success';
 
 export const fetchTranscript = (conversationId, options = { getKey: false, forceGet: false }) => {
-  // requestUrl is the key into redux state.urlRequests.
-  const requestUrl = `${config.hablaApiBaseUri}/conversations/getTranscript/${conversationId}`;
+  const requestUrl = buildApiUrl(`conversations/getTranscript/${conversationId}`);
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { conversationId };

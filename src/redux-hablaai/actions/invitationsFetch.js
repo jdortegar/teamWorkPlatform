@@ -1,11 +1,10 @@
-import config from 'src/config/env';
+import { buildApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest } from './urlRequest';
 
 export const INVITATIONS_FETCH_SUCCESS = 'invitations/fetch/success';
 
 export const fetchInvitations = (options = { getKey: false, forceGet: false }) => {
-  // requestUrl is the key into redux state.urlRequests.
-  const requestUrl = `${config.hablaApiBaseUri}/users/getInvitations`;
+  const requestUrl = buildApiUrl('users/getInvitations');
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = {};
@@ -37,8 +36,7 @@ export const SENT_INVITATIONS_FETCH_SUCCESS = 'sentInvitations/fetch/success';
 
 // The state of the invitation, null | ACCEPTED | DECLINED | EXPIRED, where null means pending.
 export const fetchSentInvitations = (state = null, since = null, options = { getKey: false, forceGet: false }) => {
-  // requestUrl is the key into redux state.urlRequests.
-  const requestUrl = `${config.hablaApiBaseUri}/users/getSentInvitations`;
+  const requestUrl = buildApiUrl('users/getSentInvitations');
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = {};

@@ -1,9 +1,8 @@
-import config from 'src/config/env';
+import { buildApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest } from './urlRequest';
 
 export const inviteNewSubscribers = (users, subscriberOrgId) => {
-  // requestUrl is the key into redux state.urlRequests.
-  const requestUrl = `${config.hablaApiBaseUri}/subscriberOrgs/inviteSubscribers/${subscriberOrgId}`;
+  const requestUrl = buildApiUrl(`subscriberOrgs/inviteSubscribers/${subscriberOrgId}`);
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { users, subscriberOrgId };
@@ -19,8 +18,7 @@ export const inviteNewSubscribers = (users, subscriberOrgId) => {
 };
 
 export const inviteMembersToTeam = (users, teamId) => {
-  // requestUrl is the key into redux state.urlRequests.
-  const requestUrl = `${config.hablaApiBaseUri}/teams/inviteMembers/${teamId}`;
+  const requestUrl = buildApiUrl(`teams/inviteMembers/${teamId}`);
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { users, teamId };
@@ -36,8 +34,7 @@ export const inviteMembersToTeam = (users, teamId) => {
 };
 
 export const inviteMembersToTeamRoom = (users, teamRoomId) => {
-  // requestUrl is the key into redux state.urlRequests.
-  const requestUrl = `${config.hablaApiBaseUri}/teamRooms/inviteMembers/${teamRoomId}`;
+  const requestUrl = buildApiUrl(`teamRooms/inviteMembers/${teamRoomId}`);
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { users, teamRoomId };

@@ -1,7 +1,7 @@
 import queryString from 'querystring';
 import { pickBy } from 'lodash';
 
-import config from 'src/config/env';
+import { buildApiUrl } from 'src/lib/api';
 import { extractKeywords } from 'src/lib/keywords';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
@@ -30,7 +30,7 @@ export const search = (
     })
   );
 
-  const requestUrl = `${config.hablaApiBaseUri.replace('v1', 'v2')}/ckg/${subscriberOrgId}/files?${params}`;
+  const requestUrl = buildApiUrl(`ckg/${subscriberOrgId}/files?${params}`, 'v2');
 
   // Passthrough data that you'll see after going through the reducer. Typically in you mapStateToProps.
   const reduxState = { query };

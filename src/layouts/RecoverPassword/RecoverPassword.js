@@ -3,7 +3,7 @@ import { Form, Spin, message } from 'antd';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-import config from 'src/config/env';
+import { buildApiUrl } from 'src/lib/api';
 import String from 'src/translations';
 import { formShape } from 'src/propTypes';
 import { Button, EmailField } from 'src/components';
@@ -41,7 +41,7 @@ class RecoverPassword extends Component {
 
         // TODO: Move this to Redux
         axios
-          .post(`${config.hablaApiBaseUri}/users/forgotPassword`, { email })
+          .post(buildApiUrl('users/forgotPassword'), { email })
           .then(() => {
             this.setState({ sending: false, emailSent: true });
           })

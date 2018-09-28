@@ -1,10 +1,10 @@
-import config from 'src/config/env';
+import { buildApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const LWREPORTS_DOWNTIMEREASONSLEVELONE_FETCH_SUCCESS = 'lwReports/downtimeReasonsLevelOne/fetch/success';
 
 export const fetchDowntimeReasonsLevelOneReport = (params, options = { getKey: false, forceGet: true }) => {
-  let requestUrl = `${config.hablaApiBaseUri}/reports/lamb-weston/report-d`;
+  let requestUrl = buildApiUrl('reports/lamb-weston/report-d');
 
   const paramsString = Object.keys(params)
     .map(key => `${key}=${encodeURIComponent(params[key])}`)

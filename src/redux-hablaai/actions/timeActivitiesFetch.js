@@ -1,10 +1,10 @@
-import config from 'src/config/env';
+import { buildApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const TIMEACTIVITIES_FETCH_SUCCESS = 'timeactivities/fetch/success';
 
 export const fetchTimeActivitiesBySubscriberOrgId = (subscriberOrgId, options = { getKey: false, forceGet: true }) => {
-  const requestUrl = `${config.hablaApiBaseUri.replace('v1', 'v2')}/ckg/${subscriberOrgId}/files`;
+  const requestUrl = buildApiUrl(`ckg/${subscriberOrgId}/files`, 'v2');
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { subscriberOrgId };

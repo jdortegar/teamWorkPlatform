@@ -1,9 +1,8 @@
-import config from 'src/config/env';
+import { buildApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest } from './urlRequest';
 
 export const updateUser = (updateObject, getKey = false) => {
-  // requestUrl is the key into redux state.urlRequests.
-  const requestUrl = `${config.hablaApiBaseUri}/users/updateUser`;
+  const requestUrl = buildApiUrl('users/updateUser');
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { updateObject };

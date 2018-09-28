@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Form, Spin, Checkbox } from 'antd';
 import axios from 'axios';
 
-import config from 'src/config/env';
+import { buildApiUrl } from 'src/lib/api';
 import String from 'src/translations';
 import { formShape } from 'src/propTypes';
 import { getAwsHeaders } from 'src/actions';
@@ -66,7 +66,7 @@ class Register extends React.Component {
     this.setState({ submitting: true, email });
     const { awsCustomerId } = this.state;
 
-    axios.post(`${config.hablaApiBaseUri}/users/registerUser/`, { email }, getAwsHeaders(awsCustomerId)).then(() => {
+    axios.post(buildApiUrl('users/registerUser'), { email }, getAwsHeaders(awsCustomerId)).then(() => {
       this.setState({ submitting: false, registered: true });
     });
   }

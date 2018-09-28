@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from 'src/config/env';
+import { buildApiUrl } from 'src/lib/api';
 
 export const LOGIN_REQUEST = 'auth/login/request';
 export const LOGIN_SUCCESS = 'auth/login/success';
@@ -13,7 +13,6 @@ export const getAwsHeaders = awsCustomerId => {
 };
 
 export const login = (email, password, awsCustomerId) => {
-  const requestUrl = `${config.hablaApiBaseUri}/auth/login`;
   const params = new URLSearchParams();
   params.append('username', email);
   params.append('password', password);
@@ -21,7 +20,7 @@ export const login = (email, password, awsCustomerId) => {
   return dispatch => {
     dispatch({ type: LOGIN_REQUEST });
 
-    const thunk = axios.post(requestUrl, params, getAwsHeaders(awsCustomerId));
+    const thunk = axios.post(buildApiUrl('auth/login'), params, getAwsHeaders(awsCustomerId));
 
     thunk
       .then(response => {

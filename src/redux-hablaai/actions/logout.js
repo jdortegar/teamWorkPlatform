@@ -1,4 +1,4 @@
-import config from 'src/config/env';
+import { buildApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest } from './urlRequest';
 
 export const LOGOUT_REQUEST = 'auth/logout/request';
@@ -6,7 +6,7 @@ export const LOGOUT_SUCCESS = 'auth/logout/success';
 export const LOGOUT_FAILURE = 'auth/logout/failure';
 
 export const logout = () => {
-  const requestUrl = `${config.hablaApiBaseUri}/auth/logout`;
+  const requestUrl = buildApiUrl('auth/logout');
 
   return dispatch => {
     dispatch({ type: LOGOUT_REQUEST });
