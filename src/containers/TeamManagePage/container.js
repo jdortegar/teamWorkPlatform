@@ -7,7 +7,7 @@ import {
   getTeamMembersOfTeamId,
   getPresencesOfTeamMembersOfTeamId
 } from 'src/selectors';
-import { TeamPage } from 'src/pages';
+import { TeamManagePage } from 'src/pages';
 
 function mapStateToProps(state, props) {
   const { teamId } = props.match.params;
@@ -30,5 +30,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(TeamPage)
+  )(TeamManagePage)
 );

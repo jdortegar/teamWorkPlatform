@@ -200,6 +200,7 @@
     "addDataIntegration": "Add a Data Integration",
     "teamSettings": "Team Settings",
     "manageTeam": "Manage Team",
+    "editTeam": "Edit Team",
     "inviteNewMember": "Invite a New Team Member",
     "addNewTeamRoom": "Add New Team Room",
     "teamCreated": "Created on {{date}}",

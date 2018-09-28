@@ -4,15 +4,7 @@ import PropTypes from 'prop-types';
 
 import String from 'src/translations';
 import { formShape } from 'src/propTypes';
-import {
-  BreadCrumb,
-  SubpageHeader,
-  SimpleCardContainer,
-  TextField,
-  SwitchField,
-  Spinner,
-  Button
-} from 'src/components';
+import { PageHeader, SimpleCardContainer, TextField, SwitchField, Spinner, Button } from 'src/components';
 import './styles/style.css';
 
 const propTypes = {
@@ -86,26 +78,40 @@ class EditTeamPage extends Component {
       return null;
     }
 
+    // Breadcrumb
+    const pageBreadCrumb = {
+      routes: [
+        {
+          title: team.name,
+          url: `/app/team/${team.subscriberOrgId}`
+        },
+        {
+          title: String.t('TeamPage.editTeam')
+        }
+      ]
+    };
+
+    // Page Menu
+    const menuPageHeader = [
+      {
+        icon: 'fas fa-cloud-download-alt',
+        title: 'TeamPage.addDataIntegration',
+        url: ''
+      },
+      {
+        icon: 'fas fa-pencil-alt',
+        title: 'TeamPage.editTeam',
+        url: `/app/editTeam/${teamId}`
+      }
+    ];
+
     return (
       <div className="EditTeamPage-main">
-        <SubpageHeader
-          subscriberOrgId={subscriberOrg.subscriberOrgId}
-          history={this.props.history}
-          breadcrumb={
-            <BreadCrumb
-              subscriberOrg={subscriberOrg}
-              routes={[
-                {
-                  title: subscriberOrg.name,
-                  link: `/app/organization/${subscriberOrg.subscriberOrgId}`
-                },
-                {
-                  title: team.name,
-                  link: `/app/team/${team.teamId}`
-                }
-              ]}
-            />
-          }
+        <PageHeader
+          pageBreadCrumb={pageBreadCrumb}
+          hasMenu={false}
+          menuPageHeader={menuPageHeader}
+          backButton={`/app/team/${teamId}`}
         />
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">

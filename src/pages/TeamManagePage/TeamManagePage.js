@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { message } from 'antd';
 import moment from 'moment';
-import _ from 'lodash';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import String from 'src/translations';
 import getInitials from 'src/utils/helpers';
-import { BreadCrumb, SubpageHeader, Spinner, SimpleCardContainer } from 'src/components';
+import { PageHeader, Spinner, SimpleCardContainer } from 'src/components';
 import Avatar from 'src/components/common/Avatar';
 import CardView from './CardView';
 import messages from './messages';
@@ -15,7 +14,10 @@ import './styles/style.css';
 
 const propTypes = {
   fetchTeamMembersByTeamId: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired
+  }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       teamId: PropTypes.string,
@@ -26,10 +28,11 @@ const propTypes = {
   teamMembersPresences: PropTypes.object.isRequired,
   subscriberOrgById: PropTypes.object.isRequired,
   teams: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  currentSubscriberOrgId: PropTypes.string.isRequired
 };
 
-class TeamPage extends Component {
+class TeamManagePage extends Component {
   constructor(props) {
     super(props);
     this.state = { teamMembersLoaded: false };
@@ -65,35 +68,49 @@ class TeamPage extends Component {
     ) {
       const { teamId } = match.params;
       const team = teams.teamById[teamId];
-      const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
-      const teamMemberFoundByUser = _.find(teamMembers, { userId: user.userId });
-      const isAdmin = teamMemberFoundByUser.teams[teamId].role === 'admin';
+      // const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
+      // const teamMemberFoundByUser = _.find(teamMembers, { userId: user.userId });
+      // const isAdmin = teamMemberFoundByUser.teams[teamId].role === 'admin';
       const initials = getInitials(team.name);
-      const editButton = {
-        showButton: true,
-        isAdmin,
-        url: `/app/editTeam/${teamId}`
-      };
       const className = classNames({ 'opacity-low': !team.active });
+      const subscriberOrgId = this.props.currentSubscriberOrgId;
+
+      // Breadcrumb
+      const pageBreadCrumb = {
+        routes: [
+          {
+            title: team.name,
+            url: `/app/team/${teamId}`
+          },
+          {
+            title: String.t('TeamPage.manageTeam')
+          }
+        ]
+      };
+
+      // Page Menu
+      const menuPageHeader = [
+        {
+          icon: 'fas fa-cloud-download-alt',
+          title: 'TeamPage.addDataIntegration',
+          url: ''
+        },
+        {
+          icon: 'fas fa-pencil-alt',
+          title: 'TeamPage.editTeam',
+          url: `/app/editTeam/${teamId}`
+        }
+      ];
+
       return (
         <div>
-          <SubpageHeader
-            subscriberOrgId={subscriberOrg.subscriberOrgId}
-            ckgLink={{ teamId }}
-            history={this.props.history}
-            breadcrumb={
-              <BreadCrumb
-                subscriberOrg={subscriberOrg}
-                routes={[
-                  {
-                    title: subscriberOrg.name,
-                    link: `/app/organization/${subscriberOrg.subscriberOrgId}`
-                  },
-                  { title: team.name }
-                ]}
-              />
-            }
-            editButton={editButton}
+          <PageHeader
+            subscriberOrgId={subscriberOrgId}
+            pageBreadCrumb={pageBreadCrumb}
+            hasMenu
+            menuName="settings"
+            backButton={`/app/team/${teamId}`}
+            menuPageHeader={menuPageHeader}
           />
           <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
             <Avatar size="x-large" color={team.preferences.iconColor} className={className}>
@@ -121,6 +138,6 @@ class TeamPage extends Component {
   }
 }
 
-TeamPage.propTypes = propTypes;
+TeamManagePage.propTypes = propTypes;
 
-export default TeamPage;
+export default TeamManagePage;

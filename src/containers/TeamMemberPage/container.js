@@ -11,7 +11,8 @@ function mapStateToProps(state) {
   return {
     subscribers: getSubscribersOfSubscriberOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
-    subscriberOrg: getCurrentSubscriberOrg(state)
+    subscriberOrg: getCurrentSubscriberOrg(state),
+    teams: state.teams
   };
 }
 

@@ -4,7 +4,7 @@ import moment from 'moment';
 import _ from 'lodash';
 
 import String from 'src/translations';
-import { BreadCrumb, SubpageHeader, SimpleCardContainer, AvatarWrapper, Spinner } from 'src/components';
+import { PageHeader, SimpleCardContainer, AvatarWrapper, Spinner } from 'src/components';
 import './styles/style.css';
 
 const propTypes = {
@@ -35,24 +35,22 @@ const TeamMemberPage = ({ subscriberOrg, subscribers, subscribersPresences, matc
   };
   const { created, displayName, firstName, lastName, timeZone } = member;
 
+  // Breadcrumb
+  const pageBreadCrumb = {
+    routes: [
+      {
+        title: subscriberOrg.name,
+        url: `/app/organization/${subscriberOrg.subscriberOrgId}`
+      },
+      {
+        title: String.t('teamMemberPage.breadcrumb')
+      }
+    ]
+  };
+
   return (
     <div>
-      <SubpageHeader
-        subscriberOrgId={subscriberOrg.subscriberOrgId}
-        history={history}
-        breadcrumb={
-          <BreadCrumb
-            subscriberOrg={subscriberOrg}
-            routes={[
-              {
-                title: subscriberOrg.name,
-                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
-              },
-              { title: String.t('teamMemberPage.breadcrumb') }
-            ]}
-          />
-        }
-      />
+      <PageHeader pageBreadCrumb={pageBreadCrumb} hasMenu={false} backButton="/app/team/" />
       <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
         <AvatarWrapper size="x-large" user={member} />
         <div className="margin-top-class-b">

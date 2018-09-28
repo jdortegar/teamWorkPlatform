@@ -55,7 +55,8 @@ const propTypes = {
   }).isRequired,
   query: PropTypes.string,
   caseSensitive: PropTypes.bool,
-  andOperator: PropTypes.bool
+  andOperator: PropTypes.bool,
+  showHeader: PropTypes.bool
 };
 
 const defaultProps = {
@@ -65,8 +66,92 @@ const defaultProps = {
   teamRooms: [],
   query: '',
   caseSensitive: false,
-  andOperator: false
+  andOperator: false,
+  showHeader: true
 };
+
+// Breadcrumb
+const pageBreadCrumb = {
+  routes: [
+    {
+      title: 'Corporate Knowledge Graphs'
+    },
+    {
+      title: String.t('graphViewsSelector.timeActivity')
+    }
+  ]
+};
+
+// Page Menu
+const menuPageHeader = [
+  {
+    icon: 'fas fa-chart-area',
+    title: 'graphViewsSelector.timeActivity',
+    url: ''
+  },
+  // {
+  //   icon: 'fas fa-bullseye',
+  //   title: 'graphViewsSelector.teamMemberContribution',
+  //   url: ''
+  // },
+  // {
+  //   icon: 'fas fa-clone',
+  //   title: 'graphViewsSelector.fileLineage',
+  //   url: ''
+  // },
+  // {
+  //   icon: 'fas fa-sitemap',
+  //   title: 'graphViewsSelector.relationshipHeatMap',
+  //   url: ''
+  // },
+  // {
+  //   icon: 'fas fa-bars',
+  //   title: 'graphViewsSelector.smartListView',
+  //   url: ''
+  // },
+  // {
+  //   icon: 'fas fa-stop',
+  //   title: 'graphViewsSelector.customGraph',
+  //   url: ''
+  // },
+  {
+    icon: 'fas fa-chart-bar',
+    title: 'graphViewsSelector.dashboard',
+    url: '',
+    submenu: [
+      {
+        title: 'graphViewsSelector.industryLabel',
+        url: '',
+        className: 'submenuTitle'
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.electronics',
+        url: ''
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.cpg',
+        url: ''
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.manufacturing',
+        url: ''
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.retail',
+        url: ''
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.relationshipHeatMap',
+        url: ''
+      }
+    ]
+  }
+];
 
 class CKGPage extends Component {
   state = {
@@ -222,92 +307,11 @@ class CKGPage extends Component {
       return !excludeFilters.fileTypes[label] && !excludeFilters.integrations[key];
     });
 
-    // Breadcrumb
-    const pageBreadCrumb = {
-      routes: [
-        {
-          title: 'Corporate Knowledge Graphs'
-        },
-        {
-          title: String.t('graphViewsSelector.timeActivity')
-        }
-      ]
-    };
-
-    // Page Menu
-    const menuPageHeader = [
-      {
-        icon: 'fas fa-chart-area',
-        title: 'graphViewsSelector.timeActivity',
-        url: ''
-      },
-      {
-        icon: 'fas fa-bullseye',
-        title: 'graphViewsSelector.teamMemberContribution',
-        url: ''
-      },
-      {
-        icon: 'fas fa-clone',
-        title: 'graphViewsSelector.fileLineage',
-        url: ''
-      },
-      {
-        icon: 'fas fa-sitemap',
-        title: 'graphViewsSelector.relationshipHeatMap',
-        url: ''
-      },
-      {
-        icon: 'fas fa-bars',
-        title: 'graphViewsSelector.smartListView',
-        url: ''
-      },
-      {
-        icon: 'fas fa-stop',
-        title: 'graphViewsSelector.customGraph',
-        url: ''
-      },
-      {
-        icon: 'fas fa-chart-bar',
-        title: 'graphViewsSelector.dashboard',
-        url: '',
-        submenu: [
-          {
-            title: 'graphViewsSelector.industryLabel',
-            url: '',
-            className: 'submenuTitle'
-          },
-          {
-            icon: 'fas fa-chart-bar',
-            title: 'graphViewsSelector.electronics',
-            url: ''
-          },
-          {
-            icon: 'fas fa-chart-bar',
-            title: 'graphViewsSelector.cpg',
-            url: ''
-          },
-          {
-            icon: 'fas fa-chart-bar',
-            title: 'graphViewsSelector.manufacturing',
-            url: ''
-          },
-          {
-            icon: 'fas fa-chart-bar',
-            title: 'graphViewsSelector.retail',
-            url: ''
-          },
-          {
-            icon: 'fas fa-chart-bar',
-            title: 'graphViewsSelector.relationshipHeatMap',
-            url: ''
-          }
-        ]
-      }
-    ];
-
     return (
       <div className="CKGPage">
-        <PageHeader pageBreadCrumb={pageBreadCrumb} hasMenu menuName="settings" menuPageHeader={menuPageHeader} />
+        {this.props.showHeader && (
+          <PageHeader pageBreadCrumb={pageBreadCrumb} hasMenu menuName="settings" menuPageHeader={menuPageHeader} />
+        )}
         <div className="ckg-tools-container">
           <div className="habla-ckg-tools">
             <GraphActivitySelector />

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
-import { Badge, Popover, Menu } from 'antd';
+import { Tooltip, Badge, Popover, Menu } from 'antd';
 import { BreadCrumb } from 'src/components';
 import String from 'src/translations';
 import './styles/style.css';
@@ -11,17 +11,21 @@ const propTypes = {
   pageBreadCrumb: PropTypes.object,
   menuPageHeader: PropTypes.array,
   menuName: PropTypes.string,
-  hasMenu: PropTypes.bool
+  hasMenu: PropTypes.bool,
+  hasNotification: PropTypes.bool,
+  backButton: PropTypes.string
 };
 
 const defaultProps = {
   pageBreadCrumb: {},
   menuName: null,
   hasMenu: false,
-  menuPageHeader: []
+  hasNotification: false,
+  menuPageHeader: [],
+  backButton: ''
 };
 
-function PageHeader({ pageBreadCrumb, menuName, hasMenu, menuPageHeader }) {
+function PageHeader({ pageBreadCrumb, menuName, hasMenu, hasNotification, menuPageHeader, backButton }) {
   const menuItems = menuPageHeader.map(
     item =>
       item.submenu ? (
@@ -57,6 +61,13 @@ function PageHeader({ pageBreadCrumb, menuName, hasMenu, menuPageHeader }) {
     <div className="habla-main-content-header padding-class-a border-bottom-lighter">
       <div className="habla-main-content-header-title">
         <div className="actionButtonsContainer">
+          {backButton !== '' && (
+            <Tooltip placement="top" title={String.t('subPageHeader.linkToCKG')}>
+              <Link to={backButton}>
+                <i className="fas fa-arrow-left fa-2x" />
+              </Link>
+            </Tooltip>
+          )}
           {pageBreadCrumb.routes.length > 2 && (
             <Link to={pageBreadCrumb.routes[0].url}>
               <i className="fas fa-arrow-left fa-2x" />
@@ -76,11 +87,13 @@ function PageHeader({ pageBreadCrumb, menuName, hasMenu, menuPageHeader }) {
             <BreadCrumb subscriberOrg={pageBreadCrumb.subscriberOrg} routes={pageBreadCrumb.routes} />
           </h1>
         </div>
-        <Badge
-          count={0}
-          title="Notifications"
-          style={{ justifyContent: 'flex-end', boxShadow: '#AB1E16 -1px -1px 0px 0px inset' }}
-        />
+        {hasNotification && (
+          <Badge
+            count={0}
+            title="Notifications"
+            style={{ justifyContent: 'flex-end', boxShadow: '#AB1E16 -1px -1px 0px 0px inset' }}
+          />
+        )}
       </div>
     </div>
   );

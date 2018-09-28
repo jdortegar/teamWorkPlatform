@@ -19,5 +19,6 @@ export OrganizationPage from './OrganizationPage';
 export Register from './Register';
 export SearchPage from './SearchPage';
 export TeamMemberPage from './TeamMemberPage';
-export TeamPage from './TeamPage';
+export TeamManagePage from './TeamManagePage';
+export TeamPageV1 from './TeamPageV1';
 export TeamRoomPage from './TeamRoomPage';

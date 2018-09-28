@@ -14,7 +14,8 @@ import {
   ChatContent,
   IntegrationsPage,
   IntegrationDetailsPage,
-  TeamPage,
+  TeamManagePage,
+  TeamPageV1,
   NewTeamPage,
   EditOrganizationPage,
   EditTeamPage,
@@ -196,7 +197,8 @@ class MainContent extends Component {
           <Route exact path={paths.integrations} component={IntegrationsPage} />
           <Route exact path={paths.integrationDetails} component={IntegrationDetailsPage} />
           <Route exact path={paths.organization} component={OrganizationPage} />
-          <Route exact path={paths.team} component={TeamPage} />
+          <Route exact path={paths.team} component={TeamPageV1} />
+          <Route exact path={paths.manageTeam} component={TeamManagePage} />
           <Route exact path={paths.newTeamRoom} component={NewTeamRoomPage} />
           <Route exact path={paths.newTeam} component={NewTeamPage} />
           <Route exact path={paths.editTeam} component={EditTeamPage} />

@@ -29,6 +29,7 @@ export SetNewPassword from './SetNewPassword';
 export Sidebar from './Sidebar';
 export SurveyModal from './SurveyModal';
 export TeamMemberPage from './TeamMemberPage';
-export TeamPage from './TeamPage';
+export TeamManagePage from './TeamManagePage';
+export TeamPageV1 from './TeamPageV1';
 export TeamRoomPage from './TeamRoomPage';
 export VerifyAccount from './VerifyAccount';
