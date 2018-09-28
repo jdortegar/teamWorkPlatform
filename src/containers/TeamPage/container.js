@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { fetchTeamRoomsByTeamId, fetchTeamMembersByTeamId } from 'src/actions';
+import { fetchTeamMembersByTeamId } from 'src/actions';
 import {
   getCurrentUser,
   getTeamRoomsOfTeamIdSortedAlphabetically,
@@ -22,12 +22,9 @@ function mapStateToProps(state, props) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    fetchTeamRoomsByTeamId: teamId => dispatch(fetchTeamRoomsByTeamId(teamId)),
-    fetchTeamMembersByTeamId: teamId => dispatch(fetchTeamMembersByTeamId(teamId))
-  };
-}
+const mapDispatchToProps = {
+  fetchTeamMembersByTeamId
+};
 
 export default withRouter(
   connect(

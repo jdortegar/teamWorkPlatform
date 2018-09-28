@@ -3,10 +3,8 @@ import { Tooltip, Collapse } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import classNames from 'classnames';
 
 import String from 'src/translations';
-import getInitials from 'src/utils/helpers';
 import { AvatarWrapper, SimpleCardContainer, SimpleHeader } from 'src/components';
 import Avatar from 'src/components/common/Avatar';
 
@@ -15,13 +13,12 @@ const { Panel } = Collapse;
 const propTypes = {
   userId: PropTypes.string.isRequired,
   team: PropTypes.object.isRequired,
-  teamRooms: PropTypes.array.isRequired,
   teamMembers: PropTypes.array.isRequired,
   teamMembersPresences: PropTypes.object.isRequired
 };
 
 function CardView(props) {
-  const { team, teamRooms, teamMembers, teamMembersPresences } = props;
+  const { team, teamMembers, teamMembersPresences } = props;
 
   const members = teamMembers.map(member => ({
     ...member,
@@ -30,26 +27,6 @@ function CardView(props) {
 
   const userMember = members.filter(({ userId }) => userId === props.userId)[0];
   const isAdmin = userMember.teams[team.teamId].role === 'admin';
-
-  const filteredRooms = teamRooms.filter(r => isAdmin || r.active);
-
-  const renderTeamRooms = () =>
-    filteredRooms.map(({ name, teamRoomId, preferences, active }) => {
-      const initials = getInitials(name);
-      const className = classNames({ 'opacity-low': !active });
-      return (
-        <div key={teamRoomId} className="mr-1 mb-2">
-          <Tooltip placement="top" title={name}>
-            <Link to={`/app/teamRoom/${teamRoomId}`}>
-              <Avatar size="large" color={preferences.iconColor} className={className}>
-                {initials}
-              </Avatar>
-              <div className="habla-label align-center-class card-label">{name}</div>
-            </Link>
-          </Tooltip>
-        </div>
-      );
-    });
 
   const renderTeamMembers = () =>
     members.map(member => {
@@ -82,20 +59,11 @@ function CardView(props) {
     </div>
   );
 
-  const roomsSection = String.t('cardView.roomsHeader', { count: filteredRooms.length });
   const membersSection = String.t('cardView.membersHeader', { count: members.length });
 
   return (
     <div>
       <Collapse defaultActiveKey={['1', '2', '3']} bordered={false}>
-        <Panel header={<SimpleHeader text={roomsSection} />} key="1">
-          <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {isAdmin &&
-              team.active &&
-              renderAddCard(String.t('cardView.addNewTeamRoom'), `/app/createTeamRoom/${team.teamId}`)}
-            {renderTeamRooms(isAdmin)}
-          </SimpleCardContainer>
-        </Panel>
         <Panel header={<SimpleHeader text={membersSection} />} key="2">
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
             {isAdmin &&

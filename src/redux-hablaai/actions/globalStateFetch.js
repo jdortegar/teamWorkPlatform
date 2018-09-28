@@ -1,6 +1,5 @@
 import { fetchSubscriberOrgs } from './subscriberOrgsFetch';
 import { fetchTeams } from './teamsFetch';
-import { fetchTeamRooms } from './teamRoomsFetch';
 import { fetchReadMessages } from './readMessagesFetch';
 import { fetchSubscribersBySubscriberOrgId } from './subscribersFetch';
 import { fetchSurveys } from './surveys';
@@ -21,9 +20,6 @@ export const fetchGlobalState = () => (dispatch, getState) => {
   }
   if (Object.keys(state.teams.teamById).length === 0 || orgNotFetched) {
     dispatch(fetchTeams());
-  }
-  if (Object.keys(state.teamRooms.teamRoomById).length === 0 || orgNotFetched) {
-    dispatch(fetchTeamRooms());
   }
   if (Object.keys(state.readMessages.readMessagesByConversationId).length === 0) {
     dispatch(fetchReadMessages());

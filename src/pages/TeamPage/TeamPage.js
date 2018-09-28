@@ -14,7 +14,6 @@ import messages from './messages';
 import './styles/style.css';
 
 const propTypes = {
-  fetchTeamRoomsByTeamId: PropTypes.func.isRequired,
   fetchTeamMembersByTeamId: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.shape({
@@ -25,7 +24,6 @@ const propTypes = {
   }).isRequired,
   teamMembers: PropTypes.array.isRequired,
   teamMembersPresences: PropTypes.object.isRequired,
-  teamRooms: PropTypes.array.isRequired,
   subscriberOrgById: PropTypes.object.isRequired,
   teams: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired
@@ -34,7 +32,7 @@ const propTypes = {
 class TeamPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { teamRoomsLoaded: false, teamMembersLoaded: false };
+    this.state = { teamMembersLoaded: false };
   }
 
   componentDidMount() {
@@ -45,7 +43,6 @@ class TeamPage extends Component {
     }
     const { teamId, status } = match.params;
 
-    this.props.fetchTeamRoomsByTeamId(teamId).then(() => this.setState({ teamRoomsLoaded: true }));
     this.props.fetchTeamMembersByTeamId(teamId).then(() => this.setState({ teamMembersLoaded: true }));
     if (status) {
       message.success(messages[status]);
@@ -53,21 +50,18 @@ class TeamPage extends Component {
   }
 
   render() {
-    const { match, teamRooms, teams, teamMembers, teamMembersPresences, subscriberOrgById, user } = this.props;
+    const { match, teams, teamMembers, teamMembersPresences, subscriberOrgById, user } = this.props;
     if (
-      teamRooms &&
       match &&
       match.params &&
       match.params.teamId &&
-      teamRooms &&
       teams &&
       teams.teamById[match.params.teamId] &&
       teamMembers &&
       teamMembers.length > 0 &&
       teamMembersPresences &&
       subscriberOrgById &&
-      this.state.teamMembersLoaded &&
-      this.state.teamRoomsLoaded
+      this.state.teamMembersLoaded
     ) {
       const { teamId } = match.params;
       const team = teams.teamById[teamId];
@@ -116,7 +110,6 @@ class TeamPage extends Component {
             <CardView
               userId={user.userId}
               team={team}
-              teamRooms={teamRooms}
               teamMembers={teamMembers}
               teamMembersPresences={teamMembersPresences}
             />
