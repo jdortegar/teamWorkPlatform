@@ -5,7 +5,7 @@ import {
   SEARCH_CLEAR,
   SEARCH_STALE,
   TOGGLE_CASE_SENSITIVE,
-  TOGGLE_AND_OPERATOR,
+  TOGGLE_EXACT_MATCH,
   SUBSCRIBERORG_SETCURRENT
 } from 'src/actions';
 
@@ -14,7 +14,7 @@ const INITIAL_STATE = {
   query: '',
   keywords: [],
   caseSensitive: false,
-  andOperator: false,
+  exactMatch: false,
   resultsCount: 0
 };
 
@@ -47,8 +47,8 @@ const searchReducer = (state = INITIAL_STATE, action) => {
       return { ...state, loading: false };
     case TOGGLE_CASE_SENSITIVE:
       return { ...state, caseSensitive: action.payload.caseSensitive };
-    case TOGGLE_AND_OPERATOR:
-      return { ...state, andOperator: action.payload.andOperator };
+    case TOGGLE_EXACT_MATCH:
+      return { ...state, exactMatch: action.payload.exactMatch };
     case SUBSCRIBERORG_SETCURRENT:
       return { ...INITIAL_STATE };
     default:

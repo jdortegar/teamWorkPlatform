@@ -277,7 +277,7 @@
     "smartSearchPlaceholder": "Smart Search...",
     "searchMenuTitle": "Smart Search Filters",
     "searchCaseSensitive": "Case Sensitive",
-    "searchAndOperator": "AND Operator"
+    "searchExactMatch": "Exact Match"
   },
   "IntegrationCard": {
     "expired": "Expired",

@@ -4,4 +4,4 @@ export const getSearchKeywords = state => state.search.keywords;
 
 export const isSearchLoading = state => state.search.loading;
 export const isSearchCaseSensitive = state => state.search.caseSensitive;
-export const hasSearchAndOperator = state => state.search.andOperator;
+export const isSearchExactMatch = state => state.search.exactMatch;

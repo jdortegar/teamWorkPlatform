@@ -105,16 +105,16 @@ class SearchPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.currentSubscriberOrgId !== nextProps.currentSubscriberOrgId) {
-      const { keywords, currentSubscriberOrgId, caseSensitive, andOperator } = nextProps;
+      const { keywords, currentSubscriberOrgId, caseSensitive, exactMatch } = nextProps;
       const query = keywords.join(' ');
-      this.props.search(query, currentSubscriberOrgId, caseSensitive, andOperator);
+      this.props.search(query, currentSubscriberOrgId, caseSensitive, exactMatch);
     }
   }
 
   handleRemoveKeywordClick = keyword => {
-    const { keywords, currentSubscriberOrgId, caseSensitive, andOperator } = this.props;
+    const { keywords, currentSubscriberOrgId, caseSensitive, exactMatch } = this.props;
     const query = _.without(keywords, keyword).join(' ');
-    this.props.search(query, currentSubscriberOrgId, caseSensitive, andOperator);
+    this.props.search(query, currentSubscriberOrgId, caseSensitive, exactMatch);
   };
 
   handleOwnerFilterClick = key => {
@@ -256,7 +256,7 @@ SearchPage.propTypes = {
   toggleFileTypeFilter: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   caseSensitive: PropTypes.bool,
-  andOperator: PropTypes.bool,
+  exactMatch: PropTypes.bool,
   keywords: PropTypes.array,
   results: PropTypes.array,
   owners: PropTypes.array,
@@ -268,7 +268,7 @@ SearchPage.propTypes = {
 SearchPage.defaultProps = {
   loading: false,
   caseSensitive: false,
-  andOperator: false,
+  exactMatch: false,
   keywords: [],
   results: [],
   owners: [],

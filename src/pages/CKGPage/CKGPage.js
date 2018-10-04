@@ -55,7 +55,7 @@ const propTypes = {
   }).isRequired,
   query: PropTypes.string,
   caseSensitive: PropTypes.bool,
-  andOperator: PropTypes.bool,
+  exactMatch: PropTypes.bool,
   showHeader: PropTypes.bool
 };
 
@@ -66,7 +66,7 @@ const defaultProps = {
   teamRooms: [],
   query: '',
   caseSensitive: false,
-  andOperator: false,
+  exactMatch: false,
   showHeader: true
 };
 
@@ -170,7 +170,7 @@ class CKGPage extends Component {
       match,
       query,
       caseSensitive,
-      andOperator
+      exactMatch
     } = this.props;
 
     if (
@@ -184,7 +184,7 @@ class CKGPage extends Component {
     }
 
     const { subscriberOrgId } = match.params;
-    search(query, subscriberOrgId, caseSensitive, andOperator);
+    search(query, subscriberOrgId, caseSensitive, exactMatch);
 
     if (currentSubscriberOrgId !== subscriberOrgId) {
       setCurrentSubscriberOrgId(subscriberOrgId);

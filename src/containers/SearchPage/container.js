@@ -10,7 +10,7 @@ import {
   getSearchQuery,
   isSearchLoading,
   isSearchCaseSensitive,
-  hasSearchAndOperator
+  isSearchExactMatch
 } from 'src/selectors';
 
 const mapStateToProps = state => ({
@@ -22,7 +22,7 @@ const mapStateToProps = state => ({
   query: getSearchQuery(state),
   loading: isSearchLoading(state),
   caseSensitive: isSearchCaseSensitive(state),
-  andOperator: hasSearchAndOperator(state),
+  exactMatch: isSearchExactMatch(state),
   keywords: getSearchKeywords(state),
   currentSubscriberOrgId: getCurrentSubscriberOrgId(state)
 });

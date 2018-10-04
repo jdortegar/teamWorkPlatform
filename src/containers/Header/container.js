@@ -1,15 +1,21 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Header } from 'src/components';
-import { getCurrentUser, getCurrentSubscriberOrgId } from 'src/selectors';
-import { logoutUser, updateUser, search, clearSearch, toggleCaseSensitive, toggleAndOperator } from 'src/actions';
+import {
+  getCurrentUser,
+  getCurrentSubscriberOrgId,
+  getSearchQuery,
+  isSearchCaseSensitive,
+  isSearchExactMatch
+} from 'src/selectors';
+import { logoutUser, updateUser, search, clearSearch, toggleCaseSensitive, toggleExactMatch } from 'src/actions';
 
 function mapStateToProps(state) {
   return {
     user: getCurrentUser(state),
-    query: state.search.query,
-    caseSensitive: state.search.caseSensitive,
-    andOperator: state.search.andOperator,
+    query: getSearchQuery(state),
+    caseSensitive: isSearchCaseSensitive(state),
+    exactMatch: isSearchExactMatch(state),
     currentSubscriberOrgId: getCurrentSubscriberOrgId(state)
   };
 }
@@ -20,7 +26,7 @@ const mapDispatchToProps = {
   search,
   clearSearch,
   toggleCaseSensitive,
-  toggleAndOperator
+  toggleExactMatch
 };
 
 export default withRouter(

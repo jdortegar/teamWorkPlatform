@@ -6,7 +6,7 @@ import {
   getTeamRooms,
   getSearchQuery,
   isSearchCaseSensitive,
-  hasSearchAndOperator
+  isSearchExactMatch
 } from 'src/selectors';
 import {
   fetchTimeActivitiesBySubscriberOrgId,
@@ -27,7 +27,7 @@ const mapStateToProps = state => ({
   teamRooms: getTeamRooms(state),
   query: getSearchQuery(state),
   caseSensitive: isSearchCaseSensitive(state),
-  andOperator: hasSearchAndOperator(state)
+  exactMatch: isSearchExactMatch(state)
 });
 
 const mapDispatchToProps = {

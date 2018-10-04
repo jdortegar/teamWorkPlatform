@@ -10,14 +10,14 @@ export const SEARCH_SUCCESS = 'search/success';
 export const SEARCH_FAILURE = 'search/failure';
 export const SEARCH_STALE = 'search/stale';
 export const TOGGLE_CASE_SENSITIVE = 'search/toggleCaseSensitive';
-export const TOGGLE_AND_OPERATOR = 'search/toggleAndOperator';
+export const TOGGLE_EXACT_MATCH = 'search/toggleExactMatch';
 
 // forceGet: true - disabling cache in search requests
 export const search = (
   rawQuery = undefined,
   subscriberOrgId,
   caseSensitive = false,
-  andOperator = false,
+  exactMatch = false,
   options = { getKey: false, forceGet: true }
 ) => {
   const keywords = extractKeywords(rawQuery);
@@ -26,7 +26,7 @@ export const search = (
     pickBy({
       query,
       caseSensitive: caseSensitive ? 1 : 0,
-      andOperator: andOperator ? 1 : 0
+      andOperator: exactMatch ? 1 : 0
     })
   );
 
@@ -87,9 +87,9 @@ export const toggleCaseSensitive = caseSensitive => dispatch => {
   });
 };
 
-export const toggleAndOperator = andOperator => dispatch => {
+export const toggleExactMatch = exactMatch => dispatch => {
   dispatch({
-    type: TOGGLE_AND_OPERATOR,
-    payload: { andOperator }
+    type: TOGGLE_EXACT_MATCH,
+    payload: { exactMatch }
   });
 };
