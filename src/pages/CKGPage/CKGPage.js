@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import * as d3 from 'd3';
 import { Icon } from 'antd';
+import { Link } from 'react-router-dom';
 
 import String from 'src/translations';
 import { integrationKeyFromFile } from 'src/utils/dataIntegrations';
@@ -74,7 +75,7 @@ const defaultProps = {
 const pageBreadCrumb = {
   routes: [
     {
-      title: 'Corporate Knowledge Graphs'
+      title: String.t('ckgPage.title')
     },
     {
       title: String.t('graphViewsSelector.timeActivity')
@@ -338,6 +339,16 @@ class CKGPage extends Component {
             </a>
           </div>
         </div>
+
+        {this.props.files.integrations.length === 0 && (
+          <div className="CKGPage__center-message-container">
+            <div className="CKGPage__center-message">
+              <Link to={`/app/integrations/${this.props.currentSubscriberOrgId}`}>
+                {String.t('ckgPage.AddDataIntegration')}
+              </Link>
+            </div>
+          </div>
+        )}
 
         <TimeActivityGraph
           files={filesFiltered.map(buildDataObject)}
