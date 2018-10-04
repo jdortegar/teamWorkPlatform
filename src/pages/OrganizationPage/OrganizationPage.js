@@ -132,6 +132,11 @@ class OrganizationPage extends Component {
       // Page Menu
       const menuPageHeader = [
         {
+          icon: 'fas fa-cog',
+          title: 'OrganizationPage.manageTeams',
+          url: `/app/editOrganization/${subscriberOrgId}/teams`
+        },
+        {
           icon: 'fas fa-pencil-alt',
           title: 'OrganizationPage.editSection',
           url: `/app/editOrganization/${subscriberOrgId}`

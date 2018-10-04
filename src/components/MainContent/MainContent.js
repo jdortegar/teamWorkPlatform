@@ -10,14 +10,12 @@ import String from 'src/translations';
 import { sortByLastCreatedFirst } from 'src/redux-hablaai/selectors/helpers';
 import {
   HomePage,
-  OrganizationPage,
   ChatContent,
   IntegrationsPage,
   IntegrationDetailsPage,
   TeamManagePage,
   TeamPageV1,
   NewTeamPage,
-  EditOrganizationPage,
   EditTeamPage,
   EditTeamRoomPage,
   NewTeamRoomPage,
@@ -32,7 +30,10 @@ import {
   SearchPage,
   DashboardPage,
   NotificationsPage,
-  AcceptInvitationPage
+  AcceptInvitationPage,
+  OrganizationPage,
+  OrganizationManageTeams,
+  EditOrganizationPage
 } from 'src/containers';
 import './styles/style.css';
 
@@ -196,14 +197,12 @@ class MainContent extends Component {
           <Route exact path={paths.app} component={HomePage} />
           <Route exact path={paths.integrations} component={IntegrationsPage} />
           <Route exact path={paths.integrationDetails} component={IntegrationDetailsPage} />
-          <Route exact path={paths.organization} component={OrganizationPage} />
           <Route exact path={paths.team} component={TeamPageV1} />
           <Route exact path={paths.manageTeam} component={TeamManagePage} />
           <Route exact path={paths.newTeamRoom} component={NewTeamRoomPage} />
           <Route exact path={paths.newTeam} component={NewTeamPage} />
           <Route exact path={paths.editTeam} component={EditTeamPage} />
           <Route exact path={paths.editTeamRoom} component={EditTeamRoomPage} />
-          <Route exact path={paths.editOrganization} component={EditOrganizationPage} />
           <Route exact path={paths.editUser} component={EditUserPage} />
           <Route exact path={paths.inviteNewMember} component={InviteNewMemberPage} />
           <Route exact path={paths.inviteToTeam} component={InviteToTeamPage} />
@@ -216,6 +215,9 @@ class MainContent extends Component {
           <Route exact path={paths.search} component={SearchPage} />
           <Route exact path={paths.notifications} component={NotificationsPage} />
           <Route exact path={paths.bookmarks} component={BookmarksPage} />
+          <Route exact path={paths.organization} component={OrganizationPage} />
+          <Route exact path={paths.editOrganization} component={EditOrganizationPage} />
+          <Route exact path={paths.organizationManageTeams} component={OrganizationManageTeams} />
         </Switch>
       </Content>
     );

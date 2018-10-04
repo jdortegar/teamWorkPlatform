@@ -19,7 +19,9 @@
 }
 .habla-button--type-main,
 .habla-button--type-main:focus {
+  border: none;
   background: #32a953;
+  color: #fff;
 }
 .habla-button--type-main:hover {
   background: #008c3f;

@@ -193,7 +193,10 @@
       "other": "Your Invitations have been sent."
     },
     "occupiedSpace": "{{occupied}}GB of {{remain}}GB",
-    "filesShared": "{{count}} Files Shared"
+    "filesShared": "{{count}} Files Shared",
+    "manageTeams": "Manage Teams",
+    "manageTeamMembers": "Manage Team Members",
+    "manageDataIntegrations": "Manage Data Integrations"
   },
   "TeamPage": {
     "activeStatus": "Active",
@@ -744,5 +747,12 @@
   },
   "defaultInfo": {
     "pageTitle": "Default Page"
+  },
+  "OrganizationManageteams": {
+    "title": "Manage Teams ({{count}})",
+    "activeState": "ON",
+    "inactiveState": "OFF",
+    "setActive": "Set Active",
+    "setInactive": "Set Inactive"
   }
 }

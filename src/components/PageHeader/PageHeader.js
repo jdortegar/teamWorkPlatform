@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
-import { Tooltip, Badge, Popover, Menu } from 'antd';
+import { Tooltip, Badge, Popover, Menu, Button } from 'antd';
 import { BreadCrumb } from 'src/components';
 import String from 'src/translations';
 import './styles/style.css';
@@ -13,6 +13,7 @@ const propTypes = {
   menuName: PropTypes.string,
   hasMenu: PropTypes.bool,
   hasNotification: PropTypes.bool,
+  buttonOptions: PropTypes.object,
   backButton: PropTypes.string
 };
 
@@ -21,11 +22,14 @@ const defaultProps = {
   menuName: null,
   hasMenu: false,
   hasNotification: false,
+  buttonOptions: {
+    enabled: false
+  },
   menuPageHeader: [],
   backButton: ''
 };
 
-function PageHeader({ pageBreadCrumb, menuName, hasMenu, hasNotification, menuPageHeader, backButton }) {
+function PageHeader({ pageBreadCrumb, menuName, hasMenu, hasNotification, menuPageHeader, backButton, buttonOptions }) {
   const menuItems = menuPageHeader.map(
     item =>
       item.submenu ? (
@@ -84,7 +88,7 @@ function PageHeader({ pageBreadCrumb, menuName, hasMenu, hasNotification, menuPa
         </div>
         <div className="habla-main-content-header-title">
           <h1 className="Subpage-header__title habla-title">
-            <BreadCrumb subscriberOrg={pageBreadCrumb.subscriberOrg} routes={pageBreadCrumb.routes} />
+            <BreadCrumb routes={pageBreadCrumb.routes} />
           </h1>
         </div>
         {hasNotification && (
@@ -93,6 +97,16 @@ function PageHeader({ pageBreadCrumb, menuName, hasMenu, hasNotification, menuPa
             title="Notifications"
             style={{ justifyContent: 'flex-end', boxShadow: '#AB1E16 -1px -1px 0px 0px inset' }}
           />
+        )}
+        {buttonOptions.enabled && (
+          <Button
+            type="main"
+            className={buttonOptions.className}
+            onClick={buttonOptions.clickFunction}
+            loading={buttonOptions.loading}
+          >
+            {buttonOptions.children}
+          </Button>
         )}
       </div>
     </div>
