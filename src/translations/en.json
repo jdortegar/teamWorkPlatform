@@ -748,11 +748,20 @@
   "defaultInfo": {
     "pageTitle": "Default Page"
   },
-  "OrganizationManageteams": {
-    "title": "Manage Teams ({{count}})",
+  "OrganizationManageTeams": {
+    "title": "Teams ({{count}})",
     "activeState": "ON",
     "inactiveState": "OFF",
     "setActive": "Set Active",
-    "setInactive": "Set Inactive"
+    "setInactive": "Set Inactive",
+    "addNew": "Add New"
+  },
+  "OrganizationManageMembers": {
+    "title": "Members ({{count}})",
+    "activeState": "ON",
+    "inactiveState": "OFF",
+    "setActive": "Set Active",
+    "setInactive": "Set Inactive",
+    "addNew": "Add New"
   }
 }

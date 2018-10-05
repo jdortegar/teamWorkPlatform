@@ -33,5 +33,6 @@ export const paths = {
   // Admin Organization
   organization: '/app/organization/:subscriberOrgId/:status?',
   editOrganization: '/app/editOrganization/:subscriberOrgId',
-  organizationManageTeams: '/app/editOrganization/:subscriberOrgId/teams'
+  organizationManageTeams: '/app/editOrganization/:subscriberOrgId/teams',
+  organizationManageMembers: '/app/editOrganization/:subscriberOrgId/members'
 };

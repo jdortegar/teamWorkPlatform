@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import _ from 'lodash';
 
 import String from 'src/translations';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
-import { PageHeader, SimpleCardContainer } from 'src/components';
+import { PageHeader, SimpleCardContainer, AvatarWithLabel, Spinner } from 'src/components';
 import { Table, Tooltip, Input, Icon, Divider, Switch } from 'antd';
-import Avatar from 'src/components/common/Avatar';
 import './styles/style.css';
 
 const propTypes = {
@@ -30,37 +28,19 @@ const defaultProps = {
   teams: []
 };
 
-function renderAvatar(item, enabled) {
-  const { preferences } = item;
-  const className = classNames({
-    'opacity-low': !enabled
-  });
-  if (preferences.logo) {
-    return <Avatar src={preferences.logo} color="#FFF" className={className} />;
-  }
-  if (preferences.avatarBase64) {
-    return <Avatar src={`data:image/jpeg;base64, ${preferences.avatarBase64}`} className={className} />;
-  }
-  const nameInitial = item.name.substring(0, 1).toUpperCase();
-  return (
-    <Avatar color={preferences.iconColor} className={className}>
-      {nameInitial}
-    </Avatar>
-  );
-}
-
 class OrganizationManageTeams extends Component {
   constructor(props) {
     super(props);
-
     const { teams, currentSubscriberOrgId } = this.props;
+
+    // New const for filter teams on search
     const teamsActive = teams.filter(team => team.subscriberOrgId === currentSubscriberOrgId && team.active);
-
     this.teamsActive = teamsActive;
-
     this.state = {
       teamsActive
     };
+
+    // Bind this to functions
     this.handleSearch = this.handleSearch.bind(this);
   }
 
@@ -110,16 +90,20 @@ class OrganizationManageTeams extends Component {
 
   // Get team array
   renderTeams(teamsActive) {
-    const { user } = this.props;
+    const { user, match } = this.props;
+    const { subscriberOrgId } = match.params;
+
+    // If no teams, no render
     if (teamsActive.length === 0) {
       return null;
     }
 
+    // Sort teams by Name
     let teamsByOrgId = teamsActive.sort(sortByName);
-
     teamsByOrgId = teamsByOrgId.length === 0 && teamsByOrgId[0] === undefined ? [] : primaryAtTop(teamsByOrgId);
 
-    return teamsByOrgId.map((teamEl, index) => {
+    // Array to save teams, 0 element is for add team button
+    const teamArray = teamsByOrgId.map((teamEl, index) => {
       let isAdmin = false;
       if (teamEl.teamMembers) {
         const teamMemberFoundByUser = _.find(teamEl.teamMembers, { userId: user.userId });
@@ -129,7 +113,7 @@ class OrganizationManageTeams extends Component {
         return null;
       }
       return {
-        key: index,
+        key: index + 1,
         team: teamEl,
         owner: teamEl.owner,
         status: {
@@ -139,121 +123,156 @@ class OrganizationManageTeams extends Component {
         editTeam: teamEl.teamId
       };
     });
+
+    // Add team button
+    teamArray.unshift({
+      key: 0,
+      team: {
+        name: String.t('OrganizationManageTeams.addNew'),
+        preferences: {
+          logo: 'fa fa-plus'
+        },
+        editUrl: `/app/createTeam/${subscriberOrgId}`
+      },
+      status: {
+        enabled: false
+      }
+    });
+
+    return teamArray;
   }
 
   render() {
     // General Consts
     const { match } = this.props;
     const { subscriberOrgId } = match.params;
-    // Breadcrumb
-    const pageBreadCrumb = {
-      routes: [
+    if (match && match.params && match.params.subscriberOrgId && this.state.teamsActive) {
+      // Breadcrumb
+      const pageBreadCrumb = {
+        routes: [
+          {
+            title: String.t('OrganizationPage.title')
+          },
+          {
+            title: String.t('OrganizationManageTeams.title', { count: this.state.teamsActive.length })
+          }
+        ]
+      };
+      // Page Menu
+      const menuPageHeader = [
         {
-          title: String.t('OrganizationPage.title')
+          icon: 'fas fa-cog',
+          title: 'OrganizationPage.manageTeamMembers',
+          url: `/app/editOrganization/${subscriberOrgId}/members`
         },
         {
-          title: String.t('OrganizationManageteams.title', { count: this.state.teamsActive.length })
+          icon: 'fas fa-pencil-alt',
+          title: 'OrganizationPage.editSection',
+          url: `/app/editOrganization/${subscriberOrgId}`
         }
-      ]
-    };
-    // Page Menu
-    const menuPageHeader = [
-      {
-        icon: 'fas fa-pencil-alt',
-        title: 'OrganizationPage.editSection',
-        url: `/app/editOrganization/${subscriberOrgId}`
-      }
-    ];
+      ];
 
-    // Table Columns
-    const columns = [
-      {
-        title: 'NAME',
-        dataIndex: 'team',
-        key: 'team',
-        render: team => (
-          <div className="table-team-container">
-            {renderAvatar(team, team.active)}
-            <span className="habla-table-label">{team.name}</span>
-          </div>
-        )
-      },
-      {
-        title: 'Owner',
-        dataIndex: 'owner',
-        key: 'owner',
-        render: ownerId => <span className="habla-table-label">{ownerId}</span>
-      },
-      {
-        title: 'Status',
-        dataIndex: 'status',
-        key: 'status',
-        render: status => (
-          <Tooltip
-            placement="top"
-            title={
-              status.enabled
-                ? String.t('OrganizationManageteams.setInactive')
-                : String.t('OrganizationManageteams.setActive')
-            }
-          >
-            <Switch
-              checkedChildren={String.t('OrganizationManageteams.activeState')}
-              unCheckedChildren={String.t('OrganizationManageteams.inactiveState')}
-              // onChange={e => this.handleChangeStatus(status.teamId, e)}
-              checked={status.enabled}
-            />
-          </Tooltip>
-        )
-      },
-      {
-        title: 'Edit',
-        key: 'editTeam',
-        dataIndex: 'editTeam',
-        render: teamEditId => (
-          <Tooltip
-            placement="top"
-            title={
-              <div>
-                <span onClick={() => this.handleEditTeam('editTeam', teamEditId)}>
-                  <i className="fas fa-pencil-alt fa-lg" />
+      // Table Columns
+      const columns = [
+        {
+          title: 'NAME',
+          dataIndex: 'team',
+          key: 'team',
+          render: team => {
+            if (!team) return false;
+            return <AvatarWithLabel item={team} enabled={team.active} />;
+          }
+        },
+        {
+          title: 'Owner',
+          dataIndex: 'owner',
+          key: 'owner',
+          render: ownerId => {
+            if (!ownerId) return false;
+            return <span className="habla-table-label">{ownerId}</span>;
+          }
+        },
+        {
+          title: 'Status',
+          dataIndex: 'status',
+          key: 'status',
+          render: status => {
+            if (!status.enabled) return false;
+            return (
+              <Tooltip
+                placement="top"
+                title={
+                  status.enabled
+                    ? String.t('OrganizationManageTeams.setInactive')
+                    : String.t('OrganizationManageTeams.setActive')
+                }
+              >
+                <Switch
+                  checkedChildren={String.t('OrganizationManageTeams.activeState')}
+                  unCheckedChildren={String.t('OrganizationManageTeams.inactiveState')}
+                  // onChange={e => this.handleChangeStatus(status.teamId, e)}
+                  checked={status.enabled}
+                />
+              </Tooltip>
+            );
+          }
+        },
+        {
+          title: 'Edit',
+          key: 'editTeam',
+          dataIndex: 'editTeam',
+          render: editTeamId => {
+            if (!editTeamId) return false;
+            return (
+              <Tooltip
+                placement="top"
+                title={
+                  <div>
+                    <span onClick={() => this.handleEditTeam('editTeam', editTeamId)}>
+                      <i className="fas fa-pencil-alt fa-lg" />
+                    </span>
+                    <Divider type="vertical" style={{ height: '20px' }} />
+                    <span onClick={() => this.handleEditTeam('deleteTeam', editTeamId)}>
+                      <i className="fas fa-times fa-lg" />
+                    </span>
+                  </div>
+                }
+              >
+                <span className="p-1">
+                  <i className="fas fa-ellipsis-h fa-lg" />
                 </span>
-                <Divider type="vertical" style={{ height: '20px' }} />
-                <span onClick={() => this.handleEditTeam('deleteTeam', teamEditId)}>
-                  <i className="fas fa-times fa-lg" />
-                </span>
-              </div>
-            }
-          >
-            <span className="p-1">
-              <i className="fas fa-ellipsis-h fa-lg" />
-            </span>
-          </Tooltip>
-        )
-      }
-    ];
+              </Tooltip>
+            );
+          }
+        }
+      ];
 
-    return (
-      <div className="editOrgPage-main">
-        <PageHeader
-          pageBreadCrumb={pageBreadCrumb}
-          hasMenu
-          menuName="settings"
-          menuPageHeader={menuPageHeader}
-          backButton={`/app/organization/${subscriberOrgId}`}
-        />
-        <SimpleCardContainer className="subpage-block habla-color-lighertblue padding-class-a">
-          <div className="header-search-container">
-            <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleSearch} />
-          </div>
-        </SimpleCardContainer>
-        <SimpleCardContainer className="subpage-block p-0">
-          <div className="table-container">
-            <Table columns={columns} dataSource={this.renderTeams(this.state.teamsActive)} pagination={false} />
-          </div>
-        </SimpleCardContainer>
-      </div>
-    );
+      return (
+        <div className="editOrgPage-main">
+          <PageHeader
+            pageBreadCrumb={pageBreadCrumb}
+            hasMenu
+            menuName="settings"
+            menuPageHeader={menuPageHeader}
+            backButton={`/app/organization/${subscriberOrgId}`}
+          />
+          <SimpleCardContainer className="subpage-block habla-color-lighertblue padding-class-a">
+            <div className="header-search-container">
+              <Input
+                prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                onChange={this.handleSearch}
+              />
+            </div>
+          </SimpleCardContainer>
+          <SimpleCardContainer className="subpage-block p-0">
+            <div className="table-container">
+              <Table columns={columns} dataSource={this.renderTeams(this.state.teamsActive)} pagination={false} />
+            </div>
+          </SimpleCardContainer>
+        </div>
+      );
+    }
+    return <Spinner />;
   }
 }
 
