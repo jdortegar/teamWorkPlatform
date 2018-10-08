@@ -33,7 +33,6 @@ import {
   AcceptInvitationPage,
   OrganizationPage,
   OrganizationManageTeams,
-  OrganizationManageMembers,
   EditOrganizationPage
 } from 'src/containers';
 import './styles/style.css';
@@ -219,7 +218,6 @@ class MainContent extends Component {
           <Route exact path={paths.organization} component={OrganizationPage} />
           <Route exact path={paths.editOrganization} component={EditOrganizationPage} />
           <Route exact path={paths.organizationManageTeams} component={OrganizationManageTeams} />
-          <Route exact path={paths.organizationManageMembers} component={OrganizationManageMembers} />
         </Switch>
       </Content>
     );

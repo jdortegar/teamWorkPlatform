@@ -137,11 +137,6 @@ class OrganizationPage extends Component {
           url: `/app/editOrganization/${subscriberOrgId}/teams`
         },
         {
-          icon: 'fas fa-cog',
-          title: 'OrganizationPage.manageTeamMembers',
-          url: `/app/editOrganization/${subscriberOrgId}/members`
-        },
-        {
           icon: 'fas fa-pencil-alt',
           title: 'OrganizationPage.editSection',
           url: `/app/editOrganization/${subscriberOrgId}`

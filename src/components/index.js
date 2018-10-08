@@ -6,7 +6,6 @@ export * from './formFields';
 
 export AssetsFilters from './AssetsFilters';
 export Avatar from './Avatar';
-export AvatarWithLabel from './AvatarWithLabel';
 export Badge from './Badge';
 export BasicFilter from './BasicFilter';
 export BreadCrumb from './BreadCrumb';
