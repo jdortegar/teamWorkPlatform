@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 
 import { Link } from 'react-router-dom';
-import { Tooltip, Badge, Popover, Menu, Button } from 'antd';
-import { BreadCrumb } from 'src/components';
+import { Tooltip, Badge, Popover, Menu } from 'antd';
+import { Button, BreadCrumb } from 'src/components';
 import String from 'src/translations';
 import './styles/style.css';
 
@@ -22,9 +23,7 @@ const defaultProps = {
   menuName: null,
   hasMenu: false,
   hasNotification: false,
-  buttonOptions: {
-    enabled: false
-  },
+  buttonOptions: {},
   menuPageHeader: [],
   backButton: ''
 };
@@ -62,7 +61,7 @@ function PageHeader({ pageBreadCrumb, menuName, hasMenu, hasNotification, menuPa
   );
 
   return (
-    <div className="habla-main-content-header padding-class-a border-bottom-lighter">
+    <div className="PageHeader habla-main-content-header padding-class-a border-bottom-lighter">
       <div className="habla-main-content-header-title">
         <div className="actionButtonsContainer">
           {backButton !== '' && (
@@ -98,16 +97,7 @@ function PageHeader({ pageBreadCrumb, menuName, hasMenu, hasNotification, menuPa
             style={{ justifyContent: 'flex-end', boxShadow: '#AB1E16 -1px -1px 0px 0px inset' }}
           />
         )}
-        {buttonOptions.enabled && (
-          <Button
-            type="main"
-            className={buttonOptions.className}
-            onClick={buttonOptions.clickFunction}
-            loading={buttonOptions.loading}
-          >
-            {buttonOptions.children}
-          </Button>
-        )}
+        {!isEmpty(buttonOptions) && <Button className="rightSideButton" {...buttonOptions} />}
       </div>
     </div>
   );

@@ -1,12 +1,25 @@
+import { createSelector } from 'reselect';
 import createCachedSelector from 're-reselect';
+
+import { getCurrentUserId } from './auth';
 import {
   getUserByUserId,
   getUserIdsBySubscriberOrgId,
   getUserIdsByTeamId,
   getTeamById,
   getTeamRoomById,
-  getPresencesByUserId
+  getPresencesByUserId,
+  getCurrentSubscriberOrgId
 } from './state';
+
+export const getCurrentSubscriberUserId = createSelector(
+  [getUserIdsBySubscriberOrgId, getCurrentSubscriberOrgId, getCurrentUserId],
+  (userIdsBySubscriberOrgId, subscriberOrgId, userId) => {
+    const userIds = userIdsBySubscriberOrgId[subscriberOrgId] || {};
+    const { subscriberUserId } = userIds[userId] || {};
+    return subscriberUserId;
+  }
+);
 
 export const getSubscribersOfSubscriberOrgId = createCachedSelector(
   [getUserIdsBySubscriberOrgId, getUserByUserId, (state, subscriberOrgId) => subscriberOrgId],

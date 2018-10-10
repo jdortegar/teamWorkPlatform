@@ -57,6 +57,12 @@
   top: -4px;
 }
 
+.PageHeader .rightSideButton {
+  display: flex;
+  align-items: center;
+  padding-top: 6px;
+}
+
 /* Ant Popover */
 
 .ant-popover .ant-popover-arrow {

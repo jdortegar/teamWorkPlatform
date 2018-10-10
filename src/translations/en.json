@@ -472,11 +472,13 @@
       "custom": "Select what to share in specific Teams or Team Rooms",
       "foldersAndFiles": "Folders and Files",
       "selectAll": "Select All",
+      "deselectAll": "Deselect All",
       "editSharingDetails": "Sharing Details",
-      "yes": "ON",
-      "no": "OFF",
+      "yes": "YES",
+      "no": "NO",
       "shareInAllTeamsAndRooms": "Share in All Teams and Team Rooms",
-      "shareInSpecificTeamsAndRooms": "Share only on specific Teams and Team Rooms"
+      "shareInSpecificTeamsAndRooms": "Share only on specific Teams and Team Rooms",
+      "itemsCount": "({{count}} items)"
     }
   },
   "integrationsPage": {

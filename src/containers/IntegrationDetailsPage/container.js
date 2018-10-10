@@ -1,27 +1,54 @@
 import { connect } from 'react-redux';
 import { IntegrationDetailsPage } from 'src/pages';
-import { getIntegrationFilesAndFolders, getCurrentSubscriberOrgTeamsAndTeamRooms } from 'src/selectors';
-import { fetchIntegrations, integrateIntegration, configureIntegration, revokeIntegration } from 'src/actions';
+import {
+  getIntegration,
+  getIntegrationDetails,
+  getCurrentSubscriberOrgName,
+  getSharingSettings,
+  getCurrentSubscriberUserId
+} from 'src/selectors';
+import {
+  fetchIntegrations,
+  fetchIntegrationDetails,
+  saveSharingSettings,
+  toggleSharingSettings,
+  toggleAllSharingSettings,
+  integrateIntegration,
+  configureIntegration,
+  revokeIntegration
+} from 'src/actions';
 
-function mapStateToProps(state) {
-  return {
-    integrations: state.integrations,
-    subscriberOrgs: state.subscriberOrgs,
-    foldersAndFiles: getIntegrationFilesAndFolders(state),
-    teams: getCurrentSubscriberOrgTeamsAndTeamRooms(state)
-  };
-}
+const mapStateToProps = (state, props) => {
+  // TODO: make this dynamic
+  const { integrationDetails: source, subscriberOrgId, status } = props.match.params;
+  const subscriberUserId = getCurrentSubscriberUserId(state);
+  const { folders, files, submitting, saved } = getSharingSettings(state, { subscriberUserId, source });
 
-function mapDispatchToProps(dispatch) {
   return {
-    fetchIntegrations: subscriberOrgId => dispatch(fetchIntegrations(subscriberOrgId)),
-    integrateIntegration: (key, subscriberOrgId, params) =>
-      dispatch(integrateIntegration(key, subscriberOrgId, params)),
-    configureIntegration: (key, subscriberOrgId, configuration) =>
-      dispatch(configureIntegration(key, subscriberOrgId, configuration)),
-    revokeIntegration: (key, subscriberOrgId) => dispatch(revokeIntegration(key, subscriberOrgId))
+    integration: getIntegration(state, { source, subscriberOrgId }),
+    integrationDetails: getIntegrationDetails(state, { source, subscriberUserId }),
+    subscriberOrgName: getCurrentSubscriberOrgName(state),
+    selectedFolders: folders,
+    selectedFiles: files,
+    isSubmittingSharingSettings: submitting,
+    isSavedSharingSettings: saved,
+    subscriberUserId,
+    subscriberOrgId,
+    source,
+    status
   };
-}
+};
+
+const mapDispatchToProps = {
+  fetchIntegrations,
+  fetchIntegrationDetails,
+  saveSharingSettings,
+  toggleSharingSettings,
+  toggleAllSharingSettings,
+  integrateIntegration,
+  configureIntegration,
+  revokeIntegration
+};
 
 export default connect(
   mapStateToProps,
