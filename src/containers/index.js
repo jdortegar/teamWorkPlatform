@@ -32,3 +32,4 @@ export TeamRoomPage from './TeamRoomPage';
 export VerifyAccount from './VerifyAccount';
 export OrganizationManageTeams from './OrganizationManageTeams';
 export OrganizationManageMembers from './OrganizationManageMembers';
+export OrganizationDataIntegrations from './OrganizationDataIntegrations';

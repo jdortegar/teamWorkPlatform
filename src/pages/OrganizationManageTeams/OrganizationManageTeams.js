@@ -20,7 +20,7 @@ const propTypes = {
   teams: PropTypes.array,
   // updateTeam: PropTypes.func.isRequired,
   currentSubscriberOrgId: PropTypes.string,
-  user: PropTypes.object.isRequired
+  users: PropTypes.object.isRequired
 };
 
 const defaultProps = {
@@ -90,7 +90,7 @@ class OrganizationManageTeams extends Component {
 
   // Get team array
   renderTeams(teamsActive) {
-    const { user, match } = this.props;
+    const { users, match } = this.props;
     const { subscriberOrgId } = match.params;
 
     // If no teams, no render
@@ -106,7 +106,7 @@ class OrganizationManageTeams extends Component {
     const teamArray = teamsByOrgId.map((teamEl, index) => {
       let isAdmin = false;
       if (teamEl.teamMembers) {
-        const teamMemberFoundByUser = _.find(teamEl.teamMembers, { userId: user.userId });
+        const teamMemberFoundByUser = _.find(teamEl.teamMembers, { userId: users.userId });
         isAdmin = teamMemberFoundByUser.teams[teamEl.teamId].role === 'admin';
       }
       if (!isAdmin && (!teamEl.active || teamEl.deleted)) {
@@ -115,7 +115,7 @@ class OrganizationManageTeams extends Component {
       return {
         key: index + 1,
         team: teamEl,
-        owner: teamEl.owner,
+        owner: users[teamEl.teamAdmin].fullName,
         status: {
           enabled: teamEl.active,
           teamId: teamEl.teamId
@@ -164,6 +164,11 @@ class OrganizationManageTeams extends Component {
           icon: 'fas fa-cog',
           title: 'OrganizationPage.manageTeamMembers',
           url: `/app/editOrganization/${subscriberOrgId}/members`
+        },
+        {
+          icon: 'fas fa-cog',
+          title: 'OrganizationPage.manageDataIntegrations',
+          url: `/app/editOrganization/${subscriberOrgId}/dataIntegrations`
         },
         {
           icon: 'fas fa-pencil-alt',

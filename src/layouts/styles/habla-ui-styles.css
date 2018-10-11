@@ -483,6 +483,10 @@ HABLA CSS GENERAL STYLES
 
 /* Weights */
 
+.habla-lighter-text {
+  font-weight: 100;
+}
+
 .habla-light-text {
   font-weight: 300;
 }
@@ -615,7 +619,7 @@ p {
 .table-container .habla-table-label {
   color: #999;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 14px;
   display: block;
   text-overflow: ellipsis;
   white-space: nowrap;

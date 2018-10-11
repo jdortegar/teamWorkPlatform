@@ -34,6 +34,16 @@ const AvatarWithLabel = ({ item, enabled }) => {
       </div>
     );
   }
+  if (preferences.img && editUrl) {
+    return (
+      <div className="avatar-label-container">
+        <Link to={editUrl || '#'}>
+          <Avatar src={preferences.img} color={preferences.iconColor} className={preferences.className} />
+        </Link>
+        <span className="habla-avatar-label">{item.name}</span>
+      </div>
+    );
+  }
   if (preferences.logo) {
     return (
       <div className="avatar-label-container">

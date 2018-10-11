@@ -31,6 +31,7 @@ import {
   OrganizationPage,
   OrganizationManageTeams,
   OrganizationManageMembers,
+  OrganizationDataIntegrations,
   EditOrganizationPage
 } from 'src/containers';
 import './styles/style.css';
@@ -193,6 +194,7 @@ class MainContent extends Component {
           <Route exact path={paths.editOrganization} component={EditOrganizationPage} />
           <Route exact path={paths.organizationManageTeams} component={OrganizationManageTeams} />
           <Route exact path={paths.organizationManageMembers} component={OrganizationManageMembers} />
+          <Route exact path={paths.organizationDataIntegrations} component={OrganizationDataIntegrations} />
         </Switch>
       </Content>
     );

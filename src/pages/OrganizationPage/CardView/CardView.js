@@ -173,6 +173,23 @@ function CardView(props) {
             {renderMembers()}
           </SimpleCardContainer>
         </Panel>
+        <Panel header={<SimpleHeader text={String.t('OrganizationPage.subscriptionSettings')} />} key="4">
+          <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
+            <div className="habla-collapse-header">
+              <h1 className="habla-lighter-text">
+                Habla AI <span className="habla-bold-text">Bronze Plan</span>
+              </h1>
+              <h3 className="habla-green">$00.00 per month</h3>
+            </div>
+            <div className="habla-collapse-body">
+              Change your current plan settings
+              <div className="habla-collapse-footer">
+                Activated on January 24, 2017 and active until August 24, 2017
+                <br /> LAST BILL SENT ON JANUARY 24, 2017. FOR HELP WRITE TO SUPPORT@HABLA.AI
+              </div>
+            </div>
+          </SimpleCardContainer>
+        </Panel>
       </Collapse>
     </Fragment>
   );

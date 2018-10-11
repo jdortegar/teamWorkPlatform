@@ -171,6 +171,11 @@ class OrganizationManageMembers extends Component {
           url: `/app/editOrganization/${subscriberOrgId}/teams`
         },
         {
+          icon: 'fas fa-cog',
+          title: 'OrganizationPage.manageDataIntegrations',
+          url: `/app/editOrganization/${subscriberOrgId}/dataIntegrations`
+        },
+        {
           icon: 'fas fa-pencil-alt',
           title: 'OrganizationPage.editSection',
           url: `/app/editOrganization/${subscriberOrgId}`

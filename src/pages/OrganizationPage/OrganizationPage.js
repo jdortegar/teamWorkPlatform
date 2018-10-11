@@ -142,6 +142,11 @@ class OrganizationPage extends Component {
           url: `/app/editOrganization/${subscriberOrgId}/members`
         },
         {
+          icon: 'fas fa-cog',
+          title: 'OrganizationPage.manageDataIntegrations',
+          url: `/app/editOrganization/${subscriberOrgId}/dataIntegrations`
+        },
+        {
           icon: 'fas fa-pencil-alt',
           title: 'OrganizationPage.editSection',
           url: `/app/editOrganization/${subscriberOrgId}`
@@ -179,10 +184,12 @@ class OrganizationPage extends Component {
             teams={teams}
             user={user}
           />
-          <div className="app-version">
-            <img src={hablaFullBlackLogoIcon} alt="habla.ai" />
-            HABLA.AI - {config.hablaApiEnv !== 'prod' ? config.hablaApiEnv.toUpperCase() : 'APP'}{' '}
-            {config.hablaWebAppVersion}
+          <div className="app-version-container">
+            <div className="app-version">
+              <img src={hablaFullBlackLogoIcon} alt="habla.ai" />
+              HABLA.AI - {config.hablaApiEnv !== 'prod' ? config.hablaApiEnv.toUpperCase() : 'APP'}{' '}
+              {config.hablaWebAppVersion}
+            </div>
           </div>
         </div>
       );

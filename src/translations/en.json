@@ -168,7 +168,8 @@
     "filesShared": "{{count}} Files Shared",
     "manageTeams": "Manage Teams",
     "manageTeamMembers": "Manage Team Members",
-    "manageDataIntegrations": "Manage Data Integrations"
+    "manageDataIntegrations": "Manage Data Integrations",
+    "subscriptionSettings": "Subscription Settings"
   },
   "TeamPage": {
     "activeStatus": "Active",
@@ -675,6 +676,14 @@
   },
   "OrganizationManageMembers": {
     "title": "Members ({{count}})",
+    "activeState": "ON",
+    "inactiveState": "OFF",
+    "setActive": "Set Active",
+    "setInactive": "Set Inactive",
+    "addNew": "Add New"
+  },
+  "OrganizationDataIntegrations": {
+    "title": "Organization Data Integrations ({{count}})",
     "activeState": "ON",
     "inactiveState": "OFF",
     "setActive": "Set Active",

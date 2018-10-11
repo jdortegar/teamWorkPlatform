@@ -31,5 +31,6 @@ export const paths = {
   organization: '/app/organization/:subscriberOrgId/:status?',
   editOrganization: '/app/editOrganization/:subscriberOrgId',
   organizationManageTeams: '/app/editOrganization/:subscriberOrgId/teams',
-  organizationManageMembers: '/app/editOrganization/:subscriberOrgId/members'
+  organizationManageMembers: '/app/editOrganization/:subscriberOrgId/members',
+  organizationDataIntegrations: '/app/editOrganization/:subscriberOrgId/dataIntegrations'
 };
