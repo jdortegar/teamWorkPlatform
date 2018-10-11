@@ -15,7 +15,8 @@ const propTypes = {
   hasMenu: PropTypes.bool,
   hasNotification: PropTypes.bool,
   buttonOptions: PropTypes.object,
-  backButton: PropTypes.string
+  backButton: PropTypes.string,
+  optionalButtons: PropTypes.object
 };
 
 const defaultProps = {
@@ -25,10 +26,22 @@ const defaultProps = {
   hasNotification: false,
   buttonOptions: {},
   menuPageHeader: [],
-  backButton: ''
+  backButton: '',
+  optionalButtons: {
+    enabled: false
+  }
 };
 
-function PageHeader({ pageBreadCrumb, menuName, hasMenu, hasNotification, menuPageHeader, backButton, buttonOptions }) {
+function PageHeader({
+  pageBreadCrumb,
+  menuName,
+  hasMenu,
+  hasNotification,
+  menuPageHeader,
+  backButton,
+  buttonOptions,
+  optionalButtons
+}) {
   const menuItems = menuPageHeader.map(
     item =>
       item.submenu ? (
@@ -65,16 +78,11 @@ function PageHeader({ pageBreadCrumb, menuName, hasMenu, hasNotification, menuPa
       <div className="habla-main-content-header-title">
         <div className="actionButtonsContainer">
           {backButton !== '' && (
-            <Tooltip placement="top" title={String.t('subPageHeader.linkToCKG')}>
+            <Tooltip placement="top" title={String.t('Buttons.back')}>
               <Link to={backButton}>
                 <i className="fas fa-arrow-left fa-2x" />
               </Link>
             </Tooltip>
-          )}
-          {pageBreadCrumb.routes.length > 2 && (
-            <Link to={pageBreadCrumb.routes[0].url}>
-              <i className="fas fa-arrow-left fa-2x" />
-            </Link>
           )}
           {hasMenu && (
             <Popover placement="bottomLeft" title={String.t(menuName)} content={buttonMenu} trigger="click">
@@ -98,6 +106,7 @@ function PageHeader({ pageBreadCrumb, menuName, hasMenu, hasNotification, menuPa
           />
         )}
         {!isEmpty(buttonOptions) && <Button className="rightSideButton" {...buttonOptions} />}
+        {optionalButtons.enabled && optionalButtons.content}
       </div>
     </div>
   );

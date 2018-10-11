@@ -134,7 +134,7 @@ const menuPageHeader = [
       {
         icon: 'fas fa-chart-bar',
         title: 'graphViewsSelector.manufacturing',
-        url: ''
+        url: '/app/dashboard'
       },
       {
         icon: 'fas fa-chart-bar',
