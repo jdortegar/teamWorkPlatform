@@ -17,16 +17,18 @@ export const fetchIntegrationDetails = (source, subscriberUserId) => {
   const reduxState = { source, subscriberUserId };
 
   return dispatch => {
-    const thunk = dispatch(doAuthenticatedRequest({ requestUrl, method: 'get' }, reduxState, {}));
+    const thunk = dispatch(doAuthenticatedRequest({ requestUrl, method: 'get' }, reduxState, { forceGet: true }));
 
     thunk
       .then(response => {
-        if (response.data) {
+        if (response.data && response.data.body) {
           const { body: integrationDetails } = response.data;
           dispatch({
             type: INTEGRATIONS_FETCH_DETAILS_SUCCESS,
             payload: { integrationDetails }
           });
+        } else {
+          console.error('ERROR fetching integration details:', response.data); // eslint-disable-line no-console
         }
         return response;
       })
