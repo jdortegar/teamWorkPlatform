@@ -592,6 +592,51 @@ p {
   align-items: center;
 }
 
+/* ----------- TABLES STYLES --------------- */
+
+.table-container .ant-table-thead > tr > th {
+  background: #fff;
+  -webkit-transition: background 0.3s ease;
+  transition: background 0.3s ease;
+  text-align: left;
+  color: #a6a6a6;
+  font-size: 12px;
+  border-bottom: 1px solid #e8e8e8;
+  padding: 12px 10px !important;
+  text-transform: uppercase;
+}
+
+.table-container .table-team-container,
+.table-container .table-user-container {
+  display: flex;
+  align-items: center;
+}
+
+.table-container .habla-table-label {
+  color: #999;
+  text-decoration: none;
+  font-size: 18px;
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.table-container .habla-avatar-label {
+  padding-left: 7px;
+}
+
+/* ----------- AVATAR --------------- */
+
+.avatar-label-container {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-label-container .habla-avatar-label {
+  padding-left: 7px;
+}
+
 /* ----------- STYLES TO REVIEW AND GROUP --------------- */
 
 .habla-spinner-content {

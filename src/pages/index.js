@@ -20,3 +20,4 @@ export TeamManagePage from './TeamManagePage';
 export TeamPageV1 from './TeamPageV1';
 export TeamRoomPage from './TeamRoomPage';
 export OrganizationManageTeams from './OrganizationManageTeams';
+export OrganizationManageMembers from './OrganizationManageMembers';
