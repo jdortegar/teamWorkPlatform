@@ -1195,9 +1195,6 @@ ul.ant-menu li.ant-menu-submenu:hover {
     margin-top: 2px;
     text-align: center;
   }
-  .habla-left-navigation-teamroom-list {
-    padding-left: 0;
-  }
   .sidebar-actions {
     text-align: center;
   }
@@ -1210,7 +1207,7 @@ ul.ant-menu li.ant-menu-submenu:hover {
     position: relative;
     left: -7px;
   }
-  .team-room__messages .ant-col-md-18 {
+  .team__messages .ant-col-md-18 {
     width: 80%;
   }
   .ant-input-affix-wrapper {

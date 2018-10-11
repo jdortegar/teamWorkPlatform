@@ -89,7 +89,7 @@ class InviteToTeamPage extends Component {
       const { userId, online } = member;
       const sentPendingInvitesForUser = _.find(sentInvitations.pending, {
         inviteeUserId: userId,
-        teamId: team.teamRoomId
+        teamId: team.teamId
       });
       const isMember = member.teams && member.teams[team.teamId] !== undefined;
       const isPending = this.state.invitees[member.userId] != null;

@@ -24,13 +24,6 @@ export * from './teamUpdate';
 export * from './teamMembersFetch';
 export * from './teamMemberReceive';
 
-export * from './teamRoomReceive';
-export * from './teamRoomCreate';
-export * from './teamRoomUpdate';
-
-export * from './teamRoomMembersFetch';
-export * from './teamRoomMemberReceive';
-
 export * from './invitationsInvite';
 export * from './invitationReceive';
 export * from './invitationDeclined';

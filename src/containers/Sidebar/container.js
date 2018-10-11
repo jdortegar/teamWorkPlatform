@@ -8,7 +8,6 @@ import {
   getCurrentUser,
   getSubscriberOrgsSortedAlphabetically,
   getTeamsOfSubscriberOrgIdSortedAlphabetically,
-  getTeamRooms,
   getSubscribersOfSubscriberOrgId,
   getPresencesOfSubscribersOfOrgId
 } from 'src/selectors';
@@ -24,8 +23,7 @@ function mapStateToProps(state) {
     teamIdsBySubscriberOrgId: state.teams.teamIdsBySubscriberOrgId,
     sideBarIsHidden: state.sideBar.hidden,
     currentTeamIdBySubscriberOrgId: state.teams.currentTeamIdBySubscriberOrgId,
-    teams: getTeamsOfSubscriberOrgIdSortedAlphabetically(state, state.subscriberOrgs.currentSubscriberOrgId),
-    teamRooms: getTeamRooms(state)
+    teams: getTeamsOfSubscriberOrgIdSortedAlphabetically(state, state.subscriberOrgs.currentSubscriberOrgId)
   };
 }
 

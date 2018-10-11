@@ -14,9 +14,7 @@ import {
   GraphActivitySelector,
   GraphZoomActions,
   TeamPicker
-  // TeamRoomPicker
 } from 'src/components';
-// import { primaryAtTop } from 'redux-hablaai/selectors/helpers';
 import './styles/style.css';
 
 const color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -50,7 +48,6 @@ const propTypes = {
   files: PropTypes.object,
   excludeFilters: PropTypes.object,
   teams: PropTypes.array,
-  teamRooms: PropTypes.array,
   match: PropTypes.shape({
     params: PropTypes.object.isRequired
   }).isRequired,
@@ -64,7 +61,6 @@ const defaultProps = {
   files: {},
   excludeFilters: {},
   teams: [],
-  teamRooms: [],
   query: '',
   caseSensitive: false,
   exactMatch: false,
@@ -158,8 +154,7 @@ class CKGPage extends Component {
   state = {
     zoomLevel: 0,
     viewAll: true,
-    selectedTeamId: '',
-    selectedTeamRoomId: ''
+    selectedTeamId: ''
   };
 
   componentDidMount() {
@@ -197,19 +192,13 @@ class CKGPage extends Component {
       this.props.fetchTimeActivitiesBySubscriberOrgId(nextProps.currentSubscriberOrgId);
     }
 
-    const { teams, teamRooms, history } = nextProps;
-    if (teams.length === 0 || this.state.selectedTeamId || this.state.selectedTeamRoomId) return;
+    const { teams, history } = nextProps;
+    if (teams.length === 0 || this.state.selectedTeamId) return;
 
-    const { teamId, teamRoomId } = history.location.state || {};
+    const { teamId } = history.location.state || {};
     const selectedTeamId = teamId || teams[0].teamId;
-    let selectedTeamRoomId = teamRoomId;
 
-    if (!selectedTeamRoomId) {
-      const teamRoom = teamRooms.find(room => room.primary && room.teamId === selectedTeamId);
-      selectedTeamRoomId = teamRoom ? teamRoom.teamRoomId : '';
-    }
-
-    this.setState({ selectedTeamId, selectedTeamRoomId });
+    this.setState({ selectedTeamId });
   }
 
   handleZoomIn = () => {
@@ -234,10 +223,6 @@ class CKGPage extends Component {
     this.setState({ selectedTeamId: event.target.value });
   };
 
-  handleSelectTeamRoom = event => {
-    this.setState({ selectedTeamRoomId: event.target.value });
-  };
-
   handleIntegrationFilterClick = key => {
     this.props.toggleIntegrationFilter(key);
   };
@@ -246,31 +231,18 @@ class CKGPage extends Component {
     this.props.toggleFileTypeFilter(key);
   };
 
-  handleFileTypeFilterDoubleClick = () => {
-    // const { fileTypes } = this.props.files;
-    // const allSelected = Object.keys(this.state.excludeTypesFilter).length === fileTypes.length;
-    // const allFilters = fileTypes.reduce((obj, file) => ({ ...obj, [file.key]: true }), {});
-    // this.setState({ excludeTypesFilter: allSelected ? {} : allFilters });
-  };
-
   handleArrowClick = () => {
     this.props.history.push('/app/search');
   };
 
   renderSelectors = () => {
-    const { teams /* , teamRooms */ } = this.props;
-    const { selectedTeamId /* , selectedTeamRoomId */ } = this.state;
-    // const filteredTeamRooms = primaryAtTop(teamRooms.filter(teamRoom => teamRoom.teamId === selectedTeamId));
+    const { teams } = this.props;
+    const { selectedTeamId } = this.state;
 
     return (
       <div className="bottomBar-selectors">
         <div className="bottomBar-selectors-content padding-class-a">
           <TeamPicker teams={teams} selected={selectedTeamId} onSelect={this.handleSelectTeam} />
-          {/* <TeamRoomPicker
-            teamRooms={filteredTeamRooms}
-            selected={selectedTeamRoomId}
-            onSelect={this.handleSelectTeamRoom}
-          /> */}
           <div className="clear" />
         </div>
       </div>
@@ -290,7 +262,6 @@ class CKGPage extends Component {
         excludeTypesFilter={excludeFilters.fileTypes}
         onIntegrationFilterClick={this.handleIntegrationFilterClick}
         onFileTypeFilterClick={this.handleFileTypeFilterClick}
-        onFileTypeFilterDoubleClick={this.handleFileTypeFilterDoubleClick}
       />
     );
   }

@@ -37,6 +37,5 @@ export Spinner from './Spinner';
 export SubpageHeader from './SubpageHeader';
 export SurveyModal from './SurveyModal';
 export TeamPicker from './TeamPicker';
-export TeamRoomPicker from './TeamRoomPicker';
 export TimeActivityGraph from './TimeActivityGraph';
 export Tree from './Tree';

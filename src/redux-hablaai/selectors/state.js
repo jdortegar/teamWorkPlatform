@@ -19,13 +19,6 @@ export const getTeamIdsBySubscriberOrgId = state => state.teams.teamIdsBySubscri
 export const getTeamMemberIdByTeamIdByUserId = state => state.teamMembers.teamMemberIdByTeamIdByUserId;
 export const getUserIdsByTeamId = state => state.teamMembers.userIdsByTeamId;
 
-export const getTeamRoomById = state => state.teamRooms.teamRoomById;
-export const getTeamRoomIdsByTeamId = state => state.teamRooms.teamRoomIdsByTeamId;
-
-export const getTeamRoomMemberIdByTeamRoomIdByUserId = state =>
-  state.teamRoomMembers.teamRoomMemberIdByTeamRoomIdByUserId;
-export const getUserIdsByTeamRoomId = state => state.teamRoomMembers.userIdsByTeamRoomId;
-
 export const getInvitations = state => state.invitations.invitations;
 export const getDeclinedInvitations = state => state.invitations.declinedInvitations;
 

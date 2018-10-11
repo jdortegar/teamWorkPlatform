@@ -5,8 +5,6 @@ import { receiveSubscriberOrg } from './subscriberOrgReceive';
 import { receiveSubscriber } from './subscriberReceive';
 import { receiveTeam } from './teamReceive';
 import { receiveTeamMember } from './teamMemberReceive';
-import { receiveTeamRoom } from './teamRoomReceive';
-import { receiveTeamRoomMember } from './teamRoomMemberReceive';
 import { receiveInvitation } from './invitationReceive';
 import { declinedInvitation } from './invitationDeclined';
 import { receiveConversations } from './conversationsReceive';
@@ -72,19 +70,6 @@ export const eventHandler = dispatch => (eventType, event) => {
       break;
     case EventTypes.teamMemberAdded:
       dispatch(receiveTeamMember(event.user, event.teamId));
-      break;
-
-    case EventTypes.teamRoomCreated:
-      dispatch(receiveTeamRoom(event));
-      break;
-    case EventTypes.teamRoomUpdated:
-      dispatch(receiveTeamRoom(event));
-      break;
-    case EventTypes.teamRoomPrivateInfoUpdated:
-      dispatch(receiveTeamRoom(event, event.teamId)); // Same as teamRoomUpdated except contains preferences.private.
-      break;
-    case EventTypes.teamRoomMemberAdded:
-      dispatch(receiveTeamRoomMember(event.user, event.teamRoomId));
       break;
 
     case EventTypes.conversationCreated:

@@ -5,9 +5,7 @@ import { getCurrentUserId } from './auth';
 import {
   getUserByUserId,
   getUserIdsBySubscriberOrgId,
-  getUserIdsByTeamId,
   getTeamById,
-  getTeamRoomById,
   getPresencesByUserId,
   getCurrentSubscriberOrgId
 } from './state';
@@ -47,21 +45,6 @@ export const getSubscribersOfTeamId = createCachedSelector(
     return Object.keys(userIds).map(userId => userByUserId[userId]);
   }
 )((state, teamId) => teamId);
-
-export const getSubscribersOfTeamRoomId = createCachedSelector(
-  [getTeamRoomById, getTeamById, getUserIdsByTeamId, getUserByUserId, (state, teamRoomId) => teamRoomId],
-  (teamRoomById, teamById, userIdsByTeamId, userByUserId, teamRoomId) => {
-    if (!teamRoomId || !teamRoomById[teamRoomId] || !userIdsByTeamId) {
-      return [];
-    }
-
-    const teamRoom = teamRoomById[teamRoomId];
-    if (!teamRoom) return [];
-    const userIds = userIdsByTeamId[teamRoom.teamId];
-    if (!userIds) return [];
-    return Object.keys(userIds).map(userId => userByUserId[userId]);
-  }
-)((state, teamRoomId) => teamRoomId);
 
 export const getPresencesOfSubscribersOfOrgId = createCachedSelector(
   [getUserIdsBySubscriberOrgId, getUserByUserId, getPresencesByUserId, (state, subscriberOrgId) => subscriberOrgId],
