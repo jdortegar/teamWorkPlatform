@@ -227,7 +227,7 @@ class IntegrationDetailsPage extends Component {
       isSubmittingSharingSettings,
       isSavedSharingSettings
     } = this.props;
-    if (!integration) {
+    if (!source || !subscriberOrgId) {
       return <Spinner />;
     }
 
@@ -327,7 +327,7 @@ class IntegrationDetailsPage extends Component {
             children: 'Save Settings',
             onClick: this.saveSharingSettings,
             loading: isSubmittingSharingSettings,
-            disabled: isSavedSharingSettings
+            disabled: isSavedSharingSettings || !integrationDetails
           }}
         />
         <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
