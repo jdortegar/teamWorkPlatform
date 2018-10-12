@@ -114,7 +114,8 @@
   margin-bottom: 0px;
 }
 .ant-popover .ant-popover-inner-content a:hover,
-.ant-popover .ant-menu-item > a:hover {
+.ant-popover .ant-menu-item > a:hover,
+.ant-menu-sub .ant-menu-item a:hover {
   background: #333;
   color: #fff !important;
 }
@@ -152,4 +153,13 @@
 .ant-menu-submenu-arrow {
   right: 5px !important;
   color: #7c7c7c;
+}
+
+.ant-menu-sub .ant-menu-item .disabled {
+  color: #717171;
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background: #333 !important;
+  color: #fff;
 }

@@ -124,12 +124,14 @@ const menuPageHeader = [
       {
         icon: 'fas fa-chart-bar',
         title: 'graphViewsSelector.electronics',
-        url: ''
+        url: '#',
+        className: 'disabled'
       },
       {
         icon: 'fas fa-chart-bar',
         title: 'graphViewsSelector.cpg',
-        url: ''
+        url: '#',
+        className: 'disabled'
       },
       {
         icon: 'fas fa-chart-bar',
@@ -139,12 +141,14 @@ const menuPageHeader = [
       {
         icon: 'fas fa-chart-bar',
         title: 'graphViewsSelector.retail',
-        url: ''
+        url: '#',
+        className: 'disabled'
       },
       {
         icon: 'fas fa-chart-bar',
         title: 'graphViewsSelector.relationshipHeatMap',
-        url: ''
+        url: '#',
+        className: 'disabled'
       }
     ]
   }

@@ -537,16 +537,16 @@
     "timeActivity": "Time Activity View",
     "teamMemberContribution": "Team Member Contribution",
     "fileLineage": "File Lineage",
-    "relationshipHeatMap": "Relationship Heat map",
     "conceptMap": "Concept Map",
     "dashboard": "Industry Knowledge Graphs",
     "smartListView": "Smart List View",
     "customGraph": "Custom Graph",
     "industryLabel": "Select Industry",
-    "cpg": "CPG",
-    "electronics": "Electronics",
+    "cpg": "CPG (Coming Soon...)",
+    "electronics": "Electronics (Coming Soon...)",
     "manufacturing": "Manufacturing",
-    "retail": "Retail"
+    "retail": "Retail (Coming Soon...)",
+    "relationshipHeatMap": "Relationship Heat map (Coming Soon...)"
   },
   "ckgPage": {
     "title": "Corporate Knowledge Graphs",
