@@ -17,13 +17,10 @@ export const paths = {
   newTeam: '/app/createTeam/:subscriberOrgId',
   inviteNewMember: '/app/inviteNewMember/:subscriberOrgId',
   inviteToTeam: '/app/inviteToTeam/:teamId',
-  inviteToTeamRoom: '/app/inviteToTeamRoom/:teamRoomId',
   team: '/app/team/:teamId/',
   manageTeam: '/app/team/manage/:teamId/:status?',
   editTeam: '/app/editTeam/:teamId',
-  editTeamRoom: '/app/editTeamRoom/:teamRoomId',
-  teamRoom: '/app/teamRoom/:teamRoomId',
-  newTeamRoom: '/app/createTeamRoom/:teamId',
+  teamRoom: '/app/teamRoom/:teamRoomId', // WILL BE REMOVED
   member: '/app/teamMember/:teamMemberId',
   notifications: '/app/notifications',
   bookmarks: '/app/bookmarks/:subscriberOrgId',
@@ -33,5 +30,7 @@ export const paths = {
   // Admin Organization
   organization: '/app/organization/:subscriberOrgId/:status?',
   editOrganization: '/app/editOrganization/:subscriberOrgId',
-  organizationManageTeams: '/app/editOrganization/:subscriberOrgId/teams'
+  organizationManageTeams: '/app/editOrganization/:subscriberOrgId/teams',
+  organizationManageMembers: '/app/editOrganization/:subscriberOrgId/members',
+  organizationDataIntegrations: '/app/editOrganization/:subscriberOrgId/dataIntegrations'
 };

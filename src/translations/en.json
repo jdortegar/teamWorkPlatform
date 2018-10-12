@@ -15,7 +15,6 @@
   "errAppDeepLinkInvalid": "The specified link is invalid.",
   "errAppDeepLinkUnknownError": "An error occurred. Please try again later.",
   "msgAppInvitationWhileLoggedOut": "Please log in to reply to the invitation.",
-  "msgInvitationToTeamRoom": "{{byUserFirstName}} {{byUserLastName}} invited you to join Team Room \"{{teamRoomName}}\" for the \"{{teamName}}\" Team of \"{{subscriberOrgName}}\" Organization.",
   "msgInvitationToTeam": "{{byUserFirstName}} {{byUserLastName}} invited you to join the \"{{teamName}}\" Team of the \"{{subscriberOrgName}}\" Organization.",
   "msgInvitationToOrg": "{{byUserFirstName}} {{byUserLastName}} invited you to join the \"{{subscriberOrgName}}\" Organization.",
   "invitationAcceptedToast": "You have joined {{name}}.",
@@ -64,10 +63,6 @@
   "labelSelectTimeZoneOption": "Select Time Zone",
   "labelTeamName": "Team Name",
   "labelActivateTeam": "Make Team Active",
-  "labelTeamRoomName": "Team Room Name",
-  "labelTeamRoomPurpose": "Room Purpose",
-  "labelPublishTeamRoom": "Publish Room",
-  "labelActivateTeamRoom": "Make Room Active",
   "inviteMembersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
   "inviteMembersSendInvitesButton": {
     "one": "SEND 1 INVITE",
@@ -90,11 +85,7 @@
   "organization": "Organization",
   "organizations": "Organizations",
   "teams": "Teams",
-  "teamRooms": "Team Rooms",
-  "teamRoomsResponsive": "Rooms",
   "directMessages": "Direct Messages",
-  "peopleScreenTabTeam": "Team",
-  "peopleScreenTabRoom": "Team Room",
   "fullName": "{{firstName}} {{lastName}}",
   "memberPopupName": "Name: {{firstName}} {{lastName}}",
   "memberPopupUsername": "Display Name: {{displayName}}",
@@ -106,11 +97,6 @@
   "createTeamExplain": "Enter the details for your team.",
   "createTeamButtonLabel": "CREATE TEAM",
   "errTeamNameMissing": "Please enter a Team Name.",
-  "createTeamRoomTitle": "Create Team Room",
-  "createTeamRoomExplain": "Enter Team Room details.",
-  "createTeamRoomButtonLabel": "CREATE TEAM ROOM",
-  "errTeamRoomNameMissing": "Please enter a Team Room Name.",
-  "errTeamRoomPurposeMissing": "Please enter a Room Purpose.",
   "updateOrgHeaderLabel": "Your Organization",
   "updateOrgNameLabel": "Organization Name",
   "updateOrgWebAddressLabel": "Web Address",
@@ -124,10 +110,6 @@
   "updateTeamSaveButtonLabel": "SAVE TEAM CHANGES",
   "editTeamTitle": "Edit Team",
   "editTeamExplain": "Modify the details of your team.",
-  "editTeamRoomNonAdminTitle": "Team Room Details",
-  "editTeamRoomAdminTitle": "Edit Team Room",
-  "editTeamRoomAdminExplain": "Edit Team Room details.",
-  "updateTeamRoomSaveButtonLabel": "SAVE TEAM ROOM CHANGES",
   "errEmailMissing": "Please enter an email address.",
   "errMustAgreeToTermsOfUse": "You must agree to the Terms of Use Agreement and Privacy Policy to continue.",
   "errEmailNotValid": "Please enter a valid email address.",
@@ -147,25 +129,15 @@
   "attachLinkFileFromOption": "Link File From...",
   "alertFileAlreadyAttachedTitle": "Attachment Used",
   "alertFileAlreadyAttachedMessage": "The selected file is already attached.",
-  "errNoTeamRoomsForTeam": "There are no team rooms for the {{teamName}} team.",
-  "errNoTeamRoomsForCurrentTeam": "There are no team rooms for the current team.",
-  "errNoConversationForRoom": "There are no conversations for the {{roomName}} team room.",
-  "errNoConversationsForCurrentRoom": "There are no conversations for the current team room",
   "errNoOrgsForUser": "There are no subscribed organizations for this user.",
   "errNoTeamsForUser": "There are no teams found for this user for the {{orgName}} organization.",
   "errNoTeamsForUserStatus500": "There are no teams found for this user for the {{orgName}} organization. (Status 500)",
   "errNoTeamMembers": "No Team Members found for the {teamName} team.",
-  "errNoRoomMembers": "No Team Members found for the {roomName} team room.",
   "toastExpandedAllMessages": "Expanded All Messages",
   "toastCollapsedAllMessages": "Collapsed All Messages",
   "searchPlaceholder": "Search",
   "inviteTeamMembersTitle": "Invite Team Members",
   "inviteTeamMembersExplain": "{{teamName}} Team",
-  "inviteRoomMembersTitle": "Invite Room Members",
-  "inviteRoomMembersExplain": "{{roomName}} Team Room",
-  "manageRoomMembersTitle": "Manage Room Members",
-  "manageRoomMembersExplain": "{{roomName}} Team Room",
-  "manageRoomSearchPlaceholder": "SEARCH USERS",
   "manageMembersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
   "manageMembersSaveChangesButtonLabel": "SAVE CHANGES",
   "timeActivityGraphTitle": "CKG Time / Activity",
@@ -196,7 +168,8 @@
     "filesShared": "{{count}} Files Shared",
     "manageTeams": "Manage Teams",
     "manageTeamMembers": "Manage Team Members",
-    "manageDataIntegrations": "Manage Data Integrations"
+    "manageDataIntegrations": "Manage Data Integrations",
+    "subscriptionSettings": "Subscription Settings"
   },
   "TeamPage": {
     "activeStatus": "Active",
@@ -205,17 +178,11 @@
     "manageTeam": "Manage Team",
     "editTeam": "Edit Team",
     "inviteNewMember": "Invite a New Team Member",
-    "addNewTeamRoom": "Add New Team Room",
     "teamCreated": "Created on {{date}}",
     "membersHeader": {
       "one": "1 Team Member",
       "other": "{{count}} Team Members",
       "zero": "No Team Members"
-    },
-    "roomsHeader": {
-      "one": "1 Team Room",
-      "other": "{{count}} Team Rooms",
-      "zero": "No Team Rooms"
     },
     "invitationSent": {
       "one": "Your Invitation has been sent.",
@@ -291,8 +258,7 @@
     "newMessage": "New Message",
     "newMessageFrom": "Message from {{firstName}} {{lastName}}",
     "declinedOrg": "{{inviteeUserIdOrEmail}} declined your invitation to join the {{subscriberOrgName}} organization.",
-    "declinedTeam": "{{firstName}} {{lastName}} declined your invitation to join the {{teamName}} team.",
-    "declinedRoom": "{{firstName}} {{lastName}} declined your invitation to join the {{teamRoomName}} room in the {{teamName}} team."
+    "declinedTeam": "{{firstName}} {{lastName}} declined your invitation to join the {{teamName}} team."
   },
   "message": {
     "sentByName": "{{firstName}} {{lastName}}",
@@ -322,7 +288,6 @@
     "badgeTopLimit": "99+",
     "addNewLabel": "Add New",
     "addNewTeamMember": "Team Member",
-    "addNewTeamRoom": "Team Room",
     "addNewTeam": "Team",
     "sortByLabel": "Sort by",
     "sortByAlphabetical": "Alphabetical Order",
@@ -362,12 +327,6 @@
     "addButtonLabel": "Add",
     "namePlaceholder": "Team Name",
     "errorNameAlreadyTaken": "The Team Name is already being used. Please enter a different name."
-  },
-  "addTeamRoomDialog": {
-    "title": "Add Team Room",
-    "addButtonLabel": "Add",
-    "namePlaceholder": "Team Room Name",
-    "errorNameAlreadyTaken": "The Team Room Name is already being used. Please enter a different name."
   },
   "login": {
     "rememberMeCheckboxLabel": "Remember Me",
@@ -424,18 +383,6 @@
     "activeState": "Active",
     "inactiveState": "Inactive"
   },
-  "editTeamRoomPage": {
-    "teamRoomUpdated": "Your Team Room changes have been saved.",
-    "errorNameAlreadyTaken": "The Team Room Name is already being used. Please enter a different name.",
-    "changeAvatarTitle": "Change Avatar",
-    "saveButtonLabel": "Save",
-    "teamName": "Team Name",
-    "teamRoomName": "Team Room Name",
-    "setActive": "Set Active",
-    "setInactive": "Set Inactive",
-    "activeState": "Active",
-    "inactiveState": "Inactive"
-  },
   "editUserPage": {
     "title": "Account Settings",
     "userUpdated": "Your user profile changes have been saved.",
@@ -468,15 +415,10 @@
     "INTERNAL_SERVER_ERROR": "We’re sorry, but something must’ve gone terribly wrong",
     "sharing": {
       "settings": "Sharing Settings",
-      "all": "Share all information in all Teams and Team Rooms",
-      "custom": "Select what to share in specific Teams or Team Rooms",
       "foldersAndFiles": "Folders and Files",
       "selectAll": "Select All",
-      "editSharingDetails": "Sharing Details",
-      "yes": "ON",
-      "no": "OFF",
-      "shareInAllTeamsAndRooms": "Share in All Teams and Team Rooms",
-      "shareInSpecificTeamsAndRooms": "Share only on specific Teams and Team Rooms"
+      "deselectAll": "Deselect All",
+      "itemsCount": "({{count}} items)"
     }
   },
   "integrationsPage": {
@@ -524,22 +466,6 @@
       "other": "Your Invitations have been sent."
     }
   },
-  "inviteToTeamRoomPage": {
-    "sendInvitationsButtonLabel": {
-      "zero": "Send Invitation",
-      "one": "Send Invitation",
-      "other": "Send {{count}} Invitations"
-    },
-    "inviteButtonLabel": "INVITE",
-    "reInviteButtonLabel": "RE-INVITE",
-    "instructions": "Invite users to join this Team Room",
-    "membersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
-    "breadcrumb": "Add Team Room Members",
-    "invitationSent": {
-      "one": "Your Invitation has been sent.",
-      "other": "Your Invitations have been sent."
-    }
-  },
   "newTeamPage": {
     "createNewTeamButtonLabel": "Create",
     "chooseTeamName": "Team Name",
@@ -547,16 +473,8 @@
     "breadcrumb": "Add New Team",
     "teamAddedToast": "Your Team has been created."
   },
-  "newTeamRoomPage": {
-    "title": "Choose a new Team Room Name",
-    "createNewTeamRoomButtonLabel": "Create Team Room",
-    "teamRoomAddedToast": "Your Team Room has been created.",
-    "breadcrumb": "Add New Team Room"
-  },
   "cardView": {
     "inviteNewMember": "Invite a New Team Member",
-    "addNewTeamRoom": "Add New Team Room",
-    "roomsHeader": "Team Rooms ({{count}})",
     "newButtonLabel": "New",
     "membersHeader": "Team Members ({{count}})"
   },
@@ -748,11 +666,28 @@
   "defaultInfo": {
     "pageTitle": "Default Page"
   },
-  "OrganizationManageteams": {
-    "title": "Manage Teams ({{count}})",
+  "OrganizationManageTeams": {
+    "title": "Teams ({{count}})",
     "activeState": "ON",
     "inactiveState": "OFF",
     "setActive": "Set Active",
-    "setInactive": "Set Inactive"
+    "setInactive": "Set Inactive",
+    "addNew": "Add New"
+  },
+  "OrganizationManageMembers": {
+    "title": "Members ({{count}})",
+    "activeState": "ON",
+    "inactiveState": "OFF",
+    "setActive": "Set Active",
+    "setInactive": "Set Inactive",
+    "addNew": "Add New"
+  },
+  "OrganizationDataIntegrations": {
+    "title": "Organization Data Integrations ({{count}})",
+    "activeState": "ON",
+    "inactiveState": "OFF",
+    "setActive": "Set Active",
+    "setInactive": "Set Inactive",
+    "addNew": "Add New"
   }
 }

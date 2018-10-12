@@ -14,23 +14,14 @@ const propTypes = {
     subscriberOrgName: PropTypes.string.isRequired,
     subscriberOrgId: PropTypes.string.isRequired,
     teamName: PropTypes.string,
-    teamId: PropTypes.string,
-    teamRoomName: PropTypes.string,
-    teamRoomId: PropTypes.string
+    teamId: PropTypes.string
   }).isRequired,
   updateInvitation: PropTypes.func.isRequired,
   invitationResponse: PropTypes.func.isRequired
 };
 
 function checkType(type) {
-  if (type.teamRoomName) {
-    return {
-      type: 'teamRoom',
-      name: type.teamRoomName,
-      id: type.teamRoomId,
-      message: String.t('msgInvitationToTeamRoom', type)
-    };
-  } else if (type.teamName) {
+  if (type.teamName) {
     return {
       type: 'team',
       name: type.teamName,

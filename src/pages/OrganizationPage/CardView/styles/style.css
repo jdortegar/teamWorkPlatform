@@ -1,15 +1,40 @@
 .Simple-card--no-padding a {
-	display: block;
+  display: block;
 }
 .card-label {
-    width: 55px;
-    overflow: hidden;
-    height: 1.2em;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin-top: 5px;	
+  width: 55px;
+  overflow: hidden;
+  height: 1.2em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 5px;
 }
 .integration-list .integration-card .ant-avatar {
-	background: #fff!important;
-	border: 1px solid #eee;
+  background: #fff !important;
+  border: 1px solid #eee;
+}
+
+.habla-collapse-header,
+.habla-collapse-body,
+.habla-collapse-footer {
+  margin-bottom: 20px;
+  display: block;
+  width: 100%;
+}
+
+.habla-collapse-header h1 {
+  font-size: 35px;
+  line-height: 45px;
+  font-weight: 100;
+}
+
+.habla-collapse-header h3 {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.habla-collapse-footer {
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 100;
 }

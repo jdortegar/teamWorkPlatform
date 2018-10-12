@@ -3,22 +3,13 @@ import { Checkbox, Switch, Tooltip, message } from 'antd';
 import PropTypes from 'prop-types';
 
 import String from 'src/translations';
-import { SharingTypes } from 'src/selectors';
 import {
   integrationImageFromKey,
   integrationLabelFromKey,
   integrationConfigFromKey,
   integrationMapping
 } from 'src/utils/dataIntegrations';
-import {
-  BreadCrumb,
-  SubpageHeader,
-  SimpleCardContainer,
-  Button,
-  Spinner,
-  SharingSettings,
-  ImageCard
-} from 'src/components';
+import { PageHeader, SimpleCardContainer, Button, Spinner, SharingSettings, ImageCard } from 'src/components';
 import './styles/style.css';
 
 function determineStatus(integration) {
@@ -36,11 +27,11 @@ function determineStatus(integration) {
 
 function showNotification(response, integration) {
   const { status } = response;
-  const name = integrationLabelFromKey(integration);
+  const integrationLabel = integrationLabelFromKey(integration);
   if (status === 200) {
     message.success(String.t('integrationDetailsPage.message.successDescription'));
   } else if (status === 410) {
-    message.error(String.t('integrationDetailsPage.message.goneDescription', { name }));
+    message.error(String.t('integrationDetailsPage.message.goneDescription', { name: integrationLabel }));
   } else {
     message.error(String.t('integrationDetailsPage.message.notFoundDescription'));
   }
@@ -51,27 +42,40 @@ const propTypes = {
   location: PropTypes.object.isRequired,
   integrateIntegration: PropTypes.func.isRequired,
   revokeIntegration: PropTypes.func.isRequired,
-  integrations: PropTypes.object.isRequired,
   fetchIntegrations: PropTypes.func.isRequired,
-  configureIntegration: PropTypes.func.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      subscriberOrgId: PropTypes.string.isRequired,
-      integrationDetails: PropTypes.string.isRequired,
-      status: PropTypes.string
-    }).isRequired
-  }).isRequired,
-  subscriberOrgs: PropTypes.object.isRequired,
-  foldersAndFiles: PropTypes.object.isRequired,
-  teams: PropTypes.object.isRequired
+  fetchIntegrationDetails: PropTypes.func.isRequired,
+  toggleSharingSettings: PropTypes.func.isRequired,
+  toggleAllSharingSettings: PropTypes.func.isRequired,
+  saveSharingSettings: PropTypes.func.isRequired,
+  // configureIntegration: PropTypes.func.isRequired,
+  subscriberUserId: PropTypes.string.isRequired,
+  subscriberOrgId: PropTypes.string.isRequired,
+  subscriberOrgName: PropTypes.string.isRequired,
+  source: PropTypes.string.isRequired,
+  integration: PropTypes.object,
+  integrationDetails: PropTypes.object,
+  selectedFolders: PropTypes.array,
+  selectedFiles: PropTypes.array,
+  status: PropTypes.string,
+  isSubmittingSharingSettings: PropTypes.bool,
+  isSavedSharingSettings: PropTypes.bool
+};
+
+const defaultProps = {
+  integration: null,
+  integrationDetails: null,
+  selectedFolders: [],
+  selectedFiles: [],
+  status: '',
+  isSubmittingSharingSettings: false,
+  isSavedSharingSettings: false
 };
 
 class IntegrationDetailsPage extends Component {
   constructor(props) {
     super(props);
 
-    const { integrationDetails } = props.match.params;
-    const config = integrationConfigFromKey(integrationDetails);
+    const config = integrationConfigFromKey(props.source);
     let configParams = null;
     let configFolders = null;
     if (config) {
@@ -86,29 +90,18 @@ class IntegrationDetailsPage extends Component {
 
     this.handleIntegration = this.handleIntegration.bind(this);
     this.onSaveConfigChanges = this.onSaveConfigChanges.bind(this);
+    this.handleToggleSharingSettings = this.handleToggleSharingSettings.bind(this);
+    this.handleToggleAllSharingSettings = this.handleToggleAllSharingSettings.bind(this);
   }
 
   componentDidMount() {
-    const { match, subscriberOrgs } = this.props;
-    if (
-      !match ||
-      !match.params ||
-      !match.params.subscriberOrgId ||
-      match.params.subscriberOrgId !== subscriberOrgs.currentSubscriberOrgId
-    ) {
-      if (subscriberOrgs) {
-        this.props.history.replace(`/app/integrations/${subscriberOrgs.currentSubscriberOrgId}`);
-      } else {
-        this.props.history.replace('/app');
-      }
-      return;
-    }
-    const { subscriberOrgId, status, integrationDetails } = match.params;
-    const name = integrationLabelFromKey(integrationDetails);
+    const { subscriberOrgId, subscriberUserId, source, status } = this.props;
+    const integrationLabel = integrationLabelFromKey(source);
     this.props.fetchIntegrations(subscriberOrgId);
+    this.props.fetchIntegrationDetails(source, subscriberUserId);
     if (status) {
       if (status.includes('CREATED')) {
-        message.success(String.t('integrationDetailsPage.message.createdDescription', { name }));
+        message.success(String.t('integrationDetailsPage.message.createdDescription', { name: integrationLabel }));
       } else {
         message.error(status);
       }
@@ -124,47 +117,60 @@ class IntegrationDetailsPage extends Component {
     const changedFolderKeys = Object.keys(this.state.changedFolderOptions);
     if (changedFolderKeys.length > 0) {
       // initialize collection of folders with the saved selection flags
-      const { integrationsBySubscriberOrgId } = this.props.integrations;
-      const { integrationDetails, subscriberOrgId } = this.props.match.params;
-      const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || {};
-      const integration = integrations[integrationDetails];
-      const { configFolders, changedFolderOptions } = this.state;
-      const folders = integration[configFolders.key];
-      const { selected, folderKey } = configFolders.folderKeys;
-      const saveFolders = folders.map(folder => {
-        let isSelected = folder[configFolders.folderKeys.selected]; // default
-        const path = folder[folderKey];
-        if (changedFolderOptions[path] !== undefined) {
-          isSelected = changedFolderOptions[path];
-        }
-        const folderObj = {};
-        folderObj[selected] = isSelected;
-        folderObj[folderKey] = path;
-        return folderObj;
-      });
-
-      const config = {};
-      config[configFolders.key] = saveFolders;
-      const configTop = {};
-      configTop[integrationDetails] = config;
-
-      // save the changes
-      const name = integrationLabelFromKey(integrationDetails);
-      this.props
-        .configureIntegration(integrationDetails, subscriberOrgId, configTop)
-        .then(() => {
-          message.success(String.t('integrationDetailsPage.message.configUpdated', { name }));
-          this.setState({ changedFolderOptions: {} });
-        })
-        .catch(error => {
-          message.error(error.message);
-        });
+      // const { source, subscriberOrgId } = this.props;
+      // const { integrationsBySubscriberOrgId } = this.props.integrations;
+      // const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || {};
+      // const integration = integrations[source];
+      // const { configFolders, changedFolderOptions } = this.state;
+      // const folders = integration[configFolders.key];
+      // const { selected, folderKey } = configFolders.folderKeys;
+      // const saveFolders = folders.map(folder => {
+      //   let isSelected = folder[configFolders.folderKeys.selected]; // default
+      //   const path = folder[folderKey];
+      //   if (changedFolderOptions[path] !== undefined) {
+      //     isSelected = changedFolderOptions[path];
+      //   }
+      //   const folderObj = {};
+      //   folderObj[selected] = isSelected;
+      //   folderObj[folderKey] = path;
+      //   return folderObj;
+      // });
+      // const config = {};
+      // config[configFolders.key] = saveFolders;
+      // const configTop = {};
+      // configTop[source] = config;
+      // // save the changes
+      // const name = integrationLabelFromKey(source);
+      // this.props
+      //   .configureIntegration(source, subscriberOrgId, configTop)
+      //   .then(() => {
+      //     message.success(String.t('integrationDetailsPage.message.configUpdated', { name }));
+      //     this.setState({ changedFolderOptions: {} });
+      //   })
+      //   .catch(error => {
+      //     message.error(error.message);
+      //   });
     }
   }
 
+  saveSharingSettings = () => {
+    const { source, subscriberUserId, selectedFolders, selectedFiles } = this.props;
+    this.props.saveSharingSettings(source, subscriberUserId, { folders: selectedFolders, files: selectedFiles });
+  };
+
+  handleToggleSharingSettings = ({ folderId, fileId }) => {
+    const { subscriberUserId, source } = this.props;
+    this.props.toggleSharingSettings(subscriberUserId, source, { folderId, fileId });
+  };
+
+  handleToggleAllSharingSettings = () => {
+    const { subscriberUserId, source } = this.props;
+    this.props.toggleAllSharingSettings(subscriberUserId, source);
+  };
+
   handleIntegration(checked) {
-    const { integrationDetails, subscriberOrgId } = this.props.match.params;
-    const key = integrationMapping(integrationDetails);
+    const { source, subscriberOrgId } = this.props;
+    const key = integrationMapping(source);
     if (checked) {
       let configParams = null;
       if (this.state.configParams) {
@@ -210,38 +216,27 @@ class IntegrationDetailsPage extends Component {
   }
 
   render() {
-    const { integrationsBySubscriberOrgId, working, error } = this.props.integrations;
-
-    if (error) {
-      return <div>Request for Integrations failed.</div>;
-    }
-
-    const { match, subscriberOrgs } = this.props;
-    if (
-      !match ||
-      !match.params ||
-      !match.params.subscriberOrgId ||
-      !match.params.integrationDetails ||
-      !integrationsBySubscriberOrgId ||
-      !subscriberOrgs ||
-      working
-    ) {
-      return <Spinner />;
-    }
-    const { integrationDetails, subscriberOrgId } = match.params;
-    const subscriberOrg = subscriberOrgs.subscriberOrgById[subscriberOrgId];
-    if (!subscriberOrg) {
+    const {
+      integration,
+      integrationDetails,
+      source,
+      subscriberOrgId,
+      subscriberOrgName,
+      selectedFolders,
+      selectedFiles,
+      isSubmittingSharingSettings,
+      isSavedSharingSettings
+    } = this.props;
+    if (!source || !subscriberOrgId) {
       return <Spinner />;
     }
 
-    const integrationKey = integrationMapping(integrationDetails);
-    const imgSrc = integrationImageFromKey(integrationKey);
-    const name = integrationLabelFromKey(integrationKey);
-    const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || {};
-    const integration = integrations[integrationKey];
-    const currStatus = determineStatus(integration);
+    const integrationKey = integrationMapping(source);
+    const integrationImageSrc = integrationImageFromKey(integrationKey);
+    const integrationLabel = integrationLabelFromKey(integrationKey);
+    const statusLabel = determineStatus(integration);
     const tooltipTitle =
-      currStatus === 'Active'
+      statusLabel === 'Active'
         ? String.t('integrationDetailsPage.deactivate')
         : String.t('integrationDetailsPage.activate');
     let disabledSwitch = false;
@@ -310,47 +305,37 @@ class IntegrationDetailsPage extends Component {
       }
     }
 
-    // Sharing Settings.
-    const integrationType = integrationLabelFromKey(integrationDetails);
-    let primaryTree;
-    let secondaryTree;
-    let sharingType;
-    const allText = String.t('integrationDetailsPage.sharing.all');
-    const customText = String.t('integrationDetailsPage.sharing.custom');
-    if (currStatus === 'Active') {
-      primaryTree = this.props.foldersAndFiles;
-      secondaryTree = this.props.teams;
-      sharingType = primaryTree.shareWithIds.length() > 0 ? SharingTypes.SOME : SharingTypes.ALL;
-    }
-
     return (
       <div>
-        <SubpageHeader
-          subscriberOrgId={subscriberOrgId}
-          history={this.props.history}
-          breadcrumb={
-            <BreadCrumb
-              subscriberOrg={subscriberOrg}
-              routes={[
-                {
-                  title: subscriberOrg.name,
-                  link: `/app/organization/${subscriberOrg.subscriberOrgId}`
-                },
-                {
-                  title: String.t('integrationDetailsPage.integrations'),
-                  link: `/app/integrations/${subscriberOrg.subscriberOrgId}`
-                },
-                { title: name }
-              ]}
-            />
-          }
+        <PageHeader
+          pageBreadCrumb={{
+            routes: [
+              {
+                title: subscriberOrgName,
+                url: `/app/organization/${subscriberOrgId}`
+              },
+              {
+                title: String.t('integrationDetailsPage.integrations'),
+                url: `/app/integrations/${subscriberOrgId}`
+              },
+              { title: integrationLabel }
+            ]
+          }}
+          buttonOptions={{
+            type: 'main',
+            fitText: true,
+            children: 'Save Settings',
+            onClick: this.saveSharingSettings,
+            loading: isSubmittingSharingSettings,
+            disabled: isSavedSharingSettings || !integrationDetails
+          }}
         />
         <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
           <div className="Integration-details__icon-container">
-            <ImageCard imgSrc={imgSrc} size="large" />
+            <ImageCard imgSrc={integrationImageSrc} size="large" />
           </div>
-          <div className="habla-big-title habla-bold-text">{name}</div>
-          <div className="habla-secondary-paragraph margin-top-class-b">{currStatus}</div>
+          <div className="habla-big-title habla-bold-text">{integrationLabel}</div>
+          <div className="habla-secondary-paragraph margin-top-class-b">{statusLabel}</div>
         </SimpleCardContainer>
         <div className="Integration-details__switch-container align-center-class">
           {extraFormFields}
@@ -360,28 +345,28 @@ class IntegrationDetailsPage extends Component {
               checkedChildren={String.t('integrationDetailsPage.on')}
               unCheckedChildren={String.t('integrationDetailsPage.off')}
               onChange={this.handleIntegration}
-              checked={currStatus === 'Active'}
+              checked={statusLabel === 'Active'}
             />
           </Tooltip>
         </div>
-        {currStatus === 'Active' && (
-          <SharingSettings
-            integrationType={integrationType}
-            primaryTree={primaryTree}
-            sharingType={sharingType}
-            allText={allText}
-            customText={customText}
-            secondaryTree={secondaryTree}
-            shareWithIds={primaryTree.shareWithIds}
-            parentNode={{ id: 'ROOT' }} // Parent is node in other tree.
-            collapsible
-          />
-        )}
+        {statusLabel === 'Active' &&
+          integrationDetails && (
+            <SharingSettings
+              onToggleSelect={this.handleToggleSharingSettings}
+              onToggleSelectAll={this.handleToggleAllSharingSettings}
+              integrationType={integrationLabel}
+              folders={integrationDetails.folders}
+              files={integrationDetails.files}
+              selectedFolders={selectedFolders}
+              selectedFiles={selectedFiles}
+            />
+          )}
       </div>
     );
   }
 }
 
 IntegrationDetailsPage.propTypes = propTypes;
+IntegrationDetailsPage.defaultProps = defaultProps;
 
 export default IntegrationDetailsPage;

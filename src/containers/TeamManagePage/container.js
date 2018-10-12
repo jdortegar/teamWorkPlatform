@@ -1,12 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { fetchTeamMembersByTeamId } from 'src/actions';
-import {
-  getCurrentUser,
-  getTeamRoomsOfTeamIdSortedAlphabetically,
-  getTeamMembersOfTeamId,
-  getPresencesOfTeamMembersOfTeamId
-} from 'src/selectors';
+import { getCurrentUser, getTeamMembersOfTeamId, getPresencesOfTeamMembersOfTeamId } from 'src/selectors';
 import { TeamManagePage } from 'src/pages';
 
 function mapStateToProps(state, props) {
@@ -17,8 +12,7 @@ function mapStateToProps(state, props) {
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     teams: state.teams,
     teamMembers: getTeamMembersOfTeamId(state, teamId),
-    teamMembersPresences: getPresencesOfTeamMembersOfTeamId(state, teamId),
-    teamRooms: getTeamRoomsOfTeamIdSortedAlphabetically(state, teamId)
+    teamMembersPresences: getPresencesOfTeamMembersOfTeamId(state, teamId)
   };
 }
 

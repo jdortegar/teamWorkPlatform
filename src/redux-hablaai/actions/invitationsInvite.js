@@ -32,19 +32,3 @@ export const inviteMembersToTeam = (users, teamId) => {
     reduxState
   );
 };
-
-export const inviteMembersToTeamRoom = (users, teamRoomId) => {
-  const requestUrl = buildApiUrl(`teamRooms/inviteMembers/${teamRoomId}`);
-
-  // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
-  const reduxState = { users, teamRoomId };
-
-  return doAuthenticatedRequest(
-    {
-      requestUrl,
-      method: 'post',
-      data: { userIds: users }
-    },
-    reduxState
-  );
-};

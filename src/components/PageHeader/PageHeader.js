@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 
 import { Link } from 'react-router-dom';
-import { Tooltip, Badge, Popover, Menu, Button } from 'antd';
-import { BreadCrumb } from 'src/components';
+import { Tooltip, Badge, Popover, Menu } from 'antd';
+import { Button, BreadCrumb } from 'src/components';
 import String from 'src/translations';
 import './styles/style.css';
 
@@ -14,7 +15,8 @@ const propTypes = {
   hasMenu: PropTypes.bool,
   hasNotification: PropTypes.bool,
   buttonOptions: PropTypes.object,
-  backButton: PropTypes.string
+  backButton: PropTypes.string,
+  optionalButtons: PropTypes.object
 };
 
 const defaultProps = {
@@ -22,14 +24,24 @@ const defaultProps = {
   menuName: null,
   hasMenu: false,
   hasNotification: false,
-  buttonOptions: {
-    enabled: false
-  },
+  buttonOptions: {},
   menuPageHeader: [],
-  backButton: ''
+  backButton: '',
+  optionalButtons: {
+    enabled: false
+  }
 };
 
-function PageHeader({ pageBreadCrumb, menuName, hasMenu, hasNotification, menuPageHeader, backButton, buttonOptions }) {
+function PageHeader({
+  pageBreadCrumb,
+  menuName,
+  hasMenu,
+  hasNotification,
+  menuPageHeader,
+  backButton,
+  buttonOptions,
+  optionalButtons
+}) {
   const menuItems = menuPageHeader.map(
     item =>
       item.submenu ? (
@@ -62,20 +74,15 @@ function PageHeader({ pageBreadCrumb, menuName, hasMenu, hasNotification, menuPa
   );
 
   return (
-    <div className="habla-main-content-header padding-class-a border-bottom-lighter">
+    <div className="PageHeader habla-main-content-header padding-class-a border-bottom-lighter">
       <div className="habla-main-content-header-title">
         <div className="actionButtonsContainer">
           {backButton !== '' && (
-            <Tooltip placement="top" title={String.t('subPageHeader.linkToCKG')}>
+            <Tooltip placement="top" title={String.t('Buttons.back')}>
               <Link to={backButton}>
                 <i className="fas fa-arrow-left fa-2x" />
               </Link>
             </Tooltip>
-          )}
-          {pageBreadCrumb.routes.length > 2 && (
-            <Link to={pageBreadCrumb.routes[0].url}>
-              <i className="fas fa-arrow-left fa-2x" />
-            </Link>
           )}
           {hasMenu && (
             <Popover placement="bottomLeft" title={String.t(menuName)} content={buttonMenu} trigger="click">
@@ -98,16 +105,8 @@ function PageHeader({ pageBreadCrumb, menuName, hasMenu, hasNotification, menuPa
             style={{ justifyContent: 'flex-end', boxShadow: '#AB1E16 -1px -1px 0px 0px inset' }}
           />
         )}
-        {buttonOptions.enabled && (
-          <Button
-            type="main"
-            className={buttonOptions.className}
-            onClick={buttonOptions.clickFunction}
-            loading={buttonOptions.loading}
-          >
-            {buttonOptions.children}
-          </Button>
-        )}
+        {!isEmpty(buttonOptions) && <Button className="rightSideButton" {...buttonOptions} />}
+        {optionalButtons.enabled && optionalButtons.content}
       </div>
     </div>
   );
