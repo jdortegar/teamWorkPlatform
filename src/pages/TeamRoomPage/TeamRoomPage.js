@@ -270,7 +270,7 @@ class TeamRoomPage extends Component {
   }
 
   isNearBottom = () => {
-    const messagesContainer = document.getElementsByClassName('team-room__messages')[0];
+    const messagesContainer = document.getElementsByClassName('team__messages')[0];
     if (!messagesContainer) return false;
 
     const { scrollHeight, scrollTop, clientHeight } = messagesContainer;
@@ -280,7 +280,7 @@ class TeamRoomPage extends Component {
   };
 
   scrollToBottom = () => {
-    const messagesContainer = document.getElementsByClassName('team-room__messages')[0];
+    const messagesContainer = document.getElementsByClassName('team__messages')[0];
     if (!messagesContainer) return;
 
     const { clientHeight, scrollHeight } = messagesContainer;
@@ -667,7 +667,7 @@ class TeamRoomPage extends Component {
             </SimpleCardContainer>
           )}
 
-          <SimpleCardContainer className="team-room__messages">{this.renderMessages(isAdmin)}</SimpleCardContainer>
+          <SimpleCardContainer className="team__messages">{this.renderMessages(isAdmin)}</SimpleCardContainer>
 
           <SimpleCardContainer className="team-room__chat-container">
             {this.state.showPreviewBox && (

@@ -6,6 +6,7 @@ export * from './formFields';
 
 export AssetsFilters from './AssetsFilters';
 export Avatar from './Avatar';
+export AvatarWithLabel from './AvatarWithLabel';
 export Badge from './Badge';
 export BasicFilter from './BasicFilter';
 export BreadCrumb from './BreadCrumb';
@@ -37,6 +38,5 @@ export Spinner from './Spinner';
 export SubpageHeader from './SubpageHeader';
 export SurveyModal from './SurveyModal';
 export TeamPicker from './TeamPicker';
-export TeamRoomPicker from './TeamRoomPicker';
 export TimeActivityGraph from './TimeActivityGraph';
 export Tree from './Tree';

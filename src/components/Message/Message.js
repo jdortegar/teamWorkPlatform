@@ -21,7 +21,6 @@ const propTypes = {
   currentUser: PropTypes.object.isRequired,
   subscriberOrgId: PropTypes.string.isRequired,
   teamId: PropTypes.string.isRequired,
-  teamRoomId: PropTypes.string.isRequired,
   isAdmin: PropTypes.bool.isRequired,
   onLoadImages: PropTypes.func,
   lastRead: PropTypes.bool
@@ -88,9 +87,9 @@ class Message extends Component {
   }
 
   handleBookmark(setBookmark) {
-    const { message, teamId, teamRoomId } = this.props;
+    const { message, teamId } = this.props;
     const extraInfo = { setBookmark };
-    const bookmark = { ...message, teamId, teamRoomId };
+    const bookmark = { ...message, teamId };
     this.props.onMessageAction({ bookmark, extraInfo }, messageAction.bookmark);
   }
 
@@ -164,7 +163,6 @@ class Message extends Component {
                   images={contentJustImage}
                   subscriberOrgId={this.props.subscriberOrgId}
                   teamId={this.props.teamId}
-                  teamRoomId={this.props.teamRoomId}
                   onLoadImage={this.props.onLoadImages}
                 />
               )}
@@ -275,7 +273,6 @@ class Message extends Component {
               teamRoomMembersObj={this.props.teamRoomMembersObj}
               subscriberOrgId={this.props.subscriberOrgId}
               teamId={this.props.teamId}
-              teamRoomId={this.props.teamRoomId}
               isAdmin={isAdmin}
             />
           ))}

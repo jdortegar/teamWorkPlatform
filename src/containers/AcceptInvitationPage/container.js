@@ -7,7 +7,6 @@ function mapStateToProps(state) {
   return {
     invitations: getInvitations(state),
     teamById: state.teams.teamById,
-    teamRoomById: state.teamRooms.teamRoomById,
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById
   };
 }

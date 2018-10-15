@@ -6,6 +6,7 @@ import String from 'src/translations';
 import { formShape } from 'src/propTypes';
 import { BreadCrumb, SubpageHeader, SimpleCardContainer, TextField, Spinner, Button } from 'src/components';
 import './styles/style.css';
+// import { EINPROGRESS } from 'constants';
 
 const propTypes = {
   form: formShape.isRequired,
@@ -48,7 +49,11 @@ class NewTeamPage extends Component {
           })
           .catch(error => {
             this.setState({ loading: false });
-            message.error(error.message);
+            if (error.response && error.response.status === 409) {
+              message.error(String.t('addTeamDialog.errorNameAlreadyTaken'));
+            } else {
+              message.error(error.message);
+            }
           });
       }
     });

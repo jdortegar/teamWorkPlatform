@@ -9,7 +9,6 @@ const propTypes = {
   images: PropTypes.array,
   subscriberOrgId: PropTypes.string.isRequired,
   teamId: PropTypes.string.isRequired,
-  teamRoomId: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired,
   onLoadImage: PropTypes.func
 };
@@ -34,11 +33,10 @@ class PreviewImages extends Component {
   }
 
   componentDidMount() {
-    const { images, teamRoomId, teamId, subscriberOrgId, token } = this.props;
+    const { images, teamId, subscriberOrgId, token } = this.props;
     const putHeaders = {
       headers: {
         Authorization: `Bearer ${token}`,
-        'x-hablaai-teamroomid': teamRoomId,
         'x-hablaai-teamid': teamId,
         'x-hablaai-subscriberorgid': subscriberOrgId
       }

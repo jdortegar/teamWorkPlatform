@@ -483,6 +483,10 @@ HABLA CSS GENERAL STYLES
 
 /* Weights */
 
+.habla-lighter-text {
+  font-weight: 100;
+}
+
 .habla-light-text {
   font-weight: 300;
 }
@@ -543,6 +547,12 @@ p {
   color: #000;
   font-weight: 300;
 }
+.habla-title-normal {
+  font-size: 14pt;
+  line-height: 18pt;
+  color: #000;
+  font-weight: 900;
+}
 
 /* Paragraphs */
 
@@ -584,6 +594,51 @@ p {
 .flexClass-valign-middle {
   display: flex;
   align-items: center;
+}
+
+/* ----------- TABLES STYLES --------------- */
+
+.table-container .ant-table-thead > tr > th {
+  background: #fff;
+  -webkit-transition: background 0.3s ease;
+  transition: background 0.3s ease;
+  text-align: left;
+  color: #a6a6a6;
+  font-size: 12px;
+  border-bottom: 1px solid #e8e8e8;
+  padding: 12px 10px !important;
+  text-transform: uppercase;
+}
+
+.table-container .table-team-container,
+.table-container .table-user-container {
+  display: flex;
+  align-items: center;
+}
+
+.table-container .habla-table-label {
+  color: #999;
+  text-decoration: none;
+  font-size: 14px;
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.table-container .habla-avatar-label {
+  padding-left: 7px;
+}
+
+/* ----------- AVATAR --------------- */
+
+.avatar-label-container {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-label-container .habla-avatar-label {
+  padding-left: 7px;
 }
 
 /* ----------- STYLES TO REVIEW AND GROUP --------------- */
@@ -792,6 +847,7 @@ p {
 .habla-main-content-header-breadcrumb .habla-title-light,
 .habla-main-content-header-title .habla-title,
 .habla-main-content-header-title .habla-title-light,
+.habla-main-content-header-title .habla-title-normal,
 .Subpage-header__title.habla-title,
 .Subpage-header__title.habla-title-light,
 .subpage__header__title.habla-title,
@@ -1195,9 +1251,6 @@ ul.ant-menu li.ant-menu-submenu:hover {
     margin-top: 2px;
     text-align: center;
   }
-  .habla-left-navigation-teamroom-list {
-    padding-left: 0;
-  }
   .sidebar-actions {
     text-align: center;
   }
@@ -1210,7 +1263,7 @@ ul.ant-menu li.ant-menu-submenu:hover {
     position: relative;
     left: -7px;
   }
-  .team-room__messages .ant-col-md-18 {
+  .team__messages .ant-col-md-18 {
     width: 80%;
   }
   .ant-input-affix-wrapper {

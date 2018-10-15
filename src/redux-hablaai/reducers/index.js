@@ -6,8 +6,6 @@ import subscribersReducer from './subscribersReducer';
 import surveysReducer from './surveysReducer';
 import teamsReducer from './teamsReducer';
 import teamMembersReducer from './teamMembersReducer';
-import teamRoomsReducer from './teamRoomsReducer';
-import teamRoomMembersReducer from './teamRoomMembersReducer';
 import invitationsReducer from './invitationsReducer';
 import sentInvitationsReducer from './sentInvitationsReducer';
 import conversationsReducer from './conversationsReducer';
@@ -26,8 +24,6 @@ const reducers = {
   subscribers: subscribersReducer,
   teams: teamsReducer,
   teamMembers: teamMembersReducer,
-  teamRooms: teamRoomsReducer,
-  teamRoomMembers: teamRoomMembersReducer,
   invitations: invitationsReducer,
   sentInvitations: sentInvitationsReducer,
   conversations: conversationsReducer,

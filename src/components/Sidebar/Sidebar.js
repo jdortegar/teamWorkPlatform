@@ -19,7 +19,6 @@ const propTypes = {
   subscribers: PropTypes.array,
   subscribersPresences: PropTypes.object,
   teams: PropTypes.array,
-  teamRooms: PropTypes.array,
   history: PropTypes.shape({
     push: PropTypes.func
   }).isRequired,
@@ -36,8 +35,7 @@ const defaultProps = {
   subscriberOrgs: [],
   subscribers: null,
   subscribersPresences: {},
-  teams: [],
-  teamRooms: []
+  teams: []
 };
 
 const ROUTERS_TO_HIDE_SIDEBAR = ['/app/userDetails'];
@@ -87,7 +85,6 @@ class Sidebar extends Component {
     };
 
     this.goToOrgPage = this.goToOrgPage.bind(this);
-    this.goToTeamRoomPage = this.goToTeamRoomPage.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }
 
@@ -179,50 +176,6 @@ class Sidebar extends Component {
 
     this.props.setCurrentSubscriberOrgId(orgId);
     this.props.history.push(`/app/organization/${orgId}`);
-  }
-
-  goToTeamRoomPage(teamRoomId) {
-    this.props.history.push(`/app/teamRoom/${teamRoomId}`);
-  }
-
-  renderTeamRooms(teamId) {
-    const { teamRooms, user } = this.props;
-    if (teamRooms.length === 0) {
-      return null;
-    }
-
-    let teamRoomsByTeamId = teamRooms.filter(teamRoom => teamRoom.teamId === teamId).sort(sortByName);
-
-    if (teamRoomsByTeamId.length > 0) {
-      teamRoomsByTeamId = primaryAtTop(teamRoomsByTeamId);
-    }
-
-    return teamRoomsByTeamId.map(teamRoom => {
-      let isAdmin = false;
-      if (teamRoom.teamRoommMembers) {
-        const teamRoomMemberFoundByUser = _.find(teamRoom.teamRoomMembers, { userId: user.userId });
-        isAdmin = teamRoomMemberFoundByUser.teamRooms[teamRoom.teamRoomId].role === 'admin';
-      }
-      if (!isAdmin && (!teamRoom.active || teamRoom.deleted)) return null;
-
-      return (
-        <Menu.Item key={teamRoom.teamRoomId}>
-          <div className="habla-left-navigation-teamroom-list">
-            <div className="habla-left-navigation-teamroom-list-item padding-class-a">
-              <div className="float-left-class">{renderAvatar(teamRoom, teamRoom.active)}</div>
-              <span
-                className="habla-left-navigation-item-label"
-                onClick={() => this.goToTeamRoomPage(teamRoom.teamRoomId)}
-              >
-                {teamRoom.name}
-              </span>
-              <div className="clear" />
-              <Badge count={0 /* TODO: get the actual count of unread messages */} />
-            </div>
-          </div>
-        </Menu.Item>
-      );
-    });
   }
 
   renderTeams(teamsActive) {
@@ -365,7 +318,7 @@ class Sidebar extends Component {
             </Link>
           </Tooltip>
         </div>
-        <div className="sidebar-teams-and-teamrooms">
+        <div className="sidebar-teams">
           <div className="sidebar-block-label">
             <span className="habla-label">
               {String.t('teams')}

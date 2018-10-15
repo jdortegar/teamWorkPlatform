@@ -47,7 +47,7 @@ const defaultProps = {
   onOwnerFilterClick: null,
   onIntegrationFilterClick: null,
   onFileTypeFilterClick: null,
-  onFileTypeFilterDoubleClick: null
+  onFileTypeFilterDoubleClick: () => {}
 };
 
 const FilesFilters = ({

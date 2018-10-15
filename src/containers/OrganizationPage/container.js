@@ -19,8 +19,7 @@ function mapStateToProps(state, props) {
     subscribers: getSubscribersOfSubscriberOrgId(state, subscriberOrgId),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
     teams: getTeamsOfSubscriberOrgIdSortedAlphabetically(state, subscriberOrgId),
-    integrations: getIntegrationsOfSubscriberOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
-    teamRooms: state.teamRooms
+    integrations: getIntegrationsOfSubscriberOrgId(state, state.subscriberOrgs.currentSubscriberOrgId)
   };
 }
 

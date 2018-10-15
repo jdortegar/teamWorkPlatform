@@ -24,13 +24,6 @@ export * from './teamUpdate';
 export * from './teamMembersFetch';
 export * from './teamMemberReceive';
 
-export * from './teamRoomReceive';
-export * from './teamRoomCreate';
-export * from './teamRoomUpdate';
-
-export * from './teamRoomMembersFetch';
-export * from './teamRoomMemberReceive';
-
 export * from './invitationsInvite';
 export * from './invitationReceive';
 export * from './invitationDeclined';
@@ -68,6 +61,7 @@ export * from './integrationsFetch';
 export * from './integrationsIntegrate';
 export * from './integrationsRevoke';
 export * from './integrationsConfigure';
+export * from './sharingSettings';
 
 export * from './lwPlantUptimeReportFetch';
 export * from './lwDailyPlantUptimeReportFetch';

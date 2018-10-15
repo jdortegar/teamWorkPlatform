@@ -21,3 +21,8 @@ export const getCurrentSubscriberOrg = createSelector(
   (currentSubscriberOrgId, subscriberOrgById) =>
     currentSubscriberOrgId ? subscriberOrgById[currentSubscriberOrgId] : null
 );
+
+export const getCurrentSubscriberOrgName = createSelector(
+  getCurrentSubscriberOrg,
+  currentSubscriberOrg => (currentSubscriberOrg ? currentSubscriberOrg.name : '')
+);

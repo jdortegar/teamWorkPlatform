@@ -155,27 +155,31 @@ class TeamPageV1 extends Component {
             {
               icon: 'fas fa-chart-bar',
               title: 'graphViewsSelector.electronics',
-              url: ''
+              url: '#',
+              className: 'disabled'
             },
             {
               icon: 'fas fa-chart-bar',
               title: 'graphViewsSelector.cpg',
-              url: ''
+              url: '#',
+              className: 'disabled'
             },
             {
               icon: 'fas fa-chart-bar',
               title: 'graphViewsSelector.manufacturing',
-              url: ''
+              url: '/app/dashboard'
             },
             {
               icon: 'fas fa-chart-bar',
               title: 'graphViewsSelector.retail',
-              url: ''
+              url: '#',
+              className: 'disabled'
             },
             {
               icon: 'fas fa-chart-bar',
               title: 'graphViewsSelector.relationshipHeatMap',
-              url: ''
+              url: '#',
+              className: 'disabled'
             }
           ]
         },

@@ -1,19 +1,19 @@
 .team-room__main-container--opacity {
-  opacity: .3;
+  opacity: 0.3;
 }
 .team-room__top-page-container {
   /*padding-bottom: 66px;*/
 }
 .team-room__chat-input {
-    border-radius: 4px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background: #eef2f8;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #eef2f8;
 }
 .team-room__chat-input .ant-input {
-	background: #eef2f8;
+  background: #eef2f8;
 }
 .team-room__header-links {
   padding: 6px 10px;
@@ -22,7 +22,7 @@
 }
 .team-room__header-links.active {
   background: #ddd;
-  color:#fff;
+  color: #fff;
 }
 .team-room__header-links a:hover {
   text-decoration: underline;
@@ -40,7 +40,8 @@
   height: 40px;
   font-size: 15px;
 }
-.team-room__chat-input-textfield:focus, .team-room__chat-input-textfield:hover{
+.team-room__chat-input-textfield:focus,
+.team-room__chat-input-textfield:hover {
   border-color: transparent;
   box-shadow: none;
 }
@@ -80,7 +81,7 @@
   text-decoration: underline;
   cursor: pointer;
 }
-.team-room__messages {
+.team__messages {
   flex: 6;
   overflow-y: scroll;
 }
@@ -104,27 +105,28 @@
   display: inline-block;
   cursor: pointer;
 }
-.team-room__file-upload-input:focus + label, .team-room__icons:focus {
+.team-room__file-upload-input:focus + label,
+.team-room__icons:focus {
   outline: 1px dotted #000;
   outline: -webkit-focus-ring-color auto 5px;
 }
 .team-room__chat-col-icons {
   display: flex;
 }
-.team-room__chat-col-icons a
-, .team-room__chat-col-icons svg {
+.team-room__chat-col-icons a,
+.team-room__chat-col-icons svg {
   color: #a9b7d7;
   font-size: 24px;
 }
-.team-room__chat-col-icons a:hover
-, .team-room__chat-col-icons svg:hover {
+.team-room__chat-col-icons a:hover,
+.team-room__chat-col-icons svg:hover {
   color: #999;
   cursor: pointer;
 }
 .team-room__members-typing {
   min-height: 2em;
-  font-size: .75em;
-  padding: .5em 0;
+  font-size: 0.75em;
+  padding: 0.5em 0;
   color: #999;
 }
 .team-room__members-typing-name {
@@ -138,23 +140,23 @@
   display: flex;
   flex: 1;
 }
-.team-room__messages .ant-col-md-18 {
-	width: 91%;
+.team__messages .ant-col-md-18 {
+  width: 91%;
 }
-.team-room__messages .ant-col-md-2 {
-	width: 50px;
+.team__messages .ant-col-md-2 {
+  width: 50px;
 }
 
 .teamRoomFilters {
-	float: right;
-	width: 50%;
+  float: right;
+  width: 50%;
 }
 .team-room__top-page-container .SimpleHeader-block {
-	float: left;
-	width: 50%;
+  float: left;
+  width: 50%;
 }
 .team-room__top-page-container .habla-main-content-filters-links {
-	flex-flow: row-reverse;
+  flex-flow: row-reverse;
 }
 .teamRoomInviteMembers .ant-avatar-string {
   font-size: 22px;

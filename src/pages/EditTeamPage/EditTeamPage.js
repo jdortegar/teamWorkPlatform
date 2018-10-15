@@ -157,7 +157,7 @@ class EditTeamPage extends Component {
                 {String.t('Buttons.cancel')}
               </Button>
               <Button type="main" fitText onClick={this.handleSubmit} loading={this.state.loading}>
-                {String.t('editTeamRoomPage.saveButtonLabel')}
+                {String.t('editTeamPage.saveButtonLabel')}
               </Button>
             </div>
           </Form>

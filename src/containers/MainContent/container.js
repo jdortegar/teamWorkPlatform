@@ -12,8 +12,7 @@ function mapStateToProps(state) {
     users: getUserByUserId(state),
     currentUserId: getCurrentUserId(state),
     subscriberOrgs: state.subscriberOrgs,
-    teams: state.teams,
-    teamRooms: state.teamRooms
+    teams: state.teams
   };
 }
 
