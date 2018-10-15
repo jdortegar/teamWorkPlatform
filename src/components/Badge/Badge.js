@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import String from '../../translations';
+import String from 'src/translations';
 import './styles/style.css';
 
 const propTypes = {

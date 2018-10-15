@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import countriesAndTimezones from 'countries-and-timezones';
 import classNames from 'classnames';
 import { Collapse, Form, message } from 'antd';
-import Button from '../../components/common/Button';
-import String from '../../translations';
-import { formShape } from '../../propTypes';
+
+import String from 'src/translations';
+import { formShape } from 'src/propTypes';
 import {
+  Button,
   FirstNameField,
   LastNameField,
   UsernameField,
@@ -15,7 +16,7 @@ import {
   TimezoneSelectField,
   UploadImageField,
   NewSubpageHeader
-} from '../../components';
+} from 'src/components';
 import './styles/style.css';
 
 const { Panel } = Collapse;

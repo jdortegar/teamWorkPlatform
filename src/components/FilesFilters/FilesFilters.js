@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { IntegrationFilter, FileTypeFilter, OwnerFilter } from 'components';
-import String from 'translations';
+import String from 'src/translations';
+import { IntegrationFilter, FileTypeFilter, OwnerFilter } from 'src/components';
 import './styles/style.css';
 
 const propTypes = {
@@ -47,7 +47,7 @@ const defaultProps = {
   onOwnerFilterClick: null,
   onIntegrationFilterClick: null,
   onFileTypeFilterClick: null,
-  onFileTypeFilterDoubleClick: null
+  onFileTypeFilterDoubleClick: () => {}
 };
 
 const FilesFilters = ({

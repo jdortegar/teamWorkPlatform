@@ -1,5 +1,5 @@
 import validate from 'validate.js';
-import String from '../../../translations';
+import String from 'src/translations';
 
 function notEndsWith(value, { message, searchString }) {
   if (!validate.isString(value)) {

@@ -1,5 +1,5 @@
 import validate from 'validate.js';
-import String from '../../../translations';
+import String from 'src/translations';
 
 const regex = /(?=.*[!@#$%^&*])/;
 const message = String.t('validationError.passwordOneSpecial');

@@ -1,7 +1,7 @@
 import React from 'react';
-import SimpleCardContainer from '../../../components/SimpleCardContainer';
-import SimpleHeader from '../../../components/SimpleHeader';
-import String from '../../../translations';
+
+import String from 'src/translations';
+import { SimpleCardContainer, SimpleHeader } from 'src/components';
 
 function CardView() {
   return (

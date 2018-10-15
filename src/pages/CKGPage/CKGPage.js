@@ -3,20 +3,18 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import * as d3 from 'd3';
 import { Icon } from 'antd';
+import { Link } from 'react-router-dom';
 
-import { integrationKeyFromFile } from 'utils/dataIntegrations';
+import String from 'src/translations';
+import { integrationKeyFromFile } from 'src/utils/dataIntegrations';
 import {
   FilesFilters,
-  NewSubpageHeader,
+  PageHeader,
   TimeActivityGraph,
-  GraphViewSelector,
   GraphActivitySelector,
   GraphZoomActions,
   TeamPicker
-  // TeamRoomPicker
-} from 'components';
-// import { primaryAtTop } from 'redux-hablaai/selectors/helpers';
-import String from 'translations';
+} from 'src/components';
 import './styles/style.css';
 
 const color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -44,40 +42,135 @@ const propTypes = {
   currentSubscriberOrgId: PropTypes.string.isRequired,
   setCurrentSubscriberOrgId: PropTypes.func.isRequired,
   fetchTimeActivitiesBySubscriberOrgId: PropTypes.func.isRequired,
+  search: PropTypes.func.isRequired,
   toggleIntegrationFilter: PropTypes.func.isRequired,
   toggleFileTypeFilter: PropTypes.func.isRequired,
   files: PropTypes.object,
   excludeFilters: PropTypes.object,
   teams: PropTypes.array,
-  teamRooms: PropTypes.array,
   match: PropTypes.shape({
     params: PropTypes.object.isRequired
-  }).isRequired
+  }).isRequired,
+  query: PropTypes.string,
+  caseSensitive: PropTypes.bool,
+  exactMatch: PropTypes.bool,
+  showHeader: PropTypes.bool
 };
 
 const defaultProps = {
   files: {},
   excludeFilters: {},
   teams: [],
-  teamRooms: []
+  query: '',
+  caseSensitive: false,
+  exactMatch: false,
+  showHeader: true
 };
+
+// Breadcrumb
+const pageBreadCrumb = {
+  routes: [
+    {
+      title: String.t('ckgPage.title')
+    },
+    {
+      title: String.t('graphViewsSelector.timeActivity')
+    }
+  ]
+};
+
+// Page Menu
+const menuPageHeader = [
+  {
+    icon: 'fas fa-chart-area',
+    title: 'graphViewsSelector.timeActivity',
+    url: ''
+  },
+  // {
+  //   icon: 'fas fa-bullseye',
+  //   title: 'graphViewsSelector.teamMemberContribution',
+  //   url: ''
+  // },
+  // {
+  //   icon: 'fas fa-clone',
+  //   title: 'graphViewsSelector.fileLineage',
+  //   url: ''
+  // },
+  // {
+  //   icon: 'fas fa-sitemap',
+  //   title: 'graphViewsSelector.relationshipHeatMap',
+  //   url: ''
+  // },
+  // {
+  //   icon: 'fas fa-bars',
+  //   title: 'graphViewsSelector.smartListView',
+  //   url: ''
+  // },
+  // {
+  //   icon: 'fas fa-stop',
+  //   title: 'graphViewsSelector.customGraph',
+  //   url: ''
+  // },
+  {
+    icon: 'fas fa-chart-bar',
+    title: 'graphViewsSelector.dashboard',
+    url: '',
+    submenu: [
+      {
+        title: 'graphViewsSelector.industryLabel',
+        url: '',
+        className: 'submenuTitle'
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.electronics',
+        url: '#',
+        className: 'disabled'
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.cpg',
+        url: '#',
+        className: 'disabled'
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.manufacturing',
+        url: '/app/dashboard'
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.retail',
+        url: '#',
+        className: 'disabled'
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.relationshipHeatMap',
+        url: '#',
+        className: 'disabled'
+      }
+    ]
+  }
+];
 
 class CKGPage extends Component {
   state = {
     zoomLevel: 0,
-    viewAll: false,
-    selectedTeamId: '',
-    selectedTeamRoomId: ''
+    viewAll: true,
+    selectedTeamId: ''
   };
 
   componentDidMount() {
     const {
-      fetchTimeActivitiesBySubscriberOrgId,
+      search,
       setCurrentSubscriberOrgId,
       currentSubscriberOrgId,
       history,
       match,
-      files
+      query,
+      caseSensitive,
+      exactMatch
     } = this.props;
 
     if (
@@ -91,9 +184,8 @@ class CKGPage extends Component {
     }
 
     const { subscriberOrgId } = match.params;
-    if (!files.items || files.items.length === 0) {
-      fetchTimeActivitiesBySubscriberOrgId(subscriberOrgId);
-    }
+    search(query, subscriberOrgId, caseSensitive, exactMatch);
+
     if (currentSubscriberOrgId !== subscriberOrgId) {
       setCurrentSubscriberOrgId(subscriberOrgId);
     }
@@ -104,19 +196,13 @@ class CKGPage extends Component {
       this.props.fetchTimeActivitiesBySubscriberOrgId(nextProps.currentSubscriberOrgId);
     }
 
-    const { teams, teamRooms, history } = nextProps;
-    if (teams.length === 0 || this.state.selectedTeamId || this.state.selectedTeamRoomId) return;
+    const { teams, history } = nextProps;
+    if (teams.length === 0 || this.state.selectedTeamId) return;
 
-    const { teamId, teamRoomId } = history.location.state || {};
+    const { teamId } = history.location.state || {};
     const selectedTeamId = teamId || teams[0].teamId;
-    let selectedTeamRoomId = teamRoomId;
 
-    if (!selectedTeamRoomId) {
-      const teamRoom = teamRooms.find(room => room.primary && room.teamId === selectedTeamId);
-      selectedTeamRoomId = teamRoom ? teamRoom.teamRoomId : '';
-    }
-
-    this.setState({ selectedTeamId, selectedTeamRoomId });
+    this.setState({ selectedTeamId });
   }
 
   handleZoomIn = () => {
@@ -141,10 +227,6 @@ class CKGPage extends Component {
     this.setState({ selectedTeamId: event.target.value });
   };
 
-  handleSelectTeamRoom = event => {
-    this.setState({ selectedTeamRoomId: event.target.value });
-  };
-
   handleIntegrationFilterClick = key => {
     this.props.toggleIntegrationFilter(key);
   };
@@ -153,31 +235,18 @@ class CKGPage extends Component {
     this.props.toggleFileTypeFilter(key);
   };
 
-  handleFileTypeFilterDoubleClick = () => {
-    // const { fileTypes } = this.props.files;
-    // const allSelected = Object.keys(this.state.excludeTypesFilter).length === fileTypes.length;
-    // const allFilters = fileTypes.reduce((obj, file) => ({ ...obj, [file.key]: true }), {});
-    // this.setState({ excludeTypesFilter: allSelected ? {} : allFilters });
-  };
-
   handleArrowClick = () => {
     this.props.history.push('/app/search');
   };
 
   renderSelectors = () => {
-    const { teams /* , teamRooms */ } = this.props;
-    const { selectedTeamId /* , selectedTeamRoomId */ } = this.state;
-    // const filteredTeamRooms = primaryAtTop(teamRooms.filter(teamRoom => teamRoom.teamId === selectedTeamId));
+    const { teams } = this.props;
+    const { selectedTeamId } = this.state;
 
     return (
       <div className="bottomBar-selectors">
         <div className="bottomBar-selectors-content padding-class-a">
           <TeamPicker teams={teams} selected={selectedTeamId} onSelect={this.handleSelectTeam} />
-          {/* <TeamRoomPicker
-            teamRooms={filteredTeamRooms}
-            selected={selectedTeamRoomId}
-            onSelect={this.handleSelectTeamRoom}
-          /> */}
           <div className="clear" />
         </div>
       </div>
@@ -197,7 +266,6 @@ class CKGPage extends Component {
         excludeTypesFilter={excludeFilters.fileTypes}
         onIntegrationFilterClick={this.handleIntegrationFilterClick}
         onFileTypeFilterClick={this.handleFileTypeFilterClick}
-        onFileTypeFilterDoubleClick={this.handleFileTypeFilterDoubleClick}
       />
     );
   }
@@ -205,8 +273,7 @@ class CKGPage extends Component {
   render() {
     const {
       files: { items },
-      excludeFilters,
-      currentSubscriberOrgId
+      excludeFilters
     } = this.props;
     if (!items) return null;
 
@@ -218,17 +285,9 @@ class CKGPage extends Component {
 
     return (
       <div className="CKGPage">
-        <NewSubpageHeader>
-          <div className="habla-main-content-header-title">
-            <GraphViewSelector currentSubscriberOrgId={currentSubscriberOrgId} />
-            <div className="habla-title flexClass breadcrumbLevels">
-              <div className="habla-title-light responsiveHideClass">{String.t('ckgPage.title')}</div>
-              <i className="fas fa-angle-right responsiveHideClass" />
-              <div className="habla-title-normal">{String.t('ckgPage.timeActivityGraph')}</div>
-            </div>
-          </div>
-        </NewSubpageHeader>
-
+        {this.props.showHeader && (
+          <PageHeader pageBreadCrumb={pageBreadCrumb} hasMenu menuName="settings" menuPageHeader={menuPageHeader} />
+        )}
         <div className="ckg-tools-container">
           <div className="habla-ckg-tools">
             <GraphActivitySelector />
@@ -255,6 +314,16 @@ class CKGPage extends Component {
             </a>
           </div>
         </div>
+
+        {this.props.files.integrations.length === 0 && (
+          <div className="CKGPage__center-message-container">
+            <div className="CKGPage__center-message">
+              <Link to={`/app/integrations/${this.props.currentSubscriberOrgId}`}>
+                {String.t('ckgPage.AddDataIntegration')}
+              </Link>
+            </div>
+          </div>
+        )}
 
         <TimeActivityGraph
           files={filesFiltered.map(buildDataObject)}

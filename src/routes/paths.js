@@ -14,21 +14,23 @@ export const paths = {
   acceptInvitation: '/app/acceptinvitation/:type/:id',
   integrations: '/app/integrations/:subscriberOrgId',
   integrationDetails: '/app/integrations/:subscriberOrgId/:integrationDetails/:status?',
-  organization: '/app/organization/:subscriberOrgId/:status?',
   newTeam: '/app/createTeam/:subscriberOrgId',
   inviteNewMember: '/app/inviteNewMember/:subscriberOrgId',
   inviteToTeam: '/app/inviteToTeam/:teamId',
-  inviteToTeamRoom: '/app/inviteToTeamRoom/:teamRoomId',
-  team: '/app/team/:teamId/:status?',
-  editOrganization: '/app/editOrganization/:subscriberOrgId',
+  team: '/app/team/:teamId/',
+  manageTeam: '/app/team/manage/:teamId/:status?',
   editTeam: '/app/editTeam/:teamId',
-  editTeamRoom: '/app/editTeamRoom/:teamRoomId',
-  teamRoom: '/app/teamRoom/:teamRoomId',
-  newTeamRoom: '/app/createTeamRoom/:teamId',
+  teamRoom: '/app/teamRoom/:teamRoomId', // WILL BE REMOVED
   member: '/app/teamMember/:teamMemberId',
   notifications: '/app/notifications',
   bookmarks: '/app/bookmarks/:subscriberOrgId',
   dashboard: '/app/dashboard/:reportId?',
   search: '/app/search',
-  ckg: '/app/ckg/:subscriberOrgId'
+  ckg: '/app/ckg/:subscriberOrgId',
+  // Admin Organization
+  organization: '/app/organization/:subscriberOrgId/:status?',
+  editOrganization: '/app/editOrganization/:subscriberOrgId',
+  organizationManageTeams: '/app/editOrganization/:subscriberOrgId/teams',
+  organizationManageMembers: '/app/editOrganization/:subscriberOrgId/members',
+  organizationDataIntegrations: '/app/editOrganization/:subscriberOrgId/dataIntegrations'
 };

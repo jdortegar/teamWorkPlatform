@@ -1,5 +1,5 @@
+import String from 'src/translations';
 import validate from './validate';
-import String from '../../translations';
 
 function antValidate(constraints) {
   if (constraints == null) {

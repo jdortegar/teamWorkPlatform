@@ -1,14 +1,10 @@
-import config from 'config/env';
+import { buildApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest } from './urlRequest';
 
 export const MESSAGES_FETCH_SUCCESS = 'messages/fetch/success';
 
-/**
- * @param conversationIdsMessagesIds array of objects of { conversationId, messageId }.
- */
 export const fetchMessages = conversationIdsMessagesIds => {
-  // requestUrl is the key into redux state.urlRequests.
-  const requestUrl = `${config.hablaApiBaseUri}/conversations/getMessages`;
+  const requestUrl = buildApiUrl('conversations/getMessages');
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { conversationIdsMessagesIds };

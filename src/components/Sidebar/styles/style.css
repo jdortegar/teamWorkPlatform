@@ -2,7 +2,7 @@
   display: none;
 }
 .ButtonFull {
-	width: 100%;
+  width: 100%;
 }
 
 /* LEFT NAVIGATION ---------- */
@@ -16,21 +16,21 @@
   overflow-x: hidden;
 }
 .habla-top-menu-settings .ant-avatar {
-	background-color: rgb(186, 198, 222);
-    border-bottom: 1px solid #8ca6d0;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
+  background-color: rgb(186, 198, 222);
+  border-bottom: 1px solid #8ca6d0;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
 }
 .habla-left-navigation-label {
-	padding: 8px 10px;
+  padding: 8px 10px;
 }
 .habla-left-navigation-list {
-	list-style-type: none;
-	margin: 0;
+  list-style-type: none;
+  margin: 0;
 }
 .habla-left-navigation-item {
-	position: relative;
+  position: relative;
 }
 .habla-left-navigation-item-label {
   font-weight: 700;
@@ -45,11 +45,7 @@
   white-space: nowrap;
   overflow: hidden;
 }
-.habla-left-navigation-teamroom-list {
-  padding-left: 15px;
-}
-.habla-left-navigation-team-list-item,
-.habla-left-navigation-teamroom-list-item {
+.habla-left-navigation-team-list-item {
   display: flex;
 }
 
@@ -84,68 +80,68 @@
   padding: 10px;
 }
 .organizationHeader {
-	background: #5b7eba;
-	color: #fff;
-	border-radius: 4px 4px 0 0;
+  background: #5b7eba;
+  color: #fff;
+  border-radius: 4px 4px 0 0;
 }
 .organizationHeader .habla-avatar {
-	float: left;
+  float: left;
 }
 .organizationHeader .organizationsList {
-	float: right;
-	position: relative;
-	top: -4px;
-	color: #92a4ce;
-	cursor: pointer;
-	font-size: 12px;
-	right: 3px;
+  float: right;
+  position: relative;
+  top: -4px;
+  color: #92a4ce;
+  cursor: pointer;
+  font-size: 12px;
+  right: 3px;
 }
 .organizationList li a {
-   padding: 5px 10px;
+  padding: 5px 10px;
 }
-.organizationHeader .habla-avatar--size-default, .organizationHeader .habla-avatar--size-default img {
-	display: inline-block;
+.organizationHeader .habla-avatar--size-default,
+.organizationHeader .habla-avatar--size-default img {
+  display: inline-block;
 }
 .organizationLinks {
-	background: #fff;
-	border-radius: 0 0 4px 4px;
+  background: #fff;
+  border-radius: 0 0 4px 4px;
 }
 .organizationLinks svg {
-	color: #5b7eba;
-	width: 20%!important;
-	height: 28px;
+  color: #5b7eba;
+  width: 20% !important;
+  height: 28px;
 }
 .organizationLinks svg:hover {
-	color: #3b5083;
+  color: #3b5083;
 }
 .organizationLinks svg.fa-globe {
-	opacity: 0.5%;
+  opacity: 0.5%;
 }
 .sidebar-actions {
-	padding: 8px 10px 10px 10px;
+  padding: 8px 10px 10px 10px;
 }
 .sidebar-actions .ant-input-affix-wrapper {
-	width: 100%;
+  width: 100%;
 }
 .sidebar-actions .ant-input-affix-wrapper .ant-input {
-	height: 25px;
-	background: #f0f0f0;
-	border: none;
-	border-radius: 15px;
+  height: 25px;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 15px;
 }
 .sidebar-actions .ant-input-affix-wrapper .ant-input-prefix i {
-	color: #a6a6a6!important;
-	font-weight: bold;
+  color: #a6a6a6 !important;
+  font-weight: bold;
 }
 .sidebar-actions .ant-input-affix-wrapper .ant-input-prefix {
-	left: 5px;
+  left: 5px;
 }
 .sidebar-actions .ant-input-affix-wrapper .ant-input:not(:first-child) {
-	padding-left: 22px;
+  padding-left: 22px;
 }
 .sidebar-actions svg {
-  color: #e6e6e6;
-  margin: 7px 7px 0 0;
+  color: #ccc;
 }
 .sidebar-label-number-badge {
   color: #fff;
@@ -179,18 +175,18 @@
   padding: 0 10px 6px 10px;
 }
 .sidebar-block-label {
-	padding: 10px;
-	display: flex;
+  padding: 10px;
+  display: flex;
 }
 .ant-menu-submenu .sidebar-block-label {
   padding: 10px;
 }
 .Sidebar .ant-menu-submenu-arrow {
-	right: 10px!important;
-	color: #fff;
+  right: 10px !important;
+  color: #fff;
 }
 ul.ant-menu-sub {
-	padding-bottom: 10px!important;
+  padding-bottom: 10px !important;
 }
 .sidebar-resize-icon {
   color: #cacaca;
@@ -198,37 +194,36 @@ ul.ant-menu-sub {
   padding: 10px 0;
 }
 .sidebar-resize-icon svg {
-  cursor:col-resize;
+  cursor: col-resize;
 }
-.sidebar-teams-and-teamrooms {
-	background: #fff;
-	margin-top: 10px;
-	border-radius: 5px 5px 0px 0px;
+.sidebar-teams {
+  background: #fff;
+  margin-top: 10px;
+  border-radius: 5px 5px 0px 0px;
 }
 .sidebar-direct-messages {
-	background: #fff;
-	margin-top: 10px;
-	border-radius: 5px 5px;
+  background: #fff;
+  margin-top: 10px;
+  border-radius: 5px 5px;
 }
 .sidebar-actions {
-	background: #fff;
-	border-radius: 0 0 5px 5px;
+  background: #fff;
+  border-radius: 0 0 5px 5px;
 }
 
-.organizationHeader
-, .sidebar-teams-and-teamrooms 
-, .sidebar-direct-messages
-, .habla-main-content {
-	border-right: 1px solid #bac6de;
+.organizationHeader,
+.sidebar-teams,
+.sidebar-direct-messages,
+.habla-main-content {
+  border-right: 1px solid #bac6de;
 }
-.organizationLinks
-, .sidebar-actions
-, .sidebar-direct-messages
-, .habla-main-content {
-	border-right: 1px solid #bcbcbc;
-	border-bottom: 1px solid #bcbcbc;
+.organizationLinks,
+.sidebar-actions,
+.sidebar-direct-messages,
+.habla-main-content {
+  border-right: 1px solid #bcbcbc;
+  border-bottom: 1px solid #bcbcbc;
 }
-.habla-left-navigation-team-list-item.padding-class-a
-, .habla-left-navigation-teamroom-list-item.padding-class-a {
-	padding: 3px 10px;
+.habla-left-navigation-team-list-item.padding-class-a {
+  padding: 3px 10px;
 }

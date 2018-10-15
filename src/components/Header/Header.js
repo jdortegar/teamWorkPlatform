@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Layout, Menu, Dropdown, Input, Icon, message } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
-import { hablaBlackLogo, hablaBlackLogoIcon } from '../../img';
+
+import String from 'src/translations';
+import { AvatarWrapper } from 'src/components';
+import { hablaBlackLogo, hablaBlackLogoIcon } from 'src/img';
 import SearchMenu from './SearchMenu';
 import './styles/style.css';
-import String from '../../translations';
 
 const AntdHeader = Layout.Header;
 
@@ -52,8 +53,8 @@ class Header extends Component {
 
   handleSearchSubmit = event => {
     event.preventDefault();
-    const { currentSubscriberOrgId, caseSensitive, andOperator } = this.props;
-    this.props.search(this.state.query, currentSubscriberOrgId, caseSensitive, andOperator);
+    const { currentSubscriberOrgId, caseSensitive, exactMatch } = this.props;
+    this.props.search(this.state.query, currentSubscriberOrgId, caseSensitive, exactMatch);
   };
 
   logOut() {
@@ -61,7 +62,7 @@ class Header extends Component {
   }
 
   renderMenuItems() {
-    const { user, caseSensitive, andOperator, toggleCaseSensitive, toggleAndOperator } = this.props;
+    const { user, caseSensitive, exactMatch, toggleCaseSensitive, toggleExactMatch } = this.props;
     const clearIconVisibility = this.state.query ? 'visible' : 'hidden';
 
     const muteNotificationMenu = (
@@ -175,9 +176,9 @@ class Header extends Component {
               </button>
               <SearchMenu
                 caseSensitive={caseSensitive}
-                andOperator={andOperator}
+                exactMatch={exactMatch}
                 onToggleCaseSensitive={toggleCaseSensitive}
-                onToggleAndOperator={toggleAndOperator}
+                onToggleExactMatch={toggleExactMatch}
               />
             </form>
           </div>
@@ -200,6 +201,7 @@ class Header extends Component {
                 <div className="ant-dropdown-link">
                   <AvatarWrapper size="default" user={user} hideStatusTooltip />
                   <span className="habla-top-menu-label">{user.firstName}</span>
+                  <Icon type="down" className="userMenu__dropdown-icon" />
                 </div>
               </Dropdown>
             </div>
@@ -232,14 +234,14 @@ Header.propTypes = {
   logoutUser: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,
   toggleCaseSensitive: PropTypes.func.isRequired,
-  toggleAndOperator: PropTypes.func.isRequired,
+  toggleExactMatch: PropTypes.func.isRequired,
   search: PropTypes.func.isRequired,
   clearSearch: PropTypes.func.isRequired,
   currentSubscriberOrgId: PropTypes.string.isRequired,
   user: PropTypes.object,
   query: PropTypes.string,
   caseSensitive: PropTypes.bool,
-  andOperator: PropTypes.bool,
+  exactMatch: PropTypes.bool,
   history: PropTypes.shape({
     push: PropTypes.func
   }).isRequired
@@ -248,7 +250,7 @@ Header.propTypes = {
 Header.defaultProps = {
   query: '',
   caseSensitive: false,
-  andOperator: false,
+  exactMatch: false,
   user: null
 };
 

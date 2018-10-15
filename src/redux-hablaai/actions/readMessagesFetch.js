@@ -1,11 +1,10 @@
-import config from 'config/env';
+import { buildApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const MESSAGES_READ_FETCH_SUCCESS = 'messages/read/fetch/success';
 
 export const fetchReadMessages = (conversationId = undefined, options = { getKey: false, forceGet: false }) => {
-  // requestUrl is the key into redux state.urlRequests.
-  let requestUrl = `${config.hablaApiBaseUri}/conversations/getReadMessages`;
+  let requestUrl = buildApiUrl('conversations/getReadMessages');
   requestUrl = conversationId ? `${requestUrl}/${conversationId}` : requestUrl;
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.

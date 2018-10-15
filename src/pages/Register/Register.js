@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Spin, Checkbox } from 'antd';
 import axios from 'axios';
-import { getAwsHeaders } from 'actions';
-import { formShape } from '../../propTypes';
-import config from '../../config/env';
-import { paths, extractQueryParams } from '../../routes';
-import EmailField from '../../components/formFields/EmailField';
-import String from '../../translations';
-import Button from '../../components/common/Button';
+
+import { buildApiUrl } from 'src/lib/api';
+import String from 'src/translations';
+import { formShape } from 'src/propTypes';
+import { getAwsHeaders } from 'src/actions';
+import { paths, extractQueryParams } from 'src/routes';
+import { Button, EmailField } from 'src/components';
 
 const FormItem = Form.Item;
 
@@ -66,7 +66,7 @@ class Register extends React.Component {
     this.setState({ submitting: true, email });
     const { awsCustomerId } = this.state;
 
-    axios.post(`${config.hablaApiBaseUri}/users/registerUser/`, { email }, getAwsHeaders(awsCustomerId)).then(() => {
+    axios.post(buildApiUrl('users/registerUser'), { email }, getAwsHeaders(awsCustomerId)).then(() => {
       this.setState({ submitting: false, registered: true });
     });
   }

@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Select, message } from 'antd';
 import { range } from 'lodash';
-import String from 'translations';
-import { Button } from 'components/common';
-import { availableIntegrationKeys, integrationLabelFromKey } from 'utils/dataIntegrations';
+
+import String from 'src/translations';
+import { availableIntegrationKeys, integrationLabelFromKey } from 'src/utils/dataIntegrations';
+import { Button } from 'src/components';
 
 const { Option } = Select;
 
@@ -66,7 +67,7 @@ class SurveyModal extends Component {
       <div className="surveyAnswer mt-1">
         <Select
           onChange={this.handleStep2Select}
-          mode="multiple"
+          mode="tags"
           placeholder={String.t(`surveys.${surveyType}.question-2.select`)}
           style={{ minWidth: 250 }}
         >
@@ -84,7 +85,7 @@ class SurveyModal extends Component {
       <div className="surveyAnswer mt-1">
         <Select
           onChange={this.handleStep3Select}
-          mode="multiple"
+          mode="tags"
           placeholder={String.t(`surveys.${surveyType}.question-3.select`)}
           style={{ minWidth: 250 }}
         >

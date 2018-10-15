@@ -148,3 +148,20 @@ a.habla-top-menu-active {
 .muteNotificationMenu svg {
   width: 20px !important;
 }
+.SearchPage__tag {
+  position: relative;
+  padding-left: 27px;
+}
+.SearchPage__tag .anticon-close {
+  position: absolute;
+  top: 9px;
+  left: -1px;
+  background: #a0a0a0;
+}
+.userMenu__dropdown-icon {
+  top: 2px;
+  margin-left: 5px;
+  color: #fff;
+  position: relative;
+}
+

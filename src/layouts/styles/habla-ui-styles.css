@@ -1,4 +1,10 @@
-/* HABLA AI GENERAL FORMATING ELEMENTS ---------- */
+/*
+==========================================================================
+HABLA CSS GENERAL STYLES
+==========================================================================
+*/
+
+/* ----------- FORMATING --------------- */
 
 .body {
   margin: 0;
@@ -16,32 +22,11 @@
   height: 100%;
   display: flex;
 }
-.desaturate {
-  filter: grayscale(100%);
-}
 .clear {
   clear: both;
 }
 .no-margin {
   margin: 0;
-}
-.no-border {
-  border: none;
-}
-.border-bottom-light {
-  border-bottom: 1px solid #eeeeee;
-}
-.border-bottom-lighter {
-  border-bottom: 1px solid #f7f7f7;
-}
-.border-bottom-red {
-  border-bottom: 1.5px solid #eb4435;
-}
-.border-top-light {
-  border-top: 1px solid #ccc;
-}
-.border-top-lighter {
-  border-top: 1px solid #eee;
 }
 .no-float {
   float: none;
@@ -49,23 +34,9 @@
 .display-block {
   display: block;
 }
-a {
-  text-decoration: none;
-  color: #32a953;
-}
-a:hover {
-  color: #32a953;
-}
-.habla-item-active {
-  background: #f7f7f7;
-}
-.habla-spinner-content {
-  text-align: center;
-  padding: 15px 0;
-}
-.habla-spinner-content .fa-pulse {
-  animation: fa-spin 0.7s infinite steps(8);
-}
+
+/* Alignment */
+
 .align-center-class {
   text-align: center;
 }
@@ -81,428 +52,8 @@ a:hover {
 .align-left-class {
   text-align: left;
 }
-.padding-class-a {
-  padding: 10px;
-}
-.padding-class-b {
-  padding: 20px;
-}
-.margin-top-class-a {
-  margin-top: 25px;
-}
-.margin-top-class-b {
-  margin-top: 7px;
-}
-.margin-left-class-a {
-  margin-left: 7px;
-}
-.margin-right-class-a {
-  margin-right: 7px;
-}
-.margin-bottom-class-a {
-  margin-bottom: 4px;
-}
-.habla-full-content {
-  width: 50%;
-}
-.habla-logo-image-responsive,
-.habla-title-responsive {
-  display: none;
-}
-p {
-  font-size: 10pt;
-  line-height: 1.4em;
-}
-.flex-class,
-.flexClass {
-  display: flex;
-}
 
-/* COLORS ---------- */
-
-.habla-color-white {
-  background: #fff;
-}
-.habla-color-black {
-  background: #000;
-}
-.habla-black {
-  color: #000;
-}
-.habla-color-yellow {
-  background: #fbbc12;
-}
-.habla-yellow {
-  color: #fbbc12;
-}
-.habla-color-green {
-  background: #32a953;
-}
-.habla-green {
-  color: #32a953;
-}
-.habla-color-blue {
-  background: #557dbf;
-}
-.habla-blue {
-  color: #557dbf;
-}
-.habla-color-red {
-  background: #eb4435;
-}
-.habla-red {
-  color: #eb4435;
-}
-.habla-color-grey {
-  background: #666;
-}
-.habla-grey {
-  color: #666;
-}
-.habla-color-lightgrey {
-  background: #ddd;
-}
-.habla-lightgrey {
-  color: #ddd;
-}
-.habla-color-lightergrey {
-  background: #eef2f8;
-}
-.habla-lightergrey {
-  color: #f5f7fe;
-}
-
-/* FONT SIZES AND STYLES ---------- */
-
-.habla-big-title {
-  font-size: 20pt;
-  line-height: 24pt;
-  color: #666;
-  font-weight: 300;
-}
-.habla-title {
-  font-size: 14pt;
-  line-height: 18pt;
-  color: #000;
-  font-weight: 900;
-}
-.habla-title-light {
-  font-size: 14pt;
-  line-height: 18pt;
-  color: #000;
-  font-weight: 300;
-}
-.habla-paragraph {
-  font-size: 10pt;
-  line-height: 14pt;
-  color: #000;
-  line-height: 1.3em;
-}
-.habla-secondary-paragraph {
-  font-size: 10pt;
-  line-height: 14pt;
-  color: #999;
-}
-.habla-label {
-  font-size: 7pt;
-  text-transform: uppercase;
-  color: #999999;
-}
-.habla-label a {
-  color: #999999;
-}
-.habla-bold-text {
-  font-weight: 700;
-}
-.habla-main-content-item-signal {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  position: absolute;
-  right: -15px;
-  top: 0px;
-}
-
-/* Others */
-.EditButton__button {
-  color: #999;
-}
-
-/* General CSS Styles for Habla Web App Modal Windows */
-
-.ant-modal-footer {
-  border: none;
-  text-align: center;
-  padding: 20px;
-}
-.ant-modal-title {
-  font-weight: bold;
-}
-.ant-modal-body {
-  padding: 0;
-  font-family: 'Lato', sans-serif;
-}
-.ant-layout-has-sider {
-  position: relative;
-}
-
-/* General CSS Styles for Habla Web App Dopdown Menus */
-.ant-dropdown-menu {
-  background-color: #444 !important;
-  padding-bottom: 10px;
-}
-.ant-dropdown-menu .habla-label {
-  font-weight: 900;
-  color: #fff;
-}
-.ant-dropdown-menu-item {
-  background-color: #444 !important;
-  color: #fff !important;
-}
-.ant-dropdown-menu-item a {
-  color: #fff !important;
-}
-.ant-dropdown-menu-item a svg {
-  color: #8f8f8f;
-}
-.ant-dropdown-menu-submenu-title {
-  color: #fff !important;
-  padding: 0 10px 0 33px !important;
-}
-.ant-dropdown-menu-item .ant-dropdown-menu-submenu-arrow:after,
-.ant-dropdown-menu-submenu-title .ant-dropdown-menu-submenu-arrow:after {
-  color: #7c7c7c !important;
-}
-.ant-dropdown-menu-submenu-title::before {
-  display: none;
-  font-family: 'Font Awesome 5 Solid';
-  content: '\f080';
-}
-.ant-dropdown-menu-submenu ul {
-  font-family: sans-serif !important;
-}
-.ant-dropdown-menu-submenu-title svg {
-  margin: 0 10px 0 0;
-}
-.ant-dropdown-menu-item .ant-dropdown-menu-submenu-arrow,
-.ant-dropdown-menu-submenu-title .ant-dropdown-menu-submenu-arrow {
-  position: relative !important;
-  right: -4px !important;
-  color: #7c7c7c;
-  margin: 0 5px;
-}
-.ant-dropdown-menu-item-selected,
-.ant-dropdown-menu-submenu-title-selected,
-.ant-dropdown-menu-item-selected > a,
-.ant-dropdown-menu-submenu-title-selected > a {
-  background: #333;
-  color: #fff;
-}
-.ant-dropdown-menu-item a:hover,
-.ant-dropdown-menu-submenu-title:hover {
-  background: #333;
-  color: #fff !important;
-}
-.ant-dropdown-menu-item > a,
-.ant-dropdown-menu-submenu-title > a {
-  padding: 0 10px;
-  margin: 0;
-}
-.ant-dropdown-menu-item,
-.ant-dropdown-menu-submenu-title {
-  padding: 0;
-}
-.ant-dropdown-menu-item i,
-.ant-dropdown-menu-item svg,
-.ant-dropdown-menu-item .habla-top-navigation-dropdown-signal {
-  margin-right: 5px;
-}
-.ant-table-column-sorter {
-  top: 1px;
-  left: 0px;
-}
-.ant-table-column-sorter i:hover {
-  color: #5b7eba;
-}
-.ant-table-column-sorter-down {
-  margin: 0;
-}
-.habla-top-menu-search .ant-input-affix-wrapper .ant-input-suffix {
-  right: 8px;
-}
-.ant-table-thead th {
-  line-height: 0 !important;
-}
-
-/* Habla Content Header  */
-
-.habla-main-content-header i {
-  margin: 0 5px;
-  color: #999;
-  font-size: 1.4em;
-}
-.habla-main-content-header i.fa-angle-right {
-  font-size: 0.8em;
-  margin: 0 8px;
-  position: relative;
-  bottom: 3px;
-}
-
-.habla-main-content-header-title,
-.habla-main-content-filters-links {
-  display: flex;
-  align-items: center;
-}
-.habla-main-content-header {
-  display: initial;
-}
-.habla-main-content-header.flexClass {
-  display: flex;
-}
-.habla-main-content-header-title {
-  flex: 1;
-}
-.habla-main-content-header-title svg,
-.CKGPage__title svg,
-.userAccountSetting .habla-main-content-header svg {
-  margin-right: 10px;
-  font-size: 18px;
-  color: #ccc;
-}
-.habla-main-content-header-title .fa-angle-right {
-  font-size: 10px;
-}
-.habla-main-content-header-title .breadcrumbs-separator svg {
-  margin-right: 0 !important;
-}
-.habla-main-content-filters-links div {
-  background: #fff;
-  padding: 7px;
-  border-radius: 3px;
-  font-size: 10px;
-  text-transform: uppercase;
-  color: #999;
-}
-.habla-main-content-filters-links div:hover {
-  background: #ccc;
-  color: #fff;
-  cursor: pointer;
-}
-
-.habla-main-content-header-actions i {
-  font-size: 2em;
-  vertical-align: middle;
-  margin-left: 5px;
-}
-.breadcrumb-icon {
-  font-size: 13px !important;
-}
-.habla-main-content-header .EditButton__button {
-  margin-left: 10px;
-}
-.breadcrumbLevels svg {
-  margin: 4px 8px 0 8px;
-}
-
-.habla-main-content-header-breadcrumb .habla-title,
-.habla-main-content-header-breadcrumb .habla-title-light,
-.habla-main-content-header-title .habla-title,
-.habla-main-content-header-title .habla-title-light,
-.Subpage-header__title.habla-title,
-.Subpage-header__title.habla-title-light,
-.subpage__header__title.habla-title,
-.subpage__header__title.habla-title-light,
-.hablaTitleBreadcrumb {
-  font-size: 12pt;
-}
-
-/* Overlays */
-
-.habla-top-navigation-avatar-signal {
-  border-radius: 50%;
-  border: 1px solid #fff;
-  position: absolute;
-  z-index: 2;
-  overflow: visible;
-}
-.habla-avatar-signal-small {
-  width: 8px;
-  height: 8px;
-  right: -3px;
-  top: -3px;
-}
-.habla-avatar-signal-default {
-  width: 10px;
-  height: 10px;
-  right: -3px;
-  top: -3px;
-}
-.habla-avatar-signal-large {
-  width: 14px;
-  height: 14px;
-  right: 3px;
-  top: 3px;
-}
-.habla-avatar-signal-x-large {
-  width: 18px;
-  height: 18px;
-  right: 5px;
-  top: 5px;
-}
-.habla-top-menu-subitem {
-  position: relative;
-  display: inline-block;
-}
-
-.habla-MemberListing__title {
-  font-weight: 600;
-}
-.habla-MemberListing__member-row {
-  display: flex;
-  margin: 0px;
-  margin-right: 8px;
-  padding: 6px;
-  justify-items: center;
-  align-items: center;
-  cursor: pointer;
-}
-.habla-MemberListing__member-image {
-  justify-content: center;
-}
-.habla-MemberListing__member-text {
-  margin-left: 8px;
-  margin-right: 8px;
-  width: 100%;
-}
-.habla-MemberListing__inviteButton-text {
-  font-size: 12px;
-  font-weight: 800;
-  margin-right: 6px;
-  min-width: 200px;
-  text-align: right;
-}
-.habla__placeholder-centered-container {
-  margin: 90px;
-  display: flex;
-  height: 100%;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-}
-.habla__placeholder-centered-text {
-  text-align: center;
-  color: #ccc;
-}
-.habla-tab__item {
-  margin: 0px 0px 0px 3px;
-  padding: 3px 10px;
-}
-.habla-tab__item.active {
-  background: #888 !important;
-  color: #fff !important;
-}
-
-/* Standard Margin and Padding Classes */
+/* General Paddings */
 
 .pl-0 {
   padding-left: 0;
@@ -642,6 +193,18 @@ p {
 .p-5 {
   padding: 40px;
 }
+
+/* Custom Padding */
+
+.padding-class-a {
+  padding: 10px;
+}
+.padding-class-b {
+  padding: 20px;
+}
+
+/* General Margins */
+
 .ml-0 {
   margin-left: 0;
 }
@@ -789,6 +352,595 @@ p {
 .m-5 {
   margin: 40px;
 }
+
+/* Custom Margin */
+
+.margin-top-class-a {
+  margin-top: 25px;
+}
+.margin-top-class-b {
+  margin-top: 7px;
+}
+.margin-left-class-a {
+  margin-left: 7px;
+}
+.margin-right-class-a {
+  margin-right: 7px;
+}
+.margin-bottom-class-a {
+  margin-bottom: 4px;
+}
+
+/* ----------- COLORS --------------- */
+
+/* Font Colors */
+
+.habla-black {
+  color: #000;
+}
+.habla-white {
+  color: #fff;
+}
+.habla-yellow {
+  color: #fbbc12;
+}
+.habla-green {
+  color: #32a953;
+}
+.habla-blue {
+  color: #557dbf;
+}
+.habla-lightblue {
+  color: #6f86bc;
+}
+.habla-lighertblue {
+  color: #a8bada;
+}
+.habla-red {
+  color: #eb4435;
+}
+.habla-grey {
+  color: #666;
+}
+.habla-lightgrey {
+  color: #ddd;
+}
+.habla-lightergrey {
+  color: #f5f7fe;
+}
+
+/* Backgrounds */
+
+.habla-color-white {
+  background: #fff;
+}
+.habla-color-black {
+  background: #000;
+}
+.habla-color-yellow {
+  background: #fbbc12;
+}
+.habla-color-green {
+  background: #32a953;
+}
+.habla-color-blue {
+  background: #557dbf;
+}
+.habla-color-lightblue {
+  background: #6f86bc;
+}
+.habla-color-lighertblue {
+  background: #a8bada;
+}
+.habla-color-red {
+  background: #eb4435;
+}
+.habla-color-grey {
+  background: #666;
+}
+.habla-color-lightgrey {
+  background: #ddd;
+}
+.habla-color-lightergrey {
+  background: #eef2f8;
+}
+
+/* Borders */
+
+.no-border {
+  border: none;
+}
+.border-white-2 {
+  border: 2px solid #ffffff;
+}
+.border-bottom-light {
+  border-bottom: 1px solid #eeeeee;
+}
+.border-bottom-lighter {
+  border-bottom: 1px solid #f7f7f7;
+}
+.border-bottom-red {
+  border-bottom: 1.5px solid #eb4435;
+}
+.border-top-light {
+  border-top: 1px solid #ccc;
+}
+.border-top-lighter {
+  border-top: 1px solid #eee;
+}
+
+/* To review */
+.habla-item-active {
+  background: #f7f7f7;
+}
+
+/* Effects */
+.desaturate {
+  filter: grayscale(100%);
+}
+
+/* ----------- FONT STYLES --------------- */
+
+/* Weights */
+
+.habla-lighter-text {
+  font-weight: 100;
+}
+
+.habla-light-text {
+  font-weight: 300;
+}
+.habla-regular-text {
+  font-weight: 400;
+}
+.habla-bold-text {
+  font-weight: 700;
+}
+.habla-black-text {
+  font-weight: 900;
+}
+
+/* Anchors */
+a {
+  text-decoration: none;
+  color: #32a953;
+}
+a:hover {
+  color: #32a953;
+}
+
+p {
+  font-size: 10pt;
+  line-height: 1.4em;
+}
+
+/* To do: define h1 to h6, p, ul, li, etc font sizes */
+
+p {
+  font-size: 10pt;
+  line-height: 1.4em;
+}
+
+/* Titles */
+
+.habla-organization-title {
+  font-size: 20pt;
+  line-height: 24pt;
+  color: #fff;
+  font-weight: 900;
+}
+.habla-big-title {
+  font-size: 20pt;
+  line-height: 24pt;
+  color: #666;
+  font-weight: 300;
+}
+.habla-title {
+  font-size: 14pt;
+  line-height: 18pt;
+  color: #000;
+  font-weight: 900;
+}
+.habla-title-light {
+  font-size: 14pt;
+  line-height: 18pt;
+  color: #000;
+  font-weight: 300;
+}
+.habla-title-normal {
+  font-size: 14pt;
+  line-height: 18pt;
+  color: #000;
+  font-weight: 900;
+}
+
+/* Paragraphs */
+
+.habla-paragraph {
+  font-size: 10pt;
+  line-height: 14pt;
+  color: #000;
+  line-height: 1.3em;
+}
+.habla-secondary-paragraph {
+  font-size: 10pt;
+  line-height: 14pt;
+  color: #999;
+}
+.habla-label {
+  font-size: 7pt;
+  text-transform: uppercase;
+  color: #999999;
+}
+.habla-label a {
+  color: #999999;
+}
+.habla-main-content-item-signal {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  right: -15px;
+  top: 0px;
+}
+
+/* ----------- FLEX STYLES --------------- */
+
+.flex-class,
+.flexClass {
+  display: flex;
+}
+
+.flexClass-valign-middle {
+  display: flex;
+  align-items: center;
+}
+
+/* ----------- TABLES STYLES --------------- */
+
+.table-container .ant-table-thead > tr > th {
+  background: #fff;
+  -webkit-transition: background 0.3s ease;
+  transition: background 0.3s ease;
+  text-align: left;
+  color: #a6a6a6;
+  font-size: 12px;
+  border-bottom: 1px solid #e8e8e8;
+  padding: 12px 10px !important;
+  text-transform: uppercase;
+}
+
+.table-container .table-team-container,
+.table-container .table-user-container {
+  display: flex;
+  align-items: center;
+}
+
+.table-container .habla-table-label {
+  color: #999;
+  text-decoration: none;
+  font-size: 14px;
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.table-container .habla-avatar-label {
+  padding-left: 7px;
+}
+
+/* ----------- AVATAR --------------- */
+
+.avatar-label-container {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-label-container .habla-avatar-label {
+  padding-left: 7px;
+}
+
+/* ----------- STYLES TO REVIEW AND GROUP --------------- */
+
+.habla-spinner-content {
+  text-align: center;
+  padding: 15px 0;
+}
+.habla-spinner-content .fa-pulse {
+  animation: fa-spin 0.7s infinite steps(8);
+}
+
+.habla-full-content {
+  width: 50%;
+}
+.habla-logo-image-responsive,
+.habla-title-responsive {
+  display: none;
+}
+
+/* Others */
+.EditButton__button {
+  color: #999;
+}
+
+/* General CSS Styles for Habla Web App Modal Windows */
+
+.ant-modal-footer {
+  border: none;
+  text-align: center;
+  padding: 20px;
+}
+.ant-modal-title {
+  font-weight: bold;
+}
+.ant-modal-body {
+  padding: 0;
+  font-family: 'Lato', sans-serif;
+}
+.ant-layout-has-sider {
+  position: relative;
+}
+
+/* General CSS Styles for Habla Web App Dopdown Menus */
+.ant-dropdown-menu {
+  background-color: #444 !important;
+  padding-bottom: 10px;
+}
+.ant-dropdown-menu .habla-label {
+  font-weight: 900;
+  color: #fff;
+}
+.ant-dropdown-menu-item {
+  background-color: #444 !important;
+  color: #fff !important;
+}
+.ant-dropdown-menu-item a {
+  color: #fff !important;
+}
+.ant-dropdown-menu-item a svg {
+  color: #8f8f8f;
+}
+.activitySelectorMenu .ant-dropdown-menu-item a svg {
+  color: #acbbe0;
+}
+.ant-dropdown-menu-submenu-title {
+  color: #fff !important;
+  padding: 0 10px 0 33px !important;
+}
+.ant-dropdown-menu-item .ant-dropdown-menu-submenu-arrow:after,
+.ant-dropdown-menu-submenu-title .ant-dropdown-menu-submenu-arrow:after {
+  color: #7c7c7c !important;
+}
+.ant-dropdown-menu-submenu-title::before {
+  display: none;
+  font-family: 'Font Awesome 5 Solid';
+  content: '\f080';
+}
+.ant-dropdown-menu-submenu ul {
+  font-family: sans-serif !important;
+}
+.ant-dropdown-menu-submenu-title svg {
+  margin: 0 10px 0 0;
+}
+.ant-dropdown-menu-item .ant-dropdown-menu-submenu-arrow,
+.ant-dropdown-menu-submenu-title .ant-dropdown-menu-submenu-arrow {
+  position: relative !important;
+  right: -4px !important;
+  color: #7c7c7c;
+  margin: 0 5px;
+}
+.ant-dropdown-menu-item-selected,
+.ant-dropdown-menu-submenu-title-selected,
+.ant-dropdown-menu-item-selected > a,
+.ant-dropdown-menu-submenu-title-selected > a {
+  background: #333;
+  color: #fff;
+}
+.ant-dropdown-menu-item a:hover,
+.ant-dropdown-menu-submenu-title:hover {
+  background: #333;
+  color: #fff !important;
+}
+.ant-dropdown-menu-item > a,
+.ant-dropdown-menu-submenu-title > a {
+  padding: 0 10px;
+  margin: 0;
+}
+.ant-dropdown-menu-item,
+.ant-dropdown-menu-submenu-title {
+  padding: 0;
+}
+.ant-dropdown-menu-item i,
+.ant-dropdown-menu-item svg,
+.ant-dropdown-menu-item .habla-top-navigation-dropdown-signal {
+  margin-right: 5px;
+}
+.ant-table-column-sorter {
+  top: 1px;
+  left: 0px;
+}
+.ant-table-column-sorter i:hover {
+  color: #5b7eba;
+}
+.ant-table-column-sorter-down {
+  margin: 0;
+}
+.habla-top-menu-search .ant-input-affix-wrapper .ant-input-suffix {
+  right: 8px;
+}
+.ant-table-thead th {
+  line-height: 0 !important;
+}
+
+/* Habla Content Header  */
+
+.habla-main-content-header i {
+  margin: 0 5px;
+  color: #999;
+  font-size: 1.4em;
+}
+.habla-main-content-header i.fa-angle-right {
+  font-size: 0.8em;
+  margin: 0 8px;
+  position: relative;
+  bottom: 3px;
+}
+
+.habla-main-content-header-title,
+.habla-main-content-filters-links {
+  display: flex;
+  align-items: center;
+}
+.habla-main-content-header {
+  display: initial;
+}
+.habla-main-content-header.flexClass {
+  display: flex;
+}
+.habla-main-content-header-title {
+  flex: 1;
+}
+.habla-main-content-header-title svg,
+.CKGPage__title svg,
+.userAccountSetting .habla-main-content-header svg {
+  margin-right: 10px;
+  font-size: 18px;
+  color: #ccc;
+}
+.habla-main-content-header-title .fa-angle-right {
+  font-size: 10px;
+}
+.habla-main-content-header-title .breadcrumbs-separator svg {
+  margin-right: 0 !important;
+}
+.habla-main-content-filters-links div {
+  background: #fff;
+  padding: 7px;
+  border-radius: 3px;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #999;
+}
+.habla-main-content-filters-links div:hover {
+  background: #ccc;
+  color: #fff;
+  cursor: pointer;
+}
+
+.habla-main-content-header-actions i {
+  font-size: 2em;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+.breadcrumb-icon {
+  font-size: 13px !important;
+}
+.habla-main-content-header .EditButton__button {
+  margin-left: 10px;
+}
+.breadcrumbLevels svg {
+  margin: 0 8px;
+}
+
+.habla-main-content-header-breadcrumb .habla-title,
+.habla-main-content-header-breadcrumb .habla-title-light,
+.habla-main-content-header-title .habla-title,
+.habla-main-content-header-title .habla-title-light,
+.habla-main-content-header-title .habla-title-normal,
+.Subpage-header__title.habla-title,
+.Subpage-header__title.habla-title-light,
+.subpage__header__title.habla-title,
+.subpage__header__title.habla-title-light,
+.hablaTitleBreadcrumb {
+  font-size: 12pt;
+}
+
+/* Overlays */
+
+.habla-top-navigation-avatar-signal {
+  border-radius: 50%;
+  border: 1px solid #fff;
+  position: absolute;
+  z-index: 2;
+  overflow: visible;
+}
+.habla-avatar-signal-small {
+  width: 8px;
+  height: 8px;
+  right: -3px;
+  top: -3px;
+}
+.habla-avatar-signal-default {
+  width: 10px;
+  height: 10px;
+  right: -3px;
+  top: -3px;
+}
+.habla-avatar-signal-large {
+  width: 14px;
+  height: 14px;
+  right: 3px;
+  top: 3px;
+}
+.habla-avatar-signal-x-large {
+  width: 18px;
+  height: 18px;
+  right: 5px;
+  top: 5px;
+}
+.habla-top-menu-subitem {
+  position: relative;
+  display: inline-block;
+}
+
+.habla-MemberListing__title {
+  font-weight: 600;
+}
+.habla-MemberListing__member-row {
+  display: flex;
+  margin: 0px;
+  margin-right: 8px;
+  padding: 6px;
+  justify-items: center;
+  align-items: center;
+  cursor: pointer;
+}
+.habla-MemberListing__member-image {
+  justify-content: center;
+}
+.habla-MemberListing__member-text {
+  margin-left: 8px;
+  margin-right: 8px;
+  width: 100%;
+}
+.habla-MemberListing__inviteButton-text {
+  font-size: 12px;
+  font-weight: 800;
+  margin-right: 6px;
+  min-width: 200px;
+  text-align: right;
+}
+.habla__placeholder-centered-container {
+  margin: 90px;
+  display: flex;
+  height: 100%;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+.habla__placeholder-centered-text {
+  text-align: center;
+  color: #ccc;
+}
+.habla-tab__item {
+  margin: 0px 0px 0px 3px;
+  padding: 3px 10px;
+}
+.habla-tab__item.active {
+  background: #888 !important;
+  color: #fff !important;
+}
 .opacity-low {
   opacity: 0.3;
 }
@@ -848,6 +1000,13 @@ p {
 .ant-menu-vertical-left > .ant-menu-submenu > .ant-menu-submenu-title,
 .ant-menu-vertical-right > .ant-menu-submenu > .ant-menu-submenu-title,
 .ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
+  line-height: 0;
+  height: auto;
+  padding: 0;
+  margin: 0;
+}
+
+.ant-menu-inline > .ant-menu-item {
   line-height: 0 !important;
   height: auto !important;
   padding: 0 !important;
@@ -867,7 +1026,7 @@ p {
   font-family: 'Lato', sans-serif;
   background: transparent;
 }
-.ant-menu-submenu > .ant-menu {
+.habla-left-navigation-item .ant-menu-submenu > .ant-menu {
   background: transparent;
 }
 .Sidebar ul.ant-menu li.ant-menu-submenu {
@@ -1092,9 +1251,6 @@ ul.ant-menu li.ant-menu-submenu:hover {
     margin-top: 2px;
     text-align: center;
   }
-  .habla-left-navigation-teamroom-list {
-    padding-left: 0;
-  }
   .sidebar-actions {
     text-align: center;
   }
@@ -1107,7 +1263,7 @@ ul.ant-menu li.ant-menu-submenu:hover {
     position: relative;
     left: -7px;
   }
-  .team-room__messages .ant-col-md-18 {
+  .team__messages .ant-col-md-18 {
     width: 80%;
   }
   .ant-input-affix-wrapper {

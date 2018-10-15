@@ -39,7 +39,7 @@ import {
   fileType_XLS,
   fileType_XML,
   fileType_ZIP
-} from '../img/index';
+} from 'src/img/index';
 
 function imageSrcFromFileExtension(fileExtension) {
   if (!fileExtension) return fileType_File;

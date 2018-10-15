@@ -5,21 +5,25 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { formShape } from 'propTypes';
-import BreadCrumb from 'components/BreadCrumb';
-import SubpageHeader from 'components/SubpageHeader';
-import SimpleHeader from 'components/SimpleHeader';
-import Spinner from 'components/Spinner';
-import SimpleCardContainer from 'components/SimpleCardContainer';
-import TextField from 'components/formFields/TextField';
-import Avatar from 'components/common/Avatar';
-import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
-import PreviewBar from 'components/PreviewBar';
-import Message from 'components/Message';
-import String from 'translations';
+
+import String from 'src/translations';
+import { formShape } from 'src/propTypes';
+import { sortByFirstName } from 'src/redux-hablaai/selectors/helpers';
+import { messageAction } from 'src/components/Message/Message';
+import {
+  BreadCrumb,
+  SubpageHeader,
+  SimpleHeader,
+  Spinner,
+  SimpleCardContainer,
+  TextField,
+  Avatar,
+  AvatarWrapper,
+  PreviewBar,
+  Message
+} from 'src/components';
+
 import './styles/style.css';
-import { sortByFirstName } from '../../redux-hablaai/selectors/helpers';
-import { messageAction } from '../../components/Message/Message';
 
 const filterOption = {
   all: 'all',
@@ -266,7 +270,7 @@ class TeamRoomPage extends Component {
   }
 
   isNearBottom = () => {
-    const messagesContainer = document.getElementsByClassName('team-room__messages')[0];
+    const messagesContainer = document.getElementsByClassName('team__messages')[0];
     if (!messagesContainer) return false;
 
     const { scrollHeight, scrollTop, clientHeight } = messagesContainer;
@@ -276,7 +280,7 @@ class TeamRoomPage extends Component {
   };
 
   scrollToBottom = () => {
-    const messagesContainer = document.getElementsByClassName('team-room__messages')[0];
+    const messagesContainer = document.getElementsByClassName('team__messages')[0];
     if (!messagesContainer) return;
 
     const { clientHeight, scrollHeight } = messagesContainer;
@@ -663,7 +667,7 @@ class TeamRoomPage extends Component {
             </SimpleCardContainer>
           )}
 
-          <SimpleCardContainer className="team-room__messages">{this.renderMessages(isAdmin)}</SimpleCardContainer>
+          <SimpleCardContainer className="team__messages">{this.renderMessages(isAdmin)}</SimpleCardContainer>
 
           <SimpleCardContainer className="team-room__chat-container">
             {this.state.showPreviewBox && (

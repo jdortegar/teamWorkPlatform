@@ -1,5 +1,5 @@
-import String from '../../translations';
-import { integrationLabelFromKey } from '../../utils/dataIntegrations';
+import String from 'src/translations';
+import { integrationLabelFromKey } from 'src/utils/dataIntegrations';
 
 export function successfulIntegration(integration) {
   const name = integrationLabelFromKey(integration);

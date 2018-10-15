@@ -1,10 +1,11 @@
 import React from 'react';
 import { Form } from 'antd';
 import PropTypes from 'prop-types';
-import { formShape } from '../../../propTypes';
-import { antValidate, email } from '../../../validations';
+
+import String from 'src/translations';
+import { formShape } from 'src/propTypes';
+import { antValidate, email } from 'src/validations';
 import BaseInput from '../BaseInput';
-import String from '../../../translations';
 
 const FormItem = Form.Item;
 

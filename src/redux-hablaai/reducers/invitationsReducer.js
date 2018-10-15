@@ -4,7 +4,7 @@ import {
   INVITATIONS_FETCH_SUCCESS,
   INVITATION_DECLINED,
   INVITATION_DECLINED_UPDATE
-} from '../actions';
+} from 'src/actions';
 
 const INITIAL_STATE = {
   invitations: [],

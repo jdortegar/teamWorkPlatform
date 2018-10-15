@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import InviteNewMemberPage from '../../pages/InviteNewMemberPage';
-import { inviteNewSubscribers } from '../../actions';
+import { inviteNewSubscribers } from 'src/actions';
+import { InviteNewMemberPage } from 'src/pages';
 
 function mapStateToProps(state) {
   return {

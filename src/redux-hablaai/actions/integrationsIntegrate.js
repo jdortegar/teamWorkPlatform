@@ -1,4 +1,4 @@
-import config from 'config/env';
+import { buildApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest } from './urlRequest';
 import { INTEGRATION_ERROR, INTEGRATION_ERROR_BADSUBSCRIBERORG } from './integrations';
 
@@ -7,8 +7,7 @@ const integrate = (type, subscriberOrgId, options = { getKey: false }, params = 
     getKey: options.getKey,
     forceGet: true
   };
-  // requestUrl is the key into redux state.urlRequests.
-  let requestUrl = `${config.hablaApiBaseUri}/integrations/${type}/integrate/${subscriberOrgId}`;
+  let requestUrl = buildApiUrl(`integrations/${type}/integrate/${subscriberOrgId}`);
 
   if (params) {
     const paramsString = Object.keys(params)

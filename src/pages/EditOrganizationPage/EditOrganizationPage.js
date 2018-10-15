@@ -2,14 +2,11 @@ import React, { Component } from 'react';
 import { Form, message } from 'antd';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import NewSubpageHeader from '../../components/NewSubpageHeader';
-import UploadImageField from '../../components/formFields/UploadImageField';
-import TextField from '../../components/formFields/TextField';
-import { formShape } from '../../propTypes';
-import Button from '../../components/common/Button';
-import Spinner from '../../components/Spinner';
+
+import String from 'src/translations';
+import { formShape } from 'src/propTypes';
+import { PageHeader, NewSubpageHeader, UploadImageField, TextField, Spinner, Button } from 'src/components';
 import './styles/style.css';
-import String from '../../translations';
 
 const propTypes = {
   form: formShape.isRequired,
@@ -147,8 +144,38 @@ class EditOrganizationPage extends Component {
       'with-image': this.state.logo || this.state.avatarBase64,
       'with-no-image': !this.state.avatarBase64 && !this.state.logo
     });
+
+    // Breadcrumb
+    const pageBreadCrumb = {
+      routes: [
+        {
+          title: String.t('editOrgPage.title')
+        }
+      ]
+    };
+
+    // Page Menu
+    const menuPageHeader = [
+      {
+        icon: 'fas fa-cog',
+        title: 'OrganizationPage.manageTeams',
+        url: `/app/editOrganization/${subscriberOrgId}/teams`
+      },
+      {
+        icon: 'fas fa-cog',
+        title: 'OrganizationPage.manageTeamMembers',
+        url: `/app/editOrganization/${subscriberOrgId}/members`
+      },
+      {
+        icon: 'fas fa-cog',
+        title: 'OrganizationPage.manageDataIntegrations',
+        url: `/app/editOrganization/${subscriberOrgId}/dataIntegrations`
+      }
+    ];
+
     return (
       <div className="editOrgPage-main">
+        <PageHeader pageBreadCrumb={pageBreadCrumb} hasMenu menuName="settings" menuPageHeader={menuPageHeader} />
         <NewSubpageHeader>
           <div className="subpage__header__title habla-title">{String.t('editOrgPage.title')}</div>
         </NewSubpageHeader>

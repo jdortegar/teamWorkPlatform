@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'antd';
 import classNames from 'classnames';
-import { formShape } from '../../../propTypes';
+import { formShape } from 'src/propTypes';
 
 const { string, array, bool, node, oneOfType } = PropTypes;
 const propTypes = {

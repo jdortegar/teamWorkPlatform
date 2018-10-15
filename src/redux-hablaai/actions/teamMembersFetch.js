@@ -1,12 +1,11 @@
-import config from 'config/env';
-import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
+import { buildApiUrl } from 'src/lib/api';
 import { sortByFirstName } from '../selectors/helpers';
+import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const TEAMMEMBERS_FETCH_SUCCESS = 'teammembers/fetch/success';
 
 export const fetchTeamMembersByTeamId = (teamId, options = { getKey: false, forceGet: false }) => {
-  // requestUrl is the key into redux state.urlRequests.
-  const requestUrl = `${config.hablaApiBaseUri}/teams/getMembers/${teamId}`;
+  const requestUrl = buildApiUrl(`teams/getMembers/${teamId}`);
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { teamId };

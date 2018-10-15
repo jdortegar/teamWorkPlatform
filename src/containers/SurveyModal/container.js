@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import { SurveyModal } from 'components';
-import { submitSurvey } from 'actions';
-import { getCurrentUserFirstName, isSurveyVisible, isFirstSurvey, isSubmittingSurvey } from 'selectors';
+import { submitSurvey } from 'src/actions';
+import { SurveyModal } from 'src/components';
+import { getCurrentUserFirstName, isSurveyVisible, isFirstSurvey, isSubmittingSurvey } from 'src/selectors';
 
 const mapStateToProps = state => ({
   userName: getCurrentUserFirstName(state),

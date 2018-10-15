@@ -1,5 +1,2 @@
-// export const hablaApiBaseUri = 'https://habla-fe-api-dev.habla.ai/v1';
-// eslint-disable-next-line import/prefer-default-export
-export const hablaApiBaseUri = 'http://localhost:3000/v1';
-// export const hablaApiBaseUri = 'https://hablaapi.ngrok.io/v1';
-// export const hablaApiBaseUri = 'https://graphapi.habla.ai/beta2';
+export const API_ROOT = 'https://habla-fe-api-sjdev.habla.ai';
+export const KNOWLEDGE_API_ROOT = 'https://habla-be-api-dev.habla.ai';

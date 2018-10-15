@@ -9,9 +9,10 @@
 .ResultsList thead > tr > th {
   background: #4d6ea8;
   color: white;
-  padding: 6px 16px;
+  padding: 10px 16px;
   text-transform: uppercase;
   font-size: 11px;
+  line-height: 11px;
 }
 
 .ResultsList__row > td {
@@ -40,4 +41,20 @@
 
 .ResultsList .ant-pagination.hidden {
   display: none;
+}
+
+.ResultsList thead > tr > th .ant-table-column-sorter {
+  position: relative;
+  margin-left: 8px;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+  text-align: center;
+  font-weight: normal;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.ResultsList .ant-table-thead > tr > th.ant-table-column-has-actions:hover {
+  background: #6288c6;
 }

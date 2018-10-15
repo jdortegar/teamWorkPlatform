@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import TeamRoomPage from '../../pages/TeamRoomPage';
+import { TeamRoomPage } from 'src/pages';
 import {
-  fetchTeamRoomMembersByTeamRoomId,
   fetchConversations,
   fetchTranscript,
   createMessage,
@@ -10,7 +9,7 @@ import {
   saveBookmark,
   readMessage,
   iAmTyping
-} from '../../actions';
+} from 'src/actions';
 import {
   getToken,
   getCurrentUser,
@@ -19,11 +18,8 @@ import {
   getSubscribersOfSubscriberOrgId,
   getReadMessagesOfTeamRoomId,
   getTypingsOfConversationId,
-  getTeamRoomMembersOfTeamRoomId,
-  getTeamRoomMembersAsObjectsOfTeamRoomId,
-  getPresencesOfTeamRoomMembersOfTeamRoomId,
   getUnreadMessagesCountOfTeamRoomId
-} from '../../selectors';
+} from 'src/selectors';
 
 function mapStateToProps(state, props) {
   const { teamRoomId } = props.match.params;
@@ -41,16 +37,16 @@ function mapStateToProps(state, props) {
     conversations,
     readMessages: getReadMessagesOfTeamRoomId(state, teamRoomId),
     unreadMessagesCount: getUnreadMessagesCountOfTeamRoomId(state, teamRoomId),
-    membersTyping: getTypingsOfConversationId(state, conversationId),
-    teamRoomMembers: getTeamRoomMembersOfTeamRoomId(state, teamRoomId),
-    teamRoomMembersObj: getTeamRoomMembersAsObjectsOfTeamRoomId(state, teamRoomId),
-    teamRoomMembersPresences: getPresencesOfTeamRoomMembersOfTeamRoomId(state, teamRoomId)
+    membersTyping: getTypingsOfConversationId(state, conversationId)
+    // teamRoomMembers: getTeamRoomMembersOfTeamRoomId(state, teamRoomId),
+    // teamRoomMembersObj: getTeamRoomMembersAsObjectsOfTeamRoomId(state, teamRoomId),
+    // teamRoomMembersPresences: getPresencesOfTeamRoomMembersOfTeamRoomId(state, teamRoomId)
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchTeamRoomMembersByTeamRoomId: teamRoomId => dispatch(fetchTeamRoomMembersByTeamRoomId(teamRoomId)),
+    // fetchTeamRoomMembersByTeamRoomId: teamRoomId => dispatch(fetchTeamRoomMembersByTeamRoomId(teamRoomId)),
     fetchConversations: teamRoomId => dispatch(fetchConversations(teamRoomId)),
     fetchTranscript: conversationId => dispatch(fetchTranscript(conversationId)),
     createMessage: (message, conversationId) => dispatch(createMessage(message, conversationId)),

@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { message as msg } from 'antd';
-import Message from 'components/Message';
-import SimpleCardContainer from 'components/SimpleCardContainer';
-import { NewSubpageHeader } from '../../components';
-import Spinner from '../../components/Spinner';
-import String from '../../translations';
-import { messageAction } from '../../components/Message/Message';
+
+import String from 'src/translations';
+import { messageAction } from 'src/components/Message/Message';
+import { Message, SimpleCardContainer, NewSubpageHeader, Spinner } from 'src/components';
 
 const propTypes = {
   history: PropTypes.shape({
@@ -77,15 +75,15 @@ export default class BookmarksPage extends Component {
   }
 
   onBookmarkClick(bookmark) {
-    const { teamRoomId, messageId } = bookmark;
-    this.props.history.push(`/app/teamRoom/${teamRoomId}`, { gotoMessage: messageId });
+    const { teamId, messageId } = bookmark;
+    this.props.history.push(`/app/team/${teamId}`, { gotoMessage: messageId });
   }
 
   renderBookmark(bookmark) {
     const { user, subscribers, subscribersPresences } = this.props;
     if (!bookmark || !user) return null;
 
-    const { createdBy, deleted, messageId, teamId, teamRoomId } = bookmark;
+    const { createdBy, deleted, messageId, teamId } = bookmark;
     const member = _.find(subscribers, { userId: createdBy });
     if (!member) return null;
     const messageCreator = {
@@ -93,7 +91,7 @@ export default class BookmarksPage extends Component {
       online: _.some(_.values(subscribersPresences[member.userId]), { presenceStatus: 'online' })
     };
 
-    if (deleted || !teamId || !teamRoomId) return null;
+    if (deleted || !teamId) return null;
 
     // TODO: Get these dynamically
     const disableConversation = false;
@@ -109,7 +107,6 @@ export default class BookmarksPage extends Component {
           onMessageAction={this.onMessageAction}
           subscriberOrgId={this.props.match.params.subscriberOrgId}
           teamId={teamId}
-          teamRoomId={teamRoomId}
           isAdmin={isAdmin}
         />
       </div>
@@ -130,7 +127,7 @@ export default class BookmarksPage extends Component {
     });
 
     return (
-      <SimpleCardContainer className="team-room__messages">
+      <SimpleCardContainer className="team__messages">
         {sortedKeys.map(key => this.renderBookmark(orgBookmarks[key]))}
       </SimpleCardContainer>
     );

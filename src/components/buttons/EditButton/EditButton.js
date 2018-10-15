@@ -2,7 +2,7 @@ import React from 'react';
 import { Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import String from '../../../translations';
+import String from 'src/translations';
 
 const propTypes = {
   url: PropTypes.string.isRequired

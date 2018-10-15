@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, Icon, Menu, Switch } from 'antd';
-import String from 'translations';
+import String from 'src/translations';
 import './style.css';
 
 class SearchMenu extends Component {
@@ -12,7 +12,7 @@ class SearchMenu extends Component {
   };
 
   renderOverlay() {
-    const { caseSensitive, andOperator } = this.props;
+    const { caseSensitive, exactMatch } = this.props;
 
     return (
       <Menu className="SearchMenu">
@@ -28,13 +28,13 @@ class SearchMenu extends Component {
             onChange={this.props.onToggleCaseSensitive}
           />
         </Menu.Item>
-        <Menu.Item key="andOperator" className="SearchMenu__item">
-          <span>{String.t('Header.searchAndOperator')}</span>
+        <Menu.Item key="exactMatch" className="SearchMenu__item">
+          <span>{String.t('Header.searchExactMatch')}</span>
           <Switch
             size="small"
             className="SearchMenu__switch"
-            checked={andOperator}
-            onChange={this.props.onToggleAndOperator}
+            checked={exactMatch}
+            onChange={this.props.onToggleExactMatch}
           />
         </Menu.Item>
       </Menu>
@@ -61,14 +61,14 @@ class SearchMenu extends Component {
 
 SearchMenu.propTypes = {
   onToggleCaseSensitive: PropTypes.func.isRequired,
-  onToggleAndOperator: PropTypes.func.isRequired,
+  onToggleExactMatch: PropTypes.func.isRequired,
   caseSensitive: PropTypes.bool,
-  andOperator: PropTypes.bool
+  exactMatch: PropTypes.bool
 };
 
 SearchMenu.defaultProps = {
   caseSensitive: false,
-  andOperator: false
+  exactMatch: false
 };
 
 export default SearchMenu;

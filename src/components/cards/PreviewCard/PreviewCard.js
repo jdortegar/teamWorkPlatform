@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Card, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+
+import String from 'src/translations';
 import './styles/style.css';
-import String from '../../../translations';
 
 const propTypes = {
   file: PropTypes.object.isRequired,

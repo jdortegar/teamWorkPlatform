@@ -1,4 +1,4 @@
-import config from 'config/env';
+import { buildApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest } from './urlRequest';
 
 export const SURVEYS_FETCH_SUCCESS = 'surveys/fetch/success';
@@ -11,8 +11,7 @@ export const fetchSurveys = (options = { getKey: false, forceGet: true }) => (di
     subscriberOrgs: { currentSubscriberOrgId },
     auth: { userId }
   } = getState();
-  const baseUrl = config.hablaApiBaseUri.replace('v1', 'v2');
-  const requestUrl = `${baseUrl}/organizations/${currentSubscriberOrgId}/users/${userId}/surveys`;
+  const requestUrl = buildApiUrl(`organizations/${currentSubscriberOrgId}/users/${userId}/surveys`, 'v2');
 
   const thunk = dispatch(
     doAuthenticatedRequest(
@@ -41,8 +40,7 @@ export const submitSurvey = data => (dispatch, getState) => {
     subscriberOrgs: { currentSubscriberOrgId },
     auth: { userId }
   } = getState();
-  const baseUrl = config.hablaApiBaseUri.replace('v1', 'v2');
-  const requestUrl = `${baseUrl}/organizations/${currentSubscriberOrgId}/users/${userId}/surveys`;
+  const requestUrl = buildApiUrl(`organizations/${currentSubscriberOrgId}/users/${userId}/surveys`, 'v2');
 
   dispatch({ type: SUBMIT_SURVEY_REQUEST });
 

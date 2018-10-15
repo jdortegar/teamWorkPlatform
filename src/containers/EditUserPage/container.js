@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import EditUserPage from '../../pages/EditUserPage';
-import { toggleSideBar, updateUser } from '../../actions';
-import { getCurrentUser } from '../../redux-hablaai/selectors';
+import { getCurrentUser } from 'src/selectors';
+import { toggleSideBar, updateUser } from 'src/actions';
+import { EditUserPage } from 'src/pages';
 
 function mapStateToProps(state) {
   return {

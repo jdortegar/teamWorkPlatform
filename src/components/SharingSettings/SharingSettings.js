@@ -1,114 +1,73 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Collapse, Radio } from 'antd';
-import SimpleHeader from '../SimpleHeader';
-import Tree from '../Tree';
-import { SharingTypes } from '../../redux-hablaai/selectors';
-import String from '../../translations';
+import { Form, Collapse } from 'antd';
+import { isEmpty } from 'lodash';
+
+import String from 'src/translations';
+import { SimpleHeader, Tree } from 'src/components';
 import './styles/style.css';
-// import 'pages/CKGPage/styles/style.css';
 
 const { Panel } = Collapse;
-const RadioGroup = Radio.Group;
 
 const propTypes = {
-  primaryTree: PropTypes.object.isRequired,
-  secondaryTree: PropTypes.object,
+  onToggleSelect: PropTypes.func.isRequired,
+  onToggleSelectAll: PropTypes.func.isRequired,
   integrationType: PropTypes.string,
-  allText: PropTypes.string.isRequired,
-  customText: PropTypes.string.isRequired,
-  collapsible: PropTypes.boolean,
-  sharingType: PropTypes.string.isRequired,
-  parentNode: PropTypes.object.isRequired,
-  shareWithIds: PropTypes.object.isRequired
+  folders: PropTypes.array,
+  files: PropTypes.array,
+  selectedFolders: PropTypes.array,
+  selectedFiles: PropTypes.array
 };
 
 const defaultProps = {
-  secondaryTree: undefined,
-  integrationType: undefined,
-  collapsible: false
+  integrationType: null,
+  folders: [],
+  files: [],
+  selectedFolders: [],
+  selectedFiles: []
 };
 
 class SharingSettings extends Component {
-  constructor(props) {
-    super(props);
+  toggleFolderSelection = folderId => {
+    this.props.onToggleSelect({ folderId });
+  };
 
-    const { primaryTree, secondaryTree } = this.props;
-    let share;
-    if (props.sharingType === SharingTypes.ALL) {
-      share = 'all';
-    } else if (props.sharingType === SharingTypes.SOME) {
-      share = 'custom';
-    }
-    this.state = {
-      share,
-      primaryTree,
-      secondaryTree
-    };
+  toggleFileSelection = fileId => {
+    this.props.onToggleSelect({ fileId });
+  };
 
-    this.onShareChange = this.onShareChange.bind(this);
-  }
-
-  onShareChange(e) {
-    e.preventDefault();
-    const sharingType = e.target.value;
-    const { parentNode, shareWithIds } = this.props;
-    shareWithIds.addShare(parentNode.id, 'ROOT', sharingType === 'all' ? SharingTypes.ALL : SharingTypes.SOME);
-    this.setState({ share: e.target.value });
-  }
-
-  renderContent(primaryTree, secondaryTree) {
-    return (
-      <div>
-        <RadioGroup onChange={this.onShareChange} value={this.state.share}>
-          <Radio value="all">{this.props.allText}</Radio>
-          <br />
-          <Radio value="custom">{this.props.customText}</Radio>
-        </RadioGroup>
-        <div className="TeamAndTeamRoomList">
-          {this.props.collapsible &&
-            this.state.share === 'custom' && (
-              <div className="integrationTitleLabelContainer">
-                <div className="habla-label integration-settings-title-label">
-                  {this.props.integrationType} {String.t('integrationDetailsPage.sharing.foldersAndFiles')}
-                </div>
-                <div className="habla-label integration-settings-sellect-all-label">
-                  <a>{String.t('integrationDetailsPage.sharing.selectAll')}</a>
-                </div>
-                <div className="clear" />
-              </div>
-            )}
-          {this.state.share === 'custom' && (
-            <Tree
-              primaryTree={primaryTree}
-              secondaryTree={secondaryTree}
-              parentNode={this.props.parentNode}
-              shareWithIds={this.props.shareWithIds}
-            />
-          )}
-        </div>
-      </div>
-    );
-  }
+  toggleSelectAll = event => {
+    event.preventDefault();
+    this.props.onToggleSelectAll();
+  };
 
   render() {
-    const { primaryTree, secondaryTree } = this.state;
-    let content = this.renderContent(primaryTree, secondaryTree);
-    if (this.props.collapsible) {
-      content = (
-        <div className="sharing-settings">
-          <Collapse bordered>
-            <Panel header={<SimpleHeader text={String.t('integrationDetailsPage.sharing.settings')} />} key="1">
-              {content}
-            </Panel>
-          </Collapse>
-        </div>
-      );
-    } else {
-      content = <div className="sharing-settings">{content}</div>;
-    }
-
-    return content;
+    const { folders, files, selectedFolders, selectedFiles, integrationType } = this.props;
+    const selectAllText = isEmpty(selectedFolders) && isEmpty(selectedFiles) ? 'selectAll' : 'deselectAll';
+    return (
+      <div className="SharingSettings">
+        <Collapse bordered defaultActiveKey="1">
+          <Panel key="1" header={<SimpleHeader text={String.t('integrationDetailsPage.sharing.settings')} />}>
+            <div className="SharingSettings__title-container">
+              <div className="habla-label">
+                {integrationType} {String.t('integrationDetailsPage.sharing.foldersAndFiles')}
+              </div>
+              <div className="habla-label">
+                <a onClick={this.toggleSelectAll}>{String.t(`integrationDetailsPage.sharing.${selectAllText}`)}</a>
+              </div>
+            </div>
+            <Tree
+              folders={folders}
+              files={files}
+              selectedFolders={selectedFolders}
+              selectedFiles={selectedFiles}
+              onToggleFolderSelection={this.toggleFolderSelection}
+              onToggleFileSelection={this.toggleFileSelection}
+            />
+          </Panel>
+        </Collapse>
+      </div>
+    );
   }
 }
 

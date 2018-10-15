@@ -2,10 +2,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Col, Row } from 'antd';
-import { antValidate, equality, password } from '../../../validations';
-import { formShape, layoutShape } from '../../../propTypes';
+
+import { antValidate, equality, password } from 'src/validations';
+import { formShape, layoutShape } from 'src/propTypes';
+import String from 'src/translations';
 import BaseInput from '../BaseInput';
-import String from '../../../translations';
 
 const FormItem = Form.Item;
 

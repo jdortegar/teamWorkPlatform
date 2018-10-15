@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tooltip } from 'antd';
 
-import String from '../../translations';
-import '../../pages/CKGPage/styles/style.css';
+import String from 'src/translations';
+import 'src/pages/CKGPage/styles/style.css';
 
 const propTypes = {
   onZoomIn: PropTypes.func,

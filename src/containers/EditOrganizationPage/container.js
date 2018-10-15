@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import EditOrganizationPage from '../../pages/EditOrganizationPage';
-import { updateSubscriberOrg } from '../../actions';
+import { updateSubscriberOrg } from 'src/actions';
+import { EditOrganizationPage } from 'src/pages';
 
 const mapStateToProps = state => ({
   subscriberOrgs: state.subscriberOrgs

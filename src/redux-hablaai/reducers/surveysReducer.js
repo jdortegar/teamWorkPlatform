@@ -1,5 +1,10 @@
 import moment from 'moment';
-import { SURVEYS_FETCH_SUCCESS, SUBMIT_SURVEY_REQUEST, SUBMIT_SURVEY_SUCCESS, SUBMIT_SURVEY_FAILURE } from '../actions';
+import {
+  SURVEYS_FETCH_SUCCESS,
+  SUBMIT_SURVEY_REQUEST,
+  SUBMIT_SURVEY_SUCCESS,
+  SUBMIT_SURVEY_FAILURE
+} from 'src/actions';
 
 const INITIAL_STATE = {
   dates: [],

@@ -1,11 +1,7 @@
 import { connect } from 'react-redux';
-import BookmarksPage from '../../pages/BookmarksPage';
-import { deleteMessage, saveBookmark } from '../../actions';
-import {
-  getCurrentUser,
-  getSubscribersOfSubscriberOrgId,
-  getPresencesOfSubscribersOfOrgId
-} from '../../redux-hablaai/selectors';
+import { deleteMessage, saveBookmark } from 'src/actions';
+import { getCurrentUser, getSubscribersOfSubscriberOrgId, getPresencesOfSubscribersOfOrgId } from 'src/selectors';
+import { BookmarksPage } from 'src/pages';
 
 function mapStateToProps(state) {
   return {

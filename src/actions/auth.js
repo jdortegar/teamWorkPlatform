@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { push } from 'react-router-redux';
 
-import config from '../config/env';
-import { paths } from '../routes';
+import { buildApiUrl } from 'src/lib/api';
+import { paths } from 'src/routes';
 import {
   login,
   logout,
@@ -11,10 +11,8 @@ import {
   receiveUser,
   setCurrentSubscriberOrgId,
   clearCachedGetRequests
-} from '../redux-hablaai/actions';
+} from 'src/redux-hablaai/actions';
 import { getLastRouteCookie, getLastSubscriberOrgIdCookie, saveCookies } from './cookies';
-
-const { hablaApiBaseUri } = config;
 
 // If the user is just going to /app, and their last route on logout was somewhere else, send them there.
 const resolveRoute = (userId, targetRoute) => {
@@ -50,16 +48,16 @@ export const logoutUser = () => dispatch => {
 };
 
 export const verifyEmailAccount = uuid => () =>
-  axios.get(`${hablaApiBaseUri}/users/validateEmail/${uuid}`).then(response => {
+  axios.get(buildApiUrl(`users/validateEmail/${uuid}`)).then(response => {
     sessionStorage.setItem('habla-user-email', response.data.email);
   });
 
 export const createAccount = form => dispatch => {
   dispatch(logout());
-  return axios.post(`${hablaApiBaseUri}/users/createUser`, form);
+  return axios.post(buildApiUrl('users/createUser'), form);
 };
 
 export const setNewPassword = (rid, password) => dispatch =>
-  axios.post(`${hablaApiBaseUri}/users/resetPassword/${rid}`, { password }).then(() => {
+  axios.post(buildApiUrl(`users/resetPassword/${rid}`), { password }).then(() => {
     dispatch(push(paths.login));
   });

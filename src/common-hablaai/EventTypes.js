@@ -19,11 +19,6 @@ const EventTypes = Object.freeze({
   teamPrivateInfoUpdated: 'teamPrivateInfoUpdated',
   teamMemberAdded: 'teamMemberAdded',
 
-  teamRoomCreated: 'teamRoomCreated',
-  teamRoomUpdated: 'teamRoomUpdated',
-  teamRoomPrivateInfoUpdated: 'teamRoomPrivateInfoUpdated',
-  teamRoomMemberAdded: 'teamRoomMemberAdded',
-
   conversationCreated: 'conversationCreated',
   conversationUpdated: 'conversationUpdated',
   messageCreated: 'messageCreated',

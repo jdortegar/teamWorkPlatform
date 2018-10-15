@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { fetchTimeActivitiesBySubscriberOrgId, setCurrentSubscriberOrgId } from 'actions';
-import HomePage from '../../pages/HomePage';
+import { fetchTimeActivitiesBySubscriberOrgId, setCurrentSubscriberOrgId } from 'src/actions';
+import { HomePage } from 'src/pages';
 
 const mapStateToProps = state => ({
   currentSubscriberOrgId: state.subscriberOrgs.currentSubscriberOrgId,

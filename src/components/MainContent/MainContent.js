@@ -3,39 +3,43 @@ import { Layout, notification } from 'antd';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import HomePage from '../../containers/HomePage';
-import OrganizationPage from '../../containers/OrganizationPage';
-import ChatContent from '../../containers/ChatContent';
-import IntegrationsPage from '../../containers/IntegrationsPage';
-import IntegrationDetailsPage from '../../containers/IntegrationDetailsPage';
-import TeamPage from '../../containers/TeamPage';
-import NewTeamPage from '../../containers/NewTeamPage';
-import EditOrganizationPage from '../../containers/EditOrganizationPage';
-import EditTeamPage from '../../containers/EditTeamPage';
-import EditTeamRoomPage from '../../containers/EditTeamRoomPage';
-import NewTeamRoomPage from '../../containers/NewTeamRoomPage';
-import InviteNewMemberPage from '../../containers/InviteNewMemberPage';
-import TeamMemberPage from '../../containers/TeamMemberPage';
-import Notification from '../../containers/Notification';
-import BookmarksPage from '../../containers/BookmarksPage';
-import InviteToTeamPage from '../../containers/InviteToTeamPage';
-import InviteToTeamRoomPage from '../../containers/InviteToTeamRoomPage';
-import EditUserPage from '../../containers/EditUserPage';
-import CKGPage from '../../containers/CKGPage';
-import SearchPage from '../../containers/SearchPage';
-import DashboardPage from '../../containers/DashboardPage';
-import NotificationsPage from '../../containers/NotificationsPage';
-import AcceptInvitationPage from '../../containers/AcceptInvitationPage';
-import { paths } from '../../routes';
-import { sound1 } from '../../sounds';
+
+import { paths } from 'src/routes';
+import { sound1 } from 'src/sounds';
+import String from 'src/translations';
+import { sortByLastCreatedFirst } from 'src/redux-hablaai/selectors/helpers';
+import {
+  HomePage,
+  ChatContent,
+  IntegrationsPage,
+  IntegrationDetailsPage,
+  TeamManagePage,
+  TeamPageV1,
+  NewTeamPage,
+  EditTeamPage,
+  InviteNewMemberPage,
+  TeamMemberPage,
+  Notification,
+  BookmarksPage,
+  InviteToTeamPage,
+  EditUserPage,
+  CKGPage,
+  SearchPage,
+  DashboardPage,
+  NotificationsPage,
+  AcceptInvitationPage,
+  OrganizationPage,
+  OrganizationManageTeams,
+  OrganizationManageMembers,
+  OrganizationDataIntegrations,
+  EditOrganizationPage
+} from 'src/containers';
 import './styles/style.css';
-import String from '../../translations';
-import { sortByLastCreatedFirst } from '../../redux-hablaai/selectors/helpers';
 
 const { Content } = Layout;
 
 const propTypes = {
-  invitation: PropTypes.array.isRequired,
+  invitation: PropTypes.array,
   declinedInvitations: PropTypes.object,
   pushMessage: PropTypes.object,
   users: PropTypes.object.isRequired,
@@ -43,23 +47,18 @@ const propTypes = {
   notifyMessage: PropTypes.func.isRequired,
   updateInvitationDeclined: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
-  subscriberOrgs: PropTypes.object.isRequired,
-  teamRooms: PropTypes.object.isRequired
+  subscriberOrgs: PropTypes.object.isRequired
 };
 
 const defaultProps = {
   pushMessage: null,
-  declinedInvitations: null
+  declinedInvitations: null,
+  invitation: []
 };
 
 function invitationKey(inv) {
-  const { teamRoomId, teamId, subscriberOrgId } = inv;
-  if (teamRoomId) {
-    return `room-${teamRoomId}`;
-  } else if (teamId) {
-    return `team-${teamId}`;
-  }
-  return `org-${subscriberOrgId}`;
+  const { teamId, subscriberOrgId } = inv;
+  return teamId ? `team-${teamId}` : `org-${subscriberOrgId}`;
 }
 
 class MainContent extends Component {
@@ -91,18 +90,9 @@ class MainContent extends Component {
     if (nextProps.declinedInvitations) {
       let text = '';
       const invitation = nextProps.declinedInvitations;
-      if (invitation.teamName || invitation.teamRoomName) {
+      if (invitation.teamName) {
         const { firstName, lastName } = this.props.users[invitation.inviteeUserIdOrEmail];
-        if (invitation.teamRoomName) {
-          text = String.t('MainContent.declinedRoom', {
-            firstName,
-            lastName,
-            teamRoomName: invitation.teamRoomName,
-            teamName: invitation.teamName
-          });
-        } else if (invitation.teamName) {
-          text = String.t('MainContent.declinedTeam', { firstName, lastName, teamName: invitation.teamName });
-        }
+        text = String.t('MainContent.declinedTeam', { firstName, lastName, teamName: invitation.teamName });
       } else {
         text = String.t('MainContent.declinedOrg', {
           inviteeUserIdOrEmail: invitation.inviteeUserIdOrEmail,
@@ -143,7 +133,7 @@ class MainContent extends Component {
   }
 
   getValidInvites() {
-    const { teamRooms, teams, subscriberOrgs } = this.props;
+    const { teams, subscriberOrgs } = this.props;
     const { currentSubscriberOrgId, subscriberOrgById } = subscriberOrgs;
     if (!subscriberOrgById[currentSubscriberOrgId]) {
       // data not available yet
@@ -153,16 +143,10 @@ class MainContent extends Component {
     if (invitation.length > 0) {
       const invitationsByKey = {};
       invitation = invitation.sort(sortByLastCreatedFirst).filter(inv => {
-        // if already a member of the org, team or team room, don't include the invite
-        const { teamRoomId, teamId, subscriberOrgId } = inv;
-        if (teamRoomId) {
-          if (teamRooms.teamRoomById[teamRoomId]) {
-            return false;
-          }
-        } else if (teamId) {
-          if (teams.teamById[teamId]) {
-            return false;
-          }
+        // if already a member of the org or team, don't include the invite
+        const { teamId, subscriberOrgId } = inv;
+        if (teamId && teams.teamById[teamId]) {
+          return false;
         } else if (subscriberOrgById[subscriberOrgId]) {
           return false;
         }
@@ -191,17 +175,13 @@ class MainContent extends Component {
           <Route exact path={paths.app} component={HomePage} />
           <Route exact path={paths.integrations} component={IntegrationsPage} />
           <Route exact path={paths.integrationDetails} component={IntegrationDetailsPage} />
-          <Route exact path={paths.organization} component={OrganizationPage} />
-          <Route exact path={paths.team} component={TeamPage} />
-          <Route exact path={paths.newTeamRoom} component={NewTeamRoomPage} />
+          <Route exact path={paths.team} component={TeamPageV1} />
+          <Route exact path={paths.manageTeam} component={TeamManagePage} />
           <Route exact path={paths.newTeam} component={NewTeamPage} />
           <Route exact path={paths.editTeam} component={EditTeamPage} />
-          <Route exact path={paths.editTeamRoom} component={EditTeamRoomPage} />
-          <Route exact path={paths.editOrganization} component={EditOrganizationPage} />
           <Route exact path={paths.editUser} component={EditUserPage} />
           <Route exact path={paths.inviteNewMember} component={InviteNewMemberPage} />
           <Route exact path={paths.inviteToTeam} component={InviteToTeamPage} />
-          <Route exact path={paths.inviteToTeamRoom} component={InviteToTeamRoomPage} />
           <Route exact path={paths.teamRoom} component={ChatContent} />
           <Route exact path={paths.member} component={TeamMemberPage} />
           <Route exact path={paths.acceptInvitation} component={AcceptInvitationPage} />
@@ -210,6 +190,11 @@ class MainContent extends Component {
           <Route exact path={paths.search} component={SearchPage} />
           <Route exact path={paths.notifications} component={NotificationsPage} />
           <Route exact path={paths.bookmarks} component={BookmarksPage} />
+          <Route exact path={paths.organization} component={OrganizationPage} />
+          <Route exact path={paths.editOrganization} component={EditOrganizationPage} />
+          <Route exact path={paths.organizationManageTeams} component={OrganizationManageTeams} />
+          <Route exact path={paths.organizationManageMembers} component={OrganizationManageMembers} />
+          <Route exact path={paths.organizationDataIntegrations} component={OrganizationDataIntegrations} />
         </Switch>
       </Content>
     );

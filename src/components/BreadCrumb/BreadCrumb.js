@@ -1,8 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Avatar from 'components/common/Avatar';
+import Avatar from 'src/components/common/Avatar';
 import './styles/style.css';
+
+const propTypes = {
+  subscriberOrg: PropTypes.object,
+  routes: PropTypes.array.isRequired
+};
+
+const defaultProps = {
+  subscriberOrg: {}
+};
 
 class BreadCrumb extends React.Component {
   renderAvatar() {
@@ -32,7 +41,9 @@ class BreadCrumb extends React.Component {
             return (
               <span className="breadcrumbs-text responsiveHideClass" key={route.title}>
                 <Link to={route.link}>
-                  <span>{route.title}</span>
+                  <span className={index < routes.length - 1 ? 'habla-title-light' : 'habla-title-normal'}>
+                    {route.title}
+                  </span>
                 </Link>
                 {index < routes.length - 1 && (
                   <span className="breadcrumbs-separator">
@@ -43,8 +54,15 @@ class BreadCrumb extends React.Component {
             );
           }
           return (
-            <span className="breadcrumbs-text" key={route.title}>
-              {route.title}
+            <span className="breadcrumbs-text responsiveHideClass" key={route.title}>
+              <span className={index < routes.length - 1 ? 'habla-title-light' : 'habla-title-normal'}>
+                {route.title}
+              </span>
+              {index < routes.length - 1 && (
+                <span className="breadcrumbs-separator">
+                  <i className="fas fa-angle-right" />
+                </span>
+              )}
             </span>
           );
         })}
@@ -53,9 +71,7 @@ class BreadCrumb extends React.Component {
   }
 }
 
-BreadCrumb.propTypes = {
-  subscriberOrg: PropTypes.object.isRequired,
-  routes: PropTypes.array.isRequired
-};
+BreadCrumb.propTypes = propTypes;
+BreadCrumb.defaultProps = defaultProps;
 
 export default BreadCrumb;

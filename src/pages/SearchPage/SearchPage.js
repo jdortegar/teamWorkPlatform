@@ -6,12 +6,11 @@ import _ from 'lodash';
 import Highlighter from 'react-highlight-words';
 import { Icon, Pagination, Tag } from 'antd';
 
-import { integrationKeyFromFile, integrationLabelFromKey, integrationImageFromKey } from 'utils/dataIntegrations';
-import { Spinner, ResultsList, FilesFilters } from 'components';
-import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
-import imageSrcFromFileExtension from 'lib/imageFiles';
-import formatSize from 'lib/formatSize';
-import String from 'translations';
+import String from 'src/translations';
+import formatSize from 'src/lib/formatSize';
+import imageSrcFromFileExtension from 'src/lib/imageFiles';
+import { integrationKeyFromFile, integrationLabelFromKey, integrationImageFromKey } from 'src/utils/dataIntegrations';
+import { AvatarWrapper, Spinner, ResultsList, FilesFilters } from 'src/components';
 import './styles/style.css';
 
 const PAGE_SIZE = 20;
@@ -106,16 +105,16 @@ class SearchPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.currentSubscriberOrgId !== nextProps.currentSubscriberOrgId) {
-      const { keywords, currentSubscriberOrgId, caseSensitive, andOperator } = nextProps;
+      const { keywords, currentSubscriberOrgId, caseSensitive, exactMatch } = nextProps;
       const query = keywords.join(' ');
-      this.props.search(query, currentSubscriberOrgId, caseSensitive, andOperator);
+      this.props.search(query, currentSubscriberOrgId, caseSensitive, exactMatch);
     }
   }
 
   handleRemoveKeywordClick = keyword => {
-    const { keywords, currentSubscriberOrgId, caseSensitive, andOperator } = this.props;
+    const { keywords, currentSubscriberOrgId, caseSensitive, exactMatch } = this.props;
     const query = _.without(keywords, keyword).join(' ');
-    this.props.search(query, currentSubscriberOrgId, caseSensitive, andOperator);
+    this.props.search(query, currentSubscriberOrgId, caseSensitive, exactMatch);
   };
 
   handleOwnerFilterClick = key => {
@@ -257,7 +256,7 @@ SearchPage.propTypes = {
   toggleFileTypeFilter: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   caseSensitive: PropTypes.bool,
-  andOperator: PropTypes.bool,
+  exactMatch: PropTypes.bool,
   keywords: PropTypes.array,
   results: PropTypes.array,
   owners: PropTypes.array,
@@ -269,7 +268,7 @@ SearchPage.propTypes = {
 SearchPage.defaultProps = {
   loading: false,
   caseSensitive: false,
-  andOperator: false,
+  exactMatch: false,
   keywords: [],
   results: [],
   owners: [],

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import EditTeamPage from '../../pages/EditTeamPage';
-import { updateTeam } from '../../actions';
-import { getUrlRequestStatus } from '../../selectors';
+import { updateTeam } from 'src/actions';
+import { getUrlRequestStatus } from 'src/selectors';
+import { EditTeamPage } from 'src/pages';
 
 const mapStateToProps = (state, props) => {
   const { teamId } = props.match.params;

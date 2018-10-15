@@ -3,16 +3,15 @@ import { Row, Col, Form, Checkbox, Spin, message } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { isLoggingIn, getAuthError } from 'selectors';
-import { paths, extractQueryParams } from '../../routes';
-import { formShape } from '../../propTypes';
-import EmailField from '../../components/formFields/EmailField';
-import PasswordField from '../../components/formFields/PasswordField';
-import { loginUser } from '../../actions';
-import String from '../../translations';
-import { hablaWhiteLogo } from '../../img';
-import LoginPageBackground from '../../img/ai-hand-shake-back.jpg';
-import Button from '../../components/common/Button';
+
+import String from 'src/translations';
+import { formShape } from 'src/propTypes';
+import { paths, extractQueryParams } from 'src/routes';
+import { loginUser } from 'src/actions';
+import { isLoggingIn, getAuthError } from 'src/selectors';
+import { Button, EmailField, PasswordField } from 'src/components';
+import { hablaWhiteLogo } from 'src/img';
+import LoginPageBackground from 'src/img/ai-hand-shake-back.jpg';
 import './styles/login.css';
 
 const loginpage = {

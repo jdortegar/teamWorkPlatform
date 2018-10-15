@@ -4,15 +4,14 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import String from '../../translations';
+
+import String from 'src/translations';
+import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
+import { AvatarWrapper, Badge } from 'src/components';
 import Avatar from '../common/Avatar';
-import AvatarWrapper from '../common/Avatar/AvatarWrapper';
-import Badge from '../Badge';
-import { sortByName, primaryAtTop } from '../../redux-hablaai/selectors/helpers';
 import './styles/style.css';
 
 const { Sider } = Layout;
-const { SubMenu } = Menu;
 
 const propTypes = {
   user: PropTypes.object.isRequired,
@@ -20,7 +19,6 @@ const propTypes = {
   subscribers: PropTypes.array,
   subscribersPresences: PropTypes.object,
   teams: PropTypes.array,
-  teamRooms: PropTypes.array,
   history: PropTypes.shape({
     push: PropTypes.func
   }).isRequired,
@@ -37,8 +35,7 @@ const defaultProps = {
   subscriberOrgs: [],
   subscribers: null,
   subscribersPresences: {},
-  teams: [],
-  teamRooms: []
+  teams: []
 };
 
 const ROUTERS_TO_HIDE_SIDEBAR = ['/app/userDetails'];
@@ -88,7 +85,6 @@ class Sidebar extends Component {
     };
 
     this.goToOrgPage = this.goToOrgPage.bind(this);
-    this.goToTeamRoomPage = this.goToTeamRoomPage.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }
 
@@ -182,50 +178,6 @@ class Sidebar extends Component {
     this.props.history.push(`/app/organization/${orgId}`);
   }
 
-  goToTeamRoomPage(teamRoomId) {
-    this.props.history.push(`/app/teamRoom/${teamRoomId}`);
-  }
-
-  renderTeamRooms(teamId) {
-    const { teamRooms, user } = this.props;
-    if (teamRooms.length === 0) {
-      return null;
-    }
-
-    let teamRoomsByTeamId = teamRooms.filter(teamRoom => teamRoom.teamId === teamId).sort(sortByName);
-
-    if (teamRoomsByTeamId.length > 0) {
-      teamRoomsByTeamId = primaryAtTop(teamRoomsByTeamId);
-    }
-
-    return teamRoomsByTeamId.map(teamRoom => {
-      let isAdmin = false;
-      if (teamRoom.teamRoommMembers) {
-        const teamRoomMemberFoundByUser = _.find(teamRoom.teamRoomMembers, { userId: user.userId });
-        isAdmin = teamRoomMemberFoundByUser.teamRooms[teamRoom.teamRoomId].role === 'admin';
-      }
-      if (!isAdmin && (!teamRoom.active || teamRoom.deleted)) return null;
-
-      return (
-        <Menu.Item key={teamRoom.teamRoomId}>
-          <div className="habla-left-navigation-teamroom-list">
-            <div className="habla-left-navigation-teamroom-list-item padding-class-a">
-              <div className="float-left-class">{renderAvatar(teamRoom, teamRoom.active)}</div>
-              <span
-                className="habla-left-navigation-item-label"
-                onClick={() => this.goToTeamRoomPage(teamRoom.teamRoomId)}
-              >
-                {teamRoom.name}
-              </span>
-              <div className="clear" />
-              <Badge count={0 /* TODO: get the actual count of unread messages */} />
-            </div>
-          </div>
-        </Menu.Item>
-      );
-    });
-  }
-
   renderTeams(teamsActive) {
     const { user } = this.props;
     if (teamsActive.length === 0) {
@@ -245,41 +197,20 @@ class Sidebar extends Component {
       if (!isAdmin && (!team.active || team.deleted)) {
         return null;
       }
-
-      const teamRooms = this.renderTeamRooms(team.teamId);
       const isTeamOpen = _.includes(this.state.teamsOpenKeys, team.teamId);
       const unreadMessagesCount = 0; /* TODO: get the actual count of unread messages */
 
       return (
-        <SubMenu
-          className="habla-left-navigation-item"
-          key={team.teamId}
-          openKeys={this.state.teamsOpenKeys}
-          onTitleClick={() => this.toogleTeams(team.teamId)}
-          title={
-            <div className="habla-left-navigation-team-list">
-              <div className="habla-left-navigation-team-list-item padding-class-a">
-                <div className="float-left-class">{renderAvatar(team, team.active)}</div>
-                <span className="habla-left-navigation-item-label" onClick={e => this.goToTeamPage(e, team)}>
-                  {team.name}
-                </span>
-                <div className="clear" />
-                <Badge count={isTeamOpen ? 0 : unreadMessagesCount} />
-              </div>
+        <Menu.Item key={team.teamId}>
+          <div className="habla-left-navigation-team-list" onClick={e => this.goToTeamPage(e, team)}>
+            <div className="habla-left-navigation-team-list-item padding-class-a">
+              <div className="float-left-class">{renderAvatar(team, team.active)}</div>
+              <span className="habla-left-navigation-item-label">{team.name}</span>
+              <div className="clear" />
+              <Badge count={isTeamOpen ? 0 : unreadMessagesCount} />
             </div>
-          }
-        >
-          <Menu.Item key="roomsLabel">
-            <div className="sidebar-block-label">
-              <span className="habla-label">
-                <span className="teamRoomTitle">{String.t('teamRooms')}</span>
-                <span className="teamRoomResponsiveTitle">{String.t('teamRoomsResponsive')}</span>
-                {/* <span className="sidebar-label-number-badge">81</span> */}
-              </span>
-            </div>
-          </Menu.Item>
-          {teamRooms}
-        </SubMenu>
+          </div>
+        </Menu.Item>
       );
     });
   }
@@ -387,7 +318,7 @@ class Sidebar extends Component {
             </Link>
           </Tooltip>
         </div>
-        <div className="sidebar-teams-and-teamrooms">
+        <div className="sidebar-teams">
           <div className="sidebar-block-label">
             <span className="habla-label">
               {String.t('teams')}

@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { BasicFilter } from 'components';
-import AvatarWrapper from 'components/common/Avatar/AvatarWrapper';
-import String from 'translations';
+import String from 'src/translations';
+import { BasicFilter, AvatarWrapper } from 'src/components';
 
 const propTypes = {
   owner: PropTypes.object.isRequired,

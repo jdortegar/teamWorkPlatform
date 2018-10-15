@@ -1,0 +1,26 @@
+.header-search-container .ant-input-affix-wrapper {
+  width: 20%;
+}
+.header-search-container .ant-input-affix-wrapper .ant-input {
+  height: 25px;
+  background: #fff;
+  border: none;
+  border-radius: 15px;
+}
+.header-search-container .ant-input-affix-wrapper .ant-input-prefix i {
+  color: #a6a6a6 !important;
+  font-weight: bold;
+}
+.header-search-container .ant-input-affix-wrapper .ant-input-prefix {
+  left: 5px;
+}
+.header-search-container .ant-input-affix-wrapper .ant-input:not(:first-child) {
+  padding-left: 22px;
+}
+.header-search-container svg {
+  color: #ccc;
+}
+
+.integration-avatar .ant-avatar {
+  border: 1px solid #eee;
+}

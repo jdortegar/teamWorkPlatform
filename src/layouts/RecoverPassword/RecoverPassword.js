@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Form, Spin, message } from 'antd';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import config from '../../config/env';
-import { formShape } from '../../propTypes';
-import EmailField from '../../components/formFields/EmailField';
-import String from '../../translations';
-import Button from '../../components/common/Button';
+
+import { buildApiUrl } from 'src/lib/api';
+import String from 'src/translations';
+import { formShape } from 'src/propTypes';
+import { Button, EmailField } from 'src/components';
 import './styles/style.css';
 
 const propTypes = {
@@ -41,7 +41,7 @@ class RecoverPassword extends Component {
 
         // TODO: Move this to Redux
         axios
-          .post(`${config.hablaApiBaseUri}/users/forgotPassword`, { email })
+          .post(buildApiUrl('users/forgotPassword'), { email })
           .then(() => {
             this.setState({ sending: false, emailSent: true });
           })

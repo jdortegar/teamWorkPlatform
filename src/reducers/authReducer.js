@@ -1,4 +1,4 @@
-import { LOGIN_REQUEST, LOGIN_FAILURE, LOGIN_SUCCESS } from '../actions';
+import { LOGIN_REQUEST, LOGIN_FAILURE, LOGIN_SUCCESS } from 'src/actions';
 
 const INITIAL_STATE = {
   loggingIn: false,

@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { Form, message } from 'antd';
 import PropTypes from 'prop-types';
-import BreadCrumb from '../../components/BreadCrumb';
-import SubpageHeader from '../../components/SubpageHeader';
-import SimpleCardContainer from '../../components/SimpleCardContainer';
-import TextField from '../../components/formFields/TextField';
-import { formShape } from '../../propTypes';
-import Spinner from '../../components/Spinner';
-import String from '../../translations';
-import Button from '../../components/common/Button';
+
+import String from 'src/translations';
+import { formShape } from 'src/propTypes';
+import { BreadCrumb, SubpageHeader, SimpleCardContainer, TextField, Spinner, Button } from 'src/components';
 import './styles/style.css';
+// import { EINPROGRESS } from 'constants';
 
 const propTypes = {
   form: formShape.isRequired,
@@ -52,7 +49,11 @@ class NewTeamPage extends Component {
           })
           .catch(error => {
             this.setState({ loading: false });
-            message.error(error.message);
+            if (error.response && error.response.status === 409) {
+              message.error(String.t('addTeamDialog.errorNameAlreadyTaken'));
+            } else {
+              message.error(error.message);
+            }
           });
       }
     });

@@ -135,3 +135,20 @@
   color: #fff !important;
   background-color: #304270;
 }
+
+.CKGPage__center-message-container {
+  top: 50%;
+}
+
+.CKGPage__center-message-container .CKGPage__center-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  transform: translateX(-50%);
+}
+
+.CKGPage__center-message-container .CKGPage__center-message a {
+  color: #fff;
+  font-size: 14px;
+}

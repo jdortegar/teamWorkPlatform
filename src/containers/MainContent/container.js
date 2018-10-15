@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import MainContent from '../../components/MainContent';
-import { notifyMessage, updateInvitationDeclined } from '../../actions';
-import { getCurrentUserId, getInvitations, getDeclinedInvitations, getUserByUserId } from '../../selectors';
+import { notifyMessage, updateInvitationDeclined } from 'src/actions';
+import { getCurrentUserId, getInvitations, getDeclinedInvitations, getUserByUserId } from 'src/selectors';
+import { MainContent } from 'src/components';
 
 function mapStateToProps(state) {
   return {
@@ -12,8 +12,7 @@ function mapStateToProps(state) {
     users: getUserByUserId(state),
     currentUserId: getCurrentUserId(state),
     subscriberOrgs: state.subscriberOrgs,
-    teams: state.teams,
-    teamRooms: state.teamRooms
+    teams: state.teams
   };
 }
 

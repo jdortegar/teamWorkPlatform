@@ -1,7 +1,8 @@
 import queryString from 'querystring';
 import { pickBy } from 'lodash';
-import config from 'config/env';
-import { extractKeywords } from 'lib/keywords';
+
+import { buildApiUrl } from 'src/lib/api';
+import { extractKeywords } from 'src/lib/keywords';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const SEARCH_REQUEST = 'search/request';
@@ -9,14 +10,14 @@ export const SEARCH_SUCCESS = 'search/success';
 export const SEARCH_FAILURE = 'search/failure';
 export const SEARCH_STALE = 'search/stale';
 export const TOGGLE_CASE_SENSITIVE = 'search/toggleCaseSensitive';
-export const TOGGLE_AND_OPERATOR = 'search/toggleAndOperator';
+export const TOGGLE_EXACT_MATCH = 'search/toggleExactMatch';
 
 // forceGet: true - disabling cache in search requests
 export const search = (
   rawQuery = undefined,
   subscriberOrgId,
   caseSensitive = false,
-  andOperator = false,
+  exactMatch = false,
   options = { getKey: false, forceGet: true }
 ) => {
   const keywords = extractKeywords(rawQuery);
@@ -25,11 +26,11 @@ export const search = (
     pickBy({
       query,
       caseSensitive: caseSensitive ? 1 : 0,
-      andOperator: andOperator ? 1 : 0
+      andOperator: exactMatch ? 1 : 0
     })
   );
 
-  const requestUrl = `${config.hablaApiBaseUri.replace('v1', 'v2')}/ckg/${subscriberOrgId}/files?${params}`;
+  const requestUrl = buildApiUrl(`ckg/${subscriberOrgId}/files?${params}`, 'v2');
 
   // Passthrough data that you'll see after going through the reducer. Typically in you mapStateToProps.
   const reduxState = { query };
@@ -86,9 +87,9 @@ export const toggleCaseSensitive = caseSensitive => dispatch => {
   });
 };
 
-export const toggleAndOperator = andOperator => dispatch => {
+export const toggleExactMatch = exactMatch => dispatch => {
   dispatch({
-    type: TOGGLE_AND_OPERATOR,
-    payload: { andOperator }
+    type: TOGGLE_EXACT_MATCH,
+    payload: { exactMatch }
   });
 };

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { hablaLogoAvatar } from '../../img';
-import { Spinner } from '../../components';
-import CKGPage from '../../containers/CKGPage';
-import String from '../../translations';
+
+import String from 'src/translations';
+import { hablaLogoAvatar } from 'src/img';
+import { CKGPage } from 'src/containers';
+import { Spinner } from 'src/components';
 import './styles/style.css';
 
 class HomePage extends Component {
@@ -42,8 +43,12 @@ class HomePage extends Component {
                 {' '}
                 add a data integration{' '}
               </a>
-              to see your files on the Corporate Knowledge Graphs. We hope that now you spend minutes finding the right
-              data instead of searching folders for hours.{' '}
+              to see your files on the time activity view on the CKG.{' '}
+              <a onClick={() => this.props.history.push(`/app/organization/${this.props.currentSubscriberOrgId}`)}>
+                Invite people
+              </a>{' '}
+              to your teams and start new conversations. We hope that now you spend minutes finding the right data
+              instead of searching folders for hours. The Habla Ai Team.
               <span className="homePage__activity-content-date"> ({date})</span>
             </div>
           </div>

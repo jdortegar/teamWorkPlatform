@@ -1,11 +1,10 @@
-import config from 'config/env';
+import { buildApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const SUBSCRIBERORGS_FETCH_SUCCESS = 'subscriberorgs/fetch/success';
 
 export const fetchSubscriberOrgs = (options = { getKey: false, forceGet: false }) => {
-  // requestUrl is the key into redux state.urlRequests.
-  const requestUrl = `${config.hablaApiBaseUri}/subscriberOrgs/getSubscriberOrgs`;
+  const requestUrl = buildApiUrl('subscriberOrgs/getSubscriberOrgs');
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = {};

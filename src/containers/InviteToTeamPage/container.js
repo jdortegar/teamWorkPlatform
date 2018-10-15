@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import InviteToTeamPage from '../../pages/InviteToTeamPage';
-import { inviteMembersToTeam, fetchSentInvitations } from '../../actions';
-import { getCurrentUserId, getPresencesOfSubscribersOfOrgId, getSubscribersOfTeamId } from '../../selectors';
+import { inviteMembersToTeam, fetchSentInvitations } from 'src/actions';
+import { getCurrentUserId, getPresencesOfSubscribersOfOrgId, getSubscribersOfTeamId } from 'src/selectors';
+import { InviteToTeamPage } from 'src/pages';
 
 function mapStateToProps(state, props) {
   const { teamId } = props.match.params;

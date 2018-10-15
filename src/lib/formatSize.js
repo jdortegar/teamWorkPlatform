@@ -1,4 +1,4 @@
-import String from '../translations';
+import String from 'src/translations';
 
 const formatSize = sizeInBytesStr => {
   const sizeInBytes = Number.parseInt(sizeInBytesStr, 10);

@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import { Form, message, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
-import BreadCrumb from '../../components/BreadCrumb';
-import SubpageHeader from '../../components/SubpageHeader';
-import SimpleCardContainer from '../../components/SimpleCardContainer';
-import TextField from '../../components/formFields/TextField';
-import SwitchField from '../../components/formFields/SwitchField';
-import Spinner from '../../components/Spinner';
-import { formShape } from '../../propTypes';
-import Button from '../../components/common/Button';
-import String from '../../translations';
+
+import String from 'src/translations';
+import { formShape } from 'src/propTypes';
+import { PageHeader, SimpleCardContainer, TextField, SwitchField, Spinner, Button } from 'src/components';
 import './styles/style.css';
 
 const propTypes = {
@@ -83,26 +78,40 @@ class EditTeamPage extends Component {
       return null;
     }
 
+    // Breadcrumb
+    const pageBreadCrumb = {
+      routes: [
+        {
+          title: team.name,
+          url: `/app/team/${team.subscriberOrgId}`
+        },
+        {
+          title: String.t('TeamPage.editTeam')
+        }
+      ]
+    };
+
+    // Page Menu
+    const menuPageHeader = [
+      {
+        icon: 'fas fa-cloud-download-alt',
+        title: 'TeamPage.addDataIntegration',
+        url: ''
+      },
+      {
+        icon: 'fas fa-pencil-alt',
+        title: 'TeamPage.editTeam',
+        url: `/app/editTeam/${teamId}`
+      }
+    ];
+
     return (
       <div className="EditTeamPage-main">
-        <SubpageHeader
-          subscriberOrgId={subscriberOrg.subscriberOrgId}
-          history={this.props.history}
-          breadcrumb={
-            <BreadCrumb
-              subscriberOrg={subscriberOrg}
-              routes={[
-                {
-                  title: subscriberOrg.name,
-                  link: `/app/organization/${subscriberOrg.subscriberOrgId}`
-                },
-                {
-                  title: team.name,
-                  link: `/app/team/${team.teamId}`
-                }
-              ]}
-            />
-          }
+        <PageHeader
+          pageBreadCrumb={pageBreadCrumb}
+          hasMenu={false}
+          menuPageHeader={menuPageHeader}
+          backButton={`/app/team/${teamId}`}
         />
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
@@ -148,7 +157,7 @@ class EditTeamPage extends Component {
                 {String.t('Buttons.cancel')}
               </Button>
               <Button type="main" fitText onClick={this.handleSubmit} loading={this.state.loading}>
-                {String.t('editTeamRoomPage.saveButtonLabel')}
+                {String.t('editTeamPage.saveButtonLabel')}
               </Button>
             </div>
           </Form>

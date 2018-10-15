@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { SUBSCRIBERS_FETCH_SUCCESS, SUBSCRIBER_RECEIVE } from '../actions';
+import { SUBSCRIBERS_FETCH_SUCCESS, SUBSCRIBER_RECEIVE } from 'src/actions';
 
 const INITIAL_STATE = {
   subscriberUserIdBySubscriberOrgIdByUserId: {},

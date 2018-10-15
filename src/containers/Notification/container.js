@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import Notification from '../../components/Notification';
-import { updateInvitation, invitationResponse } from '../../actions';
+import { updateInvitation, invitationResponse } from 'src/actions';
+import { Notification } from 'src/components';
 
 function mapDispatchToProps(dispatch) {
   return {

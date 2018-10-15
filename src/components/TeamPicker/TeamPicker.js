@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import 'pages/CKGPage/styles/style.css';
+import 'src/pages/CKGPage/styles/style.css';
 
 const propTypes = {
   teams: PropTypes.arrayOf(

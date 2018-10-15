@@ -1,5 +1,5 @@
-import { integrationKeyFromFile } from 'utils/dataIntegrations';
-import String from 'translations';
+import String from 'src/translations';
+import { integrationKeyFromFile } from 'src/utils/dataIntegrations';
 
 export const getOwnersFromFiles = files => {
   const owners = files.reduce((acc, file) => {

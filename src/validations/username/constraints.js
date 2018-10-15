@@ -1,4 +1,4 @@
-import String from '../../translations';
+import String from 'src/translations';
 
 export const defaultMessages = {
   tooShort: String.t('validationError.usernameTooShort'),

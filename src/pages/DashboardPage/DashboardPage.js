@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Dropdown, Menu } from 'antd';
-import { NewSubpageHeader, GraphViewSelector, LambWestonReports } from 'components';
-import String from 'translations';
+
+import String from 'src/translations';
+import { PageHeader, LambWestonReports } from 'src/components';
 import './styles/style.css';
 
 const BASELINE_DATE = '2017-10-01';
@@ -25,6 +26,81 @@ const PLANTS = [
   { key: 'park rapids', name: 'Park Rapids' },
   { key: 'pasco', name: 'Pasco' },
   { key: 'richland', name: 'Richland' }
+];
+
+// Page Menu
+const menuPageHeader = [
+  {
+    icon: 'fas fa-chart-area',
+    title: 'graphViewsSelector.timeActivity',
+    url: ''
+  },
+  // {
+  //   icon: 'fas fa-bullseye',
+  //   title: 'graphViewsSelector.teamMemberContribution',
+  //   url: ''
+  // },
+  // {
+  //   icon: 'fas fa-clone',
+  //   title: 'graphViewsSelector.fileLineage',
+  //   url: ''
+  // },
+  // {
+  //   icon: 'fas fa-sitemap',
+  //   title: 'graphViewsSelector.relationshipHeatMap',
+  //   url: ''
+  // },
+  // {
+  //   icon: 'fas fa-bars',
+  //   title: 'graphViewsSelector.smartListView',
+  //   url: ''
+  // },
+  // {
+  //   icon: 'fas fa-stop',
+  //   title: 'graphViewsSelector.customGraph',
+  //   url: ''
+  // },
+  {
+    icon: 'fas fa-chart-bar',
+    title: 'graphViewsSelector.dashboard',
+    url: '',
+    submenu: [
+      {
+        title: 'graphViewsSelector.industryLabel',
+        url: '',
+        className: 'submenuTitle'
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.electronics',
+        url: '#',
+        className: 'disabled'
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.cpg',
+        url: '#',
+        className: 'disabled'
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.manufacturing',
+        url: '/app/dashboard'
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.retail',
+        url: '#',
+        className: 'disabled'
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.relationshipHeatMap',
+        url: '#',
+        className: 'disabled'
+      }
+    ]
+  }
 ];
 
 class DashboardPage extends React.Component {
@@ -196,36 +272,42 @@ class DashboardPage extends React.Component {
   render() {
     const { currentSubscriberOrgId, selectedReport, reportId } = this.props;
 
+    // Breadcrumb
+    const pageBreadCrumb = {
+      routes: [
+        {
+          title: String.t('ckgPage.title'),
+          link: `/app/ckg/${currentSubscriberOrgId}`
+        },
+        {
+          title: String.t('dashboardPage.industryTitleManufacturing'),
+          link: '/app/dashboard'
+        }
+      ]
+    };
+
+    let optionalButtons = {};
+    if (selectedReport) {
+      const breadcrumbName = String.t(selectedReport.breadcrumb, { plant: this.state.plant.name });
+      pageBreadCrumb.routes[2] = {
+        title: breadcrumbName
+      };
+      optionalButtons = {
+        enabled: true,
+        content: this.renderSelectors(reportId)
+      };
+    }
+
     return (
       <div className="DashboardPage">
-        <NewSubpageHeader>
-          <div className="habla-main-content-header-title">
-            <GraphViewSelector currentSubscriberOrgId={currentSubscriberOrgId} />
-            <div className="flexClass breadcrumbLevels">
-              <div className="habla-title-light responsiveHideClass">
-                {String.t('dashboardPage.industryGraphsTitle')}
-              </div>
-              <i className="fas fa-angle-right responsiveHideClass" />
-              {!selectedReport && (
-                <div className="habla-title">{String.t('dashboardPage.industryTitleManufacturing')}</div>
-              )}
-              {selectedReport && (
-                <div className="flexClass">
-                  <Link to="/app/dashboard" style={{ color: 'black' }}>
-                    <div className="habla-title-light responsiveHideClass">
-                      {String.t('dashboardPage.industryTitleManufacturing')}
-                    </div>
-                  </Link>
-                  <i className="fas fa-angle-right responsiveHideClass" />
-                  <div className="habla-title">
-                    {String.t(selectedReport.breadcrumb, { plant: this.state.plant.name })}
-                  </div>
-                </div>
-              )}
-            </div>
-            {selectedReport && this.renderSelectors(reportId)}
-          </div>
-        </NewSubpageHeader>
+        <PageHeader
+          pageBreadCrumb={pageBreadCrumb}
+          hasMenu
+          menuName="settings"
+          menuPageHeader={menuPageHeader}
+          backButton={`/app/ckg/${currentSubscriberOrgId}`}
+          optionalButtons={optionalButtons}
+        />
 
         {!selectedReport && this.renderReportsList()}
         {selectedReport && this.renderReport(reportId)}

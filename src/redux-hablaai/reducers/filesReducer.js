@@ -1,4 +1,4 @@
-import { getOwnersFromFiles, getFileTypesFromFiles, getIntegrationsFromFiles } from 'lib/files';
+import { getOwnersFromFiles, getFileTypesFromFiles, getIntegrationsFromFiles } from 'src/lib/files';
 
 import {
   SEARCH_SUCCESS,
@@ -7,7 +7,7 @@ import {
   TOGGLE_INTEGRATION_FILTER,
   TOGGLE_FILETYPE_FILTER,
   SUBSCRIBERORG_SETCURRENT
-} from '../actions';
+} from 'src/actions';
 
 const INITIAL_STATE = {
   items: [],

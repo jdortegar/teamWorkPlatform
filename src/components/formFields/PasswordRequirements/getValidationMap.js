@@ -1,4 +1,4 @@
-import { password as passwordRules, validate } from '../../../validations';
+import { password as passwordRules, validate } from 'src/validations';
 
 const defaultValidationMap = {
   length: true,

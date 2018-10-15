@@ -3,21 +3,18 @@ import PropTypes from 'prop-types';
 import { Row, Icon, notification, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import { extractQueryParams } from '../../routes';
-import { badIntegration, successfulIntegration } from './notifications';
-import BreadCrumb from '../../components/BreadCrumb';
-import SubpageHeader from '../../components/SubpageHeader';
-import { ImageCard } from '../../components/cards';
-import Spinner from '../../components/Spinner';
-import SimpleCardContainer from '../../components/SimpleCardContainer';
+
+import String from 'src/translations';
+import { extractQueryParams } from 'src/routes';
+import { BreadCrumb, SubpageHeader, ImageCard, Spinner, SimpleCardContainer } from 'src/components';
 import {
   availableIntegrationKeys,
   integrationImageFromKey,
   integrationIsSupported,
   integrationLabelFromKey,
   integrationMapping
-} from '../../utils/dataIntegrations';
-import String from '../../translations';
+} from 'src/utils/dataIntegrations';
+import { badIntegration, successfulIntegration } from './notifications';
 import './styles/style.css';
 
 const propTypes = {

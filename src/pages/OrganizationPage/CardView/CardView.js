@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import SimpleCardContainer from '../../../components/SimpleCardContainer';
-import SimpleHeader from '../../../components/SimpleHeader';
-import Avatar from '../../../components/common/Avatar';
-import String from '../../../translations';
-import getInitials from '../../../utils/helpers';
-import { integrationLabelFromKey, integrationImageFromKey } from '../../../utils/dataIntegrations';
+
+import String from 'src/translations';
+import getInitials from 'src/utils/helpers';
+import { integrationLabelFromKey, integrationImageFromKey } from 'src/utils/dataIntegrations';
+import { SimpleCardContainer, SimpleHeader, AvatarWrapper } from 'src/components';
+import Avatar from 'src/components/common/Avatar';
 import './styles/style.css';
-import AvatarWrapper from '../../../components/common/Avatar/AvatarWrapper';
 
 const { Panel } = Collapse;
 
@@ -172,6 +171,23 @@ function CardView(props) {
             {isOrgAdmin &&
               renderAddCard(String.t('OrganizationPage.addNewMember'), `/app/inviteNewMember/${props.subscriberOrgId}`)}
             {renderMembers()}
+          </SimpleCardContainer>
+        </Panel>
+        <Panel header={<SimpleHeader text={String.t('OrganizationPage.subscriptionSettings')} />} key="4">
+          <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
+            <div className="habla-collapse-header">
+              <h1 className="habla-lighter-text">
+                Habla AI <span className="habla-bold-text">Bronze Plan</span>
+              </h1>
+              <h3 className="habla-green">$00.00 per month</h3>
+            </div>
+            <div className="habla-collapse-body">
+              Change your current plan settings
+              <div className="habla-collapse-footer">
+                Activated on January 24, 2017 and active until August 24, 2017
+                <br /> LAST BILL SENT ON JANUARY 24, 2017. FOR HELP WRITE TO SUPPORT@HABLA.AI
+              </div>
+            </div>
           </SimpleCardContainer>
         </Panel>
       </Collapse>

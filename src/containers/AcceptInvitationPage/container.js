@@ -1,13 +1,12 @@
 import { connect } from 'react-redux';
-import AcceptInvitationPage from '../../pages/AcceptInvitationPage';
-import { setCurrentSubscriberOrgId } from '../../actions';
-import { getInvitations } from '../../selectors';
+import { setCurrentSubscriberOrgId } from 'src/actions';
+import { getInvitations } from 'src/selectors';
+import { AcceptInvitationPage } from 'src/pages';
 
 function mapStateToProps(state) {
   return {
     invitations: getInvitations(state),
     teamById: state.teams.teamById,
-    teamRoomById: state.teamRooms.teamRoomById,
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById
   };
 }

@@ -1,4 +1,4 @@
-import String from '../translations';
+import String from 'src/translations';
 
 import {
   boxLogo,
@@ -15,7 +15,7 @@ import {
   gitHubLogo,
   ibmConnectionsLogo,
   adobeLogo
-} from '../img';
+} from 'src/img';
 
 const possibleIntegrations = {
   box: {

@@ -1,5 +1,5 @@
 import validate from 'validate.js';
-import String from '../../../translations';
+import String from 'src/translations';
 
 const regex = /(?=.*[a-z])/;
 const message = String.t('validationError.passwordOneLower');

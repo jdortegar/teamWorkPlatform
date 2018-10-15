@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { BasicFilter } from 'components';
-import imageSrcFromFileExtension from 'lib/imageFiles';
-import String from 'translations';
+import String from 'src/translations';
+import { BasicFilter } from 'src/components';
+import imageSrcFromFileExtension from 'src/lib/imageFiles';
 
 const propTypes = {
   count: PropTypes.number.isRequired,

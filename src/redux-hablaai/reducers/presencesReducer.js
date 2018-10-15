@@ -1,11 +1,5 @@
 import _ from 'lodash';
-import {
-  PRESENCE_CHANGE,
-  TEAMROOMMEMBER_RECEIVE,
-  SUBSCRIBERS_FETCH_SUCCESS,
-  TEAMMEMBERS_FETCH_SUCCESS,
-  TEAMROOMMEMBERS_FETCH_SUCCESS
-} from '../actions';
+import { PRESENCE_CHANGE, SUBSCRIBERS_FETCH_SUCCESS, TEAMMEMBERS_FETCH_SUCCESS } from 'src/actions';
 
 const INITIAL_STATE = {
   presencesByUserId: {}
@@ -53,18 +47,6 @@ const presencesReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         presencesByUserId: updatePresences(action.payload.teamMembers, state.presencesByUserId)
-      };
-    }
-    case TEAMROOMMEMBERS_FETCH_SUCCESS: {
-      return {
-        ...state,
-        presencesByUserId: updatePresences(action.payload.teamRoomMembers, state.presencesByUserId)
-      };
-    }
-    case TEAMROOMMEMBER_RECEIVE: {
-      return {
-        ...state,
-        presencesByUserId: updatePresences([action.payload.teamRoomMember], state.presencesByUserId)
       };
     }
     default:

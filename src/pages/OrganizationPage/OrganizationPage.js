@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import String from 'translations';
-import config from '../../config/env';
-import './styles/style.css';
-import { hablaFullBlackLogoIcon } from '../../img';
-import SubpageHeader from '../../components/SubpageHeader';
-import Spinner from '../../components/Spinner';
+import classNames from 'classnames';
+
+import String from 'src/translations';
+import config from 'src/config/env';
+import { hablaFullBlackLogoIcon } from 'src/img';
+import { PageHeader, SimpleCardContainer, Spinner, ProgressBar } from 'src/components';
+import Avatar from 'src/components/common/Avatar';
 import CardView from './CardView';
+import './styles/style.css';
 
 const propTypes = {
   integrations: PropTypes.PropTypes.shape({
@@ -29,6 +31,27 @@ const propTypes = {
   teams: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired
 };
+
+// Get subscriber avatar or Initials
+function renderAvatar(item, enabled, size) {
+  const { preferences } = item;
+  const className = classNames({
+    'opacity-low': !enabled,
+    'border-white-2': true
+  });
+  if (preferences.logo) {
+    return <Avatar src={preferences.logo} color="#FFF" className={className} size={size} />;
+  }
+  if (preferences.avatarBase64) {
+    return <Avatar src={`data:image/jpeg;base64, ${preferences.avatarBase64}`} className={className} size={size} />;
+  }
+  const nameInitial = item.name.substring(0, 1).toUpperCase();
+  return (
+    <Avatar color={preferences.iconColor} className={className} size={size}>
+      {nameInitial}
+    </Avatar>
+  );
+}
 
 class OrganizationPage extends Component {
   constructor(props) {
@@ -94,33 +117,65 @@ class OrganizationPage extends Component {
       user
     ) {
       const { subscriberOrgId } = match.params;
-      let isOrgAdmin = false;
-      if (subscribers.length > 0) {
-        const currentUserId = user.userId;
-        const subscriberByMyUser = subscribers.find(subscriber => subscriber.userId === currentUserId);
-        isOrgAdmin = subscriberByMyUser.subscriberOrgs[subscriberOrgId].role === 'admin';
-      }
-
       const subscriberOrg = subscriberOrgs.subscriberOrgById[subscriberOrgId];
 
-      const editButton = {
-        showButton: true,
-        isAdmin: isOrgAdmin, // this is gonna change later
-        url: `/app/editOrganization/${subscriberOrgId}`
+      // Breadcrumb
+      const pageBreadCrumb = {
+        subscriberOrg,
+        routes: [
+          {
+            title: String.t('OrganizationPage.title')
+          }
+        ]
       };
+
+      // Page Menu
+      const menuPageHeader = [
+        {
+          icon: 'fas fa-cog',
+          title: 'OrganizationPage.manageTeams',
+          url: `/app/editOrganization/${subscriberOrgId}/teams`
+        },
+        {
+          icon: 'fas fa-cog',
+          title: 'OrganizationPage.manageTeamMembers',
+          url: `/app/editOrganization/${subscriberOrgId}/members`
+        },
+        {
+          icon: 'fas fa-cog',
+          title: 'OrganizationPage.manageDataIntegrations',
+          url: `/app/editOrganization/${subscriberOrgId}/dataIntegrations`
+        },
+        {
+          icon: 'fas fa-pencil-alt',
+          title: 'OrganizationPage.editSection',
+          url: `/app/editOrganization/${subscriberOrgId}`
+        }
+      ];
+
       return (
         <div className="editOrgPage-main">
-          <SubpageHeader
-            subscriberOrgId={subscriberOrg.subscriberOrgId}
-            history={this.props.history}
-            editButton={editButton}
-            breadcrumb={
-              <div>
-                <i className="fas fa-cog" />
-                {String.t('OrganizationPage.title')}
-              </div>
-            }
-          />
+          <PageHeader pageBreadCrumb={pageBreadCrumb} hasMenu menuName="settings" menuPageHeader={menuPageHeader} />
+          <SimpleCardContainer className="subpage-block habla-color-blue align-center-class">
+            {renderAvatar(subscriberOrg, subscriberOrg.enabled, 'x-large')}
+            <div className="mt-2">
+              <h1 className="habla-organization-title">{subscriberOrg.name}</h1>
+            </div>
+          </SimpleCardContainer>
+          <SimpleCardContainer className="subpage-block habla-color-lightblue padding-class-a align-center-class habla-white">
+            {/* To do: make this dynamic */}
+            <div>
+              <span className="mr-5 habla-light-text">
+                <i className="fas fa-check mr-05 habla-lighertblue" />
+                {String.t('OrganizationPage.occupiedSpace', { occupied: 18, remain: 50 })}
+              </span>
+              <span className="habla-light-text">
+                <i className="fas fa-file-alt mr-05 habla-lighertblue" />
+                {String.t('OrganizationPage.filesShared', { count: 17389 })}
+              </span>
+            </div>
+            <ProgressBar strokeColor="#384f83" percent={30} />
+          </SimpleCardContainer>
           <CardView
             integrations={integrations}
             subscribers={subscribers}
@@ -129,10 +184,12 @@ class OrganizationPage extends Component {
             teams={teams}
             user={user}
           />
-          <div className="app-version">
-            <img src={hablaFullBlackLogoIcon} alt="habla.ai" />
-            HABLA.AI - {config.hablaApiEnv !== 'prod' ? config.hablaApiEnv.toUpperCase() : 'APP'}{' '}
-            {config.hablaWebAppVersion}
+          <div className="app-version-container">
+            <div className="app-version">
+              <img src={hablaFullBlackLogoIcon} alt="habla.ai" />
+              HABLA.AI - {config.hablaApiEnv !== 'prod' ? config.hablaApiEnv.toUpperCase() : 'APP'}{' '}
+              {config.hablaWebAppVersion}
+            </div>
           </div>
         </div>
       );
