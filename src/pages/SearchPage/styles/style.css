@@ -138,3 +138,11 @@
 .SearchPage__bottomBar {
   background: #eef2f8;
 }
+
+.SearchPage table {
+  white-space: nowrap;
+}
+
+.SearchPage .ant-table-tbody > tr > td:first-child {
+  white-space: normal;
+}
