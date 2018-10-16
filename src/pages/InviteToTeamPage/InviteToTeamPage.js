@@ -164,7 +164,7 @@ class InviteToTeamPage extends Component {
     }
 
     const { teamId } = match.params;
-    const team = teams.teamById[teamId];
+    const team = teams[teamId];
     if (!team) {
       this.props.history.replace('/app');
       return null;

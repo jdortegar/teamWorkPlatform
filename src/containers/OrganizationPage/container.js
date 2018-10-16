@@ -5,7 +5,7 @@ import {
   getCurrentUser,
   getSubscribersOfSubscriberOrgId,
   getPresencesOfSubscribersOfOrgId,
-  getTeamsOfSubscriberOrgIdSortedAlphabetically,
+  getOrgTeams,
   getIntegrationsOfSubscriberOrgId
 } from 'src/selectors';
 import { OrganizationPage } from 'src/pages';
@@ -18,7 +18,7 @@ function mapStateToProps(state, props) {
     subscriberOrgs: state.subscriberOrgs,
     subscribers: getSubscribersOfSubscriberOrgId(state, subscriberOrgId),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
-    teams: getTeamsOfSubscriberOrgIdSortedAlphabetically(state, subscriberOrgId),
+    teams: getOrgTeams(state, subscriberOrgId),
     integrations: getIntegrationsOfSubscriberOrgId(state, state.subscriberOrgs.currentSubscriberOrgId)
   };
 }

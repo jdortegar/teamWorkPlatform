@@ -26,8 +26,7 @@ const propTypes = {
   setCurrentSubscriberOrgId: PropTypes.func.isRequired,
   sideBarIsHidden: PropTypes.bool.isRequired,
   showSideBar: PropTypes.func.isRequired,
-  currentSubscriberOrgId: PropTypes.string,
-  teamIdsBySubscriberOrgId: PropTypes.object.isRequired
+  currentSubscriberOrgId: PropTypes.string
 };
 
 const defaultProps = {
@@ -252,18 +251,9 @@ class Sidebar extends Component {
       subscribers,
       subscribersPresences,
       sideBarIsHidden,
-      currentSubscriberOrgId,
-      teamIdsBySubscriberOrgId
+      currentSubscriberOrgId
     } = this.props;
-    if (
-      !teamIdsBySubscriberOrgId ||
-      !currentSubscriberOrgId ||
-      !teamIdsBySubscriberOrgId[currentSubscriberOrgId] ||
-      !teams ||
-      subscriberOrgs.length === 0 ||
-      !subscribers ||
-      !subscribersPresences
-    ) {
+    if (!currentSubscriberOrgId || !teams || subscriberOrgs.length === 0 || !subscribers || !subscribersPresences) {
       return null;
     }
     const sideClass = classNames({

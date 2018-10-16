@@ -179,6 +179,8 @@
     "editTeam": "Edit Team",
     "inviteNewMember": "Invite a New Team Member",
     "teamCreated": "Created on {{date}}",
+    "integrationsHeader": "Team Data Integrations ({{count}})",
+    "addNewIntegration": "Add New Team Integration",
     "membersHeader": {
       "one": "1 Team Member",
       "other": "{{count}} Team Members",

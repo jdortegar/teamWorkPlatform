@@ -67,7 +67,7 @@ class EditTeamPage extends Component {
 
     const { teamId } = this.props.match.params;
 
-    const team = teams.teamById[teamId];
+    const team = teams[teamId];
     if (!team) {
       this.props.history.replace('/app');
       return null;

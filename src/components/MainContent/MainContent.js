@@ -19,6 +19,8 @@ import {
   EditTeamPage,
   InviteNewMemberPage,
   TeamMemberPage,
+  TeamIntegrationsPage,
+  TeamIntegrationDetailsPage,
   Notification,
   BookmarksPage,
   InviteToTeamPage,
@@ -145,7 +147,7 @@ class MainContent extends Component {
       invitation = invitation.sort(sortByLastCreatedFirst).filter(inv => {
         // if already a member of the org or team, don't include the invite
         const { teamId, subscriberOrgId } = inv;
-        if (teamId && teams.teamById[teamId]) {
+        if (teamId && teams[teamId]) {
           return false;
         } else if (subscriberOrgById[subscriberOrgId]) {
           return false;
@@ -184,6 +186,8 @@ class MainContent extends Component {
           <Route exact path={paths.inviteToTeam} component={InviteToTeamPage} />
           <Route exact path={paths.teamRoom} component={ChatContent} />
           <Route exact path={paths.member} component={TeamMemberPage} />
+          <Route exact path={paths.teamIntegrations} component={TeamIntegrationsPage} />
+          <Route exact path={paths.teamintegrationDetails} component={TeamIntegrationDetailsPage} />
           <Route exact path={paths.acceptInvitation} component={AcceptInvitationPage} />
           <Route exact path={paths.ckg} component={CKGPage} />
           <Route exact path={paths.dashboard} component={DashboardPage} />

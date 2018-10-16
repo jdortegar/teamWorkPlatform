@@ -1,23 +1,32 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { fetchTeamMembersByTeamId } from 'src/actions';
-import { getCurrentUser, getTeamMembersOfTeamId, getPresencesOfTeamMembersOfTeamId } from 'src/selectors';
+import { fetchTeamIntegrations, fetchTeamMembers } from 'src/actions';
+import {
+  getTeam,
+  getCurrentUser,
+  getTeamMembersOfTeamId,
+  getPresencesOfTeamMembersOfTeamId,
+  getTeamIntegrations,
+  getCurrentSubscriberOrgId
+} from 'src/selectors';
 import { TeamManagePage } from 'src/pages';
 
-function mapStateToProps(state, props) {
+const mapStateToProps = (state, props) => {
   const { teamId } = props.match.params;
 
   return {
     user: getCurrentUser(state),
-    subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
-    teams: state.teams,
+    team: getTeam(state, teamId),
+    integrations: getTeamIntegrations(state, teamId),
     teamMembers: getTeamMembersOfTeamId(state, teamId),
-    teamMembersPresences: getPresencesOfTeamMembersOfTeamId(state, teamId)
+    presences: getPresencesOfTeamMembersOfTeamId(state, teamId),
+    orgId: getCurrentSubscriberOrgId(state)
   };
-}
+};
 
 const mapDispatchToProps = {
-  fetchTeamMembersByTeamId
+  fetchTeamIntegrations,
+  fetchTeamMembers
 };
 
 export default withRouter(

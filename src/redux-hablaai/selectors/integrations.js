@@ -1,8 +1,9 @@
 import { createSelector } from 'reselect';
+import { flatten } from 'lodash';
 import createCachedSelector from 're-reselect';
-import { getIntegrationsBySubscriberOrgId } from './state';
+import { getIntegrationsBySubscriberOrgId, getIntegrationsByTeamId } from './state';
 
-export { getIntegrationsBySubscriberOrgId } from './state';
+export { getIntegrationsBySubscriberOrgId, getIntegrationsByTeamId } from './state';
 
 export const getIntegrationsOfSubscriberOrgId = createCachedSelector(
   [getIntegrationsBySubscriberOrgId, (state, subscriberOrgId) => subscriberOrgId],
@@ -38,3 +39,14 @@ export const getSharingSettings = createSelector(
     return settings ? settings[source] : {};
   }
 );
+
+export const getTeamIntegrations = createCachedSelector(
+  [getIntegrationsByTeamId, (state, teamId) => teamId],
+  (integrationsByTeamId, teamId) => {
+    const integrationsByUser = Object.entries(integrationsByTeamId[teamId] || {});
+    const teamIntegrations = integrationsByUser.map(([userId, value]) =>
+      Object.entries(value).map(([key, integration]) => ({ ...integration, key, userId }))
+    );
+    return flatten(teamIntegrations).filter(team => !team.revoked);
+  }
+)((state, teamId) => teamId);

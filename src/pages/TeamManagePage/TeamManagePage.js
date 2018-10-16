@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { message } from 'antd';
+import { isEmpty } from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -9,132 +9,118 @@ import getInitials from 'src/utils/helpers';
 import { PageHeader, Spinner, SimpleCardContainer } from 'src/components';
 import Avatar from 'src/components/common/Avatar';
 import CardView from './CardView';
-import messages from './messages';
 import './styles/style.css';
 
 const propTypes = {
-  fetchTeamMembersByTeamId: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-    replace: PropTypes.func.isRequired
-  }).isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      teamId: PropTypes.string,
-      status: PropTypes.string
-    })
-  }).isRequired,
-  teamMembers: PropTypes.array.isRequired,
-  teamMembersPresences: PropTypes.object.isRequired,
-  subscriberOrgById: PropTypes.object.isRequired,
-  teams: PropTypes.object.isRequired,
+  team: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  currentSubscriberOrgId: PropTypes.string.isRequired
+  orgId: PropTypes.string.isRequired,
+  integrations: PropTypes.array.isRequired,
+  teamMembers: PropTypes.array.isRequired,
+  presences: PropTypes.object.isRequired,
+  fetchTeamIntegrations: PropTypes.func.isRequired,
+  fetchTeamMembers: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    replace: PropTypes.func.isRequired
+  }).isRequired
 };
 
 class TeamManagePage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { teamMembersLoaded: false };
-  }
+  state = {
+    integrationsLoaded: false,
+    teamMembersLoaded: false
+  };
 
   componentDidMount() {
-    const { match, teams } = this.props;
-    if (!match || !match.params || !teams.teamById[match.params.teamId]) {
-      this.props.history.replace('/app');
+    const { team, history, orgId } = this.props;
+    if (!team) {
+      history.replace('/app');
       return;
     }
-    const { teamId, status } = match.params;
 
-    this.props.fetchTeamMembersByTeamId(teamId).then(() => this.setState({ teamMembersLoaded: true }));
-    if (status) {
-      message.success(messages[status]);
-    }
+    this.props.fetchTeamMembers(team.teamId).then(() => this.setState({ teamMembersLoaded: true }));
+
+    this.props.fetchTeamIntegrations(orgId, team.teamId).then(() => {
+      this.setState({ integrationsLoaded: true });
+    });
   }
 
   render() {
-    const { match, teams, teamMembers, teamMembersPresences, subscriberOrgById, user } = this.props;
+    const { team, teamMembers, presences, user, integrations, orgId } = this.props;
     if (
-      match &&
-      match.params &&
-      match.params.teamId &&
-      teams &&
-      teams.teamById[match.params.teamId] &&
-      teamMembers &&
-      teamMembers.length > 0 &&
-      teamMembersPresences &&
-      subscriberOrgById &&
-      this.state.teamMembersLoaded
+      !team ||
+      !presences ||
+      isEmpty(teamMembers) ||
+      !this.state.integrationsLoaded ||
+      !this.state.teamMembersLoaded
     ) {
-      const { teamId } = match.params;
-      const team = teams.teamById[teamId];
-      // const subscriberOrg = subscriberOrgById[teams.teamById[teamId].subscriberOrgId];
-      // const teamMemberFoundByUser = _.find(teamMembers, { userId: user.userId });
-      // const isAdmin = teamMemberFoundByUser.teams[teamId].role === 'admin';
-      const initials = getInitials(team.name);
-      const className = classNames({ 'opacity-low': !team.active });
-      const subscriberOrgId = this.props.currentSubscriberOrgId;
+      return <Spinner />;
+    }
 
-      // Breadcrumb
-      const pageBreadCrumb = {
-        routes: [
-          {
-            title: team.name,
-            url: `/app/team/${teamId}`
-          },
-          {
-            title: String.t('TeamPage.manageTeam')
-          }
-        ]
-      };
+    const { teamId } = team;
+    const initials = getInitials(team.name);
 
-      // Page Menu
-      const menuPageHeader = [
+    const pageBreadCrumb = {
+      routes: [
         {
-          icon: 'fas fa-cloud-download-alt',
-          title: 'TeamPage.addDataIntegration',
-          url: ''
+          title: team.name,
+          url: `/app/team/${teamId}`
         },
         {
-          icon: 'fas fa-pencil-alt',
-          title: 'TeamPage.editTeam',
-          url: `/app/editTeam/${teamId}`
+          title: String.t('TeamPage.manageTeam')
         }
-      ];
+      ]
+    };
 
-      return (
-        <div>
-          <PageHeader
-            subscriberOrgId={subscriberOrgId}
-            pageBreadCrumb={pageBreadCrumb}
-            hasMenu
-            menuName="settings"
-            backButton={`/app/team/${teamId}`}
-            menuPageHeader={menuPageHeader}
-          />
-          <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
-            <Avatar size="x-large" color={team.preferences.iconColor} className={className}>
-              {initials}
-            </Avatar>
-            <div className="margin-top-class-b">
-              <h1 className="New-team__title habla-big-title habla-bold-text">{team.name}</h1>
-            </div>
-            <div className="habla-secondary-paragraph">
-              {String.t('TeamPage.teamCreated', { date: moment(team.created).format('LL') })}
-            </div>
-          </SimpleCardContainer>
-          <div className="teamPage-list">
-            <CardView
-              userId={user.userId}
-              team={team}
-              teamMembers={teamMembers}
-              teamMembersPresences={teamMembersPresences}
-            />
+    const menuPageHeader = [
+      {
+        icon: 'fas fa-cloud-download-alt',
+        title: 'TeamPage.addDataIntegration',
+        url: `/app/teamIntegrations/${teamId}`
+      },
+      {
+        icon: 'fas fa-pencil-alt',
+        title: 'TeamPage.editTeam',
+        url: `/app/editTeam/${teamId}`
+      }
+    ];
+
+    return (
+      <div>
+        <PageHeader
+          subscriberOrgId={orgId}
+          pageBreadCrumb={pageBreadCrumb}
+          hasMenu
+          menuName="settings"
+          backButton={`/app/team/${teamId}`}
+          menuPageHeader={menuPageHeader}
+        />
+        <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
+          <Avatar
+            size="x-large"
+            color={team.preferences.iconColor}
+            className={classNames({ 'opacity-low': !team.active })}
+          >
+            {initials}
+          </Avatar>
+          <div className="margin-top-class-b">
+            <h1 className="New-team__title habla-big-title habla-bold-text">{team.name}</h1>
           </div>
+          <div className="habla-secondary-paragraph">
+            {String.t('TeamPage.teamCreated', { date: moment(team.created).format('LL') })}
+          </div>
+        </SimpleCardContainer>
+        <div className="teamPage-list">
+          <CardView
+            userId={user.userId}
+            team={team}
+            integrations={integrations}
+            teamMembers={teamMembers}
+            presences={presences}
+          />
         </div>
-      );
-    }
-    return <Spinner />;
+      </div>
+    );
   }
 }
 

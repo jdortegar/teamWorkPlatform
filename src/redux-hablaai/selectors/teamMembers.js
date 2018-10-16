@@ -5,7 +5,6 @@ import { sortByFirstName } from './helpers';
 export { getUserIdsByTeamId } from './state';
 
 export const getTeamMembersOfTeamId = createCachedSelector(
-  // eslint-disable-line import/prefer-default-export
   [getUserIdsByTeamId, getUserByUserId, (state, teamId) => teamId],
   (userIdsByTeamId, userByUserId, teamId) => {
     if (!teamId || !userIdsByTeamId[teamId]) {
