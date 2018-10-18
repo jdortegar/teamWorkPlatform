@@ -62,9 +62,7 @@ const TeamMemberPage = ({ subscriberOrg, subscribers, subscribersPresences, matc
       <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
         <AvatarWrapper size="x-large" user={member} />
         <div className="margin-top-class-b">
-          <h1 className="New-team__title habla-big-title habla-bold-text">
-            {String.t('fullName', { firstName, lastName })}
-          </h1>
+          <h1 className="New-team__title habla-user-title">{String.t('fullName', { firstName, lastName })}</h1>
           <div className="habla-secondary-paragraph">{String.t('teamMemberPage.displayName', { displayName })}</div>
           <div className="habla-secondary-paragraph">
             {String.t('teamMemberPage.memberSince', { date: moment(created).format('LL') })}

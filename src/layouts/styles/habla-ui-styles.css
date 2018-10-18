@@ -529,6 +529,14 @@ p {
   color: #fff;
   font-weight: 900;
 }
+.habla-team-title,
+.habla-user-title {
+  font-size: 20pt;
+  line-height: 24pt;
+  color: #666;
+  font-weight: 900;
+  margin: 5px 0;
+}
 .habla-big-title {
   font-size: 20pt;
   line-height: 24pt;

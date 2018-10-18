@@ -178,7 +178,7 @@
     "manageTeam": "Manage Team",
     "editTeam": "Edit Team",
     "inviteNewMember": "Invite a New Team Member",
-    "teamCreated": "Created on {{date}}",
+    "teamCreated": "Created on {{date}} by {{teamAdminName}}",
     "integrationsHeader": "Team Data Integrations ({{count}})",
     "addNewIntegration": "Add New Team Integration",
     "membersHeader": {

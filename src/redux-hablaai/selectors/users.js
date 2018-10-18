@@ -10,6 +10,11 @@ export const getCurrentUser = createSelector(
   (userByUserId, currentUserId) => userByUserId[currentUserId]
 );
 
+export const getUserFullName = createSelector(
+  [getUserByUserId, (state, userId) => userId],
+  (usersByUserId, userId) => (usersByUserId[userId] ? usersByUserId[userId].fullName : '')
+);
+
 export const getCurrentUserFirstName = createSelector(
   getCurrentUser,
   currentUser => (currentUser ? currentUser.firstName : '')

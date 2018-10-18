@@ -7,16 +7,19 @@ import {
   getTeamMembersOfTeamId,
   getPresencesOfTeamMembersOfTeamId,
   getTeamIntegrations,
-  getCurrentSubscriberOrgId
+  getCurrentSubscriberOrgId,
+  getUserFullName
 } from 'src/selectors';
 import { TeamManagePage } from 'src/pages';
 
 const mapStateToProps = (state, props) => {
   const { teamId } = props.match.params;
+  const team = getTeam(state, teamId);
 
   return {
+    team,
     user: getCurrentUser(state),
-    team: getTeam(state, teamId),
+    teamAdminName: getUserFullName(state, team.teamAdmin),
     integrations: getTeamIntegrations(state, teamId),
     teamMembers: getTeamMembersOfTeamId(state, teamId),
     presences: getPresencesOfTeamMembersOfTeamId(state, teamId),

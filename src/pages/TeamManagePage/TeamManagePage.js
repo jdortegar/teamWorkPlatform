@@ -14,6 +14,7 @@ import './styles/style.css';
 const propTypes = {
   team: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  teamAdminName: PropTypes.string.isRequired,
   orgId: PropTypes.string.isRequired,
   integrations: PropTypes.array.isRequired,
   teamMembers: PropTypes.array.isRequired,
@@ -46,7 +47,7 @@ class TeamManagePage extends Component {
   }
 
   render() {
-    const { team, teamMembers, presences, user, integrations, orgId } = this.props;
+    const { team, teamMembers, presences, user, integrations, orgId, teamAdminName } = this.props;
     if (
       !team ||
       !presences ||
@@ -104,10 +105,10 @@ class TeamManagePage extends Component {
             {initials}
           </Avatar>
           <div className="margin-top-class-b">
-            <h1 className="New-team__title habla-big-title habla-bold-text">{team.name}</h1>
+            <h1 className="New-team__title habla-team-title">{team.name}</h1>
           </div>
           <div className="habla-secondary-paragraph">
-            {String.t('TeamPage.teamCreated', { date: moment(team.created).format('LL') })}
+            {String.t('TeamPage.teamCreated', { date: moment(team.created).format('LL'), teamAdminName })}
           </div>
         </SimpleCardContainer>
         <div className="teamPage-list">
