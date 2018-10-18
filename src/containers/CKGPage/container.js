@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import { CKGPage } from 'src/pages';
 import {
   getCurrentSubscriberOrgId,
-  getTeamsOfSubscriberOrgIdSortedAlphabetically,
+  getTeamsById,
+  getOrgTeams,
   getSearchQuery,
   isSearchCaseSensitive,
   isSearchExactMatch
@@ -16,12 +17,12 @@ import {
 } from 'src/actions';
 
 const mapStateToProps = state => ({
-  teamById: state.teams.teamById,
+  teamById: getTeamsById(state),
   subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
   currentSubscriberOrgId: getCurrentSubscriberOrgId(state),
   files: state.files,
   excludeFilters: state.files.excludeFilters,
-  teams: getTeamsOfSubscriberOrgIdSortedAlphabetically(state, getCurrentSubscriberOrgId(state)),
+  teams: getOrgTeams(state, getCurrentSubscriberOrgId(state)),
   query: getSearchQuery(state),
   caseSensitive: isSearchCaseSensitive(state),
   exactMatch: isSearchExactMatch(state)

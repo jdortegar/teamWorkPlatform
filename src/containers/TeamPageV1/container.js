@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
+import { getTeamsById } from 'src/selectors';
 import { fetchTimeActivitiesBySubscriberOrgId, setCurrentSubscriberOrgId } from 'src/actions';
 import { TeamPageV1 } from 'src/pages';
 
 const mapStateToProps = state => ({
   currentSubscriberOrgId: state.subscriberOrgs.currentSubscriberOrgId,
   subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
-  teams: state.teams
+  teams: getTeamsById(state)
 });
 
 const mapDispatchToProps = dispatch => ({

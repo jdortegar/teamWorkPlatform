@@ -20,7 +20,9 @@ export const paths = {
   team: '/app/team/:teamId/',
   manageTeam: '/app/team/manage/:teamId/:status?',
   editTeam: '/app/editTeam/:teamId',
+  teamIntegrations: '/app/teamIntegrations/:teamId',
   teamRoom: '/app/teamRoom/:teamRoomId', // WILL BE REMOVED
+  teamintegrationDetails: '/app/teamIntegrations/:teamId/:integrationDetails/:status?',
   member: '/app/teamMember/:teamMemberId',
   notifications: '/app/notifications',
   bookmarks: '/app/bookmarks/:subscriberOrgId',

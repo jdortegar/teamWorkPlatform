@@ -4,6 +4,7 @@ import {
   INTEGRATIONS_FETCH_DETAILS_SUCCESS,
   INTEGRATIONS_REVOKE_SUCCESS,
   INTEGRATIONS_UPDATE,
+  TEAM_INTEGRATIONS_FETCH_SUCCESS,
   SHARING_SETTINGS_TOGGLE,
   SHARING_SETTINGS_TOGGLE_ALL,
   SHARING_SETTINGS_SAVE_REQUEST,
@@ -15,6 +16,7 @@ import { getIntegrationDetails } from 'src/selectors';
 const INITIAL_STATE = {
   integrationsBySubscriberOrgId: {},
   integrationDetailsBySubscriberUserId: {},
+  integrationsByTeamId: {},
   sharingSettings: {}
 };
 
@@ -59,6 +61,52 @@ const updateCurrentSettings = (state, action, newState) => {
   };
 };
 
+// const fakeData = {
+//   teamMemberIntegrations: [
+//     {
+//       integrations: {
+//         box: {
+//           acquiredAtMS: 1534868020463,
+//           expired: false,
+//           userId: '3547876026',
+//           accessTokenTTLMS: 4186000
+//         },
+//         dropbox: {
+//           revoked: true
+//         }
+//       },
+//       teamId: 'b17f145f-64e9-44d0-ac19-b98b17b8b1a8',
+//       userId: '8237195a-b522-43c3-93e7-28a77f7f9653'
+//     },
+//     {
+//       integrations: {
+//         google: {
+//           expired: false,
+//           expiry_date: 1538062479898,
+//           scope:
+//             'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.install https://www.googleapis.com/auth/drive.readonly',
+//           userId: '101693230268909862812'
+//         },
+//         salesforce: {
+//           access_token:
+//             '00Df2000001Gfi6!AR4AQGinlpg27JGilgsk0ICyJu36cpGp1SzXw.PcsM54_i92tMlSwDn6aN.Yejdj2e0DB7FLr3igWwBCsbarTuaGxZdnTE2u',
+//           expired: false,
+//           id: 'https://login.salesforce.com/id/00Df2000001Gfi6EAC/005f2000008kDZ0AAM',
+//           id_token: 'eyJraWQiOiIyMTQiLCJ0eXAiOiJKV1Q....',
+//           instance_url: 'https://na53.salesforce.com',
+//           issued_at: '1530818690215',
+//           scope: 'full',
+//           signature: 'gUbBmZkgAQBzbxDDmXHISS39QS8sjX+Z5VKK2KTc79Y=',
+//           token_type: 'Bearer',
+//           userId: 'https://login.salesforce.com/id/00Df2000001Gfi6EAC/005f2000008kDZ0AAM'
+//         }
+//       },
+//       teamId: 'b17f145f-64e9-44d0-ac19-b98b17b8b1a8',
+//       userId: '8237195a-b522-43c3-93e7-28a77f7f9653'
+//     }
+//   ]
+// };
+
 const integrationsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case INTEGRATIONS_FETCH_SUCCESS: {
@@ -72,6 +120,22 @@ const integrationsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         integrationsBySubscriberOrgId: updateIntegrationsBySubscriberOrgId
+      };
+    }
+    case TEAM_INTEGRATIONS_FETCH_SUCCESS: {
+      const integrationsByTeamId = action.payload.teamMemberIntegrations.reduce(
+        (acc, current) => {
+          acc[current.teamId] = {
+            ...acc[current.teamId],
+            [current.userId]: current.integrations
+          };
+          return acc;
+        },
+        { ...state.integrationsByTeamId }
+      );
+      return {
+        ...state,
+        integrationsByTeamId
       };
     }
     case INTEGRATIONS_REVOKE_SUCCESS: {

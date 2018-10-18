@@ -13,9 +13,6 @@ export const getSubscriberUserIdBySubscriberOrgIdByUserId = state =>
   state.subscribers.subscriberUserIdBySubscriberOrgIdByUserId;
 export const getUserIdsBySubscriberOrgId = state => state.subscribers.userIdsBySubscriberOrgId;
 
-export const getTeamById = state => state.teams.teamById;
-export const getTeamIdsBySubscriberOrgId = state => state.teams.teamIdsBySubscriberOrgId;
-
 export const getTeamMemberIdByTeamIdByUserId = state => state.teamMembers.teamMemberIdByTeamIdByUserId;
 export const getUserIdsByTeamId = state => state.teamMembers.userIdsByTeamId;
 
@@ -36,3 +33,5 @@ export const getUrlRequestStatus = createCachedSelector(
   [getUrlRequests, (state, requestUrl) => requestUrl],
   (urlRequests, requestUrl) => urlRequests[requestUrl]
 )((state, requestUrl) => requestUrl);
+
+export const getIntegrationsByTeamId = state => state.integrations.integrationsByTeamId;

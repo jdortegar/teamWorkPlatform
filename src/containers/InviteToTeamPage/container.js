@@ -1,12 +1,17 @@
 import { connect } from 'react-redux';
 import { inviteMembersToTeam, fetchSentInvitations } from 'src/actions';
-import { getCurrentUserId, getPresencesOfSubscribersOfOrgId, getSubscribersOfTeamId } from 'src/selectors';
+import {
+  getTeamsById,
+  getCurrentUserId,
+  getPresencesOfSubscribersOfOrgId,
+  getSubscribersOfTeamId
+} from 'src/selectors';
 import { InviteToTeamPage } from 'src/pages';
 
 function mapStateToProps(state, props) {
   const { teamId } = props.match.params;
   return {
-    teams: state.teams,
+    teams: getTeamsById(state),
     currentUserId: getCurrentUserId(state),
     sentInvitations: state.sentInvitations,
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),

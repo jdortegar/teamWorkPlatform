@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import {
+  getTeamsById,
   getCurrentSubscriberOrg,
   getSubscribersOfSubscriberOrgId,
   getPresencesOfSubscribersOfOrgId
@@ -12,7 +13,7 @@ function mapStateToProps(state) {
     subscribers: getSubscribersOfSubscriberOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
     subscriberOrg: getCurrentSubscriberOrg(state),
-    teams: state.teams
+    teams: getTeamsById(state)
   };
 }
 

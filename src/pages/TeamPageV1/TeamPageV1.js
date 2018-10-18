@@ -75,14 +75,7 @@ class TeamPageV1 extends Component {
   render() {
     const { match, teams, subscriberOrgById } = this.props;
 
-    if (
-      match &&
-      match.params &&
-      match.params.teamId &&
-      teams &&
-      teams.teamById[match.params.teamId] &&
-      subscriberOrgById
-    ) {
+    if (match && match.params && match.params.teamId && teams[match.params.teamId] && subscriberOrgById) {
       const { teamId } = match.params;
 
       const { fetchTimeActivitiesBySubscriberOrgId, setCurrentSubscriberOrgId, currentSubscriberOrgId } = this.props;
@@ -95,7 +88,7 @@ class TeamPageV1 extends Component {
 
       // V1
 
-      const team = teams.teamById[teamId];
+      const team = teams[teamId];
 
       // Breadcrumb
       const pageBreadCrumb = {
@@ -191,12 +184,17 @@ class TeamPageV1 extends Component {
         {
           icon: 'fas fa-cloud-download-alt',
           title: 'TeamPage.addDataIntegration',
-          url: ''
+          url: `/app/teamIntegrations/${teamId}`
         },
         {
           icon: 'fas fa-cog',
           title: 'TeamPage.manageTeam',
           url: `/app/team/manage/${teamId}`
+        },
+        {
+          icon: 'fas fa-pencil-alt',
+          title: 'TeamPage.editTeam',
+          url: `/app/editTeam/${teamId}`
         }
       ];
 
