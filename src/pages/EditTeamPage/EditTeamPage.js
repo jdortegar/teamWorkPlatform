@@ -44,7 +44,7 @@ class EditTeamPage extends Component {
           .updateTeam(valuesToSend, teamId)
           .then(() => {
             this.setState({ loading: false });
-            this.props.history.push(`/app/team/${teamId}`);
+            this.props.history.push(`/app/team/manage/${teamId}`);
             message.success(String.t('editTeamPage.teamUpdated'));
           })
           .catch(error => {
@@ -107,12 +107,7 @@ class EditTeamPage extends Component {
 
     return (
       <div className="EditTeamPage-main">
-        <PageHeader
-          pageBreadCrumb={pageBreadCrumb}
-          hasMenu={false}
-          menuPageHeader={menuPageHeader}
-          backButton={`/app/team/${teamId}`}
-        />
+        <PageHeader pageBreadCrumb={pageBreadCrumb} hasMenu={false} menuPageHeader={menuPageHeader} />
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="padding-class-a">
@@ -152,7 +147,7 @@ class EditTeamPage extends Component {
                 type="secondary"
                 fitText
                 className="margin-right-class-a"
-                onClick={() => this.props.history.push(`/app/team/${teamId}`)}
+                onClick={() => this.props.history.push(`/app/team/manage/${teamId}`)}
               >
                 {String.t('Buttons.cancel')}
               </Button>

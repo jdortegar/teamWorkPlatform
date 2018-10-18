@@ -160,7 +160,7 @@ class TeamIntegrationsPage extends Component {
           pageBreadCrumb={pageBreadCrumb}
           hasMenu
           menuName="settings"
-          backButton={`/app/team/${teamId}`}
+          backButton={`/app/team/manage/${teamId}`}
           menuPageHeader={menuPageHeader}
         />
         <div className="padding-class-a">

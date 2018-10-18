@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import String from 'src/translations';
-import { BreadCrumb, AvatarWrapper, SubpageHeader, SimpleCardContainer, Button, Spinner } from 'src/components';
+import { AvatarWrapper, PageHeader, SimpleCardContainer, Button, Spinner } from 'src/components';
 import './styles/style.css';
 
 const propTypes = {
@@ -69,7 +69,7 @@ class InviteToTeamPage extends Component {
       .inviteMembersToTeam(users)
       .then(() => {
         this.setState({ loading: false });
-        this.props.history.push(`/app/team/${teamId}`);
+        this.props.history.push(`/app/team/manage/${teamId}`);
         message.success(String.t('inviteToTeamPage.invitationSent', { count: users.length }));
       })
       .catch(error => {
@@ -178,25 +178,20 @@ class InviteToTeamPage extends Component {
     const instructions = String.t('inviteToTeamPage.instructions', { name: team.name });
     return (
       <div>
-        <SubpageHeader
-          subscriberOrgId={subscriberOrg.subscriberOrgId}
-          history={this.props.history}
-          breadcrumb={
-            <BreadCrumb
-              subscriberOrg={subscriberOrg}
-              routes={[
-                {
-                  title: subscriberOrg.name,
-                  link: `/app/organization/${subscriberOrg.subscriberOrgId}`
-                },
-                {
-                  title: team.name,
-                  link: `/app/team/${team.teamId}`
-                },
-                { title: String.t('inviteToTeamPage.breadcrumb') }
-              ]}
-            />
-          }
+        <PageHeader
+          pageBreadCrumb={{
+            routes: [
+              {
+                title: subscriberOrg.name,
+                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
+              },
+              {
+                title: team.name,
+                link: `/app/team/${team.teamId}`
+              },
+              { title: String.t('inviteToTeamPage.breadcrumb') }
+            ]
+          }}
         />
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
@@ -209,7 +204,7 @@ class InviteToTeamPage extends Component {
                 type="secondary"
                 fitText
                 className="margin-right-class-a"
-                onClick={() => this.props.history.push(`/app/team/${teamId}`)}
+                onClick={() => this.props.history.push(`/app/team/manage/${teamId}`)}
               >
                 {String.t('Buttons.cancel')}
               </Button>
