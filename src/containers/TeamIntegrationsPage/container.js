@@ -2,13 +2,12 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { fetchIntegrations, integrateIntegration, fetchTeamIntegrations } from 'src/actions';
 import { TeamIntegrationsPage } from 'src/pages';
-import { getTeamsById, getTeamIntegrations } from 'src/selectors';
+import { getTeam, getTeamIntegrations } from 'src/selectors';
 
 function mapStateToProps(state, props) {
   const { teamId } = props.match.params;
   return {
-    teams: getTeamsById(state),
-    subscriberOrgs: state.subscriberOrgs,
+    team: getTeam(state, teamId),
     integrations: getTeamIntegrations(state, teamId)
   };
 }

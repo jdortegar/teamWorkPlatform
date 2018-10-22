@@ -73,7 +73,7 @@ class TeamIntegrationDetailsPage extends Component {
           pageBreadCrumb={pageBreadCrumb}
           hasMenu={false}
           menuName="settings"
-          backButton={`/app/team/${teamId}`}
+          backButton={`/app/teamIntegrations/${teamId}`}
         />
         <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
           <div className="Integration-details__icon-container">
