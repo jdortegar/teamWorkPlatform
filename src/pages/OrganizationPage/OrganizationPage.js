@@ -133,24 +133,24 @@ class OrganizationPage extends Component {
       const menuPageHeader = [
         {
           icon: 'fas fa-cog',
-          title: 'OrganizationPage.manageTeams',
-          url: `/app/editOrganization/${subscriberOrgId}/teams`
-        },
-        {
-          icon: 'fas fa-cog',
-          title: 'OrganizationPage.manageTeamMembers',
-          url: `/app/editOrganization/${subscriberOrgId}/members`
-        },
-        {
-          icon: 'fas fa-cog',
-          title: 'OrganizationPage.manageDataIntegrations',
-          url: `/app/editOrganization/${subscriberOrgId}/dataIntegrations`
-        },
-        {
-          icon: 'fas fa-pencil-alt',
-          title: 'OrganizationPage.editSection',
-          url: `/app/editOrganization/${subscriberOrgId}`
+          title: 'OrganizationPage.addNewTeam',
+          url: `/app/createTeam/${subscriberOrgId}`
         }
+        // {
+        //   icon: 'fas fa-cog',
+        //   title: 'OrganizationPage.manageTeamMembers',
+        //   url: `/app/editOrganization/${subscriberOrgId}/members`
+        // },
+        // {
+        //   icon: 'fas fa-cog',
+        //   title: 'OrganizationPage.manageDataIntegrations',
+        //   url: `/app/editOrganization/${subscriberOrgId}/dataIntegrations`
+        // },
+        // {
+        //   icon: 'fas fa-pencil-alt',
+        //   title: 'OrganizationPage.editSection',
+        //   url: `/app/editOrganization/${subscriberOrgId}`
+        // }
       ];
 
       return (

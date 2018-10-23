@@ -25,7 +25,7 @@ const AvatarWithLabel = ({ item, enabled }) => {
   if (preferences.logo && editUrl) {
     return (
       <div className="avatar-label-container">
-        <Link to={editUrl || '#'}>
+        <Link to={editUrl}>
           <Avatar color={preferences.iconColor}>
             <i className={preferences.logo} />
           </Avatar>
@@ -37,9 +37,17 @@ const AvatarWithLabel = ({ item, enabled }) => {
   if (preferences.img && editUrl) {
     return (
       <div className="avatar-label-container">
-        <Link to={editUrl || '#'}>
+        <Link to={editUrl}>
           <Avatar src={preferences.img} color={preferences.iconColor} className={preferences.className} />
         </Link>
+        <span className="habla-avatar-label">{item.name}</span>
+      </div>
+    );
+  }
+  if (preferences.img) {
+    return (
+      <div className="avatar-label-container">
+        <Avatar src={preferences.img} color={preferences.iconColor} className={preferences.className} />
         <span className="habla-avatar-label">{item.name}</span>
       </div>
     );

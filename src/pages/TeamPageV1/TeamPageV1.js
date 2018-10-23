@@ -204,7 +204,6 @@ class TeamPageV1 extends Component {
             subscriberOrgId={subscriberOrgId}
             pageBreadCrumb={pageBreadCrumb}
             hasMenu
-            hasNotification
             menuName="settings"
             menuPageHeader={menuPageHeader}
           />

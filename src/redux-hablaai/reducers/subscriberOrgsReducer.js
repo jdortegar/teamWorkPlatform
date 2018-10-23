@@ -1,8 +1,15 @@
 import _ from 'lodash';
-import { SUBSCRIBERORGS_FETCH_SUCCESS, SUBSCRIBERORG_RECEIVE, SUBSCRIBERORG_SETCURRENT } from 'src/actions';
+import {
+  SUBSCRIBERORGS_FETCH_SUCCESS,
+  SUBSCRIBERORG_RECEIVE,
+  SUBSCRIBERORG_SETCURRENT,
+  SUBSCRIBERORGS_DATA_FETCH_SUCCESS,
+  UPDATED_TEAM_MEMBER_SUCCESS
+} from 'src/actions';
 
 const INITIAL_STATE = {
   subscriberOrgById: {},
+  orgData: {},
   currentSubscriberOrgId: null
 };
 
@@ -53,6 +60,30 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         currentSubscriberOrgId: action.payload
       };
+    case SUBSCRIBERORGS_DATA_FETCH_SUCCESS:
+      return {
+        ...state,
+        orgData: action.payload
+      };
+    case UPDATED_TEAM_MEMBER_SUCCESS: {
+      const orgData = _.cloneDeep(state.orgData);
+      const { userId, teamId, active } = action.payload.teamMemberUpdated;
+
+      orgData.teams.forEach(teamEl => {
+        if (teamEl.teamId === teamId) {
+          teamEl.teamMembers.forEach(teamMemberEl => {
+            if (teamMemberEl.userId === userId) {
+              teamMemberEl.active = active; // eslint-disable-line no-param-reassign
+            }
+          });
+        }
+      });
+
+      return {
+        ...state,
+        orgData
+      };
+    }
     default:
       return state;
   }

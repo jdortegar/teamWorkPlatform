@@ -31,6 +31,7 @@ export const paths = {
   ckg: '/app/ckg/:subscriberOrgId',
   // Admin Organization
   organization: '/app/organization/:subscriberOrgId/:status?',
+  organizationManage: '/app/editOrganization/manage/:subscriberOrgId',
   editOrganization: '/app/editOrganization/:subscriberOrgId',
   organizationManageTeams: '/app/editOrganization/:subscriberOrgId/teams',
   organizationManageMembers: '/app/editOrganization/:subscriberOrgId/members',

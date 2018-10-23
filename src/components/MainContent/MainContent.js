@@ -31,6 +31,7 @@ import {
   NotificationsPage,
   AcceptInvitationPage,
   OrganizationPage,
+  OrganizationManage,
   OrganizationManageTeams,
   OrganizationManageMembers,
   OrganizationDataIntegrations,
@@ -193,6 +194,7 @@ class MainContent extends Component {
           <Route exact path={paths.notifications} component={NotificationsPage} />
           <Route exact path={paths.bookmarks} component={BookmarksPage} />
           <Route exact path={paths.organization} component={OrganizationPage} />
+          <Route exact path={paths.organizationManage} component={OrganizationManage} />
           <Route exact path={paths.editOrganization} component={EditOrganizationPage} />
           <Route exact path={paths.organizationManageTeams} component={OrganizationManageTeams} />
           <Route exact path={paths.organizationManageMembers} component={OrganizationManageMembers} />

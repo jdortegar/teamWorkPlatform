@@ -1,0 +1,51 @@
+.manageOrganizationPage .tableHeader .tableTitle {
+  background: #fff;
+  -webkit-transition: background 0.3s ease;
+  transition: background 0.3s ease;
+  text-align: left;
+  color: #a6a6a6;
+  font-size: 10px;
+  border-bottom: 1px solid #e8e8e8;
+  padding: 8px !important;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.manageOrganizationPage .ant-collapse-header {
+  background: #fff;
+  color: #a1a1a1;
+}
+.manageOrganizationPage .avatar-label-container {
+  color: #a1a1a1;
+}
+
+.manageOrganizationPage .Tree__item,
+.manageOrganizationPage .Tree__item a {
+  text-align: center;
+  color: #a1a1a1;
+}
+
+.manageOrganizationPage .ant-collapse-content {
+  padding: 0 0 0 10px;
+}
+
+.header-search-container .action__form {
+  float: right;
+}
+.header-search-container .action__form_select {
+  width: 120px;
+  margin-right: 13px;
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.header-search-container .action__form_button {
+  float: right;
+  background: #464646;
+  border: none;
+  text-transform: uppercase;
+  font-size: 10px;
+  border-radius: 2px;
+  font-weight: 900;
+}

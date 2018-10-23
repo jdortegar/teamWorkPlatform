@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Dropdown, Input, Icon, message } from 'antd';
+import { Layout, Menu, Dropdown, Input, Icon, message, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import String from 'src/translations';
 import { AvatarWrapper } from 'src/components';
@@ -17,10 +18,12 @@ class Header extends Component {
 
     this.logOut = this.logOut.bind(this);
     this.onStatusChange = this.onStatusChange.bind(this);
+    this.handleAdminButton = this.handleAdminButton.bind(this);
   }
 
   state = {
-    query: this.props.query
+    query: this.props.query,
+    isAdmin: false
   };
 
   componentWillReceiveProps(nextProps) {
@@ -56,6 +59,10 @@ class Header extends Component {
     const { currentSubscriberOrgId, caseSensitive, exactMatch } = this.props;
     this.props.search(this.state.query, currentSubscriberOrgId, caseSensitive, exactMatch);
   };
+
+  handleAdminButton(checked) {
+    this.setState({ isAdmin: checked });
+  }
 
   logOut() {
     this.props.logoutUser();
@@ -141,6 +148,22 @@ class Header extends Component {
             </span>
           </Link>
         </Menu.Item>
+        {/*
+        HIDE UNTIL PHASE 2
+        <Menu.Item key="adminMode">
+          <a>
+            <span>
+              <i className="fas fa-sync-alt" /> {String.t('Header.adminMode')}{' '}
+              <Switch
+                size="small"
+                defaultChecked
+                style={{ marginLeft: 20 }}
+                onChange={this.handleAdminButton}
+                checked={this.state.isAdmin}
+              />
+            </span>
+          </a>
+        </Menu.Item> */}
         <Menu.Item key="logout" className="dropdown-last-menu-item">
           <a onClick={this.logOut}>
             <i className="fas fa-power-off" /> {String.t('Header.logOutMenu')}
@@ -148,6 +171,8 @@ class Header extends Component {
         </Menu.Item>
       </Menu>
     );
+
+    const className = classNames('habla-top-menu-item', { 'habla-top-menu-item-last': !this.state.isAdmin });
 
     return (
       <div className="habla-top-menu-items">
@@ -194,7 +219,7 @@ class Header extends Component {
             </Link>
           </div>
         </div>
-        <div className="habla-top-menu-item habla-top-menu-item-last">
+        <div className={className}>
           <div className="habla-top-menu-item-content">
             <div className="habla-top-menu-user" style={{ color: '#aaa' }}>
               <Dropdown overlay={userMenu} trigger={['click']}>
@@ -207,6 +232,23 @@ class Header extends Component {
             </div>
           </div>
         </div>
+        {this.state.isAdmin && (
+          <div className="habla-top-menu-item habla-top-menu-item-last">
+            <div className="habla-top-menu-item-content">
+              <Button
+                type="primary"
+                size="small"
+                block
+                className="adminRoleButton"
+                onClick={() =>
+                  this.props.history.push(`/app/editOrganization/manage/${this.props.currentSubscriberOrgId}`)
+                }
+              >
+                {String.t('roles.admin')}
+              </Button>
+            </div>
+          </div>
+        )}
         <div className="clear" />
       </div>
     );

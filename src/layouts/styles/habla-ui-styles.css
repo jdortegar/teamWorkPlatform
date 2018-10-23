@@ -616,6 +616,7 @@ p {
   border-bottom: 1px solid #e8e8e8;
   padding: 12px 10px !important;
   text-transform: uppercase;
+  font-weight: 700;
 }
 
 .table-container .table-team-container,
@@ -649,6 +650,24 @@ p {
   padding-left: 7px;
 }
 
+/* ----------- SUBSCRIPTION TAGS --------------- */
+
+.habla_subscription_tag {
+  height: 30px;
+  line-height: 30px;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 13px;
+  border-radius: 15px;
+  border: none;
+  background: #666;
+  color: #fff;
+  box-shadow: 1px 1px 0px #000;
+}
+.habla_subscription_tag_bronze {
+  background: #d9b742;
+  box-shadow: 1px 1px 0px #997c28;
+}
 /* ----------- STYLES TO REVIEW AND GROUP --------------- */
 
 .habla-spinner-content {

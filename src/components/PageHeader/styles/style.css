@@ -63,6 +63,10 @@
   padding-top: 6px;
 }
 
+.PageHeader .pageHeader__badge {
+  justify-content: 'flex-end';
+}
+
 /* Ant Popover */
 
 .ant-popover .ant-popover-arrow {

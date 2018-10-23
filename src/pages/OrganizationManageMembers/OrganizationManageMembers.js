@@ -5,7 +5,7 @@ import _ from 'lodash';
 import String from 'src/translations';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
 import { PageHeader, SimpleCardContainer, Spinner, AvatarWithLabel } from 'src/components';
-import { Table, Tooltip, Input, Icon, Divider, Switch } from 'antd';
+import { Table, Tooltip, Input, Icon, Switch } from 'antd';
 import './styles/style.css';
 
 const propTypes = {
@@ -29,6 +29,13 @@ class OrganizationManageMembers extends Component {
     super(props);
 
     this.state = { subscribersLoaded: false, usersActive: [] };
+
+    const usersActive = this.props.subscribers;
+    this.usersActive = usersActive;
+    this.state = {
+      usersActive
+    };
+
     this.handleSearch = this.handleSearch.bind(this);
   }
 
@@ -64,26 +71,19 @@ class OrganizationManageMembers extends Component {
     }
   }
 
+  // Switch function to enable / disable user.
+
   // Handle for search input
   handleSearch(e) {
     const { value } = e.target;
     if (value === '') {
       this.setState({ usersActive: this.usersActive });
     } else {
-      const filteredUsers = this.state.usersActive.filter(el =>
-        el.name.toLowerCase().includes(value.toLowerCase().trim())
+      const filteredUsers = this.state.usersActive.filter(user =>
+        user.firstName.toLowerCase().includes(value.toLowerCase().trim())
       );
       this.setState({ usersActive: filteredUsers });
     }
-  }
-
-  // Handle functions for edit
-  handleEditUser(action, userId) {
-    if (action === 'editUser') {
-      this.props.history.push(`/app/editUser/${userId}`);
-      return true;
-    }
-    return true;
   }
 
   // Get Users array
@@ -100,16 +100,15 @@ class OrganizationManageMembers extends Component {
     usersById = usersById === 0 && usersById[0] === undefined ? [] : primaryAtTop(usersById);
 
     // Array to save users, 0 element is for add user button
-    const userArray = usersById.map((userEl, index) => ({
+    const userArray = usersById.map((user, index) => ({
       key: index + 1,
-      user: userEl,
-      email: userEl.email,
-      owner: userEl.owner || 'no owner',
+      user,
+      email: user.email,
       status: {
-        enabled: userEl.enabled,
-        userId: userEl.userId
+        enabled: user.enabled,
+        userId: user.userId
       },
-      editUser: userEl.userId
+      editUser: user.userId
     }));
 
     // Add team button
@@ -155,10 +154,7 @@ class OrganizationManageMembers extends Component {
       const pageBreadCrumb = {
         routes: [
           {
-            title: String.t('OrganizationPage.title')
-          },
-          {
-            title: String.t('OrganizationManageMembers.title', { count: orgSubscribers.length })
+            title: String.t('OrganizationManageMembers.title')
           }
         ]
       };
@@ -167,18 +163,13 @@ class OrganizationManageMembers extends Component {
       const menuPageHeader = [
         {
           icon: 'fas fa-cog',
-          title: 'OrganizationPage.manageTeams',
-          url: `/app/editOrganization/${subscriberOrgId}/teams`
+          title: 'OrganizationManage.editOrganization',
+          url: `/app/editOrganization/${subscriberOrgId}`
         },
         {
           icon: 'fas fa-cog',
-          title: 'OrganizationPage.manageDataIntegrations',
-          url: `/app/editOrganization/${subscriberOrgId}/dataIntegrations`
-        },
-        {
-          icon: 'fas fa-pencil-alt',
-          title: 'OrganizationPage.editSection',
-          url: `/app/editOrganization/${subscriberOrgId}`
+          title: 'OrganizationManage.manageTeams',
+          url: `/app/editOrganization/${subscriberOrgId}/teams`
         }
       ];
 
@@ -203,15 +194,6 @@ class OrganizationManageMembers extends Component {
           }
         },
         {
-          title: 'Role',
-          dataIndex: 'role',
-          key: 'role',
-          render: role => {
-            if (!role) return false;
-            return <span className="habla-table-label">{role}</span>;
-          }
-        },
-        {
           title: 'Status',
           dataIndex: 'status',
           key: 'status',
@@ -229,7 +211,7 @@ class OrganizationManageMembers extends Component {
                 <Switch
                   checkedChildren={String.t('OrganizationManageMembers.activeState')}
                   unCheckedChildren={String.t('OrganizationManageMembers.inactiveState')}
-                  // onChange={e => this.handleChangeStatus(status.teamId, e)}
+                  // onChange={checked => this.handleChangeStatus(checked, status.teamId)}
                   checked={status.enabled}
                 />
               </Tooltip>
@@ -247,12 +229,8 @@ class OrganizationManageMembers extends Component {
                 placement="top"
                 title={
                   <div>
-                    <span onClick={() => this.handleEditUser('editUser', editUserId)}>
+                    <span onClick={() => this.props.history.push(`/app/editUser/${editUserId}`)}>
                       <i className="fas fa-pencil-alt fa-lg" />
-                    </span>
-                    <Divider type="vertical" style={{ height: '20px' }} />
-                    <span onClick={() => this.handleEditUser('deleteTeam', editUserId)}>
-                      <i className="fas fa-times fa-lg" />
                     </span>
                   </div>
                 }
@@ -273,7 +251,11 @@ class OrganizationManageMembers extends Component {
             hasMenu
             menuName="settings"
             menuPageHeader={menuPageHeader}
-            backButton={`/app/organization/${subscriberOrgId}`}
+            hasNotification={{
+              enabled: true,
+              count: orgSubscribers.length,
+              style: { backgroundColor: '#52c41a' }
+            }}
           />
           <SimpleCardContainer className="subpage-block habla-color-lighertblue padding-class-a">
             <div className="header-search-container">
@@ -285,7 +267,7 @@ class OrganizationManageMembers extends Component {
           </SimpleCardContainer>
           <SimpleCardContainer className="subpage-block p-0">
             <div className="table-container">
-              <Table columns={columns} dataSource={this.renderUsers(orgSubscribers)} pagination={false} />
+              <Table columns={columns} dataSource={this.renderUsers(this.state.usersActive)} pagination={false} />
             </div>
           </SimpleCardContainer>
         </div>

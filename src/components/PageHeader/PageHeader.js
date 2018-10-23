@@ -13,7 +13,7 @@ const propTypes = {
   menuPageHeader: PropTypes.array,
   menuName: PropTypes.string,
   hasMenu: PropTypes.bool,
-  hasNotification: PropTypes.bool,
+  badgeOptions: PropTypes.object,
   buttonOptions: PropTypes.object,
   backButton: PropTypes.string,
   optionalButtons: PropTypes.object
@@ -23,7 +23,7 @@ const defaultProps = {
   pageBreadCrumb: {},
   menuName: null,
   hasMenu: false,
-  hasNotification: false,
+  badgeOptions: {},
   buttonOptions: {},
   menuPageHeader: [],
   backButton: '',
@@ -36,7 +36,7 @@ function PageHeader({
   pageBreadCrumb,
   menuName,
   hasMenu,
-  hasNotification,
+  badgeOptions,
   menuPageHeader,
   backButton,
   buttonOptions,
@@ -98,11 +98,12 @@ function PageHeader({
             <BreadCrumb routes={pageBreadCrumb.routes} />
           </h1>
         </div>
-        {hasNotification && (
+        {badgeOptions.enabled && (
           <Badge
-            count={0}
+            count={badgeOptions.count}
             title="Notifications"
-            style={{ justifyContent: 'flex-end', boxShadow: '#AB1E16 -1px -1px 0px 0px inset' }}
+            className="pageHeader__badge"
+            style={badgeOptions.style}
           />
         )}
         {!isEmpty(buttonOptions) && <Button className="rightSideButton" {...buttonOptions} />}

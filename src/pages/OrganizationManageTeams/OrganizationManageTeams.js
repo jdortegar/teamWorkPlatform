@@ -1,47 +1,46 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import String from 'src/translations';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
 import { PageHeader, SimpleCardContainer, AvatarWithLabel, Spinner } from 'src/components';
-import { Table, Tooltip, Input, Icon, Divider, Switch } from 'antd';
+import { Table, Tooltip, Input, Icon, Switch, message } from 'antd';
 import './styles/style.css';
 
 const propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      subscriberOrgId: PropTypes.string
-    })
-  }).isRequired,
+  currentSubscriberOrgId: PropTypes.string.isRequired,
+  orgData: PropTypes.object.isRequired,
+  fetchDataSubscriberOrgs: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func
   }).isRequired,
-  teams: PropTypes.array,
-  // updateTeam: PropTypes.func.isRequired,
-  currentSubscriberOrgId: PropTypes.string,
-  users: PropTypes.object.isRequired
-};
-
-const defaultProps = {
-  currentSubscriberOrgId: null,
-  teams: []
+  updateTeam: PropTypes.func.isRequired,
+  users: PropTypes.object.isRequired,
+  teams: PropTypes.array.isRequired
 };
 
 class OrganizationManageTeams extends Component {
   constructor(props) {
     super(props);
-    const { teams, currentSubscriberOrgId } = this.props;
+
+    const { orgData } = this.props;
 
     // New const for filter teams on search
-    const teamsActive = teams.filter(team => team.subscriberOrgId === currentSubscriberOrgId && team.active);
+    const teamsActive = orgData.teams || [];
     this.teamsActive = teamsActive;
     this.state = {
-      teamsActive
+      teamsActive,
+      orgDataLoaded: false
     };
 
     // Bind this to functions
     this.handleSearch = this.handleSearch.bind(this);
+  }
+
+  componentDidMount() {
+    this.props
+      .fetchDataSubscriberOrgs(this.props.currentSubscriberOrgId)
+      .then(() => this.setState({ orgDataLoaded: true }));
   }
 
   // Handle for search input
@@ -57,44 +56,30 @@ class OrganizationManageTeams extends Component {
     }
   }
 
-  // Handle functions for edit
-  handleEditTeam(action, teamId) {
-    if (action === 'editTeam') {
-      this.props.history.push(`/app/editTeam/${teamId}`);
-      return true;
-    }
-    return true;
-  }
+  handleChangeStatus(checked, teamId) {
+    const valuesToSend = { active: checked };
+    const subscriberOrgId = this.props.currentSubscriberOrgId;
 
-  // Handle for team manage form
-  // handleChangeStatus(teamId, e) {
-  //   const valuesToSend = {};
-  //   if (e) {
-  //     valuesToSend.active = true;
-  //   } else {
-  //     valuesToSend.active = false;
-  //   }
-  //   this.props
-  //     .updateTeam(valuesToSend, teamId)
-  //     .then(() => {
-  //       message.success(String.t('editTeamPage.teamUpdated'));
-  //     })
-  //     .catch(error => {
-  //       if (error.response && error.response.status === 409) {
-  //         message.error(String.t('editTeamPage.errorNameAlreadyTaken'));
-  //       } else {
-  //         message.error(error.message);
-  //       }
-  //     });
-  // }
+    this.props
+      .updateTeam(subscriberOrgId, teamId, valuesToSend)
+      .then(() => {
+        message.success(String.t('editTeamPage.teamUpdated'));
+      })
+      .catch(error => {
+        if (error.response && error.response.status === 409) {
+          message.error(String.t('editTeamPage.errorNameAlreadyTaken'));
+        } else {
+          message.error(error.message);
+        }
+      });
+  }
 
   // Get team array
   renderTeams(teamsActive) {
-    const { users, match } = this.props;
-    const { subscriberOrgId } = match.params;
-
+    const { users, teams } = this.props;
+    // const subscriberOrgId = this.props.currentSubscriberOrgId;
     // If no teams, no render
-    if (teamsActive.length === 0) {
+    if (!teamsActive || teamsActive.length === 0) {
       return null;
     }
 
@@ -103,58 +88,50 @@ class OrganizationManageTeams extends Component {
     teamsByOrgId = teamsByOrgId.length === 0 && teamsByOrgId[0] === undefined ? [] : primaryAtTop(teamsByOrgId);
 
     // Array to save teams, 0 element is for add team button
-    const teamArray = teamsByOrgId.map((teamEl, index) => {
-      let isAdmin = false;
-      if (teamEl.teamMembers) {
-        const teamMemberFoundByUser = _.find(teamEl.teamMembers, { userId: users.userId });
-        isAdmin = teamMemberFoundByUser.teams[teamEl.teamId].role === 'admin';
-      }
-      if (!isAdmin && (!teamEl.active || teamEl.deleted)) {
-        return null;
-      }
+    const teamArray = teamsByOrgId.map((team, index) => {
+      const teamData = teams.find(teamEl => teamEl.teamId === team.teamId) || team;
+      const teamAdminData = team.teamMembers.find(member => member.role === 'admin');
+      const teamAdminName = teamAdminData && teamAdminData.userId ? users[teamAdminData.userId].fullName : '';
       return {
-        key: index + 1,
-        team: teamEl,
-        owner: users[teamEl.teamAdmin].fullName,
+        key: index,
+        team: teamData,
+        teamAdminName,
         status: {
-          enabled: teamEl.active,
-          teamId: teamEl.teamId
-        },
-        editTeam: teamEl.teamId
+          active: teamData.active,
+          display: true,
+          teamId: teamData.teamId
+        }
       };
     });
 
     // Add team button
-    teamArray.unshift({
-      key: 0,
-      team: {
-        name: String.t('OrganizationManageTeams.addNew'),
-        preferences: {
-          logo: 'fa fa-plus'
-        },
-        editUrl: `/app/createTeam/${subscriberOrgId}`
-      },
-      status: {
-        enabled: false
-      }
-    });
+    // teamArray.unshift({
+    //   key: 0,
+    //   team: {
+    //     name: String.t('OrganizationManageTeams.addNew'),
+    //     preferences: {
+    //       logo: 'fa fa-plus'
+    //     },
+    //     editUrl: `/app/createTeam/${subscriberOrgId}`
+    //   },
+    //   status: {
+    //     show: false
+    //   }
+    // });
 
     return teamArray;
   }
 
   render() {
-    // General Consts
-    const { match } = this.props;
-    const { subscriberOrgId } = match.params;
-    if (match && match.params && match.params.subscriberOrgId && this.state.teamsActive) {
+    if (this.state.orgDataLoaded && this.state.teamsActive) {
+      // General Const
+      const subscriberOrgId = this.props.currentSubscriberOrgId;
+
       // Breadcrumb
       const pageBreadCrumb = {
         routes: [
           {
-            title: String.t('OrganizationPage.title')
-          },
-          {
-            title: String.t('OrganizationManageTeams.title', { count: this.state.teamsActive.length })
+            title: String.t('OrganizationManageTeams.title')
           }
         ]
       };
@@ -162,17 +139,12 @@ class OrganizationManageTeams extends Component {
       const menuPageHeader = [
         {
           icon: 'fas fa-cog',
-          title: 'OrganizationPage.manageTeamMembers',
+          title: 'OrganizationManage.manageTeamMembers',
           url: `/app/editOrganization/${subscriberOrgId}/members`
         },
         {
           icon: 'fas fa-cog',
-          title: 'OrganizationPage.manageDataIntegrations',
-          url: `/app/editOrganization/${subscriberOrgId}/dataIntegrations`
-        },
-        {
-          icon: 'fas fa-pencil-alt',
-          title: 'OrganizationPage.editSection',
+          title: 'OrganizationManage.editOrganization',
           url: `/app/editOrganization/${subscriberOrgId}`
         }
       ];
@@ -190,11 +162,11 @@ class OrganizationManageTeams extends Component {
         },
         {
           title: 'Owner',
-          dataIndex: 'owner',
-          key: 'owner',
-          render: ownerId => {
-            if (!ownerId) return false;
-            return <span className="habla-table-label">{ownerId}</span>;
+          dataIndex: 'teamAdminName',
+          key: 'teamAdminName',
+          render: teamAdminName => {
+            if (!teamAdminName) return false;
+            return <span className="habla-table-label">{teamAdminName}</span>;
           }
         },
         {
@@ -202,12 +174,12 @@ class OrganizationManageTeams extends Component {
           dataIndex: 'status',
           key: 'status',
           render: status => {
-            if (!status.enabled) return false;
+            if (!status.display) return false;
             return (
               <Tooltip
                 placement="top"
                 title={
-                  status.enabled
+                  status.active
                     ? String.t('OrganizationManageTeams.setInactive')
                     : String.t('OrganizationManageTeams.setActive')
                 }
@@ -215,8 +187,8 @@ class OrganizationManageTeams extends Component {
                 <Switch
                   checkedChildren={String.t('OrganizationManageTeams.activeState')}
                   unCheckedChildren={String.t('OrganizationManageTeams.inactiveState')}
-                  // onChange={e => this.handleChangeStatus(status.teamId, e)}
-                  checked={status.enabled}
+                  onChange={checked => this.handleChangeStatus(checked, status.teamId)}
+                  checked={status.active}
                 />
               </Tooltip>
             );
@@ -225,20 +197,16 @@ class OrganizationManageTeams extends Component {
         {
           title: 'Edit',
           key: 'editTeam',
-          dataIndex: 'editTeam',
-          render: editTeamId => {
-            if (!editTeamId) return false;
+          dataIndex: 'team',
+          render: team => {
+            if (!team.teamId) return false;
             return (
               <Tooltip
                 placement="top"
                 title={
                   <div>
-                    <span onClick={() => this.handleEditTeam('editTeam', editTeamId)}>
+                    <span onClick={() => this.props.history.push(`/app/editTeam/${team.teamId}`)}>
                       <i className="fas fa-pencil-alt fa-lg" />
-                    </span>
-                    <Divider type="vertical" style={{ height: '20px' }} />
-                    <span onClick={() => this.handleEditTeam('deleteTeam', editTeamId)}>
-                      <i className="fas fa-times fa-lg" />
                     </span>
                   </div>
                 }
@@ -259,7 +227,11 @@ class OrganizationManageTeams extends Component {
             hasMenu
             menuName="settings"
             menuPageHeader={menuPageHeader}
-            backButton={`/app/organization/${subscriberOrgId}`}
+            badgeOptions={{
+              enabled: true,
+              count: this.state.teamsActive.length,
+              style: { backgroundColor: '#52c41a' }
+            }}
           />
           <SimpleCardContainer className="subpage-block habla-color-lighertblue padding-class-a">
             <div className="header-search-container">
@@ -282,6 +254,5 @@ class OrganizationManageTeams extends Component {
 }
 
 OrganizationManageTeams.propTypes = propTypes;
-OrganizationManageTeams.defaultProps = defaultProps;
 
 export default OrganizationManageTeams;

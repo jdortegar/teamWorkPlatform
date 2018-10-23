@@ -16,6 +16,7 @@ export OrganizationDataIntegrations from './OrganizationDataIntegrations';
 export OrganizationManageMembers from './OrganizationManageMembers';
 export OrganizationManageTeams from './OrganizationManageTeams';
 export OrganizationPage from './OrganizationPage';
+export OrganizationManage from './OrganizationManage';
 export Register from './Register';
 export SearchPage from './SearchPage';
 export TeamIntegrationDetailsPage from './TeamIntegrationDetailsPage';

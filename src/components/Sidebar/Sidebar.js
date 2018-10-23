@@ -303,7 +303,7 @@ class Sidebar extends Component {
             </Link>
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconSettingsTooltip')} arrowPointAtCenter>
-            <Link to={`/app/organization/${currentSubscriberOrgId}`} className="habla-top-menu-settings">
+            <Link to={`/app/editOrganization/${currentSubscriberOrgId}/teams`} className="habla-top-menu-settings">
               <i className="fa fa-cog fa-2x" />
             </Link>
           </Tooltip>
