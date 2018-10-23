@@ -679,7 +679,12 @@
     "inactiveState": "OFF",
     "setActive": "Set Active",
     "setInactive": "Set Inactive",
-    "addNew": "Add New"
+    "addNew": "Add New",
+    "teamMembersLength": {
+      "noMembers": "No Members",
+      "oneMember": "{{count}} Project Team Member",
+      "manyMembers": "{{count}} Project Team Members"
+    }
   },
   "OrganizationManageMembers": {
     "title": "Manage Organization Team Members",
