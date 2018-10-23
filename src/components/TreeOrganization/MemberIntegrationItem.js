@@ -11,11 +11,11 @@ const showNotification = (response, integrationKey) => {
   const { status } = response;
   const integrationLabel = integrationLabelFromKey(integrationKey);
   if (status === 200) {
-    message.success(String.t('integrationDetailsPage.message.successDescription'));
+    message.success(String.t('integrationPage.message.successDescription'));
   } else if (status === 410) {
-    message.error(String.t('integrationDetailsPage.message.goneDescription', { name: integrationLabel }));
+    message.error(String.t('integrationPage.message.goneDescription', { name: integrationLabel }));
   } else {
-    message.error(String.t('integrationDetailsPage.message.notFoundDescription'));
+    message.error(String.t('integrationPage.message.notFoundDescription'));
   }
 };
 

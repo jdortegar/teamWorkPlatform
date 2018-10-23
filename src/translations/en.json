@@ -398,7 +398,7 @@
     "setProfilePhoto": "Add a Photo",
     "removeImageLabel": "Remove"
   },
-  "integrationDetailsPage": {
+  "integrationPage": {
     "status": {
       "active": "Active",
       "expired": "Expired",

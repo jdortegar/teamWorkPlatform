@@ -26,17 +26,17 @@ function determineStatus(integration) {
   // debugger;
   if (integration) {
     if (integration.expired) {
-      return String.t('integrationDetailsPage.status.expired');
+      return String.t('integrationPage.status.expired');
     } else if (integration.revoked) {
-      return String.t('integrationDetailsPage.status.revoked');
+      return String.t('integrationPage.status.revoked');
     }
-    return String.t('integrationDetailsPage.status.active');
+    return String.t('integrationPage.status.active');
   }
 
   return false;
 }
 
-class TeamIntegrationDetailsPage extends Component {
+class TeamIntegrationPage extends Component {
   componentDidMount() {
     // const { match, subscriberOrgs } = this.props;
   }
@@ -56,7 +56,7 @@ class TeamIntegrationDetailsPage extends Component {
           url: `/app/team/${teamId}`
         },
         {
-          title: String.t('integrationDetailsPage.integrations')
+          title: String.t('integrationPage.integrations')
         }
       ]
     };
@@ -87,6 +87,6 @@ class TeamIntegrationDetailsPage extends Component {
   }
 }
 
-TeamIntegrationDetailsPage.propTypes = propTypes;
+TeamIntegrationPage.propTypes = propTypes;
 
-export default TeamIntegrationDetailsPage;
+export default TeamIntegrationPage;

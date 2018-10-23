@@ -18,7 +18,7 @@ const FolderItem = ({ folder, isSelected, onToggleSelection, children }) => (
               <Icon type="folder" theme="filled" className="Tree__folder-icon" />
               <span className="Tree__folder-name">{folder.folder_name}</span>
               <span>
-                {String.t('integrationDetailsPage.sharing.itemsCount', {
+                {String.t('integrationPage.sharing.itemsCount', {
                   count: folder.folders.length + folder.files.length
                 })}
               </span>

@@ -47,13 +47,13 @@ class SharingSettings extends Component {
     return (
       <div className="SharingSettings">
         <Collapse bordered defaultActiveKey="1">
-          <Panel key="1" header={<SimpleHeader text={String.t('integrationDetailsPage.sharing.settings')} />}>
+          <Panel key="1" header={<SimpleHeader text={String.t('integrationPage.sharing.settings')} />}>
             <div className="SharingSettings__title-container">
               <div className="habla-label">
-                {integrationType} {String.t('integrationDetailsPage.sharing.foldersAndFiles')}
+                {integrationType} {String.t('integrationPage.sharing.foldersAndFiles')}
               </div>
               <div className="habla-label">
-                <a onClick={this.toggleSelectAll}>{String.t(`integrationDetailsPage.sharing.${selectAllText}`)}</a>
+                <a onClick={this.toggleSelectAll}>{String.t(`integrationPage.sharing.${selectAllText}`)}</a>
               </div>
             </div>
             <Tree

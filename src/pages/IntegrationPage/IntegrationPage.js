@@ -15,11 +15,11 @@ import './styles/style.css';
 function determineStatus(integration) {
   if (integration) {
     if (integration.expired) {
-      return String.t('integrationDetailsPage.status.expired');
+      return String.t('integrationPage.status.expired');
     } else if (integration.revoked) {
-      return String.t('integrationDetailsPage.status.revoked');
+      return String.t('integrationPage.status.revoked');
     }
-    return String.t('integrationDetailsPage.status.active');
+    return String.t('integrationPage.status.active');
   }
 
   return false;
@@ -29,11 +29,11 @@ function showNotification(response, integration) {
   const { status } = response;
   const integrationLabel = integrationLabelFromKey(integration);
   if (status === 200) {
-    message.success(String.t('integrationDetailsPage.message.successDescription'));
+    message.success(String.t('integrationPage.message.successDescription'));
   } else if (status === 410) {
-    message.error(String.t('integrationDetailsPage.message.goneDescription', { name: integrationLabel }));
+    message.error(String.t('integrationPage.message.goneDescription', { name: integrationLabel }));
   } else {
-    message.error(String.t('integrationDetailsPage.message.notFoundDescription'));
+    message.error(String.t('integrationPage.message.notFoundDescription'));
   }
 }
 
@@ -71,7 +71,7 @@ const defaultProps = {
   isSavedSharingSettings: false
 };
 
-class IntegrationDetailsPage extends Component {
+class IntegrationPage extends Component {
   constructor(props) {
     super(props);
 
@@ -101,7 +101,7 @@ class IntegrationDetailsPage extends Component {
     this.props.fetchIntegrationDetails(source, subscriberUserId);
     if (status) {
       if (status.includes('CREATED')) {
-        message.success(String.t('integrationDetailsPage.message.createdDescription', { name: integrationLabel }));
+        message.success(String.t('integrationPage.message.createdDescription', { name: integrationLabel }));
       } else {
         message.error(status);
       }
@@ -144,7 +144,7 @@ class IntegrationDetailsPage extends Component {
       // this.props
       //   .configureIntegration(source, subscriberOrgId, configTop)
       //   .then(() => {
-      //     message.success(String.t('integrationDetailsPage.message.configUpdated', { name }));
+      //     message.success(String.t('integrationPage.message.configUpdated', { name }));
       //     this.setState({ changedFolderOptions: {} });
       //   })
       //   .catch(error => {
@@ -236,9 +236,7 @@ class IntegrationDetailsPage extends Component {
     const integrationLabel = integrationLabelFromKey(integrationKey);
     const statusLabel = determineStatus(integration);
     const tooltipTitle =
-      statusLabel === 'Active'
-        ? String.t('integrationDetailsPage.deactivate')
-        : String.t('integrationDetailsPage.activate');
+      statusLabel === 'Active' ? String.t('integrationPage.deactivate') : String.t('integrationPage.activate');
     let disabledSwitch = false;
     let disabledFields = false;
 
@@ -296,7 +294,7 @@ class IntegrationDetailsPage extends Component {
                   loading={this.state.loading}
                   disabled={!optionsChanged}
                 >
-                  {String.t('integrationDetailsPage.saveButtonLabel')}
+                  {String.t('integrationPage.saveButtonLabel')}
                 </Button>
               </div>
             </div>
@@ -315,7 +313,7 @@ class IntegrationDetailsPage extends Component {
                 url: `/app/organization/${subscriberOrgId}`
               },
               {
-                title: String.t('integrationDetailsPage.integrations'),
+                title: String.t('integrationPage.integrations'),
                 url: `/app/integrations/${subscriberOrgId}`
               },
               { title: integrationLabel }
@@ -342,8 +340,8 @@ class IntegrationDetailsPage extends Component {
           <Tooltip placement="top" title={tooltipTitle}>
             <Switch
               disabled={disabledSwitch}
-              checkedChildren={String.t('integrationDetailsPage.on')}
-              unCheckedChildren={String.t('integrationDetailsPage.off')}
+              checkedChildren={String.t('integrationPage.on')}
+              unCheckedChildren={String.t('integrationPage.off')}
               onChange={this.handleIntegration}
               checked={statusLabel === 'Active'}
             />
@@ -366,7 +364,7 @@ class IntegrationDetailsPage extends Component {
   }
 }
 
-IntegrationDetailsPage.propTypes = propTypes;
-IntegrationDetailsPage.defaultProps = defaultProps;
+IntegrationPage.propTypes = propTypes;
+IntegrationPage.defaultProps = defaultProps;
 
-export default IntegrationDetailsPage;
+export default IntegrationPage;

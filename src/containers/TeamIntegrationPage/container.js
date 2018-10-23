@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { TeamIntegrationDetailsPage } from 'src/pages';
+import { TeamIntegrationPage } from 'src/pages';
 import { getTeamsById, getTeamIntegrations } from 'src/selectors';
 import { fetchIntegrations, integrateIntegration, configureIntegration, revokeIntegration } from 'src/actions';
 
@@ -26,4 +26,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(TeamIntegrationDetailsPage);
+)(TeamIntegrationPage);

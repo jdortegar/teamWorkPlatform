@@ -12,7 +12,7 @@ import {
   HomePage,
   ChatContent,
   IntegrationsPage,
-  IntegrationDetailsPage,
+  IntegrationPage,
   TeamManagePage,
   TeamPageV1,
   NewTeamPage,
@@ -20,7 +20,7 @@ import {
   InviteNewMemberPage,
   TeamMemberPage,
   TeamIntegrationsPage,
-  TeamIntegrationDetailsPage,
+  TeamIntegrationPage,
   Notification,
   BookmarksPage,
   InviteToTeamPage,
@@ -175,7 +175,7 @@ class MainContent extends Component {
         <Switch>
           <Route exact path={paths.app} component={HomePage} />
           <Route exact path={paths.integrations} component={IntegrationsPage} />
-          <Route exact path={paths.integrationDetails} component={IntegrationDetailsPage} />
+          <Route exact path={paths.integration} component={IntegrationPage} />
           <Route exact path={paths.team} component={TeamPageV1} />
           <Route exact path={paths.manageTeam} component={TeamManagePage} />
           <Route exact path={paths.newTeam} component={NewTeamPage} />
@@ -186,7 +186,7 @@ class MainContent extends Component {
           <Route exact path={paths.teamRoom} component={ChatContent} />
           <Route exact path={paths.member} component={TeamMemberPage} />
           <Route exact path={paths.teamIntegrations} component={TeamIntegrationsPage} />
-          <Route exact path={paths.teamintegrationDetails} component={TeamIntegrationDetailsPage} />
+          <Route exact path={paths.teamIntegration} component={TeamIntegrationPage} />
           <Route exact path={paths.acceptInvitation} component={AcceptInvitationPage} />
           <Route exact path={paths.ckg} component={CKGPage} />
           <Route exact path={paths.dashboard} component={DashboardPage} />

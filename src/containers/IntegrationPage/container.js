@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { IntegrationDetailsPage } from 'src/pages';
+import { IntegrationPage } from 'src/pages';
 import {
   getIntegration,
   getIntegrationDetails,
@@ -19,7 +19,6 @@ import {
 } from 'src/actions';
 
 const mapStateToProps = (state, props) => {
-  // TODO: make this dynamic
   const { integrationDetails: source, subscriberOrgId, status } = props.match.params;
   const subscriberUserId = getCurrentSubscriberUserId(state);
   const { folders, files, submitting, saved } = getSharingSettings(state, { subscriberUserId, source });
@@ -53,4 +52,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(IntegrationDetailsPage);
+)(IntegrationPage);
