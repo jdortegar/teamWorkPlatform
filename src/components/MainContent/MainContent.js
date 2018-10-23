@@ -146,10 +146,8 @@ class MainContent extends Component {
       const invitationsByKey = {};
       invitation = invitation.sort(sortByLastCreatedFirst).filter(inv => {
         // if already a member of the org or team, don't include the invite
-        const { teamId, subscriberOrgId } = inv;
+        const { teamId } = inv;
         if (teamId && teams[teamId]) {
-          return false;
-        } else if (subscriberOrgById[subscriberOrgId]) {
           return false;
         }
 
