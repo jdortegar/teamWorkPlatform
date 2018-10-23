@@ -36,7 +36,7 @@ export const getSharingSettings = createSelector(
   [state => state.integrations.sharingSettings, (state, props) => props],
   (sharingSettings, { source, subscriberUserId }) => {
     const settings = sharingSettings[subscriberUserId];
-    return settings ? settings[source] : {};
+    return settings && settings[source] ? settings[source] : {};
   }
 );
 
