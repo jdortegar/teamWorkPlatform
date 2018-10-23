@@ -113,6 +113,7 @@ class OrganizationManage extends Component {
       Promise.all(selectedTeams.map(team => this.props.updateTeam(team.orgId, team.teamId, valuesToSend)))
         .then(() => {
           message.success(String.t('OrganizationManage.teamsUpdated'));
+          this.setState({ selectedTeams: [] });
         })
         .catch(error => {
           message.error(error.message);
@@ -127,13 +128,12 @@ class OrganizationManage extends Component {
       )
         .then(() => {
           message.success(String.t('OrganizationManage.teamMembersUpdated'));
+          this.setState({ selectedTeamMembers: [] });
         })
         .catch(error => {
           message.error(error.message);
         });
     }
-
-    return this.setState({ selectedTeams: [], selectedTeamMembers: [] });
   }
 
   render() {

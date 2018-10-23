@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
+import classNames from 'classnames';
 import String from 'src/translations';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
 import { PageHeader, SimpleCardContainer, AvatarWithLabel, Spinner } from 'src/components';
-import { Table, Tooltip, Input, Icon, Switch, message } from 'antd';
+import { Table, Tooltip, Input, Icon, Switch, message, Select, Form, Button } from 'antd';
 import './styles/style.css';
 
 const propTypes = {
@@ -15,8 +17,22 @@ const propTypes = {
     push: PropTypes.func
   }).isRequired,
   updateTeam: PropTypes.func.isRequired,
-  users: PropTypes.object.isRequired,
+  // users: PropTypes.object.isRequired,
   teams: PropTypes.array.isRequired
+};
+
+const { Option } = Select;
+
+const renderTeamMembersLength = teamMembersLength => {
+  if (teamMembersLength === 0) {
+    return String.t('OrganizationManageTeams.teamMembersLength.noMembers', { count: teamMembersLength });
+  } else if (teamMembersLength === 1) {
+    return String.t('OrganizationManageTeams.teamMembersLength.oneMember', { count: teamMembersLength });
+  } else if (teamMembersLength > 1) {
+    return String.t('OrganizationManageTeams.teamMembersLength.manyMembers', { count: teamMembersLength });
+  }
+
+  return false;
 };
 
 class OrganizationManageTeams extends Component {
@@ -30,17 +46,58 @@ class OrganizationManageTeams extends Component {
     this.teamsActive = teamsActive;
     this.state = {
       teamsActive,
-      orgDataLoaded: false
+      orgDataLoaded: false,
+      selectedTeams: [],
+      selectValue: 'activate'
     };
 
     // Bind this to functions
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleFormChange = this.handleFormChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     this.props
       .fetchDataSubscriberOrgs(this.props.currentSubscriberOrgId)
       .then(() => this.setState({ orgDataLoaded: true }));
+  }
+
+  // Handle Team Selector
+  onToggleSelection(teamId) {
+    const { selectedTeams } = this.state;
+    this.setState({ selectedTeams: _.xor(selectedTeams, [teamId]) });
+  }
+
+  // Select all teams
+  handleToggleAllOrgItem = () => {
+    const { orgData } = this.props;
+
+    this.setState({
+      selectedTeams: orgData.teams.map(team => team.teamId)
+    });
+  };
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const { selectValue, selectedTeams } = this.state;
+    const valuesToSend = { active: selectValue === 'activate' };
+    const orgId = this.props.currentSubscriberOrgId;
+    if (selectedTeams.length > 0) {
+      // Update all teams
+      Promise.all(selectedTeams.map(teamId => this.props.updateTeam(orgId, teamId, valuesToSend)))
+        .then(() => {
+          message.success(String.t('OrganizationManage.teamsUpdated'));
+          this.setState({ selectedTeams: [] });
+        })
+        .catch(error => {
+          message.error(error.message);
+        });
+    }
+  }
+
+  handleFormChange(value) {
+    this.setState({ selectValue: value });
   }
 
   // Handle for search input
@@ -56,6 +113,7 @@ class OrganizationManageTeams extends Component {
     }
   }
 
+  // Handle Change status
   handleChangeStatus(checked, teamId) {
     const valuesToSend = { active: checked };
     const subscriberOrgId = this.props.currentSubscriberOrgId;
@@ -76,7 +134,7 @@ class OrganizationManageTeams extends Component {
 
   // Get team array
   renderTeams(teamsActive) {
-    const { users, teams } = this.props;
+    const { teams } = this.props;
     // const subscriberOrgId = this.props.currentSubscriberOrgId;
     // If no teams, no render
     if (!teamsActive || teamsActive.length === 0) {
@@ -86,20 +144,23 @@ class OrganizationManageTeams extends Component {
     // Sort teams by Name
     let teamsByOrgId = teamsActive.sort(sortByName);
     teamsByOrgId = teamsByOrgId.length === 0 && teamsByOrgId[0] === undefined ? [] : primaryAtTop(teamsByOrgId);
-
     // Array to save teams, 0 element is for add team button
     const teamArray = teamsByOrgId.map((team, index) => {
       const teamData = teams.find(teamEl => teamEl.teamId === team.teamId) || team;
-      const teamAdminData = team.teamMembers.find(member => member.role === 'admin');
-      const teamAdminName = teamAdminData && teamAdminData.userId ? users[teamAdminData.userId].fullName : '';
+      // const teamAdminData = team.teamMembers.find(member => member.role === 'admin');
+      // const teamAdminName = teamAdminData && teamAdminData.userId ? users[teamAdminData.userId].fullName : '';
       return {
         key: index,
         team: teamData,
-        teamAdminName,
+        teamMembersLength: team.teamMembers.length,
         status: {
           active: teamData.active,
           display: true,
           teamId: teamData.teamId
+        },
+        teamSelection: {
+          teamId: team.teamId,
+          isSelected: this.state.selectedTeams.some(teamId => teamId === team.teamId)
         }
       };
     });
@@ -161,12 +222,12 @@ class OrganizationManageTeams extends Component {
           }
         },
         {
-          title: 'Owner',
-          dataIndex: 'teamAdminName',
-          key: 'teamAdminName',
-          render: teamAdminName => {
-            if (!teamAdminName) return false;
-            return <span className="habla-table-label">{teamAdminName}</span>;
+          title: 'TEAM MEMBERS',
+          dataIndex: 'teamMembersLength',
+          key: 'teamMembersLength',
+          render: teamMembersLength => {
+            if (!teamMembersLength) return false;
+            return <span className="habla-table-label">{renderTeamMembersLength(teamMembersLength)}</span>;
           }
         },
         {
@@ -217,6 +278,34 @@ class OrganizationManageTeams extends Component {
               </Tooltip>
             );
           }
+        },
+        {
+          title: (
+            <div className="tableTitle" onClick={() => this.handleToggleAllOrgItem()}>
+              {String.t('OrganizationManage.tableSelectAll')}
+            </div>
+          ),
+          key: 'teamSelection',
+          dataIndex: 'teamSelection',
+          render: teamSelection => {
+            if (!teamSelection.teamId) return false;
+            return (
+              <a
+                onClick={event => {
+                  event.stopPropagation();
+                  this.onToggleSelection(teamSelection.teamId);
+                }}
+              >
+                <Icon
+                  type="check-circle"
+                  theme="filled"
+                  className={classNames('Tree__item-check-icon TeamPage__selectIcon', {
+                    checked: teamSelection.isSelected
+                  })}
+                />
+              </a>
+            );
+          }
         }
       ];
 
@@ -239,6 +328,24 @@ class OrganizationManageTeams extends Component {
                 prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
                 onChange={this.handleSearch}
               />
+              <div className="action__form">
+                <Form onSubmit={this.handleSubmit}>
+                  <Select
+                    style={{ width: 120 }}
+                    size="small"
+                    className="action__form_select"
+                    value={this.state.selectValue}
+                    onChange={this.handleFormChange}
+                  >
+                    <Option value="activate">Activate</Option>
+                    <Option value="deactivate">Deactivate</Option>
+                  </Select>
+
+                  <Button type="primary" size="small" className="action__form_button" htmlType="submit">
+                    Apply
+                  </Button>
+                </Form>
+              </div>
             </div>
           </SimpleCardContainer>
           <SimpleCardContainer className="subpage-block p-0">
