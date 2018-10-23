@@ -305,7 +305,7 @@ class DashboardPage extends React.Component {
           hasMenu
           menuName="settings"
           menuPageHeader={menuPageHeader}
-          backButton={`/app/ckg/${currentSubscriberOrgId}`}
+          backButton={selectedReport ? '/app/dashboard' : `/app/ckg/${currentSubscriberOrgId}`}
           optionalButtons={optionalButtons}
         />
 
