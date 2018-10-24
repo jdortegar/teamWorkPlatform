@@ -64,7 +64,11 @@ class InviteNewMemberPage extends Component {
           })
           .catch(error => {
             this.setState({ loading: false });
-            message.error(error.message);
+            if (error.response && error.response.status === 409) {
+              message.error(String.t('inviteNewMemberPage.errorUserhasOtherOrg'));
+            } else {
+              message.error(error.message);
+            }
           });
       }
     });

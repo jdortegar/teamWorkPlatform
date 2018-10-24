@@ -5,7 +5,8 @@ import {
   SUBSCRIBERS_FETCH_SUCCESS,
   TEAMMEMBERS_FETCH_SUCCESS,
   SUBSCRIBER_RECEIVE,
-  TEAMMEMBER_RECEIVE
+  TEAMMEMBER_RECEIVE,
+  UPDATED_USER_SUCCESS
 } from 'src/actions';
 
 const INITIAL_STATE = {
@@ -66,6 +67,7 @@ function receiverUsers(state, payload) {
 const usersReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case USER_RECEIVE: {
+      if (!action.payload.user.userId) return state;
       const userByUserId = _.cloneDeep(state.userByUserId);
       let user = userByUserId[action.payload.user.userId];
       if (!user) {
@@ -135,6 +137,19 @@ const usersReducer = (state = INITIAL_STATE, action) => {
 
       const { firstName, lastName } = user;
       user.fullName = String.t('fullName', { firstName, lastName });
+
+      return {
+        ...state,
+        userByUserId
+      };
+    }
+    case UPDATED_USER_SUCCESS: {
+      const userByUserId = _.cloneDeep(state.userByUserId);
+      Object.values(userByUserId).forEach(user => {
+        if (user.userId === action.payload.userId) {
+          user.enabled = !user.enabled; // eslint-disable-line no-param-reassign
+        }
+      });
 
       return {
         ...state,

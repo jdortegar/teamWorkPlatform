@@ -19,6 +19,9 @@ const defaultProps = {
 
 const AvatarWithLabel = ({ item, enabled }) => {
   const { preferences, editUrl } = item;
+  if (item.icon) {
+    preferences.avatarBase64 = item.icon;
+  }
   const className = classNames({
     'opacity-low': !enabled
   });
@@ -66,7 +69,7 @@ const AvatarWithLabel = ({ item, enabled }) => {
     return (
       <div className="avatar-label-container">
         <Avatar src={`data:image/jpeg;base64, ${preferences.avatarBase64}`} className={className} />
-        <span className="habla-avatar-label">{item.name}</span>
+        <span className="habla-avatar-label">{item.name ? item.name : item.fullName}</span>
       </div>
     );
   }
