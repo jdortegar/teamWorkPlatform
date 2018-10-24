@@ -1,21 +1,41 @@
 import { buildApiUrl } from 'src/lib/api';
-import { doAuthenticatedRequest } from './urlRequest';
+import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
-export const updateUser = (updateObject, getKey = false) => {
-  const requestUrl = buildApiUrl('users/updateUser');
+export const UPDATED_USER_SUCCESS = 'updateUser/success';
+
+export const updateUser = (updateObject, userId, options = { getKey: false, forceGet: false }) => {
+  let requestUrl = buildApiUrl('users/updateUser');
+  requestUrl = userId ? `${requestUrl}?userId=${userId}` : requestUrl;
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
-  const reduxState = { updateObject };
+  const reduxState = { userId };
 
-  return doAuthenticatedRequest(
-    {
-      requestUrl,
-      method: 'patch',
-      data: updateObject
-    },
-    reduxState,
-    getKey
-  );
+  return dispatch => {
+    const thunk = dispatch(
+      doAuthenticatedRequest(
+        {
+          requestUrl,
+          method: 'patch'
+        },
+        reduxState,
+        options
+      )
+    );
+
+    if (!options.getKey) {
+      thunk.then(response => {
+        if (response.status === 204 && response.data !== RESPONSE_STALE) {
+          dispatch({
+            type: UPDATED_USER_SUCCESS,
+            payload: { userId }
+          });
+        }
+        return response;
+      });
+    }
+
+    return thunk;
+  };
 };
 
 export const saveBookmark = (currentUser, subscriberOrgId, message, setBookmark) => {

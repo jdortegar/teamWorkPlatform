@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
+import classNames from 'classnames';
 import String from 'src/translations';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
 import { PageHeader, SimpleCardContainer, Spinner, AvatarWithLabel } from 'src/components';
-import { Table, Tooltip, Input, Icon, Switch } from 'antd';
+import { Table, Tooltip, Input, Icon, Switch, Select, Form, Button, message } from 'antd';
 import './styles/style.css';
 
 const propTypes = {
@@ -18,60 +19,83 @@ const propTypes = {
   subscriberOrgs: PropTypes.shape({
     currentSubscriberOrgId: PropTypes.string
   }).isRequired,
-  subscribers: PropTypes.array.isRequired,
-  subscribersPresences: PropTypes.object.isRequired,
-  setCurrentSubscriberOrgId: PropTypes.func.isRequired,
-  fetchSubscribersBySubscriberOrgId: PropTypes.func.isRequired
+  users: PropTypes.object.isRequired,
+  updateUser: PropTypes.func.isRequired
 };
+
+const { Option } = Select;
 
 class OrganizationManageMembers extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { subscribersLoaded: false, usersActive: [] };
-
-    const usersActive = this.props.subscribers;
+    const usersActive = Object.values(this.props.users).map(user => user.userId && user) || [];
     this.usersActive = usersActive;
     this.state = {
-      usersActive
+      usersActive,
+      selectedTeamMembers: [],
+      selectValue: 'activate'
     };
 
     this.handleSearch = this.handleSearch.bind(this);
-  }
-
-  componentDidMount() {
-    const { match, subscriberOrgs } = this.props;
-    if (
-      !match ||
-      !match.params ||
-      !match.params.subscriberOrgId ||
-      match.params.subscriberOrgId !== subscriberOrgs.currentSubscriberOrgId
-    ) {
-      this.props.history.replace('/app');
-      return;
-    }
-    const { subscriberOrgId } = this.props.match.params;
-
-    if (subscriberOrgId !== this.props.subscriberOrgs.currentSubscriberOrgId) {
-      this.props.setCurrentSubscriberOrgId(subscriberOrgId);
-    }
-
-    this.props
-      .fetchSubscribersBySubscriberOrgId(subscriberOrgId)
-      .then(() => this.setState({ subscribersLoaded: true }));
+    this.handleFormChange = this.handleFormChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    const nextOrgId = nextProps.match.params.subscriberOrgId;
-    if (nextOrgId !== this.props.match.params.subscriberOrgId) {
-      this.setState({
-        subscribersLoaded: false
-      });
-      this.props.fetchSubscribersBySubscriberOrgId(nextOrgId).then(() => this.setState({ subscribersLoaded: true }));
+    if (!_.isEqual(this.props.users, nextProps.users))
+      this.setState({ usersActive: Object.values(nextProps.users).map(user => user.userId && user) });
+  }
+
+  // Handle Team Selector
+  onToggleSelection(teamMemberId) {
+    const { selectedTeamMembers } = this.state;
+    this.setState({ selectedTeamMembers: _.xor(selectedTeamMembers, [teamMemberId]) });
+  }
+
+  // Select all teamMembers
+  handleToggleAllOrgItem = () => {
+    const { users } = this.props;
+
+    this.setState({
+      selectedTeamMembers: Object.values(users).map(user => user.userId)
+    });
+  };
+
+  // Switch function to enable / disable user.
+  handleSubmit(event) {
+    event.preventDefault();
+    const { selectValue, selectedTeamMembers } = this.state;
+    const valuesToSend = { active: selectValue === 'activate' };
+    if (selectedTeamMembers.length > 0) {
+      // Update all teams
+      Promise.all(selectedTeamMembers.map(userId => this.props.updateUser(valuesToSend, userId)))
+        .then(() => {
+          message.success(String.t('OrganizationManageMembers.userUpdated'));
+          this.setState({ selectedTeamMembers: [] });
+        })
+        .catch(error => {
+          message.error(error.message);
+        });
     }
   }
 
   // Switch function to enable / disable user.
+  handleChangeStatus(checked, userId) {
+    const valuesToSend = { active: checked };
+    this.props
+      .updateUser(valuesToSend, userId)
+      .then(() => {
+        message.success(String.t('OrganizationManageMembers.userUpdated'));
+      })
+      .catch(error => {
+        message.error(error.message);
+      });
+  }
+
+  handleFormChange(value) {
+    this.setState({ selectValue: value });
+  }
 
   // Handle for search input
   handleSearch(e) {
@@ -105,10 +129,15 @@ class OrganizationManageMembers extends Component {
       user,
       email: user.email,
       status: {
-        enabled: user.enabled,
+        active: user.enabled,
+        display: true,
         userId: user.userId
       },
-      editUser: user.userId
+      editUser: user.userId,
+      teamMemberSelection: {
+        userId: user.userId,
+        isSelected: this.state.selectedTeamMembers.some(userId => userId === user.userId)
+      }
     }));
 
     // Add team button
@@ -131,24 +160,9 @@ class OrganizationManageMembers extends Component {
 
   render() {
     // General Consts
-    const { subscribers, subscribersPresences, subscriberOrgs, match } = this.props;
-    if (
-      match &&
-      match.params &&
-      match.params.subscriberOrgId &&
-      subscribers &&
-      subscribersPresences &&
-      subscriberOrgs &&
-      subscriberOrgs.subscriberOrgById &&
-      subscriberOrgs.subscriberOrgById[match.params.subscriberOrgId] &&
-      this.state.subscribersLoaded
-    ) {
+    const { users, match } = this.props;
+    if (match && match.params && match.params.subscriberOrgId && users) {
       const { subscriberOrgId } = match.params;
-
-      const orgSubscribers = subscribers.map(subscriber => ({
-        ...subscriber,
-        online: _.some(_.values(subscribersPresences[subscriber.userId]), { presenceStatus: 'online' })
-      }));
 
       // Breadcrumb
       const pageBreadCrumb = {
@@ -198,7 +212,7 @@ class OrganizationManageMembers extends Component {
           dataIndex: 'status',
           key: 'status',
           render: status => {
-            if (!status.enabled) return false;
+            if (!status.display) return false;
             return (
               <Tooltip
                 placement="top"
@@ -211,8 +225,8 @@ class OrganizationManageMembers extends Component {
                 <Switch
                   checkedChildren={String.t('OrganizationManageMembers.activeState')}
                   unCheckedChildren={String.t('OrganizationManageMembers.inactiveState')}
-                  // onChange={checked => this.handleChangeStatus(checked, status.teamId)}
-                  checked={status.enabled}
+                  onChange={checked => this.handleChangeStatus(checked, status.userId)}
+                  checked={status.active}
                 />
               </Tooltip>
             );
@@ -241,6 +255,34 @@ class OrganizationManageMembers extends Component {
               </Tooltip>
             );
           }
+        },
+        {
+          title: (
+            <div className="tableTitle" onClick={() => this.handleToggleAllOrgItem()}>
+              {String.t('OrganizationManage.tableSelectAll')}
+            </div>
+          ),
+          key: 'teamMemberSelection',
+          dataIndex: 'teamMemberSelection',
+          render: teamMemberSelection => {
+            if (!teamMemberSelection) return false;
+            return (
+              <a
+                onClick={event => {
+                  event.stopPropagation();
+                  this.onToggleSelection(teamMemberSelection.userId);
+                }}
+              >
+                <Icon
+                  type="check-circle"
+                  theme="filled"
+                  className={classNames('Tree__item-check-icon TeamPage__selectIcon', {
+                    checked: teamMemberSelection.isSelected
+                  })}
+                />
+              </a>
+            );
+          }
         }
       ];
 
@@ -253,7 +295,7 @@ class OrganizationManageMembers extends Component {
             menuPageHeader={menuPageHeader}
             hasNotification={{
               enabled: true,
-              count: orgSubscribers.length,
+              count: users.length,
               style: { backgroundColor: '#52c41a' }
             }}
           />
@@ -263,6 +305,24 @@ class OrganizationManageMembers extends Component {
                 prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
                 onChange={this.handleSearch}
               />
+              <div className="action__form">
+                <Form onSubmit={this.handleSubmit}>
+                  <Select
+                    style={{ width: 120 }}
+                    size="small"
+                    className="action__form_select"
+                    value={this.state.selectValue}
+                    onChange={this.handleFormChange}
+                  >
+                    <Option value="activate">Activate</Option>
+                    <Option value="deactivate">Deactivate</Option>
+                  </Select>
+
+                  <Button type="primary" size="small" className="action__form_button" htmlType="submit">
+                    Apply
+                  </Button>
+                </Form>
+              </div>
             </div>
           </SimpleCardContainer>
           <SimpleCardContainer className="subpage-block p-0">

@@ -455,7 +455,8 @@
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
-    }
+    },
+    "errorUserhasOtherOrg": "This User is already Member of an Organization"
   },
   "inviteToTeamPage": {
     "sendInvitationsButtonLabel": {
@@ -692,7 +693,8 @@
     "inactiveState": "OFF",
     "setActive": "Set Active",
     "setInactive": "Set Inactive",
-    "addNew": "Add Organization Team Member"
+    "addNew": "Add Organization Team Member",
+    "userUpdated": "Team Members status saved"
   },
   "OrganizationDataIntegrations": {
     "title": "Organization Data Integrations ({{count}})",
