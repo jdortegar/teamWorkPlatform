@@ -5,35 +5,37 @@ export const INTEGRATION_ERROR = 'integration/error';
 export const INTEGRATION_ERROR_BADSUBSCRIBERORG = 'integration/error/badsubscriberorg';
 
 export const INTEGRATIONS_UPDATE = 'integrations/update';
-export const INTEGRATIONS_FETCH_DETAILS_SUCCESS = 'integrations/fetchDetails/success';
+export const INTEGRATIONS_FETCH_CONTENT_REQUEST = 'integrations/fetchContent/request';
+export const INTEGRATIONS_FETCH_CONTENT_SUCCESS = 'integrations/fetchContent/success';
+export const INTEGRATIONS_FETCH_CONTENT_FAILURE = 'integrations/fetchContent/failure';
 
 export const updateIntegrations = (userId, subscriberOrgId, integrations) => ({
   type: INTEGRATIONS_UPDATE,
   payload: { userId, subscriberOrgId, integrations }
 });
 
-export const fetchIntegrationDetails = (source, subscriberUserId) => {
+export const fetchIntegrationContent = (source, subscriberUserId) => dispatch => {
   const requestUrl = buildKnowledgeApiUrl(`service/${source}/${subscriberUserId}`);
-  const reduxState = { source, subscriberUserId };
+  const thunk = dispatch(
+    doAuthenticatedRequest({ requestUrl, method: 'get' }, { source, subscriberUserId }, { forceGet: true })
+  );
 
-  return dispatch => {
-    const thunk = dispatch(doAuthenticatedRequest({ requestUrl, method: 'get' }, reduxState, { forceGet: true }));
+  dispatch({ type: INTEGRATIONS_FETCH_CONTENT_REQUEST });
 
-    thunk
-      .then(response => {
-        if (response.data && response.data.body) {
-          const { body: integrationDetails } = response.data;
-          dispatch({
-            type: INTEGRATIONS_FETCH_DETAILS_SUCCESS,
-            payload: { integrationDetails }
-          });
-        } else {
-          console.error('ERROR fetching integration details:', response.data); // eslint-disable-line no-console
-        }
-        return response;
-      })
-      .catch(error => console.error(error)); // eslint-disable-line no-console
+  thunk
+    .then(response => {
+      if (response.data && response.data.body) {
+        const { body: content } = response.data;
+        dispatch({
+          type: INTEGRATIONS_FETCH_CONTENT_SUCCESS,
+          payload: { content }
+        });
+      } else {
+        dispatch({ type: INTEGRATIONS_FETCH_CONTENT_FAILURE, payload: { error: response.data } });
+      }
+      return response;
+    })
+    .catch(error => dispatch({ type: INTEGRATIONS_FETCH_CONTENT_FAILURE, payload: { error } }));
 
-    return thunk;
-  };
+  return thunk;
 };

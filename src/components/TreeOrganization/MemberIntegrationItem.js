@@ -19,7 +19,7 @@ const showNotification = (response, integrationKey) => {
   }
 };
 
-const MemberIntegrationItem = ({ orgId, memberIntegration, isSelected, onToggleSelection, revokeIntegration }) => {
+const MemberIntegrationItem = ({ memberIntegration, isSelected, onToggleSelection, revokeIntegration }) => {
   const integration = {
     ...memberIntegration,
     name: integrationLabelFromKey(memberIntegration.key),
@@ -36,7 +36,7 @@ const MemberIntegrationItem = ({ orgId, memberIntegration, isSelected, onToggleS
     if (checked) {
       message.error(String.t('OrganizationManage.enableIntegrationMessage'));
     } else {
-      revokeIntegration(key, orgId)
+      revokeIntegration(key)
         .then(res => showNotification(res, key))
         .catch(error => {
           message.error(error.message);
@@ -107,7 +107,6 @@ const MemberIntegrationItem = ({ orgId, memberIntegration, isSelected, onToggleS
 };
 
 MemberIntegrationItem.propTypes = {
-  orgId: PropTypes.string.isRequired,
   memberIntegration: PropTypes.object.isRequired,
   onToggleSelection: PropTypes.func.isRequired,
   isSelected: PropTypes.bool,

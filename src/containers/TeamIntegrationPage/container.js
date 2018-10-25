@@ -1,27 +1,22 @@
 import { connect } from 'react-redux';
 import { TeamIntegrationPage } from 'src/pages';
-import { getTeamsById, getTeamIntegrations } from 'src/selectors';
-import { fetchIntegrations, integrateIntegration, configureIntegration, revokeIntegration } from 'src/actions';
+import { getTeam, getTeamIntegration } from 'src/selectors';
+import { fetchTeamIntegrations, integrateTeamIntegration, revokeIntegration } from 'src/actions';
 
-function mapStateToProps(state, props) {
-  const { teamId } = props.match.params;
+const mapStateToProps = (state, props) => {
+  const { teamId, source } = props.match.params;
   return {
-    integrations: getTeamIntegrations(state, teamId),
-    subscriberOrgs: state.subscriberOrgs,
-    teams: getTeamsById(state)
+    source,
+    team: getTeam(state, teamId),
+    integration: getTeamIntegration(state, { source, teamId })
   };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-  return {
-    fetchIntegrations: subscriberOrgId => dispatch(fetchIntegrations(subscriberOrgId)),
-    integrateIntegration: (key, subscriberOrgId, params) =>
-      dispatch(integrateIntegration(key, subscriberOrgId, params)),
-    configureIntegration: (key, subscriberOrgId, configuration) =>
-      dispatch(configureIntegration(key, subscriberOrgId, configuration)),
-    revokeIntegration: (key, subscriberOrgId) => dispatch(revokeIntegration(key, subscriberOrgId))
-  };
-}
+const mapDispatchToProps = {
+  fetchTeamIntegrations,
+  integrateTeamIntegration,
+  revokeIntegration
+};
 
 export default connect(
   mapStateToProps,

@@ -1,5 +1,5 @@
 import { buildKnowledgeApiUrl } from 'src/lib/api';
-import { getIntegrationDetails } from 'src/selectors';
+import { getOrgIntegrationContent } from 'src/selectors';
 import { doAuthenticatedRequest } from './urlRequest';
 
 export const SHARING_SETTINGS_TOGGLE = 'sharingSettings/toggle';
@@ -28,11 +28,11 @@ export const saveSharingSettings = (source, subscriberUserId, { folders, files }
       payload: { source, subscriberUserId }
     });
 
-    const integrationDetails = getIntegrationDetails(getState(), { source, subscriberUserId });
+    const integrationContent = getOrgIntegrationContent(getState(), { source, subscriberUserId });
     const data = {
-      subscriber_org_id: integrationDetails.subscriber_org_id,
+      subscriber_org_id: integrationContent.subscriber_org_id,
       subscriber_user_id: subscriberUserId,
-      habla_user_id: integrationDetails.habla_user_id,
+      habla_user_id: integrationContent.habla_user_id,
       subscriber_team_id: null,
       source,
       folders,

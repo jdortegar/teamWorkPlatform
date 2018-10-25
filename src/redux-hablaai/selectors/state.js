@@ -27,11 +27,7 @@ export const getReadMessagesByConversationId = state => state.readMessages.readM
 export const getTypingByConversationIdsByUserId = state => state.typings.typingByConversationIdsByUserId;
 export const getTypingByUserIdsByConversationId = state => state.typings.typingByUserIdsByConversationId;
 
-export const getIntegrationsBySubscriberOrgId = state => state.integrations.integrationsBySubscriberOrgId;
-
 export const getUrlRequestStatus = createCachedSelector(
   [getUrlRequests, (state, requestUrl) => requestUrl],
   (urlRequests, requestUrl) => urlRequests[requestUrl]
 )((state, requestUrl) => requestUrl);
-
-export const getIntegrationsByTeamId = state => state.integrations.integrationsByTeamId;

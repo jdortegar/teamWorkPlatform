@@ -13,7 +13,7 @@ export const paths = {
   editUser: '/app/editUser',
   acceptInvitation: '/app/acceptinvitation/:type/:id',
   integrations: '/app/integrations/:subscriberOrgId',
-  integration: '/app/integrations/:subscriberOrgId/:integrationDetails/:status?',
+  integration: '/app/integrations/:subscriberOrgId/:source/:status?',
   newTeam: '/app/createTeam/:subscriberOrgId',
   inviteNewMember: '/app/inviteNewMember/:subscriberOrgId',
   inviteToTeam: '/app/inviteToTeam/:teamId',
@@ -22,7 +22,7 @@ export const paths = {
   editTeam: '/app/editTeam/:teamId',
   teamIntegrations: '/app/teamIntegrations/:teamId',
   teamRoom: '/app/teamRoom/:teamRoomId', // WILL BE REMOVED
-  teamIntegration: '/app/teamIntegrations/:teamId/:integrationDetails/:status?',
+  teamIntegration: '/app/teamIntegrations/:teamId/:source/:status?',
   member: '/app/teamMember/:teamMemberId',
   notifications: '/app/notifications',
   bookmarks: '/app/bookmarks/:subscriberOrgId',

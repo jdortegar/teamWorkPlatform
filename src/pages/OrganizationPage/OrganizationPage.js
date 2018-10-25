@@ -12,24 +12,19 @@ import './styles/style.css';
 
 const propTypes = {
   integrations: PropTypes.PropTypes.shape({
-    integrationsBySubscriberOrgId: PropTypes.object
+    byOrg: PropTypes.object
   }).isRequired,
   fetchIntegrations: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.shape({
     currentSubscriberOrgId: PropTypes.string
   }).isRequired,
-  setCurrentSubscriberOrgId: PropTypes.func.isRequired,
   fetchSubscribersBySubscriberOrgId: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      subscriberOrgId: PropTypes.string
-    })
-  }).isRequired,
   subscribers: PropTypes.array.isRequired,
   subscribersPresences: PropTypes.object.isRequired,
   teams: PropTypes.array.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  orgId: PropTypes.string.isRequired
 };
 
 // Get subscriber avatar or Initials
@@ -54,70 +49,38 @@ function renderAvatar(item, enabled, size) {
 }
 
 class OrganizationPage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { integrationsLoaded: false, subscribersLoaded: false };
-  }
+  state = {
+    integrationsLoaded: false,
+    subscribersLoaded: false
+  };
 
   componentDidMount() {
-    const { match, subscriberOrgs } = this.props;
-    if (
-      !match ||
-      !match.params ||
-      !match.params.subscriberOrgId ||
-      match.params.subscriberOrgId !== subscriberOrgs.currentSubscriberOrgId
-    ) {
-      this.props.history.replace('/app');
+    const { orgId, history, fetchSubscribersBySubscriberOrgId, fetchIntegrations } = this.props;
+
+    if (!orgId) {
+      history.replace('/app');
       return;
     }
-    const { subscriberOrgId } = this.props.match.params;
 
-    if (subscriberOrgId !== this.props.subscriberOrgs.currentSubscriberOrgId) {
-      this.props.setCurrentSubscriberOrgId(subscriberOrgId);
-    }
-
-    this.props
-      .fetchSubscribersBySubscriberOrgId(subscriberOrgId)
-      .then(() => this.setState({ subscribersLoaded: true }));
-    this.props.fetchIntegrations(subscriberOrgId).then(() => {
-      this.setState({ integrationsLoaded: true });
-    });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const nextOrgId = nextProps.match.params.subscriberOrgId;
-    if (nextOrgId !== this.props.match.params.subscriberOrgId) {
-      this.setState({
-        integrationsLoaded: false,
-        subscribersLoaded: false
-      });
-      this.props.fetchSubscribersBySubscriberOrgId(nextOrgId).then(() => this.setState({ subscribersLoaded: true }));
-      this.props.fetchIntegrations(nextOrgId).then(() => {
-        this.setState({ integrationsLoaded: true });
-      });
-    }
+    fetchSubscribersBySubscriberOrgId(orgId).then(() => this.setState({ subscribersLoaded: true }));
+    fetchIntegrations().then(() => this.setState({ integrationsLoaded: true }));
   }
 
   render() {
-    const { teams, integrations, subscribers, subscribersPresences, subscriberOrgs, user, match } = this.props;
+    const { teams, integrations, subscribers, subscribersPresences, subscriberOrgs, user, orgId } = this.props;
     if (
-      match &&
-      match.params &&
-      match.params.subscriberOrgId &&
       subscribers &&
       subscribersPresences &&
       subscriberOrgs &&
       subscriberOrgs.subscriberOrgById &&
-      subscriberOrgs.subscriberOrgById[match.params.subscriberOrgId] &&
+      subscriberOrgs.subscriberOrgById[orgId] &&
       teams &&
       integrations &&
       this.state.subscribersLoaded &&
       this.state.integrationsLoaded &&
       user
     ) {
-      const { subscriberOrgId } = match.params;
-      const subscriberOrg = subscriberOrgs.subscriberOrgById[subscriberOrgId];
+      const subscriberOrg = subscriberOrgs.subscriberOrgById[orgId];
 
       // Breadcrumb
       const pageBreadCrumb = {
@@ -134,22 +97,22 @@ class OrganizationPage extends Component {
         {
           icon: 'fas fa-cog',
           title: 'OrganizationPage.addNewTeam',
-          url: `/app/createTeam/${subscriberOrgId}`
+          url: `/app/createTeam/${orgId}`
         }
         // {
         //   icon: 'fas fa-cog',
         //   title: 'OrganizationPage.manageTeamMembers',
-        //   url: `/app/editOrganization/${subscriberOrgId}/members`
+        //   url: `/app/editOrganization/${orgId}/members`
         // },
         // {
         //   icon: 'fas fa-cog',
         //   title: 'OrganizationPage.manageDataIntegrations',
-        //   url: `/app/editOrganization/${subscriberOrgId}/dataIntegrations`
+        //   url: `/app/editOrganization/${orgId}/dataIntegrations`
         // },
         // {
         //   icon: 'fas fa-pencil-alt',
         //   title: 'OrganizationPage.editSection',
-        //   url: `/app/editOrganization/${subscriberOrgId}`
+        //   url: `/app/editOrganization/${orgId}`
         // }
       ];
 
@@ -180,7 +143,7 @@ class OrganizationPage extends Component {
             integrations={integrations}
             subscribers={subscribers}
             subscribersPresences={subscribersPresences}
-            subscriberOrgId={subscriberOrgId}
+            orgId={orgId}
             teams={teams}
             user={user}
           />

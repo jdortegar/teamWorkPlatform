@@ -1,38 +1,43 @@
 import { connect } from 'react-redux';
 import { IntegrationPage } from 'src/pages';
 import {
-  getIntegration,
-  getIntegrationDetails,
+  getOrgIntegration,
+  getOrgIntegrationContent,
+  isContentFetching,
   getCurrentSubscriberOrgName,
   getSharingSettings,
-  getCurrentSubscriberUserId
+  getCurrentSubscriberUserId,
+  getCurrentSubscriberOrgId
 } from 'src/selectors';
 import {
   fetchIntegrations,
-  fetchIntegrationDetails,
+  fetchIntegrationContent,
   saveSharingSettings,
   toggleSharingSettings,
   toggleAllSharingSettings,
-  integrateIntegration,
+  integrateOrgIntegration,
   configureIntegration,
   revokeIntegration
 } from 'src/actions';
 
 const mapStateToProps = (state, props) => {
-  const { integrationDetails: source, subscriberOrgId, status } = props.match.params;
+  const { source, status } = props.match.params;
   const subscriberUserId = getCurrentSubscriberUserId(state);
+  const orgId = getCurrentSubscriberOrgId(state);
   const { folders, files, submitting, saved } = getSharingSettings(state, { subscriberUserId, source });
 
   return {
-    integration: getIntegration(state, { source, subscriberOrgId }),
-    integrationDetails: getIntegrationDetails(state, { source, subscriberUserId }),
+    integration: getOrgIntegration(state, { source, orgId }),
+    content: getOrgIntegrationContent(state, { source, subscriberUserId }),
     subscriberOrgName: getCurrentSubscriberOrgName(state),
+    isFetchingContent: isContentFetching(state),
+    orgName: getCurrentSubscriberOrgName(state),
     selectedFolders: folders,
     selectedFiles: files,
     isSubmittingSharingSettings: submitting,
     isSavedSharingSettings: saved,
     subscriberUserId,
-    subscriberOrgId,
+    orgId,
     source,
     status
   };
@@ -40,11 +45,11 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
   fetchIntegrations,
-  fetchIntegrationDetails,
+  fetchIntegrationContent,
   saveSharingSettings,
   toggleSharingSettings,
   toggleAllSharingSettings,
-  integrateIntegration,
+  integrateOrgIntegration,
   configureIntegration,
   revokeIntegration
 };

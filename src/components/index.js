@@ -20,6 +20,7 @@ export GraphViewSelector from './GraphViewSelector';
 export GraphZoomActions from './GraphZoomActions';
 export Header from './Header';
 export IntegrationFilter from './IntegrationFilter';
+export IntegrationsList from './IntegrationsList';
 export LambWestonReports from './LambWestonReports';
 export MainContent from './MainContent';
 export Message from './Message';

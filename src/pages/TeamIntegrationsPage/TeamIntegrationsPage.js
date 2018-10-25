@@ -1,19 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { Row, Tooltip } from 'antd';
-import { Link } from 'react-router-dom';
 
 import String from 'src/translations';
-import { PageHeader, ImageCard, Spinner, SimpleCardContainer } from 'src/components';
-import {
-  availableIntegrationKeys,
-  integrationImageFromKey,
-  integrationIsSupported,
-  integrationLabelFromKey,
-  integrationMapping
-} from 'src/utils/dataIntegrations';
-import './styles/style.css';
+import { IntegrationsList } from 'src/containers';
+import { PageHeader, Spinner } from 'src/components';
 
 const propTypes = {
   team: PropTypes.object.isRequired,
@@ -32,47 +22,9 @@ class TeamIntegrationsPage extends Component {
     fetchTeamIntegrations(team.teamId);
   }
 
-  renderIntegration = (key, integration) => {
-    const { team } = this.props;
-    const isSupported = integrationIsSupported(key);
-    let extra = null;
-    if (integration) {
-      const { expired, revoked } = integration;
-      if (typeof revoked === 'undefined' || revoked === false) {
-        extra = <i className="fa fa-check-circle icon_success habla-green" />;
-        if (expired === true) {
-          extra = <i className="fa fa-times-circle habla-red" />;
-        }
-      }
-    }
-
-    return (
-      <div key={key} className={classNames('TeamIntegration', { inactive: !isSupported })}>
-        <Tooltip placement="top" title={integrationLabelFromKey(key)}>
-          {isSupported ? (
-            <Link to={`/app/teamIntegrations/${team.teamId}/${key}`}>
-              <ImageCard imgSrc={integrationImageFromKey(key)} extra={extra} />
-            </Link>
-          ) : (
-            <ImageCard imgSrc={integrationImageFromKey(key)} extra={extra} />
-          )}
-        </Tooltip>
-        <div className="habla-label align-center-class card-label">{integrationLabelFromKey(key)}</div>
-      </div>
-    );
-  };
-
-  renderIntegrations = () => {
-    const { integrations } = this.props;
-    return availableIntegrationKeys().map(key => this.renderIntegration(key, integrations[integrationMapping(key)]));
-  };
-
   render() {
     const { team, integrations } = this.props;
-
-    if (!team || !integrations) {
-      return <Spinner />;
-    }
+    if (!team || !integrations) return <Spinner />;
 
     return (
       <div className="TeamIntegrations">
@@ -99,11 +51,7 @@ class TeamIntegrationsPage extends Component {
             }
           ]}
         />
-        <div className="padding-class-a">
-          <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex habla-integration-list margin-top-class-b">
-            <Row type="flex">{this.renderIntegrations()}</Row>
-          </SimpleCardContainer>
-        </div>
+        <IntegrationsList integrations={integrations} teamId={team.teamId} />
       </div>
     );
   }

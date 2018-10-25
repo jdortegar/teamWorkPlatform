@@ -3,33 +3,33 @@ import { withRouter } from 'react-router';
 import { fetchSubscribersBySubscriberOrgId, fetchIntegrations, setCurrentSubscriberOrgId } from 'src/actions';
 import {
   getCurrentUser,
+  getCurrentSubscriberOrgId,
   getSubscribersOfSubscriberOrgId,
   getPresencesOfSubscribersOfOrgId,
   getOrgTeams,
-  getIntegrationsOfSubscriberOrgId
+  getOrgIntegrationsObj
 } from 'src/selectors';
 import { OrganizationPage } from 'src/pages';
 
-function mapStateToProps(state, props) {
-  const { subscriberOrgId } = props.match.params;
+const mapStateToProps = state => {
+  const orgId = getCurrentSubscriberOrgId(state);
 
   return {
     user: getCurrentUser(state),
     subscriberOrgs: state.subscriberOrgs,
-    subscribers: getSubscribersOfSubscriberOrgId(state, subscriberOrgId),
-    subscribersPresences: getPresencesOfSubscribersOfOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
-    teams: getOrgTeams(state, subscriberOrgId),
-    integrations: getIntegrationsOfSubscriberOrgId(state, state.subscriberOrgs.currentSubscriberOrgId)
+    subscribers: getSubscribersOfSubscriberOrgId(state, orgId),
+    subscribersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
+    teams: getOrgTeams(state, orgId),
+    integrations: getOrgIntegrationsObj(state, orgId),
+    orgId
   };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-  return {
-    fetchSubscribersBySubscriberOrgId: subscriberOrgId => dispatch(fetchSubscribersBySubscriberOrgId(subscriberOrgId)),
-    fetchIntegrations: subscriberOrgId => dispatch(fetchIntegrations(subscriberOrgId)),
-    setCurrentSubscriberOrgId: subscriberOrgId => dispatch(setCurrentSubscriberOrgId(subscriberOrgId))
-  };
-}
+const mapDispatchToProps = {
+  fetchSubscribersBySubscriberOrgId,
+  fetchIntegrations,
+  setCurrentSubscriberOrgId
+};
 
 export default withRouter(
   connect(

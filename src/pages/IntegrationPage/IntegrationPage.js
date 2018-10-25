@@ -9,21 +9,9 @@ import {
   integrationConfigFromKey,
   integrationMapping
 } from 'src/utils/dataIntegrations';
+import { getIntegrationStatus } from 'src/lib/integrationStatus';
 import { PageHeader, SimpleCardContainer, Button, Spinner, SharingSettings, ImageCard } from 'src/components';
 import './styles/style.css';
-
-function determineStatus(integration) {
-  if (integration) {
-    if (integration.expired) {
-      return String.t('integrationPage.status.expired');
-    } else if (integration.revoked) {
-      return String.t('integrationPage.status.revoked');
-    }
-    return String.t('integrationPage.status.active');
-  }
-
-  return false;
-}
 
 function showNotification(response, integration) {
   const { status } = response;
@@ -40,30 +28,31 @@ function showNotification(response, integration) {
 const propTypes = {
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
-  integrateIntegration: PropTypes.func.isRequired,
+  integrateOrgIntegration: PropTypes.func.isRequired,
   revokeIntegration: PropTypes.func.isRequired,
   fetchIntegrations: PropTypes.func.isRequired,
-  fetchIntegrationDetails: PropTypes.func.isRequired,
+  fetchIntegrationContent: PropTypes.func.isRequired,
   toggleSharingSettings: PropTypes.func.isRequired,
   toggleAllSharingSettings: PropTypes.func.isRequired,
   saveSharingSettings: PropTypes.func.isRequired,
-  // configureIntegration: PropTypes.func.isRequired,
   subscriberUserId: PropTypes.string.isRequired,
-  subscriberOrgId: PropTypes.string.isRequired,
-  subscriberOrgName: PropTypes.string.isRequired,
+  orgId: PropTypes.string.isRequired,
+  orgName: PropTypes.string.isRequired,
   source: PropTypes.string.isRequired,
   integration: PropTypes.object,
-  integrationDetails: PropTypes.object,
+  content: PropTypes.object,
   selectedFolders: PropTypes.array,
   selectedFiles: PropTypes.array,
   status: PropTypes.string,
+  isFetchingContent: PropTypes.bool,
   isSubmittingSharingSettings: PropTypes.bool,
   isSavedSharingSettings: PropTypes.bool
 };
 
 const defaultProps = {
   integration: null,
-  integrationDetails: null,
+  content: null,
+  isFetchingContent: false,
   selectedFolders: [],
   selectedFiles: [],
   status: '',
@@ -95,10 +84,10 @@ class IntegrationPage extends Component {
   }
 
   componentDidMount() {
-    const { subscriberOrgId, subscriberUserId, source, status } = this.props;
+    const { subscriberUserId, source, status } = this.props;
     const integrationLabel = integrationLabelFromKey(source);
-    this.props.fetchIntegrations(subscriberOrgId);
-    this.props.fetchIntegrationDetails(source, subscriberUserId);
+    this.props.fetchIntegrations();
+    this.props.fetchIntegrationContent(source, subscriberUserId);
     if (status) {
       if (status.includes('CREATED')) {
         message.success(String.t('integrationPage.message.createdDescription', { name: integrationLabel }));
@@ -117,9 +106,9 @@ class IntegrationPage extends Component {
     const changedFolderKeys = Object.keys(this.state.changedFolderOptions);
     if (changedFolderKeys.length > 0) {
       // initialize collection of folders with the saved selection flags
-      // const { source, subscriberOrgId } = this.props;
-      // const { integrationsBySubscriberOrgId } = this.props.integrations;
-      // const integrations = integrationsBySubscriberOrgId[subscriberOrgId] || {};
+      // const { source, orgId } = this.props;
+      // const { byOrg } = this.props.integrations;
+      // const integrations = byOrg[orgId] || {};
       // const integration = integrations[source];
       // const { configFolders, changedFolderOptions } = this.state;
       // const folders = integration[configFolders.key];
@@ -142,7 +131,7 @@ class IntegrationPage extends Component {
       // // save the changes
       // const name = integrationLabelFromKey(source);
       // this.props
-      //   .configureIntegration(source, subscriberOrgId, configTop)
+      //   .configureIntegration(source, orgId, configTop)
       //   .then(() => {
       //     message.success(String.t('integrationPage.message.configUpdated', { name }));
       //     this.setState({ changedFolderOptions: {} });
@@ -169,7 +158,7 @@ class IntegrationPage extends Component {
   };
 
   handleIntegration(checked) {
-    const { source, subscriberOrgId } = this.props;
+    const { source } = this.props;
     const key = integrationMapping(source);
     if (checked) {
       let configParams = null;
@@ -179,12 +168,12 @@ class IntegrationPage extends Component {
           configParams[param.key] = this[param.key].value;
         });
       }
-      this.props.integrateIntegration(key, subscriberOrgId, configParams).catch(error => {
+      this.props.integrateOrgIntegration(key, configParams).catch(error => {
         message.error(error.message);
       });
     } else {
       this.props
-        .revokeIntegration(key, subscriberOrgId)
+        .revokeIntegration(key)
         .then(res => showNotification(res, key))
         .catch(error => {
           message.error(error.message);
@@ -218,23 +207,24 @@ class IntegrationPage extends Component {
   render() {
     const {
       integration,
-      integrationDetails,
+      content,
       source,
-      subscriberOrgId,
-      subscriberOrgName,
+      orgId,
+      orgName,
       selectedFolders,
       selectedFiles,
       isSubmittingSharingSettings,
-      isSavedSharingSettings
+      isSavedSharingSettings,
+      isFetchingContent
     } = this.props;
-    if (!source || !subscriberOrgId) {
+    if (!source || !orgId) {
       return <Spinner />;
     }
 
     const integrationKey = integrationMapping(source);
     const integrationImageSrc = integrationImageFromKey(integrationKey);
     const integrationLabel = integrationLabelFromKey(integrationKey);
-    const statusLabel = determineStatus(integration);
+    const statusLabel = getIntegrationStatus(integration);
     const tooltipTitle =
       statusLabel === 'Active' ? String.t('integrationPage.deactivate') : String.t('integrationPage.activate');
     let disabledSwitch = false;
@@ -306,17 +296,16 @@ class IntegrationPage extends Component {
     return (
       <div>
         <PageHeader
+          backButton={`/app/integrations/${orgId}`}
           pageBreadCrumb={{
             routes: [
               {
-                title: subscriberOrgName,
-                url: `/app/organization/${subscriberOrgId}`
+                title: orgName,
+                url: `/app/organization/${orgId}`
               },
               {
-                title: String.t('integrationPage.integrations'),
-                url: `/app/integrations/${subscriberOrgId}`
-              },
-              { title: integrationLabel }
+                title: String.t('integrationPage.integrationSettings')
+              }
             ]
           }}
           buttonOptions={{
@@ -325,7 +314,7 @@ class IntegrationPage extends Component {
             children: 'Save Settings',
             onClick: this.saveSharingSettings,
             loading: isSubmittingSharingSettings,
-            disabled: isSavedSharingSettings || !integrationDetails
+            disabled: isSavedSharingSettings || !content
           }}
         />
         <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
@@ -347,14 +336,16 @@ class IntegrationPage extends Component {
             />
           </Tooltip>
         </div>
+        {isFetchingContent && <Spinner />}
         {statusLabel === 'Active' &&
-          integrationDetails && (
+          !isFetchingContent &&
+          content && (
             <SharingSettings
               onToggleSelect={this.handleToggleSharingSettings}
               onToggleSelectAll={this.handleToggleAllSharingSettings}
               integrationType={integrationLabel}
-              folders={integrationDetails.folders}
-              files={integrationDetails.files}
+              folders={content.folders}
+              files={content.files}
               selectedFolders={selectedFolders}
               selectedFiles={selectedFiles}
             />

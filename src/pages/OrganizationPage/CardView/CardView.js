@@ -19,12 +19,12 @@ const propTypes = {
   user: PropTypes.object.isRequired,
   subscribers: PropTypes.array.isRequired,
   subscribersPresences: PropTypes.object.isRequired,
-  subscriberOrgId: PropTypes.string.isRequired,
+  orgId: PropTypes.string.isRequired,
   teams: PropTypes.array.isRequired
 };
 
 function CardView(props) {
-  const { integrations, subscribers, subscriberOrgId, teams, user, subscribersPresences } = props;
+  const { integrations, subscribers, orgId, teams, user, subscribersPresences } = props;
   const subscriberByMyUser = subscribers.find(subscriber => subscriber.userId === user.userId);
 
   const teamShouldRender = (isOrgAdmin, team) => {
@@ -92,7 +92,7 @@ function CardView(props) {
     return (
       <div key={key} className="mr-1  mb-2 integration-card">
         <Tooltip placement="top" title={label}>
-          <Link to={`/app/integrations/${subscriberOrgId}/${key}`}>
+          <Link to={`/app/integrations/${orgId}/${key}`}>
             <Avatar size="large" src={integrationImageFromKey(key)} className={desaturated} />
             <i className="fa fa-check-circle icon_success habla-green" />
             <div className="habla-label align-center-class card-label">{label}</div>
@@ -131,7 +131,7 @@ function CardView(props) {
   );
 
   const integrationsArr = renderIntegrations();
-  const isOrgAdmin = subscriberByMyUser.subscriberOrgs[subscriberOrgId].role === 'admin';
+  const isOrgAdmin = subscriberByMyUser.subscriberOrgs[orgId].role === 'admin';
 
   return (
     <Fragment>
@@ -143,7 +143,7 @@ function CardView(props) {
           key="1"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex integration-list">
-            {renderAddCard(String.t('OrganizationPage.addNewIntegration'), `/app/integrations/${subscriberOrgId}`)}
+            {renderAddCard(String.t('OrganizationPage.addNewIntegration'), `/app/integrations/${orgId}`)}
             {integrationsArr}
           </SimpleCardContainer>
         </Panel>
@@ -158,8 +158,7 @@ function CardView(props) {
           key="2"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {isOrgAdmin &&
-              renderAddCard(String.t('OrganizationPage.addNewTeam'), `/app/createTeam/${props.subscriberOrgId}`)}
+            {isOrgAdmin && renderAddCard(String.t('OrganizationPage.addNewTeam'), `/app/createTeam/${props.orgId}`)}
             {renderTeams(isOrgAdmin)}
           </SimpleCardContainer>
         </Panel>
@@ -169,7 +168,7 @@ function CardView(props) {
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
             {isOrgAdmin &&
-              renderAddCard(String.t('OrganizationPage.addNewMember'), `/app/inviteNewMember/${props.subscriberOrgId}`)}
+              renderAddCard(String.t('OrganizationPage.addNewMember'), `/app/inviteNewMember/${props.orgId}`)}
             {renderMembers()}
           </SimpleCardContainer>
         </Panel>

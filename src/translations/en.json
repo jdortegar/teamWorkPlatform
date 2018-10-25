@@ -412,6 +412,7 @@
       "configUpdated": "Your {{name}} integration configuration has been updated."
     },
     "integrations": "Data Integrations",
+    "integrationSettings": "Data Integration Settings",
     "saveButtonLabel": "Save Changes",
     "on": "ON",
     "off": "OFF",

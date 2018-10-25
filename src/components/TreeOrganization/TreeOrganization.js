@@ -99,7 +99,6 @@ class TreeOrganization extends Component {
       );
       return (
         <MemberIntegrationItem
-          orgId={this.props.currentSubscriberOrgId}
           revokeIntegration={this.props.revokeIntegration}
           key={memberIntegration.userId}
           memberIntegration={memberIntegration}
