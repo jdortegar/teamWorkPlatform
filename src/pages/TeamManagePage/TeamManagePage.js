@@ -33,7 +33,7 @@ class TeamManagePage extends Component {
   };
 
   componentDidMount() {
-    const { team, history, orgId } = this.props;
+    const { team, history } = this.props;
     if (!team) {
       history.replace('/app');
       return;
@@ -41,7 +41,7 @@ class TeamManagePage extends Component {
 
     this.props.fetchTeamMembers(team.teamId).then(() => this.setState({ teamMembersLoaded: true }));
 
-    this.props.fetchTeamIntegrations(orgId, team.teamId).then(() => {
+    this.props.fetchTeamIntegrations(team.teamId).then(() => {
       this.setState({ integrationsLoaded: true });
     });
   }
@@ -87,7 +87,7 @@ class TeamManagePage extends Component {
     ];
 
     return (
-      <div>
+      <div className="TeamSummary">
         <PageHeader
           subscriberOrgId={orgId}
           pageBreadCrumb={pageBreadCrumb}

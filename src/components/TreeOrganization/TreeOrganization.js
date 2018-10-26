@@ -20,7 +20,7 @@ const propTypes = {
   selectedMemberIntegrations: PropTypes.array.isRequired,
   // Toggle Events
   onToggleSelect: PropTypes.func.isRequired,
-  revokeIntegration: PropTypes.func.isRequired
+  revokeOrgIntegration: PropTypes.func.isRequired
 };
 
 class TreeOrganization extends Component {
@@ -99,7 +99,7 @@ class TreeOrganization extends Component {
       );
       return (
         <MemberIntegrationItem
-          revokeIntegration={this.props.revokeIntegration}
+          revokeOrgIntegration={this.props.revokeOrgIntegration}
           key={memberIntegration.userId}
           memberIntegration={memberIntegration}
           isSelected={isSelected}

@@ -19,12 +19,12 @@ const showNotification = (response, integrationKey) => {
   }
 };
 
-const MemberIntegrationItem = ({ memberIntegration, isSelected, onToggleSelection, revokeIntegration }) => {
+const MemberIntegrationItem = ({ memberIntegration, isSelected, onToggleSelection, revokeOrgIntegration }) => {
   const integration = {
     ...memberIntegration,
-    name: integrationLabelFromKey(memberIntegration.key),
+    name: integrationLabelFromKey(memberIntegration.source),
     preferences: {
-      img: integrationImageFromKey(memberIntegration.key),
+      img: integrationImageFromKey(memberIntegration.source),
       className: classNames({ desaturate: memberIntegration.expired }),
       iconColor: '#FFFFFF'
     }
@@ -32,11 +32,11 @@ const MemberIntegrationItem = ({ memberIntegration, isSelected, onToggleSelectio
 
   // TO DO: Integration URL doesn't work
   const handleIntegration = checked => {
-    const key = integrationMapping(integration.key);
+    const key = integrationMapping(integration.source);
     if (checked) {
       message.error(String.t('OrganizationManage.enableIntegrationMessage'));
     } else {
-      revokeIntegration(key)
+      revokeOrgIntegration(key)
         .then(res => showNotification(res, key))
         .catch(error => {
           message.error(error.message);
@@ -110,7 +110,7 @@ MemberIntegrationItem.propTypes = {
   memberIntegration: PropTypes.object.isRequired,
   onToggleSelection: PropTypes.func.isRequired,
   isSelected: PropTypes.bool,
-  revokeIntegration: PropTypes.func.isRequired
+  revokeOrgIntegration: PropTypes.func.isRequired
 };
 
 MemberIntegrationItem.defaultProps = {

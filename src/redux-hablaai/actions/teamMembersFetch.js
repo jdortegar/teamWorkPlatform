@@ -4,7 +4,7 @@ import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const TEAMMEMBERS_FETCH_SUCCESS = 'teammembers/fetch/success';
 
-export const fetchTeamMembers = (teamId, options = { getKey: false, forceGet: false }) => {
+export const fetchTeamMembers = (teamId, options = { getKey: false, forceGet: true }) => {
   const requestUrl = buildApiUrl(`teams/getMembers/${teamId}`);
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.

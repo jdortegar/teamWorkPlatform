@@ -7,21 +7,15 @@ import {
   INTEGRATIONS_FETCH_CONTENT_SUCCESS,
   INTEGRATIONS_FETCH_CONTENT_FAILURE,
   INTEGRATIONS_REVOKE_SUCCESS,
-  INTEGRATIONS_UPDATE
-  //   TEAM_INTEGRATIONS_FETCH_SUCCESS,
-  //   SHARING_SETTINGS_TOGGLE,
-  //   SHARING_SETTINGS_TOGGLE_ALL,
-  //   SHARING_SETTINGS_SAVE_REQUEST,
-  //   SHARING_SETTINGS_SAVE_SUCCESS,
-  //   SHARING_SETTINGS_SAVE_FAILURE
+  INTEGRATIONS_UPDATE,
+  TEAM_INTEGRATIONS_FETCH_SUCCESS,
+  TEAM_INTEGRATIONS_REVOKE_SUCCESS,
+  SHARING_SETTINGS_TOGGLE,
+  SHARING_SETTINGS_TOGGLE_ALL,
+  SHARING_SETTINGS_SAVE_REQUEST,
+  SHARING_SETTINGS_SAVE_SUCCESS,
+  SHARING_SETTINGS_SAVE_FAILURE
 } from 'src/actions';
-
-// const INITIAL_STATE = {
-//   byOrg: {},
-//   byTeam: {},
-//   integrationDetailsBySubscriberUserId: {},
-//   sharingSettings: {}
-// };
 
 // recursively returns all ids of folders and files in the tree
 // const getAllIdsFromTree = tree =>
@@ -86,13 +80,13 @@ const byOrg = (state = {}, action) => {
     case INTEGRATIONS_REVOKE_SUCCESS: {
       if (action.error) return state;
 
-      const { subscriberOrgId, type } = action.payload;
-      const orgIntegrations = state[subscriberOrgId] || {};
+      const { orgId, source } = action.payload;
+      const orgIntegrations = state[orgId] || {};
       return {
         ...state,
-        [subscriberOrgId]: {
+        [orgId]: {
           ...orgIntegrations,
-          [type]: { revoked: true }
+          [source]: { revoked: true }
         }
       };
     }
@@ -103,6 +97,40 @@ const byOrg = (state = {}, action) => {
 
 const byTeam = (state = {}, action) => {
   switch (action.type) {
+    case TEAM_INTEGRATIONS_FETCH_SUCCESS: {
+      const { teamMemberIntegrations } = action.payload;
+      return {
+        ...state,
+        ...teamMemberIntegrations.reduce(
+          (acc, { teamId, userId, integrations }) => ({
+            ...acc,
+            [teamId]: {
+              ...acc[teamId],
+              [userId]: integrations
+            }
+          }),
+          {}
+        )
+      };
+    }
+    case TEAM_INTEGRATIONS_REVOKE_SUCCESS: {
+      if (action.error) return state;
+
+      const { teamId, userId, source } = action.payload;
+      const teamIntegrations = state[teamId] || {};
+      const userIntegrations = teamIntegrations[userId] || {};
+
+      return {
+        ...state,
+        [teamId]: {
+          ...teamIntegrations,
+          [userId]: {
+            ...userIntegrations,
+            [source]: { revoked: true }
+          }
+        }
+      };
+    }
     default:
       return state;
   }
@@ -151,6 +179,11 @@ const content = (state = { isFetching: false, error: null }, action) => {
 
 const sharingSettings = (state = {}, action) => {
   switch (action.type) {
+    case SHARING_SETTINGS_TOGGLE:
+    case SHARING_SETTINGS_TOGGLE_ALL:
+    case SHARING_SETTINGS_SAVE_REQUEST:
+    case SHARING_SETTINGS_SAVE_SUCCESS:
+    case SHARING_SETTINGS_SAVE_FAILURE:
     default:
       return state;
   }
@@ -158,22 +191,6 @@ const sharingSettings = (state = {}, action) => {
 
 // const oldIntegrationsReducer = (state = INITIAL_STATE, action) => {
 //   switch (action.type) {
-//     case TEAM_INTEGRATIONS_FETCH_SUCCESS: {
-//       const byTeam = action.payload.teamMemberIntegrations.reduce(
-//         (acc, current) => {
-//           acc[current.teamId] = {
-//             ...acc[current.teamId],
-//             [current.userId]: current.integrations
-//           };
-//           return acc;
-//         },
-//         { ...state.byTeam }
-//       );
-//       return {
-//         ...state,
-//         byTeam
-//       };
-//     }
 //     case SHARING_SETTINGS_TOGGLE: {
 //       const { subscriberUserId, source, folderId, fileId } = action.payload;
 //       const currentSettings = state.sharingSettings[subscriberUserId] || {};

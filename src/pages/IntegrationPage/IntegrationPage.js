@@ -26,10 +26,8 @@ function showNotification(response, integration) {
 }
 
 const propTypes = {
-  history: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
   integrateOrgIntegration: PropTypes.func.isRequired,
-  revokeIntegration: PropTypes.func.isRequired,
+  revokeOrgIntegration: PropTypes.func.isRequired,
   fetchIntegrations: PropTypes.func.isRequired,
   fetchIntegrationContent: PropTypes.func.isRequired,
   toggleSharingSettings: PropTypes.func.isRequired,
@@ -43,7 +41,6 @@ const propTypes = {
   content: PropTypes.object,
   selectedFolders: PropTypes.array,
   selectedFiles: PropTypes.array,
-  status: PropTypes.string,
   isFetchingContent: PropTypes.bool,
   isSubmittingSharingSettings: PropTypes.bool,
   isSavedSharingSettings: PropTypes.bool
@@ -55,7 +52,6 @@ const defaultProps = {
   isFetchingContent: false,
   selectedFolders: [],
   selectedFiles: [],
-  status: '',
   isSubmittingSharingSettings: false,
   isSavedSharingSettings: false
 };
@@ -84,63 +80,50 @@ class IntegrationPage extends Component {
   }
 
   componentDidMount() {
-    const { subscriberUserId, source, status } = this.props;
-    const integrationLabel = integrationLabelFromKey(source);
+    const { subscriberUserId, source } = this.props;
     this.props.fetchIntegrations();
     this.props.fetchIntegrationContent(source, subscriberUserId);
-    if (status) {
-      if (status.includes('CREATED')) {
-        message.success(String.t('integrationPage.message.createdDescription', { name: integrationLabel }));
-      } else {
-        message.error(status);
-      }
-
-      // Remove status from visible url to disallow reloading and bookmarking of url with status.
-      let { pathname: path } = this.props.location;
-      path = path.substring(0, path.lastIndexOf('/'));
-      this.props.history.replace(path);
-    }
   }
 
-  onSaveConfigChanges() {
-    const changedFolderKeys = Object.keys(this.state.changedFolderOptions);
-    if (changedFolderKeys.length > 0) {
-      // initialize collection of folders with the saved selection flags
-      // const { source, orgId } = this.props;
-      // const { byOrg } = this.props.integrations;
-      // const integrations = byOrg[orgId] || {};
-      // const integration = integrations[source];
-      // const { configFolders, changedFolderOptions } = this.state;
-      // const folders = integration[configFolders.key];
-      // const { selected, folderKey } = configFolders.folderKeys;
-      // const saveFolders = folders.map(folder => {
-      //   let isSelected = folder[configFolders.folderKeys.selected]; // default
-      //   const path = folder[folderKey];
-      //   if (changedFolderOptions[path] !== undefined) {
-      //     isSelected = changedFolderOptions[path];
-      //   }
-      //   const folderObj = {};
-      //   folderObj[selected] = isSelected;
-      //   folderObj[folderKey] = path;
-      //   return folderObj;
-      // });
-      // const config = {};
-      // config[configFolders.key] = saveFolders;
-      // const configTop = {};
-      // configTop[source] = config;
-      // // save the changes
-      // const name = integrationLabelFromKey(source);
-      // this.props
-      //   .configureIntegration(source, orgId, configTop)
-      //   .then(() => {
-      //     message.success(String.t('integrationPage.message.configUpdated', { name }));
-      //     this.setState({ changedFolderOptions: {} });
-      //   })
-      //   .catch(error => {
-      //     message.error(error.message);
-      //   });
-    }
-  }
+  onSaveConfigChanges = () => {
+    // const changedFolderKeys = Object.keys(this.state.changedFolderOptions);
+    // if (changedFolderKeys.length > 0) {
+    // initialize collection of folders with the saved selection flags
+    // const { source, orgId } = this.props;
+    // const { byOrg } = this.props.integrations;
+    // const integrations = byOrg[orgId] || {};
+    // const integration = integrations[source];
+    // const { configFolders, changedFolderOptions } = this.state;
+    // const folders = integration[configFolders.key];
+    // const { selected, folderKey } = configFolders.folderKeys;
+    // const saveFolders = folders.map(folder => {
+    //   let isSelected = folder[configFolders.folderKeys.selected]; // default
+    //   const path = folder[folderKey];
+    //   if (changedFolderOptions[path] !== undefined) {
+    //     isSelected = changedFolderOptions[path];
+    //   }
+    //   const folderObj = {};
+    //   folderObj[selected] = isSelected;
+    //   folderObj[folderKey] = path;
+    //   return folderObj;
+    // });
+    // const config = {};
+    // config[configFolders.key] = saveFolders;
+    // const configTop = {};
+    // configTop[source] = config;
+    // // save the changes
+    // const name = integrationLabelFromKey(source);
+    // this.props
+    //   .configureIntegration(source, orgId, configTop)
+    //   .then(() => {
+    //     message.success(String.t('integrationPage.message.configUpdated', { name }));
+    //     this.setState({ changedFolderOptions: {} });
+    //   })
+    //   .catch(error => {
+    //     message.error(error.message);
+    //   });
+    // }
+  };
 
   saveSharingSettings = () => {
     const { source, subscriberUserId, selectedFolders, selectedFiles } = this.props;
@@ -161,19 +144,20 @@ class IntegrationPage extends Component {
     const { source } = this.props;
     const key = integrationMapping(source);
     if (checked) {
-      let configParams = null;
-      if (this.state.configParams) {
-        configParams = {};
-        this.state.configParams.forEach(param => {
-          configParams[param.key] = this[param.key].value;
-        });
-      }
-      this.props.integrateOrgIntegration(key, configParams).catch(error => {
+      // TODO: Add support to SharePoint params
+      // let configParams = null;
+      // if (this.state.configParams) {
+      //   configParams = {};
+      //   this.state.configParams.forEach(param => {
+      //     configParams[param.key] = this[param.key].value;
+      //   });
+      // }
+      this.props.integrateOrgIntegration(key).catch(error => {
         message.error(error.message);
       });
     } else {
       this.props
-        .revokeIntegration(key)
+        .revokeOrgIntegration(key)
         .then(res => showNotification(res, key))
         .catch(error => {
           message.error(error.message);
@@ -303,9 +287,7 @@ class IntegrationPage extends Component {
                 title: orgName,
                 url: `/app/organization/${orgId}`
               },
-              {
-                title: String.t('integrationPage.integrationSettings')
-              }
+              { title: String.t('integrationPage.integrations') }
             ]
           }}
           buttonOptions={{

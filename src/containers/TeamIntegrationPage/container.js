@@ -1,24 +1,26 @@
 import { connect } from 'react-redux';
+import { withStatusMessage } from 'src/hoc';
 import { TeamIntegrationPage } from 'src/pages';
 import { getTeam, getTeamIntegration } from 'src/selectors';
-import { fetchTeamIntegrations, integrateTeamIntegration, revokeIntegration } from 'src/actions';
+import { fetchTeamIntegrations, integrateTeamIntegration, revokeTeamIntegration } from 'src/actions';
 
 const mapStateToProps = (state, props) => {
-  const { teamId, source } = props.match.params;
+  const { teamId, source, status } = props.match.params;
   return {
-    source,
     team: getTeam(state, teamId),
-    integration: getTeamIntegration(state, { source, teamId })
+    integration: getTeamIntegration(state, { source, teamId }),
+    source,
+    status
   };
 };
 
 const mapDispatchToProps = {
   fetchTeamIntegrations,
   integrateTeamIntegration,
-  revokeIntegration
+  revokeTeamIntegration
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(TeamIntegrationPage);
+)(withStatusMessage(TeamIntegrationPage));

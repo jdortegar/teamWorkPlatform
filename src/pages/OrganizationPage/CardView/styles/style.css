@@ -9,9 +9,38 @@
   white-space: nowrap;
   margin-top: 5px;
 }
-.integration-list .integration-card .ant-avatar {
+.OrgSummary .integration-list .integration-card .ant-avatar {
   background: #fff !important;
   border: 1px solid #eee;
+}
+.OrgSummary .habla-integration-list .ant-card {
+  background: #fff;
+  border: 1px solid #eee !important;
+  margin: 5px 8px 0 0;
+  border-radius: 14% !important;
+}
+.OrgSummary .habla-integration-list img {
+  width: 57px;
+  height: 57px;
+  display: inline-block;
+  overflow: hidden;
+}
+.OrgSummary .habla-integration-list .ant-card {
+  width: 60px;
+  height: 60px;
+}
+.OrgSummary .habla-integration-list .ant-card-head {
+  position: absolute;
+  top: -1px;
+  right: 3px;
+}
+.OrgSummary .integration-card {
+  position: relative;
+}
+.OrgSummary .integration-card svg {
+  position: absolute;
+  top: 3px;
+  right: 3px;
 }
 
 .habla-collapse-header,

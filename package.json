@@ -1,18 +1,18 @@
 {
   "name": "webapp",
-  "description": "The Habla UI",
+  "description": "Habla AI App",
   "version": "1.3.0",
   "private": true,
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Habla-Inc/webapp.git"
+    "url": "git+https://github.com/Habla-Inc/habla-web.git"
   },
   "bugs": {
-    "url": "https://github.com/Habla-Inc/webapp/issues"
+    "url": "https://github.com/Habla-Inc/habla-web/issues"
   },
   "homepage": "https://habla.ai",
-  "author": "Tho Truong <tho.truong@habla.ai>, Anthony Daga <anthony.daga@habla.ai>, Mike Somlo <mike.somlo@habla.ai>, Gonzalo Marquez <gonzalo@techlabs.com>",
+  "author": "Josias Schneider <josias.schneider@habla.ai>, David Ortega <david.ortega@habla.ai>, Tho Truong <tho.truong@habla.ai>, Anthony Daga <anthony.daga@habla.ai>, Mike Somlo <mike.somlo@habla.ai>, Gonzalo Marquez <gonzalo@techlabs.com>",
   "license": "HABLA",
   "engines": {
     "node": ">=6"

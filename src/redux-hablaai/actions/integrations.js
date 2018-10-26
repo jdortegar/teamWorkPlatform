@@ -2,7 +2,7 @@ import { buildKnowledgeApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest } from './urlRequest';
 
 export const INTEGRATION_ERROR = 'integration/error';
-export const INTEGRATION_ERROR_BADSUBSCRIBERORG = 'integration/error/badsubscriberorg';
+export const INTEGRATION_ERROR_NOT_FOUND = 'integration/error/notFound';
 
 export const INTEGRATIONS_UPDATE = 'integrations/update';
 export const INTEGRATIONS_FETCH_CONTENT_REQUEST = 'integrations/fetchContent/request';

@@ -117,7 +117,7 @@ class OrganizationPage extends Component {
       ];
 
       return (
-        <div className="editOrgPage-main">
+        <div className="OrgSummary editOrgPage-main">
           <PageHeader pageBreadCrumb={pageBreadCrumb} hasMenu menuName="settings" menuPageHeader={menuPageHeader} />
           <SimpleCardContainer className="subpage-block habla-color-blue align-center-class">
             {renderAvatar(subscriberOrg, subscriberOrg.enabled, 'x-large')}

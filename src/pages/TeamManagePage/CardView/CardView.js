@@ -64,16 +64,17 @@ const CardView = props => {
 
   const membersSection = String.t('cardView.membersHeader', { count: members.length });
 
-  const renderIntegration = (key, integration) => {
-    const label = integrationLabelFromKey(key);
+  const renderIntegration = integration => {
+    const { source } = integration;
+    const label = integrationLabelFromKey(source);
     const desaturated = classNames({ desaturate: integration.expired });
     const integrationUser = members.find(member => member.userId === integration.userId || 'Default');
 
     return (
-      <div key={`${key}_${integrationUser.firstName}`} className="mr-1  mb-2 integration-card">
+      <div key={`${source}_${integrationUser.firstName}`} className="mr-1  mb-2 integration-card">
         <Tooltip placement="top" title={`${label} - ${integrationUser.firstName}`}>
-          <Link to={`/app/teamIntegrations/${team.teamId}/${key}`}>
-            <Avatar size="large" src={integrationImageFromKey(key)} className={desaturated} />
+          <Link to={`/app/teamIntegrations/${team.teamId}/${source}`}>
+            <Avatar size="large" src={integrationImageFromKey(source)} className={desaturated} />
             <i className="fa fa-check-circle icon_success habla-green" />
             <div className="habla-label align-center-class card-label">
               {integrationUser.firstName || integrationUser.email}
@@ -84,27 +85,16 @@ const CardView = props => {
     );
   };
 
-  const renderIntegrations = () => {
-    const integrationsArr = [];
-    if (!_.isEmpty(integrations)) {
-      integrations.map(integration => integrationsArr.push(renderIntegration(integration.key, integration)));
-    }
-
-    return integrationsArr;
-  };
-
-  const integrationsArr = renderIntegrations();
-
   return (
     <div>
       <Collapse defaultActiveKey={['1', '2', '3']} bordered={false}>
         <Panel
-          header={<SimpleHeader text={String.t('TeamPage.integrationsHeader', { count: integrationsArr.length })} />}
+          header={<SimpleHeader text={String.t('TeamPage.integrationsHeader', { count: integrations.length })} />}
           key="1"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex integration-list">
             {renderAddCard(String.t('TeamPage.addNewIntegration'), `/app/teamIntegrations/${team.teamId}`)}
-            {integrationsArr}
+            {integrations.map(renderIntegration)}
           </SimpleCardContainer>
         </Panel>
         <Panel header={<SimpleHeader text={membersSection} />} key="2">

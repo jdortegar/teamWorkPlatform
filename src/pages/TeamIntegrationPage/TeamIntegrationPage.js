@@ -13,11 +13,23 @@ const propTypes = {
   source: PropTypes.string.isRequired,
   integration: PropTypes.object,
   fetchTeamIntegrations: PropTypes.func.isRequired,
-  integrateTeamIntegration: PropTypes.func.isRequired
+  integrateTeamIntegration: PropTypes.func.isRequired,
+  revokeTeamIntegration: PropTypes.func.isRequired
 };
 
 const defaultProps = {
   integration: null
+};
+
+const showNotification = (response, source) => {
+  const { status } = response;
+  if (status === 200) {
+    message.success(String.t('integrationPage.message.successDescription'));
+  } else if (status === 410) {
+    message.error(String.t('integrationPage.message.goneDescription', { name: integrationLabelFromKey(source) }));
+  } else {
+    message.error(String.t('integrationPage.message.notFoundDescription'));
+  }
 };
 
 class TeamIntegrationPage extends Component {
@@ -28,10 +40,14 @@ class TeamIntegrationPage extends Component {
   }
 
   handleIntegration = checked => {
-    const { source, team, integrateTeamIntegration } = this.props;
+    const { source, team, integration, integrateTeamIntegration, revokeTeamIntegration } = this.props;
     const key = integrationMapping(source);
     if (checked) {
       integrateTeamIntegration(key, team.teamId).catch(error => message.error(error.message));
+    } else {
+      revokeTeamIntegration(key, integration.teamId, integration.userId)
+        .then(res => showNotification(res, key))
+        .catch(error => message.error(error.message));
     }
   };
 
@@ -44,9 +60,7 @@ class TeamIntegrationPage extends Component {
           title: team.name,
           url: `/app/team/${team.teamId}`
         },
-        {
-          title: String.t('integrationPage.integrationSettings')
-        }
+        { title: String.t('integrationPage.integrations') }
       ]
     };
 

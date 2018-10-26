@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Row } from 'antd';
 
-import { availableIntegrationKeys, integrationMapping } from 'src/utils/dataIntegrations';
+import { availableIntegrationKeys } from 'src/utils/dataIntegrations';
 import { SimpleCardContainer } from 'src/components';
 import IntegrationCard from './IntegrationCard';
 import './styles/style.css';
@@ -19,15 +19,15 @@ const defaultProps = {
 };
 
 class IntegrationsList extends Component {
-  renderIntegration = (key, integration) => {
+  renderIntegration = (source, integration) => {
     const { orgId, teamId } = this.props;
-    const url = teamId ? `/app/teamIntegrations/${teamId}/${key}` : `/app/integrations/${orgId}/${key}`;
-    return <IntegrationCard key={key} source={key} integration={integration} url={url} />;
+    const url = teamId ? `/app/teamIntegrations/${teamId}/${source}` : `/app/integrations/${orgId}/${source}`;
+    return <IntegrationCard key={source} source={source} integration={integration} url={url} />;
   };
 
   renderIntegrations = () => {
     const { integrations } = this.props;
-    const findIntegration = key => integrations.find(item => item.key === integrationMapping(key));
+    const findIntegration = key => integrations.find(item => item.source === key);
     return availableIntegrationKeys().map(key => this.renderIntegration(key, findIntegration(key)));
   };
 

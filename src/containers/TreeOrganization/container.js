@@ -7,7 +7,7 @@ import {
   fetchDataSubscriberOrgs,
   updateTeam,
   updateTeamMember,
-  revokeIntegration
+  revokeOrgIntegration
 } from 'src/actions';
 import {
   getSubscriberOrgsSortedAlphabetically,
@@ -33,7 +33,7 @@ const mapDispatchToProps = {
   fetchDataSubscriberOrgs,
   updateTeam,
   updateTeamMember,
-  revokeIntegration
+  revokeOrgIntegration
 };
 
 export default withRouter(
