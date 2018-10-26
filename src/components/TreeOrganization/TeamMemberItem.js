@@ -68,7 +68,7 @@ const TeamMemberItem = ({
                 placement="top"
                 title={
                   <div>
-                    <span onClick={() => history.push(`/app/editTeamMember/${teamMember.userId}`)}>
+                    <span onClick={() => history.push(`/app/editUser/${teamMember.userId}`)}>
                       <i className="fas fa-pencil-alt fa-lg" />
                     </span>
                   </div>

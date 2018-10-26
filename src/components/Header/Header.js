@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Dropdown, Input, Icon, message, Button } from 'antd';
+import { Layout, Menu, Dropdown, Input, Icon, message, Button, Switch } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -22,8 +22,7 @@ class Header extends Component {
   }
 
   state = {
-    query: this.props.query,
-    isAdmin: false
+    query: this.props.query
   };
 
   componentWillReceiveProps(nextProps) {
@@ -61,7 +60,7 @@ class Header extends Component {
   };
 
   handleAdminButton(checked) {
-    this.setState({ isAdmin: checked });
+    this.props.setAdminMode(checked);
   }
 
   logOut() {
@@ -69,7 +68,7 @@ class Header extends Component {
   }
 
   renderMenuItems() {
-    const { user, caseSensitive, exactMatch, toggleCaseSensitive, toggleExactMatch } = this.props;
+    const { user, caseSensitive, exactMatch, toggleCaseSensitive, toggleExactMatch, isAdminMode } = this.props;
     const clearIconVisibility = this.state.query ? 'visible' : 'hidden';
 
     const muteNotificationMenu = (
@@ -148,8 +147,6 @@ class Header extends Component {
             </span>
           </Link>
         </Menu.Item>
-        {/*
-        HIDE UNTIL PHASE 2
         <Menu.Item key="adminMode">
           <a>
             <span>
@@ -157,13 +154,13 @@ class Header extends Component {
               <Switch
                 size="small"
                 defaultChecked
-                style={{ marginLeft: 20 }}
+                style={{ marginLeft: 10 }}
                 onChange={this.handleAdminButton}
-                checked={this.state.isAdmin}
+                checked={isAdminMode}
               />
             </span>
           </a>
-        </Menu.Item> */}
+        </Menu.Item>
         <Menu.Item key="logout" className="dropdown-last-menu-item">
           <a onClick={this.logOut}>
             <i className="fas fa-power-off" /> {String.t('Header.logOutMenu')}
@@ -232,7 +229,7 @@ class Header extends Component {
             </div>
           </div>
         </div>
-        {this.state.isAdmin && (
+        {this.props.isAdminMode && (
           <div className="habla-top-menu-item habla-top-menu-item-last">
             <div className="habla-top-menu-item-content">
               <Button
@@ -286,7 +283,9 @@ Header.propTypes = {
   exactMatch: PropTypes.bool,
   history: PropTypes.shape({
     push: PropTypes.func
-  }).isRequired
+  }).isRequired,
+  isAdminMode: PropTypes.bool.isRequired,
+  setAdminMode: PropTypes.func.isRequired
 };
 
 Header.defaultProps = {

@@ -6,7 +6,7 @@ import {
   TEAMMEMBERS_FETCH_SUCCESS,
   SUBSCRIBER_RECEIVE,
   TEAMMEMBER_RECEIVE,
-  UPDATED_USER_SUCCESS
+  UPDATED_USER_STATUS_SUCCESS
 } from 'src/actions';
 
 const INITIAL_STATE = {
@@ -143,7 +143,7 @@ const usersReducer = (state = INITIAL_STATE, action) => {
         userByUserId
       };
     }
-    case UPDATED_USER_SUCCESS: {
+    case UPDATED_USER_STATUS_SUCCESS: {
       const userByUserId = _.cloneDeep(state.userByUserId);
       Object.values(userByUserId).forEach(user => {
         if (user.userId === action.payload.userId) {

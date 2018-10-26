@@ -10,7 +10,7 @@ export const paths = {
   home: '/',
   app: '/app',
   chat: '/app/chat/:conversationId',
-  editUser: '/app/editUser',
+  editUser: '/app/editUser/:userId',
   acceptInvitation: '/app/acceptinvitation/:type/:id',
   integrations: '/app/integrations/:subscriberOrgId',
   integration: '/app/integrations/:subscriberOrgId/:source/:status?',

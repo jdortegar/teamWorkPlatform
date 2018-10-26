@@ -29,8 +29,14 @@ const propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,
-  user: PropTypes.object.isRequired,
-  updateUser: PropTypes.func.isRequired
+  currentUser: PropTypes.object.isRequired,
+  users: PropTypes.object.isRequired,
+  updateUser: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      userId: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired
 };
 
 class EditUserPage extends Component {
@@ -40,7 +46,7 @@ class EditUserPage extends Component {
     this.state = {
       countryCode: defaultCountry && defaultCountry.id ? defaultCountry.id : null,
       loading: false,
-      userIcon: props.user.icon || null
+      userIcon: null
     };
 
     this.onChangeProfilePhoto = this.onChangeProfilePhoto.bind(this);
@@ -94,7 +100,8 @@ class EditUserPage extends Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { users, match, currentUser } = this.props;
+    const user = Object.values(users).find(userEl => userEl.userId === match.params.userId) || currentUser;
     const containerImage = classNames({
       container__image: true,
       'with-image': this.state.userIcon,
@@ -132,7 +139,7 @@ class EditUserPage extends Component {
                     <UploadImageField
                       text={String.t('editUserPage.setProfilePhoto')}
                       onChange={this.onChangeProfilePhoto}
-                      image={this.state.userIcon || this.state.logo}
+                      image={this.state.userIcon || this.state.logo || user.icon}
                       editOrg
                       resize
                     />

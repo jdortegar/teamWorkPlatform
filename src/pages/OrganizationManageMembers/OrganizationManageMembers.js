@@ -34,7 +34,8 @@ class OrganizationManageMembers extends Component {
     this.state = {
       usersActive,
       selectedTeamMembers: [],
-      selectValue: 'activate'
+      selectValue: 'activate',
+      selectedAll: false
     };
 
     this.handleSearch = this.handleSearch.bind(this);
@@ -49,16 +50,28 @@ class OrganizationManageMembers extends Component {
 
   // Handle Team Selector
   onToggleSelection(teamMemberId) {
-    const { selectedTeamMembers } = this.state;
-    this.setState({ selectedTeamMembers: _.xor(selectedTeamMembers, [teamMemberId]) });
+    const { users } = this.props;
+    let { selectedTeamMembers } = this.state;
+    selectedTeamMembers = _.xor(selectedTeamMembers, [teamMemberId]);
+
+    const allMembers = Object.values(users).map(user => user.userId);
+
+    const selectedAll = selectedTeamMembers.length === allMembers.length;
+    this.setState({
+      selectedTeamMembers,
+      selectedAll
+    });
   }
 
   // Select all teamMembers
   handleToggleAllOrgItem = () => {
     const { users } = this.props;
+    const allMembers = Object.values(users).map(user => user.userId);
+    const selectedAll = this.state.selectedTeamMembers.length === allMembers.length;
 
     this.setState({
-      selectedTeamMembers: Object.values(users).map(user => user.userId)
+      selectedAll: !selectedAll,
+      selectedTeamMembers: selectedAll ? [] : allMembers
     });
   };
 
@@ -104,7 +117,7 @@ class OrganizationManageMembers extends Component {
       this.setState({ usersActive: this.usersActive });
     } else {
       const filteredUsers = this.state.usersActive.filter(user =>
-        user.firstName.toLowerCase().includes(value.toLowerCase().trim())
+        user.fullName.toLowerCase().includes(value.toLowerCase().trim())
       );
       this.setState({ usersActive: filteredUsers });
     }
@@ -144,7 +157,14 @@ class OrganizationManageMembers extends Component {
     userArray.unshift({
       key: 0,
       user: {
-        name: String.t('OrganizationManageMembers.addNew'),
+        name: (
+          <div>
+            {String.t('OrganizationManageMembers.addNew')}
+            <span className="MembersPage__membersLeft_badge">
+              {String.t('OrganizationManageMembers.seatAvailables', { count: 100 })}
+            </span>
+          </div>
+        ),
         preferences: {
           logo: 'fa fa-plus'
         },
@@ -211,6 +231,7 @@ class OrganizationManageMembers extends Component {
           title: 'Status',
           dataIndex: 'status',
           key: 'status',
+          width: 128,
           render: status => {
             if (!status.display) return false;
             return (
@@ -258,12 +279,15 @@ class OrganizationManageMembers extends Component {
         },
         {
           title: (
-            <div className="tableTitle" onClick={() => this.handleToggleAllOrgItem()}>
-              {String.t('OrganizationManage.tableSelectAll')}
+            <div className="tableTitle divAsAButton" onClick={() => this.handleToggleAllOrgItem()}>
+              {this.state.selectedAll
+                ? String.t('OrganizationManage.tableDeselectAll')
+                : String.t('OrganizationManage.tableSelectAll')}
             </div>
           ),
           key: 'teamMemberSelection',
           dataIndex: 'teamMemberSelection',
+          width: 189,
           render: teamMemberSelection => {
             if (!teamMemberSelection) return false;
             return (
@@ -293,9 +317,9 @@ class OrganizationManageMembers extends Component {
             hasMenu
             menuName="settings"
             menuPageHeader={menuPageHeader}
-            hasNotification={{
+            badgeOptions={{
               enabled: true,
-              count: users.length,
+              count: this.state.usersActive.length,
               style: { backgroundColor: '#52c41a' }
             }}
           />

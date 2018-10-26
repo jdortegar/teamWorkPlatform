@@ -14,6 +14,8 @@ import {
 } from 'src/redux-hablaai/actions';
 import { getLastRouteCookie, getLastSubscriberOrgIdCookie, saveCookies } from './cookies';
 
+export const SET_ADMIN_MODE = 'auth/setAdminMode';
+
 // If the user is just going to /app, and their last route on logout was somewhere else, send them there.
 const resolveRoute = (userId, targetRoute) => {
   let resolvedRoute = targetRoute;
@@ -61,3 +63,5 @@ export const setNewPassword = (rid, password) => dispatch =>
   axios.post(buildApiUrl(`users/resetPassword/${rid}`), { password }).then(() => {
     dispatch(push(paths.login));
   });
+
+export const setAdminMode = adminMode => dispatch => dispatch({ type: SET_ADMIN_MODE, payload: { adminMode } });

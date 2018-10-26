@@ -695,7 +695,8 @@
     "setActive": "Set Active",
     "setInactive": "Set Inactive",
     "addNew": "Add Organization Team Member",
-    "userUpdated": "Team Members status saved"
+    "userUpdated": "Team Members status saved",
+    "seatAvailables": "{{count}} Seats Available"
   },
   "OrganizationDataIntegrations": {
     "title": "Organization Data Integrations ({{count}})",
@@ -711,6 +712,7 @@
     "tableStatus": "Status",
     "tableEdit": "Edit",
     "tableSelectAll": "Select All",
+    "tableDeselectAll": "Deselect All",
     "activeState": "ON",
     "inactiveState": "OFF",
     "setActive": "Set Active",

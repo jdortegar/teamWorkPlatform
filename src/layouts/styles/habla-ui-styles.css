@@ -514,6 +514,10 @@ p {
   line-height: 1.4em;
 }
 
+.divAsAButton {
+  cursor: pointer;
+}
+
 /* To do: define h1 to h6, p, ul, li, etc font sizes */
 
 p {
