@@ -8,8 +8,8 @@
   "alertTitleDatabaseError": "DB Integrity Error",
   "alertLastPhotoErrorTitle": "Last Photo Error",
 
-  "enterMsgPostPlaceholder": "What do you want to tell the team?",
-  "enterMsgReplyPlaceholder": "Leave a reply...",
+  "enterMsgPostPlaceholder": "What do you want to tell the Team?",
+  "enterMsgReplyPlaceholder": "Leave a Message ...",
   "appSplashSigningIn": "Signing In...",
   "errAppDeepLinkExpiredOrInvalid": "The specified link is either expired or invalid.",
   "errAppDeepLinkInvalid": "The specified link is invalid.",
@@ -27,7 +27,7 @@
   "durationSeparator": ":",
 
   "updateProfileTitle": "Your Profile",
-  "updateProfileExplain": "Your profile is viewable by team members of your Project Team.",
+  "updateProfileExplain": "Your profile is viewable by Team Members of your Project Team.",
   "updateProfileUpdateAccountButtonLabel": "UPDATE ACCOUNT",
   "profileClearPhotoOption": "Change Profile Photo",
   "profilePhotoPlaceholder": "Set Your Profile Photo",
@@ -51,12 +51,12 @@
   "labelUsername": "Display Name",
   "labelUsernamePlaceholder": "",
   "labelPassword": "Password",
-  "chooseNewPassword": "Choose a new password",
+  "chooseNewPassword": "Choose a New Password",
 
   "labelPasswordPlaceholder": "",
   "labelConfirmPassword": "Confirm Password",
   "confirmPasswordPlaceholder": "",
-  "newPasswordPlaceholder": "New password",
+  "newPasswordPlaceholder": "New Password",
   "labelCountry": "Country",
   "labelCountryPlaceholder": "",
   "labelTimeZone": "Time Zone",
@@ -69,8 +69,8 @@
     "other": "SEND {{count}} INVITES",
     "zero": "SEND INVITES"
   },
-  "inviteMembersNoInvitesSelectedButton": "Select Project Team Members to send invites",
-  "inviteMembersSearchPlaceholder": "Search Project Team Members",
+  "inviteMembersNoInvitesSelectedButton": "Select Team Members to send invites",
+  "inviteMembersSearchPlaceholder": "Search Team Members",
   "typingActivityMultipleMemberSeparator": ", ",
   "typingActivityMultipleMemberLastSeparator": " and ",
   "typingActivityTyping": {
@@ -84,45 +84,45 @@
   "logOutConfirmationButton": "Yes, log out",
   "organization": "Organization",
   "organizations": "Organizations",
-  "teams": "Teams",
+  "teams": "Project Teams",
   "directMessages": "Direct Messages",
   "fullName": "{{firstName}} {{lastName}}",
   "memberPopupName": "Name: {{firstName}} {{lastName}}",
   "memberPopupUsername": "Display Name: {{displayName}}",
   "awaitingVerificationHeader": "Hi! \nWe just sent a \nverification email to:",
-  "awaitingVerificationChangeEmailLink": "CHANGE EMAIL ADDRESS",
-  "awaitingVerificationResendLink": "PLEASE RESEND VERIFICATION",
+  "awaitingVerificationChangeEmailLink": "Change Email Address",
+  "awaitingVerificationResendLink": "Please Resend Verification",
   "awaitingVerificationExplanation": "It might take a few seconds to arrive. If you still don't see it after a few minutes, please check your spam folder.",
   "createTeamTitle": "Create Project Team",
   "createTeamExplain": "Enter the details for your Project Team.",
-  "createTeamButtonLabel": "CREATE PROJECT TEAM",
+  "createTeamButtonLabel": "Create Project Team",
   "errTeamNameMissing": "Please enter a Project Team Name.",
   "updateOrgHeaderLabel": "Your Organization",
   "updateOrgNameLabel": "Organization Name",
   "updateOrgWebAddressLabel": "Web Address",
-  "updateOrgButtonLabel": "UPDATE ORGANIZATION",
+  "updateOrgButtonLabel": "Update Organization",
   "setOrgImagePlaceholder": "Set Org Image",
   "clearOrgImageOption": "Remove Organization Image",
   "errOrganizationMissing": "Please enter the Organization name.",
   "errOrganizationWebsite": "Please enter the Organization web address.",
   "errOrgImageReadFile": "An error occurred trying to read the image.",
   "errOrgImageResize": "An error occurred trying to use the image.",
-  "updateTeamSaveButtonLabel": "SAVE PROJECT TEAM CHANGES",
+  "updateTeamSaveButtonLabel": "Save Project Team Changes",
   "editTeamTitle": "Edit Project Team",
   "editTeamExplain": "Modify the details of your Project Team.",
   "errEmailMissing": "Please enter an email address.",
   "errMustAgreeToTermsOfUse": "You must agree to the Terms of Use Agreement and Privacy Policy to continue.",
   "errEmailNotValid": "Please enter a valid email address.",
-  "privacyPolicyModalTitle": "HABLA AI PRIVACY POLICY",
-  "termsOfUseModalTitle": "HABLA AI TERMS OF USE",
+  "privacyPolicyModalTitle": "Habla AI Privacy Policy",
+  "termsOfUseModalTitle": "Habla AI Terms of Use",
   "incompleteProfileHeader": "Hello!\nHola!\n今日は",
   "incompleteProfileExplain": "Welcome to Habla AI. You're well on your way to a more efficient, productive work day. As we work together we'll learn how we can best help you and the rest of the team.",
-  "incompleteProfileContinue": "OK, LET'S GO",
+  "incompleteProfileContinue": "OK, Let's Go",
   "inviteToOrgTitle": "Invite to Join Organization",
   "inviteToOrgExplain": "Enter email addresses for all people to invite.",
   "errInviteToOrgInvalidEmail": "Please enter a valid email address.",
   "joinScreenTitle": "You're almost done!",
-  "joinScreenButtonLabel": "CREATE ACCOUNT",
+  "joinScreenButtonLabel": "Create Account",
   "loginTitle": "Login",
   "errLoginPasswordInvalid": "The login credentials are not valid. Please try again.",
   "attachLastPhotoTakenOption": "Use Last Photo Taken",
@@ -130,38 +130,38 @@
   "alertFileAlreadyAttachedTitle": "Attachment Used",
   "alertFileAlreadyAttachedMessage": "The selected file is already attached.",
   "errNoOrgsForUser": "There are no subscribed organizations for this user.",
-  "errNoTeamsForUser": "There are no teams found for this user for the {{orgName}} organization.",
-  "errNoTeamsForUserStatus500": "There are no teams found for this user for the {{orgName}} organization. (Status 500)",
-  "errNoTeamMembers": "No Project Team Members found for the {teamName} Project Team.",
+  "errNoTeamsForUser": "There are no Project Teams found for this user for the {{orgName}} Organization.",
+  "errNoTeamsForUserStatus500": "There are no Project Teams found for this user for the {{orgName}} Organization. (Status 500)",
+  "errNoTeamMembers": "No Team Members found for the {teamName} Project Team.",
   "toastExpandedAllMessages": "Expanded All Messages",
   "toastCollapsedAllMessages": "Collapsed All Messages",
   "searchPlaceholder": "Search",
-  "inviteTeamMembersTitle": "Invite Project Team Members",
+  "inviteTeamMembersTitle": "Invite Team Members",
   "inviteTeamMembersExplain": "{{teamName}} Project Team",
   "manageMembersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
-  "manageMembersSaveChangesButtonLabel": "SAVE CHANGES",
+  "manageMembersSaveChangesButtonLabel": "Save Changes",
   "timeActivityGraphTitle": "CKG Time / Activity",
-  "graphDateRangeButtonLabel": " Select Date Range  ",
+  "graphDateRangeButtonLabel": " Select Date Range",
   "cardViewTitle": "Card View",
   "listViewTitle": "Details View",
   "roles": {
     "admin": "Admin"
   },
   "OrganizationPage": {
-    "title": "Manage Organization",
+    "title": "Organization Summary",
     "editSection": "Edit Organization",
     "newButtonLabel": "New",
     "boxIntegrationLabel": "Box",
     "addNewTeam": "Add New Project Team",
-    "addNewMember": "Add New Project Team Member",
-    "addNewIntegration": "Add New Integration",
-    "integrationsHeader": "Data Integrations ({{count}})",
-    "membersHeader": "Organization Members ({{count}})",
-    "teamsHeader": "Teams ({{count}})",
+    "addNewMember": "Add New Organization Team Member",
+    "addNewIntegration": "Add New Organization Data Integration",
+    "integrationsHeader": "Organization Data Integrations ({{count}})",
+    "membersHeader": "Organization Team Members ({{count}})",
+    "teamsHeader": "Organization Project Teams ({{count}})",
     "integrationsCount": {
-      "one": "1 Data Integration",
-      "other": "{{count}} Data Integrations",
-      "zero": "No Data Integrations"
+      "one": "1 Organization Data Integration",
+      "other": "{{count}} Organization Data Integrations",
+      "zero": "No Organization Data Integrations"
     },
     "invitationSent": {
       "one": "Your Invitation has been sent.",
@@ -169,26 +169,26 @@
     },
     "occupiedSpace": "{{occupied}}GB of {{remain}}GB",
     "filesShared": "{{count}} Files Shared",
-    "manageTeams": "Manage Teams",
-    "manageTeamMembers": "Manage Project Team Members",
+    "manageTeams": "Manage Project Teams",
+    "manageTeamMembers": "Manage Team Members",
     "manageDataIntegrations": "Manage Data Integrations",
     "subscriptionSettings": "Subscription Settings",
     "organizationOverview": "Organization Overview"
   },
   "TeamPage": {
     "activeStatus": "Active",
-    "addDataIntegration": "Add a Data Integration",
+    "addDataIntegration": "Add a Data Integration to this Project Team",
     "teamSettings": "Project Team Settings",
-    "manageTeam": "Manage Project Team",
+    "manageTeam": "Project Team Summary",
     "editTeam": "Edit Project Team",
-    "inviteNewMember": "Invite a New Project Team Member",
+    "inviteNewMember": "Invite a New Team Member",
     "teamCreated": "Created on {{date}} by {{teamAdminName}}",
     "integrationsHeader": "Project Team Data Integrations ({{count}})",
-    "addNewIntegration": "Add New Project Team Integration",
+    "addNewIntegration": "Add New Project Team Data Integration",
     "membersHeader": {
-      "one": "1 Project Team Member",
-      "other": "{{count}} Project Team Members",
-      "zero": "No Project Team Members"
+      "one": "1 Team Member",
+      "other": "{{count}} Team Members",
+      "zero": "No Team Members"
     },
     "invitationSent": {
       "one": "Your Invitation has been sent.",
@@ -250,7 +250,7 @@
     "muteTitle": "Mute Notifications",
     "statusTitle": "Status",
     "adminTitle": "Admin",
-    "smartSearchPlaceholder": "Smart Search...",
+    "smartSearchPlaceholder": "Smart Search ™",
     "searchMenuTitle": "Smart Search Filters",
     "searchCaseSensitive": "Case Sensitive",
     "searchExactMatch": "Exact Match",
@@ -294,7 +294,7 @@
     "addOrganization": "Add Organization",
     "badgeTopLimit": "99+",
     "addNewLabel": "Add New",
-    "addNewTeamMember": "Project Team Member",
+    "addNewTeamMember": "Team Member",
     "addNewTeam": "Project Team",
     "sortByLabel": "Sort by",
     "sortByAlphabetical": "Alphabetical Order",
@@ -411,8 +411,7 @@
       "notFoundDescription": "We’re sorry, but something must’ve gone terribly wrong.",
       "configUpdated": "Your {{name}} integration configuration has been updated."
     },
-    "integrations": "Data Integrations",
-    "integrationSettings": "Data Integration Settings",
+    "integrations": "Data Integration Settings",
     "saveButtonLabel": "Save Changes",
     "on": "ON",
     "off": "OFF",
@@ -456,8 +455,7 @@
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
-    },
-    "errorUserhasOtherOrg": "This User is already Member of an Organization"
+    }
   },
   "inviteToTeamPage": {
     "sendInvitationsButtonLabel": {
@@ -467,9 +465,9 @@
     },
     "inviteButtonLabel": "INVITE",
     "reInviteButtonLabel": "RE-INVITE",
-    "instructions": "Invite Project Team Members to Join \"{{name}}\"",
+    "instructions": "Invite Team Members to Join \"{{name}}\"",
     "membersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
-    "breadcrumb": "Invite Project Team Members",
+    "breadcrumb": "Invite Team Members",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
@@ -483,9 +481,9 @@
     "teamAddedToast": "Your Project Team has been created."
   },
   "cardView": {
-    "inviteNewMember": "Invite a New Project Team Member",
+    "inviteNewMember": "Invite a New Team Member",
     "newButtonLabel": "New",
-    "membersHeader": "Project Team Members ({{count}})"
+    "membersHeader": "Team Members ({{count}})"
   },
   "teamRoomPage": {
     "all": "All",
@@ -493,7 +491,7 @@
     "bookmarked": "Bookmarked",
     "active": "active",
     "replyPlaceholder": "Leave a reply...",
-    "addTeamMember": "Add Project Team Room Members",
+    "addTeamMember": "Add Team Members",
     "markAllAsRead": "Mark All as Read",
     "unreadMessagesCount": {
       "one": "1 new message",
@@ -506,12 +504,12 @@
       "bookmarked": "Bookmarked"
     },
     "membersHeader": {
-      "one": "1 Project Team Member",
-      "other": "{{count}} Project Team Members"
+      "one": "1 Team Member",
+      "other": "{{count}} Team Members"
     }
   },
   "teamMemberPage": {
-    "breadcrumb": "Project Team Member",
+    "breadcrumb": "Team Member",
     "profilePictureLabel": "Profile Picture",
     "displayName": "@{{displayName}}",
     "timeZone": "({{timeZone}})",
@@ -544,7 +542,7 @@
   "graphViewsSelector": {
     "label": "Select Knowledge Graph",
     "timeActivity": "Time Activity View",
-    "teamMemberContribution": "Project Team Member Contribution",
+    "teamMemberContribution": "Team Member Contribution",
     "fileLineage": "File Lineage",
     "conceptMap": "Concept Map",
     "dashboard": "Industry Knowledge Graphs",
@@ -575,7 +573,7 @@
       "other": "{{count}} {{label}} files"
     },
     "filterTypeOther": "Other",
-    "AddDataIntegration": "Add a data integration"
+    "AddDataIntegration": "Add a Data Integration"
   },
   "dashboardPage": {
     "plant": "Plant",
@@ -684,8 +682,8 @@
     "addNew": "Add New",
     "teamMembersLength": {
       "noMembers": "No Members",
-      "oneMember": "{{count}} Project Team Member",
-      "manyMembers": "{{count}} Project Team Members"
+      "oneMember": "{{count}} Team Member",
+      "manyMembers": "{{count}} Team Members"
     }
   },
   "OrganizationManageMembers": {
@@ -718,13 +716,13 @@
     "setActive": "Set Active",
     "setInactive": "Set Inactive",
     "addNew": "Add New",
-    "teamMembers": "Project Team Members",
+    "teamMembers": "Team Members",
     "projectTeams": "Project Teams",
     "dataIntegrations": "Data Integrations (Coming Soon...)",
     "filesShared": "{{count}} Files Shared",
     "noMembers": "No Members",
-    "oneMember": "{{count}} Project Team Member",
-    "manyMembers": "{{count}} Project Team Members",
+    "oneMember": "{{count}} Team Member",
+    "manyMembers": "{{count}} Team Members",
     "enableIntegrationMessage": "Only Integration Owner could activate this",
     "manageTeams": "Manage Organization Project Teams",
     "manageTeamMembers": "Add or Manage Organization Team Members",
@@ -732,7 +730,7 @@
     "editOrganization": "Edit Organization",
     "teamsUpdated": "Project Teams status saved",
     "teamMembersUpdated": "Teams Members status saved",
-    "teamMemberUpdated": "ProjectTeam Member status saved"
+    "teamMemberUpdated": "Team Member status saved"
   },
   "subscriptionPlans": {
     "bronze": "Bronze Plan",
