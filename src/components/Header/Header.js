@@ -141,7 +141,7 @@ class Header extends Component {
           <div className="habla-label padding-class-a">{String.t('Header.adminTitle')}</div>
         </Menu.Item>
         <Menu.Item key="accountSettings">
-          <Link to="/app/editUser">
+          <Link to={`/app/editUser/${user.userId}`}>
             <span>
               <i className="fas fa-address-card" /> {String.t('Header.accountSettings')}
             </span>
@@ -222,7 +222,7 @@ class Header extends Component {
               <Dropdown overlay={userMenu} trigger={['click']}>
                 <div className="ant-dropdown-link">
                   <AvatarWrapper size="default" user={user} hideStatusTooltip />
-                  <span className="habla-top-menu-label">{user.firstName}</span>
+                  <span className="habla-top-menu-label">{user.displayName}</span>
                   <Icon type="down" className="userMenu__dropdown-icon" />
                 </div>
               </Dropdown>

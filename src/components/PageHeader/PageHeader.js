@@ -74,7 +74,7 @@ function PageHeader({
   );
 
   return (
-    <div className="PageHeader habla-main-content-header padding-class-a border-bottom-lighter">
+    <div className="PageHeader habla-main-content-header padding-class-a border-bottom-light">
       <div className="habla-main-content-header-title">
         <div className="actionButtonsContainer">
           {backButton !== '' && (

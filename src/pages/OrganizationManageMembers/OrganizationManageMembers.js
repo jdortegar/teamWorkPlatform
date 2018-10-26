@@ -210,7 +210,7 @@ class OrganizationManageMembers extends Component {
       // Table Columns
       const columns = [
         {
-          title: 'NAME',
+          title: String.t('name'),
           dataIndex: 'user',
           key: 'user',
           render: user => {
@@ -219,7 +219,7 @@ class OrganizationManageMembers extends Component {
           }
         },
         {
-          title: 'Email',
+          title: String.t('email'),
           dataIndex: 'email',
           key: 'email',
           render: email => {
@@ -228,7 +228,7 @@ class OrganizationManageMembers extends Component {
           }
         },
         {
-          title: 'Status',
+          title: String.t('status'),
           dataIndex: 'status',
           key: 'status',
           width: 128,
@@ -254,7 +254,7 @@ class OrganizationManageMembers extends Component {
           }
         },
         {
-          title: 'Edit',
+          title: String.t('edit'),
           key: 'editUser',
           dataIndex: 'editUser',
           render: editUserId => {
@@ -265,12 +265,12 @@ class OrganizationManageMembers extends Component {
                 title={
                   <div>
                     <span onClick={() => this.props.history.push(`/app/editUser/${editUserId}`)}>
-                      <i className="fas fa-pencil-alt fa-lg" />
+                      <i className="fas fa-pencil-alt fa-lg tagAsAButton" />
                     </span>
                   </div>
                 }
               >
-                <span className="p-1">
+                <span className="px-1">
                   <i className="fas fa-ellipsis-h fa-lg" />
                 </span>
               </Tooltip>
@@ -279,10 +279,8 @@ class OrganizationManageMembers extends Component {
         },
         {
           title: (
-            <div className="tableTitle divAsAButton" onClick={() => this.handleToggleAllOrgItem()}>
-              {this.state.selectedAll
-                ? String.t('OrganizationManage.tableDeselectAll')
-                : String.t('OrganizationManage.tableSelectAll')}
+            <div className="tableTitle tagAsAButton" onClick={() => this.handleToggleAllOrgItem()}>
+              {this.state.selectedAll ? String.t('deselectAll') : String.t('selectAll')}
             </div>
           ),
           key: 'teamMemberSelection',
@@ -320,7 +318,7 @@ class OrganizationManageMembers extends Component {
             badgeOptions={{
               enabled: true,
               count: this.state.usersActive.length,
-              style: { backgroundColor: '#52c41a' }
+              style: { backgroundColor: '#32a953' }
             }}
           />
           <SimpleCardContainer className="subpage-block habla-color-lighertblue padding-class-a">
@@ -338,12 +336,12 @@ class OrganizationManageMembers extends Component {
                     value={this.state.selectValue}
                     onChange={this.handleFormChange}
                   >
-                    <Option value="activate">Activate</Option>
-                    <Option value="deactivate">Deactivate</Option>
+                    <Option value="activate">{String.t('activate')}</Option>
+                    <Option value="deactivate">{String.t('deactivate')}</Option>
                   </Select>
 
                   <Button type="primary" size="small" className="action__form_button" htmlType="submit">
-                    Apply
+                    {String.t('apply')}
                   </Button>
                 </Form>
               </div>

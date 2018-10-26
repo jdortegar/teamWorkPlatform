@@ -158,7 +158,7 @@ function CardView(props) {
           key="2"
         >
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
-            {isOrgAdmin && renderAddCard(String.t('OrganizationPage.addNewTeam'), `/app/createTeam/${props.orgId}`)}
+            {renderAddCard(String.t('OrganizationPage.addNewTeam'), `/app/createTeam/${props.orgId}`)}
             {renderTeams(isOrgAdmin)}
           </SimpleCardContainer>
         </Panel>

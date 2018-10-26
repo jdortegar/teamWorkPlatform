@@ -430,7 +430,7 @@ HABLA CSS GENERAL STYLES
   background: #6f86bc;
 }
 .habla-color-lighertblue {
-  background: #a8bada;
+  background: #eff2f8;
 }
 .habla-color-red {
   background: #eb4435;
@@ -514,7 +514,7 @@ p {
   line-height: 1.4em;
 }
 
-.divAsAButton {
+.tagAsAButton {
   cursor: pointer;
 }
 

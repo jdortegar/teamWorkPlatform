@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import _ from 'lodash';
 
 import classNames from 'classnames';
@@ -39,16 +40,17 @@ class OrganizationManageTeams extends Component {
   constructor(props) {
     super(props);
 
-    const { orgData } = this.props;
+    const { teams } = this.props;
 
     // New const for filter teams on search
-    const teamsActive = orgData.teams || [];
+    const teamsActive = teams || [];
     this.teamsActive = teamsActive;
     this.state = {
       teamsActive,
       orgDataLoaded: false,
       selectedTeams: [],
-      selectValue: 'activate'
+      selectValue: 'activate',
+      selectedAll: false
     };
 
     // Bind this to functions
@@ -63,18 +65,35 @@ class OrganizationManageTeams extends Component {
       .then(() => this.setState({ orgDataLoaded: true }));
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!_.isEqual(this.props.teams, nextProps.teams)) this.setState({ teamsActive: nextProps.teams });
+  }
+
   // Handle Team Selector
   onToggleSelection(teamId) {
-    const { selectedTeams } = this.state;
-    this.setState({ selectedTeams: _.xor(selectedTeams, [teamId]) });
+    const { orgData } = this.props;
+    let { selectedTeams } = this.state;
+    selectedTeams = _.xor(selectedTeams, [teamId]);
+
+    const allTeams = orgData.teams.map(team => team.teamId);
+
+    const selectedAll = selectedTeams.length === allTeams.length;
+    this.setState({
+      selectedTeams,
+      selectedAll
+    });
   }
 
   // Select all teams
   handleToggleAllOrgItem = () => {
     const { orgData } = this.props;
 
+    const allTeams = orgData.teams.map(team => team.teamId);
+    const selectedAll = this.state.selectedTeams.length === allTeams.length;
+
     this.setState({
-      selectedTeams: orgData.teams.map(team => team.teamId)
+      selectedAll: !selectedAll,
+      selectedTeams: selectedAll ? [] : allTeams
     });
   };
 
@@ -134,7 +153,7 @@ class OrganizationManageTeams extends Component {
 
   // Get team array
   renderTeams(teamsActive) {
-    const { teams } = this.props;
+    const { orgData } = this.props;
     // const subscriberOrgId = this.props.currentSubscriberOrgId;
     // If no teams, no render
     if (!teamsActive || teamsActive.length === 0) {
@@ -146,17 +165,18 @@ class OrganizationManageTeams extends Component {
     teamsByOrgId = teamsByOrgId.length === 0 && teamsByOrgId[0] === undefined ? [] : primaryAtTop(teamsByOrgId);
     // Array to save teams, 0 element is for add team button
     const teamArray = teamsByOrgId.map((team, index) => {
-      const teamData = teams.find(teamEl => teamEl.teamId === team.teamId) || team;
+      const teamData = orgData.teams.find(teamEl => teamEl.teamId === team.teamId) || team;
       // const teamAdminData = team.teamMembers.find(member => member.role === 'admin');
       // const teamAdminName = teamAdminData && teamAdminData.userId ? users[teamAdminData.userId].fullName : '';
       return {
         key: index,
-        team: teamData,
-        teamMembersLength: team.teamMembers.length,
+        team,
+        teamMembersLength: teamData.teamMembers ? teamData.teamMembers.length : 1,
+        creationDate: moment(team.created).format('LL'),
         status: {
-          active: teamData.active,
+          active: team.active,
           display: true,
-          teamId: teamData.teamId
+          teamId: team.teamId
         },
         teamSelection: {
           teamId: team.teamId,
@@ -213,7 +233,7 @@ class OrganizationManageTeams extends Component {
       // Table Columns
       const columns = [
         {
-          title: 'NAME',
+          title: String.t('name'),
           dataIndex: 'team',
           key: 'team',
           render: team => {
@@ -222,7 +242,7 @@ class OrganizationManageTeams extends Component {
           }
         },
         {
-          title: 'TEAM MEMBERS',
+          title: String.t('teamMembers'),
           dataIndex: 'teamMembersLength',
           key: 'teamMembersLength',
           render: teamMembersLength => {
@@ -231,9 +251,19 @@ class OrganizationManageTeams extends Component {
           }
         },
         {
-          title: 'Status',
+          title: String.t('creationDate'),
+          dataIndex: 'creationDate',
+          key: 'creationDate',
+          render: creationDate => {
+            if (!creationDate) return false;
+            return <span className="habla-table-label">{creationDate}</span>;
+          }
+        },
+        {
+          title: String.t('status'),
           dataIndex: 'status',
           key: 'status',
+          width: 128,
           render: status => {
             if (!status.display) return false;
             return (
@@ -256,7 +286,7 @@ class OrganizationManageTeams extends Component {
           }
         },
         {
-          title: 'Edit',
+          title: String.t('edit'),
           key: 'editTeam',
           dataIndex: 'team',
           render: team => {
@@ -267,12 +297,12 @@ class OrganizationManageTeams extends Component {
                 title={
                   <div>
                     <span onClick={() => this.props.history.push(`/app/editTeam/${team.teamId}`)}>
-                      <i className="fas fa-pencil-alt fa-lg" />
+                      <i className="fas fa-pencil-alt fa-lg tagAsAButton" />
                     </span>
                   </div>
                 }
               >
-                <span className="p-1">
+                <span className="px-1">
                   <i className="fas fa-ellipsis-h fa-lg" />
                 </span>
               </Tooltip>
@@ -281,12 +311,13 @@ class OrganizationManageTeams extends Component {
         },
         {
           title: (
-            <div className="tableTitle" onClick={() => this.handleToggleAllOrgItem()}>
-              {String.t('OrganizationManage.tableSelectAll')}
+            <div className="tableTitle tagAsAButton" onClick={() => this.handleToggleAllOrgItem()}>
+              {this.state.selectedAll ? String.t('deselectAll') : String.t('selectAll')}
             </div>
           ),
           key: 'teamSelection',
           dataIndex: 'teamSelection',
+          width: 189,
           render: teamSelection => {
             if (!teamSelection.teamId) return false;
             return (
@@ -319,7 +350,7 @@ class OrganizationManageTeams extends Component {
             badgeOptions={{
               enabled: true,
               count: this.state.teamsActive.length,
-              style: { backgroundColor: '#52c41a' }
+              style: { backgroundColor: '#32a953' }
             }}
           />
           <SimpleCardContainer className="subpage-block habla-color-lighertblue padding-class-a">
@@ -337,12 +368,12 @@ class OrganizationManageTeams extends Component {
                     value={this.state.selectValue}
                     onChange={this.handleFormChange}
                   >
-                    <Option value="activate">Activate</Option>
-                    <Option value="deactivate">Deactivate</Option>
+                    <Option value="activate">{String.t('activate')}</Option>
+                    <Option value="deactivate">{String.t('deactivate')}</Option>
                   </Select>
 
                   <Button type="primary" size="small" className="action__form_button" htmlType="submit">
-                    Apply
+                    {String.t('apply')}
                   </Button>
                 </Form>
               </div>
