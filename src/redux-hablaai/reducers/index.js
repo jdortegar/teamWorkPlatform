@@ -1,39 +1,41 @@
-import urlRequestsReducer from './urlRequestsReducer';
-import usersReducer from './usersReducer';
+import conversationsReducer from './conversationsReducer';
+import dashboardReducer from './dashboardReducer';
+import filesReducer from './filesReducer';
+import integrationsReducer from './integrationsReducer';
+import invitationsReducer from './invitationsReducer';
 import presencesReducer from './presencesReducer';
+import readMessagesReducer from './readMessagesReducer';
+import searchReducer from './searchReducer';
+import sentInvitationsReducer from './sentInvitationsReducer';
+import sharingSettingsReducer from './sharingSettingsReducer';
 import subscriberOrgsReducer from './subscriberOrgsReducer';
 import subscribersReducer from './subscribersReducer';
 import surveysReducer from './surveysReducer';
-import teamsReducer from './teamsReducer';
 import teamMembersReducer from './teamMembersReducer';
-import invitationsReducer from './invitationsReducer';
-import sentInvitationsReducer from './sentInvitationsReducer';
-import conversationsReducer from './conversationsReducer';
-import readMessagesReducer from './readMessagesReducer';
-import searchReducer from './searchReducer';
+import teamsReducer from './teamsReducer';
 import typingsReducer from './typingsReducer';
-import filesReducer from './filesReducer';
-import integrationsReducer from './integrationsReducer';
-import dashboardReducer from './dashboardReducer';
+import urlRequestsReducer from './urlRequestsReducer';
+import usersReducer from './usersReducer';
 
 const reducers = {
-  urlRequests: urlRequestsReducer,
-  users: usersReducer,
-  presences: presencesReducer,
-  subscriberOrgs: subscriberOrgsReducer,
-  subscribers: subscribersReducer,
-  teams: teamsReducer,
-  teamMembers: teamMembersReducer,
-  invitations: invitationsReducer,
-  sentInvitations: sentInvitationsReducer,
   conversations: conversationsReducer,
-  readMessages: readMessagesReducer,
-  surveys: surveysReducer,
-  search: searchReducer,
-  typings: typingsReducer,
+  dashboard: dashboardReducer,
   files: filesReducer,
   integrations: integrationsReducer,
-  dashboard: dashboardReducer
+  invitations: invitationsReducer,
+  presences: presencesReducer,
+  readMessages: readMessagesReducer,
+  search: searchReducer,
+  sentInvitations: sentInvitationsReducer,
+  sharingSettings: sharingSettingsReducer,
+  subscriberOrgs: subscriberOrgsReducer,
+  subscribers: subscribersReducer,
+  surveys: surveysReducer,
+  teamMembers: teamMembersReducer,
+  teams: teamsReducer,
+  typings: typingsReducer,
+  urlRequests: urlRequestsReducer,
+  users: usersReducer
 };
 
 export default reducers;

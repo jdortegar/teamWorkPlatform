@@ -6,7 +6,8 @@ import {
   getOrgIntegrationContent,
   isContentFetching,
   getCurrentSubscriberOrgName,
-  getSharingSettings,
+  getSharingSettingsData,
+  getSharingSettingsUi,
   getCurrentSubscriberUserId,
   getCurrentSubscriberOrgId
 } from 'src/selectors';
@@ -25,7 +26,8 @@ const mapStateToProps = (state, props) => {
   const { source, status } = props.match.params;
   const subscriberUserId = getCurrentSubscriberUserId(state);
   const orgId = getCurrentSubscriberOrgId(state);
-  const { folders, files, submitting, saved } = getSharingSettings(state, { subscriberUserId, source });
+  const { folders, files } = getSharingSettingsData(state, { subscriberUserId, source });
+  const { submitting, saved } = getSharingSettingsUi(state, { subscriberUserId, source });
 
   return {
     integration: getOrgIntegration(state, { source, orgId }),

@@ -76,11 +76,3 @@ export const getOrgIntegrationContent = createSelector(
 );
 export const isContentFetching = createSelector([getIntegrationContent], content => content.isFetching);
 export const getContentError = createSelector([getIntegrationContent], content => content.error);
-
-export const getSharingSettings = createSelector(
-  [state => state.integrations.sharingSettings, (state, props) => props],
-  (sharingSettings, { source, subscriberUserId }) => {
-    const settings = sharingSettings[subscriberUserId];
-    return settings && settings[source] ? settings[source] : {};
-  }
-);
