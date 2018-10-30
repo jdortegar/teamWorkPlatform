@@ -8,19 +8,24 @@ import String from 'src/translations';
 import { formShape } from 'src/propTypes';
 import { getAwsHeaders } from 'src/actions';
 import { paths, extractQueryParams } from 'src/routes';
-import { Button, EmailField } from 'src/components';
+import { Button, Spinner } from 'src/components';
 
 const FormItem = Form.Item;
 
 const propTypes = {
   form: formShape.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      email: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired
 };
 
-const layout = {
-  labelCol: { xs: 24 },
-  wrapperCol: { xs: 24 }
-};
+// const layout = {
+//   labelCol: { xs: 24 },
+//   wrapperCol: { xs: 24 }
+// };
 
 const validateCheckbox = (rule, value, callback) => {
   if (!value) {
@@ -47,6 +52,13 @@ class Register extends React.Component {
     this.onCancel = this.onCancel.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onResend = this.onResend.bind(this);
+  }
+
+  componentWillMount() {
+    const { match } = this.props;
+
+    const userEmail = match.params.email;
+    if (userEmail) this.doSubmit(userEmail);
   }
 
   onCancel() {
@@ -159,41 +171,42 @@ class Register extends React.Component {
       return this.renderRegistered();
     }
 
-    return (
-      <div className="register-body">
-        <Form onSubmit={this.handleSubmit} layout="vertical" className="register-form">
-          <div className="register-title-div align-center-class padding-class-b">
-            <span className="habla-big-title habla-bold-text">
-              {String.t('register.titleBold')}
-              <span className="habla-big-title">{String.t('register.titleDetails')}</span>
-            </span>
-          </div>
-          <div className="habla-color-lightergrey padding-class-b">
-            <div className="habla-full-content float-center-class">
-              <EmailField
-                form={this.props.form}
-                layout={layout}
-                placeholder={String.t('register.emailPlaceholder')}
-                noLabel
-                required
-                componentKey="email"
-                initialValue={sessionStorage.getItem('habla-user-email')}
-                autoFocus
-              />
-              {this.renderPreRegisteredButtons()}
-            </div>
-          </div>
-          <div className="align-center-class margin-top-class-a">
-            <Button type="secondary" fitText onClick={this.onCancel} className="margin-right-class-a">
-              {String.t('cancelButton')}
-            </Button>
-            <Button type="main" fitText htmlType="submit" loading={this.state.submitting}>
-              {String.t('register.registerButtonLabel')}
-            </Button>
-          </div>
-        </Form>
-      </div>
-    );
+    return <Spinner />;
+    // return (
+    //   <div className="register-body">
+    //     <Form onSubmit={this.handleSubmit} layout="vertical" className="register-form">
+    //       <div className="register-title-div align-center-class padding-class-b">
+    //         <span className="habla-big-title habla-bold-text">
+    //           {String.t('register.titleBold')}
+    //           <span className="habla-big-title">{String.t('register.titleDetails')}</span>
+    //         </span>
+    //       </div>
+    //       <div className="habla-color-lightergrey padding-class-b">
+    //         <div className="habla-full-content float-center-class">
+    //           <EmailField
+    //             form={this.props.form}
+    //             layout={layout}
+    //             placeholder={String.t('register.emailPlaceholder')}
+    //             noLabel
+    //             required
+    //             componentKey="email"
+    //             initialValue={sessionStorage.getItem('habla-user-email')}
+    //             autoFocus
+    //           />
+    //           {this.renderPreRegisteredButtons()}
+    //         </div>
+    //       </div>
+    //       <div className="align-center-class margin-top-class-a">
+    //         <Button type="secondary" fitText onClick={this.onCancel} className="margin-right-class-a">
+    //           {String.t('cancelButton')}
+    //         </Button>
+    //         <Button type="main" fitText htmlType="submit" loading={this.state.submitting}>
+    //           {String.t('register.registerButtonLabel')}
+    //         </Button>
+    //       </div>
+    //     </Form>
+    //   </div>
+    // );
   }
 }
 
