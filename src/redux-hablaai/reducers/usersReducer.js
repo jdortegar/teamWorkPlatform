@@ -20,6 +20,7 @@ function receiverUsers(state, payload) {
 
   const userByUserId = _.cloneDeep(state.userByUserId);
   users.forEach(userIter => {
+    if (!userIter || !userIter.userId) return;
     let user = _.clone(userIter);
     delete user.presence; // Presence is maintained in a separate state.
     const { role, subscriberUserId, teamMemberId } = user;
@@ -103,6 +104,7 @@ const usersReducer = (state = INITIAL_STATE, action) => {
       } else if (teamMember) {
         userId = teamMember.userId; // eslint-disable-line prefer-destructuring
       }
+      if (!userId) return state;
       let user = userByUserId[userId];
       if (!user) {
         user = subscriber || teamMember;

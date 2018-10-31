@@ -19,7 +19,7 @@ const mapStateToProps = (state, props) => {
   return {
     team,
     user: getCurrentUser(state),
-    teamAdminName: getUserFullName(state, team.teamAdmin),
+    teamAdminName: getUserFullName(state, team && team.teamAdmin),
     integrations: getTeamIntegrations(state, teamId),
     teamMembers: getTeamMembersOfTeamId(state, teamId),
     presences: getPresencesOfTeamMembersOfTeamId(state, teamId),

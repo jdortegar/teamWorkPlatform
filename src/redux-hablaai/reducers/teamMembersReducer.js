@@ -14,6 +14,7 @@ const teamMembersReducer = (state = INITIAL_STATE, action) => {
 
       const { teamId } = action.payload;
       action.payload.teamMembers.forEach(teamMember => {
+        if (!teamMember || !teamMember.userId) return;
         let teams = teamMemberIdByTeamIdByUserId[teamMember.userId];
         if (!teams) {
           teams = {};
@@ -38,6 +39,7 @@ const teamMembersReducer = (state = INITIAL_STATE, action) => {
       const teamMemberIdByTeamIdByUserId = _.cloneDeep(state.teamMemberIdByTeamIdByUserId);
       const userIdsByTeamId = _.cloneDeep(state.userIdsByTeamId);
       const { teamMember, teamId } = action.payload;
+      if (!teamMember || !teamMember.userId) return state;
 
       let teams = teamMemberIdByTeamIdByUserId[teamMember.userId];
       if (!teams) {
