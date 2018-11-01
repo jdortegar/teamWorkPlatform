@@ -126,6 +126,13 @@ const content = (state = { isFetching: false, error: null }, action) => {
         error: action.payload.error
       };
     }
+    case INTEGRATIONS_REVOKE_SUCCESS: {
+      if (action.error) return state;
+      return {
+        isFetching: false,
+        error: null
+      };
+    }
     default:
       return state;
   }

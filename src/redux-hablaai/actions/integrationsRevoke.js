@@ -1,5 +1,5 @@
 import { buildApiUrl } from 'src/lib/api';
-import { getCurrentSubscriberOrgId } from 'src/selectors';
+import { getCurrentSubscriberOrgId, getCurrentSubscriberUserId } from 'src/selectors';
 import { doAuthenticatedRequest } from './urlRequest';
 import { INTEGRATION_ERROR, INTEGRATION_ERROR_NOT_FOUND } from './integrations';
 
@@ -11,9 +11,9 @@ const teamRevokeSuccess = ({ source, teamId, userId, response }) => ({
   payload: { source, teamId, userId, status: response.status, data: response.data }
 });
 
-const orgRevokeSuccess = ({ source, orgId, response }) => ({
+const orgRevokeSuccess = ({ source, orgId, subscriberUserId, response }) => ({
   type: INTEGRATIONS_REVOKE_SUCCESS,
-  payload: { source, orgId, status: response.status, data: response.data }
+  payload: { source, orgId, subscriberUserId, status: response.status, data: response.data }
 });
 
 const revokeSuccess = teamLevel => (teamLevel ? teamRevokeSuccess : orgRevokeSuccess);
@@ -70,10 +70,12 @@ const revoke = (requestUrl, params = { teamLevel: false }) => dispatch => {
 };
 
 export const revokeOrgIntegration = source => (dispatch, getState) => {
-  const orgId = getCurrentSubscriberOrgId(getState());
+  const state = getState();
+  const orgId = getCurrentSubscriberOrgId(state);
+  const subscriberUserId = getCurrentSubscriberUserId(state);
   const requestUrl = buildApiUrl(`integrations/${source}/revoke/${orgId}`);
 
-  return revoke(requestUrl, { source, orgId })(dispatch);
+  return revoke(requestUrl, { source, orgId, subscriberUserId })(dispatch);
 };
 
 export const revokeTeamIntegration = (source, teamId, userId) => dispatch => {

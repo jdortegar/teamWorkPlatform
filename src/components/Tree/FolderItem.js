@@ -7,7 +7,7 @@ import String from 'src/translations';
 
 const { Panel } = Collapse;
 
-const FolderItem = ({ folder, isSelected, onToggleSelection, children }) => (
+const FolderItem = ({ folder, isSelected, onToggleSelection, disabled, children }) => (
   <div key={folder.folder_id}>
     <Collapse>
       <Panel
@@ -28,6 +28,7 @@ const FolderItem = ({ folder, isSelected, onToggleSelection, children }) => (
                 event.stopPropagation();
                 onToggleSelection(folder.folder_id, isSelected);
               }}
+              disabled={disabled}
             >
               <Icon
                 type="check-circle"
@@ -48,11 +49,13 @@ FolderItem.propTypes = {
   folder: PropTypes.object.isRequired,
   onToggleSelection: PropTypes.func.isRequired,
   isSelected: PropTypes.bool,
+  disabled: PropTypes.bool,
   children: PropTypes.node
 };
 
 FolderItem.defaultProps = {
   isSelected: false,
+  disabled: false,
   children: null
 };
 

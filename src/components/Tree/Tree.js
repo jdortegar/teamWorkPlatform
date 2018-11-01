@@ -12,25 +12,28 @@ const propTypes = {
   selectedFolders: PropTypes.array,
   selectedFiles: PropTypes.array,
   onToggleFolderSelection: PropTypes.func.isRequired,
-  onToggleFileSelection: PropTypes.func.isRequired
+  onToggleFileSelection: PropTypes.func.isRequired,
+  disabled: PropTypes.bool
 };
 
 const defaultProps = {
   folders: [],
   files: [],
   selectedFolders: [],
-  selectedFiles: []
+  selectedFiles: [],
+  disabled: false
 };
 
 class Tree extends Component {
   renderFolders = folders => {
-    const { selectedFolders } = this.props;
+    const { selectedFolders, disabled } = this.props;
     return folders.map(folder => (
       <FolderItem
         key={folder.folder_id}
         folder={folder}
         isSelected={includes(selectedFolders, folder.folder_id)}
         onToggleSelection={this.props.onToggleFolderSelection}
+        disabled={disabled}
       >
         {this.renderTree(folder.folders, folder.files)}
       </FolderItem>
@@ -38,13 +41,14 @@ class Tree extends Component {
   };
 
   renderFiles = files => {
-    const { selectedFiles } = this.props;
+    const { selectedFiles, disabled } = this.props;
     return files.map(file => (
       <FileItem
         key={file.file_id}
         file={file}
         isSelected={includes(selectedFiles, file.file_id)}
         onToggleSelection={this.props.onToggleFileSelection}
+        disabled={disabled}
       />
     ));
   };

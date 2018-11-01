@@ -584,6 +584,9 @@ p {
   text-transform: uppercase;
   color: #999999;
 }
+.habla-label.disabled {
+  cursor: not-allowed;
+}
 .habla-label a {
   color: #999999;
 }

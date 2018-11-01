@@ -1,4 +1,5 @@
 import { buildKnowledgeApiUrl } from 'src/lib/api';
+import { getAllIdsFromTree } from 'src/utils/integrationContent';
 import { getOrgIntegrationContent } from 'src/selectors';
 import { doAuthenticatedRequest } from './urlRequest';
 
@@ -8,15 +9,20 @@ export const SHARING_SETTINGS_SAVE_REQUEST = 'sharingSettings/save/request';
 export const SHARING_SETTINGS_SAVE_SUCCESS = 'sharingSettings/save/success';
 export const SHARING_SETTINGS_SAVE_FAILURE = 'sharingSettings/save/failure';
 
-export const toggleSharingSettings = (subscriberUserId, source, { folderId, fileId }) => ({
+export const toggleSharingSettings = (subscriberUserId, source, { folders, files }) => ({
   type: SHARING_SETTINGS_TOGGLE,
-  payload: { subscriberUserId, source, folderId, fileId }
+  payload: { subscriberUserId, source, folders, files }
 });
 
-export const toggleAllSharingSettings = (subscriberUserId, source) => ({
-  type: SHARING_SETTINGS_TOGGLE_ALL,
-  payload: { subscriberUserId, source }
-});
+export const toggleAllSharingSettings = (subscriberUserId, source, { selectAll }) => (dispatch, getState) => {
+  const content = selectAll ? getOrgIntegrationContent(getState(), { subscriberUserId, source }) : {};
+  const { folders, files } = getAllIdsFromTree(content);
+
+  return dispatch({
+    type: SHARING_SETTINGS_TOGGLE_ALL,
+    payload: { subscriberUserId, source, folders, files }
+  });
+};
 
 export const saveSharingSettings = (source, subscriberUserId, { folders, files }) => {
   const requestUrl = buildKnowledgeApiUrl(`service/${source}/${subscriberUserId}/ingest`);
@@ -28,11 +34,11 @@ export const saveSharingSettings = (source, subscriberUserId, { folders, files }
       payload: { source, subscriberUserId }
     });
 
-    const integrationContent = getOrgIntegrationContent(getState(), { source, subscriberUserId });
+    const { orgId, hablaUserId } = getOrgIntegrationContent(getState(), { subscriberUserId, source });
     const data = {
-      subscriber_org_id: integrationContent.subscriber_org_id,
+      subscriber_org_id: orgId,
       subscriber_user_id: subscriberUserId,
-      habla_user_id: integrationContent.habla_user_id,
+      habla_user_id: hablaUserId,
       subscriber_team_id: null,
       source,
       folders,

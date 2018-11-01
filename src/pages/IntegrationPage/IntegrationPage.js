@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Checkbox, Switch, Tooltip, message } from 'antd';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 
 import String from 'src/translations';
 import {
@@ -130,14 +131,14 @@ class IntegrationPage extends Component {
     this.props.saveSharingSettings(source, subscriberUserId, { folders: selectedFolders, files: selectedFiles });
   };
 
-  handleToggleSharingSettings = ({ folderId, fileId }) => {
+  handleToggleSharingSettings = ({ folders, files }) => {
     const { subscriberUserId, source } = this.props;
-    this.props.toggleSharingSettings(subscriberUserId, source, { folderId, fileId });
+    this.props.toggleSharingSettings(subscriberUserId, source, { folders, files });
   };
 
-  handleToggleAllSharingSettings = () => {
+  handleToggleAllSharingSettings = selectAll => {
     const { subscriberUserId, source } = this.props;
-    this.props.toggleAllSharingSettings(subscriberUserId, source);
+    this.props.toggleAllSharingSettings(subscriberUserId, source, { selectAll });
   };
 
   handleIntegration(checked) {
@@ -211,9 +212,20 @@ class IntegrationPage extends Component {
     const statusLabel = getIntegrationStatus(integration);
     const tooltipTitle =
       statusLabel === 'Active' ? String.t('integrationPage.deactivate') : String.t('integrationPage.activate');
+    const shouldDisplaySaveButton = statusLabel === 'Active' && !isFetchingContent && !isEmpty(content);
+    const saveButtonOptions = shouldDisplaySaveButton
+      ? {
+          type: 'main',
+          fitText: true,
+          children: 'Save Settings',
+          onClick: this.saveSharingSettings,
+          loading: isSubmittingSharingSettings,
+          disabled: isSavedSharingSettings || isEmpty(content)
+        }
+      : null;
+
     let disabledSwitch = false;
     let disabledFields = false;
-
     let extraFormFields = null;
     const { configParams, configFolders } = this.state;
     if (configParams) {
@@ -290,14 +302,7 @@ class IntegrationPage extends Component {
               { title: String.t('integrationPage.integrations') }
             ]
           }}
-          buttonOptions={{
-            type: 'main',
-            fitText: true,
-            children: 'Save Settings',
-            onClick: this.saveSharingSettings,
-            loading: isSubmittingSharingSettings,
-            disabled: isSavedSharingSettings || !content
-          }}
+          buttonOptions={saveButtonOptions}
         />
         <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
           <div className="Integration-details__icon-container">
@@ -330,6 +335,7 @@ class IntegrationPage extends Component {
               files={content.files}
               selectedFolders={selectedFolders}
               selectedFiles={selectedFiles}
+              disabled={isSavedSharingSettings || isSubmittingSharingSettings}
             />
           )}
       </div>

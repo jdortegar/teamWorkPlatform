@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { Form, Collapse } from 'antd';
 import { isEmpty } from 'lodash';
 
@@ -16,7 +17,8 @@ const propTypes = {
   folders: PropTypes.array,
   files: PropTypes.array,
   selectedFolders: PropTypes.array,
-  selectedFiles: PropTypes.array
+  selectedFiles: PropTypes.array,
+  disabled: PropTypes.bool
 };
 
 const defaultProps = {
@@ -24,26 +26,28 @@ const defaultProps = {
   folders: [],
   files: [],
   selectedFolders: [],
-  selectedFiles: []
+  selectedFiles: [],
+  disabled: false
 };
 
 class SharingSettings extends Component {
   toggleFolderSelection = folderId => {
-    this.props.onToggleSelect({ folderId });
+    this.props.onToggleSelect({ folders: [folderId] });
   };
 
   toggleFileSelection = fileId => {
-    this.props.onToggleSelect({ fileId });
+    this.props.onToggleSelect({ files: [fileId] });
   };
 
-  toggleSelectAll = event => {
+  toggleSelectAll = (event, selectAll) => {
     event.preventDefault();
-    this.props.onToggleSelectAll();
+    this.props.onToggleSelectAll(selectAll);
   };
 
   render() {
-    const { folders, files, selectedFolders, selectedFiles, integrationType } = this.props;
-    const selectAllText = isEmpty(selectedFolders) && isEmpty(selectedFiles) ? 'selectAll' : 'deselectAll';
+    const { folders, files, selectedFolders, selectedFiles, integrationType, disabled } = this.props;
+    const selectAll = isEmpty(selectedFolders) && isEmpty(selectedFiles);
+    const selectAllText = selectAll ? 'selectAll' : 'deselectAll';
     return (
       <div className="SharingSettings">
         <Collapse bordered defaultActiveKey="1">
@@ -52,8 +56,10 @@ class SharingSettings extends Component {
               <div className="habla-label">
                 {integrationType} {String.t('integrationPage.sharing.foldersAndFiles')}
               </div>
-              <div className="habla-label">
-                <a onClick={this.toggleSelectAll}>{String.t(`integrationPage.sharing.${selectAllText}`)}</a>
+              <div className={classNames('habla-label', { disabled })}>
+                <a onClick={e => this.toggleSelectAll(e, selectAll)} disabled={disabled}>
+                  {String.t(`integrationPage.sharing.${selectAllText}`)}
+                </a>
               </div>
             </div>
             <Tree
@@ -63,6 +69,7 @@ class SharingSettings extends Component {
               selectedFiles={selectedFiles}
               onToggleFolderSelection={this.toggleFolderSelection}
               onToggleFileSelection={this.toggleFileSelection}
+              disabled={disabled}
             />
           </Panel>
         </Collapse>

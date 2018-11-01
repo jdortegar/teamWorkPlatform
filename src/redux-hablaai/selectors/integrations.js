@@ -51,7 +51,7 @@ export const getUserTeamIntegrations = createSelector(
 export const getOrgIntegration = createSelector(
   [getIntegrationsByOrg, (state, props) => props],
   (integrationsByOrg, { source, orgId }) => {
-    const integrations = integrationsByOrg[orgId];
+    const integrations = integrationsByOrg[orgId] || {};
     const integration = integrations[source];
     return integration ? { ...integration, source } : null;
   }
