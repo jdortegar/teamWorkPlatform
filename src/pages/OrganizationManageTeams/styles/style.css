@@ -23,3 +23,15 @@
 .TeamPage__selectIcon {
   margin-left: 25px;
 }
+
+.editOrgPage-main .ant-table-column-sorter {
+  position: relative !important;
+  margin-left: 8px;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+  text-align: center;
+  font-weight: normal;
+  color: rgba(0, 0, 0, 0.45);
+}

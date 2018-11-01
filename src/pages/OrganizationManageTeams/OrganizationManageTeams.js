@@ -236,6 +236,7 @@ class OrganizationManageTeams extends Component {
           title: String.t('name'),
           dataIndex: 'team',
           key: 'team',
+          sorter: (a, b) => a.team.name.localeCompare(b.team.name),
           render: team => {
             if (!team) return false;
             return <AvatarWithLabel item={team} enabled={team.active} />;
@@ -245,6 +246,11 @@ class OrganizationManageTeams extends Component {
           title: String.t('teamMembers'),
           dataIndex: 'teamMembersLength',
           key: 'teamMembersLength',
+          sorter: (a, b) => {
+            const nameA = a.teamMembersLength.toString();
+            const nameB = b.teamMembersLength.toString();
+            return nameA.localeCompare(nameB, { numeric: true });
+          },
           render: teamMembersLength => {
             if (!teamMembersLength) return false;
             return <span className="habla-table-label">{renderTeamMembersLength(teamMembersLength)}</span>;
@@ -254,6 +260,7 @@ class OrganizationManageTeams extends Component {
           title: String.t('creationDate'),
           dataIndex: 'creationDate',
           key: 'creationDate',
+          sorter: (a, b) => new Date(a.creationDate) - new Date(b.creationDate),
           render: creationDate => {
             if (!creationDate) return false;
             return <span className="habla-table-label">{creationDate}</span>;
@@ -264,6 +271,11 @@ class OrganizationManageTeams extends Component {
           dataIndex: 'status',
           key: 'status',
           width: 128,
+          sorter: (a, b) => {
+            const nameA = a.status.active ? 'true' : 'false';
+            const nameB = b.status.active ? 'true' : 'false';
+            return nameA.localeCompare(nameB); // eslint-disable-line consistent-return
+          },
           render: status => {
             if (!status.display) return false;
             return (
@@ -318,6 +330,7 @@ class OrganizationManageTeams extends Component {
           key: 'teamSelection',
           dataIndex: 'teamSelection',
           width: 189,
+
           render: teamSelection => {
             if (!teamSelection.teamId) return false;
             return (

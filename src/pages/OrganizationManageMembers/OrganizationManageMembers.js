@@ -20,7 +20,8 @@ const propTypes = {
     currentSubscriberOrgId: PropTypes.string
   }).isRequired,
   users: PropTypes.object.isRequired,
-  updateUser: PropTypes.func.isRequired
+  updateUser: PropTypes.func.isRequired,
+  usersPresences: PropTypes.object.isRequired
 };
 
 const { Option } = Select;
@@ -125,7 +126,7 @@ class OrganizationManageMembers extends Component {
 
   // Get Users array
   renderUsers(usersActive) {
-    const { match } = this.props;
+    const { match, usersPresences } = this.props;
     const { subscriberOrgId } = match.params;
     // If no users, no render
     if (usersActive.length === 0) {
@@ -139,7 +140,10 @@ class OrganizationManageMembers extends Component {
     // Array to save users, 0 element is for add user button
     const userArray = usersById.map((user, index) => ({
       key: index + 1,
-      user,
+      user: {
+        ...user,
+        online: _.some(_.values(usersPresences[user.userId]), { presenceStatus: 'online' })
+      },
       email: user.email,
       status: {
         active: user.enabled,
@@ -169,7 +173,8 @@ class OrganizationManageMembers extends Component {
         preferences: {
           logo: 'fa fa-plus'
         },
-        editUrl: `/app/inviteNewMember/${subscriberOrgId}`
+        editUrl: `/app/inviteNewMember/${subscriberOrgId}`,
+        addButton: true
       },
       status: {
         enabled: false,
@@ -222,7 +227,7 @@ class OrganizationManageMembers extends Component {
           },
           render: user => {
             if (!user) return false;
-            return <AvatarWithLabel item={user} enabled={user.enabled} />;
+            return <AvatarWithLabel item={user} enabled={user.enabled} hasStatus={!user.addButton} />;
           }
         },
         {

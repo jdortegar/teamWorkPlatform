@@ -4,20 +4,23 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
 import Avatar from 'src/components/common/Avatar';
+import { AvatarWrapper } from 'src/components';
 import getInitials from 'src/utils/helpers';
 
 const propTypes = {
   item: PropTypes.object,
-  enabled: PropTypes.bool
+  enabled: PropTypes.bool,
+  hasStatus: PropTypes.bool
 };
 const defaultProps = {
   item: {
     name: 'Default Label'
   },
-  enabled: false
+  enabled: false,
+  hasStatus: false
 };
 
-const AvatarWithLabel = ({ item, enabled }) => {
+const AvatarWithLabel = ({ item, enabled, hasStatus }) => {
   const { preferences, editUrl } = item;
   if (item.icon) {
     preferences.avatarBase64 = item.icon;
@@ -25,6 +28,16 @@ const AvatarWithLabel = ({ item, enabled }) => {
   const className = classNames({
     'opacity-low': !enabled
   });
+
+  if (hasStatus) {
+    return (
+      <div className="avatar-label-container">
+        <AvatarWrapper size="default" user={item} hideStatusTooltip />
+        <span className="habla-avatar-label">{item.name ? item.name : item.fullName}</span>
+      </div>
+    );
+  }
+
   if (preferences.logo && editUrl) {
     return (
       <div className="avatar-label-container">
