@@ -27,7 +27,8 @@ const defaultCountry = countriesAndTimezones.getCountriesForTimezone(defaultTime
 const propTypes = {
   form: formShape.isRequired,
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired
+    push: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired
   }).isRequired,
   currentUser: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
@@ -89,6 +90,7 @@ class EditUserPage extends Component {
           .updateUser(dataToUpdate)
           .then(() => {
             this.setState({ loading: false });
+            this.props.history.goBack();
             message.success(String.t('editUserPage.userUpdated'));
           })
           .catch(error => {
@@ -177,7 +179,7 @@ class EditUserPage extends Component {
               type="secondary"
               fitText
               className="margin-right-class-a"
-              onClick={() => this.props.history.push('/app')}
+              onClick={() => this.props.history.goBack()}
             >
               {String.t('Buttons.cancel')}
             </Button>

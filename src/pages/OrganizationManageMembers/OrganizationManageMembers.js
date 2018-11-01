@@ -165,13 +165,16 @@ class OrganizationManageMembers extends Component {
             </span>
           </div>
         ),
+        order: 'unorder',
         preferences: {
           logo: 'fa fa-plus'
         },
         editUrl: `/app/inviteNewMember/${subscriberOrgId}`
       },
       status: {
-        enabled: false
+        enabled: false,
+        active: false,
+        order: 'unorder'
       }
     });
 
@@ -213,6 +216,10 @@ class OrganizationManageMembers extends Component {
           title: String.t('name'),
           dataIndex: 'user',
           key: 'user',
+          sorter: (a, b) => {
+            if (a.user.order === 'unorder') return;
+            return a.user.firstName.localeCompare(b.user.firstName); // eslint-disable-line consistent-return
+          },
           render: user => {
             if (!user) return false;
             return <AvatarWithLabel item={user} enabled={user.enabled} />;
@@ -232,6 +239,12 @@ class OrganizationManageMembers extends Component {
           dataIndex: 'status',
           key: 'status',
           width: 128,
+          sorter: (a, b) => {
+            if (a.status.order === 'unorder') return;
+            const nameA = a.status.active ? 'true' : 'false';
+            const nameB = b.status.active ? 'true' : 'false';
+            return nameA.localeCompare(nameB); // eslint-disable-line consistent-return
+          },
           render: status => {
             if (!status.display) return false;
             return (

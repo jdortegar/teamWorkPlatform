@@ -35,7 +35,7 @@
 }
 
 .editOrgPage-main .ant-table-column-sorter {
-  position: relative;
+  position: relative !important;
   margin-left: 8px;
   display: inline-block;
   width: 14px;
