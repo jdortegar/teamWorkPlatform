@@ -6,6 +6,7 @@ export CreateAccount from './CreateAccount';
 export DashboardPage from './DashboardPage';
 export EditOrganizationPage from './EditOrganizationPage';
 export EditTeamPage from './EditTeamPage';
+export EditTeamMemberPage from './EditTeamMemberPage';
 export EditUserPage from './EditUserPage';
 export Header from './Header';
 export HomePage from './HomePage';

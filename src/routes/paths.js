@@ -20,6 +20,7 @@ export const paths = {
   team: '/app/team/:teamId/',
   manageTeam: '/app/team/manage/:teamId/:status?',
   editTeam: '/app/editTeam/:teamId',
+  editTeamMember: '/app/editTeamMember/:userId',
   teamIntegrations: '/app/teamIntegrations/:teamId',
   teamRoom: '/app/teamRoom/:teamRoomId', // WILL BE REMOVED
   teamIntegration: '/app/teamIntegrations/:teamId/:source/:status?',

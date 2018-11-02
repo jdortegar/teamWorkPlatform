@@ -17,6 +17,7 @@ import {
   TeamPageV1,
   NewTeamPage,
   EditTeamPage,
+  EditTeamMemberPage,
   InviteNewMemberPage,
   TeamMemberPage,
   TeamIntegrationsPage,
@@ -180,6 +181,7 @@ class MainContent extends Component {
           <Route exact path={paths.manageTeam} component={TeamManagePage} />
           <Route exact path={paths.newTeam} component={NewTeamPage} />
           <Route exact path={paths.editTeam} component={EditTeamPage} />
+          <Route exact path={paths.editTeamMember} component={EditTeamMemberPage} />
           <Route exact path={paths.editUser} component={EditUserPage} />
           <Route exact path={paths.inviteNewMember} component={InviteNewMemberPage} />
           <Route exact path={paths.inviteToTeam} component={InviteToTeamPage} />

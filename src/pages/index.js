@@ -4,6 +4,7 @@ export CKGPage from './CKGPage';
 export DashboardPage from './DashboardPage';
 export EditOrganizationPage from './EditOrganizationPage';
 export EditTeamPage from './EditTeamPage';
+export EditTeamMemberPage from './EditTeamMemberPage';
 export EditUserPage from './EditUserPage';
 export HomePage from './HomePage';
 export IntegrationPage from './IntegrationPage';

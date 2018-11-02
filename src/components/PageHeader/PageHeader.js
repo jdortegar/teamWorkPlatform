@@ -76,23 +76,25 @@ function PageHeader({
   return (
     <div className="PageHeader habla-main-content-header padding-class-a border-bottom-light">
       <div className="habla-main-content-header-title">
-        <div className="actionButtonsContainer">
-          {backButton !== '' && (
-            <Tooltip placement="top" title={String.t('Buttons.back')}>
-              <Link to={backButton}>
-                <i className="fas fa-arrow-left fa-2x" />
-              </Link>
-            </Tooltip>
-          )}
-          {hasMenu && (
-            <Popover placement="bottomLeft" title={String.t(menuName)} content={buttonMenu} trigger="click">
-              <a>
-                <i className="fas fa-bars fa-2x" />
-                <i className="fas fa-chevron-down" />
-              </a>
-            </Popover>
-          )}
-        </div>
+        {(backButton || hasMenu) && (
+          <div className="actionButtonsContainer">
+            {backButton !== '' && (
+              <Tooltip placement="top" title={String.t('Buttons.back')}>
+                <Link to={backButton}>
+                  <i className="fas fa-arrow-left fa-2x" />
+                </Link>
+              </Tooltip>
+            )}
+            {hasMenu && (
+              <Popover placement="bottomLeft" title={String.t(menuName)} content={buttonMenu} trigger="click">
+                <a>
+                  <i className="fas fa-bars fa-2x" />
+                  <i className="fas fa-chevron-down" />
+                </a>
+              </Popover>
+            )}
+          </div>
+        )}
         <div className="habla-main-content-header-title">
           <h1 className="Subpage-header__title habla-title">
             <BreadCrumb routes={pageBreadCrumb.routes} />

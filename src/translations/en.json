@@ -7,6 +7,7 @@
   "dataIntegrations": "Data Integrations",
   "alertTitleDatabaseError": "DB Integrity Error",
   "alertLastPhotoErrorTitle": "Last Photo Error",
+  "active": "Active",
   "activate": "Activate",
   "deactivate": "Deactivate",
   "selectAll": "Select All",
@@ -221,7 +222,8 @@
     "login": "Log In",
     "back": "Back",
     "changeEmail": "Use another Email",
-    "createAccount": "Create your Habla AI Account"
+    "createAccount": "Create your Habla AI Account",
+    "save": "Save"
   },
   "PreviewCard": {
     "imageAlt": "example"
@@ -747,5 +749,11 @@
     "bronze": "Bronze Plan",
     "silver": "Silver Plan",
     "gold": "Gold Plan"
+  },
+  "editTeamMemberPage": {
+    "title": "Edit Team Member",
+    "teamMemberRole": "Team Member Role",
+    "resetPassword": "Reset Password",
+    "deleteTeamMember": "Delete Team Member"
   }
 }

@@ -282,7 +282,7 @@ class OrganizationManageMembers extends Component {
                 placement="top"
                 title={
                   <div>
-                    <span onClick={() => this.props.history.push(`/app/editUser/${editUserId}`)}>
+                    <span onClick={() => this.props.history.push(`/app/editTeamMember/${editUserId}`)}>
                       <i className="fas fa-pencil-alt fa-lg tagAsAButton" />
                     </span>
                   </div>
