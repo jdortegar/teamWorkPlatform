@@ -230,7 +230,7 @@ class Header extends Component {
           </div>
         </div>
         {this.props.isAdminMode && (
-          <div className="habla-top-menu-item habla-top-menu-item-last">
+          <div className="habla-top-menu-item habla-top-menu-item-admin">
             <div className="habla-top-menu-item-content">
               <Button
                 type="primary"

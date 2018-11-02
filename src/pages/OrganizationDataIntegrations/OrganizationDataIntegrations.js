@@ -172,7 +172,7 @@ class OrganizationDataIntegrations extends Component {
                   </div>
                 }
               >
-                <span className="p-1">
+                <span>
                   <i className="fas fa-ellipsis-h fa-lg" />
                 </span>
               </Tooltip>

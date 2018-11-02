@@ -20,13 +20,14 @@
 }
 .actionButtonsContainer {
   display: inline-flex;
-  border: 1px solid #cccccc;
+  border: 1px solid #ccc;
   border-radius: 4px;
   margin-right: 10px;
   background: #e8e7e7;
 }
 .actionButtonsContainer a {
-  padding: 5px;
+  padding: 6px 8px;
+  font-weight: 900;
 }
 .actionButtonsContainer a {
   border-right: 1px solid #cccccc;
@@ -41,7 +42,8 @@
 .actionButtonsContainer .fa-bars {
   margin-right: 10px !important;
 }
-.actionButtonsContainer svg:hover {
+.actionButtonsContainer svg:hover,
+.actionButtonsContainer:hover {
   color: #666 !important;
 }
 .actionButtonsContainer:hover {
@@ -49,7 +51,7 @@
   background: #e8e8e8;
 }
 .actionButtonsContainer .fa-chevron-down {
-  font-size: 6px;
+  font-size: 7px;
   font-weight: 300;
   margin-left: -1px;
   margin-right: 0;
@@ -108,6 +110,7 @@
 .ant-popover-inner-content a svg,
 .ant-menu-item > a svg {
   color: #8f8f8f;
+  margin-right: 13px;
 }
 .ant-popover-inner-content a,
 .ant-menu-item > a {

@@ -177,7 +177,7 @@ class OrganizationManage extends Component {
               )
             }}
           />
-          <SimpleCardContainer className="subpage-block habla-color-lighertblue padding-class-a">
+          <SimpleCardContainer className="subpage-block subpage-block-actions padding-class-a">
             <div className="header-search-container">
               <div className="action__form">
                 <Form onSubmit={this.handleSubmit}>

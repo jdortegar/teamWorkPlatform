@@ -314,7 +314,7 @@ class OrganizationManageTeams extends Component {
                   </div>
                 }
               >
-                <span className="px-1">
+                <span>
                   <i className="fas fa-ellipsis-h fa-lg" />
                 </span>
               </Tooltip>
@@ -366,7 +366,7 @@ class OrganizationManageTeams extends Component {
               style: { backgroundColor: '#32a953' }
             }}
           />
-          <SimpleCardContainer className="subpage-block habla-color-lighertblue padding-class-a">
+          <SimpleCardContainer className="subpage-block subpage-block-actions padding-class-a">
             <div className="header-search-container">
               <Input
                 prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}

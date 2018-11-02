@@ -105,9 +105,6 @@
   "awaitingVerificationChangeEmailLink": "Change Email Address",
   "awaitingVerificationResendLink": "Please Resend Verification",
   "awaitingVerificationExplanation": "It might take a few seconds to arrive. If you still don't see it after a few minutes, please check your spam folder.",
-  "createTeamTitle": "Create Project Team",
-  "createTeamExplain": "Enter the details for your Project Team.",
-  "createTeamButtonLabel": "Create Project Team",
   "errTeamNameMissing": "Please enter a Project Team Name.",
   "updateOrgHeaderLabel": "Your Organization",
   "updateOrgNameLabel": "Organization Name",
@@ -412,6 +409,7 @@
     "removeImageLabel": "Remove"
   },
   "integrationPage": {
+    "integrationSettings": "Data Integration Settings",
     "status": {
       "active": "Active",
       "expired": "Expired",

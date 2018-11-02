@@ -31,6 +31,10 @@
 .habla-top-menu-item-last {
   padding: 12.5px 0 12.5px 13px !important;
 }
+.habla-top-menu-item-admin {
+	margin-left: 10px;
+	padding-right: 0;
+}
 .habla-top-menu-item-content {
   height: 30px;
 }
@@ -112,7 +116,7 @@ a.habla-top-menu-active {
   outline: none;
 }
 .habla-top-menu-search-input.ant-input-affix-wrapper .ant-input:not(:last-child) {
-  padding-right: 60px;
+  padding-right: 27px;
 }
 .habla-top-menu-search-input::placeholder {
   color: #ddd;

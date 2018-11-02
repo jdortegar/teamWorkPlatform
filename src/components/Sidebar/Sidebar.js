@@ -289,7 +289,7 @@ class Sidebar extends Component {
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconCKGTooltip')} arrowPointAtCenter>
             <Link to={`/app/ckg/${currentSubscriberOrgId}`} className="habla-top-menu-ckg">
-              <i className="fas fa-chart-area fa-2x" />
+              <i className="fas fa-chart-line fa-2x" />
             </Link>
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconNotificationsTooltip')} arrowPointAtCenter>
@@ -309,9 +309,9 @@ class Sidebar extends Component {
           </Tooltip>
         </div>
         <div className="sidebar-teams">
-          <div className="sidebar-block-label">
+          <div className="sidebar-block-label sidebar-block-label-title">
             <span className="habla-label">
-              {String.t('teams')}
+              <span className="sidebar-label-number-text">{String.t('teams')}</span>
               <span className="sidebar-label-number-badge">{this.state.teamsActive.length}</span>
             </span>
           </div>

@@ -4,8 +4,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import _ from 'lodash';
 import Highlighter from 'react-highlight-words';
-import { Icon, Pagination, Tag } from 'antd';
-
+import { Pagination, Tag } from 'antd';
 import String from 'src/translations';
 import formatSize from 'src/lib/formatSize';
 import imageSrcFromFileExtension from 'src/lib/imageFiles';
@@ -199,7 +198,7 @@ class SearchPage extends Component {
               <div className="CKGPage__arrows-container arrow-left">
                 <div className="CKGPage__arrows">
                   <a onClick={this.handleArrowClick}>
-                    <Icon type="arrow-left" className="CKGPage__arrow" />
+                    <i className="fas fa-arrow-left CKGPage__arrow" />
                   </a>
                 </div>
               </div>
@@ -207,7 +206,7 @@ class SearchPage extends Component {
               <div className="CKGPage__arrows-container arrow-right">
                 <div className="CKGPage__arrows">
                   <a onClick={this.handleArrowClick}>
-                    <Icon type="arrow-right" className="CKGPage__arrow" />
+                    <i className="fas fa-arrow-right CKGPage__arrow" />
                   </a>
                 </div>
               </div>

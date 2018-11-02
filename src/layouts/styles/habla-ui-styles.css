@@ -432,6 +432,9 @@ HABLA CSS GENERAL STYLES
 .habla-color-lighertblue {
   background: #eff2f8;
 }
+.habla-color-extralighterblbue {
+  background: #eff2f7;
+}
 .habla-color-red {
   background: #eb4435;
 }
@@ -449,6 +452,9 @@ HABLA CSS GENERAL STYLES
 
 .no-border {
   border: none;
+}
+.border-white-1 {
+  border: 1px solid #ffffff;
 }
 .border-white-2 {
   border: 2px solid #ffffff;
@@ -531,7 +537,8 @@ p {
   font-size: 20pt;
   line-height: 24pt;
   color: #fff;
-  font-weight: 900;
+  font-weight: 700;
+  font-family: 'Lato', sans-serif;
 }
 .habla-team-title,
 .habla-user-title {
@@ -618,12 +625,12 @@ p {
   -webkit-transition: background 0.3s ease;
   transition: background 0.3s ease;
   text-align: left;
-  color: #a6a6a6;
-  font-size: 12px;
-  border-bottom: 1px solid #e8e8e8;
+  color: #999;
+  font-size: 7pt;
+  border-bottom: 1px solid #f1f1f1;
   padding: 12px 10px !important;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .table-container .table-team-container,
@@ -663,13 +670,13 @@ p {
   height: 30px;
   line-height: 30px;
   text-transform: uppercase;
-  font-weight: 700;
-  font-size: 13px;
+  font-size: 12px;
   border-radius: 15px;
   border: none;
   background: #666;
   color: #fff;
   box-shadow: 1px 1px 0px #000;
+  margin-right: 0;
 }
 .habla_subscription_tag_bronze {
   background: #d9b742;
@@ -806,6 +813,9 @@ p {
 .ant-table-thead th {
   line-height: 0 !important;
 }
+.ant-table-tbody {
+  font-family: 'Lato', sans-serif;
+}
 
 /* Habla Content Header  */
 
@@ -839,7 +849,7 @@ p {
 .CKGPage__title svg,
 .userAccountSetting .habla-main-content-header svg {
   margin-right: 10px;
-  font-size: 18px;
+  font-size: 16px;
   color: #ccc;
 }
 .habla-main-content-header-title .fa-angle-right {
@@ -882,7 +892,6 @@ p {
 .habla-main-content-header-title .habla-title,
 .habla-main-content-header-title .habla-title-light,
 .habla-main-content-header-title .habla-title-normal,
-.Subpage-header__title.habla-title,
 .Subpage-header__title.habla-title-light,
 .subpage__header__title.habla-title,
 .subpage__header__title.habla-title-light,
@@ -1039,7 +1048,9 @@ p {
   padding: 0;
   margin: 0;
 }
-
+.ant-collapse-content {
+  padding: 0;
+}
 .ant-menu-inline > .ant-menu-item {
   line-height: 0 !important;
   height: auto !important;
@@ -1060,6 +1071,9 @@ p {
   font-family: 'Lato', sans-serif;
   background: transparent;
 }
+.ant-collapse {
+  font-family: 'Lato', sans-serif;
+}
 .habla-left-navigation-item .ant-menu-submenu > .ant-menu {
   background: transparent;
 }
@@ -1079,7 +1093,7 @@ ul.ant-menu li.ant-menu-submenu:hover {
   border: none;
 }
 .ant-collapse > .ant-collapse-item > .ant-collapse-header {
-  padding: 0 0 0 40px;
+  padding: 0 0 0 30px;
 }
 .ant-collapse > .ant-collapse-item,
 .ant-collapse-borderless > .ant-collapse-item {
@@ -1093,7 +1107,7 @@ ul.ant-menu li.ant-menu-submenu:hover {
   color: #666;
 }
 .ant-collapse > .ant-collapse-item > .ant-collapse-header .arrow {
-  left: 21px !important;
+  left: 20px !important;
   top: 21px !important;
   line-height: 0 !important;
 }
@@ -1124,7 +1138,7 @@ ul.ant-menu li.ant-menu-submenu:hover {
   padding: 0;
 }
 .ant-collapse-content {
-  padding: 0 10px;
+  padding: 0;
 }
 .ant-dropdown-menu {
   top: 7px;
@@ -1141,6 +1155,9 @@ ul.ant-menu li.ant-menu-submenu:hover {
 .ant-progress-inner {
   background-color: transparent;
 }
+.anticon-loading svg {
+  color: #ccc;
+}
 .image-wrapper .ant-card {
   background: none;
   width: inherit;
@@ -1156,6 +1173,30 @@ ul.ant-menu li.ant-menu-submenu:hover {
 .ResultsList__row img {
   width: 26px;
   height: 26px;
+}
+.subpage-block-actions {
+  background: #eff2f7;
+}
+tr.ant-table-row:hover {
+  background: #eee !important;
+}
+.ant-table-row .fa-ellipsis-h svg {
+  color: #ccc;
+}
+.ant-table-row .ant-switch-inner {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+}
+.ant-popover-inner-content a,
+.ant-menu-item > a {
+  padding-right: 18px;
+}
+.ant-badge-count {
+  background: #32a953 !important;
+  box-shadow: 1px 1px 0px #105824;
+}
+.ant-scroll-number-only {
+  padding: 1px 2px;
 }
 
 /* RESPONSIVE ELEMENTS AND STYLES ---------- */
@@ -1174,7 +1215,9 @@ ul.ant-menu li.ant-menu-submenu:hover {
   .habla-ckg-filters-item span,
   i.ant-menu-submenu-arrow,
   .responsiveHideClass,
-  .teamRoomTitle {
+  .teamRoomTitle,
+  .sidebar-label-number-text,
+  .sidebar-direct-messages .habla-label {
     display: none;
   }
   .teamRoomResponsiveTitle {
@@ -1321,7 +1364,7 @@ ul.ant-menu li.ant-menu-submenu:hover {
   }
 }
 
-@media only screen and (max-width: 520px) {
+@media only screen and (max-width: 550px) {
   .habla-logo-image,
   .habla-ckg-date-picker-content-text,
   .habla-ckg-tools .ckg-activity-label {
@@ -1352,16 +1395,22 @@ ul.ant-menu li.ant-menu-submenu:hover {
   .DashboardPage__report-item {
     width: 100%;
   }
-}
-
-@media only screen and (max-width: 360px) {
-  .ant-input-affix-wrapper {
-    width: 126px;
+  .habla-top-menu-item {
+    padding: 12.5px 7px;
+  }
+  .sidebar-direct-messages-content {
+    padding: 0 10px 16px 10px;
   }
 }
 
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 440px) {
   .ant-input-affix-wrapper {
-    width: 88px;
+    width: 80px;
   }
+  .habla-top-menu-content {
+    padding: 0 10px;
+  }
+}
+
+@media only screen and (max-width: 390px) {
 }

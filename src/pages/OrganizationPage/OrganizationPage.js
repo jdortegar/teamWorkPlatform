@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
 import String from 'src/translations';
 import config from 'src/config/env';
 import { hablaFullBlackLogoIcon } from 'src/img';
-import { PageHeader, SimpleCardContainer, Spinner, ProgressBar } from 'src/components';
+import { PageHeader, SimpleCardContainer, Spinner } from 'src/components';
 import Avatar from 'src/components/common/Avatar';
 import CardView from './CardView';
 import './styles/style.css';
@@ -32,7 +31,7 @@ function renderAvatar(item, enabled, size) {
   const { preferences } = item;
   const className = classNames({
     'opacity-low': !enabled,
-    'border-white-2': true
+    'border-white-1': true
   });
   if (preferences.logo) {
     return <Avatar src={preferences.logo} color="#FFF" className={className} size={size} />;
@@ -124,20 +123,6 @@ class OrganizationPage extends Component {
             <div className="mt-2">
               <h1 className="habla-organization-title">{subscriberOrg.name}</h1>
             </div>
-          </SimpleCardContainer>
-          <SimpleCardContainer className="subpage-block habla-color-lightblue padding-class-a align-center-class habla-white">
-            {/* To do: make this dynamic */}
-            <div>
-              <span className="mr-5 habla-light-text">
-                <i className="fas fa-check mr-05 habla-lighertblue" />
-                {String.t('OrganizationPage.occupiedSpace', { occupied: 18, remain: 50 })}
-              </span>
-              <span className="habla-light-text">
-                <i className="fas fa-file-alt mr-05 habla-lighertblue" />
-                {String.t('OrganizationPage.filesShared', { count: 17389 })}
-              </span>
-            </div>
-            <ProgressBar strokeColor="#384f83" percent={30} />
           </SimpleCardContainer>
           <CardView
             integrations={integrations}

@@ -17,11 +17,13 @@
 .header-search-container .ant-input-affix-wrapper .ant-input:not(:first-child) {
   padding-left: 22px;
 }
-.header-search-container svg {
+.header-search-container svg,
+svg.fa-ellipsis-h {
   color: #ccc;
 }
 .TeamPage__selectIcon {
-  margin-left: 25px;
+  position: relative;
+  top: 4px;
 }
 
 .editOrgPage-main .ant-table-column-sorter {

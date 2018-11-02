@@ -16,7 +16,7 @@
 
 .CKGPage__arrows-container {
   position: absolute;
-  top: 50%;
+  top: 47%;
 }
 .CKGPage__arrows-container.arrow-left {
   left: 0;
@@ -26,7 +26,7 @@
 }
 
 .CKGPage__arrow {
-  font-size: 30px;
+  font-size: 20px;
   font-weight: bold;
   color: white;
 }
@@ -34,7 +34,7 @@
 .ckg-tools-container {
   position: relative;
 }
-.CKGPage__arrows,
+
 .habla-ckg-tools-bar {
   position: absolute;
   top: 10px;
@@ -46,8 +46,18 @@
   user-select: none;
 }
 .CKGPage__arrows {
+  position: absolute;
+  top: 0px;
+  left: 10px;
+  background: #3b5083;
+  color: #fff;
+  border-radius: 7px;
+  z-index: 2;
+  user-select: none;
+}
+.CKGPage__arrows {
   border-radius: 50%;
-  padding: 2px;
+  padding: 6px;
 }
 .habla-ckg-tools-bar a {
   padding: 8px;
@@ -142,13 +152,17 @@
 
 .CKGPage__center-message-container .CKGPage__center-message {
   position: absolute;
-  top: 50%;
+  top: 48%;
   left: 50%;
   z-index: 1;
   transform: translateX(-50%);
 }
 
 .CKGPage__center-message-container .CKGPage__center-message a {
+  color: #9eb1d1;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+.CKGPage__center-message-container .CKGPage__center-message a:hover {
   color: #fff;
-  font-size: 14px;
 }
