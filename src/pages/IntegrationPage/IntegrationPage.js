@@ -131,9 +131,9 @@ class IntegrationPage extends Component {
     this.props.saveSharingSettings(source, subscriberUserId, { folders: selectedFolders, files: selectedFiles });
   };
 
-  handleToggleSharingSettings = ({ folders, files }) => {
+  handleToggleSharingSettings = ({ folderId, fileId }) => {
     const { subscriberUserId, source } = this.props;
-    this.props.toggleSharingSettings(subscriberUserId, source, { folders, files });
+    this.props.toggleSharingSettings(subscriberUserId, source, { folderId, fileId });
   };
 
   handleToggleAllSharingSettings = selectAll => {

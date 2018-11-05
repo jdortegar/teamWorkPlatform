@@ -32,11 +32,11 @@ const defaultProps = {
 
 class SharingSettings extends Component {
   toggleFolderSelection = folderId => {
-    this.props.onToggleSelect({ folders: [folderId] });
+    this.props.onToggleSelect({ folderId });
   };
 
   toggleFileSelection = fileId => {
-    this.props.onToggleSelect({ files: [fileId] });
+    this.props.onToggleSelect({ fileId });
   };
 
   toggleSelectAll = (event, selectAll) => {

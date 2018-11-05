@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import _ from 'lodash';
 
 import {
   SHARING_SETTINGS_TOGGLE,
@@ -17,32 +16,21 @@ const INITIAL_SETTINGS = {
   saved: false
 };
 
-const toggleSettings = (settings = INITIAL_SETTINGS, { folders = [], files = [] }) => ({
-  folders: _.xor(settings.folders, folders),
-  files: _.xor(settings.files, files)
-});
-
-const updateOrgSettings = (state, { subscriberUserId, source }, updatedData = {}, updater) => {
+const updateOrgSettings = (state, { subscriberUserId, source }, updatedData = {}) => {
   const orgSettings = state[subscriberUserId] || {};
-  const sourceSettings = orgSettings[source];
+  const sourceSettings = orgSettings[source] || INITIAL_SETTINGS;
   return {
     ...state,
     [subscriberUserId]: {
       ...orgSettings,
-      [source]: {
-        ...sourceSettings,
-        ...(updater ? updater(sourceSettings, updatedData) : updatedData)
-      }
+      [source]: { ...sourceSettings, ...updatedData }
     }
   };
 };
 
 const byOrg = (state = {}, action) => {
   switch (action.type) {
-    case SHARING_SETTINGS_TOGGLE: {
-      const { subscriberUserId, source, folders, files } = action.payload;
-      return updateOrgSettings(state, { subscriberUserId, source }, { folders, files }, toggleSettings);
-    }
+    case SHARING_SETTINGS_TOGGLE:
     case SHARING_SETTINGS_TOGGLE_ALL: {
       const { subscriberUserId, source, folders, files } = action.payload;
       return updateOrgSettings(state, { subscriberUserId, source }, { folders, files });
