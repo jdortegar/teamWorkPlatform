@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import String from 'src/translations';
 import { PageHeader, SimpleCardContainer, AvatarWithLabel, Spinner } from 'src/components';
-import { TreeOrganization } from 'src/containers';
+import { TreeOrganization, SubscriptionModal } from 'src/containers';
 import './styles/style.css';
 
 const propTypes = {
@@ -41,7 +41,8 @@ class OrganizationManage extends Component {
       selectedTeams: [],
       selectedTeamMembers: [],
       selectedMemberIntegrations: [],
-      selectValue: 'activate'
+      selectValue: 'activate',
+      modalVisible: false
     };
 
     this.handleFormChange = this.handleFormChange.bind(this);
@@ -71,6 +72,12 @@ class OrganizationManage extends Component {
     } else if (item.type === 'memberIntegration') {
       // this.setState({ selectedMemberIntegrations: _.xor(selectedMemberIntegrations, [item.memberIntegration]) });
     }
+  };
+
+  showModal = () => {
+    this.setState({
+      modalVisible: !this.state.modalVisible
+    });
   };
 
   handleToggleAllOrgItem = () => {
@@ -171,7 +178,7 @@ class OrganizationManage extends Component {
             optionalButtons={{
               enabled: true,
               content: (
-                <Tag className="habla_subscription_tag habla_subscription_tag_bronze">
+                <Tag className="habla_subscription_tag habla_subscription_tag_bronze" onClick={this.showModal}>
                   {String.t('subscriptionPlans.bronze')}
                 </Tag>
               )
@@ -238,6 +245,7 @@ class OrganizationManage extends Component {
               </Panel>
             </Collapse>
           </SimpleCardContainer>
+          <SubscriptionModal visible={this.state.modalVisible} showModal={this.showModal} />
         </div>
       );
     }

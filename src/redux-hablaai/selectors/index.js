@@ -8,6 +8,7 @@ export * from './search';
 export * from './sharingSettings';
 export * from './subscriberOrgs';
 export * from './subscribers';
+export * from './subscription';
 export * from './surveys';
 export * from './teamMembers';
 export * from './teams';

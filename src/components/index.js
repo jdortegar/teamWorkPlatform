@@ -42,3 +42,4 @@ export TeamPicker from './TeamPicker';
 export TimeActivityGraph from './TimeActivityGraph';
 export Tree from './Tree';
 export TreeOrganization from './TreeOrganization';
+export SubscriptionModal from './SubscriptionModal';

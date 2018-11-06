@@ -3,7 +3,7 @@ import {
   SUBSCRIBERORGS_FETCH_SUCCESS,
   SUBSCRIBERORG_RECEIVE,
   SUBSCRIBERORG_SETCURRENT,
-  SUBSCRIBERORGS_DATA_FETCH_SUCCESS,
+  SUBSCRIBERORG_DATA_FETCH_SUCCESS,
   UPDATED_TEAM_MEMBER_SUCCESS
 } from 'src/actions';
 
@@ -60,7 +60,7 @@ const subscriberOrgsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         currentSubscriberOrgId: action.payload
       };
-    case SUBSCRIBERORGS_DATA_FETCH_SUCCESS:
+    case SUBSCRIBERORG_DATA_FETCH_SUCCESS:
       return {
         ...state,
         orgData: action.payload

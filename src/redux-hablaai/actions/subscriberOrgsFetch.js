@@ -2,7 +2,7 @@ import { buildApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const SUBSCRIBERORGS_FETCH_SUCCESS = 'subscriberorgs/fetch/success';
-export const SUBSCRIBERORGS_DATA_FETCH_SUCCESS = 'subscriberorgsData/fetch/success';
+export const SUBSCRIBERORG_DATA_FETCH_SUCCESS = 'subscriberorgsData/fetch/success';
 
 export const fetchSubscriberOrgs = (options = { getKey: false, forceGet: false }) => {
   const requestUrl = buildApiUrl('subscriberOrgs/getSubscriberOrgs');
@@ -61,7 +61,7 @@ export const fetchDataSubscriberOrgs = (subscriberOrgId, options = { getKey: fal
         if (response.data && response.data !== RESPONSE_STALE) {
           const { data } = response;
           dispatch({
-            type: SUBSCRIBERORGS_DATA_FETCH_SUCCESS,
+            type: SUBSCRIBERORG_DATA_FETCH_SUCCESS,
             payload: { ...data }
           });
         }

@@ -9,6 +9,7 @@ import searchReducer from './searchReducer';
 import sentInvitationsReducer from './sentInvitationsReducer';
 import sharingSettingsReducer from './sharingSettingsReducer';
 import subscriberOrgsReducer from './subscriberOrgsReducer';
+import subscriptionReducer from './subscriptionReducer';
 import subscribersReducer from './subscribersReducer';
 import surveysReducer from './surveysReducer';
 import teamMembersReducer from './teamMembersReducer';
@@ -35,7 +36,8 @@ const reducers = {
   teams: teamsReducer,
   typings: typingsReducer,
   urlRequests: urlRequestsReducer,
-  users: usersReducer
+  users: usersReducer,
+  subscription: subscriptionReducer
 };
 
 export default reducers;

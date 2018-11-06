@@ -31,6 +31,7 @@ export SearchPage from './SearchPage';
 export SetNewPassword from './SetNewPassword';
 export Sidebar from './Sidebar';
 export SurveyModal from './SurveyModal';
+export SubscriptionModal from './SubscriptionModal';
 export TeamIntegrationPage from './TeamIntegrationPage';
 export TeamIntegrationsPage from './TeamIntegrationsPage';
 export TeamManagePage from './TeamManagePage';

@@ -21,7 +21,14 @@ const propTypes = {
   }).isRequired,
   users: PropTypes.object.isRequired,
   updateUser: PropTypes.func.isRequired,
-  usersPresences: PropTypes.object.isRequired
+  usersPresences: PropTypes.object.isRequired,
+  subscription: PropTypes.object,
+  fetchSubscription: PropTypes.func.isRequired,
+  subscriberOrg: PropTypes.object.isRequired
+};
+
+const defaultProps = {
+  subscription: {}
 };
 
 const { Option } = Select;
@@ -36,12 +43,19 @@ class OrganizationManageMembers extends Component {
       usersActive,
       selectedTeamMembers: [],
       selectValue: 'activate',
-      selectedAll: false
+      selectedAll: false,
+      subscriptionLoaded: false
     };
 
     this.handleSearch = this.handleSearch.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.fetchSubscription(this.props.subscriberOrg.stripeSubscriptionId).then(() => {
+      this.setState({ subscriptionLoaded: true });
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -126,7 +140,7 @@ class OrganizationManageMembers extends Component {
 
   // Get Users array
   renderUsers(usersActive) {
-    const { match, usersPresences } = this.props;
+    const { match, usersPresences, subscription } = this.props;
     const { subscriberOrgId } = match.params;
     // If no users, no render
     if (usersActive.length === 0) {
@@ -165,7 +179,9 @@ class OrganizationManageMembers extends Component {
           <div>
             {String.t('OrganizationManageMembers.addNew')}
             <span className="MembersPage__membersLeft_badge">
-              {String.t('OrganizationManageMembers.seatAvailables', { count: 100 })}
+              {String.t('OrganizationManageMembers.seatAvailables', {
+                count: subscription.quantity - this.state.usersActive.length
+              })}
             </span>
           </div>
         ),
@@ -189,7 +205,7 @@ class OrganizationManageMembers extends Component {
   render() {
     // General Consts
     const { users, match } = this.props;
-    if (match && match.params && match.params.subscriberOrgId && users) {
+    if (match && match.params && match.params.subscriberOrgId && users && this.state.subscriptionLoaded) {
       const { subscriberOrgId } = match.params;
 
       // Breadcrumb
@@ -222,7 +238,7 @@ class OrganizationManageMembers extends Component {
           dataIndex: 'user',
           key: 'user',
           sorter: (a, b) => {
-            if (a.user.order === 'unorder') return;
+            if (a.user.order === 'unorder' || b.user.order === 'unorder') return;
             return a.user.firstName.localeCompare(b.user.firstName); // eslint-disable-line consistent-return
           },
           render: user => {
@@ -245,7 +261,7 @@ class OrganizationManageMembers extends Component {
           key: 'status',
           width: 128,
           sorter: (a, b) => {
-            if (a.status.order === 'unorder') return;
+            if (a.status.order === 'unorder' || b.status.order === 'unorder') return;
             const nameA = a.status.active ? 'true' : 'false';
             const nameB = b.status.active ? 'true' : 'false';
             return nameA.localeCompare(nameB); // eslint-disable-line consistent-return
@@ -379,5 +395,6 @@ class OrganizationManageMembers extends Component {
 }
 
 OrganizationManageMembers.propTypes = propTypes;
+OrganizationManageMembers.defaultProps = defaultProps;
 
 export default OrganizationManageMembers;
