@@ -12,7 +12,8 @@ const propTypes = {
   form: formShape.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
-    replace: PropTypes.func.isRequired
+    replace: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -59,7 +60,7 @@ class InviteNewMemberPage extends Component {
           .inviteNewSubscribers(users, subscriberOrgId)
           .then(() => {
             this.setState({ loading: false });
-            this.props.history.push(`/app/organization/${subscriberOrgId}/invitationSent`);
+            this.props.history.goBack();
             message.success(String.t('inviteNewMemberPage.invitationSent', { count: users.length }));
           })
           .catch(error => {
@@ -148,7 +149,7 @@ class InviteNewMemberPage extends Component {
                 type="secondary"
                 fitText
                 className="margin-right-class-a"
-                onClick={() => this.props.history.push(`/app/organization/${subscriberOrgId}`)}
+                onClick={() => this.props.history.goBack()}
               >
                 {String.t('Buttons.cancel')}
               </Button>
