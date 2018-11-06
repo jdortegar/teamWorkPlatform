@@ -354,7 +354,7 @@ class OrganizationManageTeams extends Component {
       ];
 
       return (
-        <div className="editOrgPage-main">
+        <div className="editOrgPage-main Organization_Teams_Page">
           <PageHeader
             pageBreadCrumb={pageBreadCrumb}
             hasMenu

@@ -180,7 +180,7 @@ class OrganizationManageMembers extends Component {
             {String.t('OrganizationManageMembers.addNew')}
             <span className="MembersPage__membersLeft_badge">
               {String.t('OrganizationManageMembers.seatAvailables', {
-                count: subscription.quantity - this.state.usersActive.length
+                count: subscription.quantity - this.state.usersActive.length || 0
               })}
             </span>
           </div>
@@ -343,7 +343,7 @@ class OrganizationManageMembers extends Component {
       ];
 
       return (
-        <div className="editOrgPage-main">
+        <div className="editOrgPage-main Organization_Members_Page">
           <PageHeader
             pageBreadCrumb={pageBreadCrumb}
             hasMenu

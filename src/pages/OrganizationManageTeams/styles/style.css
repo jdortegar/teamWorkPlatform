@@ -37,3 +37,7 @@ svg.fa-ellipsis-h {
   font-weight: normal;
   color: rgba(0, 0, 0, 0.45);
 }
+
+.Organization_Members_Page .table-container {
+  background: #fff;
+}
