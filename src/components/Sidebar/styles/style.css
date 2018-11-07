@@ -105,6 +105,10 @@
 .organizationLinks {
   background: #fff;
   border-radius: 0 0 4px 4px;
+  overflow: hidden;
+}
+.organizationLinks a {
+  position: relative;
 }
 .organizationLinks svg {
   color: #5b7eba;
@@ -172,13 +176,13 @@
   top: 6px;
 }
 .habla-left-navigation-item-label:hover {
-	color: #000;
+  color: #000;
 }
 .habla-left-navigation-team-list:hover {
-	background: #fbfbfb;
+  background: #fbfbfb;
 }
 .habla-left-navigation-team-list:hover > .habla-left-navigation-item-label {
-	color: #000;
+  color: #000;
 }
 .sidebar-direct-messages-content {
   background: #fff;
@@ -244,4 +248,31 @@ ul.ant-menu-sub {
 }
 .habla-left-navigation-team-list-item.padding-class-a {
   padding: 3px 10px;
+}
+
+.active.habla-top-menu-home::after,
+.active.habla-top-menu-ckg::after,
+.active.habla-top-menu-notifications::after,
+.active.habla-top-menu-bookmarks::after,
+.active.habla-top-menu-settings::after {
+  content: '';
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #5b7eba;
+  position: absolute;
+  bottom: -50%;
+  left: 50%;
+  transform: translate(-50%, +50%);
+}
+
+.Team_active::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e5e5e5;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }

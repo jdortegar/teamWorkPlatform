@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Tooltip, Dropdown, Input, Icon } from 'antd';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
+import { paths } from 'src/routes';
+import { Layout, Menu, Tooltip, Dropdown, Input, Icon } from 'antd';
 import String from 'src/translations';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
 import { AvatarWrapper, Badge } from 'src/components';
@@ -20,7 +21,8 @@ const propTypes = {
   subscribersPresences: PropTypes.object,
   teams: PropTypes.array,
   history: PropTypes.shape({
-    push: PropTypes.func
+    push: PropTypes.func,
+    location: PropTypes.object
   }).isRequired,
   location: PropTypes.object.isRequired,
   setCurrentSubscriberOrgId: PropTypes.func.isRequired,
@@ -178,7 +180,7 @@ class Sidebar extends Component {
   }
 
   renderTeams(teamsActive) {
-    const { user } = this.props;
+    const { user, history } = this.props;
     if (teamsActive.length === 0) {
       return null;
     }
@@ -198,9 +200,10 @@ class Sidebar extends Component {
       }
       const isTeamOpen = _.includes(this.state.teamsOpenKeys, team.teamId);
       const unreadMessagesCount = 0; /* TODO: get the actual count of unread messages */
+      const teamActive = classNames({ Team_active: history.location.pathname.indexOf(team.teamId) > 1 });
 
       return (
-        <Menu.Item key={team.teamId}>
+        <Menu.Item key={team.teamId} className={teamActive}>
           <div className="habla-left-navigation-team-list" onClick={e => this.goToTeamPage(e, team)}>
             <div className="habla-left-navigation-team-list-item padding-class-a">
               <div className="float-left-class">{renderAvatar(team, team.active)}</div>
@@ -251,7 +254,8 @@ class Sidebar extends Component {
       subscribers,
       subscribersPresences,
       sideBarIsHidden,
-      currentSubscriberOrgId
+      currentSubscriberOrgId,
+      history
     } = this.props;
     if (!currentSubscriberOrgId || !teams || subscriberOrgs.length === 0 || !subscribers || !subscribersPresences) {
       return null;
@@ -259,6 +263,23 @@ class Sidebar extends Component {
     const sideClass = classNames({
       Sidebar: true,
       hidden: sideBarIsHidden
+    });
+
+    // Set Active Page
+    const currenthPath = history.location.pathname;
+
+    const activeHome = classNames({ active: currenthPath.endsWith('app') });
+    const activeCKG = classNames({
+      active: currenthPath.indexOf(paths.ckg.split('app/')[1].split('/')[0]) > 1
+    });
+    const activeNotification = classNames({
+      active: currenthPath.indexOf(paths.notifications.split('app/')[1].split('/')[0]) > 1
+    });
+    const activeBookmarks = classNames({
+      active: currenthPath.indexOf(paths.bookmarks.split('app/')[1].split('/')[0]) > 1
+    });
+    const activeEditOrganization = classNames({
+      active: currenthPath.indexOf(paths.editOrganization.split('app/')[1].split('/')[0]) > 1
     });
 
     const orgSubscribers = subscribers.map(subscriber => ({
@@ -283,27 +304,33 @@ class Sidebar extends Component {
 
         <div className="organizationLinks padding-class-a">
           <Tooltip placement="topLeft" title={String.t('sideBar.iconHomeTooltip')} arrowPointAtCenter>
-            <Link to="/app" className="habla-top-menu-home">
+            <Link to="/app" className={`habla-top-menu-home ${activeHome}`}>
               <i className="fa fa-home fa-2x" />
             </Link>
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconCKGTooltip')} arrowPointAtCenter>
-            <Link to={`/app/ckg/${currentSubscriberOrgId}`} className="habla-top-menu-ckg">
+            <Link to={`/app/ckg/${currentSubscriberOrgId}`} className={`habla-top-menu-ckg ${activeCKG}`}>
               <i className="fas fa-chart-line fa-2x" />
             </Link>
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconNotificationsTooltip')} arrowPointAtCenter>
-            <Link to="/app/notifications" className="habla-top-menu-notifications">
+            <Link to="/app/notifications" className={`habla-top-menu-notifications ${activeNotification}`}>
               <i className="fa fa-globe fa-2x" />
             </Link>
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconBookmarksTooltip')} arrowPointAtCenter>
-            <Link to={`/app/bookmarks/${currentSubscriberOrgId}`} className="habla-top-menu-bookmarks">
+            <Link
+              to={`/app/bookmarks/${currentSubscriberOrgId}`}
+              className={`habla-top-menu-bookmarks ${activeBookmarks}`}
+            >
               <i className="fa fa-bookmark fa-2x" />
             </Link>
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconSettingsTooltip')} arrowPointAtCenter>
-            <Link to={`/app/editOrganization/${currentSubscriberOrgId}/teams`} className="habla-top-menu-settings">
+            <Link
+              to={`/app/editOrganization/${currentSubscriberOrgId}/teams`}
+              className={`habla-top-menu-settings ${activeEditOrganization}`}
+            >
               <i className="fa fa-cog fa-2x" />
             </Link>
           </Tooltip>
