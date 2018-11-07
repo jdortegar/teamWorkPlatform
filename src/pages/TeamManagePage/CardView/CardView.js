@@ -68,7 +68,7 @@ const CardView = props => {
     const { source } = integration;
     const label = integrationLabelFromKey(source);
     const desaturated = classNames({ desaturate: integration.expired });
-    const integrationUser = members.find(member => member.userId === integration.userId || 'Default');
+    const integrationUser = members.find(member => member.userId === integration.userId);
 
     return (
       <div key={`${source}_${integrationUser.firstName}`} className="mr-1  mb-2 integration-card">

@@ -68,11 +68,24 @@ export const getTeamIntegration = createSelector(
   }
 );
 
-// integration content and sharing settings
+// find integration content
 export const getOrgIntegrationContent = createSelector(
   [getIntegrationContent, (state, props) => props],
   (content, { source, subscriberUserId }) =>
-    content.subscriberUserId === subscriberUserId && content.source === source ? content : {}
+    !content.teamId && content.subscriberUserId === subscriberUserId && content.source === source ? content : {}
 );
+
+// find team integration content
+export const getTeamIntegrationContent = createSelector(
+  [getIntegrationContent, (state, props) => props],
+  (content, { source, subscriberUserId, teamId }) =>
+    content.teamId &&
+    content.teamId === teamId &&
+    content.subscriberUserId === subscriberUserId &&
+    content.source === source
+      ? content
+      : {}
+);
+
 export const isContentFetching = createSelector([getIntegrationContent], content => content.isFetching);
 export const getContentError = createSelector([getIntegrationContent], content => content.error);

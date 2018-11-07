@@ -31,9 +31,9 @@ const propTypes = {
   revokeOrgIntegration: PropTypes.func.isRequired,
   fetchIntegrations: PropTypes.func.isRequired,
   fetchIntegrationContent: PropTypes.func.isRequired,
-  toggleSharingSettings: PropTypes.func.isRequired,
-  toggleAllSharingSettings: PropTypes.func.isRequired,
-  saveSharingSettings: PropTypes.func.isRequired,
+  toggleOrgSharingSettings: PropTypes.func.isRequired,
+  toggleAllOrgSharingSettings: PropTypes.func.isRequired,
+  saveOrgSharingSettings: PropTypes.func.isRequired,
   subscriberUserId: PropTypes.string.isRequired,
   orgId: PropTypes.string.isRequired,
   orgName: PropTypes.string.isRequired,
@@ -50,9 +50,9 @@ const propTypes = {
 const defaultProps = {
   integration: null,
   content: null,
-  isFetchingContent: false,
   selectedFolders: [],
   selectedFiles: [],
+  isFetchingContent: false,
   isSubmittingSharingSettings: false,
   isSavedSharingSettings: false
 };
@@ -128,17 +128,17 @@ class IntegrationPage extends Component {
 
   saveSharingSettings = () => {
     const { source, subscriberUserId, selectedFolders, selectedFiles } = this.props;
-    this.props.saveSharingSettings(source, subscriberUserId, { folders: selectedFolders, files: selectedFiles });
+    this.props.saveOrgSharingSettings(source, subscriberUserId, { folders: selectedFolders, files: selectedFiles });
   };
 
   handleToggleSharingSettings = ({ folderId, fileId }) => {
     const { subscriberUserId, source } = this.props;
-    this.props.toggleSharingSettings(subscriberUserId, source, { folderId, fileId });
+    this.props.toggleOrgSharingSettings(subscriberUserId, source, { folderId, fileId });
   };
 
   handleToggleAllSharingSettings = selectAll => {
     const { subscriberUserId, source } = this.props;
-    this.props.toggleAllSharingSettings(subscriberUserId, source, { selectAll });
+    this.props.toggleAllOrgSharingSettings(subscriberUserId, source, { selectAll });
   };
 
   handleIntegration(checked) {
@@ -173,7 +173,7 @@ class IntegrationPage extends Component {
     return (
       <div key={`${label}-${level}`}>
         <Checkbox
-          className="Integration-details__config-folder-checkbox"
+          className="Integration__config-folder-checkbox"
           defaultChecked={folder[selected]}
           onChange={e => {
             const { checked } = e.target;
@@ -182,7 +182,7 @@ class IntegrationPage extends Component {
             this.setState({ changedFolderOptions });
           }}
         >
-          <div className="Integration-details__config-folder">{label}</div>
+          <div className="Integration__config-folder">{label}</div>
         </Checkbox>
         {folder[subFolders] && folder[subFolders].map(subFolder => this.renderFolder(subFolder, level + 1))}
       </div>
@@ -247,12 +247,12 @@ class IntegrationPage extends Component {
         }
         extraFormFields.push(
           <div key={`${key}-configInput`} className="m-2">
-            <label className="Integration-details__config-label">{label}</label>
+            <label className="Integration__config-label">{label}</label>
             <input
               ref={ref => {
                 this[key] = ref;
               }}
-              className="Integration-details__config-input"
+              className="Integration__config-input"
               placeholder={placeholder}
               onChange={() => this.setState({})}
               value={savedValue}
@@ -267,12 +267,10 @@ class IntegrationPage extends Component {
         if (folders) {
           const optionsChanged = Object.keys(this.state.changedFolderOptions).length > 0;
           extraFormFields.push(
-            <div key="folders" className="m-2 Integration-details__config-container">
-              <label className="Integration-details__config-folders-label">{label}</label>
-              <div className="Integration-details__config-folders">
-                {folders.map(fldr => this.renderFolder(fldr, 0))}
-              </div>
-              <div className="Integration-details__config-folders-save-button">
+            <div key="folders" className="m-2 Integration__config-container">
+              <label className="Integration__config-folders-label">{label}</label>
+              <div className="Integration__config-folders">{folders.map(fldr => this.renderFolder(fldr, 0))}</div>
+              <div className="Integration__config-folders-save-button">
                 <Button
                   type={optionsChanged ? 'main' : 'disable'}
                   fitText
@@ -290,7 +288,7 @@ class IntegrationPage extends Component {
     }
 
     return (
-      <div>
+      <div className="Integration">
         <PageHeader
           backButton={`/app/integrations/${orgId}`}
           pageBreadCrumb={{
@@ -305,13 +303,13 @@ class IntegrationPage extends Component {
           buttonOptions={saveButtonOptions}
         />
         <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
-          <div className="Integration-details__icon-container">
+          <div className="Integration__icon-container">
             <ImageCard imgSrc={integrationImageSrc} size="large" />
           </div>
-          <div className="habla-big-title habla-bold-text">{integrationLabel}</div>
+          <div className="habla-big-title">{integrationLabel}</div>
           <div className="habla-secondary-paragraph margin-top-class-b">{statusLabel}</div>
         </SimpleCardContainer>
-        <div className="Integration-details__switch-container align-center-class">
+        <div className="Integration__switch-container align-center-class">
           {extraFormFields}
           <Tooltip placement="top" title={tooltipTitle}>
             <Switch

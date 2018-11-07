@@ -3,9 +3,9 @@ import _ from 'lodash';
 
 import {
   INTEGRATIONS_FETCH_SUCCESS,
-  INTEGRATIONS_FETCH_CONTENT_REQUEST,
-  INTEGRATIONS_FETCH_CONTENT_SUCCESS,
-  INTEGRATIONS_FETCH_CONTENT_FAILURE,
+  INTEGRATIONS_CONTENT_FETCH_REQUEST,
+  INTEGRATIONS_CONTENT_FETCH_SUCCESS,
+  INTEGRATIONS_CONTENT_FETCH_FAILURE,
   INTEGRATIONS_REVOKE_SUCCESS,
   INTEGRATIONS_UPDATE,
   TEAM_INTEGRATIONS_FETCH_SUCCESS,
@@ -90,20 +90,27 @@ const byTeam = (state = {}, action) => {
   }
 };
 
-const content = (state = { isFetching: false, error: null }, action) => {
+const INITIAL_CONTENT = {
+  isFetching: false,
+  error: null,
+  teamId: null
+};
+
+const content = (state = INITIAL_CONTENT, action) => {
   switch (action.type) {
-    case INTEGRATIONS_FETCH_CONTENT_REQUEST: {
+    case INTEGRATIONS_CONTENT_FETCH_REQUEST:
       return {
         ...state,
         isFetching: true,
-        error: null
+        error: null,
+        teamId: action.payload.teamId
       };
-    }
-    case INTEGRATIONS_FETCH_CONTENT_SUCCESS: {
+    case INTEGRATIONS_CONTENT_FETCH_SUCCESS: {
       const {
         files,
         folders,
         source,
+        teamId,
         habla_user_id: hablaUserId,
         subscriber_user_id: subscriberUserId,
         subscriber_org_id: orgId
@@ -115,23 +122,22 @@ const content = (state = { isFetching: false, error: null }, action) => {
         hablaUserId,
         subscriberUserId,
         orgId,
+        teamId,
         isFetching: false,
         error: null
       };
     }
-    case INTEGRATIONS_FETCH_CONTENT_FAILURE: {
+    case INTEGRATIONS_CONTENT_FETCH_FAILURE: {
       return {
         ...state,
         isFetching: false,
-        error: action.payload.error
+        error: action.payload.error,
+        teamId: action.payload.teamId
       };
     }
     case INTEGRATIONS_REVOKE_SUCCESS: {
       if (action.error) return state;
-      return {
-        isFetching: false,
-        error: null
-      };
+      return INITIAL_CONTENT;
     }
     default:
       return state;

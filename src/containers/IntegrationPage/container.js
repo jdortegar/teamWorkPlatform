@@ -13,9 +13,9 @@ import {
 import {
   fetchIntegrations,
   fetchIntegrationContent,
-  saveSharingSettings,
-  toggleSharingSettings,
-  toggleAllSharingSettings,
+  saveOrgSharingSettings,
+  toggleOrgSharingSettings,
+  toggleAllOrgSharingSettings,
   integrateOrgIntegration,
   configureIntegration,
   revokeOrgIntegration
@@ -30,7 +30,6 @@ const mapStateToProps = (state, props) => {
   return {
     integration: getOrgIntegration(state, { source, orgId }),
     content: getOrgIntegrationContent(state, { source, subscriberUserId }),
-    subscriberOrgName: getCurrentSubscriberOrgName(state),
     isFetchingContent: isContentFetching(state),
     orgName: getCurrentSubscriberOrgName(state),
     selectedFolders: folders,
@@ -47,9 +46,9 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = {
   fetchIntegrations,
   fetchIntegrationContent,
-  saveSharingSettings,
-  toggleSharingSettings,
-  toggleAllSharingSettings,
+  saveOrgSharingSettings,
+  toggleOrgSharingSettings,
+  toggleAllOrgSharingSettings,
   integrateOrgIntegration,
   configureIntegration,
   revokeOrgIntegration

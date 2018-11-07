@@ -1,24 +1,41 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tooltip, Switch, message } from 'antd';
+import { isEmpty } from 'lodash';
 
 import String from 'src/translations';
 import { getIntegrationStatus } from 'src/lib/integrationStatus';
-import { PageHeader, SimpleCardContainer, ImageCard } from 'src/components';
+import { PageHeader, SimpleCardContainer, ImageCard, Spinner, SharingSettings } from 'src/components';
 import { integrationImageFromKey, integrationLabelFromKey, integrationMapping } from 'src/utils/dataIntegrations';
 import './styles/style.css';
 
 const propTypes = {
   team: PropTypes.object.isRequired,
   source: PropTypes.string.isRequired,
-  integration: PropTypes.object,
   fetchTeamIntegrations: PropTypes.func.isRequired,
+  fetchIntegrationContent: PropTypes.func.isRequired,
+  toggleTeamSharingSettings: PropTypes.func.isRequired,
+  toggleAllTeamSharingSettings: PropTypes.func.isRequired,
   integrateTeamIntegration: PropTypes.func.isRequired,
-  revokeTeamIntegration: PropTypes.func.isRequired
+  revokeTeamIntegration: PropTypes.func.isRequired,
+  subscriberUserId: PropTypes.string.isRequired,
+  integration: PropTypes.object,
+  content: PropTypes.object,
+  selectedFolders: PropTypes.array,
+  selectedFiles: PropTypes.array,
+  isFetchingContent: PropTypes.bool,
+  isSubmittingSharingSettings: PropTypes.bool,
+  isSavedSharingSettings: PropTypes.bool
 };
 
 const defaultProps = {
-  integration: null
+  integration: null,
+  content: null,
+  isFetchingContent: false,
+  isSubmittingSharingSettings: false,
+  isSavedSharingSettings: false,
+  selectedFolders: [],
+  selectedFiles: []
 };
 
 const showNotification = (response, source) => {
@@ -34,10 +51,20 @@ const showNotification = (response, source) => {
 
 class TeamIntegrationPage extends Component {
   componentDidMount() {
-    const { team } = this.props;
+    const { team, source, subscriberUserId } = this.props;
     this.props.fetchTeamIntegrations(team.teamId);
-    // this.props.fetchIntegrationContent(source, subscriberUserId);
+    this.props.fetchIntegrationContent(source, subscriberUserId, team.teamId);
   }
+
+  handleToggleSharingSettings = ({ folderId, fileId }) => {
+    const { subscriberUserId, team, source } = this.props;
+    this.props.toggleTeamSharingSettings(subscriberUserId, source, team.teamId, { folderId, fileId });
+  };
+
+  handleToggleAllSharingSettings = selectAll => {
+    const { subscriberUserId, team, source } = this.props;
+    this.props.toggleAllTeamSharingSettings(subscriberUserId, source, team.teamId, { selectAll });
+  };
 
   handleIntegration = checked => {
     const { source, team, integration, integrateTeamIntegration, revokeTeamIntegration } = this.props;
@@ -52,32 +79,49 @@ class TeamIntegrationPage extends Component {
   };
 
   render() {
-    const { team, source, integration } = this.props;
-
-    const pageBreadCrumb = {
-      routes: [
-        {
-          title: team.name,
-          url: `/app/team/${team.teamId}`
-        },
-        { title: String.t('integrationPage.integrations') }
-      ]
-    };
-
+    const {
+      team,
+      source,
+      integration,
+      content,
+      isFetchingContent,
+      isSubmittingSharingSettings,
+      isSavedSharingSettings,
+      selectedFolders,
+      selectedFiles
+    } = this.props;
     const integrationKey = integrationMapping(source);
     const integrationImageSrc = integrationImageFromKey(integrationKey);
     const integrationLabel = integrationLabelFromKey(integrationKey);
     const statusLabel = getIntegrationStatus(integration);
     const tooltipTitle =
       statusLabel === 'Active' ? String.t('integrationPage.deactivate') : String.t('integrationPage.activate');
+    const shouldDisplaySaveButton = statusLabel === 'Active' && !isFetchingContent && !isEmpty(content);
+    const saveButtonOptions = shouldDisplaySaveButton
+      ? {
+          type: 'main',
+          fitText: true,
+          children: 'Save Settings',
+          onClick: this.saveSharingSettings,
+          loading: isSubmittingSharingSettings,
+          disabled: isSavedSharingSettings || isEmpty(content)
+        }
+      : null;
 
     return (
       <div className="TeamIntegration">
         <PageHeader
-          pageBreadCrumb={pageBreadCrumb}
-          hasMenu={false}
-          menuName="settings"
           backButton={`/app/teamIntegrations/${team.teamId}`}
+          pageBreadCrumb={{
+            routes: [
+              {
+                title: team.name,
+                url: `/app/team/${team.teamId}`
+              },
+              { title: String.t('integrationPage.integrations') }
+            ]
+          }}
+          buttonOptions={saveButtonOptions}
         />
         <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
           <div className="TeamIntegration__icon-container">
@@ -96,6 +140,21 @@ class TeamIntegrationPage extends Component {
             />
           </Tooltip>
         </div>
+        {isFetchingContent && <Spinner />}
+        {statusLabel === 'Active' &&
+          !isFetchingContent &&
+          content && (
+            <SharingSettings
+              onToggleSelect={this.handleToggleSharingSettings}
+              onToggleSelectAll={this.handleToggleAllSharingSettings}
+              integrationType={integrationLabel}
+              folders={content.folders}
+              files={content.files}
+              selectedFolders={selectedFolders}
+              selectedFiles={selectedFiles}
+              disabled={isSavedSharingSettings || isSubmittingSharingSettings}
+            />
+          )}
       </div>
     );
   }
