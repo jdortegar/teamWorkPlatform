@@ -115,6 +115,7 @@ class SubscriptionModal extends React.Component {
 
   cancelSubscription = () => {
     const { subscriberOrg, subscription } = this.props;
+    this.setState({ loading: true });
     confirm({
       title: (
         <span>
@@ -137,8 +138,10 @@ class SubscriptionModal extends React.Component {
             message.success(
               String.t('subscriptionModal.confirmCancel', {
                 daysLeft: moment(subscription.current_period_end * 1000).diff(moment(), 'days')
-              })
+              }),
+              6
             );
+            this.setState({ loading: false });
           })
           .catch(error => {
             this.setState({ loading: false });
@@ -150,6 +153,7 @@ class SubscriptionModal extends React.Component {
 
   reactivateSubscription = () => {
     const { subscriberOrg, subscription } = this.props;
+    this.setState({ loading: true });
     confirm({
       content: String.t('subscriptionModal.reactivateMessage'),
       okText: String.t('yes'),
@@ -165,6 +169,7 @@ class SubscriptionModal extends React.Component {
                 daysLeft: moment(subscription.current_period_end * 1000).diff(moment(), 'days')
               })
             );
+            this.setState({ loading: false });
           })
           .catch(error => {
             this.setState({ loading: false });
@@ -305,12 +310,16 @@ class SubscriptionModal extends React.Component {
                     {String.t('subscriptionModal.close')}
                   </Button>
                   {!subscription.cancel_at_period_end && (
-                    <Button className="Confirm_button" onClick={() => this.handleSubmit()}>
+                    <Button className="Confirm_button" onClick={() => this.handleSubmit()} loading={this.state.loading}>
                       {String.t('subscriptionModal.changePlan')}
                     </Button>
                   )}
                   {subscription.cancel_at_period_end && (
-                    <Button className="Confirm_button" onClick={() => this.reactivateSubscription()}>
+                    <Button
+                      className="Confirm_button"
+                      onClick={() => this.reactivateSubscription()}
+                      loading={this.state.loading}
+                    >
                       {String.t('subscriptionModal.reactivateSubscription')}
                     </Button>
                   )}

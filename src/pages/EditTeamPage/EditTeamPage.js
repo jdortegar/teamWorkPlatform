@@ -11,7 +11,8 @@ const propTypes = {
   form: formShape.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
-    replace: PropTypes.func.isRequired
+    replace: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -44,7 +45,7 @@ class EditTeamPage extends Component {
           .updateTeam(valuesToSend, teamId)
           .then(() => {
             this.setState({ loading: false });
-            this.props.history.push(`/app/team/manage/${teamId}`);
+            this.props.history.goBack();
             message.success(String.t('editTeamPage.teamUpdated'));
           })
           .catch(error => {
@@ -147,7 +148,7 @@ class EditTeamPage extends Component {
                 type="secondary"
                 fitText
                 className="margin-right-class-a"
-                onClick={() => this.props.history.push(`/app/team/manage/${teamId}`)}
+                onClick={() => this.props.history.goBack()}
               >
                 {String.t('Buttons.cancel')}
               </Button>
