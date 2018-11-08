@@ -37,7 +37,7 @@ if (process.env.NODE_ENV !== 'production') {
   server = new WebpackDevServer(webpack(config), {
     contentBase: './resources',
     publicPath: config.output.publicPath,
-    hot: true,
+    hot: false,
     historyApiFallback: { disableDotRule: true },
     disableHostCheck: true,
     before(app) {
