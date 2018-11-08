@@ -18,7 +18,7 @@ if (!nodeUrl) {
 }
 
 module.exports = {
-  devtool: 'eval',
+  devtool: 'eval-source-map',
   entry: [
     // 'react-hot-loader/patch',
     `webpack-dev-server/client?${nodeUrl}`,
