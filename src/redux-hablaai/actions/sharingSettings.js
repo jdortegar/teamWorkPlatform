@@ -168,7 +168,7 @@ export const saveTeamSharingSettings = (source, subscriberUserId, teamId) => (di
     subscriber_user_id: subscriberUserId,
     subscriber_org_id: content.orgId,
     habla_user_id: content.hablaUserId,
-    subscriber_team_id: teamId,
+    team_id: teamId,
     source,
     folders,
     files

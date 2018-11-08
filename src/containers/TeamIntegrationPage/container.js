@@ -6,7 +6,9 @@ import {
   getTeamIntegration,
   getTeamIntegrationContent,
   getTeamSharingSettings,
-  getCurrentSubscriberUserId
+  getCurrentSubscriberUserId,
+  getContentError,
+  isFetchingContent
 } from 'src/selectors';
 import {
   fetchTeamIntegrations,
@@ -27,6 +29,8 @@ const mapStateToProps = (state, props) => {
     team: getTeam(state, teamId),
     integration: getTeamIntegration(state, { source, teamId }),
     content: getTeamIntegrationContent(state, { source, subscriberUserId, teamId }),
+    isFetchingContent: isFetchingContent(state),
+    contentError: getContentError(state),
     selectedFolders: folders,
     selectedFiles: files,
     isSubmittingSharingSettings: submitting,

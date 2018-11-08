@@ -16,11 +16,13 @@ const propTypes = {
   fetchIntegrationContent: PropTypes.func.isRequired,
   toggleTeamSharingSettings: PropTypes.func.isRequired,
   toggleAllTeamSharingSettings: PropTypes.func.isRequired,
+  saveTeamSharingSettings: PropTypes.func.isRequired,
   integrateTeamIntegration: PropTypes.func.isRequired,
   revokeTeamIntegration: PropTypes.func.isRequired,
   subscriberUserId: PropTypes.string.isRequired,
   integration: PropTypes.object,
   content: PropTypes.object,
+  contentError: PropTypes.object,
   selectedFolders: PropTypes.array,
   selectedFiles: PropTypes.array,
   isFetchingContent: PropTypes.bool,
@@ -31,6 +33,7 @@ const propTypes = {
 const defaultProps = {
   integration: null,
   content: null,
+  contentError: null,
   isFetchingContent: false,
   isSubmittingSharingSettings: false,
   isSavedSharingSettings: false,
@@ -53,10 +56,22 @@ class TeamIntegrationPage extends Component {
   componentDidMount() {
     const { team, source, subscriberUserId } = this.props;
     this.props.fetchTeamIntegrations(team.teamId);
-    this.props
-      .fetchIntegrationContent(source, subscriberUserId, team.teamId)
-      .catch(() => message.error(String.t('integrationPage.contentError')));
+    this.props.fetchIntegrationContent(source, subscriberUserId, team.teamId);
   }
+
+  componentWillReceiveProps(nextProps) {
+    const { integration, contentError } = nextProps;
+    if (contentError && !this.props.contentError && getIntegrationStatus(integration) === 'Active') {
+      message.error(String.t('integrationPage.message.contentError'));
+    }
+  }
+
+  saveSharingSettings = () => {
+    const { source, subscriberUserId, team } = this.props;
+    this.props
+      .saveTeamSharingSettings(source, subscriberUserId, team.teamId)
+      .then(() => message.success(String.t('integrationPage.message.sharingSettingsSaved')));
+  };
 
   handleToggleSharingSettings = ({ folderId, fileId }) => {
     const { subscriberUserId, team, source } = this.props;

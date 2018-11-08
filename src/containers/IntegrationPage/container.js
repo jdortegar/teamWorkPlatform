@@ -4,11 +4,12 @@ import { IntegrationPage } from 'src/pages';
 import {
   getOrgIntegration,
   getOrgIntegrationContent,
-  isContentFetching,
   getCurrentSubscriberOrgName,
   getOrgSharingSettings,
   getCurrentSubscriberUserId,
-  getCurrentSubscriberOrgId
+  getCurrentSubscriberOrgId,
+  getContentError,
+  isFetchingContent
 } from 'src/selectors';
 import {
   fetchIntegrations,
@@ -30,7 +31,8 @@ const mapStateToProps = (state, props) => {
   return {
     integration: getOrgIntegration(state, { source, orgId }),
     content: getOrgIntegrationContent(state, { source, subscriberUserId }),
-    isFetchingContent: isContentFetching(state),
+    contentError: getContentError(state),
+    isFetchingContent: isFetchingContent(state),
     orgName: getCurrentSubscriberOrgName(state),
     selectedFolders: folders,
     selectedFiles: files,

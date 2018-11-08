@@ -6,6 +6,9 @@ import {
   SHARING_SETTINGS_SAVE_REQUEST,
   SHARING_SETTINGS_SAVE_SUCCESS,
   SHARING_SETTINGS_SAVE_FAILURE,
+  TEAM_SHARING_SETTINGS_SAVE_REQUEST,
+  TEAM_SHARING_SETTINGS_SAVE_SUCCESS,
+  TEAM_SHARING_SETTINGS_SAVE_FAILURE,
   TEAM_SHARING_SETTINGS_TOGGLE,
   TEAM_SHARING_SETTINGS_TOGGLE_ALL,
   INTEGRATIONS_REVOKE_SUCCESS,
@@ -73,6 +76,21 @@ const byTeam = (state = {}, action) => {
       const { folders, files } = action.payload;
       return updateTeamSettings(state, action.payload, { folders, files });
     }
+    case TEAM_SHARING_SETTINGS_SAVE_REQUEST:
+      return updateTeamSettings(state, action.payload, {
+        submitting: true,
+        saved: false
+      });
+    case TEAM_SHARING_SETTINGS_SAVE_SUCCESS:
+      return updateTeamSettings(state, action.payload, {
+        submitting: false,
+        saved: true
+      });
+    case TEAM_SHARING_SETTINGS_SAVE_FAILURE:
+      return updateTeamSettings(state, action.payload, {
+        submitting: false,
+        saved: false
+      });
     case TEAM_INTEGRATIONS_REVOKE_SUCCESS:
       return updateTeamSettings(state, action.payload, INITIAL_SETTINGS);
     default:

@@ -40,6 +40,7 @@ const propTypes = {
   source: PropTypes.string.isRequired,
   integration: PropTypes.object,
   content: PropTypes.object,
+  contentError: PropTypes.object,
   selectedFolders: PropTypes.array,
   selectedFiles: PropTypes.array,
   isFetchingContent: PropTypes.bool,
@@ -50,6 +51,7 @@ const propTypes = {
 const defaultProps = {
   integration: null,
   content: null,
+  contentError: null,
   selectedFolders: [],
   selectedFiles: [],
   isFetchingContent: false,
@@ -83,9 +85,14 @@ class IntegrationPage extends Component {
   componentDidMount() {
     const { subscriberUserId, source } = this.props;
     this.props.fetchIntegrations();
-    this.props
-      .fetchIntegrationContent(source, subscriberUserId)
-      .catch(() => message.error(String.t('integrationPage.contentError')));
+    this.props.fetchIntegrationContent(source, subscriberUserId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { integration, contentError } = nextProps;
+    if (contentError && !this.props.contentError && getIntegrationStatus(integration) === 'Active') {
+      message.error(String.t('integrationPage.message.contentError'));
+    }
   }
 
   onSaveConfigChanges = () => {
@@ -129,8 +136,10 @@ class IntegrationPage extends Component {
   };
 
   saveSharingSettings = () => {
-    const { source, subscriberUserId, selectedFolders, selectedFiles } = this.props;
-    this.props.saveOrgSharingSettings(source, subscriberUserId, { folders: selectedFolders, files: selectedFiles });
+    const { source, subscriberUserId } = this.props;
+    this.props
+      .saveOrgSharingSettings(source, subscriberUserId)
+      .then(() => message.success(String.t('integrationPage.message.sharingSettingsSaved')));
   };
 
   handleToggleSharingSettings = ({ folderId, fileId }) => {

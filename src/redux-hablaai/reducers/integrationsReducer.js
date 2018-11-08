@@ -100,7 +100,8 @@ const content = (state = INITIAL_CONTENT, action) => {
   switch (action.type) {
     case INTEGRATIONS_CONTENT_FETCH_REQUEST: {
       const { subscriberUserId, source, teamId } = action.payload;
-      const resetState = subscriberUserId !== state.teamId || source !== state.source || teamId !== state.teamId;
+      const resetState =
+        subscriberUserId !== state.subscriberUserId || source !== state.source || teamId !== state.teamId;
 
       return {
         ...(resetState ? INITIAL_CONTENT : state),
@@ -109,15 +110,8 @@ const content = (state = INITIAL_CONTENT, action) => {
       };
     }
     case INTEGRATIONS_CONTENT_FETCH_SUCCESS: {
-      const {
-        files,
-        folders,
-        source,
-        teamId,
-        habla_user_id: hablaUserId,
-        subscriber_user_id: subscriberUserId,
-        subscriber_org_id: orgId
-      } = action.payload.content;
+      const { subscriberUserId, source, teamId } = action.payload;
+      const { files, folders, habla_user_id: hablaUserId, subscriber_org_id: orgId } = action.payload.content;
       return {
         files,
         folders,
