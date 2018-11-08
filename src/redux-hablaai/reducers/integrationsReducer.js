@@ -98,13 +98,16 @@ const INITIAL_CONTENT = {
 
 const content = (state = INITIAL_CONTENT, action) => {
   switch (action.type) {
-    case INTEGRATIONS_CONTENT_FETCH_REQUEST:
+    case INTEGRATIONS_CONTENT_FETCH_REQUEST: {
+      const { subscriberUserId, source, teamId } = action.payload;
+      const resetState = subscriberUserId !== state.teamId || source !== state.source || teamId !== state.teamId;
+
       return {
-        ...state,
+        ...(resetState ? INITIAL_CONTENT : state),
         isFetching: true,
-        error: null,
-        teamId: action.payload.teamId
+        error: null
       };
+    }
     case INTEGRATIONS_CONTENT_FETCH_SUCCESS: {
       const {
         files,

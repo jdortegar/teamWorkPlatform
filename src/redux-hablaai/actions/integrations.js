@@ -18,7 +18,7 @@ export const fetchIntegrationContent = (source, subscriberUserId, teamId) => dis
   const teamParam = teamId ? `/${teamId}` : '';
   const requestUrl = buildKnowledgeApiUrl(`service/${source}/${subscriberUserId}${teamParam}`);
 
-  dispatch({ type: INTEGRATIONS_CONTENT_FETCH_REQUEST, payload: { source, subscriberUserId, teamId } });
+  dispatch({ type: INTEGRATIONS_CONTENT_FETCH_REQUEST, payload: { subscriberUserId, source, teamId } });
 
   const thunk = dispatch(
     doAuthenticatedRequest({ requestUrl, method: 'get' }, { source, subscriberUserId, teamId }, { forceGet: true })

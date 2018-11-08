@@ -53,7 +53,9 @@ class TeamIntegrationPage extends Component {
   componentDidMount() {
     const { team, source, subscriberUserId } = this.props;
     this.props.fetchTeamIntegrations(team.teamId);
-    this.props.fetchIntegrationContent(source, subscriberUserId, team.teamId);
+    this.props
+      .fetchIntegrationContent(source, subscriberUserId, team.teamId)
+      .catch(() => message.error(String.t('integrationPage.contentError')));
   }
 
   handleToggleSharingSettings = ({ folderId, fileId }) => {
@@ -96,8 +98,8 @@ class TeamIntegrationPage extends Component {
     const statusLabel = getIntegrationStatus(integration);
     const tooltipTitle =
       statusLabel === 'Active' ? String.t('integrationPage.deactivate') : String.t('integrationPage.activate');
-    const shouldDisplaySaveButton = statusLabel === 'Active' && !isFetchingContent && !isEmpty(content);
-    const saveButtonOptions = shouldDisplaySaveButton
+    const displaySharingSettings = statusLabel === 'Active' && !isFetchingContent && !isEmpty(content);
+    const saveButtonOptions = displaySharingSettings
       ? {
           type: 'main',
           fitText: true,
@@ -141,20 +143,18 @@ class TeamIntegrationPage extends Component {
           </Tooltip>
         </div>
         {isFetchingContent && <Spinner />}
-        {statusLabel === 'Active' &&
-          !isFetchingContent &&
-          content && (
-            <SharingSettings
-              onToggleSelect={this.handleToggleSharingSettings}
-              onToggleSelectAll={this.handleToggleAllSharingSettings}
-              integrationType={integrationLabel}
-              folders={content.folders}
-              files={content.files}
-              selectedFolders={selectedFolders}
-              selectedFiles={selectedFiles}
-              disabled={isSavedSharingSettings || isSubmittingSharingSettings}
-            />
-          )}
+        {displaySharingSettings && (
+          <SharingSettings
+            onToggleSelect={this.handleToggleSharingSettings}
+            onToggleSelectAll={this.handleToggleAllSharingSettings}
+            integrationType={integrationLabel}
+            folders={content.folders}
+            files={content.files}
+            selectedFolders={selectedFolders}
+            selectedFiles={selectedFiles}
+            disabled={isSavedSharingSettings || isSubmittingSharingSettings}
+          />
+        )}
       </div>
     );
   }
