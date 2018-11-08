@@ -83,32 +83,14 @@ class EditTeamPage extends Component {
     const pageBreadCrumb = {
       routes: [
         {
-          title: team.name,
-          url: `/app/team/${team.subscriberOrgId}`
-        },
-        {
           title: String.t('TeamPage.editTeam')
         }
       ]
     };
 
-    // Page Menu
-    const menuPageHeader = [
-      {
-        icon: 'fas fa-cloud-download-alt',
-        title: 'TeamPage.addDataIntegration',
-        url: ''
-      },
-      {
-        icon: 'fas fa-pencil-alt',
-        title: 'TeamPage.editTeam',
-        url: `/app/editTeam/${teamId}`
-      }
-    ];
-
     return (
       <div className="EditTeamPage-main">
-        <PageHeader pageBreadCrumb={pageBreadCrumb} hasMenu={false} menuPageHeader={menuPageHeader} />
+        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="padding-class-a">

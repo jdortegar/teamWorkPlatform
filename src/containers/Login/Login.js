@@ -53,18 +53,11 @@ class Login extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onForgotPassword = this.onForgotPassword.bind(this);
-    this.onNewUserSignUp = this.onNewUserSignUp.bind(this);
   }
 
   onForgotPassword() {
     sessionStorage.setItem('habla-user-email', this.props.form.getFieldValue('email') || '');
     this.props.history.push('/recoverPassword');
-  }
-
-  onNewUserSignUp() {
-    sessionStorage.setItem('habla-user-email', this.props.form.getFieldValue('email') || '');
-    const params = this.state.awsCustomerId ? `?awsCustomerId=${this.state.awsCustomerId}` : '';
-    this.props.history.push(`/register${params}`);
   }
 
   handleSubmit(e) {
@@ -150,7 +143,7 @@ class Login extends React.Component {
                     </a>
                   </div>
                   <div className="login-main-signup">
-                    <a onClick={this.onNewUserSignUp}>
+                    <a href="https://www.habla.ai/plans.html" rel="noopener noreferrer" target="_blank">
                       <span className="habla-bold-text">{String.t('login.newUserLabel')}</span>{' '}
                       {String.t('login.signUpLabel')}
                     </a>

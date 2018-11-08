@@ -12,7 +12,8 @@ const propTypes = {
   form: formShape.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
-    replace: PropTypes.func.isRequired
+    replace: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -63,7 +64,6 @@ class EditOrganizationPage extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleWebSiteBlur = this.handleWebSiteBlur.bind(this);
     this.onRemoveImage = this.onRemoveImage.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
   }
 
   onRemoveImage() {
@@ -89,11 +89,6 @@ class EditOrganizationPage extends Component {
     }
   }
 
-  handleCancel() {
-    const { subscriberOrgId } = this.props.match.params;
-    this.props.history.push(`/app/organization/${subscriberOrgId}`);
-  }
-
   handleSubmit() {
     const { subscriberOrgId } = this.props.match.params;
     this.props.form.validateFields((err, values) => {
@@ -111,7 +106,7 @@ class EditOrganizationPage extends Component {
           .updateSubscriberOrg(dataToUpdate, subscriberOrgId)
           .then(() => {
             this.setState({ loading: false });
-            this.props.history.push(`/app/organization/${subscriberOrgId}`);
+            this.props.history.goBack();
             message.success(String.t('editOrgPage.organizationUpdated'));
           })
           .catch(error => {
@@ -154,28 +149,9 @@ class EditOrganizationPage extends Component {
       ]
     };
 
-    // Page Menu
-    const menuPageHeader = [
-      {
-        icon: 'fas fa-cog',
-        title: 'OrganizationPage.manageTeams',
-        url: `/app/editOrganization/${subscriberOrgId}/teams`
-      },
-      {
-        icon: 'fas fa-cog',
-        title: 'OrganizationPage.manageTeamMembers',
-        url: `/app/editOrganization/${subscriberOrgId}/members`
-      },
-      {
-        icon: 'fas fa-cog',
-        title: 'OrganizationPage.manageDataIntegrations',
-        url: `/app/editOrganization/${subscriberOrgId}/dataIntegrations`
-      }
-    ];
-
     return (
       <div className="editOrgPage-main">
-        <PageHeader pageBreadCrumb={pageBreadCrumb} hasMenu menuName="settings" menuPageHeader={menuPageHeader} />
+        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
         <NewSubpageHeader>
           <div className="subpage__header__title habla-title">{String.t('editOrgPage.title')}</div>
         </NewSubpageHeader>
@@ -233,7 +209,12 @@ class EditOrganizationPage extends Component {
               </div>
             </div>
             <div className="edit-org__buttons border-top-lighter margin-top-class-a">
-              <Button type="secondary" fitText className="margin-right-class-a" onClick={this.handleCancel}>
+              <Button
+                type="secondary"
+                fitText
+                className="margin-right-class-a"
+                onClick={() => this.props.history.goBack()}
+              >
                 {String.t('Buttons.cancel')}
               </Button>
               <Button type="main" fitText onClick={this.handleSubmit} loading={this.state.loading}>

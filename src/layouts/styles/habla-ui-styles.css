@@ -1025,7 +1025,7 @@ p {
   height: 38px;
 }
 .ant-layout {
-  background: none !important;
+  background: none;
 }
 .ant-menu-inline,
 .ant-menu-vertical,

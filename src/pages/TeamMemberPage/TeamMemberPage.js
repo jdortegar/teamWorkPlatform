@@ -54,11 +54,7 @@ const TeamMemberPage = ({ subscriberOrg, subscribers, subscribersPresences, matc
 
   return (
     <div>
-      <PageHeader
-        pageBreadCrumb={pageBreadCrumb}
-        hasMenu={false}
-        backButton={`/app/organization/${subscriberOrg.subscriberOrgId}`}
-      />
+      <PageHeader pageBreadCrumb={pageBreadCrumb} backButton />
       <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
         <AvatarWrapper size="x-large" user={member} />
         <div className="margin-top-class-b">

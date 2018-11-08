@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { isEmpty } from 'lodash';
 
 import { Link } from 'react-router-dom';
@@ -15,8 +16,12 @@ const propTypes = {
   hasMenu: PropTypes.bool,
   badgeOptions: PropTypes.object,
   buttonOptions: PropTypes.object,
-  backButton: PropTypes.string,
-  optionalButtons: PropTypes.object
+  optionalButtons: PropTypes.object,
+  backButton: PropTypes.bool,
+  settingsIcon: PropTypes.bool,
+  history: PropTypes.shape({
+    goBack: PropTypes.func.isRequired
+  }).isRequired
 };
 
 const defaultProps = {
@@ -26,10 +31,11 @@ const defaultProps = {
   badgeOptions: {},
   buttonOptions: {},
   menuPageHeader: [],
-  backButton: '',
+  backButton: false,
   optionalButtons: {
     enabled: false
-  }
+  },
+  settingsIcon: false
 };
 
 function PageHeader({
@@ -40,7 +46,9 @@ function PageHeader({
   menuPageHeader,
   backButton,
   buttonOptions,
-  optionalButtons
+  optionalButtons,
+  history,
+  settingsIcon
 }) {
   const menuItems = menuPageHeader.map(
     item =>
@@ -76,14 +84,19 @@ function PageHeader({
   return (
     <div className="PageHeader habla-main-content-header padding-class-a border-bottom-light">
       <div className="habla-main-content-header-title">
-        {(backButton || hasMenu) && (
+        {(backButton || hasMenu || settingsIcon) && (
           <div className="actionButtonsContainer">
-            {backButton !== '' && (
+            {backButton && (
               <Tooltip placement="top" title={String.t('Buttons.back')}>
-                <Link to={backButton}>
+                <a onClick={() => history.goBack()}>
                   <i className="fas fa-arrow-left fa-2x" />
-                </Link>
+                </a>
               </Tooltip>
+            )}
+            {settingsIcon && (
+              <span>
+                <i className="fa fa-cog" />
+              </span>
             )}
             {hasMenu && (
               <Popover placement="bottomLeft" title={String.t(menuName)} content={buttonMenu} trigger="click">
@@ -118,4 +131,4 @@ function PageHeader({
 PageHeader.propTypes = propTypes;
 PageHeader.defaultProps = defaultProps;
 
-export default PageHeader;
+export default withRouter(PageHeader);

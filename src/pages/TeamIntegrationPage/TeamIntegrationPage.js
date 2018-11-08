@@ -111,7 +111,7 @@ class TeamIntegrationPage extends Component {
     return (
       <div className="TeamIntegration">
         <PageHeader
-          backButton={`/app/teamIntegrations/${team.teamId}`}
+          backButton
           pageBreadCrumb={{
             routes: [
               {

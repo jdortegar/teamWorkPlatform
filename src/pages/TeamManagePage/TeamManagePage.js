@@ -93,7 +93,7 @@ class TeamManagePage extends Component {
           pageBreadCrumb={pageBreadCrumb}
           hasMenu
           menuName="settings"
-          backButton={`/app/team/${teamId}`}
+          backButton
           menuPageHeader={menuPageHeader}
         />
         <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">

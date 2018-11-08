@@ -11,7 +11,8 @@ import './styles/style.css';
 const propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
-    replace: PropTypes.func.isRequired
+    replace: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -62,14 +63,13 @@ class InviteToTeamPage extends Component {
   }
 
   handleSubmit() {
-    const { teamId } = this.props.match.params;
     const users = Object.keys(this.state.invitees);
     this.setState({ loading: true });
     this.props
       .inviteMembersToTeam(users)
       .then(() => {
         this.setState({ loading: false });
-        this.props.history.push(`/app/team/manage/${teamId}`);
+        this.props.history.goBack();
         message.success(String.t('inviteToTeamPage.invitationSent', { count: users.length }));
       })
       .catch(error => {
@@ -176,23 +176,21 @@ class InviteToTeamPage extends Component {
     }
 
     const instructions = String.t('inviteToTeamPage.instructions', { name: team.name });
+
+    // Breadcrumb
+    const pageBreadCrumb = {
+      routes: [
+        {
+          title: team.name,
+          link: `/app/team/${team.teamId}`
+        },
+        { title: String.t('inviteToTeamPage.breadcrumb') }
+      ]
+    };
+
     return (
       <div>
-        <PageHeader
-          pageBreadCrumb={{
-            routes: [
-              {
-                title: subscriberOrg.name,
-                link: `/app/organization/${subscriberOrg.subscriberOrgId}`
-              },
-              {
-                title: team.name,
-                link: `/app/team/${team.teamId}`
-              },
-              { title: String.t('inviteToTeamPage.breadcrumb') }
-            ]
-          }}
-        />
+        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="padding-class-a">
@@ -204,7 +202,7 @@ class InviteToTeamPage extends Component {
                 type="secondary"
                 fitText
                 className="margin-right-class-a"
-                onClick={() => this.props.history.push(`/app/team/manage/${teamId}`)}
+                onClick={() => this.props.history.goBack()}
               >
                 {String.t('Buttons.cancel')}
               </Button>

@@ -25,7 +25,8 @@
   margin-right: 10px;
   background: #e8e7e7;
 }
-.actionButtonsContainer a {
+.actionButtonsContainer a,
+.actionButtonsContainer span {
   padding: 6px 8px;
   font-weight: 900;
 }

@@ -15,7 +15,7 @@ import {
   CountrySelectField,
   TimezoneSelectField,
   UploadImageField,
-  NewSubpageHeader
+  PageHeader
 } from 'src/components';
 import './styles/style.css';
 
@@ -109,13 +109,19 @@ class EditUserPage extends Component {
       'with-image': this.state.userIcon,
       'with-no-image': !this.state.userIcon
     });
+
+    // Breadcrumb
+    const pageBreadCrumb = {
+      routes: [
+        {
+          title: String.t('editUserPage.title')
+        }
+      ]
+    };
+
     return (
       <div className="userAccountSetting">
-        <NewSubpageHeader>
-          <div className="habla-title hablaTitleBreadcrumb">
-            <i className="fas fa-address-card" /> {String.t('editUserPage.title')}
-          </div>
-        </NewSubpageHeader>
+        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
         <Form onSubmit={this.handleSubmit} layout="vertical">
           <Collapse defaultActiveKey={['1']} className="edituser_collapse">
             <Panel header={String.t('editUserPage.profileSettings')} key="1" className="ant-collapse-header">

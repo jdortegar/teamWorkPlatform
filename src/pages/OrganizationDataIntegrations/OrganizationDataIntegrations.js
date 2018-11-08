@@ -183,7 +183,7 @@ class OrganizationDataIntegrations extends Component {
 
       return (
         <div className="editOrgPage-main">
-          <PageHeader pageBreadCrumb={pageBreadCrumb} hasMenu={false} backButton={`/app/organization/${orgId}`} />
+          <PageHeader pageBreadCrumb={pageBreadCrumb} backButton />
           <SimpleCardContainer className="subpage-block habla-color-lighertblue padding-class-a">
             <div className="header-search-container">
               <Input

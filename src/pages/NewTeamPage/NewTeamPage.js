@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import String from 'src/translations';
 import { formShape } from 'src/propTypes';
-import { BreadCrumb, SubpageHeader, SimpleCardContainer, TextField, Spinner, Button } from 'src/components';
+import { SimpleCardContainer, TextField, Spinner, Button, PageHeader } from 'src/components';
 import './styles/style.css';
 // import { EINPROGRESS } from 'constants';
 
@@ -72,24 +72,18 @@ class NewTeamPage extends Component {
       return null;
     }
 
+    // Breadcrumb
+    const pageBreadCrumb = {
+      routes: [
+        {
+          title: String.t('newTeamPage.breadcrumb')
+        }
+      ]
+    };
+
     return (
       <div>
-        <SubpageHeader
-          subscriberOrgId={subscriberOrgId}
-          history={this.props.history}
-          breadcrumb={
-            <BreadCrumb
-              subscriberOrg={subscriberOrg}
-              routes={[
-                {
-                  title: subscriberOrg.name,
-                  link: `/app/organization/${subscriberOrg.subscriberOrgId}`
-                },
-                { title: String.t('newTeamPage.breadcrumb') }
-              ]}
-            />
-          }
-        />
+        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="New-team__container padding-class-a">

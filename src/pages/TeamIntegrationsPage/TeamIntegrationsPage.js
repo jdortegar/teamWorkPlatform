@@ -42,7 +42,7 @@ class TeamIntegrationsPage extends Component {
           }}
           hasMenu
           menuName="settings"
-          backButton={`/app/team/manage/${team.teamId}`}
+          backButton
           menuPageHeader={[
             {
               icon: 'fas fa-pencil-alt',

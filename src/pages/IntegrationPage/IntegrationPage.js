@@ -290,7 +290,7 @@ class IntegrationPage extends Component {
     return (
       <div className="Integration">
         <PageHeader
-          backButton={`/app/integrations/${orgId}`}
+          backButton
           pageBreadCrumb={{
             routes: [
               {
