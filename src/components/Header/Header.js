@@ -10,6 +10,32 @@ import { hablaBlackLogo, hablaBlackLogoIcon } from 'src/img';
 import SearchMenu from './SearchMenu';
 import './styles/style.css';
 
+const propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
+  toggleCaseSensitive: PropTypes.func.isRequired,
+  toggleExactMatch: PropTypes.func.isRequired,
+  search: PropTypes.func.isRequired,
+  clearSearch: PropTypes.func.isRequired,
+  currentSubscriberOrgId: PropTypes.string.isRequired,
+  user: PropTypes.object,
+  query: PropTypes.string,
+  caseSensitive: PropTypes.bool,
+  exactMatch: PropTypes.bool,
+  history: PropTypes.shape({
+    push: PropTypes.func
+  }).isRequired,
+  isAdminMode: PropTypes.bool.isRequired,
+  setAdminMode: PropTypes.func.isRequired
+};
+
+const defaultProps = {
+  query: '',
+  caseSensitive: false,
+  exactMatch: false,
+  user: null
+};
+
 const AntdHeader = Layout.Header;
 
 class Header extends Component {
@@ -68,8 +94,19 @@ class Header extends Component {
   }
 
   renderMenuItems() {
-    const { user, caseSensitive, exactMatch, toggleCaseSensitive, toggleExactMatch, isAdminMode } = this.props;
+    const {
+      user,
+      caseSensitive,
+      exactMatch,
+      toggleCaseSensitive,
+      toggleExactMatch,
+      isAdminMode,
+      currentSubscriberOrgId
+    } = this.props;
     const clearIconVisibility = this.state.query ? 'visible' : 'hidden';
+
+    const isOrgAdmin =
+      Object.keys(user.subscriberOrgs).length > 0 && user.subscriberOrgs[currentSubscriberOrgId].role === 'admin';
 
     const muteNotificationMenu = (
       <Menu className="muteNotificationMenu">
@@ -147,20 +184,22 @@ class Header extends Component {
             </span>
           </Link>
         </Menu.Item>
-        <Menu.Item key="adminMode">
-          <a>
-            <span>
-              <i className="fas fa-sync-alt" /> {String.t('Header.adminMode')}{' '}
-              <Switch
-                size="small"
-                defaultChecked
-                style={{ marginLeft: 10 }}
-                onChange={this.handleAdminButton}
-                checked={isAdminMode}
-              />
-            </span>
-          </a>
-        </Menu.Item>
+        {isOrgAdmin && (
+          <Menu.Item key="adminMode">
+            <a>
+              <span>
+                <i className="fas fa-sync-alt" /> {String.t('Header.adminMode')}{' '}
+                <Switch
+                  size="small"
+                  defaultChecked
+                  style={{ marginLeft: 10 }}
+                  onChange={this.handleAdminButton}
+                  checked={isAdminMode}
+                />
+              </span>
+            </a>
+          </Menu.Item>
+        )}
         <Menu.Item key="logout" className="dropdown-last-menu-item">
           <a onClick={this.logOut}>
             <i className="fas fa-power-off" /> {String.t('Header.logOutMenu')}
@@ -222,7 +261,7 @@ class Header extends Component {
               <Dropdown overlay={userMenu} trigger={['click']}>
                 <div className="ant-dropdown-link">
                   <AvatarWrapper size="default" user={user} hideStatusTooltip />
-                  <span className="habla-top-menu-label">{user.displayName}</span>
+                  <span className="habla-top-menu-label">{user.firstName}</span>
                   <Icon type="down" className="userMenu__dropdown-icon" />
                 </div>
               </Dropdown>
@@ -269,30 +308,7 @@ class Header extends Component {
   }
 }
 
-Header.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
-  updateUser: PropTypes.func.isRequired,
-  toggleCaseSensitive: PropTypes.func.isRequired,
-  toggleExactMatch: PropTypes.func.isRequired,
-  search: PropTypes.func.isRequired,
-  clearSearch: PropTypes.func.isRequired,
-  currentSubscriberOrgId: PropTypes.string.isRequired,
-  user: PropTypes.object,
-  query: PropTypes.string,
-  caseSensitive: PropTypes.bool,
-  exactMatch: PropTypes.bool,
-  history: PropTypes.shape({
-    push: PropTypes.func
-  }).isRequired,
-  isAdminMode: PropTypes.bool.isRequired,
-  setAdminMode: PropTypes.func.isRequired
-};
-
-Header.defaultProps = {
-  query: '',
-  caseSensitive: false,
-  exactMatch: false,
-  user: null
-};
+Header.propTypes = propTypes;
+Header.defaultProps = defaultProps;
 
 export default Header;

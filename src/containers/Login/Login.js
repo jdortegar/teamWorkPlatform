@@ -97,7 +97,7 @@ class Login extends React.Component {
       });
     }
     const initialEmail = sessionStorage.getItem('habla-user-remember-me');
-    const rememberMe = initialEmail && initialEmail.length;
+    const rememberMe = (initialEmail && initialEmail.length) || false;
     return (
       <div className="login-main-div" style={loginpage}>
         <Row type="flex" justify="center" align="middle">
@@ -135,7 +135,6 @@ class Login extends React.Component {
                   )}
                   <div className="login-main-options">
                     {getFieldDecorator('remember', {
-                      valuePropName: 'checked',
                       initialValue: rememberMe
                     })(<Checkbox>{String.t('login.rememberMeCheckboxLabel')}</Checkbox>)}
                     <a className="login-form-forgot" onClick={this.onForgotPassword}>

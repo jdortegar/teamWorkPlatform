@@ -25,7 +25,8 @@ const defaultCountry = countriesAndTimezones.getCountriesForTimezone(defaultTime
 const propTypes = {
   form: formShape.isRequired,
   createAccount: PropTypes.func.isRequired,
-  loginUser: PropTypes.func.isRequired
+  loginUser: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 const layout = {
@@ -76,6 +77,11 @@ class CreateAccount extends React.Component {
   }
 
   render() {
+    if (!sessionStorage.getItem('habla-user-email')) {
+      this.props.history.replace('/app');
+      return null;
+    }
+
     return (
       <Form onSubmit={this.handleSubmit} layout="vertical" className="profileForm">
         <div className="align-center-class padding-class-b">
@@ -95,13 +101,7 @@ class CreateAccount extends React.Component {
             </Row>
             <Row gutter={16}>
               <Col className="gutter-row" span={12}>
-                <UsernameField
-                  form={this.props.form}
-                  layout={layout}
-                  required
-                  componentKey="displayName"
-                  initialValue={sessionStorage.getItem('habla-user-email')}
-                />
+                <UsernameField form={this.props.form} layout={layout} required componentKey="displayName" />
               </Col>
               <Col className="gutter-row" span={12}>
                 <EmailField

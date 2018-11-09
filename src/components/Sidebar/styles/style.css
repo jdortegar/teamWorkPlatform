@@ -171,6 +171,7 @@
   white-space: nowrap;
   overflow: hidden;
   display: block;
+  line-height: 20px;
 }
 .subscriberorg-name-current:hover {
   top: 6px;

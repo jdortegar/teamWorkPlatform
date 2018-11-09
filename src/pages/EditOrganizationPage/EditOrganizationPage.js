@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import String from 'src/translations';
 import { formShape } from 'src/propTypes';
-import { PageHeader, NewSubpageHeader, UploadImageField, TextField, Spinner, Button } from 'src/components';
+import { PageHeader, UploadImageField, TextField, Spinner, Button } from 'src/components';
 import './styles/style.css';
 
 const propTypes = {
@@ -152,9 +152,6 @@ class EditOrganizationPage extends Component {
     return (
       <div className="editOrgPage-main">
         <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
-        <NewSubpageHeader>
-          <div className="subpage__header__title habla-title">{String.t('editOrgPage.title')}</div>
-        </NewSubpageHeader>
         <div className="edit-org__subpage-body">
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="edit-org__form padding-class-a">
