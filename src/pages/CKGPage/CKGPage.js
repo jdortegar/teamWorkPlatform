@@ -37,8 +37,7 @@ const buildDataObject = file => {
 
 const propTypes = {
   history: PropTypes.object.isRequired,
-  currentSubscriberOrgId: PropTypes.string.isRequired,
-  setCurrentSubscriberOrgId: PropTypes.func.isRequired,
+  orgId: PropTypes.string.isRequired,
   fetchTimeActivitiesBySubscriberOrgId: PropTypes.func.isRequired,
   search: PropTypes.func.isRequired,
   toggleIntegrationFilter: PropTypes.func.isRequired,
@@ -46,9 +45,6 @@ const propTypes = {
   files: PropTypes.object,
   excludeFilters: PropTypes.object,
   teams: PropTypes.array,
-  match: PropTypes.shape({
-    params: PropTypes.object.isRequired
-  }).isRequired,
   query: PropTypes.string,
   caseSensitive: PropTypes.bool,
   exactMatch: PropTypes.bool,
@@ -84,31 +80,6 @@ const menuPageHeader = [
     title: 'graphViewsSelector.timeActivity',
     url: ''
   },
-  // {
-  //   icon: 'fas fa-bullseye',
-  //   title: 'graphViewsSelector.teamMemberContribution',
-  //   url: ''
-  // },
-  // {
-  //   icon: 'fas fa-clone',
-  //   title: 'graphViewsSelector.fileLineage',
-  //   url: ''
-  // },
-  // {
-  //   icon: 'fas fa-sitemap',
-  //   title: 'graphViewsSelector.relationshipHeatMap',
-  //   url: ''
-  // },
-  // {
-  //   icon: 'fas fa-bars',
-  //   title: 'graphViewsSelector.smartListView',
-  //   url: ''
-  // },
-  // {
-  //   icon: 'fas fa-stop',
-  //   title: 'graphViewsSelector.customGraph',
-  //   url: ''
-  // },
   {
     icon: 'fas fa-chart-bar',
     title: 'graphViewsSelector.dashboard',
@@ -160,47 +131,29 @@ class CKGPage extends Component {
   };
 
   componentDidMount() {
-    const {
-      search,
-      setCurrentSubscriberOrgId,
-      currentSubscriberOrgId,
-      history,
-      match,
-      query,
-      caseSensitive,
-      exactMatch
-    } = this.props;
+    const { orgId, history, search, query, caseSensitive, exactMatch } = this.props;
 
-    if (
-      !match ||
-      !match.params ||
-      !match.params.subscriberOrgId ||
-      match.params.subscriberOrgId !== currentSubscriberOrgId
-    ) {
+    if (!orgId) {
       history.replace('/app');
       return;
     }
 
-    const { subscriberOrgId } = match.params;
-    search(query, subscriberOrgId, caseSensitive, exactMatch);
-
-    if (currentSubscriberOrgId !== subscriberOrgId) {
-      setCurrentSubscriberOrgId(subscriberOrgId);
-    }
+    search(query, orgId, caseSensitive, exactMatch);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.currentSubscriberOrgId !== nextProps.currentSubscriberOrgId) {
-      this.props.fetchTimeActivitiesBySubscriberOrgId(nextProps.currentSubscriberOrgId);
+    const { orgId, teams, history } = nextProps;
+
+    if (this.props.orgId !== orgId) {
+      this.props.fetchTimeActivitiesBySubscriberOrgId(orgId);
     }
 
-    const { teams, history } = nextProps;
-    if (teams.length === 0 || this.state.selectedTeamId) return;
+    if (teams.length !== 0 && !this.state.selectedTeamId) {
+      const { teamId } = history.location.state || {};
+      const selectedTeamId = teamId || teams[0].teamId;
 
-    const { teamId } = history.location.state || {};
-    const selectedTeamId = teamId || teams[0].teamId;
-
-    this.setState({ selectedTeamId });
+      this.setState({ selectedTeamId });
+    }
   }
 
   handleZoomIn = () => {
@@ -271,7 +224,8 @@ class CKGPage extends Component {
   render() {
     const {
       files: { items },
-      excludeFilters
+      excludeFilters,
+      orgId
     } = this.props;
     if (!items) return null;
 
@@ -316,9 +270,7 @@ class CKGPage extends Component {
         {this.props.files.integrations.length === 0 && (
           <div className="CKGPage__center-message-container">
             <div className="CKGPage__center-message">
-              <Link to={`/app/integrations/${this.props.currentSubscriberOrgId}`}>
-                {String.t('ckgPage.AddDataIntegration')}
-              </Link>
+              <Link to={`/app/integrations/${orgId}`}>{String.t('ckgPage.AddDataIntegration')}</Link>
             </div>
           </div>
         )}
