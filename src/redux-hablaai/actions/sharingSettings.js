@@ -117,7 +117,7 @@ export const saveOrgSharingSettings = (source, subscriberUserId) => (dispatch, g
     subscriber_user_id: subscriberUserId,
     subscriber_org_id: content.orgId,
     habla_user_id: content.hablaUserId,
-    subscriber_team_id: null,
+    team_id: null,
     source,
     folders,
     files
