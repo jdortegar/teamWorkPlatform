@@ -122,17 +122,8 @@
 .bottomBar-selectors {
   border-right: solid 1px #e5efff;
 }
-/* .bottomBar .bottomBar-selectors .team-select-container,
-.bottomBar .bottomBar-selectors .team-room-select-container {
-  width: 50%;
-  float: left;
-} */
-.bottomBar select {
-  height: 30px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background: #fff;
-  width: 99%;
+.bottomBar .ant-select {
+  width: 180px;
 }
 .ant-dropdown-menu.activitySelectorMenu,
 .ant-dropdown-menu.activitySelectorMenu .ant-dropdown-menu-item {

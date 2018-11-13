@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Select } from 'antd';
 
 import 'src/pages/CKGPage/styles/style.css';
+
+const { Option } = Select;
 
 const propTypes = {
   teams: PropTypes.arrayOf(
@@ -10,25 +13,24 @@ const propTypes = {
       name: PropTypes.string
     })
   ),
-  selected: PropTypes.string,
   onSelect: PropTypes.func
 };
 
 const defaultProps = {
   teams: [],
-  selected: '',
   onSelect: null
 };
 
-const TeamPicker = ({ teams, selected, onSelect }) => (
+const TeamPicker = ({ teams, onSelect }) => (
   <div className="team-select-container">
-    <select className="team-select" onChange={onSelect} value={selected}>
+    <Select defaultValue="org" className="team-select" onChange={onSelect}>
+      <Option value="org">Organization CKG</Option>
       {teams.map(({ teamId, name }) => (
-        <option key={teamId} value={teamId}>
+        <Option key={teamId} value={teamId}>
           {name}
-        </option>
+        </Option>
       ))}
-    </select>
+    </Select>
   </div>
 );
 

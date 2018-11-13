@@ -18,6 +18,17 @@ export const getOrgTeams = createSelector(
   }
 );
 
+export const getActiveTeams = createSelector(
+  [getTeamIdsByOrg, getTeamsById, (state, orgId) => orgId],
+  (teamIdsByOrg, teamsById, orgId) => {
+    if (!orgId || !teamIdsByOrg[orgId]) return [];
+
+    const teamIds = teamIdsByOrg[orgId];
+    const teams = teamIds.map(teamId => teamsById[teamId]).filter(team => team.active);
+    return primaryAtTop(teams.sort(sortByName));
+  }
+);
+
 export const getTeam = createSelector(
   [getTeamsById, (state, teamId) => teamId],
   (teamsById, teamId) => teamsById[teamId]

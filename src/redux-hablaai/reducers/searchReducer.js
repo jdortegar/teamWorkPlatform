@@ -15,7 +15,8 @@ const INITIAL_STATE = {
   keywords: [],
   caseSensitive: false,
   exactMatch: false,
-  resultsCount: 0
+  resultsCount: 0,
+  teamId: null
 };
 
 const searchReducer = (state = INITIAL_STATE, action) => {
@@ -26,6 +27,7 @@ const searchReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: true,
+        teamId: action.payload.teamId,
         query: action.payload.query,
         keywords: action.payload.keywords,
         resultsCount: INITIAL_STATE.resultsCount

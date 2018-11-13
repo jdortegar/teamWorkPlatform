@@ -129,8 +129,7 @@ const menuPageHeader = [
 class CKGPage extends Component {
   state = {
     zoomLevel: 0,
-    viewAll: true,
-    selectedTeamId: ''
+    viewAll: true
   };
 
   componentDidMount() {
@@ -170,8 +169,10 @@ class CKGPage extends Component {
     this.setState({ viewAll: true });
   };
 
-  handleSelectTeam = event => {
-    this.setState({ selectedTeamId: event.target.value });
+  handleSelectTeam = value => {
+    const teamId = value !== 'org' ? value : null;
+    const { search, query, caseSensitive, exactMatch } = this.props;
+    search(query, { teamId, caseSensitive, exactMatch });
   };
 
   handleIntegrationFilterClick = key => {
@@ -188,12 +189,11 @@ class CKGPage extends Component {
 
   renderSelectors = () => {
     const { teams } = this.props;
-    const { selectedTeamId } = this.state;
 
     return (
       <div className="bottomBar-selectors">
         <div className="bottomBar-selectors-content padding-class-a">
-          <TeamPicker teams={teams} selected={selectedTeamId} onSelect={this.handleSelectTeam} />
+          <TeamPicker teams={teams} onSelect={this.handleSelectTeam} />
           <div className="clear" />
         </div>
       </div>

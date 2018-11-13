@@ -35,7 +35,7 @@ export const search = (
 
   dispatch({
     type: SEARCH_REQUEST,
-    payload: { query, keywords }
+    payload: { query, keywords, teamId }
   });
 
   const thunk = dispatch(

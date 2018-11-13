@@ -5,7 +5,7 @@ import {
   getCurrentSubscriberOrgId,
   getTeam,
   getTeamsById,
-  getOrgTeams,
+  getActiveTeams,
   getSearchQuery,
   isSearchCaseSensitive,
   isSearchExactMatch
@@ -29,7 +29,7 @@ const mapStateToProps = (state, props) => {
     teamById: getTeamsById(state),
     files: state.files,
     excludeFilters: state.files.excludeFilters,
-    teams: getOrgTeams(state, orgId),
+    teams: getActiveTeams(state, orgId),
     query: getSearchQuery(state),
     caseSensitive: isSearchCaseSensitive(state),
     exactMatch: isSearchExactMatch(state)
