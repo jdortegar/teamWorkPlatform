@@ -146,9 +146,7 @@ class Sidebar extends Component {
   }
 
   goToTeamPage(e, team) {
-    this.props.setCurrentSubscriberOrgId(team.subscriberOrgId);
     this.props.history.push(`/app/team/${team.teamId}`);
-
     this.cancelClickEvent(e);
   }
 

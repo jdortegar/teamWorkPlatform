@@ -3,6 +3,7 @@ import { withRouter } from 'react-router';
 import { CKGPage } from 'src/pages';
 import {
   getCurrentSubscriberOrgId,
+  getTeam,
   getTeamsById,
   getOrgTeams,
   getSearchQuery,
@@ -17,12 +18,15 @@ import {
   search
 } from 'src/actions';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
+  const { teamId } = props;
   const orgId = getCurrentSubscriberOrgId(state);
+  const team = getTeam(state, teamId);
+
   return {
     orgId,
+    team,
     teamById: getTeamsById(state),
-    subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     files: state.files,
     excludeFilters: state.files.excludeFilters,
     teams: getOrgTeams(state, orgId),

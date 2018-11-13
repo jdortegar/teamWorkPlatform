@@ -38,7 +38,7 @@ const buildDataObject = file => {
 const propTypes = {
   history: PropTypes.object.isRequired,
   orgId: PropTypes.string.isRequired,
-  fetchTimeActivitiesBySubscriberOrgId: PropTypes.func.isRequired,
+  teamId: PropTypes.string,
   search: PropTypes.func.isRequired,
   toggleIntegrationFilter: PropTypes.func.isRequired,
   toggleFileTypeFilter: PropTypes.func.isRequired,
@@ -48,17 +48,20 @@ const propTypes = {
   query: PropTypes.string,
   caseSensitive: PropTypes.bool,
   exactMatch: PropTypes.bool,
-  showHeader: PropTypes.bool
+  showHeader: PropTypes.bool,
+  showSelector: PropTypes.bool
 };
 
 const defaultProps = {
   files: {},
   excludeFilters: {},
   teams: [],
+  teamId: null,
   query: '',
   caseSensitive: false,
   exactMatch: false,
-  showHeader: true
+  showHeader: true,
+  showSelector: true
 };
 
 // Breadcrumb
@@ -131,28 +134,21 @@ class CKGPage extends Component {
   };
 
   componentDidMount() {
-    const { orgId, history, search, query, caseSensitive, exactMatch } = this.props;
+    const { orgId, teamId, history, search, query, caseSensitive, exactMatch } = this.props;
 
     if (!orgId) {
       history.replace('/app');
       return;
     }
 
-    search(query, orgId, caseSensitive, exactMatch);
+    search(query, { teamId, caseSensitive, exactMatch });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { orgId, teams, history } = nextProps;
+    const { teamId, search, query, caseSensitive, exactMatch } = nextProps;
 
-    if (this.props.orgId !== orgId) {
-      this.props.fetchTimeActivitiesBySubscriberOrgId(orgId);
-    }
-
-    if (teams.length !== 0 && !this.state.selectedTeamId) {
-      const { teamId } = history.location.state || {};
-      const selectedTeamId = teamId || teams[0].teamId;
-
-      this.setState({ selectedTeamId });
+    if (this.props.teamId !== teamId) {
+      search(query, { teamId, caseSensitive, exactMatch });
     }
   }
 
@@ -223,8 +219,10 @@ class CKGPage extends Component {
 
   render() {
     const {
-      files: { items },
+      files: { items, integrations },
       excludeFilters,
+      showHeader,
+      showSelector,
       orgId
     } = this.props;
     if (!items) return null;
@@ -237,7 +235,7 @@ class CKGPage extends Component {
 
     return (
       <div className="CKGPage">
-        {this.props.showHeader && (
+        {showHeader && (
           <PageHeader pageBreadCrumb={pageBreadCrumb} hasMenu menuName="settings" menuPageHeader={menuPageHeader} />
         )}
         <div className="ckg-tools-container">
@@ -267,7 +265,7 @@ class CKGPage extends Component {
           </div>
         </div>
 
-        {this.props.files.integrations.length === 0 && (
+        {integrations.length === 0 && (
           <div className="CKGPage__center-message-container">
             <div className="CKGPage__center-message">
               <Link to={`/app/integrations/${orgId}`}>{String.t('ckgPage.AddDataIntegration')}</Link>
@@ -282,7 +280,7 @@ class CKGPage extends Component {
         />
 
         <div className="bottomBar">
-          {this.renderSelectors()}
+          {showSelector && this.renderSelectors()}
           {this.renderFilesFilter()}
           <div className="clear" />
         </div>

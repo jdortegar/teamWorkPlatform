@@ -19,6 +19,7 @@ const propTypes = {
   clearSearch: PropTypes.func.isRequired,
   currentSubscriberOrgId: PropTypes.string.isRequired,
   user: PropTypes.object,
+  teamId: PropTypes.string,
   query: PropTypes.string,
   caseSensitive: PropTypes.bool,
   exactMatch: PropTypes.bool,
@@ -33,7 +34,8 @@ const defaultProps = {
   query: '',
   caseSensitive: false,
   exactMatch: false,
-  user: null
+  user: null,
+  teamId: null
 };
 
 const AntdHeader = Layout.Header;
@@ -67,12 +69,11 @@ class Header extends Component {
   }
 
   clearSearchInput = () => {
-    const { currentSubscriberOrgId } = this.props;
     this.searchInput.focus();
     this.setState({ query: '' });
 
     this.props.clearSearch();
-    this.props.search('', currentSubscriberOrgId);
+    this.props.search();
   };
 
   handleSearchChange = event => {
@@ -81,8 +82,8 @@ class Header extends Component {
 
   handleSearchSubmit = event => {
     event.preventDefault();
-    const { currentSubscriberOrgId, caseSensitive, exactMatch } = this.props;
-    this.props.search(this.state.query, currentSubscriberOrgId, caseSensitive, exactMatch);
+    const { teamId, caseSensitive, exactMatch } = this.props;
+    this.props.search(this.state.query, { teamId, caseSensitive, exactMatch });
   };
 
   handleAdminButton(checked) {

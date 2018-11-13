@@ -104,16 +104,16 @@ class SearchPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.currentSubscriberOrgId !== nextProps.currentSubscriberOrgId) {
-      const { keywords, currentSubscriberOrgId, caseSensitive, exactMatch } = nextProps;
+      const { keywords, caseSensitive, exactMatch } = nextProps;
       const query = keywords.join(' ');
-      this.props.search(query, currentSubscriberOrgId, caseSensitive, exactMatch);
+      this.props.search(query, { caseSensitive, exactMatch });
     }
   }
 
   handleRemoveKeywordClick = keyword => {
-    const { keywords, currentSubscriberOrgId, caseSensitive, exactMatch } = this.props;
+    const { keywords, caseSensitive, exactMatch } = this.props;
     const query = _.without(keywords, keyword).join(' ');
-    this.props.search(query, currentSubscriberOrgId, caseSensitive, exactMatch);
+    this.props.search(query, { caseSensitive, exactMatch });
   };
 
   handleOwnerFilterClick = key => {

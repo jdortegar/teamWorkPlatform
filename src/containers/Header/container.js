@@ -19,8 +19,10 @@ import {
   setAdminMode
 } from 'src/actions';
 
-function mapStateToProps(state) {
+const mapStateToProps = (state, props) => {
+  const { teamId } = props.match.params;
   return {
+    teamId,
     user: getCurrentUser(state),
     query: getSearchQuery(state),
     caseSensitive: isSearchCaseSensitive(state),
@@ -28,7 +30,7 @@ function mapStateToProps(state) {
     currentSubscriberOrgId: getCurrentSubscriberOrgId(state),
     isAdminMode: isAdminMode(state)
   };
-}
+};
 
 const mapDispatchToProps = {
   logoutUser,

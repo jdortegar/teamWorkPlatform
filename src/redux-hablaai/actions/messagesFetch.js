@@ -17,7 +17,8 @@ export const fetchMessages = conversationIdsMessagesIds => {
           method: 'post',
           data: { messages: conversationIdsMessagesIds }
         },
-        reduxState
+        reduxState,
+        { forceGet: true }
       )
     );
 

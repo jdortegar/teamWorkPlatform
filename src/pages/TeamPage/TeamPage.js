@@ -16,7 +16,7 @@ const propTypes = {
   teamId: PropTypes.string.isRequired
 };
 
-class TeamPageV1 extends Component {
+class TeamPage extends Component {
   componentDidMount = () => {
     if (!this.props.teamId) {
       this.props.history.replace(paths.app);
@@ -145,7 +145,7 @@ class TeamPageV1 extends Component {
           menuPageHeader={menuPageHeader}
         />
         <div className="homepage_graph-container">
-          <CKGPage showHeader={false} />
+          <CKGPage teamId={team.teamId} showHeader={false} showSelector={false} />
         </div>
         <div className="homepage_latest-container">{this.renderActivity()}</div>
       </div>
@@ -153,6 +153,6 @@ class TeamPageV1 extends Component {
   }
 }
 
-TeamPageV1.propTypes = propTypes;
+TeamPage.propTypes = propTypes;
 
-export default TeamPageV1;
+export default TeamPage;
