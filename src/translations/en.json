@@ -590,6 +590,10 @@
     "filterTypeOther": "Other",
     "AddDataIntegration": "Add a Data Integration"
   },
+  "ckg": {
+    "timeActivityView": "Time Activity",
+    "fileListView": "Smart List View"
+  },
   "dashboardPage": {
     "plant": "Plant",
     "industryGraphsTitle": "Industry Knowledge Graphs",

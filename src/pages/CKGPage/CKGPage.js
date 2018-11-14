@@ -1,7 +1,5 @@
 import React from 'react';
-import String from 'src/translations';
 import { CKG } from 'src/containers';
-import { PageHeader } from 'src/components';
 import './styles/style.css';
 
 // Page Menu
@@ -56,15 +54,7 @@ const menuPageHeader = [
 
 const CKGPage = () => (
   <div className="CKGPage">
-    <PageHeader
-      pageBreadCrumb={{
-        routes: [{ title: String.t('graphViewsSelector.timeActivity') }]
-      }}
-      hasMenu
-      menuName="settings"
-      menuPageHeader={menuPageHeader}
-    />
-    <CKG />
+    <CKG menuOptions={menuPageHeader} />
   </div>
 );
 

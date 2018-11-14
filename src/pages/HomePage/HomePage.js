@@ -5,7 +5,7 @@ import moment from 'moment';
 import String from 'src/translations';
 import { hablaLogoAvatar } from 'src/img';
 import { CKG } from 'src/containers';
-import { PageHeader, Spinner } from 'src/components';
+import { Spinner } from 'src/components';
 import './styles/style.css';
 
 const propTypes = {
@@ -95,16 +95,8 @@ class HomePage extends Component {
 
     return (
       <div className="homePage-main">
-        <PageHeader
-          pageBreadCrumb={{
-            routes: [{ title: String.t('graphViewsSelector.timeActivity') }]
-          }}
-          hasMenu
-          menuName="settings"
-          menuPageHeader={menuPageHeader}
-        />
         <div className="homepage_graph-container">
-          <CKG />
+          <CKG menuOptions={menuPageHeader} />
         </div>
         <div className="homepage_latest-container">{this.renderActivity()}</div>
       </div>

@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { Tag } from 'antd';
 import moment from 'moment';
 import * as d3 from 'd3';
+import _ from 'lodash';
 
 import String from 'src/translations';
 import { integrationKeyFromFile } from 'src/utils/dataIntegrations';
-import {
-  FilesFilters,
-  TimeActivityGraph,
-  GraphActivitySelector,
-  GraphZoomActions,
-  TeamPicker,
-  Spinner
-} from 'src/components';
+import { PageHeader, FilesFilters, TeamPicker, Spinner } from 'src/components';
+import TimeActivityView from './TimeActivityView';
+import FileListView from './FileListView';
 import './styles/style.css';
 
 const color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -39,6 +36,7 @@ const buildDataObject = file => {
 const propTypes = {
   orgId: PropTypes.string.isRequired,
   teamId: PropTypes.string,
+  team: PropTypes.object,
   history: PropTypes.object.isRequired,
   search: PropTypes.func.isRequired,
   toggleIntegrationFilter: PropTypes.func.isRequired,
@@ -47,32 +45,43 @@ const propTypes = {
   files: PropTypes.array,
   integrations: PropTypes.array,
   fileTypes: PropTypes.array,
+  owners: PropTypes.array,
   excludeFilters: PropTypes.object,
   query: PropTypes.string,
+  keywords: PropTypes.array,
   caseSensitive: PropTypes.bool,
   exactMatch: PropTypes.bool,
   loading: PropTypes.bool,
-  showSelector: PropTypes.bool
+  showSelector: PropTypes.bool,
+  menuOptions: PropTypes.array
 };
 
 const defaultProps = {
   teamId: null,
+  team: null,
   teams: [],
   files: [],
   integrations: [],
   fileTypes: [],
+  owners: [],
   excludeFilters: {},
   query: '',
+  keywords: [],
   caseSensitive: false,
   exactMatch: false,
   loading: false,
-  showSelector: true
+  showSelector: true,
+  menuOptions: []
+};
+
+const VIEWS = {
+  TIME_ACTIVITY: 'timeActivityView',
+  FILE_LIST: 'fileListView'
 };
 
 class CKG extends Component {
   state = {
-    zoomLevel: 0,
-    viewAll: true
+    activeView: VIEWS.TIME_ACTIVITY
   };
 
   componentDidMount() {
@@ -94,28 +103,16 @@ class CKG extends Component {
     }
   }
 
-  handleZoomIn = () => {
-    this.setState(prevState => ({
-      zoomLevel: prevState.zoomLevel + 1,
-      viewAll: false
-    }));
-  };
-
-  handleZoomOut = () => {
-    this.setState(prevState => ({
-      zoomLevel: prevState.zoomLevel - 1,
-      viewAll: false
-    }));
-  };
-
-  handleViewAll = () => {
-    this.setState({ viewAll: true });
-  };
-
   handleSelectTeam = value => {
     const teamId = value !== 'org' ? value : null;
     const { search, query, caseSensitive, exactMatch } = this.props;
     search(query, { teamId, caseSensitive, exactMatch });
+  };
+
+  handleRemoveKeywordClick = keyword => {
+    const { keywords, caseSensitive, exactMatch } = this.props;
+    const query = _.without(keywords, keyword).join(' ');
+    this.props.search(query, { caseSensitive, exactMatch });
   };
 
   handleIntegrationFilterClick = key => {
@@ -126,8 +123,9 @@ class CKG extends Component {
     this.props.toggleFileTypeFilter(key);
   };
 
-  handleArrowClick = () => {
-    this.props.history.push('/app/search');
+  changeView = () => {
+    const activeView = this.state.activeView === VIEWS.TIME_ACTIVITY ? VIEWS.FILE_LIST : VIEWS.TIME_ACTIVITY;
+    this.setState({ activeView });
   };
 
   renderSelectors = () => {
@@ -160,8 +158,20 @@ class CKG extends Component {
   }
 
   render() {
-    const { loading, files, integrations, excludeFilters, showSelector, orgId } = this.props;
-    const { zoomLevel, viewAll } = this.state;
+    const {
+      team,
+      loading,
+      caseSensitive,
+      files,
+      integrations,
+      owners,
+      excludeFilters,
+      showSelector,
+      menuOptions,
+      orgId,
+      keywords
+    } = this.props;
+    const { activeView } = this.state;
 
     const filesFiltered = files.filter(file => {
       const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
@@ -169,22 +179,44 @@ class CKG extends Component {
       return !excludeFilters.fileTypes[label] && !excludeFilters.integrations[key];
     });
 
+    const breadcrumb = [{ title: String.t(`ckg.${activeView}`) }];
+    if (team) {
+      breadcrumb.unshift({
+        title: team.name,
+        url: `/app/team/${team.teamId}`
+      });
+    }
+
     return (
       <div className="CKG">
-        <div className="ckg-tools-container">
-          <div className="habla-ckg-tools">
-            <GraphActivitySelector />
-            <GraphZoomActions
-              onZoomIn={this.handleZoomIn}
-              onZoomOut={this.handleZoomOut}
-              onViewAll={this.handleViewAll}
-            />
-          </div>
-        </div>
+        <PageHeader
+          pageBreadCrumb={{ routes: breadcrumb }}
+          hasMenu
+          menuName="settings"
+          menuPageHeader={menuOptions}
+          badgeOptions={{
+            enabled: true,
+            count: filesFiltered.length
+          }}
+        >
+          <span className="CKG__keywords">
+            {keywords.map(keyword => (
+              <Tag
+                closable
+                key={keyword}
+                className="CKG__tag"
+                onClose={() => this.handleRemoveKeywordClick(keyword)}
+                visible={keywords.includes(keyword)}
+              >
+                {keyword}
+              </Tag>
+            ))}
+          </span>
+        </PageHeader>
 
         <div className="CKGPage__arrows-container arrow-left">
           <div className="CKGPage__arrows">
-            <a onClick={this.handleArrowClick}>
+            <a onClick={this.changeView}>
               <i className="fas fa-arrow-left CKGPage__arrow" />
             </a>
           </div>
@@ -192,7 +224,7 @@ class CKG extends Component {
 
         <div className="CKGPage__arrows-container arrow-right">
           <div className="CKGPage__arrows">
-            <a onClick={this.handleArrowClick}>
+            <a onClick={this.changeView}>
               <i className="fas fa-arrow-right CKGPage__arrow" />
             </a>
           </div>
@@ -215,11 +247,18 @@ class CKG extends Component {
           </div>
         )}
 
-        <TimeActivityGraph
-          files={loading ? [] : filesFiltered.map(buildDataObject)}
-          zoomLevel={zoomLevel}
-          viewAll={viewAll}
-        />
+        {activeView === VIEWS.TIME_ACTIVITY && (
+          <TimeActivityView files={loading ? [] : filesFiltered.map(buildDataObject)} />
+        )}
+        {activeView === VIEWS.FILE_LIST && (
+          <FileListView
+            files={filesFiltered}
+            owners={owners}
+            keywords={keywords}
+            caseSensitive={caseSensitive}
+            loading={loading}
+          />
+        )}
 
         <div className="bottomBar">
           {showSelector && this.renderSelectors()}

@@ -21,7 +21,8 @@ const propTypes = {
   settingsIcon: PropTypes.bool,
   history: PropTypes.shape({
     goBack: PropTypes.func.isRequired
-  }).isRequired
+  }).isRequired,
+  children: PropTypes.node
 };
 
 const defaultProps = {
@@ -35,7 +36,8 @@ const defaultProps = {
   optionalButtons: {
     enabled: false
   },
-  settingsIcon: false
+  settingsIcon: false,
+  children: null
 };
 
 function PageHeader({
@@ -48,7 +50,8 @@ function PageHeader({
   buttonOptions,
   optionalButtons,
   history,
-  settingsIcon
+  settingsIcon,
+  children
 }) {
   const menuItems = menuPageHeader.map(
     item =>
@@ -113,6 +116,7 @@ function PageHeader({
             <BreadCrumb routes={pageBreadCrumb.routes} />
           </h1>
         </div>
+        {children}
         {badgeOptions.enabled && (
           <Badge
             count={badgeOptions.count}

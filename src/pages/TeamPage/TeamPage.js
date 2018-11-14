@@ -6,7 +6,7 @@ import { paths } from 'src/routes';
 import String from 'src/translations';
 import { hablaLogoAvatar } from 'src/img';
 import { CKG } from 'src/containers';
-import { PageHeader, Spinner } from 'src/components';
+import { Spinner } from 'src/components';
 import './styles/style.css';
 
 const propTypes = {
@@ -51,7 +51,6 @@ class TeamPage extends Component {
 
   render() {
     const { team, org } = this.props;
-    const orgId = org.subscriberOrgId;
 
     if (!team || !org) return <Spinner />;
 
@@ -127,25 +126,8 @@ class TeamPage extends Component {
 
     return (
       <div className="homePage-main">
-        <PageHeader
-          subscriberOrgId={orgId}
-          pageBreadCrumb={{
-            routes: [
-              {
-                title: team.name,
-                url: `/app/team/${orgId}`
-              },
-              {
-                title: String.t('graphViewsSelector.timeActivity')
-              }
-            ]
-          }}
-          hasMenu
-          menuName="settings"
-          menuPageHeader={menuPageHeader}
-        />
         <div className="homepage_graph-container">
-          <CKG teamId={team.teamId} showHeader={false} showSelector={false} />
+          <CKG teamId={team.teamId} showSelector={false} menuOptions={menuPageHeader} />
         </div>
         <div className="homepage_latest-container">{this.renderActivity()}</div>
       </div>
