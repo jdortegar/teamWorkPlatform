@@ -11,7 +11,8 @@ import {
   TimeActivityGraph,
   GraphActivitySelector,
   GraphZoomActions,
-  TeamPicker
+  TeamPicker,
+  Spinner
 } from 'src/components';
 import './styles/style.css';
 
@@ -48,6 +49,7 @@ const propTypes = {
   query: PropTypes.string,
   caseSensitive: PropTypes.bool,
   exactMatch: PropTypes.bool,
+  loading: PropTypes.bool,
   showHeader: PropTypes.bool,
   showSelector: PropTypes.bool
 };
@@ -60,6 +62,7 @@ const defaultProps = {
   query: '',
   caseSensitive: false,
   exactMatch: false,
+  loading: false,
   showHeader: true,
   showSelector: true
 };
@@ -221,6 +224,7 @@ class CKGPage extends Component {
     const {
       files: { items, integrations },
       excludeFilters,
+      loading,
       showHeader,
       showSelector,
       orgId
@@ -265,23 +269,32 @@ class CKGPage extends Component {
           </div>
         </div>
 
-        {integrations.length === 0 && (
+        {!loading &&
+          integrations.length === 0 && (
+            <div className="CKGPage__center-message-container">
+              <div className="CKGPage__center-message">
+                <Link to={`/app/integrations/${orgId}`}>{String.t('ckgPage.AddDataIntegration')}</Link>
+              </div>
+            </div>
+          )}
+
+        {loading && (
           <div className="CKGPage__center-message-container">
             <div className="CKGPage__center-message">
-              <Link to={`/app/integrations/${orgId}`}>{String.t('ckgPage.AddDataIntegration')}</Link>
+              <Spinner />
             </div>
           </div>
         )}
 
         <TimeActivityGraph
-          files={filesFiltered.map(buildDataObject)}
+          files={loading ? [] : filesFiltered.map(buildDataObject)}
           zoomLevel={this.state.zoomLevel}
           viewAll={this.state.viewAll}
         />
 
         <div className="bottomBar">
           {showSelector && this.renderSelectors()}
-          {this.renderFilesFilter()}
+          {!loading && this.renderFilesFilter()}
           <div className="clear" />
         </div>
       </div>

@@ -8,7 +8,8 @@ import {
   getActiveTeams,
   getSearchQuery,
   isSearchCaseSensitive,
-  isSearchExactMatch
+  isSearchExactMatch,
+  isSearchLoading
 } from 'src/selectors';
 import {
   fetchTimeActivitiesBySubscriberOrgId,
@@ -32,7 +33,8 @@ const mapStateToProps = (state, props) => {
     teams: getActiveTeams(state, orgId),
     query: getSearchQuery(state),
     caseSensitive: isSearchCaseSensitive(state),
-    exactMatch: isSearchExactMatch(state)
+    exactMatch: isSearchExactMatch(state),
+    loading: isSearchLoading(state)
   };
 };
 
