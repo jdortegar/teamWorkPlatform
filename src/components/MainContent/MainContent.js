@@ -26,7 +26,6 @@ import {
   BookmarksPage,
   InviteToTeamPage,
   EditUserPage,
-  CKGPage,
   SearchPage,
   DashboardPage,
   NotificationsPage,
@@ -38,6 +37,7 @@ import {
   OrganizationDataIntegrations,
   EditOrganizationPage
 } from 'src/containers';
+import { CKGPage } from 'src/pages';
 import './styles/style.css';
 
 const { Content } = Layout;

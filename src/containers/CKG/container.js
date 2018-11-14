@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { CKGPage } from 'src/pages';
+import { CKG } from 'src/components';
 import {
   getCurrentSubscriberOrgId,
   getTeam,
@@ -28,7 +28,9 @@ const mapStateToProps = (state, props) => {
     orgId,
     team,
     teamById: getTeamsById(state),
-    files: state.files,
+    files: state.files.items,
+    integrations: state.files.integrations,
+    fileTypes: state.files.fileTypes,
     excludeFilters: state.files.excludeFilters,
     teams: getActiveTeams(state, orgId),
     query: getSearchQuery(state),
@@ -50,5 +52,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(CKGPage)
+  )(CKG)
 );

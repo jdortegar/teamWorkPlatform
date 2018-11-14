@@ -4,14 +4,63 @@ import moment from 'moment';
 
 import String from 'src/translations';
 import { hablaLogoAvatar } from 'src/img';
-import { CKGPage } from 'src/containers';
-import { Spinner } from 'src/components';
+import { CKG } from 'src/containers';
+import { PageHeader, Spinner } from 'src/components';
 import './styles/style.css';
 
 const propTypes = {
   history: PropTypes.object.isRequired,
   org: PropTypes.object.isRequired
 };
+
+const menuPageHeader = [
+  {
+    icon: 'fas fa-chart-area',
+    title: 'graphViewsSelector.timeActivity',
+    url: ''
+  },
+  {
+    icon: 'fas fa-chart-bar',
+    title: 'graphViewsSelector.dashboard',
+    url: '',
+    submenu: [
+      {
+        title: 'graphViewsSelector.industryLabel',
+        url: '',
+        className: 'submenuTitle'
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.electronics',
+        url: '#',
+        className: 'disabled'
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.cpg',
+        url: '#',
+        className: 'disabled'
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.manufacturing',
+        url: '/app/dashboard'
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.retail',
+        url: '#',
+        className: 'disabled'
+      },
+      {
+        icon: 'fas fa-chart-bar',
+        title: 'graphViewsSelector.relationshipHeatMap',
+        url: '#',
+        className: 'disabled'
+      }
+    ]
+  }
+];
 
 class HomePage extends Component {
   renderActivity() {
@@ -46,8 +95,16 @@ class HomePage extends Component {
 
     return (
       <div className="homePage-main">
+        <PageHeader
+          pageBreadCrumb={{
+            routes: [{ title: String.t('graphViewsSelector.timeActivity') }]
+          }}
+          hasMenu
+          menuName="settings"
+          menuPageHeader={menuPageHeader}
+        />
         <div className="homepage_graph-container">
-          <CKGPage />
+          <CKG />
         </div>
         <div className="homepage_latest-container">{this.renderActivity()}</div>
       </div>

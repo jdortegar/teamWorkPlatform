@@ -5,7 +5,7 @@ import moment from 'moment';
 import { paths } from 'src/routes';
 import String from 'src/translations';
 import { hablaLogoAvatar } from 'src/img';
-import { CKGPage } from 'src/containers';
+import { CKG } from 'src/containers';
 import { PageHeader, Spinner } from 'src/components';
 import './styles/style.css';
 
@@ -145,7 +145,7 @@ class TeamPage extends Component {
           menuPageHeader={menuPageHeader}
         />
         <div className="homepage_graph-container">
-          <CKGPage teamId={team.teamId} showHeader={false} showSelector={false} />
+          <CKG teamId={team.teamId} showHeader={false} showSelector={false} />
         </div>
         <div className="homepage_latest-container">{this.renderActivity()}</div>
       </div>

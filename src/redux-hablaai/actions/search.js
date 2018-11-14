@@ -16,7 +16,7 @@ export const TOGGLE_EXACT_MATCH = 'search/toggleExactMatch';
 // forceGet: true - disabling cache in search requests
 export const search = (
   rawQuery = undefined,
-  { teamId, caseSensitive = false, exactMatch = false },
+  { teamId, caseSensitive = false, exactMatch = false } = {},
   options = { getKey: false, forceGet: true }
 ) => (dispatch, getState) => {
   const orgId = getCurrentSubscriberOrgId(getState());
