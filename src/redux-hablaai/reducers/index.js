@@ -9,12 +9,13 @@ import searchReducer from './searchReducer';
 import sentInvitationsReducer from './sentInvitationsReducer';
 import sharingSettingsReducer from './sharingSettingsReducer';
 import subscriberOrgsReducer from './subscriberOrgsReducer';
-import subscriptionReducer from './subscriptionReducer';
 import subscribersReducer from './subscribersReducer';
+import subscriptionReducer from './subscriptionReducer';
 import surveysReducer from './surveysReducer';
 import teamMembersReducer from './teamMembersReducer';
 import teamsReducer from './teamsReducer';
 import typingsReducer from './typingsReducer';
+import uiReducer from './uiReducer';
 import urlRequestsReducer from './urlRequestsReducer';
 import usersReducer from './usersReducer';
 
@@ -31,13 +32,14 @@ const reducers = {
   sharingSettings: sharingSettingsReducer,
   subscriberOrgs: subscriberOrgsReducer,
   subscribers: subscribersReducer,
+  subscription: subscriptionReducer,
   surveys: surveysReducer,
   teamMembers: teamMembersReducer,
   teams: teamsReducer,
   typings: typingsReducer,
+  ui: uiReducer,
   urlRequests: urlRequestsReducer,
-  users: usersReducer,
-  subscription: subscriptionReducer
+  users: usersReducer
 };
 
 export default reducers;

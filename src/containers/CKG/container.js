@@ -7,6 +7,7 @@ import {
   getTeamsById,
   getUserById,
   getActiveTeams,
+  getCKGActiveView,
   getSearchQuery,
   getSearchKeywords,
   getSearchTeamId,
@@ -19,6 +20,7 @@ import {
   setCurrentSubscriberOrgId,
   toggleIntegrationFilter,
   toggleFileTypeFilter,
+  changeCKGView,
   search
 } from 'src/actions';
 
@@ -42,7 +44,8 @@ const mapStateToProps = (state, props) => {
     keywords: getSearchKeywords(state),
     caseSensitive: isSearchCaseSensitive(state),
     exactMatch: isSearchExactMatch(state),
-    loading: isSearchLoading(state)
+    loading: isSearchLoading(state),
+    activeView: getCKGActiveView(state)
   };
 };
 
@@ -51,7 +54,8 @@ const mapDispatchToProps = {
   fetchTimeActivitiesBySubscriberOrgId,
   setCurrentSubscriberOrgId,
   toggleIntegrationFilter,
-  toggleFileTypeFilter
+  toggleFileTypeFilter,
+  changeCKGView
 };
 
 export default withRouter(

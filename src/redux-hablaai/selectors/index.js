@@ -12,4 +12,5 @@ export * from './subscription';
 export * from './surveys';
 export * from './teamMembers';
 export * from './teams';
+export * from './ui';
 export * from './users';

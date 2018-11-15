@@ -9,6 +9,7 @@ import _ from 'lodash';
 import String from 'src/translations';
 import { integrationKeyFromFile } from 'src/utils/dataIntegrations';
 import { PageHeader, FilesFilters, TeamPicker, Spinner } from 'src/components';
+import { CKG_VIEWS } from 'src/actions';
 import TimeActivityView from './TimeActivityView';
 import FileListView from './FileListView';
 import './styles/style.css';
@@ -41,6 +42,7 @@ const propTypes = {
   search: PropTypes.func.isRequired,
   toggleIntegrationFilter: PropTypes.func.isRequired,
   toggleFileTypeFilter: PropTypes.func.isRequired,
+  changeCKGView: PropTypes.func.isRequired,
   teams: PropTypes.array,
   files: PropTypes.array,
   integrations: PropTypes.array,
@@ -54,7 +56,8 @@ const propTypes = {
   exactMatch: PropTypes.bool,
   loading: PropTypes.bool,
   showSelector: PropTypes.bool,
-  menuOptions: PropTypes.array
+  menuOptions: PropTypes.array,
+  activeView: PropTypes.string
 };
 
 const defaultProps = {
@@ -73,19 +76,11 @@ const defaultProps = {
   exactMatch: false,
   loading: false,
   showSelector: true,
-  menuOptions: []
-};
-
-const VIEWS = {
-  TIME_ACTIVITY: 'timeActivityView',
-  FILE_LIST: 'fileListView'
+  menuOptions: [],
+  activeView: CKG_VIEWS.TIME_ACTIVITY
 };
 
 class CKG extends Component {
-  state = {
-    activeView: VIEWS.TIME_ACTIVITY
-  };
-
   componentDidMount() {
     const { orgId, teamId, history, search, query, caseSensitive, exactMatch } = this.props;
 
@@ -112,9 +107,9 @@ class CKG extends Component {
   };
 
   handleRemoveKeywordClick = keyword => {
-    const { keywords, searchTeamId, caseSensitive, exactMatch } = this.props;
+    const { search, keywords, searchTeamId, caseSensitive, exactMatch } = this.props;
     const query = _.without(keywords, keyword).join(' ');
-    this.props.search(query, { teamId: searchTeamId, caseSensitive, exactMatch });
+    search(query, { teamId: searchTeamId, caseSensitive, exactMatch });
   };
 
   handleIntegrationFilterClick = key => {
@@ -126,8 +121,8 @@ class CKG extends Component {
   };
 
   changeView = () => {
-    const activeView = this.state.activeView === VIEWS.TIME_ACTIVITY ? VIEWS.FILE_LIST : VIEWS.TIME_ACTIVITY;
-    this.setState({ activeView });
+    const { activeView, changeCKGView } = this.props;
+    changeCKGView(activeView === CKG_VIEWS.TIME_ACTIVITY ? CKG_VIEWS.FILE_LIST : CKG_VIEWS.TIME_ACTIVITY);
   };
 
   renderSelectors = () => {
@@ -171,9 +166,9 @@ class CKG extends Component {
       showSelector,
       menuOptions,
       orgId,
-      keywords
+      keywords,
+      activeView
     } = this.props;
-    const { activeView } = this.state;
 
     const filesFiltered = files.filter(file => {
       const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
@@ -249,10 +244,10 @@ class CKG extends Component {
           </div>
         )}
 
-        {activeView === VIEWS.TIME_ACTIVITY && (
+        {activeView === CKG_VIEWS.TIME_ACTIVITY && (
           <TimeActivityView files={loading ? [] : filesFiltered.map(buildDataObject)} />
         )}
-        {activeView === VIEWS.FILE_LIST && (
+        {activeView === CKG_VIEWS.FILE_LIST && (
           <FileListView
             files={filesFiltered}
             owners={owners}
