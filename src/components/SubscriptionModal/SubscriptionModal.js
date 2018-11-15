@@ -31,8 +31,8 @@ const defaultProps = {
 };
 
 const PRICES = {
-  ANNUALLY: 2990,
-  MONTHLY: 3990
+  ANNUALLY: 2499,
+  MONTHLY: 2999
 };
 
 class SubscriptionModal extends React.Component {
@@ -184,13 +184,14 @@ class SubscriptionModal extends React.Component {
   };
 
   handleSubmit() {
-    const { stripeSubscriptionId } = this.props.subscriberOrg;
+    const { stripeSubscriptionId, subscriberOrgId } = this.props.subscriberOrg;
     const { subscriptionUsers, subscriptionPlanAmount, discountCode } = this.state;
     this.setState({ loading: true });
     const valuesToSend = {
       subscriptionId: stripeSubscriptionId,
+      subscriberOrgId,
       users: subscriptionUsers,
-      subscriptionType: subscriptionPlanAmount === 3990 ? 'monthly' : 'annually',
+      subscriptionType: subscriptionPlanAmount === PRICES.MONTHLY ? 'monthly' : 'annually',
       promocode: discountCode
     };
     this.props
@@ -290,7 +291,7 @@ class SubscriptionModal extends React.Component {
                         <span className="habla-lighter-text">
                           {' '}
                           {String.t('subscriptionModal.billingType', {
-                            type: subscriptionPlanAmount === 3990 ? 'Monthly' : 'Annually'
+                            type: subscriptionPlanAmount === PRICES.MONTHLY ? 'Monthly' : 'Annually'
                           })}{' '}
                           {discountApplied < 1 && String.t('subscriptionModal.discountApplied')}
                         </span>
