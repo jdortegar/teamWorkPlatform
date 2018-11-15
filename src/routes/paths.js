@@ -9,7 +9,7 @@ export const paths = {
   logout: '/logout',
   home: '/',
   app: '/app',
-  chat: '/app/chat/:conversationId',
+  chat: '/app/chat/:teamId',
   editUser: '/app/editUser/:userId',
   acceptInvitation: '/app/acceptinvitation/:type/:id',
   integrations: '/app/integrations/:subscriberOrgId',

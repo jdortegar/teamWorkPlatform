@@ -45,7 +45,7 @@ const { Content } = Layout;
 const propTypes = {
   invitation: PropTypes.array,
   declinedInvitations: PropTypes.object,
-  pushMessage: PropTypes.object,
+  pushMessage: PropTypes.array,
   users: PropTypes.object.isRequired,
   currentUserId: PropTypes.string.isRequired,
   notifyMessage: PropTypes.func.isRequired,
@@ -185,7 +185,7 @@ class MainContent extends Component {
           <Route exact path={paths.editUser} component={EditUserPage} />
           <Route exact path={paths.inviteNewMember} component={InviteNewMemberPage} />
           <Route exact path={paths.inviteToTeam} component={InviteToTeamPage} />
-          <Route exact path={paths.teamRoom} component={ChatContent} />
+          {/* <Route exact path={paths.teamRoom} component={ChatContent} /> */}
           <Route exact path={paths.member} component={TeamMemberPage} />
           <Route exact path={paths.teamIntegrations} component={TeamIntegrationsPage} />
           <Route exact path={paths.teamIntegration} component={TeamIntegrationPage} />
@@ -201,6 +201,7 @@ class MainContent extends Component {
           <Route exact path={paths.organizationManageTeams} component={OrganizationManageTeams} />
           <Route exact path={paths.organizationManageMembers} component={OrganizationManageMembers} />
           <Route exact path={paths.organizationDataIntegrations} component={OrganizationDataIntegrations} />
+          <Route exact path={paths.chat} component={ChatContent} />
         </Switch>
       </Content>
     );

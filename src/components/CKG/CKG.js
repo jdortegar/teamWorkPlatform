@@ -34,6 +34,7 @@ const propTypes = {
   loading: PropTypes.bool,
   showSelector: PropTypes.bool,
   menuOptions: PropTypes.array,
+  showChat: PropTypes.func,
   activeView: PropTypes.string
 };
 
@@ -53,6 +54,7 @@ const defaultProps = {
   loading: false,
   showSelector: true,
   menuOptions: [],
+  showChat: null,
   activeView: CKG_VIEWS.TIME_ACTIVITY
 };
 
@@ -232,6 +234,9 @@ class CKG extends Component {
           {showSelector && this.renderSelectors()}
           {!loading && this.renderFilesFilter()}
           <div className="clear" />
+          <div className="Chat_expandAction" onClick={() => this.props.showChat(false)}>
+            <i className="fas fa-angle-double-up" />
+          </div>
         </div>
       </div>
     );

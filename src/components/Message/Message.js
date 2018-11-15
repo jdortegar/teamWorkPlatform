@@ -15,7 +15,7 @@ const propTypes = {
   currentPath: PropTypes.string,
   conversationDisabled: PropTypes.bool,
   onMessageAction: PropTypes.func.isRequired,
-  teamRoomMembersObj: PropTypes.object,
+  teamMembers: PropTypes.array,
   message: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   currentUser: PropTypes.object.isRequired,
@@ -29,7 +29,7 @@ const propTypes = {
 const defaultProps = {
   hide: false,
   conversationDisabled: false,
-  teamRoomMembersObj: null,
+  teamMembers: null,
   onLoadImages: null,
   lastRead: false,
   currentPath: null
@@ -115,16 +115,7 @@ class Message extends Component {
   }
 
   render() {
-    const {
-      message,
-      user,
-      currentUser,
-      teamRoomMembersObj,
-      hide,
-      lastRead,
-      conversationDisabled,
-      isAdmin
-    } = this.props;
+    const { message, user, currentUser, teamMembers, hide, lastRead, conversationDisabled, isAdmin } = this.props;
     const { messageId, children, level, content } = message;
     const orgBookmarks = currentUser.bookmarks[this.props.subscriberOrgId];
     const hasBookmark = orgBookmarks && orgBookmarks.messageIds && orgBookmarks.messageIds[message.messageId];
@@ -203,54 +194,20 @@ class Message extends Component {
                   <i className="fas fa-bookmark" />
                 </a>
               </Tooltip>
-              <Tooltip placement="topLeft" title={String.t('message.tooltipThumbsUp')} arrowPointAtCenter>
-                <a
-                  className="message__icons"
-                  onClick={e => {
-                    this.handleThumb('up');
-                    e.stopPropagation();
-                    // e.nativeEvent.stopImmediatePropagation();
-                  }}
-                >
-                  <i className="fas fa-thumbs-up" />
-                </a>
-              </Tooltip>
-              <Tooltip placement="topLeft" title={String.t('message.tooltipThumbsDown')} arrowPointAtCenter>
-                <a
-                  className="message__icons"
-                  onClick={e => {
-                    this.handleThumb('down');
-                    e.stopPropagation();
-                  }}
-                >
-                  <i className="fas fa-thumbs-down" />
-                </a>
-              </Tooltip>
-              <Tooltip placement="topLeft" title={String.t('message.tooltipFlag')} arrowPointAtCenter>
-                <a
-                  className="message__icons"
-                  onClick={e => {
-                    this.handleFlag();
-                    e.stopPropagation();
-                  }}
-                >
-                  <i className="fas fa-flag" />
-                </a>
-              </Tooltip>
               {/* <Tooltip placement="topLeft" title={String.t('message.tooltipEdit')} arrowPointAtCenter> */}
               {(isAdmin || message.createdBy === currentUser.userId) && (
                 <Popconfirm
+                  placement="topRight"
                   title={String.t('message.deleteConfirmationQuestion')}
                   okText={String.t('okButton')}
                   cancelText={String.t('cancelButton')}
-                  arrowPointAtCenter
                   onConfirm={this.onDeleteConfirmed}
                 >
                   <a
                     className="message__icons"
                     /* onClick={() => this.handleEdit()} */
                   >
-                    <i className="fas fa-pencil-alt" />
+                    <i className="fas fa-trash-alt" />
                   </a>
                 </Popconfirm>
               )}
@@ -259,18 +216,18 @@ class Message extends Component {
           )}
         </div>
         {childrenNonDeleted.length > 0 &&
-          teamRoomMembersObj &&
+          teamMembers &&
           childrenNonDeleted.map(childMessage => (
             <Message
               conversationDisabled={conversationDisabled}
               message={childMessage}
-              user={teamRoomMembersObj[childMessage.createdBy]}
+              user={teamMembers.find(member => member.userId === childMessage.createdBy)}
               currentUser={this.props.currentUser}
               key={childMessage.messageId}
               onMessageAction={this.props.onMessageAction}
               hide={!this.state.isExpanded}
               currentPath={this.props.currentPath}
-              teamRoomMembersObj={this.props.teamRoomMembersObj}
+              teamMembers={this.props.teamMembers}
               subscriberOrgId={this.props.subscriberOrgId}
               teamId={this.props.teamId}
               isAdmin={isAdmin}

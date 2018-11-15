@@ -224,6 +224,7 @@
   min-height: 50px;
   z-index: 1;
   background: #f0f6ff;
+  justify-content: space-between;
 }
 .bottomBar-selectors {
   border-right: solid 1px #e5efff;

@@ -20,7 +20,7 @@ const propTypes = {
     }).isRequired
   }),
   removeFileFromList: PropTypes.func.isRequired,
-  fileWithPercent: PropTypes.object.isRequired
+  fileWithPercent: PropTypes.object
 };
 
 const defaultProps = {
@@ -29,7 +29,8 @@ const defaultProps = {
     text: '',
     firstName: '',
     lastName: ''
-  }
+  },
+  fileWithPercent: null
 };
 
 function getProgressBar(percent) {
@@ -55,7 +56,7 @@ class PreviewBar extends Component {
             />
             {getProgressBar(item.percent)}
           </div>
-          <span className="file-name habla-label">File Name</span> {/* Need Help Getting the File Name !!! */}
+          <span className="file-name habla-label">{item.name}</span>
         </div>
       );
     });

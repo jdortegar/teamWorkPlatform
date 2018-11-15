@@ -15,42 +15,42 @@
   flex-direction: column;
 }
 .homepage_latest-container {
-   width: 100%;
-   height: 40%;
+  width: 100%;
+  height: 40%;
 }
 .homepage_latest-header {
-	padding: 20px 10px 10px 10px;
+  padding: 20px 10px 10px 10px;
 }
 .homePage__activity-item {
   padding: 5px 10px 20px 10px;
   display: flex;
 }
 .homePage__activity-avatar {
-   display: inline-block;
-   border-radius: 14%;
-   width: 30px;
-   height: 30px;
+  display: inline-block;
+  border-radius: 14%;
+  width: 30px;
+  height: 30px;
 }
 .homePage__activity-content-container {
-   margin: 0 0 0 20px;
-   line-height: 1.2em;
+  margin: 0 0 0 20px;
+  line-height: 1.2em;
 }
 .homePage__activity-content-header {
-    color: #ccc;
-    font-size: 8pt;
+  color: #ccc;
+  font-size: 8pt;
 }
 .homePage__activity-content-message {
-   color: black;
-   font-size: 13px;
+  color: black;
+  font-size: 13px;
   width: 100%;
-  height: 50%;;
+  height: 50%;
 }
 .homePage__activity-container {
   display: flex;
   border-bottom: #eee 1px solid;
 }
 .homepage_latest-header {
-	padding: 10px;
+  padding: 10px;
 }
 .homePage__activity-item {
   padding: 5px 10px 20px 10px;
@@ -74,7 +74,6 @@
   font-size: 14px;
   color: #ccc;
   font-size: 8pt;
-
 }
 .homePage__activity-content-message {
   color: black;
@@ -82,4 +81,9 @@
 }
 .homePage__activity-content-date {
   color: #ccc;
+}
+
+.homePage__chat-container {
+  overflow: scroll;
+  display: flex;
 }

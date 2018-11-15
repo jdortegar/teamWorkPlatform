@@ -14,13 +14,13 @@ export const getSubscriberUserIdBySubscriberOrgIdByUserId = state =>
 export const getUserIdsBySubscriberOrgId = state => state.subscribers.userIdsBySubscriberOrgId;
 
 export const getTeamMemberIdByTeamIdByUserId = state => state.teamMembers.teamMemberIdByTeamIdByUserId;
-export const getUserIdsByTeamId = state => state.teamMembers.userIdsByTeamId;
+export const getUserIdsByTeamId = state => state.teamMembers.byTeam;
 
 export const getInvitations = state => state.invitations.invitations;
 export const getDeclinedInvitations = state => state.invitations.declinedInvitations;
 
 export const getConversationById = state => state.conversations.conversationById;
-export const getConversationIdsByTeamRoomId = state => state.conversations.conversationIdsByTeamRoomId;
+export const getConversationIdsByTeamId = state => state.conversations.conversationIdsByTeamId;
 export const getTranscriptByConversationId = state => state.conversations.transcriptByConversationId;
 export const getReadMessagesByConversationId = state => state.readMessages.readMessagesByConversationId;
 

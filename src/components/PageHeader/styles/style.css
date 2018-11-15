@@ -1,5 +1,8 @@
 /* Page Heeader componennt CSS styles */
 
+.PageHeader {
+  display: block !important;
+}
 .Subpage-header__title a {
   font-weight: 300;
   color: #000;
@@ -72,7 +75,7 @@
 
 /* Ant Popover */
 
-.ant-popover .ant-popover-arrow {
+.ant-popover.ant-popover-placement-bottomLeft .ant-popover-arrow {
   background: #444444;
   width: 8.48528137px;
   height: 8.48528137px;
@@ -84,14 +87,14 @@
   border-color: transparent;
   border-style: solid;
 }
-.ant-popover .ant-popover-inner {
+.ant-popover.ant-popover-placement-bottomLeft .ant-popover-inner {
   background-color: #444444;
   background-clip: padding-box;
   border-radius: 4px;
   -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
-.ant-popover .ant-popover-title {
+.ant-popover.ant-popover-placement-bottomLeft .ant-popover-title {
   min-width: 177px;
   margin: 0;
   padding: 10px 12px;
@@ -102,7 +105,7 @@
   font-size: 7pt;
   text-transform: uppercase;
 }
-.ant-popover .ant-popover-inner-content {
+.ant-popover.ant-popover-placement-bottomLeft .ant-popover-inner-content {
   padding: 0 0 16px;
   color: #fff;
   font-size: 9pt;
@@ -121,13 +124,13 @@
 .ant-menu-vertical .ant-menu-item:not(:last-child) {
   margin-bottom: 0px;
 }
-.ant-popover .ant-popover-inner-content a:hover,
-.ant-popover .ant-menu-item > a:hover,
+.ant-popover.ant-popover-placement-bottomLeft .ant-popover-inner-content a:hover,
+.ant-popover.ant-popover-placement-bottomLeft .ant-menu-item > a:hover,
 .ant-menu-sub .ant-menu-item a:hover {
   background: #333;
   color: #fff !important;
 }
-.ant-popover ul.ant-menu li.ant-menu-submenu:hover {
+.ant-popover.ant-popover-placement-bottomLeft ul.ant-menu li.ant-menu-submenu:hover {
   background: #333 !important;
   color: #fff !important;
 }
@@ -170,4 +173,8 @@
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
   background: #333 !important;
   color: #fff;
+}
+
+.PageHeader .ant-scroll-number-only {
+  padding: 0;
 }

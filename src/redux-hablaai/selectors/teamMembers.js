@@ -1,6 +1,5 @@
 import createCachedSelector from 're-reselect';
 import { getUserByUserId, getUserIdsByTeamId, getPresencesByUserId } from './state';
-import { sortByFirstName } from './helpers';
 
 export { getUserIdsByTeamId } from './state';
 
@@ -11,10 +10,7 @@ export const getTeamMembersOfTeamId = createCachedSelector(
       return [];
     }
 
-    const userIds = userIdsByTeamId[teamId];
-    return Object.keys(userIds)
-      .map(userId => userByUserId[userId])
-      .sort(sortByFirstName);
+    return userIdsByTeamId[teamId];
   }
 )((state, teamId) => teamId);
 

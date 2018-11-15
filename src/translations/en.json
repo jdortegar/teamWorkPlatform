@@ -788,5 +788,10 @@
     "teamMemberRole": "Team Member Role",
     "resetPassword": "Reset Password",
     "deleteTeamMember": "Delete Team Member"
+  },
+  "chat": {
+    "title": "Team Messages",
+    "membersHeader": "Organization Team Members ({{count}})",
+    "addTeamMember": "Add Team Members"
   }
 }

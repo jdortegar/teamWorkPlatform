@@ -1,6 +1,7 @@
 export AcceptInvitationPage from './AcceptInvitationPage';
 export BookmarksPage from './BookmarksPage';
 export ChatContent from './ChatContent';
+export Chat from './Chat';
 export CKG from './CKG';
 export CreateAccount from './CreateAccount';
 export DashboardPage from './DashboardPage';
@@ -38,6 +39,5 @@ export TeamIntegrationsPage from './TeamIntegrationsPage';
 export TeamManagePage from './TeamManagePage';
 export TeamMemberPage from './TeamMemberPage';
 export TeamPage from './TeamPage';
-export TeamRoomPage from './TeamRoomPage';
 export TreeOrganization from './TreeOrganization';
 export VerifyAccount from './VerifyAccount';

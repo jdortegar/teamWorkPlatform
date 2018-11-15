@@ -17,17 +17,21 @@ const propTypes = {
   team: PropTypes.object.isRequired,
   teamMembers: PropTypes.array.isRequired,
   presences: PropTypes.object.isRequired,
-  integrations: PropTypes.array.isRequired
+  integrations: PropTypes.array.isRequired,
+  users: PropTypes.object.isRequired
 };
 
 const CardView = props => {
-  const { team, teamMembers, presences, integrations } = props;
+  const { team, teamMembers, presences, integrations, users } = props;
 
-  const members = teamMembers.map(member => ({
-    ...member,
-    online: _.some(_.values(presences[member.userId]), { presenceStatus: 'online' })
-  }));
-
+  // Get members data form Users
+  const members = teamMembers.map(memberId => {
+    const member = users[memberId];
+    return {
+      ...member,
+      online: _.some(_.values(presences[member.userId]), { presenceStatus: 'online' })
+    };
+  });
   const userMember = members.filter(({ userId }) => userId === props.userId)[0];
   const isAdmin = userMember.teams[team.teamId].role === 'admin';
 

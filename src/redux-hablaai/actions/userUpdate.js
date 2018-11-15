@@ -48,5 +48,5 @@ export const saveBookmark = (currentUser, subscriberOrgId, message, setBookmark)
     delete orgBookmarks.messageIds[message.messageId];
   }
   bookmarks[subscriberOrgId] = orgBookmarks;
-  return updateUser({ bookmarks });
+  return updateUser({ bookmarks }, currentUser.userId);
 };

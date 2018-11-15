@@ -1,6 +1,7 @@
 export AcceptInvitationPage from './AcceptInvitationPage';
 export BookmarksPage from './BookmarksPage';
 export CKGPage from './CKGPage';
+export Chat from './Chat';
 export DashboardPage from './DashboardPage';
 export EditOrganizationPage from './EditOrganizationPage';
 export EditTeamMemberPage from './EditTeamMemberPage';
@@ -25,4 +26,3 @@ export TeamIntegrationsPage from './TeamIntegrationsPage';
 export TeamManagePage from './TeamManagePage';
 export TeamMemberPage from './TeamMemberPage';
 export TeamPage from './TeamPage';
-export TeamRoomPage from './TeamRoomPage';

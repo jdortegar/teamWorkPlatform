@@ -11,7 +11,7 @@ export const fetchConversations = (teamId = undefined, options = { getKey: false
     const thunk = dispatch(
       doAuthenticatedRequest(
         {
-          requestUrl: buildApiUrl('conversations/getConversations'),
+          requestUrl: buildApiUrl(`conversations/getConversations?teamId=${teamId}`),
           method: 'get'
         },
         reduxState,

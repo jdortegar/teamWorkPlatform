@@ -2,14 +2,14 @@ import _ from 'lodash';
 import createCachedSelector from 're-reselect';
 import {
   getConversationById,
-  getConversationIdsByTeamRoomId,
+  getConversationIdsByTeamId,
   getTranscriptByConversationId,
   getTypingByUserIdsByConversationId
 } from './state';
 
 export {
   getConversationById,
-  getConversationIdsByTeamRoomId,
+  getConversationIdsByTeamId,
   getTranscriptByConversationId,
   getTypingByConversationIdsByUserId,
   getTypingByUserIdsByConversationId
@@ -27,15 +27,10 @@ function merge(tree, messages) {
   return ret;
 }
 
-export const getConversationOfTeamRoomId = createCachedSelector(
-  [
-    getConversationIdsByTeamRoomId,
-    getConversationById,
-    getTranscriptByConversationId,
-    (state, teamRoomId) => teamRoomId
-  ],
-  (conversationIdsByTeamRoomId, conversationById, transcriptByConversationId, teamRoomId) => {
-    const conversationIds = conversationIdsByTeamRoomId[teamRoomId];
+export const getConversationOfTeamId = createCachedSelector(
+  [getConversationIdsByTeamId, getConversationById, getTranscriptByConversationId, (state, teamId) => teamId],
+  (conversationIdsByTeamId, conversationById, transcriptByConversationId, teamId) => {
+    const conversationIds = conversationIdsByTeamId[teamId];
     if (!conversationIds || conversationIds.length === 0) {
       return null;
     }
@@ -57,7 +52,7 @@ export const getConversationOfTeamRoomId = createCachedSelector(
     conversationClone.transcript = merge(transcript.flattenedTree, transcript.messages);
     return conversationClone;
   }
-)((state, teamRoomId) => teamRoomId);
+)((state, teamId) => teamId);
 
 export const getTypingsOfConversationId = createCachedSelector(
   [getTypingByUserIdsByConversationId, (state, conversationId) => conversationId],

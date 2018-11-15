@@ -14,6 +14,7 @@ import './styles/style.css';
 const propTypes = {
   team: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  users: PropTypes.object.isRequired,
   teamAdminName: PropTypes.string.isRequired,
   orgId: PropTypes.string.isRequired,
   integrations: PropTypes.array.isRequired,
@@ -47,7 +48,7 @@ class TeamManagePage extends Component {
   }
 
   render() {
-    const { team, teamMembers, presences, user, integrations, orgId, teamAdminName } = this.props;
+    const { team, teamMembers, presences, user, integrations, orgId, teamAdminName, users } = this.props;
     if (
       !team ||
       !presences ||
@@ -118,6 +119,7 @@ class TeamManagePage extends Component {
             integrations={integrations}
             teamMembers={teamMembers}
             presences={presences}
+            users={users}
           />
         </div>
       </div>

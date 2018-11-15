@@ -144,6 +144,7 @@ class TeamRoomPage extends Component {
     this.props
       .fetchConversations(teamRoomId)
       .then(response => {
+        // we should handle API responses in the redux action and dispatch SUCCESS type actions
         if (response.data.conversations) {
           const { conversationId } = response.data.conversations[0];
 
@@ -556,6 +557,7 @@ class TeamRoomPage extends Component {
       conversations &&
       subscriberOrgById
     ) {
+      // we can move all of this to the container, find the correct org and team and just pass that
       const numberOfTeamRoomMembers = this.state.teamRoomMembers.length;
       const { conversationId } = conversations;
       const lastMessage = _.last(conversations.transcript) || {};
@@ -569,6 +571,7 @@ class TeamRoomPage extends Component {
       });
       const disableConversation = this.shouldDisableConversation();
 
+      // container: isOwner
       const teamRoomMemberFoundByUser = _.find(teamRoomMembers, { userId: user.userId });
       const isAdmin = teamRoomMemberFoundByUser.teamRooms[teamRoomId].role === 'admin';
 
