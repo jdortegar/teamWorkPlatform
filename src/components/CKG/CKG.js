@@ -231,7 +231,9 @@ class CKG extends Component {
           integrations.length === 0 && (
             <div className="CKGPage__center-message-container">
               <div className="CKGPage__center-message">
-                <Link to={`/app/integrations/${orgId}`}>{String.t('ckgPage.AddDataIntegration')}</Link>
+                <Link to={team ? `/app/teamIntegrations/${team.teamId}` : `/app/integrations/${orgId}`}>
+                  {String.t('ckgPage.AddDataIntegration')}
+                </Link>
               </div>
             </div>
           )}
