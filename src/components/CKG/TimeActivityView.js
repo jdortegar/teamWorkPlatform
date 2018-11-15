@@ -6,24 +6,12 @@ import * as d3 from 'd3';
 import { TimeActivityGraph, GraphZoomActions } from 'src/components';
 
 const color = d3.scaleOrdinal(d3.schemeCategory10);
-const buildTime = dateTime =>
-  moment()
-    .startOf('day')
-    .set({
-      hour: dateTime.hour(),
-      minute: dateTime.minutes(),
-      second: dateTime.seconds()
-    });
-
-const buildDataObject = file => {
-  const dateTime = moment(file.lastModified);
-  return {
-    ...file,
-    date: dateTime,
-    time: buildTime(dateTime),
-    color: color(file.fileExtension)
-  };
-};
+const buildDataObject = file => ({
+  ...file,
+  lastModified: moment(file.lastModified),
+  created: moment(file.lastModified).subtract(1, 'month'),
+  color: color(file.fileExtension)
+});
 
 class TimeActivityView extends Component {
   state = {
