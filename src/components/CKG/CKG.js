@@ -49,6 +49,7 @@ const propTypes = {
   excludeFilters: PropTypes.object,
   query: PropTypes.string,
   keywords: PropTypes.array,
+  searchTeamId: PropTypes.string,
   caseSensitive: PropTypes.bool,
   exactMatch: PropTypes.bool,
   loading: PropTypes.bool,
@@ -67,6 +68,7 @@ const defaultProps = {
   excludeFilters: {},
   query: '',
   keywords: [],
+  searchTeamId: null,
   caseSensitive: false,
   exactMatch: false,
   loading: false,
@@ -110,9 +112,9 @@ class CKG extends Component {
   };
 
   handleRemoveKeywordClick = keyword => {
-    const { keywords, caseSensitive, exactMatch } = this.props;
+    const { keywords, searchTeamId, caseSensitive, exactMatch } = this.props;
     const query = _.without(keywords, keyword).join(' ');
-    this.props.search(query, { caseSensitive, exactMatch });
+    this.props.search(query, { teamId: searchTeamId, caseSensitive, exactMatch });
   };
 
   handleIntegrationFilterClick = key => {

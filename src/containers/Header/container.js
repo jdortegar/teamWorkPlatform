@@ -5,6 +5,7 @@ import {
   getCurrentUser,
   getCurrentSubscriberOrgId,
   getSearchQuery,
+  getSearchTeamId,
   isSearchCaseSensitive,
   isSearchExactMatch,
   isAdminMode
@@ -19,18 +20,15 @@ import {
   setAdminMode
 } from 'src/actions';
 
-const mapStateToProps = (state, props) => {
-  const { teamId } = props.match.params;
-  return {
-    teamId,
-    user: getCurrentUser(state),
-    query: getSearchQuery(state),
-    caseSensitive: isSearchCaseSensitive(state),
-    exactMatch: isSearchExactMatch(state),
-    currentSubscriberOrgId: getCurrentSubscriberOrgId(state),
-    isAdminMode: isAdminMode(state)
-  };
-};
+const mapStateToProps = state => ({
+  user: getCurrentUser(state),
+  query: getSearchQuery(state),
+  teamId: getSearchTeamId(state),
+  caseSensitive: isSearchCaseSensitive(state),
+  exactMatch: isSearchExactMatch(state),
+  currentSubscriberOrgId: getCurrentSubscriberOrgId(state),
+  isAdminMode: isAdminMode(state)
+});
 
 const mapDispatchToProps = {
   logoutUser,

@@ -3,7 +3,7 @@ import { doAuthenticatedRequest } from './urlRequest';
 
 export const INVITATIONS_FETCH_SUCCESS = 'invitations/fetch/success';
 
-export const fetchInvitations = (options = { getKey: false, forceGet: false }) => {
+export const fetchInvitations = (options = { getKey: false, forceGet: true }) => {
   const requestUrl = buildApiUrl('users/getInvitations');
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.

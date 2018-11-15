@@ -3,7 +3,7 @@ import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const MESSAGES_READ_FETCH_SUCCESS = 'messages/read/fetch/success';
 
-export const fetchReadMessages = (conversationId = undefined, options = { getKey: false, forceGet: false }) => {
+export const fetchReadMessages = (conversationId = undefined, options = { getKey: false, forceGet: true }) => {
   let requestUrl = buildApiUrl('conversations/getReadMessages');
   requestUrl = conversationId ? `${requestUrl}/${conversationId}` : requestUrl;
 

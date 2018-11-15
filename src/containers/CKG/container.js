@@ -9,6 +9,7 @@ import {
   getActiveTeams,
   getSearchQuery,
   getSearchKeywords,
+  getSearchTeamId,
   isSearchCaseSensitive,
   isSearchExactMatch,
   isSearchLoading
@@ -35,6 +36,7 @@ const mapStateToProps = (state, props) => {
     fileTypes: state.files.fileTypes,
     excludeFilters: state.files.excludeFilters,
     owners: state.files.owners.map(({ key, count }) => ({ ...getUserById(state, key), key, count })),
+    searchTeamId: getSearchTeamId(state),
     teams: getActiveTeams(state, orgId),
     query: getSearchQuery(state),
     keywords: getSearchKeywords(state),
