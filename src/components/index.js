@@ -1,4 +1,5 @@
 export { AvatarWrapper } from './common/Avatar'; // TODO: Check possible duplication of Avatar component
+export { FileListView, TimeActivityView } from './CKG';
 
 export * from './common';
 export * from './cards';

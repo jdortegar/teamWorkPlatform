@@ -8,6 +8,7 @@ export EditOrganizationPage from './EditOrganizationPage';
 export EditTeamMemberPage from './EditTeamMemberPage';
 export EditTeamPage from './EditTeamPage';
 export EditUserPage from './EditUserPage';
+export FileListView from './FileListView';
 export Header from './Header';
 export HomePage from './HomePage';
 export IntegrationPage from './IntegrationPage';

@@ -1,5 +1,6 @@
 export * from './auth';
 export * from './conversations';
+export * from './files';
 export * from './integrations';
 export * from './invitations';
 export * from './readMessages';

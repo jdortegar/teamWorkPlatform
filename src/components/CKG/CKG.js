@@ -2,37 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Tag } from 'antd';
-import moment from 'moment';
-import * as d3 from 'd3';
 import _ from 'lodash';
 
 import String from 'src/translations';
 import { integrationKeyFromFile } from 'src/utils/dataIntegrations';
+import { FileListView } from 'src/containers';
 import { PageHeader, FilesFilters, TeamPicker, Spinner } from 'src/components';
 import { CKG_VIEWS } from 'src/actions';
 import TimeActivityView from './TimeActivityView';
-import FileListView from './FileListView';
 import './styles/style.css';
-
-const color = d3.scaleOrdinal(d3.schemeCategory10);
-const buildTime = dateTime =>
-  moment()
-    .startOf('day')
-    .set({
-      hour: dateTime.hour(),
-      minute: dateTime.minutes(),
-      second: dateTime.seconds()
-    });
-
-const buildDataObject = file => {
-  const dateTime = moment(file.lastModified);
-  return {
-    ...file,
-    date: dateTime,
-    time: buildTime(dateTime),
-    color: color(file.fileExtension)
-  };
-};
 
 const propTypes = {
   orgId: PropTypes.string.isRequired,
@@ -47,7 +25,6 @@ const propTypes = {
   files: PropTypes.array,
   integrations: PropTypes.array,
   fileTypes: PropTypes.array,
-  owners: PropTypes.array,
   excludeFilters: PropTypes.object,
   query: PropTypes.string,
   keywords: PropTypes.array,
@@ -67,7 +44,6 @@ const defaultProps = {
   files: [],
   integrations: [],
   fileTypes: [],
-  owners: [],
   excludeFilters: {},
   query: '',
   keywords: [],
@@ -120,10 +96,69 @@ class CKG extends Component {
     this.props.toggleFileTypeFilter(key);
   };
 
+  buildPageBreadCrumb = () => {
+    const { team, activeView } = this.props;
+    const currentPage = { title: String.t(`ckg.${activeView}`) };
+
+    if (!team) return { routes: [currentPage] };
+    return {
+      routes: [
+        {
+          title: team.name,
+          url: `/app/team/${team.teamId}`
+        },
+        currentPage
+      ]
+    };
+  };
+
   changeView = () => {
     const { activeView, changeCKGView } = this.props;
     changeCKGView(activeView === CKG_VIEWS.TIME_ACTIVITY ? CKG_VIEWS.FILE_LIST : CKG_VIEWS.TIME_ACTIVITY);
   };
+
+  renderEmptyMessage = () => {
+    const { team, orgId } = this.props;
+    return (
+      <div className="CKGPage__center-message-container">
+        <div className="CKGPage__center-message">
+          <Link to={team ? `/app/teamIntegrations/${team.teamId}` : `/app/integrations/${orgId}`}>
+            {String.t('ckgPage.AddDataIntegration')}
+          </Link>
+        </div>
+      </div>
+    );
+  };
+
+  renderTags = () => {
+    const { keywords } = this.props;
+    return (
+      <span className="CKG__keywords">
+        {keywords.map(keyword => (
+          <Tag
+            closable
+            key={keyword}
+            className="CKG__tag"
+            onClose={() => this.handleRemoveKeywordClick(keyword)}
+            visible={keywords.includes(keyword)}
+          >
+            {keyword}
+          </Tag>
+        ))}
+      </span>
+    );
+  };
+
+  renderSideArrows = () =>
+    ['left', 'right'].map(direction => (
+      <div key={direction} className={`CKGPage__arrows-container arrow-${direction}`}>
+        <div className="CKGPage__arrows">
+          <a onClick={this.changeView}>
+            <i className={`fas fa-arrow-${direction} CKGPage__arrow`} />
+          </a>
+        </div>
+      </div>
+    ));
 
   renderSelectors = () => {
     const { teams } = this.props;
@@ -155,20 +190,7 @@ class CKG extends Component {
   }
 
   render() {
-    const {
-      team,
-      loading,
-      caseSensitive,
-      files,
-      integrations,
-      owners,
-      excludeFilters,
-      showSelector,
-      menuOptions,
-      orgId,
-      keywords,
-      activeView
-    } = this.props;
+    const { loading, files, integrations, excludeFilters, showSelector, menuOptions, activeView } = this.props;
 
     const filesFiltered = files.filter(file => {
       const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
@@ -176,18 +198,10 @@ class CKG extends Component {
       return !excludeFilters.fileTypes[label] && !excludeFilters.integrations[key];
     });
 
-    const breadcrumb = [{ title: String.t(`ckg.${activeView}`) }];
-    if (team) {
-      breadcrumb.unshift({
-        title: team.name,
-        url: `/app/team/${team.teamId}`
-      });
-    }
-
     return (
       <div className="CKG">
         <PageHeader
-          pageBreadCrumb={{ routes: breadcrumb }}
+          pageBreadCrumb={this.buildPageBreadCrumb()}
           hasMenu
           menuName="settings"
           menuPageHeader={menuOptions}
@@ -196,47 +210,12 @@ class CKG extends Component {
             count: filesFiltered.length
           }}
         >
-          <span className="CKG__keywords">
-            {keywords.map(keyword => (
-              <Tag
-                closable
-                key={keyword}
-                className="CKG__tag"
-                onClose={() => this.handleRemoveKeywordClick(keyword)}
-                visible={keywords.includes(keyword)}
-              >
-                {keyword}
-              </Tag>
-            ))}
-          </span>
+          {this.renderTags()}
         </PageHeader>
 
-        <div className="CKGPage__arrows-container arrow-left">
-          <div className="CKGPage__arrows">
-            <a onClick={this.changeView}>
-              <i className="fas fa-arrow-left CKGPage__arrow" />
-            </a>
-          </div>
-        </div>
+        {this.renderSideArrows()}
 
-        <div className="CKGPage__arrows-container arrow-right">
-          <div className="CKGPage__arrows">
-            <a onClick={this.changeView}>
-              <i className="fas fa-arrow-right CKGPage__arrow" />
-            </a>
-          </div>
-        </div>
-
-        {!loading &&
-          integrations.length === 0 && (
-            <div className="CKGPage__center-message-container">
-              <div className="CKGPage__center-message">
-                <Link to={team ? `/app/teamIntegrations/${team.teamId}` : `/app/integrations/${orgId}`}>
-                  {String.t('ckgPage.AddDataIntegration')}
-                </Link>
-              </div>
-            </div>
-          )}
+        {!loading && integrations.length === 0 && this.renderEmptyMessage()}
 
         {loading && (
           <div className="CKGPage__center-message-container">
@@ -246,18 +225,8 @@ class CKG extends Component {
           </div>
         )}
 
-        {activeView === CKG_VIEWS.TIME_ACTIVITY && (
-          <TimeActivityView files={loading ? [] : filesFiltered.map(buildDataObject)} />
-        )}
-        {activeView === CKG_VIEWS.FILE_LIST && (
-          <FileListView
-            files={filesFiltered}
-            owners={owners}
-            keywords={keywords}
-            caseSensitive={caseSensitive}
-            loading={loading}
-          />
-        )}
+        {activeView === CKG_VIEWS.TIME_ACTIVITY && <TimeActivityView files={filesFiltered} loading={loading} />}
+        {activeView === CKG_VIEWS.FILE_LIST && <FileListView files={filesFiltered} />}
 
         <div className="bottomBar">
           {showSelector && this.renderSelectors()}

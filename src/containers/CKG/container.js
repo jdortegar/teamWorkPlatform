@@ -5,7 +5,6 @@ import {
   getCurrentSubscriberOrgId,
   getTeam,
   getTeamsById,
-  getUserById,
   getActiveTeams,
   getCKGActiveView,
   getSearchQuery,
@@ -13,7 +12,11 @@ import {
   getSearchTeamId,
   isSearchCaseSensitive,
   isSearchExactMatch,
-  isSearchLoading
+  isSearchLoading,
+  getFiles,
+  getFileIntegrations,
+  getFileTypes,
+  getExcludeFilters
 } from 'src/selectors';
 import {
   fetchTimeActivitiesBySubscriberOrgId,
@@ -33,11 +36,10 @@ const mapStateToProps = (state, props) => {
     orgId,
     team,
     teamById: getTeamsById(state),
-    files: state.files.items,
-    integrations: state.files.integrations,
-    fileTypes: state.files.fileTypes,
-    excludeFilters: state.files.excludeFilters,
-    owners: state.files.owners.map(({ key, count }) => ({ ...getUserById(state, key), key, count })),
+    files: getFiles(state),
+    integrations: getFileIntegrations(state),
+    fileTypes: getFileTypes(state),
+    excludeFilters: getExcludeFilters(state),
     searchTeamId: getSearchTeamId(state),
     teams: getActiveTeams(state, orgId),
     query: getSearchQuery(state),
