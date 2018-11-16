@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { Chat } from 'src/components';
 import { isEmpty } from 'lodash';
-import { Chat } from 'src/pages';
 
 import {
   fetchTeamMembers,
@@ -28,7 +28,7 @@ import {
 } from 'src/selectors';
 
 const mapStateToProps = (state, props) => {
-  const { teamId } = props.match.params;
+  const { teamId } = props;
   const conversations = getConversationOfTeamId(state, teamId);
   const conversationId = !isEmpty(conversations) ? conversations.conversationId : null;
   const orgId = getCurrentSubscriberOrgId(state);

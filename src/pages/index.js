@@ -1,7 +1,6 @@
 export AcceptInvitationPage from './AcceptInvitationPage';
 export BookmarksPage from './BookmarksPage';
 export CKGPage from './CKGPage';
-export Chat from './Chat';
 export DashboardPage from './DashboardPage';
 export EditOrganizationPage from './EditOrganizationPage';
 export EditTeamMemberPage from './EditTeamMemberPage';

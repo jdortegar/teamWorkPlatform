@@ -247,9 +247,11 @@ class CKG extends Component {
           {showSelector && this.renderSelectors()}
           {!loading && this.renderFilesFilter()}
           <div className="clear" />
-          <div className="Chat_expandAction" onClick={() => this.props.showChat(false)}>
-            <i className="fas fa-angle-double-up" />
-          </div>
+          {this.props.showChat && (
+            <div className="Chat_expandAction" onClick={() => this.props.showChat(false)}>
+              <i className="fas fa-angle-double-up" />
+            </div>
+          )}
         </div>
       </div>
     );

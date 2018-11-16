@@ -12,6 +12,7 @@ export Badge from './Badge';
 export BasicFilter from './BasicFilter';
 export BreadCrumb from './BreadCrumb';
 export ChatContent from './ChatContent';
+export Chat from './Chat';
 export CKG from './CKG';
 export EditButton from './buttons/EditButton';
 export FilesFilters from './FilesFilters';

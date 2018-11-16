@@ -9,7 +9,8 @@ const propTypes = {
   showPageHeader: PropTypes.bool,
   showTeamMembers: PropTypes.bool,
   showChat: PropTypes.func,
-  menuOptions: PropTypes.array
+  menuOptions: PropTypes.array,
+  teamId: PropTypes.string.isRequired
 };
 
 const defaultProps = {
@@ -79,6 +80,7 @@ class ChatContent extends Component {
       >
         <Content style={{ background: '#fff', margin: 0, display: 'flex', flex: 1 }}>
           <Chat
+            teamId={this.props.teamId}
             files={this.state.fileList}
             updateFileList={this.updateFileList}
             removeFileFromList={this.removeFileFromList}
