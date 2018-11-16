@@ -10,7 +10,6 @@ import {
   Button,
   FirstNameField,
   LastNameField,
-  UsernameField,
   EmailField,
   CountrySelectField,
   TimezoneSelectField,
@@ -83,7 +82,6 @@ class EditUserPage extends Component {
           timeZone: values.timeZone,
           country: values.country,
           email: values.email.trim(),
-          displayName: values.username.trim(),
           icon: this.state.userIcon
         };
         this.props
@@ -137,11 +135,6 @@ class EditUserPage extends Component {
                 <div className="row_input">
                   <div className="input-item">
                     <EmailField form={this.props.form} disabled required initialValue={user.email} />
-                  </div>
-                </div>
-                <div className="row_input">
-                  <div className="input-item">
-                    <UsernameField form={this.props.form} required initialValue={user.displayName} />
                   </div>
                   <div className={containerImage}>
                     <UploadImageField

@@ -277,9 +277,7 @@ class Header extends Component {
                 size="small"
                 block
                 className="adminRoleButton"
-                onClick={() =>
-                  this.props.history.push(`/app/editOrganization/manage/${this.props.currentSubscriberOrgId}`)
-                }
+                onClick={() => this.props.history.push(`/app/editOrganization/${currentSubscriberOrgId}/teams`)}
               >
                 {String.t('roles.admin')}
               </Button>

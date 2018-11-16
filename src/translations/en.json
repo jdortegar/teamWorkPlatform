@@ -793,5 +793,12 @@
     "title": "Team Messages",
     "membersHeader": "Organization Team Members ({{count}})",
     "addTeamMember": "Add Team Members"
+  },
+  "organizationSummaryPage": {
+    "subscriptionPlan": "Subscription Plan",
+    "availableSeat": "Available Seats",
+    "of": "of",
+    "projectTeams": "Project Teams",
+    "filesShared": "Files Shared"
   }
 }

@@ -18,3 +18,13 @@
   display: block;
   margin: 10px auto;
 }
+
+.Flex_row {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 15px;
+  border-bottom: 1px solid #e8e8e8;
+  align-items: center;
+  font-size: 14px;
+  color: #000000d9;
+}

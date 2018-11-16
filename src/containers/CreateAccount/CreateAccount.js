@@ -20,7 +20,7 @@ import {
 
 const FormItem = Form.Item;
 const defaultTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-const defaultCountry = countriesAndTimezones.getCountriesForTimezone(defaultTimeZone)[0];
+const defaultCountry = countriesAndTimezones.getCountriesForTimezone(defaultTimeZone)[0] || '';
 
 const propTypes = {
   form: formShape.isRequired,
@@ -44,7 +44,7 @@ class CreateAccount extends React.Component {
 
   state = {
     timeZone: defaultTimeZone,
-    countryCode: defaultCountry && defaultCountry.id ? defaultCountry.id : null,
+    countryCode: defaultCountry && defaultCountry.id ? defaultCountry.id : '',
     loading: false
   };
 
