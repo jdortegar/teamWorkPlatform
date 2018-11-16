@@ -11,7 +11,9 @@ const propTypes = {
   history: PropTypes.object.isRequired,
   org: PropTypes.object.isRequired,
   team: PropTypes.object.isRequired,
-  teamId: PropTypes.string.isRequired
+  teamId: PropTypes.string.isRequired,
+  teamMembers: PropTypes.array.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 class TeamPage extends Component {
@@ -36,8 +38,12 @@ class TeamPage extends Component {
   }
 
   render() {
-    const { team, org } = this.props;
+    const { team, org, teamMembers, user } = this.props;
     const { showChat } = this.state;
+
+    if (!teamMembers || !teamMembers.some(userId => userId === user.userId)) {
+      this.props.history.push(`/app/organization/${org.subscriberOrgId}`);
+    }
 
     if (!team || !org) return <Spinner />;
 

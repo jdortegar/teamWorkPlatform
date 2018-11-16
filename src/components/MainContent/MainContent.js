@@ -38,6 +38,7 @@ import {
 } from 'src/containers';
 import { CKGPage } from 'src/pages';
 import './styles/style.css';
+import { Spinner } from 'src/components';
 
 const { Content } = Layout;
 
@@ -50,7 +51,8 @@ const propTypes = {
   notifyMessage: PropTypes.func.isRequired,
   updateInvitationDeclined: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
-  subscriberOrgs: PropTypes.object.isRequired
+  subscriberOrgs: PropTypes.object.isRequired,
+  fetchTeamsBySubscriberOrgId: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -65,6 +67,10 @@ function invitationKey(inv) {
 }
 
 class MainContent extends Component {
+  state = {
+    teamsLoaded: null
+  };
+
   componentDidMount() {
     if (this.props.pushMessage && this.props.pushMessage.length > 0) {
       const text = this.props.pushMessage[0].content.reduce(
@@ -81,6 +87,10 @@ class MainContent extends Component {
       };
       notification.open(args);
     }
+
+    this.props.fetchTeamsBySubscriberOrgId().then(() => {
+      this.setState({ teamsLoaded: true });
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -169,6 +179,10 @@ class MainContent extends Component {
 
   render() {
     const invitation = this.getValidInvites();
+
+    if (!this.state.teamsLoaded) {
+      return <Spinner />;
+    }
     return (
       <Content className="MainContent__layout-wrapper">
         {invitation.length > 0 ? invitation.map(inv => <Notification key={invitationKey(inv)} options={inv} />) : null}
