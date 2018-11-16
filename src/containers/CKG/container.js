@@ -14,6 +14,7 @@ import {
   isSearchExactMatch,
   isSearchLoading,
   getFiles,
+  getOwners,
   getFileIntegrations,
   getFileTypes,
   getExcludeFilters
@@ -21,6 +22,7 @@ import {
 import {
   fetchTimeActivitiesBySubscriberOrgId,
   setCurrentSubscriberOrgId,
+  toggleOwnerFilter,
   toggleIntegrationFilter,
   toggleFileTypeFilter,
   changeCKGView,
@@ -37,6 +39,7 @@ const mapStateToProps = (state, props) => {
     team,
     teamById: getTeamsById(state),
     files: getFiles(state),
+    owners: getOwners(state),
     integrations: getFileIntegrations(state),
     fileTypes: getFileTypes(state),
     excludeFilters: getExcludeFilters(state),
@@ -55,6 +58,7 @@ const mapDispatchToProps = {
   search,
   fetchTimeActivitiesBySubscriberOrgId,
   setCurrentSubscriberOrgId,
+  toggleOwnerFilter,
   toggleIntegrationFilter,
   toggleFileTypeFilter,
   changeCKGView

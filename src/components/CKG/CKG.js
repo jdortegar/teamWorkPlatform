@@ -18,11 +18,13 @@ const propTypes = {
   team: PropTypes.object,
   history: PropTypes.object.isRequired,
   search: PropTypes.func.isRequired,
+  toggleOwnerFilter: PropTypes.func.isRequired,
   toggleIntegrationFilter: PropTypes.func.isRequired,
   toggleFileTypeFilter: PropTypes.func.isRequired,
   changeCKGView: PropTypes.func.isRequired,
   teams: PropTypes.array,
   files: PropTypes.array,
+  owners: PropTypes.array,
   integrations: PropTypes.array,
   fileTypes: PropTypes.array,
   excludeFilters: PropTypes.object,
@@ -43,6 +45,7 @@ const defaultProps = {
   team: null,
   teams: [],
   files: [],
+  owners: [],
   integrations: [],
   fileTypes: [],
   excludeFilters: {},
@@ -96,6 +99,10 @@ class CKG extends Component {
 
   handleFileTypeFilterClick = key => {
     this.props.toggleFileTypeFilter(key);
+  };
+
+  handleOwnerFilterClick = key => {
+    this.props.toggleOwnerFilter(key);
   };
 
   buildPageBreadCrumb = () => {
@@ -176,15 +183,17 @@ class CKG extends Component {
   };
 
   renderFilesFilter() {
-    const { excludeFilters, fileTypes, integrations } = this.props;
+    const { excludeFilters, fileTypes, integrations, owners } = this.props;
 
     return (
       <FilesFilters
         className="CKGPage__FilesFilters"
+        owners={owners}
         fileTypes={fileTypes}
         integrations={integrations}
         excludeIntegrationsFilter={excludeFilters.integrations}
         excludeTypesFilter={excludeFilters.fileTypes}
+        onOwnerFilterClick={this.handleOwnerFilterClick}
         onIntegrationFilterClick={this.handleIntegrationFilterClick}
         onFileTypeFilterClick={this.handleFileTypeFilterClick}
       />
@@ -197,7 +206,11 @@ class CKG extends Component {
     const filesFiltered = files.filter(file => {
       const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
       const key = integrationKeyFromFile(file);
-      return !excludeFilters.fileTypes[label] && !excludeFilters.integrations[key];
+      return (
+        !excludeFilters.fileTypes[label] &&
+        !excludeFilters.integrations[key] &&
+        !excludeFilters.owners[file.fileOwnerId]
+      );
     });
 
     return (
