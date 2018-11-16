@@ -18,7 +18,7 @@
   "creationDate": "Creation Date",
   "status": "Status",
   "edit": "Edit",
-  "email": "email",
+  "email": "Email",
   "yes": "Yes",
   "no": "No",
 
@@ -42,7 +42,7 @@
 
   "updateProfileTitle": "Your Profile",
   "updateProfileExplain": "Your profile is viewable by Team Members of your Project Team.",
-  "updateProfileUpdateAccountButtonLabel": "UPDATE ACCOUNT",
+  "updateProfileUpdateAccountButtonLabel": "Update Account",
   "profileClearPhotoOption": "Change Profile Photo",
   "profilePhotoPlaceholder": "Set Your Profile Photo",
   "errProfileImageReadFile": "An error occurred trying to read the image.",
@@ -51,9 +51,9 @@
   "errLastNameMissing": "Please enter your Last Name.",
   "errUsernameTooShort": "The Organization Name must be at least 6 characters long.",
   "errTimeZoneNotSelected": "Please select a Time Zone.",
-  "errPasswordMissing": "Please enter a password.",
-  "errPasswordTooShort": "The password must be at least 8 characters long.",
-  "errConfirmPasswordEmpty": "Please re-enter password in the confirm password field.",
+  "errPasswordMissing": "Please enter a Password.",
+  "errPasswordTooShort": "The Password must be at least 8 characters long.",
+  "errConfirmPasswordEmpty": "Please re-enter Password in the Confirm Password field.",
   "errConfirmPasswordNoMatch": "Password doesn't match Confirm Password. Please try again.",
   "errCreateUserAlreadyRegistered": "You are already registered. Please login instead.",
   "labelFirstName": "First Name",
@@ -66,7 +66,6 @@
   "labelUsernamePlaceholder": "",
   "labelPassword": "Password",
   "chooseNewPassword": "Choose a New Password",
-
   "labelPasswordPlaceholder": "",
   "labelConfirmPassword": "Confirm Password",
   "confirmPasswordPlaceholder": "",
@@ -79,9 +78,9 @@
   "labelActivateTeam": "Make Project Team Active",
   "inviteMembersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
   "inviteMembersSendInvitesButton": {
-    "one": "SEND 1 INVITE",
-    "other": "SEND {{count}} INVITES",
-    "zero": "SEND INVITES"
+    "one": "Send 1 Invite",
+    "other": "Send {{count}} Invites",
+    "zero": "Send Invites"
   },
   "inviteMembersNoInvitesSelectedButton": "Select Team Members to send invites",
   "inviteMembersSearchPlaceholder": "Search Team Members",
@@ -91,11 +90,11 @@
     "one": "is typing...",
     "other": "are typing..."
   },
-  "appVersion": "version {{version}}",
-  "logOutButtonLabel": "LOG OUT",
-  "logOutConfirmationTitle": "Are you sure?",
+  "appVersion": "Version {{version}}",
+  "logOutButtonLabel": "Log Out",
+  "logOutConfirmationTitle": "Are you Sure?",
   "logOutConfirmationMessage": "This will log you out of this app.",
-  "logOutConfirmationButton": "Yes, log out",
+  "logOutConfirmationButton": "Yes, Log Out",
   "organization": "Organization",
   "organizations": "Organizations",
   "teams": "Project Teams",
@@ -225,7 +224,7 @@
     "save": "Save"
   },
   "PreviewCard": {
-    "imageAlt": "example"
+    "imageAlt": "Example"
   },
   "AutoCompleteField": {
     "defaultLabel": "Input",
@@ -314,6 +313,7 @@
     "sortByUnread": "Unread First",
     "sortByActivity": "Latest Activity First",
     "newDirectMessageTooltip": "New Direct Message",
+    "orgSummary": "Organization Summary",
     "iconHomeTooltip": "Home",
     "iconCKGTooltip": "Corporate Knowledge Graphs",
     "iconNotificationsTooltip": "Notifications",
@@ -462,6 +462,7 @@
     "title": "Add New Organization Team Members",
     "userEmail": "User Email",
     "addEmail": "Add another Email",
+    "errorUserhasOtherOrg": "The invitation can not be sent. The user already has an organization created in Habla AI.",
     "sendInvitationsButtonLabel": {
       "zero": "Send Invitation",
       "one": "Send Invitation",
@@ -510,7 +511,7 @@
     "markAllAsRead": "Mark All as Read",
     "unreadMessagesCount": {
       "one": "1 new message",
-      "other": "{{count}} new messages",
+      "other": "{{count}} New Messages",
       "tooltipAttachments": "Attach a file"
     },
     "menu": {
@@ -598,8 +599,8 @@
     "plant": "Plant",
     "industryGraphsTitle": "Industry Knowledge Graphs",
     "industryTitleManufacturing": "Manufacturing",
-    "labelSelectPlant": "Select plant",
-    "labelSelectDate": "Select date range",
+    "labelSelectPlant": "Select Plant",
+    "labelSelectDate": "Select Date Range",
     "plantUptimeByLineAndStringBreadcrumb": "{{plant}} Uptime By Line and String",
     "dailyPlantUptimeBreadcrumb": "Daily {{plant}} Uptime By Line and String",
     "plantUptimeMultipleBreadcrumb": "Plant Uptime by Week or Month for Multiple Plants Comparison",

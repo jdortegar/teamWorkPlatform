@@ -621,7 +621,6 @@ p {
 /* ----------- TABLES STYLES --------------- */
 
 .table-container .ant-table-thead > tr > th {
-  background: #fff;
   -webkit-transition: background 0.3s ease;
   transition: background 0.3s ease;
   text-align: left;
@@ -816,6 +815,10 @@ p {
 }
 .ant-table-tbody {
   font-family: 'Lato', sans-serif;
+}
+
+.homepage_graph-container {
+  overflow: inherit !important;
 }
 
 /* Habla Content Header  */
@@ -1197,7 +1200,27 @@ tr.ant-table-row:hover {
   box-shadow: 1px 1px 0px #105824;
 }
 .ant-scroll-number-only {
-  padding: 1px 2px;
+  padding: 0;
+}
+.ant-scroll-number-only p {
+  font-size: 15px;
+}
+.ant-table-tbody tr.ant-table-row:hover {
+  background: #6183bf !important;
+}
+.editOrgPage-main .ant-table-tbody tr td {
+  background: transparent !important;
+}
+.editOrgPage-main .ant-table-tbody tr.ant-table-row {
+  background: #fff !important;
+}
+.editOrgPage-main .ant-table-tbody tr.ant-table-row:hover {
+  background: #fafafa !important;
+  cursor: pointer;
+}
+.editOrgPage-main .table-container .ant-table-thead tr th:hover,
+.editOrgPage-main .ant-table-column-has-actions tr th:hover {
+  background: #fafafa !important;
 }
 
 /* RESPONSIVE ELEMENTS AND STYLES ---------- */
@@ -1359,6 +1382,15 @@ tr.ant-table-row:hover {
     height: 20px;
     position: relative;
     top: 5px;
+  }
+
+  .active.habla-top-menu-home::after,
+  .active.habla-top-menu-ckg::after,
+  .active.habla-top-menu-notifications::after,
+  .active.habla-top-menu-bookmarks::after,
+  .active.habla-top-menu-settings::after {
+    bottom: 85% !important;
+    left: 135% !important;
   }
 }
 

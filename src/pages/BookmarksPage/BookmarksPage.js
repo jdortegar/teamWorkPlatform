@@ -166,7 +166,12 @@ export default class BookmarksPage extends Component {
       <div>
         <NewSubpageHeader>
           <div className="habla-main-content-header-title">
-            <i className="fa fa-bookmark fa-2x" />
+            <div className="actionButtonsContainer">
+              <a>
+                <svg className="fas fa-bars fa-w-14 fa-2x" />
+                <i className="fas fa-chevron-down" />
+              </a>
+            </div>
             <div className="habla-title">{String.t('bookmarksPage.title')}</div>
           </div>
           <div className="habla-main-content-filters-links">

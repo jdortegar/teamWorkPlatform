@@ -289,7 +289,9 @@ class Sidebar extends Component {
     return (
       <Sider width={250} className={sideClass}>
         <div className="organizationHeader padding-class-a">
-          <div className="organizationHeader_org_info">{this.renderOrg(currentOrg)}</div>
+          <Tooltip placement="topLeft" title={String.t('sideBar.orgSummary')} arrowPointAtCenter>
+            <div className="organizationHeader_org_info">{this.renderOrg(currentOrg)}</div>
+          </Tooltip>
           {subscriberOrgs.length > 1 && (
             <Dropdown overlay={this.renderOrgs()} trigger={['click']}>
               <a>
