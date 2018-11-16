@@ -91,7 +91,7 @@ export const toggleAllTeamSharingSettings = (subscriberUserId, source, teamId, {
   dispatch,
   getState
 ) => {
-  const content = selectAll ? getOrgIntegrationContent(getState(), { subscriberUserId, teamId, source }) : {};
+  const content = selectAll ? getTeamIntegrationContent(getState(), { subscriberUserId, teamId, source }) : {};
   const { folders, files } = getAllIdsFromTree(content);
 
   return dispatch({

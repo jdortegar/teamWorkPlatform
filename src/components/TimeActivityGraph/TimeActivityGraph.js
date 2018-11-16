@@ -32,7 +32,7 @@ const TOOLTIP_VERTICAL_OFFSET = 10;
 const TOOLTIP_HORIZONTAL_OFFSET = 30;
 
 // from Victory. Increasing this number restrains the zoom level
-const MINIMUM_ZOOM = 500000;
+const MINIMUM_ZOOM = { x: 500000, y: 500000 };
 
 // how much the zoom changes in each interaction
 const ZOOM_DIFFERENCE = 0.1;
