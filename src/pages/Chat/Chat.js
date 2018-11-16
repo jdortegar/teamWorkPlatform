@@ -114,7 +114,7 @@ class Chat extends React.Component {
     });
 
     this.props.fetchConversations(team.teamId).then(response => {
-      if (response.data.conversations) {
+      if (_.isEmpty(response.data.conversations)) {
         const { conversationId } = response.data.conversations[0];
 
         this.props
@@ -160,7 +160,7 @@ class Chat extends React.Component {
       });
 
       this.props.fetchConversations(nextTeamId).then(response => {
-        if (response.data.conversations) {
+        if (_.isEmpty(response.data.conversations)) {
           const { conversationId } = response.data.conversations[0];
 
           this.props.fetchTranscript(conversationId).then(() =>
