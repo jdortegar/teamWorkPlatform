@@ -133,7 +133,11 @@ class SubscriptionModal extends React.Component {
       iconType: '',
       onOk: () => {
         this.props
-          .updateSubscription({ subscriptionId: subscriberOrg.stripeSubscriptionId, cancel_at_period_end: true })
+          .updateSubscription({
+            subscriptionId: subscriberOrg.stripeSubscriptionId,
+            subscriberOrgId: subscriberOrg.subscriberOrgId,
+            cancel_at_period_end: true
+          })
           .then(() => {
             message.success(
               String.t('subscriptionModal.confirmCancel', {
@@ -162,7 +166,11 @@ class SubscriptionModal extends React.Component {
       iconType: '',
       onOk: () => {
         this.props
-          .updateSubscription({ subscriptionId: subscriberOrg.stripeSubscriptionId, cancel_at_period_end: false })
+          .updateSubscription({
+            subscriptionId: subscriberOrg.stripeSubscriptionId,
+            subscriberOrgId: subscriberOrg.subscriberOrgId,
+            cancel_at_period_end: false
+          })
           .then(() => {
             message.success(
               String.t('subscriptionModal.confirmReactivate', {

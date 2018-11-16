@@ -17,9 +17,7 @@ const propTypes = {
     byOrg: PropTypes.object
   }).isRequired,
   fetchIntegrations: PropTypes.func.isRequired,
-  subscriberOrgs: PropTypes.shape({
-    currentSubscriberOrgId: PropTypes.string
-  }).isRequired,
+  subscriberOrg: PropTypes.object.isRequired,
   fetchSubscribersBySubscriberOrgId: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   subscribers: PropTypes.array.isRequired,
@@ -90,7 +88,7 @@ class OrganizationPage extends Component {
       integrations,
       subscribers,
       subscribersPresences,
-      subscriberOrgs,
+      subscriberOrg,
       user,
       orgId,
       userLimit
@@ -98,16 +96,13 @@ class OrganizationPage extends Component {
     if (
       subscribers &&
       subscribersPresences &&
-      subscriberOrgs &&
-      subscriberOrgs.subscriberOrgById &&
-      subscriberOrgs.subscriberOrgById[orgId] &&
+      subscriberOrg &&
       teams &&
       integrations &&
       this.state.subscribersLoaded &&
       this.state.integrationsLoaded &&
       user
     ) {
-      const subscriberOrg = subscriberOrgs.subscriberOrgById[orgId];
       const isOrgAdmin = Object.keys(user.subscriberOrgs).length > 0 && user.subscriberOrgs[orgId].role === 'admin';
 
       // Breadcrumb

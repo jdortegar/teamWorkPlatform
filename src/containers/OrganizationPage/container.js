@@ -15,9 +15,10 @@ import { OrganizationPage } from 'src/pages';
 const mapStateToProps = state => {
   const orgId = getCurrentSubscriberOrgId(state);
   const subscription = getSubscription(state);
+  const subscriberOrg = state.subscriberOrgs.subscriberOrgById[orgId];
   return {
+    subscriberOrg,
     user: getCurrentUser(state),
-    subscriberOrgs: state.subscriberOrgs,
     subscribers: getSubscribersOfSubscriberOrgId(state, orgId),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
     teams: getOrgTeams(state, orgId),
