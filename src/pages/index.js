@@ -20,7 +20,6 @@ export OrganizationManageMembers from './OrganizationManageMembers';
 export OrganizationManageTeams from './OrganizationManageTeams';
 export OrganizationPage from './OrganizationPage';
 export Register from './Register';
-export SearchPage from './SearchPage';
 export TeamIntegrationPage from './TeamIntegrationPage';
 export TeamIntegrationsPage from './TeamIntegrationsPage';
 export TeamManagePage from './TeamManagePage';

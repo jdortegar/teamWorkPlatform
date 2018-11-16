@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Highlighter from 'react-highlight-words';
 import classNames from 'classnames';
+import { Pagination } from 'antd';
 import moment from 'moment';
 
 import String from 'src/translations';
@@ -27,17 +28,17 @@ const getColumns = (keywords, caseSensitive, owners) => [
     key: 'fileName',
     sorter: (a, b) => a.fileName.localeCompare(b.fileName),
     render: (text, file) => (
-      <a className="SearchPage__results__link" href={file.resourceUri} target="_blank" rel="noopener noreferrer">
+      <a className="FileListView__results__link" href={file.resourceUri} target="_blank" rel="noopener noreferrer">
         <img
           src={imageSrcFromFileExtension(file.fileExtension)}
-          className="SearchPage__results__fileIcon"
+          className="FileListView__results__fileIcon"
           alt=""
           width={32}
           height={32}
         />
         <Highlighter
-          className="SearchPage__results__fileName"
-          highlightClassName="SearchPage__results-highlighted"
+          className="FileListView__results__fileName"
+          highlightClassName="FileListView__results-highlighted"
           searchWords={keywords}
           textToHighlight={text}
           caseSensitive={caseSensitive}
@@ -74,7 +75,7 @@ const getColumns = (keywords, caseSensitive, owners) => [
       return (
         <div>
           <AvatarWrapper user={user} size="small" hideStatusTooltip />
-          <span className="SearchPage__results__fileOwnerName">{user.fullName}</span>
+          <span className="FileListView__results__fileOwnerName">{user.fullName}</span>
         </div>
       );
     }
@@ -86,10 +87,10 @@ const getColumns = (keywords, caseSensitive, owners) => [
     sorter: (a, b) => a.fileSource.localeCompare(b.fileSource),
     render: (text, file) => (
       <div>
-        <div className="SearchPage__results__integrationIcon">
+        <div className="FileListView__results__integrationIcon">
           <img src={integrationImageFromKey(integrationKeyFromFile(file))} width={26} height={26} alt="" />
         </div>
-        <span className="SearchPage__results__integrationLabel">
+        <span className="FileListView__results__integrationLabel">
           {integrationLabelFromKey(integrationKeyFromFile(file))}
         </span>
       </div>
@@ -100,13 +101,48 @@ const getColumns = (keywords, caseSensitive, owners) => [
 class FileListView extends Component {
   state = { page: 1 };
 
+  handlePageChange = page => {
+    this.setState({ page });
+  };
+
+  renderPaginationItem = (page, type, originalElement) => {
+    if (type === 'prev' || type === 'next') {
+      return (
+        <a className="ant-pagination-item-link">
+          <i
+            className={classNames('fas', {
+              'fa-arrow-left': type === 'prev',
+              'fa-arrow-right': type === 'next'
+            })}
+          />
+        </a>
+      );
+    }
+    return originalElement;
+  };
+
   render() {
     const { files, keywords, caseSensitive, owners, loading } = this.props;
     const { page } = this.state;
+    const paginationVisible = !loading && files.length > PAGE_SIZE;
 
     return (
       <div className="FileListView">
-        <div className={classNames('SearchPage__results', { loading })}>
+        <div className={classNames('FileListView__results', { loading })}>
+          {paginationVisible && (
+            <div className="pagination-container">
+              <Pagination
+                size="small"
+                current={page}
+                total={files.length}
+                pageSize={PAGE_SIZE}
+                hideOnSinglePage
+                onChange={this.handlePageChange}
+                itemRender={this.renderPaginationItem}
+              />
+            </div>
+          )}
+
           <ResultsList
             columns={getColumns(keywords, caseSensitive, owners)}
             dataSource={files}

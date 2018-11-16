@@ -32,8 +32,8 @@
   padding: 12.5px 0 12.5px 13px !important;
 }
 .habla-top-menu-item-admin {
-	margin-left: 10px;
-	padding-right: 0;
+  margin-left: 10px;
+  padding-right: 0;
 }
 .habla-top-menu-item-content {
   height: 30px;
@@ -151,16 +151,6 @@ a.habla-top-menu-active {
 }
 .muteNotificationMenu svg {
   width: 20px !important;
-}
-.SearchPage__tag {
-  position: relative;
-  padding-left: 27px;
-}
-.SearchPage__tag .anticon-close {
-  position: absolute;
-  top: 9px;
-  left: -1px;
-  background: #a0a0a0;
 }
 .userMenu__dropdown-icon {
   top: 2px;

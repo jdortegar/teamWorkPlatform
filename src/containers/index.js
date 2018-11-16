@@ -1,7 +1,7 @@
 export AcceptInvitationPage from './AcceptInvitationPage';
 export BookmarksPage from './BookmarksPage';
-export ChatContent from './ChatContent';
 export Chat from './Chat';
+export ChatContent from './ChatContent';
 export CKG from './CKG';
 export CreateAccount from './CreateAccount';
 export DashboardPage from './DashboardPage';
@@ -29,7 +29,6 @@ export OrganizationManageMembers from './OrganizationManageMembers';
 export OrganizationManageTeams from './OrganizationManageTeams';
 export OrganizationPage from './OrganizationPage';
 export PreviewImages from './PreviewImages';
-export SearchPage from './SearchPage';
 export SetNewPassword from './SetNewPassword';
 export Sidebar from './Sidebar';
 export SubscriptionModal from './SubscriptionModal';

@@ -26,7 +26,6 @@ import {
   BookmarksPage,
   InviteToTeamPage,
   EditUserPage,
-  SearchPage,
   DashboardPage,
   NotificationsPage,
   AcceptInvitationPage,
@@ -185,14 +184,12 @@ class MainContent extends Component {
           <Route exact path={paths.editUser} component={EditUserPage} />
           <Route exact path={paths.inviteNewMember} component={InviteNewMemberPage} />
           <Route exact path={paths.inviteToTeam} component={InviteToTeamPage} />
-          {/* <Route exact path={paths.teamRoom} component={ChatContent} /> */}
           <Route exact path={paths.member} component={TeamMemberPage} />
           <Route exact path={paths.teamIntegrations} component={TeamIntegrationsPage} />
           <Route exact path={paths.teamIntegration} component={TeamIntegrationPage} />
           <Route exact path={paths.acceptInvitation} component={AcceptInvitationPage} />
           <Route exact path={paths.ckg} component={CKGPage} />
           <Route exact path={paths.dashboard} component={DashboardPage} />
-          <Route exact path={paths.search} component={SearchPage} />
           <Route exact path={paths.notifications} component={NotificationsPage} />
           <Route exact path={paths.bookmarks} component={BookmarksPage} />
           <Route exact path={paths.organization} component={OrganizationPage} />

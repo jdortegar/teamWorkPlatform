@@ -13,41 +13,41 @@
   flex-direction: column;
 }
 
-.FileListView .SearchPage__results {
+.FileListView .FileListView__results {
   background-color: #557dbf;
   display: flex;
   flex-grow: 1;
   flex-direction: column;
+  position: relative;
 }
-.FileListView .SearchPage__results.loading {
+.FileListView .FileListView__results.loading {
   display: flex;
   align-items: center;
-  background-color: white;
 }
 
-.FileListView .SearchPage__results-highlighted {
+.FileListView .FileListView__results-highlighted {
   border-bottom: dotted 1px #fbbc12; /* yellow-habla */
   padding-bottom: 1px;
   color: white;
   background-color: transparent;
 }
 
-.FileListView .SearchPage__results__link,
-.FileListView .SearchPage__results__link:hover {
+.FileListView .FileListView__results__link,
+.FileListView .FileListView__results__link:hover {
   color: #fff;
   text-decoration: none;
 }
-.FileListView .SearchPage__results__fileName {
+.FileListView .FileListView__results__fileName {
   padding-left: 40px;
 }
-.FileListView .SearchPage__results__fileIcon {
+.FileListView .FileListView__results__fileIcon {
   position: absolute;
   margin-top: -4px;
 }
-.FileListView .SearchPage__results__fileOwnerName {
+.FileListView .FileListView__results__fileOwnerName {
   padding-left: 10px;
 }
-.FileListView .SearchPage__results__integrationIcon {
+.FileListView .FileListView__results__integrationIcon {
   position: absolute;
   background-color: white;
   display: inline-block;
@@ -56,7 +56,7 @@
   width: 26px;
   height: 26px;
 }
-.FileListView .SearchPage__results__integrationLabel {
+.FileListView .FileListView__results__integrationLabel {
   padding-left: 35px;
 }
 
@@ -78,7 +78,7 @@
 .FileListView .ant-table-tbody > tr > td {
   font-size: 14px;
 }
-.FileListView .SearchPage__results tbody tr:hover {
+.FileListView .FileListView__results tbody tr:hover {
   background: #476dad;
   cursor: pointer;
 }
@@ -91,20 +91,46 @@
   color: #fff;
 }
 
-.FileListView .SearchPage__results-inner {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  justify-content: space-between;
-  position: relative;
-}
-
 .FileListView table {
   white-space: nowrap;
 }
 
 .FileListView .ant-table-tbody > tr > td:first-child {
   white-space: normal;
+}
+
+.FileListView .pagination-container {
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+  padding: 5px;
+  background: #3b5083;
+  color: #fff;
+  border-radius: 7px;
+  z-index: 3;
+  user-select: none;
+}
+
+.FileListView .pagination-container a,
+.FileListView .pagination-container a:hover,
+.FileListView .pagination-container a:active,
+.FileListView .pagination-container a:visited,
+.FileListView .pagination-container .ant-pagination-item-link-icon,
+.FileListView .pagination-container .ant-pagination-item-ellipsis {
+  color: #fff !important;
+}
+
+.FileListView .pagination-container .ant-pagination.mini .ant-pagination-item {
+  line-height: 18px;
+  min-width: 20px;
+  font-size: 12px;
+  height: 20px;
+}
+
+.FileListView .pagination-container .ant-pagination-item-active {
+  background-color: #557dbf;
+  border: solid 1px #557dbf;
+  border-radius: 50%;
 }
 
 .VictoryContainer img {
