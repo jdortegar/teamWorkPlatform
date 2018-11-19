@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Highlighter from 'react-highlight-words';
 import classNames from 'classnames';
-import { Pagination } from 'antd';
+import { Pagination, Tooltip } from 'antd';
 import moment from 'moment';
 
 import String from 'src/translations';
@@ -28,23 +28,25 @@ const getColumns = (keywords, caseSensitive, owners) => [
     key: 'fileName',
     sorter: (a, b) => a.fileName.localeCompare(b.fileName),
     render: (text, file) => (
-      <a className="FileListView__results__link" href={file.resourceUri} target="_blank" rel="noopener noreferrer">
-        <img
-          src={imageSrcFromFileExtension(file.fileExtension)}
-          className="FileListView__results__fileIcon"
-          alt=""
-          width={32}
-          height={32}
-        />
-        <Highlighter
-          className="FileListView__results__fileName"
-          highlightClassName="FileListView__results-highlighted"
-          searchWords={keywords}
-          textToHighlight={text}
-          caseSensitive={caseSensitive}
-          autoEscape
-        />
-      </a>
+      <Tooltip placement="top" title={file.resourceUri} overlayClassName="FileListView__results__tooltip">
+        <a className="FileListView__results__link" href={file.resourceUri} target="_blank" rel="noopener noreferrer">
+          <img
+            src={imageSrcFromFileExtension(file.fileExtension)}
+            className="FileListView__results__fileIcon"
+            alt=""
+            width={32}
+            height={32}
+          />
+          <Highlighter
+            className="FileListView__results__fileName"
+            highlightClassName="FileListView__results-highlighted"
+            searchWords={keywords}
+            textToHighlight={text}
+            caseSensitive={caseSensitive}
+            autoEscape
+          />
+        </a>
+      </Tooltip>
     )
   },
   {

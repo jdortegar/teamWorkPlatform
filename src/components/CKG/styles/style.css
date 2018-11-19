@@ -47,7 +47,7 @@
 .FileListView .FileListView__results__fileOwnerName {
   padding-left: 10px;
 }
-.FileListView__results__fileType {
+.FileListView .FileListView__results__fileType {
   text-transform: uppercase;
 }
 .FileListView .FileListView__results__integrationIcon {
@@ -61,6 +61,10 @@
 }
 .FileListView .FileListView__results__integrationLabel {
   padding-left: 35px;
+}
+
+.FileListView__results__tooltip {
+  font-size: 12px;
 }
 
 .FileListView .ResultsList thead > tr > th {
