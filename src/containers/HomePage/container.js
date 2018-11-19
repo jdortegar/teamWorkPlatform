@@ -5,7 +5,7 @@ import { TeamPage } from 'src/pages';
 const mapStateToProps = state => {
   const teams = getTeamsById(state);
   const org = getCurrentSubscriberOrg(state);
-  const defaultTeam = Object.values(teams).find(team => team.primary === true);
+  const defaultTeam = Object.values(teams).find(team => team.primary === true && team.active === true);
   const teamId = defaultTeam ? defaultTeam.teamId : null;
 
   return {
