@@ -47,6 +47,9 @@
 .FileListView .FileListView__results__fileOwnerName {
   padding-left: 10px;
 }
+.FileListView__results__fileType {
+  text-transform: uppercase;
+}
 .FileListView .FileListView__results__integrationIcon {
   position: absolute;
   background-color: white;

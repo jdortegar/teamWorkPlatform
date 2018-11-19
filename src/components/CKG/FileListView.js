@@ -48,18 +48,25 @@ const getColumns = (keywords, caseSensitive, owners) => [
     )
   },
   {
-    title: 'Last Modified',
-    dataIndex: 'lastModified',
-    key: 'lastModified',
-    sorter: (a, b) => moment(a.lastModified) - moment(b.lastModified),
-    render: x => formatTime(x)
-  },
-  {
-    title: 'Size',
+    title: 'File Size',
     dataIndex: 'fileSize',
     key: 'fileSize',
     sorter: (a, b) => a.fileSize - b.fileSize,
     render: x => formatSize(x)
+  },
+  {
+    title: 'File Type',
+    dataIndex: 'fileExtension',
+    key: 'fileExtension',
+    sorter: (a, b) => a.fileExtension.localeCompare(b.fileExtension),
+    render: text => <span className="FileListView__results__fileType">{text}</span>
+  },
+  {
+    title: 'Modified Time',
+    dataIndex: 'lastModified',
+    key: 'lastModified',
+    sorter: (a, b) => moment(a.lastModified) - moment(b.lastModified),
+    render: x => formatTime(x)
   },
   {
     title: 'Owner',
@@ -81,7 +88,7 @@ const getColumns = (keywords, caseSensitive, owners) => [
     }
   },
   {
-    title: 'Source',
+    title: 'Data Source',
     dataIndex: 'fileSource',
     key: 'fileSource',
     sorter: (a, b) => a.fileSource.localeCompare(b.fileSource),
