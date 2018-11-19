@@ -69,7 +69,7 @@ const getColumns = (keywords, caseSensitive, owners) => [
     render: x => formatTime(x)
   },
   {
-    title: 'Owner',
+    title: 'Habla AI User',
     dataIndex: 'fileOwnerId',
     key: 'fileOwnerId',
     sorter: (a, b) => {
@@ -86,6 +86,13 @@ const getColumns = (keywords, caseSensitive, owners) => [
         </div>
       );
     }
+  },
+  {
+    title: 'File Owner',
+    dataIndex: 'fileOwnerName',
+    key: 'fileOwnerName',
+    sorter: (a, b) => a.fileOwnerName.localeCompare(b.fileOwnerName),
+    render: text => <span className="FileListView__results__fileOwnerName">{text}</span>
   },
   {
     title: 'Data Source',
