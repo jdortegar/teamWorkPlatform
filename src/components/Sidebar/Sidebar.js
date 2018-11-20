@@ -28,7 +28,8 @@ const propTypes = {
   setCurrentSubscriberOrgId: PropTypes.func.isRequired,
   sideBarIsHidden: PropTypes.bool.isRequired,
   showSideBar: PropTypes.func.isRequired,
-  currentSubscriberOrgId: PropTypes.string
+  currentSubscriberOrgId: PropTypes.string,
+  userRoles: PropTypes.object
 };
 
 const defaultProps = {
@@ -36,7 +37,8 @@ const defaultProps = {
   subscriberOrgs: [],
   subscribers: null,
   subscribersPresences: {},
-  teams: []
+  teams: [],
+  userRoles: {}
 };
 
 const ROUTERS_TO_HIDE_SIDEBAR = ['/app/userDetails'];
@@ -46,7 +48,9 @@ function renderSubscriberAvatar(subscriber) {
   const fullName = String.t('fullName', { firstName, lastName });
   return (
     <Tooltip key={userId} placement="top" title={fullName}>
-      <AvatarWrapper size="default" user={subscriber} className="mr-05 mb-05" hideStatusTooltip />
+      <Link to={`/app/teamMember/${userId}`}>
+        <AvatarWrapper size="default" user={subscriber} className="mr-05 mb-05" hideStatusTooltip />
+      </Link>
     </Tooltip>
   );
 }
@@ -245,6 +249,16 @@ class Sidebar extends Component {
     );
   }
 
+  renderToolTip() {
+    const { userRoles } = this.props;
+    if (userRoles && (userRoles.admin || userRoles.teamOwner.length > 0)) {
+      return 'iconSettingsTooltipAdmin';
+    } else if (userRoles.teamOwner.length > 0) {
+      return 'iconSettingsTooltipTeamOwner';
+    }
+    return 'iconSettingsTooltipUser';
+  }
+
   render() {
     const {
       teams,
@@ -253,7 +267,8 @@ class Sidebar extends Component {
       subscribersPresences,
       sideBarIsHidden,
       currentSubscriberOrgId,
-      history
+      history,
+      userRoles
     } = this.props;
     if (!currentSubscriberOrgId || !teams || subscriberOrgs.length === 0 || !subscribers || !subscribersPresences) {
       return null;
@@ -266,7 +281,7 @@ class Sidebar extends Component {
     // Set Active Page
     const currenthPath = history.location.pathname;
 
-    const activeHome = classNames({ active: currenthPath.endsWith('app') });
+    const activeHome = classNames({ active: currenthPath.indexOf(paths.team.split('app/')[1].split('/')[0]) > 1 });
     const activeCKG = classNames({
       active: currenthPath.indexOf(paths.ckg.split('app/')[1].split('/')[0]) > 1
     });
@@ -286,6 +301,12 @@ class Sidebar extends Component {
     }));
 
     const currentOrg = subscriberOrgs.find(({ subscriberOrgId }) => subscriberOrgId === currentSubscriberOrgId);
+
+    const editLink =
+      userRoles && (userRoles.admin || userRoles.teamOwner.length > 0)
+        ? `/app/editOrganization/${currentSubscriberOrgId}/teams`
+        : `/app/organization/${currentSubscriberOrgId}`;
+
     return (
       <Sider width={250} className={sideClass}>
         <div className="organizationHeader padding-class-a">
@@ -326,11 +347,8 @@ class Sidebar extends Component {
               <i className="fa fa-bookmark fa-2x" />
             </Link>
           </Tooltip>
-          <Tooltip placement="topLeft" title={String.t('sideBar.iconSettingsTooltip')} arrowPointAtCenter>
-            <Link
-              to={`/app/editOrganization/${currentSubscriberOrgId}/teams`}
-              className={`habla-top-menu-settings ${activeEditOrganization}`}
-            >
+          <Tooltip placement="topLeft" title={String.t(`sideBar.${this.renderToolTip()}`)} arrowPointAtCenter>
+            <Link to={editLink} className={`habla-top-menu-settings ${activeEditOrganization}`}>
               <i className="fa fa-cog fa-2x" />
             </Link>
           </Tooltip>
@@ -361,17 +379,17 @@ class Sidebar extends Component {
         <div className="sidebar-direct-messages">
           <div className="sidebar-block-label">
             <span className="habla-label">
-              {String.t('directMessages')}
+              {String.t('teamsMembers')}
               {/* <span className="sidebar-label-number-badge">23</span> */}
             </span>
           </div>
           <div className="sidebar-direct-messages-content">
             {orgSubscribers.map(subscriber => renderSubscriberAvatar(subscriber))}
-            <Tooltip placement="topLeft" title={String.t('sideBar.newDirectMessageTooltip')} arrowPointAtCenter>
+            {/* <Tooltip placement="topLeft" title={String.t('sideBar.newDirectMessageTooltip')} arrowPointAtCenter>
               <a>
                 <Avatar className="mr-1">+</Avatar>
               </a>
-            </Tooltip>
+            </Tooltip> */}
           </div>
         </div>
         <div className="sidebar-resize-icon">

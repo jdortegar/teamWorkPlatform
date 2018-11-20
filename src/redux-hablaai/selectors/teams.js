@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { sortByName, primaryAtTop } from './helpers';
+import { getCurrentSubscriberOrgId } from './state';
 
 export const getTeamsById = state => state.teams.byId;
 export const getTeamIds = state => state.teams.allIds;
@@ -8,7 +9,7 @@ export const getTeamIdsByOrg = state => state.teams.idsByOrg;
 export const getTeams = createSelector([getTeamsById], teams => Object.values(teams));
 
 export const getOrgTeams = createSelector(
-  [getTeamIdsByOrg, getTeamsById, (state, orgId) => orgId],
+  [getTeamIdsByOrg, getTeamsById, getCurrentSubscriberOrgId],
   (teamIdsByOrg, teamsById, orgId) => {
     if (!orgId || !teamIdsByOrg[orgId]) return [];
 

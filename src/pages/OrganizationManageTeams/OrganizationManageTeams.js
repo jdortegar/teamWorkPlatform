@@ -18,8 +18,12 @@ const propTypes = {
     push: PropTypes.func
   }).isRequired,
   updateTeam: PropTypes.func.isRequired,
-  // users: PropTypes.object.isRequired,
-  teams: PropTypes.array.isRequired
+  teams: PropTypes.array.isRequired,
+  userRoles: PropTypes.object
+};
+
+const defaultProps = {
+  userRoles: {}
 };
 
 const { Option } = Select;
@@ -207,6 +211,7 @@ class OrganizationManageTeams extends Component {
     if (this.state.orgDataLoaded && this.state.teamsActive) {
       // General Const
       const subscriberOrgId = this.props.currentSubscriberOrgId;
+      const { userRoles } = this.props;
 
       // Breadcrumb
       const pageBreadCrumb = {
@@ -222,13 +227,15 @@ class OrganizationManageTeams extends Component {
           icon: 'fas fa-cog',
           title: 'OrganizationManage.manageTeamMembers',
           url: `/app/editOrganization/${subscriberOrgId}/members`
-        },
-        {
+        }
+      ];
+      if (userRoles.admin) {
+        menuPageHeader.push({
           icon: 'fas fa-cog',
           title: 'OrganizationManage.editOrganization',
           url: `/app/editOrganization/${subscriberOrgId}`
-        }
-      ];
+        });
+      }
 
       // Table Columns
       const columns = [
@@ -405,5 +412,6 @@ class OrganizationManageTeams extends Component {
 }
 
 OrganizationManageTeams.propTypes = propTypes;
+OrganizationManageTeams.defaultProps = defaultProps;
 
 export default OrganizationManageTeams;

@@ -52,7 +52,8 @@ const propTypes = {
   updateInvitationDeclined: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
   subscriberOrgs: PropTypes.object.isRequired,
-  fetchTeamsBySubscriberOrgId: PropTypes.func.isRequired
+  fetchTeamsBySubscriberOrgId: PropTypes.func.isRequired,
+  fetchSubscriberOrgs: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -68,7 +69,8 @@ function invitationKey(inv) {
 
 class MainContent extends Component {
   state = {
-    teamsLoaded: null
+    teamsLoaded: null,
+    orgLoaded: null
   };
 
   componentDidMount() {
@@ -90,6 +92,10 @@ class MainContent extends Component {
 
     this.props.fetchTeamsBySubscriberOrgId().then(() => {
       this.setState({ teamsLoaded: true });
+    });
+
+    this.props.fetchSubscriberOrgs().then(() => {
+      setTimeout(this.setState({ orgLoaded: true }), 5000);
     });
   }
 
@@ -180,7 +186,7 @@ class MainContent extends Component {
   render() {
     const invitation = this.getValidInvites();
 
-    if (!this.state.teamsLoaded) {
+    if (!this.state.teamsLoaded || !this.state.orgLoaded) {
       return <Spinner />;
     }
     return (
@@ -191,6 +197,7 @@ class MainContent extends Component {
           <Route exact path={paths.integrations} component={IntegrationsPage} />
           <Route exact path={paths.integration} component={IntegrationPage} />
           <Route exact path={paths.team} component={TeamPage} />
+          <Route exact path={paths.teamSmartList} component={TeamPage} />
           <Route exact path={paths.manageTeam} component={TeamManagePage} />
           <Route exact path={paths.newTeam} component={NewTeamPage} />
           <Route exact path={paths.editTeam} component={EditTeamPage} />

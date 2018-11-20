@@ -6,7 +6,6 @@ import {
   getTeam,
   getTeamsById,
   getActiveTeams,
-  getCKGActiveView,
   getSearchQuery,
   getSearchKeywords,
   getSearchTeamId,
@@ -49,8 +48,7 @@ const mapStateToProps = (state, props) => {
     keywords: getSearchKeywords(state),
     caseSensitive: isSearchCaseSensitive(state),
     exactMatch: isSearchExactMatch(state),
-    loading: isSearchLoading(state),
-    activeView: getCKGActiveView(state)
+    loading: isSearchLoading(state)
   };
 };
 

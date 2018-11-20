@@ -23,7 +23,7 @@ const mapStateToProps = state => ({
   orgData: getOrgData(state),
   currentSubscriberOrgId: getCurrentSubscriberOrgId(state),
   users: getUserByUserId(state),
-  teams: getOrgTeams(state, getCurrentSubscriberOrgId(state))
+  teams: getOrgTeams(state)
 });
 
 const mapDispatchToProps = {

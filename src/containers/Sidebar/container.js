@@ -9,7 +9,8 @@ import {
   getSubscriberOrgsSortedAlphabetically,
   getOrgTeams,
   getSubscribersOfSubscriberOrgId,
-  getPresencesOfSubscribersOfOrgId
+  getPresencesOfSubscribersOfOrgId,
+  getUserRoles
 } from 'src/selectors';
 
 const mapStateToProps = state => {
@@ -20,8 +21,9 @@ const mapStateToProps = state => {
     subscribers: getSubscribersOfSubscriberOrgId(state, orgId),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
     currentSubscriberOrgId: orgId,
-    teams: getOrgTeams(state, orgId),
-    sideBarIsHidden: state.sideBar.hidden
+    teams: getOrgTeams(state),
+    sideBarIsHidden: state.sideBar.hidden,
+    userRoles: getUserRoles(state)
   };
 };
 

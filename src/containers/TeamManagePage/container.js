@@ -9,7 +9,8 @@ import {
   getTeamIntegrations,
   getCurrentSubscriberOrgId,
   getUserFullName,
-  getUserByUserId
+  getUserByUserId,
+  getUserRoles
 } from 'src/selectors';
 import { TeamManagePage } from 'src/pages';
 
@@ -25,7 +26,8 @@ const mapStateToProps = (state, props) => {
     integrations: getTeamIntegrations(state, teamId),
     teamMembers: getTeamMembersOfTeamId(state, teamId),
     presences: getPresencesOfTeamMembersOfTeamId(state, teamId),
-    orgId: getCurrentSubscriberOrgId(state)
+    orgId: getCurrentSubscriberOrgId(state),
+    userRoles: getUserRoles(state)
   };
 };
 

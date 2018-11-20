@@ -21,7 +21,7 @@ const mapStateToProps = state => {
     user: getCurrentUser(state),
     subscribers: getSubscribersOfSubscriberOrgId(state, orgId),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
-    teams: getOrgTeams(state, orgId),
+    teams: getOrgTeams(state),
     integrations: getOrgIntegrationsObj(state, orgId),
     orgId,
     userLimit: subscription.quantity

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { notifyMessage, updateInvitationDeclined, fetchTeamsBySubscriberOrgId } from 'src/actions';
+import { notifyMessage, updateInvitationDeclined, fetchTeamsBySubscriberOrgId, fetchSubscriberOrgs } from 'src/actions';
 import { getCurrentUserId, getInvitations, getDeclinedInvitations, getUserByUserId, getTeamsById } from 'src/selectors';
 import { MainContent } from 'src/components';
 
@@ -17,7 +17,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   notifyMessage,
   updateInvitationDeclined,
-  fetchTeamsBySubscriberOrgId
+  fetchTeamsBySubscriberOrgId,
+  fetchSubscriberOrgs
 };
 
 export default withRouter(

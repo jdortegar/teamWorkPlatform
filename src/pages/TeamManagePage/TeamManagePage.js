@@ -24,7 +24,12 @@ const propTypes = {
   fetchTeamMembers: PropTypes.func.isRequired,
   history: PropTypes.shape({
     replace: PropTypes.func.isRequired
-  }).isRequired
+  }).isRequired,
+  userRoles: PropTypes.object
+};
+
+const defaultProps = {
+  userRoles: {}
 };
 
 class TeamManagePage extends Component {
@@ -48,7 +53,7 @@ class TeamManagePage extends Component {
   }
 
   render() {
-    const { team, teamMembers, presences, user, integrations, orgId, teamAdminName, users } = this.props;
+    const { team, teamMembers, presences, user, integrations, orgId, teamAdminName, users, userRoles } = this.props;
     if (
       !team ||
       !presences ||
@@ -81,11 +86,19 @@ class TeamManagePage extends Component {
         url: `/app/teamIntegrations/${teamId}`
       },
       {
-        icon: 'fas fa-pencil-alt',
-        title: 'TeamPage.editTeam',
-        url: `/app/editTeam/${teamId}`
+        icon: 'fas fa-cloud-download-alt',
+        title: 'TeamPage.inviteNewMember',
+        url: `/app/inviteToTeam/${team.teamId}`
       }
     ];
+
+    if (userRoles.admin || userRoles.teamOwner.length > 0) {
+      menuPageHeader.push({
+        icon: 'fas fa-pencil-alt',
+        title: 'TeamPage.editTeam',
+        url: `/app/editTeam/${team.teamId}`
+      });
+    }
 
     return (
       <div className="TeamSummary">
@@ -128,5 +141,6 @@ class TeamManagePage extends Component {
 }
 
 TeamManagePage.propTypes = propTypes;
+TeamManagePage.defaultProps = defaultProps;
 
 export default TeamManagePage;

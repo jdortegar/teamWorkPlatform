@@ -12,8 +12,17 @@ const propTypes = {
   org: PropTypes.object.isRequired,
   team: PropTypes.object.isRequired,
   teamId: PropTypes.string.isRequired,
-  teamMembers: PropTypes.array.isRequired,
-  user: PropTypes.object.isRequired
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      teamId: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired,
+  userRoles: PropTypes.object,
+  fetchTeamMembers: PropTypes.func.isRequired
+};
+
+const defaultProps = {
+  userRoles: {}
 };
 
 class TeamPage extends Component {
@@ -21,7 +30,8 @@ class TeamPage extends Component {
     super(props);
 
     this.state = {
-      showChat: true
+      showChat: true,
+      teamMembersLoaded: false
     };
 
     this.showChat = this.showChat.bind(this);
@@ -31,6 +41,8 @@ class TeamPage extends Component {
     if (!this.props.teamId) {
       this.props.history.replace(paths.app);
     }
+
+    this.props.fetchTeamMembers(this.props.teamId).then(() => this.setState({ teamMembersLoaded: true }));
   };
 
   showChat(bool) {
@@ -38,21 +50,29 @@ class TeamPage extends Component {
   }
 
   render() {
-    const { team, org, teamMembers, user } = this.props;
-    const { showChat } = this.state;
+    const { team, org, match, userRoles } = this.props;
+    const { showChat, teamMembersLoaded } = this.state;
 
-    if (!teamMembers || !teamMembers.some(userId => userId === user.userId)) {
-      this.props.history.push(`/app/organization/${org.subscriberOrgId}`);
+    if (!teamMembersLoaded || !team || !org) {
+      return <Spinner />;
     }
 
-    if (!team || !org) return <Spinner />;
+    let activeView = 'timeActivityView';
+    if (match.path.indexOf('smartList') > 0) {
+      activeView = 'fileListView';
+    }
 
     // Page Menu
     const menuPageHeader = [
       {
         icon: 'fas fa-chart-area',
         title: 'graphViewsSelector.timeActivity',
-        url: ''
+        url: `/app/team/${team.teamId}`
+      },
+      {
+        icon: 'fas fa-chart-area',
+        title: 'graphViewsSelector.smartListView',
+        url: `/app/team/${team.teamId}/smartList`
       },
       {
         icon: 'fas fa-chart-bar',
@@ -106,16 +126,24 @@ class TeamPage extends Component {
         url: `/app/teamIntegrations/${team.teamId}`
       },
       {
+        icon: 'fas fa-cloud-download-alt',
+        title: 'TeamPage.inviteNewMember',
+        url: `/app/inviteToTeam/${team.teamId}`
+      },
+      {
         icon: 'fas fa-cog',
         title: 'TeamPage.manageTeam',
         url: `/app/team/manage/${team.teamId}`
-      },
-      {
+      }
+    ];
+
+    if (userRoles.admin || userRoles.teamOwner.length > 0) {
+      menuPageHeader.push({
         icon: 'fas fa-pencil-alt',
         title: 'TeamPage.editTeam',
         url: `/app/editTeam/${team.teamId}`
-      }
-    ];
+      });
+    }
 
     const chatClassName = classNames({
       'homePage__chat-container': true,
@@ -126,7 +154,13 @@ class TeamPage extends Component {
       <div className="homePage-main">
         {showChat && (
           <div className="homepage_graph-container">
-            <CKG teamId={team.teamId} showSelector={false} menuOptions={menuPageHeader} showChat={this.showChat} />
+            <CKG
+              teamId={team.teamId}
+              showSelector={false}
+              menuOptions={menuPageHeader}
+              showChat={this.showChat}
+              activeView={activeView}
+            />
           </div>
         )}
         <div className={chatClassName}>
@@ -144,5 +178,6 @@ class TeamPage extends Component {
 }
 
 TeamPage.propTypes = propTypes;
+TeamPage.defaultProps = defaultProps;
 
 export default TeamPage;

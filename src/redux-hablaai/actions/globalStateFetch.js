@@ -16,7 +16,7 @@ import { fetchSurveys } from './surveys';
 export const fetchGlobalState = () => (dispatch, getState) => {
   const state = getState();
   const { currentSubscriberOrgId } = state.subscriberOrgs;
-  const orgNotFetched = currentSubscriberOrgId && isEmpty(getOrgTeams(state, currentSubscriberOrgId));
+  const orgNotFetched = currentSubscriberOrgId && isEmpty(getOrgTeams(state));
 
   if (Object.keys(state.subscriberOrgs.subscriberOrgById).length === 0) {
     dispatch(fetchSubscriberOrgs());

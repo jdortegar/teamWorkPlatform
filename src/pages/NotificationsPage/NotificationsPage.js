@@ -1,202 +1,55 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 import String from 'src/translations';
-import { NewSubpageHeader } from 'src/components';
-import Avatar from 'src/components/common/Avatar';
+import { PageHeader } from 'src/components';
+import moment from 'moment';
+import { hablaLogoAvatar } from 'src/img';
 import './styles/style.css';
 
-export default class NotificationsPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { all: true };
-    this.onMenuItemClick = this.onMenuItemClick.bind(this);
-  }
+const propTypes = {
+  history: PropTypes.object.isRequired,
+  org: PropTypes.object.isRequired
+};
 
-  onMenuItemClick({ all }) {
-    this.setState({ all });
-  }
+// Breadcrumb
+const pageBreadCrumb = {
+  routes: [
+    {
+      title: String.t('notificationPage.title')
+    }
+  ]
+};
 
+// eslint-disable-next-line react/prefer-stateless-function
+class NotificationsPage extends Component {
   render() {
-    const menuOptionAll = classNames({
-      'notification-menu__item': true,
-      active: this.state.all
-    });
-    const menuOptionUnread = classNames({
-      'notification-menu__item': true,
-      active: this.state.unread
-    });
-    const menuOptionBookmarked = classNames({
-      'notification-menu__item': true,
-      active: this.state.bookmarked
-    });
+    const { history, org } = this.props;
+
     return (
       <div>
-        <NewSubpageHeader>
-          <div className="habla-main-content-header-title">
-            <div className="actionButtonsContainer">
-              <a>
-                <svg className="fas fa-bars fa-w-14 fa-2x" />
-                <i className="fas fa-chevron-down" />
-              </a>
-            </div>
-            <div className="habla-title">{String.t('notificationPage.title')}</div>
-          </div>
-          <div className="habla-main-content-filters-links">
-            <div onClick={() => this.onMenuItemClick({ all: true })} className={menuOptionAll}>
-              {String.t('notificationPage.menu.all')}
-            </div>
-            <div onClick={() => this.onMenuItemClick({ all: true })} className={menuOptionUnread}>
-              {String.t('notificationPage.menu.unread')} (12)
-            </div>
-            <div onClick={() => this.onMenuItemClick({ all: true })} className={menuOptionBookmarked}>
-              {String.t('notificationPage.menu.bookmarked')}
-            </div>
-          </div>
-        </NewSubpageHeader>
+        <PageHeader pageBreadCrumb={pageBreadCrumb} />
         <div className="notification-body">
-          <div className="notification-body__item unread">
-            <Avatar />
-            <div className="notification-body__item__content">
-              <span className="content-name habla-label">Habla AI. Inc</span>
-              <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
-                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
-                dignissimos, porro quidem impedit, sed obcaecati!.
-                <span className="content-body__time-ago">(11 hours ago)</span>
-              </p>
-            </div>
-          </div>
-          <div className="notification-body__item unread">
-            <Avatar />
-            <div className="notification-body__item__content">
-              <span className="content-name habla-label">Habla AI. Inc</span>
-              <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
-                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
-                dignissimos, porro quidem impedit, sed obcaecati!.
-                <span className="content-body__time-ago">(11 hours ago)</span>
-              </p>
-            </div>
-          </div>
-          <div className="notification-body__item">
-            <Avatar />
-            <div className="notification-body__item__content">
-              <span className="content-name habla-label">Habla AI. Inc</span>
-              <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
-                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
-                dignissimos, porro quidem impedit, sed obcaecati!.
-                <span className="content-body__time-ago">(11 hours ago)</span>
-              </p>
-            </div>
-          </div>
-          <div className="notification-body__item">
-            <Avatar />
-            <div className="notification-body__item__content">
-              <span className="content-name habla-label">Habla AI. Inc</span>
-              <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
-                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
-                dignissimos, porro quidem impedit, sed obcaecati!.
-                <span className="content-body__time-ago">(11 hours ago)</span>
-              </p>
-            </div>
-          </div>
-          <div className="notification-body__item unread">
-            <Avatar />
-            <div className="notification-body__item__content">
-              <span className="content-name habla-label">Habla AI. Inc</span>
-              <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
-                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
-                dignissimos, porro quidem impedit, sed obcaecati!.
-                <span className="content-body__time-ago">(11 hours ago)</span>
-              </p>
-            </div>
-          </div>
-          <div className="notification-body__item">
-            <Avatar />
-            <div className="notification-body__item__content">
-              <span className="content-name habla-label">Habla AI. Inc</span>
-              <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
-                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
-                dignissimos, porro quidem impedit, sed obcaecati!.
-                <span className="content-body__time-ago">(11 hours ago)</span>
-              </p>
-            </div>
-          </div>
-          <div className="notification-body__item">
-            <Avatar />
-            <div className="notification-body__item__content">
-              <span className="content-name habla-label">Habla AI. Inc</span>
-              <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
-                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
-                dignissimos, porro quidem impedit, sed obcaecati!.
-                <span className="content-body__time-ago">(11 hours ago)</span>
-              </p>
-            </div>
-          </div>
-          <div className="notification-body__item unread">
-            <Avatar />
-            <div className="notification-body__item__content">
-              <span className="content-name habla-label">Habla AI. Inc</span>
-              <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
-                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
-                dignissimos, porro quidem impedit, sed obcaecati!.
-                <span className="content-body__time-ago">(11 hours ago)</span>
-              </p>
-            </div>
-          </div>
-          <div className="notification-body__item">
-            <Avatar />
-            <div className="notification-body__item__content">
-              <span className="content-name habla-label">Habla AI. Inc</span>
-              <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
-                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
-                dignissimos, porro quidem impedit, sed obcaecati!.
-                <span className="content-body__time-ago">(11 hours ago)</span>
-              </p>
-            </div>
-          </div>
-          <div className="notification-body__item">
-            <Avatar />
-            <div className="notification-body__item__content">
-              <span className="content-name habla-label">Habla AI. Inc</span>
-              <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
-                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
-                dignissimos, porro quidem impedit, sed obcaecati!.
-                <span className="content-body__time-ago">(11 hours ago)</span>
-              </p>
-            </div>
-          </div>
-          <div className="notification-body__item">
-            <Avatar />
-            <div className="notification-body__item__content">
-              <span className="content-name habla-label">Habla AI. Inc</span>
-              <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
-                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
-                dignissimos, porro quidem impedit, sed obcaecati!.
-                <span className="content-body__time-ago">(11 hours ago)</span>
-              </p>
-            </div>
-          </div>
-          <div className="notification-body__item no-border">
-            <Avatar />
-            <div className="notification-body__item__content">
-              <span className="content-name habla-label">Habla AI. Inc</span>
-              <p className="content-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae aperiam nostrum modi eligendi. Ipsam,
-                cupiditate? Et repudiandae mollitia minima repellendus, exercitationem incidunt saepe asperiores
-                dignissimos, porro quidem impedit, sed obcaecati!.
-                <span className="content-body__time-ago">(11 hours ago)</span>
-              </p>
+          <div className="homePage__activity-container margin-top-class-b">
+            <div className="homePage__activity-item">
+              <div className="homePage__activity-avatar">
+                <img src={hablaLogoAvatar} alt={String.t('Header.logoAlt')} className="homePage__activity-avatar" />
+              </div>
+              <div className="homePage__activity-content-container">
+                <div className="homePage__activity-content-header">Habla AI Bot</div>
+                <div className="homePage__activity-content-message">
+                  Welcome to Habla AI. To start using our tool as is best, please{' '}
+                  <a onClick={() => history.push(`/app/integrations/${org.subscriberOrgId}`)}>
+                    {' '}
+                    add a data integration{' '}
+                  </a>
+                  to see your files on the time activity view on the CKG.{' '}
+                  <a onClick={() => history.push(`/app/organization/${org.subscriberOrgId}`)}>Invite people</a> to your
+                  teams and start new conversations. We hope that now you spend minutes finding the right data instead
+                  of searching folders for hours. The Habla Ai Team.
+                  <span className="homePage__activity-content-date"> ({moment(org.created).fromNow()})</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -204,3 +57,7 @@ export default class NotificationsPage extends Component {
     );
   }
 }
+
+NotificationsPage.propTypes = propTypes;
+
+export default NotificationsPage;
