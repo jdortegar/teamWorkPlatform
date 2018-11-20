@@ -21,7 +21,8 @@ const propTypes = {
   }).isRequired,
   updateTeam: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
-  subscriberOrgById: PropTypes.object.isRequired
+  subscriberOrgById: PropTypes.object.isRequired,
+  orgId: PropTypes.string.isRequired
 };
 
 class EditTeamPage extends Component {
@@ -36,13 +37,14 @@ class EditTeamPage extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { teamId } = this.props.match.params;
+    const { orgId } = this.props;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
         const valuesToSend = { ...values };
         valuesToSend.name = values.name.trim();
         this.props
-          .updateTeam(valuesToSend, teamId)
+          .updateTeam(orgId, teamId, valuesToSend)
           .then(() => {
             this.setState({ loading: false });
             this.props.history.goBack();

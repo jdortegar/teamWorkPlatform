@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { updateTeam } from 'src/actions';
-import { getTeamsById, getUrlRequestStatus } from 'src/selectors';
+import { getTeamsById, getUrlRequestStatus, getCurrentSubscriberOrgId } from 'src/selectors';
 import { EditTeamPage } from 'src/pages';
 
 const mapStateToProps = (state, props) => {
@@ -8,6 +8,7 @@ const mapStateToProps = (state, props) => {
   return {
     subscriberOrgById: state.subscriberOrgs.subscriberOrgById,
     teams: getTeamsById(state),
+    orgId: getCurrentSubscriberOrgId(state),
     updateTeamRequestStatus: getUrlRequestStatus(state, updateTeam(null, teamId, true))
   };
 };
