@@ -157,14 +157,14 @@ class IntegrationPage extends Component {
     const key = integrationMapping(source);
     if (checked) {
       // TODO: Add support to SharePoint params
-      // let configParams = null;
-      // if (this.state.configParams) {
-      //   configParams = {};
-      //   this.state.configParams.forEach(param => {
-      //     configParams[param.key] = this[param.key].value;
-      //   });
-      // }
-      this.props.integrateOrgIntegration(key).catch(error => {
+      let params = null;
+      if (this.state.configParams) {
+        params = {};
+        this.state.configParams.forEach(param => {
+          params[param.key] = this[param.key].value;
+        });
+      }
+      this.props.integrateOrgIntegration(key, params).catch(error => {
         message.error(error.message);
       });
     } else {
