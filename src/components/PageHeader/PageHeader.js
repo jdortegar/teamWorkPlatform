@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import { isEmpty } from 'lodash';
 
 import { Link } from 'react-router-dom';
-import { Tooltip, Badge, Popover, Menu } from 'antd';
+import { Tooltip, Popover, Menu, Badge } from 'antd';
 import { Button, BreadCrumb } from 'src/components';
 import String from 'src/translations';
 import './styles/style.css';
@@ -123,6 +123,8 @@ function PageHeader({
             title="Notifications"
             className="pageHeader__badge"
             style={badgeOptions.style}
+            showZero
+            overflowCount={999999}
           />
         )}
         {!isEmpty(buttonOptions) && <Button className="rightSideButton" {...buttonOptions} />}
