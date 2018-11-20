@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Tooltip, Switch, message } from 'antd';
+import { Tooltip, Switch, message, Button } from 'antd';
 import { isEmpty } from 'lodash';
 
 import String from 'src/translations';
@@ -95,6 +95,19 @@ class TeamIntegrationPage extends Component {
     }
   };
 
+  refreshIntegration = () => {
+    const { source, team, integration, integrateTeamIntegration, revokeTeamIntegration } = this.props;
+    const key = integrationMapping(source);
+
+    revokeTeamIntegration(key, integration.teamId, integration.userId)
+      .then(
+        integrateTeamIntegration(key, team.teamId)
+          .then(res => showNotification(res, key))
+          .catch(error => message.error(error.message))
+      )
+      .catch(error => message.error(error.message));
+  };
+
   render() {
     const {
       team,
@@ -156,6 +169,14 @@ class TeamIntegrationPage extends Component {
               checked={statusLabel === 'Active'}
             />
           </Tooltip>
+        </div>
+        <div className="TeamIntegration__button-container align-center-class ">
+          {/* <span className="TeamIntegration_integration-date">
+            {String.t('integrationPage.lastIntegrationDate', { date: 'Aug 24, 2018' })}
+          </span> */}
+          <Button className="TeamIntegration__button" onClick={() => this.refreshIntegration()}>
+            {String.t('integrationPage.refreshList')}
+          </Button>
         </div>
         {isFetchingContent && <Spinner />}
         {displaySharingSettings && (

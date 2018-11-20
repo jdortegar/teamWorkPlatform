@@ -12,10 +12,10 @@ const byTeam = (state = {}, action) => {
       };
     }
     case TEAMMEMBER_RECEIVE: {
-      const { teamId, teamMembers = [] } = action.payload;
+      const { teamId, teamMember = {} } = action.payload;
       return {
         ...state,
-        [teamId]: _.union(state[teamId], [teamMembers.userId])
+        [teamId]: _.union(state[teamId], [teamMember.userId])
       };
     }
     default:

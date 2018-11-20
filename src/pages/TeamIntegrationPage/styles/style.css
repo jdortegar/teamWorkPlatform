@@ -16,6 +16,26 @@
   font-weight: 900;
 }
 
+.TeamIntegration__button-container {
+  padding: 18px;
+  border-top: 1px solid #f7f7f7;
+}
+
+.TeamIntegration__button-container .TeamIntegration__button {
+  background: #5b7eba;
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  height: 40px;
+}
+
+.TeamIntegration__button-container .TeamIntegration_integration-date {
+  color: #999;
+  display: block;
+  margin-bottom: 15px;
+  font-size: 13px;
+}
+
 /* TODO: check if it's used */
 /* .Integration-details__right-col {
   padding-left: 40px;

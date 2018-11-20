@@ -441,7 +441,9 @@
       "selectAll": "Select All",
       "deselectAll": "Deselect All",
       "itemsCount": "({{count}} items)"
-    }
+    },
+    "refreshList": "Refresh List",
+    "lastIntegrationDate": "Files and Folders from {{date}}"
   },
   "integrationsPage": {
     "breadcrumb": "Data Integrations",
