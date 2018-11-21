@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import * as d3 from 'd3';
 
+import String from 'src/translations';
 import { TimeActivityGraph, GraphZoomActions } from 'src/components';
 
 const color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -50,6 +51,12 @@ class TimeActivityView extends Component {
               onViewAll={this.handleViewAll}
             />
           </div>
+        </div>
+        <div className="TimeActivityView__axis-label y-axis">
+          <span>{String.t('timeActivityGraph.yAxisLabel')}</span>
+        </div>
+        <div className="TimeActivityView__axis-label x-axis">
+          <span>{String.t('timeActivityGraph.xAxisLabel')}</span>
         </div>
         <TimeActivityGraph files={loading ? [] : files.map(buildDataObject)} zoomLevel={zoomLevel} viewAll={viewAll} />
       </div>
