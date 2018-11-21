@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getTeam, getCurrentSubscriberOrg, getTeamMembersOfTeamId, getCurrentUser, getUserRoles } from 'src/selectors';
+import { getTeam, getCurrentSubscriberOrg, getCurrentUser, getUserRoles } from 'src/selectors';
 import { fetchTeamMembers } from 'src/actions';
 import { TeamPage } from 'src/pages';
 
@@ -8,7 +8,6 @@ const mapStateToProps = (state, props) => {
   return {
     teamId,
     team: getTeam(state, teamId),
-    teamMembers: getTeamMembersOfTeamId(state, teamId),
     org: getCurrentSubscriberOrg(state),
     user: getCurrentUser(state),
     userRoles: getUserRoles(state)

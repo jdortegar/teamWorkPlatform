@@ -6,10 +6,15 @@ import './styles/style.css';
 
 const propTypes = {
   history: PropTypes.object.isRequired,
-  teamMembers: PropTypes.array.isRequired,
+  teamMembers: PropTypes.array,
   user: PropTypes.object.isRequired,
   orgId: PropTypes.string.isRequired,
-  teamId: PropTypes.string.isRequired
+  teamId: PropTypes.string
+};
+
+const defaultProps = {
+  teamMembers: [],
+  teamId: null
 };
 
 class HomePage extends Component {
@@ -29,5 +34,6 @@ class HomePage extends Component {
 }
 
 HomePage.propTypes = propTypes;
+HomePage.defaultProps = defaultProps;
 
 export default HomePage;

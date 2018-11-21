@@ -15,7 +15,7 @@
   "apply": "Apply",
   "name": "Name",
   "teamMembers": "Project Team Members",
-  "teamsMembers": "Team Members",
+  "teamsMembers": "Project Team Members",
   "creationDate": "Creation Date",
   "status": "Status",
   "edit": "Edit",
@@ -321,7 +321,8 @@
     "iconBookmarksTooltip": "Bookmarks",
     "iconSettingsTooltipAdmin": "Manage Organization",
     "iconSettingsTooltipTeamOwner": "Manage Project Teams",
-    "iconSettingsTooltipUser": "Organization Summary"
+    "iconSettingsTooltipUser": "Organization Summary",
+    "invitetoTeam": "Invite Member to this Project Team"
   },
   "timeActivityGraph": {
     "yAxisLabel": "Activity",

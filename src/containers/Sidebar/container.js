@@ -13,8 +13,12 @@ import {
   getUserRoles
 } from 'src/selectors';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   const orgId = getCurrentSubscriberOrgId(state);
+  let teamId;
+  if (props.location.pathname.indexOf('/team/') > 0) {
+    teamId = props.location.pathname.split('team/')[1].split('/')[0];
+  }
   return {
     user: getCurrentUser(state),
     subscriberOrgs: getSubscriberOrgsSortedAlphabetically(state),
@@ -23,7 +27,8 @@ const mapStateToProps = state => {
     currentSubscriberOrgId: orgId,
     teams: getOrgTeams(state),
     sideBarIsHidden: state.sideBar.hidden,
-    userRoles: getUserRoles(state)
+    userRoles: getUserRoles(state),
+    teamId
   };
 };
 

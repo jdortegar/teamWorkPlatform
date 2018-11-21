@@ -29,7 +29,8 @@ const propTypes = {
   sideBarIsHidden: PropTypes.bool.isRequired,
   showSideBar: PropTypes.func.isRequired,
   currentSubscriberOrgId: PropTypes.string,
-  userRoles: PropTypes.object
+  userRoles: PropTypes.object,
+  teamId: PropTypes.string
 };
 
 const defaultProps = {
@@ -38,7 +39,8 @@ const defaultProps = {
   subscribers: null,
   subscribersPresences: {},
   teams: [],
-  userRoles: {}
+  userRoles: {},
+  teamId: null
 };
 
 const ROUTERS_TO_HIDE_SIDEBAR = ['/app/userDetails'];
@@ -268,7 +270,8 @@ class Sidebar extends Component {
       sideBarIsHidden,
       currentSubscriberOrgId,
       history,
-      userRoles
+      userRoles,
+      teamId
     } = this.props;
     if (!currentSubscriberOrgId || !teams || subscriberOrgs.length === 0 || !subscribers || !subscribersPresences) {
       return null;
@@ -295,10 +298,16 @@ class Sidebar extends Component {
       active: currenthPath.indexOf(paths.editOrganization.split('app/')[1].split('/')[0]) > 1
     });
 
-    const orgSubscribers = subscribers.map(subscriber => ({
-      ...subscriber,
-      online: _.some(_.values(subscribersPresences[subscriber.userId]), { presenceStatus: 'online' })
-    }));
+    const teamMembers = [];
+
+    _.forEach(subscribers, subscriber => {
+      if (Object.keys(subscriber.teams).some(team => team === teamId)) {
+        teamMembers.push({
+          ...subscriber,
+          online: _.some(_.values(subscribersPresences[subscriber.userId]), { presenceStatus: 'online' })
+        });
+      }
+    });
 
     const currentOrg = subscriberOrgs.find(({ subscriberOrgId }) => subscriberOrgId === currentSubscriberOrgId);
 
@@ -376,22 +385,31 @@ class Sidebar extends Component {
           <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleSearch} />
         </div>
 
-        <div className="sidebar-direct-messages">
-          <div className="sidebar-block-label">
-            <span className="habla-label">
-              {String.t('teamsMembers')}
-              {/* <span className="sidebar-label-number-badge">23</span> */}
-            </span>
+        {teamMembers.length > 0 && (
+          <div className="sidebar-direct-messages">
+            <div className="sidebar-block-label">
+              <span className="habla-label">
+                {String.t('teamsMembers')}
+                <span className="sidebar-label-number-badge">{teamMembers.length}</span>
+              </span>
+            </div>
+            <div className="sidebar-direct-messages-content">
+              {teamMembers.map(subscriber => renderSubscriberAvatar(subscriber))}
+              <Tooltip placement="topLeft" title={String.t('sideBar.invitetoTeam')} arrowPointAtCenter>
+                <a>
+                  <Avatar
+                    className="mr-1"
+                    onClick={() => {
+                      this.props.history.push(`/app/inviteToTeam/${teamId}`);
+                    }}
+                  >
+                    +
+                  </Avatar>
+                </a>
+              </Tooltip>
+            </div>
           </div>
-          <div className="sidebar-direct-messages-content">
-            {orgSubscribers.map(subscriber => renderSubscriberAvatar(subscriber))}
-            {/* <Tooltip placement="topLeft" title={String.t('sideBar.newDirectMessageTooltip')} arrowPointAtCenter>
-              <a>
-                <Avatar className="mr-1">+</Avatar>
-              </a>
-            </Tooltip> */}
-          </div>
-        </div>
+        )}
         <div className="sidebar-resize-icon">
           <i className="fas fa-bars" data-fa-transform="rotate-90" />
         </div>
