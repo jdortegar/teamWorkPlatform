@@ -45,7 +45,7 @@ const allZoomDomain = key => files => {
   return [+moment(firstFileDate).subtract(1, 'month'), +moment(lastFileDate).add(1, 'week')];
 };
 const allXDomain = allZoomDomain('lastModified');
-const allYDomain = allZoomDomain('created');
+const allYDomain = allZoomDomain('fileCreatedAt');
 
 const formatTick = date => {
   const getFormat = () => {
@@ -203,7 +203,7 @@ class TimeActivityGraph extends Component {
           />
           <VictoryScatter
             data={files}
-            y="created"
+            y="fileCreatedAt"
             x="lastModified"
             style={styles.scatter}
             labelComponent={<div />}

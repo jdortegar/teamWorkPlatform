@@ -9,7 +9,7 @@ const color = d3.scaleOrdinal(d3.schemeCategory10);
 const buildDataObject = file => ({
   ...file,
   lastModified: moment(file.lastModified),
-  created: moment(file.lastModified).subtract(1, 'month'),
+  fileCreatedAt: moment(file.fileCreatedAt),
   color: color(file.fileExtension)
 });
 
