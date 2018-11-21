@@ -64,6 +64,13 @@ const getColumns = (keywords, caseSensitive, owners) => [
     render: text => <span className="FileListView__results__fileType">{text}</span>
   },
   {
+    title: 'Created Time',
+    dataIndex: 'fileCreatedAt',
+    key: 'fileCreatedAt',
+    sorter: (a, b) => moment(a.fileCreatedAt) - moment(b.fileCreatedAt),
+    render: x => formatTime(x)
+  },
+  {
     title: 'Modified Time',
     dataIndex: 'lastModified',
     key: 'lastModified',
