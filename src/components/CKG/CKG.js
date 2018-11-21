@@ -65,6 +65,8 @@ class CKG extends Component {
   componentDidMount() {
     const { orgId, teamId, history, search, query, caseSensitive, exactMatch } = this.props;
 
+    this.changeViewFromHash(this.props);
+
     if (!orgId) {
       history.replace('/app');
       return;
@@ -76,10 +78,25 @@ class CKG extends Component {
   componentWillReceiveProps(nextProps) {
     const { teamId, search, query, caseSensitive, exactMatch } = nextProps;
 
+    this.changeViewFromHash(nextProps);
+
     if (this.props.teamId !== teamId) {
       search(query, { teamId, caseSensitive, exactMatch });
     }
   }
+
+  changeViewFromHash = props => {
+    const { location, history, changeCKGView } = props;
+    const { hash, pathname } = location;
+    if (!hash) return;
+
+    // if we receive a specific view from location hash, change it and remove from URL
+    const view = hash.replace('#', '');
+    if (Object.values(CKG_VIEWS).includes(view)) {
+      changeCKGView(view);
+      history.replace(pathname);
+    }
+  };
 
   handleSelectTeam = value => {
     const teamId = value !== 'org' ? value : null;
@@ -121,7 +138,7 @@ class CKG extends Component {
     };
   };
 
-  changeView = () => {
+  switchViews = () => {
     const { activeView, changeCKGView } = this.props;
     changeCKGView(activeView === CKG_VIEWS.TIME_ACTIVITY ? CKG_VIEWS.FILE_LIST : CKG_VIEWS.TIME_ACTIVITY);
   };
@@ -162,7 +179,7 @@ class CKG extends Component {
     ['left', 'right'].map(direction => (
       <div key={direction} className={`CKGPage__arrows-container arrow-${direction}`}>
         <div className="CKGPage__arrows">
-          <a onClick={this.changeView}>
+          <a onClick={this.switchViews}>
             <i className={`fas fa-arrow-${direction} CKGPage__arrow`} />
           </a>
         </div>

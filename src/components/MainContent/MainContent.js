@@ -10,6 +10,7 @@ import String from 'src/translations';
 import { sortByLastCreatedFirst } from 'src/redux-hablaai/selectors/helpers';
 import {
   HomePage,
+  CKGPage,
   ChatContent,
   IntegrationsPage,
   IntegrationPage,
@@ -36,7 +37,6 @@ import {
   OrganizationDataIntegrations,
   EditOrganizationPage
 } from 'src/containers';
-import { CKGPage } from 'src/pages';
 import './styles/style.css';
 import { Spinner } from 'src/components';
 
@@ -197,7 +197,6 @@ class MainContent extends Component {
           <Route exact path={paths.integrations} component={IntegrationsPage} />
           <Route exact path={paths.integration} component={IntegrationPage} />
           <Route exact path={paths.team} component={TeamPage} />
-          <Route exact path={paths.teamSmartList} component={TeamPage} />
           <Route exact path={paths.manageTeam} component={TeamManagePage} />
           <Route exact path={paths.newTeam} component={NewTeamPage} />
           <Route exact path={paths.editTeam} component={EditTeamPage} />
