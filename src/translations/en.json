@@ -803,7 +803,7 @@
   },
   "organizationSummaryPage": {
     "subscriptionPlan": "Subscription Plan",
-    "availableSeat": "Available Seats",
+    "availableSeat": "Licenses Used",
     "of": "of",
     "projectTeams": "Project Teams",
     "filesShared": "Files Shared"

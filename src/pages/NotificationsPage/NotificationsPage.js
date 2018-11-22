@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import String from 'src/translations';
-import { PageHeader } from 'src/components';
+import { NewSubpageHeader } from 'src/components';
 import moment from 'moment';
 import { hablaLogoAvatar } from 'src/img';
 import './styles/style.css';
@@ -12,15 +12,6 @@ const propTypes = {
   org: PropTypes.object.isRequired
 };
 
-// Breadcrumb
-const pageBreadCrumb = {
-  routes: [
-    {
-      title: String.t('notificationPage.title')
-    }
-  ]
-};
-
 // eslint-disable-next-line react/prefer-stateless-function
 class NotificationsPage extends Component {
   render() {
@@ -28,7 +19,17 @@ class NotificationsPage extends Component {
 
     return (
       <div>
-        <PageHeader pageBreadCrumb={pageBreadCrumb} />
+        <NewSubpageHeader>
+          <div className="habla-main-content-header-title">
+            <div className="actionButtonsContainer">
+              <a>
+                <svg className="fas fa-bars fa-w-14 fa-2x" />
+                <i className="fas fa-chevron-down" />
+              </a>
+            </div>
+            <div className="habla-title">{String.t('notificationPage.title')}</div>
+          </div>
+        </NewSubpageHeader>
         <div className="notification-body">
           <div className="homePage__activity-container margin-top-class-b">
             <div className="homePage__activity-item">

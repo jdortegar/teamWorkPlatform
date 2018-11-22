@@ -70,3 +70,24 @@
   margin: 10px !important;
   justify-content: center;
 }
+
+.TeamIntegration__button-container {
+  padding: 18px;
+  border-top: 1px solid #f7f7f7;
+}
+
+.TeamIntegration__button-container .TeamIntegration__button {
+  background: #5b7eba;
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  height: 40px;
+  min-width: auto;
+}
+
+.TeamIntegration__button-container .TeamIntegration_integration-date {
+  color: #999;
+  display: block;
+  margin-bottom: 15px;
+  font-size: 13px;
+}

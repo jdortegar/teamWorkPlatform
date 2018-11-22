@@ -145,6 +145,23 @@ class IntegrationPage extends Component {
     this.props.toggleAllOrgSharingSettings(subscriberUserId, source, { selectAll });
   };
 
+  refreshIntegration = () => {
+    const { source, integrateOrgIntegration, revokeOrgIntegration } = this.props;
+    const key = integrationMapping(source);
+    revokeOrgIntegration(key)
+      .then(() => {
+        const { configParams } = this.state;
+        const params = configParams.reduce((acc, item) => {
+          acc[item.key] = this[item.key].value;
+          return acc;
+        }, {});
+        integrateOrgIntegration(key, params).catch(error => message.error(error.message));
+      })
+      .catch(error => {
+        message.error(error.message);
+      });
+  };
+
   handleIntegration = checked => {
     const { source, integrateOrgIntegration, revokeOrgIntegration } = this.props;
     const { configParams } = this.state;
@@ -308,6 +325,16 @@ class IntegrationPage extends Component {
             />
           </Tooltip>
         </div>
+        {statusLabel === 'Active' && (
+          <div className="TeamIntegration__button-container align-center-class ">
+            {/* <span className="TeamIntegration_integration-date">
+            {String.t('integrationPage.lastIntegrationDate', { date: 'Aug 24, 2018' })}
+          </span> */}
+            <Button className="TeamIntegration__button" onClick={() => this.refreshIntegration()}>
+              {String.t('integrationPage.refreshList')}
+            </Button>
+          </div>
+        )}
         {isFetchingContent && <Spinner />}
         {displaySharingSettings && (
           <SharingSettings
