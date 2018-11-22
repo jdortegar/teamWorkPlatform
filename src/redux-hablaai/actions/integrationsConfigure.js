@@ -2,17 +2,16 @@ import { buildApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest } from './urlRequest';
 
 // eslint-disable-next-line import/prefer-default-export
-export const configureIntegration = (type, subscriberOrgId, configuration) => {
-  const requestUrl = buildApiUrl(`integrations/${type}/configure/${subscriberOrgId}`);
-
-  // Passthrough data that you'll see after going through the reducer.  Typically in your mapStateToProps.
-  const reduxState = { type, subscriberOrgId, configuration };
+export const configureIntegration = (source, subscriberOrgId, configuration) => {
+  const requestUrl = buildApiUrl(`integrations/${source}/configure/${subscriberOrgId}`);
+  const data = { [source]: configuration };
+  const reduxState = { source, subscriberOrgId, data };
 
   return doAuthenticatedRequest(
     {
       requestUrl,
       method: 'patch',
-      data: configuration
+      data
     },
     reduxState
   );
