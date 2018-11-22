@@ -39,7 +39,7 @@
   height: 30px;
 }
 .habla-top-menu-items a {
-  color: #4d4d4d;
+  color: #fff;
   font-weight: 700;
   text-decoration: none;
   vertical-align: middle;
@@ -53,6 +53,7 @@
 }
 .habla-top-menu-items .habla-top-menu-user {
   display: inline-block;
+  cursor: pointer;
 }
 .habla-top-menu-items .svg-inline--fa {
   font-size: 18px;
@@ -142,6 +143,10 @@ a.habla-top-menu-active {
 
 .habla-top-menu-notification-sounds .svg-inline--fa {
   margin-top: 6px;
+}
+.habla-top-menu-help-center .svg-inline--fa {
+  margin-top: 6px;
+  font-size: 20px;
 }
 .habla-top-navigation-dropdown-signal {
   width: 11px;
