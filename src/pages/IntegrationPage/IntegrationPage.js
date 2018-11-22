@@ -38,7 +38,7 @@ function showNotification(response, integration) {
 const propTypes = {
   integrateOrgIntegration: PropTypes.func.isRequired,
   revokeOrgIntegration: PropTypes.func.isRequired,
-  configureIntegration: PropTypes.func.isRequired,
+  configureOrgIntegration: PropTypes.func.isRequired,
   fetchIntegrations: PropTypes.func.isRequired,
   fetchIntegrationContent: PropTypes.func.isRequired,
   toggleOrgSharingSettings: PropTypes.func.isRequired,
@@ -113,7 +113,7 @@ class IntegrationPage extends Component {
 
     this.setState({ configLoading: true });
     this.props
-      .configureIntegration(source, orgId, config)
+      .configureOrgIntegration(source, orgId, config)
       .then(() => {
         this.setState({ changedFolderOptions: {}, configLoading: false });
         message.success(String.t('integrationPage.message.configUpdated', { name: integrationLabelFromKey(source) }));
@@ -146,7 +146,7 @@ class IntegrationPage extends Component {
   };
 
   handleIntegration = checked => {
-    const { source } = this.props;
+    const { source, integrateOrgIntegration, revokeOrgIntegration } = this.props;
     const { configParams } = this.state;
     const key = integrationMapping(source);
     if (checked) {
@@ -154,16 +154,11 @@ class IntegrationPage extends Component {
         acc[item.key] = this[item.key].value;
         return acc;
       }, {});
-      this.props.integrateOrgIntegration(key, params).catch(error => {
-        message.error(error.message);
-      });
+      integrateOrgIntegration(key, params).catch(error => message.error(error.message));
     } else {
-      this.props
-        .revokeOrgIntegration(key)
+      revokeOrgIntegration(key)
         .then(res => showNotification(res, key))
-        .catch(error => {
-          message.error(error.message);
-        });
+        .catch(error => message.error(error.message));
     }
   };
 
@@ -245,20 +240,20 @@ class IntegrationPage extends Component {
 
   render() {
     const {
-      integration,
-      content,
-      source,
       orgId,
       orgName,
+      source,
+      integration,
+      content,
       selectedFolders,
       selectedFiles,
-      isSubmittingSharingSettings,
+      isFetchingContent,
       isSavedSharingSettings,
-      isFetchingContent
+      isSubmittingSharingSettings
     } = this.props;
-    const { configParams } = this.state;
     if (!source || !orgId) return <Spinner />;
 
+    const { configParams } = this.state;
     const integrationKey = integrationMapping(source);
     const integrationImageSrc = integrationImageFromKey(integrationKey);
     const integrationLabel = integrationLabelFromKey(integrationKey);

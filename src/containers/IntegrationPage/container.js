@@ -18,7 +18,7 @@ import {
   toggleOrgSharingSettings,
   toggleAllOrgSharingSettings,
   integrateOrgIntegration,
-  configureIntegration,
+  configureOrgIntegration,
   revokeOrgIntegration
 } from 'src/actions';
 
@@ -52,7 +52,7 @@ const mapDispatchToProps = {
   toggleOrgSharingSettings,
   toggleAllOrgSharingSettings,
   integrateOrgIntegration,
-  configureIntegration,
+  configureOrgIntegration,
   revokeOrgIntegration
 };
 
