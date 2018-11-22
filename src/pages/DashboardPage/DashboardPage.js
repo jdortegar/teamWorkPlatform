@@ -21,13 +21,13 @@ const DATES = [...Array(8).keys()].map(i => {
 });
 
 const PLANTS = [
-  { key: 'american falls', name: 'American Falls' },
-  { key: 'boardman east', name: 'Boardman East' },
-  { key: 'connell', name: 'Connell' },
-  { key: 'delhi', name: 'Delhi' },
-  { key: 'park rapids', name: 'Park Rapids' },
-  { key: 'pasco', name: 'Pasco' },
-  { key: 'richland', name: 'Richland' }
+  { key: 'american falls', name: 'Plant 1' },
+  { key: 'boardman east', name: 'Plant 2' },
+  { key: 'connell', name: 'Plant 3' },
+  { key: 'delhi', name: 'Plant 4' },
+  { key: 'park rapids', name: 'Plant 5' },
+  { key: 'pasco', name: 'Plant 6' },
+  { key: 'richland', name: 'Plant 7' }
 ];
 
 const CKGthumbs = [CKGthumb1, CKGthumb2, CKGthumb3, CKGthumb4, CKGthumb5];

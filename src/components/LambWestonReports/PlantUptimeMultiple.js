@@ -139,6 +139,14 @@ class PlantUptimeMultiple extends Component {
               }
             }}
           />
+          <div className="demoWrapper">
+            <div className="demoContent">
+              <p>
+                This is an example of an Industry Use Case using Habla AI Manufacturing Data Visualization. For more
+                information Contact Us at the Help Center.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     );
