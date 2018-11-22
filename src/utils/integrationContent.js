@@ -4,7 +4,7 @@ import _ from 'lodash';
 export const getAllIdsFromTree = tree =>
   _.reduce(
     _.pick(tree, ['folders', 'files']),
-    (acc, values, key) => {
+    (acc, values = [], key) => {
       if (key === 'files') {
         // add all files ids
         acc.files = _.concat(acc.files, values.map(f => f.file_id));
@@ -28,7 +28,7 @@ export const getAllIdsFromTree = tree =>
 export const getAllChildrenIds = (tree, folderId) =>
   _.reduce(
     _.pick(tree, 'folders'),
-    (acc, values, key) => {
+    (acc, values = [], key) => {
       if (key === 'folders') {
         // find the given folder
         const folder = values.find(f => f.folder_id === folderId);

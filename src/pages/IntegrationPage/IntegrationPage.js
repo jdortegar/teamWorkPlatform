@@ -101,7 +101,7 @@ class IntegrationPage extends Component {
     const changedFolders = Object.keys(changedFolderOptions);
     if (isEmpty(changedFolders)) return;
 
-    const { integration, source, orgId } = this.props;
+    const { integration, source, orgId, subscriberUserId } = this.props;
     const folders = integration[configFolders.key];
     const { selected, folderKey } = configFolders.folderKeys;
 
@@ -117,6 +117,7 @@ class IntegrationPage extends Component {
       .then(() => {
         this.setState({ changedFolderOptions: {}, configLoading: false });
         message.success(String.t('integrationPage.message.configUpdated', { name: integrationLabelFromKey(source) }));
+        this.props.fetchIntegrationContent(source, subscriberUserId);
       })
       .catch(error => {
         this.setState({ configLoading: false });
@@ -205,8 +206,11 @@ class IntegrationPage extends Component {
   };
 
   renderConfigFolders = () => {
-    const { integration, configParams, configFolders, configLoading, changedFolderOptions } = this.state;
-    if (!integration || isEmpty(configParams) || !configFolders) return null;
+    const { integration } = this.props;
+    const { configParams, configFolders, configLoading, changedFolderOptions } = this.state;
+    if (isEmpty(configParams) || !configFolders || !integration || getIntegrationStatus(integration) !== 'Active') {
+      return null;
+    }
 
     const { key, label } = configFolders;
     const folders = integration[key];
