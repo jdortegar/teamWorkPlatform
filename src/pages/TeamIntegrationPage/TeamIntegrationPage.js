@@ -170,14 +170,16 @@ class TeamIntegrationPage extends Component {
             />
           </Tooltip>
         </div>
-        <div className="TeamIntegration__button-container align-center-class ">
-          {/* <span className="TeamIntegration_integration-date">
+        {statusLabel === 'Active' && (
+          <div className="TeamIntegration__button-container align-center-class ">
+            {/* <span className="TeamIntegration_integration-date">
             {String.t('integrationPage.lastIntegrationDate', { date: 'Aug 24, 2018' })}
           </span> */}
-          <Button className="TeamIntegration__button" onClick={() => this.refreshIntegration()}>
-            {String.t('integrationPage.refreshList')}
-          </Button>
-        </div>
+            <Button className="TeamIntegration__button" onClick={() => this.refreshIntegration()}>
+              {String.t('integrationPage.refreshList')}
+            </Button>
+          </div>
+        )}
         {isFetchingContent && <Spinner />}
         {displaySharingSettings && (
           <SharingSettings

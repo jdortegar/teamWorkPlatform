@@ -45,8 +45,20 @@ class CreateAccount extends React.Component {
   state = {
     timeZone: defaultTimeZone,
     countryCode: defaultCountry && defaultCountry.id ? defaultCountry.id : '',
-    loading: false
+    loading: false,
+    fieldProps: null
   };
+
+  componentDidMount() {
+    if (sessionStorage.getItem('habla-subscriberOrgName')) {
+      this.setState({
+        fieldProps: {
+          disabled: 'disabled',
+          initialValue: sessionStorage.getItem('habla-subscriberOrgName')
+        }
+      });
+    }
+  }
 
   handleCountryChange(countryCode) {
     this.setState({ countryCode });
@@ -101,7 +113,13 @@ class CreateAccount extends React.Component {
             </Row>
             <Row gutter={16}>
               <Col className="gutter-row" span={12}>
-                <UsernameField form={this.props.form} layout={layout} required componentKey="displayName" />
+                <UsernameField
+                  form={this.props.form}
+                  layout={layout}
+                  required
+                  componentKey="displayName"
+                  {...this.state.fieldProps}
+                />
               </Col>
               <Col className="gutter-row" span={12}>
                 <EmailField

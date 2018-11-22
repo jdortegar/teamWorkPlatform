@@ -52,6 +52,9 @@ export const logoutUser = () => dispatch => {
 export const verifyEmailAccount = uuid => () =>
   axios.get(buildApiUrl(`users/validateEmail/${uuid}`)).then(response => {
     sessionStorage.setItem('habla-user-email', response.data.email);
+    if (response.data.subscriberOrgName) {
+      sessionStorage.setItem('habla-subscriberOrgName', response.data.subscriberOrgName);
+    }
   });
 
 export const createAccount = form => dispatch => {
