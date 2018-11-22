@@ -19,37 +19,37 @@ import {
 
 const possibleIntegrations = {
   box: {
-    label: 'Box', // TODO: localize??
+    label: 'Box',
     logo: boxLogo,
     isSupported: true
   },
   google: {
-    label: 'Google Drive', // TODO: localize??
+    label: 'Google Drive',
     logo: googleDriveLogo,
     isSupported: true
   },
   gsuite: {
-    label: 'G Suite by Google Cloud', // TODO: localize??
+    label: 'G Suite by Google Cloud',
     logo: gSuiteLogo,
     isSupported: true,
     mappedToKey: 'google' // *** maps to the Google Drive integration ***
   },
   sharepoint: {
-    label: 'SharePoint', // TODO: localize??
+    label: 'SharePoint',
     logo: sharepointLogo,
     isSupported: true,
     config: {
       params: [
         {
-          key: 'sharepointOrg', // used to set value and to returned it via integrations.sharepoint.sharepointOrg
+          key: 'sharepointOrg', // used to set value and to return it via integrations.sharepoint.sharepointOrg
           type: 'edit',
-          label: 'Site ID:', // TODO: localize
+          label: 'Site ID:',
           value: 'site',
-          placeholder: 'Enter Sharepoint Site ID' // TODO: localize
+          placeholder: 'Sharepoint Site ID'
         }
       ],
       folders: {
-        label: 'Sites:', // TODO: localize
+        label: 'Sites:',
         key: 'sites', // integrations.sharepoint.sites (type is an array)
         folderKeys: {
           selected: 'selected', // integrations.sharepoint.sites[index].selected (type is boolean)
