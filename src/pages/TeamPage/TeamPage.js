@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { paths } from 'src/routes';
 import { CKG } from 'src/containers';
 import { Spinner, ChatContent } from 'src/components';
+import { CKG_VIEWS } from 'src/actions';
 import './styles/style.css';
 
 const propTypes = {
@@ -12,11 +13,6 @@ const propTypes = {
   org: PropTypes.object.isRequired,
   team: PropTypes.object.isRequired,
   teamId: PropTypes.string.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      teamId: PropTypes.string.isRequired
-    }).isRequired
-  }).isRequired,
   userRoles: PropTypes.object,
   fetchTeamMembers: PropTypes.func.isRequired
 };
@@ -50,16 +46,11 @@ class TeamPage extends Component {
   }
 
   render() {
-    const { team, org, match, userRoles } = this.props;
+    const { team, org, userRoles } = this.props;
     const { showChat, teamMembersLoaded } = this.state;
 
     if (!teamMembersLoaded || !team || !org) {
       return <Spinner />;
-    }
-
-    let activeView = 'timeActivityView';
-    if (match.path.indexOf('smartList') > 0) {
-      activeView = 'fileListView';
     }
 
     // Page Menu
@@ -67,12 +58,12 @@ class TeamPage extends Component {
       {
         icon: 'fas fa-chart-area',
         title: 'graphViewsSelector.timeActivity',
-        url: `/app/team/${team.teamId}`
+        url: `/app/team/${team.teamId}#${CKG_VIEWS.TIME_ACTIVITY}`
       },
       {
         icon: 'fas fa-chart-area',
         title: 'graphViewsSelector.smartListView',
-        url: `/app/team/${team.teamId}/smartList`
+        url: `/app/team/${team.teamId}#${CKG_VIEWS.FILE_LIST}`
       },
       {
         icon: 'fas fa-chart-bar',
@@ -154,13 +145,7 @@ class TeamPage extends Component {
       <div className="homePage-main">
         {showChat && (
           <div className="homepage_graph-container">
-            <CKG
-              teamId={team.teamId}
-              showSelector={false}
-              menuOptions={menuPageHeader}
-              showChat={this.showChat}
-              activeView={activeView}
-            />
+            <CKG teamId={team.teamId} showSelector={false} menuOptions={menuPageHeader} showChat={this.showChat} />
           </div>
         )}
         <div className={chatClassName}>

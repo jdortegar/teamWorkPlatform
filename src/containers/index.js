@@ -3,6 +3,7 @@ export BookmarksPage from './BookmarksPage';
 export Chat from './Chat';
 export ChatContent from './ChatContent';
 export CKG from './CKG';
+export CKGPage from './CKGPage';
 export CreateAccount from './CreateAccount';
 export DashboardPage from './DashboardPage';
 export EditOrganizationPage from './EditOrganizationPage';

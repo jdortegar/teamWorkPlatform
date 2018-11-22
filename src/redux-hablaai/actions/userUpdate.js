@@ -25,10 +25,11 @@ export const updateUser = (updateObject, userId, options = { getKey: false, forc
 
     if (!options.getKey) {
       thunk.then(response => {
-        if (userId && response.status === 204 && response.data !== RESPONSE_STALE) {
+        if (response.data && response.data !== RESPONSE_STALE) {
+          const userUpdated = response.data;
           dispatch({
             type: UPDATED_USER_STATUS_SUCCESS,
-            payload: { userId }
+            payload: { userUpdated }
           });
         }
         return response;

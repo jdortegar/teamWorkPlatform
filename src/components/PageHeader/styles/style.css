@@ -178,3 +178,8 @@
 .PageHeader .ant-scroll-number-only {
   padding: 0;
 }
+
+.pageHeader__badge {
+	font-weight: 700;
+  font-family: 'Lato', sans-serif;
+}

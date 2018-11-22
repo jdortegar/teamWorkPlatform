@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Dropdown, Input, Icon, message, Button, Switch } from 'antd';
+import { Layout, Menu, Dropdown, Input, Icon, message, Button, Switch, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -63,9 +63,14 @@ class Header extends Component {
     const { user } = this.props;
     if (user.presenceStatus && user.presenceStatus === presenceStatus) return;
 
-    this.props.updateUser({ presenceStatus }).catch(error => {
-      message.error(error.message);
-    });
+    this.props
+      .updateUser({ presenceStatus }, user.userId)
+      .then(() => {
+        message.success(String.t('Header.statusUpdated'));
+      })
+      .catch(error => {
+        message.error(error.message);
+      });
   }
 
   clearSearchInput = () => {
@@ -108,49 +113,6 @@ class Header extends Component {
 
     const isOrgAdmin =
       Object.keys(user.subscriberOrgs).length > 0 && user.subscriberOrgs[currentSubscriberOrgId].role === 'admin';
-
-    const muteNotificationMenu = (
-      <Menu className="muteNotificationMenu">
-        <Menu.Item key="header">
-          <div className="habla-label padding-class-a">{String.t('Header.muteTitle')}</div>
-        </Menu.Item>
-        <Menu.Item key="mute30min">
-          <a>
-            <span>
-              <i className="fas fa-volume-up" /> {String.t('Header.muteThirtyMins')}
-            </span>
-          </a>
-        </Menu.Item>
-        <Menu.Item key="mute1Hr">
-          <a>
-            <span>
-              <i className="fas fa-volume-down" /> {String.t('Header.muteOneHour')}
-            </span>
-          </a>
-        </Menu.Item>
-        <Menu.Item key="mute4Hrs">
-          <a>
-            <span>
-              <i className="fas fa-volume-off" /> {String.t('Header.muteFourHours')}
-            </span>
-          </a>
-        </Menu.Item>
-        <Menu.Item key="muteAllDay">
-          <a>
-            <span>
-              <i className="far fa-clock" /> {String.t('Header.muteAllDay')}
-            </span>
-          </a>
-        </Menu.Item>
-        <Menu.Item key="muteOff" className="dropdown-last-menu-item">
-          <a>
-            <span>
-              <i className="fas fa-volume-up" /> {String.t('Header.muteNo')}
-            </span>
-          </a>
-        </Menu.Item>
-      </Menu>
-    );
 
     const userMenu = (
       <Menu>
@@ -247,13 +209,16 @@ class Header extends Component {
         </div>
         <div className="habla-top-menu-item">
           <div className="habla-top-menu-item-content">
-            <Link to="" className="habla-top-menu-notification-sounds">
-              <Dropdown overlay={muteNotificationMenu} trigger={['click']}>
-                <div className="ant-dropdown-link">
-                  <i className="fa fa-volume-up" />
-                </div>
-              </Dropdown>
-            </Link>
+            <Tooltip placement="bottom" title={String.t('Header.helpCenter')} arrowPointAtCenter>
+              <a
+                rel="noopener noreferrer"
+                href="http://www.habla.ai/help-center.html"
+                className="habla-top-menu-help-center"
+                target="_blank"
+              >
+                <i className="far fa-question-circle" />
+              </a>
+            </Tooltip>
           </div>
         </div>
         <div className={className}>

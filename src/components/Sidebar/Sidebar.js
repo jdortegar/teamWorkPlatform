@@ -284,7 +284,9 @@ class Sidebar extends Component {
     // Set Active Page
     const currenthPath = history.location.pathname;
 
-    const activeHome = classNames({ active: currenthPath.indexOf(paths.team.split('app/')[1].split('/')[0]) > 1 });
+    const activeHome = classNames({
+      active: currenthPath.indexOf(`${paths.team.split('app/')[1].split('/')[0]}/`) > 1
+    });
     const activeCKG = classNames({
       active: currenthPath.indexOf(paths.ckg.split('app/')[1].split('/')[0]) > 1
     });

@@ -18,7 +18,6 @@ export const paths = {
   inviteNewMember: '/app/inviteNewMember/:subscriberOrgId',
   inviteToTeam: '/app/inviteToTeam/:teamId',
   team: '/app/team/:teamId',
-  teamSmartList: '/app/team/:teamId/smartList',
   manageTeam: '/app/team/manage/:teamId/:status?',
   editTeam: '/app/editTeam/:teamId',
   editTeamMember: '/app/editTeamMember/:userId',

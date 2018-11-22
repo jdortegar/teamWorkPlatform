@@ -266,7 +266,9 @@
     "searchMenuTitle": "Smart Search Filters",
     "searchCaseSensitive": "Case Sensitive",
     "searchExactMatch": "Exact Match",
-    "adminMode": "Admin Mode"
+    "adminMode": "Admin Mode",
+    "helpCenter": "Help Center",
+    "statusUpdated": "Your status has been saved."
   },
   "IntegrationCard": {
     "expired": "Expired",
@@ -608,10 +610,10 @@
     "industryTitleManufacturing": "Manufacturing",
     "labelSelectPlant": "Select Plant",
     "labelSelectDate": "Select Date Range",
-    "plantUptimeByLineAndStringBreadcrumb": "{{plant}} Uptime By Line and String",
-    "dailyPlantUptimeBreadcrumb": "Daily {{plant}} Uptime By Line and String",
+    "plantUptimeByLineAndStringBreadcrumb": "Plant Uptime By Line and String",
+    "dailyPlantUptimeBreadcrumb": "Daily Plant Uptime By Line and String",
     "plantUptimeMultipleBreadcrumb": "Plant Uptime by Week or Month for Multiple Plants Comparison",
-    "downtimeReasonsLevelOneBreadcrumb": "{{plant}} Downtime and Reasons Level 1",
+    "downtimeReasonsLevelOneBreadcrumb": "Plant Downtime and Reasons Level 1",
     "downtimeComparisonMultipleBreadcrumb": "Downtime Comparison Across Multiple Plants by Month"
   },
   "setNewPassword": {

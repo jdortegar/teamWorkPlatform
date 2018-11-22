@@ -12,7 +12,7 @@ import Avatar from 'src/components/common/Avatar';
 const { Panel } = Collapse;
 
 const propTypes = {
-  teams: PropTypes.object.isRequired
+  teams: PropTypes.array.isRequired
 };
 
 function CardView(props) {
