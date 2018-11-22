@@ -41,7 +41,8 @@ config.plugins = [
     'process.env': {
       NODE_ENV: JSON.stringify('production'),
       HABLAAPI_BASE_URI: JSON.stringify(process.env.HABLAAPI_BASE_URI),
-      HABLAAPI_ENV: JSON.stringify(process.env.HABLAAPI_ENV)
+      HABLAAPI_ENV: JSON.stringify(process.env.HABLAAPI_ENV),
+      HABLAAPI_KNOWLEDGE_URI: JSON.stringify(process.env.HABLAAPI_KNOWLEDGE_URI)
     }
   }),
   new HtmlWebpackPlugin({
