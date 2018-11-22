@@ -19,7 +19,8 @@ const propTypes = {
   }).isRequired,
   updateTeam: PropTypes.func.isRequired,
   teams: PropTypes.array.isRequired,
-  userRoles: PropTypes.object
+  userRoles: PropTypes.object,
+  isAdminMode: PropTypes.bool.isRequired
 };
 
 const defaultProps = {
@@ -211,7 +212,7 @@ class OrganizationManageTeams extends Component {
     if (this.state.orgDataLoaded && this.state.teamsActive) {
       // General Const
       const subscriberOrgId = this.props.currentSubscriberOrgId;
-      const { userRoles } = this.props;
+      const { userRoles, isAdminMode } = this.props;
 
       // Breadcrumb
       const pageBreadCrumb = {
@@ -229,7 +230,7 @@ class OrganizationManageTeams extends Component {
           url: `/app/editOrganization/${subscriberOrgId}/members`
         }
       ];
-      if (userRoles.admin) {
+      if (userRoles.admin && isAdminMode) {
         menuPageHeader.push({
           icon: 'fas fa-cog',
           title: 'OrganizationManage.editOrganization',

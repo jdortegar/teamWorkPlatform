@@ -8,6 +8,8 @@ import String from 'src/translations';
 import { PageHeader, LambWestonReports } from 'src/components';
 import './styles/style.css';
 
+import { CKGthumb1, CKGthumb2, CKGthumb3, CKGthumb4, CKGthumb5 } from 'src/img';
+
 const BASELINE_DATE = '2017-10-01';
 const DATES = [...Array(8).keys()].map(i => {
   const date = moment(BASELINE_DATE).add(i, 'weeks');
@@ -27,6 +29,8 @@ const PLANTS = [
   { key: 'pasco', name: 'Pasco' },
   { key: 'richland', name: 'Richland' }
 ];
+
+const CKGthumbs = [CKGthumb1, CKGthumb2, CKGthumb3, CKGthumb4, CKGthumb5];
 
 // Page Menu
 const menuPageHeader = [
@@ -256,11 +260,17 @@ class DashboardPage extends React.Component {
     return (
       <div className="DashboardPage__reports-list habla-color-blue">
         <div className="DashboardPage__reports-list-content">
-          {Object.entries(this.props.reports).map(([key, value]) => (
+          {Object.entries(this.props.reports).map(([key, value], index) => (
             <div className="DashboardPage__report-item" key={key}>
               <Link className="habla-label DashboardPage__report-item-content" to={`/app/dashboard/${key}`}>
-                {String.t(value.breadcrumb, { plant: String.t('dashboardPage.plant') })}
-                <div className="DashboardPage__report-item-minigraph" />
+                <span className="Dashboard_page-thumb_title">
+                  {String.t(value.breadcrumb, { plant: String.t('dashboardPage.plant') })}
+                </span>
+                <img
+                  src={CKGthumbs[index]}
+                  alt={String.t(value.breadcrumb, { plant: String.t('dashboardPage.plant') })}
+                  className="Dashboard_page-thumb_image"
+                />
               </Link>
             </div>
           ))}

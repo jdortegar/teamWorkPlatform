@@ -146,12 +146,13 @@ const usersReducer = (state = INITIAL_STATE, action) => {
       };
     }
     case UPDATED_USER_STATUS_SUCCESS: {
+      const { userUpdated } = action.payload;
       const userByUserId = _.cloneDeep(state.userByUserId);
-      Object.values(userByUserId).forEach(user => {
-        if (user.userId === action.payload.userId) {
-          user.enabled = !user.enabled; // eslint-disable-line no-param-reassign
-        }
-      });
+
+      userByUserId[userUpdated.userId] = {
+        ...userByUserId[userUpdated.userId],
+        ...userUpdated
+      };
 
       return {
         ...state,

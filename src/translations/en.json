@@ -267,7 +267,8 @@
     "searchCaseSensitive": "Case Sensitive",
     "searchExactMatch": "Exact Match",
     "adminMode": "Admin Mode",
-    "helpCenter": "Help Center"
+    "helpCenter": "Help Center",
+    "statusUpdated": "Your status has been saved."
   },
   "IntegrationCard": {
     "expired": "Expired",

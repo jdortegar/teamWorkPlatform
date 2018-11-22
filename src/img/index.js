@@ -21,6 +21,13 @@ export { default as gitHubLogo } from './github-logo.png';
 export { default as adobeLogo } from './creativecloud-logo.png';
 export { default as ibmConnectionsLogo } from './ibmconnections-logo.png';
 
+// Corporate Knowledge Graphs placeholders
+export { default as CKGthumb1 } from './plant-uptime-line-string-thumb.png';
+export { default as CKGthumb2 } from './plant-daily-uptime.png';
+export { default as CKGthumb3 } from './plant-uptime-week-thumb.png';
+export { default as CKGthumb4 } from './downtime-reasons-thumb.png';
+export { default as CKGthumb5 } from './downtime-comparison-thumb.png';
+
 /* eslint-disable camelcase */
 
 // export { default as fileType_AfterEffects } from './file-types/after-effects.png';

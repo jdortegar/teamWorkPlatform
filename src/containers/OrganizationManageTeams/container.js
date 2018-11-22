@@ -1,7 +1,14 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { updateTeam, fetchDataSubscriberOrgs } from 'src/actions';
-import { getUserByUserId, getCurrentSubscriberOrgId, getOrgData, getOrgTeams, getUserRoles } from 'src/selectors';
+import {
+  getUserByUserId,
+  getCurrentSubscriberOrgId,
+  getOrgData,
+  getOrgTeams,
+  getUserRoles,
+  isAdminMode
+} from 'src/selectors';
 
 import { OrganizationManageTeams } from 'src/pages';
 
@@ -10,7 +17,8 @@ const mapStateToProps = state => ({
   users: getUserByUserId(state),
   teams: getOrgTeams(state),
   orgData: getOrgData(state),
-  userRoles: getUserRoles(state)
+  userRoles: getUserRoles(state),
+  isAdminMode: isAdminMode(state)
 });
 
 const mapDispatchToProps = {

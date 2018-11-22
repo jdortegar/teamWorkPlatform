@@ -63,9 +63,14 @@ class Header extends Component {
     const { user } = this.props;
     if (user.presenceStatus && user.presenceStatus === presenceStatus) return;
 
-    this.props.updateUser({ presenceStatus }).catch(error => {
-      message.error(error.message);
-    });
+    this.props
+      .updateUser({ presenceStatus }, user.userId)
+      .then(() => {
+        message.success(String.t('Header.statusUpdated'));
+      })
+      .catch(error => {
+        message.error(error.message);
+      });
   }
 
   clearSearchInput = () => {
