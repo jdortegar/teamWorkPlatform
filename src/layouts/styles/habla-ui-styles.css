@@ -847,6 +847,7 @@ p {
 }
 .habla-main-content-header-title {
   flex: 1;
+  white-space: nowrap;
 }
 .habla-main-content-header-title svg,
 .CKGPage__title svg,
