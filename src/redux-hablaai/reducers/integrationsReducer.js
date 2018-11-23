@@ -111,10 +111,9 @@ const content = (state = INITIAL_CONTENT, action) => {
     }
     case INTEGRATIONS_CONTENT_FETCH_SUCCESS: {
       const { subscriberUserId, source, teamId } = action.payload;
-      const { files, folders, habla_user_id: hablaUserId, subscriber_org_id: orgId } = action.payload.content;
+      const { habla_user_id: hablaUserId, subscriber_org_id: orgId } = action.payload.content;
       return {
-        files,
-        folders,
+        ...action.payload.content,
         source,
         hablaUserId,
         subscriberUserId,

@@ -208,8 +208,8 @@ class TeamIntegrationPage extends Component {
         <div className="Integration__config-folders">{folders.map(this.renderConfigFolder)}</div>
         <div className="Integration__config-folders-save-button">
           <Button
-            type={optionsChanged ? 'main' : 'disable'}
             fitText
+            type={optionsChanged ? 'main' : 'disable'}
             onClick={this.handleSaveConfig}
             loading={configLoading}
             disabled={!optionsChanged}
@@ -327,8 +327,7 @@ class TeamIntegrationPage extends Component {
             onToggleSelect={this.handleToggleSharingSettings}
             onToggleSelectAll={this.handleToggleAllSharingSettings}
             integrationType={integrationLabel}
-            folders={content.folders}
-            files={content.files}
+            content={content}
             selectedFolders={selectedFolders}
             selectedFiles={selectedFiles}
             disabled={isSavedSharingSettings || isSubmittingSharingSettings}
