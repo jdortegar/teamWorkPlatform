@@ -13,7 +13,7 @@ const CKGPage = ({ orgId }) => {
       url: `/app/ckg/${orgId}#${CKG_VIEWS.TIME_ACTIVITY}`
     },
     {
-      icon: 'fas fa-chart-area',
+      icon: 'fas fa-list-ul',
       title: 'graphViewsSelector.smartListView',
       url: `/app/ckg/${orgId}#${CKG_VIEWS.FILE_LIST}`
     },

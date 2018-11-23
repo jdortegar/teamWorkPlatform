@@ -38,6 +38,16 @@ svg.fa-ellipsis-h {
   color: rgba(0, 0, 0, 0.45);
 }
 
-.Organization_Members_Page .table-container {
-  background: #fff;
+@media only screen and (max-width: 768px) {
+  .Organization_Members_Page .table-container,
+  .Organization_Teams_Page .table-container {
+    background: #fff;
+    width: 80vw;
+    overflow: auto;
+  }
+
+  .MembersPage__membersLeft_badge {
+    display: block;
+    margin: 10px 0 0;
+  }
 }

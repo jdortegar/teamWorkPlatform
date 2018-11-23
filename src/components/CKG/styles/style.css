@@ -354,3 +354,10 @@
   margin: 0;
   font-size: 10px;
 }
+
+@media only screen and (max-width: 768px) {
+  .FileListView {
+    width: 80vw;
+    overflow: auto;
+  }
+}

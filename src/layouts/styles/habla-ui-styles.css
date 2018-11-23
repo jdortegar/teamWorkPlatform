@@ -630,6 +630,7 @@ p {
   padding: 12px 10px !important;
   text-transform: uppercase;
   font-weight: 600;
+  line-height: 7pt !important;
 }
 
 .table-container .table-team-container,
@@ -1245,6 +1246,7 @@ tr.ant-table-row:hover {
   .responsiveHideClass,
   .teamRoomTitle,
   .sidebar-label-number-text,
+  .sidebar-label-number-badge,
   .sidebar-direct-messages .habla-label {
     display: none;
   }
@@ -1380,6 +1382,8 @@ tr.ant-table-row:hover {
   }
   .ant-table-tbody > tr > td {
     font-size: 12px;
+    line-height: 12px;
+    word-break: initial;
   }
   .ResultsList__row img {
     width: 20px;
@@ -1395,6 +1399,11 @@ tr.ant-table-row:hover {
   .active.habla-top-menu-settings::after {
     bottom: 85% !important;
     left: 135% !important;
+  }
+
+  .table-container .ant-table-thead > tr > th {
+    font-size: 7pt;
+    line-height: 7pt !important;
   }
 }
 

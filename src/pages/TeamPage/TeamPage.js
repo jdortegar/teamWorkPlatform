@@ -61,7 +61,7 @@ class TeamPage extends Component {
         url: `/app/team/${team.teamId}#${CKG_VIEWS.TIME_ACTIVITY}`
       },
       {
-        icon: 'fas fa-chart-area',
+        icon: 'fas fa-list-ul',
         title: 'graphViewsSelector.smartListView',
         url: `/app/team/${team.teamId}#${CKG_VIEWS.FILE_LIST}`
       },
@@ -117,7 +117,7 @@ class TeamPage extends Component {
         url: `/app/teamIntegrations/${team.teamId}`
       },
       {
-        icon: 'fas fa-cloud-download-alt',
+        icon: 'fas fa-users',
         title: 'TeamPage.inviteNewMember',
         url: `/app/inviteToTeam/${team.teamId}`
       },
