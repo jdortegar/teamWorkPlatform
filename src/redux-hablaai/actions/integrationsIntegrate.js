@@ -52,7 +52,7 @@ export const integrateOrgIntegration = (source, params) => (dispatch, getState) 
 
 export const integrateTeamIntegration = (source, teamId, params) => dispatch => {
   let requestUrl = buildApiUrl(`integrations/${source}/integrate/${teamId}?teamLevel=1`);
-  if (params) requestUrl += `?${queryString.stringify(params)}`;
+  if (params) requestUrl += `&${queryString.stringify(params)}`;
 
   return integrate(requestUrl, { source, teamId, params, teamLevel: true })(dispatch);
 };
