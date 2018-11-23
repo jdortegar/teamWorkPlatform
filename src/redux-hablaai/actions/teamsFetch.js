@@ -3,7 +3,7 @@ import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const TEAMS_FETCH_SUCCESS = 'teams/fetch/success';
 
-export const fetchTeamsBySubscriberOrgId = (subscriberOrgId, options = { getKey: false, forceGet: false }) => {
+export const fetchTeamsBySubscriberOrgId = (subscriberOrgId, options = { getKey: false, forceGet: true }) => {
   let requestUrl = buildApiUrl('teams/getTeams');
   requestUrl = subscriberOrgId ? `${requestUrl}?subscriberOrgId=${subscriberOrgId}` : requestUrl;
 
@@ -39,5 +39,5 @@ export const fetchTeamsBySubscriberOrgId = (subscriberOrgId, options = { getKey:
   };
 };
 
-export const fetchTeams = (options = { getKey: false, forceGet: false }) =>
+export const fetchTeams = (options = { getKey: false, forceGet: true }) =>
   fetchTeamsBySubscriberOrgId(undefined, options);

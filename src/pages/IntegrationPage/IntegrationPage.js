@@ -51,8 +51,7 @@ const propTypes = {
   integration: PropTypes.object,
   content: PropTypes.object,
   contentError: PropTypes.object,
-  selectedFolders: PropTypes.array,
-  selectedFiles: PropTypes.array,
+  selectedSettings: PropTypes.object,
   isFetchingContent: PropTypes.bool,
   isSubmittingSharingSettings: PropTypes.bool,
   isSavedSharingSettings: PropTypes.bool
@@ -62,8 +61,7 @@ const defaultProps = {
   integration: null,
   content: null,
   contentError: null,
-  selectedFolders: [],
-  selectedFiles: [],
+  selectedSettings: {},
   isFetchingContent: false,
   isSubmittingSharingSettings: false,
   isSavedSharingSettings: false
@@ -105,10 +103,13 @@ class IntegrationPage extends Component {
     const folders = integration[configFolders.key];
     const { selected, folderKey } = configFolders.folderKeys;
 
-    const data = folders.map(folder => ({
-      ...folder,
-      [selected]: changedFolderOptions[folder[folderKey]] || folder[selected]
-    }));
+    const data = folders.map(folder => {
+      const updatedSelection = changedFolderOptions[folder[folderKey]];
+      return {
+        ...folder,
+        [selected]: updatedSelection !== undefined ? updatedSelection : folder[selected]
+      };
+    });
     const config = { [configFolders.key]: data };
 
     this.setState({ configLoading: true });
@@ -136,9 +137,9 @@ class IntegrationPage extends Component {
     this.setState({ fields: { ...this.state.fields, [key]: event.target.value } });
   };
 
-  handleToggleSharingSettings = ({ folderId, fileId }) => {
+  handleToggleSharingSettings = ({ folderId, fileId, site }) => {
     const { subscriberUserId, source } = this.props;
-    this.props.toggleOrgSharingSettings(subscriberUserId, source, { folderId, fileId });
+    this.props.toggleOrgSharingSettings(subscriberUserId, source, { folderId, fileId, site });
   };
 
   handleToggleAllSharingSettings = selectAll => {
@@ -266,8 +267,7 @@ class IntegrationPage extends Component {
       source,
       integration,
       content,
-      selectedFolders,
-      selectedFiles,
+      selectedSettings,
       isFetchingContent,
       isSavedSharingSettings,
       isSubmittingSharingSettings
@@ -346,8 +346,7 @@ class IntegrationPage extends Component {
             onToggleSelectAll={this.handleToggleAllSharingSettings}
             integrationType={integrationLabel}
             content={content}
-            selectedFolders={selectedFolders}
-            selectedFiles={selectedFiles}
+            selectedSettings={selectedSettings}
             disabled={isSavedSharingSettings || isSubmittingSharingSettings}
           />
         )}

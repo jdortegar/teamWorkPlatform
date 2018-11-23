@@ -24,6 +24,16 @@ export const getAllIdsFromTree = tree =>
     { files: [], folders: [] }
   );
 
+export const getAllIdsFromSites = (content = {}) =>
+  _.reduce(
+    content.sites,
+    (acc, site) => {
+      acc.sites[site] = getAllIdsFromTree(content[site]);
+      return acc;
+    },
+    { sites: {} }
+  );
+
 // returns an object with all the children folders and files ids of a given folder
 export const getAllChildrenIds = (tree, folderId) =>
   _.reduce(

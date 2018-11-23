@@ -1,7 +1,12 @@
 import _ from 'lodash';
 
 import { buildKnowledgeApiUrl } from 'src/lib/api';
-import { getAllIdsFromTree, getAllChildrenIds, getAllParentIds } from 'src/utils/integrationContent';
+import {
+  getAllIdsFromTree,
+  getAllChildrenIds,
+  getAllParentIds,
+  getAllIdsFromSites
+} from 'src/utils/integrationContent';
 import {
   getOrgSharingSettings,
   getTeamSharingSettings,
@@ -50,11 +55,35 @@ const toggleFoldersAndFiles = (content, settings, { folderId, fileId }) => {
   return {};
 };
 
-export const toggleOrgSharingSettings = (subscriberUserId, source, { folderId, fileId }) => (dispatch, getState) => {
+// toggle folders and files of a sharepoint site
+const toggleSiteSettings = (content, settings, site, data) => {
+  const { sites = {} } = settings;
+  const currentSite = sites[site] || {};
+  const siteContent = content[site] || {};
+
+  return {
+    ...settings,
+    sites: {
+      ...settings.sites,
+      [site]: toggleFoldersAndFiles(siteContent, currentSite, data)
+    }
+  };
+};
+
+export const toggleOrgSharingSettings = (subscriberUserId, source, { folderId, fileId, site }) => (
+  dispatch,
+  getState
+) => {
   const state = getState();
-  const settings = getOrgSharingSettings(state, { source });
   const content = getOrgIntegrationContent(state, { subscriberUserId, source });
-  const data = toggleFoldersAndFiles(content, settings, { folderId, fileId });
+  const settings = getOrgSharingSettings(state, { source });
+  let data = {};
+
+  if (site) {
+    data = toggleSiteSettings(content, settings, site, { folderId, fileId });
+  } else {
+    data = toggleFoldersAndFiles(content, settings, { folderId, fileId });
+  }
 
   return dispatch({
     type: SHARING_SETTINGS_TOGGLE,
@@ -62,14 +91,20 @@ export const toggleOrgSharingSettings = (subscriberUserId, source, { folderId, f
   });
 };
 
-export const toggleTeamSharingSettings = (subscriberUserId, source, teamId, { folderId, fileId }) => (
+export const toggleTeamSharingSettings = (subscriberUserId, source, teamId, { folderId, fileId, site }) => (
   dispatch,
   getState
 ) => {
   const state = getState();
   const settings = getTeamSharingSettings(state, { source, teamId });
   const content = getTeamIntegrationContent(state, { subscriberUserId, teamId, source });
-  const data = toggleFoldersAndFiles(content, settings, { folderId, fileId });
+  let data = {};
+
+  if (site) {
+    data = toggleSiteSettings(content, settings, site, { folderId, fileId });
+  } else {
+    data = toggleFoldersAndFiles(content, settings, { folderId, fileId });
+  }
 
   return dispatch({
     type: TEAM_SHARING_SETTINGS_TOGGLE,
@@ -79,11 +114,17 @@ export const toggleTeamSharingSettings = (subscriberUserId, source, teamId, { fo
 
 export const toggleAllOrgSharingSettings = (subscriberUserId, source, { selectAll }) => (dispatch, getState) => {
   const content = selectAll ? getOrgIntegrationContent(getState(), { subscriberUserId, source }) : {};
-  const { folders, files } = getAllIdsFromTree(content);
+  let data = {};
+
+  if (content.sites) {
+    data = getAllIdsFromSites(content);
+  } else {
+    data = getAllIdsFromTree(content);
+  }
 
   return dispatch({
     type: SHARING_SETTINGS_TOGGLE_ALL,
-    payload: { subscriberUserId, source, folders, files }
+    payload: { subscriberUserId, source, ...data }
   });
 };
 
@@ -92,11 +133,17 @@ export const toggleAllTeamSharingSettings = (subscriberUserId, source, teamId, {
   getState
 ) => {
   const content = selectAll ? getTeamIntegrationContent(getState(), { subscriberUserId, teamId, source }) : {};
-  const { folders, files } = getAllIdsFromTree(content);
+  let data = {};
+
+  if (content.sites) {
+    data = getAllIdsFromSites(content);
+  } else {
+    data = getAllIdsFromTree(content);
+  }
 
   return dispatch({
     type: TEAM_SHARING_SETTINGS_TOGGLE_ALL,
-    payload: { subscriberUserId, teamId, source, folders, files }
+    payload: { subscriberUserId, teamId, source, ...data }
   });
 };
 

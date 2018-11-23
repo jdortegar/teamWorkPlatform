@@ -26,7 +26,7 @@ const mapStateToProps = (state, props) => {
   const { source, status } = props.match.params;
   const subscriberUserId = getCurrentSubscriberUserId(state);
   const orgId = getCurrentSubscriberOrgId(state);
-  const { folders, files, saved, submitting } = getOrgSharingSettings(state, { source });
+  const { folders, files, sites, saved, submitting } = getOrgSharingSettings(state, { source });
 
   return {
     integration: getOrgIntegration(state, { source, orgId }),
@@ -34,8 +34,7 @@ const mapStateToProps = (state, props) => {
     contentError: getContentError(state),
     isFetchingContent: isFetchingContent(state),
     orgName: getCurrentSubscriberOrgName(state),
-    selectedFolders: folders,
-    selectedFiles: files,
+    selectedSettings: { folders, files, sites },
     isSubmittingSharingSettings: submitting,
     isSavedSharingSettings: saved,
     subscriberUserId,

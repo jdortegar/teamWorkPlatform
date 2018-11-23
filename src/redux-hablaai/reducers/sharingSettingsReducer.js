@@ -18,6 +18,7 @@ import {
 const INITIAL_SETTINGS = {
   folders: [],
   files: [],
+  sites: {},
   submitting: false,
   saved: false
 };
@@ -44,8 +45,8 @@ const byOrg = (state = {}, action) => {
   switch (action.type) {
     case SHARING_SETTINGS_TOGGLE:
     case SHARING_SETTINGS_TOGGLE_ALL: {
-      const { folders, files } = action.payload;
-      return updateOrgSettings(state, action.payload, { folders, files });
+      const { folders, files, sites } = action.payload;
+      return updateOrgSettings(state, action.payload, { folders, files, sites });
     }
     case SHARING_SETTINGS_SAVE_REQUEST:
       return updateOrgSettings(state, action.payload, {
