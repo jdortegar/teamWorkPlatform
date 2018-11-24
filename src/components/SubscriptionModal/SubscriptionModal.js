@@ -193,6 +193,7 @@ class SubscriptionModal extends React.Component {
 
   handleSubmit() {
     const { stripeSubscriptionId, subscriberOrgId } = this.props.subscriberOrg;
+    const { subscription } = this.props;
     const { subscriptionUsers, subscriptionPlanAmount, discountCode } = this.state;
     this.setState({ loading: true });
     const valuesToSend = {
@@ -202,6 +203,15 @@ class SubscriptionModal extends React.Component {
       subscriptionType: subscriptionPlanAmount === PRICES.MONTHLY ? 'monthly' : 'annually',
       promocode: discountCode
     };
+
+    const interval = subscription.plan.interval === 'year' ? 'annually' : 'monthly';
+
+    if (valuesToSend.users === subscription.quantity && valuesToSend.subscriptionType === interval) {
+      this.setState({ loading: false });
+      message.success(String.t('subscriptionModal.planChanges'));
+      return;
+    }
+
     this.props
       .updateSubscription(valuesToSend)
       .then(() => {
