@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox, Tooltip, Switch, message, Button } from 'antd';
+import { Checkbox, Tooltip, Switch, message } from 'antd';
 import { isEmpty } from 'lodash';
 
 import String from 'src/translations';
 import { getIntegrationStatus } from 'src/lib/integrationStatus';
-import { PageHeader, SimpleCardContainer, ImageCard, Spinner, SharingSettings } from 'src/components';
+import { PageHeader, SimpleCardContainer, Button, Spinner, SharingSettings, ImageCard } from 'src/components';
 import {
   integrationConfigFromKey,
   integrationImageFromKey,
@@ -191,7 +191,7 @@ class TeamIntegrationPage extends Component {
   };
 
   renderConfigFolders = () => {
-    const { integration } = this.props;
+    const { integration, isSavedSharingSettings, isSubmittingSharingSettings } = this.props;
     const { configParams, configFolders, configLoading, changedFolderOptions } = this.state;
     if (isEmpty(configParams) || !configFolders || !integration || getIntegrationStatus(integration) !== 'Active') {
       return null;
@@ -212,7 +212,7 @@ class TeamIntegrationPage extends Component {
             type={optionsChanged ? 'main' : 'disable'}
             onClick={this.handleSaveConfig}
             loading={configLoading}
-            disabled={!optionsChanged}
+            disabled={!optionsChanged || isSavedSharingSettings || isSubmittingSharingSettings}
           >
             {String.t('integrationPage.saveButtonLabel')}
           </Button>
@@ -222,6 +222,7 @@ class TeamIntegrationPage extends Component {
   };
 
   renderConfigFolder = (folder, level = 0) => {
+    const { isSavedSharingSettings, isSubmittingSharingSettings } = this.props;
     const { folderKeys } = this.state.configFolders;
     const { selected, folderKey, subFolders } = folderKeys;
     const label = folder[folderKey];
@@ -230,6 +231,7 @@ class TeamIntegrationPage extends Component {
         <Checkbox
           className="Integration__config-folder-checkbox"
           defaultChecked={folder[selected]}
+          disabled={isSavedSharingSettings || isSubmittingSharingSettings}
           onChange={e => {
             const { checked } = e.target;
             const changedFolderOptions = { ...this.state.changedFolderOptions };

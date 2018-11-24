@@ -14,15 +14,6 @@ import { getIntegrationStatus } from 'src/lib/integrationStatus';
 import { PageHeader, SimpleCardContainer, Button, Spinner, SharingSettings, ImageCard } from 'src/components';
 import './styles/style.css';
 
-// const fakeIntegration = {
-//   sites: [
-//     { site: 'https://hablaaiinc.sharepoint.com/sites/WesternDigital', selected: false },
-//     { site: 'https://hablaaiinc.sharepoint.com/sites/LambWeston2', selected: false },
-//     { site: 'https://hablaaiinc.sharepoint.com/sites/EJGallo', selected: false },
-//     { site: 'https://hablaaiinc.sharepoint.com/sites/hablatestteam', selected: false }
-//   ]
-// };
-
 function showNotification(response, integration) {
   const { status } = response;
   const integrationLabel = integrationLabelFromKey(integration);
@@ -207,7 +198,7 @@ class IntegrationPage extends Component {
   };
 
   renderConfigFolders = () => {
-    const { integration } = this.props;
+    const { integration, isSavedSharingSettings, isSubmittingSharingSettings } = this.props;
     const { configParams, configFolders, configLoading, changedFolderOptions } = this.state;
     if (isEmpty(configParams) || !configFolders || !integration || getIntegrationStatus(integration) !== 'Active') {
       return null;
@@ -228,7 +219,7 @@ class IntegrationPage extends Component {
             type={optionsChanged ? 'main' : 'disable'}
             onClick={this.handleSaveConfig}
             loading={configLoading}
-            disabled={!optionsChanged}
+            disabled={!optionsChanged || isSavedSharingSettings || isSubmittingSharingSettings}
           >
             {String.t('integrationPage.saveButtonLabel')}
           </Button>
@@ -238,6 +229,7 @@ class IntegrationPage extends Component {
   };
 
   renderConfigFolder = (folder, level = 0) => {
+    const { isSavedSharingSettings, isSubmittingSharingSettings } = this.props;
     const { folderKeys } = this.state.configFolders;
     const { selected, folderKey, subFolders } = folderKeys;
     const label = folder[folderKey];
@@ -246,6 +238,7 @@ class IntegrationPage extends Component {
         <Checkbox
           className="Integration__config-folder-checkbox"
           defaultChecked={folder[selected]}
+          disabled={isSavedSharingSettings || isSubmittingSharingSettings}
           onChange={e => {
             const { checked } = e.target;
             const changedFolderOptions = { ...this.state.changedFolderOptions };

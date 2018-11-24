@@ -147,6 +147,18 @@ export const toggleAllTeamSharingSettings = (subscriberUserId, source, teamId, {
   });
 };
 
+const buildSitesPayload = (content, sites = {}) => ({
+  sites: _.keys(sites),
+  ..._.reduce(
+    sites,
+    (acc, value = {}, key) => {
+      acc[key] = getAllParentIds(content[key], value.folders, value.files);
+      return acc;
+    },
+    {}
+  )
+});
+
 export const saveOrgSharingSettings = (source, subscriberUserId) => (dispatch, getState) => {
   const requestUrl = buildKnowledgeApiUrl(`service/${source}/${subscriberUserId}/ingest`);
 
@@ -158,16 +170,21 @@ export const saveOrgSharingSettings = (source, subscriberUserId) => (dispatch, g
   const state = getState();
   const content = getOrgIntegrationContent(state, { subscriberUserId, source });
   const settings = getOrgSharingSettings(state, { source });
-  const { folders, files } = getAllParentIds(content, settings.folders, settings.files);
+  let data = {};
 
-  const data = {
+  if (settings.sites) {
+    data = buildSitesPayload(content, settings.sites);
+  } else {
+    data = getAllParentIds(content, settings.folders, settings.files);
+  }
+
+  const payload = {
     subscriber_user_id: subscriberUserId,
     subscriber_org_id: content.orgId,
     habla_user_id: content.hablaUserId,
     team_id: null,
     source,
-    folders,
-    files
+    ...data
   };
 
   const thunk = dispatch(
@@ -175,7 +192,7 @@ export const saveOrgSharingSettings = (source, subscriberUserId) => (dispatch, g
       {
         requestUrl,
         method: 'post',
-        data
+        data: payload
       },
       { source, subscriberUserId }
     )
@@ -209,16 +226,21 @@ export const saveTeamSharingSettings = (source, subscriberUserId, teamId) => (di
   const state = getState();
   const content = getTeamIntegrationContent(state, { subscriberUserId, source, teamId });
   const settings = getTeamSharingSettings(state, { source, teamId });
-  const { folders, files } = getAllParentIds(content, settings.folders, settings.files);
+  let data = {};
 
-  const data = {
+  if (settings.sites) {
+    data = buildSitesPayload(content, settings.sites);
+  } else {
+    data = getAllParentIds(content, settings.folders, settings.files);
+  }
+
+  const payload = {
     subscriber_user_id: subscriberUserId,
     subscriber_org_id: content.orgId,
     habla_user_id: content.hablaUserId,
     team_id: teamId,
     source,
-    folders,
-    files
+    ...data
   };
 
   const thunk = dispatch(
@@ -226,7 +248,7 @@ export const saveTeamSharingSettings = (source, subscriberUserId, teamId) => (di
       {
         requestUrl,
         method: 'post',
-        data
+        data: payload
       },
       { source, subscriberUserId, teamId }
     )
