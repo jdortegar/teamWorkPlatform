@@ -1,4 +1,4 @@
-import { LOGIN_REQUEST, LOGIN_FAILURE, LOGIN_SUCCESS } from 'src/actions';
+import { LOGIN_REQUEST, LOGIN_FAILURE, LOGIN_SUCCESS, SET_ADMIN_MODE } from 'src/actions';
 
 const INITIAL_STATE = {
   loggingIn: false,
@@ -8,7 +8,8 @@ const INITIAL_STATE = {
   user: null,
   token: null,
   websocketUrl: null,
-  resourcesUrl: null
+  resourcesUrl: null,
+  adminMode: false
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -40,6 +41,11 @@ export default (state = INITIAL_STATE, action) => {
         error: action.payload.error,
         authenticated: false,
         token: null
+      };
+    case SET_ADMIN_MODE:
+      return {
+        ...state,
+        adminMode: action.payload.adminMode
       };
     default:
       return state;

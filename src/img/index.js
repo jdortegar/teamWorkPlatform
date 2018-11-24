@@ -2,6 +2,7 @@ export { default as hablaWhiteLogo } from './habla-ai-logo-color.png';
 export { default as hablaBlackLogo } from './habla-ai-logo.png';
 export { default as hablaBlackLogoIcon } from './habla-ai-logo-icon.png';
 export { default as hablaFullBlackLogoIcon } from './habla-icon-black-in-transparent.png';
+export { default as hablaGrayLogo } from './habla-ai-logo-small.png';
 export { default as hablaLogoAvatar } from './habla-ai-logo-avatar.png';
 export { default as RobotHumanHandshake } from './robot-human-hand-shake.jpg';
 export { default as boxLogo } from './box-logo.png';
@@ -19,6 +20,13 @@ export { default as jiraLogo } from './jira-logo.png';
 export { default as gitHubLogo } from './github-logo.png';
 export { default as adobeLogo } from './creativecloud-logo.png';
 export { default as ibmConnectionsLogo } from './ibmconnections-logo.png';
+
+// Corporate Knowledge Graphs placeholders
+export { default as CKGthumb1 } from './plant-uptime-line-string-thumb.png';
+export { default as CKGthumb2 } from './plant-daily-uptime.png';
+export { default as CKGthumb3 } from './plant-uptime-week-thumb.png';
+export { default as CKGthumb4 } from './downtime-reasons-thumb.png';
+export { default as CKGthumb5 } from './downtime-comparison-thumb.png';
 
 /* eslint-disable camelcase */
 

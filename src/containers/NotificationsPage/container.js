@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
 import { toggleSideBar } from 'src/actions';
-import { getCurrentUser } from 'src/selectors';
+import { getCurrentUser, getCurrentSubscriberOrg } from 'src/selectors';
 import { NotificationsPage } from 'src/pages';
 
 function mapStateToProps(state) {
   return {
     user: getCurrentUser(state),
-    sideBarIsHidden: state.sideBar.hidden
+    sideBarIsHidden: state.sideBar.hidden,
+    org: getCurrentSubscriberOrg(state)
   };
 }
 

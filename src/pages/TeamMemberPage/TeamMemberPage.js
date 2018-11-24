@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import String from 'src/translations';
 import { PageHeader, SimpleCardContainer, AvatarWrapper, Spinner } from 'src/components';
+import CardView from './CardView';
 import './styles/style.css';
 
 const propTypes = {
@@ -16,10 +17,11 @@ const propTypes = {
   subscribers: PropTypes.array.isRequired,
   subscribersPresences: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  subscriberOrg: PropTypes.object.isRequired
+  subscriberOrg: PropTypes.object.isRequired,
+  teams: PropTypes.object.isRequired
 };
 
-const TeamMemberPage = ({ subscriberOrg, subscribers, subscribersPresences, match, history }) => {
+const TeamMemberPage = ({ subscriberOrg, subscribers, subscribersPresences, match, history, teams }) => {
   if (!subscriberOrg || !subscribers || !subscribersPresences || !match || !match.params) {
     return <Spinner />;
   }
@@ -33,7 +35,9 @@ const TeamMemberPage = ({ subscriberOrg, subscribers, subscribersPresences, matc
     ...memberArray[0],
     online: _.some(_.values(subscribersPresences[memberArray[0].userId]), { presenceStatus: 'online' })
   };
-  const { created, displayName, firstName, lastName, timeZone } = member;
+  const { userId, created, displayName, firstName, lastName, timeZone } = member;
+
+  const memberTeamsArray = Object.keys(member.teams).map(key => teams[key]);
 
   // Breadcrumb
   const pageBreadCrumb = {
@@ -50,13 +54,11 @@ const TeamMemberPage = ({ subscriberOrg, subscribers, subscribersPresences, matc
 
   return (
     <div>
-      <PageHeader pageBreadCrumb={pageBreadCrumb} hasMenu={false} backButton="/app/team/" />
+      <PageHeader pageBreadCrumb={pageBreadCrumb} backButton />
       <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
         <AvatarWrapper size="x-large" user={member} />
         <div className="margin-top-class-b">
-          <h1 className="New-team__title habla-big-title habla-bold-text">
-            {String.t('fullName', { firstName, lastName })}
-          </h1>
+          <h1 className="New-team__title habla-user-title">{String.t('fullName', { firstName, lastName })}</h1>
           <div className="habla-secondary-paragraph">{String.t('teamMemberPage.displayName', { displayName })}</div>
           <div className="habla-secondary-paragraph">
             {String.t('teamMemberPage.memberSince', { date: moment(created).format('LL') })}
@@ -64,6 +66,9 @@ const TeamMemberPage = ({ subscriberOrg, subscribers, subscribersPresences, matc
           <div className="habla-secondary-paragraph">{String.t('teamMemberPage.timeZone', { timeZone })}</div>
         </div>
       </SimpleCardContainer>
+      <div className="teamPage-list">
+        <CardView userId={userId} teams={memberTeamsArray} />
+      </div>
     </div>
   );
 };

@@ -53,18 +53,11 @@ class Login extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onForgotPassword = this.onForgotPassword.bind(this);
-    this.onNewUserSignUp = this.onNewUserSignUp.bind(this);
   }
 
   onForgotPassword() {
     sessionStorage.setItem('habla-user-email', this.props.form.getFieldValue('email') || '');
     this.props.history.push('/recoverPassword');
-  }
-
-  onNewUserSignUp() {
-    sessionStorage.setItem('habla-user-email', this.props.form.getFieldValue('email') || '');
-    const params = this.state.awsCustomerId ? `?awsCustomerId=${this.state.awsCustomerId}` : '';
-    this.props.history.push(`/register${params}`);
   }
 
   handleSubmit(e) {
@@ -104,7 +97,7 @@ class Login extends React.Component {
       });
     }
     const initialEmail = sessionStorage.getItem('habla-user-remember-me');
-    const rememberMe = initialEmail && initialEmail.length;
+    const rememberMe = (initialEmail && initialEmail.length) || false;
     return (
       <div className="login-main-div" style={loginpage}>
         <Row type="flex" justify="center" align="middle">
@@ -142,7 +135,6 @@ class Login extends React.Component {
                   )}
                   <div className="login-main-options">
                     {getFieldDecorator('remember', {
-                      valuePropName: 'checked',
                       initialValue: rememberMe
                     })(<Checkbox>{String.t('login.rememberMeCheckboxLabel')}</Checkbox>)}
                     <a className="login-form-forgot" onClick={this.onForgotPassword}>
@@ -150,7 +142,7 @@ class Login extends React.Component {
                     </a>
                   </div>
                   <div className="login-main-signup">
-                    <a onClick={this.onNewUserSignUp}>
+                    <a href="https://www.habla.ai/plans.html" rel="noopener noreferrer" target="_blank">
                       <span className="habla-bold-text">{String.t('login.newUserLabel')}</span>{' '}
                       {String.t('login.signUpLabel')}
                     </a>

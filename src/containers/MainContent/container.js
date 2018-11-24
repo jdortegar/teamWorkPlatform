@@ -1,27 +1,25 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { notifyMessage, updateInvitationDeclined } from 'src/actions';
-import { getCurrentUserId, getInvitations, getDeclinedInvitations, getUserByUserId } from 'src/selectors';
+import { notifyMessage, updateInvitationDeclined, fetchTeamsBySubscriberOrgId, fetchSubscriberOrgs } from 'src/actions';
+import { getCurrentUserId, getInvitations, getDeclinedInvitations, getUserByUserId, getTeamsById } from 'src/selectors';
 import { MainContent } from 'src/components';
 
-function mapStateToProps(state) {
-  return {
-    declinedInvitations: getDeclinedInvitations(state),
-    invitation: getInvitations(state),
-    pushMessage: state.notifications.pushMessage,
-    users: getUserByUserId(state),
-    currentUserId: getCurrentUserId(state),
-    subscriberOrgs: state.subscriberOrgs,
-    teams: state.teams
-  };
-}
+const mapStateToProps = state => ({
+  declinedInvitations: getDeclinedInvitations(state),
+  invitation: getInvitations(state),
+  pushMessage: state.notifications.pushMessage,
+  users: getUserByUserId(state),
+  currentUserId: getCurrentUserId(state),
+  subscriberOrgs: state.subscriberOrgs,
+  teams: getTeamsById(state)
+});
 
-function mapDispatchToProps(dispatch) {
-  return {
-    notifyMessage: () => dispatch(notifyMessage(null)),
-    updateInvitationDeclined: () => dispatch(updateInvitationDeclined())
-  };
-}
+const mapDispatchToProps = {
+  notifyMessage,
+  updateInvitationDeclined,
+  fetchTeamsBySubscriberOrgId,
+  fetchSubscriberOrgs
+};
 
 export default withRouter(
   connect(

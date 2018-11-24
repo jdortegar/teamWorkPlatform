@@ -3,7 +3,7 @@ import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const CONVERSATIONS_FETCH_SUCCESS = 'conversations/fetch/success';
 
-export const fetchConversations = (teamId = undefined, options = { getKey: false, forceGet: false }) => {
+export const fetchConversations = (teamId = undefined, options = { getKey: false, forceGet: true }) => {
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
   const reduxState = { teamId };
 
@@ -11,7 +11,7 @@ export const fetchConversations = (teamId = undefined, options = { getKey: false
     const thunk = dispatch(
       doAuthenticatedRequest(
         {
-          requestUrl: buildApiUrl('conversations/getConversations'),
+          requestUrl: buildApiUrl(`conversations/getConversations?teamId=${teamId}`),
           method: 'get'
         },
         reduxState,

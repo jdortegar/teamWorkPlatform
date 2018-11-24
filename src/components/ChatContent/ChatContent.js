@@ -1,7 +1,24 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import { Layout } from 'antd';
 import FileDrop from 'react-file-drop';
-import { TeamRoomPage } from 'src/containers';
+import { Chat } from 'src/containers';
+
+const propTypes = {
+  showPageHeader: PropTypes.bool,
+  showTeamMembers: PropTypes.bool,
+  showChat: PropTypes.func,
+  menuOptions: PropTypes.array,
+  teamId: PropTypes.string.isRequired
+};
+
+const defaultProps = {
+  showPageHeader: false,
+  showTeamMembers: false,
+  showChat: null,
+  menuOptions: []
+};
 
 const { Content } = Layout;
 
@@ -62,18 +79,26 @@ class ChatContent extends Component {
         targetAlwaysVisible
       >
         <Content style={{ background: '#fff', margin: 0, display: 'flex', flex: 1 }}>
-          <TeamRoomPage
+          <Chat
+            teamId={this.props.teamId}
             files={this.state.fileList}
             updateFileList={this.updateFileList}
             removeFileFromList={this.removeFileFromList}
             isDraggingOver={this.state.isDraggingOver}
             clearFileList={this.clearFileList}
             addBase={this.addBase}
+            showTeamMembers={this.props.showTeamMembers}
+            showPageHeader={this.props.showPageHeader}
+            showChat={this.props.showChat}
+            menuOptions={this.props.menuOptions}
           />
         </Content>
       </FileDrop>
     );
   }
 }
+
+ChatContent.propTypes = propTypes;
+ChatContent.defaultProps = defaultProps;
 
 export default ChatContent;

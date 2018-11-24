@@ -1,40 +1,91 @@
 import { createSelector } from 'reselect';
-import createCachedSelector from 're-reselect';
-import { getIntegrationsBySubscriberOrgId } from './state';
+import { flatten } from 'lodash';
 
-export { getIntegrationsBySubscriberOrgId } from './state';
+import { getCurrentUserId } from './auth';
 
-export const getIntegrationsOfSubscriberOrgId = createCachedSelector(
-  [getIntegrationsBySubscriberOrgId, (state, subscriberOrgId) => subscriberOrgId],
-  (integrationsBySubscriberOrgId, subscriberOrgId) => {
-    const integrations = integrationsBySubscriberOrgId[subscriberOrgId];
+export const getIntegrationsByOrg = state => state.integrations.byOrg;
+export const getIntegrationsByTeam = state => state.integrations.byTeam;
+const getIntegrationContent = state => state.integrations.content;
+
+export const getOrgIntegrationsObj = createSelector(
+  [getIntegrationsByOrg, (state, orgId) => orgId],
+  (integrationsByOrg, orgId) => {
+    const integrations = integrationsByOrg[orgId];
     return integrations || {};
   }
-)((state, subscriberOrgId) => subscriberOrgId);
+);
 
-export const getIntegration = createSelector(
-  [getIntegrationsBySubscriberOrgId, (state, props) => props],
-  (integrations, { source, subscriberOrgId }) => {
-    const integration = integrations[subscriberOrgId];
-    return integration ? integration[source] : null;
+// returns an array with all integrations of an org
+export const getOrgIntegrations = createSelector(
+  [getIntegrationsByOrg, (state, orgId) => orgId],
+  (integrationsByOrg, orgId) =>
+    Object.entries(integrationsByOrg[orgId] || {})
+      .map(([source, integration]) => ({ ...integration, source }))
+      .filter(integration => !integration.revoked)
+);
+
+// returns an array with all integrations of a team
+export const getTeamIntegrations = createSelector(
+  [getIntegrationsByTeam, (state, teamId) => teamId],
+  (integrationsByTeam, teamId) => {
+    const teamIntegrations = integrationsByTeam[teamId] || {};
+    const integrations = Object.entries(teamIntegrations).map(([userId, userIntegrations]) =>
+      Object.entries(userIntegrations).map(([source, integration]) => ({ ...integration, source, teamId, userId }))
+    );
+    return flatten(integrations).filter(integration => !integration.revoked);
   }
 );
 
-const getIntegrationDetailsBySubscriberUserId = state =>
-  state.integrationDetailsBySubscriberUserId || state.integrations.integrationDetailsBySubscriberUserId;
-
-export const getIntegrationDetails = createSelector(
-  [getIntegrationDetailsBySubscriberUserId, (state, props) => props],
-  (integrations, { source, subscriberUserId }) => {
-    const integration = integrations[subscriberUserId];
-    return integration ? integration[source] : null;
+// returns an array with only the current user's integrations of a team
+export const getUserTeamIntegrations = createSelector(
+  [getIntegrationsByTeam, getCurrentUserId, (state, teamId) => teamId],
+  (integrationsByTeam, userId, teamId) => {
+    const teamIntegrations = integrationsByTeam[teamId] || {};
+    return Object.entries(teamIntegrations[userId] || {})
+      .map(([source, integration]) => ({ ...integration, source, teamId, userId }))
+      .filter(integration => !integration.revoked);
   }
 );
 
-export const getSharingSettings = createSelector(
-  [state => state.integrations.sharingSettings, (state, props) => props],
-  (sharingSettings, { source, subscriberUserId }) => {
-    const settings = sharingSettings[subscriberUserId];
-    return settings ? settings[source] : {};
+// returns a specific integration of an org
+export const getOrgIntegration = createSelector(
+  [getIntegrationsByOrg, (state, props) => props],
+  (integrationsByOrg, { source, orgId }) => {
+    const integrations = integrationsByOrg[orgId] || {};
+    const integration = integrations[source];
+    return integration ? { ...integration, source } : null;
   }
 );
+
+// returns a specific team integration from the current user
+export const getTeamIntegration = createSelector(
+  [getIntegrationsByTeam, getCurrentUserId, (state, props) => props],
+  (integrationsByTeam, userId, { source, teamId }) => {
+    const teamIntegrations = integrationsByTeam[teamId] || {};
+    const userIntegrations = teamIntegrations[userId] || {};
+    const integration = userIntegrations[source];
+    return integration ? { ...integration, source, teamId, userId } : null;
+  }
+);
+
+// find integration content
+export const getOrgIntegrationContent = createSelector(
+  [getIntegrationContent, (state, props) => props],
+  (content, { source, subscriberUserId }) =>
+    !content.teamId && content.subscriberUserId === subscriberUserId && content.source === source ? content : {}
+);
+
+// find team integration content
+export const getTeamIntegrationContent = createSelector(
+  [getIntegrationContent, (state, props) => props],
+  (content, { source, subscriberUserId, teamId }) =>
+    content.teamId &&
+    content.teamId === teamId &&
+    content.subscriberUserId === subscriberUserId &&
+    content.source === source
+      ? content
+      : {}
+);
+
+export const isFetchingContent = createSelector([getIntegrationContent], content => content.isFetching);
+export const getContentError = createSelector([getIntegrationContent], content => content.error);

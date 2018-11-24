@@ -2,12 +2,18 @@ import { createSelector } from 'reselect';
 import createCachedSelector from 're-reselect';
 import { getUserByUserId, getTranscriptByConversationId } from './state';
 import { getCurrentUserId } from './auth';
+import { getOrgTeams } from './teams';
 
 export { getUserByUserId, getPresencesByUserId } from './state';
 
 export const getCurrentUser = createSelector(
   [getUserByUserId, getCurrentUserId],
   (userByUserId, currentUserId) => userByUserId[currentUserId]
+);
+
+export const getUserFullName = createSelector(
+  [getUserByUserId, (state, userId) => userId],
+  (usersByUserId, userId) => (usersByUserId[userId] ? usersByUserId[userId].fullName : '')
 );
 
 export const getCurrentUserFirstName = createSelector(
@@ -42,3 +48,12 @@ export const getResolvedBookmarks = createSelector(
     return bookmarks;
   }
 );
+
+export const getUserRoles = createSelector([getCurrentUser, getOrgTeams], (currentUser, teams) => {
+  const userRoles = {};
+  userRoles.teamOwner = teams.filter(team => team.teamAdmin === currentUser.userId).map(team => team.teamId);
+  if (currentUser && currentUser.role === 'admin') {
+    userRoles.admin = true;
+  }
+  return userRoles;
+});

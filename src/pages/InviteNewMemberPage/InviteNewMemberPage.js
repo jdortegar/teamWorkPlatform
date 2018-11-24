@@ -5,14 +5,15 @@ import _ from 'lodash';
 
 import String from 'src/translations';
 import { formShape } from 'src/propTypes';
-import { BreadCrumb, SubpageHeader, SimpleCardContainer, EmailField, Spinner, Button } from 'src/components';
+import { PageHeader, SimpleCardContainer, EmailField, Spinner, Button } from 'src/components';
 import './styles/style.css';
 
 const propTypes = {
   form: formShape.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
-    replace: PropTypes.func.isRequired
+    replace: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -59,12 +60,16 @@ class InviteNewMemberPage extends Component {
           .inviteNewSubscribers(users, subscriberOrgId)
           .then(() => {
             this.setState({ loading: false });
-            this.props.history.push(`/app/organization/${subscriberOrgId}/invitationSent`);
+            this.props.history.goBack();
             message.success(String.t('inviteNewMemberPage.invitationSent', { count: users.length }));
           })
           .catch(error => {
             this.setState({ loading: false });
-            message.error(error.message);
+            if (error.response && error.response.status === 409) {
+              message.error(String.t('inviteNewMemberPage.errorUserhasOtherOrg'));
+            } else {
+              message.error(error.message);
+            }
           });
       }
     });
@@ -107,28 +112,22 @@ class InviteNewMemberPage extends Component {
       return null;
     }
 
+    // Breadcrumb
+    const pageBreadCrumb = {
+      routes: [
+        {
+          title: String.t('inviteNewMemberPage.title')
+        }
+      ]
+    };
+
     return (
       <div>
-        <SubpageHeader
-          subscriberOrgId={subscriberOrgId}
-          history={this.props.history}
-          breadcrumb={
-            <BreadCrumb
-              subscriberOrg={subscriberOrg}
-              routes={[
-                {
-                  title: subscriberOrg.name,
-                  link: `/app/organization/${subscriberOrg.subscriberOrgId}`
-                },
-                { title: String.t('inviteNewMemberPage.breadcrumb') }
-              ]}
-            />
-          }
-        />
+        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="padding-class-a">
-              <h1 className="Invite-New-Member__title">{String.t('inviteNewMemberPage.title')}</h1>
+              <h1 className="Invite-New-Member__title">{String.t('inviteNewMemberPage.userEmail')}</h1>
               {this.renderInvitees()}
             </div>
             <div className="inviteMoreUsersLink">
@@ -144,7 +143,7 @@ class InviteNewMemberPage extends Component {
                 type="secondary"
                 fitText
                 className="margin-right-class-a"
-                onClick={() => this.props.history.push(`/app/organization/${subscriberOrgId}`)}
+                onClick={() => this.props.history.goBack()}
               >
                 {String.t('Buttons.cancel')}
               </Button>

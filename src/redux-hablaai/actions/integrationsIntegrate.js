@@ -1,66 +1,58 @@
+import queryString from 'querystring';
 import { buildApiUrl } from 'src/lib/api';
+import { getCurrentSubscriberOrgId } from 'src/selectors';
 import { doAuthenticatedRequest } from './urlRequest';
-import { INTEGRATION_ERROR, INTEGRATION_ERROR_BADSUBSCRIBERORG } from './integrations';
+import { INTEGRATION_ERROR, INTEGRATION_ERROR_NOT_FOUND } from './integrations';
 
-const integrate = (type, subscriberOrgId, options = { getKey: false }, params = undefined) => {
-  const newOptions = {
-    getKey: options.getKey,
-    forceGet: true
-  };
-  let requestUrl = buildApiUrl(`integrations/${type}/integrate/${subscriberOrgId}`);
+const integrate = (requestUrl, { source, orgId, teamId, teamLevel = false }) => dispatch => {
+  const thunk = dispatch(
+    doAuthenticatedRequest(
+      {
+        requestUrl,
+        method: 'get'
+      },
+      { source, orgId, teamId, teamLevel },
+      { forceGet: true }
+    )
+  );
 
-  if (params) {
-    const paramsString = Object.keys(params)
-      .map(key => `${key}=${encodeURIComponent(params[key])}`)
-      .join('&');
-    requestUrl += `?${paramsString}`;
-  }
+  thunk.then(response => {
+    const meta = { source, orgId, teamId, teamLevel, status: response.status };
 
-  // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
-  const reduxState = { type, subscriberOrgId };
-
-  return dispatch => {
-    const thunk = dispatch(
-      doAuthenticatedRequest(
-        {
-          requestUrl,
-          method: 'get'
-        },
-        reduxState,
-        newOptions
-      )
-    );
-
-    if (!newOptions.getKey) {
-      thunk.then(response => {
-        if (response.status === 202) {
-          // Redirect ourselves to target OAuth approval.
-          window.location.href = response.data.location;
-        } else if (response.status === 404) {
-          dispatch({
-            type: INTEGRATION_ERROR_BADSUBSCRIBERORG,
-            meta: { subscriberOrgId },
-            payload: new Error(`Bad subscriberOrgId: ${subscriberOrgId}`),
-            error: true
-          });
-        } else {
-          dispatch({
-            type: INTEGRATION_ERROR,
-            meta: {
-              subscriberOrgId,
-              status: response.status
-            },
-            payload: new Error('Server error.'),
-            error: true
-          });
-        }
+    if (response.status === 202) {
+      // Redirect ourselves to target OAuth approval.
+      window.location.href = response.data.location;
+    } else if (response.status === 404) {
+      dispatch({
+        type: INTEGRATION_ERROR_NOT_FOUND,
+        meta,
+        payload: new Error(teamLevel ? `Bad orgId: ${orgId}` : `Bad teamId: ${teamId}`),
+        error: true
+      });
+    } else {
+      dispatch({
+        type: INTEGRATION_ERROR,
+        meta,
+        payload: new Error('Server error.'),
+        error: true
       });
     }
+  });
 
-    return thunk;
-  };
+  return thunk;
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export const integrateIntegration = (key, subscriberOrgId, params) =>
-  integrate(key, subscriberOrgId, undefined, params);
+export const integrateOrgIntegration = (source, params) => (dispatch, getState) => {
+  const orgId = getCurrentSubscriberOrgId(getState());
+  let requestUrl = buildApiUrl(`integrations/${source}/integrate/${orgId}`);
+  if (params) requestUrl += `?${queryString.stringify(params)}`;
+
+  return integrate(requestUrl, { source, orgId, params })(dispatch);
+};
+
+export const integrateTeamIntegration = (source, teamId, params) => dispatch => {
+  let requestUrl = buildApiUrl(`integrations/${source}/integrate/${teamId}?teamLevel=1`);
+  if (params) requestUrl += `&${queryString.stringify(params)}`;
+
+  return integrate(requestUrl, { source, teamId, params, teamLevel: true })(dispatch);
+};

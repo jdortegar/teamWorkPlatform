@@ -1,4 +1,5 @@
 export { AvatarWrapper } from './common/Avatar'; // TODO: Check possible duplication of Avatar component
+export { FileListView, TimeActivityView } from './CKG';
 
 export * from './common';
 export * from './cards';
@@ -11,6 +12,8 @@ export Badge from './Badge';
 export BasicFilter from './BasicFilter';
 export BreadCrumb from './BreadCrumb';
 export ChatContent from './ChatContent';
+export Chat from './Chat';
+export CKG from './CKG';
 export EditButton from './buttons/EditButton';
 export FilesFilters from './FilesFilters';
 export FileTypeFilter from './FileTypeFilter';
@@ -20,6 +23,7 @@ export GraphViewSelector from './GraphViewSelector';
 export GraphZoomActions from './GraphZoomActions';
 export Header from './Header';
 export IntegrationFilter from './IntegrationFilter';
+export IntegrationsList from './IntegrationsList';
 export LambWestonReports from './LambWestonReports';
 export MainContent from './MainContent';
 export Message from './Message';
@@ -36,7 +40,9 @@ export SimpleCardContainer from './SimpleCardContainer';
 export SimpleHeader from './SimpleHeader';
 export Spinner from './Spinner';
 export SubpageHeader from './SubpageHeader';
+export SubscriptionModal from './SubscriptionModal';
 export SurveyModal from './SurveyModal';
 export TeamPicker from './TeamPicker';
 export TimeActivityGraph from './TimeActivityGraph';
 export Tree from './Tree';
+export TreeOrganization from './TreeOrganization';

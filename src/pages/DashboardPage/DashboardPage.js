@@ -8,6 +8,8 @@ import String from 'src/translations';
 import { PageHeader, LambWestonReports } from 'src/components';
 import './styles/style.css';
 
+import { CKGthumb1, CKGthumb2, CKGthumb3, CKGthumb4, CKGthumb5 } from 'src/img';
+
 const BASELINE_DATE = '2017-10-01';
 const DATES = [...Array(8).keys()].map(i => {
   const date = moment(BASELINE_DATE).add(i, 'weeks');
@@ -19,14 +21,16 @@ const DATES = [...Array(8).keys()].map(i => {
 });
 
 const PLANTS = [
-  { key: 'american falls', name: 'American Falls' },
-  { key: 'boardman east', name: 'Boardman East' },
-  { key: 'connell', name: 'Connell' },
-  { key: 'delhi', name: 'Delhi' },
-  { key: 'park rapids', name: 'Park Rapids' },
-  { key: 'pasco', name: 'Pasco' },
-  { key: 'richland', name: 'Richland' }
+  { key: 'american falls', name: 'Plant 1' },
+  { key: 'boardman east', name: 'Plant 2' },
+  { key: 'connell', name: 'Plant 3' },
+  { key: 'delhi', name: 'Plant 4' },
+  { key: 'park rapids', name: 'Plant 5' },
+  { key: 'pasco', name: 'Plant 6' },
+  { key: 'richland', name: 'Plant 7' }
 ];
+
+const CKGthumbs = [CKGthumb1, CKGthumb2, CKGthumb3, CKGthumb4, CKGthumb5];
 
 // Page Menu
 const menuPageHeader = [
@@ -256,11 +260,17 @@ class DashboardPage extends React.Component {
     return (
       <div className="DashboardPage__reports-list habla-color-blue">
         <div className="DashboardPage__reports-list-content">
-          {Object.entries(this.props.reports).map(([key, value]) => (
+          {Object.entries(this.props.reports).map(([key, value], index) => (
             <div className="DashboardPage__report-item" key={key}>
               <Link className="habla-label DashboardPage__report-item-content" to={`/app/dashboard/${key}`}>
-                {String.t(value.breadcrumb, { plant: String.t('dashboardPage.plant') })}
-                <div className="DashboardPage__report-item-minigraph" />
+                <span className="Dashboard_page-thumb_title">
+                  {String.t(value.breadcrumb, { plant: String.t('dashboardPage.plant') })}
+                </span>
+                <img
+                  src={CKGthumbs[index]}
+                  alt={String.t(value.breadcrumb, { plant: String.t('dashboardPage.plant') })}
+                  className="Dashboard_page-thumb_image"
+                />
               </Link>
             </div>
           ))}
@@ -305,7 +315,7 @@ class DashboardPage extends React.Component {
           hasMenu
           menuName="settings"
           menuPageHeader={menuPageHeader}
-          backButton={`/app/ckg/${currentSubscriberOrgId}`}
+          backButton
           optionalButtons={optionalButtons}
         />
 

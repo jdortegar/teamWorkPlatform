@@ -14,7 +14,12 @@ const FormItem = Form.Item;
 
 const propTypes = {
   form: formShape.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      email: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired
 };
 
 const layout = {
@@ -49,6 +54,13 @@ class Register extends React.Component {
     this.onResend = this.onResend.bind(this);
   }
 
+  componentWillMount() {
+    const { match } = this.props;
+
+    const userEmail = match.params.email;
+    if (userEmail) this.doSubmit(userEmail);
+  }
+
   onCancel() {
     this.props.history.replace('/app');
   }
@@ -65,7 +77,6 @@ class Register extends React.Component {
   doSubmit(email) {
     this.setState({ submitting: true, email });
     const { awsCustomerId } = this.state;
-
     axios.post(buildApiUrl('users/registerUser'), { email }, getAwsHeaders(awsCustomerId)).then(() => {
       this.setState({ submitting: false, registered: true });
     });

@@ -5,13 +5,25 @@ import { paths } from 'src/routes';
 import { Register } from 'src/pages';
 import { RecoverPassword } from 'src/layouts';
 import { CreateAccount, VerifyAccount, SetNewPassword } from 'src/containers';
-import { Header } from 'src/components';
+import { hablaBlackLogo, hablaBlackLogoIcon } from 'src/img';
+import String from 'src/translations';
+import { Layout } from 'antd';
 import './styles/signup.css';
+
+const AntdHeader = Layout.Header;
 
 function SignUp() {
   return (
     <div className="signup-main-div">
-      <Header />
+      <AntdHeader className="header habla-top-menu">
+        <div className="habla-top-menu-content">
+          <div className="logo habla-top-menu-logo">
+            <img src={hablaBlackLogo} alt={String.t('Header.logoAlt')} className="logo habla-logo-image" />
+            <img src={hablaBlackLogoIcon} alt={String.t('Header.iconAlt')} className="habla-logo-image-responsive" />
+          </div>
+          <div className="clear" />
+        </div>
+      </AntdHeader>
       <div className="signup-body">
         <Switch>
           <Route exact path={paths.register} component={Register} />

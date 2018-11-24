@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 let nodeUrl = process.env.NODE_URL;
 if (!nodeUrl) {
@@ -19,9 +20,9 @@ if (!nodeUrl) {
 module.exports = {
   devtool: 'eval-source-map',
   entry: [
-    'react-hot-loader/patch',
+    // 'react-hot-loader/patch',
     `webpack-dev-server/client?${nodeUrl}`,
-    'webpack/hot/only-dev-server',
+    // 'webpack/hot/only-dev-server',
     './src/index.js'
   ],
   output: {
@@ -37,13 +38,9 @@ module.exports = {
       template: './src/index.html',
       inject: true
     }),
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
+    new webpack.NamedModulesPlugin()
+    // new webpack.HotModuleReplacementPlugin(),
+    // new UglifyJsPlugin()
   ],
   module: {
     rules: [

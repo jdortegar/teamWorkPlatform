@@ -15,17 +15,20 @@
 .DashboardPage__reports-list-content {
   width: 100%;
 }
-a.DashboardPage__report-item-content
-, a.DashboardPage__report-item-content.habla-label {
+a.DashboardPage__report-item-content,
+a.DashboardPage__report-item-content.habla-label {
   background: #6d8bbe;
-  padding: 18px;
   border-radius: 6px;
   margin: 10px;
   color: #fff;
   font-weight: bold;
+  position: relative;
+  overflow: hidden;
+  padding: 5px;
 }
 a.DashboardPage__report-item-content:hover {
   color: #c0d5f5;
+  background: #9cb5e1;
 }
 .DashboardPage__report-item {
   width: 50%;
@@ -52,4 +55,28 @@ a.DashboardPage__report-item-content:hover {
 .DashboardPage__report-item-minigraph {
   margin-top: 8px;
   height: 180px;
+}
+
+.Dashboard_page-thumb_image {
+  width: 100%;
+}
+
+.Dashboard_page-thumb_title {
+  position: absolute;
+  left: 17px;
+  top: 17px;
+}
+.Report__container {
+	position: relative;
+}
+.demoWrapper {
+	position: absolute;
+	width: 50%;
+	background: #000;
+	color: #fff;
+	padding: 20px;
+	top: 10px;
+	left: 10px;
+	border-radius: 8px;
+	opacity: 0.7;
 }

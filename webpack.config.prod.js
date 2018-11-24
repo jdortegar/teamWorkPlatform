@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const config = require('./webpack.config.js');
 
 config.devtool = 'source-map';
@@ -29,7 +30,7 @@ const extractCSSLibs = new ExtractTextPlugin({
 });
 
 config.plugins = [
-  new webpack.optimize.UglifyJsPlugin({
+  new UglifyJsPlugin({
     uglifyOptions: {
       output: {
         keep_quoted_props: true
@@ -40,7 +41,8 @@ config.plugins = [
     'process.env': {
       NODE_ENV: JSON.stringify('production'),
       HABLAAPI_BASE_URI: JSON.stringify(process.env.HABLAAPI_BASE_URI),
-      HABLAAPI_ENV: JSON.stringify(process.env.HABLAAPI_ENV)
+      HABLAAPI_ENV: JSON.stringify(process.env.HABLAAPI_ENV),
+      HABLAAPI_KNOWLEDGE_URI: JSON.stringify(process.env.HABLAAPI_KNOWLEDGE_URI)
     }
   }),
   new HtmlWebpackPlugin({

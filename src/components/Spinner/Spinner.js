@@ -1,10 +1,12 @@
 import React from 'react';
-import { Spin } from 'antd';
+import { Spin, Icon } from 'antd';
 import './styles/style.css';
+
+const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 const Spinner = () => (
   <div className="spinner">
-    <Spin />
+    <Spin indicator={antIcon} />
   </div>
 );
 

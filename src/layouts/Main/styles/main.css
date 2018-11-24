@@ -1,5 +1,5 @@
 .habla-main-content {
-  background-color: #fff;
+  background-color: #fff !important;
   display: flex;
   border-radius: 4px;
   margin: 7px;

@@ -7,15 +7,30 @@
   "dataIntegrations": "Data Integrations",
   "alertTitleDatabaseError": "DB Integrity Error",
   "alertLastPhotoErrorTitle": "Last Photo Error",
+  "active": "Active",
+  "activate": "Activate",
+  "deactivate": "Deactivate",
+  "selectAll": "Select All",
+  "deselectAll": "Deselect All",
+  "apply": "Apply",
+  "name": "Name",
+  "teamMembers": "Project Team Members",
+  "teamsMembers": "Project Team Members",
+  "creationDate": "Creation Date",
+  "status": "Status",
+  "edit": "Edit",
+  "email": "Email",
+  "yes": "Yes",
+  "no": "No",
 
-  "enterMsgPostPlaceholder": "What do you want to tell the team?",
-  "enterMsgReplyPlaceholder": "Leave a reply...",
+  "enterMsgPostPlaceholder": "What do you want to tell the Team?",
+  "enterMsgReplyPlaceholder": "Leave a Message ...",
   "appSplashSigningIn": "Signing In...",
   "errAppDeepLinkExpiredOrInvalid": "The specified link is either expired or invalid.",
   "errAppDeepLinkInvalid": "The specified link is invalid.",
   "errAppDeepLinkUnknownError": "An error occurred. Please try again later.",
   "msgAppInvitationWhileLoggedOut": "Please log in to reply to the invitation.",
-  "msgInvitationToTeam": "{{byUserFirstName}} {{byUserLastName}} invited you to join the \"{{teamName}}\" Team of the \"{{subscriberOrgName}}\" Organization.",
+  "msgInvitationToTeam": "{{byUserFirstName}} {{byUserLastName}} invited you to join the \"{{teamName}}\" Project Team of the \"{{subscriberOrgName}}\" Organization.",
   "msgInvitationToOrg": "{{byUserFirstName}} {{byUserLastName}} invited you to join the \"{{subscriberOrgName}}\" Organization.",
   "invitationAcceptedToast": "You have joined {{name}}.",
   "invalidInvitation": "The invitation has expired or is invalid.",
@@ -27,19 +42,19 @@
   "durationSeparator": ":",
 
   "updateProfileTitle": "Your Profile",
-  "updateProfileExplain": "Your profile is viewable by team members of your team.",
-  "updateProfileUpdateAccountButtonLabel": "UPDATE ACCOUNT",
+  "updateProfileExplain": "Your profile is viewable by Team Members of your Project Team.",
+  "updateProfileUpdateAccountButtonLabel": "Update Account",
   "profileClearPhotoOption": "Change Profile Photo",
   "profilePhotoPlaceholder": "Set Your Profile Photo",
   "errProfileImageReadFile": "An error occurred trying to read the image.",
   "errProfileImageResize": "An error occurred trying to use the image.",
   "errFirstNameMissing": "Please enter your First Name.",
   "errLastNameMissing": "Please enter your Last Name.",
-  "errUsernameTooShort": "The Display Name must be at least 6 characters long.",
+  "errUsernameTooShort": "The Organization Name must be at least 6 characters long.",
   "errTimeZoneNotSelected": "Please select a Time Zone.",
-  "errPasswordMissing": "Please enter a password.",
-  "errPasswordTooShort": "The password must be at least 8 characters long.",
-  "errConfirmPasswordEmpty": "Please re-enter password in the confirm password field.",
+  "errPasswordMissing": "Please enter a Password.",
+  "errPasswordTooShort": "The Password must be at least 8 characters long.",
+  "errConfirmPasswordEmpty": "Please re-enter Password in the Confirm Password field.",
   "errConfirmPasswordNoMatch": "Password doesn't match Confirm Password. Please try again.",
   "errCreateUserAlreadyRegistered": "You are already registered. Please login instead.",
   "labelFirstName": "First Name",
@@ -48,26 +63,25 @@
   "labelLastNamePlaceholder": "",
   "labelEmail": "Email",
   "labelEmailPlaceholder": "",
-  "labelUsername": "Display Name",
+  "labelUsername": "Organization Name",
   "labelUsernamePlaceholder": "",
   "labelPassword": "Password",
-  "chooseNewPassword": "Choose a new password",
-
+  "chooseNewPassword": "Choose a New Password",
   "labelPasswordPlaceholder": "",
   "labelConfirmPassword": "Confirm Password",
   "confirmPasswordPlaceholder": "",
-  "newPasswordPlaceholder": "New password",
+  "newPasswordPlaceholder": "New Password",
   "labelCountry": "Country",
   "labelCountryPlaceholder": "",
   "labelTimeZone": "Time Zone",
   "labelSelectTimeZoneOption": "Select Time Zone",
-  "labelTeamName": "Team Name",
-  "labelActivateTeam": "Make Team Active",
+  "labelTeamName": "Project Team Name",
+  "labelActivateTeam": "Make Project Team Active",
   "inviteMembersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
   "inviteMembersSendInvitesButton": {
-    "one": "SEND 1 INVITE",
-    "other": "SEND {{count}} INVITES",
-    "zero": "SEND INVITES"
+    "one": "Send 1 Invite",
+    "other": "Send {{count}} Invites",
+    "zero": "Send Invites"
   },
   "inviteMembersNoInvitesSelectedButton": "Select Team Members to send invites",
   "inviteMembersSearchPlaceholder": "Search Team Members",
@@ -77,52 +91,49 @@
     "one": "is typing...",
     "other": "are typing..."
   },
-  "appVersion": "version {{version}}",
-  "logOutButtonLabel": "LOG OUT",
-  "logOutConfirmationTitle": "Are you sure?",
+  "appVersion": "Version {{version}}",
+  "logOutButtonLabel": "Log Out",
+  "logOutConfirmationTitle": "Are you Sure?",
   "logOutConfirmationMessage": "This will log you out of this app.",
-  "logOutConfirmationButton": "Yes, log out",
+  "logOutConfirmationButton": "Yes, Log Out",
   "organization": "Organization",
   "organizations": "Organizations",
-  "teams": "Teams",
+  "teams": "Project Teams",
   "directMessages": "Direct Messages",
   "fullName": "{{firstName}} {{lastName}}",
   "memberPopupName": "Name: {{firstName}} {{lastName}}",
-  "memberPopupUsername": "Display Name: {{displayName}}",
+  "memberPopupUsername": "Organization Name: {{displayName}}",
   "awaitingVerificationHeader": "Hi! \nWe just sent a \nverification email to:",
-  "awaitingVerificationChangeEmailLink": "CHANGE EMAIL ADDRESS",
-  "awaitingVerificationResendLink": "PLEASE RESEND VERIFICATION",
+  "awaitingVerificationChangeEmailLink": "Change Email Address",
+  "awaitingVerificationResendLink": "Please Resend Verification",
   "awaitingVerificationExplanation": "It might take a few seconds to arrive. If you still don't see it after a few minutes, please check your spam folder.",
-  "createTeamTitle": "Create Team",
-  "createTeamExplain": "Enter the details for your team.",
-  "createTeamButtonLabel": "CREATE TEAM",
-  "errTeamNameMissing": "Please enter a Team Name.",
+  "errTeamNameMissing": "Please enter a Project Team Name.",
   "updateOrgHeaderLabel": "Your Organization",
   "updateOrgNameLabel": "Organization Name",
   "updateOrgWebAddressLabel": "Web Address",
-  "updateOrgButtonLabel": "UPDATE ORGANIZATION",
+  "updateOrgButtonLabel": "Update Organization",
   "setOrgImagePlaceholder": "Set Org Image",
   "clearOrgImageOption": "Remove Organization Image",
   "errOrganizationMissing": "Please enter the Organization name.",
   "errOrganizationWebsite": "Please enter the Organization web address.",
   "errOrgImageReadFile": "An error occurred trying to read the image.",
   "errOrgImageResize": "An error occurred trying to use the image.",
-  "updateTeamSaveButtonLabel": "SAVE TEAM CHANGES",
-  "editTeamTitle": "Edit Team",
-  "editTeamExplain": "Modify the details of your team.",
+  "updateTeamSaveButtonLabel": "Save Project Team Changes",
+  "editTeamTitle": "Edit Project Team",
+  "editTeamExplain": "Modify the details of your Project Team.",
   "errEmailMissing": "Please enter an email address.",
   "errMustAgreeToTermsOfUse": "You must agree to the Terms of Use Agreement and Privacy Policy to continue.",
   "errEmailNotValid": "Please enter a valid email address.",
-  "privacyPolicyModalTitle": "HABLA AI PRIVACY POLICY",
-  "termsOfUseModalTitle": "HABLA AI TERMS OF USE",
+  "privacyPolicyModalTitle": "Habla AI Privacy Policy",
+  "termsOfUseModalTitle": "Habla AI Terms of Use",
   "incompleteProfileHeader": "Hello!\nHola!\n今日は",
   "incompleteProfileExplain": "Welcome to Habla AI. You're well on your way to a more efficient, productive work day. As we work together we'll learn how we can best help you and the rest of the team.",
-  "incompleteProfileContinue": "OK, LET'S GO",
+  "incompleteProfileContinue": "OK, Let's Go",
   "inviteToOrgTitle": "Invite to Join Organization",
   "inviteToOrgExplain": "Enter email addresses for all people to invite.",
   "errInviteToOrgInvalidEmail": "Please enter a valid email address.",
   "joinScreenTitle": "You're almost done!",
-  "joinScreenButtonLabel": "CREATE ACCOUNT",
+  "joinScreenButtonLabel": "Create Account",
   "loginTitle": "Login",
   "errLoginPasswordInvalid": "The login credentials are not valid. Please try again.",
   "attachLastPhotoTakenOption": "Use Last Photo Taken",
@@ -130,35 +141,38 @@
   "alertFileAlreadyAttachedTitle": "Attachment Used",
   "alertFileAlreadyAttachedMessage": "The selected file is already attached.",
   "errNoOrgsForUser": "There are no subscribed organizations for this user.",
-  "errNoTeamsForUser": "There are no teams found for this user for the {{orgName}} organization.",
-  "errNoTeamsForUserStatus500": "There are no teams found for this user for the {{orgName}} organization. (Status 500)",
-  "errNoTeamMembers": "No Team Members found for the {teamName} team.",
+  "errNoTeamsForUser": "There are no Project Teams found for this user for the {{orgName}} Organization.",
+  "errNoTeamsForUserStatus500": "There are no Project Teams found for this user for the {{orgName}} Organization. (Status 500)",
+  "errNoTeamMembers": "No Team Members found for the {teamName} Project Team.",
   "toastExpandedAllMessages": "Expanded All Messages",
   "toastCollapsedAllMessages": "Collapsed All Messages",
   "searchPlaceholder": "Search",
   "inviteTeamMembersTitle": "Invite Team Members",
-  "inviteTeamMembersExplain": "{{teamName}} Team",
+  "inviteTeamMembersExplain": "{{teamName}} Project Team",
   "manageMembersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
-  "manageMembersSaveChangesButtonLabel": "SAVE CHANGES",
+  "manageMembersSaveChangesButtonLabel": "Save Changes",
   "timeActivityGraphTitle": "CKG Time / Activity",
-  "graphDateRangeButtonLabel": " Select Date Range  ",
+  "graphDateRangeButtonLabel": " Select Date Range",
   "cardViewTitle": "Card View",
   "listViewTitle": "Details View",
+  "roles": {
+    "admin": "Admin"
+  },
   "OrganizationPage": {
-    "title": "Manage Organization",
+    "title": "Organization Summary",
     "editSection": "Edit Organization",
     "newButtonLabel": "New",
     "boxIntegrationLabel": "Box",
-    "addNewTeam": "Add New Team",
-    "addNewMember": "Add New Team Member",
-    "addNewIntegration": "Add New Integration",
-    "integrationsHeader": "Data Integrations ({{count}})",
-    "membersHeader": "Organization Members ({{count}})",
-    "teamsHeader": "Teams ({{count}})",
+    "addNewTeam": "Add New Project Team",
+    "addNewMember": "Add New Organization Team Member",
+    "addNewIntegration": "Add New Organization Data Integration",
+    "integrationsHeader": "Organization Data Integrations ({{count}})",
+    "membersHeader": "Organization Team Members ({{count}})",
+    "teamsHeader": "Organization Project Teams ({{count}})",
     "integrationsCount": {
-      "one": "1 Data Integration",
-      "other": "{{count}} Data Integrations",
-      "zero": "No Data Integrations"
+      "one": "1 Organization Data Integration",
+      "other": "{{count}} Organization Data Integrations",
+      "zero": "No Organization Data Integrations"
     },
     "invitationSent": {
       "one": "Your Invitation has been sent.",
@@ -166,19 +180,22 @@
     },
     "occupiedSpace": "{{occupied}}GB of {{remain}}GB",
     "filesShared": "{{count}} Files Shared",
-    "manageTeams": "Manage Teams",
+    "manageTeams": "Manage Project Teams",
     "manageTeamMembers": "Manage Team Members",
     "manageDataIntegrations": "Manage Data Integrations",
-    "subscriptionSettings": "Subscription Settings"
+    "subscriptionSettings": "Subscription Settings",
+    "organizationOverview": "Organization Overview"
   },
   "TeamPage": {
     "activeStatus": "Active",
-    "addDataIntegration": "Add a Data Integration",
-    "teamSettings": "Team Settings",
-    "manageTeam": "Manage Team",
-    "editTeam": "Edit Team",
-    "inviteNewMember": "Invite a New Team Member",
-    "teamCreated": "Created on {{date}}",
+    "addDataIntegration": "Add a Data Integration to this Project Team",
+    "teamSettings": "Project Team Settings",
+    "manageTeam": "Project Team Summary",
+    "editTeam": "Edit Project Team",
+    "inviteNewMember": "Invite Team Members to this Project Team",
+    "teamCreated": "Created on {{date}} by {{teamAdminName}}",
+    "integrationsHeader": "Project Team Data Integrations ({{count}})",
+    "addNewIntegration": "Add New Project Team Data Integration",
     "membersHeader": {
       "one": "1 Team Member",
       "other": "{{count}} Team Members",
@@ -204,10 +221,11 @@
     "login": "Log In",
     "back": "Back",
     "changeEmail": "Use another Email",
-    "createAccount": "Create your Habla AI Account"
+    "createAccount": "Create your Habla AI Account",
+    "save": "Save"
   },
   "PreviewCard": {
-    "imageAlt": "example"
+    "imageAlt": "Example"
   },
   "AutoCompleteField": {
     "defaultLabel": "Input",
@@ -244,10 +262,13 @@
     "muteTitle": "Mute Notifications",
     "statusTitle": "Status",
     "adminTitle": "Admin",
-    "smartSearchPlaceholder": "Smart Search...",
+    "smartSearchPlaceholder": "Smart Search ™",
     "searchMenuTitle": "Smart Search Filters",
     "searchCaseSensitive": "Case Sensitive",
-    "searchExactMatch": "Exact Match"
+    "searchExactMatch": "Exact Match",
+    "adminMode": "Admin Mode",
+    "helpCenter": "Help Center",
+    "statusUpdated": "Your status has been saved."
   },
   "IntegrationCard": {
     "expired": "Expired",
@@ -258,7 +279,7 @@
     "newMessage": "New Message",
     "newMessageFrom": "Message from {{firstName}} {{lastName}}",
     "declinedOrg": "{{inviteeUserIdOrEmail}} declined your invitation to join the {{subscriberOrgName}} organization.",
-    "declinedTeam": "{{firstName}} {{lastName}} declined your invitation to join the {{teamName}} team."
+    "declinedTeam": "{{firstName}} {{lastName}} declined your invitation to join the {{teamName}} Project Team."
   },
   "message": {
     "sentByName": "{{firstName}} {{lastName}}",
@@ -288,21 +309,26 @@
     "badgeTopLimit": "99+",
     "addNewLabel": "Add New",
     "addNewTeamMember": "Team Member",
-    "addNewTeam": "Team",
+    "addNewTeam": "Project Team",
     "sortByLabel": "Sort by",
     "sortByAlphabetical": "Alphabetical Order",
     "sortByNewest": "Newest First",
     "sortByUnread": "Unread First",
     "sortByActivity": "Latest Activity First",
     "newDirectMessageTooltip": "New Direct Message",
+    "orgSummary": "Organization Summary",
     "iconHomeTooltip": "Home",
     "iconCKGTooltip": "Corporate Knowledge Graphs",
     "iconNotificationsTooltip": "Notifications",
     "iconBookmarksTooltip": "Bookmarks",
-    "iconSettingsTooltip": "Manage Organization"
+    "iconSettingsTooltipAdmin": "Manage Organization",
+    "iconSettingsTooltipTeamOwner": "Manage Project Teams",
+    "iconSettingsTooltipUser": "Organization Summary",
+    "invitetoTeam": "Invite Member to this Project Team"
   },
   "timeActivityGraph": {
-    "yAxisLabel": "Activity",
+    "xAxisLabel": "Creation Date",
+    "yAxisLabel": "Last Modified Date",
     "displayTime": "{{displayDate}} at {{displayTime}}",
     "dateFormat": "MMM D, YYYY",
     "timeFormat": "H:mm:ss",
@@ -323,10 +349,10 @@
     "errorNameAlreadyTaken": "The Organization Name is already being used. Please enter a different name."
   },
   "addTeamDialog": {
-    "title": "Add Team",
+    "title": "Add Project Team",
     "addButtonLabel": "Add",
-    "namePlaceholder": "Team Name",
-    "errorNameAlreadyTaken": "The Team Name is already being used. Please enter a different name."
+    "namePlaceholder": "Project Team Name",
+    "errorNameAlreadyTaken": "The Project Team Name is already being used. Please enter a different name."
   },
   "login": {
     "rememberMeCheckboxLabel": "Remember Me",
@@ -373,10 +399,10 @@
     "errorNameAlreadyTaken": "The Organization Name is already being used. Please enter a different name."
   },
   "editTeamPage": {
-    "teamUpdated": "Your Team changes have been saved.",
-    "errorNameAlreadyTaken": "The Team Name is already being used. Please enter a different name.",
+    "teamUpdated": "Your Project Team changes have been saved.",
+    "errorNameAlreadyTaken": "The Project Team Name is already being used. Please enter a different name.",
     "changeAvatarText": "Change Avatar",
-    "teamName": "Team Name",
+    "teamName": "Project Team Name",
     "saveButtonLabel": "Save",
     "setActive": "Set Active",
     "setInactive": "Set Inactive",
@@ -391,7 +417,8 @@
     "setProfilePhoto": "Add a Photo",
     "removeImageLabel": "Remove"
   },
-  "integrationDetailsPage": {
+  "integrationPage": {
+    "integrationSettings": "Data Integration Settings",
     "status": {
       "active": "Active",
       "expired": "Expired",
@@ -402,9 +429,11 @@
       "successDescription": "Habla AI no longer has access to your account.",
       "goneDescription": "Your integration to {{name}} has been revoked and Habla AI no longer has access to it. Please go to the {{name}} web site to complete the revocation.",
       "notFoundDescription": "We’re sorry, but something must’ve gone terribly wrong.",
-      "configUpdated": "Your {{name}} integration configuration has been updated."
+      "configUpdated": "Your {{name}} integration configuration has been updated.",
+      "sharingSettingsSaved": "The selected files have been ingested successfully.",
+      "contentError": "We're sorry, the integration content couldn't be fetched."
     },
-    "integrations": "Data Integrations",
+    "integrations": "Data Integration Settings",
     "saveButtonLabel": "Save Changes",
     "on": "ON",
     "off": "OFF",
@@ -419,7 +448,9 @@
       "selectAll": "Select All",
       "deselectAll": "Deselect All",
       "itemsCount": "({{count}} items)"
-    }
+    },
+    "refreshList": "Refresh List",
+    "lastIntegrationDate": "Files and Folders from {{date}}"
   },
   "integrationsPage": {
     "breadcrumb": "Data Integrations",
@@ -437,14 +468,15 @@
     "unknownDescription": "We were unable to add {{name}} access."
   },
   "inviteNewMemberPage": {
-    "title": "User Email",
+    "title": "Add New Organization Team Members",
+    "userEmail": "User Email",
     "addEmail": "Add another Email",
+    "errorUserhasOtherOrg": "The invitation can not be sent. The user already has an organization created in Habla AI.",
     "sendInvitationsButtonLabel": {
       "zero": "Send Invitation",
       "one": "Send Invitation",
       "other": "Send Invitations"
     },
-    "breadcrumb": "Invite Users to this Organization",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
       "other": "Your Invitations have been sent."
@@ -468,10 +500,10 @@
   },
   "newTeamPage": {
     "createNewTeamButtonLabel": "Create",
-    "chooseTeamName": "Team Name",
+    "chooseTeamName": "Project Team Name",
     "uploadAvatar": "Upload Avatar",
-    "breadcrumb": "Add New Team",
-    "teamAddedToast": "Your Team has been created."
+    "breadcrumb": "Add New Project Team",
+    "teamAddedToast": "Your Project Team has been created."
   },
   "cardView": {
     "inviteNewMember": "Invite a New Team Member",
@@ -484,11 +516,11 @@
     "bookmarked": "Bookmarked",
     "active": "active",
     "replyPlaceholder": "Leave a reply...",
-    "addTeamMember": "Add Team Room Members",
+    "addTeamMember": "Add Team Members",
     "markAllAsRead": "Mark All as Read",
     "unreadMessagesCount": {
       "one": "1 new message",
-      "other": "{{count}} new messages",
+      "other": "{{count}} New Messages",
       "tooltipAttachments": "Attach a file"
     },
     "menu": {
@@ -566,18 +598,22 @@
       "other": "{{count}} {{label}} files"
     },
     "filterTypeOther": "Other",
-    "AddDataIntegration": "Add a data integration"
+    "AddDataIntegration": "Add a Data Integration"
+  },
+  "ckg": {
+    "timeActivityView": "Time Activity View",
+    "fileListView": "Smart List View"
   },
   "dashboardPage": {
     "plant": "Plant",
     "industryGraphsTitle": "Industry Knowledge Graphs",
     "industryTitleManufacturing": "Manufacturing",
-    "labelSelectPlant": "Select plant",
-    "labelSelectDate": "Select date range",
-    "plantUptimeByLineAndStringBreadcrumb": "{{plant}} Uptime By Line and String",
-    "dailyPlantUptimeBreadcrumb": "Daily {{plant}} Uptime By Line and String",
+    "labelSelectPlant": "Select Plant",
+    "labelSelectDate": "Select Date Range",
+    "plantUptimeByLineAndStringBreadcrumb": "Plant Uptime By Line and String",
+    "dailyPlantUptimeBreadcrumb": "Daily Plant Uptime By Line and String",
     "plantUptimeMultipleBreadcrumb": "Plant Uptime by Week or Month for Multiple Plants Comparison",
-    "downtimeReasonsLevelOneBreadcrumb": "{{plant}} Downtime and Reasons Level 1",
+    "downtimeReasonsLevelOneBreadcrumb": "Plant Downtime and Reasons Level 1",
     "downtimeComparisonMultipleBreadcrumb": "Downtime Comparison Across Multiple Plants by Month"
   },
   "setNewPassword": {
@@ -609,14 +645,11 @@
     "noSentBookmarks": "You currently have no bookmarks for sent messages.",
     "noReceivedBookmarks": "You currently have no bookmarks for received messages."
   },
-  "searchPage": {
-    "title": "Results"
-  },
 
   "validationError": {
-    "usernameNotEndsWithPeriod": "Display Name cannot end with a period.",
-    "usernameTooShort": "Display Name must be at least 3 characters long.",
-    "usernameTooLong": "Display Name is too long",
+    "usernameNotEndsWithPeriod": "Organization Name cannot end with a period.",
+    "usernameTooShort": "Organization Name must be at least 3 characters long.",
+    "usernameTooLong": "Organization Name is too long",
     "passwordOneLower": "Must have at least one lowercase letter (a-z).",
     "passwordOneNumber": "Must have at least one number (0-9).",
     "passwordOneSpecial": "Must have at least one special character.",
@@ -667,20 +700,27 @@
     "pageTitle": "Default Page"
   },
   "OrganizationManageTeams": {
-    "title": "Teams ({{count}})",
+    "title": "Manage Project Teams",
     "activeState": "ON",
     "inactiveState": "OFF",
     "setActive": "Set Active",
     "setInactive": "Set Inactive",
-    "addNew": "Add New"
+    "addNew": "Add New",
+    "teamMembersLength": {
+      "noMembers": "No Members",
+      "oneMember": "{{count}} Team Member",
+      "manyMembers": "{{count}} Team Members"
+    }
   },
   "OrganizationManageMembers": {
-    "title": "Members ({{count}})",
+    "title": "Manage Organization Team Members",
     "activeState": "ON",
     "inactiveState": "OFF",
     "setActive": "Set Active",
     "setInactive": "Set Inactive",
-    "addNew": "Add New"
+    "addNew": "Add Organization Team Member",
+    "userUpdated": "Team Members status saved",
+    "seatAvailables": "{{count}} Seats Available"
   },
   "OrganizationDataIntegrations": {
     "title": "Organization Data Integrations ({{count}})",
@@ -689,5 +729,84 @@
     "setActive": "Set Active",
     "setInactive": "Set Inactive",
     "addNew": "Add New"
+  },
+  "OrganizationManage": {
+    "title": "Manage Organization",
+    "tableOrganization": "Organization",
+    "tableStatus": "Status",
+    "tableEdit": "Edit",
+    "tableSelectAll": "Select All",
+    "tableDeselectAll": "Deselect All",
+    "activeState": "ON",
+    "inactiveState": "OFF",
+    "setActive": "Set Active",
+    "setInactive": "Set Inactive",
+    "addNew": "Add New",
+    "teamMembers": "Team Members",
+    "projectTeams": "Project Teams",
+    "dataIntegrations": "Data Integrations (Coming Soon...)",
+    "filesShared": "{{count}} Files Shared",
+    "noMembers": "No Members",
+    "oneMember": "{{count}} Team Member",
+    "manyMembers": "{{count}} Team Members",
+    "enableIntegrationMessage": "Only Integration Owner could activate this",
+    "manageTeams": "Manage Organization Project Teams",
+    "manageTeamMembers": "Add or Manage Organization Team Members",
+    "manageIntegrations": "Manage Organization Data Integrations",
+    "editOrganization": "Edit Organization",
+    "teamsUpdated": "Project Teams status saved",
+    "teamMembersUpdated": "Teams Members status saved",
+    "teamMemberUpdated": "Team Member status saved"
+  },
+  "subscriptionPlans": {
+    "bronze": "Bronze Plan",
+    "silver": "Silver Plan",
+    "gold": "Gold Plan"
+  },
+  "subscriptionModal": {
+    "changePlanTitle": "Change your Habla AI Plan",
+    "canceledPlanTitle": "Subscription Canceled",
+    "SubscriptionDate": "Activated on {{startDate}} and active until {{renewalDate}}",
+    "formTitle": "Change your current Plan Settings",
+    "users": "Users",
+    "billing": "Billing",
+    "promoCode": "Promo Code",
+    "monthly": "Monthly",
+    "annually": "Annually",
+    "cancelSubscription": "Cancel Subscription",
+    "close": "Close",
+    "changePlan": "Change Plan",
+    "pricePerMonth": "Price per Month",
+    "amount": "USD ${{amount}}",
+    "billingType": "Billed {{type}}",
+    "discountApplied": "(Discount Applied)",
+    "planUpdated": "Your Subscription Plan has been modified and the charges applied to your associated Credit Card.",
+    "cancelSubscriptionStart": "You are about to ",
+    "cancelSubscriptionMiddle": "cancel your Subscription to Habla AI. ",
+    "cancelSubscriptionEnd": "All your data will be lost when your current plan ends on {{endDate}}",
+    "cancelMessage": "Are you sure you want to cancel your Subscription to Habla AI?",
+    "reactivateMessage": "Are you sure you want to reactivate your Subscription to Habla AI?",
+    "reactivateSubscription": "Reactivate",
+    "confirmCancel": "Your Subscription Plan has been canceled. You won't be charged anymore and you can still use Habla AI for {{daysLeft}} more days until your current Plan ends.",
+    "confirmReactivate": "Your Subscription Plan has been reactivated.",
+    "planChanges": "Your plan doesn't has changes"
+  },
+  "editTeamMemberPage": {
+    "title": "Edit Team Member",
+    "teamMemberRole": "Team Member Role",
+    "resetPassword": "Reset Password",
+    "deleteTeamMember": "Delete Team Member"
+  },
+  "chat": {
+    "title": "Team Messages",
+    "membersHeader": "Organization Team Members ({{count}})",
+    "addTeamMember": "Add Team Members"
+  },
+  "organizationSummaryPage": {
+    "subscriptionPlan": "Subscription Plan",
+    "availableSeat": "Licenses Used",
+    "of": "of",
+    "projectTeams": "Project Teams",
+    "filesShared": "Files Shared"
   }
 }

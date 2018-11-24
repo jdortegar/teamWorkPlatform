@@ -20,3 +20,32 @@
 .header-search-container svg {
   color: #ccc;
 }
+
+.MembersPage__membersLeft_badge {
+  background: #32a953;
+  border: none;
+  text-transform: uppercase;
+  font-size: 12px;
+  border-radius: 4px;
+  font-weight: 700;
+  padding: 4px;
+  color: #fff;
+  margin-left: 20px;
+  box-shadow: 1px 1px #717171;
+}
+
+.editOrgPage-main .ant-table-column-sorter {
+  position: relative !important;
+  margin-left: 8px;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+  text-align: center;
+  font-weight: normal;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.Organization_Members_Page .table-container {
+  background: #fff;
+}

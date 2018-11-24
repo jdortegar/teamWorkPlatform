@@ -11,7 +11,8 @@ const propTypes = {
   form: formShape.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
-    replace: PropTypes.func.isRequired
+    replace: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -20,7 +21,8 @@ const propTypes = {
   }).isRequired,
   updateTeam: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
-  subscriberOrgById: PropTypes.object.isRequired
+  subscriberOrgById: PropTypes.object.isRequired,
+  orgId: PropTypes.string.isRequired
 };
 
 class EditTeamPage extends Component {
@@ -35,16 +37,17 @@ class EditTeamPage extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { teamId } = this.props.match.params;
+    const { orgId } = this.props;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
         const valuesToSend = { ...values };
         valuesToSend.name = values.name.trim();
         this.props
-          .updateTeam(valuesToSend, teamId)
+          .updateTeam(orgId, teamId, valuesToSend)
           .then(() => {
             this.setState({ loading: false });
-            this.props.history.push(`/app/team/${teamId}`);
+            this.props.history.goBack();
             message.success(String.t('editTeamPage.teamUpdated'));
           })
           .catch(error => {
@@ -67,7 +70,7 @@ class EditTeamPage extends Component {
 
     const { teamId } = this.props.match.params;
 
-    const team = teams.teamById[teamId];
+    const team = teams[teamId];
     if (!team) {
       this.props.history.replace('/app');
       return null;
@@ -82,37 +85,14 @@ class EditTeamPage extends Component {
     const pageBreadCrumb = {
       routes: [
         {
-          title: team.name,
-          url: `/app/team/${team.subscriberOrgId}`
-        },
-        {
           title: String.t('TeamPage.editTeam')
         }
       ]
     };
 
-    // Page Menu
-    const menuPageHeader = [
-      {
-        icon: 'fas fa-cloud-download-alt',
-        title: 'TeamPage.addDataIntegration',
-        url: ''
-      },
-      {
-        icon: 'fas fa-pencil-alt',
-        title: 'TeamPage.editTeam',
-        url: `/app/editTeam/${teamId}`
-      }
-    ];
-
     return (
       <div className="EditTeamPage-main">
-        <PageHeader
-          pageBreadCrumb={pageBreadCrumb}
-          hasMenu={false}
-          menuPageHeader={menuPageHeader}
-          backButton={`/app/team/${teamId}`}
-        />
+        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="padding-class-a">
@@ -152,7 +132,7 @@ class EditTeamPage extends Component {
                 type="secondary"
                 fitText
                 className="margin-right-class-a"
-                onClick={() => this.props.history.push(`/app/team/${teamId}`)}
+                onClick={() => this.props.history.goBack()}
               >
                 {String.t('Buttons.cancel')}
               </Button>

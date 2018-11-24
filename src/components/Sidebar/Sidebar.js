@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Tooltip, Dropdown, Input, Icon } from 'antd';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
+import { paths } from 'src/routes';
+import { Layout, Menu, Tooltip, Dropdown, Input, Icon } from 'antd';
 import String from 'src/translations';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
 import { AvatarWrapper, Badge } from 'src/components';
@@ -20,14 +21,16 @@ const propTypes = {
   subscribersPresences: PropTypes.object,
   teams: PropTypes.array,
   history: PropTypes.shape({
-    push: PropTypes.func
+    push: PropTypes.func,
+    location: PropTypes.object
   }).isRequired,
   location: PropTypes.object.isRequired,
   setCurrentSubscriberOrgId: PropTypes.func.isRequired,
   sideBarIsHidden: PropTypes.bool.isRequired,
   showSideBar: PropTypes.func.isRequired,
   currentSubscriberOrgId: PropTypes.string,
-  teamIdsBySubscriberOrgId: PropTypes.object.isRequired
+  userRoles: PropTypes.object,
+  teamId: PropTypes.string
 };
 
 const defaultProps = {
@@ -35,7 +38,9 @@ const defaultProps = {
   subscriberOrgs: [],
   subscribers: null,
   subscribersPresences: {},
-  teams: []
+  teams: [],
+  userRoles: {},
+  teamId: null
 };
 
 const ROUTERS_TO_HIDE_SIDEBAR = ['/app/userDetails'];
@@ -45,7 +50,9 @@ function renderSubscriberAvatar(subscriber) {
   const fullName = String.t('fullName', { firstName, lastName });
   return (
     <Tooltip key={userId} placement="top" title={fullName}>
-      <AvatarWrapper size="default" user={subscriber} className="mr-05 mb-05" hideStatusTooltip />
+      <Link to={`/app/teamMember/${userId}`}>
+        <AvatarWrapper size="default" user={subscriber} className="mr-05 mb-05" hideStatusTooltip />
+      </Link>
     </Tooltip>
   );
 }
@@ -145,9 +152,7 @@ class Sidebar extends Component {
   }
 
   goToTeamPage(e, team) {
-    this.props.setCurrentSubscriberOrgId(team.subscriberOrgId);
     this.props.history.push(`/app/team/${team.teamId}`);
-
     this.cancelClickEvent(e);
   }
 
@@ -179,7 +184,7 @@ class Sidebar extends Component {
   }
 
   renderTeams(teamsActive) {
-    const { user } = this.props;
+    const { user, history } = this.props;
     if (teamsActive.length === 0) {
       return null;
     }
@@ -199,9 +204,10 @@ class Sidebar extends Component {
       }
       const isTeamOpen = _.includes(this.state.teamsOpenKeys, team.teamId);
       const unreadMessagesCount = 0; /* TODO: get the actual count of unread messages */
+      const teamActive = classNames({ Team_active: history.location.pathname.indexOf(team.teamId) > 1 });
 
       return (
-        <Menu.Item key={team.teamId}>
+        <Menu.Item key={team.teamId} className={teamActive}>
           <div className="habla-left-navigation-team-list" onClick={e => this.goToTeamPage(e, team)}>
             <div className="habla-left-navigation-team-list-item padding-class-a">
               <div className="float-left-class">{renderAvatar(team, team.active)}</div>
@@ -245,6 +251,16 @@ class Sidebar extends Component {
     );
   }
 
+  renderToolTip() {
+    const { userRoles } = this.props;
+    if (userRoles && (userRoles.admin || userRoles.teamOwner.length > 0)) {
+      return 'iconSettingsTooltipAdmin';
+    } else if (userRoles.teamOwner.length > 0) {
+      return 'iconSettingsTooltipTeamOwner';
+    }
+    return 'iconSettingsTooltipUser';
+  }
+
   render() {
     const {
       teams,
@@ -253,17 +269,11 @@ class Sidebar extends Component {
       subscribersPresences,
       sideBarIsHidden,
       currentSubscriberOrgId,
-      teamIdsBySubscriberOrgId
+      history,
+      userRoles,
+      teamId
     } = this.props;
-    if (
-      !teamIdsBySubscriberOrgId ||
-      !currentSubscriberOrgId ||
-      !teamIdsBySubscriberOrgId[currentSubscriberOrgId] ||
-      !teams ||
-      subscriberOrgs.length === 0 ||
-      !subscribers ||
-      !subscribersPresences
-    ) {
+    if (!currentSubscriberOrgId || !teams || subscriberOrgs.length === 0 || !subscribers || !subscribersPresences) {
       return null;
     }
     const sideClass = classNames({
@@ -271,16 +281,49 @@ class Sidebar extends Component {
       hidden: sideBarIsHidden
     });
 
-    const orgSubscribers = subscribers.map(subscriber => ({
-      ...subscriber,
-      online: _.some(_.values(subscribersPresences[subscriber.userId]), { presenceStatus: 'online' })
-    }));
+    // Set Active Page
+    const currenthPath = history.location.pathname;
+
+    const activeHome = classNames({
+      active: currenthPath.indexOf(`${paths.team.split('app/')[1].split('/')[0]}/`) > 1
+    });
+    const activeCKG = classNames({
+      active: currenthPath.indexOf(paths.ckg.split('app/')[1].split('/')[0]) > 1
+    });
+    const activeNotification = classNames({
+      active: currenthPath.indexOf(paths.notifications.split('app/')[1].split('/')[0]) > 1
+    });
+    const activeBookmarks = classNames({
+      active: currenthPath.indexOf(paths.bookmarks.split('app/')[1].split('/')[0]) > 1
+    });
+    const activeEditOrganization = classNames({
+      active: currenthPath.indexOf(paths.editOrganization.split('app/')[1].split('/')[0]) > 1
+    });
+
+    const teamMembers = [];
+
+    _.forEach(subscribers, subscriber => {
+      if (Object.keys(subscriber.teams).some(team => team === teamId)) {
+        teamMembers.push({
+          ...subscriber,
+          online: _.some(_.values(subscribersPresences[subscriber.userId]), { presenceStatus: 'online' })
+        });
+      }
+    });
 
     const currentOrg = subscriberOrgs.find(({ subscriberOrgId }) => subscriberOrgId === currentSubscriberOrgId);
+
+    const editLink =
+      userRoles && (userRoles.admin || userRoles.teamOwner.length > 0)
+        ? `/app/editOrganization/${currentSubscriberOrgId}/teams`
+        : `/app/organization/${currentSubscriberOrgId}`;
+
     return (
       <Sider width={250} className={sideClass}>
         <div className="organizationHeader padding-class-a">
-          <div className="organizationHeader_org_info">{this.renderOrg(currentOrg)}</div>
+          <Tooltip placement="topLeft" title={String.t('sideBar.orgSummary')} arrowPointAtCenter>
+            <div className="organizationHeader_org_info">{this.renderOrg(currentOrg)}</div>
+          </Tooltip>
           {subscriberOrgs.length > 1 && (
             <Dropdown overlay={this.renderOrgs()} trigger={['click']}>
               <a>
@@ -293,35 +336,38 @@ class Sidebar extends Component {
 
         <div className="organizationLinks padding-class-a">
           <Tooltip placement="topLeft" title={String.t('sideBar.iconHomeTooltip')} arrowPointAtCenter>
-            <Link to="/app" className="habla-top-menu-home">
+            <Link to="/app" className={`habla-top-menu-home ${activeHome}`}>
               <i className="fa fa-home fa-2x" />
             </Link>
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconCKGTooltip')} arrowPointAtCenter>
-            <Link to={`/app/ckg/${currentSubscriberOrgId}`} className="habla-top-menu-ckg">
-              <i className="fas fa-chart-area fa-2x" />
+            <Link to={`/app/ckg/${currentSubscriberOrgId}`} className={`habla-top-menu-ckg ${activeCKG}`}>
+              <i className="fas fa-chart-line fa-2x" />
             </Link>
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconNotificationsTooltip')} arrowPointAtCenter>
-            <Link to="/app/notifications" className="habla-top-menu-notifications">
+            <Link to="/app/notifications" className={`habla-top-menu-notifications ${activeNotification}`}>
               <i className="fa fa-globe fa-2x" />
             </Link>
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconBookmarksTooltip')} arrowPointAtCenter>
-            <Link to={`/app/bookmarks/${currentSubscriberOrgId}`} className="habla-top-menu-bookmarks">
+            <Link
+              to={`/app/bookmarks/${currentSubscriberOrgId}`}
+              className={`habla-top-menu-bookmarks ${activeBookmarks}`}
+            >
               <i className="fa fa-bookmark fa-2x" />
             </Link>
           </Tooltip>
-          <Tooltip placement="topLeft" title={String.t('sideBar.iconSettingsTooltip')} arrowPointAtCenter>
-            <Link to={`/app/organization/${currentSubscriberOrgId}`} className="habla-top-menu-settings">
+          <Tooltip placement="topLeft" title={String.t(`sideBar.${this.renderToolTip()}`)} arrowPointAtCenter>
+            <Link to={editLink} className={`habla-top-menu-settings ${activeEditOrganization}`}>
               <i className="fa fa-cog fa-2x" />
             </Link>
           </Tooltip>
         </div>
         <div className="sidebar-teams">
-          <div className="sidebar-block-label">
+          <div className="sidebar-block-label sidebar-block-label-title">
             <span className="habla-label">
-              {String.t('teams')}
+              <span className="sidebar-label-number-text">{String.t('teams')}</span>
               <span className="sidebar-label-number-badge">{this.state.teamsActive.length}</span>
             </span>
           </div>
@@ -341,22 +387,31 @@ class Sidebar extends Component {
           <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleSearch} />
         </div>
 
-        <div className="sidebar-direct-messages">
-          <div className="sidebar-block-label">
-            <span className="habla-label">
-              {String.t('directMessages')}
-              {/* <span className="sidebar-label-number-badge">23</span> */}
-            </span>
+        {teamMembers.length > 0 && (
+          <div className="sidebar-direct-messages">
+            <div className="sidebar-block-label">
+              <span className="habla-label">
+                {String.t('teamsMembers')}
+                <span className="sidebar-label-number-badge">{teamMembers.length}</span>
+              </span>
+            </div>
+            <div className="sidebar-direct-messages-content">
+              {teamMembers.map(subscriber => renderSubscriberAvatar(subscriber))}
+              <Tooltip placement="topLeft" title={String.t('sideBar.invitetoTeam')} arrowPointAtCenter>
+                <a>
+                  <Avatar
+                    className="mr-1"
+                    onClick={() => {
+                      this.props.history.push(`/app/inviteToTeam/${teamId}`);
+                    }}
+                  >
+                    +
+                  </Avatar>
+                </a>
+              </Tooltip>
+            </div>
           </div>
-          <div className="sidebar-direct-messages-content">
-            {orgSubscribers.map(subscriber => renderSubscriberAvatar(subscriber))}
-            <Tooltip placement="topLeft" title={String.t('sideBar.newDirectMessageTooltip')} arrowPointAtCenter>
-              <a>
-                <Avatar className="mr-1">+</Avatar>
-              </a>
-            </Tooltip>
-          </div>
-        </div>
+        )}
         <div className="sidebar-resize-icon">
           <i className="fas fa-bars" data-fa-transform="rotate-90" />
         </div>

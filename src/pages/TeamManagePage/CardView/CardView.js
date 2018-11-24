@@ -3,9 +3,11 @@ import { Tooltip, Collapse } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import String from 'src/translations';
 import { AvatarWrapper, SimpleCardContainer, SimpleHeader } from 'src/components';
+import { integrationLabelFromKey, integrationImageFromKey } from 'src/utils/dataIntegrations';
 import Avatar from 'src/components/common/Avatar';
 
 const { Panel } = Collapse;
@@ -14,17 +16,22 @@ const propTypes = {
   userId: PropTypes.string.isRequired,
   team: PropTypes.object.isRequired,
   teamMembers: PropTypes.array.isRequired,
-  teamMembersPresences: PropTypes.object.isRequired
+  presences: PropTypes.object.isRequired,
+  integrations: PropTypes.array.isRequired,
+  users: PropTypes.object.isRequired
 };
 
-function CardView(props) {
-  const { team, teamMembers, teamMembersPresences } = props;
+const CardView = props => {
+  const { team, teamMembers, presences, integrations, users } = props;
 
-  const members = teamMembers.map(member => ({
-    ...member,
-    online: _.some(_.values(teamMembersPresences[member.userId]), { presenceStatus: 'online' })
-  }));
-
+  // Get members data form Users
+  const members = teamMembers.map(memberId => {
+    const member = users[memberId];
+    return {
+      ...member,
+      online: _.some(_.values(presences[member.userId]), { presenceStatus: 'online' })
+    };
+  });
   const userMember = members.filter(({ userId }) => userId === props.userId)[0];
   const isAdmin = userMember.teams[team.teamId].role === 'admin';
 
@@ -61,9 +68,39 @@ function CardView(props) {
 
   const membersSection = String.t('cardView.membersHeader', { count: members.length });
 
+  const renderIntegration = integration => {
+    const { source } = integration;
+    const label = integrationLabelFromKey(source);
+    const desaturated = classNames({ desaturate: integration.expired });
+    const integrationUser = members.find(member => member.userId === integration.userId);
+
+    return (
+      <div key={`${source}_${integrationUser.firstName}`} className="mr-1  mb-2 integration-card">
+        <Tooltip placement="top" title={`${label} - ${integrationUser.firstName}`}>
+          <Link to={`/app/teamIntegrations/${team.teamId}/${source}`}>
+            <Avatar size="large" src={integrationImageFromKey(source)} className={desaturated} />
+            <i className="fa fa-check-circle icon_success habla-green" />
+            <div className="habla-label align-center-class card-label">
+              {integrationUser.firstName || integrationUser.email}
+            </div>
+          </Link>
+        </Tooltip>
+      </div>
+    );
+  };
+
   return (
     <div>
       <Collapse defaultActiveKey={['1', '2', '3']} bordered={false}>
+        <Panel
+          header={<SimpleHeader text={String.t('TeamPage.integrationsHeader', { count: integrations.length })} />}
+          key="1"
+        >
+          <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex integration-list">
+            {renderAddCard(String.t('TeamPage.addNewIntegration'), `/app/teamIntegrations/${team.teamId}`)}
+            {integrations.map(renderIntegration)}
+          </SimpleCardContainer>
+        </Panel>
         <Panel header={<SimpleHeader text={membersSection} />} key="2">
           <SimpleCardContainer className="Simple-card--no-padding Simple-card--container--flex">
             {isAdmin &&
@@ -75,7 +112,7 @@ function CardView(props) {
       </Collapse>
     </div>
   );
-}
+};
 
 CardView.propTypes = propTypes;
 

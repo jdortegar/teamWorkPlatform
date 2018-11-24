@@ -2,34 +2,34 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import { Tag } from 'antd';
 import String from 'src/translations';
 import config from 'src/config/env';
 import { hablaFullBlackLogoIcon } from 'src/img';
-import { PageHeader, SimpleCardContainer, Spinner, ProgressBar } from 'src/components';
+import { PageHeader, SimpleCardContainer, Spinner } from 'src/components';
+import { SubscriptionModal } from 'src/containers';
 import Avatar from 'src/components/common/Avatar';
 import CardView from './CardView';
 import './styles/style.css';
 
 const propTypes = {
   integrations: PropTypes.PropTypes.shape({
-    integrationsBySubscriberOrgId: PropTypes.object
+    byOrg: PropTypes.object
   }).isRequired,
   fetchIntegrations: PropTypes.func.isRequired,
-  subscriberOrgs: PropTypes.shape({
-    currentSubscriberOrgId: PropTypes.string
-  }).isRequired,
-  setCurrentSubscriberOrgId: PropTypes.func.isRequired,
+  subscriberOrg: PropTypes.object.isRequired,
   fetchSubscribersBySubscriberOrgId: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      subscriberOrgId: PropTypes.string
-    })
-  }).isRequired,
   subscribers: PropTypes.array.isRequired,
   subscribersPresences: PropTypes.object.isRequired,
   teams: PropTypes.array.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  orgId: PropTypes.string.isRequired,
+  userLimit: PropTypes.number
+};
+
+const defaultProps = {
+  userLimit: 0
 };
 
 // Get subscriber avatar or Initials
@@ -37,7 +37,7 @@ function renderAvatar(item, enabled, size) {
   const { preferences } = item;
   const className = classNames({
     'opacity-low': !enabled,
-    'border-white-2': true
+    'border-white-1': true
   });
   if (preferences.logo) {
     return <Avatar src={preferences.logo} color="#FFF" className={className} size={size} />;
@@ -54,74 +54,59 @@ function renderAvatar(item, enabled, size) {
 }
 
 class OrganizationPage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { integrationsLoaded: false, subscribersLoaded: false };
-  }
+  state = {
+    integrationsLoaded: false,
+    subscribersLoaded: false,
+    modalVisible: false
+  };
 
   componentDidMount() {
-    const { match, subscriberOrgs } = this.props;
-    if (
-      !match ||
-      !match.params ||
-      !match.params.subscriberOrgId ||
-      match.params.subscriberOrgId !== subscriberOrgs.currentSubscriberOrgId
-    ) {
-      this.props.history.replace('/app');
+    const { orgId, history, fetchSubscribersBySubscriberOrgId, fetchIntegrations } = this.props;
+
+    if (!orgId) {
+      history.replace('/app');
       return;
     }
-    const { subscriberOrgId } = this.props.match.params;
 
-    if (subscriberOrgId !== this.props.subscriberOrgs.currentSubscriberOrgId) {
-      this.props.setCurrentSubscriberOrgId(subscriberOrgId);
-    }
+    fetchSubscribersBySubscriberOrgId(orgId).then(() => this.setState({ subscribersLoaded: true }));
+    fetchIntegrations().then(() => this.setState({ integrationsLoaded: true }));
+  }
 
-    this.props
-      .fetchSubscribersBySubscriberOrgId(subscriberOrgId)
-      .then(() => this.setState({ subscribersLoaded: true }));
-    this.props.fetchIntegrations(subscriberOrgId).then(() => {
-      this.setState({ integrationsLoaded: true });
+  showModal = () => {
+    this.setState({
+      modalVisible: !this.state.modalVisible
     });
-  }
+  };
 
-  componentWillReceiveProps(nextProps) {
-    const nextOrgId = nextProps.match.params.subscriberOrgId;
-    if (nextOrgId !== this.props.match.params.subscriberOrgId) {
-      this.setState({
-        integrationsLoaded: false,
-        subscribersLoaded: false
-      });
-      this.props.fetchSubscribersBySubscriberOrgId(nextOrgId).then(() => this.setState({ subscribersLoaded: true }));
-      this.props.fetchIntegrations(nextOrgId).then(() => {
-        this.setState({ integrationsLoaded: true });
-      });
-    }
-  }
+  redirectPublicSite = () => {
+    window.open('https://www.habla.ai/plans.html', '_blank');
+  };
 
   render() {
-    const { teams, integrations, subscribers, subscribersPresences, subscriberOrgs, user, match } = this.props;
+    const {
+      teams,
+      integrations,
+      subscribers,
+      subscribersPresences,
+      subscriberOrg,
+      user,
+      orgId,
+      userLimit
+    } = this.props;
     if (
-      match &&
-      match.params &&
-      match.params.subscriberOrgId &&
       subscribers &&
       subscribersPresences &&
-      subscriberOrgs &&
-      subscriberOrgs.subscriberOrgById &&
-      subscriberOrgs.subscriberOrgById[match.params.subscriberOrgId] &&
+      subscriberOrg &&
       teams &&
       integrations &&
       this.state.subscribersLoaded &&
       this.state.integrationsLoaded &&
       user
     ) {
-      const { subscriberOrgId } = match.params;
-      const subscriberOrg = subscriberOrgs.subscriberOrgById[subscriberOrgId];
+      const isOrgAdmin = Object.keys(user.subscriberOrgs).length > 0 && user.subscriberOrgs[orgId].role === 'admin';
 
       // Breadcrumb
       const pageBreadCrumb = {
-        subscriberOrg,
         routes: [
           {
             title: String.t('OrganizationPage.title')
@@ -133,28 +118,13 @@ class OrganizationPage extends Component {
       const menuPageHeader = [
         {
           icon: 'fas fa-cog',
-          title: 'OrganizationPage.manageTeams',
-          url: `/app/editOrganization/${subscriberOrgId}/teams`
-        },
-        {
-          icon: 'fas fa-cog',
-          title: 'OrganizationPage.manageTeamMembers',
-          url: `/app/editOrganization/${subscriberOrgId}/members`
-        },
-        {
-          icon: 'fas fa-cog',
-          title: 'OrganizationPage.manageDataIntegrations',
-          url: `/app/editOrganization/${subscriberOrgId}/dataIntegrations`
-        },
-        {
-          icon: 'fas fa-pencil-alt',
-          title: 'OrganizationPage.editSection',
-          url: `/app/editOrganization/${subscriberOrgId}`
+          title: 'OrganizationPage.addNewTeam',
+          url: `/app/createTeam/${orgId}`
         }
       ];
 
       return (
-        <div className="editOrgPage-main">
+        <div className="OrgSummary editOrgPage-main">
           <PageHeader pageBreadCrumb={pageBreadCrumb} hasMenu menuName="settings" menuPageHeader={menuPageHeader} />
           <SimpleCardContainer className="subpage-block habla-color-blue align-center-class">
             {renderAvatar(subscriberOrg, subscriberOrg.enabled, 'x-large')}
@@ -162,25 +132,41 @@ class OrganizationPage extends Component {
               <h1 className="habla-organization-title">{subscriberOrg.name}</h1>
             </div>
           </SimpleCardContainer>
-          <SimpleCardContainer className="subpage-block habla-color-lightblue padding-class-a align-center-class habla-white">
-            {/* To do: make this dynamic */}
+          <SimpleCardContainer className="align-center-class">
             <div>
-              <span className="mr-5 habla-light-text">
-                <i className="fas fa-check mr-05 habla-lighertblue" />
-                {String.t('OrganizationPage.occupiedSpace', { occupied: 18, remain: 50 })}
-              </span>
-              <span className="habla-light-text">
-                <i className="fas fa-file-alt mr-05 habla-lighertblue" />
-                {String.t('OrganizationPage.filesShared', { count: 17389 })}
-              </span>
+              <div className="Flex_row">
+                <div className="Summary_label">{String.t('organizationSummaryPage.subscriptionPlan')}</div>
+                <div>
+                  <Tag
+                    className="habla_subscription_tag habla_subscription_tag_bronze"
+                    onClick={isOrgAdmin ? this.showModal : this.redirectPublicSite}
+                  >
+                    {String.t('subscriptionPlans.bronze')}
+                  </Tag>
+                </div>
+              </div>
+              <div className="Flex_row">
+                <div>{String.t('organizationSummaryPage.availableSeat')}</div>
+                <div>
+                  <span className="habla-bold-text">{subscribers.length}</span> {String.t('organizationSummaryPage.of')}{' '}
+                  <span>{userLimit}</span>
+                </div>
+              </div>
+              <div className="Flex_row">
+                <div>{String.t('organizationSummaryPage.projectTeams')}</div>
+                <div className="habla-bold-text">{teams.length}</div>
+              </div>
+              {/* <div className="Flex_row">
+                <div>{String.t('organizationSummaryPage.filesShared')}</div>
+                <div className="habla-bold-text">{filesShared}</div>
+              </div> */}
             </div>
-            <ProgressBar strokeColor="#384f83" percent={30} />
           </SimpleCardContainer>
           <CardView
             integrations={integrations}
             subscribers={subscribers}
             subscribersPresences={subscribersPresences}
-            subscriberOrgId={subscriberOrgId}
+            orgId={orgId}
             teams={teams}
             user={user}
           />
@@ -191,6 +177,7 @@ class OrganizationPage extends Component {
               {config.hablaWebAppVersion}
             </div>
           </div>
+          <SubscriptionModal visible={this.state.modalVisible} showModal={this.showModal} />
         </div>
       );
     }
@@ -200,5 +187,6 @@ class OrganizationPage extends Component {
 }
 
 OrganizationPage.propTypes = propTypes;
+OrganizationPage.defaultProps = defaultProps;
 
 export default OrganizationPage;

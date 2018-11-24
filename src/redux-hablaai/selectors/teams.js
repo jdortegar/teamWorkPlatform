@@ -1,38 +1,36 @@
 import { createSelector } from 'reselect';
-import createCachedSelector from 're-reselect';
-import { getTeamById, getTeamIdsBySubscriberOrgId } from './state';
 import { sortByName, primaryAtTop } from './helpers';
+import { getCurrentSubscriberOrgId } from './state';
 
-export { getTeamById, getTeamIdsBySubscriberOrgId } from './state';
+export const getTeamsById = state => state.teams.byId;
+export const getTeamIds = state => state.teams.allIds;
+export const getTeamIdsByOrg = state => state.teams.idsByOrg;
 
-export const getTeams = createSelector([getTeamById], teamById => Object.values(teamById));
+export const getTeams = createSelector([getTeamsById], teams => Object.values(teams));
 
-/**
- * Return array of teams given a subscriberOrgId.
- */
-export const getTeamsOfSubscriberOrgId = createCachedSelector(
-  [getTeamIdsBySubscriberOrgId, getTeamById, (state, subscriberOrgId) => subscriberOrgId],
-  (teamIdsBySubscriberOrgId, teamById, subscriberOrgId) => {
-    if (!subscriberOrgId || !teamIdsBySubscriberOrgId[subscriberOrgId]) {
-      return []; // TODO: null (to differentiate from valid data).  Also, elsewhere.
-    }
+export const getOrgTeams = createSelector(
+  [getTeamIdsByOrg, getTeamsById, getCurrentSubscriberOrgId],
+  (teamIdsByOrg, teamsById, orgId) => {
+    if (!orgId || !teamIdsByOrg[orgId]) return [];
 
-    const teamIds = teamIdsBySubscriberOrgId[subscriberOrgId];
-    return teamIds.map(teamId => teamById[teamId]);
+    const teamIds = teamIdsByOrg[orgId];
+    const teams = teamIds.map(teamId => teamsById[teamId]);
+    return primaryAtTop(teams.sort(sortByName));
   }
-)((state, subscriberOrgId) => subscriberOrgId);
+);
 
-export const getTeamsOfSubscriberOrgIdSortedAlphabetically = createCachedSelector(
-  [getTeamIdsBySubscriberOrgId, getTeamById, (state, subscriberOrgId) => subscriberOrgId],
-  (teamIdsBySubscriberOrgId, teamById, subscriberOrgId) => {
-    if (!subscriberOrgId || !teamIdsBySubscriberOrgId[subscriberOrgId]) {
-      return []; // TODO: null (to differentiate from valid data).  Also, elsewhere.
-    }
+export const getActiveTeams = createSelector(
+  [getTeamIdsByOrg, getTeamsById, (state, orgId) => orgId],
+  (teamIdsByOrg, teamsById, orgId) => {
+    if (!orgId || !teamIdsByOrg[orgId]) return [];
 
-    const teamIds = teamIdsBySubscriberOrgId[subscriberOrgId];
-
-    let teams = teamIds.map(teamId => teamById[teamId]);
-    teams = primaryAtTop(teams.sort(sortByName));
-    return teams;
+    const teamIds = teamIdsByOrg[orgId];
+    const teams = teamIds.map(teamId => teamsById[teamId]).filter(team => team.active);
+    return primaryAtTop(teams.sort(sortByName));
   }
-)((state, subscriberOrgId) => subscriberOrgId);
+);
+
+export const getTeam = createSelector(
+  [getTeamsById, (state, teamId) => teamId],
+  (teamsById, teamId) => teamsById[teamId]
+);

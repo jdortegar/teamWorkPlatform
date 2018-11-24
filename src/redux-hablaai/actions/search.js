@@ -3,6 +3,7 @@ import { pickBy } from 'lodash';
 
 import { buildApiUrl } from 'src/lib/api';
 import { extractKeywords } from 'src/lib/keywords';
+import { getCurrentSubscriberOrgId } from 'src/selectors';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const SEARCH_REQUEST = 'search/request';
@@ -15,11 +16,10 @@ export const TOGGLE_EXACT_MATCH = 'search/toggleExactMatch';
 // forceGet: true - disabling cache in search requests
 export const search = (
   rawQuery = undefined,
-  subscriberOrgId,
-  caseSensitive = false,
-  exactMatch = false,
+  { teamId, caseSensitive = false, exactMatch = false } = {},
   options = { getKey: false, forceGet: true }
-) => {
+) => (dispatch, getState) => {
+  const orgId = getCurrentSubscriberOrgId(getState());
   const keywords = extractKeywords(rawQuery);
   const query = keywords.join(' ');
   const params = queryString.stringify(
@@ -30,54 +30,50 @@ export const search = (
     })
   );
 
-  const requestUrl = buildApiUrl(`ckg/${subscriberOrgId}/files?${params}`, 'v2');
+  const teamLevel = teamId ? `/teams/${teamId}` : '';
+  const requestUrl = buildApiUrl(`ckg/${orgId}${teamLevel}/files?${params}`, 'v2');
 
-  // Passthrough data that you'll see after going through the reducer. Typically in you mapStateToProps.
-  const reduxState = { query };
+  dispatch({
+    type: SEARCH_REQUEST,
+    payload: { query, keywords, teamId }
+  });
 
-  return dispatch => {
-    dispatch({
-      type: SEARCH_REQUEST,
-      payload: { query, keywords }
-    });
+  const thunk = dispatch(
+    doAuthenticatedRequest(
+      {
+        requestUrl,
+        method: 'get'
+      },
+      { query },
+      options
+    )
+  );
 
-    const thunk = dispatch(
-      doAuthenticatedRequest(
-        {
-          requestUrl,
-          method: 'get'
-        },
-        reduxState,
-        options
-      )
-    );
-
-    if (!options.getKey) {
-      thunk.then(
-        response => {
-          if (response.data !== RESPONSE_STALE) {
-            dispatch({
-              type: SEARCH_SUCCESS,
-              payload: { files: response.data }
-            });
-          }
-          if (response.data === RESPONSE_STALE) {
-            dispatch({ type: SEARCH_STALE });
-          }
-          return response;
-        },
-        error => {
+  if (!options.getKey) {
+    thunk.then(
+      response => {
+        if (response.data !== RESPONSE_STALE) {
           dispatch({
-            type: SEARCH_FAILURE,
-            payload: { query, keywords }
+            type: SEARCH_SUCCESS,
+            payload: { files: response.data }
           });
-          return error;
         }
-      );
-    }
+        if (response.data === RESPONSE_STALE) {
+          dispatch({ type: SEARCH_STALE });
+        }
+        return response;
+      },
+      error => {
+        dispatch({
+          type: SEARCH_FAILURE,
+          payload: { query, keywords }
+        });
+        return error;
+      }
+    );
+  }
 
-    return thunk;
-  };
+  return thunk;
 };
 
 export const toggleCaseSensitive = caseSensitive => dispatch => {

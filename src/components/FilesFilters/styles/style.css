@@ -1,6 +1,7 @@
 .FilesFilters {
   overflow: hidden;
   min-height: 50px;
+  flex-grow: 1;
 }
 .FilesFilters__group {
   display: flex;
@@ -28,5 +29,5 @@
   padding: 4px;
 }
 .FilesFilters__dataTypes__text {
-	padding: 20px 10px;
+  padding: 20px 10px;
 }

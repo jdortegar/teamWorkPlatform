@@ -7,7 +7,7 @@ import imageSrcFromFileExtension from 'src/lib/imageFiles';
 
 const ICON_SIZE = 32;
 
-const FileItem = ({ file, isSelected, onToggleSelection }) => (
+const FileItem = ({ file, isSelected, onToggleSelection, disabled }) => (
   <div key={file.file_id} className="Tree__item">
     <a className="Tree__item-link">
       <img
@@ -24,6 +24,7 @@ const FileItem = ({ file, isSelected, onToggleSelection }) => (
         event.stopPropagation();
         onToggleSelection(file.file_id, isSelected);
       }}
+      disabled={disabled}
     >
       <Icon
         className={classNames('Tree__item-check-icon', { checked: isSelected })}
@@ -37,11 +38,13 @@ const FileItem = ({ file, isSelected, onToggleSelection }) => (
 FileItem.propTypes = {
   file: PropTypes.object.isRequired,
   onToggleSelection: PropTypes.func.isRequired,
-  isSelected: PropTypes.bool
+  isSelected: PropTypes.bool,
+  disabled: PropTypes.bool
 };
 
 FileItem.defaultProps = {
-  isSelected: false
+  isSelected: false,
+  disabled: false
 };
 
 export default FileItem;

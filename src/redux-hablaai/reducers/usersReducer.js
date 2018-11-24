@@ -5,7 +5,8 @@ import {
   SUBSCRIBERS_FETCH_SUCCESS,
   TEAMMEMBERS_FETCH_SUCCESS,
   SUBSCRIBER_RECEIVE,
-  TEAMMEMBER_RECEIVE
+  TEAMMEMBER_RECEIVE,
+  UPDATED_USER_STATUS_SUCCESS
 } from 'src/actions';
 
 const INITIAL_STATE = {
@@ -19,6 +20,7 @@ function receiverUsers(state, payload) {
 
   const userByUserId = _.cloneDeep(state.userByUserId);
   users.forEach(userIter => {
+    if (!userIter || !userIter.userId) return;
     let user = _.clone(userIter);
     delete user.presence; // Presence is maintained in a separate state.
     const { role, subscriberUserId, teamMemberId } = user;
@@ -66,6 +68,7 @@ function receiverUsers(state, payload) {
 const usersReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case USER_RECEIVE: {
+      if (!action.payload.user.userId) return state;
       const userByUserId = _.cloneDeep(state.userByUserId);
       let user = userByUserId[action.payload.user.userId];
       if (!user) {
@@ -101,6 +104,7 @@ const usersReducer = (state = INITIAL_STATE, action) => {
       } else if (teamMember) {
         userId = teamMember.userId; // eslint-disable-line prefer-destructuring
       }
+      if (!userId) return state;
       let user = userByUserId[userId];
       if (!user) {
         user = subscriber || teamMember;
@@ -135,6 +139,20 @@ const usersReducer = (state = INITIAL_STATE, action) => {
 
       const { firstName, lastName } = user;
       user.fullName = String.t('fullName', { firstName, lastName });
+
+      return {
+        ...state,
+        userByUserId
+      };
+    }
+    case UPDATED_USER_STATUS_SUCCESS: {
+      const { userUpdated } = action.payload;
+      const userByUserId = _.cloneDeep(state.userByUserId);
+
+      userByUserId[userUpdated.userId] = {
+        ...userByUserId[userUpdated.userId],
+        ...userUpdated
+      };
 
       return {
         ...state,

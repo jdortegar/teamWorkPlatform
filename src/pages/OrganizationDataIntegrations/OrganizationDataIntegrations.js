@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import _ from 'lodash';
 
 import String from 'src/translations';
-// import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
 import { PageHeader, SimpleCardContainer, Spinner, AvatarWithLabel } from 'src/components';
 import { integrationLabelFromKey, integrationImageFromKey } from 'src/utils/dataIntegrations';
 import { Table, Tooltip, Input, Icon } from 'antd';
@@ -11,18 +9,10 @@ import classNames from 'classnames';
 import './styles/style.css';
 
 const propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      subscriberOrgId: PropTypes.string
-    })
-  }).isRequired,
+  orgId: PropTypes.string.isRequired,
   history: PropTypes.object.isRequired,
-  subscriberOrgs: PropTypes.shape({
-    currentSubscriberOrgId: PropTypes.string
-  }).isRequired,
-  setCurrentSubscriberOrgId: PropTypes.func.isRequired,
   integrations: PropTypes.PropTypes.shape({
-    integrationsBySubscriberOrgId: PropTypes.object
+    byOrg: PropTypes.object
   }).isRequired,
   fetchIntegrations: PropTypes.func.isRequired
 };
@@ -36,37 +26,13 @@ class OrganizationDataIntegrations extends Component {
   }
 
   componentDidMount() {
-    const { match, subscriberOrgs } = this.props;
-    if (
-      !match ||
-      !match.params ||
-      !match.params.subscriberOrgId ||
-      match.params.subscriberOrgId !== subscriberOrgs.currentSubscriberOrgId
-    ) {
-      this.props.history.replace('/app');
+    const { orgId, history } = this.props;
+    if (!orgId) {
+      history.replace('/app');
       return;
     }
-    const { subscriberOrgId } = this.props.match.params;
 
-    if (subscriberOrgId !== this.props.subscriberOrgs.currentSubscriberOrgId) {
-      this.props.setCurrentSubscriberOrgId(subscriberOrgId);
-    }
-
-    this.props.fetchIntegrations(subscriberOrgId).then(() => {
-      this.setState({ integrationsLoaded: true });
-    });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const nextOrgId = nextProps.match.params.subscriberOrgId;
-    if (nextOrgId !== this.props.match.params.subscriberOrgId) {
-      this.setState({
-        integrationsLoaded: false
-      });
-      this.props.fetchIntegrations(nextOrgId).then(() => {
-        this.setState({ integrationsLoaded: true });
-      });
-    }
+    this.props.fetchIntegrations().then(() => this.setState({ integrationsLoaded: true }));
   }
 
   // Handle for search input
@@ -93,8 +59,7 @@ class OrganizationDataIntegrations extends Component {
 
   // Get Users array
   renderIntegrations(integrationsActive) {
-    const { match } = this.props;
-    const { subscriberOrgId } = match.params;
+    const { orgId } = this.props;
     // If no users, no render
     if (integrationsActive.length === 0) {
       return null;
@@ -113,7 +78,7 @@ class OrganizationDataIntegrations extends Component {
           className: classNames({ desaturate: integrationEl.expired }),
           iconColor: '#FFFFFF'
         },
-        editUrl: `/app/integrations/${subscriberOrgId}/${integrationEl.key}`
+        editUrl: `/app/integrations/${orgId}/${integrationEl.key}`
       },
       owner: integrationEl.ownerId || 'no owner',
       team: integrationEl.team || 'no team',
@@ -131,7 +96,7 @@ class OrganizationDataIntegrations extends Component {
         preferences: {
           logo: 'fa fa-plus'
         },
-        editUrl: `/app/integrations/${subscriberOrgId}`
+        editUrl: `/app/integrations/${orgId}`
       },
       status: {
         enabled: false
@@ -143,10 +108,8 @@ class OrganizationDataIntegrations extends Component {
 
   render() {
     // General Consts
-    const { integrations, match } = this.props;
-    if (match && match.params && match.params.subscriberOrgId && integrations && this.state.integrationsLoaded) {
-      const { subscriberOrgId } = match.params;
-
+    const { orgId, integrations } = this.props;
+    if (orgId && integrations && this.state.integrationsLoaded) {
       // Breadcrumb
       const pageBreadCrumb = {
         routes: [
@@ -209,7 +172,7 @@ class OrganizationDataIntegrations extends Component {
                   </div>
                 }
               >
-                <span className="p-1">
+                <span>
                   <i className="fas fa-ellipsis-h fa-lg" />
                 </span>
               </Tooltip>
@@ -220,11 +183,7 @@ class OrganizationDataIntegrations extends Component {
 
       return (
         <div className="editOrgPage-main">
-          <PageHeader
-            pageBreadCrumb={pageBreadCrumb}
-            hasMenu={false}
-            backButton={`/app/organization/${subscriberOrgId}`}
-          />
+          <PageHeader pageBreadCrumb={pageBreadCrumb} backButton />
           <SimpleCardContainer className="subpage-block habla-color-lighertblue padding-class-a">
             <div className="header-search-container">
               <Input

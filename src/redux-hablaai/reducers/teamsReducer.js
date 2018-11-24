@@ -1,68 +1,85 @@
+import { combineReducers } from 'redux';
 import _ from 'lodash';
-import { TEAMS_FETCH_SUCCESS, TEAM_RECEIVE } from 'src/actions';
+import { TEAMS_FETCH_SUCCESS, TEAM_RECEIVE, UPDATED_TEAM_SUCCESS } from 'src/actions';
 
-const INITIAL_STATE = {
-  teamById: {},
-  teamIdsBySubscriberOrgId: {}
-};
-
-const addTeam = (team, teamById, teamIdsBySubscriberOrgId) => {
-  teamById[team.teamId] = team; // eslint-disable-line no-param-reassign
-  let teamIds = teamIdsBySubscriberOrgId[team.subscriberOrgId];
-  if (!teamIds) {
-    teamIds = [];
-    teamIdsBySubscriberOrgId[team.subscriberOrgId] = teamIds; // eslint-disable-line no-param-reassign
-  }
-
-  if (teamIds.indexOf(team.teamId) < 0) {
-    teamIds.push(team.teamId);
-  }
-};
-
-const teamsReducer = (state = INITIAL_STATE, action) => {
+const byId = (state = {}, action) => {
   switch (action.type) {
     case TEAMS_FETCH_SUCCESS: {
-      const teamById = _.cloneDeep(state.teamById);
-      const teamIdsBySubscriberOrgId = _.cloneDeep(state.teamIdsBySubscriberOrgId);
-      const { subscriberOrgId, teams } = action.payload;
-      let teamIds;
-
-      if (subscriberOrgId) {
-        // Clear out teams of subscriberOrgId.
-        teamIds = teamIdsBySubscriberOrgId[subscriberOrgId];
-        if (teamIds) {
-          teamIds.forEach(teamId => {
-            delete teamById[teamId];
-          });
-        }
-        delete teamIdsBySubscriberOrgId[subscriberOrgId];
-      }
-
-      teams.forEach(team => {
-        addTeam(team, teamById, teamIdsBySubscriberOrgId);
-      });
-
+      const { teams = [] } = action.payload;
       return {
         ...state,
-        teamById,
-        teamIdsBySubscriberOrgId
+        ...teams.reduce((acc, team) => {
+          acc[team.teamId] = team;
+          return acc;
+        }, {})
       };
     }
     case TEAM_RECEIVE: {
-      const { team } = action.payload;
-      const teamById = _.cloneDeep(state.teamById);
-      const teamIdsBySubscriberOrgId = _.cloneDeep(state.teamIdsBySubscriberOrgId);
-      addTeam(team, teamById, teamIdsBySubscriberOrgId);
-
+      const { team = {} } = action.payload;
       return {
         ...state,
-        teamById,
-        teamIdsBySubscriberOrgId
+        [team.teamId]: team
+      };
+    }
+    case UPDATED_TEAM_SUCCESS: {
+      const { teamUpdated } = action.payload;
+      const stateData = _.cloneDeep(state);
+
+      stateData[teamUpdated.teamId] = {
+        ...stateData[teamUpdated.teamId],
+        ...teamUpdated
+      };
+
+      return stateData;
+    }
+    default:
+      return state;
+  }
+};
+
+const allIds = (state = [], action) => {
+  switch (action.type) {
+    case TEAMS_FETCH_SUCCESS: {
+      const { teams = [] } = action.payload;
+      return _.union(state, teams.map(team => team.teamId));
+    }
+    case TEAM_RECEIVE: {
+      const { team = {} } = action.payload;
+      return _.union(state, [team.teamId]);
+    }
+    default:
+      return state;
+  }
+};
+
+const idsByOrg = (state = {}, action) => {
+  switch (action.type) {
+    case TEAMS_FETCH_SUCCESS: {
+      const { teams = [] } = action.payload;
+      return {
+        ...state,
+        ...teams.reduce((acc, team) => {
+          acc[team.subscriberOrgId] = _.union(acc[team.subscriberOrgId], [team.teamId]);
+          return acc;
+        }, {})
+      };
+    }
+    case TEAM_RECEIVE: {
+      const { team = {} } = action.payload;
+      return {
+        ...state,
+        [team.subscriberOrgId]: _.union(state[team.subscriberOrgId], [team.teamId])
       };
     }
     default:
       return state;
   }
 };
+
+const teamsReducer = combineReducers({
+  byId,
+  allIds,
+  idsByOrg
+});
 
 export default teamsReducer;

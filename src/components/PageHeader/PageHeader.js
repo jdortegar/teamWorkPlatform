@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { isEmpty } from 'lodash';
 
 import { Link } from 'react-router-dom';
-import { Tooltip, Badge, Popover, Menu } from 'antd';
+import { Tooltip, Popover, Menu, Badge } from 'antd';
 import { Button, BreadCrumb } from 'src/components';
 import String from 'src/translations';
 import './styles/style.css';
@@ -13,34 +14,44 @@ const propTypes = {
   menuPageHeader: PropTypes.array,
   menuName: PropTypes.string,
   hasMenu: PropTypes.bool,
-  hasNotification: PropTypes.bool,
+  badgeOptions: PropTypes.object,
   buttonOptions: PropTypes.object,
-  backButton: PropTypes.string,
-  optionalButtons: PropTypes.object
+  optionalButtons: PropTypes.object,
+  backButton: PropTypes.bool,
+  settingsIcon: PropTypes.bool,
+  history: PropTypes.shape({
+    goBack: PropTypes.func.isRequired
+  }).isRequired,
+  children: PropTypes.node
 };
 
 const defaultProps = {
   pageBreadCrumb: {},
   menuName: null,
   hasMenu: false,
-  hasNotification: false,
+  badgeOptions: {},
   buttonOptions: {},
   menuPageHeader: [],
-  backButton: '',
+  backButton: false,
   optionalButtons: {
     enabled: false
-  }
+  },
+  settingsIcon: false,
+  children: null
 };
 
 function PageHeader({
   pageBreadCrumb,
   menuName,
   hasMenu,
-  hasNotification,
+  badgeOptions,
   menuPageHeader,
   backButton,
   buttonOptions,
-  optionalButtons
+  optionalButtons,
+  history,
+  settingsIcon,
+  children
 }) {
   const menuItems = menuPageHeader.map(
     item =>
@@ -74,35 +85,46 @@ function PageHeader({
   );
 
   return (
-    <div className="PageHeader habla-main-content-header padding-class-a border-bottom-lighter">
+    <div className="PageHeader habla-main-content-header padding-class-a border-bottom-light">
       <div className="habla-main-content-header-title">
-        <div className="actionButtonsContainer">
-          {backButton !== '' && (
-            <Tooltip placement="top" title={String.t('Buttons.back')}>
-              <Link to={backButton}>
-                <i className="fas fa-arrow-left fa-2x" />
-              </Link>
-            </Tooltip>
-          )}
-          {hasMenu && (
-            <Popover placement="bottomLeft" title={String.t(menuName)} content={buttonMenu} trigger="click">
-              <a>
-                <i className="fas fa-bars fa-2x" />
-                <i className="fas fa-chevron-down" />
-              </a>
-            </Popover>
-          )}
-        </div>
+        {(backButton || hasMenu || settingsIcon) && (
+          <div className="actionButtonsContainer">
+            {backButton && (
+              <Tooltip placement="top" title={String.t('Buttons.back')}>
+                <a onClick={() => history.goBack()}>
+                  <i className="fas fa-arrow-left fa-2x" />
+                </a>
+              </Tooltip>
+            )}
+            {settingsIcon && (
+              <span>
+                <i className="fa fa-cog" />
+              </span>
+            )}
+            {hasMenu && (
+              <Popover placement="bottomLeft" title={String.t(menuName)} content={buttonMenu} trigger="click">
+                <a>
+                  <i className="fas fa-bars fa-2x" />
+                  <i className="fas fa-chevron-down" />
+                </a>
+              </Popover>
+            )}
+          </div>
+        )}
         <div className="habla-main-content-header-title">
           <h1 className="Subpage-header__title habla-title">
             <BreadCrumb routes={pageBreadCrumb.routes} />
           </h1>
         </div>
-        {hasNotification && (
+        {children}
+        {badgeOptions.enabled && (
           <Badge
-            count={0}
+            count={badgeOptions.count}
             title="Notifications"
-            style={{ justifyContent: 'flex-end', boxShadow: '#AB1E16 -1px -1px 0px 0px inset' }}
+            className="pageHeader__badge"
+            style={badgeOptions.style}
+            showZero
+            overflowCount={999999}
           />
         )}
         {!isEmpty(buttonOptions) && <Button className="rightSideButton" {...buttonOptions} />}
@@ -115,4 +137,4 @@ function PageHeader({
 PageHeader.propTypes = propTypes;
 PageHeader.defaultProps = defaultProps;
 
-export default PageHeader;
+export default withRouter(PageHeader);

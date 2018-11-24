@@ -1,5 +1,8 @@
 /* Page Heeader componennt CSS styles */
 
+.PageHeader {
+  display: block !important;
+}
 .Subpage-header__title a {
   font-weight: 300;
   color: #000;
@@ -20,13 +23,15 @@
 }
 .actionButtonsContainer {
   display: inline-flex;
-  border: 1px solid #cccccc;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  margin-right: 6px;
+  margin-right: 10px;
   background: #e8e7e7;
 }
-.actionButtonsContainer a {
-  padding: 5px;
+.actionButtonsContainer a,
+.actionButtonsContainer span {
+  padding: 6px 8px;
+  font-weight: 900;
 }
 .actionButtonsContainer a {
   border-right: 1px solid #cccccc;
@@ -41,7 +46,8 @@
 .actionButtonsContainer .fa-bars {
   margin-right: 10px !important;
 }
-.actionButtonsContainer svg:hover {
+.actionButtonsContainer svg:hover,
+.actionButtonsContainer:hover {
   color: #666 !important;
 }
 .actionButtonsContainer:hover {
@@ -49,7 +55,7 @@
   background: #e8e8e8;
 }
 .actionButtonsContainer .fa-chevron-down {
-  font-size: 6px;
+  font-size: 7px;
   font-weight: 300;
   margin-left: -1px;
   margin-right: 0;
@@ -63,9 +69,13 @@
   padding-top: 6px;
 }
 
+.PageHeader .pageHeader__badge {
+  justify-content: 'flex-end';
+}
+
 /* Ant Popover */
 
-.ant-popover .ant-popover-arrow {
+.ant-popover.ant-popover-placement-bottomLeft .ant-popover-arrow {
   background: #444444;
   width: 8.48528137px;
   height: 8.48528137px;
@@ -77,14 +87,14 @@
   border-color: transparent;
   border-style: solid;
 }
-.ant-popover .ant-popover-inner {
+.ant-popover.ant-popover-placement-bottomLeft .ant-popover-inner {
   background-color: #444444;
   background-clip: padding-box;
   border-radius: 4px;
   -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
-.ant-popover .ant-popover-title {
+.ant-popover.ant-popover-placement-bottomLeft .ant-popover-title {
   min-width: 177px;
   margin: 0;
   padding: 10px 12px;
@@ -95,7 +105,7 @@
   font-size: 7pt;
   text-transform: uppercase;
 }
-.ant-popover .ant-popover-inner-content {
+.ant-popover.ant-popover-placement-bottomLeft .ant-popover-inner-content {
   padding: 0 0 16px;
   color: #fff;
   font-size: 9pt;
@@ -104,6 +114,7 @@
 .ant-popover-inner-content a svg,
 .ant-menu-item > a svg {
   color: #8f8f8f;
+  margin-right: 13px;
 }
 .ant-popover-inner-content a,
 .ant-menu-item > a {
@@ -113,20 +124,20 @@
 .ant-menu-vertical .ant-menu-item:not(:last-child) {
   margin-bottom: 0px;
 }
-.ant-popover .ant-popover-inner-content a:hover,
-.ant-popover .ant-menu-item > a:hover,
+.ant-popover.ant-popover-placement-bottomLeft .ant-popover-inner-content a:hover,
+.ant-popover.ant-popover-placement-bottomLeft .ant-menu-item > a:hover,
 .ant-menu-sub .ant-menu-item a:hover {
   background: #333;
   color: #fff !important;
 }
-.ant-popover ul.ant-menu li.ant-menu-submenu:hover {
+.ant-popover.ant-popover-placement-bottomLeft ul.ant-menu li.ant-menu-submenu:hover {
   background: #333 !important;
   color: #fff !important;
 }
 .ant-popover-inner-content .ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title {
   line-height: normal !important;
   color: #999999 !important;
-  padding: 5px 30px 5px 27px !important;
+  padding: 5px 30px 5px 12px !important;
 }
 
 .ant-popover-inner-content .ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title:hover {
@@ -162,4 +173,13 @@
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
   background: #333 !important;
   color: #fff;
+}
+
+.PageHeader .ant-scroll-number-only {
+  padding: 0;
+}
+
+.pageHeader__badge {
+  font-weight: 700;
+  font-family: 'Lato', sans-serif;
 }

@@ -1,0 +1,25 @@
+.Integration.inactive {
+  opacity: 0.3;
+}
+
+.Integration .IntegrationCard {
+  background: #fff;
+  border: 1px solid #eee !important;
+  border-radius: 14% !important;
+  margin: 5px 8px 0 0;
+  width: 60px;
+  height: 60px;
+}
+
+.IntegrationCard .ant-card-head {
+  position: absolute;
+  top: -1px;
+  right: 3px;
+}
+
+.IntegrationCard img {
+  width: 57px;
+  height: 57px;
+  display: inline-block;
+  overflow: hidden;
+}

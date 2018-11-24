@@ -15,9 +15,9 @@
   top: 43px;
 }
 .message__main-counter-number {
-  background: #FBBC12;
+  background: #fbbc12;
   padding: 3px 5px;
-  color: #000!important;
+  color: #000 !important;
   border-radius: 3px;
 }
 .message__main-counter svg {
@@ -27,11 +27,11 @@
   color: #ddd;
 }
 .message__icons {
-   font-size: 15px;
-   padding: 4px 8px 6px 8px;
+  font-size: 15px;
+  padding: 4px 8px 6px 8px;
 }
 .message__icons-selected {
-   color: #FBBC12!important;
+  color: #fbbc12 !important;
 }
 .message__icons:not(:last-child) {
   border-right: 1px solid #666;
@@ -89,7 +89,7 @@
   color: #fff;
 }
 .message__options a:hover {
-  color: #FBBC12;
+  color: #fbbc12;
 }
 .hide {
   display: none;
@@ -103,5 +103,13 @@
   z-index: -1;
 }
 .counter {
-  padding: .2em .5em;
+  padding: 0.2em 0.5em;
+}
+
+.Delete_Confirm_Pop .ant-popover .ant-popover-inner-content {
+  background: #fff;
+  padding: 20px;
+  color: #fff;
+  font-size: 9pt;
+  font-weight: 400;
 }

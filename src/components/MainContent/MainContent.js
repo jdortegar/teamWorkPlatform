@@ -10,44 +10,50 @@ import String from 'src/translations';
 import { sortByLastCreatedFirst } from 'src/redux-hablaai/selectors/helpers';
 import {
   HomePage,
+  CKGPage,
   ChatContent,
   IntegrationsPage,
-  IntegrationDetailsPage,
+  IntegrationPage,
   TeamManagePage,
-  TeamPageV1,
+  TeamPage,
   NewTeamPage,
   EditTeamPage,
+  EditTeamMemberPage,
   InviteNewMemberPage,
   TeamMemberPage,
+  TeamIntegrationsPage,
+  TeamIntegrationPage,
   Notification,
   BookmarksPage,
   InviteToTeamPage,
   EditUserPage,
-  CKGPage,
-  SearchPage,
   DashboardPage,
   NotificationsPage,
   AcceptInvitationPage,
   OrganizationPage,
+  OrganizationManage,
   OrganizationManageTeams,
   OrganizationManageMembers,
   OrganizationDataIntegrations,
   EditOrganizationPage
 } from 'src/containers';
 import './styles/style.css';
+import { Spinner } from 'src/components';
 
 const { Content } = Layout;
 
 const propTypes = {
   invitation: PropTypes.array,
   declinedInvitations: PropTypes.object,
-  pushMessage: PropTypes.object,
+  pushMessage: PropTypes.array,
   users: PropTypes.object.isRequired,
   currentUserId: PropTypes.string.isRequired,
   notifyMessage: PropTypes.func.isRequired,
   updateInvitationDeclined: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
-  subscriberOrgs: PropTypes.object.isRequired
+  subscriberOrgs: PropTypes.object.isRequired,
+  fetchTeamsBySubscriberOrgId: PropTypes.func.isRequired,
+  fetchSubscriberOrgs: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -62,6 +68,11 @@ function invitationKey(inv) {
 }
 
 class MainContent extends Component {
+  state = {
+    teamsLoaded: null,
+    orgLoaded: null
+  };
+
   componentDidMount() {
     if (this.props.pushMessage && this.props.pushMessage.length > 0) {
       const text = this.props.pushMessage[0].content.reduce(
@@ -78,6 +89,14 @@ class MainContent extends Component {
       };
       notification.open(args);
     }
+
+    this.props.fetchTeamsBySubscriberOrgId().then(() => {
+      this.setState({ teamsLoaded: true });
+    });
+
+    this.props.fetchSubscriberOrgs().then(() => {
+      setTimeout(this.setState({ orgLoaded: true }), 5000);
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -144,10 +163,8 @@ class MainContent extends Component {
       const invitationsByKey = {};
       invitation = invitation.sort(sortByLastCreatedFirst).filter(inv => {
         // if already a member of the org or team, don't include the invite
-        const { teamId, subscriberOrgId } = inv;
-        if (teamId && teams.teamById[teamId]) {
-          return false;
-        } else if (subscriberOrgById[subscriberOrgId]) {
+        const { teamId } = inv;
+        if (teamId && teams[teamId]) {
           return false;
         }
 
@@ -168,33 +185,40 @@ class MainContent extends Component {
 
   render() {
     const invitation = this.getValidInvites();
+
+    if (!this.state.teamsLoaded || !this.state.orgLoaded) {
+      return <Spinner />;
+    }
     return (
       <Content className="MainContent__layout-wrapper">
         {invitation.length > 0 ? invitation.map(inv => <Notification key={invitationKey(inv)} options={inv} />) : null}
         <Switch>
           <Route exact path={paths.app} component={HomePage} />
           <Route exact path={paths.integrations} component={IntegrationsPage} />
-          <Route exact path={paths.integrationDetails} component={IntegrationDetailsPage} />
-          <Route exact path={paths.team} component={TeamPageV1} />
+          <Route exact path={paths.integration} component={IntegrationPage} />
+          <Route exact path={paths.team} component={TeamPage} />
           <Route exact path={paths.manageTeam} component={TeamManagePage} />
           <Route exact path={paths.newTeam} component={NewTeamPage} />
           <Route exact path={paths.editTeam} component={EditTeamPage} />
+          <Route exact path={paths.editTeamMember} component={EditTeamMemberPage} />
           <Route exact path={paths.editUser} component={EditUserPage} />
           <Route exact path={paths.inviteNewMember} component={InviteNewMemberPage} />
           <Route exact path={paths.inviteToTeam} component={InviteToTeamPage} />
-          <Route exact path={paths.teamRoom} component={ChatContent} />
           <Route exact path={paths.member} component={TeamMemberPage} />
+          <Route exact path={paths.teamIntegrations} component={TeamIntegrationsPage} />
+          <Route exact path={paths.teamIntegration} component={TeamIntegrationPage} />
           <Route exact path={paths.acceptInvitation} component={AcceptInvitationPage} />
           <Route exact path={paths.ckg} component={CKGPage} />
           <Route exact path={paths.dashboard} component={DashboardPage} />
-          <Route exact path={paths.search} component={SearchPage} />
           <Route exact path={paths.notifications} component={NotificationsPage} />
           <Route exact path={paths.bookmarks} component={BookmarksPage} />
           <Route exact path={paths.organization} component={OrganizationPage} />
+          <Route exact path={paths.organizationManage} component={OrganizationManage} />
           <Route exact path={paths.editOrganization} component={EditOrganizationPage} />
           <Route exact path={paths.organizationManageTeams} component={OrganizationManageTeams} />
           <Route exact path={paths.organizationManageMembers} component={OrganizationManageMembers} />
           <Route exact path={paths.organizationDataIntegrations} component={OrganizationDataIntegrations} />
+          <Route exact path={paths.chat} component={ChatContent} />
         </Switch>
       </Content>
     );

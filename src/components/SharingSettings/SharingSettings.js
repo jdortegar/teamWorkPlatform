@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { Form, Collapse } from 'antd';
-import { isEmpty } from 'lodash';
+import { isEmpty, every, values } from 'lodash';
 
 import String from 'src/translations';
 import { SimpleHeader, Tree } from 'src/components';
@@ -12,58 +13,91 @@ const { Panel } = Collapse;
 const propTypes = {
   onToggleSelect: PropTypes.func.isRequired,
   onToggleSelectAll: PropTypes.func.isRequired,
+  content: PropTypes.object.isRequired,
   integrationType: PropTypes.string,
-  folders: PropTypes.array,
-  files: PropTypes.array,
-  selectedFolders: PropTypes.array,
-  selectedFiles: PropTypes.array
+  selectedSettings: PropTypes.object,
+  disabled: PropTypes.bool
 };
 
 const defaultProps = {
   integrationType: null,
-  folders: [],
-  files: [],
-  selectedFolders: [],
-  selectedFiles: []
+  selectedSettings: {
+    folders: [],
+    files: [],
+    sites: {}
+  },
+  disabled: false
 };
 
 class SharingSettings extends Component {
-  toggleFolderSelection = folderId => {
-    this.props.onToggleSelect({ folderId });
+  toggleFolderSelection = (folderId, site) => {
+    this.props.onToggleSelect({ folderId, site });
   };
 
-  toggleFileSelection = fileId => {
-    this.props.onToggleSelect({ fileId });
+  toggleFileSelection = (fileId, site) => {
+    this.props.onToggleSelect({ fileId, site });
   };
 
-  toggleSelectAll = event => {
+  toggleSelectAll = (event, selectAll) => {
     event.preventDefault();
-    this.props.onToggleSelectAll();
+    this.props.onToggleSelectAll(selectAll);
   };
 
   render() {
-    const { folders, files, selectedFolders, selectedFiles, integrationType } = this.props;
-    const selectAllText = isEmpty(selectedFolders) && isEmpty(selectedFiles) ? 'selectAll' : 'deselectAll';
+    const { content, selectedSettings, integrationType, disabled } = this.props;
+    const { folders, files, sites } = content;
+    const { folders: selectedFolders = [], files: selectedFiles = [], sites: selectedSites = {} } = selectedSettings;
+
+    const isSiteEmpty = site => isEmpty(site.folders) && isEmpty(site.files);
+    const selectAll = isEmpty(selectedFolders) && isEmpty(selectedFiles) && every(values(selectedSites), isSiteEmpty);
+    const selectAllText = selectAll ? 'selectAll' : 'deselectAll';
+
     return (
       <div className="SharingSettings">
         <Collapse bordered defaultActiveKey="1">
-          <Panel key="1" header={<SimpleHeader text={String.t('integrationDetailsPage.sharing.settings')} />}>
+          <Panel key="1" header={<SimpleHeader text={String.t('integrationPage.sharing.settings')} />}>
             <div className="SharingSettings__title-container">
               <div className="habla-label">
-                {integrationType} {String.t('integrationDetailsPage.sharing.foldersAndFiles')}
+                {integrationType} {String.t('integrationPage.sharing.foldersAndFiles')}
               </div>
-              <div className="habla-label">
-                <a onClick={this.toggleSelectAll}>{String.t(`integrationDetailsPage.sharing.${selectAllText}`)}</a>
+              <div className={classNames('habla-label', { disabled })}>
+                <a onClick={e => this.toggleSelectAll(e, selectAll)} disabled={disabled}>
+                  {String.t(`integrationPage.sharing.${selectAllText}`)}
+                </a>
               </div>
             </div>
-            <Tree
-              folders={folders}
-              files={files}
-              selectedFolders={selectedFolders}
-              selectedFiles={selectedFiles}
-              onToggleFolderSelection={this.toggleFolderSelection}
-              onToggleFileSelection={this.toggleFileSelection}
-            />
+            {isEmpty(sites) && (
+              <Tree
+                folders={folders}
+                files={files}
+                selectedFolders={selectedFolders}
+                selectedFiles={selectedFiles}
+                onToggleFolderSelection={this.toggleFolderSelection}
+                onToggleFileSelection={this.toggleFileSelection}
+                disabled={disabled}
+              />
+            )}
+            {!isEmpty(sites) && (
+              <Collapse bordered>
+                {sites.map(site => {
+                  const siteContent = content[site] || {};
+                  const siteSettings = selectedSites[site] || {};
+                  return (
+                    <Panel key={site} header={<SimpleHeader text={site} />}>
+                      <Tree
+                        folders={siteContent.folders}
+                        files={siteContent.files}
+                        selectedFolders={siteSettings.folders}
+                        selectedFiles={siteSettings.files}
+                        onToggleFolderSelection={folderId => this.toggleFolderSelection(folderId, site)}
+                        onToggleFileSelection={fileId => this.toggleFileSelection(fileId, site)}
+                        disabled={disabled}
+                      />
+                    </Panel>
+                  );
+                })}
+              </Collapse>
+            )}
           </Panel>
         </Collapse>
       </div>

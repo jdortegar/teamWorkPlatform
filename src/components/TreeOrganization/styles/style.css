@@ -1,0 +1,84 @@
+.Tree__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+
+.Tree__item-link {
+  color: #ccc;
+  display: flex;
+  align-items: center;
+}
+.Tree__item-link:hover {
+  color: #999;
+}
+
+.Tree__item-check-icon {
+  font-size: 24px;
+  color: #ccc;
+}
+.Tree__item-check-icon.checked {
+  color: #32a953;
+}
+
+.Tree__folder-icon {
+  font-size: 35px;
+  margin-right: 10px;
+}
+
+.Tree__folder-name {
+  color: #999;
+  text-transform: uppercase;
+  margin-right: 4px;
+}
+
+.Tree__file-icon {
+  margin-right: 10px;
+}
+
+.Tree__file-name {
+  color: #999;
+}
+
+.Tree .ant-collapse-header {
+  padding-left: 0 !important;
+}
+.Tree .ant-collapse-content,
+.Tree .ant-collapse-content-box {
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+}
+.Tree .ant-collapse-content {
+  padding-left: 16px;
+}
+.Tree .ant-collapse-content-box {
+  border-left: solid 1px #f7f7f7;
+}
+.Tree .Tree__sub_item {
+  padding-left: 20px;
+}
+
+.Tree .Tree__sub_sub_item {
+  padding-left: 28px;
+}
+
+.Tree .ant-collapse-content > .ant-collapse-content-box {
+  padding: 0px 16px 16px;
+}
+
+.Tree__sub_item_switch {
+  margin-left: -10px;
+}
+
+.Tree__sub_sub_item_switch {
+  margin-left: -22px;
+}
+
+.Tree__sub_item_dots {
+  margin-left: -6px;
+}
+
+.Tree__sub_sub_item_dots {
+  margin-left: -12px;
+}

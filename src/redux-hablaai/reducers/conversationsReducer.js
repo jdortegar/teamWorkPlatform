@@ -9,7 +9,7 @@ import {
 
 const INITIAL_STATE = {
   conversationById: {},
-  conversationIdsByTeamRoomId: {},
+  conversationIdsByTeamId: {},
   transcriptByConversationId: {}
 };
 
@@ -117,7 +117,7 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
     case CONVERSATIONS_RECEIVE: {
       const { conversations } = action.payload;
       const conversationById = _.cloneDeep(state.conversationById);
-      const conversationIdsByTeamRoomId = _.cloneDeep(state.conversationIdsByTeamRoomId);
+      const conversationIdsByTeamId = _.cloneDeep(state.conversationIdsByTeamId);
 
       conversations.forEach(newConversation => {
         const conversation = _.cloneDeep(newConversation);
@@ -126,10 +126,10 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
           conversation.participants = participants;
         }
         conversationById[conversation.conversationId] = conversation;
-        let conversationIds = conversationIdsByTeamRoomId[conversation.teamRoomId];
+        let conversationIds = conversationIdsByTeamId[conversation.teamId];
         if (!conversationIds) {
           conversationIds = [];
-          conversationIdsByTeamRoomId[conversation.teamRoomId] = conversationIds;
+          conversationIdsByTeamId[conversation.teamId] = conversationIds;
         }
         if (conversationIds.indexOf(conversation.conversationId) < 0) {
           conversationIds.push(conversation.conversationId);
@@ -139,7 +139,7 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         conversationById,
-        conversationIdsByTeamRoomId
+        conversationIdsByTeamId
       };
     }
     case TRANSCRIPT_FETCH_SUCCESS:

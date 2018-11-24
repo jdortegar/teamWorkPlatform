@@ -1,21 +1,21 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { fetchIntegrations, setCurrentSubscriberOrgId } from 'src/actions';
-import { getCurrentUser, getCurrentSubscriberOrgId, getIntegrationsOfSubscriberOrgId } from 'src/selectors';
+import { fetchIntegrations } from 'src/actions';
+import { getCurrentUser, getCurrentSubscriberOrgId, getOrgIntegrationsObj } from 'src/selectors';
 
 import { OrganizationDataIntegrations } from 'src/pages';
 
-const mapStateToProps = state => ({
-  subscriberOrgs: state.subscriberOrgs,
-  currentSubscriberOrgId: getCurrentSubscriberOrgId(state),
-  user: getCurrentUser(state),
-  integrations: getIntegrationsOfSubscriberOrgId(state, state.subscriberOrgs.currentSubscriberOrgId)
-});
-
-const mapDispatchToProps = {
-  fetchIntegrations,
-  setCurrentSubscriberOrgId
+const mapStateToProps = state => {
+  const orgId = getCurrentSubscriberOrgId(state);
+  return {
+    orgId,
+    subscriberOrgs: state.subscriberOrgs,
+    user: getCurrentUser(state),
+    integrations: getOrgIntegrationsObj(state, orgId)
+  };
 };
+
+const mapDispatchToProps = { fetchIntegrations };
 
 export default withRouter(
   connect(

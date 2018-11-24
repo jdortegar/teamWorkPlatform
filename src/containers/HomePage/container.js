@@ -1,19 +1,18 @@
 import { connect } from 'react-redux';
-import { fetchTimeActivitiesBySubscriberOrgId, setCurrentSubscriberOrgId } from 'src/actions';
+import { getTeamsById, getCurrentUser, getCurrentSubscriberOrgId, getTeamMembersOfTeamId } from 'src/selectors';
 import { HomePage } from 'src/pages';
 
-const mapStateToProps = state => ({
-  currentSubscriberOrgId: state.subscriberOrgs.currentSubscriberOrgId,
-  subscriberOrgById: state.subscriberOrgs.subscriberOrgById
-});
+const mapStateToProps = state => {
+  const teams = getTeamsById(state);
+  const defaultTeam = Object.values(teams).find(team => team.primary === true && team.active === true);
+  const teamId = defaultTeam ? defaultTeam.teamId : null;
 
-const mapDispatchToProps = dispatch => ({
-  fetchTimeActivitiesBySubscriberOrgId: subscriberOrgId =>
-    dispatch(fetchTimeActivitiesBySubscriberOrgId(subscriberOrgId)),
-  setCurrentSubscriberOrgId: subscriberOrgId => dispatch(setCurrentSubscriberOrgId(subscriberOrgId))
-});
+  return {
+    teamId,
+    teamMembers: getTeamMembersOfTeamId(state, teamId),
+    orgId: getCurrentSubscriberOrgId(state),
+    user: getCurrentUser(state)
+  };
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HomePage);
+export default connect(mapStateToProps)(HomePage);

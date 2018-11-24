@@ -26,3 +26,5 @@ export const getCurrentSubscriberOrgName = createSelector(
   getCurrentSubscriberOrg,
   currentSubscriberOrg => (currentSubscriberOrg ? currentSubscriberOrg.name : '')
 );
+
+export const getOrgData = state => state.subscriberOrgs.orgData;

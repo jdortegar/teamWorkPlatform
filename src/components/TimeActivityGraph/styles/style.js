@@ -40,6 +40,10 @@ export default {
     stroke: LINE_COLOR,
     strokeOpacity: LINE_OPACITY
   },
+  altLines: {
+    stroke: LINE_COLOR,
+    strokeOpacity: 0.1
+  },
   hidden: {
     stroke: 'none'
   }

@@ -44,19 +44,15 @@ function mapStateToProps(state, props) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    // fetchTeamRoomMembersByTeamRoomId: teamRoomId => dispatch(fetchTeamRoomMembersByTeamRoomId(teamRoomId)),
-    fetchConversations: teamRoomId => dispatch(fetchConversations(teamRoomId)),
-    fetchTranscript: conversationId => dispatch(fetchTranscript(conversationId)),
-    createMessage: (message, conversationId) => dispatch(createMessage(message, conversationId)),
-    deleteMessage: (message, conversationId) => dispatch(deleteMessage(message, conversationId)),
-    saveBookmark: (user, subscriberOrgId, message, setBookmark) =>
-      dispatch(saveBookmark(user, subscriberOrgId, message, setBookmark)),
-    readMessage: (messageId, conversationId) => dispatch(readMessage(messageId, conversationId)),
-    iAmTyping: (conversationId, typing) => dispatch(iAmTyping(conversationId, typing))
-  };
-}
+const mapDispatchToProps = {
+  fetchConversations,
+  fetchTranscript,
+  createMessage,
+  deleteMessage,
+  saveBookmark,
+  readMessage,
+  iAmTyping
+};
 
 export default withRouter(
   connect(

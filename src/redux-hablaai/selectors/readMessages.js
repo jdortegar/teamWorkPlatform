@@ -1,5 +1,5 @@
 import createCachedSelector from 're-reselect';
-import { getReadMessagesByConversationId, getConversationIdsByTeamRoomId } from './state';
+import { getReadMessagesByConversationId, getConversationIdsByTeamId } from './state';
 
 export { getReadMessagesByConversationId } from './state';
 
@@ -8,18 +8,18 @@ export const getReadMessagesOfConversationId = createCachedSelector(
   (readMessagesOfConversationId, conversationId) => readMessagesOfConversationId[conversationId]
 )((state, conversationId) => conversationId);
 
-export const getReadMessagesOfTeamRoomId = createCachedSelector(
-  [getReadMessagesByConversationId, getConversationIdsByTeamRoomId, (state, teamRoomId) => teamRoomId],
-  (readMessagesByConversationId, conversationIdsByTeamRoomId, teamRoomId) => {
-    const conversationIds = conversationIdsByTeamRoomId[teamRoomId];
+export const getReadMessagesOfTeamId = createCachedSelector(
+  [getReadMessagesByConversationId, getConversationIdsByTeamId, (state, teamId) => teamId],
+  (readMessagesByConversationId, conversationIdsByTeamId, teamId) => {
+    const conversationIds = conversationIdsByTeamId[teamId];
     return conversationIds && conversationIds.length > 0 ? readMessagesByConversationId[conversationIds[0]] : undefined;
   }
-)((state, teamRoomId) => teamRoomId);
+)((state, teamId) => teamId);
 
-export const getUnreadMessagesCountOfTeamRoomId = createCachedSelector(
-  [getReadMessagesOfTeamRoomId, (state, teamRoomId) => teamRoomId],
+export const getUnreadMessagesCountOfTeamId = createCachedSelector(
+  [getReadMessagesOfTeamId, (state, teamId) => teamId],
   readMessages => {
     if (!readMessages) return 0;
     return readMessages.messageCount - readMessages.lastReadMessageCount;
   }
-)((state, teamRoomId) => teamRoomId);
+)((state, teamId) => teamId);

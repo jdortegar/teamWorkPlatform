@@ -11,7 +11,7 @@ const menuPageHeader = [
 ];
 
 storiesOf('PageHeader', module)
-  .add('Default', () => <PageHeader pageNameLevelOne="OrganizationPage.title" hasMenu={false} />)
+  .add('Default', () => <PageHeader pageNameLevelOne="OrganizationPage.title" />)
   .add('With title and subsection', () => (
     <PageHeader
       pageNameLevelOne="OrganizationPage.title"

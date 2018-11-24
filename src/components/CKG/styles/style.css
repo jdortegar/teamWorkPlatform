@@ -1,0 +1,363 @@
+.CKG {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.TimeActivityView,
+.FileListView {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  position: relative;
+}
+
+.FileListView .FileListView__results {
+  background-color: #557dbf;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  position: relative;
+}
+.FileListView .FileListView__results.loading {
+  display: flex;
+  align-items: center;
+}
+
+.FileListView .FileListView__results-highlighted {
+  border-bottom: dotted 1px #fbbc12; /* yellow-habla */
+  padding-bottom: 1px;
+  color: white;
+  background-color: transparent;
+}
+
+.FileListView .FileListView__results__link,
+.FileListView .FileListView__results__link:hover {
+  color: #fff;
+  text-decoration: none;
+}
+.FileListView .FileListView__results__fileName {
+  padding-left: 40px;
+}
+.FileListView .FileListView__results__fileIcon {
+  position: absolute;
+  margin-top: -4px;
+}
+.FileListView .FileListView__results__fileOwnerName {
+  padding-left: 10px;
+}
+.FileListView .FileListView__results__fileType {
+  text-transform: uppercase;
+}
+.FileListView .FileListView__results__integrationIcon {
+  position: absolute;
+  background-color: white;
+  display: inline-block;
+  border-radius: 14%;
+  line-height: 20px;
+  width: 26px;
+  height: 26px;
+}
+.FileListView .FileListView__results__integrationLabel {
+  padding-left: 35px;
+}
+
+.FileListView__results__tooltip {
+  font-size: 12px;
+}
+
+.FileListView .ResultsList thead > tr > th {
+  font-size: 7pt;
+  text-transform: uppercase;
+  color: #fff;
+}
+.FileListView .ResultsList thead > tr > th {
+  padding: 10px;
+}
+.FileListView .ant-table-row-level-0 {
+  border-bottom: 1px solid #5987cb;
+}
+.FileListView .ant-table-thead > tr > th,
+.FileListView .ant-table-tbody > tr > td {
+  padding: 10px;
+}
+.FileListView .ant-table-tbody > tr > td {
+  font-size: 14px;
+}
+.FileListView .FileListView__results tbody tr:hover {
+  background: #476dad;
+  cursor: pointer;
+}
+
+/* column sorting */
+.FileListView .ResultsList th.ant-table-column-sort,
+.FileListView .ResultsList th:hover {
+  background-color: #4d6ea8 !important;
+}
+.FileListView .ResultsList .ant-table-column-sorter .on i {
+  color: #fff;
+}
+
+.FileListView table {
+  white-space: nowrap;
+}
+
+.FileListView .ant-table-tbody > tr > td:first-child {
+  white-space: normal;
+  font-weight: 600;
+}
+
+.FileListView .pagination-container {
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+  padding: 5px;
+  background: #3b5083;
+  color: #fff;
+  border-radius: 7px;
+  z-index: 3;
+  user-select: none;
+}
+
+.TimeActivityView__axis-label {
+  position: absolute;
+  z-index: 3;
+  padding: 5px;
+  background: #7c97c0;
+  border-radius: 4px;
+  user-select: none;
+  opacity: 0.7;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.TimeActivityView__axis-label.y-axis {
+  left: 10px;
+  top: 10px;
+}
+
+.TimeActivityView__axis-label.x-axis {
+  right: 10px;
+  bottom: 10px;
+}
+
+.FileListView .pagination-container a,
+.FileListView .pagination-container a:hover,
+.FileListView .pagination-container a:active,
+.FileListView .pagination-container a:visited,
+.FileListView .pagination-container .ant-pagination-item-link-icon,
+.FileListView .pagination-container .ant-pagination-item-ellipsis {
+  color: #fff !important;
+}
+
+.FileListView .pagination-container .ant-pagination.mini .ant-pagination-item {
+  line-height: 18px;
+  min-width: 20px;
+  font-size: 12px;
+  height: 20px;
+}
+
+.FileListView .pagination-container .ant-pagination-item-active {
+  background-color: #557dbf;
+  border: solid 1px #557dbf;
+  border-radius: 50%;
+}
+
+.VictoryContainer img {
+  cursor: pointer;
+}
+
+.CKGPage__title {
+  flex: 1;
+}
+.CKG__keywords {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.display-row {
+  display: flex;
+}
+
+.CKGPage__arrows-container {
+  position: absolute;
+  z-index: 3;
+  top: 47%;
+}
+.CKGPage__arrows-container.arrow-left {
+  left: 5px;
+}
+.CKGPage__arrows-container.arrow-right {
+  right: 54px;
+}
+
+.CKGPage__arrow {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+.ckg-tools-container {
+  position: relative;
+}
+
+.habla-ckg-tools-bar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #3b5083;
+  color: #fff;
+  border-radius: 7px;
+  z-index: 2;
+  user-select: none;
+}
+.CKGPage__arrows {
+  position: absolute;
+  top: 0px;
+  left: 10px;
+  background: #3b5083;
+  color: #fff;
+  border-radius: 7px;
+  z-index: 2;
+  user-select: none;
+}
+.CKGPage__arrows {
+  border-radius: 50%;
+  padding: 6px;
+}
+.habla-ckg-tools-bar a {
+  padding: 8px;
+  display: inline-block;
+  color: #fff;
+  border-right: 1px solid #4b66ab;
+}
+.habla-ckg-tools-bar a:hover {
+  color: #acbbe0;
+}
+.habla-ckg-tools-bar a.no-border {
+  border: none;
+}
+.habla-ckg-date-picker {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #fff;
+  border-radius: 7px;
+  color: #999;
+  z-index: 2;
+}
+.habla-ckg-date-picker-content {
+  padding: 9px;
+  font-size: 13px;
+}
+.habla-ckg-date-picker-content-text {
+  margin-right: 10px;
+}
+.habla-ckg-date-picker-content a {
+  color: #999;
+  text-decoration: none;
+}
+.habla-ckg-date-picker-content a:hover {
+  color: #333;
+  text-decoration: none;
+}
+.habla-ckg-tools .ckg-activity-label {
+  font-size: 10px;
+  font-weight: 300;
+  text-transform: uppercase;
+  padding-left: 10px;
+  padding-right: 5px;
+  position: relative;
+  top: -2px;
+}
+.habla-ckg-activity-selector .fa-angle-down {
+  font-size: 11px;
+  font-weight: 300;
+  margin-left: 5px;
+}
+.bottomBar {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 50px;
+  z-index: 1;
+  background: #f0f6ff;
+  justify-content: space-between;
+}
+.bottomBar-selectors {
+  border-right: solid 1px #e5efff;
+}
+.bottomBar .ant-select {
+  width: 180px;
+}
+.ant-dropdown-menu.activitySelectorMenu,
+.ant-dropdown-menu.activitySelectorMenu .ant-dropdown-menu-item {
+  background-color: #3b5083 !important;
+}
+.ant-dropdown-menu.activitySelectorMenu .ant-dropdown-menu-item a {
+  color: #acbbe0 !important;
+}
+.ant-dropdown-menu.activitySelectorMenu .ant-dropdown-menu-item a:hover {
+  color: #fff !important;
+  background-color: #304270;
+}
+
+.CKGPage__center-message-container {
+  top: 50%;
+}
+
+.CKGPage__center-message-container .CKGPage__center-message {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  z-index: 1;
+  transform: translateX(-50%);
+}
+
+.CKGPage__center-message-container .CKGPage__center-message a {
+  color: #9eb1d1;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+.CKGPage__center-message-container .CKGPage__center-message a:hover {
+  color: #fff;
+}
+
+.CKG__tag {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  background-color: #999;
+  color: white;
+  border: none;
+  margin-right: 5px;
+  line-height: 27px;
+  height: 29px;
+  padding-left: 25px;
+  position: relative;
+}
+.CKG__tag i.anticon.anticon-close {
+  background: white;
+  border-radius: 50%;
+  font-size: 10px;
+  margin-left: 7px;
+  padding: 3px;
+  top: 6px;
+  position: absolute;
+  left: -1px;
+}
+
+.CKG__tag i.anticon.anticon-close svg {
+  margin: 0;
+  font-size: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+  .FileListView {
+    width: 80vw;
+    overflow: auto;
+  }
+}

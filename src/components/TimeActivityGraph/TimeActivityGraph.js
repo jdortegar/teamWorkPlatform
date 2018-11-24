@@ -27,35 +27,27 @@ const defaultProps = {
 // chart size properties
 const MIN_WIDTH = 0;
 const MIN_HEIGHT = 0;
+const HEIGHT_ADJUSTMENT = 100;
 const TOOLTIP_VERTICAL_OFFSET = 10;
 const TOOLTIP_HORIZONTAL_OFFSET = 30;
-const CHART_PADDING = 0;
-const DOMAIN_TOP_PADDING = 0;
 
 // from Victory. Increasing this number restrains the zoom level
-const MINIMUM_ZOOM = 500000;
+const MINIMUM_ZOOM = { x: 500000, y: 500000 };
 
 // how much the zoom changes in each interaction
 const ZOOM_DIFFERENCE = 0.1;
 
-// from the beginning of the last year until tomorrow
-const DATE_DOMAIN = [
-  moment()
-    .subtract(1, 'year')
-    .startOf('year'),
-  moment().add(1, 'day')
-];
-const TIME_DOMAIN = [moment().startOf('day'), moment().endOf('day')];
-
 // from the first to the last file
-const allZoomDomain = files => {
-  const dates = files.map(file => file.date);
+const allZoomDomain = key => files => {
+  const dates = files.map(file => file[key]);
   const lastFileDate = moment.max(dates);
   const firstFileDate = moment.min(dates);
-  return [+moment(firstFileDate).subtract(1, 'day'), +moment(lastFileDate).add(1, 'day')];
+  return [+moment(firstFileDate).subtract(1, 'month'), +moment(lastFileDate).add(1, 'week')];
 };
+const allXDomain = allZoomDomain('lastModified');
+const allYDomain = allZoomDomain('fileCreatedAt');
 
-const formatXTick = date => {
+const formatTick = date => {
   const getFormat = () => {
     if (d3.timeMinute(date) < date) return String.t('timeActivityGraph.tickFormat.timeMinute'); // eg: "14:28:32 \n Dec 21"
     if (d3.timeDay(date) < date) return String.t('timeActivityGraph.tickFormat.timeDay'); // eg: "14:28 \n Dec 21"
@@ -73,10 +65,14 @@ class TimeActivityGraph extends Component {
   constructor(props) {
     super(props);
 
+    const xDomain = allXDomain(props.files);
+    const yDomain = allYDomain(props.files);
+
     this.state = {
       width: MIN_WIDTH,
       height: MIN_HEIGHT,
-      zoomDomain: allZoomDomain(props.files)
+      fullDomain: { x: xDomain, y: yDomain },
+      zoomDomain: { x: xDomain, y: yDomain }
     };
 
     this.closeTooltip = this.closeTooltip.bind(this);
@@ -88,36 +84,37 @@ class TimeActivityGraph extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.files.length === 0 && nextProps.files !== 0) {
-      this.setState({ zoomDomain: allZoomDomain(nextProps.files) });
-    }
-
-    if (nextProps.zoomLevel !== this.props.zoomLevel) {
+    if ((this.props.files.length === 0 && nextProps.files !== 0) || nextProps.viewAll) {
+      const xDomain = allXDomain(nextProps.files);
+      const yDomain = allYDomain(nextProps.files);
+      this.setState({ fullDomain: { x: xDomain, y: yDomain }, zoomDomain: { x: xDomain, y: yDomain } });
+    } else if (nextProps.zoomLevel !== this.props.zoomLevel) {
       this.applyZoom(nextProps.zoomLevel, this.props.zoomLevel);
-    } else if (nextProps.viewAll) {
-      this.setState({ zoomDomain: allZoomDomain(nextProps.files) });
     }
   }
 
-  handleZoomDomainChange = domain => {
-    this.setState({ zoomDomain: domain.x });
+  handleZoomDomainChange = zoomDomain => {
+    this.setState({ zoomDomain });
   };
 
-  applyZoom = (newZoomLevel, oldZoomLevel) => (newZoomLevel > oldZoomLevel ? this.zoomIn() : this.zoomOut());
+  applyZoom = (newZoomLevel, oldZoomLevel) => {
+    this.setState(prevState => {
+      const { x, y } = prevState.zoomDomain;
+      const xDiff = (x[1] - x[0]) * ZOOM_DIFFERENCE;
+      const yDiff = (y[1] - y[0]) * ZOOM_DIFFERENCE;
 
-  zoomIn() {
-    this.setState(({ zoomDomain }) => {
-      const diff = (zoomDomain[1] - zoomDomain[0]) * ZOOM_DIFFERENCE;
-      return { zoomDomain: [zoomDomain[0] + diff, zoomDomain[1] - diff] };
-    });
-  }
+      const domain = {};
+      if (newZoomLevel > oldZoomLevel) {
+        domain.x = [x[0] + xDiff, x[1] - xDiff];
+        domain.y = [y[0] + yDiff, y[1] - yDiff];
+      } else {
+        domain.x = [x[0] - xDiff, x[1] + xDiff];
+        domain.y = [y[0] - yDiff, y[1] + yDiff];
+      }
 
-  zoomOut() {
-    this.setState(({ zoomDomain }) => {
-      const diff = (zoomDomain[1] - zoomDomain[0]) * ZOOM_DIFFERENCE;
-      return { zoomDomain: [zoomDomain[0] - diff, zoomDomain[1] + diff] };
+      return { zoomDomain: domain };
     });
-  }
+  };
 
   updateDimensions() {
     if (!this.container || !this.container.parentNode) return;
@@ -137,11 +134,11 @@ class TimeActivityGraph extends Component {
 
   renderTooltipViews() {
     const { x, y, datum } = this.state.tooltipPoint;
-    const { date, fileName, fileSize } = datum;
+    const { lastModified, fileName, fileSize } = datum;
     const top = y + TOOLTIP_VERTICAL_OFFSET;
     const left = x + TOOLTIP_HORIZONTAL_OFFSET;
-    const displayDate = moment(date).format(String.t('timeActivityGraph.dateFormat'));
-    const displayTime = moment(date).format(String.t('timeActivityGraph.timeFormat'));
+    const displayDate = moment(lastModified).format(String.t('timeActivityGraph.dateFormat'));
+    const displayTime = moment(lastModified).format(String.t('timeActivityGraph.timeFormat'));
     const imgSrc = integrationImageFromKey(integrationKeyFromFile(datum));
 
     return (
@@ -162,6 +159,7 @@ class TimeActivityGraph extends Component {
 
   render() {
     const { files } = this.props;
+    const { tooltipPoint, width, height, fullDomain, zoomDomain } = this.state;
     return (
       <div
         ref={node => {
@@ -169,26 +167,24 @@ class TimeActivityGraph extends Component {
         }}
         style={{ flex: 1, minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT, position: 'relative' }}
       >
-        {this.state.tooltipPoint && this.renderTooltipViews()}
+        {tooltipPoint && this.renderTooltipViews()}
         <VictoryChart
-          scale={{ x: 'time', y: 'time' }}
-          domain={{ x: DATE_DOMAIN, y: TIME_DOMAIN }}
-          domainPadding={{ y: [DOMAIN_TOP_PADDING, 0] }}
-          width={this.state.width - CHART_PADDING}
-          height={this.state.height}
-          padding={{ top: 0, left: 0, right: 0, bottom: 60 }}
+          scale="time"
+          domain={fullDomain}
+          width={width}
+          height={height + HEIGHT_ADJUSTMENT}
           style={styles.container}
+          padding={{ top: 0, left: 40, right: 0, bottom: 60 }}
           containerComponent={
             <VictoryZoomContainer
-              zoomDimension="x"
-              zoomDomain={{ x: this.state.zoomDomain }}
-              minimumZoom={{ x: MINIMUM_ZOOM }}
+              zoomDomain={zoomDomain}
+              minimumZoom={MINIMUM_ZOOM}
               onZoomDomainChange={this.handleZoomDomainChange}
             />
           }
         >
           <VictoryAxis
-            tickFormat={formatXTick}
+            tickFormat={formatTick}
             tickLabelComponent={<VictoryLabel lineHeight={1.3} style={styles.compoundTickLabels} />}
             style={{
               axis: styles.hidden,
@@ -196,18 +192,20 @@ class TimeActivityGraph extends Component {
             }}
           />
           <VictoryAxis
-            invertAxis
             dependentAxis
-            // label={String.t('timeActivityGraph.yAxisLabel')}
-            tickFormat={() => null}
+            tickFormat={formatTick}
+            tickLabelComponent={<VictoryLabel lineHeight={1.3} style={styles.compoundTickLabels} />}
             style={{
-              axis: styles.hidden,
               tickLabels: styles.tickLabels,
-              axisLabel: styles.axisLabel,
-              grid: styles.hidden
+              axis: styles.lines,
+              grid: styles.altLines
             }}
           />
           <VictoryScatter
+            data={files}
+            y="fileCreatedAt"
+            x="lastModified"
+            style={styles.scatter}
             labelComponent={<div />}
             dataComponent={<FilePoint />}
             events={[
@@ -216,7 +214,6 @@ class TimeActivityGraph extends Component {
                 eventHandlers: {
                   onMouseOver: (evt, clickedProps) => {
                     const { index, data } = clickedProps;
-                    const { tooltipPoint } = this.state;
                     if (!tooltipPoint || tooltipPoint.datum.index !== index) {
                       this.setState({ tooltipPoint: { x: evt.clientX, y: evt.clientY, datum: data[index] } });
                     }
@@ -232,10 +229,6 @@ class TimeActivityGraph extends Component {
                 }
               }
             ]}
-            style={styles.scatter}
-            data={files}
-            x="date"
-            y="time"
           />
         </VictoryChart>
       </div>

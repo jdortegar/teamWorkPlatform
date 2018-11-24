@@ -10,12 +10,11 @@ import {
   Button,
   FirstNameField,
   LastNameField,
-  UsernameField,
   EmailField,
   CountrySelectField,
   TimezoneSelectField,
   UploadImageField,
-  NewSubpageHeader
+  PageHeader
 } from 'src/components';
 import './styles/style.css';
 
@@ -27,10 +26,17 @@ const defaultCountry = countriesAndTimezones.getCountriesForTimezone(defaultTime
 const propTypes = {
   form: formShape.isRequired,
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired
+    push: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired
   }).isRequired,
-  user: PropTypes.object.isRequired,
-  updateUser: PropTypes.func.isRequired
+  currentUser: PropTypes.object.isRequired,
+  users: PropTypes.object.isRequired,
+  updateUser: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      userId: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired
 };
 
 class EditUserPage extends Component {
@@ -40,7 +46,7 @@ class EditUserPage extends Component {
     this.state = {
       countryCode: defaultCountry && defaultCountry.id ? defaultCountry.id : null,
       loading: false,
-      userIcon: props.user.icon || null
+      userIcon: null
     };
 
     this.onChangeProfilePhoto = this.onChangeProfilePhoto.bind(this);
@@ -76,13 +82,13 @@ class EditUserPage extends Component {
           timeZone: values.timeZone,
           country: values.country,
           email: values.email.trim(),
-          displayName: values.username.trim(),
           icon: this.state.userIcon
         };
         this.props
           .updateUser(dataToUpdate)
           .then(() => {
             this.setState({ loading: false });
+            this.props.history.goBack();
             message.success(String.t('editUserPage.userUpdated'));
           })
           .catch(error => {
@@ -94,19 +100,26 @@ class EditUserPage extends Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { users, match, currentUser } = this.props;
+    const user = Object.values(users).find(userEl => userEl.userId === match.params.userId) || currentUser;
     const containerImage = classNames({
       container__image: true,
       'with-image': this.state.userIcon,
       'with-no-image': !this.state.userIcon
     });
+
+    // Breadcrumb
+    const pageBreadCrumb = {
+      routes: [
+        {
+          title: String.t('editUserPage.title')
+        }
+      ]
+    };
+
     return (
       <div className="userAccountSetting">
-        <NewSubpageHeader>
-          <div className="habla-title hablaTitleBreadcrumb">
-            <i className="fas fa-address-card" /> {String.t('editUserPage.title')}
-          </div>
-        </NewSubpageHeader>
+        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
         <Form onSubmit={this.handleSubmit} layout="vertical">
           <Collapse defaultActiveKey={['1']} className="edituser_collapse">
             <Panel header={String.t('editUserPage.profileSettings')} key="1" className="ant-collapse-header">
@@ -123,16 +136,11 @@ class EditUserPage extends Component {
                   <div className="input-item">
                     <EmailField form={this.props.form} disabled required initialValue={user.email} />
                   </div>
-                </div>
-                <div className="row_input">
-                  <div className="input-item">
-                    <UsernameField form={this.props.form} required initialValue={user.displayName} />
-                  </div>
                   <div className={containerImage}>
                     <UploadImageField
                       text={String.t('editUserPage.setProfilePhoto')}
                       onChange={this.onChangeProfilePhoto}
-                      image={this.state.userIcon || this.state.logo}
+                      image={this.state.userIcon || this.state.logo || user.icon}
                       editOrg
                       resize
                     />
@@ -170,7 +178,7 @@ class EditUserPage extends Component {
               type="secondary"
               fitText
               className="margin-right-class-a"
-              onClick={() => this.props.history.push('/app')}
+              onClick={() => this.props.history.goBack()}
             >
               {String.t('Buttons.cancel')}
             </Button>

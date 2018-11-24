@@ -17,6 +17,37 @@
 .header-search-container .ant-input-affix-wrapper .ant-input:not(:first-child) {
   padding-left: 22px;
 }
-.header-search-container svg {
+.header-search-container svg,
+svg.fa-ellipsis-h {
   color: #ccc;
+}
+.TeamPage__selectIcon {
+  position: relative;
+  top: 4px;
+}
+
+.editOrgPage-main .ant-table-column-sorter {
+  position: relative !important;
+  margin-left: 8px;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+  text-align: center;
+  font-weight: normal;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+@media only screen and (max-width: 768px) {
+  .Organization_Members_Page .table-container,
+  .Organization_Teams_Page .table-container {
+    background: #fff;
+    width: 80vw;
+    overflow: auto;
+  }
+
+  .MembersPage__membersLeft_badge {
+    display: block;
+    margin: 10px 0 0;
+  }
 }

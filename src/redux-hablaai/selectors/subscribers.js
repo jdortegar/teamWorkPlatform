@@ -2,13 +2,8 @@ import { createSelector } from 'reselect';
 import createCachedSelector from 're-reselect';
 
 import { getCurrentUserId } from './auth';
-import {
-  getUserByUserId,
-  getUserIdsBySubscriberOrgId,
-  getTeamById,
-  getPresencesByUserId,
-  getCurrentSubscriberOrgId
-} from './state';
+import { getTeamsById } from './teams';
+import { getUserByUserId, getUserIdsBySubscriberOrgId, getPresencesByUserId, getCurrentSubscriberOrgId } from './state';
 
 export const getCurrentSubscriberUserId = createSelector(
   [getUserIdsBySubscriberOrgId, getCurrentSubscriberOrgId, getCurrentUserId],
@@ -32,7 +27,7 @@ export const getSubscribersOfSubscriberOrgId = createCachedSelector(
 )((state, subscriberOrgId) => subscriberOrgId);
 
 export const getSubscribersOfTeamId = createCachedSelector(
-  [getTeamById, getUserIdsBySubscriberOrgId, getUserByUserId, (state, teamId) => teamId],
+  [getTeamsById, getUserIdsBySubscriberOrgId, getUserByUserId, (state, teamId) => teamId],
   (teamById, userIdsBySubscriberOrgId, userByUserId, teamId) => {
     if (!teamId || !teamById[teamId] || !userIdsBySubscriberOrgId) {
       return [];

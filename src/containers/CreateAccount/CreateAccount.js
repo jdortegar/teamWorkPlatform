@@ -20,12 +20,13 @@ import {
 
 const FormItem = Form.Item;
 const defaultTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-const defaultCountry = countriesAndTimezones.getCountriesForTimezone(defaultTimeZone)[0];
+const defaultCountry = countriesAndTimezones.getCountriesForTimezone(defaultTimeZone)[0] || '';
 
 const propTypes = {
   form: formShape.isRequired,
   createAccount: PropTypes.func.isRequired,
-  loginUser: PropTypes.func.isRequired
+  loginUser: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 const layout = {
@@ -43,9 +44,21 @@ class CreateAccount extends React.Component {
 
   state = {
     timeZone: defaultTimeZone,
-    countryCode: defaultCountry && defaultCountry.id ? defaultCountry.id : null,
-    loading: false
+    countryCode: defaultCountry && defaultCountry.id ? defaultCountry.id : '',
+    loading: false,
+    fieldProps: null
   };
+
+  componentDidMount() {
+    if (sessionStorage.getItem('habla-subscriberOrgName')) {
+      this.setState({
+        fieldProps: {
+          disabled: 'disabled',
+          initialValue: sessionStorage.getItem('habla-subscriberOrgName')
+        }
+      });
+    }
+  }
 
   handleCountryChange(countryCode) {
     this.setState({ countryCode });
@@ -76,6 +89,11 @@ class CreateAccount extends React.Component {
   }
 
   render() {
+    if (!sessionStorage.getItem('habla-user-email')) {
+      this.props.history.replace('/app');
+      return null;
+    }
+
     return (
       <Form onSubmit={this.handleSubmit} layout="vertical" className="profileForm">
         <div className="align-center-class padding-class-b">
@@ -100,7 +118,7 @@ class CreateAccount extends React.Component {
                   layout={layout}
                   required
                   componentKey="displayName"
-                  initialValue={sessionStorage.getItem('habla-user-email')}
+                  {...this.state.fieldProps}
                 />
               </Col>
               <Col className="gutter-row" span={12}>

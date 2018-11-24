@@ -31,11 +31,15 @@
 .habla-top-menu-item-last {
   padding: 12.5px 0 12.5px 13px !important;
 }
+.habla-top-menu-item-admin {
+  margin-left: 10px;
+  padding-right: 0;
+}
 .habla-top-menu-item-content {
   height: 30px;
 }
 .habla-top-menu-items a {
-  color: #4d4d4d;
+  color: #fff;
   font-weight: 700;
   text-decoration: none;
   vertical-align: middle;
@@ -49,6 +53,7 @@
 }
 .habla-top-menu-items .habla-top-menu-user {
   display: inline-block;
+  cursor: pointer;
 }
 .habla-top-menu-items .svg-inline--fa {
   font-size: 18px;
@@ -112,7 +117,7 @@ a.habla-top-menu-active {
   outline: none;
 }
 .habla-top-menu-search-input.ant-input-affix-wrapper .ant-input:not(:last-child) {
-  padding-right: 60px;
+  padding-right: 27px;
 }
 .habla-top-menu-search-input::placeholder {
   color: #ddd;
@@ -139,6 +144,10 @@ a.habla-top-menu-active {
 .habla-top-menu-notification-sounds .svg-inline--fa {
   margin-top: 6px;
 }
+.habla-top-menu-help-center .svg-inline--fa {
+  margin-top: 6px;
+  font-size: 20px;
+}
 .habla-top-navigation-dropdown-signal {
   width: 11px;
   height: 11px;
@@ -148,16 +157,6 @@ a.habla-top-menu-active {
 .muteNotificationMenu svg {
   width: 20px !important;
 }
-.SearchPage__tag {
-  position: relative;
-  padding-left: 27px;
-}
-.SearchPage__tag .anticon-close {
-  position: absolute;
-  top: 9px;
-  left: -1px;
-  background: #a0a0a0;
-}
 .userMenu__dropdown-icon {
   top: 2px;
   margin-left: 5px;
@@ -165,3 +164,15 @@ a.habla-top-menu-active {
   position: relative;
 }
 
+.habla-top-menu-item .adminRoleButton {
+  background: #32a953;
+  color: #fff;
+  border: none;
+  padding: 0 5px;
+  font-size: 12px;
+  border-radius: 4px;
+  height: 24px;
+  text-transform: uppercase;
+  margin-top: 3px;
+  font-weight: 700;
+}

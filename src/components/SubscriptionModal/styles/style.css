@@ -1,0 +1,112 @@
+.Subscription_Modal_container {
+  text-align: left;
+}
+.Subscription_Modal_container .Modal_header {
+  padding: 30px 30px 0;
+}
+.Subscription_Modal_container .HablaGayLogo {
+  height: 30px;
+}
+.Subscription_Modal_container .Modal_title {
+  font-size: 34px;
+  font-weight: 700;
+  color: #666666;
+  margin-bottom: 20px;
+}
+
+.Subscription_Modal_container .Modal_body {
+  background: #f7f7f7;
+  padding: 30px;
+  margin: 20px 0 0;
+}
+
+.Subscription_Modal_container .Modal_subtitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.Subscription_Modal_container .Modal_subtitle .suscriptionDate {
+  margin-left: 20px;
+}
+
+.Subscription_Modal_container .label {
+  font-weight: 300;
+  padding: 3px 0;
+  border-bottom: 1px solid #ccc;
+  display: inline-block;
+  color: #999;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.Subscription_Modal_container .Form_input_label {
+  font-size: 16px;
+  line-height: 26px;
+}
+
+.Subscription_Modal_container .Modal_Plan_Price {
+  font-size: 18px;
+  font-weight: 900;
+  color: #339966;
+  text-align: left;
+  margin: 10px 0 0 0;
+}
+
+.Subscription_Modal_container .Modal_footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+}
+
+.Subscription_Modal_container .Cancel_button {
+  background: #cccccc;
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  height: 40px;
+}
+
+.Subscription_Modal_container .Confirm_button {
+  background: #36a751;
+  color: #fff;
+  border: none;
+  margin-left: 10px;
+  font-weight: 700;
+  height: 40px;
+}
+
+.Cancel_subscription_button {
+  text-transform: uppercase;
+  color: #999999;
+  cursor: pointer;
+}
+
+.Confirm_Modal {
+  text-align: center;
+}
+
+.Confirm_Modal .anticon.anticon-question-circle {
+  display: none;
+}
+
+.Confirm_Modal .ant-confirm-body .ant-confirm-content {
+  margin-left: 0;
+}
+
+.Confirm_Modal .ant-confirm-btns {
+  float: none;
+}
+
+.Confirm_Modal .ant-btn {
+  background: #cccccc;
+  color: #fff;
+  border: none;
+}
+
+.Confirm_Modal .ant-btn-primary {
+  background: #36a751;
+  border: none;
+}

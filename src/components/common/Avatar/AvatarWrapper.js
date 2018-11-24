@@ -29,8 +29,8 @@ const defaultProps = {
 
 class AvatarWrapper extends React.Component {
   renderUserStatus() {
-    const { presenceStatus } = this.props.user;
-    const { size, hideStatusTooltip } = this.props;
+    const { user, size, hideStatusTooltip } = this.props;
+    const { presenceStatus } = user;
     let tip = String.t('teamMemberPage.activeStatus');
     let className = `habla-top-navigation-avatar-signal habla-avatar-signal-${size}`;
     switch (presenceStatus) {
@@ -62,17 +62,10 @@ class AvatarWrapper extends React.Component {
   }
 
   render() {
-    const {
-      presenceStatus,
-      online,
-      firstName,
-      lastName,
-      userId,
-      preferences,
-      icon
-      //  ...rest
-    } = this.props.user;
-    const { className, hidePresence } = this.props;
+    const { className, hidePresence, user } = this.props;
+    if (!user) return null;
+
+    const { presenceStatus, online, firstName, lastName, userId, preferences = {}, icon } = user;
     let topClass = (className || '').concat(' habla-top-menu-subitem');
     let lowOpacity = false;
     if (online !== undefined && !online) {

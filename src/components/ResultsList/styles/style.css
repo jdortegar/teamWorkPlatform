@@ -13,6 +13,7 @@
   text-transform: uppercase;
   font-size: 11px;
   line-height: 11px;
+  border: 0;
 }
 
 .ResultsList__row > td {
