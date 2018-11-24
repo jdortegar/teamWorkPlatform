@@ -788,7 +788,8 @@
     "reactivateMessage": "Are you sure you want to reactivate your Subscription to Habla AI?",
     "reactivateSubscription": "Reactivate",
     "confirmCancel": "Your Subscription Plan has been canceled. You won't be charged anymore and you can still use Habla AI for {{daysLeft}} more days until your current Plan ends.",
-    "confirmReactivate": "Your Subscription Plan has been reactivated."
+    "confirmReactivate": "Your Subscription Plan has been reactivated.",
+    "planChanges": "Your plan doesn't has changes"
   },
   "editTeamMemberPage": {
     "title": "Edit Team Member",
