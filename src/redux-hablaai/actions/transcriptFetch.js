@@ -3,7 +3,7 @@ import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
 export const TRANSCRIPT_FETCH_SUCCESS = 'transcript/fetch/success';
 
-export const fetchTranscript = (conversationId, options = { getKey: false, forceGet: false }) => {
+export const fetchTranscript = (conversationId, options = { getKey: false, forceGet: true }) => {
   const requestUrl = buildApiUrl(`conversations/getTranscript/${conversationId}`);
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.

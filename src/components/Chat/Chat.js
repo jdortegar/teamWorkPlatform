@@ -140,39 +140,38 @@ class Chat extends React.Component {
     if (nextProps.isDraggingOver && !this.state.showPreviewBox) {
       this.setState({ showPreviewBox: true });
     }
+
+    const updateTeamMembers = () => {
+      const { teamMembers, users, usersPresences } = nextProps;
+      const members = teamMembers.map(memberId => {
+        const member = users[memberId];
+        return {
+          ...member,
+          online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
+        };
+      });
+
+      this.setState({
+        teamMembersLoaded: true,
+        members
+      });
+    };
+
+    if (!_.isEqual(this.props.teamMembers, nextProps.teamMembers)) {
+      updateTeamMembers();
+    }
+
     if (this.props.team.teamId !== nextTeamId) {
       this.setState({ teamMembersLoaded: false, conversationsLoaded: false });
-
-      this.props.fetchTeamMembers(nextTeamId).then(() => {
-        const { teamMembers, users, usersPresences } = this.props;
-        const members = teamMembers.map(memberId => {
-          const member = users[memberId];
-          return {
-            ...member,
-            online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
-          };
-        });
-
-        this.setState({
-          teamMembersLoaded: true,
-          members
-        });
-      });
+      this.props.fetchTeamMembers(nextTeamId).then(updateTeamMembers);
 
       this.props.fetchConversations(nextTeamId).then(response => {
         if (!_.isEmpty(response.data.conversations)) {
           const { conversationId } = response.data.conversations[0];
-
-          this.props.fetchTranscript(conversationId).then(() =>
-            this.setState({
-              conversationsLoaded: true
-            })
-          );
+          this.props.fetchTranscript(conversationId).then(() => this.setState({ conversationsLoaded: true }));
         }
         if (response.data === 'STALE') {
-          this.setState({
-            conversationsLoaded: true
-          });
+          this.setState({ conversationsLoaded: true });
         }
       });
     }
@@ -404,6 +403,7 @@ class Chat extends React.Component {
     return conversations.transcript.map(message => {
       if (message.deleted) return null;
       const createdBy = members.find(member => member.userId === message.createdBy);
+      if (!createdBy) return null;
       return (
         <Message
           conversationDisabled={!team.active}
