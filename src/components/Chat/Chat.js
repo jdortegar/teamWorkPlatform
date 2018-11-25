@@ -157,7 +157,10 @@ class Chat extends React.Component {
       });
     };
 
-    if (!_.isEqual(this.props.teamMembers, nextProps.teamMembers)) {
+    if (
+      !_.isEqual(nextProps.teamMembers, this.props.teamMembers) ||
+      !_.isEqual(nextProps.teamMembers, _.map(this.state.members, 'userId'))
+    ) {
       updateTeamMembers();
     }
 
@@ -182,7 +185,8 @@ class Chat extends React.Component {
     if (!prevProps.conversations || !conversations) return;
     if (prevProps.conversations.transcript.length === conversations.transcript.length) return;
 
-    const ownMessage = _.last(conversations.transcript).createdBy === user.userId;
+    const lastMessage = _.last(conversations.transcript) || {};
+    const ownMessage = lastMessage.createdBy === user.userId;
     if (ownMessage || this.isNearBottom()) this.scrollToBottom();
   }
 
