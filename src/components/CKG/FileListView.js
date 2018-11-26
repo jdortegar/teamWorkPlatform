@@ -170,7 +170,7 @@ class FileListView extends Component {
             columns={getColumns(keywords, caseSensitive, owners)}
             dataSource={files}
             loading={loading}
-            rowKey="fileId"
+            rowKey="fileKey"
             pagination={{
               className: 'hidden',
               pageSize: PAGE_SIZE,
