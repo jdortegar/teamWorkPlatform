@@ -74,8 +74,8 @@ const byTeam = (state = {}, action) => {
   switch (action.type) {
     case TEAM_SHARING_SETTINGS_TOGGLE:
     case TEAM_SHARING_SETTINGS_TOGGLE_ALL: {
-      const { folders, files } = action.payload;
-      return updateTeamSettings(state, action.payload, { folders, files });
+      const { folders, files, sites } = action.payload;
+      return updateTeamSettings(state, action.payload, { folders, files, sites });
     }
     case TEAM_SHARING_SETTINGS_SAVE_REQUEST:
       return updateTeamSettings(state, action.payload, {

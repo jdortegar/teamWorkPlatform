@@ -29,8 +29,7 @@ const propTypes = {
   integration: PropTypes.object,
   content: PropTypes.object,
   contentError: PropTypes.object,
-  selectedFolders: PropTypes.array,
-  selectedFiles: PropTypes.array,
+  selectedSettings: PropTypes.object,
   isFetchingContent: PropTypes.bool,
   isSubmittingSharingSettings: PropTypes.bool,
   isSavedSharingSettings: PropTypes.bool
@@ -40,11 +39,10 @@ const defaultProps = {
   integration: null,
   content: null,
   contentError: null,
+  selectedSettings: {},
   isFetchingContent: false,
   isSubmittingSharingSettings: false,
-  isSavedSharingSettings: false,
-  selectedFolders: [],
-  selectedFiles: []
+  isSavedSharingSettings: false
 };
 
 const showNotification = (response, source) => {
@@ -125,9 +123,9 @@ class TeamIntegrationPage extends Component {
     this.setState({ fields: { ...this.state.fields, [key]: event.target.value } });
   };
 
-  handleToggleSharingSettings = ({ folderId, fileId }) => {
+  handleToggleSharingSettings = ({ folderId, fileId, site }) => {
     const { subscriberUserId, team, source } = this.props;
-    this.props.toggleTeamSharingSettings(subscriberUserId, source, team.teamId, { folderId, fileId });
+    this.props.toggleTeamSharingSettings(subscriberUserId, source, team.teamId, { folderId, fileId, site });
   };
 
   handleToggleAllSharingSettings = selectAll => {
@@ -255,8 +253,7 @@ class TeamIntegrationPage extends Component {
       isFetchingContent,
       isSubmittingSharingSettings,
       isSavedSharingSettings,
-      selectedFolders,
-      selectedFiles
+      selectedSettings
     } = this.props;
     const { configParams } = this.state;
     const integrationKey = integrationMapping(source);
@@ -330,8 +327,7 @@ class TeamIntegrationPage extends Component {
             onToggleSelectAll={this.handleToggleAllSharingSettings}
             integrationType={integrationLabel}
             content={content}
-            selectedFolders={selectedFolders}
-            selectedFiles={selectedFiles}
+            selectedSettings={selectedSettings}
             disabled={isSavedSharingSettings || isSubmittingSharingSettings}
           />
         )}

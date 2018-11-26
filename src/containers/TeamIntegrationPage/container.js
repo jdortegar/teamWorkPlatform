@@ -24,7 +24,7 @@ import {
 const mapStateToProps = (state, props) => {
   const { teamId, source, status } = props.match.params;
   const subscriberUserId = getCurrentSubscriberUserId(state);
-  const { folders, files, saved, submitting } = getTeamSharingSettings(state, { source, teamId });
+  const { folders, files, sites, saved, submitting } = getTeamSharingSettings(state, { source, teamId });
 
   return {
     team: getTeam(state, teamId),
@@ -32,8 +32,7 @@ const mapStateToProps = (state, props) => {
     content: getTeamIntegrationContent(state, { source, subscriberUserId, teamId }),
     isFetchingContent: isFetchingContent(state),
     contentError: getContentError(state),
-    selectedFolders: folders,
-    selectedFiles: files,
+    selectedSettings: { folders, files, sites },
     isSubmittingSharingSettings: submitting,
     isSavedSharingSettings: saved,
     subscriberUserId,
