@@ -204,7 +204,7 @@ class SubscriptionModal extends React.Component {
       promocode: discountCode
     };
 
-    const interval = subscription.plan.interval === 'year' ? 'annually' : 'monthly';
+    const interval = subscription.plan && subscription.plan.interval === 'year' ? 'annually' : 'monthly';
 
     if (valuesToSend.users === subscription.quantity && valuesToSend.subscriptionType === interval) {
       this.setState({ loading: false });
