@@ -1,4 +1,3 @@
-import { uniqBy } from 'lodash';
 import { getOwnersFromFiles, getFileTypesFromFiles, getIntegrationsFromFiles } from 'src/lib/files';
 
 import {
@@ -28,7 +27,7 @@ const filesReducer = (state = INITIAL_STATE, action) => {
     case TIMEACTIVITIES_FETCH_SUCCESS:
       return {
         ...state,
-        items: uniqBy(action.payload.files, 'fileId'),
+        items: action.payload.files,
         owners: getOwnersFromFiles(action.payload.files),
         fileTypes: getFileTypesFromFiles(action.payload.files),
         integrations: getIntegrationsFromFiles(action.payload.files)
