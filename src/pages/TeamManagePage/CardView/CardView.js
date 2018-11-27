@@ -69,6 +69,9 @@ const CardView = props => {
   const membersSection = String.t('cardView.membersHeader', { count: members.length });
 
   const renderIntegration = integration => {
+    if (props.userId !== integration.userId) {
+      return null;
+    }
     const { source } = integration;
     const label = integrationLabelFromKey(source);
     const desaturated = classNames({ desaturate: integration.expired });

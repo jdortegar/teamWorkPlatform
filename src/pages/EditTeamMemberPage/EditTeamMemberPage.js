@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import String from 'src/translations';
 import { formShape } from 'src/propTypes';
 import { PageHeader, SimpleCardContainer, AvatarWrapper, Spinner, Button } from 'src/components';
-import { Form, message, Tooltip, Switch, Divider, Select } from 'antd';
+import { Form, message, Tooltip, Switch, Select } from 'antd';
 import './styles/style.css';
 
 const propTypes = {
