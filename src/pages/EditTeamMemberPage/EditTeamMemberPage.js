@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import String from 'src/translations';
 import { formShape } from 'src/propTypes';
 import { PageHeader, SimpleCardContainer, AvatarWrapper, Spinner, Button } from 'src/components';
-import { Form, message, Tooltip, Switch, Divider, Select } from 'antd';
+import { Form, message, Tooltip, Switch, Select } from 'antd';
 import './styles/style.css';
 
 const propTypes = {
@@ -135,11 +135,11 @@ class EditTeamMemberPage extends Component {
                   </Tooltip>
                 </div>
               </div>
-              <div className="Edit-team__Actions">
+              {/* <div className="Edit-team__Actions">
                 <span>{String.t('editTeamMemberPage.resetPassword')}</span>
                 <Divider type="vertical" />
                 <span className="habla-red">{String.t('editTeamMemberPage.deleteTeamMember')}</span>
-              </div>
+              </div> */}
             </div>
             <div className="edit-org__buttons border-top-lighter">
               <Button

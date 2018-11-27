@@ -117,11 +117,6 @@ class TeamPage extends Component {
         url: `/app/teamIntegrations/${team.teamId}`
       },
       {
-        icon: 'fas fa-users',
-        title: 'TeamPage.inviteNewMember',
-        url: `/app/inviteToTeam/${team.teamId}`
-      },
-      {
         icon: 'fas fa-cog',
         title: 'TeamPage.manageTeam',
         url: `/app/team/manage/${team.teamId}`
@@ -133,6 +128,13 @@ class TeamPage extends Component {
         icon: 'fas fa-pencil-alt',
         title: 'TeamPage.editTeam',
         url: `/app/editTeam/${team.teamId}`
+      });
+    }
+    if (userRoles.teamOwner.includes(team.teamId)) {
+      menuPageHeader.splice(5, 0, {
+        icon: 'fas fa-users',
+        title: 'TeamPage.inviteNewMember',
+        url: `/app/inviteToTeam/${team.teamId}`
       });
     }
 

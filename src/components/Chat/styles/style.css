@@ -91,6 +91,8 @@
   padding: 10px 10px 0;
   position: relative;
   bottom: 0;
+  left: 0;
+  right: 0;
 }
 .team-room__chat-input-wrapper {
   flex: 1;

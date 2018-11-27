@@ -24,12 +24,7 @@ const propTypes = {
   subscribersPresences: PropTypes.object.isRequired,
   teams: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
-  orgId: PropTypes.string.isRequired,
-  userLimit: PropTypes.number
-};
-
-const defaultProps = {
-  userLimit: 0
+  orgId: PropTypes.string.isRequired
 };
 
 // Get subscriber avatar or Initials
@@ -83,16 +78,7 @@ class OrganizationPage extends Component {
   };
 
   render() {
-    const {
-      teams,
-      integrations,
-      subscribers,
-      subscribersPresences,
-      subscriberOrg,
-      user,
-      orgId,
-      userLimit
-    } = this.props;
+    const { teams, integrations, subscribers, subscribersPresences, subscriberOrg, user, orgId } = this.props;
     if (
       subscribers &&
       subscribersPresences &&
@@ -149,7 +135,7 @@ class OrganizationPage extends Component {
                 <div>{String.t('organizationSummaryPage.availableSeat')}</div>
                 <div>
                   <span className="habla-bold-text">{subscribers.length}</span> {String.t('organizationSummaryPage.of')}{' '}
-                  <span>{userLimit}</span>
+                  <span>{subscriberOrg.userLimit}</span>
                 </div>
               </div>
               <div className="Flex_row">
@@ -187,6 +173,5 @@ class OrganizationPage extends Component {
 }
 
 OrganizationPage.propTypes = propTypes;
-OrganizationPage.defaultProps = defaultProps;
 
 export default OrganizationPage;

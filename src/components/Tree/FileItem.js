@@ -22,7 +22,7 @@ const FileItem = ({ file, isSelected, onToggleSelection, disabled }) => (
     <a
       onClick={event => {
         event.stopPropagation();
-        onToggleSelection(file.file_id, isSelected);
+        onToggleSelection(file.file_id);
       }}
       disabled={disabled}
     >

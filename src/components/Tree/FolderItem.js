@@ -26,7 +26,7 @@ const FolderItem = ({ folder, isSelected, onToggleSelection, disabled, children 
             <a
               onClick={event => {
                 event.stopPropagation();
-                onToggleSelection(folder.folder_id, isSelected);
+                onToggleSelection(folder.folder_id);
               }}
               disabled={disabled}
             >

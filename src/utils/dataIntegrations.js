@@ -28,12 +28,6 @@ const possibleIntegrations = {
     logo: googleDriveLogo,
     isSupported: true
   },
-  gsuite: {
-    label: 'G Suite by Google Cloud',
-    logo: gSuiteLogo,
-    isSupported: true,
-    mappedToKey: 'google' // *** maps to the Google Drive integration ***
-  },
   sharepoint: {
     label: 'SharePoint',
     logo: sharepointLogo,
@@ -64,12 +58,6 @@ const possibleIntegrations = {
     logo: oneDriveLogo,
     isSupported: true
   },
-  office365: {
-    label: 'Office365',
-    logo: office365Logo,
-    mappedToKey: 'onedrive', // *** maps to the oneDrive integration ***
-    isSupported: true
-  },
   salesforce: {
     label: 'Salesforce',
     logo: salesforceLogo,
@@ -79,6 +67,16 @@ const possibleIntegrations = {
     label: 'Dropbox',
     logo: dropboxLogo,
     isSupported: true
+  },
+  gsuite: {
+    label: 'G Suite by Google Cloud',
+    logo: gSuiteLogo,
+    mappedToKey: 'google' // *** maps to the Google Drive integration ***
+  },
+  office365: {
+    label: 'Office365',
+    logo: office365Logo,
+    mappedToKey: 'onedrive' // *** maps to the oneDrive integration ***
   },
   jira: {
     label: 'Jira',

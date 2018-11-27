@@ -1,4 +1,4 @@
-import { uniqBy } from 'lodash';
+import uuid from 'uuid/v4';
 import { getOwnersFromFiles, getFileTypesFromFiles, getIntegrationsFromFiles } from 'src/lib/files';
 
 import {
@@ -25,14 +25,16 @@ const INITIAL_STATE = {
 const filesReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SEARCH_SUCCESS:
-    case TIMEACTIVITIES_FETCH_SUCCESS:
+    case TIMEACTIVITIES_FETCH_SUCCESS: {
+      const { files = [] } = action.payload;
       return {
         ...state,
-        items: uniqBy(action.payload.files, 'fileId'),
-        owners: getOwnersFromFiles(action.payload.files),
-        fileTypes: getFileTypesFromFiles(action.payload.files),
-        integrations: getIntegrationsFromFiles(action.payload.files)
+        items: files.map(file => ({ ...file, fileKey: uuid() })),
+        owners: getOwnersFromFiles(files),
+        fileTypes: getFileTypesFromFiles(files),
+        integrations: getIntegrationsFromFiles(files)
       };
+    }
     case TOGGLE_OWNER_FILTER: {
       const { key } = action.payload;
       return {

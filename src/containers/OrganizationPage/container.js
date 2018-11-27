@@ -7,14 +7,12 @@ import {
   getSubscribersOfSubscriberOrgId,
   getPresencesOfSubscribersOfOrgId,
   getOrgTeams,
-  getOrgIntegrationsObj,
-  getSubscription
+  getOrgIntegrationsObj
 } from 'src/selectors';
 import { OrganizationPage } from 'src/pages';
 
 const mapStateToProps = state => {
   const orgId = getCurrentSubscriberOrgId(state);
-  const subscription = getSubscription(state);
   const subscriberOrg = state.subscriberOrgs.subscriberOrgById[orgId];
   return {
     subscriberOrg,
@@ -23,8 +21,7 @@ const mapStateToProps = state => {
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
     teams: getOrgTeams(state),
     integrations: getOrgIntegrationsObj(state, orgId),
-    orgId,
-    userLimit: subscription.quantity
+    orgId
   };
 };
 
