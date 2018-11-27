@@ -135,11 +135,11 @@ class EditTeamMemberPage extends Component {
                   </Tooltip>
                 </div>
               </div>
-              <div className="Edit-team__Actions">
+              {/* <div className="Edit-team__Actions">
                 <span>{String.t('editTeamMemberPage.resetPassword')}</span>
                 <Divider type="vertical" />
                 <span className="habla-red">{String.t('editTeamMemberPage.deleteTeamMember')}</span>
-              </div>
+              </div> */}
             </div>
             <div className="edit-org__buttons border-top-lighter">
               <Button
