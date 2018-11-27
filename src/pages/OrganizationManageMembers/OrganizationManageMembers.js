@@ -22,13 +22,8 @@ const propTypes = {
   users: PropTypes.object.isRequired,
   updateUser: PropTypes.func.isRequired,
   usersPresences: PropTypes.object.isRequired,
-  subscription: PropTypes.object,
   fetchSubscription: PropTypes.func.isRequired,
   subscriberOrg: PropTypes.object.isRequired
-};
-
-const defaultProps = {
-  subscription: {}
 };
 
 const { Option } = Select;
@@ -140,7 +135,7 @@ class OrganizationManageMembers extends Component {
 
   // Get Users array
   renderUsers(usersActive) {
-    const { match, usersPresences, subscription } = this.props;
+    const { match, usersPresences, subscriberOrg } = this.props;
     const { subscriberOrgId } = match.params;
     // If no users, no render
     if (usersActive.length === 0) {
@@ -180,7 +175,7 @@ class OrganizationManageMembers extends Component {
             {String.t('OrganizationManageMembers.addNew')}
             <span className="MembersPage__membersLeft_badge">
               {String.t('OrganizationManageMembers.seatAvailables', {
-                count: subscription.quantity - this.state.usersActive.length || 0
+                count: subscriberOrg.userLimit - this.state.usersActive.length || 0
               })}
             </span>
           </div>
@@ -395,6 +390,5 @@ class OrganizationManageMembers extends Component {
 }
 
 OrganizationManageMembers.propTypes = propTypes;
-OrganizationManageMembers.defaultProps = defaultProps;
 
 export default OrganizationManageMembers;

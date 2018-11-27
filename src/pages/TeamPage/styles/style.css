@@ -86,4 +86,6 @@
 .homePage__chat-container {
   overflow: scroll;
   display: flex;
+  position: relative;
+  height: 100%;
 }
