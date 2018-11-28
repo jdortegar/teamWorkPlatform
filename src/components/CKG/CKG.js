@@ -219,7 +219,7 @@ class CKG extends Component {
   }
 
   render() {
-    const { loading, files, integrations, excludeFilters, showSelector, menuOptions, activeView } = this.props;
+    const { loading, files, query, integrations, excludeFilters, showSelector, menuOptions, activeView } = this.props;
 
     const filesFiltered = files.filter(file => {
       const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
@@ -248,7 +248,7 @@ class CKG extends Component {
 
         {this.renderSideArrows()}
 
-        {!loading && integrations.length === 0 && this.renderEmptyMessage()}
+        {!loading && _.isEmpty(integrations) && _.isEmpty(query) && this.renderEmptyMessage()}
 
         {loading && (
           <div className="CKGPage__center-message-container">
