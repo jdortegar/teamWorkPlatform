@@ -450,7 +450,8 @@
       "itemsCount": "({{count}} items)"
     },
     "refreshList": "Refresh List",
-    "lastIntegrationDate": "Files and Folders from {{date}}"
+    "lastIntegrationDate": "Files and Folders from {{date}}",
+    "contentLoading": "Indexing files..."
   },
   "integrationsPage": {
     "breadcrumb": "Data Integrations",

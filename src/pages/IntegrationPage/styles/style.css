@@ -91,3 +91,17 @@
   margin-bottom: 15px;
   font-size: 13px;
 }
+
+.TeamIntegration__content-loading {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 80px;
+  align-items: center;
+  justify-content: center;
+}
+.TeamIntegration__content-loading .spinner {
+  margin-top: 30px;
+  height: 30px;
+  flex: none;
+}
