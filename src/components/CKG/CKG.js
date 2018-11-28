@@ -208,6 +208,7 @@ class CKG extends Component {
         owners={owners}
         fileTypes={fileTypes}
         integrations={integrations}
+        excludeOwnersFilter={excludeFilters.owners}
         excludeIntegrationsFilter={excludeFilters.integrations}
         excludeTypesFilter={excludeFilters.fileTypes}
         onOwnerFilterClick={this.handleOwnerFilterClick}

@@ -63,7 +63,7 @@ const FilesFilters = ({
   onFileTypeFilterClick,
   onFileTypeFilterDoubleClick
 }) => {
-  if (fileTypes.length === 0 || integrations.length === 0) {
+  if (fileTypes.length === 0 || integrations.length === 0 || owners.length === 0) {
     return (
       <div className={classNames('FilesFilters', className)}>
         <div className="FilesFilters__content">
