@@ -61,7 +61,10 @@ class OrganizationPage extends Component {
     subscribersLoaded: false,
     modalVisible: false,
     subscriptionLoaded: false,
-    hablaModalVisible: false
+    hablaModalVisible: false,
+    hablaModalTitle: '',
+    hablaModalBody: '',
+    hablaModalButton: ''
   };
 
   componentDidMount() {
@@ -78,9 +81,26 @@ class OrganizationPage extends Component {
     const { stripeSubscriptionId } = this.props.subscriberOrg || {};
     if (stripeSubscriptionId) {
       this.props.fetchSubscription(stripeSubscriptionId).then(() => {
-        if (subscription.status === 'trialing' && moment(subscription.trial_end * 1000).diff(moment(), 'days') < 0) {
+        if (subscription.status === 'trialing' && moment(subscription.trial_end * 1000).diff(moment(), 'days') <= 0) {
           this.setState({
-            hablaModalVisible: true
+            hablaModalVisible: true,
+            hablaModalTitle: String.t('organizationSummaryPage.trialOverTitle'),
+            hablaModalBody: String.t('organizationSummaryPage.trialOverBody'),
+            hablaModalButton: String.t('organizationSummaryPage.trialOverButton')
+          });
+        }
+        if (subscription.status === 'trialing' && moment(subscription.trial_end * 1000).diff(moment(), 'days') === 3) {
+          this.setState({
+            hablaModalVisible: true,
+            hablaModalTitle: String.t('organizationSummaryPage.3daysTitle'),
+            hablaModalBody: (
+              <div>
+                {String.t('organizationSummaryPage.3daysBody1')} <br />
+                <br /> {String.t('organizationSummaryPage.3daysBody2')}{' '}
+                <a href="mailto:support@habla.ai">support@habla.ai</a>
+              </div>
+            ),
+            hablaModalButton: String.t('organizationSummaryPage.trialOverButton')
           });
         }
         this.setState({ subscriptionLoaded: true });
@@ -223,9 +243,9 @@ class OrganizationPage extends Component {
             cancelButton={false}
             showHablaModal={this.showHablaModal}
             showModal={this.showModal}
-            titleText={String.t('organizationSummaryPage.trialOverTitle')}
-            bodyText={String.t('organizationSummaryPage.trialOverBody')}
-            buttonText={String.t('organizationSummaryPage.trialOverButton')}
+            titleText={this.state.hablaModalTitle}
+            bodyText={this.state.hablaModalBody}
+            buttonText={this.state.hablaModalButton}
             handleSubmit={this.handleSubmit}
           />
         </div>

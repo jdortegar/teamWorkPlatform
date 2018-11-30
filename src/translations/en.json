@@ -814,7 +814,10 @@
     "daysLeft": "{{count}} Days Left",
     "trialOverTitle": "Your 14 Day Free Trial is Over",
     "trialOverBody": "We will keep your information for 30 days, if you do not subscribe before that period, your information will be removed from Habla AI.",
-    "trialOverButton": "Subscribe to a Plan Now"
+    "trialOverButton": "Subscribe to a Plan Now",
+    "3daysTitle": "Hello Hablamos!",
+    "3daysBody1": "Thanks again for test driving Habla AI, your Enterprise Knowledge Cloud.",
+    "3daysBody2": "You have 3 days left on your 14 Day Free Trial. Please take a moment and choose a plan now that best suits your Project Team needs and keep them Data Driven. Thank you and contact us for any questions."
   },
   "paymentModal": {
     "title": "Subscription Payment Form",
