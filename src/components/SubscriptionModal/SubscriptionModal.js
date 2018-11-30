@@ -5,6 +5,7 @@ import moment from 'moment';
 import { Modal, Form, Input, InputNumber, Select, Tag, Row, Col, Button, message } from 'antd';
 
 import String from 'src/translations';
+import { PaymentModal } from 'src/components';
 import { formShape } from 'src/propTypes';
 import { hablaGrayLogo } from 'src/img';
 import './styles/style.css';
@@ -31,8 +32,8 @@ const defaultProps = {
 };
 
 const PRICES = {
-  ANNUALLY: 2499,
-  MONTHLY: 2999
+  ANNUALLY: 1688,
+  MONTHLY: 1984
 };
 
 class SubscriptionModal extends React.Component {
@@ -47,7 +48,8 @@ class SubscriptionModal extends React.Component {
       subscriptionBilling: 'monthly',
       discountApplied: 1,
       subscriptionPlanAmount: 0,
-      discountCode: ''
+      discountCode: '',
+      paymentModalVisible: false
     };
   }
 
@@ -111,6 +113,13 @@ class SubscriptionModal extends React.Component {
     if (!this.state.loading) {
       this.props.showModal();
     }
+  };
+
+  showPaymentModal = () => {
+    this.props.showModal();
+    this.setState({
+      paymentModalVisible: !this.state.paymentModalVisible
+    });
   };
 
   cancelSubscription = () => {
@@ -233,17 +242,32 @@ class SubscriptionModal extends React.Component {
       subscriptionLoaded,
       subscriptionUsers,
       subscriptionBilling,
-      discountApplied
+      discountApplied,
+      discountCode
     } = this.state;
 
     const amount = ((subscriptionPlanAmount * subscriptionUsers * discountApplied) / 100).toFixed(2);
+
+    const payAmount = subscriptionPlanAmount === PRICES.ANNUALLY ? amount * 12 : amount;
+
+    const { stripeSubscriptionId, subscriberOrgId } = this.props.subscriberOrg;
+
+    const paymentData = {
+      subscriptionId: stripeSubscriptionId,
+      subscriberOrgId,
+      customerId: subscription.customer,
+      users: subscriptionUsers,
+      subscriptionType: subscriptionPlanAmount === PRICES.MONTHLY ? 'monthly' : 'annually',
+      promocode: discountCode,
+      payAmount
+    };
 
     return (
       <div>
         <Modal visible={visible && subscriptionLoaded} footer={null} closable={false}>
           <div className="Subscription_Modal_container">
             <div className="Modal_header">
-              <img src={hablaGrayLogo} alt={String.t('Header.logoAlt')} className="img HablaGayLogo" />
+              <img src={hablaGrayLogo} alt={String.t('Header.logoAlt')} className="img HablaGrayLogo" />
               <h5 className="Modal_title">
                 <span className="habla-bold-text">
                   {subscription.cancel_at_period_end
@@ -320,33 +344,50 @@ class SubscriptionModal extends React.Component {
               </div>
               <div className="Modal_footer">
                 {!subscription.cancel_at_period_end && (
-                  <div className="Cancel_subscription_button" onClick={() => this.cancelSubscription()}>
+                  <div className="Cancel_subscription_button" onClick={this.cancelSubscription}>
                     {String.t('subscriptionModal.cancelSubscription')}
                   </div>
                 )}
                 <div className="Action_buttons">
-                  <Button className="Cancel_button" onClick={() => this.handleCancel()}>
+                  <Button className="Cancel_button" onClick={this.handleCancel}>
                     {String.t('subscriptionModal.close')}
                   </Button>
-                  {!subscription.cancel_at_period_end && (
-                    <Button className="Confirm_button" onClick={() => this.handleSubmit()} loading={this.state.loading}>
-                      {String.t('subscriptionModal.changePlan')}
-                    </Button>
-                  )}
                   {subscription.cancel_at_period_end && (
                     <Button
                       className="Confirm_button"
-                      onClick={() => this.reactivateSubscription()}
+                      onClick={this.reactivateSubscription}
                       loading={this.state.loading}
                     >
                       {String.t('subscriptionModal.reactivateSubscription')}
                     </Button>
+                  )}
+                  {subscription.status === 'trialing' ? (
+                    <Button className="Confirm_button" onClick={this.showPaymentModal}>
+                      {String.t('subscriptionModal.paySubscription', {
+                        amount: parseFloat(payAmount).toFixed(2)
+                      })}
+                    </Button>
+                  ) : (
+                    !subscription.cancel_at_period_end && (
+                      <Button className="Confirm_button" onClick={this.handleSubmit} loading={this.state.loading}>
+                        {String.t('subscriptionModal.changePlan')}
+                      </Button>
+                    )
                   )}
                 </div>
               </div>
             </Form>
           </div>
         </Modal>
+        <PaymentModal
+          visible={this.state.paymentModalVisible}
+          showModal={this.showModal}
+          showPaymentModal={this.showPaymentModal}
+          paymentData={paymentData}
+          form={this.props.form}
+          updateSubscription={this.props.updateSubscription}
+          amount={amount}
+        />
       </div>
     );
   }

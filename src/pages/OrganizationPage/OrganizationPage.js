@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import moment from 'moment';
 
 import { Tag } from 'antd';
 import String from 'src/translations';
 import config from 'src/config/env';
 import { hablaFullBlackLogoIcon } from 'src/img';
-import { PageHeader, SimpleCardContainer, Spinner } from 'src/components';
+import { PageHeader, SimpleCardContainer, Spinner, HablaModal } from 'src/components';
 import { SubscriptionModal } from 'src/containers';
 import Avatar from 'src/components/common/Avatar';
 import CardView from './CardView';
@@ -24,7 +25,13 @@ const propTypes = {
   subscribersPresences: PropTypes.object.isRequired,
   teams: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
-  orgId: PropTypes.string.isRequired
+  orgId: PropTypes.string.isRequired,
+  subscription: PropTypes.object,
+  fetchSubscription: PropTypes.func.isRequired
+};
+
+const defaultProps = {
+  subscription: {}
 };
 
 // Get subscriber avatar or Initials
@@ -52,11 +59,13 @@ class OrganizationPage extends Component {
   state = {
     integrationsLoaded: false,
     subscribersLoaded: false,
-    modalVisible: false
+    modalVisible: false,
+    subscriptionLoaded: false,
+    hablaModalVisible: false
   };
 
   componentDidMount() {
-    const { orgId, history, fetchSubscribersBySubscriberOrgId, fetchIntegrations } = this.props;
+    const { orgId, history, fetchSubscribersBySubscriberOrgId, fetchIntegrations, subscription } = this.props;
 
     if (!orgId) {
       history.replace('/app');
@@ -65,11 +74,37 @@ class OrganizationPage extends Component {
 
     fetchSubscribersBySubscriberOrgId(orgId).then(() => this.setState({ subscribersLoaded: true }));
     fetchIntegrations().then(() => this.setState({ integrationsLoaded: true }));
+
+    const { stripeSubscriptionId } = this.props.subscriberOrg || {};
+    if (stripeSubscriptionId) {
+      this.props.fetchSubscription(stripeSubscriptionId).then(() => {
+        if (subscription.status === 'trialing' && moment(subscription.trial_end * 1000).diff(moment(), 'days') < 0) {
+          this.setState({
+            hablaModalVisible: true
+          });
+        }
+        this.setState({ subscriptionLoaded: true });
+      });
+    }
   }
 
   showModal = () => {
     this.setState({
-      modalVisible: !this.state.modalVisible
+      modalVisible: !this.state.modalVisible,
+      hablaModalVisible: false
+    });
+  };
+
+  handleSubmit = () => {
+    this.setState({
+      hablaModalVisible: false,
+      modalVisible: true
+    });
+  };
+
+  showHablaModal = () => {
+    this.setState({
+      hablaModalVisible: !this.state.hablaModalVisible
     });
   };
 
@@ -78,7 +113,16 @@ class OrganizationPage extends Component {
   };
 
   render() {
-    const { teams, integrations, subscribers, subscribersPresences, subscriberOrg, user, orgId } = this.props;
+    const {
+      teams,
+      integrations,
+      subscribers,
+      subscribersPresences,
+      subscriberOrg,
+      user,
+      orgId,
+      subscription
+    } = this.props;
     if (
       subscribers &&
       subscribersPresences &&
@@ -87,6 +131,7 @@ class OrganizationPage extends Component {
       integrations &&
       this.state.subscribersLoaded &&
       this.state.integrationsLoaded &&
+      this.state.subscriptionLoaded &&
       user
     ) {
       const isOrgAdmin = Object.keys(user.subscriberOrgs).length > 0 && user.subscriberOrgs[orgId].role === 'admin';
@@ -123,11 +168,20 @@ class OrganizationPage extends Component {
               <div className="Flex_row">
                 <div className="Summary_label">{String.t('organizationSummaryPage.subscriptionPlan')}</div>
                 <div>
+                  {subscription.status === 'trialing' && (
+                    <span className="Summary_daysLeft">
+                      {String.t('organizationSummaryPage.daysLeft', {
+                        count: moment(subscription.trial_end * 1000).diff(moment(), 'days')
+                      })}
+                    </span>
+                  )}
                   <Tag
                     className="habla_subscription_tag habla_subscription_tag_bronze"
                     onClick={isOrgAdmin ? this.showModal : this.redirectPublicSite}
                   >
-                    {String.t('subscriptionPlans.bronze')}
+                    {subscription.status === 'trialing'
+                      ? String.t('subscriptionPlans.trial')
+                      : String.t('subscriptionPlans.bronze')}
                   </Tag>
                 </div>
               </div>
@@ -164,6 +218,16 @@ class OrganizationPage extends Component {
             </div>
           </div>
           <SubscriptionModal visible={this.state.modalVisible} showModal={this.showModal} />
+          <HablaModal
+            visible={this.state.hablaModalVisible}
+            cancelButton={false}
+            showHablaModal={this.showHablaModal}
+            showModal={this.showModal}
+            titleText={String.t('organizationSummaryPage.trialOverTitle')}
+            bodyText={String.t('organizationSummaryPage.trialOverBody')}
+            buttonText={String.t('organizationSummaryPage.trialOverButton')}
+            handleSubmit={this.handleSubmit}
+          />
         </div>
       );
     }
@@ -173,5 +237,6 @@ class OrganizationPage extends Component {
 }
 
 OrganizationPage.propTypes = propTypes;
+OrganizationPage.defaultProps = defaultProps;
 
 export default OrganizationPage;
