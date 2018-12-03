@@ -528,7 +528,7 @@ class Chat extends React.Component {
                 {this.renderTeamMembers()}
               </div>
               <div className="Chat_expandAction" onClick={() => this.props.showChat(true)}>
-                <i className="fas fa-angle-double-down" />
+                <i className="fas fa-angle-down" />
               </div>
             </SimpleCardContainer>
           )}

@@ -8,6 +8,7 @@
   background: #eff2f7;
   padding: 0;
   border-bottom: 1px solid #e0e9f7;
+  height: 40px;
 }
 
 .Chat_members_container {
@@ -30,7 +31,15 @@
 .Chat_expandAction {
   color: #c2cfe3;
   border-left: 1px solid #e5efff;
-  padding: 20px 15px;
+  padding: 10px 15px 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.CKG_expandAction {
+  color: #c2cfe3;
+  border-left: 1px solid #e5efff;
+  padding: 0px 15px 10px;
   font-size: 14px;
   cursor: pointer;
 }
