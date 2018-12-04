@@ -32,8 +32,8 @@ const defaultProps = {
 };
 
 const PRICES = {
-  ANNUALLY: 1688,
-  MONTHLY: 1984
+  ANNUALLY: 1200,
+  MONTHLY: 1500
 };
 
 class SubscriptionModal extends React.Component {
