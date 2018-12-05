@@ -145,7 +145,8 @@ class OrganizationManageMembers extends Component {
     // Sort teams by Name
     let usersById = usersActive.sort(sortByName);
     usersById = usersById === 0 && usersById[0] === undefined ? [] : primaryAtTop(usersById);
-
+    // Filter for don't show admin
+    usersById = usersById.filter(user => !user.role || user.role !== 'admin');
     // Array to save users, 0 element is for add user button
     const userArray = usersById.map((user, index) => ({
       key: index + 1,
@@ -346,7 +347,7 @@ class OrganizationManageMembers extends Component {
             menuPageHeader={menuPageHeader}
             badgeOptions={{
               enabled: true,
-              count: this.state.usersActive.length,
+              count: this.state.usersActive.length - 1,
               style: { backgroundColor: '#32a953' }
             }}
           />

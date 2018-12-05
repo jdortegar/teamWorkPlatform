@@ -473,6 +473,7 @@
     "userEmail": "User Email",
     "addEmail": "Add another Email",
     "errorUserhasOtherOrg": "The invitation can not be sent. The user already has an organization created in Habla AI.",
+    "errorUserLimit": "The invitation can not be sent. You have reached the maximum number of users.",
     "sendInvitationsButtonLabel": {
       "zero": "Send Invitation",
       "one": "Send Invitation",
