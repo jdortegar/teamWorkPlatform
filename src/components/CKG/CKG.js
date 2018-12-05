@@ -36,8 +36,10 @@ const propTypes = {
   loading: PropTypes.bool,
   showSelector: PropTypes.bool,
   menuOptions: PropTypes.array,
+  activeView: PropTypes.string,
   showChat: PropTypes.func,
-  activeView: PropTypes.string
+  showCKG: PropTypes.func,
+  chatVisible: PropTypes.bool
 };
 
 const defaultProps = {
@@ -57,8 +59,10 @@ const defaultProps = {
   loading: false,
   showSelector: true,
   menuOptions: [],
+  activeView: CKG_VIEWS.TIME_ACTIVITY,
   showChat: null,
-  activeView: CKG_VIEWS.TIME_ACTIVITY
+  showCKG: null,
+  chatVisible: true
 };
 
 class CKG extends Component {
@@ -208,6 +212,7 @@ class CKG extends Component {
         owners={owners}
         fileTypes={fileTypes}
         integrations={integrations}
+        excludeOwnersFilter={excludeFilters.owners}
         excludeIntegrationsFilter={excludeFilters.integrations}
         excludeTypesFilter={excludeFilters.fileTypes}
         onOwnerFilterClick={this.handleOwnerFilterClick}
@@ -218,7 +223,7 @@ class CKG extends Component {
   }
 
   render() {
-    const { loading, files, integrations, excludeFilters, showSelector, menuOptions, activeView } = this.props;
+    const { loading, files, query, integrations, excludeFilters, showSelector, menuOptions, activeView } = this.props;
 
     const filesFiltered = files.filter(file => {
       const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
@@ -247,7 +252,7 @@ class CKG extends Component {
 
         {this.renderSideArrows()}
 
-        {!loading && integrations.length === 0 && this.renderEmptyMessage()}
+        {!loading && _.isEmpty(integrations) && _.isEmpty(query) && this.renderEmptyMessage()}
 
         {loading && (
           <div className="CKGPage__center-message-container">
@@ -264,9 +269,19 @@ class CKG extends Component {
           {showSelector && this.renderSelectors()}
           {!loading && this.renderFilesFilter()}
           <div className="clear" />
-          {this.props.showChat && (
-            <div className="Chat_expandAction" onClick={() => this.props.showChat(false)}>
-              <i className="fas fa-angle-double-up" />
+          {this.props.chatVisible && (
+            <div>
+              <div className="Chat_expandAction" onClick={() => this.props.showCKG(false)}>
+                <i className="fas fa-angle-up" />
+              </div>
+              <div className="CKG_expandAction" onClick={() => this.props.showChat(false)}>
+                <i className="fas fa-angle-down" />
+              </div>
+            </div>
+          )}
+          {!this.props.chatVisible && (
+            <div className="CKG_expandActionSolo" onClick={() => this.props.showChat(true)}>
+              <i className="fas fa-angle-up" />
             </div>
           )}
         </div>

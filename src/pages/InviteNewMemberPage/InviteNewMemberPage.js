@@ -67,6 +67,8 @@ class InviteNewMemberPage extends Component {
             this.setState({ loading: false });
             if (error.response && error.response.status === 409) {
               message.error(String.t('inviteNewMemberPage.errorUserhasOtherOrg'));
+            } else if (error.response && error.response.status === 403) {
+              message.error(String.t('inviteNewMemberPage.errorUserLimit'));
             } else {
               message.error(error.message);
             }

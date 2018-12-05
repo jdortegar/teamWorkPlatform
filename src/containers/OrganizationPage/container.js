@@ -1,13 +1,19 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { fetchSubscribersBySubscriberOrgId, fetchIntegrations, setCurrentSubscriberOrgId } from 'src/actions';
+import {
+  fetchSubscribersBySubscriberOrgId,
+  fetchIntegrations,
+  setCurrentSubscriberOrgId,
+  fetchSubscription
+} from 'src/actions';
 import {
   getCurrentUser,
   getCurrentSubscriberOrgId,
   getSubscribersOfSubscriberOrgId,
   getPresencesOfSubscribersOfOrgId,
   getOrgTeams,
-  getOrgIntegrationsObj
+  getOrgIntegrationsObj,
+  getSubscription
 } from 'src/selectors';
 import { OrganizationPage } from 'src/pages';
 
@@ -21,14 +27,16 @@ const mapStateToProps = state => {
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
     teams: getOrgTeams(state),
     integrations: getOrgIntegrationsObj(state, orgId),
-    orgId
+    orgId,
+    subscription: getSubscription(state)
   };
 };
 
 const mapDispatchToProps = {
   fetchSubscribersBySubscriberOrgId,
   fetchIntegrations,
-  setCurrentSubscriberOrgId
+  setCurrentSubscriberOrgId,
+  fetchSubscription
 };
 
 export default withRouter(

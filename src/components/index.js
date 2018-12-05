@@ -22,6 +22,8 @@ export GraphDateSelector from './GraphDateSelector';
 export GraphViewSelector from './GraphViewSelector';
 export GraphZoomActions from './GraphZoomActions';
 export Header from './Header';
+export HablaModal from './HablaModal';
+export PaymentModal from './PaymentModal';
 export IntegrationFilter from './IntegrationFilter';
 export IntegrationsList from './IntegrationsList';
 export LambWestonReports from './LambWestonReports';

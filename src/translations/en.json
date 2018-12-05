@@ -450,7 +450,8 @@
       "itemsCount": "({{count}} items)"
     },
     "refreshList": "Refresh List",
-    "lastIntegrationDate": "Files and Folders from {{date}}"
+    "lastIntegrationDate": "Files and Folders from {{date}}",
+    "contentLoading": "Indexing files..."
   },
   "integrationsPage": {
     "breadcrumb": "Data Integrations",
@@ -472,6 +473,7 @@
     "userEmail": "User Email",
     "addEmail": "Add another Email",
     "errorUserhasOtherOrg": "The invitation can not be sent. The user already has an organization created in Habla AI.",
+    "errorUserLimit": "The invitation can not be sent. You have reached the maximum number of users.",
     "sendInvitationsButtonLabel": {
       "zero": "Send Invitation",
       "one": "Send Invitation",
@@ -761,7 +763,8 @@
   "subscriptionPlans": {
     "bronze": "Bronze Plan",
     "silver": "Silver Plan",
-    "gold": "Gold Plan"
+    "gold": "Gold Plan",
+    "trial": "Bronze Plan Free Trial"
   },
   "subscriptionModal": {
     "changePlanTitle": "Change your Habla AI Plan",
@@ -789,7 +792,8 @@
     "reactivateSubscription": "Reactivate",
     "confirmCancel": "Your Subscription Plan has been canceled. You won't be charged anymore and you can still use Habla AI for {{daysLeft}} more days until your current Plan ends.",
     "confirmReactivate": "Your Subscription Plan has been reactivated.",
-    "planChanges": "Your plan doesn't has changes"
+    "planChanges": "Your plan doesn't have changes",
+    "paySubscription": "Pay USD ${{amount}}"
   },
   "editTeamMemberPage": {
     "title": "Edit Team Member",
@@ -807,6 +811,33 @@
     "availableSeat": "Licenses Used",
     "of": "of",
     "projectTeams": "Project Teams",
-    "filesShared": "Files Shared"
+    "filesShared": "Files Shared",
+    "daysLeft": "{{count}} Days Left",
+    "trialOverTitle": "Your 14 Day Free Trial is Over",
+    "trialOverBody": "We will keep your information for 30 days, if you do not subscribe before that period, your information will be removed from Habla AI.",
+    "trialOverButton": "Subscribe to a Plan Now",
+    "3daysTitle": "Hello Hablamos!",
+    "3daysBody1": "Thanks again for test driving Habla AI, your Enterprise Knowledge Cloud.",
+    "3daysBody2": "You have 3 days left on your 14 Day Free Trial. Please take a moment and choose a plan now that best suits your Project Team needs and keep them Data Driven. Thank you and contact us for any questions."
+  },
+  "paymentModal": {
+    "title": "Subscription Payment Form",
+    "informationTitle": "Personal Information",
+    "email": "Email Address",
+    "cardName": "Name on Credit or Debit Card",
+    "addressTitle": "Billing Address",
+    "country": "Choose your Country",
+    "address1": "Street Address 1",
+    "address2": "Street Address Line 2 (Optional)",
+    "zipCode": "Zip Code",
+    "city": "City",
+    "state": "State",
+    "termsStart": "I acknowledge that I have read and accept the",
+    "termsEnd": "and consent to the",
+    "privacyPolicy": "Privacy Policy.",
+    "terms": "User Terms of Service.",
+    "back": "Back",
+    "payButton": "Pay USD ${{amount}}",
+    "subscriptionPaid": "your subscription to Habla AI has been paid successfully"
   }
 }

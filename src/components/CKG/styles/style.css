@@ -355,6 +355,14 @@
   font-size: 10px;
 }
 
+.CKG_expandActionSolo {
+  color: #c2cfe3;
+  border-left: 1px solid #e5efff;
+  padding: 15px 15px 15px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 768px) {
   .FileListView {
     width: 80vw;

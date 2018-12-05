@@ -26,11 +26,13 @@ class TeamPage extends Component {
     super(props);
 
     this.state = {
-      showChat: true,
+      chatVisible: true,
+      ckgVisible: true,
       teamMembersLoaded: false
     };
 
     this.showChat = this.showChat.bind(this);
+    this.showCKG = this.showCKG.bind(this);
   }
 
   componentDidMount = () => {
@@ -41,13 +43,23 @@ class TeamPage extends Component {
     this.props.fetchTeamMembers(this.props.teamId).then(() => this.setState({ teamMembersLoaded: true }));
   };
 
-  showChat(bool) {
-    this.setState({ showChat: bool });
+  showChat(ckgState) {
+    this.setState({
+      chatVisible: true,
+      ckgVisible: ckgState
+    });
+  }
+
+  showCKG(chatState) {
+    this.setState({
+      ckgVisible: true,
+      chatVisible: chatState
+    });
   }
 
   render() {
     const { team, org, userRoles } = this.props;
-    const { showChat, teamMembersLoaded } = this.state;
+    const { chatVisible, ckgVisible, teamMembersLoaded } = this.state;
 
     if (!teamMembersLoaded || !team || !org) {
       return <Spinner />;
@@ -140,25 +152,39 @@ class TeamPage extends Component {
 
     const chatClassName = classNames({
       'homePage__chat-container': true,
-      'homepage_latest-container': showChat
+      'homepage_latest-container': chatVisible
+    });
+
+    const ckgClassName = classNames({
+      'homepage_graph-container': true,
+      'homepage_graph-container-height100': !ckgVisible
     });
 
     return (
       <div className="homePage-main">
-        {showChat && (
-          <div className="homepage_graph-container">
-            <CKG teamId={team.teamId} showSelector={false} menuOptions={menuPageHeader} showChat={this.showChat} />
+        {chatVisible && (
+          <div className={ckgClassName}>
+            <CKG
+              teamId={team.teamId}
+              showSelector={false}
+              menuOptions={menuPageHeader}
+              showChat={this.showChat}
+              showCKG={this.showCKG}
+              chatVisible={this.state.ckgVisible}
+            />
           </div>
         )}
-        <div className={chatClassName}>
-          <ChatContent
-            teamId={team.teamId}
-            showTeamMembers={!showChat}
-            showPageHeader={!showChat}
-            showChat={this.showChat}
-            menuOptions={menuPageHeader}
-          />
-        </div>
+        {ckgVisible && (
+          <div className={chatClassName}>
+            <ChatContent
+              teamId={team.teamId}
+              showTeamMembers={!chatVisible}
+              showPageHeader={!chatVisible}
+              showChat={this.showChat}
+              menuOptions={menuPageHeader}
+            />
+          </div>
+        )}
       </div>
     );
   }

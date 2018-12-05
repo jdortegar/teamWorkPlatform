@@ -13,15 +13,10 @@ const INITIAL_STATE = {
 
 const subscriptionReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SUBSCRIPTION_FETCH_SUCCESS: {
-      const subscription = action.payload;
-      return {
-        ...state,
-        ...subscription
-      };
-    }
+    case SUBSCRIPTION_FETCH_SUCCESS:
+    case SUBSCRIPTION_UPDATE_SUCCESS:
     case SUBSCRIPTION_CANCEL_SUCCESS: {
-      const subscription = action.payload.data;
+      const subscription = action.payload;
       return {
         ...state,
         ...subscription
@@ -30,13 +25,6 @@ const subscriptionReducer = (state = INITIAL_STATE, action) => {
     case SUBSCRIPTION_COUPONS_FETCH_SUCCESS: {
       const subscription = _.cloneDeep(state);
       subscription.coupons = action.payload;
-      return {
-        ...state,
-        ...subscription
-      };
-    }
-    case SUBSCRIPTION_UPDATE_SUCCESS: {
-      const subscription = action.payload;
       return {
         ...state,
         ...subscription

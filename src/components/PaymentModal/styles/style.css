@@ -1,37 +1,37 @@
-.Subscription_Modal_container {
+.Payment_Modal_container {
   text-align: left;
 }
-.Subscription_Modal_container .Modal_header {
+.Payment_Modal_container .Modal_header {
   padding: 30px 30px 0;
 }
-.Subscription_Modal_container .HablaGrayLogo {
+.Payment_Modal_container .HablaGrayLogo {
   height: 30px;
 }
-.Subscription_Modal_container .Modal_title {
+.Payment_Modal_container .Modal_title {
   font-size: 34px;
   font-weight: 700;
   color: #666666;
   margin-bottom: 20px;
 }
 
-.Subscription_Modal_container .Modal_body {
+.Payment_Modal_container .Modal_body {
   background: #f7f7f7;
   padding: 30px;
   margin: 20px 0 0;
 }
 
-.Subscription_Modal_container .Modal_subtitle {
+.Payment_Modal_container .Modal_subtitle {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.Subscription_Modal_container .Modal_subtitle .suscriptionDate {
+.Payment_Modal_container .Modal_subtitle .suscriptionDate {
   margin-left: 20px;
 }
 
-.Subscription_Modal_container .label {
+.Payment_Modal_container .label {
   font-weight: 300;
   padding: 3px 0;
   border-bottom: 1px solid #ccc;
@@ -41,12 +41,12 @@
   margin-bottom: 10px;
 }
 
-.Subscription_Modal_container .Form_input_label {
+.Payment_Modal_container .Form_input_label {
   font-size: 16px;
   line-height: 26px;
 }
 
-.Subscription_Modal_container .Modal_Plan_Price {
+.Payment_Modal_container .Modal_Plan_Price {
   font-size: 18px;
   font-weight: 900;
   color: #339966;
@@ -54,14 +54,14 @@
   margin: 10px 0 0 0;
 }
 
-.Subscription_Modal_container .Modal_footer {
+.Payment_Modal_container .Modal_footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 30px;
 }
 
-.Subscription_Modal_container .Cancel_button {
+.Payment_Modal_container .Cancel_button {
   background: #cccccc;
   color: #fff;
   border: none;
@@ -69,7 +69,7 @@
   height: 40px;
 }
 
-.Subscription_Modal_container .Confirm_button {
+.Payment_Modal_container .Confirm_button {
   background: #36a751;
   color: #fff;
   border: none;
@@ -109,4 +109,19 @@
 .Confirm_Modal .ant-btn-primary {
   background: #36a751;
   border: none;
+}
+
+.Payment_Modal_container .ant-checkbox-wrapper {
+  color: #999;
+}
+
+.Payment_Modal_container .ant-input {
+  height: 30px;
+}
+
+.Stripe__Card_input .ant-form-item-control-wrapper {
+  background: #fff;
+  padding: 7px;
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
 }
