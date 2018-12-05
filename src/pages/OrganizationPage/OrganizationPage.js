@@ -7,7 +7,7 @@ import { Tag } from 'antd';
 import String from 'src/translations';
 import config from 'src/config/env';
 import { hablaFullBlackLogoIcon } from 'src/img';
-import { PageHeader, SimpleCardContainer, Spinner, HablaModal } from 'src/components';
+import { PageHeader, SimpleCardContainer, Spinner } from 'src/components';
 import { SubscriptionModal } from 'src/containers';
 import Avatar from 'src/components/common/Avatar';
 import CardView from './CardView';
@@ -61,14 +61,11 @@ class OrganizationPage extends Component {
     subscribersLoaded: false,
     modalVisible: false,
     subscriptionLoaded: false,
-    hablaModalVisible: false,
-    hablaModalTitle: '',
-    hablaModalBody: '',
-    hablaModalButton: ''
+    hablaModalVisible: false
   };
 
   componentDidMount() {
-    const { orgId, history, fetchSubscribersBySubscriberOrgId, fetchIntegrations, subscription } = this.props;
+    const { orgId, history, fetchSubscribersBySubscriberOrgId, fetchIntegrations } = this.props;
 
     if (!orgId) {
       history.replace('/app');
@@ -81,28 +78,6 @@ class OrganizationPage extends Component {
     const { stripeSubscriptionId } = this.props.subscriberOrg || {};
     if (stripeSubscriptionId) {
       this.props.fetchSubscription(stripeSubscriptionId).then(() => {
-        if (subscription.status === 'trialing' && moment(subscription.trial_end * 1000).diff(moment(), 'days') <= 0) {
-          this.setState({
-            hablaModalVisible: true,
-            hablaModalTitle: String.t('organizationSummaryPage.trialOverTitle'),
-            hablaModalBody: String.t('organizationSummaryPage.trialOverBody'),
-            hablaModalButton: String.t('organizationSummaryPage.trialOverButton')
-          });
-        }
-        if (subscription.status === 'trialing' && moment(subscription.trial_end * 1000).diff(moment(), 'days') === 3) {
-          this.setState({
-            hablaModalVisible: true,
-            hablaModalTitle: String.t('organizationSummaryPage.3daysTitle'),
-            hablaModalBody: (
-              <div>
-                {String.t('organizationSummaryPage.3daysBody1')} <br />
-                <br /> {String.t('organizationSummaryPage.3daysBody2')}{' '}
-                <a href="mailto:support@habla.ai">support@habla.ai</a>
-              </div>
-            ),
-            hablaModalButton: String.t('organizationSummaryPage.trialOverButton')
-          });
-        }
         this.setState({ subscriptionLoaded: true });
       });
     }
@@ -238,16 +213,6 @@ class OrganizationPage extends Component {
             </div>
           </div>
           <SubscriptionModal visible={this.state.modalVisible} showModal={this.showModal} />
-          <HablaModal
-            visible={this.state.hablaModalVisible}
-            cancelButton={false}
-            showHablaModal={this.showHablaModal}
-            showModal={this.showModal}
-            titleText={this.state.hablaModalTitle}
-            bodyText={this.state.hablaModalBody}
-            buttonText={this.state.hablaModalButton}
-            handleSubmit={this.handleSubmit}
-          />
         </div>
       );
     }

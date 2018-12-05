@@ -19,7 +19,8 @@ const propTypes = {
   fetchSubscription: PropTypes.func.isRequired,
   fetchSubscriptionCoupons: PropTypes.func.isRequired,
   subscriptionCoupons: PropTypes.object,
-  updateSubscription: PropTypes.func.isRequired
+  updateSubscription: PropTypes.func.isRequired,
+  cancelButton: PropTypes.bool
 };
 
 const FormItem = Form.Item;
@@ -28,7 +29,8 @@ const { confirm } = Modal;
 
 const defaultProps = {
   subscription: {},
-  subscriptionCoupons: {}
+  subscriptionCoupons: {},
+  cancelButton: true
 };
 
 const PRICES = {
@@ -196,11 +198,7 @@ class SubscriptionModal extends React.Component {
     });
   };
 
-  handleCancel = () => {
-    this.props.showModal();
-  };
-
-  handleSubmit = () => {
+  handleSubmit() {
     const { stripeSubscriptionId, subscriberOrgId } = this.props.subscriberOrg;
     const { subscription } = this.props;
     const { subscriptionUsers, subscriptionPlanAmount, discountCode } = this.state;
@@ -232,10 +230,10 @@ class SubscriptionModal extends React.Component {
         this.setState({ loading: false });
         message.error(error.message);
       });
-  };
+  }
 
   render() {
-    const { visible, subscription } = this.props;
+    const { visible, subscription, cancelButton } = this.props;
     const { getFieldDecorator } = this.props.form;
     const {
       subscriptionPlanAmount,
@@ -349,9 +347,15 @@ class SubscriptionModal extends React.Component {
                   </div>
                 )}
                 <div className="Action_buttons">
-                  <Button className="Cancel_button" onClick={this.handleCancel}>
-                    {String.t('subscriptionModal.close')}
-                  </Button>
+                  {cancelButton ? (
+                    <Button className="Cancel_button" onClick={this.showModal}>
+                      {String.t('subscriptionModal.close')}
+                    </Button>
+                  ) : (
+                    <Button className="Cancel_button" onClick={this.showModal}>
+                      {String.t('subscriptionModal.back')}
+                    </Button>
+                  )}
                   {subscription.cancel_at_period_end && (
                     <Button
                       className="Confirm_button"

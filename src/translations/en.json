@@ -793,7 +793,8 @@
     "confirmCancel": "Your Subscription Plan has been canceled. You won't be charged anymore and you can still use Habla AI for {{daysLeft}} more days until your current Plan ends.",
     "confirmReactivate": "Your Subscription Plan has been reactivated.",
     "planChanges": "Your plan doesn't have changes",
-    "paySubscription": "Pay USD ${{amount}}"
+    "paySubscription": "Pay USD ${{amount}}",
+    "back": "Back"
   },
   "editTeamMemberPage": {
     "title": "Edit Team Member",
@@ -813,7 +814,7 @@
     "projectTeams": "Project Teams",
     "filesShared": "Files Shared",
     "daysLeft": "{{count}} Days Left",
-    "trialOverTitle": "Your 14 Day Free Trial is Over",
+    "trialOverTitle": "Your 30 Day Free Trial is Over",
     "trialOverBody": "We will keep your information for 30 days, if you do not subscribe before that period, your information will be removed from Habla AI.",
     "trialOverButton": "Subscribe to a Plan Now",
     "3daysTitle": "Hello Hablamos!",
