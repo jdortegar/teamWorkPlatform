@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import { Header, Sidebar, MainContent, SurveyModal, SubscriptionModal } from 'src/containers';
-import { HablaModal } from 'src/components';
+import { HablaModal, Spinner } from 'src/components';
 import './styles/main.css';
 import String from 'src/translations';
 
@@ -16,7 +16,8 @@ const propTypes = {
   subscriberOrgs: PropTypes.object.isRequired,
   subscriberOrg: PropTypes.object.isRequired,
   subscription: PropTypes.object,
-  fetchSubscription: PropTypes.func.isRequired
+  fetchSubscription: PropTypes.func.isRequired,
+  fetchSubscriberOrgs: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -30,7 +31,8 @@ class Main extends React.Component {
     hablaModalTitle: '',
     hablaModalBody: '',
     hablaModalButton: '',
-    cancelButton: false
+    cancelButton: false,
+    orgLoaded: false
   };
 
   componentDidMount() {
@@ -39,36 +41,42 @@ class Main extends React.Component {
     this.props.fetchInvitations();
     window.addEventListener('beforeunload', this.onUnload);
     // Modals if subscription is on trial
-    const { stripeSubscriptionId } = this.props.subscriberOrg || {};
-    const { subscription } = this.props;
-    if (subscription) {
-      this.props.fetchSubscription(stripeSubscriptionId).then(() => {
-        if (subscription.status === 'trialing' && moment(subscription.trial_end * 1000).diff(moment(), 'days') <= 0) {
-          this.setState({
-            hablaModalVisible: true,
-            hablaModalTitle: String.t('organizationSummaryPage.trialOverTitle'),
-            hablaModalBody: <div>{String.t('organizationSummaryPage.trialOverBody')}</div>,
-            hablaModalButton: String.t('organizationSummaryPage.trialOverButton'),
-            cancelButton: false
-          });
-        }
-        if (subscription.status === 'trialing' && moment(subscription.trial_end * 1000).diff(moment(), 'days') === 3) {
-          this.setState({
-            hablaModalVisible: true,
-            hablaModalTitle: String.t('organizationSummaryPage.3daysTitle'),
-            hablaModalBody: (
-              <div>
-                {String.t('organizationSummaryPage.3daysBody1')} <br />
-                <br /> {String.t('organizationSummaryPage.3daysBody2')}{' '}
-                <a href="mailto:support@habla.ai">support@habla.ai</a>
-              </div>
-            ),
-            hablaModalButton: String.t('organizationSummaryPage.trialOverButton'),
-            cancelButton: true
-          });
-        }
-      });
-    }
+    this.props.fetchSubscriberOrgs().then(() => {
+      setTimeout(this.setState({ orgLoaded: true }), 5000);
+      const { stripeSubscriptionId } = this.props.subscriberOrg || {};
+      const { subscription } = this.props;
+      if (subscription) {
+        this.props.fetchSubscription(stripeSubscriptionId).then(() => {
+          if (subscription.status === 'trialing' && moment(subscription.trial_end * 1000).diff(moment(), 'days') <= 0) {
+            this.setState({
+              hablaModalVisible: true,
+              hablaModalTitle: String.t('organizationSummaryPage.trialOverTitle'),
+              hablaModalBody: <div>{String.t('organizationSummaryPage.trialOverBody')}</div>,
+              hablaModalButton: String.t('organizationSummaryPage.trialOverButton'),
+              cancelButton: false
+            });
+          }
+          if (
+            subscription.status === 'trialing' &&
+            moment(subscription.trial_end * 1000).diff(moment(), 'days') === 3
+          ) {
+            this.setState({
+              hablaModalVisible: true,
+              hablaModalTitle: String.t('organizationSummaryPage.3daysTitle'),
+              hablaModalBody: (
+                <div>
+                  {String.t('organizationSummaryPage.3daysBody1')} <br />
+                  <br /> {String.t('organizationSummaryPage.3daysBody2')}{' '}
+                  <a href="mailto:support@habla.ai">support@habla.ai</a>
+                </div>
+              ),
+              hablaModalButton: String.t('organizationSummaryPage.trialOverButton'),
+              cancelButton: true
+            });
+          }
+        });
+      }
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -99,6 +107,10 @@ class Main extends React.Component {
   };
 
   render() {
+    if (!this.state.orgLoaded) {
+      return <Spinner />;
+    }
+
     return (
       <Layout>
         <Header />

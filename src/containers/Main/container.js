@@ -1,6 +1,13 @@
 import { connect } from 'react-redux';
 import { Main } from 'src/layouts';
-import { initMessaging, closeMessaging, fetchGlobalState, fetchInvitations, fetchSubscription } from 'src/actions';
+import {
+  initMessaging,
+  closeMessaging,
+  fetchGlobalState,
+  fetchInvitations,
+  fetchSubscriberOrgs,
+  fetchSubscription
+} from 'src/actions';
 import { getCurrentSubscriberOrgId, getSubscription } from 'src/selectors';
 
 const mapStateToProps = state => {
@@ -18,6 +25,7 @@ const mapDispatchToProps = {
   closeMessaging,
   fetchGlobalState,
   fetchInvitations,
+  fetchSubscriberOrgs,
   fetchSubscription
 };
 

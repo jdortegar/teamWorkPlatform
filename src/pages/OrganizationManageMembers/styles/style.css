@@ -49,3 +49,89 @@
 .Organization_Members_Page .table-container {
   background: #fff;
 }
+
+/*
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+  /* Force table to not be like tables anymore */
+  .Organization_Members_Page .table-container table,
+  .Organization_Members_Page .table-container thead,
+  .Organization_Members_Page .table-container tbody,
+  .Organization_Members_Page .table-container th,
+  .Organization_Members_Page .table-container td,
+  .Organization_Members_Page .table-container tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  .Organization_Members_Page .table-container thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .Organization_Members_Page .table-container tr {
+    border-bottom: 2px solid #eee !important;
+  }
+
+  .Organization_Members_Page .table-container td {
+    /* Behave  like a "row" */
+    border: none !important;
+    border-bottom: 1px solid #eee !important;
+    position: relative !important;
+    padding-left: 30% !important;
+  }
+
+  .Organization_Members_Page .table-container td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 25%;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  /*
+	Label the data
+  */
+
+  .Organization_Members_Page .table-container tr:nth-of-type(1) td:nth-of-type(2),
+  .Organization_Members_Page .table-container tr:nth-of-type(1) td:nth-of-type(3),
+  .Organization_Members_Page .table-container tr:nth-of-type(1) td:nth-of-type(4),
+  .Organization_Members_Page .table-container tr:nth-of-type(1) td:nth-of-type(5),
+  .Organization_Members_Page .table-container tr:nth-of-type(1) td:nth-of-type(1):before {
+    display: none;
+  }
+
+  .Organization_Members_Page .table-container tr:nth-of-type(1) td:nth-of-type(1) {
+    padding-left: 10px !important;
+  }
+
+  .Organization_Members_Page .table-container td:nth-of-type(1):before {
+    content: 'NAME';
+  }
+  .Organization_Members_Page .table-container td:nth-of-type(2):before {
+    content: 'EMAIL';
+  }
+  .Organization_Members_Page .table-container td:nth-of-type(3):before {
+    content: 'STATUS';
+  }
+  .Organization_Members_Page .table-container td:nth-of-type(4):before {
+    content: 'EDIT';
+  }
+  .Organization_Members_Page .table-container td:nth-of-type(5):before {
+    content: 'SELECT';
+  }
+
+  .Organization_Members_Page .table-container .ant-table-thead > tr > th,
+  .Organization_Members_Page .table-container .ant-table-tbody > tr > td {
+    padding: 10px;
+    word-break: break-word;
+    -ms-word-break: break-all;
+  }
+}
