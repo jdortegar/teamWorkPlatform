@@ -14,14 +14,15 @@ const propTypes = {
   fetchGlobalState: PropTypes.func.isRequired,
   fetchInvitations: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.object.isRequired,
-  subscriberOrg: PropTypes.object.isRequired,
+  subscriberOrg: PropTypes.object,
   subscription: PropTypes.object,
   fetchSubscription: PropTypes.func.isRequired,
   fetchSubscriberOrgs: PropTypes.func.isRequired
 };
 
 const defaultProps = {
-  subscription: {}
+  subscription: {},
+  subscriberOrg: {}
 };
 
 class Main extends React.Component {
@@ -45,7 +46,7 @@ class Main extends React.Component {
       setTimeout(this.setState({ orgLoaded: true }), 5000);
       const { stripeSubscriptionId } = this.props.subscriberOrg || {};
       const { subscription } = this.props;
-      if (subscription) {
+      if (subscription && stripeSubscriptionId) {
         this.props.fetchSubscription(stripeSubscriptionId).then(() => {
           if (subscription.status === 'trialing' && moment(subscription.trial_end * 1000).diff(moment(), 'days') <= 0) {
             this.setState({
