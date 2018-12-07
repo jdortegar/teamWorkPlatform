@@ -126,7 +126,6 @@ class OrganizationPage extends Component {
       integrations &&
       this.state.subscribersLoaded &&
       this.state.integrationsLoaded &&
-      this.state.subscriptionLoaded &&
       user
     ) {
       const isOrgAdmin = Object.keys(user.subscriberOrgs).length > 0 && user.subscriberOrgs[orgId].role === 'admin';
@@ -172,7 +171,7 @@ class OrganizationPage extends Component {
                   )}
                   <Tag
                     className="habla_subscription_tag habla_subscription_tag_bronze"
-                    onClick={isOrgAdmin ? this.showModal : this.redirectPublicSite}
+                    onClick={this.state.subscriptionLoaded && isOrgAdmin ? this.showModal : this.redirectPublicSite}
                   >
                     {subscription.status === 'trialing'
                       ? String.t('subscriptionPlans.trial')

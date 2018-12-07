@@ -600,7 +600,10 @@
       "other": "{{count}} {{label}} files"
     },
     "filterTypeOther": "Other",
-    "AddDataIntegration": "Add a Data Integration"
+    "AddDataIntegration": "Add a Data Integration",
+    "fileTypes": "File Types ({{count}})",
+    "dataIntegration": "Data Integrations ({{count}})",
+    "teamMembers": "Team Members ({{count}})"
   },
   "ckg": {
     "timeActivityView": "Time Activity View",
