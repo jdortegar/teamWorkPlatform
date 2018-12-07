@@ -333,9 +333,11 @@
     "dateFormat": "MMM D, YYYY",
     "timeFormat": "H:mm:ss",
     "tickFormat": {
-      "timeMinute": "%b %d\n%H:%M:%S",
-      "timeDay": "%b %d\n%H:%M",
-      "timeMonth": "%b %d"
+      "tickSecond": "%b %d\n%H:%M:%S",
+      "tickMinute": "%b %d\n%H:%M",
+      "tickDay": "%b %d",
+      "tickMonth": "%B",
+      "tickYear": "%Y"
     }
   },
   "createAccount": {

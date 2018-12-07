@@ -136,13 +136,13 @@
 }
 
 .TimeActivityView__axis-label.y-axis {
-  left: 10px;
+  left: 30px;
   top: 10px;
 }
 
 .TimeActivityView__axis-label.x-axis {
   right: 10px;
-  bottom: 10px;
+  bottom: 40px;
 }
 
 .FileListView .pagination-container a,

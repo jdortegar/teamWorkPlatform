@@ -40,7 +40,7 @@ class TimeActivityView extends Component {
 
   render() {
     const { files, loading } = this.props;
-    const { zoomLevel, viewAll } = this.state;
+    const { viewAll } = this.state;
     return (
       <div className="TimeActivityView">
         <div className="ckg-tools-container">
@@ -58,7 +58,7 @@ class TimeActivityView extends Component {
         <div className="TimeActivityView__axis-label x-axis">
           <span>{String.t('timeActivityGraph.xAxisLabel')}</span>
         </div>
-        <TimeActivityGraph files={loading ? [] : files.map(buildDataObject)} zoomLevel={zoomLevel} viewAll={viewAll} />
+        <TimeActivityGraph files={files.map(buildDataObject)} loading={loading} viewAll={viewAll} />
       </div>
     );
   }
