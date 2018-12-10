@@ -79,12 +79,12 @@ const CardView = props => {
 
     return (
       <div key={`${source}_${integrationUser.firstName}`} className="mr-1  mb-2 integration-card">
-        <Tooltip placement="top" title={`${label} - ${integrationUser.firstName}`}>
+        <Tooltip placement="top" title={`${label} - ${integrationUser.email}`}>
           <Link to={`/app/teamIntegrations/${team.teamId}/${source}`}>
             <Avatar size="large" src={integrationImageFromKey(source)} className={desaturated} />
             <i className="fa fa-check-circle icon_success habla-green" />
             <div className="habla-label align-center-class card-label">
-              {integrationUser.firstName || integrationUser.email}
+              {label || integrationUser.firstName || integrationUser.email}
             </div>
           </Link>
         </Tooltip>
