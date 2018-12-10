@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import * as d3 from 'd3';
 
 import String from 'src/translations';
 import { TimeActivityGraph, GraphZoomActions } from 'src/components';
 
-const color = d3.scaleOrdinal(d3.schemeCategory10);
 const buildDataObject = file => ({
   ...file,
   lastModified: moment(file.lastModified),
-  fileCreatedAt: moment(file.fileCreatedAt),
-  color: color(file.fileExtension)
+  fileCreatedAt: moment(file.fileCreatedAt)
 });
 
 class TimeActivityView extends Component {
