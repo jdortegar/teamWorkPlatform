@@ -10,7 +10,7 @@
 
   "notificationPage": {
     "title": "Notificaciones",
-    "menu" : {
+    "menu": {
       "all": "TODAS",
       "messages": "MENSAJES",
       "replies": "RESPUESTAS",

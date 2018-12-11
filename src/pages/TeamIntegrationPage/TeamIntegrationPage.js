@@ -325,13 +325,12 @@ class TeamIntegrationPage extends Component {
             </Button>
           </div>
         )}
-        {isFetchingContent &&
-          statusLabel === 'Active' && (
-            <div className="TeamIntegration__content-loading">
-              <div>{String.t('integrationPage.contentLoading')}</div>
-              <Spinner />
-            </div>
-          )}
+        {isFetchingContent && statusLabel === 'Active' && (
+          <div className="TeamIntegration__content-loading">
+            <div>{String.t('integrationPage.contentLoading')}</div>
+            <Spinner />
+          </div>
+        )}
         {displaySharingSettings && (
           <SharingSettings
             onToggleSelect={this.handleToggleSharingSettings}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { boolean, color, selectV2, number } from '@storybook/addon-knobs/react';
+import { boolean, color, select, number } from '@storybook/addon-knobs';
 import ProgressBar from '.';
 
 const options = {
@@ -15,12 +15,12 @@ const status = ['normal', 'success', 'exception', 'active'];
 
 storiesOf('ProgressBar', module)
   .add('default', () => <ProgressBar percent={number('Progress', 0, options)} />)
-  .add('With props', () => (
+  .add('with props', () => (
     <ProgressBar
       percent={number('Progress', 0, options)}
       strokeColor={color('Color', 'green')}
-      type={selectV2('Type', types, 'line')}
-      status={selectV2('Status', status, 'normal')}
+      type={select('Type', types, 'line')}
+      status={select('Status', status, 'normal')}
       showInfo={boolean('Show Info', false)}
     />
   ));

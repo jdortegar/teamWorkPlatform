@@ -7,14 +7,18 @@ export { getSubscriberOrgById, getCurrentSubscriberOrgId, getUserIdsBySubscriber
 /**
  * Return array of subscriberOrgs.
  */
-export const getSubscriberOrgs = createSelector([getSubscriberOrgById], subscriberOrgById =>
-  Object.values(subscriberOrgById)
+export const getSubscriberOrgs = createSelector(
+  [getSubscriberOrgById],
+  subscriberOrgById => Object.values(subscriberOrgById)
 );
 
-export const getSubscriberOrgsSortedAlphabetically = createSelector([getSubscriberOrgById], subscriberOrgById => {
-  const subscriberOrgsSorted = Object.values(subscriberOrgById).sort(sortByName);
-  return subscriberOrgsSorted;
-});
+export const getSubscriberOrgsSortedAlphabetically = createSelector(
+  [getSubscriberOrgById],
+  subscriberOrgById => {
+    const subscriberOrgsSorted = Object.values(subscriberOrgById).sort(sortByName);
+    return subscriberOrgsSorted;
+  }
+);
 
 export const getCurrentSubscriberOrg = createSelector(
   [getCurrentSubscriberOrgId, getSubscriberOrgById],

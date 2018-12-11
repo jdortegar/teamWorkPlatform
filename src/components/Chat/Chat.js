@@ -539,11 +539,11 @@ class Chat extends React.Component {
                 className="team-room__unread-messages-link"
                 onClick={() => this.props.readMessage(lastMessage.messageId, conversationId)}
               >
-                {String.t('teamRoomPage.markAllAsRead')}
+                {String.t('chat.markAllAsRead')}
               </div>
               <div className="team-room__unread-messages-dot">&middot;</div>
               <div className="team-room__unread-messages-count">
-                {String.t('teamRoomPage.unreadMessagesCount', { count: unreadMessagesCount })}
+                {String.t('chat.unreadMessagesCount', { count: unreadMessagesCount })}
               </div>
             </SimpleCardContainer>
           )}
@@ -575,7 +575,7 @@ class Chat extends React.Component {
                     componentKey="message"
                     form={this.props.form}
                     hasFeedback={false}
-                    placeholder={String.t('teamRoomPage.replyPlaceholder')}
+                    placeholder={String.t('chat.replyPlaceholder')}
                     label=""
                     className="team-room__chat-input-form-item"
                     inputClassName="team-room__chat-input-textfield"
@@ -604,7 +604,7 @@ class Chat extends React.Component {
                     multiple
                   />
                   <label htmlFor="fileupload" className="team-room__icons">
-                    <Tooltip placement="top" title={String.t('teamRoomPage.tooltipAttachments')} arrowPointAtCenter>
+                    <Tooltip placement="top" title={String.t('chat.tooltipAttachments')} arrowPointAtCenter>
                       <i className="fas fa-paperclip" />
                     </Tooltip>
                   </label>
