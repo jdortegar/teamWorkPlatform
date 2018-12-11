@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 const express = require('express');
 const Helmet = require('helmet');
+const fs = require('fs');
 
 if (process.env.NODE_ENV === 'production') {
   const server = express();
@@ -15,6 +16,10 @@ if (process.env.NODE_ENV === 'production') {
   });
 
   server.use(express.static('dist', { fallthrough: true }));
+  server.use('/', (req, res) => {
+    return fs.readFileSync(`${__dirname}/dist/index.html`)
+      .toString()
+  })
 
   const nodePort = process.env.NODE_PORT || 9090;
 
