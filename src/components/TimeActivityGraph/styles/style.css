@@ -1,34 +1,35 @@
-.tooltipOverlay {
-  position: fixed;
-  background-color: black;
-  border-radius: 6px;
-  width: fit-content;
-  max-width: 300px;
-  overflow: hidden;
-  z-index: 1000;
+.highcharts-tooltip > span {
+  white-space: normal;
 }
-.tooltip {
-  position: absolute;
-  z-index: 2000;
-}
-.toolTipTextPrimary {
-  color: #f9b816;
-  max-width: 230px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-right: 4px;
-}
-.toolTipTextSecondary {
-  color: white;
-}
+
 .tooltipContainer {
   display: -webkit-inline-box;
   vertical-align: -webkit-baseline-middle;
-  margin: 10px;
+  min-width: 250px;
+  max-width: 350px;
 }
+
 .tooltipTextContainer {
   border-left: 1px solid #444;
-  height: 100%;
   padding-left: 10px;
-  margin-left: 10px;
+  margin-left: 8px;
+}
+
+.tooltipTextContainer p {
+  font-family: 'Lato', sans-serif;
+  white-space: normal;
+  font-size: 12px;
+}
+
+.tooltipTextPrimary {
+  color: #f9b816;
+  margin: 0 5px 5px 0;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+.tooltipTextSecondary {
+  color: white;
 }

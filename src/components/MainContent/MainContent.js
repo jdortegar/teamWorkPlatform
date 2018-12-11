@@ -52,8 +52,7 @@ const propTypes = {
   updateInvitationDeclined: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
   subscriberOrgs: PropTypes.object.isRequired,
-  fetchTeamsBySubscriberOrgId: PropTypes.func.isRequired,
-  fetchSubscriberOrgs: PropTypes.func.isRequired
+  fetchTeamsBySubscriberOrgId: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -69,8 +68,7 @@ function invitationKey(inv) {
 
 class MainContent extends Component {
   state = {
-    teamsLoaded: null,
-    orgLoaded: null
+    teamsLoaded: null
   };
 
   componentDidMount() {
@@ -92,10 +90,6 @@ class MainContent extends Component {
 
     this.props.fetchTeamsBySubscriberOrgId().then(() => {
       this.setState({ teamsLoaded: true });
-    });
-
-    this.props.fetchSubscriberOrgs().then(() => {
-      setTimeout(this.setState({ orgLoaded: true }), 5000);
     });
   }
 
@@ -186,7 +180,7 @@ class MainContent extends Component {
   render() {
     const invitation = this.getValidInvites();
 
-    if (!this.state.teamsLoaded || !this.state.orgLoaded) {
+    if (!this.state.teamsLoaded) {
       return <Spinner />;
     }
     return (

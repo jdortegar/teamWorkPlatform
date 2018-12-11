@@ -22,7 +22,7 @@ function compileIndexPage(requestUrl) {
     .split('\n')
     .forEach(line => {
       buf += `${line}\n`;
-      if (line === '<head>') {
+      if (line.includes('<head>')) {
         indexPageBeginHeadStart = buf;
         buf = '';
       }

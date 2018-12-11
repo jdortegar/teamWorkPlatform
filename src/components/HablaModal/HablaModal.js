@@ -12,7 +12,7 @@ const propTypes = {
   showModal: PropTypes.func.isRequired,
   showHablaModal: PropTypes.func.isRequired,
   titleText: PropTypes.string,
-  bodyText: PropTypes.string,
+  bodyText: PropTypes.node,
   buttonText: PropTypes.string,
   cancelButton: PropTypes.bool
 };

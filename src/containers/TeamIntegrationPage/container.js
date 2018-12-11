@@ -8,7 +8,8 @@ import {
   getTeamSharingSettings,
   getCurrentSubscriberUserId,
   getContentError,
-  isFetchingContent
+  isFetchingContent,
+  getUserByUserId
 } from 'src/selectors';
 import {
   fetchTeamIntegrations,
@@ -25,10 +26,13 @@ const mapStateToProps = (state, props) => {
   const { teamId, source, status } = props.match.params;
   const subscriberUserId = getCurrentSubscriberUserId(state);
   const { folders, files, sites, saved, submitting } = getTeamSharingSettings(state, { source, teamId });
+  const subscriberUsers = Object.values(getUserByUserId(state));
+  const integration = getTeamIntegration(state, { source, teamId });
+  const subscriberUserEmail = subscriberUsers.find(member => member.userId === integration.userId).email || '';
 
   return {
     team: getTeam(state, teamId),
-    integration: getTeamIntegration(state, { source, teamId }),
+    integration,
     content: getTeamIntegrationContent(state, { source, subscriberUserId, teamId }),
     isFetchingContent: isFetchingContent(state),
     contentError: getContentError(state),
@@ -36,6 +40,7 @@ const mapStateToProps = (state, props) => {
     isSubmittingSharingSettings: submitting,
     isSavedSharingSettings: saved,
     subscriberUserId,
+    subscriberUserEmail,
     source,
     status
   };

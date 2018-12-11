@@ -1386,11 +1386,15 @@ tr.ant-table-row:hover {
     line-height: 12px;
     word-break: initial;
   }
+  .FileListView .FileListView__results__integrationIcon {
+    width: 20px;
+    height: 20px;
+    top: 5px;
+  }
   .ResultsList__row img {
     width: 20px;
     height: 20px;
     position: relative;
-    top: 5px;
   }
 
   .active.habla-top-menu-home::after,

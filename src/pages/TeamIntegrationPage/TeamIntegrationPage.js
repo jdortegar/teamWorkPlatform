@@ -32,7 +32,8 @@ const propTypes = {
   selectedSettings: PropTypes.object,
   isFetchingContent: PropTypes.bool,
   isSubmittingSharingSettings: PropTypes.bool,
-  isSavedSharingSettings: PropTypes.bool
+  isSavedSharingSettings: PropTypes.bool,
+  subscriberUserEmail: PropTypes.email
 };
 
 const defaultProps = {
@@ -42,7 +43,8 @@ const defaultProps = {
   selectedSettings: {},
   isFetchingContent: false,
   isSubmittingSharingSettings: false,
-  isSavedSharingSettings: false
+  isSavedSharingSettings: false,
+  subscriberUserEmail: ''
 };
 
 const showNotification = (response, source) => {
@@ -253,13 +255,16 @@ class TeamIntegrationPage extends Component {
       isFetchingContent,
       isSubmittingSharingSettings,
       isSavedSharingSettings,
-      selectedSettings
+      selectedSettings,
+      subscriberUserEmail
     } = this.props;
     const { configParams } = this.state;
     const integrationKey = integrationMapping(source);
     const integrationImageSrc = integrationImageFromKey(integrationKey);
     const integrationLabel = integrationLabelFromKey(integrationKey);
     const statusLabel = getIntegrationStatus(integration);
+    const integrationEmailLabel =
+      statusLabel === 'Active' ? subscriberUserEmail : String.t('integrationPage.deactivate');
     const tooltipTitle =
       statusLabel === 'Active' ? String.t('integrationPage.deactivate') : String.t('integrationPage.activate');
     const disabledSwitch = configParams.some(param => this[param.key] && this[param.key].value.length < 3);
@@ -295,7 +300,7 @@ class TeamIntegrationPage extends Component {
             <ImageCard imgSrc={integrationImageSrc} size="large" />
           </div>
           <div className="habla-big-title">{integrationLabel}</div>
-          <div className="habla-secondary-paragraph margin-top-class-b">{statusLabel}</div>
+          <div className="habla-secondary-paragraph margin-top-class-b">{integrationEmailLabel}</div>
         </SimpleCardContainer>
         <div className="TeamIntegration__switch-container align-center-class">
           {this.renderConfigParams()}

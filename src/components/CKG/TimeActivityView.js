@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import * as d3 from 'd3';
 
 import String from 'src/translations';
 import { TimeActivityGraph, GraphZoomActions } from 'src/components';
 
-const color = d3.scaleOrdinal(d3.schemeCategory10);
 const buildDataObject = file => ({
   ...file,
   lastModified: moment(file.lastModified),
-  fileCreatedAt: moment(file.fileCreatedAt),
-  color: color(file.fileExtension)
+  fileCreatedAt: moment(file.fileCreatedAt)
 });
 
 class TimeActivityView extends Component {
@@ -40,7 +37,7 @@ class TimeActivityView extends Component {
 
   render() {
     const { files, loading } = this.props;
-    const { zoomLevel, viewAll } = this.state;
+    const { viewAll } = this.state;
     return (
       <div className="TimeActivityView">
         <div className="ckg-tools-container">
@@ -58,7 +55,7 @@ class TimeActivityView extends Component {
         <div className="TimeActivityView__axis-label x-axis">
           <span>{String.t('timeActivityGraph.xAxisLabel')}</span>
         </div>
-        <TimeActivityGraph files={loading ? [] : files.map(buildDataObject)} zoomLevel={zoomLevel} viewAll={viewAll} />
+        <TimeActivityGraph files={files.map(buildDataObject)} loading={loading} viewAll={viewAll} />
       </div>
     );
   }

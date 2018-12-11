@@ -1,236 +1,212 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import * as d3 from 'd3';
-import { VictoryAxis, VictoryChart, VictoryLabel, VictoryScatter, VictoryZoomContainer } from 'victory';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
 
 import String from 'src/translations';
 import formatSize from 'src/lib/formatSize';
+import imageSrcFromFile from 'src/lib/imageFiles';
+import addYPanToChart from 'src/lib/addYPanToChart';
 import { integrationKeyFromFile, integrationImageFromKey } from 'src/utils/dataIntegrations';
 
-import FilePoint from './FilePoint';
-import styles from './styles/style';
 import './styles/style.css';
+
+addYPanToChart(Highcharts);
 
 const propTypes = {
   files: PropTypes.arrayOf(PropTypes.object),
-  zoomLevel: PropTypes.number,
-  viewAll: PropTypes.bool
+  viewAll: PropTypes.bool,
+  loading: PropTypes.bool
 };
 
 const defaultProps = {
   files: [],
-  zoomLevel: 0,
-  viewAll: true
+  viewAll: false,
+  loading: false
 };
 
-// chart size properties
-const MIN_WIDTH = 0;
-const MIN_HEIGHT = 0;
-const HEIGHT_ADJUSTMENT = 100;
-const TOOLTIP_VERTICAL_OFFSET = 10;
-const TOOLTIP_HORIZONTAL_OFFSET = 30;
+const ICON_SIZE = 26;
 
-// from Victory. Increasing this number restrains the zoom level
-const MINIMUM_ZOOM = { x: 500000, y: 500000 };
+const formatData = files =>
+  files.map(f => ({
+    x: f.fileCreatedAt.valueOf(),
+    y: f.lastModified.valueOf(),
+    name: f.fileName,
+    resourceUri: f.resourceUri,
+    srcImg: integrationImageFromKey(integrationKeyFromFile(f)),
+    formattedDate: String.t('timeActivityGraph.displayTime', {
+      displayDate: f.lastModified.format(String.t('timeActivityGraph.dateFormat')),
+      displayTime: f.lastModified.format(String.t('timeActivityGraph.timeFormat'))
+    }),
+    formattedSize: formatSize(f.fileSize),
+    marker: {
+      symbol: `url(${imageSrcFromFile(f.fileExtension)})`,
+      height: ICON_SIZE,
+      width: ICON_SIZE
+    }
+  }));
 
-// how much the zoom changes in each interaction
-const ZOOM_DIFFERENCE = 0.1;
-
-// from the first to the last file
-const allZoomDomain = key => files => {
-  const dates = files.map(file => file[key]);
-  const lastFileDate = moment.max(dates);
-  const firstFileDate = moment.min(dates);
-  return [+moment(firstFileDate).subtract(1, 'month'), +moment(lastFileDate).add(1, 'week')];
+const AXIS_OPTIONS = {
+  type: 'datetime',
+  startOnTick: false,
+  endOnTick: false,
+  dateTimeLabelFormats: {
+    second: String.t('timeActivityGraph.tickFormat.tickSecond'),
+    minute: String.t('timeActivityGraph.tickFormat.tickMinute'),
+    hour: String.t('timeActivityGraph.tickFormat.tickMinute'),
+    day: String.t('timeActivityGraph.tickFormat.tickDay'),
+    week: String.t('timeActivityGraph.tickFormat.tickDay'),
+    month: String.t('timeActivityGraph.tickFormat.tickMonth'),
+    year: String.t('timeActivityGraph.tickFormat.tickYear')
+  },
+  gridLineColor: 'rgb(255,255,255,0.3)',
+  gridLineWidth: 1,
+  lineWidth: 0,
+  tickWidth: 0,
+  tickPixelInterval: 100,
+  title: {
+    enabled: false
+  },
+  labels: {
+    style: {
+      color: 'rgb(255,255,255,0.4)',
+      textTransform: 'uppercase'
+    }
+  }
 };
-const allXDomain = allZoomDomain('lastModified');
-const allYDomain = allZoomDomain('fileCreatedAt');
 
-const formatTick = date => {
-  const getFormat = () => {
-    if (d3.timeMinute(date) < date) return String.t('timeActivityGraph.tickFormat.timeMinute'); // eg: "14:28:32 \n Dec 21"
-    if (d3.timeDay(date) < date) return String.t('timeActivityGraph.tickFormat.timeDay'); // eg: "14:28 \n Dec 21"
-    if (d3.timeMonth(date) < date) return String.t('timeActivityGraph.tickFormat.timeMonth'); // eg: "Dec 21"
-    if (d3.timeYear(date) < date) return '%B'; // eg: "December"
-    return '%Y'; // eg: "2018"
-  };
-
-  return d3.timeFormat(getFormat())(date);
+const CHART_OPTIONS = {
+  chart: {
+    type: 'scatter',
+    backgroundColor: 'rgb(85, 125, 191)',
+    zoomType: 'xy',
+    panning: true,
+    panKey: 'shift',
+    spacingLeft: 30,
+    resetZoomButton: {
+      theme: {
+        visibility: 'hidden'
+      }
+    }
+  },
+  credits: {
+    enabled: false
+  },
+  title: {
+    text: undefined
+  },
+  legend: {
+    enabled: false
+  },
+  navigation: {
+    buttonOptions: { enabled: false }
+  },
+  xAxis: {
+    ...AXIS_OPTIONS,
+    tickPixelInterval: 150
+  },
+  yAxis: {
+    ...AXIS_OPTIONS,
+    gridLineColor: 'rgb(255,255,255,0.1)'
+  },
+  tooltip: {
+    useHTML: true,
+    headerFormat: '<div class="tooltipContainer">',
+    pointFormat: `
+        <img src={point.srcImg} width="32" height="32" />
+        <div class="tooltipTextContainer">
+          <p class="tooltipTextPrimary">{point.name}</p>
+          <p class="tooltipTextSecondary">{point.formattedDate}</p>
+          <p class="tooltipTextSecondary">{point.formattedSize}</p>
+        </div>`,
+    footerFormat: `</div>`,
+    backgroundColor: 'rgba(0,0,0,0.9)',
+    borderColor: 'rgba(0,0,0,0.9)',
+    borderRadius: 6
+  },
+  plotOptions: {
+    scatter: {
+      allowPointSelect: true,
+      getExtremesFromAll: true,
+      marker: {
+        radius: 5,
+        states: {
+          hover: {
+            enabled: true,
+            lineColor: 'rgb(100,100,100)'
+          }
+        }
+      }
+    },
+    series: {
+      cursor: 'pointer',
+      point: {
+        events: {
+          click: function click() {
+            window.open(this.options.resourceUri, '_blank');
+          }
+        }
+      }
+    }
+  },
+  series: [
+    {
+      type: 'scatter',
+      stickyTracking: false,
+      turboThreshold: 0,
+      boostThreshold: 1,
+      data: []
+    }
+  ]
 };
 
 class TimeActivityGraph extends Component {
   container = null;
+  highchart = null;
 
-  constructor(props) {
-    super(props);
-
-    const xDomain = allXDomain(props.files);
-    const yDomain = allYDomain(props.files);
-
-    this.state = {
-      width: MIN_WIDTH,
-      height: MIN_HEIGHT,
-      fullDomain: { x: xDomain, y: yDomain },
-      zoomDomain: { x: xDomain, y: yDomain }
-    };
-
-    this.closeTooltip = this.closeTooltip.bind(this);
-  }
+  state = {
+    width: 0,
+    height: 0
+  };
 
   componentDidMount() {
-    window.addEventListener('resize', this.updateDimensions.bind(this));
+    window.addEventListener('resize', this.updateDimensions);
     this.updateDimensions();
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((this.props.files.length === 0 && nextProps.files !== 0) || nextProps.viewAll) {
-      const xDomain = allXDomain(nextProps.files);
-      const yDomain = allYDomain(nextProps.files);
-      this.setState({ fullDomain: { x: xDomain, y: yDomain }, zoomDomain: { x: xDomain, y: yDomain } });
-    } else if (nextProps.zoomLevel !== this.props.zoomLevel) {
-      this.applyZoom(nextProps.zoomLevel, this.props.zoomLevel);
+    if (nextProps.viewAll) {
+      this.highchart.chart.zoomOut();
     }
   }
 
-  handleZoomDomainChange = zoomDomain => {
-    this.setState({ zoomDomain });
-  };
-
-  applyZoom = (newZoomLevel, oldZoomLevel) => {
-    this.setState(prevState => {
-      const { x, y } = prevState.zoomDomain;
-      const xDiff = (x[1] - x[0]) * ZOOM_DIFFERENCE;
-      const yDiff = (y[1] - y[0]) * ZOOM_DIFFERENCE;
-
-      const domain = {};
-      if (newZoomLevel > oldZoomLevel) {
-        domain.x = [x[0] + xDiff, x[1] - xDiff];
-        domain.y = [y[0] + yDiff, y[1] - yDiff];
-      } else {
-        domain.x = [x[0] - xDiff, x[1] + xDiff];
-        domain.y = [y[0] - yDiff, y[1] + yDiff];
-      }
-
-      return { zoomDomain: domain };
-    });
-  };
-
-  updateDimensions() {
+  updateDimensions = () => {
     if (!this.container || !this.container.parentNode) return;
     const { clientWidth, clientHeight } = this.container.parentNode;
-    const width = clientWidth;
-    const height = clientHeight;
-
-    this.setState({
-      width: width < MIN_WIDTH ? MIN_WIDTH : width,
-      height: height < MIN_HEIGHT ? MIN_HEIGHT : height
-    });
-  }
-
-  closeTooltip() {
-    this.setState({ tooltipPoint: null });
-  }
-
-  renderTooltipViews() {
-    const { x, y, datum } = this.state.tooltipPoint;
-    const { lastModified, fileName, fileSize } = datum;
-    const top = y + TOOLTIP_VERTICAL_OFFSET;
-    const left = x + TOOLTIP_HORIZONTAL_OFFSET;
-    const displayDate = moment(lastModified).format(String.t('timeActivityGraph.dateFormat'));
-    const displayTime = moment(lastModified).format(String.t('timeActivityGraph.timeFormat'));
-    const imgSrc = integrationImageFromKey(integrationKeyFromFile(datum));
-
-    return (
-      <div onClick={() => this.closeTooltip()} className="tooltipOverlay" style={{ left, top }}>
-        <div className="tooltipContainer">
-          <img src={imgSrc} alt="" width={32} height={32} className="img" />
-          <div className="tooltipTextContainer">
-            <p className="toolTipTextPrimary">{fileName}</p>
-            <p className="toolTipTextSecondary">
-              {String.t('timeActivityGraph.displayTime', { displayDate, displayTime })}
-            </p>
-            <p className="toolTipTextSecondary">{formatSize(fileSize)}</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+    this.setState({ width: clientWidth, height: clientHeight });
+  };
 
   render() {
-    const { files } = this.props;
-    const { tooltipPoint, width, height, fullDomain, zoomDomain } = this.state;
+    const { files, loading } = this.props;
+    const { width, height } = this.state;
+
     return (
       <div
         ref={node => {
           this.container = node;
         }}
-        style={{ flex: 1, minWidth: MIN_WIDTH, minHeight: MIN_HEIGHT, position: 'relative' }}
       >
-        {tooltipPoint && this.renderTooltipViews()}
-        <VictoryChart
-          scale="time"
-          domain={fullDomain}
-          width={width}
-          height={height + HEIGHT_ADJUSTMENT}
-          style={styles.container}
-          padding={{ top: 0, left: 40, right: 0, bottom: 60 }}
-          containerComponent={
-            <VictoryZoomContainer
-              zoomDomain={zoomDomain}
-              minimumZoom={MINIMUM_ZOOM}
-              onZoomDomainChange={this.handleZoomDomainChange}
-            />
-          }
-        >
-          <VictoryAxis
-            tickFormat={formatTick}
-            tickLabelComponent={<VictoryLabel lineHeight={1.3} style={styles.compoundTickLabels} />}
-            style={{
-              axis: styles.hidden,
-              grid: styles.lines
-            }}
-          />
-          <VictoryAxis
-            dependentAxis
-            tickFormat={formatTick}
-            tickLabelComponent={<VictoryLabel lineHeight={1.3} style={styles.compoundTickLabels} />}
-            style={{
-              tickLabels: styles.tickLabels,
-              axis: styles.lines,
-              grid: styles.altLines
-            }}
-          />
-          <VictoryScatter
-            data={files}
-            y="fileCreatedAt"
-            x="lastModified"
-            style={styles.scatter}
-            labelComponent={<div />}
-            dataComponent={<FilePoint />}
-            events={[
-              {
-                target: 'data',
-                eventHandlers: {
-                  onMouseOver: (evt, clickedProps) => {
-                    const { index, data } = clickedProps;
-                    if (!tooltipPoint || tooltipPoint.datum.index !== index) {
-                      this.setState({ tooltipPoint: { x: evt.clientX, y: evt.clientY, datum: data[index] } });
-                    }
-                  },
-                  onMouseOut: () => {
-                    this.setState({ tooltipPoint: null });
-                  },
-                  onClick: (evt, clickedProps) => {
-                    const { index, data } = clickedProps;
-                    window.open(data[index].resourceUri, '_blank');
-                    this.setState({ tooltipPoint: null });
-                  }
-                }
-              }
-            ]}
-          />
-        </VictoryChart>
+        <HighchartsReact
+          highcharts={Highcharts}
+          ref={node => {
+            this.highchart = node;
+          }}
+          options={{
+            ...CHART_OPTIONS,
+            chart: { ...CHART_OPTIONS.chart, height, width },
+            series: [{ ...CHART_OPTIONS.series[0], data: loading ? [] : formatData(files) }]
+          }}
+        />
       </div>
     );
   }

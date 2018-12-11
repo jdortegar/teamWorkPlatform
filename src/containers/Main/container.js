@@ -1,17 +1,33 @@
 import { connect } from 'react-redux';
 import { Main } from 'src/layouts';
-import { initMessaging, closeMessaging, fetchGlobalState, fetchInvitations } from 'src/actions';
+import {
+  initMessaging,
+  closeMessaging,
+  fetchGlobalState,
+  fetchInvitations,
+  fetchSubscriberOrgs,
+  fetchSubscription
+} from 'src/actions';
+import { getCurrentSubscriberOrgId, getSubscription } from 'src/selectors';
 
-const mapStateToProps = state => ({
-  subscriberOrgs: state.subscriberOrgs
-});
+const mapStateToProps = state => {
+  const orgId = getCurrentSubscriberOrgId(state);
+  const subscriberOrg = state.subscriberOrgs.subscriberOrgById[orgId];
+  return {
+    subscriberOrg,
+    subscriberOrgs: state.subscriberOrgs,
+    subscription: getSubscription(state)
+  };
+};
 
-const mapDispatchToProps = dispatch => ({
-  initMessaging: () => dispatch(initMessaging()),
-  closeMessaging: () => dispatch(closeMessaging()),
-  fetchGlobalState: () => dispatch(fetchGlobalState()),
-  fetchInvitations: () => dispatch(fetchInvitations())
-});
+const mapDispatchToProps = {
+  initMessaging,
+  closeMessaging,
+  fetchGlobalState,
+  fetchInvitations,
+  fetchSubscriberOrgs,
+  fetchSubscription
+};
 
 export default connect(
   mapStateToProps,

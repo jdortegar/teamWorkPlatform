@@ -38,16 +38,78 @@ svg.fa-ellipsis-h {
   color: rgba(0, 0, 0, 0.45);
 }
 
-@media only screen and (max-width: 768px) {
-  .Organization_Members_Page .table-container,
-  .Organization_Teams_Page .table-container {
-    background: #fff;
-    width: 80vw;
-    overflow: auto;
+/*
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+  /* Force table to not be like tables anymore */
+  .Organization_Teams_Page .table-container table,
+  .Organization_Teams_Page .table-container thead,
+  .Organization_Teams_Page .table-container tbody,
+  .Organization_Teams_Page .table-container th,
+  .Organization_Teams_Page .table-container td,
+  .Organization_Teams_Page .table-container tr {
+    display: block;
   }
 
-  .MembersPage__membersLeft_badge {
-    display: block;
-    margin: 10px 0 0;
+  /* Hide table headers (but not display: none;, for accessibility) */
+  .Organization_Teams_Page .table-container thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .Organization_Teams_Page .table-container tr {
+    border-bottom: 2px solid #eee !important;
+  }
+
+  .Organization_Teams_Page .table-container td {
+    /* Behave  like a "row" */
+    border: none !important;
+    border-bottom: 1px solid #eee !important;
+    position: relative !important;
+    padding-left: 30% !important;
+  }
+
+  .Organization_Teams_Page .table-container td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 25%;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  /*
+	Label the data
+	*/
+  .Organization_Teams_Page .table-container td:nth-of-type(1):before {
+    content: 'NAME';
+  }
+  .Organization_Teams_Page .table-container td:nth-of-type(2):before {
+    content: 'PROJECT TEAM MEMBERS';
+  }
+  .Organization_Teams_Page .table-container td:nth-of-type(3):before {
+    content: 'CREATION DATE';
+  }
+  .Organization_Teams_Page .table-container td:nth-of-type(4):before {
+    content: 'STATUS';
+  }
+  .Organization_Teams_Page .table-container td:nth-of-type(5):before {
+    content: 'EDIT';
+  }
+  .Organization_Teams_Page .table-container td:nth-of-type(6):before {
+    content: 'SELECT';
+  }
+
+  .Organization_Teams_Page .table-container .ant-table-thead > tr > th,
+  .Organization_Teams_Page .table-container .ant-table-tbody > tr > td {
+    padding: 10px;
+    word-break: break-word;
+    -ms-word-break: break-all;
   }
 }
