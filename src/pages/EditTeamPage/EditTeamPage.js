@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import { Form, message, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import String from 'src/translations';
 import { formShape } from 'src/propTypes';
-import { PageHeader, SimpleCardContainer, TextField, SwitchField, Spinner, Button } from 'src/components';
+import {
+  PageHeader,
+  SimpleCardContainer,
+  TextField,
+  SwitchField,
+  Spinner,
+  Button,
+  UploadImageField
+} from 'src/components';
 import './styles/style.css';
 
 const propTypes = {
@@ -20,7 +29,7 @@ const propTypes = {
     }).isRequired
   }).isRequired,
   updateTeam: PropTypes.func.isRequired,
-  teams: PropTypes.object.isRequired,
+  team: PropTypes.object.isRequired,
   subscriberOrgById: PropTypes.object.isRequired,
   orgId: PropTypes.string.isRequired
 };
@@ -29,20 +38,49 @@ class EditTeamPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { loading: false };
+    const { team } = this.props;
+
+    this.state = {
+      loading: false,
+      avatarBase64: team && team.preferences ? team.preferences.avatarBase64 : null,
+      logo: team && team.preferences ? team.preferences.logo : null
+    };
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  onRemoveImage = () => {
+    this.setState({
+      logo: null,
+      avatarBase64: null
+    });
+  };
+
+  handleChange = base64 => {
+    this.setState({
+      avatarBase64: base64
+    });
+  };
+
   handleSubmit(e) {
     e.preventDefault();
     const { teamId } = this.props.match.params;
-    const { orgId } = this.props;
+    const { orgId, team } = this.props;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
-        const valuesToSend = { ...values };
-        valuesToSend.name = values.name.trim();
+
+        const valuesToSend = {
+          ...values,
+          preferences: {
+            logo: this.state.logo,
+            avatarBase64: this.state.avatarBase64
+          }
+        };
+
+        // Remove Name from object if the name is the same
+        valuesToSend.name = valuesToSend.name === team.name ? undefined : valuesToSend.name.trim();
+
         this.props
           .updateTeam(orgId, teamId, valuesToSend)
           .then(() => {
@@ -63,14 +101,11 @@ class EditTeamPage extends Component {
   }
 
   render() {
-    const { match, teams, subscriberOrgById } = this.props;
-    if (!match || !match.params || !match.params.teamId || !teams || !subscriberOrgById) {
+    const { match, team, subscriberOrgById } = this.props;
+    if (!match || !match.params || !match.params.teamId || !team || !subscriberOrgById) {
       return <Spinner />;
     }
 
-    const { teamId } = this.props.match.params;
-
-    const team = teams[teamId];
     if (!team) {
       this.props.history.replace('/app');
       return null;
@@ -80,6 +115,12 @@ class EditTeamPage extends Component {
       this.props.history.replace('/app');
       return null;
     }
+
+    const containerImage = classNames({
+      container__image: true,
+      'with-image': this.state.logo || this.state.avatarBase64,
+      'with-no-image': !this.state.avatarBase64 && !this.state.logo
+    });
 
     // Breadcrumb
     const pageBreadCrumb = {
@@ -93,8 +134,25 @@ class EditTeamPage extends Component {
     return (
       <div className="EditTeamPage-main">
         <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
-        <SimpleCardContainer>
-          <Form onSubmit={this.handleSubmit} layout="vertical">
+        <Form onSubmit={this.handleSubmit} layout="vertical">
+          <SimpleCardContainer className="subpage-block padding-class-a border-bottom-light container__team_image">
+            <div className={containerImage}>
+              <UploadImageField
+                text={String.t('editOrgPage.changeAvatarText')}
+                onChange={this.handleChange}
+                image={this.state.avatarBase64 || this.state.logo}
+                editOrg
+                resize
+              />
+              {(this.state.avatarBase64 || this.state.logo) && (
+                <span className="container__image__remove" onClick={this.onRemoveImage}>
+                  {String.t('editOrgPage.removeImageLabel')}
+                </span>
+              )}
+            </div>
+            <span className="EditTeamPage_upload_label">{String.t('editOrgPage.changeAvatarText')}</span>
+          </SimpleCardContainer>
+          <SimpleCardContainer>
             <div className="padding-class-a">
               <div className="Edit-team__container">
                 <h1 className="Edit-team__title">{String.t('editTeamPage.teamName')}</h1>
@@ -140,8 +198,8 @@ class EditTeamPage extends Component {
                 {String.t('editTeamPage.saveButtonLabel')}
               </Button>
             </div>
-          </Form>
-        </SimpleCardContainer>
+          </SimpleCardContainer>
+        </Form>
       </div>
     );
   }
