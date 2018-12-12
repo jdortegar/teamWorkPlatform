@@ -18,7 +18,6 @@ import {
   toggleTeamSharingSettings,
   toggleAllTeamSharingSettings,
   integrateTeamIntegration,
-  configureTeamIntegration,
   revokeTeamIntegration
 } from 'src/actions';
 
@@ -53,7 +52,6 @@ const mapDispatchToProps = {
   toggleTeamSharingSettings,
   toggleAllTeamSharingSettings,
   integrateTeamIntegration,
-  configureTeamIntegration,
   revokeTeamIntegration
 };
 
