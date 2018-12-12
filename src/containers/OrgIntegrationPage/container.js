@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { withStatusMessage } from 'src/hoc';
-import { IntegrationPage } from 'src/pages';
+import { OrgIntegrationPage } from 'src/pages';
 import {
   getOrgIntegration,
   getOrgIntegrationContent,
@@ -56,4 +56,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStatusMessage(IntegrationPage));
+)(withStatusMessage(OrgIntegrationPage));
