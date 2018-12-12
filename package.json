@@ -38,20 +38,8 @@
       "pre-commit": "lint-staged && npm test"
     }
   },
-  "devDependencies": {
-    "@babel/core": "^7.2.0",
-    "@babel/plugin-proposal-class-properties": "^7.2.1",
-    "@babel/plugin-proposal-export-default-from": "^7.2.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
-    "@babel/preset-env": "^7.2.0",
-    "@babel/preset-react": "^7.0.0",
-    "@storybook/addon-actions": "^4.0.12",
-    "@storybook/addon-console": "^1.1.0",
-    "@storybook/addon-knobs": "^4.0.12",
-    "@storybook/addons": "^4.0.12",
-    "@storybook/react": "^4.0.12",
+  "devDependencies": {    
     "babel-eslint": "^10.0.1",
-    "babel-plugin-import": "^1.11.0",
     "css-loader": "^2.0.0",
     "eslint": "^5.10.0",
     "eslint-config-airbnb": "^17.1.0",
@@ -68,6 +56,18 @@
     "style-loader": "^0.23.1"
   },
   "dependencies": {
+    "babel-plugin-import": "^1.11.0",
+    "@babel/core": "^7.2.0",
+    "@babel/plugin-proposal-class-properties": "^7.2.1",
+    "@babel/plugin-proposal-export-default-from": "^7.2.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "@babel/preset-react": "^7.0.0",
+    "@storybook/addon-actions": "^4.0.12",
+    "@storybook/addon-console": "^1.1.0",
+    "@storybook/addon-knobs": "^4.0.12",
+    "@storybook/addons": "^4.0.12",
+    "@storybook/react": "^4.0.12",
     "@babel/polyfill": "^7.0.0",
     "@fortawesome/fontawesome": "^1.1.5",
     "@fortawesome/react-fontawesome": "0.0.18",
