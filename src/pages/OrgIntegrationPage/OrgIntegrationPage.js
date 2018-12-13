@@ -1,30 +1,30 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { message } from 'antd';
+import PropTypes from 'prop-types';
 
 import String from 'src/translations';
 import { getIntegrationStatus, displayRevokeMessage } from 'src/lib/integrations';
 import { IntegrationScreen } from 'src/components';
 
 const propTypes = {
-  team: PropTypes.object.isRequired,
-  source: PropTypes.string.isRequired,
-  fetchTeamIntegrations: PropTypes.func.isRequired,
+  integrateOrgIntegration: PropTypes.func.isRequired,
+  revokeOrgIntegration: PropTypes.func.isRequired,
+  fetchIntegrations: PropTypes.func.isRequired,
   fetchIntegrationContent: PropTypes.func.isRequired,
-  toggleTeamSharingSettings: PropTypes.func.isRequired,
-  toggleAllTeamSharingSettings: PropTypes.func.isRequired,
-  saveTeamSharingSettings: PropTypes.func.isRequired,
-  integrateTeamIntegration: PropTypes.func.isRequired,
-  revokeTeamIntegration: PropTypes.func.isRequired,
+  toggleOrgSharingSettings: PropTypes.func.isRequired,
+  toggleAllOrgSharingSettings: PropTypes.func.isRequired,
+  saveOrgSharingSettings: PropTypes.func.isRequired,
   subscriberUserId: PropTypes.string.isRequired,
+  orgId: PropTypes.string.isRequired,
+  orgName: PropTypes.string.isRequired,
+  source: PropTypes.string.isRequired,
   integration: PropTypes.object,
   content: PropTypes.object,
   contentError: PropTypes.object,
   selectedSettings: PropTypes.object,
   isFetchingContent: PropTypes.bool,
   isSubmittingSharingSettings: PropTypes.bool,
-  isSavedSharingSettings: PropTypes.bool,
-  userEmail: PropTypes.string
+  isSavedSharingSettings: PropTypes.bool
 };
 
 const defaultProps = {
@@ -34,15 +34,14 @@ const defaultProps = {
   selectedSettings: {},
   isFetchingContent: false,
   isSubmittingSharingSettings: false,
-  isSavedSharingSettings: false,
-  userEmail: ''
+  isSavedSharingSettings: false
 };
 
-class TeamIntegrationPage extends Component {
+class OrgIntegrationPage extends Component {
   componentDidMount() {
-    const { team, source, subscriberUserId } = this.props;
-    this.props.fetchTeamIntegrations(team.teamId);
-    this.props.fetchIntegrationContent(source, subscriberUserId, team.teamId);
+    const { subscriberUserId, source } = this.props;
+    this.props.fetchIntegrations();
+    this.props.fetchIntegrationContent(source, subscriberUserId);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -53,21 +52,21 @@ class TeamIntegrationPage extends Component {
   }
 
   switchIntegration = checked => {
-    const { source, team, integration, integrateTeamIntegration, revokeTeamIntegration } = this.props;
+    const { source, integrateOrgIntegration, revokeOrgIntegration } = this.props;
     if (checked) {
-      integrateTeamIntegration(source, team.teamId).catch(error => message.error(error.message));
+      integrateOrgIntegration(source).catch(error => message.error(error.message));
     } else {
-      revokeTeamIntegration(source, integration.teamId, integration.userId)
+      revokeOrgIntegration(source)
         .then(res => displayRevokeMessage(res.status, source))
         .catch(error => message.error(error.message));
     }
   };
 
   refreshIntegration = () => {
-    const { source, team, integration, integrateTeamIntegration, revokeTeamIntegration } = this.props;
-    revokeTeamIntegration(source, integration.teamId, integration.userId)
-      .then(
-        integrateTeamIntegration(source, team.teamId)
+    const { source, integrateOrgIntegration, revokeOrgIntegration } = this.props;
+    revokeOrgIntegration(source)
+      .then(() =>
+        integrateOrgIntegration(source)
           .then(res => displayRevokeMessage(res.status, source))
           .catch(error => message.error(error.message))
       )
@@ -75,38 +74,37 @@ class TeamIntegrationPage extends Component {
   };
 
   saveSharingSettings = () => {
-    const { source, subscriberUserId, team } = this.props;
+    const { source, subscriberUserId } = this.props;
     this.props
-      .saveTeamSharingSettings(source, subscriberUserId, team.teamId)
+      .saveOrgSharingSettings(source, subscriberUserId)
       .then(() => message.success(String.t('integrationPage.message.sharingSettingsSaved')));
   };
 
   toggleSharingSettings = ({ folderId, fileId }) => {
-    const { subscriberUserId, team, source } = this.props;
-    this.props.toggleTeamSharingSettings(subscriberUserId, source, team.teamId, { folderId, fileId });
+    const { subscriberUserId, source } = this.props;
+    this.props.toggleOrgSharingSettings(subscriberUserId, source, { folderId, fileId });
   };
 
   toggleAllSharingSettings = selectAll => {
-    const { subscriberUserId, team, source } = this.props;
-    this.props.toggleAllTeamSharingSettings(subscriberUserId, source, team.teamId, { selectAll });
+    const { subscriberUserId, source } = this.props;
+    this.props.toggleAllOrgSharingSettings(subscriberUserId, source, { selectAll });
   };
 
   render() {
     const {
-      team,
+      orgId,
+      orgName,
       source,
       integration,
       content,
-      isFetchingContent,
-      isSubmittingSharingSettings,
-      isSavedSharingSettings,
       selectedSettings,
-      userEmail
+      isFetchingContent,
+      isSavedSharingSettings,
+      isSubmittingSharingSettings
     } = this.props;
 
     return (
       <IntegrationScreen
-        team={team}
         source={source}
         integration={integration}
         content={content}
@@ -119,13 +117,14 @@ class TeamIntegrationPage extends Component {
         onSaveSettings={this.saveSharingSettings}
         onToggleSettings={this.toggleSharingSettings}
         onToggleAllSettings={this.toggleAllSharingSettings}
-        userEmail={userEmail}
+        orgId={orgId}
+        orgName={orgName}
       />
     );
   }
 }
 
-TeamIntegrationPage.propTypes = propTypes;
-TeamIntegrationPage.defaultProps = defaultProps;
+OrgIntegrationPage.propTypes = propTypes;
+OrgIntegrationPage.defaultProps = defaultProps;
 
-export default TeamIntegrationPage;
+export default OrgIntegrationPage;

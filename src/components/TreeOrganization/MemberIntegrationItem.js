@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import { Icon, Row, Col, Tooltip, Switch, message } from 'antd';
 import { AvatarWithLabel } from 'src/components';
-import { integrationLabelFromKey, integrationImageFromKey, integrationMapping } from 'src/utils/dataIntegrations';
+import { integrationLabelFromKey, integrationImageFromKey } from 'src/utils/dataIntegrations';
 import String from 'src/translations';
 
 const showNotification = (response, integrationKey) => {
@@ -32,12 +32,11 @@ const MemberIntegrationItem = ({ memberIntegration, isSelected, onToggleSelectio
 
   // TO DO: Integration URL doesn't work
   const handleIntegration = checked => {
-    const key = integrationMapping(integration.source);
     if (checked) {
       message.error(String.t('OrganizationManage.enableIntegrationMessage'));
     } else {
-      revokeOrgIntegration(key)
-        .then(res => showNotification(res, key))
+      revokeOrgIntegration(integration.source)
+        .then(res => showNotification(res, integration.source))
         .catch(error => {
           message.error(error.message);
         });

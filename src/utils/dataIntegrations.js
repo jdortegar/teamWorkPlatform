@@ -3,10 +3,7 @@ import String from 'src/translations';
 import {
   boxLogo,
   googleDriveLogo,
-  gSuiteLogo,
-  sharepointLogo,
   oneDriveLogo,
-  office365Logo,
   salesforceLogo,
   dropboxLogo,
   jiraLogo,
@@ -28,31 +25,6 @@ const possibleIntegrations = {
     logo: googleDriveLogo,
     isSupported: true
   },
-  sharepoint: {
-    label: 'SharePoint',
-    logo: sharepointLogo,
-    isSupported: true,
-    config: {
-      params: [
-        {
-          key: 'sharepointOrg', // used to set value and to return it via integrations.sharepoint.sharepointOrg
-          type: 'edit',
-          label: 'Site ID:',
-          value: 'site',
-          placeholder: 'Sharepoint Site ID'
-        }
-      ],
-      folders: {
-        label: 'Sites:',
-        key: 'sites', // integrations.sharepoint.sites (type is an array)
-        folderKeys: {
-          selected: 'selected', // integrations.sharepoint.sites[index].selected (type is boolean)
-          folderKey: 'site', // integrations.sharepoint.sites[index].site (type is string)
-          subFolders: 'sites' // site.sites (type is an array)
-        }
-      }
-    }
-  },
   onedrive: {
     label: 'OneDrive',
     logo: oneDriveLogo,
@@ -67,16 +39,6 @@ const possibleIntegrations = {
     label: 'Dropbox',
     logo: dropboxLogo,
     isSupported: true
-  },
-  gsuite: {
-    label: 'G Suite by Google Cloud',
-    logo: gSuiteLogo,
-    mappedToKey: 'google' // *** maps to the Google Drive integration ***
-  },
-  office365: {
-    label: 'Office365',
-    logo: office365Logo,
-    mappedToKey: 'onedrive' // *** maps to the oneDrive integration ***
   },
   jira: {
     label: 'Jira',
@@ -126,20 +88,10 @@ function integrationIsSupported(key) {
   return possibleIntegrations[key].isSupported;
 }
 
-function integrationMapping(key) {
-  return possibleIntegrations[key].mappedToKey || key;
-}
-
-function integrationConfigFromKey(key) {
-  return possibleIntegrations[key].config;
-}
-
 export {
   availableIntegrationKeys,
   integrationKeyFromFile,
   integrationImageFromKey,
   integrationLabelFromKey,
-  integrationIsSupported,
-  integrationMapping,
-  integrationConfigFromKey
+  integrationIsSupported
 };
