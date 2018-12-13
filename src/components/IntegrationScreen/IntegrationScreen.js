@@ -6,7 +6,7 @@ import { isEmpty } from 'lodash';
 import String from 'src/translations';
 import { getIntegrationStatus } from 'src/lib/integrations';
 import {
-  integrationImageFromKey,
+  integrationExtraImageFromKey,
   integrationLabelFromKey,
   integrationExtraInfoFromKey
 } from 'src/utils/dataIntegrations';
@@ -98,7 +98,7 @@ const IntegrationScreen = ({
       />
       <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
         <div className="Integration__icon-container">
-          <ImageCard imgSrc={integrationImageFromKey(source)} size="large" />
+          <ImageCard imgSrc={integrationExtraImageFromKey(source)} size="large" />
         </div>
         <div className="habla-big-title">{integrationLabel}</div>
         <div className="habla-secondary-paragraph margin-top-class-b">{team ? emailLabel : statusLabel}</div>

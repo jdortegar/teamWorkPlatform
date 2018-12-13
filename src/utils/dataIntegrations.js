@@ -3,7 +3,9 @@ import String from 'src/translations';
 import {
   boxLogo,
   googleDriveLogo,
+  googleDriveExtraLogo,
   oneDriveLogo,
+  oneDriveExtraLogo,
   salesforceLogo,
   dropboxLogo,
   jiraLogo,
@@ -23,12 +25,14 @@ const possibleIntegrations = {
   google: {
     label: 'Google Drive',
     logo: googleDriveLogo,
+    extraLogo: googleDriveExtraLogo,
     isSupported: true,
     extraInfo: String.t('integrationPage.extraInfo.google')
   },
   onedrive: {
     label: 'OneDrive',
     logo: oneDriveLogo,
+    extraLogo: oneDriveExtraLogo,
     isSupported: true,
     extraInfo: String.t('integrationPage.extraInfo.onedrive')
   },
@@ -81,6 +85,11 @@ function integrationImageFromKey(key) {
   return possibleIntegrations[key].logo;
 }
 
+function integrationExtraImageFromKey(key) {
+  if (!possibleIntegrations[key]) return null;
+  return possibleIntegrations[key].extraLogo || integrationImageFromKey(key);
+}
+
 function integrationLabelFromKey(key) {
   if (!possibleIntegrations[key]) return String.t('integrationsPage.providerError');
   return possibleIntegrations[key].label;
@@ -98,6 +107,7 @@ export {
   availableIntegrationKeys,
   integrationKeyFromFile,
   integrationImageFromKey,
+  integrationExtraImageFromKey,
   integrationLabelFromKey,
   integrationExtraInfoFromKey,
   integrationIsSupported
