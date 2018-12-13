@@ -14,6 +14,15 @@
   margin: 0 0 8px;
 }
 
+.Integration__extraInfo {
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 4px;
+  margin: -11px auto 0;
+  width: fit-content;
+  color: black;
+}
+
 .Integration__switch-container {
   padding: 18px;
 }

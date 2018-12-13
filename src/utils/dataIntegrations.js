@@ -23,12 +23,14 @@ const possibleIntegrations = {
   google: {
     label: 'Google Drive',
     logo: googleDriveLogo,
-    isSupported: true
+    isSupported: true,
+    extraInfo: String.t('integrationPage.extraInfo.google')
   },
   onedrive: {
     label: 'OneDrive',
     logo: oneDriveLogo,
-    isSupported: true
+    isSupported: true,
+    extraInfo: String.t('integrationPage.extraInfo.onedrive')
   },
   salesforce: {
     label: 'Salesforce',
@@ -84,6 +86,10 @@ function integrationLabelFromKey(key) {
   return possibleIntegrations[key].label;
 }
 
+function integrationExtraInfoFromKey(key) {
+  return possibleIntegrations[key].extraInfo;
+}
+
 function integrationIsSupported(key) {
   return possibleIntegrations[key].isSupported;
 }
@@ -93,5 +99,6 @@ export {
   integrationKeyFromFile,
   integrationImageFromKey,
   integrationLabelFromKey,
+  integrationExtraInfoFromKey,
   integrationIsSupported
 };

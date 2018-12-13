@@ -5,7 +5,11 @@ import { isEmpty } from 'lodash';
 
 import String from 'src/translations';
 import { getIntegrationStatus } from 'src/lib/integrations';
-import { integrationImageFromKey, integrationLabelFromKey } from 'src/utils/dataIntegrations';
+import {
+  integrationImageFromKey,
+  integrationLabelFromKey,
+  integrationExtraInfoFromKey
+} from 'src/utils/dataIntegrations';
 import { PageHeader, SimpleCardContainer, Button, Spinner, SharingSettings, ImageCard } from 'src/components';
 import './styles/style.css';
 
@@ -62,6 +66,7 @@ const IntegrationScreen = ({
   if (!source || (!orgId && !team)) return <Spinner />;
 
   const integrationLabel = integrationLabelFromKey(source);
+  const extraInfo = integrationExtraInfoFromKey(source);
   const statusLabel = getIntegrationStatus(integration);
   const isActive = statusLabel === 'Active';
   const emailLabel = isActive ? userEmail : String.t('integrationPage.status.revoked');
@@ -98,6 +103,7 @@ const IntegrationScreen = ({
         <div className="habla-big-title">{integrationLabel}</div>
         <div className="habla-secondary-paragraph margin-top-class-b">{team ? emailLabel : statusLabel}</div>
       </SimpleCardContainer>
+      {extraInfo && <div className="Integration__extraInfo habla-color-yellow">{extraInfo}</div>}
       <div className="Integration__switch-container align-center-class">
         <Tooltip placement="top" title={tooltipTitle}>
           <Switch

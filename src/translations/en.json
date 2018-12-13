@@ -453,7 +453,11 @@
     },
     "refreshList": "Refresh List",
     "lastIntegrationDate": "Files and Folders from {{date}}",
-    "contentLoading": "Indexing files..."
+    "contentLoading": "Indexing files...",
+    "extraInfo": {
+      "google": "Note: Files are stored in Google Drive from GSuite, Google Docs, Slides, Sheets and other Apps by default for Users.",
+      "onedrive": "Note: Files are stored in One Drive from Sharepoint and Office 365 by default for Users."
+    }
   },
   "integrationsPage": {
     "breadcrumb": "Data Integrations",
