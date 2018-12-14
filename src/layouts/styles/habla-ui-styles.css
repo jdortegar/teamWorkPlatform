@@ -1231,11 +1231,6 @@ tr.ant-table-row:hover {
 
 /* RESPONSIVE ELEMENTS AND STYLES ---------- */
 
-/* Hidden Elements */
-.teamRoomResponsiveTitle {
-  display: none;
-}
-
 @media only screen and (max-width: 768px) {
   .habla-top-menu-label,
   .habla-main-content-header-actions .habla-label,
@@ -1245,17 +1240,10 @@ tr.ant-table-row:hover {
   .habla-ckg-filters-item span,
   i.ant-menu-submenu-arrow,
   .responsiveHideClass,
-  .teamRoomTitle,
   .sidebar-label-number-text,
   .sidebar-label-number-badge,
   .sidebar-direct-messages .habla-label {
     display: none;
-  }
-  .teamRoomResponsiveTitle {
-    display: inline-block;
-  }
-  .habla-label .teamRoomResponsiveTitle {
-    font-size: 6pt;
   }
   .habla-top-menu-items {
     float: left;

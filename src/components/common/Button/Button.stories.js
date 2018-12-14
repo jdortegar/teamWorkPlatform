@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { boolean, text, selectV2 } from '@storybook/addon-knobs/react';
+import { boolean, text, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import Button from '.';
@@ -12,8 +12,8 @@ storiesOf('Button', module)
   .add('default', () => <Button onClick={action('clicked')}>Default Button</Button>)
   .add('with props', () => (
     <Button
-      type={selectV2('Type', types, 'secondary')}
-      size={selectV2('Size', sizes, 'default')}
+      type={select('Type', types, 'secondary')}
+      size={select('Size', sizes, 'default')}
       disabled={boolean('Disabled', false)}
       fitText={boolean('Fit text', false)}
       onClick={action('clicked')}

@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 let nodeUrl = process.env.NODE_URL;
 if (!nodeUrl) {
@@ -18,29 +17,34 @@ if (!nodeUrl) {
 }
 
 module.exports = {
+  mode: 'development',
   devtool: 'eval-source-map',
-  entry: [
-    // 'react-hot-loader/patch',
-    `webpack-dev-server/client?${nodeUrl}`,
-    // 'webpack/hot/only-dev-server',
-    './src/index.js'
-  ],
+  entry: './src/index.js',
   output: {
     pathinfo: true,
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
     publicPath: `${nodeUrl}/`
   },
+  devServer: {
+    contentBase: path.join(__dirname, 'resources'),
+    historyApiFallback: true,
+    disableHostCheck: true,
+    port: process.env.NODE_PORT || 9090,
+    before(app) {
+      // File content-type defaults to application/octet-stream, but needs to be application/json.
+      app.get('/.well-known/apple-app-site-association', (req, res, next) => {
+        res.set({ 'Content-Type': 'application/json' });
+        next();
+      });
+    }
+  },
   plugins: [
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
       favicon: './src/favicon.ico',
-      template: './src/index.html',
-      inject: true
-    }),
-    new webpack.NamedModulesPlugin()
-    // new webpack.HotModuleReplacementPlugin(),
-    // new UglifyJsPlugin()
+      template: './src/index.html'
+    })
   ],
   module: {
     rules: [

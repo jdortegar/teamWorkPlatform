@@ -18,7 +18,6 @@ import {
   toggleTeamSharingSettings,
   toggleAllTeamSharingSettings,
   integrateTeamIntegration,
-  configureTeamIntegration,
   revokeTeamIntegration
 } from 'src/actions';
 
@@ -28,7 +27,7 @@ const mapStateToProps = (state, props) => {
   const { folders, files, sites, saved, submitting } = getTeamSharingSettings(state, { source, teamId });
   const subscriberUsers = Object.values(getUserByUserId(state));
   const integration = getTeamIntegration(state, { source, teamId });
-  const subscriberUserEmail = subscriberUsers.find(member => member.userId === integration.userId).email || '';
+  const userEmail = (subscriberUsers.find(member => integration && integration.userId === member.userId) || {}).email;
 
   return {
     team: getTeam(state, teamId),
@@ -40,7 +39,7 @@ const mapStateToProps = (state, props) => {
     isSubmittingSharingSettings: submitting,
     isSavedSharingSettings: saved,
     subscriberUserId,
-    subscriberUserEmail,
+    userEmail,
     source,
     status
   };
@@ -53,7 +52,6 @@ const mapDispatchToProps = {
   toggleTeamSharingSettings,
   toggleAllTeamSharingSettings,
   integrateTeamIntegration,
-  configureTeamIntegration,
   revokeTeamIntegration
 };
 

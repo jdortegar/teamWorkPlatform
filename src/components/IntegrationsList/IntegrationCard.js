@@ -4,7 +4,11 @@ import { Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
-import { integrationIsSupported, integrationLabelFromKey, integrationImageFromKey } from 'src/utils/dataIntegrations';
+import {
+  integrationIsSupported,
+  integrationLabelFromKey,
+  integrationExtraImageFromKey
+} from 'src/utils/dataIntegrations';
 import { ImageCard } from 'src/components';
 
 const propTypes = {
@@ -33,7 +37,11 @@ const renderBadge = integration => {
 const IntegrationCard = ({ integration, source, url }) => {
   const isSupported = integrationIsSupported(source);
   const card = (
-    <ImageCard className="IntegrationCard" imgSrc={integrationImageFromKey(source)} extra={renderBadge(integration)} />
+    <ImageCard
+      className="IntegrationCard"
+      imgSrc={integrationExtraImageFromKey(source)}
+      extra={renderBadge(integration)}
+    />
   );
 
   return (
@@ -41,7 +49,9 @@ const IntegrationCard = ({ integration, source, url }) => {
       <Tooltip placement="top" title={integrationLabelFromKey(source)}>
         {isSupported ? <Link to={url}>{card}</Link> : card}
       </Tooltip>
-      <div className="habla-label align-center-class card-label">{integrationLabelFromKey(source)}</div>
+      <div className="Integration__label habla-label align-center-class card-label">
+        {integrationLabelFromKey(source)}
+      </div>
     </div>
   );
 };

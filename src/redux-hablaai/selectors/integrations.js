@@ -87,5 +87,11 @@ export const getTeamIntegrationContent = createSelector(
       : {}
 );
 
-export const isFetchingContent = createSelector([getIntegrationContent], content => content.isFetching);
-export const getContentError = createSelector([getIntegrationContent], content => content.error);
+export const isFetchingContent = createSelector(
+  [getIntegrationContent],
+  content => content.isFetching
+);
+export const getContentError = createSelector(
+  [getIntegrationContent],
+  content => content.error
+);

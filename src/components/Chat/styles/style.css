@@ -8,7 +8,7 @@
   background: #eff2f7;
   padding: 0;
   border-bottom: 1px solid #e0e9f7;
-  height: 40px;
+  height: 53px;
 }
 
 .Chat_members_container {
@@ -195,19 +195,12 @@
   width: 50px;
 }
 
-.teamRoomFilters {
-  float: right;
-  width: 50%;
-}
 .team-room__top-page-container .SimpleHeader-block {
   float: left;
   width: 50%;
 }
 .team-room__top-page-container .habla-main-content-filters-links {
   flex-flow: row-reverse;
-}
-.teamRoomInviteMembers .ant-avatar-string {
-  font-size: 22px;
 }
 .ant-popover.ant-popover-placement-topRight .ant-btn.ant-btn-sm {
   background: #cccccc;

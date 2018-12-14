@@ -19,6 +19,7 @@ import { sortByFirstName } from 'src/redux-hablaai/selectors/helpers';
 import String from 'src/translations';
 import axios from 'axios';
 import './styles/style.css';
+import FilterUserMessages from './FilterUserMessages';
 
 const propTypes = {
   team: PropTypes.object.isRequired,
@@ -85,7 +86,8 @@ class Chat extends React.Component {
       showPreviewBox: false,
       replyTo: null,
       lastSubmittedMessage: null,
-      file: null
+      file: null,
+      membersFiltered: []
     };
 
     this.onCancelReply = this.onCancelReply.bind(this);
@@ -110,7 +112,7 @@ class Chat extends React.Component {
         };
       });
 
-      this.setState({ teamMembersLoaded: true, members });
+      this.setState({ teamMembersLoaded: true, members, membersFiltered: members });
     });
 
     this.props.fetchConversations(team.teamId).then(response => {
@@ -153,7 +155,8 @@ class Chat extends React.Component {
 
       this.setState({
         teamMembersLoaded: true,
-        members
+        members,
+        membersFiltered: members
       });
     };
 
@@ -286,12 +289,43 @@ class Chat extends React.Component {
     }
   };
 
-  shouldDisableSubmit() {
-    const textOrig = this.props.form.getFieldValue('message');
-    if (!textOrig) return false;
-    const text = textOrig.trim();
-    const { files } = this.props;
-    return !(files && files.length) && !(text && text.length);
+  handleOwnerFilterClick = userId => {
+    const { users } = this.props;
+    const userFiltered = Object.values(users).find(user => user.userId === userId);
+    let { membersFiltered } = this.state;
+    membersFiltered = _.xorBy(membersFiltered, [userFiltered], 'userId');
+    this.setState({
+      membersFiltered
+    });
+  };
+
+  createResource(file) {
+    const fileSource = file.src.split('base64,')[1] || file.src;
+    const { team, orgId } = this.props;
+    if (!team.teamId || !orgId) {
+      // Todo throw error invalid team or subscriberOrg
+      throw new Error();
+    }
+
+    const requestConfig = {
+      headers: {
+        Authorization: `Bearer ${this.props.token}`,
+        'Content-Type': 'application/octet-stream',
+        'x-hablaai-content-type': file.type,
+        'x-hablaai-content-length': fileSource.length,
+        'x-hablaai-teamid': team.teamId,
+        'x-hablaai-subscriberorgid': orgId
+      },
+      onUploadProgress: progressEvent => {
+        const { total, loaded } = progressEvent;
+        const fileWithPercent = Object.assign(file, { percent: getPercentOfRequest(total, loaded) });
+        this.setState({
+          file: fileWithPercent
+        });
+      }
+    };
+
+    return axios.put(`${this.props.resourcesUrl}/${file.name}`, fileSource, requestConfig);
   }
 
   handleSubmit(e) {
@@ -362,33 +396,12 @@ class Chat extends React.Component {
     });
   }
 
-  createResource(file) {
-    const fileSource = file.src.split('base64,')[1] || file.src;
-    const { team, orgId } = this.props;
-    if (!team.teamId || !orgId) {
-      // Todo throw error invalid team or subscriberOrg
-      throw new Error();
-    }
-
-    const requestConfig = {
-      headers: {
-        Authorization: `Bearer ${this.props.token}`,
-        'Content-Type': 'application/octet-stream',
-        'x-hablaai-content-type': file.type,
-        'x-hablaai-content-length': fileSource.length,
-        'x-hablaai-teamid': team.teamId,
-        'x-hablaai-subscriberorgid': orgId
-      },
-      onUploadProgress: progressEvent => {
-        const { total, loaded } = progressEvent;
-        const fileWithPercent = Object.assign(file, { percent: getPercentOfRequest(total, loaded) });
-        this.setState({
-          file: fileWithPercent
-        });
-      }
-    };
-
-    return axios.put(`${this.props.resourcesUrl}/${file.name}`, fileSource, requestConfig);
+  shouldDisableSubmit() {
+    const textOrig = this.props.form.getFieldValue('message');
+    if (!textOrig) return false;
+    const text = textOrig.trim();
+    const { files } = this.props;
+    return !(files && files.length) && !(text && text.length);
   }
 
   updateFiles(files) {
@@ -398,15 +411,27 @@ class Chat extends React.Component {
     this.props.updateFileList(files);
   }
 
+  messagesCounter() {
+    const { conversations } = this.props;
+    const { membersFiltered } = this.state;
+    if (!membersFiltered) return 0;
+    const messages = conversations.transcript.map(message => {
+      if (message.deleted) return null;
+      const createdBy = membersFiltered.find(member => member.userId === message.createdBy);
+      if (!createdBy) return null;
+      return message;
+    });
+    return messages.filter(mes => mes).length;
+  }
+
   renderMessages(isAdmin) {
     const { conversations, user, team, orgId } = this.props;
-    const { members, lastSubmittedMessage } = this.state;
-    if (!members) return null;
+    const { membersFiltered, lastSubmittedMessage } = this.state;
+    if (!membersFiltered) return null;
     const currentPath = lastSubmittedMessage ? lastSubmittedMessage.path : null;
-
     return conversations.transcript.map(message => {
       if (message.deleted) return null;
-      const createdBy = members.find(member => member.userId === message.createdBy);
+      const createdBy = membersFiltered.find(member => member.userId === message.createdBy);
       if (!createdBy) return null;
       return (
         <Message
@@ -418,7 +443,7 @@ class Chat extends React.Component {
           onMessageAction={this.onMessageAction}
           hide={false}
           currentPath={currentPath}
-          teamMembers={members}
+          teamMembers={membersFiltered}
           onFileChange={this.onFileChange}
           subscriberOrgId={orgId}
           teamId={team.teamId}
@@ -437,13 +462,14 @@ class Chat extends React.Component {
     const otherMembers = _.reject(members, { userId: user.userId });
     const orderedMembers = otherMembers.sort(sortByFirstName);
 
-    return [user, ...orderedMembers].map(member => (
-      <Tooltip key={member.userId} placement="top" title={member.fullName}>
-        <div className="mr-05">
-          <AvatarWrapper size="small" user={member} />
-        </div>
-      </Tooltip>
-    ));
+    return (
+      <FilterUserMessages
+        owners={[user, ...orderedMembers]}
+        onOwnerFilterClick={this.handleOwnerFilterClick}
+        excludeOwnersFilter={this.state.membersFiltered}
+        className="CKGPage__FilesFilters"
+      />
+    );
   }
 
   renderMembersTyping() {
@@ -513,7 +539,7 @@ class Chat extends React.Component {
               }}
               badgeOptions={{
                 enabled: true,
-                count: conversations.transcript.length,
+                count: this.messagesCounter(),
                 style: { backgroundColor: '#32a953' }
               }}
               hasMenu
@@ -523,10 +549,7 @@ class Chat extends React.Component {
           )}
           {showTeamMembers && (
             <SimpleCardContainer className="Chat_Header">
-              <div className="Chat_members_container">
-                <span className="Chat_members_number mr-05">{teamMembers.length}</span>
-                {this.renderTeamMembers()}
-              </div>
+              <div className="Chat_members_container">{this.renderTeamMembers()}</div>
               <div className="Chat_expandAction" onClick={() => this.props.showChat(true)}>
                 <i className="fas fa-angle-down" />
               </div>
@@ -539,11 +562,11 @@ class Chat extends React.Component {
                 className="team-room__unread-messages-link"
                 onClick={() => this.props.readMessage(lastMessage.messageId, conversationId)}
               >
-                {String.t('teamRoomPage.markAllAsRead')}
+                {String.t('chat.markAllAsRead')}
               </div>
               <div className="team-room__unread-messages-dot">&middot;</div>
               <div className="team-room__unread-messages-count">
-                {String.t('teamRoomPage.unreadMessagesCount', { count: unreadMessagesCount })}
+                {String.t('chat.unreadMessagesCount', { count: unreadMessagesCount })}
               </div>
             </SimpleCardContainer>
           )}
@@ -575,7 +598,7 @@ class Chat extends React.Component {
                     componentKey="message"
                     form={this.props.form}
                     hasFeedback={false}
-                    placeholder={String.t('teamRoomPage.replyPlaceholder')}
+                    placeholder={String.t('chat.replyPlaceholder')}
                     label=""
                     className="team-room__chat-input-form-item"
                     inputClassName="team-room__chat-input-textfield"
@@ -604,7 +627,7 @@ class Chat extends React.Component {
                     multiple
                   />
                   <label htmlFor="fileupload" className="team-room__icons">
-                    <Tooltip placement="top" title={String.t('teamRoomPage.tooltipAttachments')} arrowPointAtCenter>
+                    <Tooltip placement="top" title={String.t('chat.tooltipAttachments')} arrowPointAtCenter>
                       <i className="fas fa-paperclip" />
                     </Tooltip>
                   </label>

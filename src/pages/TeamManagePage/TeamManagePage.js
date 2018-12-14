@@ -100,6 +100,8 @@ class TeamManagePage extends Component {
       });
     }
 
+    const className = classNames({ 'opacity-low': !team.active });
+
     return (
       <div className="TeamSummary">
         <PageHeader
@@ -111,13 +113,17 @@ class TeamManagePage extends Component {
           menuPageHeader={menuPageHeader}
         />
         <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
-          <Avatar
-            size="x-large"
-            color={team.preferences.iconColor}
-            className={classNames({ 'opacity-low': !team.active })}
-          >
-            {initials}
-          </Avatar>
+          {team.preferences.avatarBase64 ? (
+            <Avatar
+              size="large"
+              src={`data:image/jpeg;base64, ${team.preferences.avatarBase64}`}
+              className={className}
+            />
+          ) : (
+            <Avatar size="large" color={team.preferences.iconColor} className={className}>
+              {initials}
+            </Avatar>
+          )}
           <div className="margin-top-class-b">
             <h1 className="New-team__title habla-team-title">{team.name}</h1>
           </div>

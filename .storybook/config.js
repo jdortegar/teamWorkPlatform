@@ -1,7 +1,7 @@
 import { configure } from '@storybook/react';
 import { addDecorator } from '@storybook/react';
 import { withConsole } from '@storybook/addon-console';
-import { withKnobs } from '@storybook/addon-knobs/react';
+import { withKnobs } from '@storybook/addon-knobs';
 
 import 'src/layouts/styles/reset.css';
 import 'src/layouts/styles/habla-ui-styles.css';

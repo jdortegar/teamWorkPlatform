@@ -198,7 +198,7 @@ class SubscriptionModal extends React.Component {
     });
   };
 
-  handleSubmit() {
+  handleSubmit = () => {
     const { stripeSubscriptionId, subscriberOrgId } = this.props.subscriberOrg;
     const { subscription } = this.props;
     const { subscriptionUsers, subscriptionPlanAmount, discountCode } = this.state;
@@ -230,7 +230,7 @@ class SubscriptionModal extends React.Component {
         this.setState({ loading: false });
         message.error(error.message);
       });
-  }
+  };
 
   render() {
     const { visible, subscription, cancelButton } = this.props;

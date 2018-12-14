@@ -18,12 +18,14 @@ export const logout = () => {
       })
     );
 
-    thunk.then(() => dispatch({ type: LOGOUT_SUCCESS })).catch(error => {
-      dispatch({
-        type: LOGOUT_FAILURE,
-        payload: { error }
+    thunk
+      .then(() => dispatch({ type: LOGOUT_SUCCESS }))
+      .catch(error => {
+        dispatch({
+          type: LOGOUT_FAILURE,
+          payload: { error }
+        });
       });
-    });
 
     return thunk;
   };

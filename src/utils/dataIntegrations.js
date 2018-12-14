@@ -3,10 +3,9 @@ import String from 'src/translations';
 import {
   boxLogo,
   googleDriveLogo,
-  gSuiteLogo,
-  sharepointLogo,
+  googleDriveExtraLogo,
   oneDriveLogo,
-  office365Logo,
+  oneDriveExtraLogo,
   salesforceLogo,
   dropboxLogo,
   jiraLogo,
@@ -26,37 +25,16 @@ const possibleIntegrations = {
   google: {
     label: 'Google Drive',
     logo: googleDriveLogo,
-    isSupported: true
-  },
-  sharepoint: {
-    label: 'SharePoint',
-    logo: sharepointLogo,
+    extraLogo: googleDriveExtraLogo,
     isSupported: true,
-    config: {
-      params: [
-        {
-          key: 'sharepointOrg', // used to set value and to return it via integrations.sharepoint.sharepointOrg
-          type: 'edit',
-          label: 'Site ID:',
-          value: 'site',
-          placeholder: 'Sharepoint Site ID'
-        }
-      ],
-      folders: {
-        label: 'Sites:',
-        key: 'sites', // integrations.sharepoint.sites (type is an array)
-        folderKeys: {
-          selected: 'selected', // integrations.sharepoint.sites[index].selected (type is boolean)
-          folderKey: 'site', // integrations.sharepoint.sites[index].site (type is string)
-          subFolders: 'sites' // site.sites (type is an array)
-        }
-      }
-    }
+    extraInfo: String.t('integrationPage.extraInfo.google')
   },
   onedrive: {
     label: 'OneDrive',
     logo: oneDriveLogo,
-    isSupported: true
+    extraLogo: oneDriveExtraLogo,
+    isSupported: true,
+    extraInfo: String.t('integrationPage.extraInfo.onedrive')
   },
   salesforce: {
     label: 'Salesforce',
@@ -67,16 +45,6 @@ const possibleIntegrations = {
     label: 'Dropbox',
     logo: dropboxLogo,
     isSupported: true
-  },
-  gsuite: {
-    label: 'G Suite by Google Cloud',
-    logo: gSuiteLogo,
-    mappedToKey: 'google' // *** maps to the Google Drive integration ***
-  },
-  office365: {
-    label: 'Office365',
-    logo: office365Logo,
-    mappedToKey: 'onedrive' // *** maps to the oneDrive integration ***
   },
   jira: {
     label: 'Jira',
@@ -117,29 +85,30 @@ function integrationImageFromKey(key) {
   return possibleIntegrations[key].logo;
 }
 
+function integrationExtraImageFromKey(key) {
+  if (!possibleIntegrations[key]) return null;
+  return possibleIntegrations[key].extraLogo || integrationImageFromKey(key);
+}
+
 function integrationLabelFromKey(key) {
   if (!possibleIntegrations[key]) return String.t('integrationsPage.providerError');
   return possibleIntegrations[key].label;
+}
+
+function integrationExtraInfoFromKey(key) {
+  return possibleIntegrations[key].extraInfo;
 }
 
 function integrationIsSupported(key) {
   return possibleIntegrations[key].isSupported;
 }
 
-function integrationMapping(key) {
-  return possibleIntegrations[key].mappedToKey || key;
-}
-
-function integrationConfigFromKey(key) {
-  return possibleIntegrations[key].config;
-}
-
 export {
   availableIntegrationKeys,
   integrationKeyFromFile,
   integrationImageFromKey,
+  integrationExtraImageFromKey,
   integrationLabelFromKey,
-  integrationIsSupported,
-  integrationMapping,
-  integrationConfigFromKey
+  integrationExtraInfoFromKey,
+  integrationIsSupported
 };

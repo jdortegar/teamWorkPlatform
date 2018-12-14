@@ -453,7 +453,11 @@
     },
     "refreshList": "Refresh List",
     "lastIntegrationDate": "Files and Folders from {{date}}",
-    "contentLoading": "Indexing files..."
+    "contentLoading": "Indexing files...",
+    "extraInfo": {
+      "google": "Note: Files are stored in Google Drive from GSuite, Google Docs, Slides, Sheets and other Apps by default for Users.",
+      "onedrive": "Note: Files are stored in One Drive from Sharepoint and Office 365 by default for Users."
+    }
   },
   "integrationsPage": {
     "breadcrumb": "Data Integrations",
@@ -513,29 +517,6 @@
     "inviteNewMember": "Invite a New Team Member",
     "newButtonLabel": "New",
     "membersHeader": "Team Members ({{count}})"
-  },
-  "teamRoomPage": {
-    "all": "All",
-    "new": "New",
-    "bookmarked": "Bookmarked",
-    "active": "active",
-    "replyPlaceholder": "Leave a reply...",
-    "addTeamMember": "Add Team Members",
-    "markAllAsRead": "Mark All as Read",
-    "unreadMessagesCount": {
-      "one": "1 new message",
-      "other": "{{count}} New Messages",
-      "tooltipAttachments": "Attach a file"
-    },
-    "menu": {
-      "all": "All",
-      "unread": "Unread",
-      "bookmarked": "Bookmarked"
-    },
-    "membersHeader": {
-      "one": "1 Team Member",
-      "other": "{{count}} Team Members"
-    }
   },
   "teamMemberPage": {
     "breadcrumb": "Team Member",
@@ -810,7 +791,14 @@
   "chat": {
     "title": "Team Messages",
     "membersHeader": "Organization Team Members ({{count}})",
-    "addTeamMember": "Add Team Members"
+    "addTeamMember": "Add Team Members",
+    "markAllAsRead": "Mark All as Read",
+    "unreadMessagesCount": {
+      "one": "1 new message",
+      "other": "{{count}} New Messages"
+    },
+    "tooltipAttachments": "Attach a file",
+    "replyPlaceholder": "Leave a reply..."
   },
   "organizationSummaryPage": {
     "subscriptionPlan": "Subscription Plan",

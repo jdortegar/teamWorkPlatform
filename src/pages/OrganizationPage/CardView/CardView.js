@@ -51,8 +51,12 @@ function CardView(props) {
           <div key={team.teamId} className="mr-1 mb-2">
             <Tooltip placement="top" title={team.name}>
               <Link to={`/app/team/${team.teamId}`}>
-                {team.icon ? (
-                  <Avatar size="large" src={`data:image/jpeg;base64, ${team.icon}`} className={className} />
+                {team.preferences.avatarBase64 ? (
+                  <Avatar
+                    size="large"
+                    src={`data:image/jpeg;base64, ${team.preferences.avatarBase64}`}
+                    className={className}
+                  />
                 ) : (
                   <Avatar size="large" color={team.preferences.iconColor} className={className}>
                     {initials}

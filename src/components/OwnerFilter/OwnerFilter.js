@@ -8,22 +8,24 @@ const propTypes = {
   owner: PropTypes.object.isRequired,
   count: PropTypes.number.isRequired,
   active: PropTypes.bool,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  tooltipTitle: PropTypes.string
 };
 
 const defaultProps = {
   active: false,
-  onClick: null
+  onClick: null,
+  tooltipTitle: undefined
 };
 
-const OwnerFilter = ({ owner, count, active, onClick }) => {
+const OwnerFilter = ({ owner, count, active, onClick, tooltipTitle }) => {
   const { firstName, lastName } = owner;
   const fullName = String.t('fullName', { firstName, lastName });
   const avatar = <AvatarWrapper size="default" user={owner} hidePresence hideStatusTooltip />;
 
   return (
     <BasicFilter
-      tooltipTitle={String.t('ckgPage.ownerFileCount', { count, fullName })}
+      tooltipTitle={tooltipTitle || String.t('ckgPage.ownerFileCount', { count, fullName })}
       label={fullName}
       avatar={avatar}
       active={active}

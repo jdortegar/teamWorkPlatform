@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Form, message } from 'antd';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import String from 'src/translations';
 import { formShape } from 'src/propTypes';
-import { SimpleCardContainer, TextField, Spinner, Button, PageHeader } from 'src/components';
+import { SimpleCardContainer, TextField, Spinner, Button, PageHeader, UploadImageField } from 'src/components';
 import './styles/style.css';
 // import { EINPROGRESS } from 'constants';
 
@@ -27,9 +28,28 @@ class NewTeamPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { loading: false };
+    this.state = {
+      loading: false,
+      avatarBase64: null,
+      logo: null
+    };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.onRemoveImage = this.onRemoveImage.bind(this);
+  }
+
+  onRemoveImage() {
+    this.setState({
+      logo: null,
+      avatarBase64: null
+    });
+  }
+
+  handleChange(base64) {
+    this.setState({
+      avatarBase64: base64
+    });
   }
 
   handleSubmit(e) {
@@ -37,7 +57,13 @@ class NewTeamPage extends Component {
     const { subscriberOrgId } = this.props.match.params;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const valuesToSend = { ...values };
+        const valuesToSend = {
+          ...values,
+          preferences: {
+            logo: this.state.logo,
+            avatarBase64: this.state.avatarBase64
+          }
+        };
         valuesToSend.name = values.name.trim();
         this.setState({ loading: true });
         this.props
@@ -81,11 +107,34 @@ class NewTeamPage extends Component {
       ]
     };
 
+    const containerImage = classNames({
+      container__image: true,
+      'with-image': this.state.logo || this.state.avatarBase64,
+      'with-no-image': !this.state.avatarBase64 && !this.state.logo
+    });
+
     return (
       <div>
         <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
-        <SimpleCardContainer>
-          <Form onSubmit={this.handleSubmit} layout="vertical">
+        <Form onSubmit={this.handleSubmit} layout="vertical">
+          <SimpleCardContainer className="subpage-block padding-class-a border-bottom-light container__team_image">
+            <div className={containerImage}>
+              <UploadImageField
+                text={String.t('editOrgPage.changeAvatarText')}
+                onChange={this.handleChange}
+                image={this.state.avatarBase64 || this.state.logo}
+                editOrg
+                resize
+              />
+              {(this.state.avatarBase64 || this.state.logo) && (
+                <span className="container__image__remove" onClick={this.onRemoveImage}>
+                  {String.t('editOrgPage.removeImageLabel')}
+                </span>
+              )}
+            </div>
+            <span className="EditTeamPage_upload_label">{String.t('editOrgPage.changeAvatarText')}</span>
+          </SimpleCardContainer>
+          <SimpleCardContainer>
             <div className="New-team__container padding-class-a">
               <div className="New-team__title habla-secon">{String.t('newTeamPage.chooseTeamName')}</div>
               <TextField
@@ -112,8 +161,8 @@ class NewTeamPage extends Component {
                 {String.t('newTeamPage.createNewTeamButtonLabel')}
               </Button>
             </div>
-          </Form>
-        </SimpleCardContainer>
+          </SimpleCardContainer>
+        </Form>
       </div>
     );
   }

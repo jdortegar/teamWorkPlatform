@@ -53,29 +53,28 @@ function PageHeader({
   settingsIcon,
   children
 }) {
-  const menuItems = menuPageHeader.map(
-    item =>
-      item.submenu ? (
-        <Menu.SubMenu title={String.t(item.title)} key={item.key || item.title}>
-          {item.submenu.map(subitem => (
-            <Menu.Item key={subitem.key || subitem.title}>
-              <Link to={subitem.url || ''}>
-                <span className={subitem.className}>
-                  <i className={subitem.icon} /> {String.t(subitem.title)}
-                </span>
-              </Link>
-            </Menu.Item>
-          ))}
-        </Menu.SubMenu>
-      ) : (
-        <Menu.Item key={item.key || item.title}>
-          <Link to={item.url}>
-            <span className={item.className}>
-              <i className={item.icon} /> {String.t(item.title)}
-            </span>
-          </Link>
-        </Menu.Item>
-      )
+  const menuItems = menuPageHeader.map(item =>
+    item.submenu ? (
+      <Menu.SubMenu title={String.t(item.title)} key={item.key || item.title}>
+        {item.submenu.map(subitem => (
+          <Menu.Item key={subitem.key || subitem.title}>
+            <Link to={subitem.url || ''}>
+              <span className={subitem.className}>
+                <i className={subitem.icon} /> {String.t(subitem.title)}
+              </span>
+            </Link>
+          </Menu.Item>
+        ))}
+      </Menu.SubMenu>
+    ) : (
+      <Menu.Item key={item.key || item.title}>
+        <Link to={item.url}>
+          <span className={item.className}>
+            <i className={item.icon} /> {String.t(item.title)}
+          </span>
+        </Link>
+      </Menu.Item>
+    )
   );
 
   const buttonMenu = (

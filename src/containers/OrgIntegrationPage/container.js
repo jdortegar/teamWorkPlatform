@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { withStatusMessage } from 'src/hoc';
-import { IntegrationPage } from 'src/pages';
+import { OrgIntegrationPage } from 'src/pages';
 import {
   getOrgIntegration,
   getOrgIntegrationContent,
@@ -18,7 +18,6 @@ import {
   toggleOrgSharingSettings,
   toggleAllOrgSharingSettings,
   integrateOrgIntegration,
-  configureOrgIntegration,
   revokeOrgIntegration
 } from 'src/actions';
 
@@ -51,11 +50,10 @@ const mapDispatchToProps = {
   toggleOrgSharingSettings,
   toggleAllOrgSharingSettings,
   integrateOrgIntegration,
-  configureOrgIntegration,
   revokeOrgIntegration
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStatusMessage(IntegrationPage));
+)(withStatusMessage(OrgIntegrationPage));

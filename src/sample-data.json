@@ -7,7 +7,8 @@
     "fileSource": "google",
     "lastModified": "2017-11-15T09:56:38-08:00",
     "resourceUri": "https://app.box.com/file/260315002706"
-  }, {
+  },
+  {
     "fileExtension": "jpg",
     "fileId": "260315448706",
     "fileName": "habla-ai-logo.jpg",
@@ -16,7 +17,8 @@
     "fileType": "Image",
     "lastModified": "2017-12-27T08:43:29-08:00",
     "resourceUri": "https://app.box.com/file/260315448706"
-  }, {
+  },
+  {
     "fileExtension": "jpg",
     "fileId": "260320354596",
     "fileName": "F-Chord-Guitar-Photo.jpg",
@@ -25,7 +27,8 @@
     "fileType": "Image",
     "lastModified": "2017-12-01T10:37:40-08:00",
     "resourceUri": "https://app.box.com/file/260320354596"
-  }, {
+  },
+  {
     "fileExtension": "docx",
     "fileId": "260315202222",
     "fileName": "new-habla-test.docx",
@@ -34,7 +37,8 @@
     "fileType": "MS Word",
     "lastModified": "2017-12-14T13:49:57-08:00",
     "resourceUri": "https://app.box.com/file/260315202222"
-  }, {
+  },
+  {
     "fileExtension": "jpg",
     "fileId": "260069443734",
     "fileName": "twitter-cover.jpg",
@@ -43,12 +47,13 @@
     "fileType": "Image",
     "lastModified": "2017-11-09T11:30:31-08:00",
     "resourceUri": "https://app.box.com/file/260069443734"
-  }, {
+  },
+  {
     "fileExtension": "pdf",
     "fileId": "260320688155",
     "fileName": "528171.pdf",
     "fileSize": "22938",
-    "fileSource": "sharepoint",
+    "fileSource": "onedrive",
     "fileType": "PDF",
     "lastModified": "2017-12-19T05:04:58-08:00",
     "resourceUri": "https://app.box.com/file/260320688155"

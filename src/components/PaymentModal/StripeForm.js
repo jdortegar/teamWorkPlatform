@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CardElement, injectStripe } from 'react-stripe-elements';
-import 'babel-polyfill';
 import { Link } from 'react-router-dom';
 
 import { Modal, Form, Input, Select, Button, message, Checkbox } from 'antd';
@@ -9,6 +8,8 @@ import String from 'src/translations';
 import { formShape } from 'src/propTypes';
 import { hablaGrayLogo } from 'src/img';
 import countriesObj from './countries';
+
+require('@babel/polyfill');
 
 const propTypes = {
   stripe: PropTypes.object,

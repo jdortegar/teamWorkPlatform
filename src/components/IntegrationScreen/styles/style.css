@@ -1,0 +1,55 @@
+.Integration .habla-big-title {
+  font-weight: 900;
+}
+
+.Integration__icon-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.Integration__icon-container .ant-card {
+  width: inherit;
+  height: inherit;
+  background: #fff;
+  margin: 0 0 8px;
+}
+
+.Integration__extraInfo {
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 4px;
+  margin: -11px auto 0;
+  width: fit-content;
+  color: black;
+}
+
+.Integration__switch-container {
+  padding: 18px;
+}
+
+.Integration__button-container {
+  padding: 18px;
+  border-top: 1px solid #f7f7f7;
+}
+
+.Integration__button-container .Integration__button {
+  background: #5b7eba;
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  height: 40px;
+}
+
+.Integration__content-loading {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 80px;
+  align-items: center;
+  justify-content: center;
+}
+.Integration__content-loading .spinner {
+  margin-top: 30px;
+  height: 30px;
+  flex: none;
+}

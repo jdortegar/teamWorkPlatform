@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { boolean, text, selectV2 } from '@storybook/addon-knobs/react';
+import { boolean, text, select } from '@storybook/addon-knobs';
 
 import Toast from '.';
 
@@ -15,8 +15,8 @@ storiesOf('Toast', module)
   .add('with props', () => (
     <Toast
       title={text('Title', 'Toast title')}
-      type={selectV2('Type', types, 'success')}
-      position={selectV2('Position', positions, 'topRight')}
+      type={select('Type', types, 'success')}
+      position={select('Position', positions, 'topRight')}
       showIcon={boolean('Show Icon', true)}
       description={text('Description', 'This is the description.')}
     />

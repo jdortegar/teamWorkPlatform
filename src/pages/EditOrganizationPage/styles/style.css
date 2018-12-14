@@ -13,7 +13,8 @@
   height: 50px !important;
   font-size: 20px !important;
 }
-.Edit-team__add-textfield:focus, .Edit-team__add-textfield:hover {
+.Edit-team__add-textfield:focus,
+.Edit-team__add-textfield:hover {
   border-color: #777777;
   box-shadow: none;
 }
@@ -47,7 +48,7 @@
   height: 60px !important;
 }
 .container__image__remove {
-  color : #f75a69;
+  color: #f75a69;
   cursor: pointer;
   font-size: 10px;
   position: absolute;
@@ -55,8 +56,8 @@
   z-index: 2;
 }
 .UploadImageField__avatar__org {
-	width: 60px;
-	height: 60px;
+  width: 60px;
+  height: 60px;
 }
 .container__image > .with-image {
   border: 1px solid #ccc;
@@ -64,9 +65,9 @@
 
 /* NEW STYLES */
 .avatar-uploader-trigger {
-	color: #fff;
-	font-size: 10px;
-	padding-top: 6px;
+  color: #fff;
+  font-size: 10px;
+  padding-top: 6px;
 }
 .subpage__header__title {
   font-weight: bold;
@@ -89,5 +90,34 @@
   justify-content: flex-end;
 }
 .editOrgPage-main .habla-main-content-header-actions {
-	display: none;
+  display: none;
+}
+
+.container__team_image {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  padding-bottom: 30px !important;
+}
+
+.container__team_image .container__image {
+  margin-left: 0;
+}
+
+.container__team_image .EditTeamPage_upload_label {
+  color: #32a953;
+  margin-left: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+.container__team_image .container__image__remove {
+  color: #f75a69;
+  cursor: pointer;
+  font-size: 10px;
+  position: absolute;
+  top: 65px;
+  z-index: 2;
 }

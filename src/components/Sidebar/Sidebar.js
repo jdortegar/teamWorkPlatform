@@ -398,19 +398,19 @@ class Sidebar extends Component {
             <div className="sidebar-direct-messages-content">
               {teamMembers.map(subscriber => renderSubscriberAvatar(subscriber))}
               {userRoles && userRoles.teamOwner.includes(teamId) && (
-                  <Tooltip placement="topLeft" title={String.t('sideBar.invitetoTeam')} arrowPointAtCenter>
-                    <a>
-                      <Avatar
-                        className="mr-1"
-                        onClick={() => {
-                          this.props.history.push(`/app/inviteToTeam/${teamId}`);
-                        }}
-                      >
-                        +
-                      </Avatar>
-                    </a>
-                  </Tooltip>
-                )}
+                <Tooltip placement="topLeft" title={String.t('sideBar.invitetoTeam')} arrowPointAtCenter>
+                  <a>
+                    <Avatar
+                      className="mr-1"
+                      onClick={() => {
+                        this.props.history.push(`/app/inviteToTeam/${teamId}`);
+                      }}
+                    >
+                      +
+                    </Avatar>
+                  </a>
+                </Tooltip>
+              )}
             </div>
           </div>
         )}
