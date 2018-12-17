@@ -59,12 +59,11 @@ const byOrg = (state = {}, action) => {
         saved: true
       });
     case SHARING_SETTINGS_SAVE_FAILURE:
+    case INTEGRATIONS_REVOKE_SUCCESS:
       return updateOrgSettings(state, action.payload, {
         submitting: false,
         saved: false
       });
-    case INTEGRATIONS_REVOKE_SUCCESS:
-      return updateOrgSettings(state, action.payload, INITIAL_SETTINGS);
     default:
       return state;
   }
@@ -88,12 +87,11 @@ const byTeam = (state = {}, action) => {
         saved: true
       });
     case TEAM_SHARING_SETTINGS_SAVE_FAILURE:
+    case TEAM_INTEGRATIONS_REVOKE_SUCCESS:
       return updateTeamSettings(state, action.payload, {
         submitting: false,
         saved: false
       });
-    case TEAM_INTEGRATIONS_REVOKE_SUCCESS:
-      return updateTeamSettings(state, action.payload, INITIAL_SETTINGS);
     default:
       return state;
   }

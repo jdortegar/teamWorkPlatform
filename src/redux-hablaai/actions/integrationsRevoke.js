@@ -25,7 +25,8 @@ const revoke = (requestUrl, params = { teamLevel: false }) => dispatch => {
         requestUrl,
         method: 'post'
       },
-      params
+      params,
+      { forceGet: true }
     )
   );
 
