@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export const URLREQUEST = 'urlrequest';
+export const URLREQUEST_CREATE = 'urlrequest/create';
 export const URLREQUEST_SUCCESS = 'urlrequest/success';
-export const URLREQUEST_ERROR = 'urlrequest/error';
+export const URLREQUEST_FAILURE = 'urlrequest/failure';
 export const URLREQUEST_CLEAR = 'urlrequest/clear';
 
 export const RESPONSE_STALE = 'STALE';
@@ -13,94 +13,80 @@ const AUTO_FETCH_STALE_DATE = true;
 export const cachedGetRequests = {};
 export const cachedGetRequestsOrdered = [];
 
+export const createUrlRequest = payload => ({
+  type: URLREQUEST_CREATE,
+  payload
+});
+
+export const urlRequestSuccess = payload => ({
+  type: URLREQUEST_SUCCESS,
+  payload
+});
+
+export const urlRequestFailure = payload => ({
+  type: URLREQUEST_FAILURE,
+  payload
+});
+
 export const clearUrlRequest = requestUrl => ({
   type: URLREQUEST_CLEAR,
   payload: { requestUrl }
 });
 
-export const doRequest = (
-  { requestUrl, method, headers, data },
-  reduxState,
-  options = { getKey: false, forceGet: false }
+export const doRequest = ({ requestUrl, method, headers, data }, reduxState, options = { cache: false }) => (
+  dispatch,
+  getState
 ) => {
-  if (options.getKey) {
-    return requestUrl;
+  // Check if a request for the exact same requestUrl exists and return the current request promise
+  const urlRequest = getState().urlRequests[requestUrl];
+  if (urlRequest && urlRequest.actionType === URLREQUEST_CREATE && urlRequest.request && urlRequest.request.then) {
+    return urlRequest.request;
   }
 
-  return (dispatch, getState) => {
-    if (!options.forceGet) {
-      // Check if current request for exact requestUrl.  Don't allow concurrent requests for the same thing.
-      const urlRequest = getState().urlRequests[requestUrl];
-      if (urlRequest && urlRequest.actionType === URLREQUEST) {
-        // Return the current request promise.
-        return urlRequest.request;
-      }
-
-      // If a GET request, and cached, return the cached response.
-      if (method.toLowerCase() === 'get') {
-        const cachedGetRequest = cachedGetRequests[requestUrl];
-        if (cachedGetRequest) {
-          dispatch({
-            type: URLREQUEST,
-            payload: { requestUrl, request: cachedGetRequest.request, ...cachedGetRequest.reduxState }
-          });
-          dispatch({
-            type: URLREQUEST_SUCCESS,
-            payload: { requestUrl, ...cachedGetRequest.reduxState }
-          });
-          dispatch(clearUrlRequest(requestUrl));
-          cachedGetRequest.response.data = RESPONSE_STALE;
-          return Promise.resolve(cachedGetRequest.response);
-        }
-      }
+  // check if there's a cached response and return it. The request must enable cache with { cache: true }
+  if (options.cache && method.toLowerCase() === 'get') {
+    const cachedGetRequest = cachedGetRequests[requestUrl];
+    if (cachedGetRequest) {
+      dispatch(createUrlRequest({ requestUrl, request: cachedGetRequest.request, ...cachedGetRequest.reduxState }));
+      dispatch(urlRequestSuccess({ requestUrl, ...cachedGetRequest.reduxState }));
+      dispatch(clearUrlRequest(requestUrl));
+      cachedGetRequest.response.data = RESPONSE_STALE;
+      return Promise.resolve(cachedGetRequest.response);
     }
+  }
 
-    // Do the request.
-    const request = axios({ method, url: requestUrl, headers, data })
-      .then(response => {
-        // eslint-disable-line no-unused-vars
-        if (CACHE_GET_REQUESTS) {
-          // Cache GET requests.
-          if (method.toLowerCase() === 'get') {
-            cachedGetRequests[requestUrl] = { response, request, reduxState };
-            cachedGetRequestsOrdered.push(requestUrl);
-          }
-        }
+  // Do the request
+  const request = axios({ method, url: requestUrl, headers, data })
+    .then(response => {
+      if (CACHE_GET_REQUESTS && method.toLowerCase() === 'get') {
+        cachedGetRequests[requestUrl] = { response, request, reduxState };
+        cachedGetRequestsOrdered.push(requestUrl);
+      }
 
-        dispatch({
-          type: URLREQUEST_SUCCESS,
-          payload: { requestUrl, ...reduxState }
-        });
-        dispatch(clearUrlRequest(requestUrl));
-        return response;
-      })
-      .catch(err => {
-        dispatch({
-          type: URLREQUEST_ERROR,
-          payload: err,
-          error: true,
-          errorMeta: { requestUrl, ...reduxState }
-        });
-        dispatch(clearUrlRequest(requestUrl));
-        throw err;
-      });
-
-    dispatch({
-      type: URLREQUEST,
-      payload: { requestUrl, request, ...reduxState }
+      dispatch(urlRequestSuccess({ requestUrl, ...reduxState }));
+      dispatch(clearUrlRequest(requestUrl));
+      return response;
+    })
+    .catch(error => {
+      dispatch(urlRequestFailure({ requestUrl, error, ...reduxState }));
+      dispatch(clearUrlRequest(requestUrl));
+      throw error;
     });
 
-    return request;
-  };
+  dispatch(createUrlRequest({ requestUrl, request, ...reduxState }));
+
+  return request;
 };
 
 export const doAuthenticatedRequest = (
-  { requestUrl, method, additionalHeaders, data },
-  reduxState,
-  options = { getKey: false, forceGet: false }
+  { requestUrl, method, additionalHeaders = {}, data },
+  reduxState = {},
+  options = { cache: false }
 ) => (dispatch, getState) => {
-  const secureHeaders = additionalHeaders || {};
-  secureHeaders.Authorization = `Bearer ${getState().auth.token}`;
+  const secureHeaders = {
+    Authorization: `Bearer ${getState().auth.token}`,
+    ...additionalHeaders
+  };
   return dispatch(doRequest({ requestUrl, method, headers: secureHeaders, data }, reduxState, options));
 };
 

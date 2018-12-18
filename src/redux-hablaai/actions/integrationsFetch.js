@@ -14,8 +14,7 @@ export const fetchIntegrations = () => (dispatch, getState) => {
         requestUrl,
         method: 'get'
       },
-      { subscriberOrgId: orgId },
-      { forceGet: true }
+      { subscriberOrgId: orgId }
     )
   );
 
@@ -37,7 +36,7 @@ export const fetchTeamIntegrations = teamId => (dispatch, getState) => {
   const orgId = getCurrentSubscriberOrgId(getState());
   const requestUrl = buildApiUrl(`organization/${orgId}/teams/${teamId}/integrations`, 'v2');
 
-  const thunk = dispatch(doAuthenticatedRequest({ requestUrl, method: 'get' }, { teamId }, { forceGet: true }));
+  const thunk = dispatch(doAuthenticatedRequest({ requestUrl, method: 'get' }, { teamId }));
 
   thunk.then(response => {
     if (response.data && response.data !== RESPONSE_STALE) {

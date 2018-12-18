@@ -11,8 +11,7 @@ const integrate = (requestUrl, { source, orgId, teamId, teamLevel = false }) => 
         requestUrl,
         method: 'get'
       },
-      { source, orgId, teamId, teamLevel },
-      { forceGet: true }
+      { source, orgId, teamId, teamLevel }
     )
   );
 

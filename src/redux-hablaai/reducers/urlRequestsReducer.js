@@ -1,43 +1,34 @@
-import _ from 'lodash';
-import { URLREQUEST, URLREQUEST_SUCCESS, URLREQUEST_ERROR, URLREQUEST_CLEAR } from 'src/actions';
+import { omit } from 'lodash';
+import { URLREQUEST_CREATE, URLREQUEST_SUCCESS, URLREQUEST_FAILURE, URLREQUEST_CLEAR } from 'src/actions';
 
-const INITIAL_STATE = {
-  urlRequests: {}
-};
-
-const urlRequestReducer = (state = INITIAL_STATE, action) => {
+const urlRequestReducer = (state = {}, action) => {
   switch (action.type) {
-    case URLREQUEST:
+    case URLREQUEST_CREATE:
     case URLREQUEST_SUCCESS: {
-      const payload = _.cloneDeep(action.payload);
-      delete payload.requestUrl;
-      delete payload.request;
-      const updatedState = _.cloneDeep(state);
-      updatedState[action.payload.requestUrl] = {
-        actionType: action.type,
-        request: action.payload.request,
-        payload,
-        error: undefined
+      const { requestUrl, request, ...other } = action.payload;
+      return {
+        ...state,
+        [requestUrl]: {
+          actionType: action.type,
+          payload: other,
+          error: null,
+          request
+        }
       };
-      return updatedState;
     }
-    case URLREQUEST_ERROR: {
-      const payload = _.cloneDeep(action.errorMeta);
-      delete payload.requestUrl;
-      delete payload.request;
-      const updatedState = _.cloneDeep(state);
-      updatedState[action.errorMeta.requestUrl] = {
-        actionType: action.type,
-        request: action.errorMeta.request,
-        payload,
-        error: action.payload
+    case URLREQUEST_FAILURE: {
+      const { requestUrl, error, ...other } = action.payload;
+      return {
+        ...state,
+        [requestUrl]: {
+          actionType: action.type,
+          payload: other,
+          error
+        }
       };
-      return updatedState;
     }
     case URLREQUEST_CLEAR: {
-      const updatedState = _.cloneDeep(state);
-      delete updatedState[action.payload.requestUrl];
-      return updatedState;
+      return omit(state, action.payload.requestUrl);
     }
     default:
       return state;

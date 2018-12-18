@@ -6,7 +6,7 @@ export const SUBMIT_SURVEY_REQUEST = 'surveys/submit/request';
 export const SUBMIT_SURVEY_SUCCESS = 'surveys/submit/success';
 export const SUBMIT_SURVEY_FAILURE = 'surveys/submit/failure';
 
-export const fetchSurveys = (options = { getKey: false, forceGet: true }) => (dispatch, getState) => {
+export const fetchSurveys = () => (dispatch, getState) => {
   const {
     subscriberOrgs: { currentSubscriberOrgId },
     auth: { userId }
@@ -14,14 +14,10 @@ export const fetchSurveys = (options = { getKey: false, forceGet: true }) => (di
   const requestUrl = buildApiUrl(`organizations/${currentSubscriberOrgId}/users/${userId}/surveys`, 'v2');
 
   const thunk = dispatch(
-    doAuthenticatedRequest(
-      {
-        requestUrl,
-        method: 'get'
-      },
-      {},
-      options
-    )
+    doAuthenticatedRequest({
+      requestUrl,
+      method: 'get'
+    })
   );
 
   thunk.then(response => {
