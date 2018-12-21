@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { last } from 'lodash';
 
+const SURVEYS_ENABLED = false;
 const SURVEY_FREQUENCY = 30;
 
 export const getSurveys = state => state.surveys;
@@ -15,4 +16,7 @@ const isRecurrentSurveyTime = state => {
 };
 
 export const isSurveyVisible = state =>
-  state.surveys.loaded && !state.surveys.error && (isFirstSurvey(state) || isRecurrentSurveyTime(state));
+  SURVEYS_ENABLED &&
+  state.surveys.loaded &&
+  !state.surveys.error &&
+  (isFirstSurvey(state) || isRecurrentSurveyTime(state));
