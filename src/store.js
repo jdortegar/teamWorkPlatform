@@ -23,11 +23,5 @@ function composeMiddleware() {
 const persistConfig = { key: 'root', storage };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export function configureStore() {
-  return new Promise(resolve => {
-    const store = createStore(persistedReducer, composeMiddleware());
-    const persistor = persistStore(store);
-
-    resolve({ store, persistor });
-  });
-}
+export const store = createStore(persistedReducer, composeMiddleware());
+export const persistor = persistStore(store);
