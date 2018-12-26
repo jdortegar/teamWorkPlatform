@@ -191,7 +191,8 @@ a.habla-top-menu-active {
 }
 
 #launcher {
-  width: 113px;
+  width: 113px !important;
+  display: none;
 }
 #webWidget {
   display: none;
