@@ -11,6 +11,7 @@ import { receiveConversations } from './conversationsReceive';
 import { receiveMessages } from './messagesReceive';
 import { receiveReadMessages } from './readMessagesReceive';
 import { receiveTyping } from './typing';
+import { receiveCall, receiveCallAnswer, receiveTeamCall } from './callings';
 import { updateIntegrations } from './integrations';
 
 // eslint-disable-next-line import/prefer-default-export
@@ -97,7 +98,15 @@ export const eventHandler = dispatch => (eventType, event) => {
     case EventTypes.typing:
       dispatch(receiveTyping(event));
       break;
-
+    case EventTypes.makePersonalCall:
+      dispatch(receiveCall(event));
+      break;
+    case EventTypes.answerCall:
+      dispatch(receiveCallAnswer(event));
+      break;
+    case EventTypes.makeTeamCall:
+      dispatch(receiveTeamCall(event));
+      break;
     case EventTypes.integrationsUpdated:
       dispatch(updateIntegrations(event.userId, event.subscriberOrgId, event.integrations));
       break;

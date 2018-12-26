@@ -55,6 +55,7 @@ export * from './messagingClose';
 
 export * from './location';
 export * from './typing';
+export * from './callings';
 
 export * from './integrations';
 export * from './integrationsFetch';

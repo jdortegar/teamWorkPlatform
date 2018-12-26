@@ -129,6 +129,17 @@ class TeamPage extends Component {
         url: `/app/teamIntegrations/${team.teamId}`
       },
       {
+        icon: 'fa fa-phone',
+        title: 'TeamPage.startVideoCall',
+        onClick: () => {
+          window.open(
+            'https://meet.habla.ai/{team.teamId}',
+            'window',
+            'toolbar=no, menubar=no, resizable=yes, location=no'
+          );
+        }
+      },
+      {
         icon: 'fas fa-cog',
         title: 'TeamPage.manageTeam',
         url: `/app/team/manage/${team.teamId}`

@@ -14,6 +14,7 @@ import {
   TextField,
   Message
 } from 'src/components';
+import { TeamCallButton } from 'src/containers';
 import { messageAction } from 'src/components/Message/Message';
 import { sortByFirstName } from 'src/redux-hablaai/selectors/helpers';
 import String from 'src/translations';
@@ -553,8 +554,13 @@ class Chat extends React.Component {
         {showTeamMembers && (
           <SimpleCardContainer className="Chat_Header">
             <div className="Chat_members_container">{this.renderTeamMembers()}</div>
-            <div className="Chat_expandAction" onClick={() => this.props.showChat(true)}>
-              <i className="fas fa-angle-down" />
+            <div className="Chat_Header_right_buttons">
+              <div className="Chat_videoCall_container">
+                <TeamCallButton />
+              </div>
+              <div className="Chat_expandAction" onClick={() => this.props.showChat(true)}>
+                <i className="fas fa-angle-down" />
+              </div>
             </div>
           </SimpleCardContainer>
         )}
