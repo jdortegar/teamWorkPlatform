@@ -53,8 +53,19 @@ function PageHeader({
   settingsIcon,
   children
 }) {
-  const menuItems = menuPageHeader.map(item =>
-    item.submenu ? (
+  const menuItems = menuPageHeader.map(item => {
+    if (item.onClick) {
+      return (
+        <Menu.Item key={item.key || item.title}>
+          <span className={item.className} onClick={item.onClick}>
+            <i className={item.icon} /> {String.t(item.title)}
+          </span>
+        </Menu.Item>
+      );
+    }
+
+    // If element doesn't hace onClick prop
+    return item.submenu ? (
       <Menu.SubMenu title={String.t(item.title)} key={item.key || item.title}>
         {item.submenu.map(subitem => (
           <Menu.Item key={subitem.key || subitem.title}>
@@ -74,8 +85,8 @@ function PageHeader({
           </span>
         </Link>
       </Menu.Item>
-    )
-  );
+    );
+  });
 
   const buttonMenu = (
     <Menu mode="vertical" className="pageHeaderMenu">

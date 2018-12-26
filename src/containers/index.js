@@ -39,5 +39,6 @@ export TeamIntegrationsPage from './TeamIntegrationsPage';
 export TeamManagePage from './TeamManagePage';
 export TeamMemberPage from './TeamMemberPage';
 export TeamPage from './TeamPage';
+export TeamCallButton from './TeamCallButton';
 export TreeOrganization from './TreeOrganization';
 export VerifyAccount from './VerifyAccount';

@@ -15,6 +15,7 @@ import surveysReducer from './surveysReducer';
 import teamMembersReducer from './teamMembersReducer';
 import teamsReducer from './teamsReducer';
 import typingsReducer from './typingsReducer';
+import callingsReducer from './callingsReducer';
 import uiReducer from './uiReducer';
 import urlRequestsReducer from './urlRequestsReducer';
 import usersReducer from './usersReducer';
@@ -37,6 +38,7 @@ const reducers = {
   teamMembers: teamMembersReducer,
   teams: teamsReducer,
   typings: typingsReducer,
+  callings: callingsReducer,
   ui: uiReducer,
   urlRequests: urlRequestsReducer,
   users: usersReducer

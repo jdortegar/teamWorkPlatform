@@ -5,10 +5,10 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
 import { paths } from 'src/routes';
-import { Layout, Menu, Tooltip, Dropdown, Input, Icon } from 'antd';
+import { Layout, Menu, Tooltip, Dropdown, Input, Icon, Popover, message } from 'antd';
 import String from 'src/translations';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
-import { AvatarWrapper, Badge } from 'src/components';
+import { AvatarWrapper, Badge, VideoCallModal } from 'src/components';
 import Avatar from '../common/Avatar';
 import './styles/style.css';
 
@@ -30,7 +30,12 @@ const propTypes = {
   showSideBar: PropTypes.func.isRequired,
   currentSubscriberOrgId: PropTypes.string,
   userRoles: PropTypes.object,
-  teamId: PropTypes.string
+  teamId: PropTypes.string,
+  makePersonalCall: PropTypes.func,
+  finishCall: PropTypes.func,
+  callingData: PropTypes.object,
+  answerCall: PropTypes.func,
+  acceptedCall: PropTypes.bool
 };
 
 const defaultProps = {
@@ -40,22 +45,15 @@ const defaultProps = {
   subscribersPresences: {},
   teams: [],
   userRoles: {},
-  teamId: null
+  teamId: null,
+  makePersonalCall: null,
+  finishCall: null,
+  callingData: {},
+  answerCall: null,
+  acceptedCall: false
 };
 
 const ROUTERS_TO_HIDE_SIDEBAR = ['/app/userDetails'];
-
-function renderSubscriberAvatar(subscriber) {
-  const { firstName, lastName, userId } = subscriber;
-  const fullName = String.t('fullName', { firstName, lastName });
-  return (
-    <Tooltip key={userId} placement="top" title={fullName}>
-      <Link to={`/app/teamMember/${userId}`}>
-        <AvatarWrapper size="default" user={subscriber} className="mr-05 mb-05" hideStatusTooltip />
-      </Link>
-    </Tooltip>
-  );
-}
 
 function renderAvatar(item, enabled) {
   const { preferences } = item;
@@ -88,7 +86,10 @@ class Sidebar extends Component {
 
     this.state = {
       teamsOpenKeys: [],
-      teamsActive
+      teamsActive,
+      videoCallModalVisible: false,
+      videoCallUser: {},
+      videoCallReceived: false
     };
 
     this.goToOrgPage = this.goToOrgPage.bind(this);
@@ -103,7 +104,7 @@ class Sidebar extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { currentSubscriberOrgId, teams } = nextProps;
+    const { currentSubscriberOrgId, teams, callingData, subscribers, acceptedCall, user } = nextProps;
     if (currentSubscriberOrgId !== this.props.currentSubscriberOrgId || !_.isEqual(teams, this.props.teams)) {
       const teamsActive = nextProps.teams.filter(
         team => team.subscriberOrgId === currentSubscriberOrgId && team.active
@@ -111,12 +112,41 @@ class Sidebar extends Component {
       this.teamsActive = teamsActive;
       this.setState({ teamsActive });
     }
+    if (callingData.callerId) {
+      const videoCallUser = Object.values(subscribers).find(subscriber => subscriber.userId === callingData.callerId);
+      this.setState({
+        videoCallModalVisible: true,
+        videoCallUser,
+        videoCallReceived: true
+      });
+    }
+    if (acceptedCall) {
+      let userUrl = user.userId;
+      userUrl = userUrl.substring(0, userUrl.indexOf('-'));
+      const newTab = window.open(
+        '',
+        'Habla Video Call',
+        'toolbar=no, menubar=no, resizable=yes, location=no, titlebar=no, directories=no,'
+      );
+
+      if (newTab) {
+        newTab.location.href = `https://meet.habla.ai/${userUrl}`;
+      } else {
+        message.success(String.t('sidebar.allowPopUp'));
+      }
+    }
   }
 
   getTeamsIds(orgId) {
     const teams = this.props.teams.filter(team => team.subscriberOrgId === orgId);
     return teams.map(team => team.teamId);
   }
+
+  showVideoCallModal = () => {
+    this.setState({
+      videoCallModalVisible: !this.state.videoCallModalVisible
+    });
+  };
 
   cancelClickEvent(e = window.event) {
     this.e = e;
@@ -261,6 +291,50 @@ class Sidebar extends Component {
     return 'iconSettingsTooltipUser';
   }
 
+  renderSubscriberAvatar(subscriber) {
+    const { userId, online } = subscriber;
+    const { user } = this.props;
+    const content = (
+      <Menu mode="vertical" className="pageHeaderMenu">
+        {userId !== user.userId && online && (
+          <Menu.Item key={subscriber.userId}>
+            <span
+              onClick={() => {
+                this.setState({
+                  videoCallUser: subscriber,
+                  videoCallModalVisible: true,
+                  videoCallReceived: false
+                });
+                this.props.makePersonalCall(user.userId, subscriber.userId);
+              }}
+            >
+              <i className="fa fa-phone" /> {String.t('sidebar.videoCall')}
+            </span>
+          </Menu.Item>
+        )}
+        <Menu.Item key={`${userId}-profile`}>
+          <Link to={`/app/teamMember/${userId}`}>
+            <i className="fas fa-user" /> {String.t('sidebar.userProfile')}
+          </Link>
+        </Menu.Item>
+      </Menu>
+    );
+
+    return (
+      <Popover
+        key={userId}
+        placement="topLeft"
+        title={String.t('sidebar.avatarPopoverTitle')}
+        content={content}
+        trigger="hover"
+      >
+        <span>
+          <AvatarWrapper size="default" user={subscriber} className="mr-05 mb-05" hideStatusTooltip />
+        </span>
+      </Popover>
+    );
+  }
+
   render() {
     const {
       teams,
@@ -396,7 +470,7 @@ class Sidebar extends Component {
               </span>
             </div>
             <div className="sidebar-direct-messages-content">
-              {teamMembers.map(subscriber => renderSubscriberAvatar(subscriber))}
+              {teamMembers.map(subscriber => this.renderSubscriberAvatar(subscriber))}
               {userRoles && userRoles.teamOwner.includes(teamId) && (
                 <Tooltip placement="topLeft" title={String.t('sideBar.invitetoTeam')} arrowPointAtCenter>
                   <a>
@@ -417,6 +491,17 @@ class Sidebar extends Component {
         <div className="sidebar-resize-icon">
           <i className="fas fa-bars" data-fa-transform="rotate-90" />
         </div>
+        <VideoCallModal
+          visible={this.state.videoCallModalVisible}
+          showModal={this.showVideoCallModal}
+          user={this.state.videoCallUser}
+          answerCall={this.props.answerCall}
+          videoCallReceived={this.state.videoCallReceived}
+          finishCall={this.props.finishCall}
+          callerId={this.props.callingData.callerId}
+          teamId={this.props.callingData.teamId}
+          teams={teams}
+        />
       </Sider>
     );
   }

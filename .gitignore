@@ -9,7 +9,6 @@ resources/style/*.scss
 resources/style/app.css.map
 resources/img/
 *.py
-package-lock.json
 
 # IDE
 .idea
