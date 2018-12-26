@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import createCachedSelector from 're-reselect';
+import { createSelector } from 'reselect';
 import {
   getConversationById,
   getConversationIdsByTeamId,
@@ -27,7 +27,7 @@ function merge(tree, messages) {
   return ret;
 }
 
-export const getConversationOfTeamId = createCachedSelector(
+export const getConversationOfTeamId = createSelector(
   [getConversationIdsByTeamId, getConversationById, getTranscriptByConversationId, (state, teamId) => teamId],
   (conversationIdsByTeamId, conversationById, transcriptByConversationId, teamId) => {
     const conversationIds = conversationIdsByTeamId[teamId];
@@ -35,7 +35,7 @@ export const getConversationOfTeamId = createCachedSelector(
       return null;
     }
 
-    // Only 1 conversation per team room, currently.
+    // Only 1 conversation per team, currently.
     const conversation = conversationById[conversationIds[0]];
     const transcript = transcriptByConversationId[conversationIds[0]];
 
@@ -52,9 +52,9 @@ export const getConversationOfTeamId = createCachedSelector(
     conversationClone.transcript = merge(transcript.flattenedTree, transcript.messages);
     return conversationClone;
   }
-)((state, teamId) => teamId);
+);
 
-export const getTypingsOfConversationId = createCachedSelector(
+export const getTypingsOfConversationId = createSelector(
   [getTypingByUserIdsByConversationId, (state, conversationId) => conversationId],
   (typingByUserIdsByConversationId, conversationId) => typingByUserIdsByConversationId[conversationId]
-)((state, conversationId) => conversationId);
+);

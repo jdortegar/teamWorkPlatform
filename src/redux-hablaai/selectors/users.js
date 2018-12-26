@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import createCachedSelector from 're-reselect';
 import { getUserByUserId, getTranscriptByConversationId } from './state';
 import { getCurrentUserId } from './auth';
 import { getOrgTeams } from './teams';
@@ -21,10 +20,10 @@ export const getCurrentUserFirstName = createSelector(
   currentUser => (currentUser ? currentUser.firstName : '')
 );
 
-export const getUserById = createCachedSelector(
+export const getUserById = createSelector(
   [getUserByUserId, (state, userId) => userId],
   (usersByUserId, userId) => usersByUserId[userId]
-)((state, userId) => userId);
+);
 
 export const getResolvedBookmarks = createSelector(
   [getCurrentUser, getTranscriptByConversationId],

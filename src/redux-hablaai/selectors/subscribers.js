@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import createCachedSelector from 're-reselect';
 
 import { getCurrentUserId } from './auth';
 import { getTeamsById } from './teams';
@@ -14,7 +13,7 @@ export const getCurrentSubscriberUserId = createSelector(
   }
 );
 
-export const getSubscribersOfSubscriberOrgId = createCachedSelector(
+export const getSubscribersOfSubscriberOrgId = createSelector(
   [getUserIdsBySubscriberOrgId, getUserByUserId, (state, subscriberOrgId) => subscriberOrgId],
   (userIdsBySubscriberOrgId, userByUserId, subscriberOrgId) => {
     if (!subscriberOrgId || !userIdsBySubscriberOrgId[subscriberOrgId]) {
@@ -24,9 +23,9 @@ export const getSubscribersOfSubscriberOrgId = createCachedSelector(
     const userIds = userIdsBySubscriberOrgId[subscriberOrgId];
     return Object.keys(userIds).map(userId => userByUserId[userId]);
   }
-)((state, subscriberOrgId) => subscriberOrgId);
+);
 
-export const getSubscribersOfTeamId = createCachedSelector(
+export const getSubscribersOfTeamId = createSelector(
   [getTeamsById, getUserIdsBySubscriberOrgId, getUserByUserId, (state, teamId) => teamId],
   (teamById, userIdsBySubscriberOrgId, userByUserId, teamId) => {
     if (!teamId || !teamById[teamId] || !userIdsBySubscriberOrgId) {
@@ -39,9 +38,9 @@ export const getSubscribersOfTeamId = createCachedSelector(
     if (!userIds) return [];
     return Object.keys(userIds).map(userId => userByUserId[userId]);
   }
-)((state, teamId) => teamId);
+);
 
-export const getPresencesOfSubscribersOfOrgId = createCachedSelector(
+export const getPresencesOfSubscribersOfOrgId = createSelector(
   [getUserIdsBySubscriberOrgId, getUserByUserId, getPresencesByUserId, (state, subscriberOrgId) => subscriberOrgId],
   (userIdsBySubscriberOrgId, userByUserId, presencesByUserId, subscriberOrgId) => {
     if (!subscriberOrgId || !userIdsBySubscriberOrgId[subscriberOrgId]) {
@@ -54,4 +53,4 @@ export const getPresencesOfSubscribersOfOrgId = createCachedSelector(
     });
     return allPresences;
   }
-)((state, subscriberOrgId) => subscriberOrgId);
+);

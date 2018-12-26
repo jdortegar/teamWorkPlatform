@@ -1,9 +1,9 @@
-import createCachedSelector from 're-reselect';
+import { createSelector } from 'reselect';
 import { getUserByUserId, getUserIdsByTeamId, getPresencesByUserId } from './state';
 
 export { getUserIdsByTeamId } from './state';
 
-export const getTeamMembersOfTeamId = createCachedSelector(
+export const getTeamMembersOfTeamId = createSelector(
   [getUserIdsByTeamId, getUserByUserId, (state, teamId) => teamId],
   (userIdsByTeamId, userByUserId, teamId) => {
     if (!teamId || !userIdsByTeamId[teamId]) {
@@ -12,9 +12,9 @@ export const getTeamMembersOfTeamId = createCachedSelector(
 
     return userIdsByTeamId[teamId];
   }
-)((state, teamId) => teamId);
+);
 
-export const getPresencesOfTeamMembersOfTeamId = createCachedSelector(
+export const getPresencesOfTeamMembersOfTeamId = createSelector(
   [getUserIdsByTeamId, getUserByUserId, getPresencesByUserId, (state, teamId) => teamId],
   (userIdsByTeamId, userByUserId, presencesByUserId, teamId) => {
     if (!teamId || !userIdsByTeamId[teamId]) {
@@ -27,4 +27,4 @@ export const getPresencesOfTeamMembersOfTeamId = createCachedSelector(
     });
     return allPresences;
   }
-)((state, teamId) => teamId);
+);

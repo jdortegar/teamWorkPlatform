@@ -1,9 +1,8 @@
-import createCachedSelector from 're-reselect';
-import { getUrlRequests } from './state';
+import { createSelector } from 'reselect';
 
-export { getUrlRequests } from './state';
+export const getUrlRequests = state => state.urlRequests;
 
-export const getUrlRequestStatus = createCachedSelector(
+export const getUrlRequestStatus = createSelector(
   [getUrlRequests, (state, requestUrl) => requestUrl],
   (urlRequests, requestUrl) => urlRequests[requestUrl]
-)((state, requestUrl) => requestUrl);
+);
