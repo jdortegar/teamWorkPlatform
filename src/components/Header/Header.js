@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Dropdown, Input, Icon, message, Button, Switch, Tooltip } from 'antd';
+import { Layout, Menu, Dropdown, Input, Icon, message, Button, Switch } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -44,14 +44,15 @@ class Header extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      query: this.props.query,
+      zendeskEnable: false
+    };
+
     this.logOut = this.logOut.bind(this);
     this.onStatusChange = this.onStatusChange.bind(this);
     this.handleAdminButton = this.handleAdminButton.bind(this);
   }
-
-  state = {
-    query: this.props.query
-  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.query !== this.props.query || nextProps.query !== this.state.query) {
@@ -89,6 +90,25 @@ class Header extends Component {
     event.preventDefault();
     const { teamId, caseSensitive, exactMatch } = this.props;
     this.props.search(this.state.query, { teamId, caseSensitive, exactMatch });
+  };
+
+  initZendesk = () => {
+    this.setState({
+      zendeskEnable: !this.state.zendeskEnable
+    });
+
+    const webWidget = document.getElementById('webWidget');
+    const launcher = document.getElementById('launcher');
+
+    const { zendeskEnable } = this.state;
+
+    if (!zendeskEnable === true) {
+      webWidget.style.display = 'block';
+      launcher.style.display = 'block';
+    } else {
+      webWidget.style.display = 'none';
+      launcher.style.display = 'none';
+    }
   };
 
   handleAdminButton(checked) {
@@ -171,6 +191,36 @@ class Header extends Component {
       </Menu>
     );
 
+    const supportMenu = (
+      <Menu>
+        <Menu.Item key="statusHeader">
+          <div className="habla-label padding-class-a">{String.t('Header.supportTitle')}</div>
+        </Menu.Item>
+        <Menu.Item key="instantSupport">
+          <a>
+            <i className="fas fa-question-circle" /> {String.t('Header.instantSupport')}{' '}
+            <Switch
+              size="small"
+              defaultChecked
+              style={{ marginLeft: 10 }}
+              onChange={() => this.initZendesk()}
+              checked={this.state.zendeskEnable}
+            />
+          </a>
+        </Menu.Item>
+        <Menu.Item key="submitTicket" className="submitTicketContainer">
+          <a rel="noopener noreferrer" href="https://hablaaisupport.zendesk.com/hc/en-us/requests/new" target="_blank">
+            <i className="fas fa-ticket-alt" /> {String.t('Header.submitTicket')}
+          </a>
+        </Menu.Item>
+        <Menu.Item key="goHelpCenter">
+          <a rel="noopener noreferrer" href="http://www.habla.ai/help-center.html" target="_blank">
+            <i className="fas fa-share-square" /> {String.t('Header.goHelpCenter')}
+          </a>
+        </Menu.Item>
+      </Menu>
+    );
+
     const className = classNames('habla-top-menu-item', { 'habla-top-menu-item-last': !this.state.isAdmin });
 
     return (
@@ -209,16 +259,14 @@ class Header extends Component {
         </div>
         <div className="habla-top-menu-item">
           <div className="habla-top-menu-item-content">
-            <Tooltip placement="bottom" title={String.t('Header.helpCenter')} arrowPointAtCenter>
-              <a
-                rel="noopener noreferrer"
-                href="http://www.habla.ai/help-center.html"
-                className="habla-top-menu-help-center"
-                target="_blank"
-              >
-                <i className="far fa-question-circle" />
-              </a>
-            </Tooltip>
+            <Dropdown overlay={supportMenu} trigger={['click']}>
+              <div className="ant-dropdown-link">
+                <span className="habla-top-menu-help-center">
+                  <i className="far fa-question-circle" />
+                  <Icon type="down" className="userMenu__dropdown-icon" />
+                </span>
+              </div>
+            </Dropdown>
           </div>
         </div>
         <div className={className}>
