@@ -7,8 +7,12 @@ import './styles/style.css';
 
 const propTypes = {
   user: PropTypes.object.isRequired,
-  teamId: PropTypes.string.isRequired,
+  teamId: PropTypes.string,
   makeTeamCall: PropTypes.func.isRequired
+};
+
+const defaultProps = {
+  teamId: null
 };
 
 class TeamCallButton extends Component {
@@ -20,16 +24,19 @@ class TeamCallButton extends Component {
   render() {
     return (
       <div>
-        <Tooltip placement="topRight" title={String.t('ckgPage.VideoCallTooltip')}>
-          <span className="Chat_videoCall" onClick={this.handleVideoCall}>
-            <i className="fa fa-phone" />
-          </span>
-        </Tooltip>
+        {this.props.teamId && (
+          <Tooltip placement="topRight" title={String.t('ckgPage.VideoCallTooltip')}>
+            <span className="Chat_videoCall" onClick={this.handleVideoCall}>
+              <i className="fa fa-phone" />
+            </span>
+          </Tooltip>
+        )}
       </div>
     );
   }
 }
 
+TeamCallButton.defaultProps = defaultProps;
 TeamCallButton.propTypes = propTypes;
 
 export default TeamCallButton;

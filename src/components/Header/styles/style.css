@@ -190,7 +190,9 @@ a.habla-top-menu-active {
   font-weight: 700;
 }
 
-#webWidget,
 #launcher {
+  width: 113px;
+}
+#webWidget {
   display: none;
 }
