@@ -124,7 +124,7 @@ class Sidebar extends Component {
       let userUrl = user.userId;
       userUrl = userUrl.substring(0, userUrl.indexOf('-'));
       const newTab = window.open(
-        '',
+        `https://meet.habla.ai/${userUrl}`,
         'Habla Video Call',
         'toolbar=no, menubar=no, resizable=yes, location=no, titlebar=no, directories=no,'
       );

@@ -45,8 +45,7 @@ class Header extends Component {
     super(props);
 
     this.state = {
-      query: this.props.query,
-      zendeskEnable: false
+      query: this.props.query
     };
 
     this.logOut = this.logOut.bind(this);
@@ -93,22 +92,9 @@ class Header extends Component {
   };
 
   initZendesk = () => {
-    this.setState({
-      zendeskEnable: !this.state.zendeskEnable
-    });
-
-    const webWidget = document.getElementById('webWidget');
-    const launcher = document.getElementById('launcher');
-
-    const { zendeskEnable } = this.state;
-
-    if (!zendeskEnable === true) {
-      webWidget.style.display = 'block';
-      launcher.style.display = 'block';
-    } else {
-      webWidget.style.display = 'none';
-      launcher.style.display = 'none';
-    }
+    const iframe = document.getElementById('launcher');
+    const launcher = iframe.contentDocument.querySelector('.src-component-launcher-WidgetLauncher-wrapper');
+    launcher.click();
   };
 
   handleAdminButton(checked) {
@@ -197,15 +183,8 @@ class Header extends Component {
           <div className="habla-label padding-class-a">{String.t('Header.supportTitle')}</div>
         </Menu.Item>
         <Menu.Item key="instantSupport">
-          <a>
-            <i className="fas fa-question-circle" /> {String.t('Header.instantSupport')}{' '}
-            <Switch
-              size="small"
-              defaultChecked
-              style={{ marginLeft: 10 }}
-              onChange={() => this.initZendesk()}
-              checked={this.state.zendeskEnable}
-            />
+          <a onClick={() => this.initZendesk()}>
+            <i className="fas fa-question-circle" /> {String.t('Header.instantSupport')}
           </a>
         </Menu.Item>
         <Menu.Item key="submitTicket" className="submitTicketContainer">
@@ -214,7 +193,7 @@ class Header extends Component {
           </a>
         </Menu.Item>
         <Menu.Item key="goHelpCenter">
-          <a rel="noopener noreferrer" href="http://www.habla.ai/help-center.html" target="_blank">
+          <a rel="noopener noreferrer" href="https://hablaaisupport.zendesk.com/hc/en-us" target="_blank">
             <i className="fas fa-share-square" /> {String.t('Header.goHelpCenter')}
           </a>
         </Menu.Item>
