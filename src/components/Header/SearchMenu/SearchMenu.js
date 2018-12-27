@@ -50,6 +50,7 @@ class SearchMenu extends Component {
         trigger={['click']}
         visible={visible}
         onVisibleChange={this.handleVisibleChange}
+        placement="bottomRight"
       >
         <a>
           <Icon type="down" className="SearchMenu__dropdown-icon" />
