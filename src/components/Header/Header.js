@@ -193,7 +193,7 @@ class Header extends Component {
           </a>
         </Menu.Item>
         <Menu.Item key="goHelpCenter">
-          <a rel="noopener noreferrer" href="http://www.habla.ai/help-center.html" target="_blank">
+          <a rel="noopener noreferrer" href="https://hablaaisupport.zendesk.com/hc/en-us" target="_blank">
             <i className="fas fa-share-square" /> {String.t('Header.goHelpCenter')}
           </a>
         </Menu.Item>
