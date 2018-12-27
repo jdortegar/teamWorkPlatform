@@ -238,7 +238,7 @@ class Header extends Component {
         </div>
         <div className="habla-top-menu-item">
           <div className="habla-top-menu-item-content">
-            <Dropdown overlay={supportMenu} trigger={['click']}>
+            <Dropdown overlay={supportMenu} trigger={['click']} placement="bottomRight">
               <div className="ant-dropdown-link">
                 <span className="habla-top-menu-help-center">
                   <i className="far fa-question-circle" />
@@ -251,7 +251,7 @@ class Header extends Component {
         <div className={className}>
           <div className="habla-top-menu-item-content">
             <div className="habla-top-menu-user" style={{ color: '#aaa' }}>
-              <Dropdown overlay={userMenu} trigger={['click']}>
+              <Dropdown overlay={userMenu} trigger={['click']} placement="bottomRight">
                 <div className="ant-dropdown-link">
                   <AvatarWrapper size="default" user={user} hideStatusTooltip />
                   <span className="habla-top-menu-label">{user.firstName}</span>
