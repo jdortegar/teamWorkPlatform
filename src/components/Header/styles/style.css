@@ -192,4 +192,5 @@ a.habla-top-menu-active {
 
 #launcher {
   right: -9999px !important;
+  position: absolute !important;
 }
