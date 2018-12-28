@@ -57,9 +57,11 @@ function PageHeader({
     if (item.onClick) {
       return (
         <Menu.Item key={item.key || item.title}>
-          <span className={item.className} onClick={item.onClick}>
-            <i className={item.icon} /> {String.t(item.title)}
-          </span>
+          <a onClick={item.onClick}>
+            <span className={item.className}>
+              <i className={item.icon} /> {String.t(item.title)}
+            </span>
+          </a>
         </Menu.Item>
       );
     }

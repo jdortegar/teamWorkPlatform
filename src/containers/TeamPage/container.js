@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { getTeam, getCurrentSubscriberOrg, getCurrentUser, getUserRoles } from 'src/selectors';
-import { fetchTeamMembers } from 'src/actions';
+import { fetchTeamMembers, makeTeamCall } from 'src/actions';
 import { TeamPage } from 'src/pages';
 
 const mapStateToProps = (state, props) => {
@@ -15,7 +15,8 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
-  fetchTeamMembers
+  fetchTeamMembers,
+  makeTeamCall
 };
 export default connect(
   mapStateToProps,

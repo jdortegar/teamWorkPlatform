@@ -14,7 +14,9 @@ const propTypes = {
   team: PropTypes.object.isRequired,
   teamId: PropTypes.string.isRequired,
   userRoles: PropTypes.object,
-  fetchTeamMembers: PropTypes.func.isRequired
+  fetchTeamMembers: PropTypes.func.isRequired,
+  makeTeamCall: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 const defaultProps = {
@@ -58,7 +60,7 @@ class TeamPage extends Component {
   }
 
   render() {
-    const { team, org, userRoles } = this.props;
+    const { team, org, userRoles, user } = this.props;
     const { chatVisible, ckgVisible, teamMembersLoaded } = this.state;
 
     if (!teamMembersLoaded || !team || !org) {
@@ -132,11 +134,7 @@ class TeamPage extends Component {
         icon: 'fa fa-phone',
         title: 'TeamPage.startVideoCall',
         onClick: () => {
-          window.open(
-            'https://meet.habla.ai/{team.teamId}',
-            'window',
-            'toolbar=no, menubar=no, resizable=yes, location=no'
-          );
+          this.props.makeTeamCall(user.userId, team.teamId);
         }
       },
       {
