@@ -34,8 +34,7 @@ const propTypes = {
   makePersonalCall: PropTypes.func,
   finishCall: PropTypes.func,
   callingData: PropTypes.object,
-  answerCall: PropTypes.func,
-  acceptedCall: PropTypes.bool
+  answerCall: PropTypes.func
 };
 
 const defaultProps = {
@@ -49,8 +48,7 @@ const defaultProps = {
   makePersonalCall: null,
   finishCall: null,
   callingData: {},
-  answerCall: null,
-  acceptedCall: false
+  answerCall: null
 };
 
 const ROUTERS_TO_HIDE_SIDEBAR = ['/app/userDetails'];
@@ -89,7 +87,7 @@ class Sidebar extends Component {
       teamsActive,
       videoCallModalVisible: false,
       videoCallUser: {},
-      videoCallReceived: false
+      videoCallReceived: null
     };
 
     this.goToOrgPage = this.goToOrgPage.bind(this);
@@ -104,7 +102,7 @@ class Sidebar extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { currentSubscriberOrgId, teams, callingData, subscribers, acceptedCall, user } = nextProps;
+    const { currentSubscriberOrgId, teams, callingData, subscribers, user } = nextProps;
     if (currentSubscriberOrgId !== this.props.currentSubscriberOrgId || !_.isEqual(teams, this.props.teams)) {
       const teamsActive = nextProps.teams.filter(
         team => team.subscriberOrgId === currentSubscriberOrgId && team.active
@@ -120,7 +118,7 @@ class Sidebar extends Component {
         videoCallReceived: true
       });
     }
-    if (acceptedCall) {
+    if (callingData.status === 'accepted') {
       let userUrl = user.userId;
       userUrl = userUrl.substring(0, userUrl.indexOf('-'));
       const newTab = window.open(
@@ -498,9 +496,9 @@ class Sidebar extends Component {
           answerCall={this.props.answerCall}
           videoCallReceived={this.state.videoCallReceived}
           finishCall={this.props.finishCall}
-          callerId={this.props.callingData.callerId}
-          teamId={this.props.callingData.teamId}
           teams={teams}
+          callingData={this.props.callingData}
+          currentUser={this.props.user}
         />
       </Sider>
     );

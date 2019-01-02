@@ -850,7 +850,12 @@
     "called": "Incoming Call from {{user}}",
     "calling": "Calling to {{user}}",
     "teamCall": "{{team}} Project Team Call",
+    "close": "Close",
     "cancel": "Cancel",
-    "answer": "Answer"
+    "answer": "Answer",
+    "waitingStatus": "Waiting for response...",
+    "acceptedStatus": "Accepted",
+    "cancelledStatus": "Cancelled",
+    "waitingTeam": "Waiting for Project Team Members..."
   }
 }

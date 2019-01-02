@@ -13,9 +13,9 @@ const propTypes = {
   answerCall: PropTypes.func,
   videoCallReceived: PropTypes.bool,
   finishCall: PropTypes.func,
-  callerId: PropTypes.string,
-  teamId: PropTypes.string,
-  teams: PropTypes.array
+  teams: PropTypes.array,
+  callingData: PropTypes.object,
+  currentUser: PropTypes.object
 };
 
 const defaultProps = {
@@ -25,43 +25,90 @@ const defaultProps = {
   answerCall: null,
   videoCallReceived: false,
   finishCall: null,
-  callerId: null,
-  teamId: null,
-  teams: []
+  teams: [],
+  callingData: {},
+  currentUser: {}
 };
 
 class VideoCallModal extends Component {
-  state = { hideAnswerButton: false };
+  state = { callState: String.t('videoCallModal.waitingStatus') };
 
-  handleCancel = () => {
+  componentWillReceiveProps(nextProps) {
+    const { callingData, visible } = nextProps;
+    let callState;
+
+    if (callingData.teamId && callingData.status === 'cancelled') {
+      callState = String.t('videoCallModal.waitingTeam');
+    } else {
+      switch (callingData.status) {
+        case 'ready':
+          callState = String.t('videoCallModal.waitingStatus');
+          break;
+        case 'accepted':
+          callState = String.t('videoCallModal.acceptedStatus');
+          break;
+        case 'cancelled':
+          callState = String.t('videoCallModal.cancelledStatus');
+          break;
+        default:
+          callState = '';
+          break;
+      }
+    }
+
+    this.setState({
+      callState
+    });
+
+    if (callingData.status === 'ready' && !visible) {
+      this.props.finishCall();
+    }
+
+    if (callingData.status === 'accepted' && visible) {
+      setTimeout(() => {
+        this.props.finishCall();
+        this.props.showModal();
+      }, 10000);
+    }
+  }
+
+  handleClose = () => {
     this.props.finishCall();
     this.props.showModal();
-    this.setState({
-      hideAnswerButton: false
-    });
   };
 
-  handleAnswer = () => {
-    const { callerId } = this.props;
-    const userUrl = callerId.substring(0, callerId.indexOf('-'));
-    this.setState({
-      hideAnswerButton: true
-    });
+  handleCancel = callerId => {
+    this.props.answerCall(callerId, 'cancelled');
+    this.props.finishCall();
+    this.props.showModal();
+  };
 
-    this.props.answerCall(callerId, true);
+  handleAnswer = callerId => {
+    const userUrl = callerId.substring(0, callerId.indexOf('-'));
+    this.props.answerCall(callerId, 'accepted');
     window.open(
       `https://meet.habla.ai/${userUrl}`,
       'Habla Video Call',
       'toolbar=no, menubar=no, resizable=yes, location=no, titlebar=no, directories=no,'
     );
+    this.setState({
+      callState: String.t('videoCallModal.acceptedStatus')
+    });
+
+    setTimeout(() => {
+      this.props.finishCall();
+      this.props.showModal();
+    }, 10000);
   };
 
   render() {
-    const { visible, user, videoCallReceived, callerId, teamId, teams } = this.props;
-    const { hideAnswerButton } = this.state;
+    const { visible, user, videoCallReceived, callingData, teams, currentUser } = this.props;
+    const { teamId, callerId } = callingData;
+    const { callState } = this.state;
+
     let teamSelected;
     if (teamId) {
-      teamSelected = teams.find(team => team.teamId === teamId);
+      teamSelected = teams.find(team => team.teamId === callingData.teamId);
     }
 
     return (
@@ -83,17 +130,27 @@ class VideoCallModal extends Component {
               <div className="Modal_body">
                 <span className="VideoCall_avatar_container">
                   <AvatarWrapper size="large" user={user} />
+                  <span className="VideoCall_icon">
+                    <i className="fas fa-video fa-2x" />
+                  </span>
                 </span>
-                <span className="VideoCall_icon">
-                  <i className="fas fa-video fa-2x" />
-                </span>
+                {(!videoCallReceived || currentUser.userId === callerId) && (
+                  <div className="VideoCall_status">{callState}</div>
+                )}
               </div>
               <div className="Modal_footer">
                 <div className="Action_buttons">
-                  <Button className="Cancel_button" onClick={this.handleCancel}>
-                    {String.t('videoCallModal.cancel')}
-                  </Button>
-                  {videoCallReceived && !hideAnswerButton && (
+                  {(!videoCallReceived || callState === 'Accepted' || currentUser.userId === callerId) && (
+                    <Button className="Cancel_button" onClick={() => this.handleClose()}>
+                      {String.t('videoCallModal.close')}
+                    </Button>
+                  )}
+                  {videoCallReceived && !(callState === 'Accepted') && currentUser.userId !== callerId && (
+                    <Button className="Cancel_button" onClick={() => this.handleCancel(callerId)}>
+                      {String.t('videoCallModal.cancel')}
+                    </Button>
+                  )}
+                  {videoCallReceived && !(callState === 'Accepted') && currentUser.userId !== callerId && (
                     <Button className="Confirm_button" onClick={() => this.handleAnswer(callerId)}>
                       {String.t('videoCallModal.answer')}
                     </Button>

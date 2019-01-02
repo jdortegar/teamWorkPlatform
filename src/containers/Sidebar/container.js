@@ -12,7 +12,7 @@ import {
   getPresencesOfSubscribersOfOrgId,
   getUserRoles,
   getCallingData,
-  getAcceptedCall
+  getStatusCall
 } from 'src/selectors';
 
 const mapStateToProps = (state, props) => {
@@ -32,7 +32,7 @@ const mapStateToProps = (state, props) => {
     userRoles: getUserRoles(state),
     teamId,
     callingData: getCallingData(state),
-    acceptedCall: getAcceptedCall(state)
+    statusCall: getStatusCall(state)
   };
 };
 

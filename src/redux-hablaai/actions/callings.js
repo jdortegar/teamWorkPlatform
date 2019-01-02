@@ -10,9 +10,9 @@ export const receiveCall = ({ callerId }) => ({
   payload: { callerId }
 });
 
-export const receiveCallAnswer = ({ accepted }) => ({
+export const receiveCallAnswer = ({ status }) => ({
   type: CALLING_RECEIVE_ANSWER,
-  payload: { accepted }
+  payload: { status }
 });
 
 export const finishCall = () => dispatch => dispatch({ type: CALLING_FINISH });
@@ -26,8 +26,8 @@ export const makePersonalCall = (callerId, receiverId) => () => {
   messaging().makePersonalCall(callerId, receiverId);
 };
 
-export const answerCall = (callerId, accepted) => () => {
-  messaging().answerCall(callerId, accepted);
+export const answerCall = (callerId, status) => () => {
+  messaging().answerCall(callerId, status);
 };
 
 export const makeTeamCall = (callerId, receiverTeamId) => () => {

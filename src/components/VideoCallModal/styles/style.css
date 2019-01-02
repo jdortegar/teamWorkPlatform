@@ -116,8 +116,8 @@
 
 .VideoCall_Modal_container .VideoCall_icon {
   position: absolute;
-  bottom: 10%;
-  right: 30%;
+  bottom: -14%;
+  right: 20%;
   background: #36a751;
   color: #fff;
   padding: 5px;
@@ -136,4 +136,15 @@
 
 .VideoCall_Modal_container .habla-avatar-signal-large {
   display: none;
+}
+
+.VideoCall_avatar_container {
+  position: relative;
+  display: block;
+}
+
+.VideoCall_status {
+  margin-top: 30px;
+  font-weight: 700;
+  font-style: italic;
 }

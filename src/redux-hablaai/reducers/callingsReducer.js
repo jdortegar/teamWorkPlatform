@@ -2,7 +2,7 @@ import { CALLING_RECEIVE, CALLING_RECEIVE_ANSWER, CALLING_FINISH, CALLING_TEAM_R
 
 const INITIAL_STATE = {
   callerId: null,
-  accepted: false,
+  status: 'ready',
   teamId: null
 };
 
@@ -17,11 +17,11 @@ const callingsReducer = (state = INITIAL_STATE, action) => {
       };
     }
     case CALLING_RECEIVE_ANSWER: {
-      const { accepted } = action.payload;
+      const { status } = action.payload;
 
       return {
         ...state,
-        accepted
+        status
       };
     }
     case CALLING_FINISH: {
