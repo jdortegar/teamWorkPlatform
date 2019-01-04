@@ -10,24 +10,22 @@ const propTypes = {
   visible: PropTypes.bool,
   showModal: PropTypes.func,
   user: PropTypes.object,
-  answerCall: PropTypes.func,
+  answerCall: PropTypes.func.isRequired,
+  answerTeamCall: PropTypes.func.isRequired,
   videoCallReceived: PropTypes.bool,
-  finishCall: PropTypes.func,
+  finishCall: PropTypes.func.isRequired,
   teams: PropTypes.array,
-  callingData: PropTypes.object,
-  currentUser: PropTypes.object
+  callingData: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired,
+  users: PropTypes.array.isRequired
 };
 
 const defaultProps = {
   visible: false,
   showModal: null,
   user: {},
-  answerCall: null,
   videoCallReceived: false,
-  finishCall: null,
-  teams: [],
-  callingData: {},
-  currentUser: {}
+  teams: []
 };
 
 class VideoCallModal extends Component {
@@ -38,7 +36,9 @@ class VideoCallModal extends Component {
     let callState;
 
     if (callingData.teamId && callingData.status === 'cancelled') {
-      callState = String.t('videoCallModal.waitingTeam');
+      const { users } = this.props;
+      const cancelledBy = users.find(user => user.userId === callingData.receiverId);
+      callState = String.t('videoCallModal.cancelledBy', { user: cancelledBy.fullName });
     } else {
       switch (callingData.status) {
         case 'ready':
@@ -68,7 +68,7 @@ class VideoCallModal extends Component {
       setTimeout(() => {
         this.props.finishCall();
         this.props.showModal();
-      }, 10000);
+      }, 5000);
     }
   }
 
@@ -77,8 +77,14 @@ class VideoCallModal extends Component {
     this.props.showModal();
   };
 
-  handleCancel = callerId => {
-    this.props.answerCall(callerId, 'cancelled');
+  handleCancel = () => {
+    const { callerId, teamId } = this.props.callingData;
+    if (teamId) {
+      const { currentUser } = this.props;
+      this.props.answerTeamCall(currentUser.userId, teamId, 'cancelled');
+    } else {
+      this.props.answerCall(callerId, 'cancelled');
+    }
     this.props.finishCall();
     this.props.showModal();
   };
@@ -98,7 +104,7 @@ class VideoCallModal extends Component {
     setTimeout(() => {
       this.props.finishCall();
       this.props.showModal();
-    }, 10000);
+    }, 5000);
   };
 
   render() {
@@ -146,7 +152,7 @@ class VideoCallModal extends Component {
                     </Button>
                   )}
                   {videoCallReceived && !(callState === 'Accepted') && currentUser.userId !== callerId && (
-                    <Button className="Cancel_button" onClick={() => this.handleCancel(callerId)}>
+                    <Button className="Cancel_button" onClick={() => this.handleCancel()}>
                       {String.t('videoCallModal.cancel')}
                     </Button>
                   )}

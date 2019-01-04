@@ -856,6 +856,6 @@
     "waitingStatus": "Waiting for response...",
     "acceptedStatus": "Accepted",
     "cancelledStatus": "Cancelled",
-    "waitingTeam": "Waiting for Project Team Members..."
+    "cancelledBy": "Cancelled by {{user}}"
   }
 }

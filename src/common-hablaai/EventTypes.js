@@ -40,6 +40,7 @@ const EventTypes = Object.freeze({
   makePersonalCall: 'makePersonalCall',
   makeTeamCall: 'makeTeamCall',
   answerCall: 'answerCall',
+  answerTeamCall: 'answerTeamCall',
 
   from(value) {
     return this[value];
