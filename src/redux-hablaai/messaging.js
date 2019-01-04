@@ -186,6 +186,18 @@ class Messaging {
     this.socket.send(EventTypes.typing, { conversationId, isTyping });
   }
 
+  makePersonalCall(callerId, receiverId) {
+    this.socket.send(EventTypes.makePersonalCall, { callerId, receiverId });
+  }
+
+  answerCall(callerId, status) {
+    this.socket.send(EventTypes.answerCall, { callerId, status });
+  }
+
+  makeTeamCall(callerId, receiverTeamId) {
+    this.socket.send(EventTypes.makeTeamCall, { callerId, receiverTeamId });
+  }
+
   location(lat, lon, alt = undefined, accuracy = undefined) {
     this.socket.send(EventTypes.location, { lat, lon, alt, accuracy });
   }

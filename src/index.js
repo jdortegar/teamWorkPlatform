@@ -1,28 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { AppContainer } from 'react-hot-loader';
+import { PersistGate } from 'redux-persist/integration/react';
+
 import App from './App';
-import { configureStore, history } from './store';
+import { store, persistor, history } from './store';
 
-configureStore().then(({ store, persistor }) => {
-  const render = (Component, props = {}) => {
-    ReactDOM.render(
-      <AppContainer>
-        <BrowserRouter>
-          <Component {...props} />
-        </BrowserRouter>
-      </AppContainer>,
-      document.getElementById('app')
-    );
-  };
-
-  render(App, { store, persistor, history });
-
-  // Hot Module Replacement API.
-  if (module.hot) {
-    module.hot.accept('./App', () => {
-      render(App, { store, persistor, history });
-    });
-  }
-});
+ReactDOM.render(
+  <BrowserRouter>
+    <PersistGate persistor={persistor} loading={null}>
+      <App store={store} persistor={persistor} history={history} />
+    </PersistGate>
+  </BrowserRouter>,
+  document.getElementById('app')
+);

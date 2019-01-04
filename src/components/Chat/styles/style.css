@@ -210,3 +210,7 @@
 .ant-popover.ant-popover-placement-topRight .ant-btn.ant-btn-primary.ant-btn-sm {
   background: #36a751;
 }
+
+.Chat_Header_right_buttons {
+  display: flex;
+}

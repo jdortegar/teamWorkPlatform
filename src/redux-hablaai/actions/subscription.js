@@ -6,139 +6,99 @@ export const SUBSCRIPTION_CANCEL_SUCCESS = 'subscription/cancel/success';
 export const SUBSCRIPTION_COUPONS_FETCH_SUCCESS = 'subscriptionCoupons/fetch/success';
 export const SUBSCRIPTION_UPDATE_SUCCESS = 'subscription/update/success';
 
-export const fetchSubscription = (subscriptionId, options = { getKey: false, forceGet: false }) => {
+export const fetchSubscription = subscriptionId => dispatch => {
   const requestUrl = buildApiUrl(`subscriptions/${subscriptionId}`, 'v2');
 
-  // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
-  const reduxState = {};
-  return dispatch => {
-    const thunk = dispatch(
-      doAuthenticatedRequest(
-        {
-          requestUrl,
-          method: 'get'
-        },
-        reduxState,
-        options
-      )
-    );
+  const thunk = dispatch(
+    doAuthenticatedRequest({
+      requestUrl,
+      method: 'get'
+    })
+  );
 
-    if (!options.getKey) {
-      thunk.then(response => {
-        if (response.data && response.data !== RESPONSE_STALE) {
-          const { data } = response;
-          dispatch({
-            type: SUBSCRIPTION_FETCH_SUCCESS,
-            payload: { ...data }
-          });
-        }
-        return response;
+  thunk.then(response => {
+    if (response.data && response.data !== RESPONSE_STALE) {
+      const { data } = response;
+      dispatch({
+        type: SUBSCRIPTION_FETCH_SUCCESS,
+        payload: { ...data }
       });
     }
+    return response;
+  });
 
-    return thunk;
-  };
+  return thunk;
 };
 
-export const fetchSubscriptionCoupons = (options = { getKey: false, forceGet: false }) => {
+export const fetchSubscriptionCoupons = () => dispatch => {
   const requestUrl = buildApiUrl(`coupons`, 'v2');
+  const thunk = dispatch(
+    doAuthenticatedRequest({
+      requestUrl,
+      method: 'get'
+    })
+  );
 
-  // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
-  const reduxState = {};
-  return dispatch => {
-    const thunk = dispatch(
-      doAuthenticatedRequest(
-        {
-          requestUrl,
-          method: 'get'
-        },
-        reduxState,
-        options
-      )
-    );
-
-    if (!options.getKey) {
-      thunk.then(response => {
-        if (response.data && response.data !== RESPONSE_STALE) {
-          const { data } = response;
-          dispatch({
-            type: SUBSCRIPTION_COUPONS_FETCH_SUCCESS,
-            payload: { ...data }
-          });
-        }
-        return response;
+  thunk.then(response => {
+    if (response.data && response.data !== RESPONSE_STALE) {
+      const { data } = response;
+      dispatch({
+        type: SUBSCRIPTION_COUPONS_FETCH_SUCCESS,
+        payload: { ...data }
       });
     }
+    return response;
+  });
 
-    return thunk;
-  };
+  return thunk;
 };
 
-export const updateSubscription = (updateObject, options = { getKey: false, forceGet: false }) => {
+export const updateSubscription = updateObject => dispatch => {
   const requestUrl = buildApiUrl(`subscriptions`, 'v2');
+  const thunk = dispatch(
+    doAuthenticatedRequest({
+      requestUrl,
+      method: 'patch',
+      data: updateObject
+    })
+  );
 
-  // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
-  const reduxState = { updateObject };
-  return dispatch => {
-    const thunk = dispatch(
-      doAuthenticatedRequest(
-        {
-          requestUrl,
-          method: 'patch',
-          data: updateObject
-        },
-        reduxState,
-        options
-      )
-    );
-
-    if (!options.getKey) {
-      thunk.then(response => {
-        if (response.data && response.data !== RESPONSE_STALE) {
-          const { data } = response;
-          dispatch({
-            type: SUBSCRIPTION_UPDATE_SUCCESS,
-            payload: { ...data }
-          });
-        }
-        return response;
+  thunk.then(response => {
+    if (response.data && response.data !== RESPONSE_STALE) {
+      const { data } = response;
+      dispatch({
+        type: SUBSCRIPTION_UPDATE_SUCCESS,
+        payload: { ...data }
       });
     }
+    return response;
+  });
 
-    return thunk;
-  };
+  return thunk;
 };
 
-export const cancelSubscription = (subscriptionId, options = { getKey: false, forceGet: true }) => {
+export const cancelSubscription = subscriptionId => dispatch => {
   const requestUrl = buildApiUrl(`subscriptions`, 'v2');
-  // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
-  const reduxState = { subscriptionId };
+  const thunk = dispatch(
+    doAuthenticatedRequest(
+      {
+        requestUrl,
+        method: 'delete',
+        data: subscriptionId
+      },
+      { subscriptionId }
+    )
+  );
 
-  return dispatch => {
-    const thunk = dispatch(
-      doAuthenticatedRequest(
-        {
-          requestUrl,
-          method: 'delete',
-          data: subscriptionId
-        },
-        reduxState,
-        options
-      )
-    );
-
-    if (!options.getKey) {
-      thunk.then(response => {
-        if (response.data !== RESPONSE_STALE) {
-          dispatch({
-            type: SUBSCRIPTION_CANCEL_SUCCESS,
-            payload: { data: response.data }
-          });
-        }
-        return response;
+  thunk.then(response => {
+    if (response.data !== RESPONSE_STALE) {
+      dispatch({
+        type: SUBSCRIPTION_CANCEL_SUCCESS,
+        payload: { data: response.data }
       });
     }
+    return response;
+  });
 
-    return thunk;
-  };
+  return thunk;
 };

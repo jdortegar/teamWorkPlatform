@@ -14,6 +14,7 @@ import {
   TextField,
   Message
 } from 'src/components';
+import { TeamCallButton } from 'src/containers';
 import { messageAction } from 'src/components/Message/Message';
 import { sortByFirstName } from 'src/redux-hablaai/selectors/helpers';
 import String from 'src/translations';
@@ -514,133 +515,138 @@ class Chat extends React.Component {
     } = this.props;
     const { teamMembersLoaded, conversationsLoaded } = this.state;
 
-    if (teamMembersLoaded && conversationsLoaded && user && teamMembers) {
-      const isAdmin = false;
-      const { conversationId } = conversations;
-      const lastMessage = _.last(conversations.transcript) || {};
-      const className = classNames({
-        'ChatPage-main': true,
-        'team-room-chat': true,
-        'team-room__main-container--opacity': this.state.isDraggingOver
-      });
+    if (!teamMembersLoaded || !conversationsLoaded || !user || !teamMembers || !conversations) {
+      return <Spinner />;
+    }
 
-      return (
-        <div className={className}>
-          {showPageHeader && (
-            <PageHeader
-              pageBreadCrumb={{
-                routes: [
-                  {
-                    title: team.name,
-                    link: `/app/team/${team.teamId}`
-                  },
-                  { title: String.t('chat.title') }
-                ]
-              }}
-              badgeOptions={{
-                enabled: true,
-                count: this.messagesCounter(),
-                style: { backgroundColor: '#32a953' }
-              }}
-              hasMenu
-              menuName="settings"
-              menuPageHeader={menuOptions}
-            />
-          )}
-          {showTeamMembers && (
-            <SimpleCardContainer className="Chat_Header">
-              <div className="Chat_members_container">{this.renderTeamMembers()}</div>
+    const isAdmin = false;
+    const { conversationId } = conversations;
+    const lastMessage = _.last(conversations.transcript) || {};
+    const className = classNames({
+      'ChatPage-main': true,
+      'team-room-chat': true,
+      'team-room__main-container--opacity': this.state.isDraggingOver
+    });
+
+    return (
+      <div className={className}>
+        {showPageHeader && (
+          <PageHeader
+            pageBreadCrumb={{
+              routes: [
+                {
+                  title: team.name,
+                  link: `/app/team/${team.teamId}`
+                },
+                { title: String.t('chat.title') }
+              ]
+            }}
+            badgeOptions={{
+              enabled: true,
+              count: this.messagesCounter(),
+              style: { backgroundColor: '#32a953' }
+            }}
+            hasMenu
+            menuName="settings"
+            menuPageHeader={menuOptions}
+          />
+        )}
+        {showTeamMembers && (
+          <SimpleCardContainer className="Chat_Header">
+            <div className="Chat_members_container">{this.renderTeamMembers()}</div>
+            <div className="Chat_Header_right_buttons">
+              <div className="Chat_videoCall_container">
+                <TeamCallButton />
+              </div>
               <div className="Chat_expandAction" onClick={() => this.props.showChat(true)}>
                 <i className="fas fa-angle-down" />
               </div>
-            </SimpleCardContainer>
-          )}
+            </div>
+          </SimpleCardContainer>
+        )}
 
-          {unreadMessagesCount > 0 && (
-            <SimpleCardContainer className="team-room__unread-messages padding-class-a">
-              <div
-                className="team-room__unread-messages-link"
-                onClick={() => this.props.readMessage(lastMessage.messageId, conversationId)}
+        {unreadMessagesCount > 0 && (
+          <SimpleCardContainer className="team-room__unread-messages padding-class-a">
+            <div
+              className="team-room__unread-messages-link"
+              onClick={() => this.props.readMessage(lastMessage.messageId, conversationId)}
+            >
+              {String.t('chat.markAllAsRead')}
+            </div>
+            <div className="team-room__unread-messages-dot">&middot;</div>
+            <div className="team-room__unread-messages-count">
+              {String.t('chat.unreadMessagesCount', { count: unreadMessagesCount })}
+            </div>
+          </SimpleCardContainer>
+        )}
+
+        <SimpleCardContainer className="team__messages">{this.renderMessages(isAdmin)}</SimpleCardContainer>
+
+        <SimpleCardContainer className="Chat_container">
+          {this.state.showPreviewBox && (
+            <PreviewBar
+              files={this.props.files}
+              fileWithPercent={this.state.file}
+              updateFiles={this.updateFiles}
+              removeFileFromList={this.props.removeFileFromList}
+              onCancelReply={this.onCancelReply}
+              addBase={this.props.addBase}
+              replyTo={this.state.replyTo}
+              user={user}
+              isDraggingOver={this.props.isDraggingOver}
+            />
+          )}
+          <div className="Chat__message_input">
+            <div className="team-room__chat-input__image-wrapper">
+              <AvatarWrapper size="large" user={user} />
+            </div>
+            <div className="team-room__chat-input-wrapper">
+              <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off" disabled={!team.active}>
+                <TextField
+                  disabled={!team.active}
+                  componentKey="message"
+                  form={this.props.form}
+                  hasFeedback={false}
+                  placeholder={String.t('chat.replyPlaceholder')}
+                  label=""
+                  className="team-room__chat-input-form-item"
+                  inputClassName="team-room__chat-input-textfield"
+                  onChange={this.handleTyping}
+                  autoFocus
+                />
+              </Form>
+            </div>
+            <div className="team-room__chat-col-icons">
+              <a
+                className="team-room__icons"
+                role="button"
+                tabIndex={0}
+                disabled={this.shouldDisableSubmit() || !team.active}
+                onClick={this.handleSubmit}
               >
-                {String.t('chat.markAllAsRead')}
-              </div>
-              <div className="team-room__unread-messages-dot">&middot;</div>
-              <div className="team-room__unread-messages-count">
-                {String.t('chat.unreadMessagesCount', { count: unreadMessagesCount })}
-              </div>
-            </SimpleCardContainer>
-          )}
-
-          <SimpleCardContainer className="team__messages">{this.renderMessages(isAdmin)}</SimpleCardContainer>
-
-          <SimpleCardContainer className="Chat_container">
-            {this.state.showPreviewBox && (
-              <PreviewBar
-                files={this.props.files}
-                fileWithPercent={this.state.file}
-                updateFiles={this.updateFiles}
-                removeFileFromList={this.props.removeFileFromList}
-                onCancelReply={this.onCancelReply}
-                addBase={this.props.addBase}
-                replyTo={this.state.replyTo}
-                user={user}
-                isDraggingOver={this.props.isDraggingOver}
-              />
-            )}
-            <div className="Chat__message_input">
-              <div className="team-room__chat-input__image-wrapper">
-                <AvatarWrapper size="large" user={user} />
-              </div>
-              <div className="team-room__chat-input-wrapper">
-                <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off" disabled={!team.active}>
-                  <TextField
-                    disabled={!team.active}
-                    componentKey="message"
-                    form={this.props.form}
-                    hasFeedback={false}
-                    placeholder={String.t('chat.replyPlaceholder')}
-                    label=""
-                    className="team-room__chat-input-form-item"
-                    inputClassName="team-room__chat-input-textfield"
-                    onChange={this.handleTyping}
-                    autoFocus
-                  />
-                </Form>
-              </div>
-              <div className="team-room__chat-col-icons">
-                <a
-                  className="team-room__icons"
-                  role="button"
-                  tabIndex={0}
-                  disabled={this.shouldDisableSubmit() || !team.active}
-                  onClick={this.handleSubmit}
-                >
-                  <i className="fas fa-paper-plane" />
-                </a>
-                <div>
-                  <input
-                    id="fileupload"
-                    disabled={!team.active}
-                    className="team-room__file-upload-input"
-                    type="file"
-                    onChange={this.onFileChange}
-                    multiple
-                  />
-                  <label htmlFor="fileupload" className="team-room__icons">
-                    <Tooltip placement="top" title={String.t('chat.tooltipAttachments')} arrowPointAtCenter>
-                      <i className="fas fa-paperclip" />
-                    </Tooltip>
-                  </label>
-                </div>
+                <i className="fas fa-paper-plane" />
+              </a>
+              <div>
+                <input
+                  id="fileupload"
+                  disabled={!team.active}
+                  className="team-room__file-upload-input"
+                  type="file"
+                  onChange={this.onFileChange}
+                  multiple
+                />
+                <label htmlFor="fileupload" className="team-room__icons">
+                  <Tooltip placement="top" title={String.t('chat.tooltipAttachments')} arrowPointAtCenter>
+                    <i className="fas fa-paperclip" />
+                  </Tooltip>
+                </label>
               </div>
             </div>
-            <div className="team-room__members-typing">{this.renderMembersTyping()}</div>
-          </SimpleCardContainer>
-        </div>
-      );
-    }
-
-    return <Spinner />;
+          </div>
+          <div className="team-room__members-typing">{this.renderMembersTyping()}</div>
+        </SimpleCardContainer>
+      </div>
+    );
   }
 }
 

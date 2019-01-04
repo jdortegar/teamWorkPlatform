@@ -3,39 +3,31 @@ import { doAuthenticatedRequest } from './urlRequest';
 
 export const INVITATIONS_FETCH_SUCCESS = 'invitations/fetch/success';
 
-export const fetchInvitations = (options = { getKey: false, forceGet: true }) => {
+export const fetchInvitations = () => dispatch => {
   const requestUrl = buildApiUrl('users/getInvitations');
+  const thunk = dispatch(
+    doAuthenticatedRequest({
+      requestUrl,
+      method: 'get'
+    })
+  );
 
-  // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
-  const reduxState = {};
-
-  return dispatch => {
-    const thunk = dispatch(
-      doAuthenticatedRequest(
-        {
-          requestUrl,
-          method: 'get'
-        },
-        reduxState,
-        options
-      )
-    );
-
-    thunk.then(response => {
-      const { invitations } = response.data;
-      dispatch({
-        type: INVITATIONS_FETCH_SUCCESS,
-        payload: { invitations }
-      });
-      return invitations;
+  thunk.then(response => {
+    const { invitations } = response.data;
+    dispatch({
+      type: INVITATIONS_FETCH_SUCCESS,
+      payload: { invitations }
     });
-  };
+    return invitations;
+  });
+
+  return thunk;
 };
 
 export const SENT_INVITATIONS_FETCH_SUCCESS = 'sentInvitations/fetch/success';
 
 // The state of the invitation, null | ACCEPTED | DECLINED | EXPIRED, where null means pending.
-export const fetchSentInvitations = (state = null, since = null, options = { getKey: false, forceGet: false }) => {
+export const fetchSentInvitations = (state = null, since = null) => {
   const requestUrl = buildApiUrl('users/getSentInvitations');
 
   // Passthrough data that you'll see after going through the reducer.  Typically in you mapStateToProps.
@@ -50,8 +42,7 @@ export const fetchSentInvitations = (state = null, since = null, options = { get
           requestUrl,
           method: 'get'
         },
-        reduxState,
-        options
+        reduxState
       )
     );
 
@@ -66,5 +57,7 @@ export const fetchSentInvitations = (state = null, since = null, options = { get
       }
       return invitations;
     });
+
+    return thunk;
   };
 };

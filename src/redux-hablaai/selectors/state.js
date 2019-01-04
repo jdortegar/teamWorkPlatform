@@ -1,7 +1,3 @@
-import createCachedSelector from 're-reselect';
-
-export const getUrlRequests = state => state.urlRequests;
-
 export const getUserByUserId = state => state.users.userByUserId;
 
 export const getPresencesByUserId = state => state.presences.presencesByUserId;
@@ -26,8 +22,3 @@ export const getReadMessagesByConversationId = state => state.readMessages.readM
 
 export const getTypingByConversationIdsByUserId = state => state.typings.typingByConversationIdsByUserId;
 export const getTypingByUserIdsByConversationId = state => state.typings.typingByUserIdsByConversationId;
-
-export const getUrlRequestStatus = createCachedSelector(
-  [getUrlRequests, (state, requestUrl) => requestUrl],
-  (urlRequests, requestUrl) => urlRequests[requestUrl]
-)((state, requestUrl) => requestUrl);

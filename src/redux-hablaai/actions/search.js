@@ -13,12 +13,10 @@ export const SEARCH_STALE = 'search/stale';
 export const TOGGLE_CASE_SENSITIVE = 'search/toggleCaseSensitive';
 export const TOGGLE_EXACT_MATCH = 'search/toggleExactMatch';
 
-// forceGet: true - disabling cache in search requests
-export const search = (
-  rawQuery = undefined,
-  { teamId, caseSensitive = false, exactMatch = false } = {},
-  options = { getKey: false, forceGet: true }
-) => (dispatch, getState) => {
+export const search = (rawQuery = undefined, { teamId, caseSensitive = false, exactMatch = false } = {}) => (
+  dispatch,
+  getState
+) => {
   const orgId = getCurrentSubscriberOrgId(getState());
   const keywords = extractKeywords(rawQuery);
   const query = keywords.join(' ');
@@ -44,34 +42,31 @@ export const search = (
         requestUrl,
         method: 'get'
       },
-      { query },
-      options
+      { query }
     )
   );
 
-  if (!options.getKey) {
-    thunk.then(
-      response => {
-        if (response.data !== RESPONSE_STALE) {
-          dispatch({
-            type: SEARCH_SUCCESS,
-            payload: { files: response.data }
-          });
-        }
-        if (response.data === RESPONSE_STALE) {
-          dispatch({ type: SEARCH_STALE });
-        }
-        return response;
-      },
-      error => {
+  thunk.then(
+    response => {
+      if (response.data !== RESPONSE_STALE) {
         dispatch({
-          type: SEARCH_FAILURE,
-          payload: { query, keywords }
+          type: SEARCH_SUCCESS,
+          payload: { files: response.data }
         });
-        return error;
       }
-    );
-  }
+      if (response.data === RESPONSE_STALE) {
+        dispatch({ type: SEARCH_STALE });
+      }
+      return response;
+    },
+    error => {
+      dispatch({
+        type: SEARCH_FAILURE,
+        payload: { query, keywords }
+      });
+      return error;
+    }
+  );
 
   return thunk;
 };

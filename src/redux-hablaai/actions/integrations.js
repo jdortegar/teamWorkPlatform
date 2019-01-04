@@ -20,9 +20,7 @@ export const fetchIntegrationContent = (source, subscriberUserId, teamId) => dis
 
   dispatch({ type: INTEGRATIONS_CONTENT_FETCH_REQUEST, payload: { subscriberUserId, source, teamId } });
 
-  const thunk = dispatch(
-    doAuthenticatedRequest({ requestUrl, method: 'get' }, { source, subscriberUserId, teamId }, { forceGet: true })
-  );
+  const thunk = dispatch(doAuthenticatedRequest({ requestUrl, method: 'get' }, { source, subscriberUserId, teamId }));
 
   thunk
     .then(response => {

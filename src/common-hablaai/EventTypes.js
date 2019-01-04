@@ -36,6 +36,11 @@ const EventTypes = Object.freeze({
   boxWebhookEvent: 'boxWebhookEvent',
   googleWebhookEvent: 'googleWebhookEvent',
 
+  // Video Call events
+  makePersonalCall: 'makePersonalCall',
+  makeTeamCall: 'makeTeamCall',
+  answerCall: 'answerCall',
+
   from(value) {
     return this[value];
   }

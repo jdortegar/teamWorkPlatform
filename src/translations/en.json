@@ -196,6 +196,7 @@
     "teamCreated": "Created on {{date}} by {{teamAdminName}}",
     "integrationsHeader": "Project Team Data Integrations ({{count}})",
     "addNewIntegration": "Add New Project Team Data Integration",
+    "startVideoCall": "Start a Project Team Video Call",
     "membersHeader": {
       "one": "1 Team Member",
       "other": "{{count}} Team Members",
@@ -268,7 +269,11 @@
     "searchExactMatch": "Exact Match",
     "adminMode": "Admin Mode",
     "helpCenter": "Help Center",
-    "statusUpdated": "Your status has been saved."
+    "statusUpdated": "Your status has been saved.",
+    "supportTitle": "HABLA AI SUPPORT",
+    "instantSupport": "Open Instant Support",
+    "submitTicket": "Submit a Help Ticket",
+    "goHelpCenter": "Go To Help Center"
   },
   "IntegrationCard": {
     "expired": "Expired",
@@ -586,7 +591,8 @@
     "AddDataIntegration": "Add a Data Integration",
     "fileTypes": "File Types ({{count}})",
     "dataIntegration": "Data Integrations ({{count}})",
-    "teamMembers": "Team Members ({{count}})"
+    "teamMembers": "Team Members ({{count}})",
+    "VideoCallTooltip": "Start a Project Team Video Call"
   },
   "ckg": {
     "timeActivityView": "Time Activity View",
@@ -833,5 +839,23 @@
     "back": "Back",
     "payButton": "Pay USD ${{amount}}",
     "subscriptionPaid": "your subscription to Habla AI has been paid successfully"
+  },
+  "sidebar": {
+    "avatarPopoverTitle": "Select an Option",
+    "videoCall": "Start 1:1 Video Call",
+    "userProfile": "View User Profile",
+    "allowPopUp": "Please allow popup window in your browser settings"
+  },
+  "videoCallModal": {
+    "called": "Incoming Call from {{user}}",
+    "calling": "Calling to {{user}}",
+    "teamCall": "{{team}} Project Team Call",
+    "close": "Close",
+    "cancel": "Cancel",
+    "answer": "Answer",
+    "waitingStatus": "Waiting for response...",
+    "acceptedStatus": "Accepted",
+    "cancelledStatus": "Cancelled",
+    "waitingTeam": "Waiting for Project Team Members..."
   }
 }

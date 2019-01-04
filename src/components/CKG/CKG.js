@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 import String from 'src/translations';
 import { integrationKeyFromFile } from 'src/utils/dataIntegrations';
-import { FileListView } from 'src/containers';
+import { FileListView, TeamCallButton } from 'src/containers';
 import { PageHeader, FilesFilters, TeamPicker, Spinner } from 'src/components';
 import { CKG_VIEWS } from 'src/actions';
 import TimeActivityView from './TimeActivityView';
@@ -268,6 +268,9 @@ class CKG extends Component {
         <div className="bottomBar">
           {showSelector && this.renderSelectors()}
           {!loading && this.renderFilesFilter()}
+          <div className="Chat_videoCall_container">
+            <TeamCallButton />
+          </div>
           <div className="clear" />
           {this.props.showChat && this.props.chatVisible && (
             <div>

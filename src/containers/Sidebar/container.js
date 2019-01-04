@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { Sidebar } from 'src/components';
-import { setCurrentSubscriberOrgId, showSideBar } from 'src/actions';
+import { setCurrentSubscriberOrgId, showSideBar, makePersonalCall, finishCall, answerCall } from 'src/actions';
 import {
   getCurrentUser,
   getCurrentSubscriberOrgId,
@@ -10,7 +10,9 @@ import {
   getOrgTeams,
   getSubscribersOfSubscriberOrgId,
   getPresencesOfSubscribersOfOrgId,
-  getUserRoles
+  getUserRoles,
+  getCallingData,
+  getStatusCall
 } from 'src/selectors';
 
 const mapStateToProps = (state, props) => {
@@ -28,13 +30,18 @@ const mapStateToProps = (state, props) => {
     teams: getOrgTeams(state),
     sideBarIsHidden: state.sideBar.hidden,
     userRoles: getUserRoles(state),
-    teamId
+    teamId,
+    callingData: getCallingData(state),
+    statusCall: getStatusCall(state)
   };
 };
 
 const mapDispatchToProps = {
   setCurrentSubscriberOrgId,
-  showSideBar
+  showSideBar,
+  makePersonalCall,
+  finishCall,
+  answerCall
 };
 
 export default withRouter(
