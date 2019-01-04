@@ -1,21 +1,18 @@
 .Integration.inactive {
   opacity: 0.3;
 }
-
 .Integration__label {
-  margin: 0 8px;
+  margin: 0 0 10px 0;
   width: 100px !important;
 }
-
 .Integration .IntegrationCard {
   background: #fff;
   border: 1px solid #eee !important;
   border-radius: 14% !important;
-  margin: 5px 8px 0;
+  margin: 0 10px 10px 0;
   width: 100px;
   height: 100px;
 }
-
 .IntegrationCard .ant-card-head {
   position: absolute;
   top: 5px;

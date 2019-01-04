@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { Sidebar } from 'src/components';
-import { setCurrentSubscriberOrgId, showSideBar, makePersonalCall, finishCall, answerCall } from 'src/actions';
+import { setCurrentSubscriberOrgId, showSideBar, makePersonalCall } from 'src/actions';
 import {
   getCurrentUser,
   getCurrentSubscriberOrgId,
@@ -39,9 +39,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = {
   setCurrentSubscriberOrgId,
   showSideBar,
-  makePersonalCall,
-  finishCall,
-  answerCall
+  makePersonalCall
 };
 
 export default withRouter(

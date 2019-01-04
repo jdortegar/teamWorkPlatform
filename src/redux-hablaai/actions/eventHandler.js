@@ -11,7 +11,7 @@ import { receiveConversations } from './conversationsReceive';
 import { receiveMessages } from './messagesReceive';
 import { receiveReadMessages } from './readMessagesReceive';
 import { receiveTyping } from './typing';
-import { receiveCall, receiveCallAnswer, receiveTeamCall } from './callings';
+import { receiveCall, receiveCallAnswer, receiveTeamCall, receiveTeamCallAnswer } from './callings';
 import { updateIntegrations } from './integrations';
 
 // eslint-disable-next-line import/prefer-default-export
@@ -24,7 +24,7 @@ export const eventHandler = dispatch => (eventType, event) => {
       dispatch(receiveInvitation(event));
       break;
     case EventTypes.userCreated:
-      // Don't care about this.  This is when a new user registers.  Also, notification won't be sent for this, currently.
+      dispatch(receiveUser(event));
       break;
     case EventTypes.userUpdated:
       dispatch(receiveUser(event));
@@ -59,7 +59,6 @@ export const eventHandler = dispatch => (eventType, event) => {
     case EventTypes.subscriberAdded:
       dispatch(receiveSubscriber(event.user, event.subscriberOrgId));
       break;
-
     case EventTypes.teamCreated:
       dispatch(receiveTeam(event));
       break;
@@ -106,6 +105,9 @@ export const eventHandler = dispatch => (eventType, event) => {
       break;
     case EventTypes.makeTeamCall:
       dispatch(receiveTeamCall(event));
+      break;
+    case EventTypes.answerTeamCall:
+      dispatch(receiveTeamCallAnswer(event));
       break;
     case EventTypes.integrationsUpdated:
       dispatch(updateIntegrations(event.userId, event.subscriberOrgId, event.integrations));

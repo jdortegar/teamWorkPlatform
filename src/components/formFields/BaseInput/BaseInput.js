@@ -41,7 +41,6 @@ function BaseInput(props) {
       required,
       message: missingMessage,
       whitespace: true
-      // transform: (value) => { return value.trim(); } // this does not work!
     },
     ...extraRules
   ];

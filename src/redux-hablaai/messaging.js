@@ -198,6 +198,10 @@ class Messaging {
     this.socket.send(EventTypes.makeTeamCall, { callerId, receiverTeamId });
   }
 
+  answerTeamCall(receiverId, receiverTeamId, status) {
+    this.socket.send(EventTypes.answerTeamCall, { receiverId, receiverTeamId, status });
+  }
+
   location(lat, lon, alt = undefined, accuracy = undefined) {
     this.socket.send(EventTypes.location, { lat, lon, alt, accuracy });
   }

@@ -1,3 +1,4 @@
+export ConfirmationCodeField from './ConfirmationCodeField';
 export ConfirmPasswordField from './ConfirmPasswordField';
 export CountrySelectField from './CountrySelectField';
 export EmailField from './EmailField';

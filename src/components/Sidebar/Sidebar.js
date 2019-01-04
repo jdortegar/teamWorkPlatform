@@ -8,7 +8,8 @@ import { paths } from 'src/routes';
 import { Layout, Menu, Tooltip, Dropdown, Input, Icon, Popover, message } from 'antd';
 import String from 'src/translations';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
-import { AvatarWrapper, Badge, VideoCallModal } from 'src/components';
+import { AvatarWrapper, Badge } from 'src/components';
+import { VideoCallModal } from 'src/containers';
 import Avatar from '../common/Avatar';
 import './styles/style.css';
 
@@ -32,9 +33,7 @@ const propTypes = {
   userRoles: PropTypes.object,
   teamId: PropTypes.string,
   makePersonalCall: PropTypes.func,
-  finishCall: PropTypes.func,
-  callingData: PropTypes.object,
-  answerCall: PropTypes.func
+  callingData: PropTypes.object
 };
 
 const defaultProps = {
@@ -46,9 +45,7 @@ const defaultProps = {
   userRoles: {},
   teamId: null,
   makePersonalCall: null,
-  finishCall: null,
-  callingData: {},
-  answerCall: null
+  callingData: {}
 };
 
 const ROUTERS_TO_HIDE_SIDEBAR = ['/app/userDetails'];
@@ -493,12 +490,8 @@ class Sidebar extends Component {
           visible={this.state.videoCallModalVisible}
           showModal={this.showVideoCallModal}
           user={this.state.videoCallUser}
-          answerCall={this.props.answerCall}
           videoCallReceived={this.state.videoCallReceived}
-          finishCall={this.props.finishCall}
           teams={teams}
-          callingData={this.props.callingData}
-          currentUser={this.props.user}
         />
       </Sider>
     );

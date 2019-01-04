@@ -9,7 +9,7 @@ import {
 import {
   getCurrentUser,
   getCurrentSubscriberOrgId,
-  getSubscribersOfSubscriberOrgId,
+  getUserByUserId,
   getPresencesOfSubscribersOfOrgId,
   getOrgTeams,
   getOrgIntegrationsObj,
@@ -23,7 +23,7 @@ const mapStateToProps = state => {
   return {
     subscriberOrg,
     user: getCurrentUser(state),
-    subscribers: getSubscribersOfSubscriberOrgId(state, orgId),
+    subscribers: Object.values(getUserByUserId(state)),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
     teams: getOrgTeams(state),
     integrations: getOrgIntegrationsObj(state, orgId),

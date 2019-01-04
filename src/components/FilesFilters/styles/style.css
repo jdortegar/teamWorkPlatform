@@ -15,7 +15,7 @@
 .FilesFilters__dataTypes {
   display: flex;
   align-items: center;
-  margin-right: 10px;
+  margin-right: 7px;
 }
 .FilesFilters__content {
   display: inline-flex;
@@ -99,7 +99,7 @@
 }
 .ant-popover.ant-popover-placement-topLeft .ant-popover-inner-content .BasicFilter__label {
   display: block;
-  margin: 0 0 0 4px;
+  margin: 0;
   text-transform: uppercase;
   font-size: 12px;
 }

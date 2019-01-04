@@ -4,6 +4,7 @@ export const CALLING_RECEIVE = 'calling/receive';
 export const CALLING_RECEIVE_ANSWER = 'calling/receiveAnswer';
 export const CALLING_FINISH = 'calling/finish';
 export const CALLING_TEAM_RECEIVE = 'calling/team/receive';
+export const CALLING_TEAM_RECEIVE_ANSWER = 'calling/team/receiveAnswer';
 
 export const receiveCall = ({ callerId }) => ({
   type: CALLING_RECEIVE,
@@ -13,6 +14,11 @@ export const receiveCall = ({ callerId }) => ({
 export const receiveCallAnswer = ({ status }) => ({
   type: CALLING_RECEIVE_ANSWER,
   payload: { status }
+});
+
+export const receiveTeamCallAnswer = ({ receiverId, status }) => ({
+  type: CALLING_TEAM_RECEIVE_ANSWER,
+  payload: { receiverId, status }
 });
 
 export const finishCall = () => dispatch => dispatch({ type: CALLING_FINISH });
@@ -32,4 +38,8 @@ export const answerCall = (callerId, status) => () => {
 
 export const makeTeamCall = (callerId, receiverTeamId) => () => {
   messaging().makeTeamCall(callerId, receiverTeamId);
+};
+
+export const answerTeamCall = (receiverId, receiverTeamId, status) => () => {
+  messaging().answerTeamCall(receiverId, receiverTeamId, status);
 };

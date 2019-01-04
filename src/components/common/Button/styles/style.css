@@ -18,12 +18,15 @@
   color: #fff;
 }
 .habla-button--type-main,
-.habla-button--type-main:focus {
+.habla-button--type-primary,
+.habla-button--type-main:focus,
+.habla-button--type-primary:focus {
   border: none;
   background: #32a953;
   color: #fff;
 }
-.habla-button--type-main:hover {
+.habla-button--type-main:hover,
+.habla-button--type-primary:hover {
   background: #008c3f;
   color: #fff;
 }

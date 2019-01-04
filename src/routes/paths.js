@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/prefer-default-export
 export const paths = {
-  register: '/register/:email',
-  verifyAccount: '/verifyAccount/:uuid',
+  // register: '/register/:email',
+  // verifyAccount: '/verifyAccount/:uuid',
   createAccount: '/createAccount',
   recoverPassword: '/recoverPassword',
   setNewPassword: '/setNewPassword/:uuid',

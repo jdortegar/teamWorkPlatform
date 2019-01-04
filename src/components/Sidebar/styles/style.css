@@ -192,6 +192,9 @@
   border-radius: 4px;
   padding: 0 10px 10px 10px;
 }
+.sidebar-direct-messages-content .habla-avatar {
+  cursor: pointer;
+}
 .sidebar-block-label {
   padding: 10px;
   display: flex;

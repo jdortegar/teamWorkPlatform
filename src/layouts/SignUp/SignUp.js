@@ -2,9 +2,8 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import { paths } from 'src/routes';
-import { Register } from 'src/pages';
 import { RecoverPassword } from 'src/layouts';
-import { CreateAccount, VerifyAccount, SetNewPassword } from 'src/containers';
+import { CreateAccount, SetNewPassword } from 'src/containers';
 import { hablaBlackLogo, hablaBlackLogoIcon } from 'src/img';
 import String from 'src/translations';
 import { Layout } from 'antd';
@@ -26,9 +25,7 @@ function SignUp() {
       </AntdHeader>
       <div className="signup-body">
         <Switch>
-          <Route exact path={paths.register} component={Register} />
           <Route exact path={paths.createAccount} component={CreateAccount} />
-          <Route exact path={paths.verifyAccount} component={VerifyAccount} />
           <Route exact path={paths.recoverPassword} component={RecoverPassword} />
           <Route exact path={paths.setNewPassword} component={SetNewPassword} />
         </Switch>

@@ -42,3 +42,4 @@ export TeamPage from './TeamPage';
 export TeamCallButton from './TeamCallButton';
 export TreeOrganization from './TreeOrganization';
 export VerifyAccount from './VerifyAccount';
+export VideoCallModal from './VideoCallModal';
