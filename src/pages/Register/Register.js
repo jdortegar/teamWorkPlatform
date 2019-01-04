@@ -77,7 +77,7 @@ class Register extends React.Component {
   doSubmit(email) {
     this.setState({ submitting: true, email });
     const { awsCustomerId } = this.state;
-    axios.post(buildApiUrl('users/registerUser'), { email }, getAwsHeaders(awsCustomerId)).then(() => {
+    axios.post(buildApiUrl('users/registerUser'), { email, userLimit: 5 }, getAwsHeaders(awsCustomerId)).then(() => {
       this.setState({ submitting: false, registered: true });
     });
   }

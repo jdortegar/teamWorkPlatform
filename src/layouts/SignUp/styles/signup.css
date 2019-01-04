@@ -5,9 +5,18 @@
   flex: 1;
   flex-direction: column;
 }
+
 .signup-body {
-   flex: 1;
-   background-color: white;
-   margin: 7px;
-   border-radius: 4px;
- }
+  flex: 1;
+  background-color: white;
+  margin: 7px;
+  border-radius: 4px;
+}
+
+.profileForm .profileTitle {
+  padding: 40px 0;
+}
+
+.profileForm h2 {
+  font-weight: 700;
+}

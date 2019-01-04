@@ -12,8 +12,6 @@ import { paths } from './paths';
 const Router = ({ authenticated }) => (
   <Switch>
     <Redirect exact from={paths.home} to={paths.app} />
-    <Route exact path={paths.register} component={SignUp} />
-    <Route exact path={paths.verifyAccount} component={SignUp} />
     <Route exact path={paths.setNewPassword} component={SignUp} />
     <Route exact path={paths.createAccount} component={SignUp} />
     <PublicRoute path={paths.login} component={Login} authenticated={authenticated} />

@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import String from 'src/translations';
-import { verifyEmailAccount } from 'src/actions';
+import { verifyConfirmationCode } from 'src/actions';
 import { Button } from 'src/components';
 
 const propTypes = {
-  verifyEmailAccount: PropTypes.func.isRequired,
+  verifyConfirmationCode: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -28,7 +28,7 @@ class VerifyAccount extends Component {
   componentDidMount() {
     const { uuid } = this.props.match.params;
     this.props
-      .verifyEmailAccount(uuid)
+      .verifyConfirmationCode(uuid)
       .then(() => this.setState({ verified: true }))
       .catch(() => this.props.history.replace('/app'));
   }
@@ -58,7 +58,7 @@ class VerifyAccount extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    verifyEmailAccount: uuid => dispatch(verifyEmailAccount(uuid))
+    verifyConfirmationCode: uuid => dispatch(verifyConfirmationCode(uuid))
   };
 }
 

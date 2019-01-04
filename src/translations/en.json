@@ -48,6 +48,7 @@
   "profilePhotoPlaceholder": "Set Your Profile Photo",
   "errProfileImageReadFile": "An error occurred trying to read the image.",
   "errProfileImageResize": "An error occurred trying to use the image.",
+  "errConfirmationCodeMissing": "Please enter the Confirmation Code.",
   "errFirstNameMissing": "Please enter your First Name.",
   "errLastNameMissing": "Please enter your Last Name.",
   "errUsernameTooShort": "The Organization Name must be at least 6 characters long.",
@@ -57,15 +58,17 @@
   "errConfirmPasswordEmpty": "Please re-enter Password in the Confirm Password field.",
   "errConfirmPasswordNoMatch": "Password doesn't match Confirm Password. Please try again.",
   "errCreateUserAlreadyRegistered": "You are already registered. Please login instead.",
+  "labelConfirmationCode": "Enter the Confirmation Code",
+  "labelConfirmationCodePlaceholder": "",
   "labelFirstName": "First Name",
   "labelFirstNamePlaceholder": "",
   "labelLastName": "Last Name",
   "labelLastNamePlaceholder": "",
-  "labelEmail": "Email",
+  "labelEmail": "E-mail",
   "labelEmailPlaceholder": "",
   "labelUsername": "Organization Name",
   "labelUsernamePlaceholder": "",
-  "labelPassword": "Password",
+  "labelPassword": "Choose a Password",
   "chooseNewPassword": "Choose a New Password",
   "labelPasswordPlaceholder": "",
   "labelConfirmPassword": "Confirm Password",
@@ -347,7 +350,9 @@
   },
   "createAccount": {
     "createAccountButtonLabel": "Create Account",
-    "errorEmailAlreadyRegistered": "The user is already registered."
+    "errorEmailAlreadyRegistered": "The user is already registered.",
+    "invalidConfirmationCode": "Code is invalid or expired.",
+    "confirmationCodeError": "Code couldn't be validated."
   },
   "addOrgDialog": {
     "title": "Add Organization",
@@ -385,8 +390,8 @@
     "checkAgreementsLabelBeforeTermsOfUse": " and consent to the ",
     "checkAgreementsTermsOfUseLink": "User Terms of Service",
     "checkAgreementsLabelAfterTermsOfUse": ".",
-    "completeProfileTitleBold": "Welcome to Habla AI",
-    "completeProfileTitle": "You're almost done!",
+    "completeProfileTitleBold": "Check your email",
+    "completeProfileTitle": "One more step and you’re done!",
     "acceptTermsOfService": "Please accept the User Terms of Service"
   },
   "verifyAccount": {

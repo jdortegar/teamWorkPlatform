@@ -49,17 +49,18 @@ export const logoutUser = () => dispatch => {
   dispatch(push(paths.login));
 };
 
-export const verifyEmailAccount = uuid => () =>
-  axios.get(buildApiUrl(`users/validateEmail/${uuid}`)).then(response => {
-    sessionStorage.setItem('habla-user-email', response.data.email);
-    if (response.data.subscriberOrgName) {
-      sessionStorage.setItem('habla-subscriberOrgName', response.data.subscriberOrgName);
-    }
-  });
+export const verifyConfirmationCode = code => () =>
+  axios
+    .get(buildApiUrl(`users/validateCode/${code}`))
+    .then(response => response.data.email)
+    .catch(err => {
+      const errorCode = err.response.status === 404 ? 'invalidConfirmationCode' : 'confirmationCodeError';
+      throw errorCode;
+    });
 
 export const createAccount = form => dispatch => {
   dispatch(logout());
-  return axios.post(buildApiUrl('users/createUser'), form);
+  return axios.post(buildApiUrl('users/createUser'), form).then(() => dispatch(push(paths.login)));
 };
 
 export const setNewPassword = (rid, password) => dispatch =>
