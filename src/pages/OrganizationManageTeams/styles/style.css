@@ -62,7 +62,7 @@ and also iPads specifically.
   }
 
   .Organization_Teams_Page .table-container tr {
-    border-bottom: 2px solid #eee !important;
+    border-bottom: 7px solid #eff2f7 !important;
   }
 
   .Organization_Teams_Page .table-container td {
@@ -70,15 +70,15 @@ and also iPads specifically.
     border: none !important;
     border-bottom: 1px solid #eee !important;
     position: relative !important;
-    padding-left: 30% !important;
+    padding-left: 40% !important;
   }
 
   .Organization_Teams_Page .table-container td:before {
     /* Now like a table header */
     position: absolute;
     /* Top/left values mimic padding */
-    top: 6px;
-    left: 6px;
+    top: 11px;
+    left: 10px;
     width: 25%;
     padding-right: 10px;
     white-space: nowrap;
@@ -91,7 +91,7 @@ and also iPads specifically.
     content: 'NAME';
   }
   .Organization_Teams_Page .table-container td:nth-of-type(2):before {
-    content: 'PROJECT TEAM MEMBERS';
+    content: 'TEAM MEMBERS';
   }
   .Organization_Teams_Page .table-container td:nth-of-type(3):before {
     content: 'CREATION DATE';

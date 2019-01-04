@@ -588,7 +588,7 @@
       "other": "{{count}} {{label}} files"
     },
     "filterTypeOther": "Other",
-    "AddDataIntegration": "Add a Data Integration",
+    "AddDataIntegration": "No data currently available. Add a Data Integration",
     "fileTypes": "File Types ({{count}})",
     "dataIntegration": "Data Integrations ({{count}})",
     "teamMembers": "Team Members ({{count}})",
