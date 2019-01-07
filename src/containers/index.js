@@ -17,6 +17,7 @@ export HomePage from './HomePage';
 export IntegrationsList from './IntegrationsList';
 export IntegrationsPage from './IntegrationsPage';
 export InviteNewMemberPage from './InviteNewMemberPage';
+export InviteTeamMembersModal from './InviteTeamMembersModal';
 export InviteToTeamPage from './InviteToTeamPage';
 export Login from './Login';
 export Main from './Main';
