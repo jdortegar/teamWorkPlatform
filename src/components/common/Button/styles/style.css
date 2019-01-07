@@ -37,6 +37,17 @@
 .habla-button--type-secondary:hover {
   background: #555;
 }
+.habla-button--type-ghost,
+.habla-button--type-ghost:focus {
+  background: transparent;
+  color: #666;
+  opacity: 0.5;
+}
+.habla-button--type-ghost:hover {
+  background: transparent;
+  color: #666;
+  opacity: 1;
+}
 .habla-button--type-alert,
 .habla-button--type-alert:focus {
   background: #eb4435;

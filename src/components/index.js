@@ -1,5 +1,6 @@
 export { AvatarWrapper } from './common/Avatar'; // TODO: Check possible duplication of Avatar component
 export { FileListView, TimeActivityView } from './CKG';
+export { PersonalizeTeamModal } from './Onboarding';
 
 export * from './common';
 export * from './cards';
@@ -31,6 +32,7 @@ export MainContent from './MainContent';
 export Message from './Message';
 export NewSubpageHeader from './NewSubpageHeader';
 export Notification from './Notification';
+export Onboarding from './Onboarding';
 export OwnerFilter from './OwnerFilter';
 export PageHeader from './PageHeader';
 export PaymentModal from './PaymentModal';
@@ -45,8 +47,8 @@ export Spinner from './Spinner';
 export SubpageHeader from './SubpageHeader';
 export SubscriptionModal from './SubscriptionModal';
 export SurveyModal from './SurveyModal';
-export TeamPicker from './TeamPicker';
 export TeamCallButton from './TeamCallButton';
+export TeamPicker from './TeamPicker';
 export TimeActivityGraph from './TimeActivityGraph';
 export Tree from './Tree';
 export TreeOrganization from './TreeOrganization';

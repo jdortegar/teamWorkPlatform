@@ -7,7 +7,7 @@ import './styles/style.css';
 const propTypes = {
   ...AntdButton.propTypes,
   // ANT supports the types: default, primary, ghost, dashed, danger
-  type: PropTypes.oneOf(['default', 'primary', 'secondary', 'alert', 'main', 'disable']),
+  type: PropTypes.oneOf(['default', 'primary', 'secondary', 'ghost', 'alert', 'main', 'disable']),
   // Fit the width to the text of the button
   fitText: PropTypes.bool,
   disabled: PropTypes.bool,

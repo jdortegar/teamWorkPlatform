@@ -1,0 +1,21 @@
+.Onboarding__title-container {
+  padding: 30px 30px 20px;
+}
+
+.Onboarding__title {
+  font-size: 20pt;
+  font-weight: 700;
+  line-height: 24pt;
+  color: #666;
+}
+
+.Onboarding__content {
+  background-color: #f5f7fe;
+  padding: 20px 30px 30px;
+}
+
+.Onboarding__footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}

@@ -23,7 +23,7 @@ export const getOrgTeams = createSelector(
 );
 
 export const getActiveTeams = createSelector(
-  [getTeamIdsByOrg, getTeamsById, (state, orgId) => orgId],
+  [getTeamIdsByOrg, getTeamsById, getCurrentSubscriberOrgId],
   (teamIdsByOrg, teamsById, orgId) => {
     if (!orgId || !teamIdsByOrg[orgId]) return [];
 
@@ -36,4 +36,9 @@ export const getActiveTeams = createSelector(
 export const getTeam = createSelector(
   [getTeamsById, (state, teamId) => teamId],
   (teamsById, teamId) => teamsById[teamId]
+);
+
+export const getPrimaryTeam = createSelector(
+  getActiveTeams,
+  activeTeams => activeTeams.find(team => team.primary)
 );
