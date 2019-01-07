@@ -18,7 +18,7 @@ const propTypes = {
   subscription: PropTypes.object,
   fetchSubscription: PropTypes.func.isRequired,
   fetchSubscriberOrgs: PropTypes.func.isRequired,
-  location: PropTypes.func.isRequired
+  location: PropTypes.object.isRequired
 };
 
 const defaultProps = {
