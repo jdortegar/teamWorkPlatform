@@ -23,7 +23,7 @@ class Onboarding extends Component {
     const { currentStep } = this.state;
     const { user } = this.props;
 
-    if (user.onboarding || currentStep > TOTAL_STEPS) return null;
+    if (!user.onboarding || currentStep > TOTAL_STEPS) return null;
 
     return (
       <div className="Onboarding">
