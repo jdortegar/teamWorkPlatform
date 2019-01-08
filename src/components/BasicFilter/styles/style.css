@@ -24,3 +24,7 @@
   vertical-align: -webkit-baseline-middle;
   display: none;
 }
+
+.FilesFilters__dataTypes .BasicFilter__content {
+  background: #fff !important;
+}

@@ -9,6 +9,7 @@
   color: #ccc;
   display: flex;
   align-items: center;
+  padding-right: 15px;
 }
 .Tree__item-link:hover {
   color: #999;

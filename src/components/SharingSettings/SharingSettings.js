@@ -14,13 +14,11 @@ const propTypes = {
   onToggleSelect: PropTypes.func.isRequired,
   onToggleSelectAll: PropTypes.func.isRequired,
   content: PropTypes.object.isRequired,
-  integrationType: PropTypes.string,
   selectedSettings: PropTypes.object,
   disabled: PropTypes.bool
 };
 
 const defaultProps = {
-  integrationType: null,
   selectedSettings: {
     folders: [],
     files: [],
@@ -44,7 +42,7 @@ class SharingSettings extends Component {
   };
 
   render() {
-    const { content, selectedSettings, integrationType, disabled } = this.props;
+    const { content, selectedSettings, disabled } = this.props;
     const { folders, files, sites } = content;
     const { folders: selectedFolders = [], files: selectedFiles = [], sites: selectedSites = {} } = selectedSettings;
 
@@ -57,9 +55,7 @@ class SharingSettings extends Component {
         <Collapse bordered defaultActiveKey="1">
           <Panel key="1" header={<SimpleHeader text={String.t('integrationPage.sharing.settings')} />}>
             <div className="SharingSettings__title-container">
-              <div className="habla-label">
-                {integrationType} {String.t('integrationPage.sharing.foldersAndFiles')}
-              </div>
+              <div className="habla-label">{String.t('integrationPage.sharing.foldersAndFiles')}</div>
               <div className={classNames('habla-label', { disabled })}>
                 <a onClick={e => this.toggleSelectAll(e, selectAll)} disabled={disabled}>
                   {String.t(`integrationPage.sharing.${selectAllText}`)}

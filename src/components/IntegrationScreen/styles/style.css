@@ -15,12 +15,15 @@
 }
 
 .Integration__extraInfo {
-  padding: 5px 10px;
-  font-size: 12px;
+  font-size: 10px;
+  text-transform: uppercase;
   border-radius: 4px;
-  margin: -11px auto 0;
+  margin: 15px auto;
+  padding: 0 10px;
+  line-height: 1.2em;
+  color: #ccc;
   width: fit-content;
-  color: black;
+  text-align: center;
 }
 
 .Integration__switch-container {

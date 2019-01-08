@@ -410,36 +410,36 @@ and also iPads specifically.
 	*/
   td:nth-of-type(1):before {
     content: 'FILE NAME';
-    font-size: 9px;
+    font-size: 7px;
     display: none;
   }
   td:nth-of-type(2):before {
     content: 'FILE SIZE';
-    font-size: 9px;
+    font-size: 7px;
   }
   td:nth-of-type(3):before {
     content: 'FILE TYPE';
-    font-size: 9px;
+    font-size: 7px;
   }
   td:nth-of-type(4):before {
     content: 'CREATED TIME';
-    font-size: 9px;
+    font-size: 7px;
   }
   td:nth-of-type(5):before {
     content: 'MODIFIED TIME';
-    font-size: 9px;
+    font-size: 7px;
   }
   td:nth-of-type(6):before {
     content: 'HABLA AI USER';
-    font-size: 9px;
+    font-size: 7px;
   }
   td:nth-of-type(7):before {
     content: 'FILE OWNER';
-    font-size: 9px;
+    font-size: 7px;
   }
   td:nth-of-type(8):before {
     content: 'DATA SOURCE';
-    font-size: 9px;
+    font-size: 7px;
   }
 
   .FileListView .ant-table-tbody > tr > td:first-child {
@@ -453,6 +453,9 @@ and also iPads specifically.
   }
   .FileListView .FileListView__results__fileName {
     padding-left: 27px;
+    line-height: 1.3em;
+    display: block;
+    padding-right: 10px;
   }
   .FileListView .ant-table-row-level-0 {
     border-bottom: 7px solid #5987cb !important;
@@ -467,7 +470,7 @@ and also iPads specifically.
     padding: 5px 0;
   }
   .FileListView .ant-table-tbody > tr > td:first-child {
-    height: 45px;
+    height: 60px;
   }
   .Organization_Teams_Page .ant-table-tbody > tr > td:first-child {
     height: 60px;

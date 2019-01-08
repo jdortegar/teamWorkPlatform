@@ -22,7 +22,7 @@
 .Flex_row {
   display: flex;
   justify-content: space-between;
-  padding: 13px 20px;
+  padding: 13px 13px;
   border-bottom: 1px solid #f7f7f7;
   align-items: center;
   font-size: 14px;

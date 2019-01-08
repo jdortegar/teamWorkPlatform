@@ -115,9 +115,7 @@ class InviteToTeamPage extends Component {
           <div className="habla-MemberListing__member-image">
             <AvatarWrapper key={userId} user={member} size="default" className={avatarClassName} />
           </div>
-          <div className="habla-MemberListing__member-text" style={{ color: isPending ? '#32a953' : '#666' }}>
-            {String.t('inviteToTeamPage.membersListItem', member)}
-          </div>
+          <div className="habla-MemberListing__member-text">{String.t('inviteToTeamPage.membersListItem', member)}</div>
           <a className="habla-MemberListing__inviteButton-text">
             {inviteLabel}
             {(isMember || isPending) && (
@@ -197,7 +195,7 @@ class InviteToTeamPage extends Component {
               <h1 className="habla-MemberListing__title mb-1">{instructions}</h1>
               {this.renderInvitees(team)}
             </div>
-            <div className="edit-org__buttons border-top-light margin-top-class-a">
+            <div className="edit-org__buttons border-top-lighter margin-top-class-a">
               <Button
                 type="secondary"
                 fitText

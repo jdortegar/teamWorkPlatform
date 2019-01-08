@@ -22,12 +22,10 @@
 .input-item.left {
   margin-right: 2em;
 }
-.collapse-content {
-}
 .userAccountSetting .ant-collapse > .ant-collapse-item {
-	border: none;
+  border: none;
 }
 .userAccountSetting .ant-collapse > .ant-collapse-item > .ant-collapse-header {
-	padding: 10px 55px;
-	font-weight: bold;
+  padding: 10px 35px;
+  font-weight: bold;
 }

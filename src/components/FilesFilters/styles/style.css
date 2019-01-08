@@ -34,7 +34,12 @@
 }
 
 .Filters_ellipsis_icon {
-  padding: 5px;
+  padding: 0 0 0 4px;
+  cursor: pointer;
+}
+
+.Filters_ellipsis_icon svg:hover {
+  color: #999;
 }
 
 .ant-popover.ant-popover-placement-topLeft .ant-popover-arrow {
