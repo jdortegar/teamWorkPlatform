@@ -17,8 +17,7 @@ const propTypes = {
   subscriberOrg: PropTypes.object,
   subscription: PropTypes.object,
   fetchSubscription: PropTypes.func.isRequired,
-  fetchSubscriberOrgs: PropTypes.func.isRequired,
-  location: PropTypes.object.isRequired
+  fetchSubscriberOrgs: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -113,7 +112,6 @@ class Main extends React.Component {
       return <Spinner />;
     }
 
-    const { location } = this.props;
     const {
       modalVisible,
       cancelButton,
@@ -132,7 +130,7 @@ class Main extends React.Component {
             <MainContent />
           </Layout>
           <SurveyModal />
-          <Onboarding visible={location.hash === '#onboarding'} />
+          <Onboarding />
           <SubscriptionModal visible={modalVisible} showModal={this.showModal} cancelButton={cancelButton} />
           <HablaModal
             visible={hablaModalVisible}
