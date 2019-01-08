@@ -1,7 +1,7 @@
 import { buildApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
-export const CREATE_TEAM_STATUS_SUCCESS = 'updateUser/success';
+export const CREATE_TEAM_STATUS_SUCCESS = 'createTeam/success';
 
 // eslint-disable-next-line import/prefer-default-export
 export const createTeam = (createObject, subscriberOrgId) => dispatch => {

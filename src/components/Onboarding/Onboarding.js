@@ -11,14 +11,19 @@ class Onboarding extends Component {
   state = { currentStep: 1 };
 
   handleModalSkip = () => {
-    this.setState({ currentStep: this.state.currentStep + 1 });
+    const { user, updateUser } = this.props;
+    this.setState({ currentStep: this.state.currentStep + 1 }, () => {
+      if (this.state.currentStep > TOTAL_STEPS) {
+        updateUser({ onboarding: true }, user.userId);
+      }
+    });
   };
 
   render() {
     const { currentStep } = this.state;
-    const { visible } = this.props;
+    const { user } = this.props;
 
-    if (!visible || currentStep > TOTAL_STEPS) return null;
+    if (user.onboarding || currentStep > TOTAL_STEPS) return null;
 
     return (
       <div className="Onboarding">
@@ -31,11 +36,12 @@ class Onboarding extends Component {
 }
 
 Onboarding.propTypes = {
-  visible: PropTypes.bool
+  user: PropTypes.object,
+  updateUser: PropTypes.func.isRequired
 };
 
 Onboarding.defaultProps = {
-  visible: false
+  user: {}
 };
 
 export default Onboarding;

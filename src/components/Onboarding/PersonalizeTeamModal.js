@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Form } from 'antd';
+import { Modal, Form, message } from 'antd';
 
 import { Button, TextField } from 'src/components';
 import { formShape } from 'src/propTypes';
@@ -28,7 +28,14 @@ class PersonalizeTeamModal extends Component {
             this.setState({ submitting: false });
             onCancel();
           })
-          .catch(() => this.setState({ submitting: false }));
+          .catch(error => {
+            this.setState({ submitting: false });
+            if (error.response && error.response.status === 409) {
+              message.error(String.t('editTeamPage.errorNameAlreadyTaken'));
+            } else {
+              message.error(error.message);
+            }
+          });
       }
     });
   };
