@@ -14,7 +14,7 @@ class Onboarding extends Component {
     const { user, updateUser } = this.props;
     this.setState({ currentStep: this.state.currentStep + 1 }, () => {
       if (this.state.currentStep > TOTAL_STEPS) {
-        updateUser({ onboarding: true }, user.userId);
+        updateUser({ onboarding: false }, user.userId);
       }
     });
   };
