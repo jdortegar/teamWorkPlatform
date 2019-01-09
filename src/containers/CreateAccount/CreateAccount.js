@@ -6,6 +6,7 @@ import countriesAndTimezones from 'countries-and-timezones';
 
 import String from 'src/translations';
 import { formShape } from 'src/propTypes';
+import { extractQueryParams } from 'src/routes';
 import { createAccount, verifyConfirmationCode } from 'src/actions';
 import {
   Button,
@@ -38,6 +39,7 @@ class CreateAccount extends React.Component {
   state = {
     verified: false,
     verifiedEmail: '',
+    verifiedOrgName: '',
     timeZone: defaultTimeZone,
     countryCode: defaultCountry && defaultCountry.id ? defaultCountry.id : '',
     loading: false,
@@ -45,9 +47,10 @@ class CreateAccount extends React.Component {
   };
 
   validateCode = (rule, value, callback) => {
-    this.props.verifyConfirmationCode(value).then(
-      verifiedEmail => {
-        this.setState({ verified: true, verifiedEmail });
+    const { rid } = extractQueryParams(this.props);
+    this.props.verifyConfirmationCode(value, rid).then(
+      ({ email, orgName }) => {
+        this.setState({ verified: true, verifiedEmail: email, verifiedOrgName: orgName });
         callback();
       },
       error => callback(String.t(`createAccount.${error}`))
@@ -80,7 +83,7 @@ class CreateAccount extends React.Component {
 
   render() {
     const { form } = this.props;
-    const { verified, timeZone, countryCode, loading, fieldProps } = this.state;
+    const { verified, verifiedEmail, verifiedOrgName, timeZone, countryCode, loading, fieldProps } = this.state;
 
     return (
       <Form onSubmit={this.handleSubmit} layout="vertical" className="profileForm">
@@ -120,13 +123,14 @@ class CreateAccount extends React.Component {
                   componentKey="displayName"
                   form={form}
                   layout={layout}
-                  disabled={!verified}
+                  disabled={!verified || verifiedOrgName}
+                  initialValue={verifiedOrgName}
                   required
                   {...fieldProps}
                 />
               </Col>
               <Col className="gutter-row" span={12}>
-                <EmailField form={form} layout={layout} initialValue={this.state.verifiedEmail} disabled required />
+                <EmailField form={form} layout={layout} initialValue={verifiedEmail} disabled required />
               </Col>
             </Row>
             <Row gutter={16}>
