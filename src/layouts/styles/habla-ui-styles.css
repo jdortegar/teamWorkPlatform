@@ -1453,11 +1453,20 @@ tr.ant-table-row:hover {
     z-index: 1;
     top: 28px;
   }
+  .breadcrumbs-container {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100px;
+  }
+  .habla-top-menu-item-admin {
+    display: none;
+  }
 }
 
 @media only screen and (max-width: 440px) {
   .ant-input-affix-wrapper {
-    width: 75px;
+    width: 70px;
   }
   .habla-top-menu-search button {
     margin-left: 7px;

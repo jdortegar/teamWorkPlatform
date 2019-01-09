@@ -35,6 +35,10 @@
   margin-left: 10px;
   padding-right: 0;
 }
+.habla-top-menu-item-admin svg {
+  font-size: 13px !important;
+  margin-right: 3px;
+}
 .habla-top-menu-item-content {
   height: 30px;
 }

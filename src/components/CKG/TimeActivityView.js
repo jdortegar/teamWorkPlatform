@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { Tooltip } from 'antd';
 
 import String from 'src/translations';
 import { TimeActivityGraph, GraphZoomActions } from 'src/components';
@@ -50,10 +51,18 @@ class TimeActivityView extends Component {
           </div>
         </div>
         <div className="TimeActivityView__axis-label y-axis">
-          <span>{String.t('timeActivityGraph.yAxisLabel')}</span>
+          <span>
+            <Tooltip placement="topLeft" title={String.t('timeActivityGraph.yAxisLabelTooltip')} arrowPointAtCenter>
+              {String.t('timeActivityGraph.yAxisLabel')}
+            </Tooltip>
+          </span>
         </div>
         <div className="TimeActivityView__axis-label x-axis">
-          <span>{String.t('timeActivityGraph.xAxisLabel')}</span>
+          <span>
+            <Tooltip placement="topLeft" title={String.t('timeActivityGraph.xAxisLabelTooltip')} arrowPointAtCenter>
+              {String.t('timeActivityGraph.xAxisLabel')}
+            </Tooltip>
+          </span>
         </div>
         <TimeActivityGraph files={files.map(buildDataObject)} loading={loading} viewAll={viewAll} />
       </div>

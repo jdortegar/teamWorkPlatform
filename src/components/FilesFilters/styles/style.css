@@ -17,6 +17,9 @@
   align-items: center;
   margin-right: 7px;
 }
+.FilesFilters__dataTypes .BasicFilter {
+  background-color: #fff;
+}
 .FilesFilters__content {
   display: inline-flex;
   flex-wrap: wrap;

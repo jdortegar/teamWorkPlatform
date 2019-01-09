@@ -335,8 +335,10 @@
     "invitetoTeam": "Invite Member to this Project Team"
   },
   "timeActivityGraph": {
-    "xAxisLabel": "Creation Date",
-    "yAxisLabel": "Last Modified Date",
+    "xAxisLabel": "X",
+    "yAxisLabel": "Y",
+    "xAxisLabelTooltip": "Creation Date",
+    "yAxisLabelTooltip": "Last Modified Date",
     "displayTime": "{{displayDate}} at {{displayTime}}",
     "dateFormat": "MMM D, YYYY",
     "timeFormat": "H:mm:ss",

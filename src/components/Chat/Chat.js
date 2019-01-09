@@ -598,7 +598,7 @@ class Chat extends React.Component {
           )}
           <div className="Chat__message_input">
             <div className="team-room__chat-input__image-wrapper">
-              <AvatarWrapper size="large" user={user} />
+              <AvatarWrapper size="medium" user={user} />
             </div>
             <div className="team-room__chat-input-wrapper">
               <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off" disabled={!team.active}>
