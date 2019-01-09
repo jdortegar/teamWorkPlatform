@@ -11,21 +11,25 @@ const propTypes = {
   integrations: PropTypes.array,
   orgId: PropTypes.string,
   teamId: PropTypes.string,
-  hideInactive: PropTypes.bool
+  hideInactive: PropTypes.bool,
+  onIntegrationClick: PropTypes.func
 };
 
 const defaultProps = {
   integrations: [],
   teamId: null,
   orgId: null,
-  hideInactive: false
+  hideInactive: false,
+  onIntegrationClick: () => {}
 };
 
 class IntegrationsList extends Component {
   renderIntegration = (source, integration) => {
-    const { orgId, teamId } = this.props;
+    const { orgId, teamId, onIntegrationClick } = this.props;
     const url = teamId ? `/app/teamIntegrations/${teamId}/${source}` : `/app/integrations/${orgId}/${source}`;
-    return <IntegrationCard key={source} source={source} integration={integration} url={url} />;
+    return (
+      <IntegrationCard key={source} source={source} integration={integration} url={url} onClick={onIntegrationClick} />
+    );
   };
 
   renderIntegrations = () => {

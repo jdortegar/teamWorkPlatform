@@ -24,7 +24,7 @@ const AddTeamIntegrationModal = ({ team, onCancel }) => {
         <h1 className="Onboarding__title">Add a Data Integration</h1>
       </div>
       <div className="Onboarding__content">
-        <IntegrationsList teamId={team.teamId} hideInactive />
+        <IntegrationsList teamId={team.teamId} onIntegrationClick={onCancel} hideInactive />
       </div>
     </Modal>
   );
