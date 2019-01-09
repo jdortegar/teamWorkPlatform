@@ -448,9 +448,6 @@ and also iPads specifically.
     line-height: 1.2;
   }
 
-  .FileListView .FileListView__results__link,
-  .FileListView .FileListView__results__link:hover {
-  }
   .FileListView .FileListView__results__fileName {
     padding-left: 27px;
     line-height: 1.3em;

@@ -60,10 +60,6 @@ class VideoCallModal extends Component {
       callState
     });
 
-    if (callingData.status === 'ready' && !visible) {
-      this.props.finishCall();
-    }
-
     if (callingData.status === 'accepted' && visible) {
       setTimeout(() => {
         this.props.finishCall();

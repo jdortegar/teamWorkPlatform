@@ -1399,6 +1399,10 @@ tr.ant-table-row:hover {
     font-size: 7pt;
     line-height: 7pt !important;
   }
+
+  .breadcrumbs-container .breadcrumbs-text.breadcrumbs-text-b:not(:last-child) {
+    display: none;
+  }
 }
 
 @media only screen and (max-width: 550px) {
@@ -1448,9 +1452,6 @@ tr.ant-table-row:hover {
     position: absolute;
     z-index: 1;
     top: 28px;
-  }
-  .breadcrumbs-container {
-    display: none;
   }
 }
 
