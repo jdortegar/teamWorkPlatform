@@ -2,15 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Form, message } from 'antd';
 
+import String from 'src/translations';
 import { Button, TextField } from 'src/components';
 import { formShape } from 'src/propTypes';
 
 const propTypes = {
   form: formShape.isRequired,
-  team: PropTypes.object.isRequired,
+  team: PropTypes.object,
   orgId: PropTypes.string.isRequired,
   onCancel: PropTypes.func.isRequired,
   updateTeam: PropTypes.func.isRequired
+};
+
+const defaultProps = {
+  team: null
 };
 
 class PersonalizeTeamModal extends Component {
@@ -43,6 +48,8 @@ class PersonalizeTeamModal extends Component {
   render() {
     const { form, team, onCancel } = this.props;
     const { submitting } = this.state;
+
+    if (!team) return null;
 
     const footer = (
       <div className="Onboarding__footer">
@@ -78,5 +85,6 @@ class PersonalizeTeamModal extends Component {
 }
 
 PersonalizeTeamModal.propTypes = propTypes;
+PersonalizeTeamModal.defaultProps = defaultProps;
 
 export default Form.create()(PersonalizeTeamModal);
