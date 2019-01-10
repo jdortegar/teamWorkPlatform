@@ -175,7 +175,10 @@ class Chat extends React.Component {
       this.props.fetchConversations(nextTeamId).then(response => {
         if (!_.isEmpty(response.data.conversations)) {
           const { conversationId } = response.data.conversations[0];
-          this.props.fetchTranscript(conversationId).then(() => this.setState({ conversationsLoaded: true }));
+          this.props
+            .fetchTranscript(conversationId)
+            .then(() => this.setState({ conversationsLoaded: true }))
+            .then(this.scrollToBottom);
         }
         if (response.data === 'STALE') {
           this.setState({ conversationsLoaded: true });
@@ -185,6 +188,12 @@ class Chat extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    const { teamMembersLoaded, conversationsLoaded } = this.state;
+
+    if (!teamMembersLoaded || !conversationsLoaded) {
+      return;
+    }
+
     const { conversations, user } = this.props;
     if (!prevProps.conversations || !conversations) return;
     if (prevProps.conversations.transcript.length === conversations.transcript.length) return;
@@ -250,16 +259,6 @@ class Chat extends React.Component {
     const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
 
     return distanceFromBottom < BOTTOM_SCROLL_LIMIT;
-  };
-
-  scrollToBottom = () => {
-    const messagesContainer = document.getElementsByClassName('team__messages')[0];
-    if (!messagesContainer) return;
-
-    const { clientHeight, scrollHeight } = messagesContainer;
-    if (clientHeight < scrollHeight) {
-      messagesContainer.scrollTop = scrollHeight;
-    }
   };
 
   handleTyping = () => {
