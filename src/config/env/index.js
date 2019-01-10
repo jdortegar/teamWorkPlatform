@@ -6,6 +6,7 @@ const config = {
   knowledgeApiRoot: process.env.HABLAAPI_KNOWLEDGE_URI || dev.KNOWLEDGE_API_ROOT,
   hablaApiEnv: process.env.HABLAAPI_ENV || 'dev',
   hablaWebAppVersion: pjson.version,
-  stripe: process.env.STRIPE || dev.STRIPE
+  stripe: process.env.STRIPE || dev.STRIPE,
+  publicWebsiteUrl: process.env.PUBLIC_WEBSITE_URL || dev.PUBLIC_WEBSITE_URL
 };
 export default config;
