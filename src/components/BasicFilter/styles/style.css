@@ -1,5 +1,6 @@
 .BasicFilter {
   vertical-align: -webkit-baseline-middle;
+  margin-right: 5px;
 }
 
 .BasicFilter__content {
@@ -23,4 +24,8 @@
   font-size: 11px;
   vertical-align: -webkit-baseline-middle;
   display: none;
+}
+
+.FilesFilters__dataTypes .BasicFilter__content {
+  background: #fff !important;
 }

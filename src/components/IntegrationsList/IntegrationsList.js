@@ -2,33 +2,41 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Row } from 'antd';
 
-import { availableIntegrationKeys } from 'src/utils/dataIntegrations';
+import { availableIntegrationKeys, integrationIsSupported } from 'src/utils/dataIntegrations';
 import { SimpleCardContainer } from 'src/components';
 import IntegrationCard from './IntegrationCard';
 import './styles/style.css';
 
 const propTypes = {
   integrations: PropTypes.array,
-  orgId: PropTypes.string.isRequired,
-  teamId: PropTypes.string
+  orgId: PropTypes.string,
+  teamId: PropTypes.string,
+  hideInactive: PropTypes.bool,
+  onIntegrationClick: PropTypes.func
 };
 
 const defaultProps = {
   integrations: [],
-  teamId: null
+  teamId: null,
+  orgId: null,
+  hideInactive: false,
+  onIntegrationClick: () => {}
 };
 
 class IntegrationsList extends Component {
   renderIntegration = (source, integration) => {
-    const { orgId, teamId } = this.props;
+    const { orgId, teamId, onIntegrationClick } = this.props;
     const url = teamId ? `/app/teamIntegrations/${teamId}/${source}` : `/app/integrations/${orgId}/${source}`;
-    return <IntegrationCard key={source} source={source} integration={integration} url={url} />;
+    return (
+      <IntegrationCard key={source} source={source} integration={integration} url={url} onClick={onIntegrationClick} />
+    );
   };
 
   renderIntegrations = () => {
-    const { integrations } = this.props;
+    const { integrations, hideInactive } = this.props;
     const findIntegration = key => integrations.find(item => item.source === key);
-    return availableIntegrationKeys().map(key => this.renderIntegration(key, findIntegration(key)));
+    const availableKeys = availableIntegrationKeys().filter(key => !hideInactive || integrationIsSupported(key));
+    return availableKeys.map(key => this.renderIntegration(key, findIntegration(key)));
   };
 
   render() {

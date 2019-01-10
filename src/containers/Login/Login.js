@@ -3,6 +3,7 @@ import { Row, Col, Form, Checkbox, Spin, message } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
+import config from 'src/config/env';
 
 import String from 'src/translations';
 import { formShape } from 'src/propTypes';
@@ -142,7 +143,7 @@ class Login extends React.Component {
                     </a>
                   </div>
                   <div className="login-main-signup">
-                    <a href="https://www.habla.ai/plans.html" rel="noopener noreferrer" target="_blank">
+                    <a href={config.publicWebsiteUrl} rel="noopener noreferrer" target="_blank">
                       <span className="habla-bold-text">{String.t('login.newUserLabel')}</span>{' '}
                       {String.t('login.signUpLabel')}
                     </a>

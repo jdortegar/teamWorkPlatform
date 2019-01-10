@@ -3,7 +3,7 @@ import { Layout } from 'antd';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import { Header, Sidebar, MainContent, SurveyModal, SubscriptionModal } from 'src/containers';
+import { Header, Onboarding, Sidebar, MainContent, SurveyModal, SubscriptionModal } from 'src/containers';
 import { HablaModal, Spinner } from 'src/components';
 import './styles/main.css';
 import String from 'src/translations';
@@ -112,6 +112,15 @@ class Main extends React.Component {
       return <Spinner />;
     }
 
+    const {
+      modalVisible,
+      cancelButton,
+      hablaModalVisible,
+      hablaModalTitle,
+      hablaModalBody,
+      hablaModalButton
+    } = this.state;
+
     return (
       <Layout>
         <Header />
@@ -121,19 +130,16 @@ class Main extends React.Component {
             <MainContent />
           </Layout>
           <SurveyModal />
-          <SubscriptionModal
-            visible={this.state.modalVisible}
-            showModal={this.showModal}
-            cancelButton={this.state.cancelButton}
-          />
+          <Onboarding />
+          <SubscriptionModal visible={modalVisible} showModal={this.showModal} cancelButton={cancelButton} />
           <HablaModal
-            visible={this.state.hablaModalVisible}
+            visible={hablaModalVisible}
             cancelButton={false}
             showHablaModal={this.showHablaModal}
             showModal={this.showModal}
-            titleText={this.state.hablaModalTitle}
-            bodyText={this.state.hablaModalBody}
-            buttonText={this.state.hablaModalButton}
+            titleText={hablaModalTitle}
+            bodyText={hablaModalBody}
+            buttonText={hablaModalButton}
           />
         </Layout>
       </Layout>

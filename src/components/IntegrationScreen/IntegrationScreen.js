@@ -65,7 +65,6 @@ const IntegrationScreen = ({
 }) => {
   if (!source || (!orgId && !team)) return <Spinner />;
 
-  const integrationLabel = integrationLabelFromKey(source);
   const extraInfo = integrationExtraInfoFromKey(source);
   const statusLabel = getIntegrationStatus(integration);
   const isActive = statusLabel === 'Active';
@@ -100,10 +99,10 @@ const IntegrationScreen = ({
         <div className="Integration__icon-container">
           <ImageCard imgSrc={integrationExtraImageFromKey(source)} size="large" />
         </div>
-        <div className="habla-big-title">{integrationLabel}</div>
+        <div className="habla-big-title">{integrationLabelFromKey(source)}</div>
         <div className="habla-secondary-paragraph margin-top-class-b">{team ? emailLabel : statusLabel}</div>
       </SimpleCardContainer>
-      {extraInfo && <div className="Integration__extraInfo habla-color-yellow">{extraInfo}</div>}
+      {extraInfo && <div className="Integration__extraInfo">{extraInfo}</div>}
       <div className="Integration__switch-container align-center-class">
         <Tooltip placement="top" title={tooltipTitle}>
           <Switch
@@ -131,7 +130,6 @@ const IntegrationScreen = ({
         <SharingSettings
           onToggleSelect={onToggleSettings}
           onToggleSelectAll={onToggleAllSettings}
-          integrationType={integrationLabel}
           content={content}
           selectedSettings={selectedSettings}
           disabled={isSavedSharingSettings || isSubmittingSharingSettings}

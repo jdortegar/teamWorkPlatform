@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 
 import String from 'src/translations';
 import { IntegrationFilter, FileTypeFilter, OwnerFilter } from 'src/components';
@@ -34,7 +35,9 @@ const propTypes = {
   onOwnerFilterClick: PropTypes.func,
   onIntegrationFilterClick: PropTypes.func,
   onFileTypeFilterClick: PropTypes.func,
-  onFileTypeFilterDoubleClick: PropTypes.func
+  onFileTypeFilterDoubleClick: PropTypes.func,
+  orgId: PropTypes.string.isRequired,
+  team: PropTypes.object
 };
 
 const defaultProps = {
@@ -48,7 +51,8 @@ const defaultProps = {
   onOwnerFilterClick: null,
   onIntegrationFilterClick: null,
   onFileTypeFilterClick: null,
-  onFileTypeFilterDoubleClick: () => {}
+  onFileTypeFilterDoubleClick: () => {},
+  team: null
 };
 
 class FilesFilters extends React.Component {
@@ -70,6 +74,21 @@ class FilesFilters extends React.Component {
     this.setState({ ownersVisible: visible });
   };
 
+  renderEmptyMessage = () => {
+    const { team, orgId } = this.props;
+    return (
+      <div className="FilesFilters__content">
+        <div className="FilesFilters__dataTypes habla-label">
+          <div className="FilesFilters__dataTypes__text">
+            <Link to={team ? `/app/teamIntegrations/${team.teamId}` : `/app/integrations/${orgId}`}>
+              {String.t('ckgPage.noData')}
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   render() {
     const {
       className,
@@ -86,15 +105,7 @@ class FilesFilters extends React.Component {
     } = this.props;
 
     if (fileTypes.length === 0 || integrations.length === 0 || owners.length === 0) {
-      return (
-        <div className={classNames('FilesFilters', className)}>
-          <div className="FilesFilters__content">
-            <div className="FilesFilters__dataTypes habla-label">
-              <div className="FilesFilters__dataTypes__text">{String.t('ckgPage.noData')}</div>
-            </div>
-          </div>
-        </div>
-      );
+      return <div className={classNames('FilesFilters', className)}>{this.renderEmptyMessage()}</div>;
     }
 
     return (

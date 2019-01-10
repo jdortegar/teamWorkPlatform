@@ -94,7 +94,7 @@ class InviteNewMemberPage extends Component {
         {this.state.inviteesArr.length > 1 ? (
           <Col className="gutter-row" span={3}>
             <a onClick={() => this.removeInvitees(el)} className="remove-field">
-              Remove
+              <i className="fas fa-times" />
             </a>
           </Col>
         ) : null}

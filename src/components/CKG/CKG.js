@@ -204,11 +204,13 @@ class CKG extends Component {
   };
 
   renderFilesFilter() {
-    const { excludeFilters, fileTypes, integrations, owners } = this.props;
+    const { excludeFilters, fileTypes, integrations, owners, team, orgId } = this.props;
 
     return (
       <FilesFilters
         className="CKGPage__FilesFilters"
+        team={team}
+        orgId={orgId}
         owners={owners}
         fileTypes={fileTypes}
         integrations={integrations}

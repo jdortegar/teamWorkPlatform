@@ -41,7 +41,7 @@ class FilterUserMessages extends React.Component {
               <div className="FilesFilters__dataTypes habla-label">
                 <span className="FilesFilters__dataTypes__badge">{owners.length}</span>
               </div>
-              {owners.slice(0, 10).map(owner => (
+              {owners.slice(0, 5).map(owner => (
                 <OwnerFilter
                   key={owner.userId}
                   owner={owner}
@@ -51,7 +51,7 @@ class FilterUserMessages extends React.Component {
                   tooltipTitle={owner.fullName}
                 />
               ))}
-              {owners.length > 10 && (
+              {owners.length > 5 && (
                 <div className="Filter_Popover">
                   <Popover
                     placement="topLeft"

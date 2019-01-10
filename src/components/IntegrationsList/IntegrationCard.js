@@ -14,12 +14,14 @@ import { ImageCard } from 'src/components';
 const propTypes = {
   source: PropTypes.string.isRequired,
   url: PropTypes.string,
-  integration: PropTypes.object
+  integration: PropTypes.object,
+  onClick: PropTypes.func
 };
 
 const defaultProps = {
   url: '',
-  integration: null
+  integration: null,
+  onClick: () => {}
 };
 
 const renderBadge = integration => {
@@ -34,7 +36,7 @@ const renderBadge = integration => {
   return null;
 };
 
-const IntegrationCard = ({ integration, source, url }) => {
+const IntegrationCard = ({ integration, source, url, onClick }) => {
   const isSupported = integrationIsSupported(source);
   const card = (
     <ImageCard
@@ -47,7 +49,13 @@ const IntegrationCard = ({ integration, source, url }) => {
   return (
     <div key={source} className={classNames('Integration', { inactive: !isSupported })}>
       <Tooltip placement="top" title={integrationLabelFromKey(source)}>
-        {isSupported ? <Link to={url}>{card}</Link> : card}
+        {isSupported ? (
+          <Link to={url} onClick={onClick}>
+            {card}
+          </Link>
+        ) : (
+          card
+        )}
       </Tooltip>
       <div className="Integration__label habla-label align-center-class card-label">
         {integrationLabelFromKey(source)}

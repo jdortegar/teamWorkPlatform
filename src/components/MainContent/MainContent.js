@@ -127,13 +127,13 @@ class MainContent extends Component {
         notification.destroy();
       }
       const msg = nextProps.pushMessage[0];
-      const { createdBy, text } = msg; // TODO: JC: It should be the content[type=text/plain].text
+      const { createdBy, content } = msg;
       if (msg.createdBy !== this.props.currentUserId) {
         const user = this.props.users[createdBy];
         if (user) {
           const args = {
             message: String.t('MainContent.newMessageFrom', user),
-            description: text,
+            description: content[0].text,
             duration: 4,
             onClose: () => {
               this.props.notifyMessage();

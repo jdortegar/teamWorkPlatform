@@ -49,10 +49,10 @@ export const logoutUser = () => dispatch => {
   dispatch(push(paths.login));
 };
 
-export const verifyConfirmationCode = code => () =>
+export const verifyConfirmationCode = (code, rid) => () =>
   axios
-    .get(buildApiUrl(`users/validateCode/${code}`))
-    .then(response => response.data.email)
+    .get(buildApiUrl(`users/validateCode/${code}?rid=${rid}`))
+    .then(response => response.data)
     .catch(err => {
       const errorCode = err.response.status === 404 ? 'invalidConfirmationCode' : 'confirmationCodeError';
       throw errorCode;

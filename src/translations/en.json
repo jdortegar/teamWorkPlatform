@@ -14,8 +14,8 @@
   "deselectAll": "Deselect All",
   "apply": "Apply",
   "name": "Name",
-  "teamMembers": "Project Team Members",
-  "teamsMembers": "Project Team Members",
+  "teamMembers": "Team Members",
+  "teamsMembers": "Team Members",
   "creationDate": "Creation Date",
   "status": "Status",
   "edit": "Edit",
@@ -170,8 +170,8 @@
     "addNewMember": "Add New Organization Team Member",
     "addNewIntegration": "Add New Organization Data Integration",
     "integrationsHeader": "Organization Data Integrations ({{count}})",
-    "membersHeader": "Organization Team Members ({{count}})",
-    "teamsHeader": "Organization Project Teams ({{count}})",
+    "membersHeader": "Team Members ({{count}})",
+    "teamsHeader": "Project Teams ({{count}})",
     "integrationsCount": {
       "one": "1 Organization Data Integration",
       "other": "{{count}} Organization Data Integrations",
@@ -197,7 +197,7 @@
     "editTeam": "Edit Project Team",
     "inviteNewMember": "Invite Team Members to this Project Team",
     "teamCreated": "Created on {{date}} by {{teamAdminName}}",
-    "integrationsHeader": "Project Team Data Integrations ({{count}})",
+    "integrationsHeader": "Data Integrations ({{count}})",
     "addNewIntegration": "Add New Project Team Data Integration",
     "startVideoCall": "Start a Project Team Video Call",
     "membersHeader": {
@@ -335,8 +335,10 @@
     "invitetoTeam": "Invite Member to this Project Team"
   },
   "timeActivityGraph": {
-    "xAxisLabel": "Creation Date",
-    "yAxisLabel": "Last Modified Date",
+    "xAxisLabel": "X",
+    "yAxisLabel": "Y",
+    "xAxisLabelTooltip": "Creation Date",
+    "yAxisLabelTooltip": "Last Modified Date",
     "displayTime": "{{displayDate}} at {{displayTime}}",
     "dateFormat": "MMM D, YYYY",
     "timeFormat": "H:mm:ss",
@@ -509,7 +511,7 @@
     "inviteButtonLabel": "INVITE",
     "reInviteButtonLabel": "RE-INVITE",
     "instructions": "Invite Team Members to Join \"{{name}}\"",
-    "membersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
+    "membersListItem": "{{firstName}} {{lastName}}",
     "breadcrumb": "Invite Team Members",
     "invitationSent": {
       "one": "Your Invitation has been sent.",
