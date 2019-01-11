@@ -61,10 +61,10 @@ class PersonalizeTeamModal extends Component {
           size="large"
           fitText
         >
-          Save
+          {String.t('onboarding.saveButton')}
         </Button>
         <Button type="ghost" onClick={onCancel} fitText>
-          Skip Step
+          {String.t('onboarding.skipButton')}
         </Button>
       </div>
     );
@@ -72,7 +72,7 @@ class PersonalizeTeamModal extends Component {
     return (
       <Modal visible centered closable={false} footer={footer}>
         <div className="Onboarding__title-container">
-          <h1 className="Onboarding__title">Personalize your Project Team</h1>
+          <h1 className="Onboarding__title">{String.t('onboarding.personalizeTeamModalTitle')}</h1>
         </div>
         <div className="Onboarding__content">
           <Form onSubmit={this.handleSubmit} hideRequiredMark>

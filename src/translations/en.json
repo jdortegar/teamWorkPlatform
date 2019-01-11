@@ -864,5 +864,16 @@
     "acceptedStatus": "Accepted",
     "cancelledStatus": "Cancelled",
     "cancelledBy": "Cancelled by {{user}}"
+  },
+  "onboarding": {
+    "saveButton": "Save",
+    "skipButton": "Skip Step",
+    "removeButton": "Remove",
+    "sendInvitationsButton": "Send Invitations",
+    "userEmailLabel": "User Email",
+    "personalizeTeamModalTitle": "Personalize your Project Team",
+    "inviteTeamMembersModalTitle": "Invite Team Members",
+    "inviteTeamMembersModalDescription": "Invite Team Members to your Organization. Then you will be able to distribute them in different Project Teams.",
+    "addTeamIntegrationModalTitle": "Add a Data Integration"
   }
 }

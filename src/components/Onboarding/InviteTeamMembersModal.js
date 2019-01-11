@@ -68,7 +68,7 @@ class InviteTeamMembersModal extends Component {
           <Col className="gutter-row" span={5}>
             <Button type="ghost" onClick={() => this.removeInvitee(invitee)} fitText>
               <i className="fa fa-minus-circle margin-right-class-a" />
-              Remove
+              {String.t('onboarding.removeButton')}
             </Button>
           </Col>
         )}
@@ -90,10 +90,10 @@ class InviteTeamMembersModal extends Component {
           size="large"
           fitText
         >
-          Send Invitations
+          {String.t('onboarding.sendInvitationsButton')}
         </Button>
         <Button type="ghost" onClick={onCancel} fitText>
-          Skip Step
+          {String.t('onboarding.skipButton')}
         </Button>
       </div>
     );
@@ -101,14 +101,11 @@ class InviteTeamMembersModal extends Component {
     return (
       <Modal visible centered closable={false} footer={footer}>
         <div className="Onboarding__title-container">
-          <h1 className="Onboarding__title">Invite Team Members</h1>
+          <h1 className="Onboarding__title">{String.t('onboarding.inviteTeamMembersModalTitle')}</h1>
         </div>
         <div className="Onboarding__content">
-          <p className="Onboarding__content-description">
-            Invite Team Members to your Organization. Then you will be able to distribute them in different Project
-            Teams.
-          </p>
-          <p className="Onboarding__form-label">User Email</p>
+          <p className="Onboarding__content-description">{String.t('onboarding.inviteTeamMembersModalDescription')}</p>
+          <p className="Onboarding__form-label">{String.t('onboarding.userEmailLabel')}</p>
           <Form onSubmit={this.handleSubmit} hideRequiredMark>
             {this.renderInvitees()}
             {invitees.length < MAX_INVITEES && (
