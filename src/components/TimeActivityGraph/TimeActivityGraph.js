@@ -82,6 +82,7 @@ const CHART_OPTIONS = {
     zoomType: 'xy',
     panning: true,
     panKey: 'shift',
+    animation: false,
     spacingLeft: 30,
     resetZoomButton: {
       theme: {
@@ -140,6 +141,7 @@ const CHART_OPTIONS = {
     },
     series: {
       cursor: 'pointer',
+      animation: false,
       point: {
         events: {
           click: function click() {
@@ -180,6 +182,15 @@ class TimeActivityGraph extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.container && this.container.parentNode) {
+      const { clientWidth, clientHeight } = this.container.parentNode;
+      if (clientWidth !== prevState.width || clientHeight !== prevState.height) {
+        this.updateDimensions();
+      }
+    }
+  }
+
   updateDimensions = () => {
     if (!this.container || !this.container.parentNode) return;
     const { clientWidth, clientHeight } = this.container.parentNode;
@@ -192,6 +203,7 @@ class TimeActivityGraph extends Component {
 
     return (
       <div
+        className="TimeActivityGraph"
         ref={node => {
           this.container = node;
         }}

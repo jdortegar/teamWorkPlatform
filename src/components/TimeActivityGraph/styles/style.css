@@ -1,3 +1,7 @@
+.TimeActivityGraph {
+  background-color: #557dbf;
+}
+
 .highcharts-tooltip > span {
   white-space: normal;
 }
