@@ -33,7 +33,9 @@ module.exports = {
       'process.env': {
         HABLAAPI_BASE_URI: JSON.stringify(process.env.HABLAAPI_BASE_URI),
         HABLAAPI_ENV: JSON.stringify(process.env.HABLAAPI_ENV),
-        HABLAAPI_KNOWLEDGE_URI: JSON.stringify(process.env.HABLAAPI_KNOWLEDGE_URI)
+        HABLAAPI_KNOWLEDGE_URI: JSON.stringify(process.env.HABLAAPI_KNOWLEDGE_URI),
+        STRIPE: JSON.stringify(process.env.STRIPE),
+        PUBLIC_WEBSITE_URL: JSON.stringify(process.env.PUBLIC_WEBSITE_URL)
       }
     }),
     new HtmlWebpackPlugin({
