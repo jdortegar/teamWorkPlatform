@@ -29,7 +29,8 @@ export const search = (rawQuery = undefined, { teamId, caseSensitive = false, ex
   );
 
   const teamLevel = teamId ? `/teams/${teamId}` : '';
-  const requestUrl = buildApiUrl(`ckg/${orgId}${teamLevel}/files?${params}`, 'v2');
+  let requestUrl = buildApiUrl(`ckg/${orgId}${teamLevel}/files`, 'v2');
+  if (query) requestUrl += `?${params}`;
 
   dispatch({
     type: SEARCH_REQUEST,
