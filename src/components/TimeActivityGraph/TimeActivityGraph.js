@@ -6,12 +6,12 @@ import HighchartsReact from 'highcharts-react-official';
 import String from 'src/translations';
 import formatSize from 'src/lib/formatSize';
 import imageSrcFromFile from 'src/lib/imageFiles';
-import addYPanToChart from 'src/lib/addYPanToChart';
+import handleChartPanning from 'src/lib/handleChartPanning';
 import { integrationKeyFromFile, integrationImageFromKey } from 'src/utils/dataIntegrations';
 
 import './styles/style.css';
 
-addYPanToChart(Highcharts);
+handleChartPanning(Highcharts);
 
 const propTypes = {
   files: PropTypes.arrayOf(PropTypes.object),
@@ -50,6 +50,11 @@ const AXIS_OPTIONS = {
   type: 'datetime',
   startOnTick: false,
   endOnTick: false,
+  maxPadding: 0.1,
+  minPadding: 0.1,
+  minRange: 30000, // 30 seconds
+  minTickInterval: 1000, // 1 second
+  tickPixelInterval: 100,
   dateTimeLabelFormats: {
     second: String.t('timeActivityGraph.tickFormat.tickSecond'),
     minute: String.t('timeActivityGraph.tickFormat.tickMinute'),
@@ -63,11 +68,11 @@ const AXIS_OPTIONS = {
   gridLineWidth: 1,
   lineWidth: 0,
   tickWidth: 0,
-  tickPixelInterval: 100,
   title: {
     enabled: false
   },
   labels: {
+    align: 'left',
     style: {
       color: 'rgb(255,255,255,0.4)',
       textTransform: 'uppercase'
@@ -80,10 +85,10 @@ const CHART_OPTIONS = {
     type: 'scatter',
     backgroundColor: 'rgb(85, 125, 191)',
     zoomType: 'xy',
-    panning: true,
+    panning: 'xy',
     panKey: 'shift',
     animation: false,
-    spacingLeft: 30,
+    spacing: 0,
     resetZoomButton: {
       theme: {
         visibility: 'hidden'
@@ -104,10 +109,12 @@ const CHART_OPTIONS = {
   },
   xAxis: {
     ...AXIS_OPTIONS,
+    labels: { ...AXIS_OPTIONS.labels, x: 5, y: -12 },
     tickPixelInterval: 150
   },
   yAxis: {
     ...AXIS_OPTIONS,
+    labels: { ...AXIS_OPTIONS.labels, x: 10, y: -8 },
     gridLineColor: 'rgb(255,255,255,0.1)'
   },
   tooltip: {
