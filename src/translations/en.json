@@ -793,7 +793,8 @@
     "confirmReactivate": "Your Subscription Plan has been reactivated.",
     "planChanges": "Your plan doesn't have changes",
     "paySubscription": "Pay USD ${{amount}}",
-    "back": "Back"
+    "back": "Back",
+    "subscriptionAlreadyCancelled": "Subscription Already Cancelled"
   },
   "editTeamMemberPage": {
     "title": "Edit Team Member",

@@ -110,3 +110,35 @@
   background: #36a751;
   border: none;
 }
+
+.Action_buttons {
+  display: flex;
+}
+
+.paypalbutton {
+  background: #ffc439;
+  border: #ffc439;
+  color: #fff;
+  border: none;
+  margin-left: 10px;
+  font-weight: 700;
+  height: 40px;
+}
+
+.paypalbutton:hover,
+.paypalbutton:active,
+.paypalbutton:focus {
+  box-shadow: inset 0 0 100px 100px rgba(0, 0, 0, 0.05);
+  background: #ffc439;
+  border: #ffc439;
+  color: #fff !important;
+}
+
+.paypalbutton .paypal-button-logo {
+  visibility: visible;
+  width: 60px;
+  vertical-align: middle;
+  position: relative;
+  margin-left: 4px;
+  top: -1px;
+}

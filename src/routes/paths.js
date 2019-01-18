@@ -30,7 +30,7 @@ export const paths = {
   search: '/app/search',
   ckg: '/app/ckg/:subscriberOrgId',
   // Admin Organization
-  organization: '/app/organization/:subscriberOrgId/:status?',
+  organization: '/app/organization/:subscriberOrgId/:paypalSubscriptionId?',
   organizationManage: '/app/editOrganization/manage/:subscriberOrgId',
   editOrganization: '/app/editOrganization/:subscriberOrgId',
   organizationManageTeams: '/app/editOrganization/:subscriberOrgId/teams',

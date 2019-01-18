@@ -4,11 +4,15 @@ import {
   SUBSCRIPTION_FETCH_SUCCESS,
   SUBSCRIPTION_CANCEL_SUCCESS,
   SUBSCRIPTION_COUPONS_FETCH_SUCCESS,
-  SUBSCRIPTION_UPDATE_SUCCESS
+  SUBSCRIPTION_UPDATE_SUCCESS,
+  SUBSCRIPTION_PAYPAL_FETCH_SUCCESS,
+  SUBSCRIPTION_PAYPAL_CANCEL_SUCCESS
 } from 'src/actions';
 
 const INITIAL_STATE = {
-  coupons: {}
+  coupons: {},
+  stripeSubscription: {},
+  paypalSubscription: null
 };
 
 const subscriptionReducer = (state = INITIAL_STATE, action) => {
@@ -16,7 +20,9 @@ const subscriptionReducer = (state = INITIAL_STATE, action) => {
     case SUBSCRIPTION_FETCH_SUCCESS:
     case SUBSCRIPTION_UPDATE_SUCCESS:
     case SUBSCRIPTION_CANCEL_SUCCESS: {
-      const subscription = action.payload;
+      const subscription = _.cloneDeep(state);
+      subscription.stripeSubscription = action.payload;
+
       return {
         ...state,
         ...subscription
@@ -25,6 +31,16 @@ const subscriptionReducer = (state = INITIAL_STATE, action) => {
     case SUBSCRIPTION_COUPONS_FETCH_SUCCESS: {
       const subscription = _.cloneDeep(state);
       subscription.coupons = action.payload;
+      return {
+        ...state,
+        ...subscription
+      };
+    }
+    case SUBSCRIPTION_PAYPAL_FETCH_SUCCESS:
+    case SUBSCRIPTION_PAYPAL_CANCEL_SUCCESS: {
+      const subscription = _.cloneDeep(state);
+      subscription.paypalSubscription = action.payload;
+
       return {
         ...state,
         ...subscription

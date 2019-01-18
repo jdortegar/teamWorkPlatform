@@ -27,11 +27,16 @@ const propTypes = {
   user: PropTypes.object.isRequired,
   orgId: PropTypes.string.isRequired,
   subscription: PropTypes.object,
-  fetchSubscription: PropTypes.func.isRequired
+  fetchSubscription: PropTypes.func.isRequired,
+  paypalSubscriptionId: PropTypes.string,
+  fetchPaypalSubscription: PropTypes.func.isRequired,
+  paypalSubscription: PropTypes.object
 };
 
 const defaultProps = {
-  subscription: {}
+  subscription: {},
+  paypalSubscription: null,
+  paypalSubscriptionId: null
 };
 
 // Get subscriber avatar or Initials
@@ -65,7 +70,7 @@ class OrganizationPage extends Component {
   };
 
   componentDidMount() {
-    const { orgId, history, fetchSubscribersBySubscriberOrgId, fetchIntegrations } = this.props;
+    const { orgId, history, fetchSubscribersBySubscriberOrgId, fetchIntegrations, paypalSubscriptionId } = this.props;
 
     if (!orgId) {
       history.replace('/app');
@@ -78,6 +83,14 @@ class OrganizationPage extends Component {
     const { stripeSubscriptionId } = this.props.subscriberOrg || {};
     if (stripeSubscriptionId) {
       this.props.fetchSubscription(stripeSubscriptionId).then(() => {
+        this.setState({ subscriptionLoaded: true });
+      });
+    }
+
+    const paypalId = paypalSubscriptionId || this.props.subscriberOrg.paypalSubscriptionId;
+
+    if (paypalId) {
+      this.props.fetchPaypalSubscription(paypalId).then(() => {
         this.setState({ subscriptionLoaded: true });
       });
     }
@@ -116,7 +129,8 @@ class OrganizationPage extends Component {
       subscriberOrg,
       user,
       orgId,
-      subscription
+      subscription,
+      paypalSubscription
     } = this.props;
     if (
       subscribers &&
@@ -162,7 +176,7 @@ class OrganizationPage extends Component {
               <div className="Flex_row">
                 <div className="Summary_label">{String.t('organizationSummaryPage.subscriptionPlan')}</div>
                 <div>
-                  {subscription.status === 'trialing' && (
+                  {subscription.status === 'trialing' && !paypalSubscription && (
                     <span className="Summary_daysLeft">
                       {String.t('organizationSummaryPage.daysLeft', {
                         count: moment(subscription.trial_end * 1000).diff(moment(), 'days')
@@ -171,9 +185,11 @@ class OrganizationPage extends Component {
                   )}
                   <Tag
                     className="habla_subscription_tag habla_subscription_tag_bronze"
-                    onClick={this.state.subscriptionLoaded && isOrgAdmin ? this.showModal : this.redirectPublicSite}
+                    onClick={() =>
+                      this.state.subscriptionLoaded && isOrgAdmin ? this.showModal() : this.redirectPublicSite()
+                    }
                   >
-                    {subscription.status === 'trialing'
+                    {subscription.status === 'trialing' && !paypalSubscription
                       ? String.t('subscriptionPlans.trial')
                       : String.t('subscriptionPlans.bronze')}
                   </Tag>
