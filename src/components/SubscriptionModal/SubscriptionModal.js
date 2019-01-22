@@ -78,22 +78,32 @@ class SubscriptionModal extends React.Component {
     }
 
     if (paypalSubscriptionId) {
-      this.props.fetchPaypalSubscription(paypalSubscriptionId).then(() => {
-        const { paypalSubscription } = this.props;
-        const subscriptionBilling =
-          paypalSubscription.plan.payment_definitions[0].frequency === 'Year' ? 'annually' : 'monthly';
-        const paypalSubscriptionPlanAmount =
-          (paypalSubscription.plan.payment_definitions[0].amount.value * 100) /
-          (subscriptionBilling === 'annually' ? 12 : 1);
-        const paypalUsers =
-          paypalSubscriptionPlanAmount / (subscriptionBilling === 'annually' ? PRICES.ANNUALLY : PRICES.MONTHLY);
-        this.setState({
-          subscriptionLoaded: true,
-          subscriptionUsers: paypalUsers,
-          subscriptionBilling,
-          subscriptionPlanAmount: paypalSubscriptionPlanAmount / paypalUsers
+      this.props
+        .fetchPaypalSubscription(paypalSubscriptionId)
+        .then(() => {
+          const { paypalSubscription } = this.props;
+          const subscriptionBilling =
+            paypalSubscription.plan.payment_definitions[0].frequency === 'Year' ? 'annually' : 'monthly';
+          const paypalSubscriptionPlanAmount =
+            (paypalSubscription.plan.payment_definitions[0].amount.value * 100) /
+            (subscriptionBilling === 'annually' ? 12 : 1);
+          const paypalUsers =
+            paypalSubscriptionPlanAmount / (subscriptionBilling === 'annually' ? PRICES.ANNUALLY : PRICES.MONTHLY);
+          this.setState({
+            subscriptionLoaded: true,
+            subscriptionUsers: paypalUsers,
+            subscriptionBilling,
+            subscriptionPlanAmount: paypalSubscriptionPlanAmount / paypalUsers
+          });
+        })
+        .catch(error => {
+          this.setState({ subscriptionLoaded: true });
+          if (error.response && error.response.status === 500) {
+            message.error(String.t('editTeamPage.subscriptionError'));
+          } else {
+            message.error(error.message);
+          }
         });
-      });
     }
 
     this.props.fetchSubscriptionCoupons().then(() => this.setState({ subscriptionCouponsLoaded: true }));

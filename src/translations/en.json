@@ -421,7 +421,8 @@
     "setActive": "Set Active",
     "setInactive": "Set Inactive",
     "activeState": "Active",
-    "inactiveState": "Inactive"
+    "inactiveState": "Inactive",
+    "subscriptionError": "There is an error on your subscription"
   },
   "editUserPage": {
     "title": "Account Settings",

@@ -33,7 +33,8 @@ const propTypes = {
   userRoles: PropTypes.object,
   teamId: PropTypes.string,
   makePersonalCall: PropTypes.func,
-  callingData: PropTypes.object
+  callingData: PropTypes.object,
+  finishCall: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -107,7 +108,7 @@ class Sidebar extends Component {
       this.teamsActive = teamsActive;
       this.setState({ teamsActive });
     }
-    if (callingData.callerId) {
+    if (callingData.callerId && callingData.status !== 'cancelled') {
       const videoCallUser = Object.values(subscribers).find(subscriber => subscriber.userId === callingData.callerId);
       this.setState({
         videoCallModalVisible: true,
@@ -129,6 +130,15 @@ class Sidebar extends Component {
       } else {
         message.success(String.t('sidebar.allowPopUp'));
       }
+    }
+
+    if (callingData.status === 'cancelled' && !callingData.callerId) {
+      setTimeout(() => {
+        this.props.finishCall();
+        this.setState({
+          videoCallModalVisible: false
+        });
+      }, 2000);
     }
   }
 

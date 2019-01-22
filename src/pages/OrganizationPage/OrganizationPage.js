@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
 
-import { Tag } from 'antd';
+import { Tag, message } from 'antd';
 import String from 'src/translations';
 import config from 'src/config/env';
 import { hablaFullBlackLogoIcon } from 'src/img';
@@ -90,9 +90,19 @@ class OrganizationPage extends Component {
     const paypalId = paypalSubscriptionId || this.props.subscriberOrg.paypalSubscriptionId;
 
     if (paypalId) {
-      this.props.fetchPaypalSubscription(paypalId).then(() => {
-        this.setState({ subscriptionLoaded: true });
-      });
+      this.props
+        .fetchPaypalSubscription(paypalId)
+        .then(() => {
+          this.setState({ subscriptionLoaded: true });
+        })
+        .catch(error => {
+          this.setState({ subscriptionLoaded: true });
+          if (error.response && error.response.status === 500) {
+            message.error(String.t('editTeamPage.subscriptionError'));
+          } else {
+            message.error(error.message);
+          }
+        });
     }
   }
 
