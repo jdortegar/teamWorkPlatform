@@ -225,6 +225,9 @@ class SubscriptionModal extends React.Component {
             this.setState({ loading: false });
             message.error(error.message);
           });
+      },
+      onCancel: () => {
+        this.setState({ loading: false });
       }
     });
   };
@@ -467,11 +470,18 @@ class SubscriptionModal extends React.Component {
                 )}
               </div>
               <div className="Modal_footer">
-                {!subscription.cancel_at_period_end && (
-                  <div className="Cancel_subscription_button" onClick={this.cancelSubscription}>
-                    {String.t('subscriptionModal.cancelSubscription')}
-                  </div>
-                )}
+                <div>
+                  {Object.keys(subscription).length > 0 && !subscription.cancel_at_period_end && (
+                    <div className="Cancel_subscription_button" onClick={this.cancelSubscription}>
+                      {String.t('subscriptionModal.cancelSubscription')}
+                    </div>
+                  )}
+                  {paypalSubscription && paypalSubscription.state !== 'Suspended' && (
+                    <div className="Cancel_subscription_button" onClick={this.cancelSubscription}>
+                      {String.t('subscriptionModal.cancelSubscription')}
+                    </div>
+                  )}
+                </div>
                 <div className="Action_buttons">
                   {cancelButton ? (
                     <Button className="Cancel_button" onClick={this.showModal}>

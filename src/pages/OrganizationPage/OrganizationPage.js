@@ -28,15 +28,13 @@ const propTypes = {
   orgId: PropTypes.string.isRequired,
   subscription: PropTypes.object,
   fetchSubscription: PropTypes.func.isRequired,
-  paypalSubscriptionId: PropTypes.string,
   fetchPaypalSubscription: PropTypes.func.isRequired,
   paypalSubscription: PropTypes.object
 };
 
 const defaultProps = {
   subscription: {},
-  paypalSubscription: null,
-  paypalSubscriptionId: null
+  paypalSubscription: null
 };
 
 // Get subscriber avatar or Initials
@@ -70,7 +68,7 @@ class OrganizationPage extends Component {
   };
 
   componentDidMount() {
-    const { orgId, history, fetchSubscribersBySubscriberOrgId, fetchIntegrations, paypalSubscriptionId } = this.props;
+    const { orgId, history, fetchSubscribersBySubscriberOrgId, fetchIntegrations } = this.props;
 
     if (!orgId) {
       history.replace('/app');
@@ -87,7 +85,7 @@ class OrganizationPage extends Component {
       });
     }
 
-    const paypalId = paypalSubscriptionId || this.props.subscriberOrg.paypalSubscriptionId;
+    const paypalId = this.props.subscriberOrg.paypalSubscriptionId;
 
     if (paypalId) {
       this.props

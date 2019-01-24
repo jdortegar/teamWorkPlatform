@@ -19,13 +19,11 @@ import {
 } from 'src/selectors';
 import { OrganizationPage } from 'src/pages';
 
-const mapStateToProps = (state, props) => {
-  const { paypalSubscriptionId } = props.match.params;
+const mapStateToProps = state => {
   const orgId = getCurrentSubscriberOrgId(state);
   const subscriberOrg = state.subscriberOrgs.subscriberOrgById[orgId];
   return {
     subscriberOrg,
-    paypalSubscriptionId,
     user: getCurrentUser(state),
     subscribers: Object.values(getUserByUserId(state)),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
