@@ -795,7 +795,8 @@
     "planChanges": "Your plan doesn't have changes",
     "paySubscription": "Pay USD ${{amount}}",
     "back": "Back",
-    "subscriptionAlreadyCancelled": "Subscription Already Cancelled"
+    "subscriptionAlreadyCancelled": "Subscription Already Cancelled",
+    "paywithCreditCard": "Pay with Credit Card"
   },
   "editTeamMemberPage": {
     "title": "Edit Team Member",
