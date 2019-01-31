@@ -19,9 +19,10 @@ import {
 } from 'src/selectors';
 import { OrganizationPage } from 'src/pages';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   const orgId = getCurrentSubscriberOrgId(state);
   const subscriberOrg = state.subscriberOrgs.subscriberOrgById[orgId];
+  const { paypalSubscriptionId } = props.match.params;
   return {
     subscriberOrg,
     user: getCurrentUser(state),
@@ -31,7 +32,8 @@ const mapStateToProps = state => {
     integrations: getOrgIntegrationsObj(state, orgId),
     orgId,
     subscription: getSubscription(state),
-    paypalSubscription: getPaypalSubscription(state)
+    paypalSubscription: getPaypalSubscription(state),
+    paypalSubscriptionId
   };
 };
 

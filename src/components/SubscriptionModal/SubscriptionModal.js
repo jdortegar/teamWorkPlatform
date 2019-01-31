@@ -164,9 +164,11 @@ class SubscriptionModal extends React.Component {
     }
   };
 
-  showPaymentModal = () => {
+  showPaymentModal = hidePaymentModal => {
     const { paypalSubscription } = this.props;
-    this.props.showModal();
+    if (!hidePaymentModal) {
+      this.props.showModal();
+    }
     this.setState({
       paymentModalVisible: !this.state.paymentModalVisible
     });

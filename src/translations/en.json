@@ -783,7 +783,7 @@
     "amount": "USD ${{amount}}",
     "billingType": "Billed {{type}}",
     "discountApplied": "(Discount Applied)",
-    "planUpdated": "Your Subscription Plan has been modified and the charges applied to your associated Credit Card.",
+    "planUpdated": "Your Subscription Plan has been modified and the charges applied to your associated Payment Method.",
     "cancelSubscriptionStart": "You are about to ",
     "cancelSubscriptionMiddle": "cancel your Subscription to Habla AI. ",
     "cancelSubscriptionEnd": "All your data will be lost when your current plan ends on {{endDate}}",

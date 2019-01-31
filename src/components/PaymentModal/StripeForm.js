@@ -47,7 +47,7 @@ class StripeForm extends React.Component {
 
   handleCancel = () => {
     this.props.showModal();
-    this.props.showPaymentModal();
+    this.props.showPaymentModal(false);
   };
 
   async handleSubmit(e) {
@@ -84,7 +84,7 @@ class StripeForm extends React.Component {
           .updateSubscription(valuesToSend)
           .then(() => {
             this.setState({ loading: false });
-            this.props.showPaymentModal();
+            this.props.showPaymentModal(false);
             message.success(String.t('paymentModal.subscriptionPaid'));
           })
           .catch(error => {
