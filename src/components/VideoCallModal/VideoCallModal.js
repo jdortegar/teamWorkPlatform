@@ -65,19 +65,19 @@ class VideoCallModal extends Component {
     if (callingData.status === 'accepted' && visible) {
       setTimeout(() => {
         this.props.finishCall();
-        this.props.showModal();
+        this.props.showModal(true);
       }, 5000);
     } else if (callingData.status === 'cancelled' && visible) {
       setTimeout(() => {
         this.props.finishCall();
-        this.props.showModal();
+        this.props.showModal(true);
       }, 2000);
     }
   }
 
   handleClose = () => {
     this.props.finishCall();
-    this.props.showModal();
+    this.props.showModal(true);
   };
 
   handleCancel = () => {
@@ -93,21 +93,28 @@ class VideoCallModal extends Component {
     this.props.showModal();
   };
 
-  handleAnswer = callerId => {
-    const userUrl = callerId.substring(0, callerId.indexOf('-'));
+  handleAnswer = () => {
+    const { callerId, teamId } = this.props.callingData;
+    let userUrl;
+    if (callerId && teamId) {
+      userUrl = teamId.substring(0, callerId.indexOf('-'));
+    } else {
+      userUrl = callerId.substring(0, callerId.indexOf('-'));
+    }
     this.props.answerCall(callerId, 'accepted');
     window.open(
       `https://meet.habla.ai/${userUrl}`,
       'Habla Video Call',
       'toolbar=no, menubar=no, resizable=yes, location=no, titlebar=no, directories=no,'
     );
+
     this.setState({
       callState: String.t('videoCallModal.acceptedStatus')
     });
 
     setTimeout(() => {
       this.props.finishCall();
-      this.props.showModal();
+      this.props.showModal(true);
     }, 5000);
   };
 
@@ -161,7 +168,7 @@ class VideoCallModal extends Component {
                     </Button>
                   )}
                   {videoCallReceived && !(callState === 'Accepted') && currentUser.userId !== callerId && (
-                    <Button className="Confirm_button" onClick={() => this.handleAnswer(callerId)}>
+                    <Button className="Confirm_button" onClick={() => this.handleAnswer()}>
                       {String.t('videoCallModal.answer')}
                     </Button>
                   )}
