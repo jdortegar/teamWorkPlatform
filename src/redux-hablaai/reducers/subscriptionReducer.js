@@ -12,7 +12,7 @@ import {
 const INITIAL_STATE = {
   coupons: {},
   stripeSubscription: {},
-  paypalSubscription: null
+  paypalSubscription: {}
 };
 
 const subscriptionReducer = (state = INITIAL_STATE, action) => {

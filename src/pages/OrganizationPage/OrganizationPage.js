@@ -29,12 +29,14 @@ const propTypes = {
   subscription: PropTypes.object,
   fetchSubscription: PropTypes.func.isRequired,
   fetchPaypalSubscription: PropTypes.func.isRequired,
-  paypalSubscription: PropTypes.object
+  paypalSubscription: PropTypes.object,
+  paypalSubscriptionId: PropTypes.string
 };
 
 const defaultProps = {
   subscription: {},
-  paypalSubscription: null
+  paypalSubscription: null,
+  paypalSubscriptionId: null
 };
 
 // Get subscriber avatar or Initials
@@ -68,11 +70,15 @@ class OrganizationPage extends Component {
   };
 
   componentDidMount() {
-    const { orgId, history, fetchSubscribersBySubscriberOrgId, fetchIntegrations } = this.props;
+    const { orgId, history, fetchSubscribersBySubscriberOrgId, fetchIntegrations, paypalSubscriptionId } = this.props;
 
     if (!orgId) {
       history.replace('/app');
       return;
+    }
+
+    if (paypalSubscriptionId) {
+      message.success(String.t('subscriptionModal.planUpdated'));
     }
 
     fetchSubscribersBySubscriberOrgId(orgId).then(() => this.setState({ subscribersLoaded: true }));
@@ -184,7 +190,7 @@ class OrganizationPage extends Component {
               <div className="Flex_row">
                 <div className="Summary_label">{String.t('organizationSummaryPage.subscriptionPlan')}</div>
                 <div>
-                  {subscription.status === 'trialing' && !paypalSubscription && (
+                  {subscription.status === 'trialing' && !(Object.values(paypalSubscription).length > 0) && (
                     <span className="Summary_daysLeft">
                       {String.t('organizationSummaryPage.daysLeft', {
                         count: moment(subscription.trial_end * 1000).diff(moment(), 'days')
@@ -197,7 +203,7 @@ class OrganizationPage extends Component {
                       this.state.subscriptionLoaded && isOrgAdmin ? this.showModal() : this.redirectPublicSite()
                     }
                   >
-                    {subscription.status === 'trialing' && !paypalSubscription
+                    {subscription.status === 'trialing' && !(Object.values(paypalSubscription).length > 0)
                       ? String.t('subscriptionPlans.trial')
                       : String.t('subscriptionPlans.bronze')}
                   </Tag>

@@ -7,7 +7,8 @@ import {
   updateSubscription,
   doPaypalSubscription,
   cancelPaypalSubscription,
-  fetchPaypalSubscription
+  fetchPaypalSubscription,
+  fetchSubscriberOrgs
 } from 'src/actions';
 import { getCurrentSubscriberOrg, getSubscription, getSubscriptionCoupons, getPaypalSubscription } from 'src/selectors';
 import { SubscriptionModal } from 'src/components';
@@ -26,7 +27,8 @@ const mapDispatchToProps = {
   updateSubscription,
   doPaypalSubscription,
   cancelPaypalSubscription,
-  fetchPaypalSubscription
+  fetchPaypalSubscription,
+  fetchSubscriberOrgs
 };
 
 export default withRouter(

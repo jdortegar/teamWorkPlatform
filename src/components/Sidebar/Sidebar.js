@@ -117,7 +117,13 @@ class Sidebar extends Component {
       });
     }
     if (callingData.status === 'accepted') {
-      let userUrl = user.userId;
+      const { callerId, teamId } = this.props.callingData;
+      let userUrl;
+      if (callerId && teamId) {
+        userUrl = teamId;
+      } else {
+        userUrl = user.userId;
+      }
       userUrl = userUrl.substring(0, userUrl.indexOf('-'));
       const newTab = window.open(
         `https://meet.habla.ai/${userUrl}`,
@@ -147,8 +153,13 @@ class Sidebar extends Component {
     return teams.map(team => team.teamId);
   }
 
-  showVideoCallModal = () => {
-    this.setState({
+  showVideoCallModal = hide => {
+    if (hide) {
+      return this.setState({
+        videoCallModalVisible: false
+      });
+    }
+    return this.setState({
       videoCallModalVisible: !this.state.videoCallModalVisible
     });
   };
