@@ -326,7 +326,7 @@
     "newDirectMessageTooltip": "New Direct Message",
     "orgSummary": "Organization Summary",
     "iconHomeTooltip": "Home",
-    "iconCKGTooltip": "Corporate Knowledge Graphs",
+    "iconCKGTooltip": "Knowledge Graphs",
     "iconNotificationsTooltip": "Notifications",
     "iconBookmarksTooltip": "Bookmarks",
     "iconSettingsTooltipAdmin": "Manage Organization",
@@ -579,7 +579,7 @@
     "relationshipHeatMap": "Relationship Heat map (Coming Soon...)"
   },
   "ckgPage": {
-    "title": "Corporate Knowledge Graphs",
+    "title": "Knowledge Graphs",
     "timeActivityGraph": "Time Activity",
     "dateLabel": "Select a Range of Dates",
     "noData": "Add a Data Integration",
