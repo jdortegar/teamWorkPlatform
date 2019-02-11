@@ -60,7 +60,12 @@ const getColumns = (keywords, caseSensitive, owners) => [
     title: 'File Type',
     dataIndex: 'fileExtension',
     key: 'fileExtension',
-    sorter: (a, b) => a.fileExtension.localeCompare(b.fileExtension),
+    sorter: (a, b) => {
+      if (a && a.fileExtension) {
+        return a.fileExtension.localeCompare(b.fileExtension);
+      }
+      return null;
+    },
     render: text => <span className="FileListView__results__fileType">{text}</span>
   },
   {
