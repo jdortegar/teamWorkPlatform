@@ -76,3 +76,7 @@ export * from './eventHandler';
 export * from './ui';
 
 export * from './subscription';
+
+export * from './directMessages';
+
+export * from './metadata';

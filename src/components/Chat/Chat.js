@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import EmojiPicker from 'emoji-picker-react';
 
 import classNames from 'classnames';
 import { formShape } from 'src/propTypes';
@@ -20,11 +21,19 @@ import { sortByFirstName } from 'src/redux-hablaai/selectors/helpers';
 import String from 'src/translations';
 import axios from 'axios';
 import './styles/style.css';
+import JSEMOJI from 'emoji-js';
 import FilterUserMessages from './FilterUserMessages';
 
+// emoji set up
+const jsemoji = new JSEMOJI();
+// set the style to emojione (default - apple)
+jsemoji.img_set = 'emojione';
+// set the storage location for all emojis
+jsemoji.img_sets.emojione.path = 'https://cdn.jsdelivr.net/emojione/assets/3.0/png/32/';
+
 const propTypes = {
-  team: PropTypes.object.isRequired,
-  teamMembers: PropTypes.array.isRequired,
+  team: PropTypes.object,
+  teamMembers: PropTypes.array,
   user: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
   usersPresences: PropTypes.object.isRequired,
@@ -55,7 +64,9 @@ const propTypes = {
   showPageHeader: PropTypes.bool,
   showTeamMembers: PropTypes.bool,
   showChat: PropTypes.func,
-  menuOptions: PropTypes.array
+  menuOptions: PropTypes.array,
+  personalConversation: PropTypes.object,
+  fetchMetadata: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -66,7 +77,10 @@ const defaultProps = {
   showPageHeader: false,
   showTeamMembers: false,
   showChat: null,
-  menuOptions: []
+  menuOptions: [],
+  personalConversation: {},
+  team: {},
+  teamMembers: []
 };
 
 function getPercentOfRequest(total, loaded) {
@@ -88,7 +102,8 @@ class Chat extends React.Component {
       replyTo: null,
       lastSubmittedMessage: null,
       file: null,
-      membersFiltered: []
+      membersFiltered: [],
+      showEmojiPicker: false
     };
 
     this.onCancelReply = this.onCancelReply.bind(this);
@@ -100,12 +115,50 @@ class Chat extends React.Component {
   }
 
   componentDidMount() {
-    const { team } = this.props;
+    const { team, personalConversation } = this.props;
 
-    this.props.fetchTeamMembers(team.teamId).then(() => {
+    // If is team conversation
+    if (!_.isEmpty(team)) {
+      this.props.fetchTeamMembers(team.teamId).then(() => {
+        // Get members data form Users
+        const { teamMembers, users, usersPresences } = this.props;
+        const members = teamMembers.map(memberId => {
+          const member = users[memberId];
+          return {
+            ...member,
+            online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
+          };
+        });
+
+        this.setState({ teamMembersLoaded: true, members, membersFiltered: members });
+      });
+
+      this.props.fetchConversations(team.teamId).then(response => {
+        if (!_.isEmpty(response.data.conversations)) {
+          const { conversationId } = response.data.conversations[0];
+
+          this.props
+            .fetchTranscript(conversationId)
+            .then(() =>
+              this.setState({
+                conversationsLoaded: true
+              })
+            )
+            .then(this.scrollToBottom);
+        }
+        if (response.data === 'STALE') {
+          this.setState({
+            conversationsLoaded: true
+          });
+        }
+      });
+    }
+
+    // If is personal conversation
+    if (!_.isEmpty(personalConversation)) {
       // Get members data form Users
-      const { teamMembers, users, usersPresences } = this.props;
-      const members = teamMembers.map(memberId => {
+      const { users, usersPresences } = this.props;
+      const members = personalConversation.members.map(memberId => {
         const member = users[memberId];
         return {
           ...member,
@@ -114,39 +167,82 @@ class Chat extends React.Component {
       });
 
       this.setState({ teamMembersLoaded: true, members, membersFiltered: members });
-    });
 
-    this.props.fetchConversations(team.teamId).then(response => {
-      if (!_.isEmpty(response.data.conversations)) {
-        const { conversationId } = response.data.conversations[0];
+      const { conversationId } = personalConversation;
 
-        this.props
-          .fetchTranscript(conversationId)
-          .then(() =>
-            this.setState({
-              conversationsLoaded: true
-            })
-          )
-          .then(this.scrollToBottom);
-      }
-      if (response.data === 'STALE') {
-        this.setState({
-          conversationsLoaded: true
-        });
-      }
-    });
+      this.props
+        .fetchTranscript(conversationId)
+        .then(() =>
+          this.setState({
+            conversationsLoaded: true
+          })
+        )
+        .then(this.scrollToBottom);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     const nextTeamId = nextProps.team.teamId;
 
-    if (nextProps.isDraggingOver && !this.state.showPreviewBox) {
-      this.setState({ showPreviewBox: true });
+    if (nextTeamId) {
+      if (nextProps.isDraggingOver && !this.state.showPreviewBox) {
+        this.setState({ showPreviewBox: true });
+      }
+
+      const updateTeamMembers = () => {
+        const { teamMembers, users, usersPresences } = nextProps;
+        const members = teamMembers.map(memberId => {
+          const member = users[memberId];
+          return {
+            ...member,
+            online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
+          };
+        });
+
+        this.setState({
+          teamMembersLoaded: true,
+          members,
+          membersFiltered: members
+        });
+      };
+
+      if (
+        !_.isEqual(nextProps.teamMembers, this.props.teamMembers) ||
+        !_.isEqual(nextProps.teamMembers, _.map(this.state.members, 'userId'))
+      ) {
+        updateTeamMembers();
+      }
+
+      if (this.props.team.teamId !== nextTeamId) {
+        this.setState({ teamMembersLoaded: false, conversationsLoaded: false });
+        this.props.fetchTeamMembers(nextTeamId).then(updateTeamMembers);
+
+        this.props.fetchConversations(nextTeamId).then(response => {
+          if (!_.isEmpty(response.data.conversations)) {
+            const { conversationId } = response.data.conversations[0];
+            this.props
+              .fetchTranscript(conversationId)
+              .then(() => this.setState({ conversationsLoaded: true }))
+              .then(this.scrollToBottom);
+          }
+          if (response.data === 'STALE') {
+            this.setState({ conversationsLoaded: true });
+          }
+        });
+      }
     }
 
-    const updateTeamMembers = () => {
-      const { teamMembers, users, usersPresences } = nextProps;
-      const members = teamMembers.map(memberId => {
+    const nextPersonalConversation = nextProps.personalConversation;
+
+    if (
+      !_.isEmpty(nextPersonalConversation) &&
+      this.props.personalConversation &&
+      nextPersonalConversation.conversationId !== this.props.personalConversation.conversationId
+    ) {
+      // Get members data form Users
+      const { users, usersPresences } = this.props;
+
+      const members = nextPersonalConversation.members.map(memberId => {
         const member = users[memberId];
         return {
           ...member,
@@ -154,36 +250,18 @@ class Chat extends React.Component {
         };
       });
 
-      this.setState({
-        teamMembersLoaded: true,
-        members,
-        membersFiltered: members
-      });
-    };
+      this.setState({ teamMembersLoaded: true, members, membersFiltered: members });
 
-    if (
-      !_.isEqual(nextProps.teamMembers, this.props.teamMembers) ||
-      !_.isEqual(nextProps.teamMembers, _.map(this.state.members, 'userId'))
-    ) {
-      updateTeamMembers();
-    }
+      const { conversationId } = nextPersonalConversation;
 
-    if (this.props.team.teamId !== nextTeamId) {
-      this.setState({ teamMembersLoaded: false, conversationsLoaded: false });
-      this.props.fetchTeamMembers(nextTeamId).then(updateTeamMembers);
-
-      this.props.fetchConversations(nextTeamId).then(response => {
-        if (!_.isEmpty(response.data.conversations)) {
-          const { conversationId } = response.data.conversations[0];
-          this.props
-            .fetchTranscript(conversationId)
-            .then(() => this.setState({ conversationsLoaded: true }))
-            .then(this.scrollToBottom);
-        }
-        if (response.data === 'STALE') {
-          this.setState({ conversationsLoaded: true });
-        }
-      });
+      this.props
+        .fetchTranscript(conversationId)
+        .then(() =>
+          this.setState({
+            conversationsLoaded: true
+          })
+        )
+        .then(this.scrollToBottom);
     }
   }
 
@@ -251,6 +329,18 @@ class Chat extends React.Component {
     }
   }
 
+  // Hande emoticons when are clicked
+  handleEmojiClick = (n, e) => {
+    const emoji = jsemoji.replace_colons(`:${e.name}:`);
+    const { message } = this.props.form.getFieldsValue();
+    this.props.form.setFieldsValue({ message: `${message || ''} ${emoji}` });
+    this.setState({ showEmojiPicker: false });
+  };
+
+  toogleEmojiState = () => {
+    this.setState({ showEmojiPicker: !this.state.showEmojiPicker });
+  };
+
   isNearBottom = () => {
     const messagesContainer = document.getElementsByClassName('team__messages')[0];
     if (!messagesContainer) return false;
@@ -301,10 +391,15 @@ class Chat extends React.Component {
 
   createResource(file) {
     const fileSource = file.src.split('base64,')[1] || file.src;
-    const { team, orgId } = this.props;
-    if (!team.teamId || !orgId) {
+    const { team, orgId, personalConversation } = this.props;
+
+    if (!orgId) {
       // Todo throw error invalid team or subscriberOrg
       throw new Error();
+    }
+    let keyImageId = team.teamId;
+    if (!Object.values(team).length > 0) {
+      keyImageId = personalConversation.conversationId;
     }
 
     const requestConfig = {
@@ -313,7 +408,7 @@ class Chat extends React.Component {
         'Content-Type': 'application/octet-stream',
         'x-hablaai-content-type': file.type,
         'x-hablaai-content-length': fileSource.length,
-        'x-hablaai-teamid': team.teamId,
+        'x-hablaai-teamid': keyImageId,
         'x-hablaai-subscriberorgid': orgId
       },
       onUploadProgress: progressEvent => {
@@ -329,11 +424,9 @@ class Chat extends React.Component {
   }
 
   handleSubmit(e) {
-    const { team } = this.props;
-    if (this.shouldDisableSubmit() || !team.active) {
+    if (this.shouldDisableSubmit()) {
       return;
     }
-
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -425,7 +518,7 @@ class Chat extends React.Component {
   }
 
   renderMessages(isAdmin) {
-    const { conversations, user, team, orgId } = this.props;
+    const { conversations, user, team, orgId, personalConversation } = this.props;
     const { membersFiltered, lastSubmittedMessage } = this.state;
     if (!membersFiltered) return null;
     const currentPath = lastSubmittedMessage ? lastSubmittedMessage.path : null;
@@ -449,6 +542,8 @@ class Chat extends React.Component {
           teamId={team.teamId}
           isAdmin={isAdmin}
           onLoadImages={this.scrollToBottom}
+          personalConversation={personalConversation}
+          fetchMetadata={this.props.fetchMetadata}
         />
       );
     });
@@ -600,9 +695,8 @@ class Chat extends React.Component {
               <AvatarWrapper size="default" user={user} />
             </div>
             <div className="team-room__chat-input-wrapper">
-              <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off" disabled={!team.active}>
+              <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off">
                 <TextField
-                  disabled={!team.active}
                   componentKey="message"
                   form={this.props.form}
                   hasFeedback={false}
@@ -620,15 +714,17 @@ class Chat extends React.Component {
                 className="team-room__icons"
                 role="button"
                 tabIndex={0}
-                disabled={this.shouldDisableSubmit() || !team.active}
-                onClick={this.handleSubmit}
+                disabled={this.shouldDisableSubmit()}
+                onClick={() => this.toogleEmojiState()}
               >
-                <i className="fas fa-paper-plane" />
+                <i className="far fa-smile" />
               </a>
+              <div className="emoji-table">
+                {this.state.showEmojiPicker && <EmojiPicker onEmojiClick={this.handleEmojiClick} />}
+              </div>
               <div>
                 <input
                   id="fileupload"
-                  disabled={!team.active}
                   className="team-room__file-upload-input"
                   type="file"
                   onChange={this.onFileChange}
@@ -640,6 +736,15 @@ class Chat extends React.Component {
                   </Tooltip>
                 </label>
               </div>
+              <a
+                className="team-room__icons"
+                role="button"
+                tabIndex={0}
+                disabled={this.shouldDisableSubmit()}
+                onClick={this.handleSubmit}
+              >
+                <i className="fas fa-paper-plane" />
+              </a>
             </div>
           </div>
           <div className="team-room__members-typing">{this.renderMembersTyping()}</div>

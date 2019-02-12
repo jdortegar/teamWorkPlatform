@@ -4,6 +4,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
+import { soundVideoCall } from 'src/sounds';
 import { paths } from 'src/routes';
 import { Layout, Menu, Tooltip, Dropdown, Input, Icon, Popover, message } from 'antd';
 import String from 'src/translations';
@@ -40,7 +41,7 @@ const propTypes = {
 const defaultProps = {
   currentSubscriberOrgId: null,
   subscriberOrgs: [],
-  subscribers: null,
+  subscribers: [],
   subscribersPresences: {},
   teams: [],
   userRoles: {},
@@ -115,6 +116,8 @@ class Sidebar extends Component {
         videoCallUser,
         videoCallReceived: true
       });
+      const audio = new Audio(soundVideoCall);
+      audio.play();
     }
     if (callingData.status === 'accepted') {
       const { callerId, teamId } = this.props.callingData;
@@ -312,6 +315,17 @@ class Sidebar extends Component {
     const { user } = this.props;
     const content = (
       <Menu mode="vertical" className="pageHeaderMenu">
+        {userId !== user.userId && (
+          <Menu.Item key={`${subscriber.userId}-chat`}>
+            <span
+              onClick={() => {
+                this.props.history.push(`/app/chat/${userId}`);
+              }}
+            >
+              <i className="fas fa-comment" /> {String.t('sideBar.directMessage')}
+            </span>
+          </Menu.Item>
+        )}
         {userId !== user.userId && online && (
           <Menu.Item key={subscriber.userId}>
             <span
@@ -324,13 +338,13 @@ class Sidebar extends Component {
                 this.props.makePersonalCall(user.userId, subscriber.userId);
               }}
             >
-              <i className="fa fa-phone" /> {String.t('sidebar.videoCall')}
+              <i className="fa fa-phone" /> {String.t('sideBar.videoCall')}
             </span>
           </Menu.Item>
         )}
         <Menu.Item key={`${userId}-profile`}>
           <Link to={`/app/teamMember/${userId}`}>
-            <i className="fas fa-user" /> {String.t('sidebar.userProfile')}
+            <i className="fas fa-user" /> {String.t('sideBar.userProfile')}
           </Link>
         </Menu.Item>
       </Menu>
@@ -340,7 +354,7 @@ class Sidebar extends Component {
       <Popover
         key={userId}
         placement="topLeft"
-        title={String.t('sidebar.avatarPopoverTitle')}
+        title={String.t('sideBar.avatarPopoverTitle')}
         content={content}
         trigger="hover"
       >
@@ -386,8 +400,8 @@ class Sidebar extends Component {
     const activeBookmarks = classNames({
       active: currenthPath.indexOf(paths.bookmarks.split('app/')[1].split('/')[0]) > 1
     });
-    const activeEditOrganization = classNames({
-      active: currenthPath.indexOf(paths.editOrganization.split('app/')[1].split('/')[0]) > 1
+    const activeChat = classNames({
+      active: currenthPath.indexOf(paths.chat.split('app/')[1].split('/')[0]) > 1
     });
 
     const teamMembers = [];
@@ -402,11 +416,6 @@ class Sidebar extends Component {
     });
 
     const currentOrg = subscriberOrgs.find(({ subscriberOrgId }) => subscriberOrgId === currentSubscriberOrgId);
-
-    const editLink =
-      userRoles && (userRoles.admin || userRoles.teamOwner.length > 0)
-        ? `/app/editOrganization/${currentSubscriberOrgId}/teams`
-        : `/app/organization/${currentSubscriberOrgId}`;
 
     return (
       <Sider width={250} className={sideClass}>
@@ -448,9 +457,9 @@ class Sidebar extends Component {
               <i className="fa fa-bookmark fa-2x" />
             </Link>
           </Tooltip>
-          <Tooltip placement="topLeft" title={String.t(`sideBar.${this.renderToolTip()}`)} arrowPointAtCenter>
-            <Link to={editLink} className={`habla-top-menu-settings ${activeEditOrganization}`}>
-              <i className="fa fa-cog fa-2x" />
+          <Tooltip placement="topLeft" title={String.t('sideBar.directMessages')} arrowPointAtCenter>
+            <Link to="/app/chat" className={`habla-top-menu-settings ${activeChat}`}>
+              <i className="fas fa-comments fa-2x" />
             </Link>
           </Tooltip>
         </div>

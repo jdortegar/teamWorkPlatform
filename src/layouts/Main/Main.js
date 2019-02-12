@@ -68,7 +68,7 @@ class Main extends React.Component {
                 <div>
                   {String.t('organizationSummaryPage.3daysBody1')} <br />
                   <br /> {String.t('organizationSummaryPage.3daysBody2')}{' '}
-                  <a href="mailto:support@habla.ai">support@habla.ai</a>
+                  <a href="mailto:support@habla.io">support@habla.io</a>
                 </div>
               ),
               hablaModalButton: String.t('organizationSummaryPage.trialOverButton'),

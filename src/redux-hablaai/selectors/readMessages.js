@@ -20,6 +20,14 @@ export const getUnreadMessagesCountOfTeamId = createSelector(
   [getReadMessagesOfTeamId, (state, teamId) => teamId],
   readMessages => {
     if (!readMessages) return 0;
-    return readMessages.messageCount - readMessages.lastReadMessageCount;
+    return readMessages.messageCount - (readMessages.lastReadMessageCount || 0);
+  }
+);
+
+export const getUnreadMessagesCountOfConversationId = createSelector(
+  [getReadMessagesOfConversationId, (state, conversationId) => conversationId],
+  readMessages => {
+    if (!readMessages) return 0;
+    return readMessages.messageCount - (readMessages.lastReadMessageCount || 0);
   }
 );

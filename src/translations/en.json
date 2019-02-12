@@ -332,7 +332,13 @@
     "iconSettingsTooltipAdmin": "Manage Organization",
     "iconSettingsTooltipTeamOwner": "Manage Project Teams",
     "iconSettingsTooltipUser": "Organization Summary",
-    "invitetoTeam": "Invite Member to this Project Team"
+    "invitetoTeam": "Invite Member to this Project Team",
+    "directMessage": "Send Direct Message",
+    "avatarPopoverTitle": "Select an Option",
+    "videoCall": "Start 1:1 Video Call",
+    "userProfile": "View User Profile",
+    "allowPopUp": "Please allow popup window in your browser settings",
+    "directMessages": "Direct Messages"
   },
   "timeActivityGraph": {
     "xAxisLabel": "X",
@@ -828,7 +834,7 @@
     "trialOverButton": "Subscribe to a Plan Now",
     "3daysTitle": "Hello Hablamos!",
     "3daysBody1": "Thanks again for test driving Habla AI, your Enterprise Knowledge Cloud.",
-    "3daysBody2": "You have 3 days left on your 14 Day Free Trial. Please take a moment and choose a plan now that best suits your Project Team needs and keep them Data Driven. Thank you and contact us for any questions."
+    "3daysBody2": "You have 3 days left on your 30 Day Free Trial. Please take a moment and choose a plan now that best suits your Project Team needs and keep them Data Driven. Thank you and contact us for any questions."
   },
   "paymentModal": {
     "title": "Subscription Payment Form",
@@ -849,12 +855,6 @@
     "back": "Back",
     "payButton": "Pay USD ${{amount}}",
     "subscriptionPaid": "your subscription to Habla AI has been paid successfully"
-  },
-  "sidebar": {
-    "avatarPopoverTitle": "Select an Option",
-    "videoCall": "Start 1:1 Video Call",
-    "userProfile": "View User Profile",
-    "allowPopUp": "Please allow popup window in your browser settings"
   },
   "videoCallModal": {
     "called": "Incoming Call from {{user}}",
@@ -878,5 +878,8 @@
     "inviteTeamMembersModalTitle": "Invite Team Members",
     "inviteTeamMembersModalDescription": "Invite Team Members to your Organization. Then you will be able to distribute them in different Project Teams.",
     "addTeamIntegrationModalTitle": "Add a Data Integration"
+  },
+  "directMessagesPage": {
+    "title": "Direct Messages"
   }
 }

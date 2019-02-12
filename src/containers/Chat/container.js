@@ -11,7 +11,8 @@ import {
   deleteMessage,
   saveBookmark,
   iAmTyping,
-  readMessage
+  readMessage,
+  fetchMetadata
 } from 'src/actions';
 import {
   getTeam,
@@ -24,27 +25,40 @@ import {
   getToken,
   getResourcesUrl,
   getTypingsOfConversationId,
-  getUnreadMessagesCountOfTeamId
+  getUnreadMessagesCountOfTeamId,
+  getConversationOfConversationId,
+  getUnreadMessagesCountOfConversationId
 } from 'src/selectors';
 
 const mapStateToProps = (state, props) => {
   const { teamId } = props;
-  const conversations = getConversationOfTeamId(state, teamId);
+  let conversations;
+  let unreadMessagesCount;
+  if (teamId) {
+    conversations = getConversationOfTeamId(state, teamId);
+  } else {
+    conversations = getConversationOfConversationId(state);
+  }
   const conversationId = !isEmpty(conversations) ? conversations.conversationId : null;
+  if (teamId) {
+    unreadMessagesCount = getUnreadMessagesCountOfTeamId(state, teamId);
+  } else {
+    unreadMessagesCount = getUnreadMessagesCountOfConversationId(state, conversationId);
+  }
   const orgId = getCurrentSubscriberOrgId(state);
 
   return {
     orgId,
+    conversations,
+    unreadMessagesCount,
     team: getTeam(state, teamId),
     user: getCurrentUser(state),
     teamMembers: getTeamMembersOfTeamId(state, teamId),
     users: getUserByUserId(state),
     usersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
-    conversations,
     token: getToken(state),
     resourcesUrl: getResourcesUrl(state),
-    membersTyping: getTypingsOfConversationId(state, conversationId),
-    unreadMessagesCount: getUnreadMessagesCountOfTeamId(state, teamId)
+    membersTyping: getTypingsOfConversationId(state, conversationId)
   };
 };
 
@@ -56,7 +70,8 @@ const mapDispatchToProps = {
   deleteMessage,
   saveBookmark,
   iAmTyping,
-  readMessage
+  readMessage,
+  fetchMetadata
 };
 
 export default withRouter(

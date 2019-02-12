@@ -10,14 +10,17 @@ const propTypes = {
   showTeamMembers: PropTypes.bool,
   showChat: PropTypes.func,
   menuOptions: PropTypes.array,
-  teamId: PropTypes.string.isRequired
+  teamId: PropTypes.string,
+  personalConversation: PropTypes.object
 };
 
 const defaultProps = {
   showPageHeader: false,
   showTeamMembers: false,
   showChat: null,
-  menuOptions: []
+  menuOptions: [],
+  teamId: null,
+  personalConversation: {}
 };
 
 const { Content } = Layout;
@@ -81,6 +84,7 @@ class ChatContent extends Component {
         <Content style={{ background: '#fff', margin: 0, display: 'flex', flex: 1 }}>
           <Chat
             teamId={this.props.teamId}
+            personalConversation={this.props.personalConversation}
             files={this.state.fileList}
             updateFileList={this.updateFileList}
             removeFileFromList={this.removeFileFromList}

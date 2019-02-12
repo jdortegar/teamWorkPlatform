@@ -7,6 +7,7 @@ export CKG from './CKG';
 export CKGPage from './CKGPage';
 export CreateAccount from './CreateAccount';
 export DashboardPage from './DashboardPage';
+export DirectMessagesPage from './DirectMessagesPage';
 export EditOrganizationPage from './EditOrganizationPage';
 export EditTeamMemberPage from './EditTeamMemberPage';
 export EditTeamPage from './EditTeamPage';

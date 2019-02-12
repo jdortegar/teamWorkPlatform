@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import String from 'src/translations';
 import { AvatarWrapper } from 'src/components';
 import { PreviewImages } from 'src/containers';
+import Metadata from './Metadata';
 import './styles/style.css';
 
 const propTypes = {
@@ -20,10 +21,12 @@ const propTypes = {
   user: PropTypes.object.isRequired,
   currentUser: PropTypes.object.isRequired,
   subscriberOrgId: PropTypes.string.isRequired,
-  teamId: PropTypes.string.isRequired,
+  teamId: PropTypes.string,
   isAdmin: PropTypes.bool.isRequired,
   onLoadImages: PropTypes.func,
-  lastRead: PropTypes.bool
+  lastRead: PropTypes.bool,
+  personalConversation: PropTypes.object,
+  fetchMetadata: PropTypes.func
 };
 
 const defaultProps = {
@@ -32,7 +35,10 @@ const defaultProps = {
   teamMembers: null,
   onLoadImages: null,
   lastRead: false,
-  currentPath: null
+  currentPath: null,
+  teamId: null,
+  personalConversation: {},
+  fetchMetadata: null
 };
 
 export const messageAction = {
@@ -104,19 +110,19 @@ class Message extends Component {
     this.props.onMessageAction({ message }, messageAction.flag);
   }
 
-  /*
-  handleEdit() {
-  } */
-
   changeVolume() {
     this.setState({
       mute: !this.state.mute
     });
   }
 
+  renderMedatada(matchUrl) {
+    return matchUrl.map(url => <Metadata key={url} url={url} fetchMetadata={this.props.fetchMetadata} />);
+  }
+
   render() {
     const { message, user, currentUser, teamMembers, hide, lastRead, conversationDisabled, isAdmin } = this.props;
-    const { messageId, children, level, content } = message;
+    const { messageId, children, level, content, createdBy } = message;
     const orgBookmarks = currentUser.bookmarks[this.props.subscriberOrgId];
     const hasBookmark = orgBookmarks && orgBookmarks.messageIds && orgBookmarks.messageIds[message.messageId];
     const { firstName, lastName, preferences, userId } = user;
@@ -128,7 +134,14 @@ class Message extends Component {
     const childrenNonDeleted = children.filter(msg => !msg.deleted);
     const messageBody = (
       <div>
-        <p className="message__body-name">{name}</p>
+        <p
+          className={classNames(
+            'message__body-name',
+            createdBy === currentUser.userId ? 'message__inverted_order' : ''
+          )}
+        >
+          {name}
+        </p>
         <p className="message__body-text">
           {text && justTextContent.text}
           <span className="message__body-text-date"> ({date})</span>
@@ -140,23 +153,36 @@ class Message extends Component {
       hide // hide all replies and level 1
     });
 
+    const matchUrl = text ? justTextContent.text.match(/\bhttps?:\/\/\S+/gi) : null;
+
     return (
       <div className={messageReplyPaddingLeft}>
-        <div className={classNames('message__main-container', `border-bottom-${lastRead ? 'red' : 'lighter'}`)}>
-          <Row type="flex" justify="start" gutter={20}>
+        <div className={classNames('message__main-container', `border-bottom-${lastRead ? 'red' : ''}`)}>
+          <Row
+            type="flex"
+            justify="start"
+            gutter={20}
+            className={classNames(createdBy === currentUser.userId ? 'message__inverted_order' : '')}
+          >
             <Col xs={{ span: 5 }} sm={{ span: 3 }} md={{ span: 2 }} className="message__col-user-icon">
               <AvatarWrapper key={userId} user={user} size="default" />
             </Col>
             <Col xs={{ span: 15 }} sm={{ span: 16 }} md={{ span: 18 }}>
-              {messageBody}
-              {contentJustImage.length > 0 && (
-                <PreviewImages
-                  images={contentJustImage}
-                  subscriberOrgId={this.props.subscriberOrgId}
-                  teamId={this.props.teamId}
-                  onLoadImage={this.props.onLoadImages}
-                />
-              )}
+              <div className={classNames('message__Bubble', createdBy === currentUser.userId ? 'right' : 'left')}>
+                {messageBody}
+                {matchUrl && this.renderMedatada(matchUrl)}
+                {contentJustImage.length > 0 && (
+                  <div className={classNames(createdBy === currentUser.userId ? 'message__inverted_order' : '')}>
+                    <PreviewImages
+                      images={contentJustImage}
+                      subscriberOrgId={this.props.subscriberOrgId}
+                      teamId={this.props.teamId}
+                      onLoadImage={this.props.onLoadImages}
+                      personalConversation={this.props.personalConversation}
+                    />
+                  </div>
+                )}
+              </div>
             </Col>
           </Row>
           {childrenNonDeleted.length > 0 && (

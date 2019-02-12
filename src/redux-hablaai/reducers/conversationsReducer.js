@@ -4,13 +4,15 @@ import {
   CONVERSATIONS_RECEIVE,
   TRANSCRIPT_FETCH_SUCCESS,
   MESSAGES_RECEIVE,
-  MESSAGES_FETCH_SUCCESS
+  MESSAGES_FETCH_SUCCESS,
+  CONVERSATION_CREATE_SUCCESS
 } from 'src/actions';
 
 const INITIAL_STATE = {
   conversationById: {},
   conversationIdsByTeamId: {},
-  transcriptByConversationId: {}
+  transcriptByConversationId: {},
+  currentPersonalConversation: null
 };
 
 const defaultExpanded = true;
@@ -182,6 +184,18 @@ const conversationsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         transcriptByConversationId
+      };
+    }
+    case CONVERSATION_CREATE_SUCCESS: {
+      const currentPersonalConversation = action.payload;
+      const conversationById = _.cloneDeep(state.conversationById);
+
+      conversationById[currentPersonalConversation.conversationId] = currentPersonalConversation;
+
+      return {
+        ...state,
+        conversationById,
+        currentPersonalConversation
       };
     }
     default:

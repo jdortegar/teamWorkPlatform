@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import { paths } from 'src/routes';
-import { sound1 } from 'src/sounds';
+import { sound1, soundNotification } from 'src/sounds';
 import String from 'src/translations';
 import { sortByLastCreatedFirst } from 'src/redux-hablaai/selectors/helpers';
 import {
   HomePage,
   CKGPage,
-  ChatContent,
+  DirectMessagesPage,
   IntegrationsPage,
   OrgIntegrationPage,
   TeamManagePage,
@@ -86,6 +86,8 @@ class MainContent extends Component {
         }
       };
       notification.open(args);
+      const audio = new Audio(soundNotification);
+      audio.play();
     }
 
     this.props.fetchTeamsBySubscriberOrgId().then(() => {
@@ -120,6 +122,8 @@ class MainContent extends Component {
         }
       };
       notification.open(args);
+      const audio = new Audio(soundNotification);
+      audio.play();
     }
 
     if (nextProps.pushMessage && nextProps.pushMessage.length > 0) {
@@ -140,6 +144,8 @@ class MainContent extends Component {
             }
           };
           notification.open(args);
+          const audio = new Audio(soundNotification);
+          audio.play();
         }
       }
     }
@@ -212,7 +218,7 @@ class MainContent extends Component {
           <Route exact path={paths.organizationManageTeams} component={OrganizationManageTeams} />
           <Route exact path={paths.organizationManageMembers} component={OrganizationManageMembers} />
           <Route exact path={paths.organizationDataIntegrations} component={OrganizationDataIntegrations} />
-          <Route exact path={paths.chat} component={ChatContent} />
+          <Route exact path={paths.chat} component={DirectMessagesPage} />
         </Switch>
       </Content>
     );

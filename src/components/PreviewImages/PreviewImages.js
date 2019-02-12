@@ -8,14 +8,17 @@ import './styles/style.css';
 const propTypes = {
   images: PropTypes.array,
   subscriberOrgId: PropTypes.string.isRequired,
-  teamId: PropTypes.string.isRequired,
+  teamId: PropTypes.string,
   token: PropTypes.string.isRequired,
-  onLoadImage: PropTypes.func
+  onLoadImage: PropTypes.func,
+  personalConversation: PropTypes.object
 };
 
 const defaultProps = {
   images: [],
-  onLoadImage: null
+  onLoadImage: null,
+  personalConversation: {},
+  teamId: null
 };
 
 class PreviewImages extends Component {
@@ -33,11 +36,17 @@ class PreviewImages extends Component {
   }
 
   componentDidMount() {
-    const { images, teamId, subscriberOrgId, token } = this.props;
+    const { images, teamId, subscriberOrgId, token, personalConversation } = this.props;
+
+    let keyImageId = teamId;
+    if (!teamId) {
+      keyImageId = personalConversation.conversationId;
+    }
+
     const putHeaders = {
       headers: {
         Authorization: `Bearer ${token}`,
-        'x-hablaai-teamid': teamId,
+        'x-hablaai-teamid': keyImageId,
         'x-hablaai-subscriberorgid': subscriberOrgId
       }
     };

@@ -90,7 +90,7 @@ class VideoCallModal extends Component {
       this.props.answerCall(cancelId, 'cancelled');
     }
     this.props.finishCall();
-    this.props.showModal();
+    this.props.showModal(true);
   };
 
   handleAnswer = () => {

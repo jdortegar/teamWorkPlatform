@@ -58,3 +58,34 @@ export const getTypingsOfConversationId = createSelector(
   [getTypingByUserIdsByConversationId, (state, conversationId) => conversationId],
   (typingByUserIdsByConversationId, conversationId) => typingByUserIdsByConversationId[conversationId]
 );
+
+export const getCurrentPersonalConversation = state => state.conversations.currentPersonalConversation;
+
+export const getConversationOfConversationId = createSelector(
+  [getConversationById, getTranscriptByConversationId, getCurrentPersonalConversation],
+  (conversationById, transcriptByConversationId, currentPersonalConversation) => {
+    if (!currentPersonalConversation) return null;
+
+    const conversationIds = currentPersonalConversation.conversationId;
+    if (!conversationIds || conversationIds.length === 0) {
+      return null;
+    }
+
+    // Only 1 conversation per team, currently.
+    const conversation = conversationById[conversationIds];
+    const transcript = transcriptByConversationId[conversationIds];
+
+    if (!conversation) {
+      return null;
+    }
+
+    const conversationClone = _.cloneDeep(conversation);
+    if (!transcript) {
+      conversationClone.transcript = [];
+      return conversationClone;
+    }
+
+    conversationClone.transcript = merge(transcript.flattenedTree, transcript.messages);
+    return conversationClone;
+  }
+);

@@ -1,0 +1,92 @@
+.DirectMessages_Page .Current_User_Conversation {
+  margin-right: 5px;
+  vertical-align: middle;
+  font-weight: 700;
+}
+
+.DirectMessages_Page .DirecMessages_Container {
+  display: flex;
+  height: 100%;
+}
+
+.DirectMessages_Page .DirectMessages_Conversations {
+  width: 30%;
+  background: #eff2f7;
+}
+
+.DirectMessages_Page .DirectMessages__ChatBody {
+  width: 70%;
+  position: relative;
+  display: inherit;
+}
+
+.DirectMessages_Page .User_Container {
+  padding: 10px 20px 10px 10px;
+  border-bottom: 1px solid #d8d8d8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.DirectMessages_Page .Conversation_Badge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #5b7eba;
+  color: white;
+  font-size: 10px;
+  min-width: 20px;
+  height: 20px;
+  margin: 5px 2px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.DirectMessages_Page .UsersHeader {
+  padding: 10px;
+}
+
+.DirectMessages_Page .User_Container .habla-top-menu-label {
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+.UsersHeader .sidebar-block-label-title {
+  padding: 15px 0;
+}
+
+.UserSearch_Container .ant-input-affix-wrapper {
+  width: 100%;
+}
+.UserSearch_Container .ant-input-affix-wrapper .ant-input {
+  height: 25px;
+  background: #fff;
+  border: none;
+  border-radius: 15px;
+}
+.UserSearch_Container .ant-input-affix-wrapper .ant-input-prefix i {
+  color: #fff !important;
+  font-weight: bold;
+}
+.UserSearch_Container .ant-input-affix-wrapper .ant-input-prefix {
+  left: 5px;
+}
+.UserSearch_Container .ant-input-affix-wrapper .ant-input:not(:first-child) {
+  padding-left: 22px;
+}
+.UserSearch_Container svg {
+  color: #ccc;
+}
+
+.User_Container.active::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-right: 15px solid #fff;
+  border-bottom: 15px solid transparent;
+}

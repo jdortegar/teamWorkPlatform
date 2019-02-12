@@ -87,7 +87,7 @@
   box-shadow: none;
 }
 .team-room__chat-input-form-item {
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 .team-room__icons {
   font-size: 18px;
@@ -150,11 +150,7 @@
   display: inline-block;
   cursor: pointer;
 }
-.team-room__file-upload-input:focus + label,
-.team-room__icons:focus {
-  outline: 1px dotted #000;
-  outline: -webkit-focus-ring-color auto 5px;
-}
+
 .team-room__chat-col-icons {
   display: flex;
 }
@@ -185,6 +181,62 @@
   display: flex;
   flex: 1;
 }
+
+.team__messages .message__Bubble {
+  background: #eef2f8;
+  padding: 10px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.team__messages .message__Bubble::before {
+  content: '';
+  position: absolute;
+  left: -15px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-right: 15px solid #eef2f8;
+  border-bottom: 10px solid transparent;
+}
+
+.DirectMessages_Page .team__messages .message__Bubble.left {
+  text-align: left;
+}
+
+.DirectMessages_Page .team__messages .message__Bubble.right {
+  text-align: right;
+}
+
+.DirectMessages_Page .team__messages .message__Bubble.left::before {
+  content: '';
+  position: absolute;
+  left: -15px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-right: 15px solid #eef2f8;
+  border-bottom: 10px solid transparent;
+}
+
+.DirectMessages_Page .team__messages .message__Bubble.right::before {
+  content: '';
+  position: absolute;
+  right: -15px;
+  left: auto;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-left: 15px solid #eef2f8;
+  border-bottom: 10px solid transparent;
+  border-right: none;
+}
+
+.DirectMessages_Page .message__inverted_order {
+  flex-direction: row-reverse;
+  display: flex;
+}
+
 .team__messages .ant-col-md-18 {
   width: 91%;
 }
@@ -210,4 +262,24 @@
 
 .Chat_Header_right_buttons {
   display: flex;
+}
+
+.emoji-table {
+  position: fixed;
+  bottom: 16%;
+  right: 5%;
+  z-index: 99999;
+}
+
+.emoji-picker .emoji {
+  border-radius: 5px;
+  height: 20px;
+  width: 20px;
+  padding: 15px;
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  overflow: hidden;
+  transition: background-color 0.2s;
+  display: none;
 }
