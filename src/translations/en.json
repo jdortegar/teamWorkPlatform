@@ -858,7 +858,7 @@
   },
   "videoCallModal": {
     "called": "Incoming Call from {{user}}",
-    "calling": "Calling to {{user}}",
+    "calling": "Calling {{user}}",
     "teamCall": "{{team}} Project Team Call",
     "close": "Close",
     "cancel": "Cancel",
@@ -880,6 +880,7 @@
     "addTeamIntegrationModalTitle": "Add a Data Integration"
   },
   "directMessagesPage": {
-    "title": "Direct Messages"
+    "title": "Direct Messages",
+    "startVideoCall": "Start a 1:1 Video Call"
   }
 }

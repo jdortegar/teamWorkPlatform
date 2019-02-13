@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Modal, Button } from 'antd';
 import String from 'src/translations';
 import { AvatarWrapper } from 'src/components';
+import { soundVideoCall } from 'src/sounds';
 import './styles/style.css';
 
 const propTypes = {
@@ -28,6 +29,9 @@ const defaultProps = {
   teams: []
 };
 
+const audio = new Audio(soundVideoCall);
+audio.loop = true;
+
 class VideoCallModal extends Component {
   state = { callState: String.t('videoCallModal.waitingStatus') };
 
@@ -36,8 +40,15 @@ class VideoCallModal extends Component {
     const { users } = this.props;
     let callState;
 
+    if (visible) {
+      audio.play();
+    }
+
     if (callingData.teamId && callingData.status === 'cancelled') {
-      const cancelledBy = users.find(user => user.userId === callingData.receiverId);
+      // Stop call sound
+      audio.pause();
+      audio.currentTime = 0;
+      const cancelledBy = users ? users.find(user => user.userId === callingData.receiverId) : null;
       if (cancelledBy) {
         callState = String.t('videoCallModal.cancelledBy', { user: cancelledBy.fullName });
       }
@@ -63,11 +74,15 @@ class VideoCallModal extends Component {
     });
 
     if (callingData.status === 'accepted' && visible) {
+      audio.pause();
+      audio.currentTime = 0;
       setTimeout(() => {
         this.props.finishCall();
         this.props.showModal(true);
       }, 5000);
     } else if (callingData.status === 'cancelled' && visible) {
+      audio.pause();
+      audio.currentTime = 0;
       setTimeout(() => {
         this.props.finishCall();
         this.props.showModal(true);
@@ -83,6 +98,9 @@ class VideoCallModal extends Component {
   handleCancel = () => {
     const { callerId, teamId } = this.props.callingData;
     const { currentUser, user } = this.props;
+    // Stop call sound
+    audio.pause();
+    audio.currentTime = 0;
     if (teamId) {
       this.props.answerTeamCall(currentUser.userId, teamId, 'cancelled');
     } else {
@@ -95,6 +113,9 @@ class VideoCallModal extends Component {
 
   handleAnswer = () => {
     const { callerId, teamId } = this.props.callingData;
+    // Stop call sound
+    audio.pause();
+    audio.currentTime = 0;
     let userUrl;
     if (callerId && teamId) {
       userUrl = teamId.substring(0, callerId.indexOf('-'));
@@ -126,6 +147,13 @@ class VideoCallModal extends Component {
     let teamSelected;
     if (teamId) {
       teamSelected = teams.find(team => team.teamId === callingData.teamId);
+    }
+
+    if (visible) {
+      audio.play();
+    } else {
+      audio.pause();
+      audio.currentTime = 0;
     }
 
     return (

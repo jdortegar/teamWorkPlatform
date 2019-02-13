@@ -9,7 +9,7 @@ import {
   getReadMessagesByConversationId,
   getConversationById
 } from 'src/selectors';
-import { createConversation } from 'src/actions';
+import { createConversation, makePersonalCall } from 'src/actions';
 import { DirectMessagesPage } from 'src/pages';
 
 const mapStateToProps = (state, props) => {
@@ -28,7 +28,8 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
-  createConversation
+  createConversation,
+  makePersonalCall
 };
 export default connect(
   mapStateToProps,
