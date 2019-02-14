@@ -4,7 +4,6 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
-import { soundVideoCall } from 'src/sounds';
 import { paths } from 'src/routes';
 import { Layout, Menu, Tooltip, Dropdown, Input, Icon, Popover, message } from 'antd';
 import String from 'src/translations';
@@ -116,8 +115,6 @@ class Sidebar extends Component {
         videoCallUser,
         videoCallReceived: true
       });
-      const audio = new Audio(soundVideoCall);
-      audio.play();
     }
     if (callingData.status === 'accepted') {
       const { callerId, teamId } = this.props.callingData;
@@ -335,6 +332,7 @@ class Sidebar extends Component {
                   videoCallModalVisible: true,
                   videoCallReceived: false
                 });
+
                 this.props.makePersonalCall(user.userId, subscriber.userId);
               }}
             >

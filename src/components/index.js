@@ -38,6 +38,7 @@ export PageHeader from './PageHeader';
 export PaymentModal from './PaymentModal';
 export PreviewBar from './PreviewBar';
 export PreviewImages from './PreviewImages';
+export PersonalCallButton from './PersonalCallButton';
 export ResultsList from './ResultsList';
 export SharingSettings from './SharingSettings';
 export Sidebar from './Sidebar';

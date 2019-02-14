@@ -1,0 +1,20 @@
+.Chat_personal_videoCall {
+  color: #fff;
+  background: #32a953;
+  text-align: center;
+  min-width: 20px;
+  border-radius: 5px;
+  padding: 5.5px 7px;
+  cursor: pointer;
+}
+
+.Chat_personal_videoCall svg {
+  color: #fff !important;
+  margin: 0 !important;
+}
+
+.PersonalCall_Container {
+  display: inline-block;
+  margin-left: 5px;
+  vertical-align: middle;
+}

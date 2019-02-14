@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { Spinner, ChatContent, PageHeader, AvatarWrapper } from 'src/components';
+import { Spinner, ChatContent, PageHeader, AvatarWrapper, PersonalCallButton } from 'src/components';
 import { Input, Icon, Badge, message } from 'antd';
 import String from 'src/translations';
 import './styles/style.css';
@@ -17,7 +17,8 @@ const propTypes = {
   currentPersonalConversation: PropTypes.object,
   userId: PropTypes.string,
   readMessagesByConversationId: PropTypes.object,
-  conversations: PropTypes.object
+  conversations: PropTypes.object,
+  makePersonalCall: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -141,7 +142,7 @@ class DirectMessagesPage extends Component {
   };
 
   render() {
-    const { org, currentPersonalConversation, conversations } = this.props;
+    const { org, currentPersonalConversation, conversations, user } = this.props;
     const { teamMembersLoaded, currentConversationUser } = this.state;
 
     if (!teamMembersLoaded || !org || !conversations) {
@@ -162,6 +163,13 @@ class DirectMessagesPage extends Component {
                   {currentConversationUser.fullName}
                 </span>
                 <AvatarWrapper size="default" user={currentConversationUser} hideStatusTooltip />
+                {currentConversationUser.online && (
+                  <PersonalCallButton
+                    caller={user.userId}
+                    called={currentConversationUser}
+                    makePersonalCall={this.props.makePersonalCall}
+                  />
+                )}
               </div>
             )
           }}
