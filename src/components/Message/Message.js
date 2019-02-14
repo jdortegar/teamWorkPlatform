@@ -153,7 +153,9 @@ class Message extends Component {
       hide // hide all replies and level 1
     });
 
-    const matchUrl = text ? justTextContent.text.match(/\bhttps?:\/\/\S+/gi) : null;
+    const matchUrl = text
+      ? justTextContent.text.match(/(http(s)?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- ;,./?%&=]*)?/gm)
+      : null;
 
     return (
       <div className={messageReplyPaddingLeft}>
