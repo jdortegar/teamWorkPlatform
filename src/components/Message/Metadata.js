@@ -11,7 +11,7 @@ const propTypes = {
 
 class Metadata extends Component {
   state = {
-    urlMetadata: [],
+    urlMetadata: null,
     loadingMetadata: false
   };
 
@@ -35,7 +35,9 @@ class Metadata extends Component {
   render() {
     const { urlMetadata, loadingMetadata } = this.state;
 
-    if (loadingMetadata) return <Spinner />;
+    if (loadingMetadata || !urlMetadata) return <Spinner />;
+
+    const imageUrl = urlMetadata.image ? urlMetadata.image : urlMetadata.images[0];
 
     return (
       <div className="message__meta_url">
@@ -43,7 +45,7 @@ class Metadata extends Component {
           {urlMetadata.title}
         </a>
         <p>{urlMetadata.description}</p>
-        <img src={urlMetadata.image} alt={urlMetadata.description} />
+        <img src={imageUrl} alt={urlMetadata.description} />
       </div>
     );
   }
