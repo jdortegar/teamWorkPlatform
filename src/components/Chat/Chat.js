@@ -208,6 +208,7 @@ class Chat extends React.Component {
 
       if (
         !_.isEqual(nextProps.teamMembers, this.props.teamMembers) ||
+        !_.isEqual(nextProps.users, this.props.users) ||
         !_.isEqual(nextProps.teamMembers, _.map(this.state.members, 'userId'))
       ) {
         updateTeamMembers();
@@ -234,34 +235,34 @@ class Chat extends React.Component {
 
     const nextPersonalConversation = nextProps.personalConversation;
 
-    if (
-      !_.isEmpty(nextPersonalConversation) &&
-      this.props.personalConversation &&
-      nextPersonalConversation.conversationId !== this.props.personalConversation.conversationId
-    ) {
+    if (!_.isEmpty(nextPersonalConversation) && this.props.personalConversation) {
       // Get members data form Users
-      const { users, usersPresences } = this.props;
+      if (!_.isEqual(nextProps.users, this.props.users)) {
+        const { users, usersPresences } = nextProps;
 
-      const members = nextPersonalConversation.members.map(memberId => {
-        const member = users[memberId];
-        return {
-          ...member,
-          online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
-        };
-      });
+        const members = nextPersonalConversation.members.map(memberId => {
+          const member = users[memberId];
+          return {
+            ...member,
+            online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
+          };
+        });
 
-      this.setState({ teamMembersLoaded: true, members, membersFiltered: members });
+        this.setState({ teamMembersLoaded: true, members, membersFiltered: members });
+      }
 
-      const { conversationId } = nextPersonalConversation;
+      if (nextPersonalConversation.conversationId !== this.props.personalConversation.conversationId) {
+        const { conversationId } = nextPersonalConversation;
 
-      this.props
-        .fetchTranscript(conversationId)
-        .then(() =>
-          this.setState({
-            conversationsLoaded: true
-          })
-        )
-        .then(this.scrollToBottom);
+        this.props
+          .fetchTranscript(conversationId)
+          .then(() =>
+            this.setState({
+              conversationsLoaded: true
+            })
+          )
+          .then(this.scrollToBottom);
+      }
     }
   }
 
