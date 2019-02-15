@@ -34,7 +34,8 @@ const propTypes = {
   teamId: PropTypes.string,
   makePersonalCall: PropTypes.func,
   callingData: PropTypes.object,
-  finishCall: PropTypes.func.isRequired
+  finishCall: PropTypes.func.isRequired,
+  PersonalConversationUnreadMessages: PropTypes.number
 };
 
 const defaultProps = {
@@ -46,7 +47,8 @@ const defaultProps = {
   userRoles: {},
   teamId: null,
   makePersonalCall: null,
-  callingData: {}
+  callingData: {},
+  PersonalConversationUnreadMessages: null
 };
 
 const ROUTERS_TO_HIDE_SIDEBAR = ['/app/userDetails'];
@@ -458,6 +460,9 @@ class Sidebar extends Component {
           <Tooltip placement="topLeft" title={String.t('sideBar.directMessages')} arrowPointAtCenter>
             <Link to="/app/chat" className={`habla-top-menu-settings ${activeChat}`}>
               <i className="fas fa-comments fa-2x" />
+              {this.props.PersonalConversationUnreadMessages > 0 && (
+                <span className="Icon__UnreadMessages">{this.props.PersonalConversationUnreadMessages}</span>
+              )}
             </Link>
           </Tooltip>
         </div>

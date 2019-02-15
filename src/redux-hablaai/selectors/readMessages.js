@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { getReadMessagesByConversationId, getConversationIdsByTeamId } from './state';
+import { getReadMessagesByConversationId, getConversationIdsByTeamId, getConversationById } from './state';
 
 export { getReadMessagesByConversationId } from './state';
 
@@ -29,5 +29,26 @@ export const getUnreadMessagesCountOfConversationId = createSelector(
   readMessages => {
     if (!readMessages) return 0;
     return readMessages.messageCount - (readMessages.lastReadMessageCount || 0);
+  }
+);
+
+export const getPersonalConversationUnreadMessages = createSelector(
+  [getConversationById, getReadMessagesByConversationId],
+  (conversationById, readMessages) => {
+    const personalConversationIds = Object.values(conversationById)
+      .filter(conversation => !conversation.teamId)
+      .map(conversation => conversation.conversationId);
+
+    const personalConversationReadMessages = personalConversationIds.map(
+      personalConversationId => readMessages[personalConversationId]
+    );
+
+    const personalConversationUnreadMessages = personalConversationReadMessages.reduce((acc, conversation) => {
+      if (typeof conversation === 'undefined') return acc + 0;
+      const unreadMessages = conversation.messageCount - (conversation.lastReadMessageCount || 0);
+      return acc + (unreadMessages > 0 ? unreadMessages : 0);
+    }, 0);
+
+    return personalConversationUnreadMessages;
   }
 );
