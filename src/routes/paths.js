@@ -25,6 +25,7 @@ export const paths = {
   teamIntegration: '/app/teamIntegrations/:teamId/:source/:status?',
   member: '/app/teamMember/:teamMemberId',
   notifications: '/app/notifications',
+  surveySettings: '/app/surveySettings',
   bookmarks: '/app/bookmarks/:subscriberOrgId',
   dashboard: '/app/dashboard/:reportId?',
   search: '/app/search',

@@ -1,13 +1,20 @@
 import { connect } from 'react-redux';
 import { submitSurvey } from 'src/actions';
 import { SurveyModal } from 'src/components';
-import { getCurrentUserFirstName, isSurveyVisible, isFirstSurvey, isSubmittingSurvey } from 'src/selectors';
+import {
+  getActiveSurvey,
+  getCurrentUserFirstName,
+  isSurveyVisible,
+  getSurveyType,
+  isSubmittingSurvey
+} from 'src/selectors';
 
 const mapStateToProps = state => ({
+  survey: getActiveSurvey(state),
   userName: getCurrentUserFirstName(state),
   isSubmitting: isSubmittingSurvey(state),
   visible: isSurveyVisible(state),
-  isFirstSurvey: isFirstSurvey(state)
+  surveyType: getSurveyType(state)
 });
 
 const mapDispatchToProps = {

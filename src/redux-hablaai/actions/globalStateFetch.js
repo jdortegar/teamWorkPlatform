@@ -5,7 +5,7 @@ import { fetchSubscriberOrgs } from './subscriberOrgsFetch';
 import { fetchTeams } from './teamsFetch';
 import { fetchReadMessages } from './readMessagesFetch';
 import { fetchSubscribersBySubscriberOrgId } from './subscribersFetch';
-// import { fetchSurveys } from './surveys';
+import { fetchSurveys } from './surveys';
 
 /**
  * For global state, fetch data from remote server only if data doesn't exist in redux.
@@ -32,10 +32,7 @@ export const fetchGlobalState = () => (dispatch, getState) => {
       dispatch(fetchSubscribersBySubscriberOrgId(currentSubscriberOrgId));
     }
   }
-  // STAND BY UNTIL JOSIAS VACATIONS
-  // if (state.surveys.dates.length === 0) {
-  //   if (currentSubscriberOrgId) {
-  //     dispatch(fetchSurveys());
-  //   }
-  // }
+  if (currentSubscriberOrgId) {
+    dispatch(fetchSurveys());
+  }
 };

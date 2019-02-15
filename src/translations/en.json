@@ -438,6 +438,12 @@
     "setProfilePhoto": "Add a Photo",
     "removeImageLabel": "Remove"
   },
+  "surveySettingsPage": {
+    "title": "Enable Productivity Survey Schedule",
+    "startDateLabel": "Select Survey Start Date",
+    "endDateLabel": "Survey End Date",
+    "saveButton": "Confirm Schedule"
+  },
   "integrationPage": {
     "integrationSettings": "Data Integration Settings",
     "status": {
@@ -676,30 +682,30 @@
     "finish": "Finish",
     "next": "Next ({{current}} of {{total}})",
     "first": {
-      "question-1": {
+      "hours-spent": {
         "title": "How many hours do you spend each week searching for, retrieving, and finding relevant files?",
         "select": "Choose an option"
       },
-      "question-2": {
+      "tools": {
         "title": "What tools do you spend your time in doing this?",
         "select": "Choose one or more options"
       },
-      "question-3": {
+      "preference": {
         "title": "What would you rather be working on?",
         "select": "Choose one or more options"
       }
     },
-    "recurrent": {
-      "question-1": {
-        "title": "How many hours did you spend each week during the last month searching for, retrieving and finding files?",
+    "last": {
+      "hours-spent": {
+        "title": "How many hours do you spend each week searching for, retrieving, and finding relevant files?",
         "select": "Choose an option"
       },
-      "question-2": {
+      "tools": {
         "title": "What tools do you spend your time in doing this?",
         "select": "Choose one or more options"
       },
-      "question-3": {
-        "title": "What did you spend your time on instead during the last month?",
+      "preference": {
+        "title": "What would you rather be working on?",
         "select": "Choose one or more options"
       }
     }

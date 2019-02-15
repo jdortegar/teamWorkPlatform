@@ -39,6 +39,7 @@ export SetNewPassword from './SetNewPassword';
 export Sidebar from './Sidebar';
 export SubscriptionModal from './SubscriptionModal';
 export SurveyModal from './SurveyModal';
+export SurveySettingsPage from './SurveySettingsPage';
 export TeamCallButton from './TeamCallButton';
 export TeamIntegrationPage from './TeamIntegrationPage';
 export TeamIntegrationsPage from './TeamIntegrationsPage';

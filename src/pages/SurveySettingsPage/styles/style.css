@@ -1,0 +1,19 @@
+.SurveySettingsPage__fields {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.SurveySettingsPage__fields .ant-form-item {
+  margin-right: 20px;
+}
+
+.SurveySettingsPage__datePicker.ant-calendar-picker {
+  width: 225px !important;
+}
+
+.SurveySettingsPage__buttons {
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+}

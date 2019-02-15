@@ -1,123 +1,99 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Select, message } from 'antd';
-import { range } from 'lodash';
+import { map, isEmpty } from 'lodash';
 
 import String from 'src/translations';
-import { availableIntegrationKeys, integrationLabelFromKey } from 'src/utils/dataIntegrations';
 import { Button } from 'src/components';
 
 const { Option } = Select;
 
+const propTypes = {
+  survey: PropTypes.object,
+  submitSurvey: PropTypes.func.isRequired,
+  userName: PropTypes.string.isRequired,
+  visible: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
+  surveyType: PropTypes.string
+};
+
+const defaultProps = {
+  survey: null,
+  visible: false,
+  isSubmitting: false,
+  surveyType: 'first'
+};
+
+const TOTAL_STEPS = 3;
+const QUESTIONS = [
+  { name: 'hours-spent', step: 1, mode: 'default' },
+  { name: 'tools', step: 2, mode: 'tags' },
+  { name: 'preference', step: 3, mode: 'tags' }
+];
+
 class SurveyModal extends Component {
   state = {
     currentStep: 1,
-    answers: {
-      step1: [],
-      step2: [],
-      step3: []
-    }
+    answers: {}
   };
 
   handleNext = () => {
-    if (this.state.currentStep >= 3) return;
+    if (this.state.currentStep >= TOTAL_STEPS) return;
     this.setState({ currentStep: this.state.currentStep + 1 });
   };
 
   handleSubmit = () => {
+    // the steps need to be sent in the correct order
+    const answers = Object.values(QUESTIONS.map(q => this.state.answers[q.name]));
     this.props
-      .submitSurvey(Object.values(this.state.answers))
+      .submitSurvey(answers)
       .then(() => message.success('Thanks for your feedback. Welcome to Habla AI.'))
       .catch(() => message.error('Sorry, something went wrong.'));
   };
 
-  handleStep1Select = value => {
-    this.setState({ answers: { ...this.state.answers, step1: [value] } });
+  handleSelect = (question, values) => {
+    this.setState({ answers: { ...this.state.answers, [question]: [...values] } });
   };
 
-  handleStep2Select = values => {
-    this.setState({ answers: { ...this.state.answers, step2: values } });
+  renderQuestion = (name, mode = 'default') => {
+    const { survey, surveyType } = this.props;
+    const { question, options } = survey.questions.find(q => q.question === name);
+    if (!question) return null;
+
+    return (
+      <div key={question} className="surveyContent padding-class-b habla-color-lightergrey">
+        <p className="habla-bold-text">{String.t(`surveys.${surveyType}.${question}.title`)}</p>
+        <div className="surveyAnswer mt-1">
+          <Select
+            onChange={value => this.handleSelect(question, value)}
+            placeholder={String.t(`surveys.${surveyType}.${question}.select`)}
+            style={{ minWidth: 250 }}
+            mode={mode}
+          >
+            {options.map(option => (
+              <Option key={option}>{option}</Option>
+            ))}
+          </Select>
+        </div>
+      </div>
+    );
   };
-
-  handleStep3Select = values => {
-    this.setState({ answers: { ...this.state.answers, step3: values } });
-  };
-
-  renderStep1 = surveyType => (
-    <div className="surveyContent padding-class-b habla-color-lightergrey">
-      <p className="habla-bold-text">{String.t(`surveys.${surveyType}.question-1.title`)}</p>
-      <div className="surveyAnswer mt-1">
-        <Select
-          onChange={this.handleStep1Select}
-          placeholder={String.t(`surveys.${surveyType}.question-1.select`)}
-          style={{ minWidth: 200 }}
-        >
-          {range(1, 9).map((value, index, array) => {
-            const option = index === array.length - 1 ? `${value}+` : value;
-            return <Option key={option}>{option}</Option>;
-          })}
-        </Select>
-      </div>
-    </div>
-  );
-
-  renderStep2 = surveyType => (
-    <div className="surveyContent padding-class-b habla-color-lightergrey">
-      <p className="habla-bold-text">{String.t(`surveys.${surveyType}.question-2.title`)}</p>
-      <div className="surveyAnswer mt-1">
-        <Select
-          onChange={this.handleStep2Select}
-          mode="tags"
-          placeholder={String.t(`surveys.${surveyType}.question-2.select`)}
-          style={{ minWidth: 250 }}
-        >
-          {availableIntegrationKeys().map(key => (
-            <Option key={integrationLabelFromKey(key)}>{integrationLabelFromKey(key)}</Option>
-          ))}
-        </Select>
-      </div>
-    </div>
-  );
-
-  renderStep3 = surveyType => (
-    <div className="surveyContent padding-class-b habla-color-lightergrey">
-      <p className="habla-bold-text">{String.t(`surveys.${surveyType}.question-3.title`)}</p>
-      <div className="surveyAnswer mt-1">
-        <Select
-          onChange={this.handleStep3Select}
-          mode="tags"
-          placeholder={String.t(`surveys.${surveyType}.question-3.select`)}
-          style={{ minWidth: 250 }}
-        >
-          {[
-            'Closing the books faster',
-            'Selling more in my job',
-            'Taking care of higher priorities',
-            'Developing more products',
-            'Creating better products and GTM',
-            'Surfing Huntington Beach Southside Pier or the Internet'
-          ].map(key => (
-            <Option key={key}>{key}</Option>
-          ))}
-        </Select>
-      </div>
-    </div>
-  );
 
   renderFooterButton() {
     const { currentStep, answers } = this.state;
     const { isSubmitting } = this.props;
-    const lastStep = currentStep === 3;
+    const lastStep = currentStep === TOTAL_STEPS;
     const buttonText = lastStep
       ? String.t('surveys.finish')
-      : String.t('surveys.next', { current: currentStep, total: 3 });
+      : String.t('surveys.next', { current: currentStep, total: TOTAL_STEPS });
     const handleSubmit = lastStep ? this.handleSubmit : this.handleNext;
-    const noAnswers = answers[`step${currentStep}`].length === 0;
+    const step = QUESTIONS.find(q => q.step === currentStep);
+    const noAnswers = isEmpty(answers[step.name]);
 
     return (
       <Button
         key="submit"
-        type="main"
+        type="primary"
         onClick={handleSubmit}
         className="habla-button align-center-class"
         loading={isSubmitting}
@@ -129,9 +105,11 @@ class SurveyModal extends Component {
   }
 
   render() {
+    const { survey } = this.props;
+    if (!survey) return null;
+
     const { currentStep } = this.state;
-    const { userName, visible, isFirstSurvey } = this.props;
-    const surveyType = isFirstSurvey ? 'first' : 'recurrent';
+    const { userName, visible } = this.props;
 
     return (
       <div className="hablaModalSurvey">
@@ -141,9 +119,7 @@ class SurveyModal extends Component {
               <p className="habla-title">{String.t('surveys.title', { name: userName })}</p>
               <p className="habla-title-light">{String.t('surveys.description')}</p>
             </div>
-            {currentStep === 1 && this.renderStep1(surveyType)}
-            {currentStep === 2 && this.renderStep2(surveyType)}
-            {currentStep === 3 && this.renderStep3(surveyType)}
+            {map(QUESTIONS, item => currentStep === item.step && this.renderQuestion(item.name, item.mode))}
           </div>
         </Modal>
       </div>
@@ -151,18 +127,7 @@ class SurveyModal extends Component {
   }
 }
 
-SurveyModal.propTypes = {
-  submitSurvey: PropTypes.func.isRequired,
-  userName: PropTypes.string.isRequired,
-  visible: PropTypes.bool,
-  isSubmitting: PropTypes.bool,
-  isFirstSurvey: PropTypes.bool
-};
-
-SurveyModal.defaultProps = {
-  visible: false,
-  isSubmitting: false,
-  isFirstSurvey: true
-};
+SurveyModal.propTypes = propTypes;
+SurveyModal.defaultProps = defaultProps;
 
 export default SurveyModal;
