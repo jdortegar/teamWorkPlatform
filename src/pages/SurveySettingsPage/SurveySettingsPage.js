@@ -54,10 +54,10 @@ class SurveySettingsPage extends Component {
 
     return (
       <div className="SurveySettingsPage">
-        <PageHeader pageBreadCrumb={{ routes: [{ title: String.t('surveySettingsPage.title') }] }} settingsIcon />
+        <PageHeader pageBreadCrumb={{ routes: [{ title: String.t('SurveySettingsPage.title') }] }} settingsIcon />
         <Form layout="vertical" onSubmit={this.handleSubmit}>
           <div className="SurveySettingsPage__fields">
-            <Form.Item label={String.t('surveySettingsPage.startDateLabel')}>
+            <Form.Item label={String.t('SurveySettingsPage.startDateLabel')}>
               <DatePicker
                 defaultValue={survey ? survey.startDate : null}
                 className="SurveySettingsPage__datePicker"
@@ -69,7 +69,7 @@ class SurveySettingsPage extends Component {
                 onOk={this.handleSelection}
               />
             </Form.Item>
-            <Form.Item label={String.t('surveySettingsPage.endDateLabel')}>
+            <Form.Item label={String.t('SurveySettingsPage.endDateLabel')}>
               <DatePicker
                 defaultValue={survey ? survey.endDate : null}
                 className="SurveySettingsPage__datePicker"
@@ -86,7 +86,7 @@ class SurveySettingsPage extends Component {
               {String.t('Buttons.cancel')}
             </Button>
             <Button type="primary" fitText onClick={this.handleSubmit} loading={isCreating} disabled={!endDate}>
-              {String.t('surveySettingsPage.saveButton')}
+              {String.t('SurveySettingsPage.saveButton')}
             </Button>
           </div>
         </Form>

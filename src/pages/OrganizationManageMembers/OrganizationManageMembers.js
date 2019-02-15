@@ -217,13 +217,18 @@ class OrganizationManageMembers extends Component {
       const menuPageHeader = [
         {
           icon: 'fas fa-cog',
+          title: 'OrganizationManage.manageTeams',
+          url: `/app/editOrganization/${subscriberOrgId}/teams`
+        },
+        {
+          icon: 'fas fa-cog',
           title: 'OrganizationManage.editOrganization',
           url: `/app/editOrganization/${subscriberOrgId}`
         },
         {
           icon: 'fas fa-cog',
-          title: 'OrganizationManage.manageTeams',
-          url: `/app/editOrganization/${subscriberOrgId}/teams`
+          title: 'SurveySettingsPage.title',
+          url: `/app/surveySettings`
         }
       ];
 

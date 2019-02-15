@@ -438,7 +438,7 @@
     "setProfilePhoto": "Add a Photo",
     "removeImageLabel": "Remove"
   },
-  "surveySettingsPage": {
+  "SurveySettingsPage": {
     "title": "Enable Productivity Survey Schedule",
     "startDateLabel": "Select Survey Start Date",
     "endDateLabel": "Survey End Date",

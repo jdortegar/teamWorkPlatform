@@ -231,11 +231,18 @@ class OrganizationManageTeams extends Component {
         }
       ];
       if (userRoles.admin && isAdminMode) {
-        menuPageHeader.push({
-          icon: 'fas fa-cog',
-          title: 'OrganizationManage.editOrganization',
-          url: `/app/editOrganization/${subscriberOrgId}`
-        });
+        menuPageHeader.push(
+          {
+            icon: 'fas fa-cog',
+            title: 'OrganizationManage.editOrganization',
+            url: `/app/editOrganization/${subscriberOrgId}`
+          },
+          {
+            icon: 'fas fa-cog',
+            title: 'SurveySettingsPage.title',
+            url: `/app/surveySettings`
+          }
+        );
       }
 
       // Table Columns
