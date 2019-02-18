@@ -90,3 +90,8 @@
   border-right: 15px solid #fff;
   border-bottom: 15px solid transparent;
 }
+
+.User_Container.active .habla-top-menu-label {
+  font-weight: 700;
+  color: #000;
+}

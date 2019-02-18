@@ -238,7 +238,8 @@
 }
 
 .team__messages .ant-col-md-18 {
-  width: 91%;
+  width: auto;
+  max-width: 91%;
 }
 .team__messages .ant-col-md-2 {
   width: 50px;
