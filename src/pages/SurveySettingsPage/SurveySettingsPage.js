@@ -11,6 +11,7 @@ const propTypes = {
   history: PropTypes.object.isRequired,
   fetchSurveys: PropTypes.func.isRequired,
   createSurvey: PropTypes.func.isRequired,
+  updateSurvey: PropTypes.func.isRequired,
   survey: PropTypes.object,
   isFetching: PropTypes.bool,
   isCreating: PropTypes.bool
@@ -38,17 +39,21 @@ class SurveySettingsPage extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const { survey, createSurvey } = this.props;
+    const { survey, createSurvey, updateSurvey } = this.props;
     const { startDate, endDate } = this.state;
 
     if (!survey) {
       createSurvey({ startDate, endDate });
+    } else {
+      updateSurvey(survey.id, { startDate, endDate });
     }
   };
 
   render() {
     const { endDate } = this.state;
     const { survey = {}, isFetching, isCreating } = this.props;
+
+    const disabled = survey && survey.startDate < moment();
 
     if (isFetching) return <Spinner />;
 
@@ -59,7 +64,7 @@ class SurveySettingsPage extends Component {
           <div className="SurveySettingsPage__fields">
             <Form.Item label={String.t('SurveySettingsPage.startDateLabel')}>
               <DatePicker
-                defaultValue={survey ? survey.startDate : null}
+                defaultValue={survey ? moment(survey.startDate) : null}
                 className="SurveySettingsPage__datePicker"
                 showTime={{ format: 'HH:mm' }}
                 format="ddd, MMM DD, Y - HH:mm"
@@ -67,11 +72,12 @@ class SurveySettingsPage extends Component {
                 placeholder=""
                 onChange={this.handleSelection}
                 onOk={this.handleSelection}
+                disabled={disabled}
               />
             </Form.Item>
             <Form.Item label={String.t('SurveySettingsPage.endDateLabel')}>
               <DatePicker
-                defaultValue={survey ? survey.endDate : null}
+                defaultValue={survey ? moment(survey.endDate) : null}
                 className="SurveySettingsPage__datePicker"
                 value={endDate}
                 showTime={{ format: 'HH:mm' }}
@@ -85,7 +91,13 @@ class SurveySettingsPage extends Component {
             <Button type="default" fitText className="margin-right-class-a" onClick={() => this.props.history.goBack()}>
               {String.t('Buttons.cancel')}
             </Button>
-            <Button type="primary" fitText onClick={this.handleSubmit} loading={isCreating} disabled={!endDate}>
+            <Button
+              type="primary"
+              fitText
+              onClick={this.handleSubmit}
+              loading={isCreating}
+              disabled={disabled || !endDate}
+            >
               {String.t('SurveySettingsPage.saveButton')}
             </Button>
           </div>

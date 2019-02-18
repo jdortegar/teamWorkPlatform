@@ -43,10 +43,12 @@ class SurveyModal extends Component {
   };
 
   handleSubmit = () => {
+    const { survey, submitSurvey } = this.props;
+
     // the steps need to be sent in the correct order
     const answers = Object.values(QUESTIONS.map(q => this.state.answers[q.name]));
-    this.props
-      .submitSurvey(answers)
+
+    submitSurvey(survey.id, answers)
       .then(() => message.success('Thanks for your feedback. Welcome to Habla AI.'))
       .catch(() => message.error('Sorry, something went wrong.'));
   };

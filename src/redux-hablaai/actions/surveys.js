@@ -1,5 +1,5 @@
 import { buildApiUrl } from 'src/lib/api';
-import { getCurrentSubscriberOrgId } from 'src/selectors';
+import { getCurrentSubscriberOrgId, getCurrentUserId } from 'src/selectors';
 import surveyQuestions from 'src/lib/surveyQuestions';
 import { doAuthenticatedRequest } from './urlRequest';
 
@@ -13,8 +13,9 @@ export const SUBMIT_SURVEY_REQUEST = 'surveys/submit/request';
 export const SUBMIT_SURVEY_SUCCESS = 'surveys/submit/success';
 export const SUBMIT_SURVEY_FAILURE = 'surveys/submit/failure';
 
-export const fetchSurveys = () => dispatch => {
-  const requestUrl = buildApiUrl('surveys', 'v2');
+export const fetchSurveys = () => (dispatch, getState) => {
+  const orgId = getCurrentSubscriberOrgId(getState());
+  const requestUrl = buildApiUrl(`organizations/${orgId}/surveys`, 'v2');
 
   dispatch({ type: SURVEYS_FETCH_REQUEST });
 
@@ -38,8 +39,8 @@ export const fetchSurveys = () => dispatch => {
 };
 
 export const createSurvey = ({ startDate, endDate }) => (dispatch, getState) => {
-  const requestUrl = buildApiUrl('surveys', 'v2');
   const orgId = getCurrentSubscriberOrgId(getState());
+  const requestUrl = buildApiUrl(`organizations/${orgId}/surveys`, 'v2');
 
   dispatch({ type: SURVEY_CREATE_REQUEST });
 
@@ -47,7 +48,7 @@ export const createSurvey = ({ startDate, endDate }) => (dispatch, getState) => 
     doAuthenticatedRequest({
       requestUrl,
       method: 'post',
-      data: { name: 'Productivity Index Survey', questions: surveyQuestions, orgId, startDate, endDate }
+      data: { name: 'Productivity Index Survey', questions: surveyQuestions, startDate, endDate }
     })
   );
 
@@ -58,37 +59,32 @@ export const createSurvey = ({ startDate, endDate }) => (dispatch, getState) => 
   return thunk;
 };
 
-export const oldFetchSurveys = () => (dispatch, getState) => {
-  const {
-    subscriberOrgs: { currentSubscriberOrgId },
-    auth: { userId }
-  } = getState();
-  const requestUrl = buildApiUrl(`organizations/${currentSubscriberOrgId}/users/${userId}/surveys`, 'v2');
+export const updateSurvey = (surveyId, { startDate, endDate }) => (dispatch, getState) => {
+  const orgId = getCurrentSubscriberOrgId(getState());
+  const requestUrl = buildApiUrl(`organizations/${orgId}/surveys/${surveyId}`, 'v2');
+
+  dispatch({ type: SURVEY_CREATE_REQUEST });
 
   const thunk = dispatch(
     doAuthenticatedRequest({
       requestUrl,
-      method: 'get'
+      method: 'patch',
+      data: { startDate, endDate }
     })
   );
 
-  thunk.then(response => {
-    const { dates } = response.data;
-    dispatch({
-      type: SURVEYS_FETCH_SUCCESS,
-      payload: { dates }
-    });
-  });
+  thunk
+    .then(response => dispatch({ type: SURVEY_CREATE_SUCCESS, payload: response.data }))
+    .catch(() => dispatch({ type: SURVEY_CREATE_FAILURE }));
 
   return thunk;
 };
 
-export const submitSurvey = data => (dispatch, getState) => {
-  const {
-    subscriberOrgs: { currentSubscriberOrgId },
-    auth: { userId }
-  } = getState();
-  const requestUrl = buildApiUrl(`organizations/${currentSubscriberOrgId}/users/${userId}/surveys`, 'v2');
+export const submitSurvey = (surveyId, answers) => (dispatch, getState) => {
+  const state = getState();
+  const orgId = getCurrentSubscriberOrgId(state);
+  const userId = getCurrentUserId(state);
+  const requestUrl = buildApiUrl(`organizations/${orgId}/surveys/${surveyId}/answers`, 'v2');
 
   dispatch({ type: SUBMIT_SURVEY_REQUEST });
 
@@ -96,7 +92,7 @@ export const submitSurvey = data => (dispatch, getState) => {
     doAuthenticatedRequest({
       requestUrl,
       method: 'post',
-      data
+      data: { userId, answers }
     })
   );
 
