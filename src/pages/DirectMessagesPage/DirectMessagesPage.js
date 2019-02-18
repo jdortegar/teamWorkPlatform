@@ -18,7 +18,9 @@ const propTypes = {
   userId: PropTypes.string,
   readMessagesByConversationId: PropTypes.object,
   conversations: PropTypes.object,
-  makePersonalCall: PropTypes.func.isRequired
+  makePersonalCall: PropTypes.func.isRequired,
+  readMessage: PropTypes.func.isRequired,
+  transcripts: PropTypes.object.isRequired
 };
 
 const defaultProps = {
@@ -67,7 +69,7 @@ class DirectMessagesPage extends Component {
   }
 
   handleConversation = userId => {
-    const { org, user } = this.props;
+    const { org, user, currentPersonalConversation, readMessagesByConversationId } = this.props;
     const { orgUsers } = this.state;
     const valuesToSend = {
       orgId: org.subscriberOrgId,
@@ -83,6 +85,18 @@ class DirectMessagesPage extends Component {
     this.setState({
       currentConversationUser
     });
+
+    let unreadMessages;
+
+    if (currentPersonalConversation) {
+      const { conversationId } = currentPersonalConversation;
+      const readMessages = readMessagesByConversationId[conversationId] || {};
+      unreadMessages = readMessages.messageCount - (readMessages.lastReadMessageCount || 0);
+    }
+
+    if (unreadMessages > 0) {
+      this.clearUnreadMessages();
+    }
   };
 
   renderConversationUsers = () => {
@@ -140,6 +154,15 @@ class DirectMessagesPage extends Component {
       this.setState({ orgUsersFiltered });
     }
   };
+
+  clearUnreadMessages() {
+    const { currentPersonalConversation, transcripts } = this.props;
+    const { conversationId } = currentPersonalConversation;
+    const lastMessage =
+      transcripts && transcripts[conversationId] ? _.last(transcripts[conversationId].flattenedTree) : {};
+
+    this.props.readMessage(lastMessage.messageId, conversationId);
+  }
 
   render() {
     const { org, currentPersonalConversation, conversations, user } = this.props;
