@@ -1400,6 +1400,12 @@ tr.ant-table-row:hover {
   .breadcrumbs-container .breadcrumbs-text.breadcrumbs-text-b:not(:last-child) {
     display: none;
   }
+  .DirectMessages_Page .DirectMessages_Conversations {
+    width: 15%;
+  }
+  .DirectMessages_Page .DirectMessages__ChatBody {
+    width: 85%;
+  }
 }
 
 @media only screen and (max-width: 550px) {
@@ -1454,7 +1460,8 @@ tr.ant-table-row:hover {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 100px;
+    width: 160px;
+    display: inherit;
   }
   .habla-top-menu-item-admin {
     display: none;

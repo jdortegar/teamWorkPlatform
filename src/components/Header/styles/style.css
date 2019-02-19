@@ -129,7 +129,7 @@ a.habla-top-menu-active {
 .habla-top-menu-search button {
   background-color: transparent;
   font-weight: 700;
-  color: #fff;
+  color: #ececec;
   align-self: end;
   cursor: pointer;
   border: none;
@@ -197,4 +197,8 @@ a.habla-top-menu-active {
 #launcher {
   left: -9999px !important;
   position: absolute !important;
+}
+
+.habla-top-menu-items .habla-top-menu-help-center {
+  cursor: pointer;
 }

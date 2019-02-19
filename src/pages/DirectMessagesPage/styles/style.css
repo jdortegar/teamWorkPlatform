@@ -11,7 +11,7 @@
 
 .DirectMessages_Page .DirectMessages_Conversations {
   width: 30%;
-  background: #eff2f7;
+  background: #eff6ff;
 }
 
 .DirectMessages_Page .DirectMessages__ChatBody {
@@ -22,12 +22,25 @@
 
 .DirectMessages_Page .User_Container {
   padding: 10px 20px 10px 10px;
-  border-bottom: 1px solid #d8d8d8;
+  border-bottom: 1px solid #dde7f4;
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
   position: relative;
+  font-weight: 300;
+}
+
+.DirectMessages_Page .habla-top-menu-label {
+  font-size: 14px;
+}
+
+.DirectMessages_Page .User_Container.active {
+  font-weight: bold;
+  background: #e5effb;
+}
+.DirectMessages_Page .User_Container:hover {
+  font-weight: bold;
 }
 
 .DirectMessages_Page .Conversation_Badge {
@@ -54,7 +67,7 @@
 }
 
 .UsersHeader .sidebar-block-label-title {
-  padding: 15px 0;
+  padding: 5px 0 15px 0;
 }
 
 .UserSearch_Container .ant-input-affix-wrapper {

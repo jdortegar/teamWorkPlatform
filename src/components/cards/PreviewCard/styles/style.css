@@ -1,7 +1,7 @@
 .PreviewCard__container > div.ant-card-head {
   position: absolute;
-  right: 5px;
-  top: 5px;
+  right: 10px;
+  top: 2px;
   padding: 0;
   border: none;
   background: none;
@@ -20,8 +20,8 @@
   font-size: 18px;
 }
 .PreviewCard__close-button svg {
-	background: #fff;
-	border-radius: 50%;
+  background: #fff;
+  border-radius: 50%;
 }
 .PreviewCard__close-button:hover {
   color: #666;
@@ -30,15 +30,15 @@
   height: auto;
 }
 .file-wrapper {
-	position: absolute;
-	bottom: 14px;
-	left: 0;
-	right: 0;
-	text-align: center;
-	background-color: transparent;
-	text-transform: uppercase;
-	color: #fff;
-	font-size: 11px;
+  position: absolute;
+  bottom: 14px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  background-color: transparent;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 11px;
 }
 .file-name {
   display: block;
@@ -49,7 +49,7 @@
   overflow: hidden;
 }
 .PreviewBar__image-wrapper .file-icon {
-	font-size: 7em;
+  font-size: 7em;
 }
 .file-type {
   position: absolute;
@@ -61,9 +61,9 @@
   text-transform: uppercase;
 }
 .PreviewCard__container img {
-	width: 52px;
-    margin-right: .35em;
-    margin-left: .35em;
-    margin-top: .35em;
-    cursor: pointer;
+  width: 52px;
+  margin-right: 0.35em;
+  margin-left: 0.35em;
+  margin-top: 0.35em;
+  cursor: pointer;
 }
