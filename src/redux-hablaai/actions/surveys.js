@@ -9,6 +9,7 @@ export const SURVEYS_FETCH_FAILURE = 'surveys/fetch/failure';
 export const SURVEY_CREATE_REQUEST = 'surveys/create/request';
 export const SURVEY_CREATE_SUCCESS = 'surveys/create/success';
 export const SURVEY_CREATE_FAILURE = 'surveys/create/failure';
+export const SURVEY_UPDATE_SUCCESS = 'surveys/update/success';
 export const SUBMIT_SURVEY_REQUEST = 'surveys/submit/request';
 export const SUBMIT_SURVEY_SUCCESS = 'surveys/submit/success';
 export const SUBMIT_SURVEY_FAILURE = 'surveys/submit/failure';
@@ -74,7 +75,7 @@ export const updateSurvey = (surveyId, { startDate, endDate }) => (dispatch, get
   );
 
   thunk
-    .then(response => dispatch({ type: SURVEY_CREATE_SUCCESS, payload: response.data }))
+    .then(response => dispatch({ type: SURVEY_UPDATE_SUCCESS, payload: { survey: response.data } }))
     .catch(() => dispatch({ type: SURVEY_CREATE_FAILURE }));
 
   return thunk;

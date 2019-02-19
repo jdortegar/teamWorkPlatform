@@ -5,6 +5,7 @@ import {
   SURVEY_CREATE_REQUEST,
   SURVEY_CREATE_SUCCESS,
   SURVEY_CREATE_FAILURE,
+  SURVEY_UPDATE_SUCCESS,
   SUBMIT_SURVEY_REQUEST,
   SUBMIT_SURVEY_SUCCESS,
   SUBMIT_SURVEY_FAILURE
@@ -32,6 +33,11 @@ const searchReducer = (state = INITIAL_STATE, action) => {
       return { ...state, isCreating: false };
     case SURVEY_CREATE_FAILURE:
       return { ...state, isCreating: false };
+    case SURVEY_UPDATE_SUCCESS: {
+      const { survey } = action.payload;
+      const surveys = state.surveys.filter(s => s.id !== survey.id);
+      return { ...state, isCreating: false, surveys: [...surveys, survey] };
+    }
     case SUBMIT_SURVEY_REQUEST:
       return { ...state, isSubmitting: true, error: false };
     case SUBMIT_SURVEY_SUCCESS:

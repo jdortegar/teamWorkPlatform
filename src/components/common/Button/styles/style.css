@@ -30,10 +30,13 @@
   background: #008c3f;
   color: #fff;
 }
+.habla-button--type-default,
 .habla-button--type-secondary,
+.habla-button--type-default:focus,
 .habla-button--type-secondary:focus {
   background: #666666;
 }
+.habla-button--type-default:hover,
 .habla-button--type-secondary:hover {
   background: #555;
 }

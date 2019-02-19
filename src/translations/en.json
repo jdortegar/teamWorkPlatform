@@ -442,7 +442,10 @@
     "title": "Enable Productivity Survey Schedule",
     "startDateLabel": "Select Survey Start Date",
     "endDateLabel": "Survey End Date",
-    "saveButton": "Confirm Schedule"
+    "saveButton": "Confirm Schedule",
+    "surveyCreated": "Survey created successfully.",
+    "surveyUpdated": "Survey updated successfully.",
+    "errorDescription": "Something went wrong. Please try again later."
   },
   "integrationPage": {
     "integrationSettings": "Data Integration Settings",
@@ -681,6 +684,10 @@
     "description": "Please take a minute to help us improve.",
     "finish": "Finish",
     "next": "Next ({{current}} of {{total}})",
+    "messages": {
+      "success": "Thanks for your feedback.",
+      "error": "Sorry, something went wrong."
+    },
     "first": {
       "hours-spent": {
         "title": "How many hours do you spend each week searching for, retrieving, and finding relevant files?",

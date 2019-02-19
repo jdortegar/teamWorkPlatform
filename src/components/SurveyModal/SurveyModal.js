@@ -49,8 +49,8 @@ class SurveyModal extends Component {
     const answers = Object.values(QUESTIONS.map(q => this.state.answers[q.name]));
 
     submitSurvey(survey.id, answers)
-      .then(() => message.success('Thanks for your feedback. Welcome to Habla AI.'))
-      .catch(() => message.error('Sorry, something went wrong.'));
+      .then(() => message.success(String.t('surveys.messages.success')))
+      .catch(() => message.error(String.t('surveys.messages.error')));
   };
 
   handleSelect = (question, values) => {

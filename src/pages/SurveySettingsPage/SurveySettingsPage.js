@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Form, DatePicker } from 'antd';
+import { Form, DatePicker, message } from 'antd';
 
 import String from 'src/translations';
 import { PageHeader, Button, Spinner } from 'src/components';
@@ -43,9 +43,15 @@ class SurveySettingsPage extends Component {
     const { startDate, endDate } = this.state;
 
     if (!survey) {
-      createSurvey({ startDate, endDate });
+      createSurvey({ startDate, endDate })
+        .then(this.props.fetchSurveys)
+        .then(() => message.success(String.t('SurveySettingsPage.surveyCreated')))
+        .catch(() => message.error(String.t('SurveySettingsPage.errorDescription')));
     } else {
-      updateSurvey(survey.id, { startDate, endDate });
+      updateSurvey(survey.id, { startDate, endDate })
+        .then(this.props.fetchSurveys)
+        .then(() => message.success(String.t('SurveySettingsPage.surveyUpdated')))
+        .catch(() => message.error(String.t('SurveySettingsPage.errorDescription')));
     }
   };
 
@@ -53,7 +59,7 @@ class SurveySettingsPage extends Component {
     const { endDate } = this.state;
     const { survey = {}, isFetching, isCreating } = this.props;
 
-    const disabled = survey && survey.startDate < moment();
+    const disabled = survey && moment().isAfter(survey.startDate);
 
     if (isFetching) return <Spinner />;
 
