@@ -44,9 +44,7 @@ class SurveyModal extends Component {
 
   handleSubmit = () => {
     const { survey, submitSurvey } = this.props;
-
-    // the steps need to be sent in the correct order
-    const answers = Object.values(QUESTIONS.map(q => this.state.answers[q.name]));
+    const answers = survey.questions.map(({ id, name }) => ({ questionId: id, answer: this.state.answers[name] }));
 
     submitSurvey(survey.id, answers)
       .then(() => message.success(String.t('surveys.messages.success')))

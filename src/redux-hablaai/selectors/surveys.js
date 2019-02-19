@@ -2,10 +2,12 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 import { sortBy, last } from 'lodash';
 
-const SURVEYS_ENABLED = false;
+const SURVEYS_ENABLED = true;
 const LAST_SURVEY_TIMEOUT = 7;
 
 export const getSurveys = state => state.surveys.surveys;
+export const getLastAnswerDate = state => state.surveys.lastAnswerDate;
+export const isLastAnswerLoaded = state => state.surveys.lastAnswerLoaded;
 export const isFetchingSurveys = state => state.surveys.isFetching;
 export const isCreatingSurvey = state => state.surveys.isCreating;
 export const isSubmittingSurvey = state => state.surveys.isSubmitting;
@@ -35,14 +37,20 @@ export const getLastSurvey = createSelector(
   }
 );
 
+// true if we're between start and end dates and the survey hasn't been answered yet
 const isFirstSurveyTime = createSelector(
-  getActiveSurvey,
-  survey => survey && moment().isBetween(survey.startDate, survey.endDate)
+  [getActiveSurvey, getLastAnswerDate],
+  (survey, lastAnswerDate) =>
+    survey && !moment(lastAnswerDate).isValid() && moment().isBetween(survey.startDate, survey.endDate)
 );
 
+// true if we're between the end date and the timeout period, and the first part was answered before the end date
 const isLastSurveyTime = createSelector(
-  getActiveSurvey,
-  survey => survey && moment().isBetween(survey.endDate, moment(survey.endDate).add(LAST_SURVEY_TIMEOUT, 'days'))
+  [getActiveSurvey, getLastAnswerDate],
+  (survey, lastAnswerDate) =>
+    survey &&
+    moment(lastAnswerDate).isBefore(survey.endDate) &&
+    moment().isBetween(survey.endDate, moment(survey.endDate).add(LAST_SURVEY_TIMEOUT, 'days'))
 );
 
 // TODO: check if the questions will be different in the first and last survey time
@@ -52,4 +60,4 @@ export const getSurveyType = state => {
   return null;
 };
 
-export const isSurveyVisible = state => SURVEYS_ENABLED && getSurveyType(state) !== null;
+export const isSurveyVisible = state => SURVEYS_ENABLED && isLastAnswerLoaded(state) && getSurveyType(state) !== null;

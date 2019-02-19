@@ -1,11 +1,11 @@
 import { isEmpty } from 'lodash';
-import { getTeamIds, getOrgTeams } from 'src/selectors';
+import { getTeamIds, getOrgTeams, getActiveSurvey } from 'src/selectors';
 
 import { fetchSubscriberOrgs } from './subscriberOrgsFetch';
 import { fetchTeams } from './teamsFetch';
 import { fetchReadMessages } from './readMessagesFetch';
 import { fetchSubscribersBySubscriberOrgId } from './subscribersFetch';
-import { fetchSurveys } from './surveys';
+import { fetchSurveys, fetchLastAnswerDate } from './surveys';
 
 /**
  * For global state, fetch data from remote server only if data doesn't exist in redux.
@@ -33,6 +33,9 @@ export const fetchGlobalState = () => (dispatch, getState) => {
     }
   }
   if (currentSubscriberOrgId) {
-    dispatch(fetchSurveys());
+    dispatch(fetchSurveys()).then(() => {
+      const survey = getActiveSurvey(state);
+      if (survey) dispatch(fetchLastAnswerDate(survey.id));
+    });
   }
 };

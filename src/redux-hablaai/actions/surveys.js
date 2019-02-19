@@ -13,6 +13,7 @@ export const SURVEY_UPDATE_SUCCESS = 'surveys/update/success';
 export const SUBMIT_SURVEY_REQUEST = 'surveys/submit/request';
 export const SUBMIT_SURVEY_SUCCESS = 'surveys/submit/success';
 export const SUBMIT_SURVEY_FAILURE = 'surveys/submit/failure';
+export const SURVEY_LAST_ANSWER_SUCCESS = 'surveys/lastAnswer/success';
 
 export const fetchSurveys = () => (dispatch, getState) => {
   const orgId = getCurrentSubscriberOrgId(getState());
@@ -98,5 +99,27 @@ export const submitSurvey = (surveyId, answers) => (dispatch, getState) => {
   );
 
   thunk.then(() => dispatch({ type: SUBMIT_SURVEY_SUCCESS })).catch(() => dispatch({ type: SUBMIT_SURVEY_FAILURE }));
+  return thunk;
+};
+
+export const fetchLastAnswerDate = surveyId => (dispatch, getState) => {
+  const orgId = getCurrentSubscriberOrgId(getState());
+  const userId = getCurrentUserId(getState());
+  const requestUrl = buildApiUrl(`organizations/${orgId}/users/${userId}/surveys/${surveyId}/date`, 'v2');
+
+  const thunk = dispatch(
+    doAuthenticatedRequest({
+      requestUrl,
+      method: 'get'
+    })
+  );
+
+  thunk.then(response =>
+    dispatch({
+      type: SURVEY_LAST_ANSWER_SUCCESS,
+      payload: response.data
+    })
+  );
+
   return thunk;
 };

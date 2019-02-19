@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {
   SURVEYS_FETCH_REQUEST,
   SURVEYS_FETCH_SUCCESS,
@@ -8,11 +9,14 @@ import {
   SURVEY_UPDATE_SUCCESS,
   SUBMIT_SURVEY_REQUEST,
   SUBMIT_SURVEY_SUCCESS,
-  SUBMIT_SURVEY_FAILURE
+  SUBMIT_SURVEY_FAILURE,
+  SURVEY_LAST_ANSWER_SUCCESS
 } from 'src/actions';
 
 const INITIAL_STATE = {
   surveys: [],
+  lastAnswerLoaded: false,
+  lastAnswerDate: null,
   isFetching: false,
   isCreating: false,
   isSubmitting: false,
@@ -41,9 +45,11 @@ const searchReducer = (state = INITIAL_STATE, action) => {
     case SUBMIT_SURVEY_REQUEST:
       return { ...state, isSubmitting: true, error: false };
     case SUBMIT_SURVEY_SUCCESS:
-      return { ...state, isSubmitting: false, error: false };
+      return { ...state, isSubmitting: false, error: false, lastAnswerDate: moment() };
     case SUBMIT_SURVEY_FAILURE:
-      return { ...state, isSubmitting: false, error: true };
+      return { ...state, isSubmitting: false, error: true, lastAnswerDate: null };
+    case SURVEY_LAST_ANSWER_SUCCESS:
+      return { ...state, lastAnswerLoaded: true, lastAnswerDate: action.payload.lastDate };
     default:
       return state;
   }
