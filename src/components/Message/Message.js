@@ -4,6 +4,7 @@ import { Popconfirm, Row, Col, Tooltip } from 'antd';
 import _ from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
+import Autolinker from 'autolinker';
 
 import String from 'src/translations';
 import { AvatarWrapper } from 'src/components';
@@ -143,7 +144,9 @@ class Message extends Component {
           {name}
         </p>
         <p className="message__body-text">
-          {text && justTextContent.text}
+          {text && (
+            <span dangerouslySetInnerHTML={{ __html: Autolinker.link(justTextContent.text, { stripPrefix: false }) }} />
+          )}
           <span className="message__body-text-date"> ({date})</span>
         </p>
       </div>
@@ -154,7 +157,7 @@ class Message extends Component {
     });
 
     const matchUrl = text
-      ? justTextContent.text.match(/(http(s)?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- ;,./?%&=]*)?/gm)
+      ? justTextContent.text.match(/(http(s)?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-;,./?%&=!]*)?/gm)
       : null;
 
     return (

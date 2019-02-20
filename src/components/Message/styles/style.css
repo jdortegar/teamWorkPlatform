@@ -50,6 +50,15 @@
   text-align: left;
   display: inline-block;
 }
+
+.message__body-text a {
+  color: #004dcc;
+}
+.message__body-text a:hover {
+  color: #004dcc;
+  text-decoration: underline;
+}
+
 .message__body-text-date {
   color: #bbcde8;
   margin-left: 6px;

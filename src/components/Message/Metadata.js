@@ -22,14 +22,19 @@ class Metadata extends Component {
       loadingMetadata: true
     });
 
-    this.props.fetchMetadata(url).then(response => {
-      const urlMetadata = response.data;
+    this.props
+      .fetchMetadata(url)
+      .then(response => {
+        const urlMetadata = response.data;
 
-      this.setState({
-        urlMetadata,
-        loadingMetadata: false
+        this.setState({
+          urlMetadata,
+          loadingMetadata: false
+        });
+      })
+      .catch(() => {
+        this.setState({ urlMetadata: null, loadingMetadata: false });
       });
-    });
   }
 
   render() {
@@ -37,7 +42,12 @@ class Metadata extends Component {
 
     if (loadingMetadata || !urlMetadata) return <Spinner />;
 
-    const imageUrl = urlMetadata.image ? urlMetadata.image : urlMetadata.images[0];
+    let imageUrl = null;
+    if (urlMetadata.image) {
+      imageUrl = urlMetadata.image;
+    } else if (urlMetadata.images !== undefined || urlMetadata.images.length > 0) {
+      imageUrl = urlMetadata.image ? urlMetadata.image : urlMetadata.images[0];
+    }
 
     return (
       <div className="message__meta_url">
@@ -45,7 +55,7 @@ class Metadata extends Component {
           {urlMetadata.title}
         </a>
         <p>{urlMetadata.description}</p>
-        <img src={imageUrl} alt={urlMetadata.description} />
+        {imageUrl && <img src={imageUrl} alt={urlMetadata.description} />}
       </div>
     );
   }
