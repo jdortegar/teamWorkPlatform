@@ -341,8 +341,8 @@
     "directMessages": "Direct Messages"
   },
   "timeActivityGraph": {
-    "xAxisLabel": "X",
-    "yAxisLabel": "Y",
+    "xAxisLabel": "Created Time",
+    "yAxisLabel": "Last modified time",
     "xAxisLabelTooltip": "Creation Date",
     "yAxisLabelTooltip": "Last Modified Date",
     "displayTime": "{{displayDate}} at {{displayTime}}",
