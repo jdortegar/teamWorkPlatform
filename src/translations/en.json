@@ -335,8 +335,8 @@
     "invitetoTeam": "Invite Member to this Project Team"
   },
   "timeActivityGraph": {
-    "xAxisLabel": "X",
-    "yAxisLabel": "Y",
+    "xAxisLabel": "Created Time",
+    "yAxisLabel": "Last modified time",
     "xAxisLabelTooltip": "Creation Date",
     "yAxisLabelTooltip": "Last Modified Date",
     "displayTime": "{{displayDate}} at {{displayTime}}",
@@ -823,12 +823,11 @@
     "projectTeams": "Project Teams",
     "filesShared": "Files Shared",
     "daysLeft": "{{count}} Days Left",
-    "trialOverTitle": "Your 30 Day Free Trial is Over",
-    "trialOverBody": "We will keep your information for 30 days, if you do not subscribe before that period, your information will be removed from Habla AI.",
-    "trialOverButton": "Subscribe to a Plan Now",
+    "trialOverTitle": "Your 14 Day Free Trial has Ended",
+    "trialOverBody": "Please subscribe and keep your digital workplace and project teams in place and really productive! We’ll keep your data for 30 days if you don’t buy now, but change your mind later.<br><br>If you have any questions, please don’t hesitate to visit to our Help Center and ask us @ <a href='https://helpcenter.habla.ai/hc/en-us' target='_blank'>Habla AI Help Center</a><br><br>Thank you and here’s to data democracy for project teams!",
+    "trialOverButton": "Buy Now",
     "3daysTitle": "Hello Hablamos!",
-    "3daysBody1": "Thanks again for test driving Habla AI, your Enterprise Knowledge Cloud.",
-    "3daysBody2": "You have 3 days left on your 14 Day Free Trial. Please take a moment and choose a plan now that best suits your Project Team needs and keep them Data Driven. Thank you and contact us for any questions."
+    "3daysBody": "Thanks again for trying Habla AI - <strong>only 3 Days Left!</strong><br><br>Just a reminder that your free trial is almost up. We hope you’re enjoying all the benefits of your digital workplace with project team data, files, and collaboration at your fingertips.<br><br>Please take a moment to Buy Now - it’s only $15 per month per User - just 3 trips to your favorite cafe for cappuccinos. Imagine what you can accomplish with Habla AI today!<br><br>If you have any questions, please don’t hesitate to visit to our Help Center and ask us @ <a href='https://helpcenter.habla.ai/hc/en-us' target='_blank'>Habla AI Help Center</a><br><br>Thank you and here’s to data democracy for project teams!"
   },
   "paymentModal": {
     "title": "Subscription Payment Form",
