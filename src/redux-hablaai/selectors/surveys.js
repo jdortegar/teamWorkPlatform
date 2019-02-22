@@ -6,7 +6,7 @@ const SURVEY_FREQUENCY = 30;
 
 export const getSurveys = state => state.surveys;
 export const isSubmittingSurvey = state => state.surveys.isSubmitting;
-export const isFirstSurvey = state => state.surveys.dates.length === 0;
+export const isFirstSurvey = state => (state.surveys.dates ? state.surveys.dates.length === 0 : null);
 
 const isRecurrentSurveyTime = state => {
   const { dates } = state.surveys;
