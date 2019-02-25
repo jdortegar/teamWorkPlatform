@@ -162,7 +162,12 @@ class Message extends Component {
 
     return (
       <div className={messageReplyPaddingLeft}>
-        <div className={classNames('message__main-container', `border-bottom-${lastRead ? 'red' : ''}`)}>
+        {lastRead && (
+          <div className={classNames('message__unread_mark', `border-top-${lastRead ? 'red' : ''}`)}>
+            <span className="message__last-read">{String.t('message.unreadMessageSeparator')}</span>
+          </div>
+        )}
+        <div className="message__main-container">
           <Row
             type="flex"
             justify="start"
@@ -187,6 +192,54 @@ class Message extends Component {
                     />
                   </div>
                 )}
+                {!conversationDisabled && (
+                  <div className="message__options hide">
+                    <Tooltip placement="topLeft" title={String.t('message.tooltipReply')} arrowPointAtCenter>
+                      <a
+                        className="message__icons"
+                        onClick={e => {
+                          this.handleReplyTo({ firstName, lastName, text, messageId, preferences });
+                          e.stopPropagation();
+                        }}
+                      >
+                        <i className="fas fa-reply" />
+                      </a>
+                    </Tooltip>
+                    <Tooltip
+                      placement="topLeft"
+                      title={String.t(hasBookmark ? 'message.tooltipBookmarkRemove' : 'message.tooltipBookmarkSet')}
+                      arrowPointAtCenter
+                    >
+                      <a
+                        className={hasBookmark ? 'message__icons message__icons-selected' : 'message__icons'}
+                        onClick={e => {
+                          this.handleBookmark(!hasBookmark);
+                          e.stopPropagation();
+                        }}
+                      >
+                        <i className="fas fa-bookmark" />
+                      </a>
+                    </Tooltip>
+                    {/* <Tooltip placement="topLeft" title={String.t('message.tooltipEdit')} arrowPointAtCenter> */}
+                    {(isAdmin || message.createdBy === currentUser.userId) && (
+                      <Popconfirm
+                        placement="topRight"
+                        title={String.t('message.deleteConfirmationQuestion')}
+                        okText={String.t('okButton')}
+                        cancelText={String.t('cancelButton')}
+                        onConfirm={this.onDeleteConfirmed}
+                      >
+                        <a
+                          className="message__icons"
+                          /* onClick={() => this.handleEdit()} */
+                        >
+                          <i className="fas fa-trash-alt" />
+                        </a>
+                      </Popconfirm>
+                    )}
+                    {/* </Tooltip> */}
+                  </div>
+                )}
               </div>
             </Col>
           </Row>
@@ -194,55 +247,6 @@ class Message extends Component {
             <div className="habla-label message__main-counter" onClick={this.handleShowReplies}>
               <span className="message__main-counter-number">{childrenNonDeleted.length}</span>
               <i className="fas fa-reply" data-fa-transform="rotate-180" />
-            </div>
-          )}
-          {lastRead && <div className="message__last-read">{String.t('message.unreadMessageSeparator')}</div>}
-          {!conversationDisabled && (
-            <div className="message__options hide">
-              <Tooltip placement="topLeft" title={String.t('message.tooltipReply')} arrowPointAtCenter>
-                <a
-                  className="message__icons"
-                  onClick={e => {
-                    this.handleReplyTo({ firstName, lastName, text, messageId, preferences });
-                    e.stopPropagation();
-                  }}
-                >
-                  <i className="fas fa-reply" />
-                </a>
-              </Tooltip>
-              <Tooltip
-                placement="topLeft"
-                title={String.t(hasBookmark ? 'message.tooltipBookmarkRemove' : 'message.tooltipBookmarkSet')}
-                arrowPointAtCenter
-              >
-                <a
-                  className={hasBookmark ? 'message__icons message__icons-selected' : 'message__icons'}
-                  onClick={e => {
-                    this.handleBookmark(!hasBookmark);
-                    e.stopPropagation();
-                  }}
-                >
-                  <i className="fas fa-bookmark" />
-                </a>
-              </Tooltip>
-              {/* <Tooltip placement="topLeft" title={String.t('message.tooltipEdit')} arrowPointAtCenter> */}
-              {(isAdmin || message.createdBy === currentUser.userId) && (
-                <Popconfirm
-                  placement="topRight"
-                  title={String.t('message.deleteConfirmationQuestion')}
-                  okText={String.t('okButton')}
-                  cancelText={String.t('cancelButton')}
-                  onConfirm={this.onDeleteConfirmed}
-                >
-                  <a
-                    className="message__icons"
-                    /* onClick={() => this.handleEdit()} */
-                  >
-                    <i className="fas fa-trash-alt" />
-                  </a>
-                </Popconfirm>
-              )}
-              {/* </Tooltip> */}
             </div>
           )}
         </div>

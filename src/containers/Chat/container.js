@@ -25,32 +25,24 @@ import {
   getToken,
   getResourcesUrl,
   getTypingsOfConversationId,
-  getUnreadMessagesCountOfTeamId,
   getConversationOfConversationId,
-  getUnreadMessagesCountOfConversationId
+  getLastReadTimestampOfConversationId
 } from 'src/selectors';
 
 const mapStateToProps = (state, props) => {
   const { teamId } = props;
   let conversations;
-  let unreadMessagesCount;
   if (teamId) {
     conversations = getConversationOfTeamId(state, teamId);
   } else {
     conversations = getConversationOfConversationId(state);
   }
   const conversationId = !isEmpty(conversations) ? conversations.conversationId : null;
-  if (teamId) {
-    unreadMessagesCount = getUnreadMessagesCountOfTeamId(state, teamId);
-  } else {
-    unreadMessagesCount = getUnreadMessagesCountOfConversationId(state, conversationId);
-  }
   const orgId = getCurrentSubscriberOrgId(state);
 
   return {
     orgId,
     conversations,
-    unreadMessagesCount,
     team: getTeam(state, teamId),
     user: getCurrentUser(state),
     teamMembers: getTeamMembersOfTeamId(state, teamId),
@@ -58,7 +50,8 @@ const mapStateToProps = (state, props) => {
     usersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
     token: getToken(state),
     resourcesUrl: getResourcesUrl(state),
-    membersTyping: getTypingsOfConversationId(state, conversationId)
+    membersTyping: getTypingsOfConversationId(state, conversationId),
+    lastReadTimestamp: getLastReadTimestampOfConversationId(state, conversationId)
   };
 };
 

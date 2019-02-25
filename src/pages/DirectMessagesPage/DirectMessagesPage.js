@@ -24,7 +24,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  currentPersonalConversation: {},
+  currentPersonalConversation: null,
   userId: null,
   readMessagesByConversationId: {},
   conversations: {}

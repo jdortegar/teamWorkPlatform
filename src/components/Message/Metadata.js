@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './styles/style.css';
 
-import { Spinner } from 'src/components';
-
 const propTypes = {
   url: PropTypes.string.isRequired,
   fetchMetadata: PropTypes.func.isRequired
@@ -40,7 +38,7 @@ class Metadata extends Component {
   render() {
     const { urlMetadata, loadingMetadata } = this.state;
 
-    if (loadingMetadata || !urlMetadata) return <Spinner />;
+    if (loadingMetadata || !urlMetadata) return false;
 
     let imageUrl = null;
     if (urlMetadata.image) {

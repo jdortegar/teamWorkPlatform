@@ -32,6 +32,14 @@ export const getUnreadMessagesCountOfConversationId = createSelector(
   }
 );
 
+export const getLastReadTimestampOfConversationId = createSelector(
+  [getReadMessagesOfConversationId, (state, conversationId) => conversationId],
+  readMessages => {
+    if (!readMessages) return null;
+    return readMessages.lastReadTimestamp;
+  }
+);
+
 export const getPersonalConversationUnreadMessages = createSelector(
   [getConversationById, getReadMessagesByConversationId],
   (conversationById, readMessages) => {

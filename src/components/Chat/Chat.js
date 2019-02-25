@@ -39,7 +39,6 @@ const propTypes = {
   usersPresences: PropTypes.object.isRequired,
   orgId: PropTypes.string.isRequired,
   fetchTeamMembers: PropTypes.func.isRequired,
-  unreadMessagesCount: PropTypes.number,
   files: PropTypes.array,
   removeFileFromList: PropTypes.func.isRequired,
   addBase: PropTypes.func.isRequired,
@@ -66,12 +65,12 @@ const propTypes = {
   showChat: PropTypes.func,
   menuOptions: PropTypes.array,
   personalConversation: PropTypes.object,
-  fetchMetadata: PropTypes.func.isRequired
+  fetchMetadata: PropTypes.func.isRequired,
+  lastReadTimestamp: PropTypes.string
 };
 
 const defaultProps = {
   conversations: {},
-  unreadMessagesCount: 0,
   files: [],
   membersTyping: null,
   showPageHeader: false,
@@ -80,7 +79,8 @@ const defaultProps = {
   menuOptions: [],
   personalConversation: {},
   team: {},
-  teamMembers: []
+  teamMembers: [],
+  lastReadTimestamp: null
 };
 
 function getPercentOfRequest(total, loaded) {
@@ -103,7 +103,8 @@ class Chat extends React.Component {
       lastSubmittedMessage: null,
       file: null,
       membersFiltered: [],
-      showEmojiPicker: false
+      showEmojiPicker: false,
+      visited: false
     };
 
     this.onCancelReply = this.onCancelReply.bind(this);
@@ -144,7 +145,10 @@ class Chat extends React.Component {
                 conversationsLoaded: true
               })
             )
-            .then(this.scrollToBottom);
+            .then(() => {
+              this.scrollToBottom();
+              this.setScrollEvent();
+            });
         }
         if (response.data === 'STALE') {
           this.setState({
@@ -177,7 +181,10 @@ class Chat extends React.Component {
             conversationsLoaded: true
           })
         )
-        .then(this.scrollToBottom);
+        .then(() => {
+          this.scrollToBottom();
+          this.setScrollEvent();
+        });
     }
   }
 
@@ -342,6 +349,12 @@ class Chat extends React.Component {
     this.setState({ showEmojiPicker: !this.state.showEmojiPicker });
   };
 
+  setScrollEvent = () => {
+    const messagesContainer = document.getElementsByClassName('team__messages')[0];
+    if (!messagesContainer) return false;
+    return messagesContainer.addEventListener('scroll', this.handleScroll);
+  };
+
   isNearBottom = () => {
     const messagesContainer = document.getElementsByClassName('team__messages')[0];
     if (!messagesContainer) return false;
@@ -374,9 +387,30 @@ class Chat extends React.Component {
     const messagesContainer = document.getElementsByClassName('team__messages')[0];
     if (!messagesContainer) return;
 
+    const unreadMark = messagesContainer.getElementsByClassName('message__unread_mark')[0] || null;
+
     const { clientHeight, scrollHeight } = messagesContainer;
     if (clientHeight < scrollHeight) {
-      messagesContainer.scrollTop = scrollHeight;
+      if (unreadMark) {
+        messagesContainer.scrollTop = unreadMark.offsetTop - 50;
+      } else {
+        messagesContainer.scrollTop = scrollHeight;
+      }
+    }
+  };
+
+  handleScroll = () => {
+    const { conversations } = this.props;
+    const { conversationId } = conversations;
+    const lastMessage = _.last(conversations.transcript) || {};
+    const messagesContainer = document.getElementsByClassName('team__messages')[0];
+    if (!messagesContainer) return;
+    if (messagesContainer.scrollHeight === messagesContainer.scrollTop + messagesContainer.clientHeight) {
+      this.props.readMessage(lastMessage.messageId, conversationId);
+      messagesContainer.removeEventListener('scroll', this.handleScroll);
+      this.setState({
+        visited: true
+      });
     }
   };
 
@@ -519,12 +553,19 @@ class Chat extends React.Component {
   }
 
   renderMessages(isAdmin) {
-    const { conversations, user, team, orgId, personalConversation } = this.props;
-    const { membersFiltered, lastSubmittedMessage } = this.state;
+    const { conversations, user, team, orgId, personalConversation, lastReadTimestamp } = this.props;
+    const { membersFiltered, lastSubmittedMessage, visited } = this.state;
     if (!membersFiltered) return null;
+    let lastReadExists = false;
     const currentPath = lastSubmittedMessage ? lastSubmittedMessage.path : null;
     return conversations.transcript.map(message => {
+      // If message was creted after last read message timestamp
+      const lastRead = lastReadExists ? null : lastReadTimestamp < message.created;
+      if (lastRead || visited) {
+        lastReadExists = true;
+      }
       if (message.deleted) return null;
+      // found creator
       const createdBy = membersFiltered.find(member => member.userId === message.createdBy);
       if (!createdBy) return null;
       return (
@@ -545,6 +586,7 @@ class Chat extends React.Component {
           onLoadImages={this.scrollToBottom}
           personalConversation={personalConversation}
           fetchMetadata={this.props.fetchMetadata}
+          lastRead={lastRead}
         />
       );
     });
@@ -598,16 +640,7 @@ class Chat extends React.Component {
   }
 
   render() {
-    const {
-      team,
-      teamMembers,
-      unreadMessagesCount,
-      user,
-      conversations,
-      showPageHeader,
-      showTeamMembers,
-      menuOptions
-    } = this.props;
+    const { team, teamMembers, user, conversations, showPageHeader, showTeamMembers, menuOptions } = this.props;
     const { teamMembersLoaded, conversationsLoaded } = this.state;
 
     if (!teamMembersLoaded || !conversationsLoaded || !user || !teamMembers || !conversations) {
@@ -615,8 +648,6 @@ class Chat extends React.Component {
     }
 
     const isAdmin = false;
-    const { conversationId } = conversations;
-    const lastMessage = _.last(conversations.transcript) || {};
     const className = classNames({
       'ChatPage-main': true,
       'team-room-chat': true,
@@ -656,21 +687,6 @@ class Chat extends React.Component {
               <div className="Chat_expandAction" onClick={() => this.props.showChat(true)}>
                 <i className="fas fa-angle-down" />
               </div>
-            </div>
-          </SimpleCardContainer>
-        )}
-
-        {unreadMessagesCount > 0 && (
-          <SimpleCardContainer className="team-room__unread-messages padding-class-a">
-            <div
-              className="team-room__unread-messages-link"
-              onClick={() => this.props.readMessage(lastMessage.messageId, conversationId)}
-            >
-              {String.t('chat.markAllAsRead')}
-            </div>
-            <div className="team-room__unread-messages-dot">&middot;</div>
-            <div className="team-room__unread-messages-count">
-              {String.t('chat.unreadMessagesCount', { count: unreadMessagesCount })}
             </div>
           </SimpleCardContainer>
         )}

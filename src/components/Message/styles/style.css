@@ -79,12 +79,15 @@
   text-transform: uppercase;
   background-color: #eb4435;
   color: white;
-  font-size: 12px;
+  font-size: 8px;
   border-radius: 4px;
-  padding: 10px 12px;
+  padding: 5px;
   right: 10px;
-  bottom: -16px;
+  top: -10px;
   z-index: 1;
+}
+.message__unread_mark {
+  position: relative;
 }
 .message__options {
   background-color: #000;
