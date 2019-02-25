@@ -63,7 +63,8 @@ class CreateAccount extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    const fields = ['country', 'displayName', 'email', 'firstName', 'lastName', 'password', 'timeZone'];
+    this.props.form.validateFields(fields, (err, values) => {
       if (!err) {
         this.setState({ loading: true });
         this.props
