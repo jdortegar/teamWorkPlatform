@@ -68,7 +68,7 @@ export const isSurveyVisible = state => SURVEYS_ENABLED && isLastAnswerLoaded(st
 
 export const getSurveyReport = createSelector(
   [getSurveyAnswers, getUserByUserId],
-  (surveyAnswers, users) => {
+  (surveyAnswers = [], users) => {
     const buildReport = answers => {
       const filterByQuestion = question => answers.filter(a => a.question === question);
       const userIds = uniq(answers.map(a => a.userId));
