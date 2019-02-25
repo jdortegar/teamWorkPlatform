@@ -1,3 +1,4 @@
+import { find } from 'lodash';
 import String from 'src/translations';
 
 import {
@@ -85,6 +86,11 @@ function integrationImageFromKey(key) {
   return possibleIntegrations[key].logo;
 }
 
+function integrationImageFromLabel(label) {
+  const integration = find(possibleIntegrations, i => i.label === label);
+  return integration ? integration.logo : null;
+}
+
 function integrationExtraImageFromKey(key) {
   if (!possibleIntegrations[key]) return null;
   return possibleIntegrations[key].extraLogo || integrationImageFromKey(key);
@@ -107,6 +113,7 @@ export {
   availableIntegrationKeys,
   integrationKeyFromFile,
   integrationImageFromKey,
+  integrationImageFromLabel,
   integrationExtraImageFromKey,
   integrationLabelFromKey,
   integrationExtraInfoFromKey,

@@ -29,6 +29,7 @@ import {
   EditUserPage,
   DashboardPage,
   NotificationsPage,
+  SurveyReportPage,
   SurveySettingsPage,
   AcceptInvitationPage,
   OrganizationPage,
@@ -212,6 +213,7 @@ class MainContent extends Component {
           <Route exact path={paths.ckg} component={CKGPage} />
           <Route exact path={paths.dashboard} component={DashboardPage} />
           <Route exact path={paths.notifications} component={NotificationsPage} />
+          <Route exact path={paths.surveyReport} component={SurveyReportPage} />
           <Route exact path={paths.surveySettings} component={SurveySettingsPage} />
           <Route exact path={paths.bookmarks} component={BookmarksPage} />
           <Route exact path={paths.organization} component={OrganizationPage} />

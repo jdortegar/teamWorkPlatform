@@ -20,6 +20,7 @@ export OrganizationManageTeams from './OrganizationManageTeams';
 export OrganizationPage from './OrganizationPage';
 export OrgIntegrationPage from './OrgIntegrationPage';
 export Register from './Register';
+export SurveyReportPage from './SurveyReportPage';
 export SurveySettingsPage from './SurveySettingsPage';
 export TeamIntegrationPage from './TeamIntegrationPage';
 export TeamIntegrationsPage from './TeamIntegrationsPage';

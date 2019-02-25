@@ -6,6 +6,9 @@ import { doAuthenticatedRequest } from './urlRequest';
 export const SURVEYS_FETCH_REQUEST = 'surveys/fetch/request';
 export const SURVEYS_FETCH_SUCCESS = 'surveys/fetch/success';
 export const SURVEYS_FETCH_FAILURE = 'surveys/fetch/failure';
+export const SURVEY_ANSWERS_FETCH_REQUEST = 'surveyAnswers/fetch/request';
+export const SURVEY_ANSWERS_FETCH_SUCCESS = 'surveyAnswers/fetch/success';
+export const SURVEY_ANSWERS_FETCH_FAILURE = 'surveyAnswers/fetch/failure';
 export const SURVEY_CREATE_REQUEST = 'surveys/create/request';
 export const SURVEY_CREATE_SUCCESS = 'surveys/create/success';
 export const SURVEY_CREATE_FAILURE = 'surveys/create/failure';
@@ -120,6 +123,31 @@ export const fetchLastAnswerDate = surveyId => (dispatch, getState) => {
       payload: response.data
     })
   );
+
+  return thunk;
+};
+
+export const fetchSurveyAnswers = () => (dispatch, getState) => {
+  const orgId = getCurrentSubscriberOrgId(getState());
+  const requestUrl = buildApiUrl(`organizations/${orgId}/surveys/answers`, 'v2');
+
+  dispatch({ type: SURVEY_ANSWERS_FETCH_REQUEST });
+
+  const thunk = dispatch(
+    doAuthenticatedRequest({
+      requestUrl,
+      method: 'get'
+    })
+  );
+
+  thunk
+    .then(response =>
+      dispatch({
+        type: SURVEY_ANSWERS_FETCH_SUCCESS,
+        payload: { surveyAnswers: response.data }
+      })
+    )
+    .catch(() => dispatch({ type: SURVEY_ANSWERS_FETCH_FAILURE }));
 
   return thunk;
 };

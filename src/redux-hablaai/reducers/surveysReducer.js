@@ -3,6 +3,9 @@ import {
   SURVEYS_FETCH_REQUEST,
   SURVEYS_FETCH_SUCCESS,
   SURVEYS_FETCH_FAILURE,
+  SURVEY_ANSWERS_FETCH_REQUEST,
+  SURVEY_ANSWERS_FETCH_SUCCESS,
+  SURVEY_ANSWERS_FETCH_FAILURE,
   SURVEY_CREATE_REQUEST,
   SURVEY_CREATE_SUCCESS,
   SURVEY_CREATE_FAILURE,
@@ -15,6 +18,7 @@ import {
 
 const INITIAL_STATE = {
   surveys: [],
+  surveyAnswers: [],
   lastAnswerLoaded: false,
   lastAnswerDate: null,
   isFetching: false,
@@ -30,6 +34,12 @@ const searchReducer = (state = INITIAL_STATE, action) => {
     case SURVEYS_FETCH_SUCCESS:
       return { ...state, isFetching: false, surveys: action.payload.surveys };
     case SURVEYS_FETCH_FAILURE:
+      return { ...state, isFetching: false };
+    case SURVEY_ANSWERS_FETCH_REQUEST:
+      return { ...state, isFetching: true };
+    case SURVEY_ANSWERS_FETCH_SUCCESS:
+      return { ...state, isFetching: false, surveyAnswers: action.payload.surveyAnswers };
+    case SURVEY_ANSWERS_FETCH_FAILURE:
       return { ...state, isFetching: false };
     case SURVEY_CREATE_REQUEST:
       return { ...state, isCreating: true };

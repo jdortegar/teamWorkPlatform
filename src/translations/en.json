@@ -438,6 +438,23 @@
     "setProfilePhoto": "Add a Photo",
     "removeImageLabel": "Remove"
   },
+  "SurveyReportPage": {
+    "title": "Productivity Index Survey Report",
+    "menuTitle": "View Productivity Survey Report",
+    "questions": {
+      "numberOfAnswers": "Team members that answered the survey",
+      "hoursSpent": "How many hours per week do you currently spend searching for and finding relevant files?",
+      "tools": "What tools do you spend your time in doing this?",
+      "preference": "What would you rather be working on?"
+    },
+    "mainAnswer": {
+      "numberOfAnswers": "{{answer}} team members",
+      "hoursSpent": "{{answer}} hours spent",
+      "tools": "{{answer}}",
+      "preference": "{{answer}}"
+    },
+    "summary": "Answers summary:"
+  },
   "SurveySettingsPage": {
     "title": "Enable Productivity Survey Schedule",
     "startDateLabel": "Select Survey Start Date",

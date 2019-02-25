@@ -21,7 +21,7 @@ const defaultProps = {
 };
 
 const AvatarWithLabel = ({ item, enabled, hasStatus }) => {
-  const { preferences, editUrl } = item;
+  const { preferences = {}, editUrl } = item;
   if (item.icon) {
     preferences.avatarBase64 = item.icon;
   }

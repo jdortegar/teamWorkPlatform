@@ -1,0 +1,135 @@
+.SurveyReportPage__container {
+  background-color: #557dbf;
+  flex: 1;
+  padding: 20px;
+}
+
+.SurveyReportPage__tabs .ant-tabs-bar {
+  border: none;
+  color: white;
+  line-height: 25px;
+}
+
+.SurveyReportPage__tabs .ant-tabs-tab {
+  background-color: #6186bd;
+  border: none;
+  border-radius: 4px;
+  margin-right: 10px;
+  padding: 10px;
+  line-height: 5px;
+  text-transform: uppercase;
+  overflow: auto;
+}
+
+.SurveyReportPage__tabs .ant-tabs-tab-active {
+  background-color: white;
+  color: #557dbf;
+}
+
+.SurveyReportPage__tabs .ant-tabs-tab:hover {
+  background-color: white;
+  color: #557dbf;
+  border: none;
+}
+
+.SurveyReportPage__tabs .ant-tabs-ink-bar {
+  background-color: transparent;
+}
+
+.SurveyReportPage__results {
+  background-color: transparent;
+}
+
+.SurveyReportPage__results.ant-collapse > .ant-collapse-item {
+  border-bottom: solid 2px #6186bd !important;
+}
+
+.SurveyReportPage__results.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  padding-left: 0;
+}
+
+.SurveyReportPage__question {
+  color: white;
+  text-transform: uppercase;
+  padding-top: 15px;
+  font-size: 12px;
+}
+
+.SurveyReportPage__main {
+  color: white;
+  padding: 5px 0 15px 0;
+  line-height: 40px;
+  opacity: 0.7;
+}
+
+.SurveyReportPage__main.active {
+  opacity: 1;
+}
+
+.SurveyReportPage__mainAnswer {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.SurveyReportPage__collapseControl {
+  margin-left: 20px;
+  padding: 7px 10px;
+  font-weight: 300;
+  opacity: 0.7;
+}
+
+.SurveyReportPage__collapseControl.active {
+  background-color: #6186bd;
+  border-radius: 4px;
+  opacity: 0.9;
+}
+
+.SurveyReportPage__arrowIcon {
+  margin-left: 5px;
+  font-size: 10px;
+}
+
+.SurveyReportPage__panel .ant-collapse-content-box {
+  padding: 0 !important;
+}
+
+.SurveyReportPage__summary {
+  color: white;
+  font-weight: 200;
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.SurveyReportPage__list .ant-list-item {
+  border: none;
+  border-top: solid 2px #6186bd;
+}
+
+.SurveyReportPage__listItem .ant-list-item-content {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.SurveyReportPage__listItem .habla-avatar-label,
+.SurveyReportPage__answer {
+  color: white;
+  font-weight: 300;
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.SurveyReportPage__integrationIcons {
+  display: flex;
+}
+
+.SurveyReportPage__integrationIcon {
+  margin-left: 10px;
+  background-color: white;
+  height: 30px;
+  width: 30px;
+  border-radius: 4px;
+  line-height: 44px;
+  padding-left: 2px;
+}

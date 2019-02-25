@@ -239,6 +239,11 @@ class OrganizationManageTeams extends Component {
           },
           {
             icon: 'fas fa-cog',
+            title: 'SurveyReportPage.menuTitle',
+            url: `/app/surveyReport`
+          },
+          {
+            icon: 'fas fa-cog',
             title: 'SurveySettingsPage.title',
             url: `/app/surveySettings`
           }

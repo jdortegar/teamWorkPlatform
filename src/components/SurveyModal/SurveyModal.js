@@ -44,7 +44,10 @@ class SurveyModal extends Component {
 
   handleSubmit = () => {
     const { survey, submitSurvey } = this.props;
-    const answers = survey.questions.map(({ id, name }) => ({ questionId: id, answer: this.state.answers[name] }));
+    const answers = survey.questions.map(({ id, question }) => ({
+      questionId: id,
+      answer: this.state.answers[question]
+    }));
 
     submitSurvey(survey.id, answers)
       .then(() => message.success(String.t('surveys.messages.success')))
