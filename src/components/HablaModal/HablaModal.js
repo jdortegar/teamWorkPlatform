@@ -30,7 +30,7 @@ const HablaModal = props => {
 
   return (
     <div>
-      <Modal visible={visible} footer={null} closable={false}>
+      <Modal visible={visible} footer={null} closable={false} width="580px">
         <div className="Subscription_Modal_container">
           <div className="Modal_header">
             <img src={hablaGrayLogo} alt={String.t('Header.logoAlt')} className="img HablaGrayLogo" />

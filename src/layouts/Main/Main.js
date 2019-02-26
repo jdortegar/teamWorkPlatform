@@ -52,7 +52,10 @@ class Main extends React.Component {
             this.setState({
               hablaModalVisible: true,
               hablaModalTitle: String.t('organizationSummaryPage.trialOverTitle'),
-              hablaModalBody: <div>{String.t('organizationSummaryPage.trialOverBody')}</div>,
+              hablaModalBody: (
+                // eslint-disable-next-line react/no-danger
+                <div dangerouslySetInnerHTML={{ __html: String.t('organizationSummaryPage.trialOverBody') }} />
+              ),
               hablaModalButton: String.t('organizationSummaryPage.trialOverButton'),
               cancelButton: false
             });
@@ -65,11 +68,8 @@ class Main extends React.Component {
               hablaModalVisible: true,
               hablaModalTitle: String.t('organizationSummaryPage.3daysTitle'),
               hablaModalBody: (
-                <div>
-                  {String.t('organizationSummaryPage.3daysBody1')} <br />
-                  <br /> {String.t('organizationSummaryPage.3daysBody2')}{' '}
-                  <a href="mailto:support@habla.io">support@habla.io</a>
-                </div>
+                // eslint-disable-next-line react/no-danger
+                <div dangerouslySetInnerHTML={{ __html: String.t('organizationSummaryPage.3daysBody') }} />
               ),
               hablaModalButton: String.t('organizationSummaryPage.trialOverButton'),
               cancelButton: true

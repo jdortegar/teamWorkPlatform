@@ -492,6 +492,10 @@ HABLA CSS GENERAL STYLES
 
 /* Weights */
 
+b,
+strong {
+  font-weight: 700;
+}
 .habla-lighter-text {
   font-weight: 100;
 }
