@@ -145,6 +145,7 @@ class Message extends Component {
         </p>
         <p className="message__body-text">
           {text && (
+            // eslint-disable-next-line react/no-danger
             <span dangerouslySetInnerHTML={{ __html: Autolinker.link(justTextContent.text, { stripPrefix: false }) }} />
           )}
           <span className="message__body-text-date"> ({date})</span>

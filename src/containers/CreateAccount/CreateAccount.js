@@ -27,6 +27,7 @@ const defaultCountry = countriesAndTimezones.getCountriesForTimezone(defaultTime
 const propTypes = {
   form: formShape.isRequired,
   createAccount: PropTypes.func.isRequired,
+  verifyConfirmationCode: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired
 };
 

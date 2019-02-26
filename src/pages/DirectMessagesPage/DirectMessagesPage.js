@@ -112,6 +112,7 @@ class DirectMessagesPage extends Component {
       });
 
       if (conversation) {
+        // eslint-disable-next-line prefer-destructuring
         conversationId = conversation.conversationId;
         const readMessages = readMessagesByConversationId[conversationId] || {};
         unreadMessages = readMessages.messageCount - (readMessages.lastReadMessageCount || 0);
