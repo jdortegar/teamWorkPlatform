@@ -202,3 +202,12 @@ a.habla-top-menu-active {
 .habla-top-menu-items .habla-top-menu-help-center {
   cursor: pointer;
 }
+
+.Header__Status_input i,
+.Header__Status_input svg {
+  margin: 0 !important;
+}
+
+.Header__Status_input .ant-input {
+  height: 30px;
+}
