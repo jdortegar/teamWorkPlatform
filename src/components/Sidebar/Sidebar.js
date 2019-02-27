@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+import moment from 'moment-timezone';
 
 import { paths } from 'src/routes';
 import { Layout, Menu, Tooltip, Dropdown, Input, Icon, Popover, message } from 'antd';
@@ -35,7 +36,9 @@ const propTypes = {
   makePersonalCall: PropTypes.func,
   callingData: PropTypes.object,
   finishCall: PropTypes.func.isRequired,
-  PersonalConversationUnreadMessages: PropTypes.number
+  personalConversationUnreadMessages: PropTypes.number,
+  readMessagesByConversationId: PropTypes.object,
+  conversationIdsByTeamId: PropTypes.object
 };
 
 const defaultProps = {
@@ -48,7 +51,9 @@ const defaultProps = {
   teamId: null,
   makePersonalCall: null,
   callingData: {},
-  PersonalConversationUnreadMessages: null
+  personalConversationUnreadMessages: null,
+  readMessagesByConversationId: {},
+  conversationIdsByTeamId: {}
 };
 
 const ROUTERS_TO_HIDE_SIDEBAR = ['/app/userDetails'];
@@ -232,7 +237,7 @@ class Sidebar extends Component {
   }
 
   renderTeams(teamsActive) {
-    const { user, history } = this.props;
+    const { user, history, readMessagesByConversationId, conversationIdsByTeamId } = this.props;
     if (teamsActive.length === 0) {
       return null;
     }
@@ -251,17 +256,24 @@ class Sidebar extends Component {
         return null;
       }
       const isTeamOpen = _.includes(this.state.teamsOpenKeys, team.teamId);
-      const unreadMessagesCount = 0; /* TODO: get the actual count of unread messages */
+      let unreadMessagesCount = 0;
+      const conversationId = conversationIdsByTeamId[team.teamId] ? conversationIdsByTeamId[team.teamId][0] : null;
+      if (conversationId) {
+        const readMessages = readMessagesByConversationId[conversationId] || {};
+        unreadMessagesCount = readMessages.messageCount - (readMessages.lastReadMessageCount || 0);
+      }
       const teamActive = classNames({ Team_active: history.location.pathname.indexOf(team.teamId) > 1 });
 
       return (
         <Menu.Item key={team.teamId} className={teamActive}>
           <div className="habla-left-navigation-team-list" onClick={e => this.goToTeamPage(e, team)}>
             <div className="habla-left-navigation-team-list-item padding-class-a">
-              <div className="float-left-class">{renderAvatar(team, team.active)}</div>
-              <span className="habla-left-navigation-item-label">{team.name}</span>
-              <div className="clear" />
-              <Badge count={isTeamOpen ? 0 : unreadMessagesCount} />
+              <div className="habla-left-navigation-team-list-item">
+                <div className="float-left-class">{renderAvatar(team, team.active)}</div>
+                <span className="habla-left-navigation-item-label">{team.name}</span>
+                <div className="clear" />
+              </div>
+              <Badge count={isTeamOpen ? 0 : unreadMessagesCount} className="SideBar__Badge" />
             </div>
           </div>
         </Menu.Item>
@@ -313,51 +325,63 @@ class Sidebar extends Component {
     const { userId, online } = subscriber;
     const { user } = this.props;
     const content = (
-      <Menu mode="vertical" className="pageHeaderMenu">
-        {userId !== user.userId && (
-          <Menu.Item key={`${subscriber.userId}-chat`}>
-            <span
-              onClick={() => {
-                this.props.history.push(`/app/chat/${userId}`);
-              }}
-            >
-              <i className="fas fa-comment" /> {String.t('sideBar.directMessage')}
+      <div>
+        <div className="Subscriber__Tooltip_Header">
+          <AvatarWrapper size="large" user={subscriber} className="mr-05 mb-05" hideStatusTooltip />
+          <div className="Subscriber__Tooltip_Text">
+            <span className="Subscriber__Tooltip_Name">{subscriber.fullName}</span>
+            <span className="Subscriber__Tooltip_Status">{user.preferences.customPresenceStatusMessage}</span>
+            <span className="Subscriber__Tooltip_DisplayName">{subscriber.displayName}</span>
+            <span className="Subscriber__Tooltip_TimeZone">
+              {moment()
+                .tz(subscriber.timeZone)
+                .format('HH:mm')}{' '}
+              {String.t('sideBar.localTime')}
             </span>
-          </Menu.Item>
-        )}
-        {userId !== user.userId && online && (
-          <Menu.Item key={subscriber.userId}>
-            <span
-              onClick={() => {
-                this.setState({
-                  videoCallUser: subscriber,
-                  videoCallModalVisible: true,
-                  videoCallReceived: false
-                });
+            <span className="Subscriber__Tooltip_EMail">{subscriber.email}</span>
+          </div>
+        </div>
 
-                this.props.makePersonalCall(user.userId, subscriber.userId);
-              }}
-            >
-              <i className="fa fa-phone" /> {String.t('sideBar.videoCall')}
-            </span>
+        <Menu mode="vertical" className="pageHeaderMenu">
+          {userId !== user.userId && (
+            <Menu.Item key={`${subscriber.userId}-chat`}>
+              <span
+                onClick={() => {
+                  this.props.history.push(`/app/chat/${userId}`);
+                }}
+              >
+                <i className="fas fa-comment" /> {String.t('sideBar.directMessage')}
+              </span>
+            </Menu.Item>
+          )}
+          {userId !== user.userId && online && (
+            <Menu.Item key={subscriber.userId}>
+              <span
+                onClick={() => {
+                  this.setState({
+                    videoCallUser: subscriber,
+                    videoCallModalVisible: true,
+                    videoCallReceived: false
+                  });
+
+                  this.props.makePersonalCall(user.userId, subscriber.userId);
+                }}
+              >
+                <i className="fa fa-phone" /> {String.t('sideBar.videoCall')}
+              </span>
+            </Menu.Item>
+          )}
+          <Menu.Item key={`${userId}-profile`}>
+            <Link to={`/app/teamMember/${userId}`}>
+              <i className="fas fa-user" /> {String.t('sideBar.userProfile')}
+            </Link>
           </Menu.Item>
-        )}
-        <Menu.Item key={`${userId}-profile`}>
-          <Link to={`/app/teamMember/${userId}`}>
-            <i className="fas fa-user" /> {String.t('sideBar.userProfile')}
-          </Link>
-        </Menu.Item>
-      </Menu>
+        </Menu>
+      </div>
     );
 
     return (
-      <Popover
-        key={userId}
-        placement="topLeft"
-        title={String.t('sideBar.avatarPopoverTitle')}
-        content={content}
-        trigger="hover"
-      >
+      <Popover key={userId} placement="topLeft" content={content} trigger="hover">
         <span>
           <AvatarWrapper size="default" user={subscriber} className="mr-05 mb-05" hideStatusTooltip />
         </span>
@@ -460,8 +484,8 @@ class Sidebar extends Component {
           <Tooltip placement="topLeft" title={String.t('sideBar.directMessages')} arrowPointAtCenter>
             <Link to="/app/chat" className={`habla-top-menu-settings ${activeChat}`}>
               <i className="fas fa-comments fa-2x" />
-              {this.props.PersonalConversationUnreadMessages > 0 && (
-                <span className="Icon__UnreadMessages">{this.props.PersonalConversationUnreadMessages}</span>
+              {this.props.personalConversationUnreadMessages > 0 && (
+                <span className="Icon__UnreadMessages">{this.props.personalConversationUnreadMessages}</span>
               )}
             </Link>
           </Tooltip>

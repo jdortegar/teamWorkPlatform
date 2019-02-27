@@ -49,6 +49,7 @@
 }
 .habla-left-navigation-team-list-item {
   display: flex;
+  justify-content: space-between;
 }
 
 .habla-left-navigation-notification-globe {
@@ -296,4 +297,34 @@ ul.ant-menu-sub {
   line-height: 18px;
   text-align: center;
   vertical-align: middle;
+}
+
+.Subscriber__Tooltip_Header {
+  padding: 10px;
+  display: flex;
+}
+
+.Subscriber__Tooltip_Header .ant-avatar-string {
+  color: #fff !important;
+}
+
+.Subscriber__Tooltip_Header .Subscriber__Tooltip_Name {
+  color: #fff !important;
+  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.Subscriber__Tooltip_Header .Subscriber__Tooltip_Status {
+  font-style: italic;
+}
+
+.Subscriber__Tooltip_Header .Subscriber__Tooltip_Text span {
+  display: block;
+  padding: 0 0 0 10px;
+}
+
+.SideBar__Badge,
+.habla-left-navigation-team-list-item .Badge {
+  background-color: #eb4435;
 }

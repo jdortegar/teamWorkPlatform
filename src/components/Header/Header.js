@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Dropdown, Input, Icon, message, Button, Switch } from 'antd';
+import { Layout, Menu, Dropdown, Input, Icon, message, Button, Switch, Select } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -40,12 +40,16 @@ const defaultProps = {
 
 const AntdHeader = Layout.Header;
 
+const { Option } = Select;
+
 class Header extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      query: this.props.query
+      query: this.props.query,
+      showInput: false,
+      dropdownVisible: false
     };
 
     this.logOut = this.logOut.bind(this);
@@ -59,12 +63,12 @@ class Header extends Component {
     }
   }
 
-  onStatusChange(presenceStatus) {
+  onStatusChange(presenceStatus, statusMessage) {
     const { user } = this.props;
     if (user.presenceStatus && user.presenceStatus === presenceStatus) return;
 
     this.props
-      .updateUser({ presenceStatus }, user.userId)
+      .updateUser({ presenceStatus, statusMessage }, user.userId)
       .then(() => {
         message.success(String.t('Header.statusUpdated'));
       })
@@ -97,6 +101,48 @@ class Header extends Component {
     launcher.click();
   };
 
+  handleStatusSelect = value => {
+    const { user } = this.props;
+    // If status is the same, return.
+    const customPresenceStatusMessage = value;
+    if (user.preferences.statusMessage && user.preferences.customPresenceStatusMessage === customPresenceStatusMessage)
+      return;
+
+    // If status is custom change to input field.
+    if (customPresenceStatusMessage === 'custom') {
+      this.setState({
+        showInput: true
+      });
+
+      return;
+    }
+
+    // Save status on db.
+    const { preferences } = user;
+    preferences.customPresenceStatusMessage = customPresenceStatusMessage;
+
+    this.props
+      .updateUser({ preferences }, user.userId)
+      .then(() => {
+        message.success(String.t('Header.statusUpdated'));
+      })
+      .catch(error => {
+        message.error(error.message);
+      });
+  };
+
+  handleDropdownVisibility = val => {
+    this.setState({
+      dropdownVisible: val
+    });
+  };
+
+  handleSelectOptions = () => {
+    this.setState({
+      showInput: false
+    });
+  };
+
   handleAdminButton(checked) {
     this.props.setAdminMode(checked);
   }
@@ -115,6 +161,7 @@ class Header extends Component {
       isAdminMode,
       currentSubscriberOrgId
     } = this.props;
+    const { showInput } = this.state;
     const clearIconVisibility = this.state.query ? 'visible' : 'hidden';
 
     const isOrgAdmin =
@@ -142,6 +189,38 @@ class Header extends Component {
             <div className="habla-top-navigation-dropdown-signal habla-color-red" />
             {String.t('Header.busyStatus')}
           </a>
+        </Menu.Item>
+        <Menu.Item key="statusMessageHeader">
+          <div className="habla-label padding-class-a">{String.t('Header.statusMessageTitle')}</div>
+        </Menu.Item>
+        <Menu.Item key="statusMessage">
+          {!showInput && (
+            <Select
+              showSearch
+              defaultValue={String.t('Header.available')}
+              style={{ width: '100%', zIndex: 9999 }}
+              className="px-10"
+              onChange={this.handleStatusSelect}
+              value={user.preferences.customPresenceStatusMessage || String.t('Header.available')}
+            >
+              <Option value={String.t('Header.available')}>{String.t('Header.available')}</Option>
+              <Option value={String.t('Header.dontDisturb')}>{String.t('Header.dontDisturb')}</Option>
+              <Option value={String.t('Header.inAMeeting')}>{String.t('Header.inAMeeting')}</Option>
+              <Option value={String.t('Header.onVacations')}>{String.t('Header.onVacations')}</Option>
+              <Option value="custom">{String.t('Header.custom')}</Option>
+            </Select>
+          )}
+          {showInput && (
+            <div className="px-10 Header__Status_input">
+              <Input
+                size="small"
+                placeholder={String.t('Header.writeAMessage')}
+                style={{ width: '90%', height: 30 }}
+                onBlur={e => this.handleStatusSelect(e.target.value)}
+                suffix={<Icon type="close" onClick={this.handleSelectOptions} />}
+              />
+            </div>
+          )}
         </Menu.Item>
         <Menu.Item key="adminHeader">
           <div className="habla-label padding-class-a">{String.t('Header.adminTitle')}</div>
@@ -251,7 +330,13 @@ class Header extends Component {
         <div className={className}>
           <div className="habla-top-menu-item-content">
             <div className="habla-top-menu-user" style={{ color: '#aaa' }}>
-              <Dropdown overlay={userMenu} trigger={['click']} placement="bottomRight">
+              <Dropdown
+                overlay={userMenu}
+                placement="bottomRight"
+                visible={this.state.dropdownVisible}
+                trigger={['click']}
+                onVisibleChange={val => this.handleDropdownVisibility(val)}
+              >
                 <div className="ant-dropdown-link">
                   <AvatarWrapper size="default" user={user} hideStatusTooltip />
                   <span className="habla-top-menu-label">{user.firstName}</span>

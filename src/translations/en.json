@@ -276,7 +276,14 @@
     "supportTitle": "HABLA AI SUPPORT",
     "instantSupport": "Open Instant Support",
     "submitTicket": "Submit a Help Ticket",
-    "goHelpCenter": "Go To Help Center"
+    "goHelpCenter": "Go To Help Center",
+    "statusMessageTitle": "Status Message",
+    "available": "Available",
+    "dontDisturb": "Do not Disturb",
+    "inAMeeting": "In a Meeting",
+    "onVacations": "On Vacations",
+    "custom": "Custom...",
+    "writeAMessage": "Write a message..."
   },
   "IntegrationCard": {
     "expired": "Expired",
@@ -338,7 +345,8 @@
     "videoCall": "Start 1:1 Video Call",
     "userProfile": "View User Profile",
     "allowPopUp": "Please allow popup window in your browser settings",
-    "directMessages": "Direct Messages"
+    "directMessages": "Direct Messages",
+    "localTime": "local time"
   },
   "timeActivityGraph": {
     "xAxisLabel": "Created Time",
