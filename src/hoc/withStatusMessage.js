@@ -10,6 +10,7 @@ export default Component =>
     static propTypes = {
       history: PropTypes.object.isRequired,
       location: PropTypes.object.isRequired,
+      source: PropTypes.string.isRequired,
       status: PropTypes.string
     };
 
