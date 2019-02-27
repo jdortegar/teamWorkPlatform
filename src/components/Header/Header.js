@@ -215,7 +215,7 @@ class Header extends Component {
               <Input
                 size="small"
                 placeholder={String.t('Header.writeAMessage')}
-                style={{ width: '90%', height: 30 }}
+                style={{ width: '100%' }}
                 onBlur={e => this.handleStatusSelect(e.target.value)}
                 suffix={<Icon type="close" onClick={this.handleSelectOptions} />}
               />

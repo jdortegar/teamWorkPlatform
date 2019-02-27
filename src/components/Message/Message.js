@@ -118,7 +118,9 @@ class Message extends Component {
   }
 
   renderMedatada(matchUrl) {
-    return matchUrl.map(url => <Metadata key={url} url={url} fetchMetadata={this.props.fetchMetadata} />);
+    return matchUrl.map(url => (
+      <Metadata key={url} url={url} fetchMetadata={this.props.fetchMetadata} onLoadImage={this.props.onLoadImages} />
+    ));
   }
 
   render() {

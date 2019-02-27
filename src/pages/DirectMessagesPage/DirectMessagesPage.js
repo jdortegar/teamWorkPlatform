@@ -68,6 +68,35 @@ class DirectMessagesPage extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.usersPresences === this.props.usersPresences && nextProps.users === this.props.users) return;
+
+    const { users, usersPresences, currentPersonalConversation } = nextProps;
+
+    const orgUsers = [];
+
+    Object.values(users).forEach(userEl => {
+      if (this.props.user.userId === userEl.userId) return;
+      orgUsers.push({
+        ...userEl,
+        online: _.some(_.values(usersPresences[userEl.userId]), { presenceStatus: 'online' })
+      });
+    });
+
+    let currentConversationUser = null;
+
+    if (currentPersonalConversation) {
+      const lastUser = currentPersonalConversation.members.find(memberId => memberId !== this.props.user.userId);
+      currentConversationUser = orgUsers.find(userEl => userEl.userId === lastUser);
+    }
+
+    this.setState({
+      orgUsers,
+      orgUsersFiltered: orgUsers,
+      currentConversationUser
+    });
+  }
+
   handleConversation = userId => {
     const { org, user, currentPersonalConversation, readMessagesByConversationId } = this.props;
     const { orgUsers } = this.state;
