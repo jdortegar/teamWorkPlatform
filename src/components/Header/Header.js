@@ -103,11 +103,12 @@ class Header extends Component {
 
   handleStatusSelect = value => {
     const { user } = this.props;
-    console.log(value);
+    // If status is the same, return.
     const customPresenceStatusMessage = value;
     if (user.preferences.statusMessage && user.preferences.customPresenceStatusMessage === customPresenceStatusMessage)
       return;
 
+    // If status is custom change to input field.
     if (customPresenceStatusMessage === 'custom') {
       this.setState({
         showInput: true
@@ -116,6 +117,7 @@ class Header extends Component {
       return;
     }
 
+    // Save status on db.
     const { preferences } = user;
     preferences.customPresenceStatusMessage = customPresenceStatusMessage;
 
