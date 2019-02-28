@@ -997,8 +997,10 @@ p {
 
 /* ---------------------------- ANT ELEMENTS To review -------------------------------- */
 
-.team-room__member-cards-container .ant-avatar {
-  background: #5b7eba !important;
+.ant-tooltip,
+.ant-dropdown,
+.ant-popover {
+  font-family: 'Lato', sans-serif;
 }
 .has-success.has-feedback:after {
   color: #32a953 !important;
