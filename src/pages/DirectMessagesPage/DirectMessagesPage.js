@@ -216,7 +216,7 @@ class DirectMessagesPage extends Component {
                   {currentConversationUser.fullName}
                 </span>
                 <AvatarWrapper size="default" user={currentConversationUser} hideStatusTooltip />
-                {currentConversationUser.online && (
+                {currentConversationUser.online && currentConversationUser.presenceStatus !== 'busy' && (
                   <PersonalCallButton
                     caller={user.userId}
                     called={currentConversationUser}

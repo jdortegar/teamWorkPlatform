@@ -354,7 +354,7 @@ class Sidebar extends Component {
               </span>
             </Menu.Item>
           )}
-          {userId !== user.userId && online && (
+          {userId !== user.userId && online && subscriber.presenceStatus !== 'busy' && (
             <Menu.Item key={subscriber.userId}>
               <span
                 onClick={() => {
