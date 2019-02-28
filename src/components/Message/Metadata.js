@@ -5,11 +5,7 @@ import './styles/style.css';
 const propTypes = {
   url: PropTypes.string.isRequired,
   fetchMetadata: PropTypes.func.isRequired,
-  onLoadImage: PropTypes.func
-};
-
-const defaultProps = {
-  onLoadImage: null
+  onLoadImage: PropTypes.func.isRequired
 };
 
 class Metadata extends Component {
@@ -65,6 +61,5 @@ class Metadata extends Component {
 }
 
 Metadata.propTypes = propTypes;
-Metadata.defaultProps = defaultProps;
 
 export default Metadata;

@@ -634,7 +634,7 @@ class Chat extends React.Component {
             {getSuffix(index)}
           </span>
         ))}
-        {String.t('typingActivityTyping', { count: members.length })}
+        {String.t('typingActivityTyping', { count: membersTypingData.length })}
       </div>
     );
   }
