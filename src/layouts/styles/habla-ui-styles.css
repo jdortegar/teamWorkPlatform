@@ -997,9 +997,11 @@ p {
 
 /* ---------------------------- ANT ELEMENTS To review -------------------------------- */
 
+.ant-modal,
 .ant-tooltip,
 .ant-dropdown,
-.ant-popover {
+.ant-popover,
+.ant-select-dropdown {
   font-family: 'Lato', sans-serif;
 }
 .has-success.has-feedback:after {
