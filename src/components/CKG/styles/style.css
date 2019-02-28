@@ -169,11 +169,19 @@
 .CKGPage__title {
   flex: 1;
 }
+
 .CKG__keywords {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
+  margin-right: 5px;
 }
+
+.CKG__date-picker {
+  margin-right: 10px;
+  width: 125px;
+}
+
 .display-row {
   display: flex;
 }

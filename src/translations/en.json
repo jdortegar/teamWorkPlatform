@@ -644,7 +644,9 @@
   },
   "ckg": {
     "timeActivityView": "Time Activity View",
-    "fileListView": "Smart List View"
+    "fileListView": "Smart List View",
+    "startDate": "Start date",
+    "endDate": "End date"
   },
   "dashboardPage": {
     "plant": "Plant",

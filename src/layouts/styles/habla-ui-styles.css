@@ -833,11 +833,6 @@ p {
 
 /* Habla Content Header  */
 
-.habla-main-content-header i {
-  margin: 0 5px;
-  color: #999;
-  font-size: 1.4em;
-}
 .habla-main-content-header i.fa-angle-right {
   font-size: 0.8em;
   margin: 0 8px;

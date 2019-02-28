@@ -7,6 +7,8 @@ import {
   TOGGLE_OWNER_FILTER,
   TOGGLE_INTEGRATION_FILTER,
   TOGGLE_FILETYPE_FILTER,
+  SET_START_DATE_FILTER,
+  SET_END_DATE_FILTER,
   SUBSCRIBERORG_SETCURRENT
 } from 'src/actions';
 
@@ -18,7 +20,9 @@ const INITIAL_STATE = {
   excludeFilters: {
     owners: {},
     fileTypes: {},
-    integrations: {}
+    integrations: {},
+    startDate: null,
+    endDate: null
   }
 };
 
@@ -71,6 +75,26 @@ const filesReducer = (state = INITIAL_STATE, action) => {
             ...state.excludeFilters.fileTypes,
             [key]: state.excludeFilters.fileTypes[key] ? null : true
           }
+        }
+      };
+    }
+    case SET_START_DATE_FILTER: {
+      const { startDate } = action.payload;
+      return {
+        ...state,
+        excludeFilters: {
+          ...state.excludeFilters,
+          startDate
+        }
+      };
+    }
+    case SET_END_DATE_FILTER: {
+      const { endDate } = action.payload;
+      return {
+        ...state,
+        excludeFilters: {
+          ...state.excludeFilters,
+          endDate
         }
       };
     }

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Tag } from 'antd';
-import _ from 'lodash';
+import { Tag, DatePicker } from 'antd';
+import moment from 'moment';
+import { isEmpty, without } from 'lodash';
 
 import String from 'src/translations';
 import { integrationKeyFromFile } from 'src/utils/dataIntegrations';
@@ -21,6 +22,8 @@ const propTypes = {
   toggleOwnerFilter: PropTypes.func.isRequired,
   toggleIntegrationFilter: PropTypes.func.isRequired,
   toggleFileTypeFilter: PropTypes.func.isRequired,
+  setStartDateFilter: PropTypes.func.isRequired,
+  setEndDateFilter: PropTypes.func.isRequired,
   changeCKGView: PropTypes.func.isRequired,
   teams: PropTypes.array,
   files: PropTypes.array,
@@ -110,7 +113,7 @@ class CKG extends Component {
 
   handleRemoveKeywordClick = keyword => {
     const { search, keywords, searchTeamId, caseSensitive, exactMatch } = this.props;
-    const query = _.without(keywords, keyword).join(' ');
+    const query = without(keywords, keyword).join(' ');
     search(query, { teamId: searchTeamId, caseSensitive, exactMatch });
   };
 
@@ -179,6 +182,30 @@ class CKG extends Component {
     );
   };
 
+  renderDatePicker = () => {
+    const { setStartDateFilter, setEndDateFilter, excludeFilters } = this.props;
+    const { startDate, endDate } = excludeFilters;
+
+    return (
+      <div>
+        <DatePicker
+          className="CKG__date-picker"
+          value={startDate && moment(startDate)}
+          onChange={setStartDateFilter}
+          placeholder={String.t('ckg.startDate')}
+          format="ll"
+        />
+        <DatePicker
+          className="CKG__date-picker"
+          value={endDate && moment(endDate)}
+          onChange={setEndDateFilter}
+          placeholder={String.t('ckg.endDate')}
+          format="ll"
+        />
+      </div>
+    );
+  };
+
   renderSideArrows = () =>
     ['left', 'right'].map(direction => (
       <div key={direction} className={`CKGPage__arrows-container arrow-${direction}`}>
@@ -226,11 +253,18 @@ class CKG extends Component {
 
   render() {
     const { loading, files, query, integrations, excludeFilters, showSelector, menuOptions, activeView } = this.props;
+    const { startDate, endDate } = excludeFilters;
 
     const filesFiltered = files.filter(file => {
       const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
       const key = integrationKeyFromFile(file);
+
+      const validDate =
+        (startDate ? moment(file.fileCreatedAt).isSameOrAfter(moment(startDate).startOf('day')) : true) &&
+        (endDate ? moment(file.fileCreatedAt).isSameOrBefore(moment(endDate).endOf('day')) : true);
+
       return (
+        validDate &&
         !excludeFilters.fileTypes[label] &&
         !excludeFilters.integrations[key] &&
         !excludeFilters.owners[file.fileOwnerId]
@@ -250,11 +284,12 @@ class CKG extends Component {
           }}
         >
           {this.renderTags()}
+          {this.renderDatePicker()}
         </PageHeader>
 
         {this.renderSideArrows()}
 
-        {!loading && _.isEmpty(integrations) && _.isEmpty(query) && this.renderEmptyMessage()}
+        {!loading && isEmpty(integrations) && isEmpty(query) && this.renderEmptyMessage()}
 
         {loading && (
           <div className="CKGPage__center-message-container">

@@ -25,6 +25,8 @@ import {
   toggleOwnerFilter,
   toggleIntegrationFilter,
   toggleFileTypeFilter,
+  setStartDateFilter,
+  setEndDateFilter,
   changeCKGView,
   search
 } from 'src/actions';
@@ -61,6 +63,8 @@ const mapDispatchToProps = {
   toggleOwnerFilter,
   toggleIntegrationFilter,
   toggleFileTypeFilter,
+  setStartDateFilter,
+  setEndDateFilter,
   changeCKGView
 };
 
