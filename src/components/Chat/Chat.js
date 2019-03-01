@@ -5,16 +5,14 @@ import EmojiPicker from 'emoji-picker-react';
 
 import classNames from 'classnames';
 import { formShape } from 'src/propTypes';
-import { Form, Tooltip, message as msg, Input } from 'antd';
-import { PageHeader, SimpleCardContainer, Spinner, AvatarWrapper, PreviewBar, Message } from 'src/components';
-import { TeamCallButton } from 'src/containers';
+import { Form, Tooltip, Input, message as msg } from 'antd';
+import { SimpleCardContainer, Spinner, AvatarWrapper, PreviewBar, Message } from 'src/components';
 import { messageAction } from 'src/components/Message/Message';
-import { sortByFirstName } from 'src/redux-hablaai/selectors/helpers';
 import String from 'src/translations';
 import axios from 'axios';
 import './styles/style.css';
 import JSEMOJI from 'emoji-js';
-import FilterUserMessages from './FilterUserMessages';
+import TopBar from './TopBar';
 
 // emoji set up
 const jsemoji = new JSEMOJI();
@@ -536,19 +534,6 @@ class Chat extends React.Component {
     this.props.updateFileList(files);
   }
 
-  messagesCounter() {
-    const { conversations } = this.props;
-    const { membersFiltered } = this.state;
-    if (!membersFiltered) return 0;
-    const messages = conversations.transcript.map(message => {
-      if (message.deleted) return null;
-      const createdBy = membersFiltered.find(member => member.userId === message.createdBy);
-      if (!createdBy) return null;
-      return message;
-    });
-    return messages.filter(mes => mes).length;
-  }
-
   renderMessages(isAdmin) {
     const { conversations, user, team, orgId, personalConversation, lastReadTimestamp } = this.props;
     const { membersFiltered, lastSubmittedMessage, visited } = this.state;
@@ -589,24 +574,6 @@ class Chat extends React.Component {
     });
   }
 
-  renderTeamMembers() {
-    const { user } = this.props;
-    const { members } = this.state;
-
-    // Order Members, current user always first
-    const otherMembers = _.reject(members, { userId: user.userId });
-    const orderedMembers = otherMembers.sort(sortByFirstName);
-
-    return (
-      <FilterUserMessages
-        owners={[user, ...orderedMembers]}
-        onOwnerFilterClick={this.handleOwnerFilterClick}
-        excludeOwnersFilter={this.state.membersFiltered}
-        className="CKGPage__FilesFilters"
-      />
-    );
-  }
-
   renderMembersTyping() {
     const { membersTyping } = this.props;
     const { members } = this.state;
@@ -638,7 +605,7 @@ class Chat extends React.Component {
 
   render() {
     const { team, teamMembers, user, conversations, showPageHeader, showTeamMembers, menuOptions } = this.props;
-    const { teamMembersLoaded, conversationsLoaded } = this.state;
+    const { teamMembersLoaded, conversationsLoaded, members, membersFiltered } = this.state;
 
     const { getFieldDecorator } = this.props.form;
 
@@ -655,41 +622,20 @@ class Chat extends React.Component {
 
     return (
       <div className={className}>
-        {showPageHeader && (
-          <PageHeader
-            pageBreadCrumb={{
-              routes: [
-                {
-                  title: team.name,
-                  link: `/app/team/${team.teamId}`
-                },
-                { title: String.t('chat.title') }
-              ]
-            }}
-            badgeOptions={{
-              enabled: true,
-              count: this.messagesCounter(),
-              style: { backgroundColor: '#32a953' }
-            }}
-            hasMenu
-            menuName="settings"
-            menuPageHeader={menuOptions}
+        {team && (
+          <TopBar
+            showPageHeader={showPageHeader}
+            showTeamMembers={showTeamMembers}
+            team={team}
+            showchat={this.props.showChat}
+            conversations={conversations}
+            menuOptions={menuOptions}
+            user={user}
+            onOwnerFilterClick={this.handleOwnerFilterClick}
+            members={members}
+            membersFiltered={membersFiltered}
           />
         )}
-        {showTeamMembers && (
-          <SimpleCardContainer className="Chat_Header">
-            <div className="Chat_members_container">{this.renderTeamMembers()}</div>
-            <div className="Chat_Header_right_buttons">
-              <div className="Chat_videoCall_container">
-                <TeamCallButton />
-              </div>
-              <div className="Chat_expandAction" onClick={() => this.props.showChat(true)}>
-                <i className="fas fa-angle-down" />
-              </div>
-            </div>
-          </SimpleCardContainer>
-        )}
-
         <SimpleCardContainer className="team__messages">{this.renderMessages(isAdmin)}</SimpleCardContainer>
 
         <SimpleCardContainer className="Chat_container">

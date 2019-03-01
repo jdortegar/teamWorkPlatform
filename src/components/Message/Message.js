@@ -19,7 +19,7 @@ const propTypes = {
   onMessageAction: PropTypes.func.isRequired,
   teamMembers: PropTypes.array,
   message: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
+  user: PropTypes.object,
   currentUser: PropTypes.object.isRequired,
   subscriberOrgId: PropTypes.string.isRequired,
   teamId: PropTypes.string,
@@ -39,7 +39,8 @@ const defaultProps = {
   currentPath: null,
   teamId: null,
   personalConversation: {},
-  fetchMetadata: null
+  fetchMetadata: null,
+  user: {}
 };
 
 export const messageAction = {

@@ -11,14 +11,13 @@ const propTypes = {
   owners: PropTypes.array,
   className: PropTypes.string,
   excludeOwnersFilter: PropTypes.array,
-  onOwnerFilterClick: PropTypes.func
+  onOwnerFilterClick: PropTypes.func.isRequired
 };
 
 const defaultProps = {
   owners: [],
   className: null,
-  excludeOwnersFilter: [],
-  onOwnerFilterClick: null
+  excludeOwnersFilter: []
 };
 
 class FilterUserMessages extends React.Component {
