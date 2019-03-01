@@ -409,6 +409,11 @@ class Sidebar extends Component {
       hidden: sideBarIsHidden
     });
 
+    const editLink =
+      userRoles && (userRoles.admin || userRoles.teamOwner.length > 0)
+        ? `/app/editOrganization/${currentSubscriberOrgId}/teams`
+        : `/app/organization/${currentSubscriberOrgId}`;
+
     // Set Active Page
     const currenthPath = history.location.pathname;
 
@@ -418,14 +423,18 @@ class Sidebar extends Component {
     const activeCKG = classNames({
       active: currenthPath.indexOf(paths.ckg.split('app/')[1].split('/')[0]) > 1
     });
-    const activeNotification = classNames({
-      active: currenthPath.indexOf(paths.notifications.split('app/')[1].split('/')[0]) > 1
-    });
+    // const activeNotification = classNames({
+    //   active: currenthPath.indexOf(paths.notifications.split('app/')[1].split('/')[0]) > 1
+    // });
     const activeBookmarks = classNames({
       active: currenthPath.indexOf(paths.bookmarks.split('app/')[1].split('/')[0]) > 1
     });
     const activeChat = classNames({
       active: currenthPath.indexOf(paths.chat.split('app/')[1].split('/')[0]) > 1
+    });
+
+    const activeEditOrganization = classNames({
+      active: currenthPath.indexOf(paths.editOrganization.split('app/')[1].split('/')[0]) > 1
     });
 
     const teamMembers = [];
@@ -468,9 +477,17 @@ class Sidebar extends Component {
               <i className="fas fa-chart-line fa-2x" />
             </Link>
           </Tooltip>
-          <Tooltip placement="topLeft" title={String.t('sideBar.iconNotificationsTooltip')} arrowPointAtCenter>
+          {/* <Tooltip placement="topLeft" title={String.t('sideBar.iconNotificationsTooltip')} arrowPointAtCenter>
             <Link to="/app/notifications" className={`habla-top-menu-notifications ${activeNotification}`}>
               <i className="fa fa-globe fa-2x" />
+            </Link>
+          </Tooltip> */}
+          <Tooltip placement="topLeft" title={String.t('sideBar.directMessages')} arrowPointAtCenter>
+            <Link to="/app/chat" className={`habla-top-menu-settings ${activeChat}`}>
+              <i className="fas fa-comments fa-2x" />
+              {this.props.personalConversationUnreadMessages > 0 && (
+                <span className="Icon__UnreadMessages">{this.props.personalConversationUnreadMessages}</span>
+              )}
             </Link>
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconBookmarksTooltip')} arrowPointAtCenter>
@@ -481,12 +498,9 @@ class Sidebar extends Component {
               <i className="fa fa-bookmark fa-2x" />
             </Link>
           </Tooltip>
-          <Tooltip placement="topLeft" title={String.t('sideBar.directMessages')} arrowPointAtCenter>
-            <Link to="/app/chat" className={`habla-top-menu-settings ${activeChat}`}>
-              <i className="fas fa-comments fa-2x" />
-              {this.props.personalConversationUnreadMessages > 0 && (
-                <span className="Icon__UnreadMessages">{this.props.personalConversationUnreadMessages}</span>
-              )}
+          <Tooltip placement="topLeft" title={String.t(`sideBar.${this.renderToolTip()}`)} arrowPointAtCenter>
+            <Link to={editLink} className={`habla-top-menu-settings ${activeEditOrganization}`}>
+              <i className="fa fa-cog fa-2x" />
             </Link>
           </Tooltip>
         </div>

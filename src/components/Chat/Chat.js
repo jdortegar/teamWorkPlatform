@@ -5,16 +5,8 @@ import EmojiPicker from 'emoji-picker-react';
 
 import classNames from 'classnames';
 import { formShape } from 'src/propTypes';
-import { Form, Tooltip, message as msg } from 'antd';
-import {
-  PageHeader,
-  SimpleCardContainer,
-  Spinner,
-  AvatarWrapper,
-  PreviewBar,
-  TextField,
-  Message
-} from 'src/components';
+import { Form, Tooltip, message as msg, Input } from 'antd';
+import { PageHeader, SimpleCardContainer, Spinner, AvatarWrapper, PreviewBar, Message } from 'src/components';
 import { TeamCallButton } from 'src/containers';
 import { messageAction } from 'src/components/Message/Message';
 import { sortByFirstName } from 'src/redux-hablaai/selectors/helpers';
@@ -243,6 +235,10 @@ class Chat extends React.Component {
     const nextPersonalConversation = nextProps.personalConversation;
 
     if (!_.isEmpty(nextPersonalConversation) && this.props.personalConversation) {
+      if (nextProps.isDraggingOver && !this.state.showPreviewBox) {
+        this.setState({ showPreviewBox: true });
+      }
+
       // Get members data form Users
       if (!_.isEqual(nextProps.users, this.props.users)) {
         const { users, usersPresences } = nextProps;
@@ -400,11 +396,12 @@ class Chat extends React.Component {
   };
 
   handleScroll = () => {
+    const messagesContainer = document.getElementsByClassName('team__messages')[0];
+    if (!messagesContainer) return;
+
     const { conversations } = this.props;
     const { conversationId } = conversations;
     const lastMessage = _.last(conversations.transcript) || {};
-    const messagesContainer = document.getElementsByClassName('team__messages')[0];
-    if (!messagesContainer) return;
     if (messagesContainer.scrollHeight === messagesContainer.scrollTop + messagesContainer.clientHeight) {
       this.props.readMessage(lastMessage.messageId, conversationId);
       messagesContainer.removeEventListener('scroll', this.handleScroll);
@@ -643,6 +640,8 @@ class Chat extends React.Component {
     const { team, teamMembers, user, conversations, showPageHeader, showTeamMembers, menuOptions } = this.props;
     const { teamMembersLoaded, conversationsLoaded } = this.state;
 
+    const { getFieldDecorator } = this.props.form;
+
     if (!teamMembersLoaded || !conversationsLoaded || !user || !teamMembers || !conversations) {
       return <Spinner />;
     }
@@ -713,7 +712,7 @@ class Chat extends React.Component {
             </div>
             <div className="team-room__chat-input-wrapper">
               <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off">
-                <TextField
+                {/* <TextField
                   componentKey="message"
                   form={this.props.form}
                   hasFeedback={false}
@@ -721,9 +720,19 @@ class Chat extends React.Component {
                   label=""
                   className="team-room__chat-input-form-item"
                   inputClassName="team-room__chat-input-textfield"
-                  onChange={this.handleTyping}
+                  onBlur={this.handleTyping}
                   autoFocus
-                />
+                /> */}
+
+                <Form.Item className="team-room__chat-input-form-item" hasFeedback={false}>
+                  {getFieldDecorator('message', {})(
+                    <Input
+                      placeholder={String.t('chat.replyPlaceholder')}
+                      className="team-room__chat-input-textfield"
+                      onFocus={this.handleTyping}
+                    />
+                  )}
+                </Form.Item>
               </Form>
             </div>
             <div className="team-room__chat-col-icons">
