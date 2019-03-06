@@ -229,8 +229,8 @@ class Message extends Component {
                       <Popconfirm
                         placement="topRight"
                         title={String.t('message.deleteConfirmationQuestion')}
-                        okText={String.t('okButton')}
-                        cancelText={String.t('cancelButton')}
+                        okText={<span className="message__delete_buttons">{String.t('okButton')}</span>}
+                        cancelText={<span className="message__delete_buttons">{String.t('cancelButton')}</span>}
                         onConfirm={this.onDeleteConfirmed}
                       >
                         <a

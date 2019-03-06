@@ -92,7 +92,7 @@
 .message__options {
   background-color: #000;
   border-radius: 4px;
-  padding: 3px 0;
+  padding: 3px 0 6px;
   position: absolute;
   right: -12px;
   bottom: -12px;
@@ -154,4 +154,8 @@
 .message__meta_url img {
   width: 60px;
   height: auto;
+}
+
+.message__delete_buttons {
+  color: #ffffff !important;
 }

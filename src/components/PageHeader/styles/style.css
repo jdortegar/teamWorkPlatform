@@ -121,7 +121,7 @@
 .ant-popover-inner-content span,
 .ant-menu-item > a,
 .ant-menu-item > span {
-  color: #999999 !important;
+  color: #999999;
   padding: 5px 12px;
 }
 .ant-menu-vertical .ant-menu-item:not(:last-child) {

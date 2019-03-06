@@ -1,18 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import EmojiPicker from 'emoji-picker-react';
 
 import classNames from 'classnames';
-import { formShape } from 'src/propTypes';
-import { Form, Tooltip, Input, message as msg } from 'antd';
-import { SimpleCardContainer, Spinner, AvatarWrapper, PreviewBar, Message } from 'src/components';
+import { message as msg } from 'antd';
+import { SimpleCardContainer, Spinner, Message } from 'src/components';
 import { messageAction } from 'src/components/Message/Message';
 import String from 'src/translations';
-import axios from 'axios';
 import './styles/style.css';
 import JSEMOJI from 'emoji-js';
 import TopBar from './TopBar';
+import MessageInput from './MessageInput';
 
 // emoji set up
 const jsemoji = new JSEMOJI();
@@ -33,7 +31,6 @@ const propTypes = {
   removeFileFromList: PropTypes.func.isRequired,
   addBase: PropTypes.func.isRequired,
   isDraggingOver: PropTypes.bool.isRequired,
-  form: formShape.isRequired,
   token: PropTypes.string.isRequired,
   resourcesUrl: PropTypes.string.isRequired,
   createMessage: PropTypes.func.isRequired,
@@ -73,11 +70,6 @@ const defaultProps = {
   lastReadTimestamp: null
 };
 
-function getPercentOfRequest(total, loaded) {
-  const percent = (loaded * 100) / total;
-  return Math.round(percent);
-}
-
 const BOTTOM_SCROLL_LIMIT = 200;
 
 class Chat extends React.Component {
@@ -88,20 +80,13 @@ class Chat extends React.Component {
       members: null,
       teamMembersLoaded: false,
       conversationsLoaded: false,
-      showPreviewBox: false,
       replyTo: null,
       lastSubmittedMessage: null,
-      file: null,
       membersFiltered: [],
-      showEmojiPicker: false,
       visited: false
     };
 
-    this.onCancelReply = this.onCancelReply.bind(this);
     this.onMessageAction = this.onMessageAction.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.onFileChange = this.onFileChange.bind(this);
-    this.updateFiles = this.updateFiles.bind(this);
     this.typingTimer = null;
   }
 
@@ -182,10 +167,6 @@ class Chat extends React.Component {
     const nextTeamId = nextProps.team.teamId;
 
     if (nextTeamId) {
-      if (nextProps.isDraggingOver && !this.state.showPreviewBox) {
-        this.setState({ showPreviewBox: true });
-      }
-
       const updateTeamMembers = () => {
         const { teamMembers, users, usersPresences } = nextProps;
         const members = teamMembers.map(memberId => {
@@ -233,10 +214,6 @@ class Chat extends React.Component {
     const nextPersonalConversation = nextProps.personalConversation;
 
     if (!_.isEmpty(nextPersonalConversation) && this.props.personalConversation) {
-      if (nextProps.isDraggingOver && !this.state.showPreviewBox) {
-        this.setState({ showPreviewBox: true });
-      }
-
       // Get members data form Users
       if (!_.isEqual(nextProps.users, this.props.users)) {
         const { users, usersPresences } = nextProps;
@@ -283,20 +260,13 @@ class Chat extends React.Component {
     if (ownMessage || this.isNearBottom()) this.scrollToBottom();
   }
 
-  onCancelReply() {
-    if (this.props.files.length > 0) {
-      this.props.clearFileList();
-    }
-    this.setState({ replyTo: null, showPreviewBox: false });
-  }
-
   onMessageAction(payload, action) {
     const { message, bookmark, extraInfo } = payload;
     const { user, orgId } = this.props;
 
     switch (action) {
       case messageAction.replyTo:
-        this.setState({ showPreviewBox: true, replyTo: extraInfo });
+        this.setState({ replyTo: extraInfo });
         break;
       case messageAction.bookmark:
         this.props
@@ -323,26 +293,6 @@ class Chat extends React.Component {
     }
   }
 
-  onFileChange(event) {
-    const { files } = event.target;
-    if (files) {
-      this.props.updateFileList(files);
-      this.setState({ showPreviewBox: true });
-    }
-  }
-
-  // Hande emoticons when are clicked
-  handleEmojiClick = (n, e) => {
-    const emoji = jsemoji.replace_colons(`:${e.name}:`);
-    const { message } = this.props.form.getFieldsValue();
-    this.props.form.setFieldsValue({ message: `${message || ''} ${emoji}` });
-    this.setState({ showEmojiPicker: false });
-  };
-
-  toogleEmojiState = () => {
-    this.setState({ showEmojiPicker: !this.state.showEmojiPicker });
-  };
-
   setScrollEvent = () => {
     const messagesContainer = document.getElementsByClassName('team__messages')[0];
     if (!messagesContainer) return false;
@@ -357,24 +307,6 @@ class Chat extends React.Component {
     const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
 
     return distanceFromBottom < BOTTOM_SCROLL_LIMIT;
-  };
-
-  handleTyping = () => {
-    const { conversationId } = this.props.conversations;
-    this.clearTypingTimer();
-    this.typingTimer = setTimeout(this.stopTyping, 5000);
-    this.props.iAmTyping(conversationId, true);
-  };
-
-  stopTyping = () => {
-    const { conversationId } = this.props.conversations;
-    this.props.iAmTyping(conversationId, false);
-  };
-
-  clearTypingTimer = () => {
-    if (this.typingTimer) {
-      clearTimeout(this.typingTimer);
-    }
   };
 
   scrollToBottom = () => {
@@ -419,120 +351,17 @@ class Chat extends React.Component {
     });
   };
 
-  createResource(file) {
-    const fileSource = file.src.split('base64,')[1] || file.src;
-    const { team, orgId, personalConversation } = this.props;
-
-    if (!orgId) {
-      // Todo throw error invalid team or subscriberOrg
-      throw new Error();
-    }
-    let keyImageId = team.teamId;
-    if (!Object.values(team).length > 0) {
-      keyImageId = personalConversation.conversationId;
-    }
-
-    const requestConfig = {
-      headers: {
-        Authorization: `Bearer ${this.props.token}`,
-        'Content-Type': 'application/octet-stream',
-        'x-hablaai-content-type': file.type,
-        'x-hablaai-content-length': fileSource.length,
-        'x-hablaai-teamid': keyImageId,
-        'x-hablaai-subscriberorgid': orgId
-      },
-      onUploadProgress: progressEvent => {
-        const { total, loaded } = progressEvent;
-        const fileWithPercent = Object.assign(file, { percent: getPercentOfRequest(total, loaded) });
-        this.setState({
-          file: fileWithPercent
-        });
-      }
-    };
-
-    return axios.put(`${this.props.resourcesUrl}/${file.name}`, fileSource, requestConfig);
-  }
-
-  handleSubmit(e) {
-    if (this.shouldDisableSubmit()) {
-      return;
-    }
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        const { conversationId } = this.props.conversations;
-        const postBody = { content: [] };
-        const message = values.message ? values.message.trim() : '';
-
-        this.stopTyping();
-        this.clearTypingTimer();
-
-        if (this.props.files && this.props.files.length > 0) {
-          const resources = this.props.files.map(file => this.createResource(file));
-          Promise.all(resources)
-            .then(res => {
-              this.props.form.resetFields();
-              postBody.content = res.map((createdResource, index) => ({
-                type: this.props.files[index].type,
-                resourceId: createdResource.data.resourceId,
-                meta: {
-                  fileName: this.props.files[index].name,
-                  fileSize: this.props.files[index].size,
-                  lastModified: this.props.files[index].lastModifiedDate
-                }
-              }));
-              if (message) {
-                postBody.content.push({ type: 'text/plain', text: message });
-              }
-              if (this.state.replyTo) {
-                const { messageId } = this.state.replyTo;
-                postBody.replyTo = messageId;
-                this.setState({ replyTo: null, showPreviewBox: false });
-              }
-              this.props.createMessage(postBody, conversationId);
-              this.setState({ showPreviewBox: false, file: null });
-              this.props.clearFileList();
-            })
-            .catch(error => {
-              this.props.updateFileList(this.props.files);
-              this.setState({ file: null });
-              msg.error(error.message);
-            });
-        } else if (message) {
-          postBody.content.push({ type: 'text/plain', text: message });
-          if (this.state.replyTo) {
-            const { messageId } = this.state.replyTo;
-            postBody.replyTo = messageId;
-            this.setState({ replyTo: null, showPreviewBox: false });
-          }
-          this.props
-            .createMessage(postBody, conversationId)
-            .then(({ data }) => {
-              this.setState({ lastSubmittedMessage: data.message });
-              this.props.form.resetFields();
-            })
-            .catch(error => {
-              msg.error(error.message);
-            });
-        }
-      }
+  handlelastSubmittedMessage = data => {
+    this.setState({
+      lastSubmittedMessage: data
     });
-  }
+  };
 
-  shouldDisableSubmit() {
-    const textOrig = this.props.form.getFieldValue('message');
-    if (!textOrig) return false;
-    const text = textOrig.trim();
-    const { files } = this.props;
-    return !(files && files.length) && !(text && text.length);
-  }
-
-  updateFiles(files) {
-    if (files.length === 0 && !this.state.replyTo) {
-      this.setState({ showPreviewBox: false });
-    }
-    this.props.updateFileList(files);
-  }
+  resetReplyTo = () => {
+    this.setState({
+      replyTo: false
+    });
+  };
 
   renderMessages(isAdmin) {
     const { conversations, user, team, orgId, personalConversation, lastReadTimestamp } = this.props;
@@ -569,6 +398,7 @@ class Chat extends React.Component {
           personalConversation={personalConversation}
           fetchMetadata={this.props.fetchMetadata}
           lastRead={lastRead}
+          clearFileList={this.props.clearFileList}
         />
       );
     });
@@ -607,8 +437,6 @@ class Chat extends React.Component {
     const { team, teamMembers, user, conversations, showPageHeader, showTeamMembers, menuOptions } = this.props;
     const { teamMembersLoaded, conversationsLoaded, members, membersFiltered } = this.state;
 
-    const { getFieldDecorator } = this.props.form;
-
     if (!teamMembersLoaded || !conversationsLoaded || !user || !teamMembers || !conversations) {
       return <Spinner />;
     }
@@ -639,86 +467,27 @@ class Chat extends React.Component {
         <SimpleCardContainer className="team__messages">{this.renderMessages(isAdmin)}</SimpleCardContainer>
 
         <SimpleCardContainer className="Chat_container">
-          {this.state.showPreviewBox && (
-            <PreviewBar
-              files={this.props.files}
-              fileWithPercent={this.state.file}
-              updateFiles={this.updateFiles}
-              removeFileFromList={this.props.removeFileFromList}
-              onCancelReply={this.onCancelReply}
-              addBase={this.props.addBase}
-              replyTo={this.state.replyTo}
-              user={user}
-              isDraggingOver={this.props.isDraggingOver}
-            />
-          )}
-          <div className="Chat__message_input">
-            <div className="team-room__chat-input__image-wrapper">
-              <AvatarWrapper size="default" user={user} />
-            </div>
-            <div className="team-room__chat-input-wrapper">
-              <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off">
-                {/* <TextField
-                  componentKey="message"
-                  form={this.props.form}
-                  hasFeedback={false}
-                  placeholder={String.t('chat.replyPlaceholder')}
-                  label=""
-                  className="team-room__chat-input-form-item"
-                  inputClassName="team-room__chat-input-textfield"
-                  onBlur={this.handleTyping}
-                  autoFocus
-                /> */}
-
-                <Form.Item className="team-room__chat-input-form-item" hasFeedback={false}>
-                  {getFieldDecorator('message', {})(
-                    <Input
-                      placeholder={String.t('chat.replyPlaceholder')}
-                      className="team-room__chat-input-textfield"
-                      onFocus={this.handleTyping}
-                    />
-                  )}
-                </Form.Item>
-              </Form>
-            </div>
-            <div className="team-room__chat-col-icons">
-              <a
-                className="team-room__icons"
-                role="button"
-                tabIndex={0}
-                disabled={this.shouldDisableSubmit()}
-                onClick={() => this.toogleEmojiState()}
-              >
-                <i className="far fa-smile" />
-              </a>
-              <div className="emoji-table">
-                {this.state.showEmojiPicker && <EmojiPicker onEmojiClick={this.handleEmojiClick} />}
-              </div>
-              <div>
-                <input
-                  id="fileupload"
-                  className="team-room__file-upload-input"
-                  type="file"
-                  onChange={this.onFileChange}
-                  multiple
-                />
-                <label htmlFor="fileupload" className="team-room__icons">
-                  <Tooltip placement="top" title={String.t('chat.tooltipAttachments')} arrowPointAtCenter>
-                    <i className="fas fa-paperclip" />
-                  </Tooltip>
-                </label>
-              </div>
-              <a
-                className="team-room__icons"
-                role="button"
-                tabIndex={0}
-                disabled={this.shouldDisableSubmit()}
-                onClick={this.handleSubmit}
-              >
-                <i className="fas fa-paper-plane" />
-              </a>
-            </div>
-          </div>
+          <MessageInput
+            user={user}
+            conversations={conversations}
+            iAmTyping={this.props.iAmTyping}
+            handleSubmit={this.handleSubmit}
+            shouldDisableSubmit={this.shouldDisableSubmit}
+            onFileChange={this.onFileChange}
+            createMessage={this.props.createMessage}
+            removeFileFromList={this.props.removeFileFromList}
+            addBase={this.props.addBase}
+            updateFileList={this.props.updateFileList}
+            isDraggingOver={this.props.isDraggingOver}
+            token={this.props.token}
+            resourcesUrl={this.props.resourcesUrl}
+            orgId={this.props.orgId}
+            files={this.props.files}
+            clearFileList={this.props.clearFileList}
+            handlelastSubmittedMessage={this.handlelastSubmittedMessage}
+            replyTo={this.state.replyTo}
+            resetReplyTo={this.resetReplyTo}
+          />
           <div className="team-room__members-typing">{this.renderMembersTyping()}</div>
         </SimpleCardContainer>
       </div>
@@ -729,4 +498,4 @@ class Chat extends React.Component {
 Chat.propTypes = propTypes;
 Chat.defaultProps = defaultProps;
 
-export default Form.create()(Chat);
+export default Chat;
