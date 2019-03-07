@@ -34,7 +34,7 @@ const propTypes = {
   token: PropTypes.string.isRequired,
   resourcesUrl: PropTypes.string.isRequired,
   orgId: PropTypes.string.isRequired,
-  handlelastSubmittedMessage: PropTypes.func.isRequired,
+  setLastSubmittedMessage: PropTypes.func.isRequired,
   replyTo: PropTypes.object,
   resetReplyTo: PropTypes.func.isRequired
 };
@@ -185,15 +185,9 @@ class MessageInput extends React.Component {
             this.setState({ replyTo: null, showPreviewBox: false });
             this.props.resetReplyTo();
           }
-          this.props
-            .createMessage(postBody, conversationId)
-            .then(({ data }) => {
-              this.props.handlelastSubmittedMessage(data.message);
-              this.props.form.resetFields();
-            })
-            .catch(error => {
-              msg.error(error.message);
-            });
+          this.props.createMessage(postBody, conversationId).catch(error => msg.error(error.message));
+          this.props.setLastSubmittedMessage(message);
+          this.props.form.resetFields();
         }
       }
     });

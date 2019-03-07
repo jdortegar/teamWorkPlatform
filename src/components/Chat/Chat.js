@@ -353,16 +353,12 @@ class Chat extends React.Component {
     });
   };
 
-  handlelastSubmittedMessage = data => {
-    this.setState({
-      lastSubmittedMessage: data
-    });
+  setLastSubmittedMessage = message => {
+    this.setState({ lastSubmittedMessage: message });
   };
 
   resetReplyTo = () => {
-    this.setState({
-      replyTo: false
-    });
+    this.setState({ replyTo: false });
   };
 
   renderMessages(isAdmin) {
@@ -454,8 +450,6 @@ class Chat extends React.Component {
       'team-room__main-container--opacity': this.state.isDraggingOver
     });
 
-    console.log('render', conversations.conversationId);
-
     return (
       <div className={className}>
         {team && (
@@ -492,7 +486,7 @@ class Chat extends React.Component {
             orgId={this.props.orgId}
             files={this.props.files}
             clearFileList={this.props.clearFileList}
-            handlelastSubmittedMessage={this.handlelastSubmittedMessage}
+            setLastSubmittedMessage={this.setLastSubmittedMessage}
             replyTo={this.state.replyTo}
             resetReplyTo={this.resetReplyTo}
           />
