@@ -82,8 +82,7 @@ class Chat extends React.Component {
       conversationsLoaded: false,
       replyTo: null,
       lastSubmittedMessage: null,
-      membersFiltered: [],
-      visited: false
+      membersFiltered: []
     };
 
     this.onMessageAction = this.onMessageAction.bind(this);
@@ -202,7 +201,10 @@ class Chat extends React.Component {
             this.props
               .fetchTranscript(conversationId)
               .then(() => this.setState({ conversationsLoaded: true }))
-              .then(this.scrollToBottom);
+              .then(() => {
+                this.scrollToBottom();
+                this.setScrollEvent();
+              });
           }
           if (response.data === 'STALE') {
             this.setState({ conversationsLoaded: true });
@@ -239,7 +241,10 @@ class Chat extends React.Component {
               conversationsLoaded: true
             })
           )
-          .then(this.scrollToBottom);
+          .then(() => {
+            this.scrollToBottom();
+            this.setScrollEvent();
+          });
       }
     }
   }
@@ -335,9 +340,6 @@ class Chat extends React.Component {
     if (messagesContainer.scrollHeight === messagesContainer.scrollTop + messagesContainer.clientHeight) {
       this.props.readMessage(lastMessage.messageId, conversationId);
       messagesContainer.removeEventListener('scroll', this.handleScroll);
-      this.setState({
-        visited: true
-      });
     }
   };
 
@@ -365,15 +367,19 @@ class Chat extends React.Component {
 
   renderMessages(isAdmin) {
     const { conversations, user, team, orgId, personalConversation, lastReadTimestamp } = this.props;
-    const { membersFiltered, lastSubmittedMessage, visited } = this.state;
+    const { membersFiltered, lastSubmittedMessage } = this.state;
     if (!membersFiltered) return null;
     let lastReadExists = false;
     const currentPath = lastSubmittedMessage ? lastSubmittedMessage.path : null;
     return conversations.transcript.map(message => {
       // If message was creted after last read message timestamp
-      const lastRead = lastReadExists ? null : lastReadTimestamp < message.created;
-      if (lastRead || visited) {
-        lastReadExists = true;
+      let lastRead = null;
+      if (message.createdBy !== user.userId) {
+        lastRead = lastReadExists ? null : lastReadTimestamp < message.created;
+        if (lastRead) {
+          lastReadExists = true;
+          this.setScrollEvent();
+        }
       }
       if (message.deleted) return null;
       // found creator
@@ -447,6 +453,8 @@ class Chat extends React.Component {
       'team-room-chat': true,
       'team-room__main-container--opacity': this.state.isDraggingOver
     });
+
+    console.log('render', conversations.conversationId);
 
     return (
       <div className={className}>
