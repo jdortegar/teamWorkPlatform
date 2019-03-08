@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
-import { getReadMessagesByConversationId, getConversationIdsByTeamId, getConversationById } from './state';
+import { getReadMessagesByConversationId } from './state';
+import { getConversationsById, getConversationIdsByTeam } from './conversations';
 
 export { getReadMessagesByConversationId } from './state';
 
@@ -9,9 +10,9 @@ export const getReadMessagesOfConversationId = createSelector(
 );
 
 export const getReadMessagesOfTeamId = createSelector(
-  [getReadMessagesByConversationId, getConversationIdsByTeamId, (state, teamId) => teamId],
-  (readMessagesByConversationId, conversationIdsByTeamId, teamId) => {
-    const conversationIds = conversationIdsByTeamId[teamId];
+  [getReadMessagesByConversationId, getConversationIdsByTeam, (state, teamId) => teamId],
+  (readMessagesByConversationId, conversationIdsByTeam, teamId) => {
+    const conversationIds = conversationIdsByTeam[teamId];
     return conversationIds && conversationIds.length > 0 ? readMessagesByConversationId[conversationIds[0]] : undefined;
   }
 );
@@ -41,7 +42,7 @@ export const getLastReadTimestampOfConversationId = createSelector(
 );
 
 export const getPersonalConversationUnreadMessages = createSelector(
-  [getConversationById, getReadMessagesByConversationId],
+  [getConversationsById, getReadMessagesByConversationId],
   (conversationById, readMessages) => {
     const personalConversationIds = Object.values(conversationById)
       .filter(conversation => !conversation.teamId)

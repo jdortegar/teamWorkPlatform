@@ -1,7 +1,8 @@
 import { createSelector } from 'reselect';
-import { getUserByUserId, getTranscriptByConversationId } from './state';
+import { getUserByUserId } from './state';
 import { getCurrentUserId } from './auth';
 import { getOrgTeams } from './teams';
+import { getMessagesByConversation } from './conversations';
 
 export { getUserByUserId, getPresencesByUserId } from './state';
 
@@ -26,8 +27,8 @@ export const getUserById = createSelector(
 );
 
 export const getResolvedBookmarks = createSelector(
-  [getCurrentUser, getTranscriptByConversationId],
-  (currentUser, transcriptByConversationId) => {
+  [getCurrentUser, getMessagesByConversation],
+  (currentUser, messagesByConversation) => {
     const { bookmarks } = currentUser;
     bookmarks.messages = {};
     Object.keys(bookmarks).forEach(subscriberOrgId => {
@@ -35,11 +36,11 @@ export const getResolvedBookmarks = createSelector(
       Object.keys(messageIds).forEach(messageId => {
         const bookmark = messageIds[messageId];
         const { conversationId } = bookmark;
-        bookmarks.messages[messageId] = transcriptByConversationId[conversationId].messages[messageId];
+        bookmarks.messages[messageId] = messagesByConversation[conversationId].messages[messageId];
 
         const { prevSiblingId } = bookmarks;
         if (prevSiblingId) {
-          bookmarks.messages[prevSiblingId] = transcriptByConversationId[conversationId].messages[prevSiblingId];
+          bookmarks.messages[prevSiblingId] = messagesByConversation[conversationId].messages[prevSiblingId];
         }
       });
     });

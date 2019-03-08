@@ -20,9 +20,8 @@ const propTypes = {
   form: formShape.isRequired,
   files: PropTypes.array,
   user: PropTypes.object.isRequired,
-  conversations: PropTypes.shape({
-    conversationId: PropTypes.string.isRequired,
-    transcript: PropTypes.array
+  conversation: PropTypes.shape({
+    conversationId: PropTypes.string.isRequired
   }),
   iAmTyping: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
@@ -40,7 +39,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  conversations: {},
+  conversation: {},
   files: [],
   replyTo: {}
 };
@@ -89,7 +88,7 @@ class MessageInput extends React.Component {
   };
 
   handleTyping = () => {
-    const { conversationId } = this.props.conversations;
+    const { conversationId } = this.props.conversation;
     this.clearTypingTimer();
     this.typingTimer = setTimeout(this.stopTyping, 5000);
     this.props.iAmTyping(conversationId, true);
@@ -120,7 +119,7 @@ class MessageInput extends React.Component {
   };
 
   stopTyping = () => {
-    const { conversationId } = this.props.conversations;
+    const { conversationId } = this.props.conversation;
     this.props.iAmTyping(conversationId, false);
   };
 
@@ -137,7 +136,7 @@ class MessageInput extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const { conversationId } = this.props.conversations;
+        const { conversationId } = this.props.conversation;
         const postBody = { content: [] };
         const message = values.message ? values.message.trim() : '';
 
@@ -195,9 +194,9 @@ class MessageInput extends React.Component {
 
   createResource(file) {
     const fileSource = file.src.split('base64,')[1] || file.src;
-    const { conversations, orgId } = this.props;
+    const { conversation, orgId } = this.props;
 
-    const { conversationId } = conversations;
+    const { conversationId } = conversation;
 
     if (!conversationId || !orgId) {
       // Todo throw error invalid team or subscriberOrg

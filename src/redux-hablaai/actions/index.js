@@ -34,11 +34,10 @@ export * from './invitationDeclinedUpdate';
 
 export * from './conversationsReceive';
 export * from './conversationsFetch';
-export * from './transcriptFetch';
+export * from './messagesFetch';
 export * from './messagesReceive';
 export * from './messageCreate';
 export * from './messageDelete';
-export * from './messagesFetch';
 export * from './messageRead';
 export * from './readMessagesFetch';
 export * from './readMessagesReceive';

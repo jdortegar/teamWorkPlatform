@@ -11,7 +11,7 @@ import FilterUserMessages from './FilterUserMessages';
 import './styles/style.css';
 
 const propTypes = {
-  conversations: PropTypes.object,
+  conversation: PropTypes.object,
   menuOptions: PropTypes.array,
   showPageHeader: PropTypes.bool,
   showTeamMembers: PropTypes.bool,
@@ -24,7 +24,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  conversations: {},
+  conversation: {},
   menuOptions: [],
   showPageHeader: false,
   showTeamMembers: false,
@@ -33,9 +33,9 @@ const defaultProps = {
 
 class TopBar extends React.Component {
   messagesCounter() {
-    const { conversations, membersFiltered } = this.props;
+    const { conversation, membersFiltered } = this.props;
     if (!membersFiltered) return 0;
-    const messages = conversations.transcript.map(message => {
+    const messages = conversation.messages.map(message => {
       if (message.deleted) return null;
       const createdBy = membersFiltered.find(member => member.userId === message.createdBy);
       if (!createdBy) return null;

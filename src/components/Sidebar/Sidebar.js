@@ -38,7 +38,7 @@ const propTypes = {
   finishCall: PropTypes.func.isRequired,
   personalConversationUnreadMessages: PropTypes.number,
   readMessagesByConversationId: PropTypes.object,
-  conversationIdsByTeamId: PropTypes.object
+  conversationIdsByTeam: PropTypes.object
 };
 
 const defaultProps = {
@@ -53,7 +53,7 @@ const defaultProps = {
   callingData: {},
   personalConversationUnreadMessages: null,
   readMessagesByConversationId: {},
-  conversationIdsByTeamId: {}
+  conversationIdsByTeam: {}
 };
 
 const ROUTERS_TO_HIDE_SIDEBAR = ['/app/userDetails'];
@@ -237,7 +237,7 @@ class Sidebar extends Component {
   }
 
   renderTeams(teamsActive) {
-    const { user, history, readMessagesByConversationId, conversationIdsByTeamId } = this.props;
+    const { user, history, readMessagesByConversationId, conversationIdsByTeam } = this.props;
     if (teamsActive.length === 0) {
       return null;
     }
@@ -257,7 +257,7 @@ class Sidebar extends Component {
       }
       const isTeamOpen = _.includes(this.state.teamsOpenKeys, team.teamId);
       let unreadMessagesCount = 0;
-      const conversationId = conversationIdsByTeamId[team.teamId] ? conversationIdsByTeamId[team.teamId][0] : null;
+      const [conversationId] = conversationIdsByTeam[team.teamId] || [];
       if (conversationId) {
         const readMessages = readMessagesByConversationId[conversationId] || {};
         unreadMessagesCount = readMessages.messageCount - (readMessages.lastReadMessageCount || 0);

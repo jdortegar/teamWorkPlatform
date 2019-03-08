@@ -20,7 +20,7 @@ const propTypes = {
   conversations: PropTypes.object,
   makePersonalCall: PropTypes.func.isRequired,
   readMessage: PropTypes.func.isRequired,
-  transcripts: PropTypes.object.isRequired
+  messagesByConversation: PropTypes.object.isRequired
 };
 
 const defaultProps = {
@@ -186,10 +186,11 @@ class DirectMessagesPage extends Component {
   };
 
   clearUnreadMessages() {
-    const { currentPersonalConversation, transcripts } = this.props;
+    const { currentPersonalConversation, messagesByConversation } = this.props;
     const { conversationId } = currentPersonalConversation;
-    const lastMessage =
-      transcripts && transcripts[conversationId] ? _.last(transcripts[conversationId].flattenedTree) : {};
+    const lastMessage = messagesByConversation[conversationId]
+      ? _.last(messagesByConversation[conversationId].messages)
+      : {};
 
     this.props.readMessage(lastMessage.messageId, conversationId);
   }

@@ -1,91 +1,44 @@
-import _ from 'lodash';
 import { createSelector } from 'reselect';
-import {
-  getConversationById,
-  getConversationIdsByTeamId,
-  getTranscriptByConversationId,
-  getTypingByUserIdsByConversationId
-} from './state';
+import { getTypingByUserIdsByConversationId } from './state';
 
-export {
-  getConversationById,
-  getConversationIdsByTeamId,
-  getTranscriptByConversationId,
-  getTypingByConversationIdsByUserId,
-  getTypingByUserIdsByConversationId
-} from './state';
+export { getTypingByConversationIdsByUserId, getTypingByUserIdsByConversationId } from './state';
 
-function merge(tree, messages) {
-  const ret = [];
-  tree.forEach(node => {
-    const merged = _.merge({}, messages[node.messageId], node);
-    ret.push(merged);
-    if (node.children.length > 0) {
-      merged.children = merge(node.children, messages);
-    }
-  });
-  return ret;
-}
+export const getConversationsById = state => state.conversations.byId;
+export const getConversationIds = state => state.conversations.allIds;
+export const getConversationIdsByTeam = state => state.conversations.idsByTeam;
+export const getMessagesByConversation = state => state.conversations.messagesByConversation;
+export const getCurrentPersonalConversationId = state => state.conversations.currentPersonalConversationId;
 
-export const getConversationOfTeamId = createSelector(
-  [getConversationIdsByTeamId, getConversationById, getTranscriptByConversationId, (state, teamId) => teamId],
-  (conversationIdsByTeamId, conversationById, transcriptByConversationId, teamId) => {
-    const conversationIds = conversationIdsByTeamId[teamId];
-    if (!conversationIds || conversationIds.length === 0) {
-      return null;
-    }
+export const getCurrentPersonalConversation = createSelector(
+  [getConversationsById, getCurrentPersonalConversationId],
+  (conversations, conversationId) => conversations[conversationId]
+);
 
+const getConversation = (conversationId, conversations, messagesByConversation) => {
+  if (!conversationId) return null;
+
+  const conversation = conversations[conversationId];
+  if (!conversation) return null;
+
+  const { messagesList: messages = [] } = messagesByConversation[conversationId] || {};
+  return { ...conversation, messages };
+};
+
+export const getTeamConversation = createSelector(
+  [getConversationIdsByTeam, getConversationsById, getMessagesByConversation, (state, teamId) => teamId],
+  (idsByTeam, conversations, messagesByConversation, teamId) => {
     // Only 1 conversation per team, currently.
-    const conversation = conversationById[conversationIds[0]];
-    const transcript = transcriptByConversationId[conversationIds[0]];
-
-    if (!conversation) {
-      return null;
-    }
-
-    const conversationClone = _.cloneDeep(conversation);
-    if (!transcript) {
-      conversationClone.transcript = [];
-      return conversationClone;
-    }
-
-    conversationClone.transcript = merge(transcript.flattenedTree, transcript.messages);
-    return conversationClone;
+    const [conversationId] = idsByTeam[teamId] || [];
+    return getConversation(conversationId, conversations, messagesByConversation);
   }
 );
 
-export const getTypingsOfConversationId = createSelector(
+export const getPersonalConversation = createSelector(
+  [getCurrentPersonalConversationId, getConversationsById, getMessagesByConversation],
+  getConversation
+);
+
+export const getMembersTyping = createSelector(
   [getTypingByUserIdsByConversationId, (state, conversationId) => conversationId],
   (typingByUserIdsByConversationId, conversationId) => typingByUserIdsByConversationId[conversationId]
-);
-
-export const getCurrentPersonalConversation = state => state.conversations.currentPersonalConversation;
-
-export const getConversationOfConversationId = createSelector(
-  [getConversationById, getTranscriptByConversationId, getCurrentPersonalConversation],
-  (conversationById, transcriptByConversationId, currentPersonalConversation) => {
-    if (!currentPersonalConversation) return null;
-
-    const conversationIds = currentPersonalConversation.conversationId;
-    if (!conversationIds || conversationIds.length === 0) {
-      return null;
-    }
-
-    // Only 1 conversation per team, currently.
-    const conversation = conversationById[conversationIds];
-    const transcript = transcriptByConversationId[conversationIds];
-
-    if (!conversation) {
-      return null;
-    }
-
-    const conversationClone = _.cloneDeep(conversation);
-    if (!transcript) {
-      conversationClone.transcript = [];
-      return conversationClone;
-    }
-
-    conversationClone.transcript = merge(transcript.flattenedTree, transcript.messages);
-    return conversationClone;
-  }
 );

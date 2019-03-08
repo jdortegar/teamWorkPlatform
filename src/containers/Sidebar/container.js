@@ -14,7 +14,7 @@ import {
   getCallingData,
   getStatusCall,
   getPersonalConversationUnreadMessages,
-  getConversationIdsByTeamId,
+  getConversationIdsByTeam,
   getReadMessagesByConversationId
 } from 'src/selectors';
 
@@ -37,7 +37,7 @@ const mapStateToProps = (state, props) => {
     callingData: getCallingData(state),
     statusCall: getStatusCall(state),
     personalConversationUnreadMessages: getPersonalConversationUnreadMessages(state),
-    conversationIdsByTeamId: getConversationIdsByTeamId(state),
+    conversationIdsByTeam: getConversationIdsByTeam(state),
     readMessagesByConversationId: getReadMessagesByConversationId(state)
   };
 };

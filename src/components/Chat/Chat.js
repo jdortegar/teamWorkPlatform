@@ -37,11 +37,25 @@ const propTypes = {
   clearFileList: PropTypes.func.isRequired,
   updateFileList: PropTypes.func.isRequired,
   fetchConversations: PropTypes.func.isRequired,
-  conversations: PropTypes.shape({
+  conversation: PropTypes.shape({
     conversationId: PropTypes.string.isRequired,
-    transcript: PropTypes.array
+    messages: PropTypes.arrayOf(
+      PropTypes.shape({
+        messageId: PropTypes.string.isRequired,
+        children: PropTypes.array.isRequired,
+        created: PropTypes.string.isRequired,
+        createdBy: PropTypes.string.isRequired,
+        path: PropTypes.string.isRequired,
+        content: PropTypes.arrayOf(
+          PropTypes.shape({
+            text: PropTypes.string,
+            type: PropTypes.string
+          })
+        ).isRequired
+      })
+    )
   }),
-  fetchTranscript: PropTypes.func.isRequired,
+  fetchMessages: PropTypes.func.isRequired,
   saveBookmark: PropTypes.func.isRequired,
   deleteMessage: PropTypes.func.isRequired,
   membersTyping: PropTypes.object,
@@ -57,7 +71,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  conversations: {},
+  conversation: {},
   files: [],
   membersTyping: null,
   showPageHeader: false,
@@ -113,21 +127,15 @@ class Chat extends React.Component {
           const { conversationId } = response.data.conversations[0];
 
           this.props
-            .fetchTranscript(conversationId)
-            .then(() =>
-              this.setState({
-                conversationsLoaded: true
-              })
-            )
+            .fetchMessages(conversationId)
+            .then(() => this.setState({ conversationsLoaded: true }))
             .then(() => {
               this.scrollToBottom();
               this.setScrollEvent();
             });
         }
         if (response.data === 'STALE') {
-          this.setState({
-            conversationsLoaded: true
-          });
+          this.setState({ conversationsLoaded: true });
         }
       });
     }
@@ -149,12 +157,8 @@ class Chat extends React.Component {
       const { conversationId } = personalConversation;
 
       this.props
-        .fetchTranscript(conversationId)
-        .then(() =>
-          this.setState({
-            conversationsLoaded: true
-          })
-        )
+        .fetchMessages(conversationId)
+        .then(() => this.setState({ conversationsLoaded: true }))
         .then(() => {
           this.scrollToBottom();
           this.setScrollEvent();
@@ -199,7 +203,7 @@ class Chat extends React.Component {
           if (!_.isEmpty(response.data.conversations)) {
             const { conversationId } = response.data.conversations[0];
             this.props
-              .fetchTranscript(conversationId)
+              .fetchMessages(conversationId)
               .then(() => this.setState({ conversationsLoaded: true }))
               .then(() => {
                 this.scrollToBottom();
@@ -235,12 +239,8 @@ class Chat extends React.Component {
         const { conversationId } = nextPersonalConversation;
 
         this.props
-          .fetchTranscript(conversationId)
-          .then(() =>
-            this.setState({
-              conversationsLoaded: true
-            })
-          )
+          .fetchMessages(conversationId)
+          .then(() => this.setState({ conversationsLoaded: true }))
           .then(() => {
             this.scrollToBottom();
             this.setScrollEvent();
@@ -256,11 +256,11 @@ class Chat extends React.Component {
       return;
     }
 
-    const { conversations, user } = this.props;
-    if (!prevProps.conversations || !conversations) return;
-    if (prevProps.conversations.transcript.length === conversations.transcript.length) return;
+    const { conversation, user } = this.props;
+    if (!prevProps.conversation || !conversation) return;
+    if (prevProps.conversation.messages.length === conversation.messages.length) return;
 
-    const lastMessage = _.last(conversations.transcript) || {};
+    const lastMessage = _.last(conversation.messages) || {};
     const ownMessage = lastMessage.createdBy === user.userId;
     if (ownMessage || this.isNearBottom()) this.scrollToBottom();
   }
@@ -279,19 +279,13 @@ class Chat extends React.Component {
           .then(() => {
             msg.success(String.t(extraInfo.setBookmark ? 'message.bookmarkSetToast' : 'message.bookmarkRemovedToast'));
           })
-          .catch(error => {
-            msg.error(error.message);
-          });
+          .catch(error => msg.error(error.message));
         break;
       case messageAction.delete:
         this.props
           .deleteMessage(message.messageId, message.conversationId)
-          .then(() => {
-            msg.success(String.t('message.deleteSuccessToast'));
-          })
-          .catch(error => {
-            msg.error(error.message);
-          });
+          .then(() => msg.success(String.t('message.deleteSuccessToast')))
+          .catch(error => msg.error(error.message));
         break;
       default:
         break;
@@ -334,9 +328,9 @@ class Chat extends React.Component {
     const messagesContainer = document.getElementsByClassName('team__messages')[0];
     if (!messagesContainer) return;
 
-    const { conversations } = this.props;
-    const { conversationId } = conversations;
-    const lastMessage = _.last(conversations.transcript) || {};
+    const { conversation } = this.props;
+    const { conversationId } = conversation;
+    const lastMessage = _.last(conversation.messages) || {};
     if (messagesContainer.scrollHeight === messagesContainer.scrollTop + messagesContainer.clientHeight) {
       this.props.readMessage(lastMessage.messageId, conversationId);
       messagesContainer.removeEventListener('scroll', this.handleScroll);
@@ -362,13 +356,13 @@ class Chat extends React.Component {
   };
 
   renderMessages(isAdmin) {
-    const { conversations, user, team, orgId, personalConversation, lastReadTimestamp } = this.props;
+    const { conversation, user, team, orgId, personalConversation, lastReadTimestamp } = this.props;
     const { membersFiltered, lastSubmittedMessage } = this.state;
     if (!membersFiltered) return null;
     let lastReadExists = false;
     const currentPath = lastSubmittedMessage ? lastSubmittedMessage.path : null;
-    return conversations.transcript.map(message => {
-      // If message was creted after last read message timestamp
+    return conversation.messages.map(message => {
+      // If message was created after last read message timestamp
       let lastRead = null;
       if (message.createdBy !== user.userId) {
         lastRead = lastReadExists ? null : lastReadTimestamp < message.created;
@@ -436,10 +430,10 @@ class Chat extends React.Component {
   }
 
   render() {
-    const { team, teamMembers, user, conversations, showPageHeader, showTeamMembers, menuOptions } = this.props;
+    const { team, teamMembers, user, conversation, showPageHeader, showTeamMembers, menuOptions } = this.props;
     const { teamMembersLoaded, conversationsLoaded, members, membersFiltered } = this.state;
 
-    if (!teamMembersLoaded || !conversationsLoaded || !user || !teamMembers || !conversations) {
+    if (!teamMembersLoaded || !conversationsLoaded || !user || !teamMembers || !conversation) {
       return <Spinner />;
     }
 
@@ -458,7 +452,7 @@ class Chat extends React.Component {
             showTeamMembers={showTeamMembers}
             team={team}
             showchat={this.props.showChat}
-            conversations={conversations}
+            conversation={conversation}
             menuOptions={menuOptions}
             user={user}
             onOwnerFilterClick={this.handleOwnerFilterClick}
@@ -471,7 +465,7 @@ class Chat extends React.Component {
         <SimpleCardContainer className="Chat_container">
           <MessageInput
             user={user}
-            conversations={conversations}
+            conversation={conversation}
             iAmTyping={this.props.iAmTyping}
             handleSubmit={this.handleSubmit}
             shouldDisableSubmit={this.shouldDisableSubmit}

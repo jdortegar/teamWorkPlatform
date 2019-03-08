@@ -1,206 +1,109 @@
-import _ from 'lodash';
+import { combineReducers } from 'redux';
+import { union } from 'lodash';
 import {
   CONVERSATIONS_FETCH_SUCCESS,
   CONVERSATIONS_RECEIVE,
-  TRANSCRIPT_FETCH_SUCCESS,
   MESSAGES_RECEIVE,
   MESSAGES_FETCH_SUCCESS,
-  CONVERSATION_CREATE_SUCCESS
+  CONVERSATION_DIRECT_RECEIVE
 } from 'src/actions';
+import buildMessagesList from 'src/lib/buildMessagesList';
 
-const INITIAL_STATE = {
-  conversationById: {},
-  conversationIdsByTeamId: {},
-  transcriptByConversationId: {},
-  currentPersonalConversation: null
-};
-
-const defaultExpanded = true;
-
-const getNodeFromFlattenedTree = (messageId, array) => {
-  for (let i = array.length - 1; i >= 0; i -= 1) {
-    const node = array[i];
-    if (node.messageId === messageId) {
-      return node;
-    } else if (node.children.length > 0) {
-      const childNode = getNodeFromFlattenedTree(messageId, node.children);
-      if (childNode !== null) {
-        return childNode;
-      }
-    }
-  }
-  return null;
-};
-
-const flattenedArrayMessage = message => ({
-  messageId: message.messageId,
-  created: message.created,
-  children: [],
-  expanded: defaultExpanded
-});
-
-const addMessageToArray = (message, array) => {
-  if (array.length === 0) {
-    array.push(flattenedArrayMessage(message));
-  } else {
-    let i = array.length - 1;
-    for (; i >= 0; i -= 1) {
-      if (message.created > array[i].created) {
-        break;
-      }
-    }
-    if (i < 0) {
-      array.push(flattenedArrayMessage(message));
-    } else {
-      array.splice(i + 1, 0, flattenedArrayMessage(message));
-    }
-  }
-};
-
-const addMessageToFlattenedTree = (message, flattenedTree) => {
-  if (message.replyTo) {
-    const parentNode = getNodeFromFlattenedTree(message.replyTo, flattenedTree);
-    if (parentNode === null) {
-      return false;
-    }
-    addMessageToArray(message, parentNode.children);
-  } else {
-    addMessageToArray(message, flattenedTree);
-  }
-
-  return true;
-};
-
-const addMessagesToFlattenedTree = (messages, flattenedTree) => {
-  const unaddedMessagesToFlattenedTree = [];
-  messages.forEach(message => {
-    if (!addMessageToFlattenedTree(message, flattenedTree)) {
-      unaddedMessagesToFlattenedTree.push(message);
-    }
-  });
-
-  // Only try to add if something else was added.
-  if (unaddedMessagesToFlattenedTree.length > 0) {
-    if (unaddedMessagesToFlattenedTree.length < messages.length) {
-      addMessagesToFlattenedTree(unaddedMessagesToFlattenedTree, flattenedTree);
-    } else {
-      unaddedMessagesToFlattenedTree.forEach(message => {
-        console.error(`Can't find parent ${message.replyTo} of messageId ${message.messageId}`); // eslint-disable-line no-console
-      });
-    }
-  }
-};
-
-const addOrUpdateMessages = (messages, transcript) => {
-  const mergedTranscript = transcript || { messages: {}, flattenedTree: [] };
-
-  const unaddedMessagesToFlattenedTree = [];
-  messages.forEach(message => {
-    const existingMessage = mergedTranscript.messages[message.messageId];
-    mergedTranscript.messages[message.messageId] = message;
-
-    if (!existingMessage) {
-      if (!addMessageToFlattenedTree(message, mergedTranscript.flattenedTree)) {
-        unaddedMessagesToFlattenedTree.push(message);
-      }
-    }
-  });
-
-  if (unaddedMessagesToFlattenedTree.length > 0) {
-    addMessagesToFlattenedTree(unaddedMessagesToFlattenedTree, mergedTranscript.flattenedTree);
-  }
-
-  return mergedTranscript;
-};
-
-const conversationsReducer = (state = INITIAL_STATE, action) => {
+const byId = (state = {}, action) => {
   switch (action.type) {
     case CONVERSATIONS_FETCH_SUCCESS:
     case CONVERSATIONS_RECEIVE: {
-      const { conversations } = action.payload;
-      const conversationById = _.cloneDeep(state.conversationById);
-      const conversationIdsByTeamId = _.cloneDeep(state.conversationIdsByTeamId);
-
-      conversations.forEach(newConversation => {
-        const conversation = _.cloneDeep(newConversation);
-        if (conversation.participants) {
-          const participants = conversation.participants.map(participant => participant.userId);
-          conversation.participants = participants;
-        }
-        conversationById[conversation.conversationId] = conversation;
-        let conversationIds = conversationIdsByTeamId[conversation.teamId];
-        if (!conversationIds) {
-          conversationIds = [];
-          conversationIdsByTeamId[conversation.teamId] = conversationIds;
-        }
-        if (conversationIds.indexOf(conversation.conversationId) < 0) {
-          conversationIds.push(conversation.conversationId);
-        }
-      });
-
+      const { conversations = [] } = action.payload;
       return {
         ...state,
-        conversationById,
-        conversationIdsByTeamId
+        ...conversations.reduce((acc, conversation) => {
+          const participants = conversation.participants.map(({ userId }) => userId);
+          acc[conversation.conversationId] = { ...conversation, participants };
+          return acc;
+        }, {})
       };
     }
-    case TRANSCRIPT_FETCH_SUCCESS:
-    case MESSAGES_RECEIVE: {
-      const { conversationId, messages } = action.payload;
-      const transcriptByConversationId = _.cloneDeep(state.transcriptByConversationId);
-      transcriptByConversationId[conversationId] = addOrUpdateMessages(
-        messages,
-        transcriptByConversationId[conversationId]
-      );
-
+    case CONVERSATION_DIRECT_RECEIVE: {
+      const { conversation } = action.payload;
+      if (!conversation) return state;
       return {
         ...state,
-        transcriptByConversationId
-      };
-    }
-    case MESSAGES_FETCH_SUCCESS: {
-      const { messages } = action.payload;
-      const transcriptByConversationId = _.cloneDeep(state.transcriptByConversationId);
-
-      const conversationIdMessages = {};
-      messages.forEach(message => {
-        let conversationMessages = conversationIdMessages[message.conversationId];
-        if (!conversationMessages) {
-          conversationMessages = [message];
-          conversationIdMessages[message.conversationId] = conversationMessages;
-        } else {
-          conversationMessages.push(message);
-        }
-      });
-
-      Object.values(conversationIdMessages).forEach(conversationMessages => {
-        const { conversationId } = conversationMessages[0];
-        transcriptByConversationId[conversationId] = addOrUpdateMessages(
-          conversationMessages,
-          transcriptByConversationId[conversationId]
-        );
-      });
-
-      return {
-        ...state,
-        transcriptByConversationId
-      };
-    }
-    case CONVERSATION_CREATE_SUCCESS: {
-      const currentPersonalConversation = action.payload;
-      const conversationById = _.cloneDeep(state.conversationById);
-
-      conversationById[currentPersonalConversation.conversationId] = currentPersonalConversation;
-
-      return {
-        ...state,
-        conversationById,
-        currentPersonalConversation
+        [conversation.conversationId]: conversation
       };
     }
     default:
       return state;
   }
 };
+
+const allIds = (state = [], action) => {
+  switch (action.type) {
+    case CONVERSATIONS_FETCH_SUCCESS:
+    case CONVERSATIONS_RECEIVE: {
+      const { conversations = [] } = action.payload;
+      return union(state, conversations.map(({ conversationId }) => conversationId));
+    }
+    case CONVERSATION_DIRECT_RECEIVE: {
+      const { conversation } = action.payload;
+      if (!conversation) return state;
+      return union(state, [conversation.conversationId]);
+    }
+    default:
+      return state;
+  }
+};
+
+const idsByTeam = (state = {}, action) => {
+  switch (action.type) {
+    case CONVERSATIONS_FETCH_SUCCESS:
+    case CONVERSATIONS_RECEIVE: {
+      const { conversations = [] } = action.payload;
+      return {
+        ...state,
+        ...conversations.reduce((acc, conversation) => {
+          if (!conversation.teamId) return acc;
+          acc[conversation.teamId] = union(acc[conversation.teamId], [conversation.conversationId]);
+          return acc;
+        }, {})
+      };
+    }
+    default:
+      return state;
+  }
+};
+
+const currentPersonalConversationId = (state = null, action) => {
+  switch (action.type) {
+    case CONVERSATION_DIRECT_RECEIVE: {
+      const { conversation = {} } = action.payload;
+      return conversation && conversation.conversationId;
+    }
+    default:
+      return state;
+  }
+};
+
+const messagesByConversation = (state = {}, action) => {
+  switch (action.type) {
+    case MESSAGES_FETCH_SUCCESS:
+    case MESSAGES_RECEIVE: {
+      const { conversationId, messages = [] } = action.payload;
+      return {
+        ...state,
+        [conversationId]: buildMessagesList(messages, state[conversationId])
+      };
+    }
+    default:
+      return state;
+  }
+};
+
+const conversationsReducer = combineReducers({
+  byId,
+  allIds,
+  idsByTeam,
+  messagesByConversation,
+  currentPersonalConversationId
+});
 
 export default conversationsReducer;
