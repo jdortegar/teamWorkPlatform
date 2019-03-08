@@ -339,9 +339,9 @@
     "yAxisLabel": "Last modified time",
     "xAxisLabelTooltip": "Creation Date",
     "yAxisLabelTooltip": "Last Modified Date",
-    "displayTime": "{{displayDate}} at {{displayTime}}",
-    "dateFormat": "MMM D, YYYY",
-    "timeFormat": "H:mm:ss",
+    "displayTime": "{{displayDate}}<br/>at {{displayTime}}",
+    "dateFormat": "YYYY-MM-DD",
+    "timeFormat": "HH:mm",
     "tickFormat": {
       "tickSecond": "%b %d\n%H:%M:%S",
       "tickMinute": "%b %d\n%H:%M",

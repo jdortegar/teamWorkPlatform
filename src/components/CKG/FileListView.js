@@ -13,11 +13,16 @@ import { AvatarWrapper, ResultsList } from 'src/components';
 
 const PAGE_SIZE = 20;
 
-const formatTime = date =>
-  String.t('timeActivityGraph.displayTime', {
-    displayDate: moment(date).format(String.t('timeActivityGraph.dateFormat')),
-    displayTime: moment(date).format(String.t('timeActivityGraph.timeFormat'))
-  });
+const formatTime = date => (
+  <span // eslint-disable-next-line react/no-danger
+    dangerouslySetInnerHTML={{
+      __html: String.t('timeActivityGraph.displayTime', {
+        displayDate: moment(date).format(String.t('timeActivityGraph.dateFormat')),
+        displayTime: moment(date).format(String.t('timeActivityGraph.timeFormat'))
+      })
+    }}
+  />
+);
 
 const findUserByFile = (users, file) => users.find(({ userId }) => userId === file.fileOwnerId) || {};
 
@@ -53,6 +58,7 @@ const getColumns = (keywords, caseSensitive, owners) => [
     title: 'File Size',
     dataIndex: 'fileSize',
     key: 'fileSize',
+    className: 'widthMax20',
     sorter: (a, b) => a.fileSize - b.fileSize,
     render: x => formatSize(x)
   },
@@ -60,6 +66,7 @@ const getColumns = (keywords, caseSensitive, owners) => [
     title: 'File Type',
     dataIndex: 'fileExtension',
     key: 'fileExtension',
+    className: 'widthMax20',
     sorter: (a, b) => {
       if (a && a.fileExtension) {
         return a.fileExtension.localeCompare(b.fileExtension);
@@ -106,7 +113,7 @@ const getColumns = (keywords, caseSensitive, owners) => [
     dataIndex: 'fileOwnerName',
     key: 'fileOwnerName',
     sorter: (a, b) => a.fileOwnerName.localeCompare(b.fileOwnerName),
-    render: text => <span className="FileListView__results__fileOwnerName">{text}</span>
+    render: text => <span>{text}</span>
   },
   {
     title: 'Data Source',

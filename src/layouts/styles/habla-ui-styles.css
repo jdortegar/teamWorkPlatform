@@ -1029,6 +1029,7 @@ p {
   height: 38px;
 }
 .ant-layout {
+  width: 100vw;
   background: none;
 }
 .ant-menu-inline,
