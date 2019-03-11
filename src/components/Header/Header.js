@@ -143,9 +143,11 @@ class Header extends Component {
             {String.t('Header.busyStatus')}
           </a>
         </Menu.Item>
-        <Menu.Item key="adminHeader">
-          <div className="habla-label padding-class-a">{String.t('Header.adminTitle')}</div>
-        </Menu.Item>
+        {isOrgAdmin && (
+          <Menu.Item key="adminHeader">
+            <div className="habla-label padding-class-a">{String.t('Header.adminTitle')}</div>
+          </Menu.Item>
+        )}
         <Menu.Item key="accountSettings">
           <Link to={`/app/editUser/${user.userId}`}>
             <span>

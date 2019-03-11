@@ -135,6 +135,11 @@ const IntegrationScreen = ({
           disabled={isSavedSharingSettings || isSubmittingSharingSettings}
         />
       )}
+      {sharingSettingsVisible && (
+        <div className="padding-class-a align-right-class">
+          <Button className="rightSideButton" {...saveButtonOptions} />
+        </div>
+      )}
     </div>
   );
 };
