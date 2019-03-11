@@ -158,6 +158,8 @@
   "graphDateRangeButtonLabel": " Select Date Range",
   "cardViewTitle": "Card View",
   "listViewTitle": "Details View",
+  "fileName": "File Name",
+  "url": "Url",
   "roles": {
     "admin": "Admin"
   },
@@ -339,7 +341,7 @@
     "yAxisLabel": "Last modified time",
     "xAxisLabelTooltip": "Creation Date",
     "yAxisLabelTooltip": "Last Modified Date",
-    "displayTime": "{{displayDate}}<br/>at {{displayTime}}",
+    "displayTime": "{{displayDate}} {{displayTime}}",
     "dateFormat": "YYYY-MM-DD",
     "timeFormat": "HH:mm",
     "tickFormat": {

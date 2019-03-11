@@ -13,16 +13,11 @@ import { AvatarWrapper, ResultsList } from 'src/components';
 
 const PAGE_SIZE = 20;
 
-const formatTime = date => (
-  <span // eslint-disable-next-line react/no-danger
-    dangerouslySetInnerHTML={{
-      __html: String.t('timeActivityGraph.displayTime', {
-        displayDate: moment(date).format(String.t('timeActivityGraph.dateFormat')),
-        displayTime: moment(date).format(String.t('timeActivityGraph.timeFormat'))
-      })
-    }}
-  />
-);
+const formatTime = date =>
+  String.t('timeActivityGraph.displayTime', {
+    displayDate: moment(date).format(String.t('timeActivityGraph.dateFormat')),
+    displayTime: moment(date).format(String.t('timeActivityGraph.timeFormat'))
+  });
 
 const findUserByFile = (users, file) => users.find(({ userId }) => userId === file.fileOwnerId) || {};
 
@@ -32,27 +27,48 @@ const getColumns = (keywords, caseSensitive, owners) => [
     dataIndex: 'fileName',
     key: 'fileName',
     sorter: (a, b) => a.fileName.localeCompare(b.fileName),
-    render: (text, file) => (
-      <Tooltip placement="top" title={file.resourceUri} overlayClassName="FileListView__results__tooltip">
-        <a className="FileListView__results__link" href={file.resourceUri} target="_blank" rel="noopener noreferrer">
-          <img
-            src={imageSrcFromFileExtension(file.fileExtension)}
-            className="FileListView__results__fileIcon"
-            alt=""
-            width={32}
-            height={32}
-          />
-          <Highlighter
-            className="FileListView__results__fileName"
-            highlightClassName="FileListView__results-highlighted"
-            searchWords={keywords}
-            textToHighlight={text}
-            caseSensitive={caseSensitive}
-            autoEscape
-          />
-        </a>
-      </Tooltip>
-    )
+    render: (text, file) => {
+      // Add ellipsis to FileName if has more than 35 characters
+      let textToRender = text;
+      if (text.length > 35) {
+        textToRender = `${text.substr(0, 20)}... ${text.substr(text.length - 10, text.length)}`;
+      }
+      const ToolTipRender = (
+        <div className="habla-lighter-text">
+          <div>
+            <span className="habla-bold-text">{String.t('fileName')}: </span>
+            <br />
+            {text}
+          </div>
+          <div>
+            <span className="habla-bold-text">{String.t('url')}: </span>
+            <br />
+            {file.resourceUri}
+          </div>
+        </div>
+      );
+      return (
+        <Tooltip placement="top" title={ToolTipRender} overlayClassName="FileListView__results__tooltip">
+          <a className="FileListView__results__link" href={file.resourceUri} target="_blank" rel="noopener noreferrer">
+            <img
+              src={imageSrcFromFileExtension(file.fileExtension)}
+              className="FileListView__results__fileIcon"
+              alt=""
+              width={32}
+              height={32}
+            />
+            <Highlighter
+              className="FileListView__results__fileName"
+              highlightClassName="FileListView__results-highlighted"
+              searchWords={keywords}
+              textToHighlight={textToRender}
+              caseSensitive={caseSensitive}
+              autoEscape
+            />
+          </a>
+        </Tooltip>
+      );
+    }
   },
   {
     title: 'File Size',

@@ -365,6 +365,10 @@
   max-width: 80px !important;
 }
 
+.FileListView .ant-tooltip-content div {
+  padding: 5px;
+}
+
 /*
 Max width before this PARTICULAR table gets nasty
 This query will take effect for any screen smaller than 760px
