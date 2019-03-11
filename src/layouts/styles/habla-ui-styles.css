@@ -995,6 +995,22 @@ p {
 
 /* ---------------------------- ANT ELEMENTS To review -------------------------------- */
 
+.ant-tooltip {
+  font-family: 'Lato', sans-serif;
+}
+
+.ant-tooltip .ant-tooltip-inner {
+  background-color: rgba(0, 0, 0, 0.95);
+}
+
+.ant-tooltip .ant-tooltip-placement-top .ant-tooltip-arrow,
+.ant-tooltip .ant-tooltip-placement-topLeft .ant-tooltip-arrow,
+.ant-tooltip .ant-tooltip-placement-topRight .ant-tooltip-arrow {
+  bottom: 3px;
+  border-width: 5px 5px 0;
+  border-top-color: rgba(0, 0, 0, 0.95);
+}
+
 .team-room__member-cards-container .ant-avatar {
   background: #5b7eba !important;
 }
@@ -1029,6 +1045,7 @@ p {
   height: 38px;
 }
 .ant-layout {
+  width: 100vw;
   background: none;
 }
 .ant-menu-inline,
