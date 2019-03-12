@@ -164,7 +164,7 @@
     "admin": "Admin"
   },
   "OrganizationPage": {
-    "title": "Organization Summary",
+    "title": "Manage Organization",
     "editSection": "Edit Organization",
     "newButtonLabel": "New",
     "boxIntegrationLabel": "Box",
@@ -195,7 +195,7 @@
     "activeStatus": "Active",
     "addDataIntegration": "Add a Data Integration to this Project Team",
     "teamSettings": "Project Team Settings",
-    "manageTeam": "Project Team Summary",
+    "manageTeam": "Manage Project Team",
     "editTeam": "Edit Project Team",
     "inviteNewMember": "Invite Team Members to this Project Team",
     "teamCreated": "Created on {{date}} by {{teamAdminName}}",
@@ -326,14 +326,14 @@
     "sortByUnread": "Unread First",
     "sortByActivity": "Latest Activity First",
     "newDirectMessageTooltip": "New Direct Message",
-    "orgSummary": "Organization Summary",
+    "orgSummary": "Manage Organization",
     "iconHomeTooltip": "Home",
     "iconCKGTooltip": "Corporate Knowledge Graphs",
     "iconNotificationsTooltip": "Notifications",
     "iconBookmarksTooltip": "Bookmarks",
     "iconSettingsTooltipAdmin": "Manage Organization",
     "iconSettingsTooltipTeamOwner": "Manage Project Teams",
-    "iconSettingsTooltipUser": "Organization Summary",
+    "iconSettingsTooltipUser": "Manage Organization",
     "invitetoTeam": "Invite Member to this Project Team"
   },
   "timeActivityGraph": {
