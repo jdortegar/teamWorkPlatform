@@ -175,6 +175,13 @@ class OrganizationPage extends Component {
           url: `/app/createTeam/${orgId}`
         }
       ];
+      if (isOrgAdmin) {
+        menuPageHeader.push({
+          icon: 'fas fa-cog',
+          title: 'OrganizationPage.manageTeams',
+          url: `/app/editOrganization/${orgId}/teams`
+        });
+      }
 
       return (
         <div className="OrgSummary editOrgPage-main">

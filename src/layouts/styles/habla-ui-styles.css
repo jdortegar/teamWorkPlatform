@@ -487,6 +487,12 @@ HABLA CSS GENERAL STYLES
 
 /* ----------- FONT STYLES --------------- */
 
+*,
+*::before,
+*::after {
+  font-family: 'Lato', sans-serif !important;
+}
+
 /* Weights */
 
 b,
