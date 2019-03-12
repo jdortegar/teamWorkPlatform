@@ -205,7 +205,7 @@ class InviteToTeamPage extends Component {
 
     return (
       <div>
-        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon buttonOptions={selectAllButtonOptions} />
+        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon buttonOptions={selectAllButtonOptions} backButton />
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="padding-class-a">

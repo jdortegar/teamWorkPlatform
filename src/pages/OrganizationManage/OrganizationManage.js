@@ -173,6 +173,7 @@ class OrganizationManage extends Component {
           <PageHeader
             pageBreadCrumb={pageBreadCrumb}
             hasMenu
+            backButton
             menuName="settings"
             menuPageHeader={menuPageHeader}
             optionalButtons={{
