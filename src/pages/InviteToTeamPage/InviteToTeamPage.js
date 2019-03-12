@@ -49,6 +49,16 @@ class InviteToTeamPage extends Component {
     this.props.fetchSentInvitations(null);
   }
 
+  handleSelectAll = () => {
+    const { currentUserId, subscribers } = this.props;
+    const subscribersWithoutCurrentUser = subscribers.filter(sub => sub.userId !== currentUserId);
+    const invitees = {};
+    subscribersWithoutCurrentUser.forEach(subscriber => {
+      invitees[subscriber.userId] = true;
+    });
+    this.setState({ invitees });
+  };
+
   invitePressed(member) {
     const invitees = { ...this.state.invitees };
     if (this.state.invitees[member.userId]) {
@@ -174,6 +184,13 @@ class InviteToTeamPage extends Component {
     }
 
     const instructions = String.t('inviteToTeamPage.instructions', { name: team.name });
+    const selectAllButtonOptions = {
+      type: 'main',
+      fitText: true,
+      children: String.t('selectAll'),
+      onClick: this.handleSelectAll,
+      style: { backgroundColor: '#5b7eba' }
+    };
 
     // Breadcrumb
     const pageBreadCrumb = {
@@ -188,7 +205,7 @@ class InviteToTeamPage extends Component {
 
     return (
       <div>
-        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
+        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon buttonOptions={selectAllButtonOptions} />
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="padding-class-a">
