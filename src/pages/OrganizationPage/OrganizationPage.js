@@ -231,10 +231,6 @@ class OrganizationPage extends Component {
                       {String.t('organizationSummaryPage.of')} <span>{subscriberOrg.userLimit}</span>
                     </div>
                   </div>
-                  <div className="Flex_row">
-                    <div>{String.t('organizationSummaryPage.projectTeams')}</div>
-                    <div className="habla-bold-text">{teams.length}</div>
-                  </div>
                   {/* <div className="Flex_row">
                 <div>{String.t('organizationSummaryPage.filesShared')}</div>
                 <div className="habla-bold-text">{filesShared}</div>
