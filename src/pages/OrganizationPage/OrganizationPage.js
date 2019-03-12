@@ -193,43 +193,47 @@ class OrganizationPage extends Component {
           </SimpleCardContainer>
           <SimpleCardContainer className="align-center-class">
             <div>
-              <div className="Flex_row">
-                <div className="Summary_label">{String.t('organizationSummaryPage.subscriptionPlan')}</div>
+              {isOrgAdmin && (
                 <div>
-                  {subscription.status === 'trialing' && !(Object.values(paypalSubscription).length > 0) && (
-                    <span className="Summary_daysLeft">
-                      {String.t('organizationSummaryPage.daysLeft', {
-                        count: moment(subscription.trial_end * 1000).diff(moment(), 'days')
-                      })}
-                    </span>
-                  )}
-                  <Tag
-                    className="habla_subscription_tag habla_subscription_tag_bronze"
-                    onClick={() =>
-                      this.state.subscriptionLoaded && isOrgAdmin ? this.showModal() : this.redirectPublicSite()
-                    }
-                  >
-                    {subscription.status === 'trialing' && !(Object.values(paypalSubscription).length > 0)
-                      ? String.t('subscriptionPlans.trial')
-                      : String.t('subscriptionPlans.bronze')}
-                  </Tag>
-                </div>
-              </div>
-              <div className="Flex_row">
-                <div>{String.t('organizationSummaryPage.availableSeat')}</div>
-                <div>
-                  <span className="habla-bold-text">{subscribers.length}</span> {String.t('organizationSummaryPage.of')}{' '}
-                  <span>{subscriberOrg.userLimit}</span>
-                </div>
-              </div>
-              <div className="Flex_row">
-                <div>{String.t('organizationSummaryPage.projectTeams')}</div>
-                <div className="habla-bold-text">{teams.length}</div>
-              </div>
-              {/* <div className="Flex_row">
+                  <div className="Flex_row">
+                    <div className="Summary_label">{String.t('organizationSummaryPage.subscriptionPlan')}</div>
+                    <div>
+                      {subscription.status === 'trialing' && !(Object.values(paypalSubscription).length > 0) && (
+                        <span className="Summary_daysLeft">
+                          {String.t('organizationSummaryPage.daysLeft', {
+                            count: moment(subscription.trial_end * 1000).diff(moment(), 'days')
+                          })}
+                        </span>
+                      )}
+                      <Tag
+                        className="habla_subscription_tag habla_subscription_tag_bronze"
+                        onClick={() =>
+                          this.state.subscriptionLoaded && isOrgAdmin ? this.showModal() : this.redirectPublicSite()
+                        }
+                      >
+                        {subscription.status === 'trialing' && !(Object.values(paypalSubscription).length > 0)
+                          ? String.t('subscriptionPlans.trial')
+                          : String.t('subscriptionPlans.bronze')}
+                      </Tag>
+                    </div>
+                  </div>
+                  <div className="Flex_row">
+                    <div>{String.t('organizationSummaryPage.availableSeat')}</div>
+                    <div>
+                      <span className="habla-bold-text">{subscribers.length}</span>{' '}
+                      {String.t('organizationSummaryPage.of')} <span>{subscriberOrg.userLimit}</span>
+                    </div>
+                  </div>
+                  <div className="Flex_row">
+                    <div>{String.t('organizationSummaryPage.projectTeams')}</div>
+                    <div className="habla-bold-text">{teams.length}</div>
+                  </div>
+                  {/* <div className="Flex_row">
                 <div>{String.t('organizationSummaryPage.filesShared')}</div>
                 <div className="habla-bold-text">{filesShared}</div>
               </div> */}
+                </div>
+              )}
             </div>
           </SimpleCardContainer>
           <CardView
