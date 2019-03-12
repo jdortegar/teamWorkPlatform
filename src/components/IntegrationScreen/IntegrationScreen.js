@@ -94,6 +94,14 @@ const IntegrationScreen = ({
         pageBreadCrumb={{
           routes: [breadCrumbRoute, { title: String.t('integrationPage.integrations') }]
         }}
+        optionalButtons={{
+          enabled: true,
+          content: isActive ? (
+            <Button type="main" fitText className="Integration__button-refresh" onClick={onRefreshIntegration}>
+              {String.t('integrationPage.refreshList')}
+            </Button>
+          ) : null
+        }}
       />
       <SimpleCardContainer className="subpage-block habla-color-lightergrey padding-class-b border-bottom-light align-center-class">
         <div className="Integration__icon-container">
@@ -113,13 +121,6 @@ const IntegrationScreen = ({
           />
         </Tooltip>
       </div>
-      {isActive && (
-        <div className="Integration__button-container align-center-class ">
-          <Button className="Integration__button" onClick={onRefreshIntegration}>
-            {String.t('integrationPage.refreshList')}
-          </Button>
-        </div>
-      )}
       {isFetchingContent && isActive && (
         <div className="Integration__content-loading">
           <div>{String.t('integrationPage.contentLoading')}</div>
