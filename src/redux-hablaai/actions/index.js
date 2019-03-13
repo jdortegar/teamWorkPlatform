@@ -35,7 +35,7 @@ export * from './invitationDeclinedUpdate';
 export * from './conversationsReceive';
 export * from './conversationsFetch';
 export * from './messagesFetch';
-export * from './messagesReceive';
+export * from './messageReceive';
 export * from './messageCreate';
 export * from './messageDelete';
 export * from './messageRead';

@@ -1,4 +1,4 @@
-import { MESSAGES_RECEIVE, NOTIFY_MESSAGE } from 'src/actions';
+import { MESSAGE_RECEIVE, NOTIFY_MESSAGE } from 'src/actions';
 
 const INITIAL_STATE = {
   pushMessage: null
@@ -6,12 +6,10 @@ const INITIAL_STATE = {
 
 const notificationsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case MESSAGES_RECEIVE:
     case NOTIFY_MESSAGE:
-      return {
-        ...state,
-        pushMessage: action.payload.messages
-      };
+      return { ...state, pushMessage: action.payload.messages };
+    case MESSAGE_RECEIVE:
+      return { ...state, pushMessage: [action.payload.message] };
     default:
       return state;
   }

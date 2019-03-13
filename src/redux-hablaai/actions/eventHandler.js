@@ -8,7 +8,7 @@ import { receiveTeamMember } from './teamMemberReceive';
 import { receiveInvitation } from './invitationReceive';
 import { declinedInvitation } from './invitationDeclined';
 import { receiveConversations } from './conversationsReceive';
-import { receiveMessages } from './messagesReceive';
+import { receiveMessage } from './messageReceive';
 import { receiveReadMessages } from './readMessagesReceive';
 import { receiveTyping } from './typing';
 import { receiveCall, receiveCallAnswer, receiveTeamCall, receiveTeamCallAnswer } from './callings';
@@ -34,7 +34,7 @@ export const eventHandler = dispatch => (eventType, event) => {
       break;
     case EventTypes.userBookmarksUpdated:
       Object.values(event.messages).forEach(message => {
-        dispatch(receiveMessages([message], message.conversationId));
+        dispatch(receiveMessage(message, message.conversationId));
       });
       break;
     // case EventTypes.userInvitationAccepted:
@@ -80,19 +80,19 @@ export const eventHandler = dispatch => (eventType, event) => {
       break;
 
     case EventTypes.messageCreated:
-      dispatch(receiveMessages([event], event.conversationId));
+      dispatch(receiveMessage(event, event.conversationId));
       break;
     case EventTypes.messageRead:
       dispatch(receiveReadMessages(event));
       break;
     case EventTypes.messageUpdated:
-      dispatch(receiveMessages([event], event.conversationId));
+      dispatch(receiveMessage(event, event.conversationId));
       break;
     case EventTypes.messageDeleted:
     case EventTypes.messageLiked:
     case EventTypes.messageDisliked:
     case EventTypes.messageFlagged:
-      dispatch(receiveMessages([event], event.conversationId));
+      dispatch(receiveMessage(event, event.conversationId));
       break;
     case EventTypes.typing:
       dispatch(receiveTyping(event));

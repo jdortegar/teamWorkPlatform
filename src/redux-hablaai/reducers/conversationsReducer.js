@@ -3,8 +3,8 @@ import { union, omit } from 'lodash';
 import {
   CONVERSATIONS_FETCH_SUCCESS,
   CONVERSATIONS_RECEIVE,
-  MESSAGES_RECEIVE,
   MESSAGES_FETCH_SUCCESS,
+  MESSAGE_RECEIVE,
   MESSAGE_CREATE_REQUEST,
   MESSAGE_CREATE_SUCCESS,
   MESSAGE_CREATE_FAILURE,
@@ -88,10 +88,15 @@ const currentPersonalConversationId = (state = null, action) => {
 
 const messagesByConversation = (state = {}, action) => {
   switch (action.type) {
-    case MESSAGES_FETCH_SUCCESS:
-    case MESSAGES_RECEIVE: {
+    case MESSAGES_FETCH_SUCCESS: {
       const { conversationId, messages = [] } = action.payload;
       return { ...state, [conversationId]: buildMessagesList(messages, state[conversationId]) };
+    }
+    case MESSAGE_RECEIVE: {
+      const { conversationId, message, currentUserId } = action.payload;
+      // ignore messages of the current user, they are handled via API response
+      if (message.createdBy === currentUserId) return state;
+      return { ...state, [conversationId]: buildMessagesList([message], state[conversationId]) };
     }
     case MESSAGE_CREATE_REQUEST: {
       const { conversationId, message } = action.payload;
