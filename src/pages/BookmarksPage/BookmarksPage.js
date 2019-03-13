@@ -6,7 +6,7 @@ import { message as msg } from 'antd';
 
 import String from 'src/translations';
 import { messageAction } from 'src/components/Message/Message';
-import { Message, SimpleCardContainer, NewSubpageHeader, Spinner } from 'src/components';
+import { Message, SimpleCardContainer, PageHeader, Spinner } from 'src/components';
 
 const propTypes = {
   history: PropTypes.shape({
@@ -162,31 +162,41 @@ export default class BookmarksPage extends Component {
     const menuOptionReceived = classNames({ 'habla-tab__item': true, active: filterBy === filterOption.received });
     const sentKeys = allKeys.filter(key => orgBookmarks[key].createdBy === user.userId);
     const receivedKeys = allKeys.filter(key => orgBookmarks[key].createdBy !== user.userId);
+
+    // Breadcrumb
+    const pageBreadCrumb = {
+      routes: [
+        {
+          title: String.t('bookmarksPage.title')
+        }
+      ]
+    };
+
     return (
       <div>
-        <NewSubpageHeader>
-          <div className="habla-main-content-header-title">
-            <div className="actionButtonsContainer">
-              <a>
-                <svg className="fas fa-bars fa-w-14 fa-2x" />
-                <i className="fas fa-chevron-down" />
-              </a>
-            </div>
-            <div className="habla-title">{String.t('bookmarksPage.title')}</div>
-          </div>
-          <div className="habla-main-content-filters-links">
-            <div onClick={() => this.setState({ filterBy: filterOption.all })} className={menuOptionAll}>
-              {String.t('bookmarksPage.menu.all')} {String.t('bookmarksPage.filterCount', { count: allKeys.length })}
-            </div>
-            <div onClick={() => this.setState({ filterBy: filterOption.sent })} className={menuOptionSent}>
-              {String.t('bookmarksPage.menu.sent')} {String.t('bookmarksPage.filterCount', { count: sentKeys.length })}
-            </div>
-            <div onClick={() => this.setState({ filterBy: filterOption.received })} className={menuOptionReceived}>
-              {String.t('bookmarksPage.menu.received')}{' '}
-              {String.t('bookmarksPage.filterCount', { count: receivedKeys.length })}
-            </div>
-          </div>
-        </NewSubpageHeader>
+        <PageHeader
+          pageBreadCrumb={pageBreadCrumb}
+          backButton
+          optionalButtons={{
+            enabled: true,
+            content: (
+              <div className="habla-main-content-filters-links">
+                <div onClick={() => this.setState({ filterBy: filterOption.all })} className={menuOptionAll}>
+                  {String.t('bookmarksPage.menu.all')}{' '}
+                  {String.t('bookmarksPage.filterCount', { count: allKeys.length })}
+                </div>
+                <div onClick={() => this.setState({ filterBy: filterOption.sent })} className={menuOptionSent}>
+                  {String.t('bookmarksPage.menu.sent')}{' '}
+                  {String.t('bookmarksPage.filterCount', { count: sentKeys.length })}
+                </div>
+                <div onClick={() => this.setState({ filterBy: filterOption.received })} className={menuOptionReceived}>
+                  {String.t('bookmarksPage.menu.received')}{' '}
+                  {String.t('bookmarksPage.filterCount', { count: receivedKeys.length })}
+                </div>
+              </div>
+            )
+          }}
+        />
         {filterBy === filterOption.all &&
           this.renderByFilter(orgBookmarks, allKeys, String.t('bookmarksPage.noBookmarks'))}
         {filterBy === filterOption.sent &&
