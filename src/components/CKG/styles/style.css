@@ -103,11 +103,6 @@
 
 .FileListView .ant-table-tbody > tr > td:first-child {
   font-weight: 600;
-  max-width: 250px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  height: 60px;
 }
 
 .FileListView .pagination-container {
