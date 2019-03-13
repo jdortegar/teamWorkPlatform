@@ -133,7 +133,6 @@ class MessageInput extends React.Component {
         this.clearTypingTimer();
 
         if (!message && isEmpty(files)) return;
-
         this.props
           .createMessage({
             message,

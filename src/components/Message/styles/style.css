@@ -1,6 +1,6 @@
 .message__main-container {
   position: relative;
-  cursor: pointer;
+  cursor: auto;
   padding: 10px;
 }
 .message__main-container:hover .message__options {

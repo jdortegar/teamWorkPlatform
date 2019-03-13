@@ -391,6 +391,7 @@ class Chat extends React.Component {
           fetchMetadata={this.props.fetchMetadata}
           lastRead={lastRead}
           clearFileList={this.props.clearFileList}
+          conversationId={conversation.conversationId}
         />
       );
     });

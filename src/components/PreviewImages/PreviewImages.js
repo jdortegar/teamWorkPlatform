@@ -8,7 +8,7 @@ import './styles/style.css';
 const propTypes = {
   images: PropTypes.array,
   subscriberOrgId: PropTypes.string.isRequired,
-  teamId: PropTypes.string,
+  conversationId: PropTypes.string,
   token: PropTypes.string.isRequired,
   onLoadImage: PropTypes.func,
   personalConversation: PropTypes.object
@@ -18,7 +18,7 @@ const defaultProps = {
   images: [],
   onLoadImage: null,
   personalConversation: {},
-  teamId: null
+  conversationId: null
 };
 
 class PreviewImages extends Component {
@@ -36,12 +36,8 @@ class PreviewImages extends Component {
   }
 
   componentDidMount() {
-    const { images, teamId, subscriberOrgId, token, personalConversation } = this.props;
-
-    let keyImageId = teamId;
-    if (!teamId) {
-      keyImageId = personalConversation.conversationId;
-    }
+    const { images, conversationId, subscriberOrgId, token, personalConversation } = this.props;
+    const keyImageId = !conversationId ? personalConversation.conversationId : conversationId;
 
     const putHeaders = {
       headers: {

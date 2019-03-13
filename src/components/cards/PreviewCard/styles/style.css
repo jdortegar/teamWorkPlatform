@@ -1,6 +1,6 @@
 .PreviewCard__container > div.ant-card-head {
   position: absolute;
-  right: 10px;
+  right: 5px;
   top: 2px;
   padding: 0;
   border: none;
@@ -61,9 +61,5 @@
   text-transform: uppercase;
 }
 .PreviewCard__container img {
-  width: 52px;
-  margin-right: 0.35em;
-  margin-left: 0.35em;
-  margin-top: 0.35em;
   cursor: pointer;
 }

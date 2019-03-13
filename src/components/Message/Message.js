@@ -27,7 +27,8 @@ const propTypes = {
   onLoadImages: PropTypes.func,
   lastRead: PropTypes.bool,
   personalConversation: PropTypes.object,
-  fetchMetadata: PropTypes.func
+  fetchMetadata: PropTypes.func,
+  conversationId: PropTypes.string
 };
 
 const defaultProps = {
@@ -40,7 +41,8 @@ const defaultProps = {
   teamId: null,
   personalConversation: {},
   fetchMetadata: null,
-  user: {}
+  user: {},
+  conversationId: null
 };
 
 export const messageAction = {
@@ -190,7 +192,7 @@ class Message extends Component {
                     <PreviewImages
                       images={contentJustImage}
                       subscriberOrgId={this.props.subscriberOrgId}
-                      teamId={this.props.teamId}
+                      conversationId={this.props.conversationId}
                       onLoadImage={this.props.onLoadImages}
                       personalConversation={this.props.personalConversation}
                     />

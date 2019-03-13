@@ -1168,7 +1168,7 @@ ul.ant-menu li.ant-menu-submenu:hover {
 }
 .image-wrapper .ant-card {
   background: none;
-  width: inherit;
+  width: 100%;
   height: inherit;
   border: none;
   margin: 0;
