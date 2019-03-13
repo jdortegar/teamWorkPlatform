@@ -1,4 +1,21 @@
+import { omit, unset } from 'lodash';
+import moment from 'moment';
+
 const buildMessage = message => ({ ...message, children: [] });
+
+const replaceLocalMessage = (localId, array, newMessage) => {
+  for (let i = array.length - 1; i >= 0; i -= 1) {
+    const node = array[i];
+    if (node.messageId === localId) {
+      // eslint-disable-next-line no-param-reassign
+      array[i] = buildMessage(newMessage);
+      return node;
+    } else if (node.children.length > 0) {
+      return replaceLocalMessage(localId, node.children, buildMessage(newMessage));
+    }
+  }
+  return null;
+};
 
 const getNode = (messageId, array) => {
   for (let i = array.length - 1; i >= 0; i -= 1) {
@@ -21,7 +38,7 @@ const addMessageToArray = (message, array) => {
   } else {
     let i = array.length - 1;
     for (; i >= 0; i -= 1) {
-      if (message.created > array[i].created) {
+      if (moment(message.created).isAfter(moment(array[i].created))) {
         break;
       }
     }
@@ -77,8 +94,16 @@ const buildMessagesList = (messages = [], current = { messagesList: [], byId: {}
   const unaddedMessages = [];
 
   messages.forEach(message => {
-    const existingMessage = result.byId[message.messageId];
-    result.byId[message.messageId] = message;
+    let existingMessage = result.byId[message.messageId];
+
+    // if the localId is no longer valid, delete it, and update the message in the list
+    if (message.localId && message.localId !== message.messageId) {
+      result.byId[message.messageId] = omit(message, 'localId');
+      unset(result.byId, message.localId);
+      existingMessage = replaceLocalMessage(message.localId, result.messagesList, message);
+    } else {
+      result.byId[message.messageId] = message;
+    }
 
     if (!existingMessage) {
       if (!addMessageToList(message, result.messagesList)) {

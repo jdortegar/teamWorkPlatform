@@ -202,7 +202,13 @@ class Message extends Component {
                       <a
                         className="message__icons"
                         onClick={e => {
-                          this.handleReplyTo({ firstName, lastName, text, messageId, preferences });
+                          this.handleReplyTo({
+                            firstName,
+                            lastName,
+                            text: justTextContent.text,
+                            messageId,
+                            preferences
+                          });
                           e.stopPropagation();
                         }}
                       >

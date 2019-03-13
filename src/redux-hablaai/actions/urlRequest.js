@@ -33,10 +33,11 @@ export const clearUrlRequest = requestUrl => ({
   payload: { requestUrl }
 });
 
-export const doRequest = ({ requestUrl, method, headers, data }, reduxState, options = { cache: false }) => (
-  dispatch,
-  getState
-) => {
+export const doRequest = (
+  { requestUrl, method, headers, data, onUploadProgress },
+  reduxState,
+  options = { cache: false }
+) => (dispatch, getState) => {
   // Check if a request for the exact same requestUrl exists and return the current request promise
   const urlRequest = getState().urlRequests[requestUrl];
   if (urlRequest && urlRequest.actionType === URLREQUEST_CREATE && urlRequest.request && urlRequest.request.then) {
@@ -56,7 +57,7 @@ export const doRequest = ({ requestUrl, method, headers, data }, reduxState, opt
   }
 
   // Do the request
-  const request = axios({ method, url: requestUrl, headers, data })
+  const request = axios({ method, url: requestUrl, headers, data, onUploadProgress })
     .then(response => {
       if (CACHE_GET_REQUESTS && method.toLowerCase() === 'get') {
         cachedGetRequests[requestUrl] = { response, request, reduxState };
@@ -79,7 +80,7 @@ export const doRequest = ({ requestUrl, method, headers, data }, reduxState, opt
 };
 
 export const doAuthenticatedRequest = (
-  { requestUrl, method, additionalHeaders = {}, data },
+  { requestUrl, method, additionalHeaders = {}, data, onUploadProgress },
   reduxState = {},
   options = { cache: false }
 ) => (dispatch, getState) => {
@@ -87,7 +88,9 @@ export const doAuthenticatedRequest = (
     Authorization: `Bearer ${getState().auth.token}`,
     ...additionalHeaders
   };
-  return dispatch(doRequest({ requestUrl, method, headers: secureHeaders, data }, reduxState, options));
+  return dispatch(
+    doRequest({ requestUrl, method, headers: secureHeaders, data, onUploadProgress }, reduxState, options)
+  );
 };
 
 let previouslyOnline = false;

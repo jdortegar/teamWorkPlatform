@@ -1,10 +1,13 @@
 import { combineReducers } from 'redux';
-import { union } from 'lodash';
+import { union, omit } from 'lodash';
 import {
   CONVERSATIONS_FETCH_SUCCESS,
   CONVERSATIONS_RECEIVE,
   MESSAGES_RECEIVE,
   MESSAGES_FETCH_SUCCESS,
+  MESSAGE_CREATE_REQUEST,
+  MESSAGE_CREATE_SUCCESS,
+  MESSAGE_CREATE_FAILURE,
   CONVERSATION_DIRECT_RECEIVE
 } from 'src/actions';
 import buildMessagesList from 'src/lib/buildMessagesList';
@@ -88,9 +91,27 @@ const messagesByConversation = (state = {}, action) => {
     case MESSAGES_FETCH_SUCCESS:
     case MESSAGES_RECEIVE: {
       const { conversationId, messages = [] } = action.payload;
+      return { ...state, [conversationId]: buildMessagesList(messages, state[conversationId]) };
+    }
+    case MESSAGE_CREATE_REQUEST: {
+      const { conversationId, message } = action.payload;
+      return { ...state, [conversationId]: buildMessagesList([message], state[conversationId]) };
+    }
+    case MESSAGE_CREATE_SUCCESS: {
+      const { conversationId, localId, message } = action.payload;
+      const updatedMessage = { ...message, localId };
+      return { ...state, [conversationId]: buildMessagesList([updatedMessage], state[conversationId]) };
+    }
+    case MESSAGE_CREATE_FAILURE: {
+      const { conversationId, localId } = action.payload;
+      const current = state[conversationId] || {};
+
       return {
         ...state,
-        [conversationId]: buildMessagesList(messages, state[conversationId])
+        [conversationId]: {
+          byId: omit(current.byId, localId),
+          messagesList: current.messagesList.filter(m => m.localId !== localId)
+        }
       };
     }
     default:

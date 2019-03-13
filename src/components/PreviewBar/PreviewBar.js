@@ -20,7 +20,7 @@ const propTypes = {
     }).isRequired
   }),
   removeFileFromList: PropTypes.func.isRequired,
-  fileWithPercent: PropTypes.object
+  fileProgress: PropTypes.object
 };
 
 const defaultProps = {
@@ -30,7 +30,7 @@ const defaultProps = {
     firstName: '',
     lastName: ''
   },
-  fileWithPercent: null
+  fileProgress: null
 };
 
 function getProgressBar(percent) {
@@ -39,12 +39,12 @@ function getProgressBar(percent) {
 }
 
 class PreviewBar extends Component {
-  renderPreviewCards() {
-    const { fileWithPercent } = this.props;
+  renderPreviewCards = () => {
+    const { fileProgress } = this.props;
     return this.props.files.map(el => {
       const item = el;
-      if (fileWithPercent !== null && el.name === fileWithPercent.name && el.size === fileWithPercent.size) {
-        item.percent = fileWithPercent.percent;
+      if (fileProgress !== null && el.name === fileProgress.name && el.size === fileProgress.size) {
+        item.percent = fileProgress.percent;
       }
       return (
         <div key={item.name} className="PreviewBar__image-wrapper image-wrapper">
@@ -60,7 +60,7 @@ class PreviewBar extends Component {
         </div>
       );
     });
-  }
+  };
 
   render() {
     const { replyTo, files } = this.props;

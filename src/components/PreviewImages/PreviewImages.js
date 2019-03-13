@@ -62,17 +62,13 @@ class PreviewImages extends Component {
             contentType: resource.headers['x-hablaai-content-type'],
             fileName: resource.headers['x-hablaai-filename']
           });
-          this.setState({
-            images: imagesBase64
-          });
+          this.setState({ images: imagesBase64 });
         });
     });
   }
 
   handleCancel() {
-    this.setState({
-      previewVisible: false
-    });
+    this.setState({ previewVisible: false });
   }
 
   handlePreview(file, isImage, extension) {

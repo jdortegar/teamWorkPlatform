@@ -31,7 +31,6 @@ const propTypes = {
   removeFileFromList: PropTypes.func.isRequired,
   addBase: PropTypes.func.isRequired,
   isDraggingOver: PropTypes.bool.isRequired,
-  token: PropTypes.string.isRequired,
   resourcesUrl: PropTypes.string.isRequired,
   createMessage: PropTypes.func.isRequired,
   clearFileList: PropTypes.func.isRequired,
@@ -271,7 +270,7 @@ class Chat extends React.Component {
 
     switch (action) {
       case messageAction.replyTo:
-        this.setState({ replyTo: extraInfo });
+        this.setState({ replyTo: { ...message, ...extraInfo } });
         break;
       case messageAction.bookmark:
         this.props
@@ -339,12 +338,9 @@ class Chat extends React.Component {
 
   handleOwnerFilterClick = userId => {
     const { users } = this.props;
+    const { membersFiltered } = this.state;
     const userFiltered = Object.values(users).find(user => user.userId === userId);
-    let { membersFiltered } = this.state;
-    membersFiltered = _.xorBy(membersFiltered, [userFiltered], 'userId');
-    this.setState({
-      membersFiltered
-    });
+    this.setState({ membersFiltered: _.xorBy(membersFiltered, [userFiltered], 'userId') });
   };
 
   setLastSubmittedMessage = message => {
@@ -352,7 +348,7 @@ class Chat extends React.Component {
   };
 
   resetReplyTo = () => {
-    this.setState({ replyTo: false });
+    this.setState({ replyTo: null });
   };
 
   renderMessages(isAdmin) {
@@ -448,16 +444,16 @@ class Chat extends React.Component {
       <div className={className}>
         {team && (
           <TopBar
-            showPageHeader={showPageHeader}
-            showTeamMembers={showTeamMembers}
             team={team}
-            showchat={this.props.showChat}
-            conversation={conversation}
-            menuOptions={menuOptions}
             user={user}
-            onOwnerFilterClick={this.handleOwnerFilterClick}
             members={members}
             membersFiltered={membersFiltered}
+            conversation={conversation}
+            menuOptions={menuOptions}
+            showPageHeader={showPageHeader}
+            showTeamMembers={showTeamMembers}
+            showchat={this.props.showChat}
+            onOwnerFilterClick={this.handleOwnerFilterClick}
           />
         )}
         <SimpleCardContainer className="team__messages">{this.renderMessages(isAdmin)}</SimpleCardContainer>
@@ -465,24 +461,19 @@ class Chat extends React.Component {
         <SimpleCardContainer className="Chat_container">
           <MessageInput
             user={user}
-            conversation={conversation}
+            conversationId={conversation.conversationId}
             iAmTyping={this.props.iAmTyping}
-            handleSubmit={this.handleSubmit}
-            shouldDisableSubmit={this.shouldDisableSubmit}
-            onFileChange={this.onFileChange}
             createMessage={this.props.createMessage}
             removeFileFromList={this.props.removeFileFromList}
             addBase={this.props.addBase}
-            updateFileList={this.props.updateFileList}
-            isDraggingOver={this.props.isDraggingOver}
-            token={this.props.token}
-            resourcesUrl={this.props.resourcesUrl}
-            orgId={this.props.orgId}
-            files={this.props.files}
             clearFileList={this.props.clearFileList}
+            updateFileList={this.props.updateFileList}
             setLastSubmittedMessage={this.setLastSubmittedMessage}
-            replyTo={this.state.replyTo}
             resetReplyTo={this.resetReplyTo}
+            isDraggingOver={this.props.isDraggingOver}
+            files={this.props.files}
+            resourcesUrl={this.props.resourcesUrl}
+            replyTo={this.state.replyTo}
           />
           <div className="team-room__members-typing">{this.renderMembersTyping()}</div>
         </SimpleCardContainer>

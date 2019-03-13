@@ -22,7 +22,6 @@ import {
   getUserByUserId,
   getPresencesOfSubscribersOfOrgId,
   getTeamConversation,
-  getToken,
   getResourcesUrl,
   getMembersTyping,
   getPersonalConversation,
@@ -48,7 +47,6 @@ const mapStateToProps = (state, props) => {
     teamMembers: getTeamMembersOfTeamId(state, teamId),
     users: getUserByUserId(state),
     usersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
-    token: getToken(state),
     resourcesUrl: getResourcesUrl(state),
     membersTyping: getMembersTyping(state, conversationId),
     lastReadTimestamp: getLastReadTimestampOfConversationId(state, conversationId)
