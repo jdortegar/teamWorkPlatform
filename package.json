@@ -18,18 +18,16 @@
     "node": ">=6"
   },
   "scripts": {
-    "start": "npm run start:prod",
-    "start:dev": "webpack-dev-server",
+    "start": "webpack-dev-server",
     "start:prod": "cross-env NODE_ENV=production NODE_PORT=8081 node server.js",
-    "prestart": "npm run build",
+    "prestart:prod": "npm run build:prod",
     "analyze": "cross-env NODE_ENV=production npm run clean && webpack --profile --config webpack.config.prod.js --json > webpack-stats.json",
-    "build": "cross-env NODE_ENV=production npm run clean && webpack --colors --config webpack.config.prod.js",
-    "build:dev": "cross-env NODE_ENV=development npm run clean && webpack --colors --profile --config webpack.config.js",
+    "build:prod": "cross-env NODE_ENV=production npm run clean && webpack --colors --config webpack.config.prod.js",
+    "build": "cross-env NODE_ENV=development npm run clean && webpack --colors --profile --config webpack.config.js",
     "lint": "eslint --fix src",
     "test": "echo \"Warning: no test specified\" && exit 0",
     "clean": "shx rm -rf dist",
-    "pristine": "npm run clean && shx rm -rf node_modules",
-    "storybook": "start-storybook -p 9001 -c .storybook"
+    "pristine": "npm run clean && shx rm -rf node_modules"
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint"
@@ -60,11 +58,6 @@
     "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.3.4",
     "@babel/preset-react": "^7.0.0",
-    "@storybook/addon-actions": "^4.1.14",
-    "@storybook/addon-console": "^1.1.0",
-    "@storybook/addon-knobs": "^4.1.14",
-    "@storybook/addons": "^4.1.14",
-    "@storybook/react": "^4.1.14",
     "acorn": "^6.1.0",
     "antd": "^3.15.0",
     "autolinker": "^3.0.4",
