@@ -386,7 +386,7 @@ class Chat extends React.Component {
           subscriberOrgId={orgId}
           teamId={team.teamId}
           isAdmin={isAdmin}
-          onLoadImages={this.scrollToBottom}
+          scrollToBottom={this.scrollToBottom}
           personalConversation={personalConversation}
           fetchMetadata={this.props.fetchMetadata}
           lastRead={lastRead}

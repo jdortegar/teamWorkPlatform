@@ -24,7 +24,7 @@ const propTypes = {
   subscriberOrgId: PropTypes.string.isRequired,
   teamId: PropTypes.string,
   isAdmin: PropTypes.bool.isRequired,
-  onLoadImages: PropTypes.func,
+  scrollToBottom: PropTypes.func,
   lastRead: PropTypes.bool,
   personalConversation: PropTypes.object,
   fetchMetadata: PropTypes.func,
@@ -35,7 +35,7 @@ const defaultProps = {
   hide: false,
   conversationDisabled: false,
   teamMembers: null,
-  onLoadImages: null,
+  scrollToBottom: null,
   lastRead: false,
   currentPath: null,
   teamId: null,
@@ -71,6 +71,10 @@ class Message extends Component {
     this.changeVolume = this.changeVolume.bind(this);
     this.onDeleteConfirmed = this.onDeleteConfirmed.bind(this);
     this.handleShowReplies = this.handleShowReplies.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.scrollToBottom();
   }
 
   componentWillReceiveProps({ currentPath, message }) {
@@ -122,7 +126,7 @@ class Message extends Component {
 
   renderMedatada(matchUrl) {
     return matchUrl.map(url => (
-      <Metadata key={url} url={url} fetchMetadata={this.props.fetchMetadata} onLoadImage={this.props.onLoadImages} />
+      <Metadata key={url} url={url} fetchMetadata={this.props.fetchMetadata} onLoadImage={this.props.scrollToBottom} />
     ));
   }
 
@@ -193,7 +197,7 @@ class Message extends Component {
                       images={contentJustImage}
                       subscriberOrgId={this.props.subscriberOrgId}
                       conversationId={this.props.conversationId}
-                      onLoadImage={this.props.onLoadImages}
+                      onLoadImage={this.props.scrollToBottom}
                       personalConversation={this.props.personalConversation}
                     />
                   </div>
