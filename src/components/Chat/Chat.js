@@ -220,7 +220,10 @@ class Chat extends React.Component {
 
     if (!_.isEmpty(nextPersonalConversation) && this.props.personalConversation) {
       // Get members data form Users
-      if (!_.isEqual(nextProps.users, this.props.users)) {
+      if (
+        !_.isEqual(nextProps.users, this.props.users) ||
+        !_.isEqual(nextPersonalConversation.members, this.state.members)
+      ) {
         const { users, usersPresences } = nextProps;
 
         const members = nextPersonalConversation.members.map(memberId => {

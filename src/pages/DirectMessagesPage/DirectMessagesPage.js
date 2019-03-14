@@ -189,7 +189,7 @@ class DirectMessagesPage extends Component {
     const { currentPersonalConversation, messagesByConversation } = this.props;
     const { conversationId } = currentPersonalConversation;
     const lastMessage = messagesByConversation[conversationId]
-      ? _.last(messagesByConversation[conversationId].messages)
+      ? _.last(messagesByConversation[conversationId].messagesList)
       : {};
 
     this.props.readMessage(lastMessage.messageId, conversationId);
