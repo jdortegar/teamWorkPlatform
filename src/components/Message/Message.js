@@ -74,7 +74,7 @@ class Message extends Component {
   }
 
   componentDidMount() {
-    this.props.scrollToBottom();
+    this.props.scrollToBottom && this.props.scrollToBottom(); // eslint-disable-line
   }
 
   componentWillReceiveProps({ currentPath, message }) {
