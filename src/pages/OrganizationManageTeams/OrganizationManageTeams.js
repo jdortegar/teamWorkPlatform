@@ -366,6 +366,7 @@ class OrganizationManageTeams extends Component {
           <PageHeader
             pageBreadCrumb={pageBreadCrumb}
             hasMenu
+            backButton
             menuName="settings"
             menuPageHeader={menuPageHeader}
             badgeOptions={{

@@ -8,7 +8,7 @@ import String from 'src/translations';
 const { Panel } = Collapse;
 
 const FolderItem = ({ folder, isSelected, onToggleSelection, disabled, children }) => (
-  <div key={folder.folder_id}>
+  <div key={folder.folder_id} className="Tree_element-container">
     <Collapse>
       <Panel
         showArrow={false}

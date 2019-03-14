@@ -115,7 +115,7 @@ class NewTeamPage extends Component {
 
     return (
       <div>
-        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
+        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon backButton />
         <Form onSubmit={this.handleSubmit} layout="vertical">
           <SimpleCardContainer className="subpage-block padding-class-a border-bottom-light container__team_image">
             <div className={containerImage}>

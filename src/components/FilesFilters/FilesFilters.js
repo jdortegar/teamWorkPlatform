@@ -80,7 +80,10 @@ class FilesFilters extends React.Component {
       <div className="FilesFilters__content">
         <div className="FilesFilters__dataTypes habla-label">
           <div className="FilesFilters__dataTypes__text">
-            <Link to={team ? `/app/teamIntegrations/${team.teamId}` : `/app/integrations/${orgId}`}>
+            <Link
+              to={team ? `/app/teamIntegrations/${team.teamId}` : `/app/integrations/${orgId}`}
+              className="FilesFilters_add-data-link"
+            >
               {String.t('ckgPage.noData')}
             </Link>
           </div>

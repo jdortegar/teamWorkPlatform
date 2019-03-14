@@ -27,32 +27,54 @@ const getColumns = (keywords, caseSensitive, owners) => [
     dataIndex: 'fileName',
     key: 'fileName',
     sorter: (a, b) => a.fileName.localeCompare(b.fileName),
-    render: (text, file) => (
-      <Tooltip placement="top" title={file.resourceUri} overlayClassName="FileListView__results__tooltip">
-        <a className="FileListView__results__link" href={file.resourceUri} target="_blank" rel="noopener noreferrer">
-          <img
-            src={imageSrcFromFileExtension(file.fileExtension)}
-            className="FileListView__results__fileIcon"
-            alt=""
-            width={32}
-            height={32}
-          />
-          <Highlighter
-            className="FileListView__results__fileName"
-            highlightClassName="FileListView__results-highlighted"
-            searchWords={keywords}
-            textToHighlight={text}
-            caseSensitive={caseSensitive}
-            autoEscape
-          />
-        </a>
-      </Tooltip>
-    )
+    render: (text, file) => {
+      // Add ellipsis to FileName if has more than 35 characters
+      let textToRender = text;
+      if (text.length > 35) {
+        textToRender = `${text.substr(0, 20)}... ${text.substr(text.length - 10, text.length)}`;
+      }
+      const ToolTipRender = (
+        <div className="habla-lighter-text">
+          <div>
+            <span className="habla-bold-text">{String.t('fileName')}: </span>
+            <br />
+            {text}
+          </div>
+          <div>
+            <span className="habla-bold-text">{String.t('url')}: </span>
+            <br />
+            {file.resourceUri}
+          </div>
+        </div>
+      );
+      return (
+        <Tooltip placement="top" title={ToolTipRender} overlayClassName="FileListView__results__tooltip">
+          <a className="FileListView__results__link" href={file.resourceUri} target="_blank" rel="noopener noreferrer">
+            <img
+              src={imageSrcFromFileExtension(file.fileExtension)}
+              className="FileListView__results__fileIcon"
+              alt=""
+              width={32}
+              height={32}
+            />
+            <Highlighter
+              className="FileListView__results__fileName"
+              highlightClassName="FileListView__results-highlighted"
+              searchWords={keywords}
+              textToHighlight={textToRender}
+              caseSensitive={caseSensitive}
+              autoEscape
+            />
+          </a>
+        </Tooltip>
+      );
+    }
   },
   {
     title: 'File Size',
     dataIndex: 'fileSize',
     key: 'fileSize',
+    className: 'widthMax20',
     sorter: (a, b) => a.fileSize - b.fileSize,
     render: x => formatSize(x)
   },
@@ -60,6 +82,7 @@ const getColumns = (keywords, caseSensitive, owners) => [
     title: 'File Type',
     dataIndex: 'fileExtension',
     key: 'fileExtension',
+    className: 'widthMax20',
     sorter: (a, b) => {
       if (a && a.fileExtension) {
         return a.fileExtension.localeCompare(b.fileExtension);
@@ -106,7 +129,7 @@ const getColumns = (keywords, caseSensitive, owners) => [
     dataIndex: 'fileOwnerName',
     key: 'fileOwnerName',
     sorter: (a, b) => a.fileOwnerName.localeCompare(b.fileOwnerName),
-    render: text => <span className="FileListView__results__fileOwnerName">{text}</span>
+    render: text => <span>{text}</span>
   },
   {
     title: 'Data Source',

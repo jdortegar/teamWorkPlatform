@@ -125,7 +125,7 @@ class InviteNewMemberPage extends Component {
 
     return (
       <div>
-        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
+        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon backButton />
         <SimpleCardContainer>
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="padding-class-a">

@@ -242,7 +242,7 @@ class CKG extends Component {
         <PageHeader
           pageBreadCrumb={this.buildPageBreadCrumb()}
           hasMenu
-          menuName="settings"
+          menuName={String.t('settings')}
           menuPageHeader={menuOptions}
           badgeOptions={{
             enabled: true,

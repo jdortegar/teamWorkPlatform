@@ -30,17 +30,11 @@
   padding: 18px;
 }
 
-.Integration__button-container {
-  padding: 18px;
-  border-top: 1px solid #f7f7f7;
-}
-
-.Integration__button-container .Integration__button {
+.Integration__button-refresh {
   background: #5b7eba;
   color: #fff;
-  font-weight: 700;
   border: none;
-  height: 40px;
+  margin-right: 10px;
 }
 
 .Integration__content-loading {

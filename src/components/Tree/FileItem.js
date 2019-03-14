@@ -8,7 +8,7 @@ import imageSrcFromFileExtension from 'src/lib/imageFiles';
 const ICON_SIZE = 32;
 
 const FileItem = ({ file, isSelected, onToggleSelection, disabled }) => (
-  <div key={file.file_id} className="Tree__item">
+  <div key={file.file_id} className="Tree__item Tree_element-container">
     <a className="Tree__item-link">
       <img
         className="Tree__file-icon"
