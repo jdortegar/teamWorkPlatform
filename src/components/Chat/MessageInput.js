@@ -1,20 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EmojiPicker from 'emoji-picker-react';
 import { Form, Tooltip, Input, message as msg } from 'antd';
 import { isEmpty } from 'lodash';
 
+import 'emoji-mart/css/emoji-mart.css';
+import { Picker } from 'emoji-mart';
 import { formShape } from 'src/propTypes';
 import { AvatarWrapper, PreviewBar } from 'src/components';
-import JSEMOJI from 'emoji-js';
-import String from 'src/translations';
 
-// emoji set up
-const jsemoji = new JSEMOJI();
-// set the style to emojione (default - apple)
-jsemoji.img_set = 'emojione';
-// set the storage location for all emojis
-jsemoji.img_sets.emojione.path = 'https://cdn.jsdelivr.net/emojione/assets/3.0/png/32/';
+// Hack for use String functions
+import Str from 'src/translations';
 
 const propTypes = {
   user: PropTypes.object.isRequired,
@@ -84,16 +79,23 @@ class MessageInput extends React.Component {
     this.setState({ showEmojiPicker: !this.state.showEmojiPicker });
   };
 
-  // Hande emoticons when are clicked
-  handleEmojiClick = (n, e) => {
-    const emoji = jsemoji.replace_colons(`:${e.name}:`);
-    const { message } = this.props.form.getFieldsValue();
-    this.props.form.setFieldsValue({ message: `${message || ''} ${emoji}` });
-    this.setState({ showEmojiPicker: false });
-  };
-
   toogleEmojiState = () => {
     this.setState({ showEmojiPicker: !this.state.showEmojiPicker });
+  };
+
+  addEmoji = e => {
+    const { message } = this.props.form.getFieldsValue();
+    if (e.unified.length <= 5) {
+      const emojiPic = String.fromCodePoint(`0x${e.unified}`);
+      this.props.form.setFieldsValue({ message: `${message || ''} ${emojiPic}` });
+    } else {
+      const sym = e.unified.split('-');
+      const codesArray = [];
+      sym.forEach(el => codesArray.push(`0x${el}`));
+      const emojiPic = String.fromCodePoint(...codesArray);
+      this.props.form.setFieldsValue({ message: `${message || ''} ${emojiPic}` });
+    }
+    this.setState({ showEmojiPicker: false });
   };
 
   isSubmitInvalid = () => {
@@ -201,7 +203,7 @@ class MessageInput extends React.Component {
               <Form.Item className="team-room__chat-input-form-item" hasFeedback={false}>
                 {getFieldDecorator('message', {})(
                   <Input
-                    placeholder={String.t('chat.replyPlaceholder')}
+                    placeholder={Str.t('chat.replyPlaceholder')}
                     className="team-room__chat-input-textfield"
                     onFocus={this.handleTyping}
                     autoFocus
@@ -220,9 +222,7 @@ class MessageInput extends React.Component {
             >
               <i className="far fa-smile" />
             </a>
-            <div className="emoji-table">
-              {this.state.showEmojiPicker && <EmojiPicker onEmojiClick={this.handleEmojiClick} />}
-            </div>
+            <div className="emoji-table">{this.state.showEmojiPicker && <Picker onClick={this.addEmoji} />}</div>
             <div>
               <input
                 id="fileupload"
@@ -232,8 +232,8 @@ class MessageInput extends React.Component {
                 multiple
               />
               <label htmlFor="fileupload" className="team-room__icons">
-                <Tooltip placement="top" title={String.t('chat.tooltipAttachments')} arrowPointAtCenter>
-                  <i className="fas fa-paperclip" />
+                <Tooltip placement="top" title={Str.t('chat.tooltipAttachments')} arrowPointAtCenter>
+                  <i className="fa fa-paperclip" />
                 </Tooltip>
               </label>
             </div>
@@ -244,7 +244,7 @@ class MessageInput extends React.Component {
               disabled={this.isSubmitInvalid()}
               onClick={this.handleSubmit}
             >
-              <i className="fas fa-paper-plane" />
+              <i className="far fa-paper-plane" />
             </a>
           </div>
         </div>

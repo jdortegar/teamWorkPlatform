@@ -8,16 +8,8 @@ import { SimpleCardContainer, Spinner, Message } from 'src/components';
 import { messageAction } from 'src/components/Message/Message';
 import String from 'src/translations';
 import './styles/style.css';
-import JSEMOJI from 'emoji-js';
 import TopBar from './TopBar';
 import MessageInput from './MessageInput';
-
-// emoji set up
-const jsemoji = new JSEMOJI();
-// set the style to emojione (default - apple)
-jsemoji.img_set = 'emojione';
-// set the storage location for all emojis
-jsemoji.img_sets.emojione.path = 'https://cdn.jsdelivr.net/emojione/assets/3.0/png/32/';
 
 const propTypes = {
   team: PropTypes.object,

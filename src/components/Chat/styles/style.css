@@ -293,3 +293,7 @@
   transition: background-color 0.2s;
   display: none;
 }
+
+.svg-inline--fa.fa-w-14.fa-paperclip {
+  width: 0.8em;
+}
