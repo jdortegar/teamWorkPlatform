@@ -35,12 +35,17 @@ const defaultProps = {
 };
 
 class MessageInput extends React.Component {
-  state = {
-    showPreviewBox: false,
-    fileProgress: null,
-    showEmojiPicker: false,
-    replyTo: null
-  };
+  constructor(props) {
+    super(props);
+    this.textInput = React.createRef();
+
+    this.state = {
+      showPreviewBox: false,
+      fileProgress: null,
+      showEmojiPicker: false,
+      replyTo: null
+    };
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.replyTo) {
@@ -96,6 +101,7 @@ class MessageInput extends React.Component {
       this.props.form.setFieldsValue({ message: `${message || ''} ${emojiPic}` });
     }
     this.setState({ showEmojiPicker: false });
+    this.textInput.current.focus();
   };
 
   isSubmitInvalid = () => {
@@ -207,6 +213,7 @@ class MessageInput extends React.Component {
                     className="team-room__chat-input-textfield"
                     onFocus={this.handleTyping}
                     autoFocus
+                    ref={this.textInput}
                   />
                 )}
               </Form.Item>
