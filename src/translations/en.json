@@ -102,7 +102,7 @@
   "organization": "Organization",
   "organizations": "Organizations",
   "teams": "Project Teams",
-  "directMessages": "Direct Messages",
+  "directMessages": "Direct Messages Users",
   "fullName": "{{firstName}} {{lastName}}",
   "memberPopupName": "Name: {{firstName}} {{lastName}}",
   "memberPopupUsername": "Organization Name: {{displayName}}",

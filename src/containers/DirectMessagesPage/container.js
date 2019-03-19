@@ -6,7 +6,6 @@ import {
   getPresencesOfSubscribersOfOrgId,
   getCurrentSubscriberOrgId,
   getCurrentPersonalConversation,
-  getReadMessagesByConversationId,
   getConversationsById,
   getMessagesByConversation
 } from 'src/selectors';
@@ -22,7 +21,6 @@ const mapStateToProps = (state, props) => {
     users: getUserByUserId(state),
     usersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
     currentPersonalConversation: getCurrentPersonalConversation(state),
-    readMessagesByConversationId: getReadMessagesByConversationId(state),
     userId,
     conversations: getConversationsById(state),
     messagesByConversation: getMessagesByConversation(state)

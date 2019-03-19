@@ -13,6 +13,7 @@ import { AvatarWrapper, Badge } from 'src/components';
 import { VideoCallModal } from 'src/containers';
 import Avatar from '../common/Avatar';
 import './styles/style.css';
+import DirectMessages from './DirectMessages';
 
 const { Sider } = Layout;
 
@@ -38,7 +39,10 @@ const propTypes = {
   finishCall: PropTypes.func.isRequired,
   personalConversationUnreadMessages: PropTypes.number,
   readMessagesByConversationId: PropTypes.object,
-  conversationIdsByTeam: PropTypes.object
+  conversationIdsByTeam: PropTypes.object,
+  conversations: PropTypes.object,
+  messagesByConversation: PropTypes.object.isRequired,
+  readMessage: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -53,7 +57,8 @@ const defaultProps = {
   callingData: {},
   personalConversationUnreadMessages: null,
   readMessagesByConversationId: {},
-  conversationIdsByTeam: {}
+  conversationIdsByTeam: {},
+  conversations: {}
 };
 
 const ROUTERS_TO_HIDE_SIDEBAR = ['/app/userDetails'];
@@ -399,7 +404,8 @@ class Sidebar extends Component {
       currentSubscriberOrgId,
       history,
       userRoles,
-      teamId
+      teamId,
+      user
     } = this.props;
     if (!currentSubscriberOrgId || !teams || subscriberOrgs.length === 0 || !subscribers || !subscribersPresences) {
       return null;
@@ -512,6 +518,10 @@ class Sidebar extends Component {
             </span>
           </div>
 
+          <div className="sidebar-actions">
+            <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleSearch} />
+          </div>
+
           <div className="organization-list">
             <Menu
               mode="inline"
@@ -521,10 +531,6 @@ class Sidebar extends Component {
               {this.renderTeams(this.state.teamsActive)}
             </Menu>
           </div>
-        </div>
-
-        <div className="sidebar-actions">
-          <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleSearch} />
         </div>
 
         {teamMembers.length > 0 && (
@@ -554,6 +560,19 @@ class Sidebar extends Component {
             </div>
           </div>
         )}
+
+        <DirectMessages
+          user={user}
+          subscribers={subscribers}
+          subscribersPresences={subscribersPresences}
+          history={history}
+          renderAvatar={renderAvatar}
+          readMessagesByConversationId={this.props.readMessagesByConversationId}
+          conversations={this.props.conversations}
+          messagesByConversation={this.props.messagesByConversation}
+          readMessage={this.props.readMessage}
+        />
+
         <div className="sidebar-resize-icon">
           <i className="fas fa-bars" data-fa-transform="rotate-90" />
         </div>

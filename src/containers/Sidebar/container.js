@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { Sidebar } from 'src/components';
-import { setCurrentSubscriberOrgId, showSideBar, makePersonalCall, finishCall } from 'src/actions';
+import { setCurrentSubscriberOrgId, showSideBar, makePersonalCall, finishCall, readMessage } from 'src/actions';
 import {
   getCurrentUser,
   getCurrentSubscriberOrgId,
@@ -15,7 +15,10 @@ import {
   getStatusCall,
   getPersonalConversationUnreadMessages,
   getConversationIdsByTeam,
-  getReadMessagesByConversationId
+  getReadMessagesByConversationId,
+  getCurrentPersonalConversation,
+  getConversationsById,
+  getMessagesByConversation
 } from 'src/selectors';
 
 const mapStateToProps = (state, props) => {
@@ -38,7 +41,10 @@ const mapStateToProps = (state, props) => {
     statusCall: getStatusCall(state),
     personalConversationUnreadMessages: getPersonalConversationUnreadMessages(state),
     conversationIdsByTeam: getConversationIdsByTeam(state),
-    readMessagesByConversationId: getReadMessagesByConversationId(state)
+    currentPersonalConversation: getCurrentPersonalConversation(state),
+    readMessagesByConversationId: getReadMessagesByConversationId(state),
+    conversations: getConversationsById(state),
+    messagesByConversation: getMessagesByConversation(state)
   };
 };
 
@@ -46,7 +52,8 @@ const mapDispatchToProps = {
   setCurrentSubscriberOrgId,
   showSideBar,
   makePersonalCall,
-  finishCall
+  finishCall,
+  readMessage
 };
 
 export default withRouter(

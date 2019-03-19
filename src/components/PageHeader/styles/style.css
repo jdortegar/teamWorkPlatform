@@ -178,7 +178,7 @@
 }
 
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-  background: #333 !important;
+  background: #333;
   color: #fff;
 }
 

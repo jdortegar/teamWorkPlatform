@@ -35,7 +35,7 @@
   color: #999;
   text-decoration: none;
   font-size: 14px;
-  padding-top: 15px;
+  line-height: 14px;
   padding-left: 7px;
   margin-right: 25px;
   display: block;
@@ -43,13 +43,18 @@
   white-space: nowrap;
   overflow: hidden;
 }
-.Team_active .habla-left-navigation-item-label {
+.organization-list .ant-menu-item-selected {
+  background: #fff !important;
+}
+.Team_active .habla-left-navigation-item-label,
+.User_active .habla-left-navigation-item-label {
   color: #000;
   font-weight: 600;
 }
 .habla-left-navigation-team-list-item {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .habla-left-navigation-notification-globe {
@@ -225,10 +230,12 @@ ul.ant-menu-sub {
 .sidebar-resize-icon svg {
   cursor: col-resize;
 }
-.sidebar-teams {
+.sidebar-teams,
+.sidebar-members {
   background: #fff;
   margin-top: 10px;
-  border-radius: 5px 5px 0px 0px;
+  border-radius: 5px 5px 5px 5px;
+  padding-bottom: 17px;
 }
 .sidebar-direct-messages {
   background: #fff;
@@ -247,9 +254,9 @@ ul.ant-menu-sub {
   border-right: 1px solid #bac6de;
 }
 .organizationLinks,
-.sidebar-actions,
 .sidebar-direct-messages,
-.habla-main-content {
+.habla-main-content,
+.sidebar-members {
   border-right: 1px solid #bcbcbc;
   border-bottom: 1px solid #bcbcbc;
 }
@@ -273,7 +280,8 @@ ul.ant-menu-sub {
   transform: translate(-50%, +50%);
 }
 
-.Team_active::before {
+.Team_active::before,
+.User_active::before {
   content: '';
   width: 10px;
   height: 10px;
