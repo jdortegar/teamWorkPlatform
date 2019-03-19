@@ -1,18 +1,11 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { updateUser } from 'src/actions';
 import {
-  fetchSubscribersBySubscriberOrgId,
-  setCurrentSubscriberOrgId,
-  updateUser,
-  fetchSubscription
-} from 'src/actions';
-import {
-  getCurrentUser,
   getUserByUserId,
   getCurrentSubscriberOrgId,
   getPresencesOfSubscribersOfOrgId,
-  getCurrentSubscriberOrg,
-  getSubscription
+  getCurrentSubscriberOrg
 } from 'src/selectors';
 
 import { OrganizationManageMembers } from 'src/pages';
@@ -20,22 +13,14 @@ import { OrganizationManageMembers } from 'src/pages';
 const mapStateToProps = state => {
   const orgId = getCurrentSubscriberOrgId(state);
   return {
-    subscriberOrgs: state.subscriberOrgs,
-    currentSubscriberOrgId: orgId,
-    user: getCurrentUser(state),
+    orgId,
     users: getUserByUserId(state),
     usersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
-    subscriberOrg: getCurrentSubscriberOrg(state),
-    subscription: getSubscription(state)
+    org: getCurrentSubscriberOrg(state)
   };
 };
 
-const mapDispatchToProps = {
-  fetchSubscribersBySubscriberOrgId,
-  fetchSubscription,
-  setCurrentSubscriberOrgId,
-  updateUser
-};
+const mapDispatchToProps = { updateUser };
 
 export default withRouter(
   connect(
