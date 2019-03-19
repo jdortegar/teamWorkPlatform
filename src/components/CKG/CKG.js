@@ -62,7 +62,7 @@ const defaultProps = {
   loading: false,
   showSelector: true,
   menuOptions: [],
-  activeView: CKG_VIEWS.TIME_ACTIVITY,
+  activeView: CKG_VIEWS.FILE_LIST,
   showChat: null,
   showCKG: null,
   chatVisible: true
