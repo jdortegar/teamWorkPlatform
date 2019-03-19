@@ -7,7 +7,7 @@ import './styles/style.css';
 
 const propTypes = {
   images: PropTypes.array,
-  subscriberOrgId: PropTypes.string.isRequired,
+  orgId: PropTypes.string.isRequired,
   conversationId: PropTypes.string,
   token: PropTypes.string.isRequired,
   onLoadImage: PropTypes.func,
@@ -36,14 +36,14 @@ class PreviewImages extends Component {
   }
 
   componentDidMount() {
-    const { images, conversationId, subscriberOrgId, token, personalConversation } = this.props;
+    const { images, conversationId, orgId, token, personalConversation } = this.props;
     const keyImageId = !conversationId ? personalConversation.conversationId : conversationId;
 
     const putHeaders = {
       headers: {
         Authorization: `Bearer ${token}`,
         'x-hablaai-teamid': keyImageId,
-        'x-hablaai-subscriberorgid': subscriberOrgId
+        'x-hablaai-subscriberorgid': orgId
       }
     };
     const imagesBase64 = [];

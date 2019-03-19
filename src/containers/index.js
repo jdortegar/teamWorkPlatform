@@ -23,6 +23,7 @@ export InviteToTeamPage from './InviteToTeamPage';
 export Login from './Login';
 export Main from './Main';
 export MainContent from './MainContent';
+export Message from './Message';
 export NewTeamPage from './NewTeamPage';
 export Notification from './Notification';
 export NotificationsPage from './NotificationsPage';

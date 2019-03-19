@@ -4,7 +4,8 @@ import _ from 'lodash';
 
 import classNames from 'classnames';
 import { message as msg } from 'antd';
-import { SimpleCardContainer, Spinner, Message } from 'src/components';
+import { Message } from 'src/containers';
+import { SimpleCardContainer, Spinner } from 'src/components';
 import { messageAction } from 'src/components/Message/Message';
 import String from 'src/translations';
 import './styles/style.css';
@@ -347,12 +348,23 @@ class Chat extends React.Component {
   };
 
   renderMessages(isAdmin) {
-    const { conversation, user, team, orgId, personalConversation, lastReadTimestamp } = this.props;
+    const { conversation, user, team, personalConversation, lastReadTimestamp } = this.props;
     const { membersFiltered, lastSubmittedMessage } = this.state;
+
     if (!membersFiltered) return null;
     let lastReadExists = false;
+    let previousSenderId = null;
     const currentPath = lastSubmittedMessage ? lastSubmittedMessage.path : null;
+
     return conversation.messages.map(message => {
+      if (message.deleted) return null;
+
+      // group messages from the same user
+      const sender = membersFiltered.find(member => member.userId === message.createdBy);
+      if (!sender) return null;
+      const grouped = previousSenderId === sender.userId;
+      previousSenderId = sender.userId;
+
       // If message was created after last read message timestamp
       let lastRead = null;
       if (message.createdBy !== user.userId) {
@@ -362,31 +374,27 @@ class Chat extends React.Component {
           this.setScrollEvent();
         }
       }
-      if (message.deleted) return null;
-      // found creator
-      const createdBy = membersFiltered.find(member => member.userId === message.createdBy);
-      if (!createdBy) return null;
+
       return (
         <Message
-          conversationDisabled={!team.active}
           message={message}
-          user={createdBy}
-          currentUser={user}
+          sender={sender}
           key={message.messageId}
-          onMessageAction={this.onMessageAction}
-          hide={false}
+          conversationId={conversation.conversationId}
+          personalConversation={personalConversation}
+          conversationDisabled={!team.active}
           currentPath={currentPath}
           teamMembers={membersFiltered}
-          onFileChange={this.onFileChange}
-          subscriberOrgId={orgId}
           teamId={team.teamId}
           isAdmin={isAdmin}
-          scrollToBottom={this.scrollToBottom}
-          personalConversation={personalConversation}
-          fetchMetadata={this.props.fetchMetadata}
           lastRead={lastRead}
+          hide={false}
+          grouped={grouped}
+          scrollToBottom={this.scrollToBottom}
+          fetchMetadata={this.props.fetchMetadata}
+          onMessageAction={this.onMessageAction}
+          onFileChange={this.onFileChange}
           clearFileList={this.props.clearFileList}
-          conversationId={conversation.conversationId}
         />
       );
     });

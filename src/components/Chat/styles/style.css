@@ -184,20 +184,20 @@
 
 .team__messages .message__Bubble {
   background: #eff6ff;
-  padding: 10px;
+  padding: 5px 10px;
   border-radius: 5px;
   position: relative;
 }
 
-.team__messages .message__Bubble::before {
+.team__messages .message__Bubble.withArrow::before {
   content: '';
   position: absolute;
-  left: -15px;
+  left: -10px;
   width: 0;
   height: 0;
-  border-top: 10px solid transparent;
-  border-right: 15px solid #eff6ff;
-  border-bottom: 10px solid transparent;
+  border-top: 7px solid transparent;
+  border-right: 10px solid #eff6ff;
+  border-bottom: 7px solid transparent;
 }
 
 .DirectMessages_Page .team__messages .message__Bubble.left {
@@ -213,32 +213,32 @@
   background: #f1f1f1;
 }
 
-.DirectMessages_Page .team__messages .message__Bubble.left::before {
+.DirectMessages_Page .team__messages .message__Bubble.withArrow.left::before {
   content: '';
   position: absolute;
-  left: -15px;
+  left: -10px;
   width: 0;
   height: 0;
-  border-top: 10px solid transparent;
-  border-right: 15px solid #eff6ff;
-  border-bottom: 10px solid transparent;
+  border-top: 7px solid transparent;
+  border-right: 10px solid #eff6ff;
+  border-bottom: 7px solid transparent;
 }
 
-.DirectMessages_Page .team__messages .message__Bubble.right::before {
+.DirectMessages_Page .team__messages .message__Bubble.withArrow.right::before {
   content: '';
   position: absolute;
-  right: -15px;
+  right: -10px;
   left: auto;
   width: 0;
   height: 0;
-  border-top: 10px solid transparent;
-  border-left: 15px solid #f1f1f1;
-  border-bottom: 10px solid transparent;
+  border-top: 7px solid transparent;
+  border-left: 10px solid #f1f1f1;
+  border-bottom: 7px solid transparent;
   border-right: none;
 }
 
-.team__messages .message__Bubble.right::before {
-  border-right: 15px solid #f1f1f1;
+.team__messages .message__Bubble.withArrow.right::before {
+  border-right: 10px solid #f1f1f1;
 }
 
 .DirectMessages_Page .message__inverted_order {

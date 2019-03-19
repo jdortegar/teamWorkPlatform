@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Popconfirm, Row, Col, Tooltip } from 'antd';
-import _ from 'lodash';
+import { Row, Col } from 'antd';
+import { find, includes, isEmpty } from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
 import Autolinker from 'autolinker';
@@ -9,45 +9,50 @@ import Autolinker from 'autolinker';
 import String from 'src/translations';
 import { AvatarWrapper } from 'src/components';
 import { PreviewImages } from 'src/containers';
+import MessageOptions from './MessageOptions';
 import Metadata from './Metadata';
 import './styles/style.css';
 
 const propTypes = {
-  hide: PropTypes.bool,
-  currentPath: PropTypes.string,
-  conversationDisabled: PropTypes.bool,
-  onMessageAction: PropTypes.func.isRequired,
-  teamMembers: PropTypes.array,
   message: PropTypes.object.isRequired,
-  user: PropTypes.object,
-  currentUser: PropTypes.object.isRequired,
-  subscriberOrgId: PropTypes.string.isRequired,
-  teamId: PropTypes.string,
+  onMessageAction: PropTypes.func.isRequired,
+  sender: PropTypes.object,
+  conversationId: PropTypes.string,
+  conversationDisabled: PropTypes.bool,
   isAdmin: PropTypes.bool.isRequired,
-  scrollToBottom: PropTypes.func,
-  lastRead: PropTypes.bool,
+  hide: PropTypes.bool,
+  grouped: PropTypes.bool,
+  currentPath: PropTypes.string,
+  teamMembers: PropTypes.array,
   personalConversation: PropTypes.object,
+  teamId: PropTypes.string,
+  lastRead: PropTypes.bool,
   fetchMetadata: PropTypes.func,
-  conversationId: PropTypes.string
+  scrollToBottom: PropTypes.func,
+  bookmarked: PropTypes.bool,
+  ownMessage: PropTypes.bool
 };
 
 const defaultProps = {
+  sender: {},
+  personalConversation: {},
+  conversationId: null,
+  bookmarked: false,
+  ownMessage: false,
   hide: false,
+  grouped: false,
   conversationDisabled: false,
-  teamMembers: null,
-  scrollToBottom: null,
   lastRead: false,
+  teamMembers: [],
   currentPath: null,
   teamId: null,
-  personalConversation: {},
-  fetchMetadata: null,
-  user: {},
-  conversationId: null
+  fetchMetadata: () => {},
+  scrollToBottom: () => {}
 };
 
 export const messageAction = {
   replyTo: 'replyTo',
-  thumb: 'thumb', // "up" or "down"
+  thumb: 'thumb',
   bookmark: 'bookmark',
   flag: 'flag',
   delete: 'delete',
@@ -55,235 +60,192 @@ export const messageAction = {
 };
 
 class Message extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      mute: true,
-      isExpanded: _.includes(props.currentPath, props.message.messageId)
-    };
-
-    this.handleReplyTo = this.handleReplyTo.bind(this);
-    this.handleBookmark = this.handleBookmark.bind(this);
-    this.handleThumb = this.handleThumb.bind(this);
-    this.handleFlag = this.handleFlag.bind(this);
-    // this.handleEdit = this.handleEdit.bind(this);
-    this.changeVolume = this.changeVolume.bind(this);
-    this.onDeleteConfirmed = this.onDeleteConfirmed.bind(this);
-    this.handleShowReplies = this.handleShowReplies.bind(this);
-  }
+  state = {
+    mute: true,
+    isExpanded: includes(this.props.currentPath, this.props.message.messageId)
+  };
 
   componentDidMount() {
-    this.props.scrollToBottom && this.props.scrollToBottom(); // eslint-disable-line
+    this.props.scrollToBottom();
   }
 
   componentWillReceiveProps({ currentPath, message }) {
-    if (this.props.currentPath !== currentPath && _.includes(currentPath, message.messageId)) {
+    if (this.props.currentPath !== currentPath && includes(currentPath, message.messageId)) {
       this.setState({ isExpanded: true });
     }
   }
 
-  onDeleteConfirmed(e) {
+  onDeleteConfirmed = e => {
     const { message } = this.props;
     this.props.onMessageAction({ message }, messageAction.delete);
     e.stopPropagation();
-  }
+  };
 
-  handleShowReplies() {
-    this.setState({
-      isExpanded: !this.state.isExpanded
-    });
-  }
+  handleShowReplies = () => {
+    this.setState({ isExpanded: !this.state.isExpanded });
+  };
 
-  handleReplyTo(extraInfo) {
+  handleReplyTo = extraInfo => {
     const { message } = this.props;
     this.props.onMessageAction({ message, extraInfo }, messageAction.replyTo);
-  }
+  };
 
-  handleBookmark(setBookmark) {
+  handleBookmark = setBookmark => {
     const { message, teamId } = this.props;
     const extraInfo = { setBookmark };
     const bookmark = { ...message, teamId };
     this.props.onMessageAction({ bookmark, extraInfo }, messageAction.bookmark);
-  }
+  };
 
-  handleThumb(direction) {
+  handleThumb = direction => {
     const { message } = this.props;
     const extraInfo = { direction };
     this.props.onMessageAction({ message, extraInfo }, messageAction.thumb);
-  }
+  };
 
-  handleFlag() {
+  handleFlag = () => {
     const { message } = this.props;
     this.props.onMessageAction({ message }, messageAction.flag);
-  }
+  };
 
-  changeVolume() {
-    this.setState({
-      mute: !this.state.mute
-    });
-  }
+  changeVolume = () => {
+    this.setState({ mute: !this.state.mute });
+  };
 
-  renderMedatada(matchUrl) {
-    return matchUrl.map(url => (
+  renderMedatada = matchUrl =>
+    matchUrl.map(url => (
       <Metadata key={url} url={url} fetchMetadata={this.props.fetchMetadata} onLoadImage={this.props.scrollToBottom} />
     ));
-  }
+
+  renderLastReadMark = () => (
+    <div className="message__unread_mark border-top-red">
+      <span className="message__last-read">{String.t('message.unreadMessageSeparator')}</span>
+    </div>
+  );
+
+  renderReplies = replies => {
+    const { conversationDisabled, teamMembers, currentPath, teamId, isAdmin, onMessageAction } = this.props;
+    let previousSenderId = null;
+    if (isEmpty(replies)) return null;
+
+    return (
+      <div className="message__replies">
+        {replies.map(replyMessage => {
+          // group messages from the same user
+          const sender = teamMembers.find(member => member.userId === replyMessage.createdBy);
+          if (!sender) return null;
+          const grouped = previousSenderId === sender.userId;
+          previousSenderId = sender.userId;
+
+          return (
+            <Message
+              conversationDisabled={conversationDisabled}
+              message={replyMessage}
+              sender={sender}
+              grouped={grouped}
+              key={replyMessage.messageId}
+              onMessageAction={onMessageAction}
+              hide={!this.state.isExpanded}
+              currentPath={currentPath}
+              teamMembers={teamMembers}
+              teamId={teamId}
+              isAdmin={isAdmin}
+            />
+          );
+        })}
+      </div>
+    );
+  };
 
   render() {
-    const { message, user, currentUser, teamMembers, hide, lastRead, conversationDisabled, isAdmin } = this.props;
-    const { messageId, children, level, content, createdBy } = message;
-    const orgBookmarks = currentUser.bookmarks[this.props.subscriberOrgId];
-    const hasBookmark = orgBookmarks && orgBookmarks.messageIds && orgBookmarks.messageIds[message.messageId];
-    const { firstName, lastName, preferences, userId } = user;
-    const date = moment(message.created).fromNow();
-    const justTextContent = _.find(content, { type: 'text/plain' });
-    const contentJustImage = content.filter(resource => resource.type !== 'text/plain');
-    const text = !!justTextContent;
+    const {
+      message,
+      sender,
+      conversationId,
+      personalConversation,
+      teamMembers,
+      grouped,
+      hide,
+      isAdmin,
+      lastRead,
+      bookmarked,
+      ownMessage,
+      conversationDisabled,
+      scrollToBottom
+    } = this.props;
+    const { messageId, children, level, content, created } = message;
+    const { firstName, lastName, preferences, userId } = sender;
+
+    const { text = '' } = find(content, { type: 'text/plain' }) || {};
+    const matchUrl = text ? text.match(/(http(s)?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-;,./?%&=!]*)?/gm) : null;
+    const otherContent = content.filter(resource => resource.type !== 'text/plain');
     const name = String.t('message.sentByName', { firstName, lastName });
-    const childrenNonDeleted = children.filter(msg => !msg.deleted);
+    const replies = children.filter(msg => !msg.deleted);
+
     const messageBody = (
       <div>
-        <p
-          className={classNames(
-            'message__body-name',
-            createdBy === currentUser.userId ? 'message__inverted_order' : ''
-          )}
-        >
-          {name}
-        </p>
+        <p className={classNames('message__body-name', ownMessage ? 'message__inverted_order' : '')}>{name}</p>
         <p className="message__body-text">
           {text && (
             // eslint-disable-next-line react/no-danger
-            <span dangerouslySetInnerHTML={{ __html: Autolinker.link(justTextContent.text, { stripPrefix: false }) }} />
+            <span dangerouslySetInnerHTML={{ __html: Autolinker.link(text, { stripPrefix: false }) }} />
           )}
-          <span className="message__body-text-date"> ({date})</span>
+          <span className="message__body-text-date"> ({moment(created).fromNow()})</span>
         </p>
       </div>
     );
-    const messageReplyPaddingLeft = classNames({
-      'message-nested': level !== 0,
-      hide // hide all replies and level 1
-    });
-
-    const matchUrl = text
-      ? justTextContent.text.match(/(http(s)?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-;,./?%&=!]*)?/gm)
-      : null;
 
     return (
-      <div className={messageReplyPaddingLeft}>
-        {lastRead && (
-          <div className={classNames('message__unread_mark', `border-top-${lastRead ? 'red' : ''}`)}>
-            <span className="message__last-read">{String.t('message.unreadMessageSeparator')}</span>
-          </div>
-        )}
-        <div className="message__main-container">
+      <div className={classNames({ 'message-nested': level !== 0, hide })}>
+        {lastRead && this.renderLastReadMark()}
+        <div className={classNames('message__main-container', { grouped: grouped && isEmpty(replies) })}>
           <Row
             type="flex"
             justify="start"
-            gutter={20}
-            className={classNames(createdBy === currentUser.userId ? 'message__inverted_order' : '')}
+            gutter={10}
+            className={classNames(ownMessage ? 'message__inverted_order' : '')}
           >
             <Col xs={{ span: 5 }} sm={{ span: 3 }} md={{ span: 2 }} className="message__col-user-icon">
-              <AvatarWrapper key={userId} user={user} size="default" />
+              {(!grouped || !isEmpty(replies)) && <AvatarWrapper key={userId} user={sender} size="default" />}
             </Col>
             <Col xs={{ span: 15 }} sm={{ span: 16 }} md={{ span: 18 }}>
-              <div className={classNames('message__Bubble', createdBy === currentUser.userId ? 'right' : 'left')}>
+              <div
+                className={classNames('message__Bubble', ownMessage ? 'right' : 'left', {
+                  withArrow: !grouped || !isEmpty(replies)
+                })}
+              >
                 {messageBody}
                 {matchUrl && this.renderMedatada(matchUrl)}
-                {contentJustImage.length > 0 && (
-                  <div className={classNames(createdBy === currentUser.userId ? 'message__inverted_order' : '')}>
+                {otherContent.length > 0 && (
+                  <div className={classNames(ownMessage ? 'message__inverted_order' : '')}>
                     <PreviewImages
-                      images={contentJustImage}
-                      subscriberOrgId={this.props.subscriberOrgId}
-                      conversationId={this.props.conversationId}
-                      onLoadImage={this.props.scrollToBottom}
-                      personalConversation={this.props.personalConversation}
+                      images={otherContent}
+                      conversationId={conversationId}
+                      onLoadImage={scrollToBottom}
+                      personalConversation={personalConversation}
                     />
                   </div>
                 )}
                 {!conversationDisabled && (
-                  <div className="message__options hide">
-                    <Tooltip placement="topLeft" title={String.t('message.tooltipReply')} arrowPointAtCenter>
-                      <a
-                        className="message__icons"
-                        onClick={e => {
-                          this.handleReplyTo({
-                            firstName,
-                            lastName,
-                            text: justTextContent.text,
-                            messageId,
-                            preferences
-                          });
-                          e.stopPropagation();
-                        }}
-                      >
-                        <i className="fas fa-reply" />
-                      </a>
-                    </Tooltip>
-                    <Tooltip
-                      placement="topLeft"
-                      title={String.t(hasBookmark ? 'message.tooltipBookmarkRemove' : 'message.tooltipBookmarkSet')}
-                      arrowPointAtCenter
-                    >
-                      <a
-                        className={hasBookmark ? 'message__icons message__icons-selected' : 'message__icons'}
-                        onClick={e => {
-                          this.handleBookmark(!hasBookmark);
-                          e.stopPropagation();
-                        }}
-                      >
-                        <i className="fas fa-bookmark" />
-                      </a>
-                    </Tooltip>
-                    {/* <Tooltip placement="topLeft" title={String.t('message.tooltipEdit')} arrowPointAtCenter> */}
-                    {(isAdmin || message.createdBy === currentUser.userId) && (
-                      <Popconfirm
-                        placement="topRight"
-                        title={String.t('message.deleteConfirmationQuestion')}
-                        okText={<span className="message__delete_buttons">{String.t('okButton')}</span>}
-                        cancelText={<span className="message__delete_buttons">{String.t('cancelButton')}</span>}
-                        onConfirm={this.onDeleteConfirmed}
-                      >
-                        <a
-                          className="message__icons"
-                          /* onClick={() => this.handleEdit()} */
-                        >
-                          <i className="fas fa-trash-alt" />
-                        </a>
-                      </Popconfirm>
-                    )}
-                    {/* </Tooltip> */}
-                  </div>
+                  <MessageOptions
+                    bookmarked={bookmarked}
+                    showDelete={isAdmin || ownMessage}
+                    onReply={() => this.handleReplyTo({ messageId, firstName, lastName, preferences, text })}
+                    onBookmark={this.handleBookmark}
+                    onDeleteConfirmed={this.onDeleteConfirmed}
+                  />
                 )}
               </div>
             </Col>
           </Row>
-          {childrenNonDeleted.length > 0 && (
+          {!isEmpty(replies) && (
             <div className="habla-label message__main-counter" onClick={this.handleShowReplies}>
-              <span className="message__main-counter-number">{childrenNonDeleted.length}</span>
+              <span className="message__main-counter-number">{replies.length}</span>
               <i className="fas fa-reply" data-fa-transform="rotate-180" />
             </div>
           )}
         </div>
-        {childrenNonDeleted.length > 0 &&
-          teamMembers &&
-          childrenNonDeleted.map(childMessage => (
-            <Message
-              conversationDisabled={conversationDisabled}
-              message={childMessage}
-              user={teamMembers.find(member => member.userId === childMessage.createdBy)}
-              currentUser={this.props.currentUser}
-              key={childMessage.messageId}
-              onMessageAction={this.props.onMessageAction}
-              hide={!this.state.isExpanded}
-              currentPath={this.props.currentPath}
-              teamMembers={this.props.teamMembers}
-              subscriberOrgId={this.props.subscriberOrgId}
-              teamId={this.props.teamId}
-              isAdmin={isAdmin}
-            />
-          ))}
+        {teamMembers && this.renderReplies(replies)}
       </div>
     );
   }

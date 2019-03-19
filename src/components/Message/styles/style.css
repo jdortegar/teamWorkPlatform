@@ -1,10 +1,16 @@
 .message__main-container {
   position: relative;
   cursor: auto;
-  padding: 10px;
+  padding: 10px 10px 0;
+}
+.message__main-container.grouped {
+  padding: 3px 10px 0;
 }
 .message__main-container:hover .message__options {
   display: block;
+}
+.message__replies {
+  padding-bottom: 5px;
 }
 .message__main-counter {
   position: absolute;

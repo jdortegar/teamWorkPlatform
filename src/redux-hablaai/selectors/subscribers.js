@@ -4,6 +4,8 @@ import { getCurrentUserId } from './auth';
 import { getTeamsById } from './teams';
 import { getUserByUserId, getUserIdsBySubscriberOrgId, getPresencesByUserId, getCurrentSubscriberOrgId } from './state';
 
+export const getCurrentOrgId = getCurrentSubscriberOrgId;
+
 export const getCurrentSubscriberUserId = createSelector(
   [getUserIdsBySubscriberOrgId, getCurrentSubscriberOrgId, getCurrentUserId],
   (userIdsBySubscriberOrgId, subscriberOrgId, userId) => {

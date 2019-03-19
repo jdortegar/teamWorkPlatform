@@ -6,6 +6,7 @@
   margin-top: 10px;
   margin-left: 10px;
   position: relative;
+  min-height: 21px;
 }
 .preview-images .attachment-icon {
   position: absolute;

@@ -86,28 +86,21 @@ export default class BookmarksPage extends Component {
     const { createdBy, deleted, messageId, teamId } = bookmark;
     const member = _.find(subscribers, { userId: createdBy });
     if (!member) return null;
-    const messageCreator = {
+    const sender = {
       ...member,
       online: _.some(_.values(subscribersPresences[member.userId]), { presenceStatus: 'online' })
     };
 
     if (deleted || !teamId) return null;
 
-    // TODO: Get these dynamically
-    const disableConversation = false;
-    const isAdmin = false;
-
     return (
       <div key={messageId} onClick={() => this.onBookmarkClick(bookmark)}>
         <Message
-          conversationDisabled={disableConversation}
           message={bookmark}
-          user={messageCreator}
-          currentUser={user}
-          onMessageAction={this.onMessageAction}
-          subscriberOrgId={this.props.match.params.subscriberOrgId}
+          sender={sender}
           teamId={teamId}
-          isAdmin={isAdmin}
+          isAdmin={false}
+          onMessageAction={this.onMessageAction}
         />
       </div>
     );
