@@ -111,6 +111,15 @@
   padding: 0 !important;
 }
 
+.FilesFilters_add-data-link {
+  font-weight: 700;
+  background: #557dbf;
+  color: #fff !important;
+  padding: 10px;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
   .FilesFilters__group .BasicFilter:nth-child(n + 3) {
     display: none;

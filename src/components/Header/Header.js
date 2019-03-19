@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Dropdown, Input, Icon, message, Button, Switch, Select } from 'antd';
+import { Layout, Menu, Dropdown, Input, Icon, message, Button, Switch, Select, Divider } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -222,9 +222,15 @@ class Header extends Component {
             </div>
           )}
         </Menu.Item>
-        <Menu.Item key="adminHeader">
-          <div className="habla-label padding-class-a">{String.t('Header.adminTitle')}</div>
-        </Menu.Item>
+        {isOrgAdmin ? (
+          <Menu.Item key="adminHeader">
+            <div className="habla-label padding-class-a">{String.t('Header.adminTitle')}</div>
+          </Menu.Item>
+        ) : (
+          <Menu.Item key="divider">
+            <Divider style={{ margin: '5px auto', width: '90%', minWidth: '90%', background: '#7d7d7d' }} />
+          </Menu.Item>
+        )}
         <Menu.Item key="accountSettings">
           <Link to={`/app/editUser/${user.userId}`}>
             <span>

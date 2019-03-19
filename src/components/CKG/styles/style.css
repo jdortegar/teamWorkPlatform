@@ -76,8 +76,6 @@
 .FileListView .ResultsList thead > tr > th {
   padding: 10px;
 }
-.FileListView .ant-table-row-level-0 {
-}
 .FileListView .ant-table-thead > tr > th,
 .FileListView .ant-table-tbody > tr > td {
   padding: 10px;
@@ -104,7 +102,6 @@
 }
 
 .FileListView .ant-table-tbody > tr > td:first-child {
-  white-space: normal;
   font-weight: 600;
 }
 
@@ -367,6 +364,14 @@
   cursor: pointer;
 }
 
+.FileListView .widthMax20 {
+  max-width: 80px !important;
+}
+
+.FileListView .ant-tooltip-content div {
+  padding: 5px;
+}
+
 /*
 Max width before this PARTICULAR table gets nasty
 This query will take effect for any screen smaller than 760px
@@ -450,12 +455,6 @@ and also iPads specifically.
     font-size: 7px;
   }
 
-  .FileListView .ant-table-tbody > tr > td:first-child {
-    white-space: normal;
-    font-weight: 400;
-    line-height: 1.2;
-  }
-
   .FileListView .FileListView__results__fileName {
     padding-left: 27px;
     line-height: 1.3em;
@@ -473,9 +472,6 @@ and also iPads specifically.
     position: absolute;
     left: 10px;
     padding: 5px 0;
-  }
-  .FileListView .ant-table-tbody > tr > td:first-child {
-    height: 60px;
   }
   .Organization_Teams_Page .ant-table-tbody > tr > td:first-child {
     height: 60px;

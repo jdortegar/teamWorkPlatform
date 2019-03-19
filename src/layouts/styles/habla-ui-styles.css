@@ -494,6 +494,12 @@ HABLA CSS GENERAL STYLES
 
 /* ----------- FONT STYLES --------------- */
 
+*,
+*::before,
+*::after {
+  font-family: 'Lato', sans-serif !important;
+}
+
 /* Weights */
 
 b,
@@ -1004,6 +1010,19 @@ p {
 .ant-select-dropdown {
   font-family: 'Lato', sans-serif;
 }
+
+.ant-tooltip .ant-tooltip-inner {
+  background-color: rgba(0, 0, 0, 0.95);
+}
+
+.ant-tooltip .ant-tooltip-placement-top .ant-tooltip-arrow,
+.ant-tooltip .ant-tooltip-placement-topLeft .ant-tooltip-arrow,
+.ant-tooltip .ant-tooltip-placement-topRight .ant-tooltip-arrow {
+  bottom: 3px;
+  border-width: 5px 5px 0;
+  border-top-color: rgba(0, 0, 0, 0.95);
+}
+
 .has-success.has-feedback:after {
   color: #32a953 !important;
 }
@@ -1035,6 +1054,7 @@ p {
   height: 38px;
 }
 .ant-layout {
+  width: 100vw;
   background: none;
 }
 .ant-menu-inline,

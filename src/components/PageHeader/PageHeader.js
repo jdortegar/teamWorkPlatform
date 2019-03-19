@@ -139,8 +139,10 @@ function PageHeader({
             overflowCount={999999}
           />
         )}
-        {!isEmpty(buttonOptions) && <Button className="rightSideButton" {...buttonOptions} />}
-        {optionalButtons.enabled && optionalButtons.content}
+        <div className="pageHeader__optional-buttons">
+          {optionalButtons.enabled && optionalButtons.content}
+          {!isEmpty(buttonOptions) && <Button className="rightSideButton" {...buttonOptions} />}
+        </div>
       </div>
     </div>
   );
