@@ -456,7 +456,7 @@ class Chat extends React.Component {
             menuOptions={menuOptions}
             showPageHeader={showPageHeader}
             showTeamMembers={showTeamMembers}
-            showchat={this.props.showChat}
+            showChat={this.props.showChat}
             onOwnerFilterClick={this.handleOwnerFilterClick}
           />
         )}
