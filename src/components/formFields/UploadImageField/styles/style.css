@@ -7,13 +7,13 @@
   max-height: 100%;
   width: 100%;
   height: 100%;
-  font-size: .9em;
+  font-size: 0.9em;
 }
 .UploadImageField__avatar__org {
   display: block;
   object-fit: cover;
   overflow: hidden;
-  font-size: .9em;
+  font-size: 0.9em;
 }
 .UploadAvatarField__avatar__org {
   display: block;
@@ -21,7 +21,7 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-size: .9em;
+  font-size: 0.9em;
 }
 .avatar-uploader {
   display: flex;
@@ -43,5 +43,5 @@
   cursor: pointer;
 }
 .avatar-background {
-   background-color: #9999A1;
+  background-color: #9999a1;
 }

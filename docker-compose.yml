@@ -1,11 +1,10 @@
 version: '3'
 services:
-  web: 
+  web:
     build: .
-    ports: 
-      - "9090:9090"
+    ports:
+      - '9090:9090'
     environment:
       NODE_ENV: development
     volumes:
       - ./:/usr/src/app
-  

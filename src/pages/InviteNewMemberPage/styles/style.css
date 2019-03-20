@@ -8,23 +8,24 @@
   padding-left: 34px !important;
 }
 
-.Invite-New-Member__add-textfield:focus, .Invite-New-Member__add-textfield:hover {
+.Invite-New-Member__add-textfield:focus,
+.Invite-New-Member__add-textfield:hover {
   border-color: #777777;
   box-shadow: none;
 }
 .inviteMoreUsersLink {
-	margin: 0 10px;
+  margin: 0 10px;
 }
 .inviteMoreUsersLink a {
-    color: #ccc;
+  color: #ccc;
 }
 .inviteMoreUsersLink a:hover {
-    color: #666;
+  color: #666;
 }
 a.remove-field {
-	color: #eb4435;
-	font-size: 0.8em;
-	position: relative;
-	top: 14px;
-	left: -5px;
+  color: #eb4435;
+  font-size: 0.8em;
+  position: relative;
+  top: 14px;
+  left: -5px;
 }

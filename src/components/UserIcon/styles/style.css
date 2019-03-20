@@ -9,11 +9,12 @@
   color: white;
 }
 
-.user-icon__main-container--square, .user-icon__main-container--square > img {
-   max-width: 100%;
-   max-height: 100%;
-   overflow: hidden; 
-   border-radius: 5px;
+.user-icon__main-container--square,
+.user-icon__main-container--square > img {
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  border-radius: 5px;
 }
 
 .user-icon__main-container--round {

@@ -26,7 +26,8 @@
 .Simple-card--square {
   border-radius: 5px;
 }
-.Simple-card--round > .ant-card-extra, .Simple-card--square > .ant-card-extra {
+.Simple-card--round > .ant-card-extra,
+.Simple-card--square > .ant-card-extra {
   top: 0;
   right: 0;
 }
@@ -34,7 +35,7 @@
   font-size: 35px !important;
 }
 simple-card__avatar {
-   margin-right: 10em;
-   padding-right: 10px;
-   vertical-align: middle;
+  margin-right: 10em;
+  padding-right: 10px;
+  vertical-align: middle;
 }

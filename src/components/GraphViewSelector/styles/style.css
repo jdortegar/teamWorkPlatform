@@ -6,10 +6,10 @@
   background: #e8e7e7;
 }
 .graphViewSelectorLink svg {
-  color: #999!important;
+  color: #999 !important;
 }
 .graphViewSelectorLink:hover svg {
-  color: #666!important;
+  color: #666 !important;
 }
 .graphViewSelectorLink:hover {
   border: 1px solid #ccc;

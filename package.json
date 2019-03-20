@@ -25,12 +25,11 @@
     "build:prod": "cross-env NODE_ENV=production npm run clean && webpack --colors --config webpack.config.prod.js",
     "build": "cross-env NODE_ENV=development npm run clean && webpack --colors --profile --config webpack.config.js",
     "lint": "eslint --fix src",
+    "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|ts|tsx|md)\"",
+    "validate": "npm run lint && npm run format",
     "test": "echo \"Warning: no test specified\" && exit 0",
     "clean": "shx rm -rf dist",
     "pristine": "npm run clean && shx rm -rf node_modules"
-  },
-  "lint-staged": {
-    "*.{js,jsx}": "eslint"
   },
   "husky": {
     "hooks": {
@@ -51,12 +50,12 @@
     "prettier": "^1.16.4"
   },
   "dependencies": {
-    "@babel/core": "^7.3.4",
-    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "@babel/core": "^7.4.0",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/plugin-proposal-export-default-from": "^7.2.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
-    "@babel/polyfill": "^7.2.5",
-    "@babel/preset-env": "^7.3.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.0",
+    "@babel/polyfill": "^7.4.0",
+    "@babel/preset-env": "^7.4.1",
     "@babel/preset-react": "^7.0.0",
     "acorn": "^6.1.0",
     "antd": "^3.15.1",
@@ -75,7 +74,7 @@
     "file-loader": "^3.0.1",
     "helmet": "^3.16.0",
     "highcharts": "^7.0.3",
-    "highcharts-react-official": "^2.1.1",
+    "highcharts-react-official": "^2.1.2",
     "history": "^4.9.0",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^1.3.1",
@@ -92,8 +91,8 @@
     "react-file-drop": "^0.2.7",
     "react-highlight-words": "^0.16.0",
     "react-redux": "^6.0.1",
-    "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1",
+    "react-router": "^5.0.0",
+    "react-router-dom": "^5.0.0",
     "react-stripe-elements": "^2.0.3",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",

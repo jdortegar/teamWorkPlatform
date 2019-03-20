@@ -1,6 +1,7 @@
 # webapp - Habla Web App
 
 ## Workflow:
+
 If you are not familiar with git, PLEASE read up on the subject before proceeding. A good reference is Professional Git by Brent Laster.
 
 To setup your local repository: Once you have installed git, create a local folder called habla-dev. This will be the root for all of your git repos for Habla work. From this folder, then use the command:
@@ -31,17 +32,17 @@ To see the history of the repo that you just cloned:
 $ git log --oneline --decorate --graph --all
 * 818be50 (HEAD -> development, origin/development, origin/HEAD) Cleaning up setup work
 *   63587cb Merge branch 'development' of https://github.com/Habla-Inc/mobileapp into development
-|\  
+|\
 | * 9edbb6d Update README.md
 | * 83694fd Update README.md
 | * bc62bbe (origin/master) Update README.md
 * |   2d6dcc0 Merge branch 'feat-123' into development
-|\ \  
-| |/  
-|/|   
+|\ \
+| |/
+|/|
 | * 52c3959 added test2 file
 | * 0bf9592 added test file
-|/  
+|/
 * 4a3d5b6 Initial commit
 ```
 
@@ -145,18 +146,19 @@ To https://github.com/Habla-Inc/mobileapp.git
 ```
 
 ## Project Syntax
-### Production: 
-1. $ npm run build
-2. $ node server
+
+### Production:
+
+1. \$ npm run build
+2. \$ node server
 
 TODO before Production push:
+
 1. Minifize : app.css, images, ---> Tho's job
 2. Change local images to cdn links: ---> Tho's job
-	a. index.html
-	b. components/Header
-	c. homepage/components/header_navbar.js
-	d. resources/style/_homepage.scss
+   a. index.html
+   b. components/Header
+   c. homepage/components/header_navbar.js
+   d. resources/style/\_homepage.scss
 3. npm run build
 4. Overwrite: node_modules/react-graph-vis/lib/index.js ---> Rob's job
- 
-

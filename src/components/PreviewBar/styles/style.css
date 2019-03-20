@@ -49,13 +49,13 @@
   margin: 10px 8px 10px 0;
 }
 .team-room__chat-container .fa-reply {
-	display: inline-flex;
-	margin: 0 8px 0 0;
-	color: #ccc;
+  display: inline-flex;
+  margin: 0 8px 0 0;
+  color: #ccc;
 }
 .replyBorder {
-	border-radius: 2px;
+  border-radius: 2px;
 }
 .PreviewBar__files-container .image-wrapper-content {
- 	background-color: #fff;
+  background-color: #fff;
 }
