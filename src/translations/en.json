@@ -349,7 +349,8 @@
     "userProfile": "View User Profile",
     "allowPopUp": "Please allow popup window in your browser settings",
     "directMessages": "Direct Messages",
-    "localTime": "local time"
+    "localTime": "local time",
+    "unreadMessages": "Unread Messages"
   },
   "timeActivityGraph": {
     "xAxisLabel": "Created Time",

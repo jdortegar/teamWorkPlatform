@@ -1128,7 +1128,7 @@ ul.ant-menu li.ant-menu-submenu:hover {
 }
 .ant-collapse > .ant-collapse-item,
 .ant-collapse-borderless > .ant-collapse-item {
-  border-bottom: 1px solid #f7f7f7 !important;
+  border-bottom: 1px solid #f7f7f7;
 }
 .team-room__chat-input .ant-form-item {
   margin: 0 !important;

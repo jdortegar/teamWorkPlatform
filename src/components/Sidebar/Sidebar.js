@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
 
 import { paths } from 'src/routes';
-import { Layout, Menu, Tooltip, Dropdown, Input, Icon, Popover, message } from 'antd';
+import { Layout, Menu, Tooltip, Dropdown, Input, Icon, Popover, message, Collapse } from 'antd';
 import String from 'src/translations';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
 import { AvatarWrapper, Badge } from 'src/components';
@@ -16,6 +16,8 @@ import './styles/style.css';
 import DirectMessages from './DirectMessages';
 
 const { Sider } = Layout;
+
+const { Panel } = Collapse;
 
 const propTypes = {
   user: PropTypes.object.isRequired,
@@ -241,6 +243,49 @@ class Sidebar extends Component {
     this.props.history.push(`/app/organization/${orgId}`);
   }
 
+  renderTeamMembers = teamId => {
+    const { subscribers, subscribersPresences, userRoles } = this.props;
+
+    const teamMembers = [];
+
+    _.forEach(subscribers, subscriber => {
+      if (Object.keys(subscriber.teams).some(team => team === teamId)) {
+        teamMembers.push({
+          ...subscriber,
+          online: _.some(_.values(subscribersPresences[subscriber.userId]), { presenceStatus: 'online' })
+        });
+      }
+    });
+
+    return (
+      <div className="sidebar-team-members">
+        <div className="sidebar-block-label">
+          <span className="habla-label">
+            {String.t('teamsMembers')}
+            <span className="sidebar-label-number-badge">{teamMembers.length}</span>
+          </span>
+        </div>
+        <div className="sidebar-direct-messages-content">
+          {teamMembers.map(subscriber => this.renderSubscriberAvatar(subscriber))}
+          {userRoles && userRoles.teamOwner.includes(teamId) && (
+            <Tooltip placement="topLeft" title={String.t('sideBar.invitetoTeam')} arrowPointAtCenter>
+              <a>
+                <Avatar
+                  className="mr-1"
+                  onClick={() => {
+                    this.props.history.push(`/app/inviteToTeam/${teamId}`);
+                  }}
+                >
+                  +
+                </Avatar>
+              </a>
+            </Tooltip>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   renderTeams(teamsActive) {
     const { user, history, readMessagesByConversationId, conversationIdsByTeam } = this.props;
     if (teamsActive.length === 0) {
@@ -269,19 +314,28 @@ class Sidebar extends Component {
       }
       const teamActive = classNames({ Team_active: history.location.pathname.indexOf(team.teamId) > 1 });
 
-      return (
-        <Menu.Item key={team.teamId} className={teamActive}>
-          <div className="habla-left-navigation-team-list" onClick={e => this.goToTeamPage(e, team)}>
-            <div className="habla-left-navigation-team-list-item padding-class-a">
-              <div className="habla-left-navigation-team-list-item">
-                <div className="float-left-class">{renderAvatar(team, team.active)}</div>
-                <span className="habla-left-navigation-item-label">{team.name}</span>
-                <div className="clear" />
-              </div>
-              <Badge count={isTeamOpen ? 0 : unreadMessagesCount} className="SideBar__Badge" />
+      const text = (
+        <div className={`habla-left-navigation-team-list ${teamActive}`} onClick={e => this.goToTeamPage(e, team)}>
+          <div className="habla-left-navigation-team-list-item">
+            <div className="habla-left-navigation-team-list-subitem">
+              {renderAvatar(team, team.active)}
+              <span className="habla-left-navigation-item-label">{team.name}</span>
             </div>
+            {unreadMessagesCount > 0 && (
+              <Badge
+                title={String.t('unreadMessages')}
+                count={isTeamOpen ? 0 : unreadMessagesCount}
+                className="SideBar__Badge"
+              />
+            )}
           </div>
-        </Menu.Item>
+        </div>
+      );
+
+      return (
+        <Panel header={text} key={team.teamId}>
+          {this.renderTeamMembers(team.teamId)}
+        </Panel>
       );
     });
   }
@@ -404,7 +458,6 @@ class Sidebar extends Component {
       currentSubscriberOrgId,
       history,
       userRoles,
-      teamId,
       user
     } = this.props;
     if (!currentSubscriberOrgId || !teams || subscriberOrgs.length === 0 || !subscribers || !subscribersPresences) {
@@ -441,17 +494,6 @@ class Sidebar extends Component {
 
     const activeEditOrganization = classNames({
       active: currenthPath.indexOf(paths.editOrganization.split('app/')[1].split('/')[0]) > 1
-    });
-
-    const teamMembers = [];
-
-    _.forEach(subscribers, subscriber => {
-      if (Object.keys(subscriber.teams).some(team => team === teamId)) {
-        teamMembers.push({
-          ...subscriber,
-          online: _.some(_.values(subscribersPresences[subscriber.userId]), { presenceStatus: 'online' })
-        });
-      }
     });
 
     const currentOrg = subscriberOrgs.find(({ subscriberOrgId }) => subscriberOrgId === currentSubscriberOrgId);
@@ -523,43 +565,17 @@ class Sidebar extends Component {
           </div>
 
           <div className="organization-list">
-            <Menu
-              mode="inline"
-              openKeys={this.state.teamsOpenKeys}
-              className="habla-left-navigation-list habla-left-navigation-organization-list"
+            <Collapse
+              className="TeamBox_collapse"
+              accordion
+              expandIcon={({ isActive }) => (
+                <Icon type="down" rotate={isActive ? 180 : 0} style={{ right: '16px', left: 'auto' }} />
+              )}
             >
               {this.renderTeams(this.state.teamsActive)}
-            </Menu>
+            </Collapse>
           </div>
         </div>
-
-        {teamMembers.length > 0 && (
-          <div className="sidebar-direct-messages">
-            <div className="sidebar-block-label">
-              <span className="habla-label">
-                {String.t('teamsMembers')}
-                <span className="sidebar-label-number-badge">{teamMembers.length}</span>
-              </span>
-            </div>
-            <div className="sidebar-direct-messages-content">
-              {teamMembers.map(subscriber => this.renderSubscriberAvatar(subscriber))}
-              {userRoles && userRoles.teamOwner.includes(teamId) && (
-                <Tooltip placement="topLeft" title={String.t('sideBar.invitetoTeam')} arrowPointAtCenter>
-                  <a>
-                    <Avatar
-                      className="mr-1"
-                      onClick={() => {
-                        this.props.history.push(`/app/inviteToTeam/${teamId}`);
-                      }}
-                    >
-                      +
-                    </Avatar>
-                  </a>
-                </Tooltip>
-              )}
-            </div>
-          </div>
-        )}
 
         <DirectMessages
           user={user}

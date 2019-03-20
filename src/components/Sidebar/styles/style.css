@@ -55,6 +55,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 2.5px 10px;
+}
+
+.habla-left-navigation-team-list-subitem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .habla-left-navigation-notification-globe {
@@ -132,7 +139,7 @@
   opacity: 0.5%;
 }
 .sidebar-actions {
-  padding: 13px 10px 17px 10px;
+  padding: 5px 10px 10px;
 }
 .sidebar-actions .ant-input-affix-wrapper {
   width: 100%;
@@ -335,4 +342,22 @@ ul.ant-menu-sub {
 .SideBar__Badge,
 .habla-left-navigation-team-list-item .Badge {
   background-color: #eb4435;
+}
+
+.TeamBox_collapse .ant-collapse-header {
+  padding: 0 !important;
+}
+
+.TeamBox_collapse .habla-left-navigation-team-list-item {
+  padding: 3px 35px 3px 10px;
+}
+
+.TeamBox_collapse .ant-collapse-item {
+  padding: 0;
+  background: #ffff;
+  border-bottom: none !important;
+}
+
+.TeamBox_collapse .ant-collapse-content-box {
+  padding: 0 16px;
 }

@@ -401,9 +401,14 @@ class Chat extends React.Component {
   }
 
   renderMembersTyping() {
-    const { membersTyping } = this.props;
+    const { membersTyping, user } = this.props;
     const { members } = this.state;
     if (!membersTyping) return null;
+
+    // Remove own user from Typing array
+    if (membersTyping[user.userId]) {
+      delete membersTyping[user.userId];
+    }
 
     const findUser = userId => _.find(members, { userId });
     const membersTypingData = _.compact(_.map(membersTyping, (typing, userId) => typing && findUser(userId)));

@@ -5,8 +5,8 @@ import _ from 'lodash';
 
 import String from 'src/translations';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
-import { Menu, Badge, Input, Icon } from 'antd';
-import { AvatarWrapper } from 'src/components';
+import { Menu, Input, Icon } from 'antd';
+import { AvatarWrapper, Badge } from 'src/components';
 
 import './styles/style.css';
 
@@ -118,15 +118,12 @@ class DirectMessages extends React.Component {
             className="habla-left-navigation-team-list"
             onClick={() => this.handleConversation(userEl.userId, conversationId, unreadMessages)}
           >
-            <div className="habla-left-navigation-team-list-item padding-class-a">
-              <div className="habla-left-navigation-team-list-item">
-                <div className="float-left-class">
-                  <AvatarWrapper size="default" user={userEl} hideStatusTooltip />
-                </div>
+            <div className="habla-left-navigation-team-list-item">
+              <div className="habla-left-navigation-team-list-subitem">
+                <AvatarWrapper size="default" user={userEl} hideStatusTooltip />
                 <span className="habla-left-navigation-item-label">{userEl.fullName}</span>
-                <div className="clear" />
               </div>
-              {unreadMessages > 0 && <Badge count={unreadMessages} title="Unread Messages" overflowCount={999999} />}
+              {unreadMessages > 0 && <Badge count={unreadMessages} className="SideBar__Badge" overflowCount={999999} />}
             </div>
           </div>
         </Menu.Item>
