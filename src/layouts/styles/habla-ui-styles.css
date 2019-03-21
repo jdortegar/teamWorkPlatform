@@ -850,6 +850,7 @@ p {
 .habla-main-content-filters-links {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 .habla-main-content-header {
   display: initial;

@@ -26,7 +26,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  pageBreadCrumb: {},
+  pageBreadCrumb: null,
   menuName: null,
   hasMenu: false,
   badgeOptions: {},
@@ -123,11 +123,13 @@ function PageHeader({
             )}
           </div>
         )}
-        <div className="habla-main-content-header-title">
-          <h1 className="Subpage-header__title habla-title">
-            <BreadCrumb routes={pageBreadCrumb.routes} />
-          </h1>
-        </div>
+        {pageBreadCrumb && (
+          <div className="habla-main-content-header-title">
+            <h1 className="Subpage-header__title habla-title">
+              <BreadCrumb routes={pageBreadCrumb.routes} />
+            </h1>
+          </div>
+        )}
         {children}
         {badgeOptions.enabled && (
           <Badge

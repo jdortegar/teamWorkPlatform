@@ -4,7 +4,6 @@ import _ from 'lodash';
 
 import { Spinner, ChatContent, PageHeader, AvatarWrapper, PersonalCallButton } from 'src/components';
 import { message } from 'antd';
-import String from 'src/translations';
 import './styles/style.css';
 
 const propTypes = {
@@ -117,17 +116,10 @@ class DirectMessagesPage extends Component {
     return (
       <div className="homePage-main DirectMessages_Page">
         <PageHeader
-          pageBreadCrumb={{
-            routes: [{ title: String.t('directMessagesPage.title') }]
-          }}
           optionalButtons={{
             enabled: true,
             content: currentConversationUser && (
               <div>
-                <span className="habla-top-menu-label Current_User_Conversation">
-                  {currentConversationUser.fullName}
-                </span>
-                <AvatarWrapper size="default" user={currentConversationUser} hideStatusTooltip />
                 {currentConversationUser.online && currentConversationUser.presenceStatus !== 'busy' && (
                   <PersonalCallButton
                     caller={user.userId}
@@ -138,7 +130,14 @@ class DirectMessagesPage extends Component {
               </div>
             )
           }}
-        />
+        >
+          {currentConversationUser && (
+            <div>
+              <AvatarWrapper size="default" user={currentConversationUser} hideStatusTooltip />
+              <span className="habla-top-menu-label Current_User_Conversation">{currentConversationUser.fullName}</span>
+            </div>
+          )}
+        </PageHeader>
         {teamMembersLoaded ? (
           <ChatContent
             showTeamMembers={false}

@@ -81,11 +81,29 @@ class MessageInput extends React.Component {
   };
 
   toogleEmojiState = () => {
-    this.setState({ showEmojiPicker: !this.state.showEmojiPicker });
+    if (this.state.showEmojiPicker) {
+      document.body.removeEventListener('click', this.emojiMartClickOutsideHandler);
+      this.setState({ showEmojiPicker: false });
+    } else {
+      document.body.addEventListener('click', this.emojiMartClickOutsideHandler);
+      this.setState({ showEmojiPicker: true });
+    }
   };
 
-  toogleEmojiState = () => {
-    this.setState({ showEmojiPicker: !this.state.showEmojiPicker });
+  emojiMartClickOutsideHandler = e => {
+    let emojiWindowIsOpen = false;
+    if (e.path) {
+      e.path.forEach(elem => {
+        if (elem.classList && elem.classList.contains('emoji-mart')) {
+          emojiWindowIsOpen = true;
+        }
+      });
+    }
+
+    if (!emojiWindowIsOpen) {
+      this.setState({ showEmojiPicker: false });
+      document.body.removeEventListener('click', this.emojiMartClickOutsideHandler);
+    }
   };
 
   addEmoji = e => {
@@ -100,7 +118,6 @@ class MessageInput extends React.Component {
       const emojiPic = String.fromCodePoint(...codesArray);
       this.props.form.setFieldsValue({ message: `${message || ''} ${emojiPic}` });
     }
-    this.setState({ showEmojiPicker: false });
     this.textInput.current.focus();
   };
 

@@ -102,7 +102,7 @@
   "organization": "Organization",
   "organizations": "Organizations",
   "teams": "Project Teams",
-  "directMessages": "Direct Messages Users",
+  "directMessages": "Direct Messages",
   "fullName": "{{firstName}} {{lastName}}",
   "memberPopupName": "Name: {{firstName}} {{lastName}}",
   "memberPopupUsername": "Organization Name: {{displayName}}",
@@ -855,7 +855,7 @@
     "deleteTeamMember": "Delete Team Member"
   },
   "chat": {
-    "title": "Team Messages",
+    "title": "Project Team Messages",
     "membersHeader": "Organization Team Members ({{count}})",
     "addTeamMember": "Add Team Members",
     "markAllAsRead": "Mark All as Read",
