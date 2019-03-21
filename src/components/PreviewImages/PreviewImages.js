@@ -6,10 +6,10 @@ import classNames from 'classnames';
 import './styles/style.css';
 
 const propTypes = {
-  images: PropTypes.array,
   orgId: PropTypes.string.isRequired,
-  conversationId: PropTypes.string,
   token: PropTypes.string.isRequired,
+  images: PropTypes.array,
+  conversationId: PropTypes.string,
   onLoadImage: PropTypes.func,
   personalConversation: PropTypes.object
 };
