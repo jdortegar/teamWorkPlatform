@@ -40,7 +40,6 @@
     }
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.4.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.5.0",
     "eslint": "^5.15.3",
@@ -64,6 +63,7 @@
     "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/plugin-proposal-export-default-from": "^7.2.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.4.0",
+    "@babel/plugin-transform-runtime": "^7.4.0",
     "@babel/polyfill": "^7.4.0",
     "@babel/preset-env": "^7.4.1",
     "@babel/preset-react": "^7.0.0",
