@@ -42,6 +42,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  max-width: 150px;
 }
 .organization-list .ant-menu-item-selected {
   background: #fff !important;

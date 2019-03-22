@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import { paths } from 'src/routes';
-import { sound1, soundNotification } from 'src/sounds';
+import { soundNotificationDMAudio, soundNotificationInvitationAudio } from 'src/sounds';
 import String from 'src/translations';
 import { sortByLastCreatedFirst } from 'src/redux-hablaai/selectors/helpers';
 import {
@@ -63,6 +63,9 @@ const defaultProps = {
   invitation: []
 };
 
+const soundNotificationDM = new Audio(soundNotificationDMAudio);
+const soundNotificationInvitation = new Audio(soundNotificationInvitationAudio);
+
 function invitationKey(inv) {
   const { teamId, subscriberOrgId } = inv;
   return teamId ? `team-${teamId}` : `org-${subscriberOrgId}`;
@@ -88,8 +91,7 @@ class MainContent extends Component {
         }
       };
       notification.open(args);
-      const audio = new Audio(soundNotification);
-      audio.play();
+      soundNotificationDM.play();
     }
 
     this.props.fetchTeamsBySubscriberOrgId().then(() => {
@@ -100,8 +102,7 @@ class MainContent extends Component {
   componentWillReceiveProps(nextProps) {
     const invitations = nextProps.invitation ? this.getValidInvites(nextProps.invitation) : [];
     if (invitations.length > this.props.invitation) {
-      const audio = new Audio(sound1);
-      audio.play();
+      soundNotificationInvitation.play();
     }
 
     if (nextProps.declinedInvitations) {
@@ -124,8 +125,7 @@ class MainContent extends Component {
         }
       };
       notification.open(args);
-      const audio = new Audio(soundNotification);
-      audio.play();
+      soundNotificationDM.play();
     }
 
     if (nextProps.pushMessage && nextProps.pushMessage.length > 0) {
@@ -146,8 +146,7 @@ class MainContent extends Component {
             }
           };
           notification.open(args);
-          const audio = new Audio(soundNotification);
-          audio.play();
+          soundNotificationDM.play();
         }
       }
     }

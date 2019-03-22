@@ -317,7 +317,13 @@ class Sidebar extends Component {
           <div className="habla-left-navigation-team-list-item">
             <div className="habla-left-navigation-team-list-subitem">
               {renderAvatar(team, team.active)}
-              <span className="habla-left-navigation-item-label">{team.name}</span>
+              {team.name.length > 20 ? (
+                <Tooltip placement="topLeft" title={team.name} arrowPointAtCenter>
+                  <span className="habla-left-navigation-item-label">{team.name}</span>
+                </Tooltip>
+              ) : (
+                <span className="habla-left-navigation-item-label">{team.name}</span>
+              )}
             </div>
             {unreadMessagesCount > 0 && (
               <Badge

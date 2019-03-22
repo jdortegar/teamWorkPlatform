@@ -3,6 +3,7 @@ import { notification } from 'antd';
 import PropTypes from 'prop-types';
 
 import { Button } from 'src/components';
+import { soundNotificationInvitationAudio } from 'src/sounds';
 import String from 'src/translations';
 import './styles/style.css';
 
@@ -26,7 +27,8 @@ function checkType(type) {
       type: 'team',
       name: type.teamName,
       id: type.teamId,
-      message: String.t('msgInvitationToTeam', type)
+      message: String.t('msgInvitationToTeam', type),
+      audio: new Audio(soundNotificationInvitationAudio)
     };
   }
   return {
@@ -41,6 +43,11 @@ class Notification extends Component {
   constructor(props) {
     super(props);
     this.state = { accepted: null };
+  }
+
+  componentDidMount() {
+    const typeObj = checkType(this.props.options);
+    if (typeObj.audio) typeObj.audio.play();
   }
 
   handleClick(selection) {
