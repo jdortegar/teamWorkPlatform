@@ -6,7 +6,6 @@ import { EditButton } from 'src/components';
 import './styles/style.css';
 
 const propTypes = {
-  subscriberOrgId: PropTypes.string.isRequired,
   history: PropTypes.object.isRequired,
   breadcrumb: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   ckgLink: PropTypes.object,
@@ -18,7 +17,7 @@ const defaultProps = {
   editButton: {}
 };
 
-function SubpageHeader({ breadcrumb, subscriberOrgId, history, editButton, ckgLink }) {
+function SubpageHeader({ breadcrumb, history, editButton, ckgLink }) {
   const { showButton, isAdmin, url } = editButton;
   return (
     <div className="habla-main-content-header padding-class-a border-bottom-lighter flexClass">
@@ -31,7 +30,7 @@ function SubpageHeader({ breadcrumb, subscriberOrgId, history, editButton, ckgLi
             <div
               className="ckg-link"
               onClick={() => {
-                history.push(`/app/ckg/${subscriberOrgId}`, { ...ckgLink });
+                history.push('/app/ckg', { ...ckgLink });
               }}
             >
               <i className="fas fa-chart-area" />

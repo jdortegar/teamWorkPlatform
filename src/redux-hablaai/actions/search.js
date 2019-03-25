@@ -18,7 +18,7 @@ export const search = (rawQuery = undefined, { teamId, caseSensitive = false, ex
   getState
 ) => {
   const orgId = getCurrentSubscriberOrgId(getState());
-  const keywords = extractKeywords(rawQuery);
+  const keywords = extractKeywords(rawQuery, 6);
   const query = keywords.join(' ');
   const params = queryString.stringify(
     pickBy({

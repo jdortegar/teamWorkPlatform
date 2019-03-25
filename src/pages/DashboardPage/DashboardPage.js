@@ -280,14 +280,14 @@ class DashboardPage extends React.Component {
   }
 
   render() {
-    const { currentSubscriberOrgId, selectedReport, reportId } = this.props;
+    const { selectedReport, reportId } = this.props;
 
     // Breadcrumb
     const pageBreadCrumb = {
       routes: [
         {
           title: String.t('ckgPage.title'),
-          link: `/app/ckg/${currentSubscriberOrgId}`
+          link: '/app/ckg'
         },
         {
           title: String.t('dashboardPage.industryTitleManufacturing'),

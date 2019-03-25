@@ -42,7 +42,7 @@ export * from './messageRead';
 export * from './readMessagesFetch';
 export * from './readMessagesReceive';
 
-export * from './timeActivitiesFetch';
+export * from './teamFilesFetch';
 export * from './filters';
 export * from './search';
 export * from './searchClear';

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { getTeam, getCurrentSubscriberOrg, getCurrentUser, getUserRoles } from 'src/selectors';
-import { fetchTeamMembers, makeTeamCall } from 'src/actions';
+import { getTeam, getCurrentUser, getUserRoles, getTeamFilesLoading } from 'src/selectors';
+import { fetchTeamFiles, makeTeamCall } from 'src/actions';
 import { TeamPage } from 'src/pages';
 
 const mapStateToProps = (state, props) => {
@@ -8,16 +8,17 @@ const mapStateToProps = (state, props) => {
   return {
     teamId,
     team: getTeam(state, teamId),
-    org: getCurrentSubscriberOrg(state),
     user: getCurrentUser(state),
-    userRoles: getUserRoles(state)
+    userRoles: getUserRoles(state),
+    loadingFiles: getTeamFilesLoading(state, teamId)
   };
 };
 
 const mapDispatchToProps = {
-  fetchTeamMembers,
+  fetchTeamFiles,
   makeTeamCall
 };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps

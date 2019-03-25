@@ -3,7 +3,9 @@ import { getOwnersFromFiles, getFileTypesFromFiles, getIntegrationsFromFiles } f
 
 import {
   SEARCH_SUCCESS,
-  TIMEACTIVITIES_FETCH_SUCCESS,
+  FILES_FETCH_SUCCESS,
+  FILES_FETCH_REQUEST,
+  FILES_FETCH_FAILURE,
   TOGGLE_OWNER_FILTER,
   TOGGLE_INTEGRATION_FILTER,
   TOGGLE_FILETYPE_FILTER,
@@ -13,6 +15,7 @@ import {
 } from 'src/actions';
 
 const INITIAL_STATE = {
+  teamLoading: {},
   items: [],
   owners: [],
   fileTypes: [],
@@ -26,17 +29,45 @@ const INITIAL_STATE = {
   }
 };
 
+const updateFiles = (files = []) => ({
+  items: files.map(file => ({ ...file, fileKey: uuid() })),
+  owners: getOwnersFromFiles(files),
+  fileTypes: getFileTypesFromFiles(files),
+  integrations: getIntegrationsFromFiles(files)
+});
+
+const updateTeamLoading = (state = {}, teamId, status) => ({
+  teamLoading: { ...state, [teamId]: status }
+});
+
 const filesReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SEARCH_SUCCESS:
-    case TIMEACTIVITIES_FETCH_SUCCESS: {
-      const { files = [] } = action.payload;
+    case SEARCH_SUCCESS: {
       return {
         ...state,
-        items: files.map(file => ({ ...file, fileKey: uuid() })),
-        owners: getOwnersFromFiles(files),
-        fileTypes: getFileTypesFromFiles(files),
-        integrations: getIntegrationsFromFiles(files)
+        ...updateFiles(action.payload.files)
+      };
+    }
+    case FILES_FETCH_SUCCESS: {
+      const { files, teamId } = action.payload;
+      return {
+        ...state,
+        ...updateFiles(files),
+        ...updateTeamLoading(state.teamLoading, teamId, false)
+      };
+    }
+    case FILES_FETCH_REQUEST: {
+      const { teamId } = action.payload;
+      return {
+        ...state,
+        ...updateTeamLoading(state.teamLoading, teamId, true)
+      };
+    }
+    case FILES_FETCH_FAILURE: {
+      const { teamId } = action.payload;
+      return {
+        ...state,
+        ...updateTeamLoading(state.teamLoading, teamId, false)
       };
     }
     case TOGGLE_OWNER_FILTER: {

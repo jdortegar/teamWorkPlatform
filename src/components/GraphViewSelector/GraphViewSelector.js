@@ -1,19 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Menu, Dropdown } from 'antd';
 import { Link } from 'react-router-dom';
 
 import String from 'src/translations';
 import './styles/style.css';
 
-const GraphViewSelector = ({ currentSubscriberOrgId }) => {
+const GraphViewSelector = () => {
   const menu = (
     <Menu>
       <Menu.Item key="graphSelector">
         <div className="habla-label padding-class-a">{String.t('graphViewsSelector.label')}</div>
       </Menu.Item>
       <Menu.Item key="graphViewCKG">
-        <Link to={`/app/ckg/${currentSubscriberOrgId}`}>
+        <Link to="/app/ckg">
           <span>
             <i className="fas fa-chart-area" /> {String.t('graphViewsSelector.timeActivity')}
           </span>
@@ -75,10 +74,6 @@ const GraphViewSelector = ({ currentSubscriberOrgId }) => {
       </a>
     </Dropdown>
   );
-};
-
-GraphViewSelector.propTypes = {
-  currentSubscriberOrgId: PropTypes.string.isRequired
 };
 
 export default GraphViewSelector;

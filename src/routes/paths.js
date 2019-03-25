@@ -29,8 +29,7 @@ export const paths = {
   surveySettings: '/app/surveySettings',
   bookmarks: '/app/bookmarks/:subscriberOrgId',
   dashboard: '/app/dashboard/:reportId?',
-  search: '/app/search',
-  ckg: '/app/ckg/:subscriberOrgId',
+  ckg: '/app/ckg',
   // Admin Organization
   organization: '/app/organization/:subscriberOrgId/:paypalSubscriptionId?',
   organizationManage: '/app/editOrganization/manage/:subscriberOrgId',

@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 
 import String from 'src/translations';
+import { paths } from 'src/routes';
 import { AvatarWrapper } from 'src/components';
 import { hablaBlackLogo, hablaBlackLogoIcon } from 'src/img';
 import SearchMenu from './SearchMenu';
@@ -110,8 +111,9 @@ class Header extends Component {
 
   handleSearchSubmit = event => {
     event.preventDefault();
-    const { teamId, caseSensitive, exactMatch } = this.props;
-    this.props.search(this.state.query, { teamId, caseSensitive, exactMatch });
+    const { teamId, caseSensitive, exactMatch, history, search } = this.props;
+    search(this.state.query, { teamId, caseSensitive, exactMatch });
+    history.push(paths.ckg);
   };
 
   initZendesk = () => {

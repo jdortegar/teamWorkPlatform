@@ -20,8 +20,6 @@ import {
   getExcludeFilters
 } from 'src/selectors';
 import {
-  fetchTimeActivitiesBySubscriberOrgId,
-  setCurrentSubscriberOrgId,
   toggleOwnerFilter,
   toggleIntegrationFilter,
   toggleFileTypeFilter,
@@ -32,7 +30,7 @@ import {
 } from 'src/actions';
 
 const mapStateToProps = (state, props) => {
-  const { teamId } = props;
+  const { teamId, loading } = props;
   const orgId = getCurrentSubscriberOrgId(state);
   const team = getTeam(state, teamId);
 
@@ -51,15 +49,13 @@ const mapStateToProps = (state, props) => {
     keywords: getSearchKeywords(state),
     caseSensitive: isSearchCaseSensitive(state),
     exactMatch: isSearchExactMatch(state),
-    loading: isSearchLoading(state),
+    loading: loading !== undefined ? loading : isSearchLoading(state),
     activeView: getCKGActiveView(state)
   };
 };
 
 const mapDispatchToProps = {
   search,
-  fetchTimeActivitiesBySubscriberOrgId,
-  setCurrentSubscriberOrgId,
   toggleOwnerFilter,
   toggleIntegrationFilter,
   toggleFileTypeFilter,

@@ -10,62 +10,64 @@ import './styles/style.css';
 
 const propTypes = {
   history: PropTypes.object.isRequired,
-  org: PropTypes.object.isRequired,
   team: PropTypes.object.isRequired,
   teamId: PropTypes.string.isRequired,
   userRoles: PropTypes.object,
-  fetchTeamMembers: PropTypes.func.isRequired,
   makeTeamCall: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired
+  fetchTeamFiles: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  loadingFiles: PropTypes.bool
 };
 
 const defaultProps = {
-  userRoles: {}
+  userRoles: {},
+  loadingFiles: false
 };
 
 class TeamPage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      chatVisible: true,
-      ckgVisible: true,
-      teamMembersLoaded: false
-    };
-
-    this.showChat = this.showChat.bind(this);
-    this.showCKG = this.showCKG.bind(this);
-  }
-
-  componentDidMount = () => {
-    if (!this.props.teamId) {
-      this.props.history.replace(paths.app);
-    }
-
-    this.props.fetchTeamMembers(this.props.teamId).then(() => this.setState({ teamMembersLoaded: true }));
+  state = {
+    chatVisible: true,
+    ckgVisible: true
   };
 
-  showChat(ckgState) {
+  componentDidMount() {
+    const { teamId, fetchTeamFiles, history } = this.props;
+
+    if (!teamId) {
+      history.replace(paths.app);
+      return;
+    }
+
+    fetchTeamFiles(teamId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { teamId, fetchTeamFiles } = nextProps;
+
+    if (teamId !== this.props.teamId) {
+      fetchTeamFiles(teamId);
+    }
+  }
+
+  showChat = ckgState => {
     this.setState({
       chatVisible: true,
       ckgVisible: ckgState
     });
-  }
+  };
 
-  showCKG(chatState) {
+  showCKG = chatState => {
     this.setState({
       ckgVisible: true,
       chatVisible: chatState
     });
-  }
+  };
 
   render() {
-    const { team, org, userRoles, user } = this.props;
-    const { chatVisible, ckgVisible, teamMembersLoaded } = this.state;
+    const { team, userRoles, user, loadingFiles } = this.props;
+    const { chatVisible, ckgVisible } = this.state;
 
-    if (!teamMembersLoaded || !team || !org) {
-      return <Spinner />;
-    }
+    if (!team) return <Spinner />;
 
     // Page Menu
     const menuPageHeader = [
@@ -174,8 +176,9 @@ class TeamPage extends Component {
         {chatVisible && (
           <div className={ckgClassName}>
             <CKG
+              ignoreSearch
+              loading={loadingFiles}
               teamId={team.teamId}
-              showSelector={false}
               menuOptions={menuPageHeader}
               showChat={this.showChat}
               showCKG={this.showCKG}

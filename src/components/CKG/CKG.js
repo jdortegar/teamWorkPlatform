@@ -17,7 +17,6 @@ const propTypes = {
   orgId: PropTypes.string.isRequired,
   teamId: PropTypes.string,
   team: PropTypes.object,
-  history: PropTypes.object.isRequired,
   search: PropTypes.func.isRequired,
   toggleOwnerFilter: PropTypes.func.isRequired,
   toggleIntegrationFilter: PropTypes.func.isRequired,
@@ -37,12 +36,12 @@ const propTypes = {
   caseSensitive: PropTypes.bool,
   exactMatch: PropTypes.bool,
   loading: PropTypes.bool,
-  showSelector: PropTypes.bool,
   menuOptions: PropTypes.array,
   activeView: PropTypes.string,
   showChat: PropTypes.func,
   showCKG: PropTypes.func,
-  chatVisible: PropTypes.bool
+  chatVisible: PropTypes.bool,
+  ignoreSearch: PropTypes.bool
 };
 
 const defaultProps = {
@@ -60,34 +59,31 @@ const defaultProps = {
   caseSensitive: false,
   exactMatch: false,
   loading: false,
-  showSelector: true,
   menuOptions: [],
   activeView: CKG_VIEWS.FILE_LIST,
   showChat: null,
   showCKG: null,
-  chatVisible: true
+  chatVisible: true,
+  ignoreSearch: false
 };
 
 class CKG extends Component {
   componentDidMount() {
-    const { orgId, teamId, history, search, query, caseSensitive, exactMatch } = this.props;
+    const { ignoreSearch, teamId, search, query, caseSensitive, exactMatch } = this.props;
 
     this.changeViewFromHash(this.props);
 
-    if (!orgId) {
-      history.replace('/app');
-      return;
+    if (!ignoreSearch) {
+      search(query, { teamId, caseSensitive, exactMatch });
     }
-
-    search(query, { teamId, caseSensitive, exactMatch });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { teamId, search, query, caseSensitive, exactMatch } = nextProps;
+    const { ignoreSearch, teamId, search, query, caseSensitive, exactMatch } = nextProps;
 
     this.changeViewFromHash(nextProps);
 
-    if (this.props.teamId !== teamId) {
+    if (!ignoreSearch && this.props.teamId !== teamId) {
       search(query, { teamId, caseSensitive, exactMatch });
     }
   }
@@ -252,7 +248,7 @@ class CKG extends Component {
   }
 
   render() {
-    const { loading, files, query, integrations, excludeFilters, showSelector, menuOptions, activeView } = this.props;
+    const { loading, files, query, integrations, excludeFilters, menuOptions, activeView, ignoreSearch } = this.props;
     const { startDate, endDate } = excludeFilters;
 
     const filesFiltered = files.filter(file => {
@@ -283,8 +279,8 @@ class CKG extends Component {
             count: filesFiltered.length
           }}
         >
-          {this.renderTags()}
-          {this.renderDatePicker()}
+          {!ignoreSearch && this.renderTags()}
+          {!ignoreSearch && this.renderDatePicker()}
         </PageHeader>
 
         {this.renderSideArrows()}
@@ -300,10 +296,10 @@ class CKG extends Component {
         )}
 
         {activeView === CKG_VIEWS.TIME_ACTIVITY && <TimeActivityView files={filesFiltered} loading={loading} />}
-        {activeView === CKG_VIEWS.FILE_LIST && <FileListView files={filesFiltered} />}
+        {activeView === CKG_VIEWS.FILE_LIST && <FileListView files={filesFiltered} loading={loading} />}
 
         <div className="bottomBar">
-          {showSelector && this.renderSelectors()}
+          {!ignoreSearch && this.renderSelectors()}
           {!loading && this.renderFilesFilter()}
           <div className="Chat_videoCall_container">
             <TeamCallButton />

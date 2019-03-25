@@ -525,7 +525,7 @@ class Sidebar extends Component {
             </Link>
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconCKGTooltip')} arrowPointAtCenter>
-            <Link to={`/app/ckg/${currentSubscriberOrgId}`} className={`habla-top-menu-ckg ${activeCKG}`}>
+            <Link to="/app/ckg" className={`habla-top-menu-ckg ${activeCKG}`}>
               <i className="fas fa-chart-line fa-2x" />
             </Link>
           </Tooltip>
