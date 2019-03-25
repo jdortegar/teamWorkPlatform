@@ -16,5 +16,5 @@ export const getOwners = createSelector(
 
 export const getTeamFilesLoading = createSelector(
   [getTeamLoading, (state, teamId) => teamId],
-  (teams, teamId) => teams[teamId] || false
+  (teams = {}, teamId) => teams[teamId] || false
 );
