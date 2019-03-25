@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import { Modal, Button } from 'antd';
 import String from 'src/translations';
@@ -38,9 +39,9 @@ class VideoCallModal extends Component {
   componentWillReceiveProps(nextProps) {
     const { callingData, visible } = nextProps;
     const { users } = this.props;
+    const muteNotifications = this.props.user.preferences ? this.props.user.preferences.muteNotifications : null;
     let callState;
-
-    if (visible) {
+    if (visible && moment().diff(muteNotifications || 0, 'minutes') > 0) {
       soundNotificationVideoCall.play();
     }
 
@@ -143,13 +144,14 @@ class VideoCallModal extends Component {
     const { visible, user, videoCallReceived, callingData, teams, currentUser } = this.props;
     const { teamId, callerId } = callingData;
     const { callState } = this.state;
+    const muteNotifications = this.props.user.preferences ? this.props.user.preferences.muteNotifications : null;
 
     let teamSelected;
     if (teamId) {
       teamSelected = teams.find(team => team.teamId === callingData.teamId);
     }
 
-    if (visible) {
+    if (visible && moment().diff(muteNotifications || 0, 'minutes') > 0) {
       soundNotificationVideoCall.play();
     } else {
       soundNotificationVideoCall.pause();

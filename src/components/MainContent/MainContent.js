@@ -3,9 +3,10 @@ import { Layout, notification } from 'antd';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import moment from 'moment';
 
 import { paths } from 'src/routes';
-import { soundNotificationDMAudio, soundNotificationInvitationAudio } from 'src/sounds';
+import { soundNotificationPTAudio, soundNotificationInvitationAudio } from 'src/sounds';
 import String from 'src/translations';
 import { sortByLastCreatedFirst } from 'src/redux-hablaai/selectors/helpers';
 import {
@@ -54,16 +55,18 @@ const propTypes = {
   updateInvitationDeclined: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
   subscriberOrgs: PropTypes.object.isRequired,
-  fetchTeamsBySubscriberOrgId: PropTypes.func.isRequired
+  fetchTeamsBySubscriberOrgId: PropTypes.func.isRequired,
+  user: PropTypes.object
 };
 
 const defaultProps = {
   pushMessage: null,
   declinedInvitations: null,
-  invitation: []
+  invitation: [],
+  user: {}
 };
 
-const soundNotificationDM = new Audio(soundNotificationDMAudio);
+const soundNotificationPT = new Audio(soundNotificationPTAudio);
 const soundNotificationInvitation = new Audio(soundNotificationInvitationAudio);
 
 function invitationKey(inv) {
@@ -77,6 +80,7 @@ class MainContent extends Component {
   };
 
   componentDidMount() {
+    const { muteNotifications } = this.props.user.preferences;
     if (this.props.pushMessage && this.props.pushMessage.length > 0) {
       const text = this.props.pushMessage[0].content.reduce(
         (prevVal, content) => (prevVal || content.type === 'text/plain' ? content.text : undefined),
@@ -91,7 +95,9 @@ class MainContent extends Component {
         }
       };
       notification.open(args);
-      soundNotificationDM.play();
+      if (moment().diff(muteNotifications || 0, 'minutes') > 0) {
+        soundNotificationPT.play();
+      }
     }
 
     this.props.fetchTeamsBySubscriberOrgId().then(() => {
@@ -101,8 +107,11 @@ class MainContent extends Component {
 
   componentWillReceiveProps(nextProps) {
     const invitations = nextProps.invitation ? this.getValidInvites(nextProps.invitation) : [];
+    const { muteNotifications } = this.props.user.preferences;
     if (invitations.length > this.props.invitation) {
-      soundNotificationInvitation.play();
+      if (moment().diff(muteNotifications || 0, 'minutes') > 0) {
+        soundNotificationInvitation.play();
+      }
     }
 
     if (nextProps.declinedInvitations) {
@@ -125,7 +134,6 @@ class MainContent extends Component {
         }
       };
       notification.open(args);
-      soundNotificationDM.play();
     }
 
     if (nextProps.pushMessage && nextProps.pushMessage.length > 0) {
@@ -146,7 +154,9 @@ class MainContent extends Component {
             }
           };
           notification.open(args);
-          soundNotificationDM.play();
+          if (moment().diff(muteNotifications || 0, 'minutes') > 0) {
+            soundNotificationPT.play();
+          }
         }
       }
     }

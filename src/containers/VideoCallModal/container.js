@@ -8,7 +8,8 @@ import { getCurrentUser, getCallingData, getUserByUserId } from 'src/selectors';
 const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
   callingData: getCallingData(state),
-  users: Object.values(getUserByUserId(state))
+  users: Object.values(getUserByUserId(state)),
+  user: getCurrentUser(state)
 });
 
 const mapDispatchToProps = {

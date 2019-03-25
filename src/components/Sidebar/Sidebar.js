@@ -11,6 +11,7 @@ import String from 'src/translations';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
 import { AvatarWrapper, Badge } from 'src/components';
 import { VideoCallModal } from 'src/containers';
+import getInitials from 'src/utils/helpers';
 import Avatar from '../common/Avatar';
 import './styles/style.css';
 import DirectMessages from './DirectMessages';
@@ -74,7 +75,7 @@ function renderAvatar(item, enabled) {
   if (preferences.avatarBase64) {
     return <Avatar src={`data:image/jpeg;base64, ${preferences.avatarBase64}`} className={className} />;
   }
-  const nameInitial = item.name.substring(0, 1).toUpperCase();
+  const nameInitial = getInitials(item.name);
   return (
     <Avatar color={preferences.iconColor} className={className}>
       {nameInitial}

@@ -3,6 +3,7 @@ import { Layout, Menu, Dropdown, Input, Icon, message, Button, Switch, Select, D
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import moment from 'moment';
 
 import String from 'src/translations';
 import { AvatarWrapper } from 'src/components';
@@ -76,6 +77,24 @@ class Header extends Component {
         message.error(error.message);
       });
   }
+
+  handleSounds = option => {
+    const { user } = this.props;
+    const notificationsTimer = option ? moment().add(option, 'minutes') : false;
+
+    // Save status on db.
+    const { preferences } = user;
+    preferences.muteNotifications = notificationsTimer;
+
+    this.props
+      .updateUser({ preferences }, user.userId)
+      .then(() => {
+        message.success(String.t('Header.statusUpdated'));
+      })
+      .catch(error => {
+        message.error(error.message);
+      });
+  };
 
   clearSearchInput = () => {
     this.searchInput.focus();
@@ -163,9 +182,69 @@ class Header extends Component {
     } = this.props;
     const { showInput } = this.state;
     const clearIconVisibility = this.state.query ? 'visible' : 'hidden';
+    const { muteNotifications } = user.preferences;
 
     const isOrgAdmin =
       Object.keys(user.subscriberOrgs).length > 0 && user.subscriberOrgs[currentSubscriberOrgId].role === 'admin';
+
+    const muteNotificationMenu = (
+      <Menu className="muteNotificationMenu">
+        <Menu.Item key="header">
+          <div className="habla-label padding-class-a">{String.t('Header.muteTitle')}</div>
+        </Menu.Item>
+        <Menu.Item key="mute30min">
+          <a onClick={() => this.handleSounds(30)}>
+            <span>
+              <i className="fas far fa-clock" /> {String.t('Header.muteThirtyMins')}
+            </span>
+          </a>
+        </Menu.Item>
+        <Menu.Item key="mute1Hr">
+          <a onClick={() => this.handleSounds(60)}>
+            <span>
+              <i className="fas far fa-clock" /> {String.t('Header.muteOneHour')}
+            </span>
+          </a>
+        </Menu.Item>
+        <Menu.Item key="mute2Hrs">
+          <a onClick={() => this.handleSounds(120)}>
+            <span>
+              <i className="fas far fa-clock" /> {String.t('Header.muteTwoHours')}
+            </span>
+          </a>
+        </Menu.Item>
+        <Menu.Item key="mute4Hrs">
+          <a onClick={() => this.handleSounds(240)}>
+            <span>
+              <i className="fas far fa-clock" /> {String.t('Header.muteFourHours')}
+            </span>
+          </a>
+        </Menu.Item>
+        <Menu.Item key="muteAllDay">
+          <a onClick={() => this.handleSounds(1440)}>
+            <span>
+              <i className="far fa-clock" /> {String.t('Header.muteAllDay')}
+            </span>
+          </a>
+        </Menu.Item>
+        <Menu.Item key="muteOff" className="dropdown-last-menu-item">
+          <a onClick={() => this.handleSounds(muteNotifications ? false : 518400)}>
+            <span>
+              {muteNotifications && (
+                <span>
+                  <i className="fas fa-volume-up" /> {String.t('Header.muteNo')}
+                </span>
+              )}
+              {!muteNotifications && (
+                <span>
+                  <i className="fas fa-volume-mute" /> {String.t('Header.mute')}
+                </span>
+              )}
+            </span>
+          </a>
+        </Menu.Item>
+      </Menu>
+    );
 
     const userMenu = (
       <Menu>
@@ -319,6 +398,27 @@ class Header extends Component {
                 onToggleExactMatch={toggleExactMatch}
               />
             </form>
+          </div>
+        </div>
+        <div className="habla-top-menu-item">
+          <div className="habla-top-menu-item-content">
+            <Dropdown overlay={muteNotificationMenu} trigger={['click']} placement="bottomRight">
+              <div className="ant-dropdown-link">
+                <span className="habla-top-menu-notification-sounds">
+                  {muteNotifications && (
+                    <span>
+                      <i className="fa fa-volume-mute" />
+                    </span>
+                  )}
+                  {!muteNotifications && (
+                    <span>
+                      <i className="fa fa-volume-up" />
+                    </span>
+                  )}
+                  <Icon type="down" className="userMenu__dropdown-icon" />
+                </span>
+              </div>
+            </Dropdown>
           </div>
         </div>
         <div className="habla-top-menu-item">
