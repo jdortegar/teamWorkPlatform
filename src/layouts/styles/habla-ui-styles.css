@@ -9,13 +9,13 @@ HABLA CSS GENERAL STYLES
 .body {
   margin: 0;
   padding: 0;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
   background: #e5e5e5;
   color: #000;
 }
 #app {
   height: 100%;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
   background: #e5e5e5;
 }
 #app > div {
@@ -497,7 +497,7 @@ HABLA CSS GENERAL STYLES
 *,
 *::before,
 *::after {
-  font-family: 'Lato', sans-serif !important;
+  font-family: 'Noto Sans JP', sans-serif !important;
 }
 
 /* Weights */
@@ -555,7 +555,7 @@ p {
   line-height: 24pt;
   color: #fff;
   font-weight: 700;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
 }
 .habla-team-title,
 .habla-user-title {
@@ -733,7 +733,7 @@ p {
 }
 .ant-modal-body {
   padding: 0;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
 }
 .ant-layout-has-sider {
   position: relative;
@@ -830,7 +830,7 @@ p {
   line-height: 0 !important;
 }
 .ant-table-tbody {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
 }
 
 .homepage_graph-container {
@@ -1009,7 +1009,7 @@ p {
 .ant-dropdown,
 .ant-popover,
 .ant-select-dropdown {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
 }
 
 .ant-tooltip .ant-tooltip-inner {
@@ -1100,11 +1100,11 @@ p {
   width: 100% !important;
 }
 .ant-menu {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
   background: transparent;
 }
 .ant-collapse {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
 }
 .habla-left-navigation-item .ant-menu-submenu > .ant-menu {
   background: transparent;
