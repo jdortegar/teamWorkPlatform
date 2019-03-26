@@ -11,6 +11,7 @@ import { FileListView, TeamCallButton } from 'src/containers';
 import { PageHeader, FilesFilters, TeamPicker, Spinner } from 'src/components';
 import { CKG_VIEWS } from 'src/actions';
 import TimeActivityView from './TimeActivityView';
+import ViewSelector from './ViewSelector';
 import './styles/style.css';
 
 const propTypes = {
@@ -126,24 +127,17 @@ class CKG extends Component {
   };
 
   buildPageBreadCrumb = () => {
-    const { team, activeView } = this.props;
+    const { team, query, activeView } = this.props;
     const currentPage = { title: String.t(`ckg.${activeView}`) };
 
-    if (!team) return { routes: [currentPage] };
-    return {
-      routes: [
-        {
-          title: team.name,
-          url: `/app/team/${team.teamId}`
-        },
-        currentPage
-      ]
-    };
-  };
+    if (team) {
+      return { routes: [{ title: team.name, url: `/app/team/${team.teamId}` }, currentPage] };
+    }
+    if (query) {
+      return { routes: [{ title: String.t('ckg.searchPageTitle') }, currentPage] };
+    }
 
-  switchViews = () => {
-    const { activeView, changeCKGView } = this.props;
-    changeCKGView(activeView === CKG_VIEWS.TIME_ACTIVITY ? CKG_VIEWS.FILE_LIST : CKG_VIEWS.TIME_ACTIVITY);
+    return { routes: [currentPage] };
   };
 
   renderEmptyMessage = () => {
@@ -157,6 +151,11 @@ class CKG extends Component {
         </div>
       </div>
     );
+  };
+
+  renderViewSelector = () => {
+    const { changeCKGView, activeView, ignoreSearch } = this.props;
+    return <ViewSelector activeView={activeView} onChange={changeCKGView} ignoreMessages={ignoreSearch} />;
   };
 
   renderTags = () => {
@@ -201,17 +200,6 @@ class CKG extends Component {
       </div>
     );
   };
-
-  renderSideArrows = () =>
-    ['left', 'right'].map(direction => (
-      <div key={direction} className={`CKGPage__arrows-container arrow-${direction}`}>
-        <div className="CKGPage__arrows">
-          <a onClick={this.switchViews}>
-            <i className={`fas fa-arrow-${direction} CKGPage__arrow`} />
-          </a>
-        </div>
-      </div>
-    ));
 
   renderSelectors = () => {
     const { teams } = this.props;
@@ -279,11 +267,10 @@ class CKG extends Component {
             count: filesFiltered.length
           }}
         >
+          {this.renderViewSelector()}
           {!ignoreSearch && this.renderTags()}
           {!ignoreSearch && this.renderDatePicker()}
         </PageHeader>
-
-        {this.renderSideArrows()}
 
         {!loading && isEmpty(integrations) && isEmpty(query) && this.renderEmptyMessage()}
 
@@ -295,8 +282,16 @@ class CKG extends Component {
           </div>
         )}
 
+        {activeView === CKG_VIEWS.MESSAGES && (
+          <h1 className="CKG__fake-page">Chat messages... (not implemented yet)</h1>
+        )}
+        {activeView === CKG_VIEWS.FILE_ATTACHMENTS && (
+          <h1 className="CKG__fake-page">File attachments... (not implemented yet)</h1>
+        )}
+        {activeView === CKG_VIEWS.FILE_LIST && (
+          <FileListView files={filesFiltered} loading={loading} highlightSearch={!ignoreSearch} />
+        )}
         {activeView === CKG_VIEWS.TIME_ACTIVITY && <TimeActivityView files={filesFiltered} loading={loading} />}
-        {activeView === CKG_VIEWS.FILE_LIST && <FileListView files={filesFiltered} loading={loading} />}
 
         <div className="bottomBar">
           {!ignoreSearch && this.renderSelectors()}

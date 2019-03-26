@@ -13,6 +13,24 @@ import { AvatarWrapper, ResultsList } from 'src/components';
 
 const PAGE_SIZE = 20;
 
+const propTypes = {
+  files: PropTypes.array,
+  keywords: PropTypes.array,
+  owners: PropTypes.array,
+  caseSensitive: PropTypes.bool,
+  loading: PropTypes.bool,
+  highlightSearch: PropTypes.bool
+};
+
+const defaultProps = {
+  files: [],
+  keywords: [],
+  owners: [],
+  caseSensitive: false,
+  loading: false,
+  highlightSearch: true
+};
+
 const formatTime = date =>
   String.t('timeActivityGraph.displayTime', {
     displayDate: moment(date).format(String.t('timeActivityGraph.dateFormat')),
@@ -21,7 +39,7 @@ const formatTime = date =>
 
 const findUserByFile = (users, file) => users.find(({ userId }) => userId === file.fileOwnerId) || {};
 
-const getColumns = (keywords, caseSensitive, owners) => [
+const getColumns = (keywords, caseSensitive, owners, highlightSearch) => [
   {
     title: 'File Name',
     dataIndex: 'fileName',
@@ -60,7 +78,7 @@ const getColumns = (keywords, caseSensitive, owners) => [
             <Highlighter
               className="FileListView__results__fileName"
               highlightClassName="FileListView__results-highlighted"
-              searchWords={keywords}
+              searchWords={highlightSearch ? keywords : []}
               textToHighlight={textToRender}
               caseSensitive={caseSensitive}
               autoEscape
@@ -173,7 +191,7 @@ class FileListView extends Component {
   };
 
   render() {
-    const { files, keywords, caseSensitive, owners, loading } = this.props;
+    const { files, keywords, caseSensitive, owners, loading, highlightSearch } = this.props;
     const { page } = this.state;
     const paginationVisible = !loading && files.length > PAGE_SIZE;
 
@@ -195,7 +213,7 @@ class FileListView extends Component {
           )}
 
           <ResultsList
-            columns={getColumns(keywords, caseSensitive, owners)}
+            columns={getColumns(keywords, caseSensitive, owners, highlightSearch)}
             dataSource={files}
             loading={loading}
             rowKey="fileKey"
@@ -211,20 +229,7 @@ class FileListView extends Component {
   }
 }
 
-FileListView.propTypes = {
-  files: PropTypes.array,
-  keywords: PropTypes.array,
-  owners: PropTypes.array,
-  caseSensitive: PropTypes.bool,
-  loading: PropTypes.bool
-};
-
-FileListView.defaultProps = {
-  files: [],
-  keywords: [],
-  owners: [],
-  caseSensitive: false,
-  loading: false
-};
+FileListView.propTypes = propTypes;
+FileListView.defaultProps = defaultProps;
 
 export default FileListView;

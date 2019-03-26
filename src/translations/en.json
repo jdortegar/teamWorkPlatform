@@ -649,8 +649,11 @@
     "VideoCallTooltip": "Start a Project Team Video Call"
   },
   "ckg": {
-    "timeActivityView": "Time Activity View",
+    "searchPageTitle": "Global Smart Search",
+    "messagesView": "Chat Messages",
+    "fileAttachmentsView": "File Attachments",
     "fileListView": "Smart List View",
+    "timeActivityView": "Time Activity Graph",
     "startDate": "Start date",
     "endDate": "End date"
   },
