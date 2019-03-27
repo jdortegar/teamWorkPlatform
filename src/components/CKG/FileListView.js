@@ -9,7 +9,8 @@ import String from 'src/translations';
 import formatSize from 'src/lib/formatSize';
 import imageSrcFromFileExtension from 'src/lib/imageFiles';
 import { integrationKeyFromFile, integrationLabelFromKey, integrationImageFromKey } from 'src/utils/dataIntegrations';
-import { AvatarWrapper, ResultsList } from 'src/components';
+import { ResultsList } from 'src/components';
+import { AvatarWrapper } from 'src/containers';
 
 const PAGE_SIZE = 20;
 

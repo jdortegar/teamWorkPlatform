@@ -57,6 +57,7 @@ class TopBar extends React.Component {
         onOwnerFilterClick={this.props.onOwnerFilterClick}
         excludeOwnersFilter={this.props.membersFiltered}
         className="CKGPage__FilesFilters"
+        showTooltip={false}
       />
     );
   }

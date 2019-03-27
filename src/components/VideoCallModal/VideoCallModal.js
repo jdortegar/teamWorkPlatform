@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import { Modal, Button } from 'antd';
 import String from 'src/translations';
-import { AvatarWrapper } from 'src/components';
+import { AvatarWrapper } from 'src/containers';
 import { soundNotificationVideoCallAudio } from 'src/sounds';
 import './styles/style.css';
 
@@ -176,7 +176,7 @@ class VideoCallModal extends Component {
               </div>
               <div className="Modal_body">
                 <span className="VideoCall_avatar_container">
-                  <AvatarWrapper size="large" user={user} />
+                  <AvatarWrapper size="large" user={user} showDetails={false} />
                   <span className="VideoCall_icon">
                     <i className="fas fa-video fa-2x" />
                   </span>

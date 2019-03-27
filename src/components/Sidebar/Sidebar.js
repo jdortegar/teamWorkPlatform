@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import moment from 'moment-timezone';
 
 import { paths } from 'src/routes';
-import { Layout, Menu, Tooltip, Dropdown, Input, Icon, Popover, message, Collapse } from 'antd';
+import { Layout, Menu, Tooltip, Dropdown, Input, Icon, message, Collapse } from 'antd';
 import String from 'src/translations';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
-import { AvatarWrapper, Badge } from 'src/components';
-import { VideoCallModal } from 'src/containers';
+import { Badge } from 'src/components';
+import { AvatarWrapper, VideoCallModal } from 'src/containers';
 import getInitials from 'src/utils/helpers';
 import Avatar from '../common/Avatar';
 import './styles/style.css';
@@ -37,7 +36,6 @@ const propTypes = {
   currentSubscriberOrgId: PropTypes.string,
   userRoles: PropTypes.object,
   teamId: PropTypes.string,
-  makePersonalCall: PropTypes.func,
   callingData: PropTypes.object,
   finishCall: PropTypes.func.isRequired,
   readMessagesByConversationId: PropTypes.object,
@@ -55,7 +53,6 @@ const defaultProps = {
   teams: [],
   userRoles: {},
   teamId: null,
-  makePersonalCall: null,
   callingData: {},
   readMessagesByConversationId: {},
   conversationIdsByTeam: {},
@@ -265,7 +262,15 @@ class Sidebar extends Component {
           </span>
         </div>
         <div className="sidebar-direct-messages-content">
-          {teamMembers.map(subscriber => this.renderSubscriberAvatar(subscriber))}
+          {teamMembers.map(subscriber => (
+            <AvatarWrapper
+              size="default"
+              user={subscriber}
+              key={subscriber.userId}
+              className="mr-05 mb-05"
+              hideStatusTooltip
+            />
+          ))}
           {userRoles && userRoles.teamOwner.includes(teamId) && (
             <Tooltip placement="topLeft" title={String.t('sideBar.invitetoTeam')} arrowPointAtCenter>
               <a>
@@ -383,74 +388,6 @@ class Sidebar extends Component {
       return 'iconSettingsTooltipTeamOwner';
     }
     return 'iconSettingsTooltipUser';
-  }
-
-  renderSubscriberAvatar(subscriber) {
-    const { userId, online } = subscriber;
-    const { user } = this.props;
-    const content = (
-      <div>
-        <div className="Subscriber__Tooltip_Header">
-          <AvatarWrapper size="large" user={subscriber} className="mr-05 mb-05" hideStatusTooltip />
-          <div className="Subscriber__Tooltip_Text">
-            <span className="Subscriber__Tooltip_Name">{subscriber.fullName}</span>
-            <span className="Subscriber__Tooltip_Status">{user.preferences.customPresenceStatusMessage}</span>
-            <span className="Subscriber__Tooltip_DisplayName">{subscriber.displayName}</span>
-            <span className="Subscriber__Tooltip_TimeZone">
-              {moment()
-                .tz(subscriber.timeZone)
-                .format('HH:mm')}{' '}
-              {String.t('sideBar.localTime')}
-            </span>
-            <span className="Subscriber__Tooltip_EMail">{subscriber.email}</span>
-          </div>
-        </div>
-
-        <Menu mode="vertical" className="pageHeaderMenu">
-          {userId !== user.userId && (
-            <Menu.Item key={`${subscriber.userId}-chat`}>
-              <span
-                onClick={() => {
-                  this.props.history.push(`/app/chat/${userId}`);
-                }}
-              >
-                <i className="fas fa-comment" /> {String.t('sideBar.directMessage')}
-              </span>
-            </Menu.Item>
-          )}
-          {userId !== user.userId && online && subscriber.presenceStatus !== 'busy' && (
-            <Menu.Item key={subscriber.userId}>
-              <span
-                onClick={() => {
-                  this.setState({
-                    videoCallUser: subscriber,
-                    videoCallModalVisible: true,
-                    videoCallReceived: false
-                  });
-
-                  this.props.makePersonalCall(user.userId, subscriber.userId);
-                }}
-              >
-                <i className="fa fa-phone" /> {String.t('sideBar.videoCall')}
-              </span>
-            </Menu.Item>
-          )}
-          <Menu.Item key={`${userId}-profile`}>
-            <Link to={`/app/teamMember/${userId}`}>
-              <i className="fas fa-user" /> {String.t('sideBar.userProfile')}
-            </Link>
-          </Menu.Item>
-        </Menu>
-      </div>
-    );
-
-    return (
-      <Popover key={userId} placement="topLeft" content={content} trigger="hover">
-        <span>
-          <AvatarWrapper size="default" user={subscriber} className="mr-05 mb-05" hideStatusTooltip />
-        </span>
-      </Popover>
-    );
   }
 
   render() {

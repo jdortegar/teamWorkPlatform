@@ -5,7 +5,8 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import String from 'src/translations';
-import { AvatarWrapper, PageHeader, SimpleCardContainer, Button, Spinner } from 'src/components';
+import { PageHeader, SimpleCardContainer, Button, Spinner } from 'src/components';
+import { AvatarWrapper } from 'src/containers';
 import './styles/style.css';
 
 const propTypes = {

@@ -115,10 +115,10 @@
 .ant-popover-inner-content span svg,
 .ant-menu-item > a svg .ant-menu-item > span svg {
   color: #8f8f8f;
-  margin-right: 13px;
+  margin-right: 5px;
 }
 .ant-popover-inner-content a,
-.ant-popover-inner-content span,
+.ant-popover-inner-content > span,
 .ant-menu-item > a,
 .ant-menu-item > span {
   color: #999999;
@@ -177,7 +177,7 @@
   color: #717171;
 }
 
-.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+.pageHeaderMenu .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
   background: #333;
   color: #fff;
 }

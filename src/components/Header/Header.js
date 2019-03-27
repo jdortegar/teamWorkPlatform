@@ -6,8 +6,8 @@ import classNames from 'classnames';
 import moment from 'moment';
 
 import String from 'src/translations';
+import { AvatarWrapper } from 'src/containers';
 import { paths } from 'src/routes';
-import { AvatarWrapper } from 'src/components';
 import { hablaBlackLogo, hablaBlackLogoIcon } from 'src/img';
 import SearchMenu from './SearchMenu';
 import './styles/style.css';
@@ -298,6 +298,7 @@ class Header extends Component {
                 placeholder={String.t('Header.writeAMessage')}
                 style={{ width: '100%' }}
                 onBlur={e => this.handleStatusSelect(e.target.value)}
+                onPressEnter={e => this.handleStatusSelect(e.target.value)}
                 suffix={<Icon type="close" onClick={this.handleSelectOptions} />}
               />
             </div>
@@ -446,7 +447,7 @@ class Header extends Component {
                 onVisibleChange={val => this.handleDropdownVisibility(val)}
               >
                 <div className="ant-dropdown-link">
-                  <AvatarWrapper size="default" user={user} hideStatusTooltip />
+                  <AvatarWrapper size="default" user={user} hideStatusTooltip showDetails={false} />
                   <span className="habla-top-menu-label">{user.firstName}</span>
                   <Icon type="down" className="userMenu__dropdown-icon" />
                 </div>

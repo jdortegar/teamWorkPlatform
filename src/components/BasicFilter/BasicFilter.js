@@ -12,7 +12,8 @@ const propTypes = {
   imageSource: PropTypes.string,
   active: PropTypes.bool,
   onClick: PropTypes.func,
-  onDoubleClick: PropTypes.func
+  onDoubleClick: PropTypes.func,
+  showTooltip: PropTypes.bool
 };
 
 const defaultProps = {
@@ -20,18 +21,30 @@ const defaultProps = {
   avatar: null,
   imageSource: '',
   onClick: null,
-  onDoubleClick: null
+  onDoubleClick: null,
+  showTooltip: true
 };
 
 const IMAGE_SIZE = 32;
 
-const BasicFilter = ({ tooltipTitle, label, active, avatar, imageSource, onClick, onDoubleClick }) => {
+const BasicFilter = ({ tooltipTitle, label, active, avatar, imageSource, onClick, onDoubleClick, showTooltip }) => {
   const image = avatar || (
     <img src={imageSource} className="BasicFilter__image" width={IMAGE_SIZE} height={IMAGE_SIZE} alt="" />
   );
   return (
     <div className="BasicFilter">
-      <Tooltip placement="top" title={tooltipTitle}>
+      {showTooltip ? (
+        <Tooltip placement="top" title={tooltipTitle}>
+          <div
+            className={classNames('BasicFilter__content', { inactive: !active })}
+            onClick={onClick}
+            onDoubleClick={onDoubleClick}
+          >
+            {image}
+            <div className="BasicFilter__label">{label}</div>
+          </div>
+        </Tooltip>
+      ) : (
         <div
           className={classNames('BasicFilter__content', { inactive: !active })}
           onClick={onClick}
@@ -40,7 +53,7 @@ const BasicFilter = ({ tooltipTitle, label, active, avatar, imageSource, onClick
           {image}
           <div className="BasicFilter__label">{label}</div>
         </div>
-      </Tooltip>
+      )}
     </div>
   );
 };

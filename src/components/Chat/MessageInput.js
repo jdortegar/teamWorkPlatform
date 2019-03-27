@@ -6,7 +6,8 @@ import { isEmpty } from 'lodash';
 import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';
 import { formShape } from 'src/propTypes';
-import { AvatarWrapper, PreviewBar } from 'src/components';
+import { PreviewBar } from 'src/components';
+import { AvatarWrapper } from 'src/containers';
 
 // Hack for use String functions
 import Str from 'src/translations';
@@ -219,7 +220,7 @@ class MessageInput extends React.Component {
         )}
         <div className="Chat__message_input">
           <div className="team-room__chat-input__image-wrapper">
-            <AvatarWrapper size="default" user={user} />
+            <AvatarWrapper size="default" user={user} showDetails={false} />
           </div>
           <div className="team-room__chat-input-wrapper">
             <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off">

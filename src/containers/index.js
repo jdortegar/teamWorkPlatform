@@ -1,5 +1,6 @@
 export AcceptInvitationPage from './AcceptInvitationPage';
 export AddTeamIntegrationModal from './AddTeamIntegrationModal';
+export AvatarWrapper from './AvatarWrapper';
 export BookmarksPage from './BookmarksPage';
 export Chat from './Chat';
 export ChatContent from './ChatContent';

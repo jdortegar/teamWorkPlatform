@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
 import Avatar from 'src/components/common/Avatar';
-import { AvatarWrapper } from 'src/components';
+import { AvatarWrapper } from 'src/containers';
 import getInitials from 'src/utils/helpers';
 
 const propTypes = {

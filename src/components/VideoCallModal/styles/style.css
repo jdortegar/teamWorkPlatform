@@ -116,8 +116,8 @@
 
 .VideoCall_Modal_container .VideoCall_icon {
   position: absolute;
-  bottom: -14%;
-  right: 20%;
+  bottom: -15%;
+  right: 25%;
   background: #36a751;
   color: #fff;
   padding: 5px;
@@ -130,7 +130,7 @@
   height: 120px;
   line-height: 120px;
   border: 4px solid #dcdcdc;
-  border-radius: 14%;
+  border-radius: 50%;
   background: #dcdcdc !important;
 }
 

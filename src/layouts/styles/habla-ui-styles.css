@@ -406,6 +406,9 @@ HABLA CSS GENERAL STYLES
 .habla-grey {
   color: #666;
 }
+.habla-soft-grey {
+  color: #999;
+}
 .habla-lightgrey {
   color: #ddd;
 }
@@ -1013,7 +1016,7 @@ p {
 }
 
 .ant-tooltip .ant-tooltip-inner {
-  background-color: rgba(0, 0, 0, 0.95);
+  background-color: #444444;
 }
 
 .ant-tooltip .ant-tooltip-placement-top .ant-tooltip-arrow,
@@ -1113,9 +1116,6 @@ p {
   background: #fff;
 }
 ul.ant-menu li.ant-menu-submenu:hover {
-  background: #f5f7fd;
-}
-.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
   background: #f5f7fd;
 }
 .ant-menu-sub li:last-child {

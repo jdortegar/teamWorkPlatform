@@ -11,13 +11,15 @@ const propTypes = {
   owners: PropTypes.array,
   className: PropTypes.string,
   excludeOwnersFilter: PropTypes.array,
-  onOwnerFilterClick: PropTypes.func.isRequired
+  onOwnerFilterClick: PropTypes.func.isRequired,
+  showTooltip: PropTypes.bool
 };
 
 const defaultProps = {
   owners: [],
   className: null,
-  excludeOwnersFilter: []
+  excludeOwnersFilter: [],
+  showTooltip: true
 };
 
 class FilterUserMessages extends React.Component {
@@ -30,7 +32,7 @@ class FilterUserMessages extends React.Component {
   };
 
   render() {
-    const { className, owners, excludeOwnersFilter, onOwnerFilterClick } = this.props;
+    const { className, owners, excludeOwnersFilter, onOwnerFilterClick, showTooltip } = this.props;
 
     return (
       <div className={classNames('FilesFilters', className)}>
@@ -48,6 +50,7 @@ class FilterUserMessages extends React.Component {
                   active={excludeOwnersFilter.some(ownerObj => ownerObj.userId === owner.userId)}
                   onClick={() => onOwnerFilterClick(owner.userId)}
                   tooltipTitle={owner.fullName}
+                  showTooltip={showTooltip}
                 />
               ))}
               {owners.length > 5 && (
@@ -64,6 +67,7 @@ class FilterUserMessages extends React.Component {
                             active={excludeOwnersFilter.some(ownerObj => ownerObj.userId === owner.userId)}
                             onClick={() => onOwnerFilterClick(owner.userId)}
                             tooltipTitle={owner.fullName}
+                            showTooltip={showTooltip}
                           />
                         ))}
                       </div>

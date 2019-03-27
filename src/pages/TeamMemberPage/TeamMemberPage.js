@@ -4,7 +4,8 @@ import moment from 'moment';
 import _ from 'lodash';
 
 import String from 'src/translations';
-import { PageHeader, SimpleCardContainer, AvatarWrapper, Spinner } from 'src/components';
+import { PageHeader, SimpleCardContainer, Spinner } from 'src/components';
+import { AvatarWrapper } from 'src/containers';
 import CardView from './CardView';
 import './styles/style.css';
 

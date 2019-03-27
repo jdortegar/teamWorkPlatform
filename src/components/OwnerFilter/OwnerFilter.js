@@ -2,26 +2,31 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import String from 'src/translations';
-import { BasicFilter, AvatarWrapper } from 'src/components';
+import { BasicFilter } from 'src/components';
+import { AvatarWrapper } from 'src/containers';
 
 const propTypes = {
   owner: PropTypes.object.isRequired,
   count: PropTypes.number.isRequired,
   active: PropTypes.bool,
   onClick: PropTypes.func,
-  tooltipTitle: PropTypes.string
+  tooltipTitle: PropTypes.string,
+  showTooltip: PropTypes.bool
 };
 
 const defaultProps = {
   active: false,
   onClick: null,
-  tooltipTitle: undefined
+  tooltipTitle: undefined,
+  showTooltip: true
 };
 
-const OwnerFilter = ({ owner, count, active, onClick, tooltipTitle }) => {
+const OwnerFilter = ({ owner, count, active, onClick, tooltipTitle, showTooltip }) => {
   const { firstName, lastName } = owner;
   const fullName = String.t('fullName', { firstName, lastName });
-  const avatar = <AvatarWrapper size="default" user={owner} hidePresence hideStatusTooltip />;
+  const avatar = (
+    <AvatarWrapper size="default" user={owner} hidePresence hideStatusTooltip showDetails={!showTooltip} />
+  );
 
   return (
     <BasicFilter
@@ -30,6 +35,7 @@ const OwnerFilter = ({ owner, count, active, onClick, tooltipTitle }) => {
       avatar={avatar}
       active={active}
       onClick={onClick}
+      showTooltip={showTooltip}
     />
   );
 };

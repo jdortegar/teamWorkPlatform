@@ -7,8 +7,7 @@ import classNames from 'classnames';
 import Autolinker from 'autolinker';
 
 import String from 'src/translations';
-import { AvatarWrapper } from 'src/components';
-import { PreviewImages } from 'src/containers';
+import { AvatarWrapper, PreviewImages } from 'src/containers';
 import MessageOptions from './MessageOptions';
 import Metadata from './Metadata';
 import './styles/style.css';

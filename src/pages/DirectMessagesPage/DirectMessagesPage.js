@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { Spinner, ChatContent, PageHeader, AvatarWrapper, PersonalCallButton } from 'src/components';
+import { Spinner, ChatContent, PageHeader, PersonalCallButton } from 'src/components';
+import { AvatarWrapper } from 'src/containers';
 import { message } from 'antd';
 import './styles/style.css';
 

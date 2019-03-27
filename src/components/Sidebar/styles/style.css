@@ -35,7 +35,7 @@
   color: #999;
   text-decoration: none;
   font-size: 14px;
-  line-height: 14px;
+  line-height: 20px;
   padding-left: 7px;
   margin-right: 25px;
   display: block;
@@ -46,6 +46,10 @@
 }
 .organization-list .ant-menu-item-selected {
   background: #fff !important;
+}
+
+.organization-list .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background: #f5f7fd;
 }
 .Team_active .habla-left-navigation-item-label,
 .User_active .habla-left-navigation-item-label {
@@ -317,7 +321,11 @@ ul.ant-menu-sub {
 
 .Subscriber__Tooltip_Header {
   padding: 10px;
-  display: flex;
+}
+
+.Subscriber__Tooltip_MainInfo > div {
+  vertical-align: middle;
+  display: inline-block;
 }
 
 .Subscriber__Tooltip_Header .ant-avatar-string {
@@ -338,6 +346,10 @@ ul.ant-menu-sub {
 .Subscriber__Tooltip_Header .Subscriber__Tooltip_Text span {
   display: block;
   padding: 0 0 0 10px;
+}
+
+.Subscriber__Tooltip_ExtraInfo > span {
+  display: block;
 }
 
 .SideBar__Badge,

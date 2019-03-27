@@ -12,6 +12,7 @@
   flex: 1;
   flex-direction: column;
   position: relative;
+  overflow: hidden;
 }
 
 .FileListView .FileListView__results {
@@ -55,7 +56,7 @@
   position: absolute;
   background-color: white;
   display: inline-block;
-  border-radius: 14%;
+  border-radius: 50%;
   line-height: 20px;
   width: 26px;
   height: 26px;

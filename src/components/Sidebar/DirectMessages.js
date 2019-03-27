@@ -6,7 +6,8 @@ import _ from 'lodash';
 import String from 'src/translations';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
 import { Menu, Input, Icon } from 'antd';
-import { AvatarWrapper, Badge } from 'src/components';
+import { Badge } from 'src/components';
+import { AvatarWrapper } from 'src/containers';
 
 import './styles/style.css';
 

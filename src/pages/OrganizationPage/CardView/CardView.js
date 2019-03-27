@@ -8,7 +8,8 @@ import { Link } from 'react-router-dom';
 import String from 'src/translations';
 import getInitials from 'src/utils/helpers';
 import { integrationLabelFromKey, integrationImageFromKey } from 'src/utils/dataIntegrations';
-import { SimpleCardContainer, SimpleHeader, AvatarWrapper } from 'src/components';
+import { SimpleCardContainer, SimpleHeader } from 'src/components';
+import { AvatarWrapper } from 'src/containers';
 import Avatar from 'src/components/common/Avatar';
 import './styles/style.css';
 
@@ -74,18 +75,15 @@ function CardView(props) {
 
   const renderMembers = () =>
     orgSubscribers.map(member => {
-      const { userId, firstName, lastName } = member;
-      const fullName = String.t('fullName', { firstName, lastName });
+      const { userId, firstName } = member;
       return (
         <div key={userId} className="mr-1 mb-2">
-          <Tooltip placement="top" title={fullName}>
-            <Link to={`/app/teamMember/${userId}`}>
-              <div>
-                <AvatarWrapper size="large" user={member} hideStatusTooltip />
-              </div>
-              <div className="habla-label align-center-class card-label">{firstName}</div>
-            </Link>
-          </Tooltip>
+          <Link to={`/app/teamMember/${userId}`}>
+            <div>
+              <AvatarWrapper size="large" user={member} hideStatusTooltip />
+            </div>
+            <div className="habla-label align-center-class card-label">{firstName}</div>
+          </Link>
         </div>
       );
     });
