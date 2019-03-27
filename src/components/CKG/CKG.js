@@ -154,8 +154,15 @@ class CKG extends Component {
   };
 
   renderViewSelector = () => {
-    const { changeCKGView, activeView, ignoreSearch } = this.props;
-    return <ViewSelector activeView={activeView} onChange={changeCKGView} ignoreMessages={ignoreSearch} />;
+    const { changeCKGView, activeView, ignoreSearch, query } = this.props;
+    return (
+      <ViewSelector
+        activeView={activeView}
+        onChange={changeCKGView}
+        hideMessages={ignoreSearch || !query}
+        hideFileAttachments={!ignoreSearch && !query}
+      />
+    );
   };
 
   renderTags = () => {

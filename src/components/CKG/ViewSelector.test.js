@@ -11,12 +11,12 @@ test('renders default', () => {
   expect(queryByTitle('Chat File Attachments')).toBeInTheDocument();
 });
 
-test('ignores Messages', () => {
-  const { queryByTitle } = render(<ViewSelector onChange={() => {}} ignoreMessages />);
+test('hides selectors', () => {
+  const { queryByTitle } = render(<ViewSelector onChange={() => {}} hideMessages hideFileAttachments />);
   expect(queryByTitle('Chat Messages')).not.toBeInTheDocument();
   expect(queryByTitle('Smart List View')).toBeInTheDocument();
   expect(queryByTitle('Knowledge Graphs')).toBeInTheDocument();
-  expect(queryByTitle('Chat File Attachments')).toBeInTheDocument();
+  expect(queryByTitle('Chat File Attachments')).not.toBeInTheDocument();
 });
 
 test('sets active view', () => {

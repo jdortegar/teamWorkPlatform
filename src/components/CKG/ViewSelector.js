@@ -8,19 +8,21 @@ import { CKG_VIEWS } from 'src/redux-hablaai/actions';
 const propTypes = {
   onChange: PropTypes.func.isRequired,
   activeView: PropTypes.string,
-  ignoreMessages: PropTypes.bool
+  hideMessages: PropTypes.bool,
+  hideFileAttachments: PropTypes.bool
 };
 
 const defaultProps = {
   activeView: CKG_VIEWS.FILE_LIST,
-  ignoreMessages: false
+  hideMessages: false,
+  hideFileAttachments: false
 };
 
-const ViewSelector = ({ activeView, onChange, ignoreMessages }) => {
+const ViewSelector = ({ activeView, onChange, hideMessages, hideFileAttachments }) => {
   return (
     <span className="CKG__view-pickers">
       <Radio.Group value={activeView} onChange={e => onChange(e.target.value)} buttonStyle="solid">
-        {!ignoreMessages && (
+        {!hideMessages && (
           <Tooltip title={String.t(`ckg.${CKG_VIEWS.MESSAGES}`)}>
             <Radio.Button value={CKG_VIEWS.MESSAGES}>
               <i className="far fa-comment-dots" title={String.t(`ckg.${CKG_VIEWS.MESSAGES}`)} />
@@ -37,11 +39,13 @@ const ViewSelector = ({ activeView, onChange, ignoreMessages }) => {
             <i className="fa fa-chart-area" title={String.t(`ckg.${CKG_VIEWS.TIME_ACTIVITY}`)} />
           </Radio.Button>
         </Tooltip>
-        <Tooltip title={String.t(`ckg.${CKG_VIEWS.FILE_ATTACHMENTS}`)}>
-          <Radio.Button value={CKG_VIEWS.FILE_ATTACHMENTS}>
-            <i className="fa fa-paperclip" title={String.t(`ckg.${CKG_VIEWS.FILE_ATTACHMENTS}`)} />
-          </Radio.Button>
-        </Tooltip>
+        {!hideFileAttachments && (
+          <Tooltip title={String.t(`ckg.${CKG_VIEWS.FILE_ATTACHMENTS}`)}>
+            <Radio.Button value={CKG_VIEWS.FILE_ATTACHMENTS}>
+              <i className="fa fa-paperclip" title={String.t(`ckg.${CKG_VIEWS.FILE_ATTACHMENTS}`)} />
+            </Radio.Button>
+          </Tooltip>
+        )}
       </Radio.Group>
     </span>
   );
