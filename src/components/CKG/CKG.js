@@ -285,13 +285,13 @@ class CKG extends Component {
         {activeView === CKG_VIEWS.MESSAGES && (
           <h1 className="CKG__fake-page">Chat messages... (not implemented yet)</h1>
         )}
-        {activeView === CKG_VIEWS.FILE_ATTACHMENTS && (
-          <h1 className="CKG__fake-page">File attachments... (not implemented yet)</h1>
-        )}
         {activeView === CKG_VIEWS.FILE_LIST && (
           <FileListView files={filesFiltered} loading={loading} highlightSearch={!ignoreSearch} />
         )}
         {activeView === CKG_VIEWS.TIME_ACTIVITY && <TimeActivityView files={filesFiltered} loading={loading} />}
+        {activeView === CKG_VIEWS.FILE_ATTACHMENTS && (
+          <h1 className="CKG__fake-page">File attachments... (not implemented yet)</h1>
+        )}
 
         <div className="bottomBar">
           {!ignoreSearch && this.renderSelectors()}

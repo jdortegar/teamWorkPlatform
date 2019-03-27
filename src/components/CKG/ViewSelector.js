@@ -27,11 +27,6 @@ const ViewSelector = ({ activeView, onChange, ignoreMessages }) => {
             </Radio.Button>
           </Tooltip>
         )}
-        <Tooltip title={String.t(`ckg.${CKG_VIEWS.FILE_ATTACHMENTS}`)}>
-          <Radio.Button value={CKG_VIEWS.FILE_ATTACHMENTS}>
-            <i className="fa fa-paperclip" title={String.t(`ckg.${CKG_VIEWS.FILE_ATTACHMENTS}`)} />
-          </Radio.Button>
-        </Tooltip>
         <Tooltip title={String.t(`ckg.${CKG_VIEWS.FILE_LIST}`)}>
           <Radio.Button value={CKG_VIEWS.FILE_LIST}>
             <i className="fa fa-list-ul" title={String.t(`ckg.${CKG_VIEWS.FILE_LIST}`)} />
@@ -40,6 +35,11 @@ const ViewSelector = ({ activeView, onChange, ignoreMessages }) => {
         <Tooltip title={String.t(`ckg.${CKG_VIEWS.TIME_ACTIVITY}`)}>
           <Radio.Button value={CKG_VIEWS.TIME_ACTIVITY}>
             <i className="fa fa-chart-area" title={String.t(`ckg.${CKG_VIEWS.TIME_ACTIVITY}`)} />
+          </Radio.Button>
+        </Tooltip>
+        <Tooltip title={String.t(`ckg.${CKG_VIEWS.FILE_ATTACHMENTS}`)}>
+          <Radio.Button value={CKG_VIEWS.FILE_ATTACHMENTS}>
+            <i className="fa fa-paperclip" title={String.t(`ckg.${CKG_VIEWS.FILE_ATTACHMENTS}`)} />
           </Radio.Button>
         </Tooltip>
       </Radio.Group>

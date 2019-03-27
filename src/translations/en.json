@@ -651,9 +651,9 @@
   "ckg": {
     "searchPageTitle": "Global Smart Search",
     "messagesView": "Chat Messages",
-    "fileAttachmentsView": "File Attachments",
     "fileListView": "Smart List View",
-    "timeActivityView": "Time Activity Graph",
+    "timeActivityView": "Knowledge Graphs",
+    "fileAttachmentsView": "Chat File Attachments",
     "startDate": "Start date",
     "endDate": "End date"
   },
