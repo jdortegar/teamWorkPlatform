@@ -20,7 +20,7 @@ const defaultProps = {
 
 const ViewSelector = ({ activeView, onChange, hideMessages, hideFileAttachments }) => {
   return (
-    <span className="CKG__view-pickers">
+    <span className="CKG__view-selector">
       <Radio.Group value={activeView} onChange={e => onChange(e.target.value)} buttonStyle="solid">
         {!hideMessages && (
           <Tooltip title={String.t(`ckg.${CKG_VIEWS.MESSAGES}`)}>

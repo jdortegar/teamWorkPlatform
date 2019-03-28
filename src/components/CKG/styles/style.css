@@ -169,32 +169,38 @@
 }
 
 .CKG .habla-main-content-header-title {
+  flex-wrap: wrap;
+  justify-content: flex-end;
   flex: none;
 }
 
-.CKG .habla-main-content-header-title .CKG__view-pickers svg {
+.CKG .habla-main-content-header-title .CKG__view-selector svg {
   margin: 0;
 }
 
-.CKG__view-pickers {
+.CKG__view-selector {
   flex: 1;
   margin-left: 10px;
 }
 
-.CKG__view-pickers .ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+.CKG__view-selector .ant-radio-group {
+  display: flex;
+}
+
+.CKG__view-selector .ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
   background: #557dbf;
   border-color: #3b5083;
   box-shadow: -1px 0 0 0 #3b5083;
 }
 
-.CKG__view-pickers
+.CKG__view-selector
   .ant-radio-group-solid
   .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)
   svg {
   color: white;
 }
 
-.CKG__view-pickers .ant-radio-button-wrapper-checked::before {
+.CKG__view-selector .ant-radio-button-wrapper-checked::before {
   background: #3b5083 !important;
 }
 
@@ -203,6 +209,7 @@
   flex-wrap: wrap;
   justify-content: flex-end;
   margin-right: 5px;
+  margin-bottom: 4px;
 }
 
 .CKG__date-picker {
@@ -374,6 +381,37 @@
 
 .FileListView .ant-tooltip-content div {
   padding: 5px;
+}
+
+@media only screen and (max-width: 1150px) {
+  .CKG .habla-main-content-header-title {
+    flex: 1;
+    justify-content: flex-start;
+  }
+  .CKG__view-selector {
+    flex: none;
+  }
+  .CKG__keywords {
+    justify-content: flex-start;
+    min-width: 100%;
+    margin: 10px 0;
+  }
+  .CKG__date-pickers {
+    display: flex;
+    flex: 1;
+  }
+  .CKG__date-picker {
+    width: 200px !important;
+  }
+  .CKG .pageHeader__badge {
+    margin-left: 10px;
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .CKG__date-picker {
+    width: 47% !important;
+  }
 }
 
 /*

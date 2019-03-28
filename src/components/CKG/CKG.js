@@ -189,7 +189,7 @@ class CKG extends Component {
     const { startDate, endDate } = excludeFilters;
 
     return (
-      <div>
+      <div className="CKG__date-pickers">
         <DatePicker
           className="CKG__date-picker"
           value={startDate && moment(startDate)}
