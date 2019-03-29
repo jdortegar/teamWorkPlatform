@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col } from 'antd';
+import { Row, Col, Divider } from 'antd';
 import { find, includes, isEmpty } from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
 import Autolinker from 'autolinker';
 
 import String from 'src/translations';
-import { AvatarWrapper, PreviewImages } from 'src/containers';
+import { AvatarWrapper, PreviewImages, VideoCallModal } from 'src/containers';
 import MessageOptions from './MessageOptions';
 import Metadata from './Metadata';
 import './styles/style.css';
@@ -16,6 +16,7 @@ const propTypes = {
   message: PropTypes.object.isRequired,
   onMessageAction: PropTypes.func.isRequired,
   sender: PropTypes.object,
+  sharedProfile: PropTypes.object,
   conversationId: PropTypes.string,
   conversationDisabled: PropTypes.bool,
   isAdmin: PropTypes.bool.isRequired,
@@ -29,12 +30,16 @@ const propTypes = {
   fetchMetadata: PropTypes.func,
   scrollToBottom: PropTypes.func,
   bookmarked: PropTypes.bool,
-  ownMessage: PropTypes.bool
+  ownMessage: PropTypes.bool,
+  history: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired,
+  makePersonalCall: PropTypes.func.isRequired
 };
 
 const defaultProps = {
   sender: {},
   personalConversation: {},
+  sharedProfile: null,
   conversationId: null,
   bookmarked: false,
   ownMessage: false,
@@ -61,7 +66,8 @@ export const messageAction = {
 class Message extends Component {
   state = {
     mute: true,
-    isExpanded: includes(this.props.currentPath, this.props.message.messageId)
+    isExpanded: includes(this.props.currentPath, this.props.message.messageId),
+    videoCallModalVisible: false
   };
 
   componentDidMount() {
@@ -78,6 +84,58 @@ class Message extends Component {
     const { message } = this.props;
     this.props.onMessageAction({ message }, messageAction.delete);
     e.stopPropagation();
+  };
+
+  showVideoCallModal = hide => {
+    if (hide) {
+      return this.setState({
+        videoCallModalVisible: false
+      });
+    }
+    return this.setState({
+      videoCallModalVisible: !this.state.videoCallModalVisible
+    });
+  };
+
+  renderUserProfile = user => {
+    const { currentUser } = this.props;
+    return (
+      <div className="User__Details-Data">
+        <div className="User_MainInfo">
+          <AvatarWrapper size="default" user={user} hideStatusTooltip showDetails={false} />
+          <div className="User_Header">
+            <span className="User_Name">{user.fullName}</span>
+            <span className="User_Status">{user.preferences.customPresenceStatusMessage}</span>
+          </div>
+          <div className="User_action-buttons">
+            <span onClick={() => this.props.history.push(`/app/chat/${user.userId}`)}>
+              <i className="fas fa-comment" />
+            </span>
+            {user.userId !== currentUser.userId && user.presenceStatus !== 'busy' && (
+              <span onClick={() => this.handleVideoCall(currentUser.userId, user.userId)}>
+                <i className="fa fa-phone" />
+              </span>
+            )}
+          </div>
+        </div>
+        <Divider style={{ margin: '10px auto 5px', background: '#7d7d7d' }} />
+        <div className="User_ExtraInfo">
+          <span className="User_DisplayName">{user.displayName}</span>
+          <span className="User_TimeZone">
+            {moment()
+              .tz(user.timeZone)
+              .format('HH:mm')}{' '}
+            {String.t('sideBar.localTime')}
+          </span>
+          <span className="User_EMail">
+            <a href={`mailto:${user.email}`}>{user.email}</a>
+          </span>
+        </div>
+        {this.state.videoCallModalVisible && (
+          <VideoCallModal visible={this.state.videoCallModalVisible} showModal={this.showVideoCallModal} user={user} />
+        )}
+      </div>
+    );
   };
 
   handleShowReplies = () => {
@@ -105,6 +163,13 @@ class Message extends Component {
   handleFlag = () => {
     const { message } = this.props;
     this.props.onMessageAction({ message }, messageAction.flag);
+  };
+
+  handleVideoCall = (callerId, calledId) => {
+    this.setState({
+      videoCallModalVisible: true
+    });
+    this.props.makePersonalCall(callerId, calledId);
   };
 
   changeVolume = () => {
@@ -160,6 +225,7 @@ class Message extends Component {
     const {
       message,
       sender,
+      sharedProfile,
       conversationId,
       personalConversation,
       teamMembers,
@@ -176,7 +242,8 @@ class Message extends Component {
     const { firstName, lastName, preferences, userId } = sender;
 
     const { text = '' } = find(content, { type: 'text/plain' }) || {};
-    const matchUrl = text ? text.match(/(http(s)?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-;,./?%&=!]*)?/gm) : null;
+    const matchUrl =
+      text && text.indexOf('@') < 0 ? text.match(/(http(s)?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-;,./?%&=!]*)?/gm) : null;
     const otherContent = content.filter(resource => resource.type !== 'text/plain');
     const name = String.t('message.sentByName', { firstName, lastName });
     const replies = children.filter(msg => !msg.deleted);
@@ -225,6 +292,7 @@ class Message extends Component {
                     />
                   </div>
                 )}
+                {sharedProfile && this.renderUserProfile(sharedProfile)}
                 {!conversationDisabled && (
                   <MessageOptions
                     bookmarked={bookmarked}

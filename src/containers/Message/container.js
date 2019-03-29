@@ -1,12 +1,14 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
-import { getCurrentUser, getCurrentOrgId } from 'src/selectors';
+import { getCurrentUser, getCurrentOrgId, getUserById } from 'src/selectors';
 import { Message } from 'src/components';
+import { makePersonalCall } from 'src/actions';
 
 const mapStateToProps = (state, props) => {
   const currentUser = getCurrentUser(state);
   const orgId = getCurrentOrgId(state);
-  const { messageId, createdBy } = props.message;
+  const { messageId, createdBy, sharedProfileId } = props.message;
 
   const bookmarks = currentUser.bookmarks[orgId];
   const bookmarked = bookmarks && bookmarks.messageIds && bookmarks.messageIds[messageId] !== undefined;
@@ -14,8 +16,19 @@ const mapStateToProps = (state, props) => {
 
   return {
     ownMessage,
-    bookmarked
+    bookmarked,
+    sharedProfile: getUserById(state, sharedProfileId),
+    currentUser
   };
 };
 
-export default connect(mapStateToProps)(Message);
+const mapDispatchToProps = {
+  makePersonalCall
+};
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Message)
+);

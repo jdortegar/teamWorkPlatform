@@ -7,11 +7,14 @@ export const createConversation = conversationData => dispatch => {
   const requestUrl = buildApiUrl(`conversations`, 'v2');
 
   const thunk = dispatch(
-    doAuthenticatedRequest({
-      requestUrl,
-      method: 'post',
-      data: conversationData
-    })
+    doAuthenticatedRequest(
+      {
+        requestUrl,
+        method: 'post',
+        data: conversationData
+      },
+      { ...conversationData }
+    )
   );
 
   thunk.then(response => {

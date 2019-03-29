@@ -115,14 +115,16 @@ class DirectMessages extends React.Component {
 
       return (
         <Menu.Item key={userEl.userId} className={userActive}>
-          <div
-            className="habla-left-navigation-team-list"
-            onClick={() => this.handleConversation(userEl.userId, conversationId, unreadMessages)}
-          >
+          <div className="habla-left-navigation-team-list">
             <div className="habla-left-navigation-team-list-item">
               <div className="habla-left-navigation-team-list-subitem">
-                <AvatarWrapper size="default" user={userEl} hideStatusTooltip />
-                <span className="habla-left-navigation-item-label">{userEl.fullName}</span>
+                <AvatarWrapper size="default" user={userEl} />
+                <div
+                  className="Link__Wrapper"
+                  onClick={() => this.handleConversation(userEl.userId, conversationId, unreadMessages)}
+                >
+                  <span className="habla-left-navigation-item-label">{userEl.fullName}</span>
+                </div>
               </div>
               {unreadMessages > 0 && <Badge count={unreadMessages} className="SideBar__Badge" overflowCount={999999} />}
             </div>

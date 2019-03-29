@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { isEqual } from 'lodash';
 
 export const URLREQUEST_CREATE = 'urlrequest/create';
 export const URLREQUEST_SUCCESS = 'urlrequest/success';
@@ -40,7 +41,13 @@ export const doRequest = (
 ) => (dispatch, getState) => {
   // Check if a request for the exact same requestUrl exists and return the current request promise
   const urlRequest = getState().urlRequests[requestUrl];
-  if (urlRequest && urlRequest.actionType === URLREQUEST_CREATE && urlRequest.request && urlRequest.request.then) {
+  if (
+    urlRequest &&
+    urlRequest.actionType === URLREQUEST_CREATE &&
+    urlRequest.request &&
+    urlRequest.request.then &&
+    isEqual(urlRequest.payload, reduxState)
+  ) {
     return urlRequest.request;
   }
 

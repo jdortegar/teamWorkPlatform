@@ -165,3 +165,55 @@
 .message__delete_buttons {
   color: #ffffff !important;
 }
+
+.User__Details-Data {
+  padding: 10px;
+  font-size: 13px;
+  line-height: 15px;
+}
+
+.User_MainInfo {
+  position: relative;
+}
+
+.User_MainInfo .User_action-buttons {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.User_MainInfo .User_action-buttons span {
+  margin: 0 4px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.User_MainInfo > div {
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.User__Details-Data .User_Header span {
+  display: block;
+  padding: 0 0 0 10px;
+}
+
+.User_Header .User_Name {
+  text-transform: uppercase;
+  font-size: 15px;
+  line-height: 17px;
+  font-weight: bold;
+}
+
+.User_Header .User_Status {
+  font-style: italic;
+}
+
+.User_ExtraInfo > span {
+  display: block;
+}
+.User_ExtraInfo a,
+.User_ExtraInfo a:hover,
+.User_ExtraInfo a:visited {
+  color: #004dcc;
+}

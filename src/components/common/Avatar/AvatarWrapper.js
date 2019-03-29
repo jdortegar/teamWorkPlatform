@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Tooltip, Popover, Menu, Divider } from 'antd';
-import { VideoCallModal } from 'src/containers';
+import { Popover, Menu, Divider } from 'antd';
+import { VideoCallModal, ShareModal } from 'src/containers';
 import getInitials from 'src/utils/helpers';
 import String from 'src/translations';
 import moment from 'moment-timezone';
@@ -11,7 +11,6 @@ import Avatar from './Avatar';
 const propTypes = {
   className: PropTypes.string,
   size: PropTypes.string.isRequired,
-  hideStatusTooltip: PropTypes.bool,
   hidePresence: PropTypes.bool,
   currentUser: PropTypes.object,
   user: PropTypes.shape({
@@ -31,7 +30,6 @@ const propTypes = {
 const defaultProps = {
   className: '',
   hidePresence: false,
-  hideStatusTooltip: false,
   currentUser: null,
   history: null,
   showDetails: true,
@@ -40,7 +38,8 @@ const defaultProps = {
 
 class AvatarWrapper extends React.Component {
   state = {
-    videoCallModalVisible: false
+    videoCallModalVisible: false,
+    shareModalVisible: false
   };
 
   showVideoCallModal = hide => {
@@ -60,6 +59,17 @@ class AvatarWrapper extends React.Component {
       videoCallModalVisible: true
     });
     this.props.makePersonalCall(callerId, calledId);
+  };
+
+  handleShareProfile = e => {
+    e.stopPropagation();
+    this.setState({ shareModalVisible: true });
+  };
+
+  showShareModal = () => {
+    this.setState({
+      shareModalVisible: !this.state.shareModalVisible
+    });
   };
 
   renderContent = () => {
@@ -93,11 +103,7 @@ class AvatarWrapper extends React.Component {
         <Menu mode="vertical" className="pageHeaderMenu">
           {userId !== user.userId && (
             <Menu.Item key={`${user.userId}-chat`}>
-              <span
-                onClick={() => {
-                  this.props.history.push(`/app/chat/${userId}`);
-                }}
-              >
+              <span onClick={() => this.props.history.push(`/app/chat/${userId}`)}>
                 <i className="fas fa-comment" /> {String.t('sideBar.directMessage')}
               </span>
             </Menu.Item>
@@ -110,13 +116,13 @@ class AvatarWrapper extends React.Component {
             </Menu.Item>
           )}
           <Menu.Item key={`${userId}-profile`}>
-            <span
-              onClick={e => {
-                e.stopPropagation();
-                this.props.history.push(`/app/teamMember/${userId}`);
-              }}
-            >
+            <span onClick={() => this.props.history.push(`/app/teamMember/${userId}`)}>
               <i className="fas fa-user" /> {String.t('sideBar.userProfile')}
+            </span>
+          </Menu.Item>
+          <Menu.Item key={`${userId}-share`}>
+            <span onClick={this.handleShareProfile}>
+              <i className="fas fa-share" /> {String.t('sideBar.shareProfile')}
             </span>
           </Menu.Item>
         </Menu>
@@ -125,36 +131,25 @@ class AvatarWrapper extends React.Component {
   };
 
   renderUserStatus() {
-    const { user, size, hideStatusTooltip } = this.props;
+    const { user, size } = this.props;
     const { presenceStatus } = user;
-    let tip = String.t('teamMemberPage.activeStatus');
     let className = `habla-top-navigation-avatar-signal habla-avatar-signal-${size}`;
     switch (presenceStatus) {
       case 'online':
       case null:
-        tip = String.t('teamMemberPage.statusOnline');
         className += ' habla-color-green';
         // className = null;
         break;
       case 'away':
-        tip = String.t('teamMemberPage.statusAway');
         className += ' habla-color-yellow';
         break;
       case 'busy':
-        tip = String.t('teamMemberPage.statusBusy');
         className += ' habla-color-red';
         break;
       default:
-        tip = presenceStatus;
         break;
     }
-    return hideStatusTooltip ? (
-      <div className={className} />
-    ) : (
-      <Tooltip placement="top" title={tip}>
-        <div className={className} />
-      </Tooltip>
-    );
+    return <div className={className} />;
   }
 
   render() {
@@ -200,7 +195,16 @@ class AvatarWrapper extends React.Component {
             </span>
           )}
         </div>
-        <VideoCallModal visible={this.state.videoCallModalVisible} showModal={this.showVideoCallModal} user={user} />
+        {this.state.videoCallModalVisible && (
+          <VideoCallModal visible={this.state.videoCallModalVisible} showModal={this.showVideoCallModal} user={user} />
+        )}
+        {this.state.shareModalVisible && (
+          <ShareModal
+            visible={this.state.shareModalVisible}
+            showShareModal={this.showShareModal}
+            sharedProfileId={user.userId}
+          />
+        )}
       </div>
     );
   }

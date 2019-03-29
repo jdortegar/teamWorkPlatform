@@ -41,6 +41,7 @@ export PreviewImages from './PreviewImages';
 export PersonalCallButton from './PersonalCallButton';
 export ResultsList from './ResultsList';
 export SharingSettings from './SharingSettings';
+export ShareModal from './ShareModal';
 export Sidebar from './Sidebar';
 export SimpleCardContainer from './SimpleCardContainer';
 export SimpleHeader from './SimpleHeader';

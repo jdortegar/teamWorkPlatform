@@ -139,16 +139,18 @@ class DirectMessagesPage extends Component {
             </div>
           )}
         </PageHeader>
-        {teamMembersLoaded ? (
-          <ChatContent
-            showTeamMembers={false}
-            showPageHeader={false}
-            showChat={this.showChat}
-            personalConversation={currentPersonalConversation}
-          />
-        ) : (
-          <Spinner />
-        )}
+        <div className="homePage__chat-container">
+          {teamMembersLoaded ? (
+            <ChatContent
+              showTeamMembers={false}
+              showPageHeader={false}
+              showChat={this.showChat}
+              personalConversation={currentPersonalConversation}
+            />
+          ) : (
+            <Spinner />
+          )}
+        </div>
       </div>
     );
   }

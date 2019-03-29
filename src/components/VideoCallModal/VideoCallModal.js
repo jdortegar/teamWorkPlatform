@@ -157,7 +157,6 @@ class VideoCallModal extends Component {
       soundNotificationVideoCall.pause();
       soundNotificationVideoCall.currentTime = 0;
     }
-
     return (
       <div>
         {visible && (

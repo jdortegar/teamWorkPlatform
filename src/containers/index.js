@@ -43,6 +43,7 @@ export SubscriptionModal from './SubscriptionModal';
 export SurveyModal from './SurveyModal';
 export SurveyReportPage from './SurveyReportPage';
 export SurveySettingsPage from './SurveySettingsPage';
+export ShareModal from './ShareModal';
 export TeamCallButton from './TeamCallButton';
 export TeamIntegrationPage from './TeamIntegrationPage';
 export TeamIntegrationsPage from './TeamIntegrationsPage';

@@ -349,6 +349,7 @@
     "avatarPopoverTitle": "Select an Option",
     "videoCall": "Start 1:1 Video Call",
     "userProfile": "View User Profile",
+    "shareProfile": "Share User Profile",
     "allowPopUp": "Please allow popup window in your browser settings",
     "directMessages": "Direct Messages",
     "localTime": "local time",
@@ -930,5 +931,12 @@
   "directMessagesPage": {
     "title": "Direct Messages",
     "startVideoCall": "Start a 1:1 Video Call"
+  },
+  "shareModal": {
+    "title": "Share with:",
+    "selectAll": "Select all",
+    "share": "Share",
+    "dataSharedSuccefully": "The data have been successfully shared",
+    "userProfile": "User Profile:"
   }
 }

@@ -30,19 +30,23 @@ const createResource = (file, resourcesUrl, conversationId, orgId, onUploadProgr
   });
 };
 
-export const createMessage = ({ message, conversationId, replyTo, files = [], resourcesUrl, onFileUploadProgress }) => (
-  dispatch,
-  getState
-) => {
+export const createMessage = ({
+  message,
+  conversationId,
+  sharedProfileId,
+  replyTo,
+  files = [],
+  resourcesUrl,
+  onFileUploadProgress
+}) => (dispatch, getState) => {
   const localId = uuid();
   const orgId = getCurrentSubscriberOrgId(getState());
   const userId = getCurrentUserId(getState());
 
-  if (message) {
+  if (message || sharedProfileId) {
     // create a message with a localId to display immediately in the screen
     const path = replyTo ? `${replyTo.path || replyTo.messageId}##${localId}` : localId;
     const level = replyTo ? replyTo.level + 1 : 0;
-
     dispatch({
       type: MESSAGE_CREATE_REQUEST,
       payload: {
@@ -56,6 +60,7 @@ export const createMessage = ({ message, conversationId, replyTo, files = [], re
           replyTo: replyTo ? replyTo.messageId : undefined,
           path,
           level,
+          sharedProfileId,
           content: [{ type: 'text/plain', text: message }]
         }
       }
@@ -92,7 +97,8 @@ export const createMessage = ({ message, conversationId, replyTo, files = [], re
         method: 'post',
         data: {
           replyTo: replyTo ? replyTo.messageId : undefined,
-          content
+          content,
+          sharedProfileId
         }
       })
     );
