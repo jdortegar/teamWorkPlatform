@@ -3,6 +3,7 @@ import { withRouter } from 'react-router';
 import { CKG } from 'src/components';
 import {
   getCurrentSubscriberOrgId,
+  getCurrentUser,
   getTeam,
   getTeamsById,
   getActiveTeams,
@@ -33,10 +34,15 @@ const mapStateToProps = (state, props) => {
   const { teamId, loading } = props;
   const orgId = getCurrentSubscriberOrgId(state);
   const team = getTeam(state, teamId);
+  const user = getCurrentUser(state);
+
+  // Fake messages results: using bookmarked messages for now
+  const messages = Object.values(user.bookmarks[orgId] ? user.bookmarks[orgId].messageIds : {});
 
   return {
     orgId,
     team,
+    messages,
     teamById: getTeamsById(state),
     files: getFiles(state),
     owners: getOwners(state),

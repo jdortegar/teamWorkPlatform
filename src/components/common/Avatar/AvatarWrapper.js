@@ -10,7 +10,7 @@ import Avatar from './Avatar';
 
 const propTypes = {
   className: PropTypes.string,
-  size: PropTypes.string.isRequired,
+  size: PropTypes.string,
   hidePresence: PropTypes.bool,
   currentUser: PropTypes.object,
   user: PropTypes.shape({
@@ -28,6 +28,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  size: 'default',
   className: '',
   hidePresence: false,
   currentUser: null,

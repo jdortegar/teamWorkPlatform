@@ -11,6 +11,7 @@ import { FileListView, TeamCallButton } from 'src/containers';
 import { PageHeader, FilesFilters, TeamPicker, Spinner } from 'src/components';
 import { CKG_VIEWS } from 'src/actions';
 import TimeActivityView from './TimeActivityView';
+import ChatMessagesView from './ChatMessagesView';
 import ViewSelector from './ViewSelector';
 import './styles/style.css';
 
@@ -25,6 +26,7 @@ const propTypes = {
   setStartDateFilter: PropTypes.func.isRequired,
   setEndDateFilter: PropTypes.func.isRequired,
   changeCKGView: PropTypes.func.isRequired,
+  messages: PropTypes.array,
   teams: PropTypes.array,
   files: PropTypes.array,
   owners: PropTypes.array,
@@ -48,6 +50,7 @@ const propTypes = {
 const defaultProps = {
   teamId: null,
   team: null,
+  messages: [],
   teams: [],
   files: [],
   owners: [],
@@ -70,9 +73,13 @@ const defaultProps = {
 
 class CKG extends Component {
   componentDidMount() {
-    const { ignoreSearch, teamId, search, query, caseSensitive, exactMatch } = this.props;
+    const { ignoreSearch, teamId, activeView, changeCKGView, search, query, caseSensitive, exactMatch } = this.props;
 
     this.changeViewFromHash(this.props);
+
+    if (teamId && activeView === CKG_VIEWS.MESSAGES) {
+      changeCKGView(CKG_VIEWS.FILE_LIST);
+    }
 
     if (!ignoreSearch) {
       search(query, { teamId, caseSensitive, exactMatch });
@@ -243,7 +250,17 @@ class CKG extends Component {
   }
 
   render() {
-    const { loading, files, query, integrations, excludeFilters, menuOptions, activeView, ignoreSearch } = this.props;
+    const {
+      loading,
+      messages,
+      files,
+      query,
+      integrations,
+      excludeFilters,
+      menuOptions,
+      activeView,
+      ignoreSearch
+    } = this.props;
     const { startDate, endDate } = excludeFilters;
 
     const filesFiltered = files.filter(file => {
@@ -289,9 +306,7 @@ class CKG extends Component {
           </div>
         )}
 
-        {activeView === CKG_VIEWS.MESSAGES && (
-          <h1 className="CKG__fake-page">Chat messages... (not implemented yet)</h1>
-        )}
+        {activeView === CKG_VIEWS.MESSAGES && <ChatMessagesView messages={messages} />}
         {activeView === CKG_VIEWS.FILE_LIST && (
           <FileListView files={filesFiltered} loading={loading} highlightSearch={!ignoreSearch} />
         )}

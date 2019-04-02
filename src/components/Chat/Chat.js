@@ -4,9 +4,9 @@ import _ from 'lodash';
 
 import classNames from 'classnames';
 import { message as msg } from 'antd';
-import { Message } from 'src/containers';
+import { ChatMessage } from 'src/containers';
 import { SimpleCardContainer, Spinner } from 'src/components';
-import { messageAction } from 'src/components/Message/Message';
+import { messageAction } from 'src/components/ChatMessage/ChatMessage';
 import String from 'src/translations';
 import './styles/style.css';
 import TopBar from './TopBar';
@@ -58,7 +58,6 @@ const propTypes = {
   showChat: PropTypes.func,
   menuOptions: PropTypes.array,
   personalConversation: PropTypes.object,
-  fetchMetadata: PropTypes.func.isRequired,
   lastReadTimestamp: PropTypes.string
 };
 
@@ -347,7 +346,7 @@ class Chat extends React.Component {
     this.setState({ replyTo: null });
   };
 
-  renderMessages(isAdmin) {
+  renderMessages() {
     const { conversation, user, team, personalConversation, lastReadTimestamp } = this.props;
     const { membersFiltered, lastSubmittedMessage } = this.state;
 
@@ -376,25 +375,19 @@ class Chat extends React.Component {
       }
 
       return (
-        <Message
-          message={message}
-          sender={sender}
+        <ChatMessage
           key={message.messageId}
+          message={message}
           conversationId={conversation.conversationId}
           personalConversation={personalConversation}
           conversationDisabled={!team.active}
           currentPath={currentPath}
           teamMembers={membersFiltered}
           teamId={team.teamId}
-          isAdmin={isAdmin}
           lastRead={lastRead}
-          hide={false}
           grouped={grouped}
           scrollToBottom={this.scrollToBottom}
-          fetchMetadata={this.props.fetchMetadata}
           onMessageAction={this.onMessageAction}
-          onFileChange={this.onFileChange}
-          clearFileList={this.props.clearFileList}
         />
       );
     });
@@ -442,7 +435,6 @@ class Chat extends React.Component {
       return <Spinner />;
     }
 
-    const isAdmin = false;
     const className = classNames({
       'ChatPage-main': true,
       'team-room-chat': true,
@@ -465,7 +457,7 @@ class Chat extends React.Component {
             onOwnerFilterClick={this.handleOwnerFilterClick}
           />
         )}
-        <SimpleCardContainer className="team__messages">{this.renderMessages(isAdmin)}</SimpleCardContainer>
+        <SimpleCardContainer className="team__messages">{this.renderMessages()}</SimpleCardContainer>
 
         <SimpleCardContainer className="Chat_container">
           <MessageInput

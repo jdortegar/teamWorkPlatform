@@ -2,7 +2,7 @@ import React from 'react';
 import mockAxios from 'axios';
 import { render, fireEvent, wait } from 'react-testing-library';
 
-import PreviewImages from './PreviewImages';
+import PreviewAttachments from './PreviewAttachments';
 
 const URL = 'https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource';
 const headers = {
@@ -13,9 +13,9 @@ const headers = {
   }
 };
 
-test('renders with no images', () => {
-  const { container, queryByRole } = render(<PreviewImages orgId="org1" token="token" />);
-  expect(container).not.toBeEmpty();
+test('renders with no attachments', () => {
+  const { container, queryByRole } = render(<PreviewAttachments orgId="org1" token="token" />);
+  expect(container).toBeEmpty();
   expect(container).not.toContainHTML('img');
   expect(queryByRole('dialog')).toBeNull();
 });
@@ -32,11 +32,11 @@ test('renders image and opens modal on click', async () => {
   );
 
   const { container, queryByAltText, queryByRole } = render(
-    <PreviewImages
+    <PreviewAttachments
       orgId="org1"
       token="token1"
       conversationId="conversation1"
-      images={[
+      attachments={[
         {
           resourceId: 'imageId',
           contentType: 'image/png'
@@ -69,11 +69,11 @@ test('renders pdf file and opens modal on click', async () => {
   );
 
   const { queryByText, queryByRole } = render(
-    <PreviewImages
+    <PreviewAttachments
       orgId="org1"
       token="token1"
       conversationId="conversation1"
-      images={[
+      attachments={[
         {
           resourceId: 'pdfId',
           contentType: 'application/pdf'
@@ -105,11 +105,11 @@ test('renders docx file and does not open modal on click', async () => {
   );
 
   const { queryByText, queryByRole } = render(
-    <PreviewImages
+    <PreviewAttachments
       orgId="org1"
       token="token1"
       conversationId="conversation1"
-      images={[
+      attachments={[
         {
           resourceId: 'docxId',
           contentType: 'application/docx'

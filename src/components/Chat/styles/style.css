@@ -200,20 +200,15 @@
   border-bottom: 7px solid transparent;
 }
 
-.DirectMessages_Page .team__messages .message__Bubble.left {
+.DirectMessages_Page .team__messages .message__Bubble {
   text-align: left;
 }
 
-/* .DirectMessages_Page .team__messages .message__Bubble.right {
-  text-align: right;
-  background: #f1f1f1;
-} */
-
-.team__messages .message__Bubble.right {
+.team__messages .message__Bubble.ownMessage {
   background: #f1f1f1;
 }
 
-.DirectMessages_Page .team__messages .message__Bubble.withArrow.left::before {
+.DirectMessages_Page .team__messages .message__Bubble.withArrow::before {
   content: '';
   position: absolute;
   left: -10px;
@@ -223,28 +218,6 @@
   border-right: 10px solid #eff6ff;
   border-bottom: 7px solid transparent;
 }
-
-/* .DirectMessages_Page .team__messages .message__Bubble.withArrow.right::before {
-  content: '';
-  position: absolute;
-  right: -10px;
-  left: auto;
-  width: 0;
-  height: 0;
-  border-top: 7px solid transparent;
-  border-left: 10px solid #f1f1f1;
-  border-bottom: 7px solid transparent;
-  border-right: none;
-} */
-
-.team__messages .message__Bubble.withArrow.right::before {
-  border-right: 10px solid #f1f1f1;
-}
-
-/* .DirectMessages_Page .message__inverted_order {
-  flex-direction: row-reverse;
-  display: flex;
-} */
 
 .team__messages .ant-col-md-18 {
   width: auto;

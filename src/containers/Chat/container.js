@@ -11,8 +11,7 @@ import {
   deleteMessage,
   saveBookmark,
   iAmTyping,
-  readMessage,
-  fetchMetadata
+  readMessage
 } from 'src/actions';
 import {
   getTeam,
@@ -61,8 +60,7 @@ const mapDispatchToProps = {
   deleteMessage,
   saveBookmark,
   iAmTyping,
-  readMessage,
-  fetchMetadata
+  readMessage
 };
 
 export default withRouter(

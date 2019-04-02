@@ -193,13 +193,20 @@
   display: inline-block;
 }
 
+.User__Details-Data .User_Header {
+  margin-right: 60px;
+}
+
 .User__Details-Data .User_Header span {
   display: block;
   padding: 0 0 0 10px;
 }
 
-.User__Details-Data .User_Header {
-  margin-right: 60px;
+.User_Header .User_Name {
+  text-transform: uppercase;
+  font-size: 15px;
+  line-height: 17px;
+  font-weight: bold;
 }
 
 .User_Header .User_Name {

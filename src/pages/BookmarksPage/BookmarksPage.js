@@ -5,8 +5,8 @@ import _ from 'lodash';
 import { message as msg } from 'antd';
 
 import String from 'src/translations';
-import { messageAction } from 'src/components/Message/Message';
-import { Message, SimpleCardContainer, PageHeader, Spinner } from 'src/components';
+import { messageAction } from 'src/components/ChatMessage/ChatMessage';
+import { ChatMessage, SimpleCardContainer, PageHeader, Spinner } from 'src/components';
 
 const propTypes = {
   history: PropTypes.shape({
@@ -95,13 +95,7 @@ export default class BookmarksPage extends Component {
 
     return (
       <div key={messageId} onClick={() => this.onBookmarkClick(bookmark)}>
-        <Message
-          message={bookmark}
-          sender={sender}
-          teamId={teamId}
-          isAdmin={false}
-          onMessageAction={this.onMessageAction}
-        />
+        <ChatMessage message={bookmark} sender={sender} teamId={teamId} onMessageAction={this.onMessageAction} />
       </div>
     );
   }

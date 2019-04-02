@@ -7,10 +7,12 @@ import classNames from 'classnames';
 import Autolinker from 'autolinker';
 
 import String from 'src/translations';
-import { AvatarWrapper, PreviewImages, VideoCallModal } from 'src/containers';
+import { AvatarWrapper, PreviewAttachments, VideoCallModal } from 'src/containers';
 import MessageOptions from './MessageOptions';
 import Metadata from './Metadata';
 import './styles/style.css';
+
+const URL_VALIDATION = /(http(s)?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-;,./?%&=!]*)?/gm;
 
 const propTypes = {
   message: PropTypes.object.isRequired,
@@ -19,7 +21,6 @@ const propTypes = {
   sharedProfile: PropTypes.object,
   conversationId: PropTypes.string,
   conversationDisabled: PropTypes.bool,
-  isAdmin: PropTypes.bool.isRequired,
   hide: PropTypes.bool,
   grouped: PropTypes.bool,
   currentPath: PropTypes.string,
@@ -56,16 +57,13 @@ const defaultProps = {
 
 export const messageAction = {
   replyTo: 'replyTo',
-  thumb: 'thumb',
   bookmark: 'bookmark',
-  flag: 'flag',
   delete: 'delete',
   edit: 'edit'
 };
 
-class Message extends Component {
+class ChatMessage extends Component {
   state = {
-    mute: true,
     isExpanded: includes(this.props.currentPath, this.props.message.messageId),
     videoCallModalVisible: false
   };
@@ -88,13 +86,9 @@ class Message extends Component {
 
   showVideoCallModal = hide => {
     if (hide) {
-      return this.setState({
-        videoCallModalVisible: false
-      });
+      this.setState({ videoCallModalVisible: false });
     }
-    return this.setState({
-      videoCallModalVisible: !this.state.videoCallModalVisible
-    });
+    this.setState({ videoCallModalVisible: !this.state.videoCallModalVisible });
   };
 
   renderUserProfile = user => {
@@ -154,26 +148,11 @@ class Message extends Component {
     this.props.onMessageAction({ bookmark, extraInfo }, messageAction.bookmark);
   };
 
-  handleThumb = direction => {
-    const { message } = this.props;
-    const extraInfo = { direction };
-    this.props.onMessageAction({ message, extraInfo }, messageAction.thumb);
-  };
-
-  handleFlag = () => {
-    const { message } = this.props;
-    this.props.onMessageAction({ message }, messageAction.flag);
-  };
-
   handleVideoCall = (callerId, calledId) => {
     this.setState({
       videoCallModalVisible: true
     });
     this.props.makePersonalCall(callerId, calledId);
-  };
-
-  changeVolume = () => {
-    this.setState({ mute: !this.state.mute });
   };
 
   renderMedatada = matchUrl =>
@@ -188,9 +167,9 @@ class Message extends Component {
   );
 
   renderReplies = replies => {
-    const { conversationDisabled, teamMembers, currentPath, teamId, isAdmin, onMessageAction } = this.props;
+    const { conversationDisabled, teamMembers, currentPath, teamId, onMessageAction } = this.props;
     let previousSenderId = null;
-    if (isEmpty(replies)) return null;
+    if (!teamMembers || isEmpty(replies)) return null;
 
     return (
       <div className="message__replies">
@@ -202,7 +181,7 @@ class Message extends Component {
           previousSenderId = sender.userId;
 
           return (
-            <Message
+            <ChatMessage
               conversationDisabled={conversationDisabled}
               message={replyMessage}
               sender={sender}
@@ -213,7 +192,6 @@ class Message extends Component {
               currentPath={currentPath}
               teamMembers={teamMembers}
               teamId={teamId}
-              isAdmin={isAdmin}
             />
           );
         })}
@@ -228,10 +206,8 @@ class Message extends Component {
       sharedProfile,
       conversationId,
       personalConversation,
-      teamMembers,
       grouped,
       hide,
-      isAdmin,
       lastRead,
       bookmarked,
       ownMessage,
@@ -242,15 +218,14 @@ class Message extends Component {
     const { firstName, lastName, preferences, userId } = sender;
 
     const { text = '' } = find(content, { type: 'text/plain' }) || {};
-    const matchUrl =
-      text && text.indexOf('@') < 0 ? text.match(/(http(s)?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-;,./?%&=!]*)?/gm) : null;
-    const otherContent = content.filter(resource => resource.type !== 'text/plain');
+    const matchUrl = text && text.indexOf('@') < 0 ? text.match(URL_VALIDATION) : null;
+    const attachments = content.filter(resource => resource.type !== 'text/plain');
     const name = String.t('message.sentByName', { firstName, lastName });
     const replies = children.filter(msg => !msg.deleted);
 
     const messageBody = (
       <div>
-        <p className={classNames('message__body-name', ownMessage ? 'message__inverted_order' : '')}>{name}</p>
+        <p className="message__body-name">{name}</p>
         <p className="message__body-text">
           {text && (
             // eslint-disable-next-line react/no-danger
@@ -265,38 +240,25 @@ class Message extends Component {
       <div className={classNames({ 'message-nested': level !== 0, hide })}>
         {lastRead && this.renderLastReadMark()}
         <div className={classNames('message__main-container', { grouped: grouped && isEmpty(replies) })}>
-          <Row
-            type="flex"
-            justify="start"
-            gutter={10}
-            className={classNames(ownMessage ? 'message__inverted_order' : '')}
-          >
+          <Row type="flex" justify="start" gutter={10}>
             <Col xs={{ span: 5 }} sm={{ span: 3 }} md={{ span: 2 }} className="message__col-user-icon">
               {(!grouped || !isEmpty(replies)) && <AvatarWrapper key={userId} user={sender} size="default" />}
             </Col>
             <Col xs={{ span: 15 }} sm={{ span: 16 }} md={{ span: 18 }}>
-              <div
-                className={classNames('message__Bubble', ownMessage ? 'right' : 'left', {
-                  withArrow: !grouped || !isEmpty(replies)
-                })}
-              >
+              <div className={classNames('message__Bubble', { ownMessage, withArrow: !grouped || !isEmpty(replies) })}>
                 {messageBody}
                 {matchUrl && this.renderMedatada(matchUrl)}
-                {otherContent.length > 0 && (
-                  <div className={classNames(ownMessage ? 'message__inverted_order' : '')}>
-                    <PreviewImages
-                      images={otherContent}
-                      conversationId={conversationId}
-                      onLoadImage={scrollToBottom}
-                      personalConversation={personalConversation}
-                    />
-                  </div>
-                )}
+                <PreviewAttachments
+                  attachments={attachments}
+                  conversationId={conversationId}
+                  onLoadImage={scrollToBottom}
+                  personalConversation={personalConversation}
+                />
                 {sharedProfile && this.renderUserProfile(sharedProfile)}
                 {!conversationDisabled && (
                   <MessageOptions
                     bookmarked={bookmarked}
-                    showDelete={isAdmin || ownMessage}
+                    showDelete={ownMessage}
                     onReply={() => this.handleReplyTo({ messageId, firstName, lastName, preferences, text })}
                     onBookmark={this.handleBookmark}
                     onDeleteConfirmed={this.onDeleteConfirmed}
@@ -312,13 +274,13 @@ class Message extends Component {
             </div>
           )}
         </div>
-        {teamMembers && this.renderReplies(replies)}
+        {this.renderReplies(replies)}
       </div>
     );
   }
 }
 
-Message.propTypes = propTypes;
-Message.defaultProps = defaultProps;
+ChatMessage.propTypes = propTypes;
+ChatMessage.defaultProps = defaultProps;
 
-export default Message;
+export default ChatMessage;
