@@ -2,13 +2,15 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { ShareModal } from 'src/components';
-import { createConversation, createMessage } from 'src/actions';
+import { createConversation, createMessage, fetchConversations } from 'src/actions';
 import {
   getCurrentUser,
   getCurrentSubscriberOrgId,
   getSubscribersOfSubscriberOrgId,
   getPresencesOfSubscribersOfOrgId,
-  getCurrentSubscriberOrg
+  getCurrentSubscriberOrg,
+  getOrgTeams,
+  getConversationIdsByTeam
 } from 'src/selectors';
 
 const mapStateToProps = state => {
@@ -17,13 +19,16 @@ const mapStateToProps = state => {
     org: getCurrentSubscriberOrg(state),
     user: getCurrentUser(state),
     subscribers: getSubscribersOfSubscriberOrgId(state, orgId),
-    subscribersPresences: getPresencesOfSubscribersOfOrgId(state, orgId)
+    subscribersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
+    teams: getOrgTeams(state),
+    conversationIdsByTeam: getConversationIdsByTeam(state)
   };
 };
 
 const mapDispatchToProps = {
   createConversation,
-  createMessage
+  createMessage,
+  fetchConversations
 };
 
 export default withRouter(

@@ -39,7 +39,8 @@ const defaultProps = {
 class AvatarWrapper extends React.Component {
   state = {
     videoCallModalVisible: false,
-    shareModalVisible: false
+    shareModalVisible: false,
+    sharePT: false
   };
 
   showVideoCallModal = hide => {
@@ -61,9 +62,8 @@ class AvatarWrapper extends React.Component {
     this.props.makePersonalCall(callerId, calledId);
   };
 
-  handleShareProfile = e => {
-    e.stopPropagation();
-    this.setState({ shareModalVisible: true });
+  handleShareProfile = sharePT => {
+    this.setState({ shareModalVisible: true, sharePT });
   };
 
   showShareModal = () => {
@@ -120,9 +120,14 @@ class AvatarWrapper extends React.Component {
               <i className="fas fa-user" /> {String.t('sideBar.userProfile')}
             </span>
           </Menu.Item>
-          <Menu.Item key={`${userId}-share`}>
-            <span onClick={this.handleShareProfile}>
-              <i className="fas fa-share" /> {String.t('sideBar.shareProfile')}
+          <Menu.Item key={`${userId}-share-user`}>
+            <span onClick={() => this.handleShareProfile(false)}>
+              <i className="fas fa-share" /> {String.t('sideBar.shareProfileUsers')}
+            </span>
+          </Menu.Item>
+          <Menu.Item key={`${userId}-share-team`}>
+            <span onClick={() => this.handleShareProfile(true)}>
+              <i className="fas fa-share" /> {String.t('sideBar.shareProfilePT')}
             </span>
           </Menu.Item>
         </Menu>
@@ -203,6 +208,7 @@ class AvatarWrapper extends React.Component {
             visible={this.state.shareModalVisible}
             showShareModal={this.showShareModal}
             sharedProfileId={user.userId}
+            sharePT={this.state.sharePT}
           />
         )}
       </div>

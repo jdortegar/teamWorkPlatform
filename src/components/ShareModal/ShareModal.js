@@ -7,6 +7,7 @@ import { Form, Divider, Modal, Button, Menu, Input, Icon, Checkbox, message as m
 import String from 'src/translations';
 import { formShape } from 'src/propTypes';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
+import { AvatarWithLabel } from 'src/components';
 import { AvatarWrapper } from 'src/containers';
 import './styles/style.css';
 
@@ -21,24 +22,28 @@ const propTypes = {
   user: PropTypes.object.isRequired,
   sharedProfileId: PropTypes.string,
   createConversation: PropTypes.func.isRequired,
-  createMessage: PropTypes.func.isRequired
+  createMessage: PropTypes.func.isRequired,
+  teams: PropTypes.array,
+  sharePT: PropTypes.bool,
+  fetchConversations: PropTypes.func.isRequired
 };
 
 const defaultProps = {
   cancelButton: true,
-  sharedProfileId: null
+  sharedProfileId: null,
+  teams: [],
+  sharePT: false
 };
 
 class ShareModal extends React.Component {
   constructor(props) {
     super(props);
 
-    const { user, subscribers, subscribersPresences } = this.props;
+    const { user, subscribers, subscribersPresences, sharedProfileId, teams } = this.props;
     const orgUsers = [];
 
     Object.values(subscribers).forEach(userEl => {
-      if (user.userId === userEl.userId) return;
-      if (subscribers.userId === userEl.userId) return;
+      if (userEl.userId === user.userId || userEl.userId === sharedProfileId) return;
       orgUsers.push({
         ...userEl,
         online: _.some(_.values(subscribersPresences[userEl.userId]), { presenceStatus: 'online' })
@@ -48,6 +53,8 @@ class ShareModal extends React.Component {
     this.state = {
       orgUsers,
       orgUsersFiltered: orgUsers,
+      orgTeamsFiltered: teams,
+      shareTeams: [],
       shareUsers: [],
       loading: false
     };
@@ -62,6 +69,11 @@ class ShareModal extends React.Component {
     return data.conversationId;
   };
 
+  getTeamConversationId = async teamId => {
+    const { data = {} } = await this.props.fetchConversations(teamId);
+    return data.conversations[0].conversationId;
+  };
+
   createMessage = async conversationId => {
     const { sharedProfileId } = this.props;
     try {
@@ -72,17 +84,23 @@ class ShareModal extends React.Component {
   };
 
   handleSubmit = () => {
-    const { shareUsers } = this.state;
+    const { shareUsers, shareTeams } = this.state;
+    const { sharePT } = this.props;
     this.setState({ loading: true });
 
     this.props.form.validateFields(async err => {
       if (err) return;
-
       try {
-        const userIds = Object.keys(shareUsers);
-        const conversationIds = await Promise.all(userIds.map(this.getConversationId));
-        await Promise.all(conversationIds.map(this.createMessage));
+        let conversationIds;
+        if (sharePT) {
+          const teamsIds = Object.keys(shareTeams);
+          conversationIds = await Promise.all(teamsIds.map(this.getTeamConversationId));
+        } else {
+          const userIds = Object.keys(shareUsers);
+          conversationIds = await Promise.all(userIds.map(this.getConversationId));
+        }
 
+        await Promise.all(conversationIds.map(this.createMessage));
         this.setState({ loading: false });
         msg.success(String.t('shareModal.dataSharedSuccefully'));
         this.props.form.resetFields();
@@ -108,19 +126,33 @@ class ShareModal extends React.Component {
     });
   };
 
-  onSelectAll = () => {
-    const { user, subscribers } = this.props;
-    const subscribersWithoutCurrentUser = subscribers.filter(sub => sub.userId !== user.userId);
-    const shareUsers = {};
-    subscribersWithoutCurrentUser.forEach(subscriber => {
-      shareUsers[subscriber.userId] = true;
+  onChangeTeam = team => {
+    const shareTeams = { ...this.state.shareTeams };
+    if (this.state.shareTeams[team.teamId]) {
+      // found, so remove member
+      delete shareTeams[team.teamId];
+    } else {
+      // not found, so add member
+      shareTeams[team.teamId] = true;
+    }
+    this.setState({
+      shareTeams
     });
-    this.setState({ shareUsers });
   };
 
   handleSearch = e => {
     const { value } = e.target;
-    if (value === '') {
+    const { sharePT } = this.props;
+    if (sharePT) {
+      if (value === '') {
+        this.setState({ orgTeamsFiltered: this.props.teams });
+      } else {
+        const orgTeamsFiltered = this.props.teams.filter(el =>
+          el.name.toLowerCase().includes(value.toLowerCase().trim())
+        );
+        this.setState({ orgTeamsFiltered });
+      }
+    } else if (value === '') {
       this.setState({ orgUsersFiltered: this.state.orgUsers });
     } else {
       const orgUsersFiltered = this.state.orgUsers.filter(el =>
@@ -153,9 +185,31 @@ class ShareModal extends React.Component {
     ));
   };
 
-  render() {
-    const { visible, cancelButton, sharedProfileId, subscribers } = this.props;
+  renderOrgTeams = () => {
+    const { orgTeamsFiltered } = this.state;
 
+    let orgTeamsOrdered = orgTeamsFiltered.sort(sortByName);
+
+    orgTeamsOrdered =
+      orgTeamsOrdered.length === 0 && orgTeamsOrdered[0] === undefined ? [] : primaryAtTop(orgTeamsOrdered);
+
+    return orgTeamsOrdered.map(teamEl => (
+      <Menu.Item key={teamEl.teamId}>
+        <Checkbox onChange={() => this.onChangeTeam(teamEl)} checked={this.state.shareTeams[teamEl.teamId]}>
+          <div className="habla-left-navigation-team-list">
+            <div className="habla-left-navigation-team-list-item">
+              <div className="habla-left-navigation-team-list-subitem">
+                <AvatarWithLabel item={teamEl} enabled={teamEl.active} />
+              </div>
+            </div>
+          </div>
+        </Checkbox>
+      </Menu.Item>
+    ));
+  };
+
+  render() {
+    const { visible, cancelButton, sharedProfileId, subscribers, sharePT } = this.props;
     const user = subscribers.find(subscriber => subscriber.userId === sharedProfileId);
 
     return (
@@ -195,13 +249,8 @@ class ShareModal extends React.Component {
                     />
                   </div>
                   <Menu mode="inline" className="habla-left-navigation-list habla-left-navigation-organization-list">
-                    {this.renderOrgMembers()}
+                    {sharePT ? this.renderOrgTeams() : this.renderOrgMembers()}
                   </Menu>
-                </div>
-                <div className="Share_Modal_CheckAll" onClick={() => this.onSelectAll()}>
-                  <div className="Modal_subtitle tagAsAButton" style={{ justifyContent: 'flex-end' }}>
-                    {String.t('shareModal.selectAll')}
-                  </div>
                 </div>
               </Form>
             </div>

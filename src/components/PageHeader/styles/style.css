@@ -181,6 +181,9 @@
   background: #333;
   color: #fff;
 }
+.pageHeaderMenu .ant-menu-item-selected {
+  background-color: #333 !important;
+}
 
 .PageHeader .ant-scroll-number-only {
   padding: 0;

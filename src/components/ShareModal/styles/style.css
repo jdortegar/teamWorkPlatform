@@ -173,6 +173,17 @@
 }
 
 .Share_Modal_list ul {
-  height: 120px;
+  max-height: 120px;
   overflow: scroll;
+}
+
+.Share_Modal_list .avatar-label-container .habla-avatar-label {
+  padding-left: 7px;
+  color: #999;
+  width: 200px;
+  overflow: hidden;
+  display: block;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 300;
 }
