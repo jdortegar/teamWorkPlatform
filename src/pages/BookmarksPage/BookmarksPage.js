@@ -5,8 +5,9 @@ import _ from 'lodash';
 import { message as msg } from 'antd';
 
 import String from 'src/translations';
+import { ChatMessage } from 'src/containers';
 import { messageAction } from 'src/components/ChatMessage/ChatMessage';
-import { ChatMessage, SimpleCardContainer, PageHeader, Spinner } from 'src/components';
+import { SimpleCardContainer, PageHeader, Spinner } from 'src/components';
 
 const propTypes = {
   history: PropTypes.shape({
