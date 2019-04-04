@@ -20,12 +20,12 @@
 }
 .preview-images img {
   width: 100%;
-  cursor: pointer;
 }
 .preview-images img:hover {
   opacity: 0.8;
 }
 .image-wrapper {
+  cursor: pointer;
   width: 65px;
   margin: 0 8px 0 0;
 }
