@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Divider } from 'antd';
@@ -7,7 +8,7 @@ import classNames from 'classnames';
 import Autolinker from 'autolinker';
 
 import String from 'src/translations';
-import { AvatarWrapper, PreviewAttachments, VideoCallModal } from 'src/containers';
+import { AvatarWrapper, PreviewAttachments, VideoCallModal, ShareModal } from 'src/containers';
 import MessageOptions from './MessageOptions';
 import Metadata from './Metadata';
 import './styles/style.css';
@@ -16,10 +17,9 @@ const URL_VALIDATION = /(http(s)?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-;,./?%&=!]*)?/gm
 
 const propTypes = {
   message: PropTypes.object.isRequired,
-  onMessageAction: PropTypes.func.isRequired,
+  onMessageAction: PropTypes.func,
   sender: PropTypes.object,
   sharedProfile: PropTypes.object,
-  conversationId: PropTypes.string,
   conversationDisabled: PropTypes.bool,
   hide: PropTypes.bool,
   grouped: PropTypes.bool,
@@ -34,14 +34,16 @@ const propTypes = {
   ownMessage: PropTypes.bool,
   history: PropTypes.object.isRequired,
   currentUser: PropTypes.object.isRequired,
-  makePersonalCall: PropTypes.func.isRequired
+  makePersonalCall: PropTypes.func.isRequired,
+  showDetailsOnAvatar: PropTypes.bool,
+  showMetadata: PropTypes.bool,
+  shareDataOwner: PropTypes.object
 };
 
 const defaultProps = {
   sender: {},
   personalConversation: {},
   sharedProfile: null,
-  conversationId: null,
   bookmarked: false,
   ownMessage: false,
   hide: false,
@@ -51,8 +53,12 @@ const defaultProps = {
   teamMembers: [],
   currentPath: null,
   teamId: null,
+  showDetailsOnAvatar: true,
+  showMetadata: false,
+  shareDataOwner: null,
   fetchMetadata: () => {},
-  scrollToBottom: () => {}
+  scrollToBottom: () => {},
+  onMessageAction: () => {}
 };
 
 export const messageAction = {
@@ -65,7 +71,9 @@ export const messageAction = {
 class ChatMessage extends Component {
   state = {
     isExpanded: includes(this.props.currentPath, this.props.message.messageId),
-    videoCallModalVisible: false
+    videoCallModalVisible: false,
+    shareModalVisible: false,
+    sharePT: false
   };
 
   componentDidMount() {
@@ -77,6 +85,16 @@ class ChatMessage extends Component {
       this.setState({ isExpanded: true });
     }
   }
+
+  handleShareProfile = sharePT => {
+    this.setState({ shareModalVisible: true, sharePT });
+  };
+
+  showShareModal = () => {
+    this.setState({
+      shareModalVisible: !this.state.shareModalVisible
+    });
+  };
 
   onDeleteConfirmed = e => {
     const { message } = this.props;
@@ -99,7 +117,7 @@ class ChatMessage extends Component {
           <AvatarWrapper size="default" user={user} hideStatusTooltip showDetails={false} />
           <div className="User_Header">
             <span className="User_Name">{user.fullName}</span>
-            <span className="User_Status">{user.preferences.customPresenceStatusMessage}</span>
+            <span className="User_Status">{user.preferences && user.preferences.customPresenceStatusMessage}</span>
           </div>
           <div className="User_action-buttons">
             <span onClick={() => this.props.history.push(`/app/chat/${user.userId}`)}>
@@ -116,9 +134,10 @@ class ChatMessage extends Component {
         <div className="User_ExtraInfo">
           <span className="User_DisplayName">{user.displayName}</span>
           <span className="User_TimeZone">
-            {moment()
-              .tz(user.timeZone)
-              .format('HH:mm')}{' '}
+            {user.timeZone &&
+              moment()
+                .tz(user.timeZone)
+                .format('HH:mm')}{' '}
             {String.t('sideBar.localTime')}
           </span>
           <span className="User_EMail">
@@ -199,74 +218,103 @@ class ChatMessage extends Component {
     );
   };
 
-  render() {
+  renderBodyMessage = (message, child) => {
     const {
-      message,
       sender,
       sharedProfile,
-      conversationId,
       personalConversation,
-      grouped,
-      hide,
-      lastRead,
-      bookmarked,
       ownMessage,
+      scrollToBottom,
+      grouped,
+      bookmarked,
       conversationDisabled,
-      scrollToBottom
+      shareDataOwner,
+      showMetadata
     } = this.props;
-    const { messageId, children, level, content, created } = message;
-    const { firstName, lastName, preferences, userId } = sender;
 
+    const { messageId, content = [], created, conversationId, children } = message;
+    const messageOwner = child && shareDataOwner ? shareDataOwner : sender;
+    const { firstName, lastName, preferences, userId } = messageOwner;
+    const replies = children && children.filter(msg => !msg.deleted);
     const { text = '' } = find(content, { type: 'text/plain' }) || {};
     const matchUrl = text && text.indexOf('@') < 0 ? text.match(URL_VALIDATION) : null;
-    const attachments = content.filter(resource => resource.type !== 'text/plain');
+    const attachments = content.filter(
+      resource => resource.type !== 'text/plain' && resource.type !== 'userId' && resource.type !== 'sharedData'
+    );
     const name = String.t('message.sentByName', { firstName, lastName });
-    const replies = children.filter(msg => !msg.deleted);
-
-    const messageBody = (
-      <div>
-        <p className="message__body-name">{name}</p>
-        <p className="message__body-text">
-          {text && (
-            // eslint-disable-next-line react/no-danger
-            <span dangerouslySetInnerHTML={{ __html: Autolinker.link(text, { stripPrefix: false }) }} />
+    return (
+      <div className={classNames(child ? 'Message__text_wrapper' : '')}>
+        <Row type="flex" justify="start" gutter={10} style={{ alignItems: 'center' }}>
+          <Col xs={{ span: 5 }} sm={{ span: 3 }} md={{ span: 2 }} className="message__col-user-icon">
+            {(!grouped || !isEmpty(replies) || child) && (
+              <AvatarWrapper key={userId} user={sender} size="default" showDetails={this.props.showDetailsOnAvatar} />
+            )}
+          </Col>
+          <Col xs={{ span: 15 }} sm={{ span: 16 }} md={{ span: 18 }}>
+            <div
+              className={classNames('message__Bubble', {
+                ownMessage,
+                withArrow: !grouped || !isEmpty(replies) || child
+              })}
+            >
+              <div>
+                <div className="Message__text_content">
+                  <p className="message__body-name">{name}</p>
+                  {text && (
+                    // eslint-disable-next-line react/no-danger
+                    <p
+                      dangerouslySetInnerHTML={{ __html: Autolinker.link(text, { stripPrefix: false }) }}
+                      className="message__body-text"
+                    />
+                  )}
+                  {content[0].sharedData && !sharedProfile && this.renderBodyMessage(content[0].sharedData, true)}
+                  <div className={classNames(ownMessage ? 'message__inverted_order' : '')}>
+                    <PreviewAttachments
+                      attachments={attachments}
+                      conversationId={conversationId}
+                      onLoadImage={scrollToBottom}
+                      personalConversation={personalConversation}
+                    />
+                  </div>
+                  {sharedProfile && this.renderUserProfile(sharedProfile)}
+                  <span className="message__body-text-date"> ({moment(created).fromNow()})</span>
+                </div>
+                {showMetadata && matchUrl && this.renderMedatada(matchUrl)}
+              </div>
+            </div>
+          </Col>
+          {!conversationDisabled && !child && (
+            <MessageOptions
+              bookmarked={bookmarked}
+              showDelete={ownMessage}
+              onReply={() => this.handleReplyTo({ messageId, firstName, lastName, preferences, text })}
+              onBookmark={this.handleBookmark}
+              onDeleteConfirmed={this.onDeleteConfirmed}
+              handleShareProfile={this.handleShareProfile}
+            />
           )}
-          <span className="message__body-text-date"> ({moment(created).fromNow()})</span>
-        </p>
+        </Row>
       </div>
     );
+  };
+
+  render() {
+    const { message, grouped, hide, lastRead } = this.props;
+    const { children, level } = message;
+    const { content } = message;
+
+    const replies = children && children.filter(msg => !msg.deleted);
 
     return (
       <div className={classNames({ 'message-nested': level !== 0, hide })}>
         {lastRead && this.renderLastReadMark()}
-        <div className={classNames('message__main-container', { grouped: grouped && isEmpty(replies) })}>
-          <Row type="flex" justify="start" gutter={10}>
-            <Col xs={{ span: 5 }} sm={{ span: 3 }} md={{ span: 2 }} className="message__col-user-icon">
-              {(!grouped || !isEmpty(replies)) && <AvatarWrapper key={userId} user={sender} size="default" />}
-            </Col>
-            <Col xs={{ span: 15 }} sm={{ span: 16 }} md={{ span: 18 }}>
-              <div className={classNames('message__Bubble', { ownMessage, withArrow: !grouped || !isEmpty(replies) })}>
-                {messageBody}
-                {matchUrl && this.renderMedatada(matchUrl)}
-                <PreviewAttachments
-                  attachments={attachments}
-                  conversationId={conversationId}
-                  onLoadImage={scrollToBottom}
-                  personalConversation={personalConversation}
-                />
-                {sharedProfile && this.renderUserProfile(sharedProfile)}
-                {!conversationDisabled && (
-                  <MessageOptions
-                    bookmarked={bookmarked}
-                    showDelete={ownMessage}
-                    onReply={() => this.handleReplyTo({ messageId, firstName, lastName, preferences, text })}
-                    onBookmark={this.handleBookmark}
-                    onDeleteConfirmed={this.onDeleteConfirmed}
-                  />
-                )}
-              </div>
-            </Col>
-          </Row>
+        <div
+          className={classNames('message__main-container', {
+            grouped: grouped && isEmpty(replies)
+          })}
+        >
+          {this.renderBodyMessage(message)}
+
           {!isEmpty(replies) && (
             <div className="habla-label message__main-counter" onClick={this.handleShowReplies}>
               <span className="message__main-counter-number">{replies.length}</span>
@@ -275,6 +323,14 @@ class ChatMessage extends Component {
           )}
         </div>
         {this.renderReplies(replies)}
+        {this.state.shareModalVisible && (
+          <ShareModal
+            visible={this.state.shareModalVisible}
+            showShareModal={this.showShareModal}
+            dataforShare={content[0].sharedData ? content[0].sharedData : message}
+            sharePT={this.state.sharePT}
+          />
+        )}
       </div>
     );
   }

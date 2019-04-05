@@ -43,7 +43,8 @@ const propTypes = {
             text: PropTypes.string,
             type: PropTypes.string
           })
-        ).isRequired
+        ).isRequired,
+        sharedData: PropTypes.object
       })
     )
   }),
@@ -380,7 +381,6 @@ class Chat extends React.Component {
           message={message}
           conversationId={conversation.conversationId}
           personalConversation={personalConversation}
-          conversationDisabled={!team.active}
           currentPath={currentPath}
           teamMembers={membersFiltered}
           teamId={team.teamId}
@@ -388,6 +388,8 @@ class Chat extends React.Component {
           grouped={grouped}
           scrollToBottom={this.scrollToBottom}
           onMessageAction={this.onMessageAction}
+          sharedData={message.sharedData}
+          showMetadata
         />
       );
     });

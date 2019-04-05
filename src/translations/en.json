@@ -22,6 +22,8 @@
   "email": "Email",
   "yes": "Yes",
   "no": "No",
+  "shareUser": "Share with Users",
+  "sharePT": "Share with Project Teams",
 
   "enterMsgPostPlaceholder": "What do you want to tell the Team?",
   "enterMsgReplyPlaceholder": "Leave a Message ...",
@@ -937,6 +939,6 @@
     "title": "Share with:",
     "share": "Share",
     "dataSharedSuccefully": "The data have been successfully shared",
-    "userProfile": "User Profile:"
+    "forwarded": "Forwarded from {{user}}"
   }
 }

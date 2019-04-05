@@ -157,7 +157,6 @@ class MessageInput extends React.Component {
 
         this.stopTyping();
         this.clearTypingTimer();
-
         if (!message && isEmpty(files)) return;
         this.props
           .createMessage({

@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import moment from 'moment';
 
-import { Form, Divider, Modal, Button, Menu, Input, Icon, Checkbox, message as msg } from 'antd';
+import { Form, Modal, Button, Menu, Input, Icon, Checkbox, message as msg } from 'antd';
 import String from 'src/translations';
 import { formShape } from 'src/propTypes';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
 import { AvatarWithLabel } from 'src/components';
-import { AvatarWrapper } from 'src/containers';
+import { AvatarWrapper, ChatMessage } from 'src/containers';
 import './styles/style.css';
 
 const propTypes = {
@@ -19,8 +18,8 @@ const propTypes = {
   cancelButton: PropTypes.bool,
   subscribers: PropTypes.array.isRequired,
   subscribersPresences: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
-  sharedProfileId: PropTypes.string,
+  user: PropTypes.object,
+  dataforShare: PropTypes.object,
   createConversation: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
   teams: PropTypes.array,
@@ -30,20 +29,25 @@ const propTypes = {
 
 const defaultProps = {
   cancelButton: true,
-  sharedProfileId: null,
+  dataforShare: {},
   teams: [],
-  sharePT: false
+  sharePT: false,
+  user: false
 };
 
 class ShareModal extends React.Component {
   constructor(props) {
     super(props);
 
-    const { user, subscribers, subscribersPresences, sharedProfileId, teams } = this.props;
+    const { user, subscribers, subscribersPresences, dataforShare, teams } = this.props;
     const orgUsers = [];
 
     Object.values(subscribers).forEach(userEl => {
-      if (userEl.userId === user.userId || userEl.userId === sharedProfileId) return;
+      if (
+        userEl.userId === user.userId ||
+        (dataforShare.content[0].type === 'userId' && userEl.userId === dataforShare.content[0].text)
+      )
+        return;
       orgUsers.push({
         ...userEl,
         online: _.some(_.values(subscribersPresences[userEl.userId]), { presenceStatus: 'online' })
@@ -75,9 +79,15 @@ class ShareModal extends React.Component {
   };
 
   createMessage = async conversationId => {
-    const { sharedProfileId } = this.props;
+    let { dataforShare } = this.props;
+    if (dataforShare.content[0].type !== 'userId') {
+      dataforShare = { content: [{ sharedData: dataforShare, type: 'sharedData' }] };
+    }
     try {
-      await this.props.createMessage({ message: String.t('shareModal.userProfile'), conversationId, sharedProfileId });
+      await this.props.createMessage({
+        conversationId,
+        dataforShare
+      });
     } catch (error) {
       msg.error(error.message);
     }
@@ -209,33 +219,20 @@ class ShareModal extends React.Component {
   };
 
   render() {
-    const { visible, cancelButton, sharedProfileId, subscribers, sharePT } = this.props;
-    const user = subscribers.find(subscriber => subscriber.userId === sharedProfileId);
-
+    const { visible, cancelButton, sharePT, dataforShare } = this.props;
     return (
       <div>
         <Modal visible={visible} footer={null} width="400px" closable={false} maskClosable destroyOnClose>
           <div className="Share_Modal">
             <div className="Modal_body">
-              <div className="User__Details-Data">
-                <div className="User_MainInfo">
-                  <AvatarWrapper size="default" user={user} hideStatusTooltip showDetails={false} />
-                  <div className="User_Header">
-                    <span className="User_Name">{user.fullName}</span>
-                    <span className="User_Status">{user.preferences.customPresenceStatusMessage}</span>
-                  </div>
-                </div>
-                <Divider style={{ margin: '10px auto 5px', background: '#7d7d7d' }} />
-                <div className="User_ExtraInfo">
-                  <span className="User_DisplayName">{user.displayName}</span>
-                  <span className="User_TimeZone">
-                    {moment()
-                      .tz(user.timeZone)
-                      .format('HH:mm')}{' '}
-                    {String.t('sideBar.localTime')}
-                  </span>
-                  <span className="User_EMail">{user.email}</span>
-                </div>
+              <div className="Forwarded_Message_Container">
+                <ChatMessage
+                  message={dataforShare}
+                  key={dataforShare.messageId}
+                  conversationId={dataforShare.conversationId}
+                  conversationDisabled
+                  showDetailsOnAvatar={false}
+                />
               </div>
               <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off">
                 <div className="Modal_subtitle">

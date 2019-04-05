@@ -118,7 +118,7 @@ class DirectMessages extends React.Component {
           <div className="habla-left-navigation-team-list">
             <div className="habla-left-navigation-team-list-item">
               <div className="habla-left-navigation-team-list-subitem">
-                <AvatarWrapper size="default" user={userEl} />
+                <AvatarWrapper size="default" user={userEl} orgLength={orgUserOrdered.length} />
                 <div
                   className="Link__Wrapper"
                   onClick={() => this.handleConversation(userEl.userId, conversationId, unreadMessages)}

@@ -187,6 +187,7 @@
   padding: 5px 10px;
   border-radius: 5px;
   position: relative;
+  display: inline-block;
 }
 
 .team__messages .message__Bubble.withArrow::before {
@@ -217,6 +218,14 @@
   border-top: 7px solid transparent;
   border-right: 10px solid #eff6ff;
   border-bottom: 7px solid transparent;
+}
+
+.team__messages .message__Bubble.withArrow.right::before {
+  border-right: 10px solid #f1f1f1;
+}
+
+.message__inverted_order {
+  align-items: center;
 }
 
 .team__messages .ant-col-md-18 {

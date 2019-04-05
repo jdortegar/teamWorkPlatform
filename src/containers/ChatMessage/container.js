@@ -8,19 +8,21 @@ import { makePersonalCall, fetchMetadata } from 'src/actions';
 const mapStateToProps = (state, props) => {
   const currentUser = getCurrentUser(state);
   const orgId = getCurrentOrgId(state);
-  const { messageId, createdBy, sharedProfileId } = props.message;
-
+  const { messageId, createdBy, content } = props.message;
   const bookmarks = currentUser.bookmarks[orgId];
   const bookmarked = bookmarks && bookmarks.messageIds && bookmarks.messageIds[messageId] !== undefined;
-  const sender = getUserById(state, createdBy);
   const ownMessage = currentUser.userId === createdBy;
-
+  const sharedProfileId = content && content[0].type === 'userId' ? content[0].text : null;
+  const shareDataOwnerId =
+    content && content[0].type === 'sharedData' && content[0].sharedData ? content[0].sharedData.createdBy : null;
+  const createdId = createdBy || currentUser.userId;
   return {
     ownMessage,
     bookmarked,
     sharedProfile: getUserById(state, sharedProfileId),
-    currentUser,
-    sender
+    sender: getUserById(state, createdId),
+    shareDataOwner: getUserById(state, shareDataOwnerId),
+    currentUser
   };
 };
 

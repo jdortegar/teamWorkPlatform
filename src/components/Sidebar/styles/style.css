@@ -349,6 +349,10 @@ ul.ant-menu-sub {
   padding: 0 0 0 10px;
 }
 
+.pageHeaderMenu svg {
+  min-width: 1.25em;
+}
+
 .Subscriber__Tooltip_ExtraInfo > span {
   display: block;
 }
@@ -378,4 +382,13 @@ ul.ant-menu-sub {
 
 .Link__Wrapper {
   width: 100%;
+}
+
+.sidebar-label-number-text {
+  font-size: 10pt;
+}
+
+.sidebar-label-number-badge {
+  font-size: 10pt;
+  padding: 2px 5px;
 }

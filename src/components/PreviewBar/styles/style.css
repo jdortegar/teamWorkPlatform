@@ -15,6 +15,9 @@
 .PreviewBar__message-cancel-reply:hover {
   color: #666;
 }
+.PreviewBar__message_reply-wrapper {
+  text-align: left;
+}
 .PreviewBar__message_reply-container {
   padding: 8px;
   margin: 0 10px 1px 10px;
@@ -22,6 +25,7 @@
   background-color: #eee;
   color: #999;
   position: relative;
+  display: inline-block;
 }
 .PreviewBar__message-cancel-reply-col {
   text-align: right;

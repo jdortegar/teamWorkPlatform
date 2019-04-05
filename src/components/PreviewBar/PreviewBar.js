@@ -66,35 +66,37 @@ class PreviewBar extends Component {
     const { replyTo, files } = this.props;
     const name = String.t('previewBar.name', replyTo);
     return (
-      <div className="PreviewBar__message_reply-container">
-        <div className="PreviewBar__message-cancel-reply-col">
-          <a
-            className="PreviewBar__message-cancel-reply"
-            onClick={this.props.onCancelReply}
-            title={String.t('cancelButton')}
-          >
-            <i className="fas fa-times-circle" />
-          </a>
-        </div>
-        <div>
-          {replyTo ? (
-            <div>
-              <i className="fas fa-reply" />
-              <p className="PreviewBar__message-body-name">{name}</p>
-              <p className="PreviewBar__message-body-text">{replyTo.text}</p>
-            </div>
-          ) : null}
-          <div className="PreviewBar__files-container">
-            {this.props.isDraggingOver && files.length === 0 ? (
-              <div className="PreviewBar__file-placeholder-container">
-                <span className="PreviewBar__file-placeholder-icon">
-                  <Icon type="upload" />
-                </span>
-                <h2 className="PreviewBar__file-placeholder-title">{String.t('previewBar.dropFilesPlaceholder')}</h2>
+      <div className="PreviewBar__message_reply-wrapper">
+        <div className="PreviewBar__message_reply-container">
+          <div className="PreviewBar__message-cancel-reply-col">
+            <a
+              className="PreviewBar__message-cancel-reply"
+              onClick={this.props.onCancelReply}
+              title={String.t('cancelButton')}
+            >
+              <i className="fas fa-times-circle" />
+            </a>
+          </div>
+          <div>
+            {replyTo ? (
+              <div>
+                <i className="fas fa-reply" />
+                <p className="PreviewBar__message-body-name">{name}</p>
+                <p className="PreviewBar__message-body-text">{replyTo.text}</p>
               </div>
-            ) : (
-              this.renderPreviewCards()
-            )}
+            ) : null}
+            <div className="PreviewBar__files-container">
+              {this.props.isDraggingOver && files.length === 0 ? (
+                <div className="PreviewBar__file-placeholder-container">
+                  <span className="PreviewBar__file-placeholder-icon">
+                    <Icon type="upload" />
+                  </span>
+                  <h2 className="PreviewBar__file-placeholder-title">{String.t('previewBar.dropFilesPlaceholder')}</h2>
+                </div>
+              ) : (
+                this.renderPreviewCards()
+              )}
+            </div>
           </div>
         </div>
       </div>

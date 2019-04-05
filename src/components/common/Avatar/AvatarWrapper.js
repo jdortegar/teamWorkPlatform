@@ -24,17 +24,19 @@ const propTypes = {
   }).isRequired,
   makePersonalCall: PropTypes.func,
   history: PropTypes.object,
-  showDetails: PropTypes.bool
+  showDetails: PropTypes.bool,
+  orgLength: PropTypes.number
 };
 
 const defaultProps = {
   size: 'default',
   className: '',
   hidePresence: false,
-  currentUser: null,
   history: null,
   showDetails: true,
-  makePersonalCall: null
+  makePersonalCall: null,
+  orgLength: null,
+  currentUser: null
 };
 
 class AvatarWrapper extends React.Component {
@@ -74,7 +76,7 @@ class AvatarWrapper extends React.Component {
   };
 
   renderContent = () => {
-    const { currentUser, user } = this.props;
+    const { currentUser, user, orgLength } = this.props;
     const { userId, online } = user;
     return (
       <div>
@@ -118,19 +120,23 @@ class AvatarWrapper extends React.Component {
           )}
           <Menu.Item key={`${userId}-profile`}>
             <span onClick={() => this.props.history.push(`/app/teamMember/${userId}`)}>
-              <i className="fas fa-user" /> {String.t('sideBar.userProfile')}
+              <i className="fas fa-address-card" /> {String.t('sideBar.userProfile')}
             </span>
           </Menu.Item>
-          <Menu.Item key={`${userId}-share-user`}>
-            <span onClick={() => this.handleShareProfile(false)}>
-              <i className="fas fa-share" /> {String.t('sideBar.shareProfileUsers')}
-            </span>
-          </Menu.Item>
-          <Menu.Item key={`${userId}-share-team`}>
-            <span onClick={() => this.handleShareProfile(true)}>
-              <i className="fas fa-share" /> {String.t('sideBar.shareProfilePT')}
-            </span>
-          </Menu.Item>
+          {orgLength > 1 && (
+            <Menu.Item key={`${userId}-share-user`}>
+              <span onClick={() => this.handleShareProfile(false)}>
+                <i className="fas fa-user" /> {String.t('sideBar.shareProfileUsers')}
+              </span>
+            </Menu.Item>
+          )}
+          {orgLength > 1 && (
+            <Menu.Item key={`${userId}-share-team`}>
+              <span onClick={() => this.handleShareProfile(true)}>
+                <i className="fas fa-users" /> {String.t('sideBar.shareProfilePT')}
+              </span>
+            </Menu.Item>
+          )}
         </Menu>
       </div>
     );
@@ -172,6 +178,7 @@ class AvatarWrapper extends React.Component {
 
     const fullName = String.t('fullName', { firstName, lastName });
     const initials = getInitials(fullName);
+    const dataforShare = { content: [{ text: user.userId, type: 'userId' }], level: 0 };
 
     return (
       <div className={topClass}>
@@ -208,7 +215,7 @@ class AvatarWrapper extends React.Component {
           <ShareModal
             visible={this.state.shareModalVisible}
             showShareModal={this.showShareModal}
-            sharedProfileId={user.userId}
+            dataforShare={dataforShare}
             sharePT={this.state.sharePT}
           />
         )}

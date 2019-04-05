@@ -1178,6 +1178,7 @@ ul.ant-menu li.ant-menu-submenu:hover {
 }
 .ant-progress-line {
   bottom: 0 !important;
+  left: 0;
   padding: 0 5px !important;
   position: absolute !important;
 }

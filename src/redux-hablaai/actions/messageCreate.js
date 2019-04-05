@@ -33,17 +33,18 @@ const createResource = (file, resourcesUrl, conversationId, orgId, onUploadProgr
 export const createMessage = ({
   message,
   conversationId,
-  sharedProfileId,
   replyTo,
   files = [],
   resourcesUrl,
-  onFileUploadProgress
+  onFileUploadProgress,
+  dataforShare
 }) => (dispatch, getState) => {
   const localId = uuid();
   const orgId = getCurrentSubscriberOrgId(getState());
   const userId = getCurrentUserId(getState());
+  const messageContent = dataforShare ? dataforShare.content[0] : { type: 'text/plain', text: message };
 
-  if (message || sharedProfileId) {
+  if (message || dataforShare) {
     // create a message with a localId to display immediately in the screen
     const path = replyTo ? `${replyTo.path || replyTo.messageId}##${localId}` : localId;
     const level = replyTo ? replyTo.level + 1 : 0;
@@ -60,8 +61,7 @@ export const createMessage = ({
           replyTo: replyTo ? replyTo.messageId : undefined,
           path,
           level,
-          sharedProfileId,
-          content: [{ type: 'text/plain', text: message }]
+          content: [messageContent]
         }
       }
     });
@@ -90,6 +90,9 @@ export const createMessage = ({
     if (message) {
       content.push({ type: 'text/plain', text: message });
     }
+    if (messageContent) {
+      content.push(messageContent);
+    }
 
     const thunk = dispatch(
       doAuthenticatedRequest({
@@ -97,8 +100,7 @@ export const createMessage = ({
         method: 'post',
         data: {
           replyTo: replyTo ? replyTo.messageId : undefined,
-          content,
-          sharedProfileId
+          content
         }
       })
     );
