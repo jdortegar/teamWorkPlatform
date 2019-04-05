@@ -3,6 +3,7 @@ npm-debug.log
 bundle.js
 dist/*
 vendor/
+coverage/
 .sass-cache/
 db.json
 resources/style/*.scss
