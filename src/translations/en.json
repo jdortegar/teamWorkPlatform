@@ -289,7 +289,9 @@
     "inAMeeting": "In a Meeting",
     "onVacations": "On Vacation",
     "custom": "Custom...",
-    "writeAMessage": "Write a message..."
+    "writeAMessage": "Write a message...",
+    "mutedFor": "Sounds are muted for {{option}} {{format}}",
+    "unMuted": "Sounds unmuted"
   },
   "IntegrationCard": {
     "expired": "Expired",

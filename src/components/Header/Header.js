@@ -87,10 +87,19 @@ class Header extends Component {
     const { preferences } = user;
     preferences.muteNotifications = notificationsTimer;
 
+    // if option < 60
+    const timeFormat = option <= 60 ? option : option / 60;
+
     this.props
       .updateUser({ preferences }, user.userId)
       .then(() => {
-        message.success(String.t('Header.statusUpdated'));
+        if (option) {
+          message.success(
+            String.t('Header.mutedFor', { option: timeFormat, format: option <= 60 ? 'minutes' : 'hours' })
+          );
+        } else {
+          message.success(String.t('Header.unMuted'));
+        }
       })
       .catch(error => {
         message.error(error.message);
