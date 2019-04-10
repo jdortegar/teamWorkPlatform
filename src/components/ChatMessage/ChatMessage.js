@@ -1,14 +1,14 @@
 /* eslint-disable react/no-danger */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Divider } from 'antd';
+import { Row, Col, Divider, message as mssg } from 'antd';
 import { find, includes, isEmpty } from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
 import Autolinker from 'autolinker';
 
 import String from 'src/translations';
-import { AvatarWrapper, PreviewAttachments, VideoCallModal, ShareModal } from 'src/containers';
+import { AvatarWrapper, PreviewAttachments, VideoCallModal, ShareModal, MessageInput } from 'src/containers';
 import MessageOptions from './MessageOptions';
 import Metadata from './Metadata';
 import './styles/style.css';
@@ -37,7 +37,10 @@ const propTypes = {
   makePersonalCall: PropTypes.func.isRequired,
   showDetailsOnAvatar: PropTypes.bool,
   showMetadata: PropTypes.bool,
-  shareDataOwner: PropTypes.object
+  shareDataOwner: PropTypes.object,
+  userRoles: PropTypes.object.isRequired,
+  handleEditingAction: PropTypes.func.isRequired,
+  userIsEditing: PropTypes.bool
 };
 
 const defaultProps = {
@@ -56,6 +59,7 @@ const defaultProps = {
   showDetailsOnAvatar: true,
   showMetadata: false,
   shareDataOwner: null,
+  userIsEditing: false,
   fetchMetadata: () => {},
   scrollToBottom: () => {},
   onMessageAction: () => {}
@@ -73,7 +77,8 @@ class ChatMessage extends Component {
     isExpanded: includes(this.props.currentPath, this.props.message.messageId),
     videoCallModalVisible: false,
     shareModalVisible: false,
-    sharePT: false
+    sharePT: false,
+    showEditInput: false
   };
 
   componentDidMount() {
@@ -107,6 +112,38 @@ class ChatMessage extends Component {
       this.setState({ videoCallModalVisible: false });
     }
     this.setState({ videoCallModalVisible: !this.state.videoCallModalVisible });
+  };
+
+  handleEditMessage = option => {
+    const { userIsEditing } = this.props;
+    if (!userIsEditing) {
+      this.setState({ showEditInput: option });
+      this.props.handleEditingAction(option);
+      document.body.addEventListener('click', this.editMessageClickOutsideHandler);
+    } else if (option === false && userIsEditing) {
+      this.setState({ showEditInput: option });
+      this.props.handleEditingAction(option);
+      document.body.removeEventListener('click', this.editMessageClickOutsideHandler);
+    } else {
+      mssg.success(String.t('message.userEditing'));
+    }
+  };
+
+  editMessageClickOutsideHandler = e => {
+    let messageInputIsOpen = false;
+    if (e.path) {
+      e.path.forEach(elem => {
+        if (elem.classList && elem.classList.contains('Chat__message_edit_input')) {
+          messageInputIsOpen = true;
+        }
+      });
+    }
+
+    if (!messageInputIsOpen) {
+      this.setState({ showEditInput: false });
+      this.props.handleEditingAction(false);
+      document.body.removeEventListener('click', this.editMessageClickOutsideHandler);
+    }
   };
 
   renderUserProfile = user => {
@@ -229,7 +266,8 @@ class ChatMessage extends Component {
       bookmarked,
       conversationDisabled,
       shareDataOwner,
-      showMetadata
+      showMetadata,
+      userRoles
     } = this.props;
 
     const { messageId, content = [], created, conversationId, children } = message;
@@ -286,11 +324,12 @@ class ChatMessage extends Component {
           {!conversationDisabled && !child && (
             <MessageOptions
               bookmarked={bookmarked}
-              showDelete={ownMessage}
+              showOptions={ownMessage || userRoles.admin}
               onReply={() => this.handleReplyTo({ messageId, firstName, lastName, preferences, text })}
               onBookmark={this.handleBookmark}
               onDeleteConfirmed={this.onDeleteConfirmed}
               handleShareProfile={this.handleShareProfile}
+              handleEditMessage={this.handleEditMessage}
             />
           )}
         </Row>
@@ -300,6 +339,7 @@ class ChatMessage extends Component {
 
   render() {
     const { message, grouped, hide, lastRead } = this.props;
+    const { showEditInput } = this.state;
     const { children, level } = message;
     const { content } = message;
 
@@ -313,7 +353,15 @@ class ChatMessage extends Component {
             grouped: grouped && isEmpty(replies)
           })}
         >
-          {this.renderBodyMessage(message)}
+          {!showEditInput ? (
+            this.renderBodyMessage(message)
+          ) : (
+            <MessageInput
+              messageToEdit={message}
+              handleEditMessage={this.handleEditMessage}
+              handleEditingAction={this.props.handleEditingAction}
+            />
+          )}
 
           {!isEmpty(replies) && (
             <div className="habla-label message__main-counter" onClick={this.handleShowReplies}>

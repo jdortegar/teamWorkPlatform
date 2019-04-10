@@ -48,10 +48,16 @@ class Main extends React.Component {
       const { subscription } = this.props;
       if (subscription && stripeSubscriptionId) {
         this.props.fetchSubscription(stripeSubscriptionId).then(() => {
-          if (subscription.status === 'trialing' && moment(subscription.trial_end * 1000).diff(moment(), 'days') <= 0) {
+          if (
+            (subscription.status === 'trialing' && moment(subscription.trial_end * 1000).diff(moment(), 'days') <= 0) ||
+            subscription.status === 'canceled'
+          ) {
             this.setState({
               hablaModalVisible: true,
-              hablaModalTitle: String.t('organizationSummaryPage.trialOverTitle'),
+              hablaModalTitle:
+                subscription.status === 'canceled'
+                  ? String.t('organizationSummaryPage.subscriptionOverTitle')
+                  : String.t('organizationSummaryPage.trialOverTitle'),
               hablaModalBody: (
                 // eslint-disable-next-line react/no-danger
                 <div dangerouslySetInnerHTML={{ __html: String.t('organizationSummaryPage.trialOverBody') }} />

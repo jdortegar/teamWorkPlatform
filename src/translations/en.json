@@ -321,7 +321,8 @@
     "deleteConfirmationQuestion": "This will delete this message. Are you sure?",
     "deleteSuccessToast": "Your message has been deleted.",
     "bookmarkSetToast": "The bookmark has been saved.",
-    "bookmarkRemovedToast": "The bookmark has been removed."
+    "bookmarkRemovedToast": "The bookmark has been removed.",
+    "userEditing": "Finish editing the open editor first! Or press escape if you’ve changed your mind."
   },
   "previewBar": {
     "name": "{{firstName}} {{lastName}}",
@@ -885,6 +886,7 @@
     "filesShared": "Files Shared",
     "daysLeft": "{{count}} Days Left",
     "trialOverTitle": "Your 14 Day Free Trial has Ended",
+    "subscriptionOverTitle": "Your Subscription has Ended",
     "trialOverBody": "Please subscribe and keep your digital workplace and project teams in place and really productive! We’ll keep your data for 30 days if you don’t buy now, but change your mind later.<br><br>If you have any questions, please don’t hesitate to visit to our Help Center and ask us @ <a href='https://helpcenter.habla.ai/hc/en-us' target='_blank'>Habla AI Help Center</a><br><br>Thank you and here’s to data democracy for project teams!",
     "trialOverButton": "Buy Now",
     "3daysTitle": "Hello Hablamos!",

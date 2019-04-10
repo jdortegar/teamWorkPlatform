@@ -8,16 +8,25 @@ const propTypes = {
   onBookmark: PropTypes.func.isRequired,
   onDeleteConfirmed: PropTypes.func.isRequired,
   handleShareProfile: PropTypes.func.isRequired,
+  handleEditMessage: PropTypes.func.isRequired,
   bookmarked: PropTypes.bool,
-  showDelete: PropTypes.bool
+  showOptions: PropTypes.bool
 };
 
 const defaultProps = {
   bookmarked: false,
-  showDelete: false
+  showOptions: false
 };
 
-const MessageOptions = ({ bookmarked, showDelete, onReply, onBookmark, onDeleteConfirmed, handleShareProfile }) => (
+const MessageOptions = ({
+  bookmarked,
+  showOptions,
+  onReply,
+  onBookmark,
+  onDeleteConfirmed,
+  handleShareProfile,
+  handleEditMessage
+}) => (
   <div className="message__options hide">
     <Tooltip placement="topLeft" title={String.t('message.tooltipReply')}>
       <a
@@ -30,7 +39,7 @@ const MessageOptions = ({ bookmarked, showDelete, onReply, onBookmark, onDeleteC
         <i className="fas fa-reply" />
       </a>
     </Tooltip>
-    {showDelete && (
+    {showOptions && (
       <Popconfirm
         placement="topRight"
         title={String.t('message.deleteConfirmationQuestion')}
@@ -43,9 +52,22 @@ const MessageOptions = ({ bookmarked, showDelete, onReply, onBookmark, onDeleteC
         </a>
       </Popconfirm>
     )}
+    {showOptions && (
+      <Tooltip placement="topLeft" title={String.t('message.tooltipEdit')} arrowPointAtCenter>
+        <a
+          className="message__icons"
+          onClick={e => {
+            e.stopPropagation();
+            handleEditMessage(true);
+          }}
+        >
+          <i className="fas fa-edit" />
+        </a>
+      </Tooltip>
+    )}
     <Tooltip placement="topLeft" title={String.t('shareUser')} arrowPointAtCenter>
       <a
-        className={bookmarked ? 'message__icons message__icons-selected' : 'message__icons'}
+        className="message__icons"
         onClick={e => {
           e.stopPropagation();
           handleShareProfile(false);
@@ -56,7 +78,7 @@ const MessageOptions = ({ bookmarked, showDelete, onReply, onBookmark, onDeleteC
     </Tooltip>
     <Tooltip placement="topLeft" title={String.t('sharePT')} arrowPointAtCenter>
       <a
-        className={bookmarked ? 'message__icons message__icons-selected' : 'message__icons'}
+        className="message__icons"
         onClick={e => {
           e.stopPropagation();
           handleShareProfile(true);

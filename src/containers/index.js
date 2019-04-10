@@ -26,6 +26,7 @@ export Login from './Login';
 export Main from './Main';
 export MainContent from './MainContent';
 export MessageResult from './MessageResult';
+export MessageInput from './MessageInput';
 export NewTeamPage from './NewTeamPage';
 export Notification from './Notification';
 export NotificationsPage from './NotificationsPage';

@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Tooltip, Input, message as msg } from 'antd';
 import { isEmpty } from 'lodash';
+import classNames from 'classnames';
 
 import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';
 import { formShape } from 'src/propTypes';
 import { PreviewBar } from 'src/components';
 import { AvatarWrapper } from 'src/containers';
+import './styles/style.css';
 
 // Hack for use String functions
 import Str from 'src/translations';
@@ -19,20 +21,33 @@ const propTypes = {
   files: PropTypes.array,
   iAmTyping: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
-  removeFileFromList: PropTypes.func.isRequired,
-  addBase: PropTypes.func.isRequired,
-  clearFileList: PropTypes.func.isRequired,
-  updateFileList: PropTypes.func.isRequired,
-  setLastSubmittedMessage: PropTypes.func.isRequired,
-  resetReplyTo: PropTypes.func.isRequired,
-  isDraggingOver: PropTypes.bool.isRequired,
+  removeFileFromList: PropTypes.func,
+  addBase: PropTypes.func,
+  clearFileList: PropTypes.func,
+  updateFileList: PropTypes.func,
+  setLastSubmittedMessage: PropTypes.func,
+  resetReplyTo: PropTypes.func,
+  isDraggingOver: PropTypes.bool,
   resourcesUrl: PropTypes.string.isRequired,
-  replyTo: PropTypes.object
+  replyTo: PropTypes.object,
+  messageToEdit: PropTypes.object,
+  handleEditMessage: PropTypes.func,
+  handleEditingAction: PropTypes.func
 };
 
 const defaultProps = {
   files: [],
-  replyTo: {}
+  replyTo: null,
+  messageToEdit: null,
+  removeFileFromList: null,
+  addBase: null,
+  updateFileList: null,
+  resetReplyTo: null,
+  isDraggingOver: null,
+  clearFileList: () => {},
+  handleEditMessage: () => {},
+  setLastSubmittedMessage: () => {},
+  handleEditingAction: () => {}
 };
 
 class MessageInput extends React.Component {
@@ -44,8 +59,17 @@ class MessageInput extends React.Component {
       showPreviewBox: false,
       fileProgress: null,
       showEmojiPicker: false,
-      replyTo: null
+      replyTo: null,
+      textToEdit: null
     };
+  }
+
+  componentDidMount() {
+    const { messageToEdit } = this.props;
+    if (messageToEdit) {
+      const attachments = messageToEdit.content.find(el => el.type === 'text/plain');
+      this.setState({ textToEdit: attachments ? attachments.text : null });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -63,6 +87,13 @@ class MessageInput extends React.Component {
     if (files) {
       this.props.updateFileList(files);
       this.setState({ showPreviewBox: true });
+    }
+  };
+
+  handleKeyDown = event => {
+    if (event.keyCode === 27) {
+      this.props.handleEditingAction(false);
+      this.props.handleEditMessage(false);
     }
   };
 
@@ -152,32 +183,43 @@ class MessageInput extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { replyTo } = this.state;
-        const { files, form, resourcesUrl, conversationId } = this.props;
+        const { files, form, resourcesUrl, conversationId, messageToEdit } = this.props;
         const message = values.message ? values.message.trim() : '';
 
         this.stopTyping();
         this.clearTypingTimer();
         if (!message && isEmpty(files)) return;
-        this.props
-          .createMessage({
-            message,
-            conversationId,
-            replyTo,
-            resourcesUrl,
-            files,
-            onFileUploadProgress: this.handleFileUploadProgress
-          })
-          .then(() => {
-            this.setState({ fileProgress: null, showPreviewBox: false });
-            this.props.clearFileList();
-          })
-          .catch(error => {
-            if (!isEmpty(files)) {
-              this.props.updateFileList(files);
-              this.setState({ fileProgress: null });
-            }
-            msg.error(error.message);
-          });
+
+        const messageId = messageToEdit ? messageToEdit.messageId : null;
+
+        if (!messageId) {
+          // To do: remvoe this when API be ready
+          this.props
+            .createMessage({
+              message,
+              conversationId,
+              replyTo,
+              resourcesUrl,
+              files,
+              onFileUploadProgress: this.handleFileUploadProgress,
+              messageId
+            })
+            .then(() => {
+              this.setState({ fileProgress: null, showPreviewBox: false });
+              this.props.handleEditMessage(false);
+              this.props.clearFileList();
+            })
+            .catch(error => {
+              if (!isEmpty(files)) {
+                this.props.updateFileList(files);
+                this.setState({ fileProgress: null });
+              }
+              this.props.handleEditMessage(false);
+              msg.error(error.message);
+            });
+        } else {
+          msg.success('this message will change when API chat be ready...');
+        }
 
         if (replyTo) {
           this.setState({ replyTo: null, showPreviewBox: false });
@@ -199,8 +241,8 @@ class MessageInput extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { user } = this.props;
-    const { fileProgress } = this.state;
+    const { user, messageToEdit } = this.props;
+    const { fileProgress, textToEdit } = this.state;
 
     return (
       <div>
@@ -217,20 +259,21 @@ class MessageInput extends React.Component {
             isDraggingOver={this.props.isDraggingOver}
           />
         )}
-        <div className="Chat__message_input">
+        <div className={classNames('Chat__message_input', { Chat__message_edit_input: messageToEdit })}>
           <div className="team-room__chat-input__image-wrapper">
             <AvatarWrapper size="default" user={user} showDetails={false} />
           </div>
           <div className="team-room__chat-input-wrapper">
             <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off">
               <Form.Item className="team-room__chat-input-form-item" hasFeedback={false}>
-                {getFieldDecorator('message', {})(
+                {getFieldDecorator('message', { initialValue: textToEdit || null })(
                   <Input
                     placeholder={Str.t('chat.replyPlaceholder')}
                     className="team-room__chat-input-textfield"
                     onFocus={this.handleTyping}
                     autoFocus
                     ref={this.textInput}
+                    onKeyDown={this.handleKeyDown}
                   />
                 )}
               </Form.Item>

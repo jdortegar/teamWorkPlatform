@@ -30,6 +30,7 @@ export IntegrationScreen from './IntegrationScreen';
 export IntegrationsList from './IntegrationsList';
 export LambWestonReports from './LambWestonReports';
 export MainContent from './MainContent';
+export MessageInput from './MessageInput';
 export NewSubpageHeader from './NewSubpageHeader';
 export Notification from './Notification';
 export Onboarding from './Onboarding';

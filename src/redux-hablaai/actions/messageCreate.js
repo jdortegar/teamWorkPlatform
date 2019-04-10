@@ -37,7 +37,8 @@ export const createMessage = ({
   files = [],
   resourcesUrl,
   onFileUploadProgress,
-  dataforShare
+  dataforShare,
+  messageId
 }) => (dispatch, getState) => {
   const localId = uuid();
   const orgId = getCurrentSubscriberOrgId(getState());
@@ -54,7 +55,7 @@ export const createMessage = ({
         conversationId,
         message: {
           localId,
-          messageId: localId,
+          messageId: messageId || localId,
           conversationId,
           created: moment().format(),
           createdBy: userId,
@@ -90,7 +91,7 @@ export const createMessage = ({
     if (message) {
       content.push({ type: 'text/plain', text: message });
     }
-    if (messageContent) {
+    if (message && messageContent) {
       content.push(messageContent);
     }
 

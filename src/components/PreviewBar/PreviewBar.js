@@ -79,7 +79,7 @@ class PreviewBar extends Component {
           </div>
           <div>
             {replyTo ? (
-              <div>
+              <div className="Reply__header_container">
                 <i className="fas fa-reply" />
                 <p className="PreviewBar__message-body-name">{name}</p>
                 <p className="PreviewBar__message-body-text">{replyTo.text}</p>

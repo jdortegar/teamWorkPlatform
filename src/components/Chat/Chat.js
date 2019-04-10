@@ -4,13 +4,12 @@ import _ from 'lodash';
 
 import classNames from 'classnames';
 import { message as msg } from 'antd';
-import { ChatMessage } from 'src/containers';
+import { ChatMessage, MessageInput } from 'src/containers';
 import { SimpleCardContainer, Spinner } from 'src/components';
 import { messageAction } from 'src/components/ChatMessage/ChatMessage';
 import String from 'src/translations';
 import './styles/style.css';
 import TopBar from './TopBar';
-import MessageInput from './MessageInput';
 
 const propTypes = {
   team: PropTypes.object,
@@ -24,8 +23,6 @@ const propTypes = {
   removeFileFromList: PropTypes.func.isRequired,
   addBase: PropTypes.func.isRequired,
   isDraggingOver: PropTypes.bool.isRequired,
-  resourcesUrl: PropTypes.string.isRequired,
-  createMessage: PropTypes.func.isRequired,
   clearFileList: PropTypes.func.isRequired,
   updateFileList: PropTypes.func.isRequired,
   fetchConversations: PropTypes.func.isRequired,
@@ -52,7 +49,6 @@ const propTypes = {
   saveBookmark: PropTypes.func.isRequired,
   deleteMessage: PropTypes.func.isRequired,
   membersTyping: PropTypes.object,
-  iAmTyping: PropTypes.func.isRequired,
   readMessage: PropTypes.func.isRequired,
   showPageHeader: PropTypes.bool,
   showTeamMembers: PropTypes.bool,
@@ -88,7 +84,8 @@ class Chat extends React.Component {
       conversationsLoaded: false,
       replyTo: null,
       lastSubmittedMessage: null,
-      membersFiltered: []
+      membersFiltered: [],
+      userIsEditing: false
     };
 
     this.onMessageAction = this.onMessageAction.bind(this);
@@ -319,6 +316,10 @@ class Chat extends React.Component {
     }
   };
 
+  handleEditingAction = option => {
+    this.setState({ userIsEditing: option });
+  };
+
   handleScroll = () => {
     const messagesContainer = document.getElementsByClassName('team__messages')[0];
     if (!messagesContainer) return;
@@ -349,7 +350,7 @@ class Chat extends React.Component {
 
   renderMessages() {
     const { conversation, user, team, personalConversation, lastReadTimestamp } = this.props;
-    const { membersFiltered, lastSubmittedMessage } = this.state;
+    const { membersFiltered, lastSubmittedMessage, userIsEditing } = this.state;
 
     if (!membersFiltered) return null;
     let lastReadExists = false;
@@ -390,6 +391,8 @@ class Chat extends React.Component {
           onMessageAction={this.onMessageAction}
           sharedData={message.sharedData}
           showMetadata
+          handleEditingAction={this.handleEditingAction}
+          userIsEditing={userIsEditing}
         />
       );
     });
@@ -463,10 +466,6 @@ class Chat extends React.Component {
 
         <SimpleCardContainer className="Chat_container">
           <MessageInput
-            user={user}
-            conversationId={conversation.conversationId}
-            iAmTyping={this.props.iAmTyping}
-            createMessage={this.props.createMessage}
             removeFileFromList={this.props.removeFileFromList}
             addBase={this.props.addBase}
             clearFileList={this.props.clearFileList}
@@ -475,7 +474,6 @@ class Chat extends React.Component {
             resetReplyTo={this.resetReplyTo}
             isDraggingOver={this.props.isDraggingOver}
             files={this.props.files}
-            resourcesUrl={this.props.resourcesUrl}
             replyTo={this.state.replyTo}
           />
           <div className="team-room__members-typing">{this.renderMembersTyping()}</div>

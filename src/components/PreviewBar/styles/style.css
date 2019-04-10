@@ -26,6 +26,7 @@
   color: #999;
   position: relative;
   display: inline-block;
+  min-width: 120px;
 }
 .PreviewBar__message-cancel-reply-col {
   text-align: right;
@@ -62,4 +63,8 @@
 }
 .PreviewBar__files-container .image-wrapper-content {
   background-color: #fff;
+}
+
+.Reply__header_container svg {
+  margin-right: 5px;
 }
