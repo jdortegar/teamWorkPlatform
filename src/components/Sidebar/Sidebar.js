@@ -4,16 +4,17 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
-import { paths } from 'src/routes';
 import { Layout, Menu, Tooltip, Dropdown, Input, Icon, message, Collapse } from 'antd';
-import String from 'src/translations';
-import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
 import { Badge } from 'src/components';
+import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
 import { AvatarWrapper, VideoCallModal } from 'src/containers';
 import getInitials from 'src/utils/helpers';
+import { paths } from 'src/routes';
+import String from 'src/translations';
 import Avatar from '../common/Avatar';
-import './styles/style.css';
 import DirectMessages from './DirectMessages';
+import TeamMembers from './TeamMembers';
+import './styles/style.css';
 
 const { Sider } = Layout;
 
@@ -42,7 +43,8 @@ const propTypes = {
   conversationIdsByTeam: PropTypes.object,
   conversations: PropTypes.object,
   messagesByConversation: PropTypes.object.isRequired,
-  readMessage: PropTypes.func.isRequired
+  readMessage: PropTypes.func.isRequired,
+  fetchTeamMembers: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -344,7 +346,14 @@ class Sidebar extends Component {
 
       return (
         <Panel header={text} key={team.teamId}>
-          {this.renderTeamMembers(team.teamId)}
+          <TeamMembers
+            teamId={team.teamId}
+            fetchTeamMembers={this.props.fetchTeamMembers}
+            history={this.props.history}
+            subscribers={this.props.subscribers}
+            subscribersPresences={this.props.subscribersPresences}
+            userRoles={this.props.userRoles}
+          />
         </Panel>
       );
     });

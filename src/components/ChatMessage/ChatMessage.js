@@ -324,7 +324,7 @@ class ChatMessage extends Component {
           {!conversationDisabled && !child && (
             <MessageOptions
               bookmarked={bookmarked}
-              showOptions={ownMessage || userRoles.admin}
+              showOptions={ownMessage || (userRoles && userRoles.admin)}
               onReply={() => this.handleReplyTo({ messageId, firstName, lastName, preferences, text })}
               onBookmark={this.handleBookmark}
               onDeleteConfirmed={this.onDeleteConfirmed}
