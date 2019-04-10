@@ -308,6 +308,7 @@
   "message": {
     "sentByName": "{{firstName}} {{lastName}}",
     "tooltipReply": "Reply",
+    "tooltipAddReaction": "Add Reaction",
     "tooltipAddFile": "Add File",
     "tooltipBookmarkSet": "Save in Bookmarks",
     "tooltipBookmarkRemove": "Remove from Bookmarks",

@@ -6,6 +6,7 @@ import { find, includes, isEmpty } from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
 import Autolinker from 'autolinker';
+import { Picker } from 'emoji-mart';
 
 import String from 'src/translations';
 import {
@@ -46,7 +47,7 @@ const propTypes = {
   showMetadata: PropTypes.bool,
   shareDataOwner: PropTypes.object,
   userRoles: PropTypes.object.isRequired,
-  handleEditingAction: PropTypes.func.isRequired,
+  handleStateOnParent: PropTypes.func.isRequired,
   userIsEditing: PropTypes.bool
 };
 
@@ -85,7 +86,8 @@ class ChatMessage extends Component {
     previewMessageModalVisible: false,
     shareModalVisible: false,
     sharePT: false,
-    showEditInput: false
+    showEditInput: false,
+    showEmojiPicker: false
   };
 
   componentDidMount() {
@@ -122,11 +124,11 @@ class ChatMessage extends Component {
     const { userIsEditing } = this.props;
     if (!userIsEditing) {
       this.setState({ showEditInput: option });
-      this.props.handleEditingAction(option);
+      this.props.handleStateOnParent({ userIsEditing: option });
       document.body.addEventListener('click', this.editMessageClickOutsideHandler);
     } else if (option === false && userIsEditing) {
       this.setState({ showEditInput: option });
-      this.props.handleEditingAction(option);
+      this.props.handleStateOnParent({ userIsEditing: option });
       document.body.removeEventListener('click', this.editMessageClickOutsideHandler);
     } else {
       mssg.success(String.t('message.userEditing'));
@@ -145,7 +147,7 @@ class ChatMessage extends Component {
 
     if (!messageInputIsOpen) {
       this.setState({ showEditInput: false });
-      this.props.handleEditingAction(false);
+      this.props.handleStateOnParent({ userIsEditing: false });
       document.body.removeEventListener('click', this.editMessageClickOutsideHandler);
     }
   };
@@ -227,6 +229,35 @@ class ChatMessage extends Component {
       <span className="message__last-read">{String.t('message.unreadMessageSeparator')}</span>
     </div>
   );
+
+  toogleEmojiState = () => {
+    if (this.state.showEmojiPicker) {
+      document.body.removeEventListener('click', this.emojiMartClickOutsideHandler);
+      this.setState({ showEmojiPicker: false });
+      this.props.handleStateOnParent({ userIsEditing: false });
+    } else {
+      document.body.addEventListener('click', this.emojiMartClickOutsideHandler);
+      this.setState({ showEmojiPicker: true });
+      this.props.handleStateOnParent({ userIsEditing: true });
+    }
+  };
+
+  emojiMartClickOutsideHandler = e => {
+    let emojiWindowIsOpen = false;
+    if (e.path) {
+      e.path.forEach(elem => {
+        if (elem.classList && elem.classList.contains('emoji-mart')) {
+          emojiWindowIsOpen = true;
+        }
+      });
+    }
+
+    if (!emojiWindowIsOpen) {
+      this.setState({ showEmojiPicker: false });
+      this.props.handleStateOnParent({ userIsEditing: false });
+      document.body.removeEventListener('click', this.emojiMartClickOutsideHandler);
+    }
+  };
 
   renderReplies = replies => {
     const { teamMembers, ...parentProps } = this.props;
@@ -322,6 +353,11 @@ class ChatMessage extends Component {
                 {showMetadata && matchUrl && this.renderMedatada(matchUrl)}
               </div>
             </div>
+            {this.state.showEmojiPicker && (
+              <div className="emoji-reaction">
+                <Picker onClick={this.addEmoji} />
+              </div>
+            )}
           </Col>
           {!conversationDisabled && !child && (
             <MessageOptions
@@ -332,6 +368,7 @@ class ChatMessage extends Component {
               onDelete={this.showPreviewMessageModal}
               handleShareProfile={this.handleShareProfile}
               handleEditMessage={this.handleEditMessage}
+              onAddReaction={this.toogleEmojiState}
             />
           )}
         </Row>
@@ -362,7 +399,7 @@ class ChatMessage extends Component {
               messageToEdit={message}
               conversationId={conversationId}
               handleEditMessage={this.handleEditMessage}
-              handleEditingAction={this.props.handleEditingAction}
+              handleEditingAction={this.props.handleStateOnParent}
             />
           )}
 

@@ -180,8 +180,8 @@ class Chat extends React.Component {
     }
   };
 
-  handleEditingAction = option => {
-    this.setState({ userIsEditing: option });
+  handleStateOnParent = obj => {
+    this.setState(obj);
   };
 
   handleScroll = () => {
@@ -253,7 +253,7 @@ class Chat extends React.Component {
           onMessageAction={this.onMessageAction}
           sharedData={message.sharedData}
           showMetadata
-          handleEditingAction={this.handleEditingAction}
+          handleStateOnParent={this.handleStateOnParent}
           userIsEditing={userIsEditing}
         />
       );
