@@ -466,6 +466,7 @@ class Chat extends React.Component {
 
         <SimpleCardContainer className="Chat_container">
           <MessageInput
+            teamId={team.teamId}
             removeFileFromList={this.props.removeFileFromList}
             addBase={this.props.addBase}
             clearFileList={this.props.clearFileList}
