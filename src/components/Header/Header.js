@@ -93,10 +93,12 @@ class Header extends Component {
     this.props
       .updateUser({ preferences }, user.userId)
       .then(() => {
-        if (option) {
+        if (option && option <= 1440) {
           message.success(
             String.t('Header.mutedFor', { option: timeFormat, format: option <= 60 ? 'minutes' : 'hours' })
           );
+        } else if (option > 1440) {
+          message.success(String.t('Header.soundsMuted'));
         } else {
           message.success(String.t('Header.unMuted'));
         }

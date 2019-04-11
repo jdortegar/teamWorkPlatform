@@ -121,7 +121,11 @@ class SurveyReportPage extends Component {
 
     return (
       <div className="SurveyReportPage">
-        <PageHeader pageBreadCrumb={{ routes: [{ title: String.t('SurveyReportPage.title') }] }} settingsIcon />
+        <PageHeader
+          pageBreadCrumb={{ routes: [{ title: String.t('SurveyReportPage.title') }] }}
+          backButton
+          settingsIcon
+        />
         <div className="SurveyReportPage__container">
           <Tabs onChange={this.handleTabClick} className="SurveyReportPage__tabs">
             {map(report, this.renderReport)}

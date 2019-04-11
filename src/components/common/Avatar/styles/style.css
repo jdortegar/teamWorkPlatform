@@ -95,3 +95,7 @@
   top: 50%;
   left: 50%;
 }
+.Subscriber__Tooltip_EMail a {
+  padding: 0px !important;
+  color: #999 !important;
+}

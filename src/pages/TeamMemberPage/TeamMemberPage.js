@@ -36,7 +36,7 @@ const TeamMemberPage = ({ subscriberOrg, subscribers, subscribersPresences, matc
     ...memberArray[0],
     online: _.some(_.values(subscribersPresences[memberArray[0].userId]), { presenceStatus: 'online' })
   };
-  const { userId, created, firstName, lastName, timeZone, email } = member;
+  const { userId, created, firstName, lastName, timeZone } = member;
 
   const memberTeamsArray = Object.keys(member.teams).map(key => teams[key]);
 
@@ -60,7 +60,11 @@ const TeamMemberPage = ({ subscriberOrg, subscribers, subscribersPresences, matc
         <AvatarWrapper size="x-large" user={member} />
         <div className="margin-top-class-b">
           <h1 className="New-team__title habla-user-title">{String.t('fullName', { firstName, lastName })}</h1>
-          <div className="habla-secondary-paragraph">{email}</div>
+          <div className="habla-secondary-paragraph">
+            <a href={`mailto:${member.email}`} style={{ color: '#999' }}>
+              {member.email}
+            </a>
+          </div>
           <div className="habla-secondary-paragraph">
             {String.t('teamMemberPage.memberSince', { date: moment(created).format('LL') })}
           </div>

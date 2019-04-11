@@ -65,7 +65,11 @@ class SurveySettingsPage extends Component {
 
     return (
       <div className="SurveySettingsPage">
-        <PageHeader pageBreadCrumb={{ routes: [{ title: String.t('SurveySettingsPage.title') }] }} settingsIcon />
+        <PageHeader
+          pageBreadCrumb={{ routes: [{ title: String.t('SurveySettingsPage.title') }] }}
+          settingsIcon
+          backButton
+        />
         <Form layout="vertical" onSubmit={this.handleSubmit}>
           <div className="SurveySettingsPage__fields">
             <Form.Item label={String.t('SurveySettingsPage.startDateLabel')}>

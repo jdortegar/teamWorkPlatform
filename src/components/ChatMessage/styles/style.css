@@ -4,7 +4,10 @@
   padding: 10px 10px 0;
 }
 .message__main-container.grouped {
-  padding: 3px 10px 0;
+  padding: 1.5px 10px 1.5px;
+}
+.message__main-container:hover {
+  background: #fafafa;
 }
 .message__main-container:hover .message__options {
   display: block;

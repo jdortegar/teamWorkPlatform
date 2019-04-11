@@ -99,7 +99,9 @@ class AvatarWrapper extends React.Component {
                 .format('HH:mm')}{' '}
               {String.t('sideBar.localTime')}
             </span>
-            <span className="Subscriber__Tooltip_EMail habla-soft-grey">{user.email}</span>
+            <span className="Subscriber__Tooltip_EMail habla-soft-grey">
+              <a href={`mailto:${user.email}`}>{user.email}</a>
+            </span>
           </div>
         </div>
 

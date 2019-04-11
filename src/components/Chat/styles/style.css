@@ -220,6 +220,10 @@
   border-bottom: 7px solid transparent;
 }
 
+.DirectMessages_Page .team__messages .message__Bubble.ownMessage.withArrow::before {
+  border-right: 10px solid #f1f1ee;
+}
+
 .team__messages .message__Bubble.withArrow.right::before {
   border-right: 10px solid #f1f1f1;
 }
