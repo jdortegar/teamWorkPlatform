@@ -33,7 +33,7 @@ const mapStateToProps = (state, props) => {
     orgId,
     conversation: getConversation(state, conversationId),
     team: getTeam(state, teamId),
-    user: getCurrentUser(state),
+    currentUser: getCurrentUser(state),
     teamMembers: getTeamMembersOfTeamId(state, teamId),
     users: getUserByUserId(state),
     usersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),

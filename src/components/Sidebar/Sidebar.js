@@ -42,7 +42,6 @@ const propTypes = {
   readMessagesByConversationId: PropTypes.object,
   conversationIdsByTeam: PropTypes.object,
   conversations: PropTypes.object,
-  personalConversations: PropTypes.object,
   messagesByConversation: PropTypes.object.isRequired,
   readMessage: PropTypes.func.isRequired,
   fetchTeamMembers: PropTypes.func.isRequired
@@ -59,8 +58,7 @@ const defaultProps = {
   callingData: {},
   readMessagesByConversationId: {},
   conversationIdsByTeam: {},
-  conversations: {},
-  personalConversations: {}
+  conversations: {}
 };
 
 const ROUTERS_TO_HIDE_SIDEBAR = ['/app/userDetails'];
@@ -295,7 +293,7 @@ class Sidebar extends Component {
   };
 
   renderTeams(teamsActive) {
-    const { user, history, readMessagesByConversationId, conversationIdsByTeam } = this.props;
+    const { user, history } = this.props;
     if (teamsActive.length === 0) {
       return null;
     }
@@ -314,12 +312,13 @@ class Sidebar extends Component {
         return null;
       }
       const isTeamOpen = _.includes(this.state.teamsOpenKeys, team.teamId);
-      let unreadMessagesCount = 0;
-      const [conversationId] = conversationIdsByTeam[team.teamId] || [];
-      if (conversationId) {
-        const readMessages = readMessagesByConversationId[conversationId] || {};
-        unreadMessagesCount = readMessages.messageCount - (readMessages.lastReadMessageCount || 0);
-      }
+      const unreadMessagesCount = 0;
+      // TODO: implement unread messages
+      // const [conversationId] = conversationIdsByTeam[team.teamId] || [];
+      // if (conversationId) {
+      //   const readMessages = readMessagesByConversationId[conversationId] || {};
+      //   unreadMessagesCount = readMessages.messageCount - (readMessages.lastReadMessageCount || 0);
+      // }
       const teamActive = classNames({ Team_active: history.location.pathname.indexOf(team.teamId) > 1 });
 
       const text = (
@@ -541,7 +540,6 @@ class Sidebar extends Component {
           renderAvatar={renderAvatar}
           readMessagesByConversationId={this.props.readMessagesByConversationId}
           conversations={this.props.conversations}
-          personalConversations={this.props.personalConversations}
           messagesByConversation={this.props.messagesByConversation}
           readMessage={this.props.readMessage}
         />

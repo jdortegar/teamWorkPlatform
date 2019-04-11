@@ -18,7 +18,7 @@ const propTypes = {
     location: PropTypes.object
   }).isRequired,
   messagesByConversation: PropTypes.object.isRequired,
-  readMessagesByConversationId: PropTypes.object,
+  // readMessagesByConversationId: PropTypes.object,
   readMessage: PropTypes.func.isRequired,
   subscribers: PropTypes.array,
   subscribersPresences: PropTypes.object,
@@ -28,8 +28,8 @@ const propTypes = {
 const defaultProps = {
   conversations: {},
   subscribers: [],
-  subscribersPresences: {},
-  readMessagesByConversationId: {}
+  subscribersPresences: {}
+  // readMessagesByConversationId: {}
 };
 
 class DirectMessages extends React.Component {
@@ -90,15 +90,16 @@ class DirectMessages extends React.Component {
 
   renderOrgMembers = () => {
     const { orgUsersFiltered } = this.state;
-    const { conversations, personalConversations, user, readMessagesByConversationId } = this.props;
+    const { conversations } = this.props;
+    // const { conversations, user, readMessagesByConversationId } = this.props;
 
     let orgUserOrdered = orgUsersFiltered.sort(sortByName);
 
     orgUserOrdered = orgUserOrdered.length === 0 && orgUserOrdered[0] === undefined ? [] : primaryAtTop(orgUserOrdered);
 
     return orgUserOrdered.map(userEl => {
-      let unreadMessages = 0;
-      let conversationId = personalConversations[userEl.userId];
+      const unreadMessages = 0;
+      const conversationId = conversations[userEl.userId];
       // const conversation = Object.values(conversations).find(conversationEl => {
       //   if (conversationEl.teamId) return null;
       //   return _.xor(conversationEl.members, [user.userId, userEl.userId]).length === 0;
