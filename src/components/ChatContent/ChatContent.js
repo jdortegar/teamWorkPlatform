@@ -6,12 +6,12 @@ import FileDrop from 'react-file-drop';
 import { Chat } from 'src/containers';
 
 const propTypes = {
+  conversationId: PropTypes.string.isRequired,
   showPageHeader: PropTypes.bool,
   showTeamMembers: PropTypes.bool,
   showChat: PropTypes.func,
   menuOptions: PropTypes.array,
-  teamId: PropTypes.string,
-  personalConversation: PropTypes.object
+  teamId: PropTypes.string
 };
 
 const defaultProps = {
@@ -19,8 +19,7 @@ const defaultProps = {
   showTeamMembers: false,
   showChat: null,
   menuOptions: [],
-  teamId: null,
-  personalConversation: {}
+  teamId: null
 };
 
 const { Content } = Layout;
@@ -84,7 +83,7 @@ class ChatContent extends Component {
         <Content style={{ background: '#fff', margin: 0, display: 'flex', flex: 1 }}>
           <Chat
             teamId={this.props.teamId}
-            personalConversation={this.props.personalConversation}
+            conversationId={this.props.conversationId}
             files={this.state.fileList}
             updateFileList={this.updateFileList}
             removeFileFromList={this.removeFileFromList}

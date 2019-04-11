@@ -90,7 +90,7 @@ class DirectMessages extends React.Component {
 
   renderOrgMembers = () => {
     const { orgUsersFiltered } = this.state;
-    const { conversations, user, readMessagesByConversationId } = this.props;
+    const { conversations, personalConversations, user, readMessagesByConversationId } = this.props;
 
     let orgUserOrdered = orgUsersFiltered.sort(sortByName);
 
@@ -98,18 +98,18 @@ class DirectMessages extends React.Component {
 
     return orgUserOrdered.map(userEl => {
       let unreadMessages = 0;
-      let conversationId = null;
-      const conversation = Object.values(conversations).find(conversationEl => {
-        if (conversationEl.teamId) return null;
-        return _.xor(conversationEl.members, [user.userId, userEl.userId]).length === 0;
-      });
+      let conversationId = personalConversations[userEl.userId];
+      // const conversation = Object.values(conversations).find(conversationEl => {
+      //   if (conversationEl.teamId) return null;
+      //   return _.xor(conversationEl.members, [user.userId, userEl.userId]).length === 0;
+      // });
 
-      if (conversation) {
-        // eslint-disable-next-line prefer-destructuring
-        conversationId = conversation.conversationId;
-        const readMessages = readMessagesByConversationId[conversationId] || {};
-        unreadMessages = readMessages.messageCount - (readMessages.lastReadMessageCount || 0);
-      }
+      // if (conversation) {
+      //   // eslint-disable-next-line prefer-destructuring
+      //   conversationId = conversation.conversationId;
+      //   const readMessages = readMessagesByConversationId[conversationId] || {};
+      //   unreadMessages = readMessages.messageCount - (readMessages.lastReadMessageCount || 0);
+      // }
 
       const userActive = classNames({ User_active: this.props.history.location.pathname.indexOf(userEl.userId) > 1 });
 

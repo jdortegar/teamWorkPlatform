@@ -27,7 +27,7 @@ const propTypes = {
   updateFileList: PropTypes.func.isRequired,
   fetchConversations: PropTypes.func.isRequired,
   conversation: PropTypes.shape({
-    conversationId: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
         messageId: PropTypes.string.isRequired,
@@ -54,7 +54,6 @@ const propTypes = {
   showTeamMembers: PropTypes.bool,
   showChat: PropTypes.func,
   menuOptions: PropTypes.array,
-  personalConversation: PropTypes.object,
   lastReadTimestamp: PropTypes.string
 };
 
@@ -66,7 +65,6 @@ const defaultProps = {
   showTeamMembers: false,
   showChat: null,
   menuOptions: [],
-  personalConversation: {},
   team: {},
   teamMembers: [],
   lastReadTimestamp: null
@@ -93,152 +91,153 @@ class Chat extends React.Component {
   }
 
   componentDidMount() {
-    const { team, personalConversation } = this.props;
+    const { conversation, users, usersPresences } = this.props;
+
+    console.warn('MOUNTING CHAT', { conversation });
+
+    const members = conversation.members.map(memberId => ({
+      ...users[memberId],
+      online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
+    }));
+    this.setState({ teamMembersLoaded: true, conversationsLoaded: true, members, membersFiltered: members });
 
     // If is team conversation
-    if (!_.isEmpty(team)) {
-      this.props.fetchTeamMembers(team.teamId).then(() => {
-        // Get members data form Users
-        const { teamMembers, users, usersPresences } = this.props;
-        const members = teamMembers.map(memberId => {
-          const member = users[memberId];
-          return {
-            ...member,
-            online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
-          };
-        });
+    // if (!_.isEmpty(team)) {
+    //   this.props.fetchTeamMembers(team.teamId).then(() => {
+    //     // Get members data form Users
+    //     const { teamMembers, users, usersPresences } = this.props;
+    //     const members = teamMembers.map(memberId => {
+    //       const member = users[memberId];
+    //       return {
+    //         ...member,
+    //         online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
+    //       };
+    //     });
 
-        this.setState({ teamMembersLoaded: true, members, membersFiltered: members });
-      });
+    //     this.setState({ teamMembersLoaded: true, members, membersFiltered: members });
+    //   });
 
-      this.props.fetchConversations(team.teamId).then(response => {
-        if (!_.isEmpty(response.data.conversations)) {
-          const { conversationId } = response.data.conversations[0];
+    //   this.props
+    //     .fetchMessages(conversation.id)
+    //     .then(() => this.setState({ conversationsLoaded: true }))
+    //     .then(() => {
+    //       this.scrollToBottom();
+    //       this.setScrollEvent();
+    //     });
+    // }
 
-          this.props
-            .fetchMessages(conversationId)
-            .then(() => this.setState({ conversationsLoaded: true }))
-            .then(() => {
-              this.scrollToBottom();
-              this.setScrollEvent();
-            });
-        }
-        if (response.data === 'STALE') {
-          this.setState({ conversationsLoaded: true });
-        }
-      });
-    }
+    // // If is personal conversation
+    // if (!_.isEmpty(personalConversation)) {
+    //   // Get members data form Users
+    //   const { users, usersPresences } = this.props;
+    //   const members = personalConversation.members.map(memberId => {
+    //     const member = users[memberId];
+    //     return {
+    //       ...member,
+    //       online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
+    //     };
+    //   });
 
-    // If is personal conversation
-    if (!_.isEmpty(personalConversation)) {
-      // Get members data form Users
-      const { users, usersPresences } = this.props;
-      const members = personalConversation.members.map(memberId => {
-        const member = users[memberId];
-        return {
-          ...member,
-          online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
-        };
-      });
+    //   this.setState({ teamMembersLoaded: true, members, membersFiltered: members });
 
-      this.setState({ teamMembersLoaded: true, members, membersFiltered: members });
+    //   const { conversationId } = personalConversation;
 
-      const { conversationId } = personalConversation;
-
-      this.props
-        .fetchMessages(conversationId)
-        .then(() => this.setState({ conversationsLoaded: true }))
-        .then(() => {
-          this.scrollToBottom();
-          this.setScrollEvent();
-        });
-    }
+    //   this.props
+    //     .fetchMessages(conversationId)
+    //     .then(() => this.setState({ conversationsLoaded: true }))
+    //     .then(() => {
+    //       this.scrollToBottom();
+    //       this.setScrollEvent();
+    //     });
+    // }
   }
 
   componentWillReceiveProps(nextProps) {
-    const nextTeamId = nextProps.team.teamId;
+    const { conversation } = nextProps;
+    console.warn('RECEIVING PROPS CHAT', { conversation });
+    // const nextTeamId = nextProps.team.teamId;
 
-    if (nextTeamId) {
-      const updateTeamMembers = () => {
-        const { teamMembers, users, usersPresences } = nextProps;
-        const members = teamMembers.map(memberId => {
-          const member = users[memberId];
-          return {
-            ...member,
-            online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
-          };
-        });
+    // if (nextTeamId) {
+    //   const updateTeamMembers = () => {
+    //     const { teamMembers, users, usersPresences } = nextProps;
+    //     const members = teamMembers.map(memberId => {
+    //       const member = users[memberId];
+    //       return {
+    //         ...member,
+    //         online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
+    //       };
+    //     });
 
-        this.setState({
-          teamMembersLoaded: true,
-          members,
-          membersFiltered: members
-        });
-      };
+    //     this.setState({
+    //       teamMembersLoaded: true,
+    //       members,
+    //       membersFiltered: members
+    //     });
+    //   };
 
-      if (
-        !_.isEqual(nextProps.teamMembers, this.props.teamMembers) ||
-        !_.isEqual(nextProps.users, this.props.users) ||
-        !_.isEqual(nextProps.teamMembers, _.map(this.state.members, 'userId'))
-      ) {
-        updateTeamMembers();
-      }
+    //   if (
+    //     !_.isEqual(nextProps.teamMembers, this.props.teamMembers) ||
+    //     !_.isEqual(nextProps.users, this.props.users) ||
+    //     !_.isEqual(nextProps.teamMembers, _.map(this.state.members, 'userId'))
+    //   ) {
+    //     updateTeamMembers();
+    //   }
 
-      if (this.props.team.teamId !== nextTeamId) {
-        this.setState({ teamMembersLoaded: false, conversationsLoaded: false });
-        this.props.fetchTeamMembers(nextTeamId).then(updateTeamMembers);
+    //   if (this.props.team.teamId !== nextTeamId) {
+    //     this.setState({ teamMembersLoaded: false, conversationsLoaded: false });
+    //     this.props.fetchTeamMembers(nextTeamId).then(updateTeamMembers);
 
-        this.props.fetchConversations(nextTeamId).then(response => {
-          if (!_.isEmpty(response.data.conversations)) {
-            const { conversationId } = response.data.conversations[0];
-            this.props
-              .fetchMessages(conversationId)
-              .then(() => this.setState({ conversationsLoaded: true }))
-              .then(() => {
-                this.scrollToBottom();
-                this.setScrollEvent();
-              });
-          }
-          if (response.data === 'STALE') {
-            this.setState({ conversationsLoaded: true });
-          }
-        });
-      }
-    }
+    //     this.props.fetchConversations(nextTeamId).then(response => {
+    //       if (!_.isEmpty(response.data.conversations)) {
+    //         const { conversationId } = response.data.conversations[0];
+    //         this.props
+    //           .fetchMessages(conversationId)
+    //           .then(() => this.setState({ conversationsLoaded: true }))
+    //           .then(() => {
+    //             this.scrollToBottom();
+    //             this.setScrollEvent();
+    //           });
+    //       }
+    //       if (response.data === 'STALE') {
+    //         this.setState({ conversationsLoaded: true });
+    //       }
+    //     });
+    //   }
+    // }
 
-    const nextPersonalConversation = nextProps.personalConversation;
+    // const nextPersonalConversation = nextProps.personalConversation;
 
-    if (!_.isEmpty(nextPersonalConversation) && this.props.personalConversation) {
-      // Get members data form Users
-      if (
-        !_.isEqual(nextProps.users, this.props.users) ||
-        !_.isEqual(nextPersonalConversation.members, this.state.members)
-      ) {
-        const { users, usersPresences } = nextProps;
+    // if (!_.isEmpty(nextPersonalConversation) && this.props.personalConversation) {
+    //   // Get members data form Users
+    //   if (
+    //     !_.isEqual(nextProps.users, this.props.users) ||
+    //     !_.isEqual(nextPersonalConversation.members, this.state.members)
+    //   ) {
+    //     const { users, usersPresences } = nextProps;
 
-        const members = nextPersonalConversation.members.map(memberId => {
-          const member = users[memberId];
-          return {
-            ...member,
-            online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
-          };
-        });
+    //     const members = nextPersonalConversation.members.map(memberId => {
+    //       const member = users[memberId];
+    //       return {
+    //         ...member,
+    //         online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
+    //       };
+    //     });
 
-        this.setState({ teamMembersLoaded: true, members, membersFiltered: members });
-      }
+    //     this.setState({ teamMembersLoaded: true, members, membersFiltered: members });
+    //   }
 
-      if (nextPersonalConversation.conversationId !== this.props.personalConversation.conversationId) {
-        const { conversationId } = nextPersonalConversation;
+    //   if (nextPersonalConversation.conversationId !== this.props.personalConversation.conversationId) {
+    //     const { conversationId } = nextPersonalConversation;
 
-        this.props
-          .fetchMessages(conversationId)
-          .then(() => this.setState({ conversationsLoaded: true }))
-          .then(() => {
-            this.scrollToBottom();
-            this.setScrollEvent();
-          });
-      }
-    }
+    //     this.props
+    //       .fetchMessages(conversationId)
+    //       .then(() => this.setState({ conversationsLoaded: true }))
+    //       .then(() => {
+    //         this.scrollToBottom();
+    //         this.setScrollEvent();
+    //       });
+    //   }
+    // }
   }
 
   componentDidUpdate(prevProps) {
@@ -325,10 +324,9 @@ class Chat extends React.Component {
     if (!messagesContainer) return;
 
     const { conversation } = this.props;
-    const { conversationId } = conversation;
     const lastMessage = _.last(conversation.messages) || {};
     if (messagesContainer.scrollHeight === messagesContainer.scrollTop + messagesContainer.clientHeight) {
-      this.props.readMessage(lastMessage.messageId, conversationId);
+      this.props.readMessage(lastMessage.messageId, conversation.id);
       messagesContainer.removeEventListener('scroll', this.handleScroll);
     }
   };
@@ -349,7 +347,7 @@ class Chat extends React.Component {
   };
 
   renderMessages() {
-    const { conversation, user, team, personalConversation, lastReadTimestamp } = this.props;
+    const { conversation, user, team, lastReadTimestamp } = this.props;
     const { membersFiltered, lastSubmittedMessage, userIsEditing } = this.state;
 
     if (!membersFiltered) return null;
@@ -380,11 +378,10 @@ class Chat extends React.Component {
         <ChatMessage
           key={message.messageId}
           message={message}
-          conversationId={conversation.conversationId}
-          personalConversation={personalConversation}
+          teamId={team.teamId}
+          conversationId={conversation.id}
           currentPath={currentPath}
           teamMembers={membersFiltered}
-          teamId={team.teamId}
           lastRead={lastRead}
           grouped={grouped}
           scrollToBottom={this.scrollToBottom}
@@ -467,6 +464,7 @@ class Chat extends React.Component {
         <SimpleCardContainer className="Chat_container">
           <MessageInput
             teamId={team.teamId}
+            conversationId={conversation.id}
             removeFileFromList={this.props.removeFileFromList}
             addBase={this.props.addBase}
             clearFileList={this.props.clearFileList}

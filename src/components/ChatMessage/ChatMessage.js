@@ -25,7 +25,6 @@ const propTypes = {
   grouped: PropTypes.bool,
   currentPath: PropTypes.string,
   teamMembers: PropTypes.array,
-  personalConversation: PropTypes.object,
   teamId: PropTypes.string,
   lastRead: PropTypes.bool,
   fetchMetadata: PropTypes.func,
@@ -45,7 +44,6 @@ const propTypes = {
 
 const defaultProps = {
   sender: {},
-  personalConversation: {},
   sharedProfile: null,
   bookmarked: false,
   ownMessage: false,
@@ -261,7 +259,6 @@ class ChatMessage extends Component {
     const {
       sender,
       sharedProfile,
-      personalConversation,
       ownMessage,
       scrollToBottom,
       grouped,
@@ -313,7 +310,6 @@ class ChatMessage extends Component {
                       attachments={attachments}
                       conversationId={conversationId}
                       onLoadImage={scrollToBottom}
-                      personalConversation={personalConversation}
                     />
                   </div>
                   {sharedProfile && this.renderUserProfile(sharedProfile)}

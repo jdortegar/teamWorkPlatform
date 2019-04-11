@@ -7,7 +7,9 @@ import {
   getCurrentSubscriberOrgId,
   getCurrentPersonalConversation,
   getConversationsById,
-  getMessagesByConversation
+  getMessagesByConversation,
+  getPersonalConversation,
+  areConversationsLoaded
 } from 'src/selectors';
 import { createConversation, makePersonalCall, readMessage } from 'src/actions';
 import { DirectMessagesPage } from 'src/pages';
@@ -23,6 +25,8 @@ const mapStateToProps = (state, props) => {
     currentPersonalConversation: getCurrentPersonalConversation(state),
     userId,
     conversations: getConversationsById(state),
+    conversation: getPersonalConversation(state, userId),
+    conversationsLoaded: areConversationsLoaded(state),
     messagesByConversation: getMessagesByConversation(state)
   };
 };

@@ -15,6 +15,7 @@ import {
   getStatusCall,
   getPersonalConversationUnreadMessages,
   getConversationIdsByTeam,
+  getConversationIdsByMember,
   getReadMessagesByConversationId,
   getCurrentPersonalConversation,
   getConversationsById,
@@ -44,6 +45,7 @@ const mapStateToProps = (state, props) => {
     currentPersonalConversation: getCurrentPersonalConversation(state),
     readMessagesByConversationId: getReadMessagesByConversationId(state),
     conversations: getConversationsById(state),
+    personalConversations: getConversationIdsByMember(state),
     messagesByConversation: getMessagesByConversation(state)
   };
 };

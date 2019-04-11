@@ -1,9 +1,9 @@
 import { buildApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
-export const CONVERSATION_DIRECT_RECEIVE = 'conversations/direct/receive';
+export const OLD_CONVERSATION_DIRECT_RECEIVE = 'conversations/direct/receive';
 
-export const createConversation = conversationData => dispatch => {
+export const oldCreateConversation = conversationData => dispatch => {
   const requestUrl = buildApiUrl(`conversations`, 'v2');
 
   const thunk = dispatch(
@@ -21,7 +21,7 @@ export const createConversation = conversationData => dispatch => {
     if (response.data && response.data !== RESPONSE_STALE) {
       const { data } = response;
       dispatch({
-        type: CONVERSATION_DIRECT_RECEIVE,
+        type: OLD_CONVERSATION_DIRECT_RECEIVE,
         payload: { conversation: data }
       });
     }

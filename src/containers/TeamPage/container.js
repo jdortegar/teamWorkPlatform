@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getTeam, getCurrentUser, getUserRoles, getTeamFilesLoading } from 'src/selectors';
+import { getTeam, getTeamConversation, getCurrentUser, getUserRoles, getTeamFilesLoading } from 'src/selectors';
 import { fetchTeamFiles, makeTeamCall } from 'src/actions';
 import { TeamPage } from 'src/pages';
 
@@ -8,6 +8,7 @@ const mapStateToProps = (state, props) => {
   return {
     teamId,
     team: getTeam(state, teamId),
+    conversation: getTeamConversation(state, teamId),
     user: getCurrentUser(state),
     userRoles: getUserRoles(state),
     loadingFiles: getTeamFilesLoading(state, teamId)
