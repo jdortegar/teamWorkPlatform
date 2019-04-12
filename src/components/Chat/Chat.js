@@ -23,7 +23,6 @@ const propTypes = {
   isDraggingOver: PropTypes.bool.isRequired,
   clearFileList: PropTypes.func.isRequired,
   updateFileList: PropTypes.func.isRequired,
-  fetchConversations: PropTypes.func.isRequired,
   conversation: PropTypes.shape({
     id: PropTypes.string.isRequired,
     messages: PropTypes.arrayOf(
@@ -43,7 +42,7 @@ const propTypes = {
       })
     )
   }),
-  fetchMessages: PropTypes.func.isRequired,
+  // fetchMessages: PropTypes.func.isRequired,
   saveBookmark: PropTypes.func.isRequired,
   deleteMessage: PropTypes.func.isRequired,
   membersTyping: PropTypes.object,
@@ -79,7 +78,8 @@ class Chat extends React.Component {
   };
 
   componentDidMount() {
-    this.updateMembers(this.props);
+    const { conversation, users, usersPresences } = this.props;
+    this.updateMembers({ conversation, users, usersPresences });
 
     //  this.props
     //    .fetchMessages(conversation.id)
@@ -91,8 +91,9 @@ class Chat extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.conversation.id !== nextProps.conversation.id) {
-      this.updateMembers(nextProps);
+    const { conversation, users, usersPresences } = nextProps;
+    if (this.props.conversation.id !== conversation.id) {
+      this.updateMembers({ conversation, users, usersPresences });
 
       //  this.props
       //    .fetchMessages(conversationId)

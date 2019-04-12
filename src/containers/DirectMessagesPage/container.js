@@ -1,13 +1,9 @@
 import { connect } from 'react-redux';
 import {
-  getCurrentSubscriberOrg,
   getCurrentUser,
   getUserByUserId,
   getPresencesOfSubscribersOfOrgId,
   getCurrentSubscriberOrgId,
-  getCurrentPersonalConversation,
-  getConversationsById,
-  getMessagesByConversation,
   getPersonalConversation,
   areConversationsLoaded
 } from 'src/selectors';
@@ -18,16 +14,12 @@ const mapStateToProps = (state, props) => {
   const { userId } = props.match.params;
   const orgId = getCurrentSubscriberOrgId(state);
   return {
-    org: getCurrentSubscriberOrg(state),
-    user: getCurrentUser(state),
+    userId,
+    currentUser: getCurrentUser(state),
     users: getUserByUserId(state),
     usersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
-    currentPersonalConversation: getCurrentPersonalConversation(state),
-    userId,
-    conversations: getConversationsById(state),
     conversation: getPersonalConversation(state, userId),
-    conversationsLoaded: areConversationsLoaded(state),
-    messagesByConversation: getMessagesByConversation(state)
+    conversationsLoaded: areConversationsLoaded(state)
   };
 };
 

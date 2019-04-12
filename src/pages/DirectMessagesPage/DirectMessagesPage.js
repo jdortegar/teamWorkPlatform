@@ -4,12 +4,10 @@ import _ from 'lodash';
 
 import { Spinner, ChatContent, PageHeader, PersonalCallButton } from 'src/components';
 import { AvatarWrapper } from 'src/containers';
-import { message } from 'antd';
 import './styles/style.css';
 
 const propTypes = {
-  org: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
   usersPresences: PropTypes.object.isRequired,
   createConversation: PropTypes.func.isRequired,
@@ -26,91 +24,55 @@ const defaultProps = {
 };
 
 class DirectMessagesPage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      teamMembersLoaded: false,
-      orgUsers: null
-    };
-  }
+  state = { orgUsers: null };
 
   componentDidMount() {
-    const { org, user, users, usersPresences, userId, conversationsLoaded, conversation } = this.props;
+    const { currentUser, users, usersPresences, userId, conversationsLoaded, conversation } = this.props;
 
+    this.updateOrgUsers(users, usersPresences, currentUser);
+
+    if (conversationsLoaded && !conversation) {
+      this.createConversation(currentUser, users[userId]);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { currentUser, users, usersPresences, userId, conversationsLoaded, conversation } = nextProps;
+
+    if (usersPresences !== this.props.usersPresences || users !== this.props.users || userId !== this.props.userId) {
+      this.updateOrgUsers(users, usersPresences, currentUser);
+    }
+
+    if (userId !== this.props.userId && conversationsLoaded && !conversation) {
+      this.createConversation(currentUser, users[userId]);
+    }
+  }
+
+  updateOrgUsers = (users, usersPresences, currentUser) => {
     const orgUsers = [];
 
-    Object.values(users).forEach(userEl => {
-      if (user.userId === userEl.userId) return;
+    Object.values(users).forEach(user => {
+      if (currentUser.userId === user.userId) return;
       orgUsers.push({
-        ...userEl,
-        online: _.some(_.values(usersPresences[userEl.userId]), { presenceStatus: 'online' })
+        ...user,
+        online: _.some(_.values(usersPresences[user.userId]), { presenceStatus: 'online' })
       });
     });
 
     this.setState({ orgUsers });
+  };
 
-    // const valuesToSend = {
-    //   orgId: org.subscriberOrgId,
-    //   members: [user.userId, userId]
-    // };
-
-    if (conversationsLoaded && conversation) {
-      this.setState({ teamMembersLoaded: true });
-    }
-
-    // this.props
-    //   .createConversation(valuesToSend)
-    //   .then(() => {
-    //     this.setState({ teamMembersLoaded: true });
-    //   })
-    //   .catch(error => {
-    //     message.error(error.message);
-    //   });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { users, usersPresences, userId, org, user, conversationsLoaded, conversation } = nextProps;
-    // Update org Users if change some property
-    if (usersPresences !== this.props.usersPresences || users !== this.props.users || userId !== this.props.userId) {
-      const orgUsers = [];
-
-      Object.values(users).forEach(userEl => {
-        if (this.props.user.userId === userEl.userId) return;
-        orgUsers.push({
-          ...userEl,
-          online: _.some(_.values(usersPresences[userEl.userId]), { presenceStatus: 'online' })
-        });
-      });
-
-      this.setState({
-        orgUsers
-      });
-    }
-
-    // Update conversation
-    if (userId !== this.props.userId) {
-      if (conversationsLoaded && conversation) {
-        this.setState({ teamMembersLoaded: true });
-      }
-      // const valuesToSend = {
-      //   orgId: org.subscriberOrgId,
-      //   members: [user.userId, userId]
-      // };
-      // this.props
-      //   .createConversation(valuesToSend)
-      //   .then(() => {
-      //     this.setState({ teamMembersLoaded: true });
-      //   })
-      //   .catch(error => {
-      //     message.error(error.message);
-      //   });
-    }
-  }
+  createConversation = (currentUser, member) => {
+    this.props.createConversation({
+      members: [currentUser.userId, member.userId],
+      title: `${currentUser.firstName}, ${member.firstName}`,
+      description: `Conversation between ${currentUser.firstName} and ${member.firstName}`
+    });
+  };
 
   render() {
-    const { conversation, user, userId } = this.props;
-    const { teamMembersLoaded, orgUsers } = this.state;
+    const { conversation, currentUser, userId } = this.props;
+    const { orgUsers } = this.state;
 
     if (!conversation || !orgUsers) {
       return <Spinner />;
@@ -127,7 +89,7 @@ class DirectMessagesPage extends Component {
               <div>
                 {currentConversationUser.online && currentConversationUser.presenceStatus !== 'busy' && (
                   <PersonalCallButton
-                    caller={user.userId}
+                    caller={currentUser.userId}
                     called={currentConversationUser}
                     makePersonalCall={this.props.makePersonalCall}
                   />
@@ -144,16 +106,12 @@ class DirectMessagesPage extends Component {
           )}
         </PageHeader>
         <div className="homePage__chat-container">
-          {teamMembersLoaded ? (
-            <ChatContent
-              conversationId={conversation.id}
-              showTeamMembers={false}
-              showPageHeader={false}
-              showChat={this.showChat}
-            />
-          ) : (
-            <Spinner />
-          )}
+          <ChatContent
+            conversationId={conversation.id}
+            showTeamMembers={false}
+            showPageHeader={false}
+            showChat={this.showChat}
+          />
         </div>
       </div>
     );

@@ -12,23 +12,23 @@ import { AvatarWrapper } from 'src/containers';
 import './styles/style.css';
 
 const propTypes = {
-  conversations: PropTypes.object,
+  subscribers: PropTypes.array,
+  subscribersPresences: PropTypes.object,
+  currentUser: PropTypes.object.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
     location: PropTypes.object
-  }).isRequired,
-  messagesByConversation: PropTypes.object.isRequired,
+  }).isRequired
+  // conversations: PropTypes.object,
+  // messagesByConversation: PropTypes.object.isRequired,
   // readMessagesByConversationId: PropTypes.object,
-  readMessage: PropTypes.func.isRequired,
-  subscribers: PropTypes.array,
-  subscribersPresences: PropTypes.object,
-  user: PropTypes.object.isRequired
+  // readMessage: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
-  conversations: {},
   subscribers: [],
   subscribersPresences: {}
+  // conversations: {},
   // readMessagesByConversationId: {}
 };
 
@@ -36,15 +36,15 @@ class DirectMessages extends React.Component {
   constructor(props) {
     super(props);
 
-    const { user, subscribers, subscribersPresences } = this.props;
+    const { currentUser, subscribers, subscribersPresences } = this.props;
     const orgUsers = [];
 
-    Object.values(subscribers).forEach(userEl => {
-      if (user.userId === userEl.userId) return;
-      if (subscribers.userId === userEl.userId) return;
+    Object.values(subscribers).forEach(user => {
+      if (currentUser.userId === user.userId) return;
+      if (subscribers.userId === user.userId) return;
       orgUsers.push({
-        ...userEl,
-        online: _.some(_.values(subscribersPresences[userEl.userId]), { presenceStatus: 'online' })
+        ...user,
+        online: _.some(_.values(subscribersPresences[user.userId]), { presenceStatus: 'online' })
       });
     });
 
@@ -60,11 +60,11 @@ class DirectMessages extends React.Component {
     if (subscribersPresences !== this.props.subscribersPresences || subscribers !== this.props.subscribers) {
       const orgUsers = [];
 
-      Object.values(subscribers).forEach(userEl => {
-        if (this.props.user.userId === userEl.userId) return;
+      Object.values(subscribers).forEach(user => {
+        if (this.props.currentUser.userId === user.userId) return;
         orgUsers.push({
-          ...userEl,
-          online: _.some(_.values(subscribersPresences[userEl.userId]), { presenceStatus: 'online' })
+          ...user,
+          online: _.some(_.values(subscribersPresences[user.userId]), { presenceStatus: 'online' })
         });
       });
 
@@ -75,31 +75,17 @@ class DirectMessages extends React.Component {
     }
   }
 
-  handleConversation = (userId, conversationId, unreadMessages) => {
-    const { messagesByConversation } = this.props;
-
-    this.props.history.push(`/app/chat/${userId}`);
-    if (unreadMessages > 0) {
-      const lastMessage = messagesByConversation[conversationId]
-        ? _.last(messagesByConversation[conversationId].messagesList)
-        : {};
-
-      this.props.readMessage(lastMessage.messageId, conversationId);
-    }
-  };
-
   renderOrgMembers = () => {
     const { orgUsersFiltered } = this.state;
-    const { conversations } = this.props;
-    // const { conversations, user, readMessagesByConversationId } = this.props;
 
     let orgUserOrdered = orgUsersFiltered.sort(sortByName);
 
     orgUserOrdered = orgUserOrdered.length === 0 && orgUserOrdered[0] === undefined ? [] : primaryAtTop(orgUserOrdered);
 
-    return orgUserOrdered.map(userEl => {
+    return orgUserOrdered.map(user => {
       const unreadMessages = 0;
-      const conversationId = conversations[userEl.userId];
+      // TODO: implement unread messages
+      // const conversationId = conversations[userEl.userId];
       // const conversation = Object.values(conversations).find(conversationEl => {
       //   if (conversationEl.teamId) return null;
       //   return _.xor(conversationEl.members, [user.userId, userEl.userId]).length === 0;
@@ -112,19 +98,16 @@ class DirectMessages extends React.Component {
       //   unreadMessages = readMessages.messageCount - (readMessages.lastReadMessageCount || 0);
       // }
 
-      const userActive = classNames({ User_active: this.props.history.location.pathname.indexOf(userEl.userId) > 1 });
+      const userActive = classNames({ User_active: this.props.history.location.pathname.indexOf(user.userId) > 1 });
 
       return (
-        <Menu.Item key={userEl.userId} className={userActive}>
+        <Menu.Item key={user.userId} className={userActive}>
           <div className="habla-left-navigation-team-list">
             <div className="habla-left-navigation-team-list-item">
               <div className="habla-left-navigation-team-list-subitem">
-                <AvatarWrapper size="default" user={userEl} orgLength={orgUserOrdered.length} />
-                <div
-                  className="Link__Wrapper"
-                  onClick={() => this.handleConversation(userEl.userId, conversationId, unreadMessages)}
-                >
-                  <span className="habla-left-navigation-item-label">{userEl.fullName}</span>
+                <AvatarWrapper size="default" user={user} orgLength={orgUserOrdered.length} />
+                <div className="Link__Wrapper" onClick={() => this.props.history.push(`/app/chat/${user.userId}`)}>
+                  <span className="habla-left-navigation-item-label">{user.fullName}</span>
                 </div>
               </div>
               {unreadMessages > 0 && <Badge count={unreadMessages} className="SideBar__Badge" overflowCount={999999} />}

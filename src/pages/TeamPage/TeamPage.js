@@ -11,7 +11,6 @@ import './styles/style.css';
 const propTypes = {
   history: PropTypes.object.isRequired,
   team: PropTypes.object.isRequired,
-  conversation: PropTypes.object.isRequired,
   teamId: PropTypes.string.isRequired,
   userRoles: PropTypes.object,
   makeTeamCall: PropTypes.func.isRequired,
@@ -65,7 +64,7 @@ class TeamPage extends Component {
   };
 
   render() {
-    const { team, conversation, userRoles, user, loadingFiles } = this.props;
+    const { team, userRoles, user, loadingFiles } = this.props;
     const { chatVisible, ckgVisible } = this.state;
 
     if (!team) return <Spinner />;
@@ -191,7 +190,7 @@ class TeamPage extends Component {
           <div className={chatClassName}>
             <ChatContent
               teamId={team.teamId}
-              conversationId={conversation.id}
+              conversationId={team.conversationId}
               showTeamMembers={!chatVisible}
               showPageHeader={!chatVisible}
               showChat={this.showChat}

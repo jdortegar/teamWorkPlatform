@@ -2,7 +2,9 @@ import { combineReducers } from 'redux';
 import { union, omit } from 'lodash';
 import {
   CONVERSATIONS_FETCH_SUCCESS,
-  // CONVERSATIONS_RECEIVE,
+  CONVERSATIONS_CREATE_SUCCESS,
+  CONVERSATIONS_RECEIVE,
+  CREATE_TEAM_SUCCESS,
   MESSAGES_FETCH_SUCCESS,
   MESSAGE_RECEIVE,
   MESSAGE_CREATE_REQUEST,
@@ -30,17 +32,19 @@ const byId = (state = {}, action) => {
         ...conversations.reduce((acc, conversation) => ({ ...acc, [conversation.id]: conversation }), {})
       };
     }
-    // case CONVERSATIONS_RECEIVE: {
-    //   const { conversations = [] } = action.payload;
-    //   return {
-    //     ...state,
-    //     ...conversations.reduce((acc, conversation) => {
-    //       const participants = conversation.participants.map(({ userId }) => userId);
-    //       acc[conversation.conversationId] = { ...conversation, participants };
-    //       return acc;
-    //     }, {})
-    //   };
-    // }
+    case CONVERSATIONS_CREATE_SUCCESS: {
+      const { conversation } = action.payload;
+      return { ...state, [conversation.id]: conversation };
+    }
+    // TODO: remove this after listening to websocket event
+    case CREATE_TEAM_SUCCESS: {
+      const { team } = action.payload;
+      return { ...state, [team.conversationId]: { id: team.conversationId, members: [] } };
+    }
+    case CONVERSATIONS_RECEIVE: {
+      // console.warn('CONVERSATIONS_RECEIVE', { payload: action.payload });
+      return state;
+    }
     // case CONVERSATION_DIRECT_RECEIVE: {
     //   const { conversation } = action.payload;
     //   if (!conversation) return state;
@@ -59,6 +63,16 @@ const allIds = (state = [], action) => {
     case CONVERSATIONS_FETCH_SUCCESS: {
       const { conversations = [] } = action.payload;
       return union(state, conversations.map(({ id }) => id));
+    }
+    case CONVERSATIONS_CREATE_SUCCESS: {
+      const { conversation = {} } = action.payload;
+      if (!conversation.id) return state;
+      return union(state, [conversation.id]);
+    }
+    // TODO: remove this after listening to websocket event
+    case CREATE_TEAM_SUCCESS: {
+      const { team } = action.payload;
+      return union(state, [team.conversationId]);
     }
     // case CONVERSATIONS_RECEIVE: {
     //   const { conversations = [] } = action.payload;
@@ -86,6 +100,11 @@ const idsByTeam = (state = {}, action) => {
           return acc;
         }, {})
       };
+    }
+    // TODO: remove this after listening to websocket event
+    case CREATE_TEAM_SUCCESS: {
+      const { team } = action.payload;
+      return { ...state, [team.conversationId]: team.teamId };
     }
     // case CONVERSATIONS_RECEIVE: {
     //   const { conversations = [] } = action.payload;
@@ -118,6 +137,12 @@ const idsByMember = (state = {}, action) => {
           return acc;
         }, {})
       };
+    }
+    case CONVERSATIONS_CREATE_SUCCESS: {
+      const { conversation, currentUserId } = action.payload;
+      if (!conversation) return state;
+      const memberId = conversation.members.find(item => item !== currentUserId);
+      return { ...state, [memberId]: conversation.id };
     }
     default:
       return state;
