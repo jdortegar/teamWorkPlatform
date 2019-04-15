@@ -48,6 +48,7 @@ export const oldCreateMessage = ({
 
   if (emojiReaction) {
     messageContent.type = 'emojiReaction';
+    messageContent.colons = emojiReaction;
   }
 
   if (message || dataforShare) {

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Divider, message as mssg } from 'antd';
+import { Row, Col, Divider, message as mssg, Tooltip } from 'antd';
 import { find, includes, isEmpty, forEach } from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
@@ -50,7 +50,8 @@ const propTypes = {
   handleStateOnParent: PropTypes.func.isRequired,
   userIsEditing: PropTypes.bool,
   createMessage: PropTypes.func.isRequired,
-  deleteMessage: PropTypes.func.isRequired
+  deleteMessage: PropTypes.func.isRequired,
+  users: PropTypes.object.isRequired
 };
 
 const defaultProps = {
@@ -102,8 +103,8 @@ class ChatMessage extends Component {
       forEach(children.filter(msg => msg.content[0] && msg.content[0].type === 'emojiReaction'), msg => {
         const emoji = msg.content[0].text;
         reactionsObj[emoji] = reactionsObj[emoji]
-          ? [...reactionsObj[emoji], { userId: msg.createdBy, messageId: msg.messageId }]
-          : [{ userId: msg.createdBy, messageId: msg.messageId }];
+          ? [...reactionsObj[emoji], { userId: msg.createdBy, messageId: msg.messageId, colons: msg.content[0].colons }]
+          : [{ userId: msg.createdBy, messageId: msg.messageId, colons: msg.content[0].colons }];
       });
 
       this.setState({ reactionsObj });
@@ -124,8 +125,8 @@ class ChatMessage extends Component {
       forEach(children.filter(msg => msg.content[0] && msg.content[0].type === 'emojiReaction'), msg => {
         const emoji = msg.content[0].text;
         reactionsObj[emoji] = reactionsObj[emoji]
-          ? [...reactionsObj[emoji], { userId: msg.createdBy, messageId: msg.messageId }]
-          : [{ userId: msg.createdBy, messageId: msg.messageId }];
+          ? [...reactionsObj[emoji], { userId: msg.createdBy, messageId: msg.messageId, colons: msg.content[0].colons }]
+          : [{ userId: msg.createdBy, messageId: msg.messageId, colons: msg.content[0].colons }];
       });
 
       this.setState({ reactionsObj });
@@ -318,7 +319,7 @@ class ChatMessage extends Component {
           message: emojiPic,
           conversationId,
           replyTo,
-          emojiReaction: true
+          emojiReaction: e.colons
         })
         .catch(error => {
           mssg.error(error.message);
@@ -357,19 +358,23 @@ class ChatMessage extends Component {
     );
   };
 
+  renderMembersReacted = reactions => {
+    const { users } = this.props;
+    return `${reactions.map(reaction => users[reaction.userId].fullName).join(', ')} ${Str.t('message.reactedWith')} ${
+      reactions[0].colons
+    }`;
+  };
+
   renderReactions = reactions =>
     Object.keys(reactions).map(reaction => (
-      <div
-        className="emoji-reaction"
-        key={`emoji-${reaction}`}
-        onClick={() => this.addEmoji(reaction)}
-        style={{ cursor: 'pointer' }}
-      >
-        <span role="img" aria-label="emoji" style={{ color: 'black' }}>
-          {reaction}
-        </span>
-        {reactions[reaction].length}
-      </div>
+      <Tooltip placement="top" title={this.renderMembersReacted(reactions[reaction])} key={`emoji-${reaction}`}>
+        <div className="emoji-reaction" onClick={() => this.addEmoji(reaction)} style={{ cursor: 'pointer' }}>
+          <span role="img" aria-label="emoji" style={{ color: 'black' }}>
+            {reaction}
+          </span>
+          {reactions[reaction].length}
+        </div>
+      </Tooltip>
     ));
 
   renderBodyMessage = (message, child) => {
