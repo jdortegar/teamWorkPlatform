@@ -38,12 +38,17 @@ export const oldCreateMessage = ({
   resourcesUrl,
   onFileUploadProgress,
   dataforShare,
+  emojiReaction,
   messageId
 }) => (dispatch, getState) => {
   const localId = uuid();
   const orgId = getCurrentSubscriberOrgId(getState());
   const userId = getCurrentUserId(getState());
   const messageContent = dataforShare ? dataforShare.content[0] : { type: 'text/plain', text: message };
+
+  if (emojiReaction) {
+    messageContent.type = 'emojiReaction';
+  }
 
   if (message || dataforShare) {
     // create a message with a localId to display immediately in the screen
@@ -88,10 +93,10 @@ export const oldCreateMessage = ({
     }));
 
     // add the message text
-    if (message) {
-      content.push({ type: 'text/plain', text: message });
-    }
-    if (message && messageContent) {
+    // if (message) {
+    //   content.push({ type: 'text/plain', text: message });
+    // }
+    if (message || messageContent) {
       content.push(messageContent);
     }
 

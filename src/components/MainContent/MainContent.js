@@ -147,7 +147,7 @@ class MainContent extends Component {
         if (user) {
           const args = {
             message: String.t('MainContent.newMessageFrom', user),
-            description: content[0].text,
+            description: content[0] && content[0].text,
             duration: 4,
             onClose: () => {
               this.props.notifyMessage();

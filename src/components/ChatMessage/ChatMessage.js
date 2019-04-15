@@ -2,13 +2,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Divider, message as mssg } from 'antd';
-import { find, includes, isEmpty } from 'lodash';
+import { find, includes, isEmpty, forEach } from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
 import Autolinker from 'autolinker';
 import { Picker } from 'emoji-mart';
 
-import String from 'src/translations';
+import Str from 'src/translations';
 import {
   AvatarWrapper,
   PreviewAttachments,
@@ -48,7 +48,9 @@ const propTypes = {
   shareDataOwner: PropTypes.object,
   userRoles: PropTypes.object.isRequired,
   handleStateOnParent: PropTypes.func.isRequired,
-  userIsEditing: PropTypes.bool
+  userIsEditing: PropTypes.bool,
+  createMessage: PropTypes.func.isRequired,
+  deleteMessage: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -87,16 +89,46 @@ class ChatMessage extends Component {
     shareModalVisible: false,
     sharePT: false,
     showEditInput: false,
-    showEmojiPicker: false
+    showEmojiPicker: false,
+    reactionsObj: {}
   };
 
-  componentDidMount() {
+  componentWillMount() {
+    const { message } = this.props;
+    const { children } = message;
+    // Emoji Object if exists
+    if (children.length > 0) {
+      const reactionsObj = {};
+      forEach(children.filter(msg => msg.content[0] && msg.content[0].type === 'emojiReaction'), msg => {
+        const emoji = msg.content[0].text;
+        reactionsObj[emoji] = reactionsObj[emoji]
+          ? [...reactionsObj[emoji], { userId: msg.createdBy, messageId: msg.messageId }]
+          : [{ userId: msg.createdBy, messageId: msg.messageId }];
+      });
+
+      this.setState({ reactionsObj });
+    }
+
     this.props.scrollToBottom();
   }
 
   componentWillReceiveProps({ currentPath, message }) {
     if (this.props.currentPath !== currentPath && includes(currentPath, message.id)) {
       this.setState({ isExpanded: true });
+    }
+
+    const { children } = message;
+    // Emoji Object if exists
+    if (children.length > 0) {
+      const reactionsObj = {};
+      forEach(children.filter(msg => msg.content[0] && msg.content[0].type === 'emojiReaction'), msg => {
+        const emoji = msg.content[0].text;
+        reactionsObj[emoji] = reactionsObj[emoji]
+          ? [...reactionsObj[emoji], { userId: msg.createdBy, messageId: msg.messageId }]
+          : [{ userId: msg.createdBy, messageId: msg.messageId }];
+      });
+
+      this.setState({ reactionsObj });
     }
   }
 
@@ -131,7 +163,7 @@ class ChatMessage extends Component {
       this.props.handleStateOnParent({ userIsEditing: option });
       document.body.removeEventListener('click', this.editMessageClickOutsideHandler);
     } else {
-      mssg.success(String.t('message.userEditing'));
+      mssg.success(Str.t('message.userEditing'));
     }
   };
 
@@ -181,7 +213,7 @@ class ChatMessage extends Component {
               moment()
                 .tz(user.timeZone)
                 .format('HH:mm')}{' '}
-            {String.t('sideBar.localTime')}
+            {Str.t('sideBar.localTime')}
           </span>
           <span className="User_EMail">
             <a target="_blank" rel="noopener noreferrer" href={`mailto:${user.email}`}>
@@ -226,7 +258,7 @@ class ChatMessage extends Component {
 
   renderLastReadMark = () => (
     <div className="message__unread_mark border-top-red">
-      <span className="message__last-read">{String.t('message.unreadMessageSeparator')}</span>
+      <span className="message__last-read">{Str.t('message.unreadMessageSeparator')}</span>
     </div>
   );
 
@@ -256,6 +288,41 @@ class ChatMessage extends Component {
       this.setState({ showEmojiPicker: false });
       this.props.handleStateOnParent({ userIsEditing: false });
       document.body.removeEventListener('click', this.emojiMartClickOutsideHandler);
+    }
+  };
+
+  addEmoji = e => {
+    const { message, currentUser } = this.props;
+    const { reactionsObj = {} } = this.state;
+    const { conversationId } = message;
+
+    // codify emoji
+    let emojiPic;
+    if (!e.unified) {
+      emojiPic = e;
+    } else if (e.unified.length <= 5) {
+      emojiPic = String.fromCodePoint(`0x${e.unified}`);
+    } else {
+      const sym = e.unified.split('-');
+      const codesArray = [];
+      sym.forEach(el => codesArray.push(`0x${el}`));
+      emojiPic = String.fromCodePoint(...codesArray);
+    }
+    const replyTo = { ...message };
+    const existEmoji = reactionsObj[emojiPic] && reactionsObj[emojiPic].find(msg => msg.userId === currentUser.userId);
+    if (existEmoji) {
+      this.props.deleteMessage(existEmoji.messageId, message.conversationId).catch(error => mssg.error(error.message));
+    } else {
+      this.props
+        .createMessage({
+          message: emojiPic,
+          conversationId,
+          replyTo,
+          emojiReaction: true
+        })
+        .catch(error => {
+          mssg.error(error.message);
+        });
     }
   };
 
@@ -290,6 +357,21 @@ class ChatMessage extends Component {
     );
   };
 
+  renderReactions = reactions =>
+    Object.keys(reactions).map(reaction => (
+      <div
+        className="emoji-reaction"
+        key={`emoji-${reaction}`}
+        onClick={() => this.addEmoji(reaction)}
+        style={{ cursor: 'pointer' }}
+      >
+        <span role="img" aria-label="emoji" style={{ color: 'black' }}>
+          {reaction}
+        </span>
+        {reactions[reaction].length}
+      </div>
+    ));
+
   renderBodyMessage = (message, child) => {
     const {
       sender,
@@ -305,15 +387,19 @@ class ChatMessage extends Component {
     } = this.props;
 
     const { id, content = [], created, conversationId, children } = message;
+    const { reactionsObj } = this.state;
+
     const messageOwner = child && shareDataOwner ? shareDataOwner : sender;
     const { firstName, lastName, preferences, userId } = messageOwner;
-    const replies = children && children.filter(msg => !msg.deleted);
+    const replies = children && children.filter(msg => !msg.deleted && msg.content[0].type !== 'emojiReaction');
     const { text = '' } = find(content, { type: 'text/plain' }) || {};
+    const MessageTextClass = classNames('message__body-text', { onlyemoji: !text.match(/(\w+)/g) });
     const matchUrl = text && text.indexOf('@') < 0 ? text.match(URL_VALIDATION) : null;
     const attachments = content.filter(
       resource => resource.type !== 'text/plain' && resource.type !== 'userId' && resource.type !== 'sharedData'
     );
-    const name = String.t('message.sentByName', { firstName, lastName });
+    const name = Str.t('message.sentByName', { firstName, lastName });
+
     return (
       <div className={classNames(child ? 'Message__text_wrapper' : '')}>
         <Row type="flex" justify="start" gutter={10} style={{ alignItems: 'center' }}>
@@ -336,7 +422,7 @@ class ChatMessage extends Component {
                     // eslint-disable-next-line react/no-danger
                     <p
                       dangerouslySetInnerHTML={{ __html: Autolinker.link(text, { stripPrefix: false }) }}
-                      className="message__body-text"
+                      className={MessageTextClass}
                     />
                   )}
                   {content[0].sharedData && !sharedProfile && this.renderBodyMessage(content[0].sharedData, true)}
@@ -353,8 +439,8 @@ class ChatMessage extends Component {
                 {showMetadata && matchUrl && this.renderMedatada(matchUrl)}
               </div>
             </div>
-            {this.state.showEmojiPicker && (
-              <div className="emoji-reaction">
+            {this.state.showEmojiPicker && !child && (
+              <div className="emoji-reaction-picker">
                 <Picker onClick={this.addEmoji} />
               </div>
             )}
@@ -372,6 +458,16 @@ class ChatMessage extends Component {
             />
           )}
         </Row>
+        {reactionsObj && (
+          <Row type="flex" justify="start" gutter={10} style={{ alignItems: 'center' }}>
+            <Col xs={{ span: 5 }} sm={{ span: 3 }} md={{ span: 2 }} className="message__col-user-icon" />
+            <Col xs={{ span: 15 }} sm={{ span: 16 }} md={{ span: 18 }}>
+              {Object.keys(reactionsObj).length > 0 && (
+                <div className="emoji-reaction-container">{this.renderReactions(reactionsObj)}</div>
+              )}
+            </Col>
+          </Row>
+        )}
       </div>
     );
   };
@@ -382,7 +478,7 @@ class ChatMessage extends Component {
     const { children, level, conversationId } = message;
     const { content } = message;
 
-    const replies = children && children.filter(msg => !msg.deleted);
+    const replies = children && children.filter(msg => !msg.deleted && msg.content[0].type !== 'emojiReaction');
 
     return (
       <div className={classNames({ 'message-nested': level !== 0, hide })}>
@@ -404,7 +500,7 @@ class ChatMessage extends Component {
           )}
 
           {!isEmpty(replies) && (
-            <div className="habla-label message__main-counter" onClick={this.handleShowReplies}>
+            <div className="habla-label message__main-counter" onClick={() => this.handleShowReplies()}>
               <span className="message__main-counter-number">{replies.length}</span>
               <i className="fas fa-reply" data-fa-transform="rotate-180" />
             </div>
