@@ -62,7 +62,7 @@ export default class BookmarksPage extends Component {
         break;
       case messageAction.delete:
         this.props
-          .deleteMessage(message.messageId, message.conversationId)
+          .deleteMessage(message.id, message.conversationId)
           .then(() => {
             msg.success(String.t('message.deleteSuccessToast'));
           })
@@ -76,15 +76,15 @@ export default class BookmarksPage extends Component {
   }
 
   onBookmarkClick(bookmark) {
-    const { teamId, messageId } = bookmark;
-    this.props.history.push(`/app/team/${teamId}`, { gotoMessage: messageId });
+    const { teamId, id } = bookmark;
+    this.props.history.push(`/app/team/${teamId}`, { gotoMessage: id });
   }
 
   renderBookmark(bookmark) {
     const { user, subscribers, subscribersPresences } = this.props;
     if (!bookmark || !user) return null;
 
-    const { createdBy, deleted, messageId, teamId } = bookmark;
+    const { createdBy, deleted, id, teamId } = bookmark;
     const member = _.find(subscribers, { userId: createdBy });
     if (!member) return null;
     const sender = {
@@ -95,7 +95,7 @@ export default class BookmarksPage extends Component {
     if (deleted || !teamId) return null;
 
     return (
-      <div key={messageId} onClick={() => this.onBookmarkClick(bookmark)}>
+      <div key={id} onClick={() => this.onBookmarkClick(bookmark)}>
         <ChatMessage message={bookmark} sender={sender} teamId={teamId} onMessageAction={this.onMessageAction} />
       </div>
     );

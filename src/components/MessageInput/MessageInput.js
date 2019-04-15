@@ -190,7 +190,7 @@ class MessageInput extends React.Component {
         this.clearTypingTimer();
         if (!message && isEmpty(files)) return;
 
-        const messageId = messageToEdit ? messageToEdit.messageId : null;
+        const messageId = messageToEdit ? messageToEdit.id : null;
 
         if (!messageId) {
           // To do: remvoe this when API be ready

@@ -72,7 +72,7 @@ export const messageAction = {
 
 class ChatMessage extends Component {
   state = {
-    isExpanded: includes(this.props.currentPath, this.props.message.messageId),
+    isExpanded: includes(this.props.currentPath, this.props.message.id),
     videoCallModalVisible: false,
     shareModalVisible: false,
     sharePT: false,
@@ -84,7 +84,7 @@ class ChatMessage extends Component {
   }
 
   componentWillReceiveProps({ currentPath, message }) {
-    if (this.props.currentPath !== currentPath && includes(currentPath, message.messageId)) {
+    if (this.props.currentPath !== currentPath && includes(currentPath, message.id)) {
       this.setState({ isExpanded: true });
     }
   }
@@ -242,7 +242,7 @@ class ChatMessage extends Component {
               message={replyMessage}
               sender={sender}
               grouped={grouped}
-              key={replyMessage.messageId}
+              key={replyMessage.id}
               onMessageAction={onMessageAction}
               hide={!this.state.isExpanded}
               currentPath={currentPath}
@@ -269,7 +269,7 @@ class ChatMessage extends Component {
       userRoles
     } = this.props;
 
-    const { messageId, content = [], created, conversationId, children } = message;
+    const { id, content = [], created, conversationId, children } = message;
     const messageOwner = child && shareDataOwner ? shareDataOwner : sender;
     const { firstName, lastName, preferences, userId } = messageOwner;
     const replies = children && children.filter(msg => !msg.deleted);
@@ -323,7 +323,7 @@ class ChatMessage extends Component {
             <MessageOptions
               bookmarked={bookmarked}
               showOptions={ownMessage || (userRoles && userRoles.admin)}
-              onReply={() => this.handleReplyTo({ messageId, firstName, lastName, preferences, text })}
+              onReply={() => this.handleReplyTo({ id, firstName, lastName, preferences, text })}
               onBookmark={this.handleBookmark}
               onDeleteConfirmed={this.onDeleteConfirmed}
               handleShareProfile={this.handleShareProfile}

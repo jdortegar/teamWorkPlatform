@@ -27,11 +27,11 @@ const propTypes = {
     id: PropTypes.string.isRequired,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
-        messageId: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
         children: PropTypes.array.isRequired,
         created: PropTypes.string.isRequired,
         createdBy: PropTypes.string.isRequired,
-        path: PropTypes.string.isRequired,
+        path: PropTypes.string,
         content: PropTypes.arrayOf(
           PropTypes.shape({
             text: PropTypes.string,
@@ -42,7 +42,7 @@ const propTypes = {
       })
     )
   }),
-  // fetchMessages: PropTypes.func.isRequired,
+  fetchMessages: PropTypes.func.isRequired,
   saveBookmark: PropTypes.func.isRequired,
   deleteMessage: PropTypes.func.isRequired,
   membersTyping: PropTypes.object,
@@ -81,8 +81,7 @@ class Chat extends React.Component {
     const { conversation, users, usersPresences } = this.props;
     this.updateMembers({ conversation, users, usersPresences });
 
-    //  this.props
-    //    .fetchMessages(conversation.id)
+    this.props.fetchMessages(conversation.id);
     //    .then(() => this.setState({ conversationsLoaded: true }))
     //    .then(() => {
     //      this.scrollToBottom();
@@ -95,8 +94,7 @@ class Chat extends React.Component {
     if (this.props.conversation.id !== conversation.id) {
       this.updateMembers({ conversation, users, usersPresences });
 
-      //  this.props
-      //    .fetchMessages(conversationId)
+      this.props.fetchMessages(conversation.id);
       //    .then(() => this.setState({ conversationsLoaded: true }))
       //    .then(() => {
       //      this.scrollToBottom();
@@ -133,7 +131,7 @@ class Chat extends React.Component {
         break;
       case messageAction.delete:
         this.props
-          .deleteMessage(message.messageId, message.conversationId)
+          .deleteMessage(message.id, message.conversationId)
           .then(() => msg.success(String.t('message.deleteSuccessToast')))
           .catch(error => msg.error(error.message));
         break;
@@ -193,7 +191,7 @@ class Chat extends React.Component {
     const { conversation } = this.props;
     const lastMessage = _.last(conversation.messages) || {};
     if (messagesContainer.scrollHeight === messagesContainer.scrollTop + messagesContainer.clientHeight) {
-      this.props.readMessage(lastMessage.messageId, conversation.id);
+      this.props.readMessage(lastMessage.id, conversation.id);
       messagesContainer.removeEventListener('scroll', this.handleScroll);
     }
   };
@@ -243,7 +241,7 @@ class Chat extends React.Component {
 
       return (
         <ChatMessage
-          key={message.messageId}
+          key={message.id}
           message={message}
           teamId={team.teamId}
           conversationId={conversation.id}
