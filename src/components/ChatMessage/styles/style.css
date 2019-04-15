@@ -247,10 +247,10 @@
 }
 
 .emoji-reaction-picker {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  transform: translatex(200%);
+  position: fixed;
+  bottom: 16%;
+  right: 5%;
+  z-index: 99999;
 }
 
 .emoji-reaction {
