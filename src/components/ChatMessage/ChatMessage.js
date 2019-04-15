@@ -178,7 +178,9 @@ class ChatMessage extends Component {
             {String.t('sideBar.localTime')}
           </span>
           <span className="User_EMail">
-            <a href={`mailto:${user.email}`}>{user.email}</a>
+            <a target="_blank" rel="noopener noreferrer" href={`mailto:${user.email}`}>
+              {user.email}
+            </a>
           </span>
         </div>
         {this.state.videoCallModalVisible && (

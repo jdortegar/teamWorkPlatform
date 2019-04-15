@@ -35,7 +35,7 @@ const defaultProps = {
   history: null,
   showDetails: true,
   makePersonalCall: null,
-  orgLength: null,
+  orgLength: 1,
   currentUser: null
 };
 
@@ -100,7 +100,9 @@ class AvatarWrapper extends React.Component {
               {String.t('sideBar.localTime')}
             </span>
             <span className="Subscriber__Tooltip_EMail habla-soft-grey">
-              <a href={`mailto:${user.email}`}>{user.email}</a>
+              <a target="_blank" rel="noopener noreferrer" href={`mailto:${user.email}`}>
+                {user.email}
+              </a>
             </span>
           </div>
         </div>
@@ -125,14 +127,14 @@ class AvatarWrapper extends React.Component {
               <i className="fas fa-address-card" /> {String.t('sideBar.userProfile')}
             </span>
           </Menu.Item>
-          {orgLength > 1 && (
+          {orgLength >= 1 && (
             <Menu.Item key={`${userId}-share-user`}>
               <span onClick={() => this.handleShareProfile(false)}>
                 <i className="fas fa-user" /> {String.t('sideBar.shareProfileUsers')}
               </span>
             </Menu.Item>
           )}
-          {orgLength > 1 && (
+          {orgLength >= 1 && (
             <Menu.Item key={`${userId}-share-team`}>
               <span onClick={() => this.handleShareProfile(true)}>
                 <i className="fas fa-users" /> {String.t('sideBar.shareProfilePT')}

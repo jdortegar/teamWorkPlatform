@@ -61,7 +61,7 @@ const TeamMemberPage = ({ subscriberOrg, subscribers, subscribersPresences, matc
         <div className="margin-top-class-b">
           <h1 className="New-team__title habla-user-title">{String.t('fullName', { firstName, lastName })}</h1>
           <div className="habla-secondary-paragraph">
-            <a href={`mailto:${member.email}`} style={{ color: '#999' }}>
+            <a target="_blank" rel="noopener noreferrer" href={`mailto:${member.email}`} style={{ color: '#999' }}>
               {member.email}
             </a>
           </div>

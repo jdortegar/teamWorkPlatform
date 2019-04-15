@@ -533,7 +533,7 @@ class SubscriptionModal extends React.Component {
                       {String.t('subscriptionModal.reactivateSubscription')}
                     </Button>
                   )} */}
-                  {subscription.status === 'trialing' ? (
+                  {subscription.status === 'trialing' || subscription.status === 'past_due' ? (
                     <Button className="Confirm_button" onClick={this.showPaymentModal}>
                       {String.t('subscriptionModal.paySubscription', {
                         amount: parseFloat(payAmount).toFixed(2)

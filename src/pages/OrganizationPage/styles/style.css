@@ -21,7 +21,7 @@
 
 .Flex_row {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   padding: 13px 13px;
   border-bottom: 1px solid #f7f7f7;
   align-items: center;
@@ -30,9 +30,11 @@
 }
 
 .Summary_daysLeft {
+  vertical-align: middle;
   color: #557dbf;
   font-size: 10px;
   margin-right: 10px;
+  margin-left: 10px;
   font-weight: 900;
   text-transform: uppercase;
 }

@@ -50,12 +50,13 @@ class Main extends React.Component {
         this.props.fetchSubscription(stripeSubscriptionId).then(() => {
           if (
             (subscription.status === 'trialing' && moment(subscription.trial_end * 1000).diff(moment(), 'days') <= 0) ||
-            subscription.status === 'canceled'
+            subscription.status === 'canceled' ||
+            subscription.status === 'past_due'
           ) {
             this.setState({
               hablaModalVisible: true,
               hablaModalTitle:
-                subscription.status === 'canceled'
+                subscription.status === 'canceled' || subscription.status === 'past_due'
                   ? String.t('organizationSummaryPage.subscriptionOverTitle')
                   : String.t('organizationSummaryPage.trialOverTitle'),
               hablaModalBody: (
