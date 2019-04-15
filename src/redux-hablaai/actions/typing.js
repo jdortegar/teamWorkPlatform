@@ -1,4 +1,4 @@
-import messaging from '../messaging';
+import { apiMessaging } from '../messaging';
 
 export const TYPING_RECEIVE = 'typing/receive';
 
@@ -13,5 +13,5 @@ export const receiveTyping = ({ userId, conversationId, isTyping }) => ({
  * Typically, this is some amount of time (ex. 15 seconds) after the last key press.
  */
 export const iAmTyping = (conversationId, typing) => () => {
-  messaging().typing(conversationId, typing);
+  apiMessaging().typing(conversationId, typing);
 };

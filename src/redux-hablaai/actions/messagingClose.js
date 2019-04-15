@@ -1,15 +1,14 @@
-import messaging from '../messaging';
+import { closeAllConnections } from '../messaging';
 
 export const MESSAGING_CLOSED = 'messaging/close';
 
 export const closeMessaging = () => dispatch => {
-  const messagingInstance = messaging();
+  const urls = closeAllConnections();
 
-  if (messagingInstance) {
+  urls.map(url =>
     dispatch({
       type: MESSAGING_CLOSED,
-      payload: { url: messagingInstance.url }
-    });
-    messagingInstance.close();
-  }
+      payload: { url }
+    })
+  );
 };

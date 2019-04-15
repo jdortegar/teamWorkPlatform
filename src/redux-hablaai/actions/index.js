@@ -35,7 +35,6 @@ export * from './invitationDeclinedUpdate';
 export * from './conversations';
 
 export * from './conversationsReceive';
-export * from './conversationsFetch';
 export * from './messagesFetch';
 export * from './messageReceive';
 export * from './messageCreate';
@@ -77,7 +76,5 @@ export * from './eventHandler';
 export * from './ui';
 
 export * from './subscription';
-
-export * from './directMessages';
 
 export * from './metadata';
