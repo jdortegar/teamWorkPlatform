@@ -8,7 +8,14 @@ import classNames from 'classnames';
 import Autolinker from 'autolinker';
 
 import String from 'src/translations';
-import { AvatarWrapper, PreviewAttachments, VideoCallModal, ShareModal, MessageInput } from 'src/containers';
+import {
+  AvatarWrapper,
+  PreviewAttachments,
+  VideoCallModal,
+  ShareModal,
+  MessageInput,
+  ChatMessage as ChatMessageContainer
+} from 'src/containers';
 import MessageOptions from './MessageOptions';
 import Metadata from './Metadata';
 import './styles/style.css';
@@ -223,7 +230,7 @@ class ChatMessage extends Component {
   );
 
   renderReplies = replies => {
-    const { conversationDisabled, teamMembers, currentPath, teamId, onMessageAction } = this.props;
+    const { teamMembers, ...parentProps } = this.props;
     let previousSenderId = null;
     if (!teamMembers || isEmpty(replies)) return null;
 
@@ -237,17 +244,15 @@ class ChatMessage extends Component {
           previousSenderId = sender.userId;
 
           return (
-            <ChatMessage
-              conversationDisabled={conversationDisabled}
+            <ChatMessageContainer
+              {...parentProps}
+              key={replyMessage.id}
               message={replyMessage}
+              conversationId={replyMessage.conversationId}
               sender={sender}
               grouped={grouped}
-              key={replyMessage.id}
-              onMessageAction={onMessageAction}
               hide={!this.state.isExpanded}
-              currentPath={currentPath}
               teamMembers={teamMembers}
-              teamId={teamId}
             />
           );
         })}
@@ -338,7 +343,7 @@ class ChatMessage extends Component {
   render() {
     const { message, grouped, hide, lastRead } = this.props;
     const { showEditInput } = this.state;
-    const { children, level } = message;
+    const { children, level, conversationId } = message;
     const { content } = message;
 
     const replies = children && children.filter(msg => !msg.deleted);
@@ -356,6 +361,7 @@ class ChatMessage extends Component {
           ) : (
             <MessageInput
               messageToEdit={message}
+              conversationId={conversationId}
               handleEditMessage={this.handleEditMessage}
               handleEditingAction={this.props.handleEditingAction}
             />
