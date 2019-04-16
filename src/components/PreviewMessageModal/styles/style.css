@@ -1,0 +1,203 @@
+.Preview_Message_Modal {
+  text-align: left;
+}
+.Preview_Message_Modal .Modal_header {
+  padding: 30px 30px 0;
+}
+.Preview_Message_Modal .HablaGrayLogo {
+  height: 30px;
+}
+.Preview_Message_Modal .Modal_title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #666666;
+  margin-bottom: 20px;
+}
+.Preview_Message_Modal .Modal_title span {
+  display: block;
+}
+.Preview_Message_Modal .subtitle {
+  font-weight: 400;
+  font-size: 14px;
+}
+.Preview_Message_Modal .Modal_body {
+  background: #f7f7f7;
+  padding: 30px 30px 10px;
+  margin: 10px 0 0;
+}
+
+.Preview_Message_Modal .Modal_subtitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px auto 10px;
+}
+
+.Preview_Message_Modal .Modal_subtitle .suscriptionDate {
+  margin-left: 20px;
+}
+
+.Preview_Message_Modal .label {
+  font-weight: 300;
+  padding: 3px 0;
+  border-bottom: 1px solid #ccc;
+  display: inline-block;
+  color: #999;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.Preview_Message_Modal .Form_input_label {
+  font-size: 16px;
+  line-height: 26px;
+}
+
+.Preview_Message_Modal .Modal_Plan_Price {
+  font-size: 18px;
+  font-weight: 900;
+  color: #339966;
+  text-align: left;
+  margin: 10px 0 0 0;
+}
+
+.Preview_Message_Modal .Modal_footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+}
+
+.Preview_Message_Modal .Cancel_button {
+  background: #cccccc;
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  height: 40px;
+}
+
+.Preview_Message_Modal .Confirm_button {
+  background: #36a751;
+  color: #fff;
+  border: none;
+  margin-left: 10px;
+  font-weight: 700;
+  height: 40px;
+}
+
+.Cancel_subscription_button {
+  text-transform: uppercase;
+  color: #999999;
+  cursor: pointer;
+}
+
+.Confirm_Modal {
+  text-align: center;
+}
+
+.Confirm_Modal .anticon.anticon-question-circle {
+  display: none;
+}
+
+.Confirm_Modal .ant-confirm-body .ant-confirm-content {
+  margin-left: 0;
+}
+
+.Confirm_Modal .ant-confirm-btns {
+  float: none;
+}
+
+.Confirm_Modal .ant-btn {
+  background: #cccccc;
+  color: #fff;
+  border: none;
+}
+
+.Confirm_Modal .ant-btn-primary {
+  background: #36a751;
+  border: none;
+}
+
+.Preview_Message_Modal .Share_Modal_list {
+  display: block;
+  width: 100%;
+  background: #fff;
+  border-radius: 7px;
+  padding: 10px 0;
+}
+
+.Habla_Input {
+  padding: 10px;
+}
+
+.Habla_Input .ant-input-affix-wrapper {
+  width: 100%;
+}
+.Habla_Input .ant-input-affix-wrapper .ant-input {
+  height: 25px;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 15px;
+}
+.Habla_Input .ant-input-affix-wrapper .ant-input-prefix i {
+  color: #a6a6a6 !important;
+  font-weight: bold;
+}
+.Habla_Input .ant-input-affix-wrapper .ant-input-prefix {
+  left: 5px;
+}
+.Habla_Input .ant-input-affix-wrapper .ant-input:not(:first-child) {
+  padding-left: 22px;
+}
+
+.Share_Modal_list .ant-checkbox {
+  float: right;
+  vertical-align: middle;
+  right: 20px;
+  top: 10px;
+}
+
+.Share_Modal_list .ant-checkbox-wrapper {
+  width: 100%;
+}
+
+.Share_Modal_CheckAll {
+  margin-top: 10px;
+}
+
+.Preview_Message_Modal .User__Details-Data,
+.Message__text_content .User__Details-Data {
+  padding: 10px;
+  font-size: 13px;
+  line-height: 15px;
+  border-radius: 10px;
+  border: 1px solid #bbb;
+  width: 250px;
+  margin: auto;
+  margin: 10px 0px 0;
+}
+
+.Preview_Message_Modal .Modal_body {
+  border-radius: 7px 7px 0 0;
+}
+
+.Share_Modal_list ul {
+  max-height: 120px;
+  overflow: scroll;
+}
+
+.Share_Modal_list .avatar-label-container .habla-avatar-label {
+  padding-left: 7px;
+  color: #999;
+  width: 200px;
+  overflow: hidden;
+  display: block;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 300;
+}
+
+.Preview_Message_Modal .Forwarded_Message_Container {
+  background: #fff;
+  padding: 0 0 10px;
+  border-radius: 12px;
+}

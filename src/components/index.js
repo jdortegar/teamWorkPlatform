@@ -40,6 +40,7 @@ export PaymentModal from './PaymentModal';
 export PersonalCallButton from './PersonalCallButton';
 export PreviewAttachments from './PreviewAttachments';
 export PreviewBar from './PreviewBar';
+export PreviewMessageModal from './PreviewMessageModal';
 export ResultsList from './ResultsList';
 export ShareModal from './ShareModal';
 export SharingSettings from './SharingSettings';

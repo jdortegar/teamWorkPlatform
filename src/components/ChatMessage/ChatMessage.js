@@ -16,6 +16,7 @@ import {
   MessageInput,
   ChatMessage as ChatMessageContainer
 } from 'src/containers';
+import { PreviewMessageModal } from 'src/components';
 import MessageOptions from './MessageOptions';
 import Metadata from './Metadata';
 import './styles/style.css';
@@ -81,6 +82,7 @@ class ChatMessage extends Component {
   state = {
     isExpanded: includes(this.props.currentPath, this.props.message.id),
     videoCallModalVisible: false,
+    previewMessageModalVisible: false,
     shareModalVisible: false,
     sharePT: false,
     showEditInput: false
@@ -106,17 +108,14 @@ class ChatMessage extends Component {
     });
   };
 
-  onDeleteConfirmed = e => {
-    const { message } = this.props;
-    this.props.onMessageAction({ message }, messageAction.delete);
-    e.stopPropagation();
+  showPreviewMessageModal = hide => {
+    if (!hide) return this.setState({ previewMessageModalVisible: false });
+    return this.setState({ previewMessageModalVisible: !this.state.previewMessageModalVisible });
   };
 
   showVideoCallModal = hide => {
-    if (hide) {
-      this.setState({ videoCallModalVisible: false });
-    }
-    this.setState({ videoCallModalVisible: !this.state.videoCallModalVisible });
+    if (hide) return this.setState({ videoCallModalVisible: false });
+    return this.setState({ videoCallModalVisible: !this.state.videoCallModalVisible });
   };
 
   handleEditMessage = option => {
@@ -330,7 +329,7 @@ class ChatMessage extends Component {
               showOptions={ownMessage || (userRoles && userRoles.admin)}
               onReply={() => this.handleReplyTo({ id, firstName, lastName, preferences, text })}
               onBookmark={this.handleBookmark}
-              onDeleteConfirmed={this.onDeleteConfirmed}
+              onDelete={this.showPreviewMessageModal}
               handleShareProfile={this.handleShareProfile}
               handleEditMessage={this.handleEditMessage}
             />
@@ -381,6 +380,19 @@ class ChatMessage extends Component {
             showShareModal={this.showShareModal}
             dataforShare={content[0].sharedData ? content[0].sharedData : message}
             sharePT={this.state.sharePT}
+          />
+        )}
+        {this.state.previewMessageModalVisible && (
+          <PreviewMessageModal
+            title={String.t('message.deleteTitle')}
+            subtitle={String.t('message.deleteSubtitle')}
+            visible={this.state.previewMessageModalVisible}
+            showPreviewMessageModal={this.showPreviewMessageModal}
+            onConfirmed={() => {
+              this.props.onMessageAction({ message }, messageAction.delete);
+              this.showPreviewMessageModal(false);
+            }}
+            message={message}
           />
         )}
       </div>

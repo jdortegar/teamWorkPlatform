@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Popconfirm, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
 import String from 'src/translations';
 
 const propTypes = {
   onReply: PropTypes.func.isRequired,
   onBookmark: PropTypes.func.isRequired,
-  onDeleteConfirmed: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
   handleShareProfile: PropTypes.func.isRequired,
   handleEditMessage: PropTypes.func.isRequired,
   bookmarked: PropTypes.bool,
@@ -23,7 +23,7 @@ const MessageOptions = ({
   showOptions,
   onReply,
   onBookmark,
-  onDeleteConfirmed,
+  onDelete,
   handleShareProfile,
   handleEditMessage
 }) => (
@@ -40,17 +40,17 @@ const MessageOptions = ({
       </a>
     </Tooltip>
     {showOptions && (
-      <Popconfirm
-        placement="topRight"
-        title={String.t('message.deleteConfirmationQuestion')}
-        okText={<span className="message__delete_buttons">{String.t('okButton')}</span>}
-        cancelText={<span className="message__delete_buttons">{String.t('cancelButton')}</span>}
-        onConfirm={onDeleteConfirmed}
-      >
-        <a className="message__icons">
+      <Tooltip placement="topLeft" title={String.t('message.tooltipDelete')} arrowPointAtCenter>
+        <a
+          className="message__icons"
+          onClick={e => {
+            e.stopPropagation();
+            onDelete(true);
+          }}
+        >
           <i className="fas fa-trash-alt" />
         </a>
-      </Popconfirm>
+      </Tooltip>
     )}
     {showOptions && (
       <Tooltip placement="topLeft" title={String.t('message.tooltipEdit')} arrowPointAtCenter>
