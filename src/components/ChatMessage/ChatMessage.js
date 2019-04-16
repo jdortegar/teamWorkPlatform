@@ -1,13 +1,14 @@
 /* eslint-disable react/no-danger */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Divider, message as mssg } from 'antd';
-import { find, includes, isEmpty } from 'lodash';
+import { Row, Col, Divider, message as mssg, Tooltip } from 'antd';
+import { find, includes, isEmpty, forEach } from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
 import Autolinker from 'autolinker';
+import { Picker } from 'emoji-mart';
 
-import String from 'src/translations';
+import Str from 'src/translations';
 import {
   AvatarWrapper,
   PreviewAttachments,
@@ -46,8 +47,11 @@ const propTypes = {
   showMetadata: PropTypes.bool,
   shareDataOwner: PropTypes.object,
   userRoles: PropTypes.object.isRequired,
-  handleEditingAction: PropTypes.func.isRequired,
-  userIsEditing: PropTypes.bool
+  handleStateOnParent: PropTypes.func.isRequired,
+  userIsEditing: PropTypes.bool,
+  createMessage: PropTypes.func.isRequired,
+  deleteMessage: PropTypes.func.isRequired,
+  users: PropTypes.object.isRequired
 };
 
 const defaultProps = {
@@ -85,16 +89,47 @@ class ChatMessage extends Component {
     previewMessageModalVisible: false,
     shareModalVisible: false,
     sharePT: false,
-    showEditInput: false
+    showEditInput: false,
+    showEmojiPicker: false,
+    reactionsObj: {}
   };
 
-  componentDidMount() {
+  componentWillMount() {
+    const { message } = this.props;
+    const { children } = message;
+    // Emoji Object if exists
+    if (children.length > 0) {
+      const reactionsObj = {};
+      forEach(children.filter(msg => msg.content[0] && msg.content[0].type === 'emojiReaction'), msg => {
+        const emoji = msg.content[0].text;
+        reactionsObj[emoji] = reactionsObj[emoji]
+          ? [...reactionsObj[emoji], { userId: msg.createdBy, messageId: msg.messageId, colons: msg.content[0].colons }]
+          : [{ userId: msg.createdBy, messageId: msg.messageId, colons: msg.content[0].colons }];
+      });
+
+      this.setState({ reactionsObj });
+    }
+
     this.props.scrollToBottom();
   }
 
   componentWillReceiveProps({ currentPath, message }) {
     if (this.props.currentPath !== currentPath && includes(currentPath, message.id)) {
       this.setState({ isExpanded: true });
+    }
+
+    const { children } = message;
+    // Emoji Object if exists
+    if (children.length > 0) {
+      const reactionsObj = {};
+      forEach(children.filter(msg => msg.content[0] && msg.content[0].type === 'emojiReaction'), msg => {
+        const emoji = msg.content[0].text;
+        reactionsObj[emoji] = reactionsObj[emoji]
+          ? [...reactionsObj[emoji], { userId: msg.createdBy, messageId: msg.messageId, colons: msg.content[0].colons }]
+          : [{ userId: msg.createdBy, messageId: msg.messageId, colons: msg.content[0].colons }];
+      });
+
+      this.setState({ reactionsObj });
     }
   }
 
@@ -122,14 +157,14 @@ class ChatMessage extends Component {
     const { userIsEditing } = this.props;
     if (!userIsEditing) {
       this.setState({ showEditInput: option });
-      this.props.handleEditingAction(option);
+      this.props.handleStateOnParent({ userIsEditing: option });
       document.body.addEventListener('click', this.editMessageClickOutsideHandler);
     } else if (option === false && userIsEditing) {
       this.setState({ showEditInput: option });
-      this.props.handleEditingAction(option);
+      this.props.handleStateOnParent({ userIsEditing: option });
       document.body.removeEventListener('click', this.editMessageClickOutsideHandler);
     } else {
-      mssg.success(String.t('message.userEditing'));
+      mssg.success(Str.t('message.userEditing'));
     }
   };
 
@@ -145,7 +180,7 @@ class ChatMessage extends Component {
 
     if (!messageInputIsOpen) {
       this.setState({ showEditInput: false });
-      this.props.handleEditingAction(false);
+      this.props.handleStateOnParent({ userIsEditing: false });
       document.body.removeEventListener('click', this.editMessageClickOutsideHandler);
     }
   };
@@ -179,7 +214,7 @@ class ChatMessage extends Component {
               moment()
                 .tz(user.timeZone)
                 .format('HH:mm')}{' '}
-            {String.t('sideBar.localTime')}
+            {Str.t('sideBar.localTime')}
           </span>
           <span className="User_EMail">
             <a target="_blank" rel="noopener noreferrer" href={`mailto:${user.email}`}>
@@ -224,9 +259,73 @@ class ChatMessage extends Component {
 
   renderLastReadMark = () => (
     <div className="message__unread_mark border-top-red">
-      <span className="message__last-read">{String.t('message.unreadMessageSeparator')}</span>
+      <span className="message__last-read">{Str.t('message.unreadMessageSeparator')}</span>
     </div>
   );
+
+  toogleEmojiState = () => {
+    if (this.state.showEmojiPicker) {
+      document.body.removeEventListener('click', this.emojiMartClickOutsideHandler);
+      this.setState({ showEmojiPicker: false });
+      this.props.handleStateOnParent({ userIsEditing: false });
+    } else {
+      document.body.addEventListener('click', this.emojiMartClickOutsideHandler);
+      this.setState({ showEmojiPicker: true });
+      this.props.handleStateOnParent({ userIsEditing: true });
+    }
+  };
+
+  emojiMartClickOutsideHandler = e => {
+    let emojiWindowIsOpen = false;
+    if (e.path) {
+      e.path.forEach(elem => {
+        if (elem.classList && elem.classList.contains('emoji-mart')) {
+          emojiWindowIsOpen = true;
+        }
+      });
+    }
+
+    if (!emojiWindowIsOpen) {
+      this.setState({ showEmojiPicker: false });
+      this.props.handleStateOnParent({ userIsEditing: false });
+      document.body.removeEventListener('click', this.emojiMartClickOutsideHandler);
+    }
+  };
+
+  addEmoji = e => {
+    const { message, currentUser } = this.props;
+    const { reactionsObj = {} } = this.state;
+    const { conversationId } = message;
+
+    // codify emoji
+    let emojiPic;
+    if (!e.unified) {
+      emojiPic = e;
+    } else if (e.unified.length <= 5) {
+      emojiPic = String.fromCodePoint(`0x${e.unified}`);
+    } else {
+      const sym = e.unified.split('-');
+      const codesArray = [];
+      sym.forEach(el => codesArray.push(`0x${el}`));
+      emojiPic = String.fromCodePoint(...codesArray);
+    }
+    const replyTo = { ...message };
+    const existEmoji = reactionsObj[emojiPic] && reactionsObj[emojiPic].find(msg => msg.userId === currentUser.userId);
+    if (existEmoji) {
+      this.props.deleteMessage(existEmoji.messageId, message.conversationId).catch(error => mssg.error(error.message));
+    } else {
+      this.props
+        .createMessage({
+          text: emojiPic,
+          conversationId,
+          replyTo,
+          emojiReaction: e.colons
+        })
+        .catch(error => {
+          mssg.error(error.message);
+        });
+    }
+  };
 
   renderReplies = replies => {
     const { teamMembers, ...parentProps } = this.props;
@@ -259,6 +358,25 @@ class ChatMessage extends Component {
     );
   };
 
+  renderMembersReacted = reactions => {
+    const { users } = this.props;
+    return `${reactions.map(reaction => users[reaction.userId].fullName).join(', ')} ${Str.t('message.reactedWith')} ${
+      reactions[0].colons
+    }`;
+  };
+
+  renderReactions = reactions =>
+    Object.keys(reactions).map(reaction => (
+      <Tooltip placement="top" title={this.renderMembersReacted(reactions[reaction])} key={`emoji-${reaction}`}>
+        <div className="emoji-reaction" onClick={() => this.addEmoji(reaction)} style={{ cursor: 'pointer' }}>
+          <span role="img" aria-label="emoji" style={{ color: 'black' }}>
+            {reaction}
+          </span>
+          {reactions[reaction].length}
+        </div>
+      </Tooltip>
+    ));
+
   renderBodyMessage = (message, child) => {
     const {
       sender,
@@ -274,15 +392,19 @@ class ChatMessage extends Component {
     } = this.props;
 
     const { id, content = [], created, conversationId, children } = message;
+    const { reactionsObj } = this.state;
+
     const messageOwner = child && shareDataOwner ? shareDataOwner : sender;
     const { firstName, lastName, preferences, userId } = messageOwner;
-    const replies = children && children.filter(msg => !msg.deleted);
+    const replies = children && children.filter(msg => !msg.deleted && msg.content[0].type !== 'emojiReaction');
     const { text = '' } = find(content, { type: 'text/plain' }) || {};
+    const MessageTextClass = classNames('message__body-text', { onlyemoji: !text.match(/(\w+)/g) });
     const matchUrl = text && text.indexOf('@') < 0 ? text.match(URL_VALIDATION) : null;
     const attachments = content.filter(
       resource => resource.type !== 'text/plain' && resource.type !== 'userId' && resource.type !== 'sharedData'
     );
-    const name = String.t('message.sentByName', { firstName, lastName });
+    const name = Str.t('message.sentByName', { firstName, lastName });
+
     return (
       <div className={classNames(child ? 'Message__text_wrapper' : '')}>
         <Row type="flex" justify="start" gutter={10} style={{ alignItems: 'center' }}>
@@ -305,7 +427,7 @@ class ChatMessage extends Component {
                     // eslint-disable-next-line react/no-danger
                     <p
                       dangerouslySetInnerHTML={{ __html: Autolinker.link(text, { stripPrefix: false }) }}
-                      className="message__body-text"
+                      className={MessageTextClass}
                     />
                   )}
                   {content[0].sharedData && !sharedProfile && this.renderBodyMessage(content[0].sharedData, true)}
@@ -322,6 +444,11 @@ class ChatMessage extends Component {
                 {showMetadata && matchUrl && this.renderMedatada(matchUrl)}
               </div>
             </div>
+            {this.state.showEmojiPicker && !child && (
+              <div className="emoji-reaction-picker">
+                <Picker onClick={this.addEmoji} />
+              </div>
+            )}
           </Col>
           {!conversationDisabled && !child && (
             <MessageOptions
@@ -332,9 +459,20 @@ class ChatMessage extends Component {
               onDelete={this.showPreviewMessageModal}
               handleShareProfile={this.handleShareProfile}
               handleEditMessage={this.handleEditMessage}
+              onAddReaction={this.toogleEmojiState}
             />
           )}
         </Row>
+        {reactionsObj && (
+          <Row type="flex" justify="start" gutter={10} style={{ alignItems: 'center' }}>
+            <Col xs={{ span: 5 }} sm={{ span: 3 }} md={{ span: 2 }} className="message__col-user-icon" />
+            <Col xs={{ span: 15 }} sm={{ span: 16 }} md={{ span: 18 }}>
+              {Object.keys(reactionsObj).length > 0 && (
+                <div className="emoji-reaction-container">{this.renderReactions(reactionsObj)}</div>
+              )}
+            </Col>
+          </Row>
+        )}
       </div>
     );
   };
@@ -345,7 +483,7 @@ class ChatMessage extends Component {
     const { children, level, conversationId } = message;
     const { content } = message;
 
-    const replies = children && children.filter(msg => !msg.deleted);
+    const replies = children && children.filter(msg => !msg.deleted && msg.content[0].type !== 'emojiReaction');
 
     return (
       <div className={classNames({ 'message-nested': level !== 0, hide })}>
@@ -362,12 +500,12 @@ class ChatMessage extends Component {
               messageToEdit={message}
               conversationId={conversationId}
               handleEditMessage={this.handleEditMessage}
-              handleEditingAction={this.props.handleEditingAction}
+              handleEditingAction={this.props.handleStateOnParent}
             />
           )}
 
           {!isEmpty(replies) && (
-            <div className="habla-label message__main-counter" onClick={this.handleShowReplies}>
+            <div className="habla-label message__main-counter" onClick={() => this.handleShowReplies()}>
               <span className="message__main-counter-number">{replies.length}</span>
               <i className="fas fa-reply" data-fa-transform="rotate-180" />
             </div>

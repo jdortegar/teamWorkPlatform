@@ -92,7 +92,7 @@ class MessageInput extends React.Component {
 
   handleKeyDown = event => {
     if (event.keyCode === 27) {
-      this.props.handleEditingAction(false);
+      this.props.handleEditingAction({ userIsEditing: false });
       this.props.handleEditMessage(false);
     }
   };

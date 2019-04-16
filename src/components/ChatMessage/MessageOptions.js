@@ -9,6 +9,7 @@ const propTypes = {
   onDelete: PropTypes.func.isRequired,
   handleShareProfile: PropTypes.func.isRequired,
   handleEditMessage: PropTypes.func.isRequired,
+  onAddReaction: PropTypes.func.isRequired,
   bookmarked: PropTypes.bool,
   showOptions: PropTypes.bool
 };
@@ -25,7 +26,8 @@ const MessageOptions = ({
   onBookmark,
   onDelete,
   handleShareProfile,
-  handleEditMessage
+  handleEditMessage,
+  onAddReaction
 }) => (
   <div className="message__options hide">
     <Tooltip placement="topLeft" title={String.t('message.tooltipReply')}>
@@ -37,6 +39,17 @@ const MessageOptions = ({
         }}
       >
         <i className="fas fa-reply" />
+      </a>
+    </Tooltip>
+    <Tooltip placement="topLeft" title={String.t('message.tooltipAddReaction')}>
+      <a
+        className="message__icons"
+        onClick={e => {
+          e.stopPropagation();
+          onAddReaction();
+        }}
+      >
+        <i className="far fa-smile" />
       </a>
     </Tooltip>
     {showOptions && (

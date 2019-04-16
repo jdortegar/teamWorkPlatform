@@ -188,6 +188,7 @@
   border-radius: 5px;
   position: relative;
   display: inline-block;
+  min-width: 100px;
 }
 
 .team__messages .message__Bubble.withArrow::before {

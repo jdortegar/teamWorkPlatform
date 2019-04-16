@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { getCurrentUser, getCurrentOrgId, getUserById, getUserRoles } from 'src/selectors';
+import { getCurrentUser, getCurrentOrgId, getUserById, getUserRoles, getUserByUserId } from 'src/selectors';
 import { ChatMessage } from 'src/components';
-import { makePersonalCall, fetchMetadata } from 'src/actions';
+import { makePersonalCall, fetchMetadata, createMessage, deleteMessage } from 'src/actions';
 
 const mapStateToProps = (state, props) => {
   const currentUser = getCurrentUser(state);
@@ -23,13 +23,16 @@ const mapStateToProps = (state, props) => {
     sender: getUserById(state, createdId),
     shareDataOwner: getUserById(state, shareDataOwnerId),
     currentUser,
-    userRoles: getUserRoles(state)
+    userRoles: getUserRoles(state),
+    users: getUserByUserId(state)
   };
 };
 
 const mapDispatchToProps = {
   makePersonalCall,
-  fetchMetadata
+  fetchMetadata,
+  createMessage,
+  deleteMessage
 };
 
 export default withRouter(

@@ -308,6 +308,7 @@
   "message": {
     "sentByName": "{{firstName}} {{lastName}}",
     "tooltipReply": "Reply",
+    "tooltipAddReaction": "Add Reaction",
     "tooltipAddFile": "Add File",
     "tooltipBookmarkSet": "Save in Bookmarks",
     "tooltipBookmarkRemove": "Remove from Bookmarks",
@@ -325,7 +326,8 @@
     "bookmarkRemovedToast": "The bookmark has been removed.",
     "userEditing": "Finish editing the open editor first! Or press escape if you’ve changed your mind.",
     "deleteTitle": "Delete message",
-    "deleteSubtitle": "Are you sure you want to delete this message? This cannot be undone."
+    "deleteSubtitle": "Are you sure you want to delete this message? This cannot be undone.",
+    "reactedWith": "reacted with"
   },
   "previewBar": {
     "name": "{{firstName}} {{lastName}}",

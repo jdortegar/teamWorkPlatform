@@ -23,10 +23,16 @@ export const fetchMessages = conversationId => async dispatch => {
   }
 };
 
-export const createMessage = ({ text, conversationId, replyTo }) => async (dispatch, getState) => {
+export const createMessage = ({ text, conversationId, replyTo, emojiReaction }) => async (dispatch, getState) => {
   const requestUrl = buildChatUrl(`conversations/${conversationId}/messages`);
   const userId = getCurrentUserId(getState());
-  const content = [{ type: 'text/plain', text }];
+  const content = [];
+
+  if (emojiReaction) {
+    content.push({ text, type: 'emojiReaction', colons: emojiReaction });
+  } else if (text) {
+    content.push({ text, type: 'text/plain' });
+  }
 
   const body = {
     content,
