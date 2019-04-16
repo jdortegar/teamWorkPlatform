@@ -6,7 +6,7 @@ const buildMessage = message => ({ ...message, children: [] });
 const replaceLocalMessage = (localId, array, newMessage) => {
   for (let i = array.length - 1; i >= 0; i -= 1) {
     const node = array[i];
-    if (node.messageId === localId) {
+    if (node.id === localId) {
       // eslint-disable-next-line no-param-reassign
       array[i] = buildMessage(newMessage);
       return node;
@@ -20,7 +20,7 @@ const replaceLocalMessage = (localId, array, newMessage) => {
 const getNode = (messageId, array) => {
   for (let i = array.length - 1; i >= 0; i -= 1) {
     const node = array[i];
-    if (node.messageId === messageId) {
+    if (node.id === messageId) {
       return node;
     } else if (node.children.length > 0) {
       const childNode = getNode(messageId, node.children);
@@ -78,7 +78,7 @@ const addMessagesToList = (messages, list) => {
       addMessagesToList(unaddedMessages, list);
     } else {
       unaddedMessages.forEach(message => {
-        console.error(`Can't find parent ${message.replyTo} of messageId ${message.messageId}`); // eslint-disable-line no-console
+        console.error(`Can't find parent ${message.replyTo} of messageId ${message.id}`); // eslint-disable-line no-console
       });
     }
   }
@@ -87,22 +87,22 @@ const addMessagesToList = (messages, list) => {
 /*
  * This method adds and updates the messages, returning the updated result using this shape: { messagesList: [], byId: {} }
  *   messagesList: array of the top-level messages, order by created, each one containing its own children array (replies)
- *   byId: object with all the messages, messageId is the key
+ *   byId: object with all the messages, message id is the key
  */
 const buildMessagesList = (messages = [], current = { messagesList: [], byId: {} }) => {
   const result = current;
   const unaddedMessages = [];
 
   messages.forEach(message => {
-    let existingMessage = result.byId[message.messageId];
+    let existingMessage = result.byId[message.id];
 
     // if the localId is no longer valid, delete it, and update the message in the list
-    if (message.localId && message.localId !== message.messageId) {
-      result.byId[message.messageId] = omit(message, 'localId');
+    if (message.localId && message.localId !== message.id) {
+      result.byId[message.id] = omit(message, 'localId');
       unset(result.byId, message.localId);
       existingMessage = replaceLocalMessage(message.localId, result.messagesList, message);
     } else {
-      result.byId[message.messageId] = message;
+      result.byId[message.id] = message;
     }
 
     if (!existingMessage) {

@@ -39,12 +39,11 @@ const propTypes = {
   teamId: PropTypes.string,
   callingData: PropTypes.object,
   finishCall: PropTypes.func.isRequired,
-  readMessagesByConversationId: PropTypes.object,
-  conversationIdsByTeam: PropTypes.object,
-  conversations: PropTypes.object,
-  messagesByConversation: PropTypes.object.isRequired,
-  readMessage: PropTypes.func.isRequired,
   fetchTeamMembers: PropTypes.func.isRequired
+  // readMessagesByConversationId: PropTypes.object,
+  // conversations: PropTypes.object,
+  // messagesByConversation: PropTypes.object.isRequired,
+  // readMessage: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
@@ -55,10 +54,9 @@ const defaultProps = {
   teams: [],
   userRoles: {},
   teamId: null,
-  callingData: {},
-  readMessagesByConversationId: {},
-  conversationIdsByTeam: {},
-  conversations: {}
+  callingData: {}
+  // readMessagesByConversationId: {},
+  // conversations: {}
 };
 
 const ROUTERS_TO_HIDE_SIDEBAR = ['/app/userDetails'];
@@ -293,7 +291,7 @@ class Sidebar extends Component {
   };
 
   renderTeams(teamsActive) {
-    const { user, history, readMessagesByConversationId, conversationIdsByTeam } = this.props;
+    const { user, history } = this.props;
     if (teamsActive.length === 0) {
       return null;
     }
@@ -312,12 +310,13 @@ class Sidebar extends Component {
         return null;
       }
       const isTeamOpen = _.includes(this.state.teamsOpenKeys, team.teamId);
-      let unreadMessagesCount = 0;
-      const [conversationId] = conversationIdsByTeam[team.teamId] || [];
-      if (conversationId) {
-        const readMessages = readMessagesByConversationId[conversationId] || {};
-        unreadMessagesCount = readMessages.messageCount - (readMessages.lastReadMessageCount || 0);
-      }
+      const unreadMessagesCount = 0;
+      // TODO: implement unread messages
+      // const [conversationId] = conversationIdsByTeam[team.teamId] || [];
+      // if (conversationId) {
+      //   const readMessages = readMessagesByConversationId[conversationId] || {};
+      //   unreadMessagesCount = readMessages.messageCount - (readMessages.lastReadMessageCount || 0);
+      // }
       const teamActive = classNames({ Team_active: history.location.pathname.indexOf(team.teamId) > 1 });
 
       const text = (
@@ -532,15 +531,15 @@ class Sidebar extends Component {
         </div>
 
         <DirectMessages
-          user={user}
+          currentUser={user}
           subscribers={subscribers}
           subscribersPresences={subscribersPresences}
           history={history}
           renderAvatar={renderAvatar}
-          readMessagesByConversationId={this.props.readMessagesByConversationId}
-          conversations={this.props.conversations}
-          messagesByConversation={this.props.messagesByConversation}
-          readMessage={this.props.readMessage}
+          // readMessagesByConversationId={this.props.readMessagesByConversationId}
+          // conversations={this.props.conversations}
+          // messagesByConversation={this.props.messagesByConversation}
+          // readMessage={this.props.readMessage}
         />
 
         <div className="sidebar-resize-icon">

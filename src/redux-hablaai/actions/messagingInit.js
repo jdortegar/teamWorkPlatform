@@ -1,4 +1,5 @@
-import messaging from '../messaging';
+import config from 'src/config/env';
+import { startApiMessaging, startChatMessaging } from '../messaging';
 import { eventHandler } from './eventHandler';
 import { onlineOfflineListener } from './urlRequest';
 
@@ -10,13 +11,18 @@ export const initMessaging = () => (dispatch, getState) => {
   } = getState();
   if (!websocketUrl || !token) return;
 
-  const messagingInstance = messaging(websocketUrl);
-  messagingInstance.connect(token);
-  messagingInstance.addEventListener(eventHandler(dispatch));
-  messagingInstance.addOnlineOfflineListener(onlineOfflineListener);
+  const apiSocket = startApiMessaging(websocketUrl);
+  apiSocket.connect(token);
+  apiSocket.addEventListener(eventHandler(dispatch));
+  apiSocket.addOnlineOfflineListener(onlineOfflineListener);
+
+  const chatSocket = startChatMessaging(config.chatRoot);
+  chatSocket.connect(token);
+  chatSocket.addEventListener(eventHandler(dispatch));
+  chatSocket.addOnlineOfflineListener(onlineOfflineListener);
 
   dispatch({
     type: MESSAGING_STARTED,
-    payload: { url: messagingInstance.url }
+    payload: { url: apiSocket.url }
   });
 };

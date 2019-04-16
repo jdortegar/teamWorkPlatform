@@ -190,6 +190,7 @@ class TeamPage extends Component {
           <div className={chatClassName}>
             <ChatContent
               teamId={team.teamId}
+              conversationId={team.conversationId}
               showTeamMembers={!chatVisible}
               showPageHeader={!chatVisible}
               showChat={this.showChat}

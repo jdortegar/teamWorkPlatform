@@ -1,13 +1,11 @@
 import { connect } from 'react-redux';
 import {
-  getCurrentSubscriberOrg,
   getCurrentUser,
   getUserByUserId,
   getPresencesOfSubscribersOfOrgId,
   getCurrentSubscriberOrgId,
-  getCurrentPersonalConversation,
-  getConversationsById,
-  getMessagesByConversation
+  getPersonalConversation,
+  areConversationsLoaded
 } from 'src/selectors';
 import { createConversation, makePersonalCall, readMessage } from 'src/actions';
 import { DirectMessagesPage } from 'src/pages';
@@ -16,14 +14,12 @@ const mapStateToProps = (state, props) => {
   const { userId } = props.match.params;
   const orgId = getCurrentSubscriberOrgId(state);
   return {
-    org: getCurrentSubscriberOrg(state),
-    user: getCurrentUser(state),
+    userId,
+    currentUser: getCurrentUser(state),
     users: getUserByUserId(state),
     usersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
-    currentPersonalConversation: getCurrentPersonalConversation(state),
-    userId,
-    conversations: getConversationsById(state),
-    messagesByConversation: getMessagesByConversation(state)
+    conversation: getPersonalConversation(state, userId),
+    conversationsLoaded: areConversationsLoaded(state)
   };
 };
 

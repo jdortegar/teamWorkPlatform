@@ -15,7 +15,7 @@ const defaultProps = {
 const ChatMessagesView = ({ messages }) => (
   <div className="ChatMessagesView">
     {messages.map(message => (
-      <MessageResult key={message.messageId} message={message} />
+      <MessageResult key={message.id} message={message} />
     ))}
   </div>
 );

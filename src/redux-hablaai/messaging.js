@@ -4,8 +4,18 @@ import SocketIOWildcard from 'socketio-wildcard';
 import EventTypes from 'src/common-hablaai/EventTypes';
 
 class Messaging {
-  constructor(url) {
+  constructor(url, type) {
     this.url = url;
+    const urlToks = url.split(':');
+    if (urlToks.length <= 2) {
+      if (url.toLowerCase().startsWith('https:')) {
+        this.url += ':443';
+      } else {
+        this.url += ':80';
+      }
+    }
+
+    this.type = type;
     this.socket = null;
     this.eventListeners = new Set();
     this.onlineOfflineListeners = new Set();
@@ -61,7 +71,7 @@ class Messaging {
     if (!this.connectionListenersInitialized) {
       this.socket.on('unauthorized', error => {
         if (this.verbose) {
-          console.log(`Messaging unauthorized.  ${JSON.stringify(error)}`);
+          console.log(`Messaging unauthorized. ${JSON.stringify(error)} --- ${this.url}`);
         }
 
         if (error.data.type === 'UnauthorizedError' || error.data.code === 'invalid_token') {
@@ -75,43 +85,43 @@ class Messaging {
 
       this.socket.on('reconnect_failed', a => {
         if (this.verbose) {
-          console.log(`\n\t\t\tMessaging reconnect_failed: a=${a}  [${new Date()}]`);
+          console.log(`\n\t\t\tMessaging reconnect_failed: a=${a} --- ${this.url} [${new Date()}]`);
         }
       });
       this.socket.on('reconnect', attemptNumber => {
         if (this.verbose) {
-          console.log(`\n\t\t\tMessaging reconnect: attemptNumber=${attemptNumber}  [${new Date()}]`);
+          console.log(`\n\t\t\tMessaging reconnect: attemptNumber=${attemptNumber} --- ${this.url} [${new Date()}]`);
         }
       });
       this.socket.on('connect_error', err => {
         if (this.verbose) {
-          console.log(`\n\t\t\tMessaging connect_error: ${JSON.stringify(err)}  [${new Date()}]`);
+          console.log(`\n\t\t\tMessaging connect_error: ${JSON.stringify(err)} --- ${this.url} [${new Date()}]`);
         }
         this.notifyOnlineOfflineListener(false);
       });
       this.socket.on('reconnect_error', err => {
         if (this.verbose) {
-          console.log(`\n\t\t\tMessaging reconnect_error: ${JSON.stringify(err)}  [${new Date()}]`);
+          console.log(`\n\t\t\tMessaging reconnect_error: ${JSON.stringify(err)} --- ${this.url} [${new Date()}]`);
         }
       });
       this.socket.on('connect_timeout', () => {
         if (this.verbose) {
-          console.log(`\n\t\t\tMessaging connect_timeout: [${new Date()}]`);
+          console.log(`\n\t\t\tMessaging connect_timeout --- ${this.url} [${new Date()}]`);
         }
       });
       this.socket.on('error', err => {
         if (this.verbose) {
-          console.log(`\n\t\t\tMessaging error: ${JSON.stringify(err)}  [${new Date()}]`);
+          console.log(`\n\t\t\tMessaging error: ${JSON.stringify(err)} --- ${this.url} [${new Date()}]`);
         }
       });
       this.socket.on('ping', () => {
         if (this.verbose) {
-          console.log(`\n\t\t\tMessaging ping  [${new Date()}]`);
+          console.log(`\n\t\t\tMessaging ping --- ${this.url} [${new Date()}]`);
         }
       });
       this.socket.on('pong', ms => {
         if (this.verbose) {
-          console.log(`\n\t\t\tMessaging pong (${ms}ms)  [${new Date()}]`);
+          console.log(`\n\t\t\tMessaging pong (${ms}ms) --- ${this.url} [${new Date()}]`);
         }
       });
 
@@ -122,7 +132,9 @@ class Messaging {
         if (eventType !== 'authenticated') {
           if (this.verbose) {
             console.log(
-              `\n\t\t\tMessaging received eventType=${eventType}  event=${JSON.stringify(event)}  [${new Date()}]`
+              `\n\t\t\tMessaging received eventType=${eventType} event=${JSON.stringify(event)} --- ${
+                this.url
+              } [${new Date()}]`
             );
           }
 
@@ -140,7 +152,7 @@ class Messaging {
       accepted = listener(eventType, event) || accepted;
     });
     if (!accepted) {
-      console.warn(`Unprocessed messaging eventType=${eventType}`);
+      console.warn(`Unprocessed messaging eventType=${eventType} --- ${this.url}`);
     }
   }
 
@@ -162,14 +174,14 @@ class Messaging {
 
       this.socket.on('connect', () => {
         if (this.verbose) {
-          console.log(`\n\t\t\tMessaging connected.  [${new Date()}]`);
+          console.log(`\n\t\t\tMessaging connected --- ${this.url} [${new Date()}]`);
         }
         this.socket.emit('authenticate', { token: jwt });
 
         if (!this.connectionListenersInitialized) {
           this.socket.on('authenticated', () => {
             if (this.verbose) {
-              console.log(`\n\t\t\tMessaging authenticated.  [${new Date()}]`);
+              console.log(`\n\t\t\tMessaging authenticated --- ${this.url} [${new Date()}]`);
             }
 
             this.notifyOnlineOfflineListener(true);
@@ -216,20 +228,32 @@ class Messaging {
   }
 }
 
-let messagingInstance;
+const messagingInstances = [];
 
-export default function messaging(websocketUrl = undefined) {
-  if (messagingInstance === undefined && websocketUrl) {
-    let url = websocketUrl;
-    const urlToks = websocketUrl.split(':');
-    if (urlToks.length <= 2) {
-      if (websocketUrl.toLowerCase().startsWith('https:')) {
-        url += ':443';
-      } else {
-        url += ':80';
-      }
-    }
-    messagingInstance = new Messaging(url);
+const getMessaging = (type = 'api') => messagingInstances.find(i => i.type === type);
+
+const startMessaging = type => url => {
+  if (!url || !type) {
+    throw new Error('URL and type are required to start messaging.');
   }
-  return messagingInstance;
-}
+
+  const existing = messagingInstances.find(i => i.type === type);
+  if (existing) return existing;
+
+  const instance = new Messaging(url, type);
+  messagingInstances.push(instance);
+  return instance;
+};
+
+export const closeAllConnections = () => {
+  return messagingInstances.map(instance => {
+    const { url } = instance;
+    instance.close();
+    return url;
+  });
+};
+
+export const startApiMessaging = startMessaging('api');
+export const startChatMessaging = startMessaging('chat');
+export const apiMessaging = () => getMessaging('api');
+export const chatMessaging = () => getMessaging('chat');

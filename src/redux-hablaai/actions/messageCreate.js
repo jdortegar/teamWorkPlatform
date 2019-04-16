@@ -4,13 +4,13 @@ import { buildApiUrl } from 'src/lib/api';
 import { getCurrentSubscriberOrgId, getCurrentUserId } from 'src/selectors';
 import { doAuthenticatedRequest } from './urlRequest';
 
-export const MESSAGE_CREATE_REQUEST = 'messages/create/request';
-export const MESSAGE_CREATE_SUCCESS = 'messages/create/success';
-export const MESSAGE_CREATE_FAILURE = 'messages/create/failure';
+const MESSAGE_CREATE_REQUEST = 'messages/create/request';
+const MESSAGE_CREATE_SUCCESS = 'messages/create/success';
+const MESSAGE_CREATE_FAILURE = 'messages/create/failure';
 
 const getPercentOfRequest = ({ total, loaded }) => Math.round((loaded * 100) / total);
 
-const createResource = (file, resourcesUrl, conversationId, orgId, onUploadProgress = () => {}) => {
+export const createResource = (file, resourcesUrl, conversationId, orgId, onUploadProgress = () => {}) => {
   const requestUrl = `${resourcesUrl}/${file.name}`;
   const fileSource = file.src.split('base64,')[1] || file.src;
 
@@ -30,7 +30,7 @@ const createResource = (file, resourcesUrl, conversationId, orgId, onUploadProgr
   });
 };
 
-export const createMessage = ({
+export const oldCreateMessage = ({
   message,
   conversationId,
   replyTo,
@@ -100,7 +100,7 @@ export const createMessage = ({
         requestUrl,
         method: 'post',
         data: {
-          replyTo: replyTo ? replyTo.messageId : undefined,
+          replyTo: replyTo ? replyTo.id : undefined,
           content
         }
       })

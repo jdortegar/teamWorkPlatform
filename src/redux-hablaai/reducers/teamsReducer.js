@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import _ from 'lodash';
-import { TEAMS_FETCH_SUCCESS, TEAM_RECEIVE, UPDATED_TEAM_SUCCESS, CREATE_TEAM_STATUS_SUCCESS } from 'src/actions';
+import { TEAMS_FETCH_SUCCESS, TEAM_RECEIVE, UPDATED_TEAM_SUCCESS, CREATE_TEAM_SUCCESS } from 'src/actions';
 
 const byId = (state = {}, action) => {
   switch (action.type) {
@@ -32,12 +32,12 @@ const byId = (state = {}, action) => {
 
       return stateData;
     }
-    case CREATE_TEAM_STATUS_SUCCESS: {
-      const { teamcreated } = action.payload;
+    case CREATE_TEAM_SUCCESS: {
+      const { team } = action.payload;
       const stateData = _.cloneDeep(state);
 
-      stateData[teamcreated.teamId] = {
-        ...teamcreated
+      stateData[team.teamId] = {
+        ...team
       };
 
       return stateData;

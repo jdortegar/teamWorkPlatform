@@ -228,7 +228,7 @@ class ShareModal extends React.Component {
               <div className="Forwarded_Message_Container">
                 <ChatMessage
                   message={dataforShare}
-                  key={dataforShare.messageId}
+                  key={dataforShare.id}
                   conversationId={dataforShare.conversationId}
                   conversationDisabled
                   showDetailsOnAvatar={false}

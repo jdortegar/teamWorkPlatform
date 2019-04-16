@@ -184,19 +184,19 @@ class MessageInput extends React.Component {
       if (!err) {
         const { replyTo } = this.state;
         const { files, form, resourcesUrl, conversationId, messageToEdit } = this.props;
-        const message = values.message ? values.message.trim() : '';
+        const text = values.message ? values.message.trim() : '';
 
         this.stopTyping();
         this.clearTypingTimer();
-        if (!message && isEmpty(files)) return;
+        if (!text && isEmpty(files)) return;
 
-        const messageId = messageToEdit ? messageToEdit.messageId : null;
+        const messageId = messageToEdit ? messageToEdit.id : null;
 
         if (!messageId) {
           // To do: remvoe this when API be ready
           this.props
             .createMessage({
-              message,
+              text,
               conversationId,
               replyTo,
               resourcesUrl,
@@ -204,8 +204,9 @@ class MessageInput extends React.Component {
               onFileUploadProgress: this.handleFileUploadProgress,
               messageId
             })
-            .then(() => {
+            .then(message => {
               this.setState({ fileProgress: null, showPreviewBox: false });
+              this.props.setLastSubmittedMessage(message);
               this.props.handleEditMessage(false);
               this.props.clearFileList();
             })
@@ -226,7 +227,6 @@ class MessageInput extends React.Component {
           this.props.resetReplyTo();
         }
 
-        this.props.setLastSubmittedMessage(message);
         form.resetFields();
       }
     });

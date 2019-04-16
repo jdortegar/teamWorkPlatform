@@ -2,38 +2,57 @@ import { combineReducers } from 'redux';
 import { union, omit } from 'lodash';
 import {
   CONVERSATIONS_FETCH_SUCCESS,
+  CONVERSATIONS_CREATE_SUCCESS,
   CONVERSATIONS_RECEIVE,
+  CREATE_TEAM_SUCCESS,
   MESSAGES_FETCH_SUCCESS,
   MESSAGE_RECEIVE,
   MESSAGE_CREATE_REQUEST,
   MESSAGE_CREATE_SUCCESS,
-  MESSAGE_CREATE_FAILURE,
-  CONVERSATION_DIRECT_RECEIVE
+  MESSAGE_CREATE_FAILURE
+  // CONVERSATION_DIRECT_RECEIVE
 } from 'src/actions';
 import buildMessagesList from 'src/lib/buildMessagesList';
 
-const byId = (state = {}, action) => {
+const loaded = (state = false, action) => {
   switch (action.type) {
     case CONVERSATIONS_FETCH_SUCCESS:
-    case CONVERSATIONS_RECEIVE: {
+      return true;
+    default:
+      return state;
+  }
+};
+
+const byId = (state = {}, action) => {
+  switch (action.type) {
+    case CONVERSATIONS_FETCH_SUCCESS: {
       const { conversations = [] } = action.payload;
       return {
         ...state,
-        ...conversations.reduce((acc, conversation) => {
-          const participants = conversation.participants.map(({ userId }) => userId);
-          acc[conversation.conversationId] = { ...conversation, participants };
-          return acc;
-        }, {})
+        ...conversations.reduce((acc, conversation) => ({ ...acc, [conversation.id]: conversation }), {})
       };
     }
-    case CONVERSATION_DIRECT_RECEIVE: {
+    case CONVERSATIONS_CREATE_SUCCESS: {
       const { conversation } = action.payload;
-      if (!conversation) return state;
-      return {
-        ...state,
-        [conversation.conversationId]: conversation
-      };
+      return { ...state, [conversation.id]: conversation };
     }
+    // TODO: remove this after listening to websocket event
+    case CREATE_TEAM_SUCCESS: {
+      const { team } = action.payload;
+      return { ...state, [team.conversationId]: { id: team.conversationId, members: [] } };
+    }
+    case CONVERSATIONS_RECEIVE: {
+      // console.warn('CONVERSATIONS_RECEIVE', { payload: action.payload });
+      return state;
+    }
+    // case CONVERSATION_DIRECT_RECEIVE: {
+    //   const { conversation } = action.payload;
+    //   if (!conversation) return state;
+    //   return {
+    //     ...state,
+    //     [conversation.conversationId]: conversation
+    //   };
+    // }
     default:
       return state;
   }
@@ -41,16 +60,29 @@ const byId = (state = {}, action) => {
 
 const allIds = (state = [], action) => {
   switch (action.type) {
-    case CONVERSATIONS_FETCH_SUCCESS:
-    case CONVERSATIONS_RECEIVE: {
+    case CONVERSATIONS_FETCH_SUCCESS: {
       const { conversations = [] } = action.payload;
-      return union(state, conversations.map(({ conversationId }) => conversationId));
+      return union(state, conversations.map(({ id }) => id));
     }
-    case CONVERSATION_DIRECT_RECEIVE: {
-      const { conversation } = action.payload;
-      if (!conversation) return state;
-      return union(state, [conversation.conversationId]);
+    case CONVERSATIONS_CREATE_SUCCESS: {
+      const { conversation = {} } = action.payload;
+      if (!conversation.id) return state;
+      return union(state, [conversation.id]);
     }
+    // TODO: remove this after listening to websocket event
+    case CREATE_TEAM_SUCCESS: {
+      const { team } = action.payload;
+      return union(state, [team.conversationId]);
+    }
+    // case CONVERSATIONS_RECEIVE: {
+    //   const { conversations = [] } = action.payload;
+    //   return union(state, conversations.map(({ conversationId }) => conversationId));
+    // }
+    // case CONVERSATION_DIRECT_RECEIVE: {
+    //   const { conversation } = action.payload;
+    //   if (!conversation) return state;
+    //   return union(state, [conversation.conversationId]);
+    // }
     default:
       return state;
   }
@@ -58,17 +90,59 @@ const allIds = (state = [], action) => {
 
 const idsByTeam = (state = {}, action) => {
   switch (action.type) {
-    case CONVERSATIONS_FETCH_SUCCESS:
-    case CONVERSATIONS_RECEIVE: {
+    case CONVERSATIONS_FETCH_SUCCESS: {
       const { conversations = [] } = action.payload;
       return {
         ...state,
         ...conversations.reduce((acc, conversation) => {
-          if (!conversation.teamId) return acc;
-          acc[conversation.teamId] = union(acc[conversation.teamId], [conversation.conversationId]);
+          const { teamId } = conversation.appData || {};
+          if (teamId) acc[teamId] = conversation.id;
           return acc;
         }, {})
       };
+    }
+    // TODO: remove this after listening to websocket event
+    case CREATE_TEAM_SUCCESS: {
+      const { team } = action.payload;
+      return { ...state, [team.conversationId]: team.teamId };
+    }
+    // case CONVERSATIONS_RECEIVE: {
+    //   const { conversations = [] } = action.payload;
+    //   return {
+    //     ...state,
+    //     ...conversations.reduce((acc, conversation) => {
+    //       if (!conversation.teamId) return acc;
+    //       acc[conversation.teamId] = union(acc[conversation.teamId], [conversation.conversationId]);
+    //       return acc;
+    //     }, {})
+    //   };
+    // }
+    default:
+      return state;
+  }
+};
+
+const idsByMember = (state = {}, action) => {
+  switch (action.type) {
+    case CONVERSATIONS_FETCH_SUCCESS: {
+      const { conversations = [], currentUserId } = action.payload;
+      return {
+        ...state,
+        ...conversations.reduce((acc, { appData = {}, members = [], id }) => {
+          const { teamId } = appData || {};
+          if (!teamId) {
+            const memberId = members.find(item => item !== currentUserId);
+            if (memberId) acc[memberId] = id;
+          }
+          return acc;
+        }, {})
+      };
+    }
+    case CONVERSATIONS_CREATE_SUCCESS: {
+      const { conversation, currentUserId } = action.payload;
+      if (!conversation) return state;
+      const memberId = conversation.members.find(item => item !== currentUserId);
+      return { ...state, [memberId]: conversation.id };
     }
     default:
       return state;
@@ -77,10 +151,10 @@ const idsByTeam = (state = {}, action) => {
 
 const currentPersonalConversationId = (state = null, action) => {
   switch (action.type) {
-    case CONVERSATION_DIRECT_RECEIVE: {
-      const { conversation = {} } = action.payload;
-      return conversation && conversation.conversationId;
-    }
+    // case CONVERSATION_DIRECT_RECEIVE: {
+    //   const { conversation = {} } = action.payload;
+    //   return conversation && conversation.conversationId;
+    // }
     default:
       return state;
   }
@@ -125,9 +199,11 @@ const messagesByConversation = (state = {}, action) => {
 };
 
 const conversationsReducer = combineReducers({
+  loaded,
   byId,
   allIds,
   idsByTeam,
+  idsByMember,
   messagesByConversation,
   currentPersonalConversationId
 });

@@ -13,28 +13,25 @@ import TopBar from './TopBar';
 
 const propTypes = {
   team: PropTypes.object,
-  teamMembers: PropTypes.array,
-  user: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
   usersPresences: PropTypes.object.isRequired,
   orgId: PropTypes.string.isRequired,
-  fetchTeamMembers: PropTypes.func.isRequired,
   files: PropTypes.array,
   removeFileFromList: PropTypes.func.isRequired,
   addBase: PropTypes.func.isRequired,
   isDraggingOver: PropTypes.bool.isRequired,
   clearFileList: PropTypes.func.isRequired,
   updateFileList: PropTypes.func.isRequired,
-  fetchConversations: PropTypes.func.isRequired,
   conversation: PropTypes.shape({
-    conversationId: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
-        messageId: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
         children: PropTypes.array.isRequired,
         created: PropTypes.string.isRequired,
         createdBy: PropTypes.string.isRequired,
-        path: PropTypes.string.isRequired,
+        path: PropTypes.string,
         content: PropTypes.arrayOf(
           PropTypes.shape({
             text: PropTypes.string,
@@ -54,7 +51,6 @@ const propTypes = {
   showTeamMembers: PropTypes.bool,
   showChat: PropTypes.func,
   menuOptions: PropTypes.array,
-  personalConversation: PropTypes.object,
   lastReadTimestamp: PropTypes.string
 };
 
@@ -66,200 +62,60 @@ const defaultProps = {
   showTeamMembers: false,
   showChat: null,
   menuOptions: [],
-  personalConversation: {},
   team: {},
-  teamMembers: [],
   lastReadTimestamp: null
 };
 
 const BOTTOM_SCROLL_LIMIT = 200;
 
 class Chat extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      members: null,
-      teamMembersLoaded: false,
-      conversationsLoaded: false,
-      replyTo: null,
-      lastSubmittedMessage: null,
-      membersFiltered: [],
-      userIsEditing: false
-    };
-
-    this.onMessageAction = this.onMessageAction.bind(this);
-    this.typingTimer = null;
-  }
+  state = {
+    members: [],
+    replyTo: null,
+    lastSubmittedMessage: null,
+    membersFiltered: [],
+    userIsEditing: false
+  };
 
   componentDidMount() {
-    const { team, personalConversation } = this.props;
+    const { conversation, users, usersPresences } = this.props;
+    this.updateMembers({ conversation, users, usersPresences });
 
-    // If is team conversation
-    if (!_.isEmpty(team)) {
-      this.props.fetchTeamMembers(team.teamId).then(() => {
-        // Get members data form Users
-        const { teamMembers, users, usersPresences } = this.props;
-        const members = teamMembers.map(memberId => {
-          const member = users[memberId];
-          return {
-            ...member,
-            online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
-          };
-        });
-
-        this.setState({ teamMembersLoaded: true, members, membersFiltered: members });
-      });
-
-      this.props.fetchConversations(team.teamId).then(response => {
-        if (!_.isEmpty(response.data.conversations)) {
-          const { conversationId } = response.data.conversations[0];
-
-          this.props
-            .fetchMessages(conversationId)
-            .then(() => this.setState({ conversationsLoaded: true }))
-            .then(() => {
-              this.scrollToBottom();
-              this.setScrollEvent();
-            });
-        }
-        if (response.data === 'STALE') {
-          this.setState({ conversationsLoaded: true });
-        }
-      });
-    }
-
-    // If is personal conversation
-    if (!_.isEmpty(personalConversation)) {
-      // Get members data form Users
-      const { users, usersPresences } = this.props;
-      const members = personalConversation.members.map(memberId => {
-        const member = users[memberId];
-        return {
-          ...member,
-          online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
-        };
-      });
-
-      this.setState({ teamMembersLoaded: true, members, membersFiltered: members });
-
-      const { conversationId } = personalConversation;
-
-      this.props
-        .fetchMessages(conversationId)
-        .then(() => this.setState({ conversationsLoaded: true }))
-        .then(() => {
-          this.scrollToBottom();
-          this.setScrollEvent();
-        });
-    }
+    this.props.fetchMessages(conversation.id);
+    //    .then(() => this.setState({ conversationsLoaded: true }))
+    //    .then(() => {
+    //      this.scrollToBottom();
+    //      this.setScrollEvent();
+    //    });
   }
 
   componentWillReceiveProps(nextProps) {
-    const nextTeamId = nextProps.team.teamId;
+    const { conversation, users, usersPresences } = nextProps;
+    if (this.props.conversation.id !== conversation.id) {
+      this.updateMembers({ conversation, users, usersPresences });
 
-    if (nextTeamId) {
-      const updateTeamMembers = () => {
-        const { teamMembers, users, usersPresences } = nextProps;
-        const members = teamMembers.map(memberId => {
-          const member = users[memberId];
-          return {
-            ...member,
-            online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
-          };
-        });
-
-        this.setState({
-          teamMembersLoaded: true,
-          members,
-          membersFiltered: members
-        });
-      };
-
-      if (
-        !_.isEqual(nextProps.teamMembers, this.props.teamMembers) ||
-        !_.isEqual(nextProps.users, this.props.users) ||
-        !_.isEqual(nextProps.teamMembers, _.map(this.state.members, 'userId'))
-      ) {
-        updateTeamMembers();
-      }
-
-      if (this.props.team.teamId !== nextTeamId) {
-        this.setState({ teamMembersLoaded: false, conversationsLoaded: false });
-        this.props.fetchTeamMembers(nextTeamId).then(updateTeamMembers);
-
-        this.props.fetchConversations(nextTeamId).then(response => {
-          if (!_.isEmpty(response.data.conversations)) {
-            const { conversationId } = response.data.conversations[0];
-            this.props
-              .fetchMessages(conversationId)
-              .then(() => this.setState({ conversationsLoaded: true }))
-              .then(() => {
-                this.scrollToBottom();
-                this.setScrollEvent();
-              });
-          }
-          if (response.data === 'STALE') {
-            this.setState({ conversationsLoaded: true });
-          }
-        });
-      }
-    }
-
-    const nextPersonalConversation = nextProps.personalConversation;
-
-    if (!_.isEmpty(nextPersonalConversation) && this.props.personalConversation) {
-      // Get members data form Users
-      if (
-        !_.isEqual(nextProps.users, this.props.users) ||
-        !_.isEqual(nextPersonalConversation.members, this.state.members)
-      ) {
-        const { users, usersPresences } = nextProps;
-
-        const members = nextPersonalConversation.members.map(memberId => {
-          const member = users[memberId];
-          return {
-            ...member,
-            online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
-          };
-        });
-
-        this.setState({ teamMembersLoaded: true, members, membersFiltered: members });
-      }
-
-      if (nextPersonalConversation.conversationId !== this.props.personalConversation.conversationId) {
-        const { conversationId } = nextPersonalConversation;
-
-        this.props
-          .fetchMessages(conversationId)
-          .then(() => this.setState({ conversationsLoaded: true }))
-          .then(() => {
-            this.scrollToBottom();
-            this.setScrollEvent();
-          });
-      }
+      this.props.fetchMessages(conversation.id);
+      //    .then(() => this.setState({ conversationsLoaded: true }))
+      //    .then(() => {
+      //      this.scrollToBottom();
+      //      this.setScrollEvent();
+      //    });
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { teamMembersLoaded, conversationsLoaded } = this.state;
-
-    if (!teamMembersLoaded || !conversationsLoaded) {
-      return;
-    }
-
-    const { conversation, user } = this.props;
+    const { conversation, currentUser } = this.props;
     if (!prevProps.conversation || !conversation) return;
     if (prevProps.conversation.messages.length === conversation.messages.length) return;
 
     const lastMessage = _.last(conversation.messages) || {};
-    const ownMessage = lastMessage.createdBy === user.userId;
+    const ownMessage = lastMessage.createdBy === currentUser.userId;
     if (ownMessage || this.isNearBottom()) this.scrollToBottom();
   }
 
-  onMessageAction(payload, action) {
+  onMessageAction = (payload, action) => {
     const { message, bookmark, extraInfo } = payload;
-    const { user, orgId } = this.props;
+    const { currentUser, orgId } = this.props;
 
     switch (action) {
       case messageAction.replyTo:
@@ -267,7 +123,7 @@ class Chat extends React.Component {
         break;
       case messageAction.bookmark:
         this.props
-          .saveBookmark(user, orgId, bookmark, extraInfo.setBookmark)
+          .saveBookmark(currentUser, orgId, bookmark, extraInfo.setBookmark)
           .then(() => {
             msg.success(String.t(extraInfo.setBookmark ? 'message.bookmarkSetToast' : 'message.bookmarkRemovedToast'));
           })
@@ -275,14 +131,22 @@ class Chat extends React.Component {
         break;
       case messageAction.delete:
         this.props
-          .deleteMessage(message.messageId, message.conversationId)
+          .deleteMessage(message.id, message.conversationId)
           .then(() => msg.success(String.t('message.deleteSuccessToast')))
           .catch(error => msg.error(error.message));
         break;
       default:
         break;
     }
-  }
+  };
+
+  updateMembers = ({ conversation, users, usersPresences }) => {
+    const members = conversation.members.map(memberId => ({
+      ...users[memberId],
+      online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
+    }));
+    this.setState({ members, membersFiltered: members });
+  };
 
   setScrollEvent = () => {
     const messagesContainer = document.getElementsByClassName('team__messages')[0];
@@ -325,10 +189,9 @@ class Chat extends React.Component {
     if (!messagesContainer) return;
 
     const { conversation } = this.props;
-    const { conversationId } = conversation;
     const lastMessage = _.last(conversation.messages) || {};
     if (messagesContainer.scrollHeight === messagesContainer.scrollTop + messagesContainer.clientHeight) {
-      this.props.readMessage(lastMessage.messageId, conversationId);
+      this.props.readMessage(lastMessage.id, conversation.id);
       messagesContainer.removeEventListener('scroll', this.handleScroll);
     }
   };
@@ -349,7 +212,7 @@ class Chat extends React.Component {
   };
 
   renderMessages() {
-    const { conversation, user, team, personalConversation, lastReadTimestamp } = this.props;
+    const { conversation, currentUser, team, lastReadTimestamp } = this.props;
     const { membersFiltered, lastSubmittedMessage, userIsEditing } = this.state;
 
     if (!membersFiltered) return null;
@@ -368,7 +231,7 @@ class Chat extends React.Component {
 
       // If message was created after last read message timestamp
       let lastRead = null;
-      if (message.createdBy !== user.userId) {
+      if (message.createdBy !== currentUser.userId) {
         lastRead = lastReadExists ? null : lastReadTimestamp < message.created;
         if (lastRead) {
           lastReadExists = true;
@@ -378,13 +241,12 @@ class Chat extends React.Component {
 
       return (
         <ChatMessage
-          key={message.messageId}
+          key={message.id}
           message={message}
-          conversationId={conversation.conversationId}
-          personalConversation={personalConversation}
+          teamId={team.teamId}
+          conversationId={conversation.id}
           currentPath={currentPath}
           teamMembers={membersFiltered}
-          teamId={team.teamId}
           lastRead={lastRead}
           grouped={grouped}
           scrollToBottom={this.scrollToBottom}
@@ -399,13 +261,13 @@ class Chat extends React.Component {
   }
 
   renderMembersTyping() {
-    const { membersTyping, user } = this.props;
+    const { membersTyping, currentUser } = this.props;
     const { members } = this.state;
     if (!membersTyping) return null;
 
-    // Remove own user from Typing array
-    if (membersTyping[user.userId]) {
-      delete membersTyping[user.userId];
+    // Remove current user from Typing array
+    if (membersTyping[currentUser.userId]) {
+      delete membersTyping[currentUser.userId];
     }
 
     const findUser = userId => _.find(members, { userId });
@@ -433,25 +295,23 @@ class Chat extends React.Component {
   }
 
   render() {
-    const { team, teamMembers, user, conversation, showPageHeader, showTeamMembers, menuOptions } = this.props;
-    const { teamMembersLoaded, conversationsLoaded, members, membersFiltered } = this.state;
+    const { team, currentUser, conversation, showPageHeader, showTeamMembers, menuOptions } = this.props;
+    const { members, membersFiltered } = this.state;
 
-    if (!teamMembersLoaded || !conversationsLoaded || !user || !teamMembers || !conversation) {
-      return <Spinner />;
-    }
-
-    const className = classNames({
-      'ChatPage-main': true,
-      'team-room-chat': true,
-      'team-room__main-container--opacity': this.state.isDraggingOver
-    });
+    if (!conversation) return <Spinner />;
 
     return (
-      <div className={className}>
+      <div
+        className={classNames({
+          'ChatPage-main': true,
+          'team-room-chat': true,
+          'team-room__main-container--opacity': this.state.isDraggingOver
+        })}
+      >
         {team && (
           <TopBar
             team={team}
-            user={user}
+            user={currentUser}
             members={members}
             membersFiltered={membersFiltered}
             conversation={conversation}
@@ -467,6 +327,7 @@ class Chat extends React.Component {
         <SimpleCardContainer className="Chat_container">
           <MessageInput
             teamId={team.teamId}
+            conversationId={conversation.id}
             removeFileFromList={this.props.removeFileFromList}
             addBase={this.props.addBase}
             clearFileList={this.props.clearFileList}

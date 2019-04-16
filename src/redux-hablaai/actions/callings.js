@@ -1,4 +1,4 @@
-import messaging from '../messaging';
+import { apiMessaging } from '../messaging';
 
 export const CALLING_RECEIVE = 'calling/receive';
 export const CALLING_RECEIVE_ANSWER = 'calling/receiveAnswer';
@@ -29,17 +29,17 @@ export const receiveTeamCall = ({ callerId, receiverTeamId }) => ({
 });
 
 export const makePersonalCall = (callerId, receiverId) => () => {
-  messaging().makePersonalCall(callerId, receiverId);
+  apiMessaging().makePersonalCall(callerId, receiverId);
 };
 
 export const answerCall = (callerId, status) => () => {
-  messaging().answerCall(callerId, status);
+  apiMessaging().answerCall(callerId, status);
 };
 
 export const makeTeamCall = (callerId, receiverTeamId) => () => {
-  messaging().makeTeamCall(callerId, receiverTeamId);
+  apiMessaging().makeTeamCall(callerId, receiverTeamId);
 };
 
 export const answerTeamCall = (receiverId, receiverTeamId, status) => () => {
-  messaging().answerTeamCall(receiverId, receiverTeamId, status);
+  apiMessaging().answerTeamCall(receiverId, receiverTeamId, status);
 };

@@ -1,7 +1,7 @@
 import { buildApiUrl } from 'src/lib/api';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
 
-export const CREATE_TEAM_STATUS_SUCCESS = 'createTeam/success';
+export const CREATE_TEAM_SUCCESS = 'createTeam/success';
 
 // eslint-disable-next-line import/prefer-default-export
 export const createTeam = (createObject, subscriberOrgId) => dispatch => {
@@ -19,10 +19,11 @@ export const createTeam = (createObject, subscriberOrgId) => dispatch => {
 
   thunk.then(response => {
     if (response.data && response.data !== RESPONSE_STALE) {
-      const teamcreated = response.data;
+      const team = response.data;
+
       dispatch({
-        type: CREATE_TEAM_STATUS_SUCCESS,
-        payload: { teamcreated }
+        type: CREATE_TEAM_SUCCESS,
+        payload: { team }
       });
     }
     return response;

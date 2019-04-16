@@ -6,6 +6,7 @@ import { fetchTeams } from './teamsFetch';
 import { fetchReadMessages } from './readMessagesFetch';
 import { fetchSubscribersBySubscriberOrgId } from './subscribersFetch';
 import { fetchSurveys, fetchLastAnswerDate } from './surveys';
+import { fetchConversations } from './conversations';
 
 /**
  * For global state, fetch data from remote server only if data doesn't exist in redux.
@@ -17,6 +18,8 @@ export const fetchGlobalState = () => (dispatch, getState) => {
   const state = getState();
   const { currentSubscriberOrgId } = state.subscriberOrgs;
   const orgNotFetched = currentSubscriberOrgId && isEmpty(getOrgTeams(state));
+
+  dispatch(fetchConversations());
 
   if (Object.keys(state.subscriberOrgs.subscriberOrgById).length === 0) {
     dispatch(fetchSubscriberOrgs());

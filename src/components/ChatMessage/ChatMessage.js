@@ -8,7 +8,14 @@ import classNames from 'classnames';
 import Autolinker from 'autolinker';
 
 import String from 'src/translations';
-import { AvatarWrapper, PreviewAttachments, VideoCallModal, ShareModal, MessageInput } from 'src/containers';
+import {
+  AvatarWrapper,
+  PreviewAttachments,
+  VideoCallModal,
+  ShareModal,
+  MessageInput,
+  ChatMessage as ChatMessageContainer
+} from 'src/containers';
 import MessageOptions from './MessageOptions';
 import Metadata from './Metadata';
 import './styles/style.css';
@@ -25,7 +32,6 @@ const propTypes = {
   grouped: PropTypes.bool,
   currentPath: PropTypes.string,
   teamMembers: PropTypes.array,
-  personalConversation: PropTypes.object,
   teamId: PropTypes.string,
   lastRead: PropTypes.bool,
   fetchMetadata: PropTypes.func,
@@ -45,7 +51,6 @@ const propTypes = {
 
 const defaultProps = {
   sender: {},
-  personalConversation: {},
   sharedProfile: null,
   bookmarked: false,
   ownMessage: false,
@@ -74,7 +79,7 @@ export const messageAction = {
 
 class ChatMessage extends Component {
   state = {
-    isExpanded: includes(this.props.currentPath, this.props.message.messageId),
+    isExpanded: includes(this.props.currentPath, this.props.message.id),
     videoCallModalVisible: false,
     shareModalVisible: false,
     sharePT: false,
@@ -86,7 +91,7 @@ class ChatMessage extends Component {
   }
 
   componentWillReceiveProps({ currentPath, message }) {
-    if (this.props.currentPath !== currentPath && includes(currentPath, message.messageId)) {
+    if (this.props.currentPath !== currentPath && includes(currentPath, message.id)) {
       this.setState({ isExpanded: true });
     }
   }
@@ -225,7 +230,7 @@ class ChatMessage extends Component {
   );
 
   renderReplies = replies => {
-    const { conversationDisabled, teamMembers, currentPath, teamId, onMessageAction } = this.props;
+    const { teamMembers, ...parentProps } = this.props;
     let previousSenderId = null;
     if (!teamMembers || isEmpty(replies)) return null;
 
@@ -239,17 +244,15 @@ class ChatMessage extends Component {
           previousSenderId = sender.userId;
 
           return (
-            <ChatMessage
-              conversationDisabled={conversationDisabled}
+            <ChatMessageContainer
+              {...parentProps}
+              key={replyMessage.id}
               message={replyMessage}
+              conversationId={replyMessage.conversationId}
               sender={sender}
               grouped={grouped}
-              key={replyMessage.messageId}
-              onMessageAction={onMessageAction}
               hide={!this.state.isExpanded}
-              currentPath={currentPath}
               teamMembers={teamMembers}
-              teamId={teamId}
             />
           );
         })}
@@ -261,7 +264,6 @@ class ChatMessage extends Component {
     const {
       sender,
       sharedProfile,
-      personalConversation,
       ownMessage,
       scrollToBottom,
       grouped,
@@ -272,7 +274,7 @@ class ChatMessage extends Component {
       userRoles
     } = this.props;
 
-    const { messageId, content = [], created, conversationId, children } = message;
+    const { id, content = [], created, conversationId, children } = message;
     const messageOwner = child && shareDataOwner ? shareDataOwner : sender;
     const { firstName, lastName, preferences, userId } = messageOwner;
     const replies = children && children.filter(msg => !msg.deleted);
@@ -313,7 +315,6 @@ class ChatMessage extends Component {
                       attachments={attachments}
                       conversationId={conversationId}
                       onLoadImage={scrollToBottom}
-                      personalConversation={personalConversation}
                     />
                   </div>
                   {sharedProfile && this.renderUserProfile(sharedProfile)}
@@ -327,7 +328,7 @@ class ChatMessage extends Component {
             <MessageOptions
               bookmarked={bookmarked}
               showOptions={ownMessage || (userRoles && userRoles.admin)}
-              onReply={() => this.handleReplyTo({ messageId, firstName, lastName, preferences, text })}
+              onReply={() => this.handleReplyTo({ id, firstName, lastName, preferences, text })}
               onBookmark={this.handleBookmark}
               onDeleteConfirmed={this.onDeleteConfirmed}
               handleShareProfile={this.handleShareProfile}
@@ -342,7 +343,7 @@ class ChatMessage extends Component {
   render() {
     const { message, grouped, hide, lastRead } = this.props;
     const { showEditInput } = this.state;
-    const { children, level } = message;
+    const { children, level, conversationId } = message;
     const { content } = message;
 
     const replies = children && children.filter(msg => !msg.deleted);
@@ -360,6 +361,7 @@ class ChatMessage extends Component {
           ) : (
             <MessageInput
               messageToEdit={message}
+              conversationId={conversationId}
               handleEditMessage={this.handleEditMessage}
               handleEditingAction={this.props.handleEditingAction}
             />
