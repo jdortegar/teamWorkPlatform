@@ -9,7 +9,7 @@ const replaceLocalMessage = (localId, array, newMessage) => {
     if (node.id === localId) {
       // eslint-disable-next-line no-param-reassign
       array[i] = buildMessage(newMessage);
-      return node;
+      return array[i];
     } else if (node.children.length > 0) {
       return replaceLocalMessage(localId, node.children, buildMessage(newMessage));
     }
@@ -102,6 +102,9 @@ const buildMessagesList = (messages = [], current = { messagesList: [], byId: {}
       unset(result.byId, message.localId);
       existingMessage = replaceLocalMessage(message.localId, result.messagesList, message);
     } else {
+      if (existingMessage) {
+        existingMessage = replaceLocalMessage(message.id, result.messagesList, message);
+      }
       result.byId[message.id] = message;
     }
 

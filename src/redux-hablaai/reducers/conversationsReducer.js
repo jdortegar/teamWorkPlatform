@@ -9,7 +9,8 @@ import {
   MESSAGE_RECEIVE,
   MESSAGE_CREATE_REQUEST,
   MESSAGE_CREATE_SUCCESS,
-  MESSAGE_CREATE_FAILURE
+  MESSAGE_CREATE_FAILURE,
+  MESSAGE_DELETE_SUCCESS
   // CONVERSATION_DIRECT_RECEIVE
 } from 'src/actions';
 import buildMessagesList from 'src/lib/buildMessagesList';
@@ -171,6 +172,11 @@ const messagesByConversation = (state = {}, action) => {
       // ignore messages of the current user, they are handled via API response
       if (message.createdBy === currentUserId) return state;
       return { ...state, [conversationId]: buildMessagesList([message], state[conversationId]) };
+    }
+    case MESSAGE_DELETE_SUCCESS: {
+      const { message } = action.payload;
+      const deletedMessage = { ...message, deleted: true };
+      return { ...state, [message.conversationId]: buildMessagesList([deletedMessage], state[message.conversationId]) };
     }
     case MESSAGE_CREATE_REQUEST: {
       const { conversationId, message } = action.payload;

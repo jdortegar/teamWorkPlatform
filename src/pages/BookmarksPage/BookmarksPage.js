@@ -62,7 +62,7 @@ export default class BookmarksPage extends Component {
         break;
       case messageAction.delete:
         this.props
-          .deleteMessage(message.id, message.conversationId)
+          .deleteMessage(message)
           .then(() => {
             msg.success(String.t('message.deleteSuccessToast'));
           })

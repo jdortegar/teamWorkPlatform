@@ -7,6 +7,8 @@ export const MESSAGES_FETCH_FAILURE = 'messages/fetch/failure';
 export const MESSAGE_CREATE_REQUEST = 'messages/create/request';
 export const MESSAGE_CREATE_SUCCESS = 'messages/create/success';
 export const MESSAGE_CREATE_FAILURE = 'messages/create/failure';
+export const MESSAGE_DELETE_SUCCESS = 'messages/delete/success';
+export const MESSAGE_DELETE_FAILURE = 'messages/delete/failure';
 
 export const fetchMessages = conversationId => async dispatch => {
   const requestUrl = buildChatUrl(`conversations/${conversationId}/messages`);
@@ -47,6 +49,20 @@ export const createMessage = ({ text, conversationId, replyTo, emojiReaction }) 
   } catch (e) {
     const error = e.response ? { ...e.response.data } : e;
     dispatch({ type: MESSAGES_FETCH_FAILURE, payload: { error } });
+    return error;
+  }
+};
+
+export const deleteMessage = message => async dispatch => {
+  const requestUrl = buildChatUrl(`messages/${message.id}`);
+
+  try {
+    await dispatch(doAuthenticatedRequest({ requestUrl, method: 'delete' }));
+    dispatch({ type: MESSAGE_DELETE_SUCCESS, payload: { message } });
+    return message;
+  } catch (e) {
+    const error = e.response ? { ...e.response.data } : e;
+    dispatch({ type: MESSAGE_DELETE_FAILURE, payload: { error } });
     return error;
   }
 };

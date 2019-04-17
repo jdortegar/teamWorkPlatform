@@ -47,7 +47,7 @@ const propTypes = {
   showMetadata: PropTypes.bool,
   shareDataOwner: PropTypes.object,
   userRoles: PropTypes.object.isRequired,
-  handleStateOnParent: PropTypes.func.isRequired,
+  handleStateOnParent: PropTypes.func,
   userIsEditing: PropTypes.bool,
   createMessage: PropTypes.func.isRequired,
   deleteMessage: PropTypes.func.isRequired,
@@ -72,7 +72,8 @@ const defaultProps = {
   userIsEditing: false,
   fetchMetadata: () => {},
   scrollToBottom: () => {},
-  onMessageAction: () => {}
+  onMessageAction: () => {},
+  handleStateOnParent: () => {}
 };
 
 export const messageAction = {
@@ -91,25 +92,12 @@ class ChatMessage extends Component {
     sharePT: false,
     showEditInput: false,
     showEmojiPicker: false,
-    reactionsObj: {}
+    reactions: {}
   };
 
   componentWillMount() {
     const { message } = this.props;
-    const { children } = message;
-    // Emoji Object if exists
-    if (children.length > 0) {
-      const reactionsObj = {};
-      forEach(children.filter(msg => msg.content[0] && msg.content[0].type === 'emojiReaction'), msg => {
-        const emoji = msg.content[0].text;
-        reactionsObj[emoji] = reactionsObj[emoji]
-          ? [...reactionsObj[emoji], { userId: msg.createdBy, messageId: msg.messageId, colons: msg.content[0].colons }]
-          : [{ userId: msg.createdBy, messageId: msg.messageId, colons: msg.content[0].colons }];
-      });
-
-      this.setState({ reactionsObj });
-    }
-
+    this.buildReactions(message.children);
     this.props.scrollToBottom();
   }
 
@@ -117,21 +105,28 @@ class ChatMessage extends Component {
     if (this.props.currentPath !== currentPath && includes(currentPath, message.id)) {
       this.setState({ isExpanded: true });
     }
+    this.buildReactions(message.children);
+  }
 
-    const { children } = message;
-    // Emoji Object if exists
-    if (children.length > 0) {
-      const reactionsObj = {};
-      forEach(children.filter(msg => msg.content[0] && msg.content[0].type === 'emojiReaction'), msg => {
-        const emoji = msg.content[0].text;
-        reactionsObj[emoji] = reactionsObj[emoji]
-          ? [...reactionsObj[emoji], { userId: msg.createdBy, messageId: msg.messageId, colons: msg.content[0].colons }]
-          : [{ userId: msg.createdBy, messageId: msg.messageId, colons: msg.content[0].colons }];
+  buildReactions = childrenMessages => {
+    if (!isEmpty(childrenMessages)) {
+      const reactions = {};
+      const reactionsMessages = childrenMessages.filter(
+        msg => msg.content[0] && msg.content[0].type === 'emojiReaction'
+      );
+
+      forEach(reactionsMessages, msg => {
+        if (!msg.deleted) {
+          const emoji = msg.content[0].text;
+          reactions[emoji] = reactions[emoji]
+            ? [...reactions[emoji], { id: msg.id, userId: msg.createdBy, colons: msg.content[0].colons }]
+            : [{ id: msg.id, userId: msg.createdBy, colons: msg.content[0].colons }];
+        }
       });
 
-      this.setState({ reactionsObj });
+      this.setState({ reactions });
     }
-  }
+  };
 
   handleShareProfile = sharePT => {
     this.setState({ shareModalVisible: true, sharePT });
@@ -294,8 +289,8 @@ class ChatMessage extends Component {
 
   addEmoji = e => {
     const { message, currentUser } = this.props;
-    const { reactionsObj = {} } = this.state;
-    const { conversationId } = message;
+    const { reactions = {} } = this.state;
+    const { conversationId, children } = message;
 
     // codify emoji
     let emojiPic;
@@ -310,16 +305,17 @@ class ChatMessage extends Component {
       emojiPic = String.fromCodePoint(...codesArray);
     }
     const replyTo = { ...message };
-    const existEmoji = reactionsObj[emojiPic] && reactionsObj[emojiPic].find(msg => msg.userId === currentUser.userId);
-    if (existEmoji) {
-      this.props.deleteMessage(existEmoji.messageId, message.conversationId).catch(error => mssg.error(error.message));
+    const existingEmoji = reactions[emojiPic] && reactions[emojiPic].find(msg => msg.userId === currentUser.userId);
+    if (existingEmoji) {
+      const reactionMessage = children.find(msg => msg.id === existingEmoji.id);
+      this.props.deleteMessage(reactionMessage).catch(error => mssg.error(error.message));
     } else {
       this.props
         .createMessage({
           text: emojiPic,
+          emojiReaction: e.colons,
           conversationId,
-          replyTo,
-          emojiReaction: e.colons
+          replyTo
         })
         .catch(error => {
           mssg.error(error.message);
@@ -392,7 +388,7 @@ class ChatMessage extends Component {
     } = this.props;
 
     const { id, content = [], created, conversationId, children } = message;
-    const { reactionsObj } = this.state;
+    const { reactions } = this.state;
 
     const messageOwner = child && shareDataOwner ? shareDataOwner : sender;
     const { firstName, lastName, preferences, userId } = messageOwner;
@@ -463,12 +459,12 @@ class ChatMessage extends Component {
             />
           )}
         </Row>
-        {reactionsObj && (
+        {reactions && (
           <Row type="flex" justify="start" gutter={10} style={{ alignItems: 'center' }}>
             <Col xs={{ span: 5 }} sm={{ span: 3 }} md={{ span: 2 }} className="message__col-user-icon" />
             <Col xs={{ span: 15 }} sm={{ span: 16 }} md={{ span: 18 }}>
-              {Object.keys(reactionsObj).length > 0 && (
-                <div className="emoji-reaction-container">{this.renderReactions(reactionsObj)}</div>
+              {Object.keys(reactions).length > 0 && (
+                <div className="emoji-reaction-container">{this.renderReactions(reactions)}</div>
               )}
             </Col>
           </Row>
@@ -522,15 +518,15 @@ class ChatMessage extends Component {
         )}
         {this.state.previewMessageModalVisible && (
           <PreviewMessageModal
-            title={String.t('message.deleteTitle')}
-            subtitle={String.t('message.deleteSubtitle')}
+            message={message}
+            title={Str.t('message.deleteTitle')}
+            subtitle={Str.t('message.deleteSubtitle')}
             visible={this.state.previewMessageModalVisible}
             showPreviewMessageModal={this.showPreviewMessageModal}
             onConfirmed={() => {
               this.props.onMessageAction({ message }, messageAction.delete);
               this.showPreviewMessageModal(false);
             }}
-            message={message}
           />
         )}
       </div>
