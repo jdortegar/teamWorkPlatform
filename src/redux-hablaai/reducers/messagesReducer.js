@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { union, omit } from 'lodash';
 
-import { MESSAGES_FETCH_SUCCESS, MESSAGE_DELETE_SUCCESS } from 'src/actions';
+import { MESSAGES_FETCH_SUCCESS, MESSAGE_CREATE_SUCCESS, MESSAGE_DELETE_SUCCESS } from 'src/actions';
 
 const byId = (state = {}, action) => {
   switch (action.type) {
@@ -11,6 +11,10 @@ const byId = (state = {}, action) => {
         ...state,
         ...messages.reduce((acc, message) => ({ ...acc, [message.id]: message }), {})
       };
+    }
+    case MESSAGE_CREATE_SUCCESS: {
+      const { message } = action.payload;
+      return { ...state, [message.id]: message };
     }
     case MESSAGE_DELETE_SUCCESS: {
       const { message } = action.payload;
@@ -35,6 +39,10 @@ const idsByConversation = (state = {}, action) => {
           {}
         )
       };
+    }
+    case MESSAGE_CREATE_SUCCESS: {
+      const { message } = action.payload;
+      return { ...state, [message.conversationId]: union(state[message.conversationId], [message.id]) };
     }
     case MESSAGE_DELETE_SUCCESS: {
       const { message } = action.payload;

@@ -24,8 +24,7 @@ import {
   getConversationIdsByTeam,
   getConversationIdsByMember,
   getReadMessagesByConversationId,
-  getConversationsById,
-  getMessagesByConversation
+  getConversationsById
 } from 'src/selectors';
 
 const mapStateToProps = (state, props) => {
@@ -50,8 +49,7 @@ const mapStateToProps = (state, props) => {
     conversationIdsByTeam: getConversationIdsByTeam(state),
     readMessagesByConversationId: getReadMessagesByConversationId(state),
     conversations: getConversationsById(state),
-    personalConversations: getConversationIdsByMember(state),
-    messagesByConversation: getMessagesByConversation(state)
+    personalConversations: getConversationIdsByMember(state)
   };
 };
 

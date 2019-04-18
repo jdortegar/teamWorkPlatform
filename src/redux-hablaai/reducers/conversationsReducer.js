@@ -1,18 +1,11 @@
 import { combineReducers } from 'redux';
-import { union, omit } from 'lodash';
+import { union } from 'lodash';
 import {
   CONVERSATIONS_FETCH_SUCCESS,
   CONVERSATIONS_CREATE_SUCCESS,
   CONVERSATIONS_RECEIVE,
-  CREATE_TEAM_SUCCESS,
-  MESSAGES_FETCH_SUCCESS,
-  MESSAGE_RECEIVE,
-  MESSAGE_CREATE_REQUEST,
-  MESSAGE_CREATE_SUCCESS,
-  MESSAGE_CREATE_FAILURE,
-  MESSAGE_DELETE_SUCCESS
+  CREATE_TEAM_SUCCESS
 } from 'src/actions';
-import buildMessagesList from 'src/lib/buildMessagesList';
 
 const loaded = (state = false, action) => {
   switch (action.type) {
@@ -115,49 +108,6 @@ const idsByMember = (state = {}, action) => {
       if (!conversation) return state;
       const memberId = conversation.members.find(item => item !== currentUserId);
       return { ...state, [memberId]: conversation.id };
-    }
-    default:
-      return state;
-  }
-};
-
-export const messagesByConversation = (state = {}, action) => {
-  switch (action.type) {
-    case MESSAGES_FETCH_SUCCESS: {
-      const { conversationId, messages = [] } = action.payload;
-      return { ...state, [conversationId]: buildMessagesList(messages, state[conversationId]) };
-    }
-    case MESSAGE_RECEIVE: {
-      const { conversationId, message, currentUserId } = action.payload;
-      // ignore messages of the current user, they are handled via API response
-      if (message.createdBy === currentUserId) return state;
-      return { ...state, [conversationId]: buildMessagesList([message], state[conversationId]) };
-    }
-    case MESSAGE_DELETE_SUCCESS: {
-      const { message } = action.payload;
-      const deletedMessage = { ...message, deleted: true };
-      return { ...state, [message.conversationId]: buildMessagesList([deletedMessage], state[message.conversationId]) };
-    }
-    case MESSAGE_CREATE_REQUEST: {
-      const { conversationId, message } = action.payload;
-      return { ...state, [conversationId]: buildMessagesList([message], state[conversationId]) };
-    }
-    case MESSAGE_CREATE_SUCCESS: {
-      const { conversationId, localId, message } = action.payload;
-      const updatedMessage = { ...message, localId };
-      return { ...state, [conversationId]: buildMessagesList([updatedMessage], state[conversationId]) };
-    }
-    case MESSAGE_CREATE_FAILURE: {
-      const { conversationId, localId } = action.payload;
-      const current = state[conversationId] || {};
-
-      return {
-        ...state,
-        [conversationId]: {
-          byId: omit(current.byId, localId),
-          messagesList: current.messagesList.filter(m => m.localId !== localId)
-        }
-      };
     }
     default:
       return state;
