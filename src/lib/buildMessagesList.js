@@ -1,123 +1,66 @@
-import { omit, unset } from 'lodash';
+import { findIndex } from 'lodash';
 import moment from 'moment';
 
-const buildMessage = message => ({ ...message, children: [] });
+// Add the children property to the message
+const withChildren = message => ({ ...message, children: [] });
 
-const replaceLocalMessage = (localId, array, newMessage) => {
+// Find a message by id in the given array, also searching into its children recursively
+const findMessage = (id, array = []) => {
   for (let i = array.length - 1; i >= 0; i -= 1) {
     const node = array[i];
-    if (node.id === localId) {
-      // eslint-disable-next-line no-param-reassign
-      array[i] = buildMessage(newMessage);
-      return array[i];
-    } else if (node.children.length > 0) {
-      return replaceLocalMessage(localId, node.children, buildMessage(newMessage));
-    }
+    if (node.id === id) return node;
+    const childNode = findMessage(id, node.children);
+    if (childNode) return childNode;
   }
   return null;
 };
 
-const getNode = (messageId, array) => {
-  for (let i = array.length - 1; i >= 0; i -= 1) {
-    const node = array[i];
-    if (node.id === messageId) {
-      return node;
-    } else if (node.children.length > 0) {
-      const childNode = getNode(messageId, node.children);
-      if (childNode !== null) {
-        return childNode;
-      }
-    }
-  }
-  return null;
-};
-
-const addMessageToArray = (message, array) => {
-  if (array.length === 0) {
-    array.push(buildMessage(message));
+// Place the message into the given array based on the "created" property, latest in the end
+const placeIntoArray = (message, array = []) => {
+  const index = findIndex(array, item => moment(item.created).isAfter(moment(message.created)));
+  if (index < 0) {
+    array.push(message);
   } else {
-    let i = array.length - 1;
-    for (; i >= 0; i -= 1) {
-      if (moment(message.created).isAfter(moment(array[i].created))) {
-        break;
-      }
-    }
-    if (i < 0) {
-      array.push(buildMessage(message));
-    } else {
-      array.splice(i + 1, 0, buildMessage(message));
-    }
+    array.splice(index, 0, message);
   }
 };
 
-const addMessageToList = (message, list) => {
-  if (message.replyTo) {
-    const parentNode = getNode(message.replyTo, list);
-    if (parentNode === null) {
-      return false;
-    }
-    addMessageToArray(message, parentNode.children);
-  } else {
-    addMessageToArray(message, list);
-  }
-
+// Find the parent message if it's already in the list and add the reply as its children. Return true if successful
+const addReply = (message, array) => {
+  const parent = findMessage(message.replyTo, array);
+  if (!parent) return false;
+  placeIntoArray(message, parent.children);
   return true;
 };
 
-const addMessagesToList = (messages, list) => {
-  const unaddedMessages = [];
-  messages.forEach(message => {
-    if (!addMessageToList(message, list)) {
-      unaddedMessages.push(message);
-    }
-  });
-
-  // Only try to add if something else was added.
-  if (unaddedMessages.length > 0) {
-    if (unaddedMessages.length < messages.length) {
-      addMessagesToList(unaddedMessages, list);
-    } else {
-      unaddedMessages.forEach(message => {
-        console.error(`Can't find parent ${message.replyTo} of messageId ${message.id}`); // eslint-disable-line no-console
-      });
-    }
-  }
-};
-
 /*
- * This method adds and updates the messages, returning the updated result using this shape: { messagesList: [], byId: {} }
- *   messagesList: array of the top-level messages, order by created, each one containing its own children array (replies)
- *   byId: object with all the messages, message id is the key
+ * This method creates the messages list.
+ *   It takes the ids of the messages to be included, and the byId object containing all messages (with id as the key)
+ *   Returns an array of the top-level messages, order by creation date, each one containing its own children array (replies)
  */
-const buildMessagesList = (messages = [], current = { messagesList: [], byId: {} }) => {
-  const result = current;
-  const unaddedMessages = [];
+const buildMessagesList = (ids, byId) => {
+  const result = [];
+  let remaining = ids;
 
-  messages.forEach(message => {
-    let existingMessage = result.byId[message.id];
-
-    // if the localId is no longer valid, delete it, and update the message in the list
-    if (message.localId && message.localId !== message.id) {
-      result.byId[message.id] = omit(message, 'localId');
-      unset(result.byId, message.localId);
-      existingMessage = replaceLocalMessage(message.localId, result.messagesList, message);
-    } else {
-      if (existingMessage) {
-        existingMessage = replaceLocalMessage(message.id, result.messagesList, message);
-      }
-      result.byId[message.id] = message;
-    }
-
-    if (!existingMessage) {
-      if (!addMessageToList(message, result.messagesList)) {
-        unaddedMessages.push(message);
-      }
-    }
+  // First, add the "root" messages to the array (messages that are not replies) and keep track of the remaining messages
+  const rootMessages = ids.map(m => byId[m]).filter(msg => msg && !msg.replyTo);
+  rootMessages.forEach(message => {
+    placeIntoArray(withChildren(message), result);
+    remaining = remaining.filter(id => id !== message.id);
   });
 
-  if (unaddedMessages.length > 0) {
-    addMessagesToList(unaddedMessages, result.messagesList);
-  }
+  // Try to add replies to the list as message children, returning the ids that couldn't be placed
+  const addReplies = repliesIds =>
+    repliesIds.filter(messageId => (addReply(withChildren(byId[messageId]), result) ? null : messageId));
+
+  /* Since we have multi-level replies, some of them can be children of a message that is not on the list yet
+   * So we keep track of the ids that couldn't be added (remaining) and we try again
+   * If no items were added and we have ids remaining, that means the parent message doesn't exist anymore (deleted). */
+  let count = 0;
+  do {
+    count = remaining.length;
+    remaining = addReplies(remaining);
+  } while (remaining.length > 0 && remaining.length !== count);
 
   return result;
 };

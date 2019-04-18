@@ -11,7 +11,6 @@ import {
   MESSAGE_CREATE_SUCCESS,
   MESSAGE_CREATE_FAILURE,
   MESSAGE_DELETE_SUCCESS
-  // CONVERSATION_DIRECT_RECEIVE
 } from 'src/actions';
 import buildMessagesList from 'src/lib/buildMessagesList';
 
@@ -46,14 +45,6 @@ const byId = (state = {}, action) => {
       // console.warn('CONVERSATIONS_RECEIVE', { payload: action.payload });
       return state;
     }
-    // case CONVERSATION_DIRECT_RECEIVE: {
-    //   const { conversation } = action.payload;
-    //   if (!conversation) return state;
-    //   return {
-    //     ...state,
-    //     [conversation.conversationId]: conversation
-    //   };
-    // }
     default:
       return state;
   }
@@ -75,15 +66,6 @@ const allIds = (state = [], action) => {
       const { team } = action.payload;
       return union(state, [team.conversationId]);
     }
-    // case CONVERSATIONS_RECEIVE: {
-    //   const { conversations = [] } = action.payload;
-    //   return union(state, conversations.map(({ conversationId }) => conversationId));
-    // }
-    // case CONVERSATION_DIRECT_RECEIVE: {
-    //   const { conversation } = action.payload;
-    //   if (!conversation) return state;
-    //   return union(state, [conversation.conversationId]);
-    // }
     default:
       return state;
   }
@@ -107,17 +89,6 @@ const idsByTeam = (state = {}, action) => {
       const { team } = action.payload;
       return { ...state, [team.conversationId]: team.teamId };
     }
-    // case CONVERSATIONS_RECEIVE: {
-    //   const { conversations = [] } = action.payload;
-    //   return {
-    //     ...state,
-    //     ...conversations.reduce((acc, conversation) => {
-    //       if (!conversation.teamId) return acc;
-    //       acc[conversation.teamId] = union(acc[conversation.teamId], [conversation.conversationId]);
-    //       return acc;
-    //     }, {})
-    //   };
-    // }
     default:
       return state;
   }
@@ -150,18 +121,7 @@ const idsByMember = (state = {}, action) => {
   }
 };
 
-const currentPersonalConversationId = (state = null, action) => {
-  switch (action.type) {
-    // case CONVERSATION_DIRECT_RECEIVE: {
-    //   const { conversation = {} } = action.payload;
-    //   return conversation && conversation.conversationId;
-    // }
-    default:
-      return state;
-  }
-};
-
-const messagesByConversation = (state = {}, action) => {
+export const messagesByConversation = (state = {}, action) => {
   switch (action.type) {
     case MESSAGES_FETCH_SUCCESS: {
       const { conversationId, messages = [] } = action.payload;
@@ -209,9 +169,7 @@ const conversationsReducer = combineReducers({
   byId,
   allIds,
   idsByTeam,
-  idsByMember,
-  messagesByConversation,
-  currentPersonalConversationId
+  idsByMember
 });
 
 export default conversationsReducer;
