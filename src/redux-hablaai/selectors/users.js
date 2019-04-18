@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { getUserByUserId } from './state';
 import { getCurrentUserId } from './auth';
 import { getOrgTeams } from './teams';
-import { getMessagesByConversation } from './conversations';
+import { getMessagesByConversation } from './messages';
 
 export { getUserByUserId, getPresencesByUserId } from './state';
 
