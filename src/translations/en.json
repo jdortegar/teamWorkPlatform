@@ -326,7 +326,7 @@
     "bookmarkRemovedToast": "The bookmark has been removed.",
     "userEditing": "Finish editing the open editor first! Or press escape if you’ve changed your mind.",
     "deleteTitle": "Delete message",
-    "deleteSubtitle": "Are you sure you want to delete this message? This cannot be undone.",
+    "deleteSubtitle": "Are you sure you want to delete this message? Once done it's gone forever.",
     "reactedWith": "reacted with"
   },
   "previewBar": {
@@ -885,7 +885,7 @@
   },
   "organizationSummaryPage": {
     "subscriptionPlan": "Subscription Plan",
-    "availableSeat": "Licenses Used : ",
+    "availableSeat": "Licenses Used: ",
     "of": "of",
     "projectTeams": "Project Teams",
     "filesShared": "Files Shared",

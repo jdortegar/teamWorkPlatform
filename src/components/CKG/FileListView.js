@@ -52,20 +52,7 @@ const getColumns = (keywords, caseSensitive, owners, highlightSearch) => [
       if (text.length > 35) {
         textToRender = `${text.substr(0, 20)}... ${text.substr(text.length - 10, text.length)}`;
       }
-      const ToolTipRender = (
-        <div className="habla-lighter-text">
-          <div>
-            <span className="habla-bold-text">{String.t('fileName')}: </span>
-            <br />
-            {text}
-          </div>
-          <div>
-            <span className="habla-bold-text">{String.t('url')}: </span>
-            <br />
-            {file.resourceUri}
-          </div>
-        </div>
-      );
+      const ToolTipRender = <div>{text}</div>;
       return (
         <Tooltip placement="top" title={ToolTipRender} overlayClassName="FileListView__results__tooltip">
           <a className="FileListView__results__link" href={file.resourceUri} target="_blank" rel="noopener noreferrer">
