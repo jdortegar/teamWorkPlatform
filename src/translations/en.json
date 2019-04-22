@@ -24,6 +24,7 @@
   "no": "No",
   "shareUser": "Share with Users",
   "sharePT": "Share with Project Teams",
+  "deleteButton": "Delete",
 
   "enterMsgPostPlaceholder": "What do you want to tell the Team?",
   "enterMsgReplyPlaceholder": "Leave a Message ...",

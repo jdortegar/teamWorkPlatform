@@ -130,13 +130,11 @@ a.habla-top-menu-active {
   background-color: transparent;
   font-weight: 700;
   color: #ececec;
-  align-self: end;
   cursor: pointer;
   border: none;
   margin-left: 13px;
   padding: 0;
   position: relative;
-  top: 6px;
 }
 .habla-top-menu-search button:hover {
   color: #ffffff;

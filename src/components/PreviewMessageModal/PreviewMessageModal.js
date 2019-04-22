@@ -48,7 +48,7 @@ const PreviewMessageModal = ({ visible, message, showPreviewMessageModal, onConf
               {String.t('cancelButton')}
             </Button>
             <Button className="Confirm_button" onClick={() => onConfirmed()}>
-              {String.t('okButton')}
+              {String.t('deleteButton')}
             </Button>
           </div>
         </div>

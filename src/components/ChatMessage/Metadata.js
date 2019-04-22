@@ -39,7 +39,7 @@ class Metadata extends Component {
   render() {
     const { urlMetadata, loadingMetadata } = this.state;
 
-    if (loadingMetadata || !urlMetadata) return false;
+    if (loadingMetadata || !urlMetadata || (!urlMetadata.image && urlMetadata.images.length === 0)) return false;
 
     let imageUrl = null;
     if (urlMetadata.image) {

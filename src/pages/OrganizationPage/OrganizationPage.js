@@ -225,9 +225,9 @@ class OrganizationPage extends Component {
                     </div>
                   </div>
                   <div className="Flex_row">
-                    <div>{String.t('organizationSummaryPage.availableSeat')}</div>
+                    <div className="mr-1">{String.t('organizationSummaryPage.availableSeat')} </div>
                     <div>
-                      <span className="habla-bold-text">{subscribers.length}</span>{' '}
+                      <span className="habla-bold-text"> {subscribers.length}</span>{' '}
                       {String.t('organizationSummaryPage.of')} <span>{subscriberOrg.userLimit}</span>
                     </div>
                   </div>
