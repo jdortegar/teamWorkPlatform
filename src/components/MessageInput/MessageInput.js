@@ -26,12 +26,13 @@ const propTypes = {
   clearFileList: PropTypes.func,
   updateFileList: PropTypes.func,
   setLastSubmittedMessage: PropTypes.func,
-  resetReplyTo: PropTypes.func,
+  // resetReplyTo: PropTypes.func,
   isDraggingOver: PropTypes.bool,
   resourcesUrl: PropTypes.string.isRequired,
   replyTo: PropTypes.object,
   messageToEdit: PropTypes.object,
   handleEditMessage: PropTypes.func,
+  handleReplyMessage: PropTypes.func,
   handleEditingAction: PropTypes.func
 };
 
@@ -42,10 +43,11 @@ const defaultProps = {
   removeFileFromList: null,
   addBase: null,
   updateFileList: null,
-  resetReplyTo: null,
+  // resetReplyTo: null,
   isDraggingOver: null,
   clearFileList: () => {},
   handleEditMessage: () => {},
+  handleReplyMessage: () => {},
   setLastSubmittedMessage: () => {},
   handleEditingAction: () => {}
 };
@@ -59,7 +61,6 @@ class MessageInput extends React.Component {
       showPreviewBox: false,
       fileProgress: null,
       showEmojiPicker: false,
-      replyTo: null,
       textToEdit: null
     };
   }
@@ -73,10 +74,6 @@ class MessageInput extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.replyTo) {
-      this.setState({ replyTo: nextProps.replyTo, showPreviewBox: true });
-    }
-
     if (nextProps.isDraggingOver && !this.state.showPreviewBox) {
       this.setState({ showPreviewBox: true });
     }
@@ -94,15 +91,8 @@ class MessageInput extends React.Component {
     if (event.keyCode === 27) {
       this.props.handleEditingAction({ userIsEditing: false });
       this.props.handleEditMessage(false);
+      this.props.handleReplyMessage(false);
     }
-  };
-
-  onCancelReply = () => {
-    if (this.props.files.length > 0) {
-      this.props.clearFileList();
-    }
-    this.setState({ replyTo: null, showPreviewBox: false });
-    this.props.resetReplyTo();
   };
 
   handleTyping = () => {
@@ -182,8 +172,8 @@ class MessageInput extends React.Component {
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const { replyTo } = this.state;
-        const { files, form, resourcesUrl, conversationId, messageToEdit } = this.props;
+        // const { replyTo } = this.state;
+        const { files, form, resourcesUrl, conversationId, messageToEdit, replyTo } = this.props;
         const text = values.message ? values.message.trim() : '';
 
         this.stopTyping();
@@ -208,6 +198,7 @@ class MessageInput extends React.Component {
               this.setState({ fileProgress: null, showPreviewBox: false });
               this.props.setLastSubmittedMessage(message);
               this.props.handleEditMessage(false);
+              this.props.handleReplyMessage(false);
               this.props.clearFileList();
             })
             .catch(error => {
@@ -216,15 +207,11 @@ class MessageInput extends React.Component {
                 this.setState({ fileProgress: null });
               }
               this.props.handleEditMessage(false);
+              this.props.handleReplyMessage(false);
               msg.error(error.message);
             });
         } else {
           msg.success('this message will change when API chat be ready...');
-        }
-
-        if (replyTo) {
-          this.setState({ replyTo: null, showPreviewBox: false });
-          this.props.resetReplyTo();
         }
 
         form.resetFields();
@@ -233,7 +220,7 @@ class MessageInput extends React.Component {
   };
 
   updateFiles = files => {
-    if (files.length === 0 && !this.state.replyTo) {
+    if (files.length === 0 && !this.props.replyTo) {
       this.setState({ showPreviewBox: false });
     }
     this.props.updateFileList(files);
@@ -254,7 +241,6 @@ class MessageInput extends React.Component {
             removeFileFromList={this.props.removeFileFromList}
             onCancelReply={this.onCancelReply}
             addBase={this.props.addBase}
-            replyTo={this.state.replyTo}
             user={user}
             isDraggingOver={this.props.isDraggingOver}
           />

@@ -91,8 +91,10 @@ class ChatMessage extends Component {
     shareModalVisible: false,
     sharePT: false,
     showEditInput: false,
+    showReplyInput: false,
     showEmojiPicker: false,
-    reactions: {}
+    reactions: {},
+    replyTo: null
   };
 
   componentWillMount() {
@@ -163,6 +165,21 @@ class ChatMessage extends Component {
     }
   };
 
+  handleReplyMessage = option => {
+    const { userIsEditing, message } = this.props;
+    if (!userIsEditing) {
+      this.setState({ showReplyInput: option, replyTo: { ...message } });
+      this.props.handleStateOnParent({ userIsEditing: option });
+      document.body.addEventListener('click', this.editMessageClickOutsideHandler);
+    } else if (option === false && userIsEditing) {
+      this.setState({ showReplyInput: option, replyTo: null });
+      this.props.handleStateOnParent({ userIsEditing: option });
+      document.body.removeEventListener('click', this.editMessageClickOutsideHandler);
+    } else {
+      mssg.success(Str.t('message.userEditing'));
+    }
+  };
+
   editMessageClickOutsideHandler = e => {
     let messageInputIsOpen = false;
     if (e.path) {
@@ -174,7 +191,7 @@ class ChatMessage extends Component {
     }
 
     if (!messageInputIsOpen) {
-      this.setState({ showEditInput: false });
+      this.setState({ showEditInput: false, showReplyInput: false });
       this.props.handleStateOnParent({ userIsEditing: false });
       document.body.removeEventListener('click', this.editMessageClickOutsideHandler);
     }
@@ -226,11 +243,6 @@ class ChatMessage extends Component {
 
   handleShowReplies = () => {
     this.setState({ isExpanded: !this.state.isExpanded });
-  };
-
-  handleReplyTo = extraInfo => {
-    const { message } = this.props;
-    this.props.onMessageAction({ message, extraInfo }, messageAction.replyTo);
   };
 
   handleBookmark = setBookmark => {
@@ -387,11 +399,11 @@ class ChatMessage extends Component {
       userRoles
     } = this.props;
 
-    const { id, content = [], created, conversationId, children } = message;
+    const { content = [], created, conversationId, children } = message;
     const { reactions } = this.state;
 
     const messageOwner = child && shareDataOwner ? shareDataOwner : sender;
-    const { firstName, lastName, preferences, userId } = messageOwner;
+    const { firstName, lastName, userId } = messageOwner;
     const replies = children && children.filter(msg => !msg.deleted && msg.content[0].type !== 'emojiReaction');
     const { text = '' } = find(content, { type: 'text/plain' }) || {};
     const MessageTextClass = classNames('message__body-text', { onlyemoji: !text.match(/(\w+)/g) });
@@ -450,7 +462,8 @@ class ChatMessage extends Component {
             <MessageOptions
               bookmarked={bookmarked}
               showOptions={ownMessage || (userRoles && userRoles.admin)}
-              onReply={() => this.handleReplyTo({ id, firstName, lastName, preferences, text })}
+              // onReply={() => this.handleReplyTo({ id, firstName, lastName, preferences, text })}
+              onReply={this.handleReplyMessage}
               onBookmark={this.handleBookmark}
               onDelete={this.showPreviewMessageModal}
               handleShareProfile={this.handleShareProfile}
@@ -475,14 +488,13 @@ class ChatMessage extends Component {
 
   render() {
     const { message, grouped, hide, lastRead } = this.props;
-    const { showEditInput } = this.state;
-    const { children, level, conversationId } = message;
+    const { showEditInput, showReplyInput } = this.state;
+    const { children, conversationId, replyTo } = message;
     const { content } = message;
 
     const replies = children && children.filter(msg => !msg.deleted && msg.content[0].type !== 'emojiReaction');
-
     return (
-      <div className={classNames({ 'message-nested': level !== 0, hide })}>
+      <div className={classNames({ 'message-nested': replyTo, hide })}>
         {lastRead && this.renderLastReadMark()}
         <div
           className={classNames('message__main-container', {
@@ -498,6 +510,22 @@ class ChatMessage extends Component {
               handleEditMessage={this.handleEditMessage}
               handleEditingAction={this.props.handleStateOnParent}
             />
+          )}
+
+          {showReplyInput && (
+            <div className="message__reply_container message-nested">
+              <div className="message__reply-icon">
+                <i className="fas fa-reply" />
+              </div>
+              <div className="message-reply-container">
+                <MessageInput
+                  replyTo={this.state.replyTo}
+                  conversationId={conversationId}
+                  handleReplyMessage={this.handleReplyMessage}
+                  handleEditingAction={this.props.handleStateOnParent}
+                />
+              </div>
+            </div>
           )}
 
           {!isEmpty(replies) && (

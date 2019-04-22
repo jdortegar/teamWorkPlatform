@@ -35,7 +35,7 @@ const MessageOptions = ({
         className="message__icons"
         onClick={e => {
           e.stopPropagation();
-          onReply();
+          onReply(true);
         }}
       >
         <i className="fas fa-reply" />

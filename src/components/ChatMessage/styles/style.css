@@ -85,7 +85,7 @@
   margin: 0 2px;
 }
 .message-nested {
-  border-left: 25px solid #ffffff;
+  margin-left: 55px;
   transition: display 2s;
 }
 .message__last-read {
@@ -265,4 +265,18 @@
 
 .onlyemoji {
   font-size: 30px;
+}
+
+.message__reply_container {
+  display: flex;
+  justify-content: normal;
+}
+.message__reply-icon {
+  font-size: 25px;
+  color: #ccc;
+  margin-right: 10px;
+}
+
+.message-reply-container {
+  width: 99%;
 }
