@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Form, message } from 'antd';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import { Form, message, Select } from 'antd';
 import String from 'src/translations';
 import { formShape } from 'src/propTypes';
 import { SimpleCardContainer, TextField, Spinner, Button, PageHeader, UploadImageField } from 'src/components';
@@ -23,6 +23,8 @@ const propTypes = {
   subscriberOrgById: PropTypes.object.isRequired,
   createTeam: PropTypes.func.isRequired
 };
+
+const { Option } = Select;
 
 class NewTeamPage extends Component {
   constructor(props) {
@@ -56,15 +58,18 @@ class NewTeamPage extends Component {
     e.preventDefault();
     const { subscriberOrgId } = this.props.match.params;
     this.props.form.validateFields((err, values) => {
+      // debugger;
       if (!err) {
         const valuesToSend = {
           ...values,
           preferences: {
             logo: this.state.logo,
-            avatarBase64: this.state.avatarBase64
+            avatarBase64: this.state.avatarBase64,
+            private: values.privacy
           }
         };
         valuesToSend.name = values.name.trim();
+        delete valuesToSend.privacy;
         this.setState({ loading: true });
         this.props
           .createTeam(valuesToSend, subscriberOrgId)
@@ -113,6 +118,8 @@ class NewTeamPage extends Component {
       'with-no-image': !this.state.avatarBase64 && !this.state.logo
     });
 
+    const { getFieldDecorator } = this.props.form;
+
     return (
       <div>
         <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon backButton />
@@ -142,11 +149,25 @@ class NewTeamPage extends Component {
                 inputClassName="New-team__add-textfield"
                 form={this.props.form}
                 hasFeedback={false}
-                placeholder=" "
+                placeholder=""
                 label=""
                 required
                 autoFocus
               />
+              <div className="New-team__privacy_container">
+                <div className="New-team__title habla-secon">{String.t('privacy')}</div>
+                <Form.Item>
+                  {getFieldDecorator('privacy', {
+                    rules: [{ required: true }],
+                    initialValue: 'private'
+                  })(
+                    <Select>
+                      <Option value={false}>{String.t('public')}</Option>
+                      <Option value>{String.t('private')}</Option>
+                    </Select>
+                  )}
+                </Form.Item>
+              </div>
             </div>
             <div className="edit-org__buttons border-top-lighter margin-top-class-a">
               <Button

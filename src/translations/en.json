@@ -25,6 +25,9 @@
   "shareUser": "Share with Users",
   "sharePT": "Share with Project Teams",
   "deleteButton": "Delete",
+  "privacy": "Privacy",
+  "public": "Public",
+  "private": "Private",
 
   "enterMsgPostPlaceholder": "What do you want to tell the Team?",
   "enterMsgReplyPlaceholder": "Leave a Message ...",
