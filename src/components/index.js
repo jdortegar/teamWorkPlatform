@@ -1,5 +1,6 @@
 export { AvatarWrapper } from './common/Avatar'; // TODO: Check possible duplication of Avatar component
 export { FileListView, TimeActivityView, MessageResult } from './CKG';
+export { UserDnD } from './Sidebar';
 export { PersonalizeTeamModal, AddTeamIntegrationModal, InviteTeamMembersModal } from './Onboarding';
 
 export * from './common';

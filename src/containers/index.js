@@ -53,5 +53,6 @@ export TeamManagePage from './TeamManagePage';
 export TeamMemberPage from './TeamMemberPage';
 export TeamPage from './TeamPage';
 export TreeOrganization from './TreeOrganization';
+export UserDnD from './UserDnD';
 export VerifyAccount from './VerifyAccount';
 export VideoCallModal from './VideoCallModal';

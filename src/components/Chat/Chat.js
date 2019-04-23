@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { DropTarget } from 'react-dnd';
 
 import classNames from 'classnames';
 import { message as msg } from 'antd';
@@ -51,7 +52,8 @@ const propTypes = {
   showTeamMembers: PropTypes.bool,
   showChat: PropTypes.func,
   menuOptions: PropTypes.array,
-  lastReadTimestamp: PropTypes.string
+  lastReadTimestamp: PropTypes.string,
+  connectDropTarget: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -67,6 +69,10 @@ const defaultProps = {
 };
 
 const BOTTOM_SCROLL_LIMIT = 200;
+
+export const ItemTypes = {
+  FILE: 'file'
+};
 
 class Chat extends React.Component {
   state = {
@@ -295,7 +301,15 @@ class Chat extends React.Component {
   }
 
   render() {
-    const { team, currentUser, conversation, showPageHeader, showTeamMembers, menuOptions } = this.props;
+    const {
+      team,
+      currentUser,
+      conversation,
+      showPageHeader,
+      showTeamMembers,
+      menuOptions,
+      connectDropTarget
+    } = this.props;
     const { members, membersFiltered } = this.state;
 
     if (!conversation) return <Spinner />;
@@ -322,7 +336,9 @@ class Chat extends React.Component {
             onOwnerFilterClick={this.handleOwnerFilterClick}
           />
         )}
-        <SimpleCardContainer className="team__messages">{this.renderMessages()}</SimpleCardContainer>
+        <div ref={connectDropTarget} className="team__messages">
+          <SimpleCardContainer>{this.renderMessages()}</SimpleCardContainer>
+        </div>
 
         <SimpleCardContainer className="Chat_container">
           <MessageInput
@@ -348,4 +364,14 @@ class Chat extends React.Component {
 Chat.propTypes = propTypes;
 Chat.defaultProps = defaultProps;
 
-export default Chat;
+export default DropTarget(
+  ItemTypes.FILE,
+  {
+    drop: props => ({ conversationId: props.conversation.id })
+  },
+  (connect, monitor) => ({
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver(),
+    canDrop: monitor.canDrop()
+  })
+)(Chat);
