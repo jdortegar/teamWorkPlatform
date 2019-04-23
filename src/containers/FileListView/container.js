@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { FileListView } from 'src/components';
 import { getOwners, getSearchKeywords, isSearchCaseSensitive, isSearchLoading } from 'src/selectors';
+import { createMessage } from 'src/actions';
 
 const mapStateToProps = (state, props) => ({
   owners: getOwners(state),
@@ -9,7 +10,9 @@ const mapStateToProps = (state, props) => ({
   loading: props.loading !== undefined ? props.loading : isSearchLoading(state)
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  createMessage
+};
 
 export default connect(
   mapStateToProps,

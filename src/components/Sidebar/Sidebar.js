@@ -14,6 +14,7 @@ import String from 'src/translations';
 import Avatar from '../common/Avatar';
 import DirectMessages from './DirectMessages';
 import TeamMembers from './TeamMembers';
+import TeamDnD from './TeamDnD';
 import './styles/style.css';
 
 const { Sider } = Layout;
@@ -322,16 +323,7 @@ class Sidebar extends Component {
       const text = (
         <div className={`habla-left-navigation-team-list ${teamActive}`} onClick={e => this.goToTeamPage(e, team)}>
           <div className="habla-left-navigation-team-list-item">
-            <div className="habla-left-navigation-team-list-subitem">
-              {renderAvatar(team, team.active)}
-              {team.name.length > 20 ? (
-                <Tooltip placement="topLeft" title={team.name} arrowPointAtCenter>
-                  <span className="habla-left-navigation-item-label">{team.name}</span>
-                </Tooltip>
-              ) : (
-                <span className="habla-left-navigation-item-label">{team.name}</span>
-              )}
-            </div>
+            <TeamDnD team={team} />
             {unreadMessagesCount > 0 && (
               <Badge
                 title={String.t('unreadMessages')}

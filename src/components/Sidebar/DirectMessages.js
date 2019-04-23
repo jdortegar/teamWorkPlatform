@@ -7,7 +7,7 @@ import String from 'src/translations';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
 import { Menu, Input, Icon } from 'antd';
 import { Badge } from 'src/components';
-import { AvatarWrapper } from 'src/containers';
+import { UserDnD } from 'src/containers';
 
 import './styles/style.css';
 
@@ -104,12 +104,7 @@ class DirectMessages extends React.Component {
         <Menu.Item key={user.userId} className={userActive}>
           <div className="habla-left-navigation-team-list">
             <div className="habla-left-navigation-team-list-item">
-              <div className="habla-left-navigation-team-list-subitem">
-                <AvatarWrapper size="default" user={user} orgLength={orgUserOrdered.length} />
-                <div className="Link__Wrapper" onClick={() => this.props.history.push(`/app/chat/${user.userId}`)}>
-                  <span className="habla-left-navigation-item-label">{user.fullName}</span>
-                </div>
-              </div>
+              <UserDnD user={user} history={this.props.history} />
               {unreadMessages > 0 && <Badge count={unreadMessages} className="SideBar__Badge" overflowCount={999999} />}
             </div>
           </div>

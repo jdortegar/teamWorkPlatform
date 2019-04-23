@@ -40,23 +40,19 @@ function getProgressBar(percent) {
 
 class PreviewBar extends Component {
   renderPreviewCards = () => {
-    const { fileProgress } = this.props;
-    return this.props.files.map(el => {
-      const item = el;
-      if (fileProgress !== null && el.name === fileProgress.name && el.size === fileProgress.size) {
-        item.percent = fileProgress.percent;
+    const { files, fileProgress, removeFileFromList, addBase } = this.props;
+    return files.map(file => {
+      let percentValue = 0;
+      if (fileProgress && file.name === fileProgress.name && file.size === fileProgress.size) {
+        percentValue = fileProgress.percent;
       }
       return (
-        <div key={item.name} className="PreviewBar__image-wrapper image-wrapper">
+        <div key={file.name} className="PreviewBar__image-wrapper image-wrapper">
           <div className="image-wrapper-content">
-            <PreviewCard
-              file={item}
-              handleRemove={() => this.props.removeFileFromList(item)}
-              addBase={this.props.addBase}
-            />
-            {getProgressBar(item.percent)}
+            <PreviewCard file={file} handleRemove={() => removeFileFromList(file)} addBase={addBase} />
+            {getProgressBar(percentValue)}
           </div>
-          <span className="file-name habla-label">{item.name}</span>
+          <span className="file-name habla-label">{file.name}</span>
         </div>
       );
     });

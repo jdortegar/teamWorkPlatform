@@ -5,6 +5,8 @@ import enUS from 'antd/lib/locale-provider/en_US';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ConnectedRouter } from 'connected-react-router';
+import { DragDropContextProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 import { Router } from './routes';
 import './layouts/styles/reset.css';
@@ -19,13 +21,15 @@ const propTypes = {
 const App = ({ store, persistor, history }) => (
   <LocaleProvider locale={enUS}>
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ConnectedRouter history={history}>
-          <div>
-            <Router />
-          </div>
-        </ConnectedRouter>
-      </PersistGate>
+      <DragDropContextProvider backend={HTML5Backend}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ConnectedRouter history={history}>
+            <div>
+              <Router />
+            </div>
+          </ConnectedRouter>
+        </PersistGate>
+      </DragDropContextProvider>
     </Provider>
   </LocaleProvider>
 );
