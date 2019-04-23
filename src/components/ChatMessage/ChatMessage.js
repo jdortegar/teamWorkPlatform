@@ -491,6 +491,7 @@ class ChatMessage extends Component {
     const { showEditInput, showReplyInput } = this.state;
     const { children, conversationId, replyTo } = message;
     const { content } = message;
+    if (isEmpty(content)) return null;
 
     const replies = children && children.filter(msg => !msg.deleted && msg.content[0].type !== 'emojiReaction');
     return (
