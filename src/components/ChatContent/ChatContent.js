@@ -38,16 +38,13 @@ class ChatContent extends Component {
 
   removeFileFromList(fileToRemove) {
     const files = this.state.fileList.filter(file => file !== fileToRemove);
-    this.setState({
-      fileList: files
-    });
+    this.setState({ fileList: files });
   }
 
   updateFileList(fileList) {
-    const filesToState = [...fileList].filter(file => {
-      const fileFound = this.state.fileList.find(fileInState => fileInState.name === file.name);
-      return !fileFound;
-    });
+    const filesToState = [...fileList].filter(
+      file => !this.state.fileList.find(fileInState => fileInState.name === file.name)
+    );
     this.setState({
       fileList: [...this.state.fileList, ...filesToState],
       isDraggingOver: false

@@ -26,7 +26,6 @@ const propTypes = {
   clearFileList: PropTypes.func,
   updateFileList: PropTypes.func,
   setLastSubmittedMessage: PropTypes.func,
-  // resetReplyTo: PropTypes.func,
   isDraggingOver: PropTypes.bool,
   resourcesUrl: PropTypes.string.isRequired,
   replyTo: PropTypes.object,
@@ -43,7 +42,6 @@ const defaultProps = {
   removeFileFromList: null,
   addBase: null,
   updateFileList: null,
-  // resetReplyTo: null,
   isDraggingOver: null,
   clearFileList: () => {},
   handleEditMessage: () => {},
@@ -162,6 +160,13 @@ class MessageInput extends React.Component {
     }
   };
 
+  onCancelReply = () => {
+    if (this.props.files.length > 0) {
+      this.props.clearFileList();
+    }
+    this.setState({ showPreviewBox: false });
+  };
+
   handleFileUploadProgress = fileProgress => {
     this.setState({ fileProgress });
   };
@@ -172,7 +177,6 @@ class MessageInput extends React.Component {
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // const { replyTo } = this.state;
         const { files, form, resourcesUrl, conversationId, messageToEdit, replyTo } = this.props;
         const text = values.message ? values.message.trim() : '';
 
@@ -219,13 +223,6 @@ class MessageInput extends React.Component {
     });
   };
 
-  updateFiles = files => {
-    if (files.length === 0 && !this.props.replyTo) {
-      this.setState({ showPreviewBox: false });
-    }
-    this.props.updateFileList(files);
-  };
-
   render() {
     const { getFieldDecorator } = this.props.form;
     const { user, messageToEdit } = this.props;
@@ -237,12 +234,10 @@ class MessageInput extends React.Component {
           <PreviewBar
             files={this.props.files}
             fileProgress={fileProgress}
-            updateFiles={this.updateFiles}
-            removeFileFromList={this.props.removeFileFromList}
             onCancelReply={this.onCancelReply}
             addBase={this.props.addBase}
-            user={user}
             isDraggingOver={this.props.isDraggingOver}
+            removeFileFromList={this.props.removeFileFromList}
           />
         )}
         <div className={classNames('Chat__message_input', { Chat__message_edit_input: messageToEdit })}>

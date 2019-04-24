@@ -38,7 +38,6 @@ export OrganizationManageTeams from './OrganizationManageTeams';
 export OrganizationPage from './OrganizationPage';
 export OrgIntegrationPage from './OrgIntegrationPage';
 export PersonalizeTeamModal from './PersonalizeTeamModal';
-export PreviewAttachments from './PreviewAttachments';
 export SetNewPassword from './SetNewPassword';
 export ShareModal from './ShareModal';
 export Sidebar from './Sidebar';

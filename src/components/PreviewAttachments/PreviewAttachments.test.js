@@ -1,45 +1,25 @@
 import React from 'react';
-import mockAxios from 'axios';
 import { render, fireEvent, wait } from 'react-testing-library';
 
 import PreviewAttachments from './PreviewAttachments';
 
-const URL = 'https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource';
-const headers = {
-  headers: {
-    Authorization: 'Bearer token1',
-    'x-hablaai-subscriberorgid': 'org1',
-    'x-hablaai-teamid': 'conversation1'
-  }
-};
-
 test('renders with no attachments', () => {
-  const { container, queryByRole } = render(<PreviewAttachments orgId="org1" token="token" />);
+  const { container, queryByRole } = render(<PreviewAttachments />);
   expect(container).toBeEmpty();
   expect(container).not.toContainHTML('img');
   expect(queryByRole('dialog')).toBeNull();
 });
 
 test('renders image and opens modal on click', async () => {
-  mockAxios.get.mockImplementationOnce(() =>
-    Promise.resolve({
-      headers: {
-        'x-hablaai-content-type': 'image/png',
-        'x-hablaai-filename': 'file1.png'
-      },
-      data: 'base64string'
-    })
-  );
-
   const { container, queryByAltText, queryByRole } = render(
     <PreviewAttachments
-      orgId="org1"
-      token="token1"
-      conversationId="conversation1"
       attachments={[
         {
-          resourceId: 'imageId',
-          contentType: 'image/png'
+          type: 'image/png',
+          meta: {
+            fileName: 'file1.png',
+            fileUrl: 'someurl.com/file1.png'
+          }
         }
       ]}
     />
@@ -49,7 +29,6 @@ test('renders image and opens modal on click', async () => {
     expect(img).toBeVisible();
     expect(container).toHaveTextContent('file1');
     expect(queryByRole('dialog')).toBeNull();
-    expect(mockAxios.get).toHaveBeenCalledWith(`${URL}/imageId`, headers);
 
     fireEvent.click(img);
     expect(queryByRole('dialog')).toBeVisible();
@@ -58,25 +37,15 @@ test('renders image and opens modal on click', async () => {
 });
 
 test('renders pdf file and opens modal on click', async () => {
-  mockAxios.get.mockImplementationOnce(() =>
-    Promise.resolve({
-      headers: {
-        'x-hablaai-content-type': 'application/pdf',
-        'x-hablaai-filename': 'file2.pdf'
-      },
-      data: 'base64string'
-    })
-  );
-
   const { queryByText, queryByRole } = render(
     <PreviewAttachments
-      orgId="org1"
-      token="token1"
-      conversationId="conversation1"
       attachments={[
         {
-          resourceId: 'pdfId',
-          contentType: 'application/pdf'
+          type: 'application/pdf',
+          meta: {
+            fileName: 'file2.pdf',
+            fileUrl: 'someurl.com/file2.pdf'
+          }
         }
       ]}
     />
@@ -85,7 +54,6 @@ test('renders pdf file and opens modal on click', async () => {
     const div = queryByText('file2');
     expect(div).not.toBeNull();
     expect(queryByRole('dialog')).toBeNull();
-    expect(mockAxios.get).toHaveBeenCalledWith(`${URL}/pdfId`, headers);
 
     fireEvent.click(div);
     expect(queryByRole('dialog')).toBeVisible();
@@ -93,26 +61,16 @@ test('renders pdf file and opens modal on click', async () => {
   });
 });
 
-test('renders docx file and does not open modal on click', async () => {
-  mockAxios.get.mockImplementationOnce(() =>
-    Promise.resolve({
-      headers: {
-        'x-hablaai-content-type': 'application/docx',
-        'x-hablaai-filename': 'file3.doc'
-      },
-      data: 'base64string'
-    })
-  );
-
+test('renders unknown file and does not open modal on click', async () => {
   const { queryByText, queryByRole } = render(
     <PreviewAttachments
-      orgId="org1"
-      token="token1"
-      conversationId="conversation1"
       attachments={[
         {
-          resourceId: 'docxId',
-          contentType: 'application/docx'
+          type: 'application/unknown',
+          meta: {
+            fileName: 'file3.unknown',
+            fileUrl: 'someurl.com/file3.unknown'
+          }
         }
       ]}
     />
@@ -121,7 +79,6 @@ test('renders docx file and does not open modal on click', async () => {
     const div = queryByText('file3');
     expect(div).not.toBeNull();
     expect(queryByRole('dialog')).toBeNull();
-    expect(mockAxios.get).toHaveBeenCalledWith(`${URL}/docxId`, headers);
 
     fireEvent.click(div);
     expect(queryByRole('dialog')).toBeNull();

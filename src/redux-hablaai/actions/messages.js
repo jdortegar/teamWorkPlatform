@@ -27,7 +27,7 @@ export const fetchMessages = conversationId => async dispatch => {
 
 const getPercentOfRequest = ({ total, loaded }) => Math.round((loaded * 100) / total);
 
-export const uploadFile = (file, conversationId, onUploadProgress = () => {}) => async (dispatch, getState) => {
+export const uploadFile = (file, conversationId, onUploadProgress = () => {}) => (dispatch, getState) => {
   const requestUrl = buildChatUrl(`conversations/${conversationId}/files`);
   const orgId = getCurrentOrgId(getState());
   const content = file.src.split('base64,')[1] || file.src;
@@ -40,13 +40,16 @@ export const uploadFile = (file, conversationId, onUploadProgress = () => {}) =>
   };
 
   return dispatch(
-    doAuthenticatedRequest({
-      requestUrl,
-      method: 'post',
-      data,
-      onUploadProgress: progress =>
-        onUploadProgress({ name: file.name, size: file.size, percent: getPercentOfRequest(progress) })
-    })
+    doAuthenticatedRequest(
+      {
+        requestUrl,
+        method: 'post',
+        data,
+        onUploadProgress: progress =>
+          onUploadProgress({ name: file.name, size: file.size, percent: getPercentOfRequest(progress) })
+      },
+      data
+    )
   );
 };
 

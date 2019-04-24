@@ -11,13 +11,12 @@ import { Picker } from 'emoji-mart';
 import Str from 'src/translations';
 import {
   AvatarWrapper,
-  PreviewAttachments,
   VideoCallModal,
   ShareModal,
   MessageInput,
   ChatMessage as ChatMessageContainer
 } from 'src/containers';
-import { PreviewMessageModal } from 'src/components';
+import { PreviewAttachments, PreviewMessageModal } from 'src/components';
 import MessageOptions from './MessageOptions';
 import Metadata from './Metadata';
 import './styles/style.css';
@@ -399,7 +398,7 @@ class ChatMessage extends Component {
       userRoles
     } = this.props;
 
-    const { content = [], created, conversationId, children } = message;
+    const { content = [], created, children } = message;
     const { reactions } = this.state;
 
     const messageOwner = child && shareDataOwner ? shareDataOwner : sender;
@@ -440,11 +439,7 @@ class ChatMessage extends Component {
                   )}
                   {content[0].sharedData && !sharedProfile && this.renderBodyMessage(content[0].sharedData, true)}
                   <div className={classNames(ownMessage ? 'message__inverted_order' : '')}>
-                    <PreviewAttachments
-                      attachments={attachments}
-                      conversationId={conversationId}
-                      onLoadImage={scrollToBottom}
-                    />
+                    <PreviewAttachments attachments={attachments} onLoadImage={scrollToBottom} />
                   </div>
                   {sharedProfile && this.renderUserProfile(sharedProfile)}
                   <span className="message__body-text-date"> ({moment(created).fromNow()})</span>

@@ -67,12 +67,12 @@ class PreviewCard extends Component {
     return (
       <Card
         className={previewCard}
+        bordered={false}
         extra={
           <a className="PreviewCard__close-button" onClick={this.props.handleRemove}>
             <i className="fas fa-times-circle" />
           </a>
         }
-        bordered={false}
       >
         {this.renderFile(isImage, file.name)}
       </Card>
