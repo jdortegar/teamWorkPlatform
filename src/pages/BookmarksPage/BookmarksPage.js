@@ -64,7 +64,7 @@ export default class BookmarksPage extends Component {
         this.props
           .deleteMessage(message)
           .then(() => {
-            msg.success(String.t('message.deleteSuccessToast'));
+            msg.success(String.t('message.messageDeleted'));
           })
           .catch(error => {
             msg.error(error.message);

@@ -138,7 +138,7 @@ class Chat extends React.Component {
       case messageAction.delete:
         this.props
           .deleteMessage(message)
-          .then(() => msg.success(String.t('message.deleteSuccessToast')))
+          .then(() => msg.success(String.t('message.messageDeleted')))
           .catch(error => msg.error(error.message));
         break;
       default:
