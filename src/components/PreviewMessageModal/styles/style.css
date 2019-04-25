@@ -201,3 +201,9 @@
   padding: 0 0 10px;
   border-radius: 12px;
 }
+.Preview_Message_Modal .message__body-text {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+}

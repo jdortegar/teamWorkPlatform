@@ -23,7 +23,7 @@ const defaultProps = {
 
 const PreviewMessageModal = ({ visible, message, showPreviewMessageModal, onConfirmed, title, subtitle }) => (
   <div>
-    <Modal visible={visible} footer={null} width="400px" closable={false} maskClosable destroyOnClose>
+    <Modal visible={visible} footer={null} width="450px" closable={false} maskClosable destroyOnClose>
       <div className="Preview_Message_Modal">
         <div className="Modal_header">
           <h5 className="Modal_title">
