@@ -9,6 +9,8 @@ export const MESSAGE_CREATE_SUCCESS = 'messages/create/success';
 export const MESSAGE_CREATE_FAILURE = 'messages/create/failure';
 export const MESSAGE_DELETE_SUCCESS = 'messages/delete/success';
 export const MESSAGE_DELETE_FAILURE = 'messages/delete/failure';
+export const MESSAGE_UPDATE_SUCCESS = 'messages/update/success';
+export const MESSAGE_UPDATE_FAILURE = 'messages/update/failure';
 
 export const fetchMessages = conversationId => async dispatch => {
   const requestUrl = buildChatUrl(`conversations/${conversationId}/messages`);
@@ -21,7 +23,7 @@ export const fetchMessages = conversationId => async dispatch => {
   } catch (e) {
     const error = e.response ? { ...e.response.data } : e;
     dispatch({ type: MESSAGES_FETCH_FAILURE, payload: { error } });
-    return error;
+    throw new Error(e);
   }
 };
 
@@ -107,6 +109,22 @@ export const createMessage = ({
   }
 };
 
+export const updateMessage = (message, text) => async dispatch => {
+  const requestUrl = buildChatUrl(`messages/${message.id}`);
+  const attachments = message.content.filter(item => item.type !== 'text/plain');
+  const content = [{ type: 'text/plain', text }, ...attachments];
+
+  try {
+    await dispatch(doAuthenticatedRequest({ requestUrl, method: 'patch', data: { content } }));
+    dispatch({ type: MESSAGE_UPDATE_SUCCESS, payload: { message } });
+    return message;
+  } catch (e) {
+    const error = e.response ? { ...e.response.data } : e;
+    dispatch({ type: MESSAGE_UPDATE_FAILURE, payload: { error } });
+    throw new Error(e);
+  }
+};
+
 export const deleteMessage = message => async dispatch => {
   const requestUrl = buildChatUrl(`messages/${message.id}`);
 
@@ -117,6 +135,6 @@ export const deleteMessage = message => async dispatch => {
   } catch (e) {
     const error = e.response ? { ...e.response.data } : e;
     dispatch({ type: MESSAGE_DELETE_FAILURE, payload: { error } });
-    return error;
+    throw new Error(e);
   }
 };

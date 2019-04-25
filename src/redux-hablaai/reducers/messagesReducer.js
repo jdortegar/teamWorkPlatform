@@ -1,7 +1,13 @@
 import { combineReducers } from 'redux';
 import { union, omit } from 'lodash';
 
-import { MESSAGES_FETCH_SUCCESS, MESSAGE_CREATE_SUCCESS, MESSAGE_DELETE_SUCCESS, MESSAGE_RECEIVE } from 'src/actions';
+import {
+  MESSAGES_FETCH_SUCCESS,
+  MESSAGE_CREATE_SUCCESS,
+  MESSAGE_UPDATE_SUCCESS,
+  MESSAGE_DELETE_SUCCESS,
+  MESSAGE_RECEIVE
+} from 'src/actions';
 
 const byId = (state = {}, action) => {
   switch (action.type) {
@@ -13,7 +19,8 @@ const byId = (state = {}, action) => {
       };
     }
     case MESSAGE_RECEIVE:
-    case MESSAGE_CREATE_SUCCESS: {
+    case MESSAGE_CREATE_SUCCESS:
+    case MESSAGE_UPDATE_SUCCESS: {
       const { message } = action.payload;
       return { ...state, [message.id]: message };
     }

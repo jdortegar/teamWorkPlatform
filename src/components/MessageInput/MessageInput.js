@@ -21,13 +21,13 @@ const propTypes = {
   files: PropTypes.array,
   iAmTyping: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
+  updateMessage: PropTypes.func.isRequired,
   removeFileFromList: PropTypes.func,
   addBase: PropTypes.func,
   clearFileList: PropTypes.func,
   updateFileList: PropTypes.func,
   setLastSubmittedMessage: PropTypes.func,
   isDraggingOver: PropTypes.bool,
-  resourcesUrl: PropTypes.string.isRequired,
   replyTo: PropTypes.object,
   messageToEdit: PropTypes.object,
   handleEditMessage: PropTypes.func,
@@ -177,26 +177,26 @@ class MessageInput extends React.Component {
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const { files, form, resourcesUrl, conversationId, messageToEdit, replyTo } = this.props;
+        const { files, form, conversationId, messageToEdit, replyTo } = this.props;
         const text = values.message ? values.message.trim() : '';
 
         this.stopTyping();
         this.clearTypingTimer();
         if (!text && isEmpty(files)) return;
 
-        const messageId = messageToEdit ? messageToEdit.id : null;
-
-        if (!messageId) {
-          // To do: remvoe this when API be ready
+        if (messageToEdit) {
+          this.props
+            .updateMessage(messageToEdit, text)
+            .then(() => this.props.handleEditMessage(false))
+            .catch(error => msg.error(error.message));
+        } else {
           this.props
             .createMessage({
               text,
               conversationId,
               replyTo,
-              resourcesUrl,
               files,
-              onFileUploadProgress: this.handleFileUploadProgress,
-              messageId
+              onFileUploadProgress: this.handleFileUploadProgress
             })
             .then(message => {
               this.setState({ fileProgress: null, showPreviewBox: false });
@@ -214,8 +214,6 @@ class MessageInput extends React.Component {
               this.props.handleReplyMessage(false);
               msg.error(error.message);
             });
-        } else {
-          msg.success('this message will change when API chat be ready...');
         }
 
         form.resetFields();

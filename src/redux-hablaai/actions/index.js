@@ -38,7 +38,6 @@ export * from './messages';
 export * from './conversationsReceive';
 export * from './messageReceive';
 export * from './messageCreate';
-export * from './messageDelete';
 export * from './messageRead';
 export * from './readMessagesFetch';
 export * from './readMessagesReceive';
