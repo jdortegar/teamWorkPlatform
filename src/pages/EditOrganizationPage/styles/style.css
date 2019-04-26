@@ -87,7 +87,6 @@
 .edit-org__buttons {
   padding: 10px;
   display: flex;
-  justify-content: flex-end;
 }
 .editOrgPage-main .habla-main-content-header-actions {
   display: none;
