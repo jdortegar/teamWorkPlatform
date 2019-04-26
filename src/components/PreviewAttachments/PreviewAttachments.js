@@ -97,7 +97,7 @@ class PreviewAttachments extends Component {
 
         <Modal
           className={classNames({ 'is-file': !isImage })}
-          width={!isImage ? 1000 : 540}
+          width={1000}
           onCancel={this.handleCancel}
           visible={modalVisible}
           footer={null}

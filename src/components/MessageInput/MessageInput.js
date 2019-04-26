@@ -94,10 +94,10 @@ class MessageInput extends React.Component {
   };
 
   handleTyping = () => {
-    const { conversationId } = this.props;
+    // const { conversationId } = this.props;
     this.clearTypingTimer();
     this.typingTimer = setTimeout(this.stopTyping, 5000);
-    this.props.iAmTyping(conversationId, true);
+    // this.props.iAmTyping(conversationId, true);
   };
 
   toogleEmojiState = () => {

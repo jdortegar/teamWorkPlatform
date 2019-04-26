@@ -61,8 +61,10 @@
 .replyBorder {
   border-radius: 2px;
 }
+
 .PreviewBar__files-container .image-wrapper-content {
   background-color: #fff;
+  height: 95px;
 }
 
 .Reply__header_container svg {
