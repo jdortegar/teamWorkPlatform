@@ -457,7 +457,6 @@ class ChatMessage extends Component {
             <MessageOptions
               bookmarked={bookmarked}
               showOptions={ownMessage || (userRoles && userRoles.admin)}
-              // onReply={() => this.handleReplyTo({ id, firstName, lastName, preferences, text })}
               onReply={this.handleReplyMessage}
               onBookmark={this.handleBookmark}
               onDelete={this.showPreviewMessageModal}

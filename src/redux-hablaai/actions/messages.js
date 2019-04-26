@@ -55,17 +55,13 @@ export const uploadFile = (file, conversationId, onUploadProgress = () => {}) =>
   );
 };
 
-export const createMessage = ({
-  text,
-  conversationId,
-  replyTo,
-  files = [],
-  emojiReaction,
-  onFileUploadProgress
-}) => async (dispatch, getState) => {
+export const createMessage = ({ text, conversationId, replyTo, file, emojiReaction, onFileUploadProgress }) => async (
+  dispatch,
+  getState
+) => {
   const requestUrl = buildChatUrl(`conversations/${conversationId}/messages`);
   const userId = getCurrentUserId(getState());
-  let content = [];
+  const content = [];
 
   if (emojiReaction) {
     content.push({ text, type: 'emojiReaction', colons: emojiReaction });
@@ -74,32 +70,22 @@ export const createMessage = ({
   }
 
   try {
-    // upload files and attach them to the message
-    const requests = files.map(file => dispatch(uploadFile(file, conversationId, onFileUploadProgress)));
-    const responses = await Promise.all(requests);
-    const resources = responses.map((response, index) => ({
-      type: files[index].type,
-      meta: {
-        fileUrl: response.data.fileUrl,
-        fileName: response.data.fileName,
-        size: files[index].size
-      }
-    }));
-    content = [...content, ...resources];
-  } catch (e) {
-    const error = e.response ? { ...e.response.data } : e;
-    dispatch({ type: MESSAGE_CREATE_FAILURE, payload: { error } });
-    throw new Error(e);
-  }
+    if (file) {
+      // upload file and attach it to the message content
+      const uploadedFile = await dispatch(uploadFile(file, conversationId, onFileUploadProgress));
+      content.push({
+        type: file.type,
+        meta: {
+          fileUrl: uploadedFile.data.fileUrl,
+          fileName: uploadedFile.data.fileName,
+          size: file.size
+        }
+      });
+    }
 
-  const body = {
-    content,
-    userId,
-    replyTo: replyTo ? replyTo.id : undefined
-  };
+    const data = { content, userId, replyTo: replyTo ? replyTo.id : undefined };
+    const { data: message } = await dispatch(doAuthenticatedRequest({ requestUrl, method: 'post', data }, data));
 
-  try {
-    const { data: message } = await dispatch(doAuthenticatedRequest({ requestUrl, method: 'post', data: body }));
     dispatch({ type: MESSAGE_CREATE_SUCCESS, payload: { message, conversationId } });
     return message;
   } catch (e) {

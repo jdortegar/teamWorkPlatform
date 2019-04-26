@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Tooltip, Input, message as msg } from 'antd';
-import { isEmpty } from 'lodash';
+import { isEmpty, last } from 'lodash';
 import classNames from 'classnames';
 
 import 'emoji-mart/css/emoji-mart.css';
@@ -161,14 +161,64 @@ class MessageInput extends React.Component {
   };
 
   onCancelReply = () => {
-    if (this.props.files.length > 0) {
+    this.setState({ showPreviewBox: false });
+    if (!isEmpty(this.props.files)) {
       this.props.clearFileList();
     }
-    this.setState({ showPreviewBox: false });
   };
 
   handleFileUploadProgress = fileProgress => {
     this.setState({ fileProgress });
+  };
+
+  createMessages = async text => {
+    const { conversationId, replyTo, files, createMessage } = this.props;
+
+    if (isEmpty(files)) {
+      return createMessage({ text, conversationId, replyTo });
+    }
+
+    const requests = files.map((file, index) =>
+      createMessage({
+        text: index === 0 ? text : undefined, // add text to first message only
+        conversationId,
+        replyTo,
+        file,
+        onFileUploadProgress: this.handleFileUploadProgress
+      })
+    );
+    const messages = await Promise.all(requests);
+    return last(messages);
+  };
+
+  sendMessages = async text => {
+    const { files } = this.props;
+    if (!text && isEmpty(files)) return;
+
+    try {
+      const lastMessage = await this.createMessages(text);
+      this.setState({ fileProgress: null, showPreviewBox: false });
+      this.props.setLastSubmittedMessage(lastMessage);
+      this.props.handleReplyMessage(false);
+      this.props.clearFileList();
+    } catch (e) {
+      msg.error(e.message);
+      this.props.handleReplyMessage(false);
+      if (!isEmpty(files)) {
+        this.props.updateFileList(files);
+        this.setState({ fileProgress: null });
+      }
+    }
+  };
+
+  updateMessage = async (message, text) => {
+    if (!text) return;
+    try {
+      await this.props.updateMessage(message, text);
+      this.props.handleEditMessage(false);
+    } catch (error) {
+      msg.error(error.message);
+    }
   };
 
   handleSubmit = e => {
@@ -177,43 +227,16 @@ class MessageInput extends React.Component {
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const { files, form, conversationId, messageToEdit, replyTo } = this.props;
+        const { form, messageToEdit } = this.props;
         const text = values.message ? values.message.trim() : '';
 
         this.stopTyping();
         this.clearTypingTimer();
-        if (!text && isEmpty(files)) return;
 
         if (messageToEdit) {
-          this.props
-            .updateMessage(messageToEdit, text)
-            .then(() => this.props.handleEditMessage(false))
-            .catch(error => msg.error(error.message));
+          this.updateMessage(messageToEdit, text);
         } else {
-          this.props
-            .createMessage({
-              text,
-              conversationId,
-              replyTo,
-              files,
-              onFileUploadProgress: this.handleFileUploadProgress
-            })
-            .then(message => {
-              this.setState({ fileProgress: null, showPreviewBox: false });
-              this.props.setLastSubmittedMessage(message);
-              this.props.handleEditMessage(false);
-              this.props.handleReplyMessage(false);
-              this.props.clearFileList();
-            })
-            .catch(error => {
-              if (!isEmpty(files)) {
-                this.props.updateFileList(files);
-                this.setState({ fileProgress: null });
-              }
-              this.props.handleEditMessage(false);
-              this.props.handleReplyMessage(false);
-              msg.error(error.message);
-            });
+          this.sendMessages(text);
         }
 
         form.resetFields();
