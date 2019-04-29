@@ -214,10 +214,11 @@ class MessageInput extends React.Component {
   updateMessage = async (message, text) => {
     if (!text) return;
     try {
-      await this.props.updateMessage(message, text);
       this.props.handleEditMessage(false);
+      await this.props.updateMessage(message, text);
     } catch (error) {
       msg.error(error.message);
+      this.props.handleEditMessage(true);
     }
   };
 

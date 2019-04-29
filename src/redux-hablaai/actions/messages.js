@@ -101,9 +101,11 @@ export const updateMessage = (message, text) => async dispatch => {
   const content = [{ type: 'text/plain', text }, ...attachments];
 
   try {
-    await dispatch(doAuthenticatedRequest({ requestUrl, method: 'patch', data: { content } }));
-    dispatch({ type: MESSAGE_UPDATE_SUCCESS, payload: { message } });
-    return message;
+    const { data: updatedMessage } = await dispatch(
+      doAuthenticatedRequest({ requestUrl, method: 'patch', data: { content } })
+    );
+    dispatch({ type: MESSAGE_UPDATE_SUCCESS, payload: { message: updatedMessage } });
+    return updatedMessage;
   } catch (e) {
     const error = e.response ? { ...e.response.data } : e;
     dispatch({ type: MESSAGE_UPDATE_FAILURE, payload: { error } });
