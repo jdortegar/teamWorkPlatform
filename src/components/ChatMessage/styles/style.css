@@ -64,6 +64,7 @@
   text-align: left;
   display: inline-block;
   margin-right: 5px;
+  word-wrap: break-all;
 }
 
 .message__body-text a {
@@ -104,10 +105,11 @@
   position: relative;
 }
 .message__options {
-  display: inline-block;
   background-color: #444444;
   border-radius: 6px;
   padding: 6px 0 6px;
+  align-self: center;
+  margin-left: 0px;
 }
 .message__options a {
   color: #fff;
@@ -279,4 +281,15 @@
 
 .message-reply-container {
   width: 99%;
+}
+@media screen and (max-width: 1394px) {
+  .message__icons {
+    font-size: 16px;
+    display: table-cell;
+    font-size: 16px;
+    padding: 1px 10px;
+  }
+  .message__options {
+    margin-left: 55px;
+  }
 }
