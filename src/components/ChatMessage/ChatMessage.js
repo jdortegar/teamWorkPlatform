@@ -33,7 +33,6 @@ const propTypes = {
   grouped: PropTypes.bool,
   currentPath: PropTypes.string,
   teamMembers: PropTypes.array,
-  teamId: PropTypes.string,
   lastRead: PropTypes.bool,
   fetchMetadata: PropTypes.func,
   scrollToBottom: PropTypes.func,
@@ -50,6 +49,7 @@ const propTypes = {
   userIsEditing: PropTypes.bool,
   createMessage: PropTypes.func.isRequired,
   deleteMessage: PropTypes.func.isRequired,
+  bookmarkMessage: PropTypes.func.isRequired,
   users: PropTypes.object.isRequired
 };
 
@@ -64,7 +64,6 @@ const defaultProps = {
   lastRead: false,
   teamMembers: [],
   currentPath: null,
-  teamId: null,
   showDetailsOnAvatar: true,
   showMetadata: false,
   shareDataOwner: null,
@@ -147,6 +146,13 @@ class ChatMessage extends Component {
   showVideoCallModal = hide => {
     if (hide) return this.setState({ videoCallModalVisible: false });
     return this.setState({ videoCallModalVisible: !this.state.videoCallModalVisible });
+  };
+
+  toggleBookmark = bookmarked => {
+    if (!bookmarked) {
+      const { message, bookmarkMessage } = this.props;
+      bookmarkMessage(message.id).then(() => mssg.success(Str.t('message.bookmarkSetToast')));
+    }
   };
 
   handleEditMessage = option => {
@@ -242,13 +248,6 @@ class ChatMessage extends Component {
 
   handleShowReplies = () => {
     this.setState({ isExpanded: !this.state.isExpanded });
-  };
-
-  handleBookmark = setBookmark => {
-    const { message, teamId } = this.props;
-    const extraInfo = { setBookmark };
-    const bookmark = { ...message, teamId };
-    this.props.onMessageAction({ bookmark, extraInfo }, messageAction.bookmark);
   };
 
   handleVideoCall = (callerId, calledId) => {
@@ -458,7 +457,7 @@ class ChatMessage extends Component {
               bookmarked={bookmarked}
               showOptions={ownMessage || (userRoles && userRoles.admin)}
               onReply={this.handleReplyMessage}
-              onBookmark={this.handleBookmark}
+              onBookmark={this.toggleBookmark}
               onDelete={this.showPreviewMessageModal}
               handleShareProfile={this.handleShareProfile}
               handleEditMessage={this.handleEditMessage}

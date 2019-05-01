@@ -6,7 +6,7 @@ import { createConversation, createMessage, fetchConversations } from 'src/actio
 import {
   getCurrentUser,
   getCurrentSubscriberOrgId,
-  getSubscribersOfSubscriberOrgId,
+  getOrgSubscribers,
   getPresencesOfSubscribersOfOrgId,
   getCurrentSubscriberOrg,
   getOrgTeams,
@@ -18,7 +18,7 @@ const mapStateToProps = state => {
   return {
     org: getCurrentSubscriberOrg(state),
     user: getCurrentUser(state),
-    subscribers: getSubscribersOfSubscriberOrgId(state, orgId),
+    subscribers: getOrgSubscribers(state),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
     teams: getOrgTeams(state),
     conversationIdsByTeam: getConversationIdsByTeam(state)

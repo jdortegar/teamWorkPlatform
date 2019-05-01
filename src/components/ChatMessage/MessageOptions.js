@@ -109,7 +109,7 @@ const MessageOptions = ({
         className={bookmarked ? 'message__icons message__icons-selected' : 'message__icons'}
         onClick={e => {
           e.stopPropagation();
-          onBookmark(!bookmarked);
+          onBookmark(bookmarked);
         }}
       >
         <i className="fas fa-bookmark" />

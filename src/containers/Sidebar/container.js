@@ -15,7 +15,7 @@ import {
   getCurrentSubscriberOrgId,
   getSubscriberOrgsSortedAlphabetically,
   getOrgTeams,
-  getSubscribersOfSubscriberOrgId,
+  getOrgSubscribers,
   getPresencesOfSubscribersOfOrgId,
   getUserRoles,
   getCallingData,
@@ -36,7 +36,7 @@ const mapStateToProps = (state, props) => {
   return {
     user: getCurrentUser(state),
     subscriberOrgs: getSubscriberOrgsSortedAlphabetically(state),
-    subscribers: getSubscribersOfSubscriberOrgId(state, orgId),
+    subscribers: getOrgSubscribers(state),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
     currentSubscriberOrgId: orgId,
     teams: getOrgTeams(state),

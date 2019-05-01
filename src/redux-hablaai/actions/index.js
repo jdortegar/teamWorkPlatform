@@ -34,6 +34,7 @@ export * from './invitationDeclinedUpdate';
 
 export * from './conversations';
 export * from './messages';
+export * from './bookmarks';
 
 export * from './conversationsReceive';
 export * from './messageReceive';

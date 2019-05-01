@@ -15,14 +15,14 @@ export const getCurrentSubscriberUserId = createSelector(
   }
 );
 
-export const getSubscribersOfSubscriberOrgId = createSelector(
-  [getUserIdsBySubscriberOrgId, getUserByUserId, (state, subscriberOrgId) => subscriberOrgId],
-  (userIdsBySubscriberOrgId, userByUserId, subscriberOrgId) => {
-    if (!subscriberOrgId || !userIdsBySubscriberOrgId[subscriberOrgId]) {
+export const getOrgSubscribers = createSelector(
+  [getUserIdsBySubscriberOrgId, getUserByUserId, getCurrentOrgId],
+  (userIdsBySubscriberOrgId, userByUserId, orgId) => {
+    if (!orgId || !userIdsBySubscriberOrgId[orgId]) {
       return [];
     }
 
-    const userIds = userIdsBySubscriberOrgId[subscriberOrgId];
+    const userIds = userIdsBySubscriberOrgId[orgId];
     return Object.keys(userIds).map(userId => userByUserId[userId]);
   }
 );

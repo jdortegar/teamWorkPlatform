@@ -8,7 +8,7 @@ import {
   fetchMessages,
   createMessage,
   deleteMessage,
-  saveBookmark,
+  fetchBookmarks,
   iAmTyping,
   readMessage
 } from 'src/actions';
@@ -30,7 +30,6 @@ const mapStateToProps = (state, props) => {
   const orgId = getCurrentSubscriberOrgId(state);
 
   return {
-    orgId,
     conversation: getConversation(state, conversationId),
     team: getTeam(state, teamId),
     currentUser: getCurrentUser(state),
@@ -49,7 +48,7 @@ const mapDispatchToProps = {
   fetchMessages,
   createMessage,
   deleteMessage,
-  saveBookmark,
+  fetchBookmarks,
   iAmTyping,
   readMessage
 };

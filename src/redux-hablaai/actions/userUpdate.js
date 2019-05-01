@@ -31,15 +31,3 @@ export const updateUser = (updateObject, userId) => dispatch => {
 
   return thunk;
 };
-
-export const saveBookmark = (currentUser, subscriberOrgId, message, setBookmark) => {
-  const bookmarks = { ...currentUser.bookmarks };
-  const orgBookmarks = bookmarks[subscriberOrgId] || { messageIds: {} };
-  if (setBookmark) {
-    orgBookmarks.messageIds[message.id] = message;
-  } else {
-    delete orgBookmarks.messageIds[message.id];
-  }
-  bookmarks[subscriberOrgId] = orgBookmarks;
-  return updateUser({ bookmarks }, currentUser.userId);
-};

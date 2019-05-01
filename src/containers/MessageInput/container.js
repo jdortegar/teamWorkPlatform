@@ -9,7 +9,6 @@ import {
   createMessage,
   updateMessage,
   deleteMessage,
-  saveBookmark,
   iAmTyping,
   readMessage
 } from 'src/actions';
@@ -50,7 +49,6 @@ const mapDispatchToProps = {
   createMessage,
   updateMessage,
   deleteMessage,
-  saveBookmark,
   iAmTyping,
   readMessage
 };
