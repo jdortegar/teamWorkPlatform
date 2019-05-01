@@ -55,10 +55,15 @@ export const uploadFile = (file, conversationId, onUploadProgress = () => {}) =>
   );
 };
 
-export const createMessage = ({ text, conversationId, replyTo, file, emojiReaction, onFileUploadProgress }) => async (
-  dispatch,
-  getState
-) => {
+export const createMessage = ({
+  text,
+  conversationId,
+  replyTo,
+  file,
+  emojiReaction,
+  dataforShare,
+  onFileUploadProgress
+}) => async (dispatch, getState) => {
   const requestUrl = buildChatUrl(`conversations/${conversationId}/messages`);
   const userId = getCurrentUserId(getState());
   const content = [];
@@ -67,6 +72,11 @@ export const createMessage = ({ text, conversationId, replyTo, file, emojiReacti
     content.push({ text, type: 'emojiReaction', colons: emojiReaction });
   } else if (text) {
     content.push({ text, type: 'text/plain' });
+  }
+
+  if (dataforShare) {
+    const [sharedContent] = dataforShare.content || [];
+    if (sharedContent) content.push(sharedContent);
   }
 
   try {
