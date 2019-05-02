@@ -19,7 +19,7 @@ import {
   getTeamMembersOfTeamId,
   getUserByUserId,
   getPresencesOfSubscribersOfOrgId,
-  getConversation,
+  getConversationWithMessages,
   getResourcesUrl,
   getMembersTyping,
   getLastReadTimestampOfConversationId
@@ -30,7 +30,7 @@ const mapStateToProps = (state, props) => {
   const orgId = getCurrentSubscriberOrgId(state);
 
   return {
-    conversation: getConversation(state, conversationId),
+    conversation: getConversationWithMessages(state, conversationId),
     team: getTeam(state, teamId),
     currentUser: getCurrentUser(state),
     teamMembers: getTeamMembersOfTeamId(state, teamId),

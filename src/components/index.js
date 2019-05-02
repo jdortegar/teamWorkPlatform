@@ -12,6 +12,7 @@ export Avatar from './Avatar';
 export AvatarWithLabel from './AvatarWithLabel';
 export Badge from './Badge';
 export BasicFilter from './BasicFilter';
+export Bookmark from './Bookmark';
 export BreadCrumb from './BreadCrumb';
 export Chat from './Chat';
 export ChatContent from './ChatContent';
