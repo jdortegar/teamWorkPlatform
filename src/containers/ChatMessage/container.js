@@ -3,7 +3,14 @@ import { withRouter } from 'react-router';
 
 import { getCurrentUser, getUserById, getUserRoles, getUserByUserId, isBookmarked } from 'src/selectors';
 import { ChatMessage } from 'src/components';
-import { makePersonalCall, fetchMetadata, createMessage, deleteMessage, bookmarkMessage } from 'src/actions';
+import {
+  makePersonalCall,
+  fetchMetadata,
+  createMessage,
+  deleteMessage,
+  saveBookmark,
+  removeBookmark
+} from 'src/actions';
 
 const mapStateToProps = (state, props) => {
   const currentUser = getCurrentUser(state);
@@ -34,7 +41,8 @@ const mapDispatchToProps = {
   fetchMetadata,
   createMessage,
   deleteMessage,
-  bookmarkMessage
+  saveBookmark,
+  removeBookmark
 };
 
 export default withRouter(

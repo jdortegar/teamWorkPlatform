@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { map } from 'lodash';
+import { map, find } from 'lodash';
 
 import { getMessagesById } from './messages';
 
@@ -9,6 +9,11 @@ export const getBookmarksById = state => state.bookmarks.byId;
 export const getBookmarks = createSelector(
   [getBookmarksById, getMessagesById],
   (bookmarksById = {}, messages = {}) => map(bookmarksById, ({ messageId }) => messages[messageId])
+);
+
+export const getBookmarkByMessageId = createSelector(
+  [getBookmarksById, (state, messageId) => messageId],
+  (bookmarksById = {}, messageId) => find(bookmarksById, { messageId })
 );
 
 export const isBookmarked = createSelector(

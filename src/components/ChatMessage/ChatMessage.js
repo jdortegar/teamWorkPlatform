@@ -49,7 +49,8 @@ const propTypes = {
   userIsEditing: PropTypes.bool,
   createMessage: PropTypes.func.isRequired,
   deleteMessage: PropTypes.func.isRequired,
-  bookmarkMessage: PropTypes.func.isRequired,
+  saveBookmark: PropTypes.func.isRequired,
+  removeBookmark: PropTypes.func.isRequired,
   users: PropTypes.object.isRequired
 };
 
@@ -149,9 +150,11 @@ class ChatMessage extends Component {
   };
 
   toggleBookmark = bookmarked => {
-    if (!bookmarked) {
-      const { message, bookmarkMessage } = this.props;
-      bookmarkMessage(message.id).then(() => mssg.success(Str.t('message.bookmarkSetToast')));
+    const { message, saveBookmark, removeBookmark } = this.props;
+    if (bookmarked) {
+      removeBookmark(message.id).then(() => mssg.success(Str.t('message.bookmarkRemovedToast')));
+    } else {
+      saveBookmark(message.id).then(() => mssg.success(Str.t('message.bookmarkSetToast')));
     }
   };
 
