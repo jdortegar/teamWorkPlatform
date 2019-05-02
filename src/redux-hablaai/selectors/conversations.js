@@ -21,6 +21,11 @@ const buildConversation = (conversationId, conversations, state) => {
 };
 
 export const getConversation = createSelector(
+  [getConversationsById, (state, conversationId) => conversationId],
+  (conversations, conversationId) => conversations[conversationId]
+);
+
+export const getConversationWithMessages = createSelector(
   [getConversationsById, getMessagesByConversation, (state, conversationId) => ({ state, conversationId })],
   (conversations, messagesByConversation, { state, conversationId }) =>
     buildConversation(conversationId, conversations, state)

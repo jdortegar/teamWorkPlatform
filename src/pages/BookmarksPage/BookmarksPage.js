@@ -4,7 +4,7 @@ import { find, isEmpty } from 'lodash';
 import { message as msg } from 'antd';
 
 import String from 'src/translations';
-import { ChatMessage } from 'src/containers';
+import { Bookmark } from 'src/containers';
 import { messageAction } from 'src/components/ChatMessage/ChatMessage';
 import { SimpleCardContainer, PageHeader } from 'src/components';
 
@@ -45,11 +45,6 @@ class BookmarksPage extends Component {
     }
   };
 
-  onBookmarkClick = bookmark => {
-    console.warn({ bookmark });
-    // this.props.history.push(`/app/team/${teamId}`);
-  };
-
   renderBookmark = message => {
     if (!message) return null;
 
@@ -58,12 +53,7 @@ class BookmarksPage extends Component {
     const sender = find(subscribers, { userId: createdBy });
     if (!sender || deleted) return null;
 
-    return (
-      <div key={id}>
-        {/* TODO: onClick={() => this.onBookmarkClick(message)} */}
-        <ChatMessage message={message} sender={sender} onMessageAction={this.onMessageAction} />
-      </div>
-    );
+    return <Bookmark key={id} message={message} sender={sender} onMessageAction={this.onMessageAction} />;
   };
 
   render() {

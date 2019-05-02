@@ -47,7 +47,13 @@ const PreviewMessageModal = ({ visible, message, showPreviewMessageModal, onConf
             <Button className="Cancel_button" onClick={() => showPreviewMessageModal(false)}>
               {String.t('cancelButton')}
             </Button>
-            <Button className="Confirm_button" onClick={() => onConfirmed()}>
+            <Button
+              className="Confirm_button"
+              onClick={event => {
+                event.stopPropagation();
+                onConfirmed();
+              }}
+            >
               {String.t('deleteButton')}
             </Button>
           </div>

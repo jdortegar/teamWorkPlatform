@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { union, omit } from 'lodash';
+import { union, omit, compact } from 'lodash';
 
 import { BOOKMARKS_FETCH_SUCCESS, BOOKMARK_CREATE_SUCCESS, BOOKMARK_DELETE_SUCCESS } from 'src/actions';
 
@@ -9,17 +9,17 @@ const byId = (state = {}, action) => {
       const { bookmarks = [] } = action.payload;
       return {
         ...state,
-        ...bookmarks.reduce(
-          (acc, { id, userId, message = {} }) => ({
+        ...bookmarks.reduce((acc, { id, userId, message }) => {
+          if (!message) return acc;
+          return {
             ...acc,
             [id]: {
               id,
               userId,
               messageId: message.id
             }
-          }),
-          state
-        )
+          };
+        }, state)
       };
     }
     case BOOKMARK_CREATE_SUCCESS: {
@@ -39,7 +39,7 @@ const allMessageIds = (state = [], action) => {
   switch (action.type) {
     case BOOKMARKS_FETCH_SUCCESS: {
       const { bookmarks = [] } = action.payload;
-      return union(state, bookmarks.map(({ message }) => message.id));
+      return compact(union(state, bookmarks.map(({ message }) => (message ? message.id : null))));
     }
     case BOOKMARK_CREATE_SUCCESS: {
       const { bookmark } = action.payload;
