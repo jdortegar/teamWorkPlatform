@@ -6,7 +6,8 @@ import {
   MESSAGE_CREATE_SUCCESS,
   MESSAGE_UPDATE_SUCCESS,
   MESSAGE_DELETE_SUCCESS,
-  MESSAGE_RECEIVE
+  MESSAGE_RECEIVE,
+  BOOKMARKS_FETCH_SUCCESS
 } from 'src/actions';
 
 const byId = (state = {}, action) => {
@@ -15,7 +16,7 @@ const byId = (state = {}, action) => {
       const { messages = [] } = action.payload;
       return {
         ...state,
-        ...messages.reduce((acc, message) => ({ ...acc, [message.id]: message }), {})
+        ...messages.reduce((acc, message) => ({ ...acc, [message.id]: message }), state)
       };
     }
     case MESSAGE_RECEIVE:
@@ -27,6 +28,16 @@ const byId = (state = {}, action) => {
     case MESSAGE_DELETE_SUCCESS: {
       const { message } = action.payload;
       return omit(state, message.id);
+    }
+    case BOOKMARKS_FETCH_SUCCESS: {
+      const { bookmarks = [] } = action.payload;
+      return {
+        ...state,
+        ...bookmarks.reduce((acc, { message }) => {
+          if (!message) return acc;
+          return { ...acc, [message.id]: message };
+        }, state)
+      };
     }
     default:
       return state;
@@ -56,6 +67,16 @@ const idsByConversation = (state = {}, action) => {
     case MESSAGE_DELETE_SUCCESS: {
       const { message } = action.payload;
       return { ...state, [message.conversationId]: state[message.conversationId].filter(item => item !== message.id) };
+    }
+    case BOOKMARKS_FETCH_SUCCESS: {
+      const { bookmarks = [] } = action.payload;
+      return {
+        ...state,
+        ...bookmarks.reduce((acc, { message }) => {
+          if (!message) return acc;
+          return { ...acc, [message.conversationId]: union(acc[message.conversationId], [message.id]) };
+        }, state)
+      };
     }
     default:
       return state;
