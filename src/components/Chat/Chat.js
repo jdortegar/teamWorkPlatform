@@ -42,6 +42,7 @@ const propTypes = {
       })
     )
   }),
+  fetchConversations: PropTypes.func.isRequired,
   fetchBookmarks: PropTypes.func.isRequired,
   fetchMessages: PropTypes.func.isRequired,
   deleteMessage: PropTypes.func.isRequired,
@@ -84,6 +85,13 @@ class Chat extends React.Component {
 
   componentDidMount() {
     const { conversation, users, usersPresences } = this.props;
+
+    // conversation doesn't exist in the app state
+    if (!conversation) {
+      this.props.fetchConversations();
+      return;
+    }
+
     this.updateMembers({ conversation, users, usersPresences });
 
     this.props.fetchMessages(conversation.id);
@@ -92,7 +100,15 @@ class Chat extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { conversation, users, usersPresences } = nextProps;
-    if (this.props.conversation.id !== conversation.id) {
+
+    // conversation doesn't exist in the app state
+    if (!conversation) {
+      this.props.fetchConversations();
+      return;
+    }
+
+    // it's a new conversation or navigating between conversations
+    if ((!this.props.conversation && conversation) || this.props.conversation.id !== conversation.id) {
       this.updateMembers({ conversation, users, usersPresences });
 
       this.props.fetchMessages(conversation.id);

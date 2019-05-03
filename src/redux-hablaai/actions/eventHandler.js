@@ -1,4 +1,5 @@
 import EventTypes from 'src/common-hablaai/EventTypes';
+import { fetchConversations } from './conversations';
 import { changePresence } from './presenceChange';
 import { receiveUser } from './userReceive';
 import { receiveSubscriberOrg } from './subscriberOrgReceive';
@@ -37,16 +38,15 @@ export const eventHandler = dispatch => (eventType, event) => {
         dispatch(receiveMessage(message, message.conversationId));
       });
       break;
-    // case EventTypes.userInvitationAccepted:
-    //   // TODO:
-    //   break;
+    case EventTypes.userInvitationAccepted:
+      // TODO:
+      break;
     case EventTypes.userInvitationDeclined:
       dispatch(declinedInvitation(event));
       break;
-    // case EventTypes.sentInvitationStatus:
-    //   // TODO:
-    //   break;
-
+    case EventTypes.sentInvitationStatus:
+      // TODO:
+      break;
     case EventTypes.subscriberOrgCreated:
       dispatch(receiveSubscriberOrg(event));
       break;
@@ -59,19 +59,22 @@ export const eventHandler = dispatch => (eventType, event) => {
     case EventTypes.subscriberAdded:
       dispatch(receiveSubscriber(event.user, event.subscriberOrgId));
       break;
-    case EventTypes.teamCreated:
+    case EventTypes.teamCreated: {
       dispatch(receiveTeam(event));
+      dispatch(fetchConversations());
       break;
+    }
     case EventTypes.teamUpdated:
       dispatch(receiveTeam(event));
       break;
     case EventTypes.teamPrivateInfoUpdated:
       dispatch(receiveTeam(event)); // Same as teamUpdated except contains preferences.private.
       break;
-    case EventTypes.teamMemberAdded:
+    case EventTypes.teamMemberAdded: {
       dispatch(receiveTeamMember(event.user, event.teamId));
+      dispatch(fetchConversations());
       break;
-
+    }
     case EventTypes.conversationCreated:
       dispatch(receiveConversations([event]));
       break;
