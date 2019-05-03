@@ -386,6 +386,16 @@ class ChatMessage extends Component {
       </Tooltip>
     ));
 
+  // downloadFile = file => {
+  //   console.log(file);
+  //   const link = document.createElement('a');
+  //   link.href = file[0].meta.fileUrl;
+  //   link.download = file[0].meta.fileName;
+  //   document.body.appendChild(link);
+  //   link.click();
+  //   document.body.removeChild(link);
+  // };
+
   renderBodyMessage = (message, child) => {
     const {
       sender,
@@ -457,6 +467,7 @@ class ChatMessage extends Component {
           </Col>
           {!conversationDisabled && !child && (
             <MessageOptions
+              attachments={attachments}
               bookmarked={bookmarked}
               showOptions={ownMessage || (userRoles && userRoles.admin)}
               onReply={this.handleReplyMessage}
