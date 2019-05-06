@@ -87,7 +87,7 @@ class DirectMessagesPage extends Component {
             enabled: true,
             content: currentConversationUser && (
               <div>
-                {currentConversationUser.online && currentConversationUser.presenceStatus !== 'busy' && (
+                {currentConversationUser.online && currentConversationUser.presenceStatus === 'online' && (
                   <PersonalCallButton
                     caller={currentUser.userId}
                     called={currentConversationUser}

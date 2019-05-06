@@ -17,7 +17,6 @@ const propTypes = {
   currentUser: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
   usersPresences: PropTypes.object.isRequired,
-  orgId: PropTypes.string.isRequired,
   files: PropTypes.array,
   removeFileFromList: PropTypes.func.isRequired,
   addBase: PropTypes.func.isRequired,
@@ -43,8 +42,9 @@ const propTypes = {
       })
     )
   }),
+  fetchConversations: PropTypes.func.isRequired,
+  fetchBookmarks: PropTypes.func.isRequired,
   fetchMessages: PropTypes.func.isRequired,
-  saveBookmark: PropTypes.func.isRequired,
   deleteMessage: PropTypes.func.isRequired,
   membersTyping: PropTypes.object,
   readMessage: PropTypes.func.isRequired,
@@ -85,27 +85,34 @@ class Chat extends React.Component {
 
   componentDidMount() {
     const { conversation, users, usersPresences } = this.props;
+
+    // conversation doesn't exist in the app state
+    if (!conversation) {
+      this.props.fetchConversations();
+      return;
+    }
+
     this.updateMembers({ conversation, users, usersPresences });
 
     this.props.fetchMessages(conversation.id);
-    //    .then(() => this.setState({ conversationsLoaded: true }))
-    //    .then(() => {
-    //      this.scrollToBottom();
-    //      this.setScrollEvent();
-    //    });
+    this.props.fetchBookmarks();
   }
 
   componentWillReceiveProps(nextProps) {
     const { conversation, users, usersPresences } = nextProps;
-    if (this.props.conversation.id !== conversation.id) {
+
+    // conversation doesn't exist in the app state
+    if (!conversation) {
+      this.props.fetchConversations();
+      return;
+    }
+
+    // it's a new conversation or navigating between conversations
+    if ((!this.props.conversation && conversation) || this.props.conversation.id !== conversation.id) {
       this.updateMembers({ conversation, users, usersPresences });
 
       this.props.fetchMessages(conversation.id);
-      //    .then(() => this.setState({ conversationsLoaded: true }))
-      //    .then(() => {
-      //      this.scrollToBottom();
-      //      this.setScrollEvent();
-      //    });
+      this.props.fetchBookmarks();
     }
   }
 
@@ -120,25 +127,16 @@ class Chat extends React.Component {
   }
 
   onMessageAction = (payload, action) => {
-    const { message, bookmark, extraInfo } = payload;
-    const { currentUser, orgId } = this.props;
+    const { message, extraInfo } = payload;
 
     switch (action) {
       case messageAction.replyTo:
         this.setState({ replyTo: { ...message, ...extraInfo } });
         break;
-      case messageAction.bookmark:
-        this.props
-          .saveBookmark(currentUser, orgId, bookmark, extraInfo.setBookmark)
-          .then(() => {
-            msg.success(String.t(extraInfo.setBookmark ? 'message.bookmarkSetToast' : 'message.bookmarkRemovedToast'));
-          })
-          .catch(error => msg.error(error.message));
-        break;
       case messageAction.delete:
         this.props
           .deleteMessage(message)
-          .then(() => msg.success(String.t('message.deleteSuccessToast')))
+          .then(() => msg.success(String.t('message.messageDeleted')))
           .catch(error => msg.error(error.message));
         break;
       default:

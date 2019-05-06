@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Modal, Tooltip } from 'antd';
 import classNames from 'classnames';
@@ -9,82 +8,51 @@ import { isPreviewSupported, getPreviewUrl } from 'src/lib/filePreview';
 import './styles/style.css';
 
 const propTypes = {
-  orgId: PropTypes.string.isRequired,
-  token: PropTypes.string.isRequired,
   attachments: PropTypes.array,
-  conversationId: PropTypes.string,
   onLoadImage: PropTypes.func
 };
 
 const defaultProps = {
   attachments: [],
-  onLoadImage: null,
-  conversationId: null
+  onLoadImage: null
 };
 
 class PreviewAttachments extends Component {
   state = {
     isImage: true,
     modalVisible: false,
-    fileToPreview: '',
-    files: []
-  };
-
-  componentDidMount() {
-    this.fetchFiles();
-  }
-
-  fetchFiles = () => {
-    const { attachments, conversationId, orgId, token } = this.props;
-    const files = [];
-    const headers = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'x-hablaai-teamid': conversationId,
-        'x-hablaai-subscriberorgid': orgId
-      }
-    };
-
-    attachments.forEach(image => {
-      const { resourceId } = image;
-      axios
-        .get(`https://uw33cc3bz4.execute-api.us-west-2.amazonaws.com/dev/resource/${resourceId}`, headers)
-        .then(resource => {
-          files.push({
-            src: `data:${resource.headers['x-hablaai-content-type']};base64,${resource.data}`,
-            contentType: resource.headers['x-hablaai-content-type'],
-            fileName: resource.headers['x-hablaai-filename']
-          });
-          this.setState({ files });
-        });
-    });
+    fileToPreview: ''
   };
 
   handleCancel = () => {
     this.setState({ modalVisible: false });
   };
 
-  handlePreview = (file, isImage, extension) => {
+  handlePreview = (fileUrl, isImage, extension) => {
     this.setState({
       isImage,
-      modalVisible: isImage || isPreviewSupported(extension),
-      fileToPreview: file
+      fileToPreview: fileUrl,
+      modalVisible: isImage || isPreviewSupported(extension)
     });
   };
 
   renderPreview = file => {
-    // handle '.' in the filename
-    const [extension, ...rest] = file.fileName.split('.').reverse();
-    const name = rest.reverse().join('.');
-    const [fileType] = file.contentType.split('/');
+    const { fileName, fileUrl } = file.meta;
+    const [fileType] = file.type.split('/');
     const isImage = fileType === 'image';
-    const fileSrc = !isImage && isPreviewSupported(extension) ? getPreviewUrl(file.src, extension) : file.src;
+
+    // handle '.' in the filename
+    const [extension, ...rest] = fileName.split('.').reverse();
+    const name = rest.reverse().join('.');
+
+    const previewUrl = !isImage && isPreviewSupported(extension) ? getPreviewUrl(fileUrl, extension) : fileUrl;
 
     const imagePreview = (
       <a role="button" tabIndex={0}>
-        <img src={fileSrc} alt={file.fileName} onLoad={this.props.onLoadImage} />
+        <img src={fileUrl} alt={fileName} onLoad={this.props.onLoadImage} />
       </a>
     );
+
     const fileIconPreview = (
       <div className="file-wrapper__extension">
         <i className="fa fa-file file-icon" aria-hidden="true" />
@@ -94,16 +62,16 @@ class PreviewAttachments extends Component {
 
     return (
       <div
-        key={file.fileName}
+        key={fileName}
         className={classNames('image-wrapper', { 'preview__file-wrapper': !isImage })}
-        onClick={() => this.handlePreview(fileSrc, isImage, extension)}
+        onClick={() => this.handlePreview(previewUrl, isImage, extension)}
       >
         <Tooltip placement="top" title={decodeURI(name)} arrowPointAtCenter>
           <div className="image-wrapper-content">
             {isImage && imagePreview}
             {!isImage && isPreviewSupported(extension) && fileIconPreview}
             {!isImage && !isPreviewSupported(extension) && (
-              <a href={file.src} download={decodeURI(file.fileName)}>
+              <a href={fileUrl} download={decodeURI(fileName)}>
                 {fileIconPreview}
               </a>
             )}
@@ -115,26 +83,27 @@ class PreviewAttachments extends Component {
   };
 
   render() {
-    if (isEmpty(this.props.attachments)) return null;
+    const { attachments } = this.props;
+    const { modalVisible, fileToPreview, isImage } = this.state;
 
-    const { files, modalVisible, fileToPreview, isImage } = this.state;
+    if (isEmpty(attachments)) return null;
 
     return (
       <div className="preview-images">
         <div className="attachment-icon">
           <i className="fas fa-paperclip" />
         </div>
-        {files.map(this.renderPreview)}
+        {attachments.map(this.renderPreview)}
 
         <Modal
           className={classNames({ 'is-file': !isImage })}
-          width={!isImage ? 1000 : 540}
+          width={1000}
           onCancel={this.handleCancel}
           visible={modalVisible}
           footer={null}
         >
-          {isImage && <img className="PreviewAttachments__modal-img" alt="" src={fileToPreview} />}
-          {!isImage && <iframe title="image-preview" src={fileToPreview} width="944" height="700" />}
+          {isImage && <img src={fileToPreview} className="PreviewAttachments__modal-img" alt="" />}
+          {!isImage && <iframe src={fileToPreview} title="image-preview" width="944" height="850" />}
         </Modal>
       </div>
     );

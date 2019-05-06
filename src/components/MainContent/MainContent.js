@@ -1,12 +1,13 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { Component } from 'react';
 import { Layout, notification } from 'antd';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import moment from 'moment';
-
 import { paths } from 'src/routes';
 import { soundNotificationPTAudio, soundNotificationInvitationAudio } from 'src/sounds';
+import { notificationIcon } from 'src/img';
 import String from 'src/translations';
 import { sortByLastCreatedFirst } from 'src/redux-hablaai/selectors/helpers';
 import {
@@ -89,7 +90,7 @@ class MainContent extends Component {
       const args = {
         message: String.t('MainContent.newMessage'),
         description: text,
-        duration: 4,
+        duration: 3,
         onClose: () => {
           this.props.notifyMessage();
         }
@@ -128,7 +129,7 @@ class MainContent extends Component {
       }
       const args = {
         message: text,
-        duration: 5,
+        duration: 3,
         onClose: () => {
           this.props.updateInvitationDeclined();
         }
@@ -146,9 +147,14 @@ class MainContent extends Component {
         const user = this.props.users[createdBy];
         if (user) {
           const args = {
+            icon: (
+              <div className="notification-edition">
+                <img src={notificationIcon} className="notification__Image" />
+              </div>
+            ),
             message: String.t('MainContent.newMessageFrom', user),
             description: content[0] && content[0].text,
-            duration: 4,
+            duration: 3,
             onClose: () => {
               this.props.notifyMessage();
             }

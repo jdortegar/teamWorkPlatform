@@ -11,13 +11,12 @@ import { Picker } from 'emoji-mart';
 import Str from 'src/translations';
 import {
   AvatarWrapper,
-  PreviewAttachments,
   VideoCallModal,
   ShareModal,
   MessageInput,
   ChatMessage as ChatMessageContainer
 } from 'src/containers';
-import { PreviewMessageModal } from 'src/components';
+import { PreviewAttachments, PreviewMessageModal } from 'src/components';
 import MessageOptions from './MessageOptions';
 import Metadata from './Metadata';
 import './styles/style.css';
@@ -34,7 +33,6 @@ const propTypes = {
   grouped: PropTypes.bool,
   currentPath: PropTypes.string,
   teamMembers: PropTypes.array,
-  teamId: PropTypes.string,
   lastRead: PropTypes.bool,
   fetchMetadata: PropTypes.func,
   scrollToBottom: PropTypes.func,
@@ -51,6 +49,8 @@ const propTypes = {
   userIsEditing: PropTypes.bool,
   createMessage: PropTypes.func.isRequired,
   deleteMessage: PropTypes.func.isRequired,
+  saveBookmark: PropTypes.func.isRequired,
+  removeBookmark: PropTypes.func.isRequired,
   users: PropTypes.object.isRequired
 };
 
@@ -65,7 +65,6 @@ const defaultProps = {
   lastRead: false,
   teamMembers: [],
   currentPath: null,
-  teamId: null,
   showDetailsOnAvatar: true,
   showMetadata: false,
   shareDataOwner: null,
@@ -148,6 +147,15 @@ class ChatMessage extends Component {
   showVideoCallModal = hide => {
     if (hide) return this.setState({ videoCallModalVisible: false });
     return this.setState({ videoCallModalVisible: !this.state.videoCallModalVisible });
+  };
+
+  toggleBookmark = bookmarked => {
+    const { message, saveBookmark, removeBookmark } = this.props;
+    if (bookmarked) {
+      removeBookmark(message.id).then(() => mssg.success(Str.t('message.bookmarkRemovedToast')));
+    } else {
+      saveBookmark(message.id).then(() => mssg.success(Str.t('message.bookmarkSetToast')));
+    }
   };
 
   handleEditMessage = option => {
@@ -243,13 +251,6 @@ class ChatMessage extends Component {
 
   handleShowReplies = () => {
     this.setState({ isExpanded: !this.state.isExpanded });
-  };
-
-  handleBookmark = setBookmark => {
-    const { message, teamId } = this.props;
-    const extraInfo = { setBookmark };
-    const bookmark = { ...message, teamId };
-    this.props.onMessageAction({ bookmark, extraInfo }, messageAction.bookmark);
   };
 
   handleVideoCall = (callerId, calledId) => {
@@ -385,6 +386,16 @@ class ChatMessage extends Component {
       </Tooltip>
     ));
 
+  // downloadFile = file => {
+  //   console.log(file);
+  //   const link = document.createElement('a');
+  //   link.href = file[0].meta.fileUrl;
+  //   link.download = file[0].meta.fileName;
+  //   document.body.appendChild(link);
+  //   link.click();
+  //   document.body.removeChild(link);
+  // };
+
   renderBodyMessage = (message, child) => {
     const {
       sender,
@@ -399,7 +410,7 @@ class ChatMessage extends Component {
       userRoles
     } = this.props;
 
-    const { content = [], created, conversationId, children } = message;
+    const { content = [], created, children } = message;
     const { reactions } = this.state;
 
     const messageOwner = child && shareDataOwner ? shareDataOwner : sender;
@@ -440,11 +451,7 @@ class ChatMessage extends Component {
                   )}
                   {content[0].sharedData && !sharedProfile && this.renderBodyMessage(content[0].sharedData, true)}
                   <div className={classNames(ownMessage ? 'message__inverted_order' : '')}>
-                    <PreviewAttachments
-                      attachments={attachments}
-                      conversationId={conversationId}
-                      onLoadImage={scrollToBottom}
-                    />
+                    <PreviewAttachments attachments={attachments} onLoadImage={scrollToBottom} />
                   </div>
                   {sharedProfile && this.renderUserProfile(sharedProfile)}
                   <span className="message__body-text-date"> ({moment(created).fromNow()})</span>
@@ -460,11 +467,11 @@ class ChatMessage extends Component {
           </Col>
           {!conversationDisabled && !child && (
             <MessageOptions
+              attachments={attachments}
               bookmarked={bookmarked}
               showOptions={ownMessage || (userRoles && userRoles.admin)}
-              // onReply={() => this.handleReplyTo({ id, firstName, lastName, preferences, text })}
               onReply={this.handleReplyMessage}
-              onBookmark={this.handleBookmark}
+              onBookmark={this.toggleBookmark}
               onDelete={this.showPreviewMessageModal}
               handleShareProfile={this.handleShareProfile}
               handleEditMessage={this.handleEditMessage}

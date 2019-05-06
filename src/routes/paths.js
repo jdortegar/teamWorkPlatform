@@ -27,7 +27,7 @@ export const paths = {
   notifications: '/app/notifications',
   surveyReport: '/app/surveyReport',
   surveySettings: '/app/surveySettings',
-  bookmarks: '/app/bookmarks/:subscriberOrgId',
+  bookmarks: '/app/bookmarks',
   dashboard: '/app/dashboard/:reportId?',
   ckg: '/app/ckg',
   // Admin Organization

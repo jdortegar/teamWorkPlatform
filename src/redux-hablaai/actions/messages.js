@@ -9,6 +9,8 @@ export const MESSAGE_CREATE_SUCCESS = 'messages/create/success';
 export const MESSAGE_CREATE_FAILURE = 'messages/create/failure';
 export const MESSAGE_DELETE_SUCCESS = 'messages/delete/success';
 export const MESSAGE_DELETE_FAILURE = 'messages/delete/failure';
+export const MESSAGE_UPDATE_SUCCESS = 'messages/update/success';
+export const MESSAGE_UPDATE_FAILURE = 'messages/update/failure';
 
 export const fetchMessages = conversationId => async dispatch => {
   const requestUrl = buildChatUrl(`conversations/${conversationId}/messages`);
@@ -21,13 +23,13 @@ export const fetchMessages = conversationId => async dispatch => {
   } catch (e) {
     const error = e.response ? { ...e.response.data } : e;
     dispatch({ type: MESSAGES_FETCH_FAILURE, payload: { error } });
-    return error;
+    throw new Error(e);
   }
 };
 
 const getPercentOfRequest = ({ total, loaded }) => Math.round((loaded * 100) / total);
 
-export const uploadFile = (file, conversationId, onUploadProgress = () => {}) => async (dispatch, getState) => {
+export const uploadFile = (file, conversationId, onUploadProgress = () => {}) => (dispatch, getState) => {
   const requestUrl = buildChatUrl(`conversations/${conversationId}/files`);
   const orgId = getCurrentOrgId(getState());
   const content = file.src.split('base64,')[1] || file.src;
@@ -40,13 +42,16 @@ export const uploadFile = (file, conversationId, onUploadProgress = () => {}) =>
   };
 
   return dispatch(
-    doAuthenticatedRequest({
-      requestUrl,
-      method: 'post',
-      data,
-      onUploadProgress: progress =>
-        onUploadProgress({ name: file.name, size: file.size, percent: getPercentOfRequest(progress) })
-    })
+    doAuthenticatedRequest(
+      {
+        requestUrl,
+        method: 'post',
+        data,
+        onUploadProgress: progress =>
+          onUploadProgress({ name: file.name, size: file.size, percent: getPercentOfRequest(progress) })
+      },
+      data
+    )
   );
 };
 
@@ -54,13 +59,14 @@ export const createMessage = ({
   text,
   conversationId,
   replyTo,
-  files = [],
+  file,
   emojiReaction,
+  dataforShare,
   onFileUploadProgress
 }) => async (dispatch, getState) => {
   const requestUrl = buildChatUrl(`conversations/${conversationId}/messages`);
   const userId = getCurrentUserId(getState());
-  let content = [];
+  const content = [];
 
   if (emojiReaction) {
     content.push({ text, type: 'emojiReaction', colons: emojiReaction });
@@ -68,38 +74,51 @@ export const createMessage = ({
     content.push({ text, type: 'text/plain' });
   }
 
-  try {
-    // upload files and attach them to the message
-    const requests = files.map(file => dispatch(uploadFile(file, conversationId, onFileUploadProgress)));
-    const responses = await Promise.all(requests);
-    const resources = responses.map((response, index) => ({
-      type: files[index].type,
-      meta: {
-        fileUrl: response.data.fileUrl,
-        fileName: response.data.fileName,
-        size: files[index].size
-      }
-    }));
-    content = [...content, ...resources];
-  } catch (e) {
-    const error = e.response ? { ...e.response.data } : e;
-    dispatch({ type: MESSAGE_CREATE_FAILURE, payload: { error } });
-    throw new Error(e);
+  if (dataforShare) {
+    const [sharedContent] = dataforShare.content || [];
+    if (sharedContent) content.push(sharedContent);
   }
 
-  const body = {
-    content,
-    userId,
-    replyTo: replyTo ? replyTo.id : undefined
-  };
-
   try {
-    const { data: message } = await dispatch(doAuthenticatedRequest({ requestUrl, method: 'post', data: body }));
+    if (file) {
+      // upload file and attach it to the message content
+      const uploadedFile = await dispatch(uploadFile(file, conversationId, onFileUploadProgress));
+      content.push({
+        type: file.type,
+        meta: {
+          fileUrl: uploadedFile.data.fileUrl,
+          fileName: uploadedFile.data.fileName,
+          size: file.size
+        }
+      });
+    }
+
+    const data = { content, userId, replyTo: replyTo ? replyTo.id : undefined };
+    const { data: message } = await dispatch(doAuthenticatedRequest({ requestUrl, method: 'post', data }, data));
+
     dispatch({ type: MESSAGE_CREATE_SUCCESS, payload: { message, conversationId } });
     return message;
   } catch (e) {
     const error = e.response ? { ...e.response.data } : e;
     dispatch({ type: MESSAGE_CREATE_FAILURE, payload: { error } });
+    throw new Error(e);
+  }
+};
+
+export const updateMessage = (message, text) => async dispatch => {
+  const requestUrl = buildChatUrl(`messages/${message.id}`);
+  const attachments = message.content.filter(item => item.type !== 'text/plain');
+  const content = [{ type: 'text/plain', text }, ...attachments];
+
+  try {
+    const { data: updatedMessage } = await dispatch(
+      doAuthenticatedRequest({ requestUrl, method: 'patch', data: { content } })
+    );
+    dispatch({ type: MESSAGE_UPDATE_SUCCESS, payload: { message: updatedMessage } });
+    return updatedMessage;
+  } catch (e) {
+    const error = e.response ? { ...e.response.data } : e;
+    dispatch({ type: MESSAGE_UPDATE_FAILURE, payload: { error } });
     throw new Error(e);
   }
 };
@@ -114,6 +133,6 @@ export const deleteMessage = message => async dispatch => {
   } catch (e) {
     const error = e.response ? { ...e.response.data } : e;
     dispatch({ type: MESSAGE_DELETE_FAILURE, payload: { error } });
-    return error;
+    throw new Error(e);
   }
 };

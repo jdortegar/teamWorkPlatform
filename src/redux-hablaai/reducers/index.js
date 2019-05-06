@@ -1,3 +1,4 @@
+import bookmarks from './bookmarksReducer';
 import callings from './callingsReducer';
 import conversations from './conversationsReducer';
 import dashboard from './dashboardReducer';
@@ -22,6 +23,7 @@ import urlRequests from './urlRequestsReducer';
 import users from './usersReducer';
 
 const reducers = {
+  bookmarks,
   callings,
   conversations,
   dashboard,

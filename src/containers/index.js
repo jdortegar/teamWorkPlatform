@@ -1,6 +1,7 @@
 export AcceptInvitationPage from './AcceptInvitationPage';
 export AddTeamIntegrationModal from './AddTeamIntegrationModal';
 export AvatarWrapper from './AvatarWrapper';
+export Bookmark from './Bookmark';
 export BookmarksPage from './BookmarksPage';
 export Chat from './Chat';
 export ChatContent from './ChatContent';
@@ -38,7 +39,6 @@ export OrganizationManageTeams from './OrganizationManageTeams';
 export OrganizationPage from './OrganizationPage';
 export OrgIntegrationPage from './OrgIntegrationPage';
 export PersonalizeTeamModal from './PersonalizeTeamModal';
-export PreviewAttachments from './PreviewAttachments';
 export SetNewPassword from './SetNewPassword';
 export ShareModal from './ShareModal';
 export Sidebar from './Sidebar';

@@ -21,3 +21,78 @@
   padding: 12px 10px;
   height: auto;
 }
+.ant-notification-notice-description {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 295px;
+}
+.ant-notification-notice {
+  position: relative;
+  margin-bottom: 16px;
+  padding: 10px 10px;
+  overflow: hidden;
+  line-height: 1.5;
+  border-radius: 8px;
+  background: #fefefe;
+  background: -moz-linear-gradient(top, #fefefe 0%, #e2e2e2 73%, #d1d1d1 100%);
+  background: -webkit-gradient(
+    left top,
+    left bottom,
+    color-stop(0%, #fefefe),
+    color-stop(73%, #e2e2e2),
+    color-stop(100%, #d1d1d1)
+  );
+  background: -webkit-linear-gradient(top, #fefefe 0%, #e2e2e2 73%, #d1d1d1 100%);
+  background: -o-linear-gradient(top, #fefefe 0%, #e2e2e2 73%, #d1d1d1 100%);
+  background: -ms-linear-gradient(top, #fefefe 0%, #e2e2e2 73%, #d1d1d1 100%);
+  background: linear-gradient(to bottom, #fefefe 0%, #e2e2e2 73%, #d1d1d1 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#d1d1d1', GradientType=0 );
+}
+.notification__Image {
+  width: 46px;
+}
+.ant-notification-notice-description {
+  font-size: 14px;
+}
+.ant-notification-notice-closable .ant-notification-notice-message {
+  padding-right: 10px;
+}
+.ant-notification-notice-with-icon .ant-notification-notice-message {
+  margin-bottom: 0px;
+  margin-left: 54px;
+  font-size: 16px;
+}
+.ant-notification-notice-with-icon .ant-notification-notice-description {
+  margin-left: 55px;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+.anticon.ant-notification-notice-icon {
+  position: absolute;
+  margin-left: 4px;
+  font-size: 24px;
+  line-height: 24px;
+}
+.notification-edition {
+  height: 0px;
+}
+.ant-notification-notice-close {
+  position: absolute;
+  top: 3px;
+  right: 10px;
+  color: rgba(0, 0, 0, 0.45);
+  outline: none;
+}
+.ant-notification-close-icon {
+  font-size: 12px;
+  cursor: pointer;
+}
+.ant-notification-notice-message {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 16px;
+  line-height: 22px;
+}

@@ -11,7 +11,8 @@ const propTypes = {
   handleEditMessage: PropTypes.func.isRequired,
   onAddReaction: PropTypes.func.isRequired,
   bookmarked: PropTypes.bool,
-  showOptions: PropTypes.bool
+  showOptions: PropTypes.bool,
+  attachments: PropTypes.array.isRequired
 };
 
 const defaultProps = {
@@ -27,7 +28,8 @@ const MessageOptions = ({
   onDelete,
   handleShareProfile,
   handleEditMessage,
-  onAddReaction
+  onAddReaction,
+  attachments
 }) => (
   <div className="message__options hide">
     <Tooltip placement="topLeft" title={String.t('message.tooltipReply')}>
@@ -109,12 +111,29 @@ const MessageOptions = ({
         className={bookmarked ? 'message__icons message__icons-selected' : 'message__icons'}
         onClick={e => {
           e.stopPropagation();
-          onBookmark(!bookmarked);
+          onBookmark(bookmarked);
         }}
       >
         <i className="fas fa-bookmark" />
       </a>
     </Tooltip>
+    {attachments.length > 0 && (
+      <Tooltip
+        placement="topLeft"
+        title={String.t(bookmarked ? 'message.tooltipBookmarkRemove' : 'message.tooltipDownloadFile')}
+        arrowPointAtCenter
+      >
+        <a
+          className="message__icons"
+          download={attachments[0].meta.fileName}
+          href={attachments[0] ? attachments[0].meta.fileUrl : ''}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i className="fas fa-download" />
+        </a>
+      </Tooltip>
+    )}
   </div>
 );
 

@@ -1,16 +1,14 @@
 import { connect } from 'react-redux';
-import { deleteMessage, saveBookmark } from 'src/actions';
-import { getCurrentUser, getSubscribersOfSubscriberOrgId, getPresencesOfSubscribersOfOrgId } from 'src/selectors';
+import { fetchBookmarks, deleteMessage } from 'src/actions';
+import { getBookmarks, getOrgSubscribers } from 'src/selectors';
 import { BookmarksPage } from 'src/pages';
 
 const mapStateToProps = state => ({
-  user: getCurrentUser(state),
-  subscriberOrgs: state.subscriberOrgs,
-  subscribers: getSubscribersOfSubscriberOrgId(state, state.subscriberOrgs.currentSubscriberOrgId),
-  subscribersPresences: getPresencesOfSubscribersOfOrgId(state, state.subscriberOrgs.currentSubscriberOrgId)
+  bookmarks: getBookmarks(state),
+  subscribers: getOrgSubscribers(state)
 });
 
-const mapDispatchToProps = { deleteMessage, saveBookmark };
+const mapDispatchToProps = { fetchBookmarks, deleteMessage };
 
 export default connect(
   mapStateToProps,

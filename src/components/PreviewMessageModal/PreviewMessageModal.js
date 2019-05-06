@@ -23,7 +23,7 @@ const defaultProps = {
 
 const PreviewMessageModal = ({ visible, message, showPreviewMessageModal, onConfirmed, title, subtitle }) => (
   <div>
-    <Modal visible={visible} footer={null} width="400px" closable={false} maskClosable destroyOnClose>
+    <Modal visible={visible} footer={null} width="450px" closable={false} maskClosable destroyOnClose>
       <div className="Preview_Message_Modal">
         <div className="Modal_header">
           <h5 className="Modal_title">
@@ -47,7 +47,13 @@ const PreviewMessageModal = ({ visible, message, showPreviewMessageModal, onConf
             <Button className="Cancel_button" onClick={() => showPreviewMessageModal(false)}>
               {String.t('cancelButton')}
             </Button>
-            <Button className="Confirm_button" onClick={() => onConfirmed()}>
+            <Button
+              className="Confirm_button"
+              onClick={event => {
+                event.stopPropagation();
+                onConfirmed();
+              }}
+            >
               {String.t('deleteButton')}
             </Button>
           </div>

@@ -7,8 +7,8 @@ import {
   fetchConversations,
   fetchMessages,
   createMessage,
+  updateMessage,
   deleteMessage,
-  saveBookmark,
   iAmTyping,
   readMessage
 } from 'src/actions';
@@ -47,8 +47,8 @@ const mapDispatchToProps = {
   fetchConversations,
   fetchMessages,
   createMessage,
+  updateMessage,
   deleteMessage,
-  saveBookmark,
   iAmTyping,
   readMessage
 };

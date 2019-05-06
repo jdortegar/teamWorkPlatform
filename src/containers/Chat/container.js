@@ -8,7 +8,7 @@ import {
   fetchMessages,
   createMessage,
   deleteMessage,
-  saveBookmark,
+  fetchBookmarks,
   iAmTyping,
   readMessage
 } from 'src/actions';
@@ -19,7 +19,7 @@ import {
   getTeamMembersOfTeamId,
   getUserByUserId,
   getPresencesOfSubscribersOfOrgId,
-  getConversation,
+  getConversationWithMessages,
   getResourcesUrl,
   getMembersTyping,
   getLastReadTimestampOfConversationId
@@ -30,8 +30,7 @@ const mapStateToProps = (state, props) => {
   const orgId = getCurrentSubscriberOrgId(state);
 
   return {
-    orgId,
-    conversation: getConversation(state, conversationId),
+    conversation: getConversationWithMessages(state, conversationId),
     team: getTeam(state, teamId),
     currentUser: getCurrentUser(state),
     teamMembers: getTeamMembersOfTeamId(state, teamId),
@@ -49,7 +48,7 @@ const mapDispatchToProps = {
   fetchMessages,
   createMessage,
   deleteMessage,
-  saveBookmark,
+  fetchBookmarks,
   iAmTyping,
   readMessage
 };

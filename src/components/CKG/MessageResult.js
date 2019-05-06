@@ -5,7 +5,8 @@ import Autolinker from 'autolinker';
 import { find, filter, includes } from 'lodash';
 
 import String from 'src/translations';
-import { AvatarWrapper, PreviewAttachments } from 'src/containers';
+import { AvatarWrapper } from 'src/containers';
+import { PreviewAttachments } from 'src/components';
 import './styles/MessageResult.css';
 
 const propTypes = {
@@ -21,7 +22,7 @@ const defaultProps = {
 };
 
 const MessageResult = ({ message, sender, team, history }) => {
-  const { content, created, conversationId } = message;
+  const { content, created } = message;
   const { firstName, lastName } = sender;
 
   const name = String.t('message.sentByName', { firstName, lastName });
@@ -48,7 +49,7 @@ const MessageResult = ({ message, sender, team, history }) => {
           {<span dangerouslySetInnerHTML={{ __html: formattedText }} /> /* eslint-disable-line react/no-danger */}
         </p>
         <div onClick={e => e.stopPropagation()}>
-          <PreviewAttachments attachments={attachments} conversationId={conversationId} />
+          <PreviewAttachments attachments={attachments} />
         </div>
       </div>
     </div>

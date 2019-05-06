@@ -8,49 +8,36 @@ import './styles/style.css';
 
 const propTypes = {
   files: PropTypes.array,
+  fileProgress: PropTypes.object,
   onCancelReply: PropTypes.func.isRequired,
   addBase: PropTypes.func.isRequired,
   isDraggingOver: PropTypes.bool.isRequired,
-  replyTo: PropTypes.shape({
-    text: PropTypes.string,
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    preferences: PropTypes.shape({
-      iconColor: PropTypes.string.isRequired
-    }).isRequired
-  }),
-  removeFileFromList: PropTypes.func.isRequired,
-  fileProgress: PropTypes.object
+  removeFileFromList: PropTypes.func.isRequired
 };
 
 const defaultProps = {
   files: [],
-  replyTo: {
-    text: '',
-    firstName: '',
-    lastName: ''
-  },
   fileProgress: null
 };
 
-function getProgressBar(percent) {
+const getProgressBar = percent => {
   const percentComp = !percent ? 0 : percent;
   return <Progress percent={percentComp} strokeWidth={5} showInfo={false} />;
-}
+};
 
 class PreviewBar extends Component {
   renderPreviewCards = () => {
     const { files, fileProgress, removeFileFromList, addBase } = this.props;
     return files.map(file => {
-      let percentValue = 0;
+      const item = file;
       if (fileProgress && file.name === fileProgress.name && file.size === fileProgress.size) {
-        percentValue = fileProgress.percent;
+        item.percent = fileProgress.percent;
       }
       return (
         <div key={file.name} className="PreviewBar__image-wrapper image-wrapper">
           <div className="image-wrapper-content">
             <PreviewCard file={file} handleRemove={() => removeFileFromList(file)} addBase={addBase} />
-            {getProgressBar(percentValue)}
+            {getProgressBar(item.percent)}
           </div>
           <span className="file-name habla-label">{file.name}</span>
         </div>
@@ -59,30 +46,20 @@ class PreviewBar extends Component {
   };
 
   render() {
-    const { replyTo, files } = this.props;
-    const name = String.t('previewBar.name', replyTo);
+    const { files, onCancelReply, isDraggingOver } = this.props;
+    if (!isDraggingOver && files.length === 0) return null;
+
     return (
       <div className="PreviewBar__message_reply-wrapper">
         <div className="PreviewBar__message_reply-container">
           <div className="PreviewBar__message-cancel-reply-col">
-            <a
-              className="PreviewBar__message-cancel-reply"
-              onClick={this.props.onCancelReply}
-              title={String.t('cancelButton')}
-            >
+            <a className="PreviewBar__message-cancel-reply" onClick={onCancelReply} title={String.t('cancelButton')}>
               <i className="fas fa-times-circle" />
             </a>
           </div>
           <div>
-            {replyTo ? (
-              <div className="Reply__header_container">
-                <i className="fas fa-reply" />
-                <p className="PreviewBar__message-body-name">{name}</p>
-                <p className="PreviewBar__message-body-text">{replyTo.text}</p>
-              </div>
-            ) : null}
             <div className="PreviewBar__files-container">
-              {this.props.isDraggingOver && files.length === 0 ? (
+              {isDraggingOver && files.length === 0 ? (
                 <div className="PreviewBar__file-placeholder-container">
                   <span className="PreviewBar__file-placeholder-icon">
                     <Icon type="upload" />

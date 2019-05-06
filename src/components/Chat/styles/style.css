@@ -185,10 +185,11 @@
 .team__messages .message__Bubble {
   background: #eff6ff;
   padding: 5px 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   position: relative;
   display: inline-block;
   min-width: 100px;
+  word-break: break-word;
 }
 
 .team__messages .message__Bubble.withArrow::before {

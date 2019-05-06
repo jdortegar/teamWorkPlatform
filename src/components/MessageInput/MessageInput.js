@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Tooltip, Input, message as msg } from 'antd';
-import { isEmpty } from 'lodash';
+import { isEmpty, last } from 'lodash';
 import classNames from 'classnames';
 
 import 'emoji-mart/css/emoji-mart.css';
@@ -21,14 +21,13 @@ const propTypes = {
   files: PropTypes.array,
   iAmTyping: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
+  updateMessage: PropTypes.func.isRequired,
   removeFileFromList: PropTypes.func,
   addBase: PropTypes.func,
   clearFileList: PropTypes.func,
   updateFileList: PropTypes.func,
   setLastSubmittedMessage: PropTypes.func,
-  // resetReplyTo: PropTypes.func,
   isDraggingOver: PropTypes.bool,
-  resourcesUrl: PropTypes.string.isRequired,
   replyTo: PropTypes.object,
   messageToEdit: PropTypes.object,
   handleEditMessage: PropTypes.func,
@@ -43,7 +42,6 @@ const defaultProps = {
   removeFileFromList: null,
   addBase: null,
   updateFileList: null,
-  // resetReplyTo: null,
   isDraggingOver: null,
   clearFileList: () => {},
   handleEditMessage: () => {},
@@ -96,10 +94,10 @@ class MessageInput extends React.Component {
   };
 
   handleTyping = () => {
-    const { conversationId } = this.props;
+    // const { conversationId } = this.props;
     this.clearTypingTimer();
     this.typingTimer = setTimeout(this.stopTyping, 5000);
-    this.props.iAmTyping(conversationId, true);
+    // this.props.iAmTyping(conversationId, true);
   };
 
   toogleEmojiState = () => {
@@ -162,8 +160,66 @@ class MessageInput extends React.Component {
     }
   };
 
+  onCancelReply = () => {
+    this.setState({ showPreviewBox: false });
+    if (!isEmpty(this.props.files)) {
+      this.props.clearFileList();
+    }
+  };
+
   handleFileUploadProgress = fileProgress => {
     this.setState({ fileProgress });
+  };
+
+  createMessages = async text => {
+    const { conversationId, replyTo, files, createMessage } = this.props;
+
+    if (isEmpty(files)) {
+      return createMessage({ text, conversationId, replyTo });
+    }
+
+    const requests = files.map((file, index) =>
+      createMessage({
+        text: index === 0 ? text : undefined, // add text to first message only
+        conversationId,
+        replyTo,
+        file,
+        onFileUploadProgress: this.handleFileUploadProgress
+      })
+    );
+    const messages = await Promise.all(requests);
+    return last(messages);
+  };
+
+  sendMessages = async text => {
+    const { files } = this.props;
+    if (!text && isEmpty(files)) return;
+
+    try {
+      const lastMessage = await this.createMessages(text);
+      this.setState({ fileProgress: null, showPreviewBox: false });
+      this.props.setLastSubmittedMessage(lastMessage);
+      this.props.handleReplyMessage(false);
+      this.props.clearFileList();
+    } catch (e) {
+      msg.error(e.message);
+      this.props.handleReplyMessage(false);
+      if (!isEmpty(files)) {
+        this.props.updateFileList(files);
+        this.setState({ fileProgress: null });
+      }
+    }
+  };
+
+  updateMessage = async (message, text) => {
+    if (!text) return;
+    try {
+      this.props.handleEditMessage(false);
+      await this.props.updateMessage(message, text);
+    } catch (error) {
+      msg.error(error.message);
+      this.props.handleEditMessage(true);
+    }
   };
 
   handleSubmit = e => {
@@ -172,58 +228,21 @@ class MessageInput extends React.Component {
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // const { replyTo } = this.state;
-        const { files, form, resourcesUrl, conversationId, messageToEdit, replyTo } = this.props;
+        const { form, messageToEdit } = this.props;
         const text = values.message ? values.message.trim() : '';
 
         this.stopTyping();
         this.clearTypingTimer();
-        if (!text && isEmpty(files)) return;
 
-        const messageId = messageToEdit ? messageToEdit.id : null;
-
-        if (!messageId) {
-          // To do: remvoe this when API be ready
-          this.props
-            .createMessage({
-              text,
-              conversationId,
-              replyTo,
-              resourcesUrl,
-              files,
-              onFileUploadProgress: this.handleFileUploadProgress,
-              messageId
-            })
-            .then(message => {
-              this.setState({ fileProgress: null, showPreviewBox: false });
-              this.props.setLastSubmittedMessage(message);
-              this.props.handleEditMessage(false);
-              this.props.handleReplyMessage(false);
-              this.props.clearFileList();
-            })
-            .catch(error => {
-              if (!isEmpty(files)) {
-                this.props.updateFileList(files);
-                this.setState({ fileProgress: null });
-              }
-              this.props.handleEditMessage(false);
-              this.props.handleReplyMessage(false);
-              msg.error(error.message);
-            });
+        if (messageToEdit) {
+          this.updateMessage(messageToEdit, text);
         } else {
-          msg.success('this message will change when API chat be ready...');
+          this.sendMessages(text);
         }
 
         form.resetFields();
       }
     });
-  };
-
-  updateFiles = files => {
-    if (files.length === 0 && !this.props.replyTo) {
-      this.setState({ showPreviewBox: false });
-    }
-    this.props.updateFileList(files);
   };
 
   render() {
@@ -237,12 +256,10 @@ class MessageInput extends React.Component {
           <PreviewBar
             files={this.props.files}
             fileProgress={fileProgress}
-            updateFiles={this.updateFiles}
-            removeFileFromList={this.props.removeFileFromList}
             onCancelReply={this.onCancelReply}
             addBase={this.props.addBase}
-            user={user}
             isDraggingOver={this.props.isDraggingOver}
+            removeFileFromList={this.props.removeFileFromList}
           />
         )}
         <div className={classNames('Chat__message_input', { Chat__message_edit_input: messageToEdit })}>

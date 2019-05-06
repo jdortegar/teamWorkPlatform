@@ -1,17 +1,22 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { getCurrentUser, getCurrentOrgId, getUserById, getUserRoles, getUserByUserId } from 'src/selectors';
+import { getCurrentUser, getUserById, getUserRoles, getUserByUserId, isBookmarked } from 'src/selectors';
 import { ChatMessage } from 'src/components';
-import { makePersonalCall, fetchMetadata, createMessage, deleteMessage } from 'src/actions';
+import {
+  makePersonalCall,
+  fetchMetadata,
+  createMessage,
+  deleteMessage,
+  saveBookmark,
+  removeBookmark
+} from 'src/actions';
 
 const mapStateToProps = (state, props) => {
   const currentUser = getCurrentUser(state);
-  const orgId = getCurrentOrgId(state);
   const { id, createdBy, content } = props.message;
   const [mainContent = {}] = content;
-  const bookmarks = currentUser.bookmarks[orgId];
-  const bookmarked = bookmarks && bookmarks.messageIds && bookmarks.messageIds[id] !== undefined;
+  const bookmarked = isBookmarked(state, id);
   const ownMessage = currentUser.userId === createdBy;
   const sharedProfileId = mainContent && mainContent.type === 'userId' ? mainContent.text : null;
   const shareDataOwnerId =
@@ -35,7 +40,9 @@ const mapDispatchToProps = {
   makePersonalCall,
   fetchMetadata,
   createMessage,
-  deleteMessage
+  deleteMessage,
+  saveBookmark,
+  removeBookmark
 };
 
 export default withRouter(
