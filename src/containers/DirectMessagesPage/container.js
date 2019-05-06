@@ -7,7 +7,7 @@ import {
   getPersonalConversation,
   areConversationsLoaded
 } from 'src/selectors';
-import { createConversation, makePersonalCall, readMessage } from 'src/actions';
+import { fetchConversations, createConversation, makePersonalCall, readMessage } from 'src/actions';
 import { DirectMessagesPage } from 'src/pages';
 
 const mapStateToProps = (state, props) => {
@@ -24,6 +24,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
+  fetchConversations,
   createConversation,
   makePersonalCall,
   readMessage

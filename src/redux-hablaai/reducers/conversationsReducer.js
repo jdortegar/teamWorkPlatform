@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux';
 import { union } from 'lodash';
 import {
+  CONVERSATIONS_FETCH_REQUEST,
   CONVERSATIONS_FETCH_SUCCESS,
+  CONVERSATIONS_FETCH_FAILURE,
   CONVERSATIONS_CREATE_SUCCESS,
   CONVERSATIONS_RECEIVE,
   CREATE_TEAM_SUCCESS
@@ -9,7 +11,10 @@ import {
 
 const loaded = (state = false, action) => {
   switch (action.type) {
+    case CONVERSATIONS_FETCH_REQUEST:
+      return false;
     case CONVERSATIONS_FETCH_SUCCESS:
+    case CONVERSATIONS_FETCH_FAILURE:
       return true;
     default:
       return state;
@@ -18,11 +23,12 @@ const loaded = (state = false, action) => {
 
 const byId = (state = {}, action) => {
   switch (action.type) {
+    case CONVERSATIONS_RECEIVE:
     case CONVERSATIONS_FETCH_SUCCESS: {
       const { conversations = [] } = action.payload;
       return {
         ...state,
-        ...conversations.reduce((acc, conversation) => ({ ...acc, [conversation.id]: conversation }), {})
+        ...conversations.reduce((acc, conversation) => ({ ...acc, [conversation.id]: conversation }), state)
       };
     }
     case CONVERSATIONS_CREATE_SUCCESS: {
@@ -34,10 +40,6 @@ const byId = (state = {}, action) => {
       const { team } = action.payload;
       return { ...state, [team.conversationId]: { id: team.conversationId, members: [] } };
     }
-    case CONVERSATIONS_RECEIVE: {
-      // console.warn('CONVERSATIONS_RECEIVE', { payload: action.payload });
-      return state;
-    }
     default:
       return state;
   }
@@ -45,6 +47,7 @@ const byId = (state = {}, action) => {
 
 const allIds = (state = [], action) => {
   switch (action.type) {
+    case CONVERSATIONS_RECEIVE:
     case CONVERSATIONS_FETCH_SUCCESS: {
       const { conversations = [] } = action.payload;
       return union(state, conversations.map(({ id }) => id));
@@ -66,6 +69,7 @@ const allIds = (state = [], action) => {
 
 const idsByTeam = (state = {}, action) => {
   switch (action.type) {
+    case CONVERSATIONS_RECEIVE:
     case CONVERSATIONS_FETCH_SUCCESS: {
       const { conversations = [] } = action.payload;
       return {
@@ -89,6 +93,7 @@ const idsByTeam = (state = {}, action) => {
 
 const idsByMember = (state = {}, action) => {
   switch (action.type) {
+    case CONVERSATIONS_RECEIVE:
     case CONVERSATIONS_FETCH_SUCCESS: {
       const { conversations = [], currentUserId } = action.payload;
       return {

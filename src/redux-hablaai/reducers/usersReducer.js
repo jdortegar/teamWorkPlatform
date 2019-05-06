@@ -75,7 +75,6 @@ const usersReducer = (state = INITIAL_STATE, action) => {
         user = action.payload.user; // eslint-disable-line prefer-destructuring
       } else {
         user = _.merge(user, action.payload.user);
-        user.bookmarks = action.payload.user.bookmarks;
       }
 
       user.subscriberOrgs = user.subscriberOrgs || {};
