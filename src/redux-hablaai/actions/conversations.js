@@ -2,6 +2,7 @@ import { buildChatUrl } from 'src/lib/api';
 import { getCurrentUserId, getCurrentOrgId } from 'src/selectors';
 import { doAuthenticatedRequest } from './urlRequest';
 
+export const CONVERSATIONS_FETCH_REQUEST = 'conversations/fetch/request';
 export const CONVERSATIONS_FETCH_SUCCESS = 'conversations/fetch/success';
 export const CONVERSATIONS_FETCH_FAILURE = 'conversations/fetch/failure';
 export const CONVERSATIONS_CREATE_SUCCESS = 'conversations/create/success';
@@ -12,6 +13,7 @@ export const fetchConversations = () => async (dispatch, getState) => {
   const requestUrl = buildChatUrl(`conversations?userId=${currentUserId}`);
 
   try {
+    dispatch({ type: CONVERSATIONS_FETCH_REQUEST });
     const { data: conversations } = await dispatch(
       doAuthenticatedRequest({
         requestUrl,

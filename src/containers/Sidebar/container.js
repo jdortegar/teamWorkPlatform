@@ -2,14 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { Sidebar } from 'src/components';
-import {
-  setCurrentSubscriberOrgId,
-  showSideBar,
-  finishCall,
-  readMessage,
-  fetchTeamMembers,
-  createConversation
-} from 'src/actions';
+import { setCurrentSubscriberOrgId, showSideBar, finishCall, readMessage, fetchTeamMembers } from 'src/actions';
 import {
   getCurrentUser,
   getCurrentSubscriberOrgId,
@@ -58,8 +51,7 @@ const mapDispatchToProps = {
   showSideBar,
   finishCall,
   readMessage,
-  fetchTeamMembers,
-  createConversation
+  fetchTeamMembers
 };
 
 export default withRouter(

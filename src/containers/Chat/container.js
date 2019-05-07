@@ -9,7 +9,7 @@ import {
   createMessage,
   deleteMessage,
   fetchBookmarks,
-  iAmTyping,
+  sendTyping,
   readMessage
 } from 'src/actions';
 import {
@@ -49,7 +49,7 @@ const mapDispatchToProps = {
   createMessage,
   deleteMessage,
   fetchBookmarks,
-  iAmTyping,
+  sendTyping,
   readMessage
 };
 

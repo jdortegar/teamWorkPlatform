@@ -19,7 +19,7 @@ const propTypes = {
   conversationId: PropTypes.string.isRequired,
   form: formShape.isRequired,
   files: PropTypes.array,
-  iAmTyping: PropTypes.func.isRequired,
+  sendTyping: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
   updateMessage: PropTypes.func.isRequired,
   removeFileFromList: PropTypes.func,
@@ -94,10 +94,21 @@ class MessageInput extends React.Component {
   };
 
   handleTyping = () => {
-    // const { conversationId } = this.props;
+    const { conversationId } = this.props;
     this.clearTypingTimer();
     this.typingTimer = setTimeout(this.stopTyping, 5000);
-    // this.props.iAmTyping(conversationId, true);
+    this.props.sendTyping(conversationId, true);
+  };
+
+  stopTyping = () => {
+    const { conversationId } = this.props;
+    this.props.sendTyping(conversationId, false);
+  };
+
+  clearTypingTimer = () => {
+    if (this.typingTimer) {
+      clearTimeout(this.typingTimer);
+    }
   };
 
   toogleEmojiState = () => {
@@ -147,17 +158,6 @@ class MessageInput extends React.Component {
     if (!textOrig) return false;
     const text = textOrig.trim();
     return !(files && files.length) && !(text && text.length);
-  };
-
-  stopTyping = () => {
-    const { conversationId } = this.props;
-    this.props.iAmTyping(conversationId, false);
-  };
-
-  clearTypingTimer = () => {
-    if (this.typingTimer) {
-      clearTimeout(this.typingTimer);
-    }
   };
 
   onCancelReply = () => {

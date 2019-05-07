@@ -12,6 +12,6 @@ export const receiveTyping = ({ userId, conversationId, isTyping }) => ({
  * @param typing True if the user is typing in the specified conversation, or false if the user is not.
  * Typically, this is some amount of time (ex. 15 seconds) after the last key press.
  */
-export const iAmTyping = (conversationId, typing) => () => {
-  apiMessaging().typing(conversationId, typing);
+export const sendTyping = (conversationId, typing) => () => {
+  apiMessaging().sendTyping(conversationId, typing);
 };

@@ -194,7 +194,7 @@ class Messaging {
     });
   }
 
-  typing(conversationId, isTyping) {
+  sendTyping(conversationId, isTyping) {
     this.socket.send(EventTypes.typing, { conversationId, isTyping });
   }
 

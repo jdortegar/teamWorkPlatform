@@ -10,6 +10,7 @@ const propTypes = {
   currentUser: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
   usersPresences: PropTypes.object.isRequired,
+  fetchConversations: PropTypes.func.isRequired,
   createConversation: PropTypes.func.isRequired,
   userId: PropTypes.string,
   conversation: PropTypes.object,
@@ -27,12 +28,12 @@ class DirectMessagesPage extends Component {
   state = { orgUsers: null };
 
   componentDidMount() {
-    const { currentUser, users, usersPresences, userId, conversationsLoaded, conversation } = this.props;
+    const { currentUser, users, usersPresences, conversationsLoaded, conversation } = this.props;
 
     this.updateOrgUsers(users, usersPresences, currentUser);
 
     if (conversationsLoaded && !conversation) {
-      this.createConversation(currentUser, users[userId]);
+      this.props.fetchConversations();
     }
   }
 
@@ -43,7 +44,14 @@ class DirectMessagesPage extends Component {
       this.updateOrgUsers(users, usersPresences, currentUser);
     }
 
-    if (userId !== this.props.userId && conversationsLoaded && !conversation) {
+    // navigated between conversations
+    if (userId !== this.props.userId) {
+      this.props.fetchConversations();
+      return;
+    }
+
+    // just fetched conversations data but didn't find a conversation with this user
+    if (!conversation && !this.props.conversationsLoaded && conversationsLoaded) {
       this.createConversation(currentUser, users[userId]);
     }
   }
