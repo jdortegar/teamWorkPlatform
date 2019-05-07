@@ -64,6 +64,7 @@ class NewTeamPage extends Component {
     e.preventDefault();
     const { subscriberOrgId } = this.props.match.params;
     this.props.form.validateFields((err, values) => {
+      // debugger;
       if (!err) {
         const valuesToSend = {
           ...values,
