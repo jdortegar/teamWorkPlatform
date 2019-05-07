@@ -10,7 +10,6 @@ import { receiveInvitation } from './invitationReceive';
 import { declinedInvitation } from './invitationDeclined';
 import { receiveConversations } from './conversationsReceive';
 import { receiveMessage } from './messageReceive';
-import { receiveReadMessages } from './readMessagesReceive';
 import { receiveTyping } from './typing';
 import { receiveCall, receiveCallAnswer, receiveTeamCall, receiveTeamCallAnswer } from './callings';
 import { updateIntegrations } from './integrations';
@@ -18,6 +17,7 @@ import { receiveRequest, responseRequest } from './requestToAdmin';
 
 // eslint-disable-next-line import/prefer-default-export
 export const eventHandler = dispatch => (eventType, event) => {
+  if (eventType !== EventTypes.presenceChanged) console.warn({ eventType, event }); // eslint-disable-line
   switch (eventType) {
     case EventTypes.presenceChanged:
       dispatch(changePresence(event));
@@ -90,7 +90,6 @@ export const eventHandler = dispatch => (eventType, event) => {
       dispatch(receiveMessage(event, event.conversationId));
       break;
     case EventTypes.messageRead:
-      dispatch(receiveReadMessages(event));
       break;
     case EventTypes.messageUpdated:
       dispatch(receiveMessage(event, event.conversationId));

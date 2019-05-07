@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash';
-import { getTeamIds, getCurrentUserTeams, getActiveSurvey } from 'src/selectors';
+import { getCurrentOrgId, getTeamIds, getCurrentUserTeams, getActiveSurvey } from 'src/selectors';
 
 import { fetchSubscriberOrgs } from './subscriberOrgsFetch';
 import { fetchTeams } from './teamsFetch';
@@ -7,31 +7,27 @@ import { fetchSubscribersBySubscriberOrgId } from './subscribersFetch';
 import { fetchSurveys, fetchLastAnswerDate } from './surveys';
 import { fetchConversations } from './conversations';
 
-/**
- * For global state, fetch data from remote server only if data doesn't exist in redux.
- *
- * @returns {function(*, *)}
- */
+// Fetch data from remote server if the orgId exists
 // eslint-disable-next-line import/prefer-default-export
 export const fetchGlobalState = () => (dispatch, getState) => {
   const state = getState();
-  const { currentSubscriberOrgId } = state.subscriberOrgs;
-  const orgNotFetched = currentSubscriberOrgId && isEmpty(getCurrentUserTeams(state));
+  const orgId = getCurrentOrgId(state);
 
-  dispatch(fetchConversations());
-
-  if (Object.keys(state.subscriberOrgs.subscriberOrgById).length === 0) {
+  if (isEmpty(state.subscriberOrgs.subscriberOrgById)) {
     dispatch(fetchSubscriberOrgs());
   }
-  if (isEmpty(getTeamIds(state)) || orgNotFetched) {
-    dispatch(fetchTeams());
-  }
-  if (Object.keys(state.subscribers.subscriberUserIdBySubscriberOrgIdByUserId).length === 0) {
-    if (currentSubscriberOrgId) {
-      dispatch(fetchSubscribersBySubscriberOrgId(currentSubscriberOrgId));
+
+  if (orgId) {
+    dispatch(fetchConversations());
+
+    if (isEmpty(getTeamIds(state)) || isEmpty(getCurrentUserTeams(state))) {
+      dispatch(fetchTeams());
     }
-  }
-  if (currentSubscriberOrgId) {
+
+    if (isEmpty(state.subscribers.subscriberUserIdBySubscriberOrgIdByUserId)) {
+      dispatch(fetchSubscribersBySubscriberOrgId(orgId));
+    }
+
     dispatch(fetchSurveys()).then(() => {
       const survey = getActiveSurvey(state);
       if (survey) dispatch(fetchLastAnswerDate(survey.id));

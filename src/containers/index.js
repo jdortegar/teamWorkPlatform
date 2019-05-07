@@ -50,6 +50,7 @@ export SurveyModal from './SurveyModal';
 export SurveyReportPage from './SurveyReportPage';
 export SurveySettingsPage from './SurveySettingsPage';
 export TeamCallButton from './TeamCallButton';
+export TeamItem from './TeamItem';
 export TeamIntegrationPage from './TeamIntegrationPage';
 export TeamIntegrationsPage from './TeamIntegrationsPage';
 export TeamManagePage from './TeamManagePage';
