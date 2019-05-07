@@ -43,8 +43,6 @@ export * from './conversationsReceive';
 export * from './messageReceive';
 export * from './messageCreate';
 export * from './messageRead';
-export * from './readMessagesFetch';
-export * from './readMessagesReceive';
 
 export * from './teamFilesFetch';
 export * from './filters';

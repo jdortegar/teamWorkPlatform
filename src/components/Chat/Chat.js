@@ -52,7 +52,7 @@ const propTypes = {
   showTeamMembers: PropTypes.bool,
   showChat: PropTypes.func,
   menuOptions: PropTypes.array,
-  lastReadTimestamp: PropTypes.string,
+  lastReadTimestamp: PropTypes.string, // TODO: remove unused prop
   connectDropTarget: PropTypes.func.isRequired
 };
 

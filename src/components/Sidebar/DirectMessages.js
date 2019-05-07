@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Menu, Input, Icon } from 'antd';
 import classNames from 'classnames';
 import _ from 'lodash';
 
 import String from 'src/translations';
+import { DirectMessageItem } from 'src/containers';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
-import { Menu, Input, Icon } from 'antd';
-import { Badge } from 'src/components';
-import { UserDnD } from 'src/containers';
 
 import './styles/style.css';
 
@@ -19,17 +18,11 @@ const propTypes = {
     push: PropTypes.func,
     location: PropTypes.object
   }).isRequired
-  // conversations: PropTypes.object,
-  // messagesByConversation: PropTypes.object.isRequired,
-  // readMessagesByConversationId: PropTypes.object,
-  // readMessage: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
   subscribers: [],
   subscribersPresences: {}
-  // conversations: {},
-  // readMessagesByConversationId: {}
 };
 
 class DirectMessages extends React.Component {
@@ -77,52 +70,27 @@ class DirectMessages extends React.Component {
 
   renderOrgMembers = () => {
     const { orgUsersFiltered } = this.state;
+    const { pathname } = this.props.history.location;
+    const users = _.compact(orgUsersFiltered.sort(sortByName));
 
-    let orgUserOrdered = orgUsersFiltered.sort(sortByName);
-
-    orgUserOrdered = orgUserOrdered.length === 0 && orgUserOrdered[0] === undefined ? [] : primaryAtTop(orgUserOrdered);
-
-    return orgUserOrdered.map(user => {
-      const unreadMessages = 0;
-      // TODO: implement unread messages
-      // const conversationId = conversations[userEl.userId];
-      // const conversation = Object.values(conversations).find(conversationEl => {
-      //   if (conversationEl.teamId) return null;
-      //   return _.xor(conversationEl.members, [user.userId, userEl.userId]).length === 0;
-      // });
-
-      // if (conversation) {
-      //   // eslint-disable-next-line prefer-destructuring
-      //   conversationId = conversation.conversationId;
-      //   const readMessages = readMessagesByConversationId[conversationId] || {};
-      //   unreadMessages = readMessages.messageCount - (readMessages.lastReadMessageCount || 0);
-      // }
-
-      const userActive = classNames({ User_active: this.props.history.location.pathname.indexOf(user.userId) > 1 });
-
-      return (
-        <Menu.Item key={user.userId} className={userActive}>
-          <div className="habla-left-navigation-team-list">
-            <div className="habla-left-navigation-team-list-item">
-              <UserDnD user={user} history={this.props.history} />
-              {unreadMessages > 0 && <Badge count={unreadMessages} className="SideBar__Badge" overflowCount={999999} />}
-            </div>
-          </div>
-        </Menu.Item>
-      );
-    });
+    return primaryAtTop(users).map(user => (
+      <Menu.Item key={user.userId} className={classNames({ User_active: pathname.includes(user.userId) })}>
+        <DirectMessageItem user={user} />
+      </Menu.Item>
+    ));
   };
 
   handleSearch = e => {
     const { value } = e.target;
-    if (value === '') {
+    if (_.isEmpty(value)) {
       this.setState({ orgUsersFiltered: this.state.orgUsers });
-    } else {
-      const orgUsersFiltered = this.state.orgUsers.filter(el =>
-        el.fullName.toLowerCase().includes(value.toLowerCase().trim())
-      );
-      this.setState({ orgUsersFiltered });
+      return;
     }
+
+    const orgUsersFiltered = this.state.orgUsers.filter(el =>
+      el.fullName.toLowerCase().includes(value.toLowerCase().trim())
+    );
+    this.setState({ orgUsersFiltered });
   };
 
   render() {

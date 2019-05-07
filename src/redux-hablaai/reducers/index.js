@@ -7,7 +7,6 @@ import integrations from './integrationsReducer';
 import invitations from './invitationsReducer';
 import messages from './messagesReducer';
 import presences from './presencesReducer';
-import readMessages from './readMessagesReducer';
 import requests from './requestsReducer';
 import search from './searchReducer';
 import sentInvitations from './sentInvitationsReducer';
@@ -20,6 +19,7 @@ import teamMembers from './teamMembersReducer';
 import teams from './teamsReducer';
 import typings from './typingsReducer';
 import ui from './uiReducer';
+import unreadMessages from './unreadMessagesReducer';
 import urlRequests from './urlRequestsReducer';
 import users from './usersReducer';
 
@@ -33,7 +33,6 @@ const reducers = {
   invitations,
   messages,
   presences,
-  readMessages,
   requests,
   search,
   sentInvitations,
@@ -46,6 +45,7 @@ const reducers = {
   teams,
   typings,
   ui,
+  unreadMessages,
   urlRequests,
   users
 };

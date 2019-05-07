@@ -18,7 +18,5 @@ export const getDeclinedInvitations = state => state.invitations.declinedInvitat
 export const getRequests = state => state.requests.requests;
 export const getResponseRequests = state => state.requests.responseRequests;
 
-export const getReadMessagesByConversationId = state => state.readMessages.readMessagesByConversationId;
-
 export const getTypingByConversationIdsByUserId = state => state.typings.typingByConversationIdsByUserId;
 export const getTypingByUserIdsByConversationId = state => state.typings.typingByUserIdsByConversationId;

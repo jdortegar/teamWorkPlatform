@@ -5,16 +5,14 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
 import { Layout, Menu, Tooltip, Dropdown, Input, Icon, message, Collapse } from 'antd';
-import { Badge } from 'src/components';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
-import { AvatarWrapper, VideoCallModal, PublicTeams } from 'src/containers';
+import { AvatarWrapper, VideoCallModal, PublicTeams, TeamItem } from 'src/containers';
 import getInitials from 'src/utils/helpers';
 import { paths } from 'src/routes';
 import String from 'src/translations';
 import Avatar from '../common/Avatar';
 import DirectMessages from './DirectMessages';
 import TeamMembers from './TeamMembers';
-import TeamDnD from './TeamDnD';
 import './styles/style.css';
 
 const { Sider } = Layout;
@@ -41,10 +39,6 @@ const propTypes = {
   callingData: PropTypes.object,
   finishCall: PropTypes.func.isRequired,
   fetchTeamMembers: PropTypes.func.isRequired
-  // readMessagesByConversationId: PropTypes.object,
-  // conversations: PropTypes.object,
-  // messagesByConversation: PropTypes.object.isRequired,
-  // readMessage: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
@@ -56,8 +50,6 @@ const defaultProps = {
   userRoles: {},
   teamId: null,
   callingData: {}
-  // readMessagesByConversationId: {},
-  // conversations: {}
 };
 
 const ROUTERS_TO_HIDE_SIDEBAR = ['/app/userDetails'];
@@ -295,15 +287,12 @@ class Sidebar extends Component {
 
   renderTeams(teamsActive) {
     const { user, history } = this.props;
-    if (teamsActive.length === 0) {
-      return null;
-    }
+    const { pathname } = history.location;
 
-    let teamsByOrgId = teamsActive.sort(sortByName);
+    if (_.isEmpty(teamsActive)) return null;
+    const teams = _.compact(teamsActive.sort(sortByName));
 
-    teamsByOrgId = teamsByOrgId.length === 0 && teamsByOrgId[0] === undefined ? [] : primaryAtTop(teamsByOrgId);
-
-    return teamsByOrgId.map(team => {
+    return primaryAtTop(teams).map(team => {
       let isAdmin = false;
       if (team.teamMembers) {
         const teamMemberFoundByUser = _.find(team.teamMembers, { userId: user.userId });
@@ -312,28 +301,13 @@ class Sidebar extends Component {
       if (!isAdmin && (!team.active || team.deleted)) {
         return null;
       }
-      const isTeamOpen = _.includes(this.state.teamsOpenKeys, team.teamId);
-      const unreadMessagesCount = 0;
-      // TODO: implement unread messages
-      // const [conversationId] = conversationIdsByTeam[team.teamId] || [];
-      // if (conversationId) {
-      //   const readMessages = readMessagesByConversationId[conversationId] || {};
-      //   unreadMessagesCount = readMessages.messageCount - (readMessages.lastReadMessageCount || 0);
-      // }
-      const teamActive = classNames({ Team_active: history.location.pathname.indexOf(team.teamId) > 1 });
 
       const text = (
-        <div className={`habla-left-navigation-team-list ${teamActive}`} onClick={e => this.goToTeamPage(e, team)}>
-          <div className="habla-left-navigation-team-list-item">
-            <TeamDnD team={team} />
-            {unreadMessagesCount > 0 && (
-              <Badge
-                title={String.t('unreadMessages')}
-                count={isTeamOpen ? 0 : unreadMessagesCount}
-                className="SideBar__Badge"
-              />
-            )}
-          </div>
+        <div
+          className={classNames({ Team_active: pathname.includes(team.teamId) })}
+          onClick={e => this.goToTeamPage(e, team)}
+        >
+          <TeamItem team={team} />
         </div>
       );
 
@@ -473,14 +447,6 @@ class Sidebar extends Component {
               <i className="fa fa-globe fa-2x" />
             </Link>
           </Tooltip>
-          {/* <Tooltip placement="topLeft" title={String.t('sideBar.directMessages')} arrowPointAtCenter>
-            <Link to="/app/chat" className={`habla-top-menu-settings ${activeChat}`}>
-              <i className="fas fa-comments fa-2x" />
-              {this.props.personalConversationUnreadMessages > 0 && (
-                <span className="Icon__UnreadMessages">{this.props.personalConversationUnreadMessages}</span>
-              )}
-            </Link>
-          </Tooltip> */}
           <Tooltip placement="topLeft" title={String.t('sideBar.iconBookmarksTooltip')} arrowPointAtCenter>
             <Link to="/app/bookmarks" className={`habla-top-menu-bookmarks ${activeBookmarks}`}>
               <i className="fa fa-bookmark fa-2x" />
@@ -531,10 +497,6 @@ class Sidebar extends Component {
           subscribersPresences={subscribersPresences}
           history={history}
           renderAvatar={renderAvatar}
-          // readMessagesByConversationId={this.props.readMessagesByConversationId}
-          // conversations={this.props.conversations}
-          // messagesByConversation={this.props.messagesByConversation}
-          // readMessage={this.props.readMessage}
         />
 
         <div className="sidebar-resize-icon">
