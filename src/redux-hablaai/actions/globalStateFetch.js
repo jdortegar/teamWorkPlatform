@@ -3,7 +3,6 @@ import { getTeamIds, getCurrentUserTeams, getActiveSurvey } from 'src/selectors'
 
 import { fetchSubscriberOrgs } from './subscriberOrgsFetch';
 import { fetchTeams } from './teamsFetch';
-import { fetchReadMessages } from './readMessagesFetch';
 import { fetchSubscribersBySubscriberOrgId } from './subscribersFetch';
 import { fetchSurveys, fetchLastAnswerDate } from './surveys';
 import { fetchConversations } from './conversations';
@@ -26,9 +25,6 @@ export const fetchGlobalState = () => (dispatch, getState) => {
   }
   if (isEmpty(getTeamIds(state)) || orgNotFetched) {
     dispatch(fetchTeams());
-  }
-  if (Object.keys(state.readMessages.readMessagesByConversationId).length === 0) {
-    dispatch(fetchReadMessages());
   }
   if (Object.keys(state.subscribers.subscriberUserIdBySubscriberOrgIdByUserId).length === 0) {
     if (currentSubscriberOrgId) {

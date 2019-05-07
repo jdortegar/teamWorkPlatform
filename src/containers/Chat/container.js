@@ -21,8 +21,8 @@ import {
   getPresencesOfSubscribersOfOrgId,
   getConversationWithMessages,
   getResourcesUrl,
-  getMembersTyping,
-  getLastReadTimestampOfConversationId
+  getMembersTyping
+  // getLastReadTimestampOfConversationId
 } from 'src/selectors';
 
 const mapStateToProps = (state, props) => {
@@ -37,8 +37,8 @@ const mapStateToProps = (state, props) => {
     users: getUserByUserId(state),
     usersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
     resourcesUrl: getResourcesUrl(state),
-    membersTyping: getMembersTyping(state, conversationId),
-    lastReadTimestamp: getLastReadTimestampOfConversationId(state, conversationId)
+    membersTyping: getMembersTyping(state, conversationId)
+    // lastReadTimestamp: getLastReadTimestampOfConversationId(state, conversationId)
   };
 };
 

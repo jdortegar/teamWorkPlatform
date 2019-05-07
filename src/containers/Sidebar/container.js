@@ -11,12 +11,6 @@ import {
   getPresencesOfSubscribersOfOrgId,
   getUserRoles,
   getCallingData,
-  getStatusCall,
-  getPersonalConversationUnreadMessages,
-  getConversationIdsByTeam,
-  getConversationIdsByMember,
-  getReadMessagesByConversationId,
-  getConversationsById,
   getCurrentUserTeams
 } from 'src/selectors';
 
@@ -36,13 +30,7 @@ const mapStateToProps = (state, props) => {
     sideBarIsHidden: state.sideBar.hidden,
     userRoles: getUserRoles(state),
     teamId,
-    callingData: getCallingData(state),
-    statusCall: getStatusCall(state),
-    personalConversationUnreadMessages: getPersonalConversationUnreadMessages(state),
-    conversationIdsByTeam: getConversationIdsByTeam(state),
-    readMessagesByConversationId: getReadMessagesByConversationId(state),
-    conversations: getConversationsById(state),
-    personalConversations: getConversationIdsByMember(state)
+    callingData: getCallingData(state)
   };
 };
 

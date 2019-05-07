@@ -314,12 +314,6 @@ class Sidebar extends Component {
       }
       const isTeamOpen = _.includes(this.state.teamsOpenKeys, team.teamId);
       const unreadMessagesCount = 0;
-      // TODO: implement unread messages
-      // const [conversationId] = conversationIdsByTeam[team.teamId] || [];
-      // if (conversationId) {
-      //   const readMessages = readMessagesByConversationId[conversationId] || {};
-      //   unreadMessagesCount = readMessages.messageCount - (readMessages.lastReadMessageCount || 0);
-      // }
       const teamActive = classNames({ Team_active: history.location.pathname.indexOf(team.teamId) > 1 });
 
       const text = (
