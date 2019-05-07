@@ -2,10 +2,8 @@ import React from 'react';
 import { DropTarget } from 'react-dnd';
 import PropTypes from 'prop-types';
 
-import getInitials from 'src/utils/helpers';
-import classNames from 'classnames';
 import { Tooltip } from 'antd';
-import Avatar from '../common/Avatar';
+import { TeamAvatarWrapper } from 'src/containers';
 
 const propTypes = {
   team: PropTypes.object.isRequired,
@@ -18,29 +16,10 @@ export const ItemTypes = {
   FILE: 'file'
 };
 
-function renderAvatar(item, enabled) {
-  const { preferences } = item;
-  const className = classNames({
-    'opacity-low': !enabled
-  });
-  if (preferences.logo) {
-    return <Avatar src={preferences.logo} color="#FFF" className={className} />;
-  }
-  if (preferences.avatarBase64) {
-    return <Avatar src={`data:image/jpeg;base64, ${preferences.avatarBase64}`} className={className} />;
-  }
-  const nameInitial = getInitials(item.name);
-  return (
-    <Avatar color={preferences.iconColor} className={className}>
-      {nameInitial}
-    </Avatar>
-  );
-}
-
 const TeamDnD = ({ connectDropTarget, team }) => {
   return (
     <div ref={connectDropTarget} className="habla-left-navigation-team-list-subitem">
-      {renderAvatar(team, team.active)}
+      <TeamAvatarWrapper team={team} size="default" />
       {team.name.length > 20 ? (
         <Tooltip placement="topLeft" title={team.name} arrowPointAtCenter>
           <span className="habla-left-navigation-item-label">{team.name}</span>

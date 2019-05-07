@@ -5,6 +5,7 @@ import {
   closeMessaging,
   fetchGlobalState,
   fetchInvitations,
+  fetchRequests,
   fetchSubscriberOrgs,
   fetchSubscription
 } from 'src/actions';
@@ -25,6 +26,7 @@ const mapDispatchToProps = {
   closeMessaging,
   fetchGlobalState,
   fetchInvitations,
+  fetchRequests,
   fetchSubscriberOrgs,
   fetchSubscription
 };

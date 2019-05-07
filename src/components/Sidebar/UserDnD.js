@@ -8,10 +8,12 @@ const propTypes = {
   user: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
-  conversationId: PropTypes.object.isRequired
+  conversationId: PropTypes.string
 };
 
-const defaultProps = {};
+const defaultProps = {
+  conversationId: null
+};
 
 export const ItemTypes = {
   FILE: 'file'

@@ -13,6 +13,7 @@ const propTypes = {
   closeMessaging: PropTypes.func.isRequired,
   fetchGlobalState: PropTypes.func.isRequired,
   fetchInvitations: PropTypes.func.isRequired,
+  fetchRequests: PropTypes.func.isRequired,
   subscriberOrgs: PropTypes.object.isRequired,
   subscriberOrg: PropTypes.object,
   subscription: PropTypes.object,
@@ -40,6 +41,7 @@ class Main extends React.Component {
     this.props.fetchGlobalState();
     this.props.initMessaging();
     this.props.fetchInvitations();
+    this.props.fetchRequests();
     window.addEventListener('beforeunload', this.onUnload);
     // Modals if subscription is on trial
     this.props.fetchSubscriberOrgs().then(() => {

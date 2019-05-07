@@ -11,7 +11,7 @@ import {
 } from 'src/actions';
 import {
   getSubscriberOrgsSortedAlphabetically,
-  getOrgTeams,
+  getCurrentUserTeams,
   getOrgData,
   getCurrentSubscriberOrgId,
   getUserByUserId
@@ -23,7 +23,7 @@ const mapStateToProps = state => ({
   orgData: getOrgData(state),
   currentSubscriberOrgId: getCurrentSubscriberOrgId(state),
   users: getUserByUserId(state),
-  teams: getOrgTeams(state)
+  teams: getCurrentUserTeams(state)
 });
 
 const mapDispatchToProps = {

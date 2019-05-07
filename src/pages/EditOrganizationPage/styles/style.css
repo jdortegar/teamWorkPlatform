@@ -87,6 +87,7 @@
 .edit-org__buttons {
   padding: 10px;
   display: flex;
+  justify-content: flex-start;
 }
 .editOrgPage-main .habla-main-content-header-actions {
   display: none;
@@ -104,7 +105,7 @@
 }
 
 .container__team_image .EditTeamPage_upload_label {
-  color: #32a953;
+  color: #000000a6;
   margin-left: 10px;
   font-weight: 700;
   text-transform: uppercase;

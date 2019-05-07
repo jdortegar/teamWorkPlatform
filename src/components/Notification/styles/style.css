@@ -8,13 +8,15 @@
   padding: 10px;
   border-bottom: 1px solid #e5e5e5;
   background: #f0f6ff;
+  display: flex;
+  align-items: center;
 }
 .Notification__container__content .habla-label {
   color: #000;
   font-weight: 900;
 }
 .Notification__buttons {
-  float: right;
+  margin-left: 10px;
 }
 .Notification__container .habla-button {
   font-size: 10px;

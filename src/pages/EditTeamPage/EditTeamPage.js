@@ -153,7 +153,7 @@ class EditTeamPage extends Component {
             <span className="EditTeamPage_upload_label">{String.t('editOrgPage.changeAvatarText')}</span>
           </SimpleCardContainer>
           <SimpleCardContainer>
-            <div className="padding-class-a">
+            <div className="New-team__container padding-class-a">
               <div className="Edit-team__container">
                 <h1 className="Edit-team__title">{String.t('editTeamPage.teamName')}</h1>
                 <TextField
@@ -174,8 +174,8 @@ class EditTeamPage extends Component {
                   >
                     <SwitchField
                       disabled={team.primary}
-                      checkedChildren={String.t('editTeamPage.activeState')}
-                      unCheckedChildren={String.t('editTeamPage.inactiveState')}
+                      checkedChildren={String.t('on')}
+                      unCheckedChildren={String.t('off')}
                       form={this.props.form}
                       componentKey="active"
                       initialValue={team.active}
@@ -183,6 +183,22 @@ class EditTeamPage extends Component {
                     />
                   </Tooltip>
                 </div>
+                <div className="New-team__title habla-secon">{String.t('editTeamPage.activeState')}</div>
+              </div>
+              <div className="Edit-team__icon-container">
+                <div className="Edit-team__switch-container">
+                  <Tooltip placement="top" title={String.t('newTeamPage.makePrivate')}>
+                    <SwitchField
+                      checkedChildren={String.t('on')}
+                      unCheckedChildren={String.t('off')}
+                      form={this.props.form}
+                      componentKey="private"
+                      initialValue={false}
+                      valuePropName="checked"
+                    />
+                  </Tooltip>
+                </div>
+                <div className="New-team__title habla-secon">{String.t('editTeamPage.makePrivate')}</div>
               </div>
             </div>
             <div className="edit-org__buttons border-top-lighter margin-top-class-a">

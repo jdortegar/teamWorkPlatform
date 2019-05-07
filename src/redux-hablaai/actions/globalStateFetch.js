@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash';
-import { getTeamIds, getOrgTeams, getActiveSurvey } from 'src/selectors';
+import { getTeamIds, getCurrentUserTeams, getActiveSurvey } from 'src/selectors';
 
 import { fetchSubscriberOrgs } from './subscriberOrgsFetch';
 import { fetchTeams } from './teamsFetch';
@@ -17,7 +17,7 @@ import { fetchConversations } from './conversations';
 export const fetchGlobalState = () => (dispatch, getState) => {
   const state = getState();
   const { currentSubscriberOrgId } = state.subscriberOrgs;
-  const orgNotFetched = currentSubscriberOrgId && isEmpty(getOrgTeams(state));
+  const orgNotFetched = currentSubscriberOrgId && isEmpty(getCurrentUserTeams(state));
 
   dispatch(fetchConversations());
 

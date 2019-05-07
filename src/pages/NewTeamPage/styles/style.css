@@ -1,5 +1,6 @@
 .New-team__title {
   font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .New-team__add-textfield {
@@ -28,4 +29,8 @@
 
 .New-team__button--margin-right {
   margin-right: 20px;
+}
+
+.New-team__container {
+  width: 50%;
 }

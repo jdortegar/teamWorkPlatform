@@ -8,6 +8,7 @@ import invitations from './invitationsReducer';
 import messages from './messagesReducer';
 import presences from './presencesReducer';
 import readMessages from './readMessagesReducer';
+import requests from './requestsReducer';
 import search from './searchReducer';
 import sentInvitations from './sentInvitationsReducer';
 import sharingSettings from './sharingSettingsReducer';
@@ -33,6 +34,7 @@ const reducers = {
   messages,
   presences,
   readMessages,
+  requests,
   search,
   sentInvitations,
   sharingSettings,

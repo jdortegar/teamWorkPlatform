@@ -556,6 +556,8 @@ class ChatMessage extends Component {
           <PreviewMessageModal
             message={message}
             title={Str.t('message.deleteTitle')}
+            okButton={Str.t('deleteButton')}
+            okButtonClass="Delete_button"
             subtitle={Str.t('message.deleteSubtitle')}
             visible={this.state.previewMessageModalVisible}
             showPreviewMessageModal={this.showPreviewMessageModal}

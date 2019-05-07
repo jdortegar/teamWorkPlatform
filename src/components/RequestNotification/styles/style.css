@@ -1,0 +1,25 @@
+.RequestNotification__container {
+  height: auto !important;
+  flex-direction: row !important;
+  background: #fff !important;
+}
+.RequestNotification__container__content {
+  width: 100%;
+  padding: 10px;
+  border-bottom: 1px solid #e5e5e5;
+  background: #f0f6ff;
+  display: flex;
+  align-items: center;
+}
+.RequestNotification__container__content .habla-label {
+  color: #000;
+  font-weight: 900;
+}
+.RequestNotification__buttons {
+  margin-left: 10px;
+}
+.RequestNotification__container .habla-button {
+  font-size: 10px;
+  padding: 12px 10px;
+  height: auto;
+}

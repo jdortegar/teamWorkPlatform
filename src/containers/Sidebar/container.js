@@ -7,7 +7,6 @@ import {
   getCurrentUser,
   getCurrentSubscriberOrgId,
   getSubscriberOrgsSortedAlphabetically,
-  getOrgTeams,
   getOrgSubscribers,
   getPresencesOfSubscribersOfOrgId,
   getUserRoles,
@@ -17,7 +16,8 @@ import {
   getConversationIdsByTeam,
   getConversationIdsByMember,
   getReadMessagesByConversationId,
-  getConversationsById
+  getConversationsById,
+  getCurrentUserTeams
 } from 'src/selectors';
 
 const mapStateToProps = (state, props) => {
@@ -32,7 +32,7 @@ const mapStateToProps = (state, props) => {
     subscribers: getOrgSubscribers(state),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
     currentSubscriberOrgId: orgId,
-    teams: getOrgTeams(state),
+    teams: getCurrentUserTeams(state),
     sideBarIsHidden: state.sideBar.hidden,
     userRoles: getUserRoles(state),
     teamId,

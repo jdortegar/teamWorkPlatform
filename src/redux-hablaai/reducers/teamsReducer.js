@@ -1,9 +1,17 @@
 import { combineReducers } from 'redux';
 import _ from 'lodash';
-import { TEAMS_FETCH_SUCCESS, TEAM_RECEIVE, UPDATED_TEAM_SUCCESS, CREATE_TEAM_SUCCESS } from 'src/actions';
+import {
+  TEAMS_FETCH_SUCCESS,
+  TEAM_RECEIVE,
+  TEAM_PUBLIC_RECEIVE,
+  UPDATED_TEAM_SUCCESS,
+  CREATE_TEAM_SUCCESS,
+  PUBLIC_TEAMS_FETCH_SUCCESS
+} from 'src/actions';
 
 const byId = (state = {}, action) => {
   switch (action.type) {
+    case PUBLIC_TEAMS_FETCH_SUCCESS:
     case TEAMS_FETCH_SUCCESS: {
       const { teams = [] } = action.payload;
       return {
@@ -11,9 +19,10 @@ const byId = (state = {}, action) => {
         ...teams.reduce((acc, team) => {
           acc[team.teamId] = team;
           return acc;
-        }, {})
+        }, state)
       };
     }
+    case TEAM_PUBLIC_RECEIVE:
     case TEAM_RECEIVE: {
       const { team = {} } = action.payload;
       return {
@@ -49,6 +58,23 @@ const byId = (state = {}, action) => {
 
 const allIds = (state = [], action) => {
   switch (action.type) {
+    case PUBLIC_TEAMS_FETCH_SUCCESS:
+    case TEAMS_FETCH_SUCCESS: {
+      const { teams = [] } = action.payload;
+      return _.union(state, teams.map(team => team.teamId));
+    }
+    case TEAM_PUBLIC_RECEIVE:
+    case TEAM_RECEIVE: {
+      const { team = {} } = action.payload;
+      return _.union(state, [team.teamId]);
+    }
+    default:
+      return state;
+  }
+};
+
+const myIds = (state = [], action) => {
+  switch (action.type) {
     case TEAMS_FETCH_SUCCESS: {
       const { teams = [] } = action.payload;
       return _.union(state, teams.map(team => team.teamId));
@@ -64,6 +90,7 @@ const allIds = (state = [], action) => {
 
 const idsByOrg = (state = {}, action) => {
   switch (action.type) {
+    case PUBLIC_TEAMS_FETCH_SUCCESS:
     case TEAMS_FETCH_SUCCESS: {
       const { teams = [] } = action.payload;
       return {
@@ -71,9 +98,10 @@ const idsByOrg = (state = {}, action) => {
         ...teams.reduce((acc, team) => {
           acc[team.subscriberOrgId] = _.union(acc[team.subscriberOrgId], [team.teamId]);
           return acc;
-        }, {})
+        }, state)
       };
     }
+    case TEAM_PUBLIC_RECEIVE:
     case TEAM_RECEIVE: {
       const { team = {} } = action.payload;
       return {
@@ -87,6 +115,7 @@ const idsByOrg = (state = {}, action) => {
 };
 
 const teamsReducer = combineReducers({
+  myIds,
   byId,
   allIds,
   idsByOrg
