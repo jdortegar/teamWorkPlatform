@@ -18,6 +18,7 @@ const EventTypes = Object.freeze({
   teamUpdated: 'teamUpdated',
   teamPrivateInfoUpdated: 'teamPrivateInfoUpdated',
   teamMemberAdded: 'teamMemberAdded',
+  publicTeamCreated: 'publicTeamCreated',
 
   conversationCreated: 'conversationCreated',
   conversationUpdated: 'conversationUpdated',
@@ -41,6 +42,11 @@ const EventTypes = Object.freeze({
   makeTeamCall: 'makeTeamCall',
   answerCall: 'answerCall',
   answerTeamCall: 'answerTeamCall',
+
+  // Request to Join Project Team
+
+  requestToAdmin: 'requestToAdmin',
+  requestResponse: 'requestResponse',
 
   from(value) {
     return this[value];

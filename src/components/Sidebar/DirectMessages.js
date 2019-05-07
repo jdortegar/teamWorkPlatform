@@ -134,7 +134,9 @@ class DirectMessages extends React.Component {
           <div className="sidebar-block-label sidebar-block-label-title">
             <span className="habla-label">
               <span className="sidebar-label-number-text">{String.t('directMessages')}</span>
-              <span className="sidebar-label-number-badge">{orgUsersFiltered.length}</span>
+              {orgUsersFiltered.length > 0 && (
+                <span className="sidebar-label-number-badge">{orgUsersFiltered.length}</span>
+              )}
             </span>
           </div>
 

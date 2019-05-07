@@ -26,6 +26,7 @@ import {
   TeamIntegrationsPage,
   TeamIntegrationPage,
   Notification,
+  RequestNotification,
   BookmarksPage,
   InviteToTeamPage,
   EditUserPage,
@@ -48,22 +49,28 @@ const { Content } = Layout;
 
 const propTypes = {
   invitation: PropTypes.array,
+  requests: PropTypes.array,
   declinedInvitations: PropTypes.object,
+  responseRequest: PropTypes.object,
   pushMessage: PropTypes.array,
   users: PropTypes.object.isRequired,
   currentUserId: PropTypes.string.isRequired,
   notifyMessage: PropTypes.func.isRequired,
   updateInvitationDeclined: PropTypes.func.isRequired,
+  updateRequestResponse: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
   subscriberOrgs: PropTypes.object.isRequired,
   fetchTeamsBySubscriberOrgId: PropTypes.func.isRequired,
+  fetchPublicTeams: PropTypes.func.isRequired,
   user: PropTypes.object
 };
 
 const defaultProps = {
   pushMessage: null,
   declinedInvitations: null,
+  responseRequest: null,
   invitation: [],
+  requests: [],
   user: {}
 };
 
@@ -81,6 +88,8 @@ class MainContent extends Component {
   };
 
   componentDidMount() {
+    const { subscriberOrgs } = this.props;
+    const { currentSubscriberOrgId } = subscriberOrgs;
     const { muteNotifications } = this.props.user.preferences;
     if (this.props.pushMessage && this.props.pushMessage.length > 0) {
       const text = this.props.pushMessage[0].content.reduce(
@@ -102,6 +111,7 @@ class MainContent extends Component {
     }
 
     this.props.fetchTeamsBySubscriberOrgId().then(() => {
+      this.props.fetchPublicTeams(currentSubscriberOrgId);
       this.setState({ teamsLoaded: true });
     });
   }
@@ -132,6 +142,24 @@ class MainContent extends Component {
         duration: 3,
         onClose: () => {
           this.props.updateInvitationDeclined();
+        }
+      };
+      notification.open(args);
+    }
+
+    if (nextProps.responseRequest) {
+      // Notification for declined request to join Team.
+      const request = nextProps.responseRequest;
+      const response = request.accepted ? 'accepted' : 'declined';
+      const { fullName } = this.props.users[request.teamAdminId];
+      const { name } = this.props.teams[request.teamId];
+      const text = String.t('MainContent.responseRequest', { fullName, response, teamName: name });
+
+      const args = {
+        message: text,
+        duration: 5,
+        onClose: () => {
+          this.props.updateRequestResponse();
         }
       };
       notification.open(args);
@@ -202,6 +230,7 @@ class MainContent extends Component {
 
   render() {
     const invitation = this.getValidInvites();
+    const { requests } = this.props;
 
     if (!this.state.teamsLoaded) {
       return <Spinner />;
@@ -209,6 +238,9 @@ class MainContent extends Component {
     return (
       <Content className="MainContent__layout-wrapper">
         {invitation.length > 0 ? invitation.map(inv => <Notification key={invitationKey(inv)} options={inv} />) : null}
+        {requests.length > 0
+          ? requests.map(request => <RequestNotification key={request.requestId} request={request} />)
+          : null}
         <Switch>
           <Route exact path={paths.app} component={HomePage} />
           <Route exact path={paths.integrations} component={IntegrationsPage} />

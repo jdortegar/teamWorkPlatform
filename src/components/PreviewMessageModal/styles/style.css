@@ -75,8 +75,17 @@
   height: 40px;
 }
 
-.Preview_Message_Modal .Confirm_button {
+.Preview_Message_Modal .Delete_button {
   background: #eb4435;
+  color: #fff;
+  border: none;
+  margin-left: 10px;
+  font-weight: 700;
+  height: 40px;
+}
+
+.Preview_Message_Modal .Confirm_button {
+  background: #36a751;
   color: #fff;
   border: none;
   margin-left: 10px;

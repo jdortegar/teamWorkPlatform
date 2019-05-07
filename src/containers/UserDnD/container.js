@@ -6,8 +6,9 @@ import { getPersonalConversation } from 'src/selectors';
 
 const mapStateToProps = (state, props) => {
   const { userId } = props.user;
+  const conversation = getPersonalConversation(state, userId) || {};
   return {
-    conversationId: getPersonalConversation(state, userId)
+    conversationId: conversation.id
   };
 };
 

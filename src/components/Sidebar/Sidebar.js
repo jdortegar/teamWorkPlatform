@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { Layout, Menu, Tooltip, Dropdown, Input, Icon, message, Collapse } from 'antd';
 import { Badge } from 'src/components';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
-import { AvatarWrapper, VideoCallModal } from 'src/containers';
+import { AvatarWrapper, VideoCallModal, PublicTeams } from 'src/containers';
 import getInitials from 'src/utils/helpers';
 import { paths } from 'src/routes';
 import String from 'src/translations';
@@ -96,7 +96,8 @@ class Sidebar extends Component {
       teamsActive,
       videoCallModalVisible: false,
       videoCallUser: {},
-      videoCallReceived: null
+      videoCallReceived: null,
+      publicTeamSearch: ''
     };
 
     this.goToOrgPage = this.goToOrgPage.bind(this);
@@ -198,6 +199,7 @@ class Sidebar extends Component {
 
   handleSearch(e) {
     const { value } = e.target;
+    this.setState({ publicTeamSearch: value });
     if (value === '') {
       this.setState({ teamsActive: this.teamsActive });
     } else {
@@ -494,14 +496,15 @@ class Sidebar extends Component {
           <div className="sidebar-block-label sidebar-block-label-title">
             <span className="habla-label">
               <span className="sidebar-label-number-text">{String.t('teams')}</span>
-              <span className="sidebar-label-number-badge">{this.state.teamsActive.length}</span>
+              {this.state.teamsActive.length > 0 && (
+                <span className="sidebar-label-number-badge">{this.state.teamsActive.length}</span>
+              )}
             </span>
           </div>
 
           <div className="sidebar-actions">
             <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleSearch} />
           </div>
-
           <div className="organization-list">
             <Collapse
               className="TeamBox_collapse"
@@ -516,6 +519,9 @@ class Sidebar extends Component {
             >
               {this.renderTeams(this.state.teamsActive)}
             </Collapse>
+          </div>
+          <div className="organization-list public-list">
+            <PublicTeams publicTeamSearch={this.state.publicTeamSearch} />
           </div>
         </div>
 

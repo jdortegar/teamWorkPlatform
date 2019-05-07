@@ -1,6 +1,6 @@
-export { AvatarWrapper } from './common/Avatar'; // TODO: Check possible duplication of Avatar component
+export { AvatarWrapper, TeamAvatarWrapper } from './common/Avatar'; // TODO: Check possible duplication of Avatar component
 export { FileListView, TimeActivityView, MessageResult } from './CKG';
-export { UserDnD } from './Sidebar';
+export { UserDnD, PublicTeams } from './Sidebar';
 export { PersonalizeTeamModal, AddTeamIntegrationModal, InviteTeamMembersModal } from './Onboarding';
 
 export * from './common';
@@ -35,6 +35,7 @@ export MainContent from './MainContent';
 export MessageInput from './MessageInput';
 export NewSubpageHeader from './NewSubpageHeader';
 export Notification from './Notification';
+export RequestNotification from './RequestNotification';
 export Onboarding from './Onboarding';
 export OwnerFilter from './OwnerFilter';
 export PageHeader from './PageHeader';

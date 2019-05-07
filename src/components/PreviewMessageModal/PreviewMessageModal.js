@@ -12,34 +12,53 @@ const propTypes = {
   onConfirmed: PropTypes.func.isRequired,
   message: PropTypes.object,
   title: PropTypes.string,
-  subtitle: PropTypes.string
+  subtitle: PropTypes.string,
+  okButton: PropTypes.string,
+  okButtonClass: PropTypes.string,
+  content: PropTypes.node
 };
 
 const defaultProps = {
-  message: {},
+  message: null,
   title: 'Title',
-  subtitle: 'Subtitle'
+  subtitle: null,
+  okButton: 'Ok',
+  okButtonClass: '',
+  content: null
 };
 
-const PreviewMessageModal = ({ visible, message, showPreviewMessageModal, onConfirmed, title, subtitle }) => (
+const PreviewMessageModal = ({
+  visible,
+  message,
+  showPreviewMessageModal,
+  onConfirmed,
+  title,
+  subtitle,
+  okButton,
+  okButtonClass,
+  content
+}) => (
   <div>
     <Modal visible={visible} footer={null} width="450px" closable={false} maskClosable destroyOnClose>
       <div className="Preview_Message_Modal">
         <div className="Modal_header">
           <h5 className="Modal_title">
             <span className="habla-bold-text">{title}</span>
-            <span className="habla-bold-text subtitle">{subtitle}</span>
+            {subtitle && <span className="habla-bold-text subtitle">{subtitle}</span>}
           </h5>
         </div>
         <div className="Modal_body">
           <div className="Forwarded_Message_Container">
-            <ChatMessage
-              message={message}
-              key={message.messageId}
-              conversationId={message.conversationId}
-              conversationDisabled
-              showDetailsOnAvatar={false}
-            />
+            {message && (
+              <ChatMessage
+                message={message}
+                key={message.messageId}
+                conversationId={message.conversationId}
+                conversationDisabled
+                showDetailsOnAvatar={false}
+              />
+            )}
+            {content}
           </div>
         </div>
         <div className="Modal_footer">
@@ -47,14 +66,8 @@ const PreviewMessageModal = ({ visible, message, showPreviewMessageModal, onConf
             <Button className="Cancel_button" onClick={() => showPreviewMessageModal(false)}>
               {String.t('cancelButton')}
             </Button>
-            <Button
-              className="Confirm_button"
-              onClick={event => {
-                event.stopPropagation();
-                onConfirmed();
-              }}
-            >
-              {String.t('deleteButton')}
+            <Button className={okButtonClass} onClick={() => onConfirmed()}>
+              {okButton}
             </Button>
           </div>
         </div>

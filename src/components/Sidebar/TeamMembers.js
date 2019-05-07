@@ -34,7 +34,6 @@ class TeamMembers extends Component {
 
   componentWillMount() {
     const { teamId } = this.props;
-
     this.props.fetchTeamMembers(teamId).then(() => this.setState({ subscribersLoaded: true }));
   }
 

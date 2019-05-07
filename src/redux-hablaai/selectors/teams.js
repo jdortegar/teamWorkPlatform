@@ -1,14 +1,43 @@
 import { createSelector } from 'reselect';
+import { difference } from 'lodash';
 import { sortByName, primaryAtTop } from './helpers';
 import { getCurrentSubscriberOrgId } from './state';
 
 export const getTeamsById = state => state.teams.byId;
 export const getTeamIds = state => state.teams.allIds;
 export const getTeamIdsByOrg = state => state.teams.idsByOrg;
+export const getCurrentUserTeamsById = state => state.teams.myIds;
 
 export const getTeams = createSelector(
   [getTeamsById],
   teams => Object.values(teams)
+);
+
+export const getCurrentUserTeams = createSelector(
+  [getTeamsById, getCurrentUserTeamsById],
+  (teamsById, currentUserTeams) => {
+    if (!currentUserTeams) return [];
+
+    const teams = currentUserTeams.map(teamId => teamsById[teamId]);
+    return primaryAtTop(teams.sort(sortByName));
+  }
+);
+
+export const getOrgPublicTeams = createSelector(
+  [getTeamIdsByOrg, getTeamsById, getCurrentSubscriberOrgId, getCurrentUserTeamsById],
+  (teamIdsByOrg, teamsById, orgId, currentUserTeams) => {
+    if (!orgId || !teamIdsByOrg[orgId]) return [];
+
+    const teamIds = difference(teamIdsByOrg[orgId], currentUserTeams);
+    if (teamIds.length === 0) return [];
+    const teams = teamIds.map(teamId => {
+      if (teamsById[teamId] && teamsById[teamId].preferences.public) {
+        return teamsById[teamId];
+      }
+      return false;
+    });
+    return primaryAtTop(teams.sort(sortByName));
+  }
 );
 
 export const getOrgTeams = createSelector(

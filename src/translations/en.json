@@ -28,6 +28,8 @@
   "privacy": "Privacy",
   "public": "Public",
   "private": "Private",
+  "on": "On",
+  "off": "Off",
 
   "enterMsgPostPlaceholder": "What do you want to tell the Team?",
   "enterMsgReplyPlaceholder": "Leave a Message ...",
@@ -307,7 +309,8 @@
     "newMessage": "New Message",
     "newMessageFrom": "Message from {{firstName}} {{lastName}}",
     "declinedOrg": "{{inviteeUserIdOrEmail}} declined your invitation to join the {{subscriberOrgName}} organization.",
-    "declinedTeam": "{{firstName}} {{lastName}} declined your invitation to join the {{teamName}} Project Team."
+    "declinedTeam": "{{firstName}} {{lastName}} declined your invitation to join the {{teamName}} Project Team.",
+    "responseRequest": "{{fullName}} {{response}} your request to join the {{teamName}} Project Team."
   },
   "message": {
     "sentByName": "{{firstName}} {{lastName}}",
@@ -370,7 +373,9 @@
     "allowPopUp": "Please allow popup window in your browser settings",
     "directMessages": "Direct Messages",
     "localTime": "local time",
-    "unreadMessages": "Unread Messages"
+    "unreadMessages": "Unread Messages",
+    "teamsforjoin": "Teams I can join",
+    "teamsIBelong": "Teams I belong to"
   },
   "timeActivityGraph": {
     "xAxisLabel": "Created Time",
@@ -460,7 +465,8 @@
     "setInactive": "Set Inactive",
     "activeState": "Active",
     "inactiveState": "Inactive",
-    "subscriptionError": "There is an error on your subscription"
+    "subscriptionError": "There is an error on your subscription",
+    "makePrivate": "Make Private"
   },
   "editUserPage": {
     "title": "Account Settings",
@@ -588,7 +594,8 @@
     "chooseTeamName": "Project Team Name",
     "uploadAvatar": "Upload Avatar",
     "breadcrumb": "Add New Project Team",
-    "teamAddedToast": "Your Project Team has been created."
+    "teamAddedToast": "Your Project Team has been created.",
+    "makePrivate": "Make Private"
   },
   "cardView": {
     "inviteNewMember": "Invite a New Team Member",
@@ -955,5 +962,15 @@
     "share": "Share",
     "dataSharedSuccefully": "The data have been successfully shared",
     "forwarded": "Forwarded from {{user}}"
+  },
+  "teamAvatarWrapper": {
+    "request": "Request Invite to Project Team",
+    "videoCall": "Start Team Video Call",
+    "teamMember": "1 Team Member",
+    "teamMembers": "{{teamMembers}} Team Members",
+    "teamAdminName": "Admin: {{teamAdminName}}"
+  },
+  "requestNotification": {
+    "requestToJoin": "\"{{userFullName}}\" request to Join \"{{teamName}}\" Project Team"
   }
 }

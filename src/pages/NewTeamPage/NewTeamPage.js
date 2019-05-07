@@ -2,10 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { Form, message, Select } from 'antd';
+import { Form, message, Tooltip } from 'antd';
 import String from 'src/translations';
 import { formShape } from 'src/propTypes';
-import { SimpleCardContainer, TextField, Spinner, Button, PageHeader, UploadImageField } from 'src/components';
+import {
+  SimpleCardContainer,
+  TextField,
+  Spinner,
+  Button,
+  PageHeader,
+  UploadImageField,
+  SwitchField
+} from 'src/components';
 import './styles/style.css';
 // import { EINPROGRESS } from 'constants';
 
@@ -23,8 +31,6 @@ const propTypes = {
   subscriberOrgById: PropTypes.object.isRequired,
   createTeam: PropTypes.func.isRequired
 };
-
-const { Option } = Select;
 
 class NewTeamPage extends Component {
   constructor(props) {
@@ -65,11 +71,11 @@ class NewTeamPage extends Component {
           preferences: {
             logo: this.state.logo,
             avatarBase64: this.state.avatarBase64,
-            private: values.privacy
+            public: !values.public
           }
         };
         valuesToSend.name = values.name.trim();
-        delete valuesToSend.privacy;
+        delete valuesToSend.public;
         this.setState({ loading: true });
         this.props
           .createTeam(valuesToSend, subscriberOrgId)
@@ -118,8 +124,6 @@ class NewTeamPage extends Component {
       'with-no-image': !this.state.avatarBase64 && !this.state.logo
     });
 
-    const { getFieldDecorator } = this.props.form;
-
     return (
       <div>
         <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon backButton />
@@ -154,19 +158,20 @@ class NewTeamPage extends Component {
                 required
                 autoFocus
               />
-              <div className="New-team__privacy_container">
-                <div className="New-team__title habla-secon">{String.t('privacy')}</div>
-                <Form.Item>
-                  {getFieldDecorator('privacy', {
-                    rules: [{ required: true }],
-                    initialValue: 'private'
-                  })(
-                    <Select>
-                      <Option value={false}>{String.t('public')}</Option>
-                      <Option value>{String.t('private')}</Option>
-                    </Select>
-                  )}
-                </Form.Item>
+              <div className="Edit-team__icon-container">
+                <div className="Edit-team__switch-container">
+                  <Tooltip placement="top" title={String.t('newTeamPage.makePrivate')}>
+                    <SwitchField
+                      checkedChildren={String.t('on')}
+                      unCheckedChildren={String.t('off')}
+                      form={this.props.form}
+                      componentKey="public"
+                      initialValue={false}
+                      valuePropName="checked"
+                    />
+                  </Tooltip>
+                </div>
+                <div className="New-team__title habla-secon">{String.t('newTeamPage.makePrivate')}</div>
               </div>
             </div>
             <div className="edit-org__buttons border-top-lighter margin-top-class-a">

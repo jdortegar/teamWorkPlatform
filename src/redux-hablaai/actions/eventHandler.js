@@ -4,7 +4,7 @@ import { changePresence } from './presenceChange';
 import { receiveUser } from './userReceive';
 import { receiveSubscriberOrg } from './subscriberOrgReceive';
 import { receiveSubscriber } from './subscriberReceive';
-import { receiveTeam } from './teamReceive';
+import { receiveTeam, receivePublicTeam } from './teamReceive';
 import { receiveTeamMember } from './teamMemberReceive';
 import { receiveInvitation } from './invitationReceive';
 import { declinedInvitation } from './invitationDeclined';
@@ -14,6 +14,7 @@ import { receiveReadMessages } from './readMessagesReceive';
 import { receiveTyping } from './typing';
 import { receiveCall, receiveCallAnswer, receiveTeamCall, receiveTeamCallAnswer } from './callings';
 import { updateIntegrations } from './integrations';
+import { receiveRequest, responseRequest } from './requestToAdmin';
 
 // eslint-disable-next-line import/prefer-default-export
 export const eventHandler = dispatch => (eventType, event) => {
@@ -64,6 +65,9 @@ export const eventHandler = dispatch => (eventType, event) => {
       dispatch(fetchConversations());
       break;
     }
+    case EventTypes.publicTeamCreated:
+      dispatch(receivePublicTeam(event));
+      break;
     case EventTypes.teamUpdated:
       dispatch(receiveTeam(event));
       break;
@@ -115,7 +119,12 @@ export const eventHandler = dispatch => (eventType, event) => {
     case EventTypes.integrationsUpdated:
       dispatch(updateIntegrations(event.userId, event.subscriberOrgId, event.integrations));
       break;
-
+    case EventTypes.requestToAdmin:
+      dispatch(receiveRequest(event));
+      break;
+    case EventTypes.requestResponse:
+      dispatch(responseRequest(event));
+      break;
     default:
       return false;
   }

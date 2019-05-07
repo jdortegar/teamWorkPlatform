@@ -334,7 +334,7 @@ ul.ant-menu-sub {
 }
 
 .Subscriber__Tooltip_Header .Subscriber__Tooltip_Name {
-  color: #fff !important;
+  color: #fff;
   text-transform: uppercase;
   font-size: 15px;
   font-weight: bold;

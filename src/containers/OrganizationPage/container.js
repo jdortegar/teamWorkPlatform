@@ -12,7 +12,7 @@ import {
   getCurrentSubscriberOrgId,
   getUserByUserId,
   getPresencesOfSubscribersOfOrgId,
-  getOrgTeams,
+  getCurrentUserTeams,
   getOrgIntegrationsObj,
   getSubscription,
   getPaypalSubscription
@@ -28,7 +28,7 @@ const mapStateToProps = (state, props) => {
     user: getCurrentUser(state),
     subscribers: Object.values(getUserByUserId(state)),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
-    teams: getOrgTeams(state),
+    teams: getCurrentUserTeams(state),
     integrations: getOrgIntegrationsObj(state, orgId),
     orgId,
     subscription: getSubscription(state),
