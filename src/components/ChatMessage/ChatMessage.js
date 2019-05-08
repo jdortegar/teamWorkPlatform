@@ -33,7 +33,7 @@ const propTypes = {
   grouped: PropTypes.bool,
   currentPath: PropTypes.string,
   teamMembers: PropTypes.array,
-  lastRead: PropTypes.bool,
+  unread: PropTypes.bool,
   fetchMetadata: PropTypes.func,
   scrollToBottom: PropTypes.func,
   bookmarked: PropTypes.bool,
@@ -62,7 +62,7 @@ const defaultProps = {
   hide: false,
   grouped: false,
   conversationDisabled: false,
-  lastRead: false,
+  unread: false,
   teamMembers: [],
   currentPath: null,
   showDetailsOnAvatar: true,
@@ -265,7 +265,7 @@ class ChatMessage extends Component {
       <Metadata key={url} url={url} fetchMetadata={this.props.fetchMetadata} onLoadImage={this.props.scrollToBottom} />
     ));
 
-  renderLastReadMark = () => (
+  renderUnreadMark = () => (
     <div className="message__unread_mark border-top-red">
       <span className="message__last-read">{Str.t('message.unreadMessageSeparator')}</span>
     </div>
@@ -494,7 +494,7 @@ class ChatMessage extends Component {
   };
 
   render() {
-    const { message, grouped, hide, lastRead } = this.props;
+    const { message, grouped, hide, unread } = this.props;
     const { showEditInput, showReplyInput } = this.state;
     const { children, conversationId, replyTo } = message;
     const { content } = message;
@@ -503,7 +503,7 @@ class ChatMessage extends Component {
     const replies = children && children.filter(msg => !msg.deleted && msg.content[0].type !== 'emojiReaction');
     return (
       <div className={classNames({ 'message-nested': replyTo, hide })}>
-        {lastRead && this.renderLastReadMark()}
+        {unread && this.renderUnreadMark()}
         <div
           className={classNames('message__main-container', {
             grouped: grouped && isEmpty(replies)

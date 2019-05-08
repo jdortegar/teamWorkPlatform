@@ -13,16 +13,6 @@ import './styles/style.css';
 import TopBar from './TopBar';
 
 const propTypes = {
-  team: PropTypes.object,
-  currentUser: PropTypes.object.isRequired,
-  users: PropTypes.object.isRequired,
-  usersPresences: PropTypes.object.isRequired,
-  files: PropTypes.array,
-  removeFileFromList: PropTypes.func.isRequired,
-  addBase: PropTypes.func.isRequired,
-  isDraggingOver: PropTypes.bool.isRequired,
-  clearFileList: PropTypes.func.isRequired,
-  updateFileList: PropTypes.func.isRequired,
   conversation: PropTypes.shape({
     id: PropTypes.string.isRequired,
     messages: PropTypes.arrayOf(
@@ -42,17 +32,26 @@ const propTypes = {
       })
     )
   }),
+  team: PropTypes.object,
+  currentUser: PropTypes.object.isRequired,
+  users: PropTypes.object.isRequired,
+  usersPresences: PropTypes.object.isRequired,
+  files: PropTypes.array,
+  removeFileFromList: PropTypes.func.isRequired,
+  addBase: PropTypes.func.isRequired,
+  isDraggingOver: PropTypes.bool.isRequired,
+  clearFileList: PropTypes.func.isRequired,
+  updateFileList: PropTypes.func.isRequired,
   fetchConversations: PropTypes.func.isRequired,
   fetchBookmarks: PropTypes.func.isRequired,
   fetchMessages: PropTypes.func.isRequired,
   deleteMessage: PropTypes.func.isRequired,
   membersTyping: PropTypes.object,
-  readMessage: PropTypes.func.isRequired,
+  readMessages: PropTypes.func.isRequired,
   showPageHeader: PropTypes.bool,
   showTeamMembers: PropTypes.bool,
   showChat: PropTypes.func,
   menuOptions: PropTypes.array,
-  lastReadTimestamp: PropTypes.string, // TODO: remove unused prop
   connectDropTarget: PropTypes.func.isRequired
 };
 
@@ -64,8 +63,7 @@ const defaultProps = {
   showTeamMembers: false,
   showChat: null,
   menuOptions: [],
-  team: {},
-  lastReadTimestamp: null
+  team: {}
 };
 
 const BOTTOM_SCROLL_LIMIT = 200;
@@ -94,7 +92,7 @@ class Chat extends React.Component {
 
     this.updateMembers({ conversation, users, usersPresences });
 
-    this.props.fetchMessages(conversation.id);
+    this.props.fetchMessages(conversation.id).then(() => this.scrollToBottom());
     this.props.fetchBookmarks();
   }
 
@@ -193,9 +191,8 @@ class Chat extends React.Component {
     if (!messagesContainer) return;
 
     const { conversation } = this.props;
-    const lastMessage = _.last(conversation.messages) || {};
     if (messagesContainer.scrollHeight === messagesContainer.scrollTop + messagesContainer.clientHeight) {
-      this.props.readMessage(lastMessage.id, conversation.id);
+      this.props.readMessages(conversation.id);
       messagesContainer.removeEventListener('scroll', this.handleScroll);
     }
   };
@@ -216,11 +213,11 @@ class Chat extends React.Component {
   };
 
   renderMessages() {
-    const { conversation, currentUser, team, lastReadTimestamp } = this.props;
+    const { conversation, currentUser, team } = this.props;
     const { membersFiltered, lastSubmittedMessage, userIsEditing } = this.state;
 
     if (!membersFiltered) return null;
-    let lastReadExists = false;
+    let unreadExists = false;
     let previousSenderId = null;
     const currentPath = lastSubmittedMessage ? lastSubmittedMessage.path : null;
 
@@ -233,14 +230,12 @@ class Chat extends React.Component {
       const grouped = previousSenderId === sender.userId;
       previousSenderId = sender.userId;
 
-      // If message was created after last read message timestamp
-      let lastRead = null;
-      if (message.createdBy !== currentUser.userId) {
-        lastRead = lastReadExists ? null : lastReadTimestamp < message.created;
-        if (lastRead) {
-          lastReadExists = true;
-          this.setScrollEvent();
-        }
+      // If this is the first unread message
+      const unread = !unreadExists && !message.readBy.includes(currentUser.userId);
+
+      if (unread) {
+        unreadExists = true;
+        this.setScrollEvent();
       }
 
       return (
@@ -251,7 +246,7 @@ class Chat extends React.Component {
           conversationId={conversation.id}
           currentPath={currentPath}
           teamMembers={membersFiltered}
-          lastRead={lastRead}
+          unread={unread}
           grouped={grouped}
           scrollToBottom={this.scrollToBottom}
           onMessageAction={this.onMessageAction}

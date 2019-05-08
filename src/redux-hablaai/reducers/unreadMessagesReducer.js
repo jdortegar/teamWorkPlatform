@@ -5,7 +5,8 @@ import {
   CONVERSATIONS_FETCH_SUCCESS,
   CONVERSATIONS_CREATE_SUCCESS,
   MESSAGES_FETCH_SUCCESS,
-  MESSAGE_RECEIVE
+  MESSAGE_RECEIVE,
+  MESSAGES_READ_SUCCESS
 } from 'src/actions';
 
 const byConversation = (state = {}, action) => {
@@ -26,19 +27,25 @@ const byConversation = (state = {}, action) => {
     }
     case MESSAGES_FETCH_SUCCESS: {
       const { messages = [], currentUserId } = action.payload;
-      const [{ conversationId }] = messages; // all messages here belong to the same conversation
-      if (!conversationId) return state;
+      const [message] = messages; // all messages here belong to the same conversation
+      if (!message) return state;
 
       const unreadMessages = messages.reduce((total, { readBy = [] }) => {
         if (readBy.includes(currentUserId)) return total;
         return total + 1;
       }, 0);
-      return { ...state, [conversationId]: unreadMessages };
+      return { ...state, [message.conversationId]: unreadMessages };
     }
     case MESSAGE_RECEIVE: {
       const { message, currentUserId } = action.payload;
       if (message.readBy.includes(currentUserId)) return state;
       return { ...state, [message.conversationId]: state[message.conversationId] + 1 };
+    }
+    case MESSAGES_READ_SUCCESS: {
+      // TODO: set messages as read after read success
+      // const { messageIds = [], currentUserId } = action.payload;
+      // console.warn({ messageIds, currentUserId });
+      return state;
     }
     default:
       return state;

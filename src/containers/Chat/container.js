@@ -10,7 +10,7 @@ import {
   deleteMessage,
   fetchBookmarks,
   sendTyping,
-  readMessage
+  readMessages
 } from 'src/actions';
 import {
   getTeam,
@@ -22,7 +22,6 @@ import {
   getConversationWithMessages,
   getResourcesUrl,
   getMembersTyping
-  // getLastReadTimestampOfConversationId
 } from 'src/selectors';
 
 const mapStateToProps = (state, props) => {
@@ -38,7 +37,6 @@ const mapStateToProps = (state, props) => {
     usersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
     resourcesUrl: getResourcesUrl(state),
     membersTyping: getMembersTyping(state, conversationId)
-    // lastReadTimestamp: getLastReadTimestampOfConversationId(state, conversationId)
   };
 };
 
@@ -50,7 +48,7 @@ const mapDispatchToProps = {
   deleteMessage,
   fetchBookmarks,
   sendTyping,
-  readMessage
+  readMessages
 };
 
 export default withRouter(
