@@ -343,7 +343,7 @@ class OrganizationManageMembers extends Component {
           pageBreadCrumb={pageBreadCrumb}
           hasMenu
           backButton
-          menuName="settings"
+          menuName="manageOrg"
           menuPageHeader={menuPageHeader}
           badgeOptions={{
             enabled: true,

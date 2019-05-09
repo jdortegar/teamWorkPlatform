@@ -108,7 +108,7 @@ class TeamManagePage extends Component {
           subscriberOrgId={orgId}
           pageBreadCrumb={pageBreadCrumb}
           hasMenu
-          menuName="settings"
+          menuName="manageOrg"
           backButton
           menuPageHeader={menuPageHeader}
         />
