@@ -35,7 +35,7 @@ const propTypes = {
   teamMembers: PropTypes.array,
   unread: PropTypes.bool,
   fetchMetadata: PropTypes.func,
-  scrollToBottom: PropTypes.func,
+  onLoadMessage: PropTypes.func,
   bookmarked: PropTypes.bool,
   ownMessage: PropTypes.bool,
   history: PropTypes.object.isRequired,
@@ -70,7 +70,7 @@ const defaultProps = {
   shareDataOwner: null,
   userIsEditing: false,
   fetchMetadata: () => {},
-  scrollToBottom: () => {},
+  onLoadMessage: () => {},
   onMessageAction: () => {},
   handleStateOnParent: () => {}
 };
@@ -99,7 +99,7 @@ class ChatMessage extends Component {
   componentWillMount() {
     const { message } = this.props;
     this.buildReactions(message.children);
-    this.props.scrollToBottom();
+    this.props.onLoadMessage();
   }
 
   componentWillReceiveProps({ currentPath, message }) {
@@ -262,7 +262,7 @@ class ChatMessage extends Component {
 
   renderMedatada = matchUrl =>
     matchUrl.map(url => (
-      <Metadata key={url} url={url} fetchMetadata={this.props.fetchMetadata} onLoadImage={this.props.scrollToBottom} />
+      <Metadata key={url} url={url} fetchMetadata={this.props.fetchMetadata} onLoadImage={this.props.onLoadMessage} />
     ));
 
   renderUnreadMark = () => (
@@ -401,7 +401,7 @@ class ChatMessage extends Component {
       sender,
       sharedProfile,
       ownMessage,
-      scrollToBottom,
+      onLoadMessage,
       grouped,
       bookmarked,
       conversationDisabled,
@@ -451,7 +451,7 @@ class ChatMessage extends Component {
                   )}
                   {content[0].sharedData && !sharedProfile && this.renderBodyMessage(content[0].sharedData, true)}
                   <div className={classNames(ownMessage ? 'message__inverted_order' : '')}>
-                    <PreviewAttachments attachments={attachments} onLoadImage={scrollToBottom} />
+                    <PreviewAttachments attachments={attachments} onLoadImage={onLoadMessage} />
                   </div>
                   {sharedProfile && this.renderUserProfile(sharedProfile)}
                   <span className="message__body-text-date"> ({moment(created).fromNow()})</span>

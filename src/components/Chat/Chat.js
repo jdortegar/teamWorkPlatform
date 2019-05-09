@@ -115,13 +115,20 @@ class Chat extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { conversation, currentUser } = this.props;
+    const { conversation, currentUser, readMessages } = this.props;
     if (!prevProps.conversation || !conversation) return;
     if (prevProps.conversation.messages.length === conversation.messages.length) return;
 
     const lastMessage = _.last(conversation.messages) || {};
     const ownMessage = lastMessage.createdBy === currentUser.userId;
-    if (ownMessage || this.isNearBottom()) this.scrollToBottom();
+    if (ownMessage || this.isNearBottom()) {
+      this.scrollToUnread();
+    }
+    if (this.isNearBottom()) {
+      // debounce readMessages to prevent sending too many requests
+      const readMessagesDebounced = _.debounce(readMessages, 500);
+      readMessagesDebounced(conversation.id);
+    }
   }
 
   updateMembers = ({ conversation, users, usersPresences }) => {
@@ -160,7 +167,7 @@ class Chat extends React.Component {
     return distanceFromBottom < BOTTOM_SCROLL_LIMIT;
   };
 
-  scrollToBottom = () => {
+  scrollToUnread = () => {
     const [messagesContainer] = document.getElementsByClassName('team__messages');
     if (!messagesContainer) return;
 
@@ -174,11 +181,6 @@ class Chat extends React.Component {
         messagesContainer.scrollTop = scrollHeight;
       }
     }
-
-    // debounce readMessages to prevent sending too many requests
-    const { conversation, readMessages } = this.props;
-    const readMessagesDebounced = _.debounce(readMessages, 1000);
-    readMessagesDebounced(conversation.id);
   };
 
   setScrollEvent = () => {
@@ -193,8 +195,8 @@ class Chat extends React.Component {
 
     const { conversation, readMessages } = this.props;
     if (messagesContainer.scrollHeight === messagesContainer.scrollTop + messagesContainer.clientHeight) {
-      readMessages(conversation.id);
       messagesContainer.removeEventListener('scroll', this.handleScroll);
+      readMessages(conversation.id);
     }
   };
 
@@ -253,7 +255,7 @@ class Chat extends React.Component {
           teamMembers={membersFiltered}
           unread={unread}
           grouped={grouped}
-          scrollToBottom={this.scrollToBottom}
+          onLoadMessage={this.scrollToUnread}
           onMessageAction={this.onMessageAction}
           sharedData={message.sharedData}
           showMetadata
