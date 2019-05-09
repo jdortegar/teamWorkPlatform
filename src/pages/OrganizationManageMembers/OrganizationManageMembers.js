@@ -196,6 +196,11 @@ class OrganizationManageMembers extends Component {
     const menuPageHeader = [
       {
         icon: 'fas fa-cog',
+        title: 'OrganizationPage.addNewTeam',
+        url: `/app/createTeam/${orgId}`
+      },
+      {
+        icon: 'fas fa-cog',
         title: 'OrganizationManage.manageTeams',
         url: `/app/editOrganization/${orgId}/teams`
       },
@@ -206,13 +211,18 @@ class OrganizationManageMembers extends Component {
       },
       {
         icon: 'fas fa-cog',
+        title: 'SurveySettingsPage.title',
+        url: `/app/surveySettings`
+      },
+      {
+        icon: 'fas fa-cog',
         title: 'SurveyReportPage.menuTitle',
         url: `/app/surveyReport`
       },
       {
         icon: 'fas fa-cog',
-        title: 'SurveySettingsPage.title',
-        url: `/app/surveySettings`
+        title: 'scheduleSystemPage.menuTitle',
+        url: `/app/notifications`
       }
     ];
 

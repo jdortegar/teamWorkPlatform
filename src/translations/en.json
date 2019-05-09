@@ -1,6 +1,7 @@
 {
   "okButton": "OK",
   "cancelButton": "Cancel",
+  "manageOrg": "Manage Organization",
   "settings": "Settings",
   "errUnknownResponse": "An error occurred:\n\n{{response}}",
   "errUnknownStatus": "An error occurred: ({{status}})",
@@ -972,5 +973,9 @@
   },
   "requestNotification": {
     "requestToJoin": "\"{{userFullName}}\" request to Join \"{{teamName}}\" Project Team"
+  },
+  "scheduleSystemPage": {
+    "title": "Schedule System-wide Message",
+    "menuTitle": "Schedule System-wide Message"
   }
 }

@@ -388,7 +388,7 @@ class Sidebar extends Component {
 
     const editLink =
       userRoles && (userRoles.admin || userRoles.teamOwner.length > 0)
-        ? `/app/editOrganization/${currentSubscriberOrgId}/teams`
+        ? `/app/organization/${currentSubscriberOrgId}`
         : `/app/organization/${currentSubscriberOrgId}`;
 
     // Set Active Page
