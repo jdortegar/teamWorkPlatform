@@ -173,10 +173,12 @@ class Chat extends React.Component {
       } else {
         messagesContainer.scrollTop = scrollHeight;
       }
-    } else if (unreadMark) {
-      const { conversation, readMessages } = this.props;
-      readMessages(conversation.id);
     }
+
+    // debounce readMessages to prevent sending too many requests
+    const { conversation, readMessages } = this.props;
+    const readMessagesDebounced = _.debounce(readMessages, 1000);
+    readMessagesDebounced(conversation.id);
   };
 
   setScrollEvent = () => {
