@@ -128,7 +128,8 @@
 }
 .team__messages {
   flex: 6;
-  overflow-y: scroll;
+  overflow-y: auto;
+  padding-top: 10px;
 }
 .team-room__member-cards-container {
   display: flex;
