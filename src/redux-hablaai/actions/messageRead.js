@@ -16,11 +16,11 @@ export const readMessages = conversationId => async (dispatch, getState) => {
     );
     const { readings: messageIds } = data;
 
-    dispatch({ type: MESSAGES_READ_SUCCESS, payload: { messageIds, currentUserId: userId } });
+    dispatch({ type: MESSAGES_READ_SUCCESS, payload: { messageIds, conversationId, currentUserId: userId } });
     return messageIds;
   } catch (e) {
     const error = e.response ? { ...e.response.data } : e;
     dispatch({ type: MESSAGES_READ_FAILURE, payload: { error } });
-    return error;
+    throw new Error(e);
   }
 };

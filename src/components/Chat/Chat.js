@@ -92,7 +92,7 @@ class Chat extends React.Component {
 
     this.updateMembers({ conversation, users, usersPresences });
 
-    this.props.fetchMessages(conversation.id).then(() => this.scrollToBottom());
+    this.props.fetchMessages(conversation.id);
     this.props.fetchBookmarks();
   }
 
@@ -124,6 +124,14 @@ class Chat extends React.Component {
     if (ownMessage || this.isNearBottom()) this.scrollToBottom();
   }
 
+  updateMembers = ({ conversation, users, usersPresences }) => {
+    const members = conversation.members.map(memberId => ({
+      ...users[memberId],
+      online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
+    }));
+    this.setState({ members, membersFiltered: members });
+  };
+
   onMessageAction = (payload, action) => {
     const { message, extraInfo } = payload;
 
@@ -142,22 +150,8 @@ class Chat extends React.Component {
     }
   };
 
-  updateMembers = ({ conversation, users, usersPresences }) => {
-    const members = conversation.members.map(memberId => ({
-      ...users[memberId],
-      online: _.some(_.values(usersPresences[memberId]), { presenceStatus: 'online' })
-    }));
-    this.setState({ members, membersFiltered: members });
-  };
-
-  setScrollEvent = () => {
-    const messagesContainer = document.getElementsByClassName('team__messages')[0];
-    if (!messagesContainer) return false;
-    return messagesContainer.addEventListener('scroll', this.handleScroll);
-  };
-
   isNearBottom = () => {
-    const messagesContainer = document.getElementsByClassName('team__messages')[0];
+    const [messagesContainer] = document.getElementsByClassName('team__messages');
     if (!messagesContainer) return false;
 
     const { scrollHeight, scrollTop, clientHeight } = messagesContainer;
@@ -167,10 +161,10 @@ class Chat extends React.Component {
   };
 
   scrollToBottom = () => {
-    const messagesContainer = document.getElementsByClassName('team__messages')[0];
+    const [messagesContainer] = document.getElementsByClassName('team__messages');
     if (!messagesContainer) return;
 
-    const unreadMark = messagesContainer.getElementsByClassName('message__unread_mark')[0] || null;
+    const [unreadMark] = messagesContainer.getElementsByClassName('message__unread_mark') || null;
 
     const { clientHeight, scrollHeight } = messagesContainer;
     if (clientHeight < scrollHeight) {
@@ -179,22 +173,31 @@ class Chat extends React.Component {
       } else {
         messagesContainer.scrollTop = scrollHeight;
       }
+    } else if (unreadMark) {
+      const { conversation, readMessages } = this.props;
+      readMessages(conversation.id);
+    }
+  };
+
+  setScrollEvent = () => {
+    const [messagesContainer] = document.getElementsByClassName('team__messages');
+    if (!messagesContainer) return;
+    messagesContainer.addEventListener('scroll', this.handleScroll);
+  };
+
+  handleScroll = () => {
+    const [messagesContainer] = document.getElementsByClassName('team__messages');
+    if (!messagesContainer) return;
+
+    const { conversation, readMessages } = this.props;
+    if (messagesContainer.scrollHeight === messagesContainer.scrollTop + messagesContainer.clientHeight) {
+      readMessages(conversation.id);
+      messagesContainer.removeEventListener('scroll', this.handleScroll);
     }
   };
 
   handleStateOnParent = obj => {
     this.setState(obj);
-  };
-
-  handleScroll = () => {
-    const messagesContainer = document.getElementsByClassName('team__messages')[0];
-    if (!messagesContainer) return;
-
-    const { conversation } = this.props;
-    if (messagesContainer.scrollHeight === messagesContainer.scrollTop + messagesContainer.clientHeight) {
-      this.props.readMessages(conversation.id);
-      messagesContainer.removeEventListener('scroll', this.handleScroll);
-    }
   };
 
   handleOwnerFilterClick = userId => {

@@ -42,10 +42,8 @@ const byConversation = (state = {}, action) => {
       return { ...state, [message.conversationId]: state[message.conversationId] + 1 };
     }
     case MESSAGES_READ_SUCCESS: {
-      // TODO: set messages as read after read success
-      // const { messageIds = [], currentUserId } = action.payload;
-      // console.warn({ messageIds, currentUserId });
-      return state;
+      const { conversationId } = action.payload;
+      return { ...state, [conversationId]: 0 };
     }
     default:
       return state;
