@@ -13,12 +13,8 @@ const byConversation = (state = {}, action) => {
   switch (action.type) {
     case CONVERSATIONS_RECEIVE:
     case CONVERSATIONS_FETCH_SUCCESS: {
-      // TODO: uncomment when this field returns the correct data from the API
-      // const { conversations = [] } = action.payload;
-      return {
-        ...state
-        // ...conversations.reduce((acc, { id, unreadMessages = 0 }) => ({ ...acc, [id]: unreadMessages }), state)
-      };
+      const { conversations = [] } = action.payload;
+      return conversations.reduce((acc, { id, unreadMessages = 0 }) => ({ ...acc, [id]: unreadMessages }), state);
     }
     case CONVERSATIONS_CREATE_SUCCESS: {
       const { conversation = {} } = action.payload;
