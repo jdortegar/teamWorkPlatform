@@ -93,7 +93,7 @@ class EditTeamMemberPage extends Component {
 
     return (
       <div className="EditTeamMemberPage-main">
-        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
+        <PageHeader backButton pageBreadCrumb={pageBreadCrumb} settingsIcon />
         <SimpleCardContainer className="subpage-block padding-class-b border-bottom-light">
           <AvatarWrapper size="large" user={user} hideStatusTooltip />
           <div className="EditTeamMember__name">

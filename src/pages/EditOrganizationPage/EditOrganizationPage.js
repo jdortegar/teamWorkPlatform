@@ -151,7 +151,7 @@ class EditOrganizationPage extends Component {
 
     return (
       <div className="editOrgPage-main">
-        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
+        <PageHeader backButton pageBreadCrumb={pageBreadCrumb} settingsIcon />
         <div className="edit-org__subpage-body">
           <Form onSubmit={this.handleSubmit} layout="vertical">
             <div className="edit-org__form padding-class-a">

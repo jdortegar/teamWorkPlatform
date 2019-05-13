@@ -134,7 +134,7 @@ class EditTeamPage extends Component {
 
     return (
       <div className="EditTeamPage-main">
-        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
+        <PageHeader backButton pageBreadCrumb={pageBreadCrumb} settingsIcon />
         <Form onSubmit={this.handleSubmit} layout="vertical">
           <SimpleCardContainer className="subpage-block padding-class-a border-bottom-light container__team_image">
             <div className={containerImage}>
