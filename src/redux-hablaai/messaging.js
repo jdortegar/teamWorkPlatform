@@ -194,8 +194,8 @@ class Messaging {
     });
   }
 
-  sendTyping(conversationId, isTyping) {
-    this.socket.send(EventTypes.typing, { conversationId, isTyping });
+  sendTyping({ conversationId, userId, isTyping }) {
+    this.socket.send(EventTypes.typing, { conversationId, userId, isTyping });
   }
 
   makePersonalCall(callerId, receiverId) {

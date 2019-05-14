@@ -9,7 +9,11 @@ import './styles/style.css';
 const propTypes = {
   file: PropTypes.object.isRequired,
   handleRemove: PropTypes.func.isRequired,
-  addBase: PropTypes.func.isRequired
+  addBase: PropTypes.func.isRequired,
+  showCloseIcon: PropTypes.bool
+};
+const defaultProps = {
+  showCloseIcon: true
 };
 
 function readFileAsBinary(file) {
@@ -57,7 +61,7 @@ class PreviewCard extends Component {
   }
 
   render() {
-    const { file } = this.props;
+    const { file, showCloseIcon } = this.props;
     const fileType = file.type.split('/')[0];
     const isImage = fileType === 'image';
     const previewCard = classNames({
@@ -69,9 +73,11 @@ class PreviewCard extends Component {
         className={previewCard}
         bordered={false}
         extra={
-          <a className="PreviewCard__close-button" onClick={this.props.handleRemove}>
-            <i className="fas fa-times-circle" />
-          </a>
+          showCloseIcon && (
+            <a className="PreviewCard__close-button" onClick={this.props.handleRemove}>
+              <i className="fas fa-times-circle" />
+            </a>
+          )
         }
       >
         {this.renderFile(isImage, file.name)}
@@ -79,6 +85,6 @@ class PreviewCard extends Component {
     );
   }
 }
-
+PreviewCard.defaultProps = defaultProps;
 PreviewCard.propTypes = propTypes;
 export default PreviewCard;
