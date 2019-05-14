@@ -1,18 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Tooltip, Input, message as msg } from 'antd';
-import { isEmpty, last } from 'lodash';
+import { Form, Tooltip, message as msg } from 'antd';
+import { isEmpty, last, size } from 'lodash';
 import classNames from 'classnames';
 
-import 'emoji-mart/css/emoji-mart.css';
+import Str from 'src/translations';
 import { Picker } from 'emoji-mart';
 import { formShape } from 'src/propTypes';
 import { PreviewBar } from 'src/components';
 import { AvatarWrapper, ScheduleMessageModal } from 'src/containers';
+import InlineSuggest from './InlineSuggest';
+
+import 'emoji-mart/css/emoji-mart.css';
 import './styles/style.css';
 
-// Hack for use String functions
-import Str from 'src/translations';
+import data from './data';
 
 const propTypes = {
   user: PropTypes.object.isRequired,
@@ -237,6 +239,8 @@ class MessageInput extends React.Component {
         const { form, messageToEdit } = this.props;
         const text = values.message ? values.message.trim() : '';
 
+        console.warn('TEXT SUBMITTED:', text);
+
         this.stopTyping();
         this.clearTypingTimer();
 
@@ -323,10 +327,9 @@ class MessageInput extends React.Component {
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const { user, messageToEdit, team, currentConversationUserFullName } = this.props;
+    const { user, messageToEdit, team, currentConversationUserFullName, form } = this.props;
     const { fileProgress, textToEdit } = this.state;
-    const { message } = this.props.form.getFieldsValue();
+    const { message } = form.getFieldsValue();
 
     return (
       <div>
@@ -347,16 +350,22 @@ class MessageInput extends React.Component {
           <div className="team-room__chat-input-wrapper">
             <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off">
               <Form.Item className="team-room__chat-input-form-item" hasFeedback={false}>
-                {getFieldDecorator('message', { initialValue: textToEdit || null })(
-                  <Input
-                    placeholder={Str.t('chat.replyPlaceholder')}
-                    className="team-room__chat-input-textfield"
-                    onFocus={this.handleTyping}
-                    autoFocus
-                    ref={this.textInput}
-                    onKeyDown={this.handleKeyDown}
-                  />
-                )}
+                <InlineSuggest
+                  suggestions={data}
+                  ignoreCase
+                  navigate
+                  form={form}
+                  initialValue={textToEdit}
+                  shouldRenderSuggestion={val => size(val) >= 2}
+                  inputClassName="team-room__chat-input-textfield"
+                  inputProps={{
+                    placeholder: Str.t('chat.replyPlaceholder'),
+                    onKeyDown: this.handleKeyDown,
+                    onFocus: this.handleTyping,
+                    ref: this.textInput,
+                    autoFocus: true
+                  }}
+                />
               </Form.Item>
             </Form>
           </div>

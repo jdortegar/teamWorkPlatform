@@ -1,3 +1,59 @@
 .Chat__message_edit_input {
   padding: 4px 10px;
 }
+
+.InlineSuggest {
+  position: relative;
+}
+
+.InlineSuggest__input,
+.InlineSuggest__suggestion {
+  padding: 5px 11px;
+  font-size: 16px;
+  margin: 0;
+  border: none;
+  box-sizing: border-box;
+}
+
+.InlineSuggest__input {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  background-color: transparent;
+  width: 100%;
+}
+
+.InlineSuggest__input:hover,
+.InlineSuggest__input:focus {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.InlineSuggest__suggestion {
+  line-height: 28px;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.4;
+  border-color: transparent;
+}
+
+/* .input-predict-input,
+.input-predict-suggestion {
+  width: 100%;
+  height: 50px;
+}
+
+.input-predict-input {
+  z-index: 5 !important;
+  position: relative;
+}
+
+.input-predict-suggestion {
+  color: #999;
+  z-index: 4 !important;
+  left: 0;
+} */
