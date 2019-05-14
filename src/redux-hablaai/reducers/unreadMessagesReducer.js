@@ -1,0 +1,51 @@
+import { combineReducers } from 'redux';
+
+import {
+  CONVERSATIONS_RECEIVE,
+  CONVERSATIONS_FETCH_SUCCESS,
+  CONVERSATIONS_CREATE_SUCCESS,
+  MESSAGES_FETCH_SUCCESS,
+  MESSAGE_RECEIVE,
+  MESSAGES_READ_SUCCESS
+} from 'src/actions';
+
+const byConversation = (state = {}, action) => {
+  switch (action.type) {
+    case CONVERSATIONS_RECEIVE:
+    case CONVERSATIONS_FETCH_SUCCESS: {
+      const { conversations = [] } = action.payload;
+      return conversations.reduce((acc, { id, unreadMessages = 0 }) => ({ ...acc, [id]: unreadMessages }), state);
+    }
+    case CONVERSATIONS_CREATE_SUCCESS: {
+      const { conversation = {} } = action.payload;
+      if (!conversation.id) return state;
+      return { ...state, [conversation.id]: conversation.unreadMessages || 0 };
+    }
+    case MESSAGES_FETCH_SUCCESS: {
+      const { messages = [], currentUserId } = action.payload;
+      const [message] = messages; // all messages here belong to the same conversation
+      if (!message) return state;
+
+      const unreadMessages = messages.reduce((total, { readBy = [] }) => {
+        if (readBy.includes(currentUserId)) return total;
+        return total + 1;
+      }, 0);
+      return { ...state, [message.conversationId]: unreadMessages };
+    }
+    case MESSAGE_RECEIVE: {
+      const { message, currentUserId } = action.payload;
+      if (message.readBy.includes(currentUserId)) return state;
+      return { ...state, [message.conversationId]: state[message.conversationId] + 1 };
+    }
+    case MESSAGES_READ_SUCCESS: {
+      const { conversationId } = action.payload;
+      return { ...state, [conversationId]: 0 };
+    }
+    default:
+      return state;
+  }
+};
+
+const unreadMessagesReducer = combineReducers({ byConversation });
+
+export default unreadMessagesReducer;

@@ -19,8 +19,7 @@ const propTypes = {
   }).isRequired,
   updateTeam: PropTypes.func.isRequired,
   teams: PropTypes.array.isRequired,
-  userRoles: PropTypes.object,
-  isAdminMode: PropTypes.bool.isRequired
+  userRoles: PropTypes.object
 };
 
 const defaultProps = {
@@ -212,7 +211,7 @@ class OrganizationManageTeams extends Component {
     if (this.state.orgDataLoaded && this.state.teamsActive) {
       // General Const
       const subscriberOrgId = this.props.currentSubscriberOrgId;
-      const { userRoles, isAdminMode } = this.props;
+      const { userRoles } = this.props;
 
       // Breadcrumb
       const pageBreadCrumb = {
@@ -226,11 +225,17 @@ class OrganizationManageTeams extends Component {
       const menuPageHeader = [
         {
           icon: 'fas fa-cog',
+          title: 'OrganizationPage.addNewTeam',
+          url: `/app/createTeam/${subscriberOrgId}`
+        },
+        {
+          icon: 'fas fa-cog',
           title: 'OrganizationManage.manageTeamMembers',
           url: `/app/editOrganization/${subscriberOrgId}/members`
         }
       ];
-      if (userRoles.admin && isAdminMode) {
+
+      if (userRoles.admin) {
         menuPageHeader.push(
           {
             icon: 'fas fa-cog',
@@ -239,13 +244,18 @@ class OrganizationManageTeams extends Component {
           },
           {
             icon: 'fas fa-cog',
+            title: 'SurveySettingsPage.title',
+            url: `/app/surveySettings`
+          },
+          {
+            icon: 'fas fa-cog',
             title: 'SurveyReportPage.menuTitle',
             url: `/app/surveyReport`
           },
           {
             icon: 'fas fa-cog',
-            title: 'SurveySettingsPage.title',
-            url: `/app/surveySettings`
+            title: 'scheduleSystemPage.menuTitle',
+            url: `/app/notifications`
           }
         );
       }
@@ -379,7 +389,7 @@ class OrganizationManageTeams extends Component {
             pageBreadCrumb={pageBreadCrumb}
             hasMenu
             backButton
-            menuName="settings"
+            menuName="manageOrg"
             menuPageHeader={menuPageHeader}
             badgeOptions={{
               enabled: true,

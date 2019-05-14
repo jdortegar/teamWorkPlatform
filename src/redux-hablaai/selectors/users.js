@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { getUserByUserId } from './state';
 import { getCurrentUserId } from './auth';
 import { getCurrentUserTeams } from './teams';
-import { getMessagesByConversation } from './messages';
+import { getCurrentOrgId } from './subscribers';
 
 export { getUserByUserId, getPresencesByUserId } from './state';
 
@@ -26,35 +26,14 @@ export const getUserById = createSelector(
   (usersByUserId, userId) => usersByUserId[userId]
 );
 
-export const getResolvedBookmarks = createSelector(
-  [getCurrentUser, getMessagesByConversation],
-  (currentUser, messagesByConversation) => {
-    const { bookmarks } = currentUser;
-    bookmarks.messages = {};
-    Object.keys(bookmarks).forEach(subscriberOrgId => {
-      const { messageIds } = bookmarks[subscriberOrgId];
-      Object.keys(messageIds).forEach(messageId => {
-        const bookmark = messageIds[messageId];
-        const { conversationId } = bookmark;
-        bookmarks.messages[messageId] = messagesByConversation[conversationId].messages[messageId];
-
-        const { prevSiblingId } = bookmarks;
-        if (prevSiblingId) {
-          bookmarks.messages[prevSiblingId] = messagesByConversation[conversationId].messages[prevSiblingId];
-        }
-      });
-    });
-
-    return bookmarks;
-  }
-);
-
 export const getUserRoles = createSelector(
-  [getCurrentUser, getCurrentUserTeams],
-  (currentUser, teams) => {
+  [getCurrentUser, getCurrentUserTeams, getCurrentOrgId],
+  (currentUser, teams, orgId) => {
     const userRoles = {};
     userRoles.teamOwner = teams.filter(team => team.teamAdmin === currentUser.userId).map(team => team.teamId);
-    if (currentUser && currentUser.role === 'admin') {
+    const { subscriberOrgs = {} } = currentUser || {};
+    const { role } = subscriberOrgs[orgId] || {};
+    if (role === 'admin') {
       userRoles.admin = true;
     }
     return userRoles;

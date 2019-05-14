@@ -176,11 +176,38 @@ class OrganizationPage extends Component {
         }
       ];
       if (isOrgAdmin) {
-        menuPageHeader.push({
-          icon: 'fas fa-cog',
-          title: 'OrganizationPage.manageTeams',
-          url: `/app/editOrganization/${orgId}/teams`
-        });
+        menuPageHeader.push(
+          {
+            icon: 'fas fa-cog',
+            title: 'OrganizationPage.manageTeams',
+            url: `/app/editOrganization/${orgId}/teams`
+          },
+          {
+            icon: 'fas fa-cog',
+            title: 'OrganizationManage.manageTeamMembers',
+            url: `/app/editOrganization/${orgId}/members`
+          },
+          {
+            icon: 'fas fa-cog',
+            title: 'OrganizationManage.editOrganization',
+            url: `/app/editOrganization/${orgId}`
+          },
+          {
+            icon: 'fas fa-cog',
+            title: 'SurveySettingsPage.title',
+            url: `/app/surveySettings`
+          },
+          {
+            icon: 'fas fa-cog',
+            title: 'SurveyReportPage.menuTitle',
+            url: `/app/surveyReport`
+          },
+          {
+            icon: 'fas fa-cog',
+            title: 'scheduleSystemPage.menuTitle',
+            url: `/app/notifications`
+          }
+        );
       }
 
       return (
@@ -189,7 +216,7 @@ class OrganizationPage extends Component {
             backButton
             pageBreadCrumb={pageBreadCrumb}
             hasMenu
-            menuName="settings"
+            menuName="manageOrg"
             menuPageHeader={menuPageHeader}
           />
           <SimpleCardContainer className="subpage-block habla-color-blue align-center-class">

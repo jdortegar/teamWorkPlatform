@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { Sidebar } from 'src/components';
-import { setCurrentSubscriberOrgId, showSideBar, finishCall, readMessage, fetchTeamMembers } from 'src/actions';
+import { setCurrentSubscriberOrgId, showSideBar, finishCall, fetchTeamMembers } from 'src/actions';
 import {
   getCurrentUser,
   getCurrentSubscriberOrgId,
@@ -11,12 +11,6 @@ import {
   getPresencesOfSubscribersOfOrgId,
   getUserRoles,
   getCallingData,
-  getStatusCall,
-  getPersonalConversationUnreadMessages,
-  getConversationIdsByTeam,
-  getConversationIdsByMember,
-  getReadMessagesByConversationId,
-  getConversationsById,
   getCurrentUserTeams
 } from 'src/selectors';
 
@@ -36,13 +30,7 @@ const mapStateToProps = (state, props) => {
     sideBarIsHidden: state.sideBar.hidden,
     userRoles: getUserRoles(state),
     teamId,
-    callingData: getCallingData(state),
-    statusCall: getStatusCall(state),
-    personalConversationUnreadMessages: getPersonalConversationUnreadMessages(state),
-    conversationIdsByTeam: getConversationIdsByTeam(state),
-    readMessagesByConversationId: getReadMessagesByConversationId(state),
-    conversations: getConversationsById(state),
-    personalConversations: getConversationIdsByMember(state)
+    callingData: getCallingData(state)
   };
 };
 
@@ -50,7 +38,6 @@ const mapDispatchToProps = {
   setCurrentSubscriberOrgId,
   showSideBar,
   finishCall,
-  readMessage,
   fetchTeamMembers
 };
 

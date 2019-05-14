@@ -33,9 +33,9 @@ const propTypes = {
   grouped: PropTypes.bool,
   currentPath: PropTypes.string,
   teamMembers: PropTypes.array,
-  lastRead: PropTypes.bool,
+  unread: PropTypes.bool,
   fetchMetadata: PropTypes.func,
-  scrollToBottom: PropTypes.func,
+  onLoadMessage: PropTypes.func,
   bookmarked: PropTypes.bool,
   ownMessage: PropTypes.bool,
   history: PropTypes.object.isRequired,
@@ -62,7 +62,7 @@ const defaultProps = {
   hide: false,
   grouped: false,
   conversationDisabled: false,
-  lastRead: false,
+  unread: false,
   teamMembers: [],
   currentPath: null,
   showDetailsOnAvatar: true,
@@ -70,7 +70,7 @@ const defaultProps = {
   shareDataOwner: null,
   userIsEditing: false,
   fetchMetadata: () => {},
-  scrollToBottom: () => {},
+  onLoadMessage: () => {},
   onMessageAction: () => {},
   handleStateOnParent: () => {}
 };
@@ -99,7 +99,7 @@ class ChatMessage extends Component {
   componentWillMount() {
     const { message } = this.props;
     this.buildReactions(message.children);
-    this.props.scrollToBottom();
+    this.props.onLoadMessage();
   }
 
   componentWillReceiveProps({ currentPath, message }) {
@@ -262,10 +262,10 @@ class ChatMessage extends Component {
 
   renderMedatada = matchUrl =>
     matchUrl.map(url => (
-      <Metadata key={url} url={url} fetchMetadata={this.props.fetchMetadata} onLoadImage={this.props.scrollToBottom} />
+      <Metadata key={url} url={url} fetchMetadata={this.props.fetchMetadata} onLoadImage={this.props.onLoadMessage} />
     ));
 
-  renderLastReadMark = () => (
+  renderUnreadMark = () => (
     <div className="message__unread_mark border-top-red">
       <span className="message__last-read">{Str.t('message.unreadMessageSeparator')}</span>
     </div>
@@ -401,7 +401,7 @@ class ChatMessage extends Component {
       sender,
       sharedProfile,
       ownMessage,
-      scrollToBottom,
+      onLoadMessage,
       grouped,
       bookmarked,
       conversationDisabled,
@@ -451,7 +451,7 @@ class ChatMessage extends Component {
                   )}
                   {content[0].sharedData && !sharedProfile && this.renderBodyMessage(content[0].sharedData, true)}
                   <div className={classNames(ownMessage ? 'message__inverted_order' : '')}>
-                    <PreviewAttachments attachments={attachments} onLoadImage={scrollToBottom} />
+                    <PreviewAttachments attachments={attachments} onLoadImage={onLoadMessage} />
                   </div>
                   {sharedProfile && this.renderUserProfile(sharedProfile)}
                   <span className="message__body-text-date"> ({moment(created).fromNow()})</span>
@@ -494,7 +494,7 @@ class ChatMessage extends Component {
   };
 
   render() {
-    const { message, grouped, hide, lastRead } = this.props;
+    const { message, grouped, hide, unread } = this.props;
     const { showEditInput, showReplyInput } = this.state;
     const { children, conversationId, replyTo } = message;
     const { content } = message;
@@ -503,7 +503,7 @@ class ChatMessage extends Component {
     const replies = children && children.filter(msg => !msg.deleted && msg.content[0].type !== 'emojiReaction');
     return (
       <div className={classNames({ 'message-nested': replyTo, hide })}>
-        {lastRead && this.renderLastReadMark()}
+        {unread && this.renderUnreadMark()}
         <div
           className={classNames('message__main-container', {
             grouped: grouped && isEmpty(replies)

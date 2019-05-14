@@ -6,6 +6,7 @@ import {
   MESSAGE_CREATE_SUCCESS,
   MESSAGE_UPDATE_SUCCESS,
   MESSAGE_DELETE_SUCCESS,
+  MESSAGES_READ_SUCCESS,
   MESSAGE_RECEIVE,
   BOOKMARKS_FETCH_SUCCESS
 } from 'src/actions';
@@ -14,10 +15,7 @@ const byId = (state = {}, action) => {
   switch (action.type) {
     case MESSAGES_FETCH_SUCCESS: {
       const { messages = [] } = action.payload;
-      return {
-        ...state,
-        ...messages.reduce((acc, message) => ({ ...acc, [message.id]: message }), state)
-      };
+      return messages.reduce((acc, message) => ({ ...acc, [message.id]: message }), state);
     }
     case MESSAGE_RECEIVE:
     case MESSAGE_CREATE_SUCCESS:
@@ -29,15 +27,20 @@ const byId = (state = {}, action) => {
       const { message } = action.payload;
       return omit(state, message.id);
     }
+    case MESSAGES_READ_SUCCESS: {
+      const { messageIds = [], currentUserId } = action.payload;
+      return messageIds.reduce((acc, id) => {
+        const message = state[id];
+        if (!message) return acc;
+        return { ...acc, [id]: { ...message, readBy: union(message.readBy, [currentUserId]) } };
+      }, state);
+    }
     case BOOKMARKS_FETCH_SUCCESS: {
       const { bookmarks = [] } = action.payload;
-      return {
-        ...state,
-        ...bookmarks.reduce((acc, { message }) => {
-          if (!message) return acc;
-          return { ...acc, [message.id]: message };
-        }, state)
-      };
+      return bookmarks.reduce((acc, { message }) => {
+        if (!message) return acc;
+        return { ...acc, [message.id]: message };
+      }, state);
     }
     default:
       return state;

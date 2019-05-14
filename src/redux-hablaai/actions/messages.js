@@ -12,13 +12,14 @@ export const MESSAGE_DELETE_FAILURE = 'messages/delete/failure';
 export const MESSAGE_UPDATE_SUCCESS = 'messages/update/success';
 export const MESSAGE_UPDATE_FAILURE = 'messages/update/failure';
 
-export const fetchMessages = conversationId => async dispatch => {
+export const fetchMessages = conversationId => async (dispatch, getState) => {
   const requestUrl = buildChatUrl(`conversations/${conversationId}/messages`);
+  const currentUserId = getCurrentUserId(getState());
 
   try {
     const { data = {} } = await dispatch(doAuthenticatedRequest({ requestUrl, method: 'get' }));
     const { items: messages, pagination } = data;
-    dispatch({ type: MESSAGES_FETCH_SUCCESS, payload: { messages, pagination, conversationId } });
+    dispatch({ type: MESSAGES_FETCH_SUCCESS, payload: { messages, pagination, conversationId, currentUserId } });
     return messages;
   } catch (e) {
     const error = e.response ? { ...e.response.data } : e;

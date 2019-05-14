@@ -74,10 +74,11 @@ class EditTeamPage extends Component {
           ...values,
           preferences: {
             logo: this.state.logo,
-            avatarBase64: this.state.avatarBase64
+            avatarBase64: this.state.avatarBase64,
+            public: !values.public
           }
         };
-
+        delete valuesToSend.public;
         // Remove Name from object if the name is the same
         valuesToSend.name = valuesToSend.name === team.name ? undefined : valuesToSend.name.trim();
 
@@ -133,7 +134,7 @@ class EditTeamPage extends Component {
 
     return (
       <div className="EditTeamPage-main">
-        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
+        <PageHeader backButton pageBreadCrumb={pageBreadCrumb} settingsIcon />
         <Form onSubmit={this.handleSubmit} layout="vertical">
           <SimpleCardContainer className="subpage-block padding-class-a border-bottom-light container__team_image">
             <div className={containerImage}>
@@ -192,8 +193,8 @@ class EditTeamPage extends Component {
                       checkedChildren={String.t('on')}
                       unCheckedChildren={String.t('off')}
                       form={this.props.form}
-                      componentKey="private"
-                      initialValue={false}
+                      componentKey="public"
+                      initialValue={!team.preferences.public}
                       valuePropName="checked"
                     />
                   </Tooltip>

@@ -9,8 +9,7 @@ import {
   createMessage,
   updateMessage,
   deleteMessage,
-  sendTyping,
-  readMessage
+  sendTyping
 } from 'src/actions';
 import {
   getTeam,
@@ -20,8 +19,7 @@ import {
   getUserByUserId,
   getPresencesOfSubscribersOfOrgId,
   getResourcesUrl,
-  getMembersTyping,
-  getLastReadTimestampOfConversationId
+  getMembersTyping
 } from 'src/selectors';
 
 const mapStateToProps = (state, props) => {
@@ -37,8 +35,7 @@ const mapStateToProps = (state, props) => {
     users: getUserByUserId(state),
     usersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
     resourcesUrl: getResourcesUrl(state),
-    membersTyping: getMembersTyping(state, conversationId),
-    lastReadTimestamp: getLastReadTimestampOfConversationId(state, conversationId)
+    membersTyping: getMembersTyping(state, conversationId)
   };
 };
 
@@ -49,8 +46,7 @@ const mapDispatchToProps = {
   createMessage,
   updateMessage,
   deleteMessage,
-  sendTyping,
-  readMessage
+  sendTyping
 };
 
 export default withRouter(
