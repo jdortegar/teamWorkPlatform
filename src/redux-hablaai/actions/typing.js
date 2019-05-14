@@ -1,5 +1,5 @@
 import { getCurrentUserId } from 'src/selectors';
-import { apiMessaging } from '../messaging';
+import { chatMessaging } from '../messaging';
 
 export const TYPING_RECEIVE = 'typing/receive';
 
@@ -15,5 +15,5 @@ export const receiveTyping = ({ userId, conversationId, isTyping }) => ({
  */
 export const sendTyping = (conversationId, isTyping) => (dispatch, getState) => {
   const userId = getCurrentUserId(getState());
-  apiMessaging().sendTyping({ conversationId, userId, isTyping });
+  chatMessaging().sendTyping({ conversationId, userId, isTyping });
 };
