@@ -36,7 +36,12 @@ class PreviewBar extends Component {
       return (
         <div key={file.name} className="PreviewBar__image-wrapper image-wrapper">
           <div className="image-wrapper-content">
-            <PreviewCard file={file} handleRemove={() => removeFileFromList(file)} addBase={addBase} />
+            <PreviewCard
+              showCloseIcon={files.length > 1}
+              file={file}
+              handleRemove={() => removeFileFromList(file)}
+              addBase={addBase}
+            />
             {getProgressBar(item.percent)}
           </div>
           <span className="file-name habla-label">{file.name}</span>
