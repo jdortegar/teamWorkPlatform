@@ -6,8 +6,7 @@ import {
   getCurrentSubscriberOrgId,
   getOrgData,
   getCurrentUserTeams,
-  getUserRoles,
-  isAdminMode
+  getUserRoles
 } from 'src/selectors';
 
 import { OrganizationManageTeams } from 'src/pages';
@@ -17,8 +16,7 @@ const mapStateToProps = state => ({
   users: getUserByUserId(state),
   teams: getCurrentUserTeams(state),
   orgData: getOrgData(state),
-  userRoles: getUserRoles(state),
-  isAdminMode: isAdminMode(state)
+  userRoles: getUserRoles(state)
 });
 
 const mapDispatchToProps = {

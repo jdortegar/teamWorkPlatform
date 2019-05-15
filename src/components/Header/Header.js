@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Dropdown, Input, Icon, message, Button, Switch, Select, Divider } from 'antd';
+import { Layout, Menu, Dropdown, Input, Icon, message, Select, Divider } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -19,7 +19,6 @@ const propTypes = {
   toggleExactMatch: PropTypes.func.isRequired,
   search: PropTypes.func.isRequired,
   clearSearch: PropTypes.func.isRequired,
-  currentSubscriberOrgId: PropTypes.string.isRequired,
   user: PropTypes.object,
   teamId: PropTypes.string,
   query: PropTypes.string,
@@ -27,9 +26,7 @@ const propTypes = {
   exactMatch: PropTypes.bool,
   history: PropTypes.shape({
     push: PropTypes.func
-  }).isRequired,
-  isAdminMode: PropTypes.bool.isRequired,
-  setAdminMode: PropTypes.func.isRequired
+  }).isRequired
 };
 
 const defaultProps = {
@@ -56,7 +53,6 @@ class Header extends Component {
 
     this.logOut = this.logOut.bind(this);
     this.onStatusChange = this.onStatusChange.bind(this);
-    this.handleAdminButton = this.handleAdminButton.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -175,30 +171,15 @@ class Header extends Component {
     });
   };
 
-  handleAdminButton(checked) {
-    this.props.setAdminMode(checked);
-  }
-
   logOut() {
     this.props.logoutUser();
   }
 
   renderMenuItems() {
-    const {
-      user,
-      caseSensitive,
-      exactMatch,
-      toggleCaseSensitive,
-      toggleExactMatch,
-      isAdminMode,
-      currentSubscriberOrgId
-    } = this.props;
+    const { user, caseSensitive, exactMatch, toggleCaseSensitive, toggleExactMatch } = this.props;
     const { showInput } = this.state;
     const clearIconVisibility = this.state.query ? 'visible' : 'hidden';
     const { muteNotifications } = user.preferences;
-
-    const isOrgAdmin =
-      Object.keys(user.subscriberOrgs).length > 0 && user.subscriberOrgs[currentSubscriberOrgId].role === 'admin';
 
     const muteNotificationMenu = (
       <Menu className="muteNotificationMenu">
@@ -315,15 +296,9 @@ class Header extends Component {
             </div>
           )}
         </Menu.Item>
-        {isOrgAdmin ? (
-          <Menu.Item key="adminHeader">
-            <div className="habla-label padding-class-a">{String.t('Header.adminTitle')}</div>
-          </Menu.Item>
-        ) : (
-          <Menu.Item key="divider">
-            <Divider style={{ margin: '5px auto', width: '90%', minWidth: '90%', background: '#7d7d7d' }} />
-          </Menu.Item>
-        )}
+        <Menu.Item key="divider">
+          <Divider style={{ margin: '15px auto', width: '90%', minWidth: '90%', background: '#7d7d7d' }} />
+        </Menu.Item>
         <Menu.Item key="accountSettings">
           <Link to={`/app/editUser/${user.userId}`}>
             <span>
@@ -331,22 +306,6 @@ class Header extends Component {
             </span>
           </Link>
         </Menu.Item>
-        {isOrgAdmin && (
-          <Menu.Item key="adminMode">
-            <a>
-              <span>
-                <i className="fas fa-sync-alt" /> {String.t('Header.adminMode')}{' '}
-                <Switch
-                  size="small"
-                  defaultChecked
-                  style={{ marginLeft: 10 }}
-                  onChange={this.handleAdminButton}
-                  checked={isAdminMode}
-                />
-              </span>
-            </a>
-          </Menu.Item>
-        )}
         <Menu.Item key="logout" className="dropdown-last-menu-item">
           <a onClick={this.logOut}>
             <i className="fas fa-power-off" /> {String.t('Header.logOutMenu')}
@@ -466,21 +425,6 @@ class Header extends Component {
             </div>
           </div>
         </div>
-        {this.props.isAdminMode && (
-          <div className="habla-top-menu-item habla-top-menu-item-admin">
-            <div className="habla-top-menu-item-content">
-              <Button
-                type="primary"
-                size="small"
-                block
-                className="adminRoleButton"
-                onClick={() => this.props.history.push(`/app/editOrganization/${currentSubscriberOrgId}/teams`)}
-              >
-                {String.t('roles.admin')}
-              </Button>
-            </div>
-          </div>
-        )}
         <div className="clear" />
       </div>
     );
