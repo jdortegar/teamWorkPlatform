@@ -13,7 +13,6 @@ const defaultProps = {
 };
 
 const Suggestion = ({ needle, shouldRenderSuggestion, value }) => {
-  console.warn('Suggestion: ', value);
   if (shouldRenderSuggestion && value && !shouldRenderSuggestion(value)) {
     return null;
   }

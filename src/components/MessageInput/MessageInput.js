@@ -351,17 +351,16 @@ class MessageInput extends React.Component {
             <Form onSubmit={this.handleSubmit} className="login-form" autoComplete="off">
               <Form.Item className="team-room__chat-input-form-item" hasFeedback={false}>
                 <InlineSuggest
-                  suggestions={data}
-                  ignoreCase
                   navigate
                   form={form}
+                  suggestions={data}
                   initialValue={textToEdit}
                   shouldRenderSuggestion={val => size(val) >= 2}
+                  onInputKeyDown={this.handleKeyDown}
+                  onInputFocus={this.handleTyping}
                   inputClassName="team-room__chat-input-textfield"
                   inputProps={{
                     placeholder: Str.t('chat.replyPlaceholder'),
-                    onKeyDown: this.handleKeyDown,
-                    onFocus: this.handleTyping,
                     ref: this.textInput,
                     autoFocus: true
                   }}

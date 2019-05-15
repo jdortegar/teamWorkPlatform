@@ -32,6 +32,7 @@ const propTypes = {
   navigate: PropTypes.bool,
   shouldRenderSuggestion: PropTypes.func,
   getSuggestionValue: PropTypes.func,
+  onInputFocus: PropTypes.func,
   onInputBlur: PropTypes.func,
   onInputChange: PropTypes.func,
   onInputKeyDown: PropTypes.func,
@@ -49,15 +50,18 @@ const defaultProps = {
   getSuggestionValue: null,
   shouldRenderSuggestion: null,
   onInputBlur: null,
+  onInputFocus: null,
   onInputChange: null,
   onInputKeyDown: null,
   onMatch: null
 };
 
 class InlineSuggest extends React.Component {
-  state = { activeIndex: -1 };
+  state = { keyword: null, activeIndex: -1 };
 
   memoizedFilterSuggestions = memoize(filterSuggestions);
+
+  noSuggestions = () => this.state.activeIndex === -1;
 
   fireOnChange = value => {
     if (this.props.onInputChange) {
@@ -67,11 +71,18 @@ class InlineSuggest extends React.Component {
 
   handleOnChange = e => {
     const { value } = e.currentTarget;
-    const { getSuggestionValue, suggestions, ignoreCase, form } = this.props;
+    const { suggestions, ignoreCase, form } = this.props;
 
-    const newMatchedArray = this.memoizedFilterSuggestions(value, suggestions, Boolean(ignoreCase), getSuggestionValue);
+    const { keyword, suggestionsFound } = this.memoizedFilterSuggestions(
+      value,
+      suggestions,
+      ignoreCase,
+      this.extractSuggestionValue
+    );
 
-    this.setState({ activeIndex: newMatchedArray.length > 0 ? 0 : -1 });
+    console.warn({ keyword, suggestionsFound });
+
+    this.setState({ keyword, activeIndex: suggestionsFound.length > 0 ? 0 : -1 });
     form.setFieldsValue({ message: value });
     this.fireOnChange(value);
   };
@@ -116,27 +127,28 @@ class InlineSuggest extends React.Component {
     const { keyCode } = e;
 
     if (this.state.activeIndex >= 0 && (keyCode === KeyEnum.TAB || keyCode === KeyEnum.RIGHT_ARROW)) {
-      const matchedSuggestions = this.getMatchedSuggestions();
-      const matchedValue = matchedSuggestions[this.state.activeIndex];
+      const message = `${this.getValue()}${this.getNeedle()}`;
 
-      const value = this.props.getSuggestionValue ? this.props.getSuggestionValue(matchedValue) : String(matchedValue);
-
-      form.setFieldsValue({ message: value });
-      this.fireOnChange(value);
+      form.setFieldsValue({ message });
+      this.fireOnChange(message);
+      this.setState({ keyword: message, activeIndex: -1 });
 
       if (this.props.onMatch) {
+        const matchedSuggestions = this.getMatchedSuggestions();
+        const matchedValue = matchedSuggestions[this.state.activeIndex];
         this.props.onMatch(matchedValue);
       }
     }
   };
 
   getMatchedSuggestions = () => {
-    return this.memoizedFilterSuggestions(
+    const { suggestionsFound } = this.memoizedFilterSuggestions(
       this.getValue(),
       this.props.suggestions,
       Boolean(this.props.ignoreCase),
-      this.props.getSuggestionValue
+      this.extractSuggestionValue
     );
+    return suggestionsFound;
   };
 
   getNeedle = () => {
@@ -147,12 +159,14 @@ class InlineSuggest extends React.Component {
     }
 
     return getNeedleFromString(
-      this.props.getSuggestionValue
-        ? this.props.getSuggestionValue(matchedSuggestions[this.state.activeIndex])
-        : String(matchedSuggestions[this.state.activeIndex]),
-      this.getValue()
+      this.extractSuggestionValue(matchedSuggestions[this.state.activeIndex]),
+      this.getValue(),
+      this.state.keyword
     );
   };
+
+  extractSuggestionValue = suggestion =>
+    this.props.getSuggestionValue ? this.props.getSuggestionValue(suggestion) : String(suggestion);
 
   getValue = () => {
     const { message } = this.props.form.getFieldsValue();
@@ -160,7 +174,7 @@ class InlineSuggest extends React.Component {
   };
 
   render() {
-    const { form, initialValue, shouldRenderSuggestion, inputClassName, inputProps } = this.props;
+    const { form, initialValue, shouldRenderSuggestion, inputClassName, inputProps, onInputFocus } = this.props;
     const { getFieldDecorator } = form;
 
     return (
@@ -172,6 +186,7 @@ class InlineSuggest extends React.Component {
             onBlur={this.handleOnBlur}
             onKeyDown={this.handleOnKeyDown}
             onKeyUp={this.handleOnKeyUp}
+            onFocus={onInputFocus}
             {...inputProps}
           />
         )}
