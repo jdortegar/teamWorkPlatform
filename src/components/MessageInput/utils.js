@@ -1,17 +1,17 @@
+import { startsWith } from 'lodash';
+
 export const filterSuggestions = (value, suggestions, ignoreCase, extractSuggestionValue) => {
   let keyword = value;
   let suggestionsFound = [];
   let done = false;
 
+  const matchSuggestion = term => suggestion => startsWith(extractSuggestionValue(suggestion), term);
+
   if (keyword && keyword.length >= 2) {
     do {
-      if (keyword.trim().length >= 2) {
-        const rx = RegExp(`^${keyword}`, ignoreCase ? 'i' : undefined);
-        console.warn({ rx, key: `^${keyword}`, result: rx.test(extractSuggestionValue(suggestions[87])) });
-        suggestionsFound = suggestions.filter(s => rx.test(extractSuggestionValue(s)));
-      }
-
+      suggestionsFound = suggestions.filter(matchSuggestion(keyword));
       done = keyword.length <= 2 || suggestionsFound.length > 0;
+      console.warn({ keyword, done });
       if (!done) keyword = keyword.slice(1);
     } while (!done);
   }
