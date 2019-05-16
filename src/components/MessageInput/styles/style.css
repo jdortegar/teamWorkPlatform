@@ -30,6 +30,7 @@
 }
 
 .InlineSuggest__suggestion {
+  white-space: pre;
   line-height: 28px;
   display: inline-block;
   position: absolute;
@@ -40,20 +41,3 @@
   opacity: 0.4;
   border-color: transparent;
 }
-
-/* .input-predict-input,
-.input-predict-suggestion {
-  width: 100%;
-  height: 50px;
-}
-
-.input-predict-input {
-  z-index: 5 !important;
-  position: relative;
-}
-
-.input-predict-suggestion {
-  color: #999;
-  z-index: 4 !important;
-  left: 0;
-} */

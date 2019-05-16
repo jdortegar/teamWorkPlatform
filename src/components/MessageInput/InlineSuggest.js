@@ -73,6 +73,8 @@ class InlineSuggest extends React.Component {
     const { value } = e.currentTarget;
     const { suggestions, ignoreCase, form } = this.props;
 
+    form.setFieldsValue({ message: value });
+
     const { keyword, suggestionsFound } = this.memoizedFilterSuggestions(
       value,
       suggestions,
@@ -80,10 +82,7 @@ class InlineSuggest extends React.Component {
       this.extractSuggestionValue
     );
 
-    console.warn({ keyword, suggestionsFound });
-
     this.setState({ keyword, activeIndex: suggestionsFound.length > 0 ? 0 : -1 });
-    form.setFieldsValue({ message: value });
     this.fireOnChange(value);
   };
 
@@ -153,14 +152,10 @@ class InlineSuggest extends React.Component {
 
   getNeedle = () => {
     const matchedSuggestions = this.getMatchedSuggestions();
-
-    if (!matchedSuggestions[this.state.activeIndex]) {
-      return '';
-    }
+    if (!matchedSuggestions[this.state.activeIndex]) return '';
 
     return getNeedleFromString(
       this.extractSuggestionValue(matchedSuggestions[this.state.activeIndex]),
-      this.getValue(),
       this.state.keyword
     );
   };
