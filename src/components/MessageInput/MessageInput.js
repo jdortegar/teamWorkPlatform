@@ -14,7 +14,7 @@ import InlineSuggest from './InlineSuggest';
 import 'emoji-mart/css/emoji-mart.css';
 import './styles/style.css';
 
-import data from './data';
+import suggestions from './suggestions.json';
 
 const propTypes = {
   user: PropTypes.object.isRequired,
@@ -239,8 +239,6 @@ class MessageInput extends React.Component {
         const { form, messageToEdit } = this.props;
         const text = values.message ? values.message.trim() : '';
 
-        console.warn('TEXT SUBMITTED:', text);
-
         this.stopTyping();
         this.clearTypingTimer();
 
@@ -353,7 +351,7 @@ class MessageInput extends React.Component {
                 <InlineSuggest
                   navigate
                   form={form}
-                  suggestions={data}
+                  suggestions={suggestions}
                   initialValue={textToEdit}
                   shouldRenderSuggestion={val => size(val) >= 2}
                   onInputKeyDown={this.handleKeyDown}

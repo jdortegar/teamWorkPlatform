@@ -1,6 +1,6 @@
 import { startsWith } from 'lodash';
 
-export const filterSuggestions = (value, suggestions, ignoreCase, extractSuggestionValue) => {
+export const filterSuggestions = (value = '', suggestions = [], extractSuggestionValue = v => v) => {
   let keyword = value;
   let suggestionsFound = [];
   let done = false;

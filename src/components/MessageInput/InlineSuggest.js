@@ -5,13 +5,13 @@ import { Input } from 'antd';
 import classNames from 'classnames';
 
 import { formShape } from 'src/propTypes';
-import Suggestion from './Suggestion';
 import {
   filterSuggestions,
   getNeedleFromString,
   getNextSafeIndexFromArray,
   getPreviousSafeIndexFromArray
-} from './utils';
+} from 'src/lib/suggestions';
+import Suggestion from './Suggestion';
 
 const KeyEnum = {
   TAB: 9,
@@ -28,7 +28,6 @@ const propTypes = {
   className: PropTypes.string,
   inputClassName: PropTypes.string,
   inputProps: PropTypes.object,
-  ignoreCase: PropTypes.bool,
   navigate: PropTypes.bool,
   shouldRenderSuggestion: PropTypes.func,
   getSuggestionValue: PropTypes.func,
@@ -41,7 +40,6 @@ const propTypes = {
 
 const defaultProps = {
   initialValue: null,
-  ignoreCase: false,
   suggestions: [],
   navigate: false,
   className: '',
@@ -71,14 +69,13 @@ class InlineSuggest extends React.Component {
 
   handleOnChange = e => {
     const { value } = e.currentTarget;
-    const { suggestions, ignoreCase, form } = this.props;
+    const { suggestions, form } = this.props;
 
     form.setFieldsValue({ message: value });
 
     const { keyword, suggestionsFound } = this.memoizedFilterSuggestions(
       value,
       suggestions,
-      ignoreCase,
       this.extractSuggestionValue
     );
 
@@ -144,7 +141,6 @@ class InlineSuggest extends React.Component {
     const { suggestionsFound } = this.memoizedFilterSuggestions(
       this.getValue(),
       this.props.suggestions,
-      Boolean(this.props.ignoreCase),
       this.extractSuggestionValue
     );
     return suggestionsFound;
