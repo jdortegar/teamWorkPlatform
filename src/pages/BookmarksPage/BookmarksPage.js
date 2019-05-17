@@ -61,7 +61,7 @@ class BookmarksPage extends Component {
 
     return (
       <div>
-        <PageHeader pageBreadCrumb={{ routes: [{ title: String.t('bookmarksPage.title') }] }} backButton />
+        <PageHeader pageBreadCrumb={{ routes: [{ title: String.t('bookmarksPage.title') }] }} backButton settingsIcon />
         {isEmpty(bookmarks) && (
           <div className="habla__placeholder-centered-container">
             <div className="habla__placeholder-centered-text">{String.t('bookmarksPage.noBookmarks')}</div>

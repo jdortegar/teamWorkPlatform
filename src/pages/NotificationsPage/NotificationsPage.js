@@ -28,7 +28,7 @@ class NotificationsPage extends Component {
 
     return (
       <div>
-        <PageHeader backButton pageBreadCrumb={pageBreadCrumb} />
+        <PageHeader backButton settingsIcon pageBreadCrumb={pageBreadCrumb} />
         <div className="notification-body">
           <div className="homePage__activity-container margin-top-class-b">
             <div className="homePage__activity-item">

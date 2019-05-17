@@ -119,7 +119,7 @@ class EditUserPage extends Component {
 
     return (
       <div className="userAccountSetting">
-        <PageHeader pageBreadCrumb={pageBreadCrumb} settingsIcon />
+        <PageHeader pageBreadCrumb={pageBreadCrumb} backButton settingsIcon />
         <Form onSubmit={this.handleSubmit} layout="vertical">
           <Collapse defaultActiveKey={['1']} className="edituser_collapse">
             <Panel header={String.t('editUserPage.profileSettings')} key="1" className="ant-collapse-header">

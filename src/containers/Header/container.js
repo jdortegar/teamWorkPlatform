@@ -7,18 +7,9 @@ import {
   getSearchQuery,
   getSearchTeamId,
   isSearchCaseSensitive,
-  isSearchExactMatch,
-  isAdminMode
+  isSearchExactMatch
 } from 'src/selectors';
-import {
-  logoutUser,
-  updateUser,
-  search,
-  clearSearch,
-  toggleCaseSensitive,
-  toggleExactMatch,
-  setAdminMode
-} from 'src/actions';
+import { logoutUser, updateUser, search, clearSearch, toggleCaseSensitive, toggleExactMatch } from 'src/actions';
 
 const mapStateToProps = state => ({
   user: getCurrentUser(state),
@@ -26,8 +17,7 @@ const mapStateToProps = state => ({
   teamId: getSearchTeamId(state),
   caseSensitive: isSearchCaseSensitive(state),
   exactMatch: isSearchExactMatch(state),
-  currentSubscriberOrgId: getCurrentSubscriberOrgId(state),
-  isAdminMode: isAdminMode(state)
+  currentSubscriberOrgId: getCurrentSubscriberOrgId(state)
 });
 
 const mapDispatchToProps = {
@@ -36,8 +26,7 @@ const mapDispatchToProps = {
   search,
   clearSearch,
   toggleCaseSensitive,
-  toggleExactMatch,
-  setAdminMode
+  toggleExactMatch
 };
 
 export default withRouter(
