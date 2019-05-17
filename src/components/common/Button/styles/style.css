@@ -54,9 +54,13 @@
 .habla-button--type-alert,
 .habla-button--type-alert:focus {
   background: #eb4435;
+  color: #fff;
+  border: none;
 }
 .habla-button--type-alert:hover {
   background: #ce0f00;
+  color: #fff;
+  border: none;
 }
 .habla-button--type-disable,
 .habla-button--type-disable:focus {

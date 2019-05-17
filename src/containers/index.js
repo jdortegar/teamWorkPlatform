@@ -42,6 +42,7 @@ export OrgIntegrationPage from './OrgIntegrationPage';
 export PersonalizeTeamModal from './PersonalizeTeamModal';
 export PublicTeams from './PublicTeams';
 export RequestNotification from './RequestNotification';
+export ScheduleMessageModal from './ScheduleMessageModal';
 export SetNewPassword from './SetNewPassword';
 export ShareModal from './ShareModal';
 export Sidebar from './Sidebar';

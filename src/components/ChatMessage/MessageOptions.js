@@ -12,12 +12,14 @@ const propTypes = {
   onAddReaction: PropTypes.func.isRequired,
   bookmarked: PropTypes.bool,
   showOptions: PropTypes.bool,
-  attachments: PropTypes.array.isRequired
+  attachments: PropTypes.array.isRequired,
+  showReply: PropTypes.bool
 };
 
 const defaultProps = {
   bookmarked: false,
-  showOptions: false
+  showOptions: false,
+  showReply: true
 };
 
 const MessageOptions = ({
@@ -29,20 +31,23 @@ const MessageOptions = ({
   handleShareProfile,
   handleEditMessage,
   onAddReaction,
-  attachments
+  attachments,
+  showReply
 }) => (
   <div className="message__options hide">
-    <Tooltip placement="topLeft" title={String.t('message.tooltipReply')}>
-      <a
-        className="message__icons"
-        onClick={e => {
-          e.stopPropagation();
-          onReply(true);
-        }}
-      >
-        <i className="fas fa-reply" />
-      </a>
-    </Tooltip>
+    {showReply && (
+      <Tooltip placement="topLeft" title={String.t('message.tooltipReply')}>
+        <a
+          className="message__icons"
+          onClick={e => {
+            e.stopPropagation();
+            onReply(true);
+          }}
+        >
+          <i className="fas fa-reply" />
+        </a>
+      </Tooltip>
+    )}
     <Tooltip placement="topLeft" title={String.t('message.tooltipAddReaction')}>
       <a
         className="message__icons"

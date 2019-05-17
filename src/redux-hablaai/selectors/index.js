@@ -7,6 +7,7 @@ export * from './integrations';
 export * from './invitations';
 export * from './messages';
 export * from './requests';
+export * from './schedules';
 export * from './search';
 export * from './sharingSettings';
 export * from './subscriberOrgs';

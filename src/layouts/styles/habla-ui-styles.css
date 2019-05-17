@@ -1046,6 +1046,7 @@ p {
 .ant-popover,
 .ant-select-dropdown {
   font-family: 'Noto Sans JP', sans-serif;
+  z-index: 1000;
 }
 
 .ant-tooltip .ant-tooltip-inner {

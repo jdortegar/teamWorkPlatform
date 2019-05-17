@@ -476,6 +476,7 @@ class ChatMessage extends Component {
               handleShareProfile={this.handleShareProfile}
               handleEditMessage={this.handleEditMessage}
               onAddReaction={this.toogleEmojiState}
+              showReply={!message.appData.globalScheduleId}
             />
           )}
         </Row>
