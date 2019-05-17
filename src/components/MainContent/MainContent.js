@@ -209,7 +209,7 @@ class MainContent extends Component {
       invitation = invitation.sort(sortByLastCreatedFirst).filter(inv => {
         // if already a member of the org or team, don't include the invite
         const { teamId } = inv;
-        if (teamId && teams[teamId]) {
+        if (teamId && teams[teamId] && !teams[teamId].preferences.public) {
           return false;
         }
 
