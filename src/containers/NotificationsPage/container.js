@@ -1,21 +1,35 @@
 import { connect } from 'react-redux';
-import { toggleSideBar } from 'src/actions';
-import { getCurrentUser, getCurrentSubscriberOrg } from 'src/selectors';
+import { toggleSideBar, fetchScheduleMessages } from 'src/actions';
+import {
+  getCurrentUser,
+  getCurrentSubscriberOrg,
+  getSchedulesById,
+  getConversationIdsByTeam,
+  getConversationIdsByMember,
+  getOrgSubscribers,
+  getOrgTeams,
+  getConversationIds
+} from 'src/selectors';
 import { NotificationsPage } from 'src/pages';
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
     user: getCurrentUser(state),
     sideBarIsHidden: state.sideBar.hidden,
-    org: getCurrentSubscriberOrg(state)
+    org: getCurrentSubscriberOrg(state),
+    scheduleMessages: getSchedulesById(state),
+    conversationIdsByTeam: getConversationIdsByTeam(state),
+    conversationIdsByMember: getConversationIdsByMember(state),
+    subscribers: getOrgSubscribers(state),
+    teams: getOrgTeams(state),
+    conversationIds: getConversationIds(state)
   };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-  return {
-    toggleSideBar: () => dispatch(toggleSideBar())
-  };
-}
+const mapDispatchToProps = {
+  fetchScheduleMessages,
+  toggleSideBar
+};
 
 export default connect(
   mapStateToProps,

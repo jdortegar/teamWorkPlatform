@@ -45,6 +45,7 @@ export PreviewAttachments from './PreviewAttachments';
 export PreviewBar from './PreviewBar';
 export PreviewMessageModal from './PreviewMessageModal';
 export ResultsList from './ResultsList';
+export ScheduleMessageModal from './ScheduleMessageModal';
 export ShareModal from './ShareModal';
 export SharingSettings from './SharingSettings';
 export Sidebar from './Sidebar';

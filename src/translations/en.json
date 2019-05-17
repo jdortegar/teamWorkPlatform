@@ -1,6 +1,8 @@
 {
   "okButton": "OK",
   "cancelButton": "Cancel",
+  "confirmButton": "Confirm",
+  "editButton": "Edit",
   "manageOrg": "Manage Organization",
   "settings": "Settings",
   "errUnknownResponse": "An error occurred:\n\n{{response}}",
@@ -621,7 +623,8 @@
       "bookmarked": "Bookmarked"
     },
     "unReadNotifications": "UNREAD NOTIFICATIONS",
-    "markAllAsRead": "Mark all as read"
+    "markAllAsRead": "Mark all as read",
+    "scheduleBotMessage": "Habla AI Bot - Scheduled Message for {{recipient}} to be send on {{date}}"
   },
   "graphActivityMenu": {
     "activityLabel": "Select Activity",
@@ -964,6 +967,17 @@
     "dataSharedSuccefully": "The data have been successfully shared",
     "forwarded": "Forwarded from {{user}}"
   },
+  "scheduleMessage": {
+    "selectDateTime": "Select Date and Time",
+    "confirm": "Schedule Send",
+    "warningMessage": "Please write your message first if you want to use our scheduling feature.",
+    "confirmMessage": "Your message has been scheduled.",
+    "deleteScheduledMessage": "Delete Scheduled Message",
+    "editScheduledMessage": "Edit Scheduled Message",
+    "globalScheduleMessage": "Schedule Global Message",
+    "scheduleCanceled": "Your schedule message was canceled",
+    "scheduleEdited": "Your schedule message was edited properly"
+  },
   "teamAvatarWrapper": {
     "request": "Request Invite to Project Team",
     "videoCall": "Start Team Video Call",
@@ -975,7 +989,6 @@
     "requestToJoin": "\"{{userFullName}}\" request to Join \"{{teamName}}\" Project Team"
   },
   "scheduleSystemPage": {
-    "title": "Schedule System-wide Message",
     "menuTitle": "Schedule System-wide Message"
   }
 }

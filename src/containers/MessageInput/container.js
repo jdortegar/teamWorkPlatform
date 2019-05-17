@@ -7,6 +7,7 @@ import {
   fetchConversations,
   fetchMessages,
   createMessage,
+  createScheduleMessage,
   updateMessage,
   deleteMessage,
   sendTyping
@@ -19,18 +20,26 @@ import {
   getUserByUserId,
   getPresencesOfSubscribersOfOrgId,
   getResourcesUrl,
-  getMembersTyping
+  getMembersTyping,
+  getConversation,
+  getUserFullName
 } from 'src/selectors';
 
 const mapStateToProps = (state, props) => {
   const { teamId, conversationId } = props;
   const orgId = getCurrentSubscriberOrgId(state);
+  const user = getCurrentUser(state);
+  const conversation = getConversation(state, conversationId);
+
+  const currentConversationUserId = conversation.members.find(userEl => userEl.userId !== user.userId);
+  const currentConversationUserFullName = getUserFullName(state, currentConversationUserId);
 
   return {
     orgId,
+    user,
     conversationId,
+    currentConversationUserFullName,
     team: getTeam(state, teamId),
-    user: getCurrentUser(state),
     teamMembers: getTeamMembersOfTeamId(state, teamId),
     users: getUserByUserId(state),
     usersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
@@ -44,6 +53,7 @@ const mapDispatchToProps = {
   fetchConversations,
   fetchMessages,
   createMessage,
+  createScheduleMessage,
   updateMessage,
   deleteMessage,
   sendTyping

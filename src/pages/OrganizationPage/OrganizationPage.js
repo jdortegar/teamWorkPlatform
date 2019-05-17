@@ -8,7 +8,7 @@ import String from 'src/translations';
 import config from 'src/config/env';
 import { hablaFullBlackLogoIcon } from 'src/img';
 import { PageHeader, SimpleCardContainer, Spinner } from 'src/components';
-import { SubscriptionModal } from 'src/containers';
+import { SubscriptionModal, ScheduleMessageModal } from 'src/containers';
 import Avatar from 'src/components/common/Avatar';
 import CardView from './CardView';
 import './styles/style.css';
@@ -66,7 +66,8 @@ class OrganizationPage extends Component {
     subscribersLoaded: false,
     modalVisible: false,
     subscriptionLoaded: false,
-    hablaModalVisible: false
+    hablaModalVisible: false,
+    scheduleModalVisible: false
   };
 
   componentDidMount() {
@@ -132,6 +133,11 @@ class OrganizationPage extends Component {
 
   redirectPublicSite = () => {
     window.open('https://www.habla.ai/plans.html', '_blank');
+  };
+
+  showScheduleMessageModal = hide => {
+    if (!hide) return this.setState({ scheduleModalVisible: false });
+    return this.setState({ scheduleModalVisible: !this.state.scheduleModalVisible });
   };
 
   render() {
@@ -205,7 +211,7 @@ class OrganizationPage extends Component {
           {
             icon: 'fas fa-cog',
             title: 'scheduleSystemPage.menuTitle',
-            url: `/app/notifications`
+            onClick: () => this.showScheduleMessageModal(true)
           }
         );
       }
@@ -278,6 +284,15 @@ class OrganizationPage extends Component {
             </div>
           </div>
           <SubscriptionModal visible={this.state.modalVisible} showModal={this.showModal} />
+          {this.state.scheduleModalVisible && (
+            <ScheduleMessageModal
+              subtitle={subscriberOrg.name}
+              text=""
+              visible={this.state.scheduleModalVisible}
+              showScheduleMessageModal={this.showScheduleMessageModal}
+              action="createGlobal"
+            />
+          )}
         </div>
       );
     }

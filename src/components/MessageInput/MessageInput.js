@@ -8,7 +8,7 @@ import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';
 import { formShape } from 'src/propTypes';
 import { PreviewBar } from 'src/components';
-import { AvatarWrapper } from 'src/containers';
+import { AvatarWrapper, ScheduleMessageModal } from 'src/containers';
 import './styles/style.css';
 
 // Hack for use String functions
@@ -16,11 +16,14 @@ import Str from 'src/translations';
 
 const propTypes = {
   user: PropTypes.object.isRequired,
+  currentConversationUserFullName: PropTypes.string,
+  team: PropTypes.object,
   conversationId: PropTypes.string.isRequired,
   form: formShape.isRequired,
   files: PropTypes.array,
   sendTyping: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
+  createScheduleMessage: PropTypes.func.isRequired,
   updateMessage: PropTypes.func.isRequired,
   removeFileFromList: PropTypes.func,
   addBase: PropTypes.func,
@@ -36,6 +39,8 @@ const propTypes = {
 };
 
 const defaultProps = {
+  team: null,
+  currentConversationUserFullName: null,
   files: [],
   replyTo: null,
   messageToEdit: null,
@@ -58,8 +63,9 @@ class MessageInput extends React.Component {
     this.state = {
       showPreviewBox: false,
       fileProgress: null,
-      showEmojiPicker: false,
-      textToEdit: null
+      scheduleModalVisible: false,
+      textToEdit: null,
+      loadingScheduleConfirm: null
     };
   }
 
@@ -245,10 +251,82 @@ class MessageInput extends React.Component {
     });
   };
 
+  showScheduleMessageModal = hide => {
+    const { message } = this.props.form.getFieldsValue();
+    const text = message ? message.trim() : '';
+    if (text.length === 0) {
+      msg.warning(Str.t('scheduleMessage.warningMessage'));
+    } else {
+      if (!hide) return this.setState({ scheduleModalVisible: false, loadingScheduleConfirm: false });
+      return this.setState({ scheduleModalVisible: !this.state.scheduleModalVisible });
+    }
+    return false;
+  };
+
+  handleScheduleMessage = (e, date) => {
+    if (this.isSubmitInvalid()) return;
+    e.preventDefault();
+
+    this.setState({ loadingScheduleConfirm: true });
+
+    this.props.form.validateFields(async (err, values) => {
+      if (!err) {
+        const { form } = this.props;
+        const text = values.message ? values.message.trim() : '';
+
+        this.stopTyping();
+        this.clearTypingTimer();
+
+        const { files } = this.props;
+        if (!text && isEmpty(files)) return;
+
+        try {
+          const { conversationId, replyTo, createScheduleMessage } = this.props;
+
+          if (isEmpty(files)) {
+            createScheduleMessage({ text, conversationId, replyTo, date });
+          } else {
+            const requests = files.map((file, index) =>
+              createScheduleMessage({
+                text: index === 0 ? text : undefined, // add text to first message only
+                conversationId,
+                replyTo,
+                file,
+                onFileUploadProgress: this.handleFileUploadProgress,
+                date
+              })
+            );
+
+            await Promise.all(requests);
+          }
+
+          this.setState({ fileProgress: null, showPreviewBox: false });
+          this.props.handleReplyMessage(false);
+          this.props.clearFileList();
+
+          this.setState({ loadingScheduleConfirm: false });
+          this.showScheduleMessageModal(false);
+
+          msg.success(Str.t('scheduleMessage.confirmMessage'));
+        } catch (error) {
+          msg.error(error.message);
+          this.props.handleReplyMessage(false);
+          if (!isEmpty(files)) {
+            this.props.updateFileList(files);
+            this.setState({ fileProgress: null });
+          }
+        }
+
+        form.resetFields();
+      }
+    });
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { user, messageToEdit } = this.props;
+    const { user, messageToEdit, team, currentConversationUserFullName } = this.props;
     const { fileProgress, textToEdit } = this.state;
+    const { message } = this.props.form.getFieldsValue();
 
     return (
       <div>
@@ -292,7 +370,30 @@ class MessageInput extends React.Component {
             >
               <i className="far fa-smile" />
             </a>
-            <div className="emoji-table">{this.state.showEmojiPicker && <Picker onClick={this.addEmoji} />}</div>
+            {this.state.showEmojiPicker && (
+              <div className="emoji-table">
+                <Picker onClick={this.addEmoji} />
+              </div>
+            )}
+            <a
+              className="team-room__icons"
+              role="button"
+              tabIndex={0}
+              disabled={this.isSubmitInvalid()}
+              onClick={this.showScheduleMessageModal}
+            >
+              <i className="far fa-clock" />
+            </a>
+            {this.state.scheduleModalVisible && (
+              <ScheduleMessageModal
+                subtitle={team ? team.name : currentConversationUserFullName}
+                text={message}
+                visible={this.state.scheduleModalVisible}
+                showScheduleMessageModal={this.showScheduleMessageModal}
+                onConfirmed={this.handleScheduleMessage}
+                loading={this.state.loadingScheduleConfirm}
+              />
+            )}
             <div>
               <input
                 id="fileupload"

@@ -135,9 +135,7 @@ class TeamPage extends Component {
       {
         icon: 'fa fa-phone',
         title: 'TeamPage.startVideoCall',
-        onClick: () => {
-          this.props.makeTeamCall(user.userId, team.teamId);
-        }
+        onClick: () => this.props.makeTeamCall(user.userId, team.teamId)
       },
       {
         icon: 'fas fa-cog',

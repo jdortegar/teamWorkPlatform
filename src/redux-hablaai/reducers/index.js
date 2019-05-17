@@ -7,6 +7,7 @@ import integrations from './integrationsReducer';
 import invitations from './invitationsReducer';
 import messages from './messagesReducer';
 import presences from './presencesReducer';
+import schedules from './schedulesReducer';
 import requests from './requestsReducer';
 import search from './searchReducer';
 import sentInvitations from './sentInvitationsReducer';
@@ -34,6 +35,7 @@ const reducers = {
   messages,
   presences,
   requests,
+  schedules,
   search,
   sentInvitations,
   sharingSettings,
