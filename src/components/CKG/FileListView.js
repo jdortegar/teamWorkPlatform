@@ -11,7 +11,7 @@ import { ResultsList } from 'src/components';
 import { AvatarWrapper } from 'src/containers';
 import FileDnD from './FileDnD';
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 16;
 
 const propTypes = {
   files: PropTypes.array,

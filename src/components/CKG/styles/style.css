@@ -21,6 +21,8 @@
   flex-grow: 1;
   flex-direction: column;
   position: relative;
+  height: 100vh;
+  overflow: scroll;
 }
 .FileListView .FileListView__results.loading {
   display: flex;
