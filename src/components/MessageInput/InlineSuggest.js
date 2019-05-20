@@ -101,7 +101,7 @@ class InlineSuggest extends React.Component {
     const { keyCode } = e;
     const { navigate } = this.props;
 
-    const allowedKeyCodes = [KeyEnum.TAB, KeyEnum.ENTER, KeyEnum.UP_ARROW, KeyEnum.DOWN_ARROW];
+    const allowedKeyCodes = [KeyEnum.TAB, KeyEnum.UP_ARROW, KeyEnum.DOWN_ARROW];
 
     if (allowedKeyCodes.includes(keyCode)) {
       e.preventDefault();
