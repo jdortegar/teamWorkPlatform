@@ -477,7 +477,8 @@
     "saveButtonLabel": "Save",
     "profileSettings": "Profile Settings",
     "setProfilePhoto": "Add a Photo",
-    "removeImageLabel": "Remove"
+    "removeImageLabel": "Remove",
+    "smartChat": "Smart Chat"
   },
   "SurveyReportPage": {
     "title": "Productivity Index Survey Report",

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import countriesAndTimezones from 'countries-and-timezones';
 import classNames from 'classnames';
-import { Collapse, Form, message } from 'antd';
+import { Collapse, Form, Tooltip, message } from 'antd';
 
 import String from 'src/translations';
 import { formShape } from 'src/propTypes';
@@ -14,6 +14,7 @@ import {
   CountrySelectField,
   TimezoneSelectField,
   UploadImageField,
+  SwitchField,
   PageHeader
 } from 'src/components';
 import './styles/style.css';
@@ -29,14 +30,8 @@ const propTypes = {
     push: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired
   }).isRequired,
-  currentUser: PropTypes.object.isRequired,
-  users: PropTypes.object.isRequired,
-  updateUser: PropTypes.func.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      userId: PropTypes.string.isRequired
-    }).isRequired
-  }).isRequired
+  user: PropTypes.object.isRequired,
+  updateUser: PropTypes.func.isRequired
 };
 
 class EditUserPage extends Component {
@@ -56,15 +51,11 @@ class EditUserPage extends Component {
   }
 
   onRemoveImage() {
-    this.setState({
-      userIcon: null
-    });
+    this.setState({ userIcon: null });
   }
 
   onChangeProfilePhoto(base64) {
-    this.setState({
-      userIcon: base64
-    });
+    this.setState({ userIcon: base64 });
   }
 
   handleCountryChange(countryCode) {
@@ -76,16 +67,19 @@ class EditUserPage extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
+        const { user } = this.props;
+        const { preferences = {} } = user;
         const dataToUpdate = {
           firstName: values.firstName.trim(),
           lastName: values.lastName.trim(),
           timeZone: values.timeZone,
           country: values.country,
           email: values.email.trim(),
-          icon: this.state.userIcon
+          icon: this.state.userIcon,
+          preferences: { ...preferences, smartChat: values.smartChat }
         };
         this.props
-          .updateUser(dataToUpdate)
+          .updateUser(dataToUpdate, user.userId)
           .then(() => {
             this.setState({ loading: false });
             this.props.history.goBack();
@@ -100,8 +94,8 @@ class EditUserPage extends Component {
   }
 
   render() {
-    const { users, match, currentUser } = this.props;
-    const user = Object.values(users).find(userEl => userEl.userId === match.params.userId) || currentUser;
+    const { user } = this.props;
+    const { preferences = {} } = user;
     const containerImage = classNames({
       container__image: true,
       'with-image': this.state.userIcon,
@@ -168,6 +162,23 @@ class EditUserPage extends Component {
                       initialValue={user.timeZone}
                       required
                     />
+                  </div>
+                </div>
+                <div className="row_input">
+                  <div className="input-item">
+                    <Tooltip placement="top" title={String.t('editUserPage.smartChat')}>
+                      <SwitchField
+                        checkedChildren={String.t('on')}
+                        unCheckedChildren={String.t('off')}
+                        form={this.props.form}
+                        componentKey="smartChat"
+                        initialValue={preferences.smartChat === undefined ? true : preferences.smartChat}
+                        valuePropName="checked"
+                      />
+                    </Tooltip>
+                    <div className="New-team__title margin-left-class-a habla-secon">
+                      {String.t('editUserPage.smartChat')}
+                    </div>
                   </div>
                 </div>
               </div>

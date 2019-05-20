@@ -11,6 +11,15 @@ export const getCurrentUser = createSelector(
   (userByUserId, currentUserId) => userByUserId[currentUserId]
 );
 
+export const isSmartChatEnabled = createSelector(
+  [getUserByUserId, getCurrentUserId],
+  (userByUserId, currentUserId) => {
+    const user = userByUserId[currentUserId] || {};
+    const { smartChat } = user.preferences || {};
+    return smartChat === undefined ? true : smartChat;
+  }
+);
+
 export const getUserFullName = createSelector(
   [getUserByUserId, (state, userId) => userId],
   (usersByUserId, userId) => (usersByUserId[userId] ? usersByUserId[userId].fullName : '')
