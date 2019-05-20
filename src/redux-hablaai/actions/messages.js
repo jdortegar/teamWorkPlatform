@@ -82,11 +82,6 @@ export const createMessage = ({
     content.push({ text, type: 'text/plain' });
   }
 
-  if (dataforShare) {
-    const [sharedContent] = dataforShare.content || [];
-    if (sharedContent) content.push(sharedContent);
-  }
-
   try {
     if (file) {
       // upload file and attach it to the message content
@@ -102,6 +97,13 @@ export const createMessage = ({
     }
 
     const data = { content, userId, replyTo: replyTo ? replyTo.id : undefined };
+    if (dataforShare && dataforShare.content[0].type === 'userId') {
+      content.push(dataforShare.content[0]);
+    } else if (dataforShare) {
+      content.push({ text: 'dataforShare', type: 'sharedData' });
+      data.appData = { dataforShare };
+    }
+
     const { data: message } = await dispatch(doAuthenticatedRequest({ requestUrl, method: 'post', data }, data));
 
     dispatch({ type: MESSAGE_CREATE_SUCCESS, payload: { message, conversationId } });

@@ -10,7 +10,7 @@ import {
   getPresencesOfSubscribersOfOrgId,
   getCurrentSubscriberOrg,
   getOrgTeams,
-  getConversationIdsByTeam
+  getConversationIdsByMember
 } from 'src/selectors';
 
 const mapStateToProps = state => {
@@ -21,7 +21,7 @@ const mapStateToProps = state => {
     subscribers: getOrgSubscribers(state),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
     teams: getOrgTeams(state),
-    conversationIdsByTeam: getConversationIdsByTeam(state)
+    conversationIdsByMember: getConversationIdsByMember(state)
   };
 };
 

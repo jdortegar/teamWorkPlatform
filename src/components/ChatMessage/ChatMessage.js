@@ -409,8 +409,8 @@ class ChatMessage extends Component {
       showMetadata,
       userRoles
     } = this.props;
-
-    const { content = [], created, children } = message;
+    if (!message) return false;
+    const { content = [], created, children, appData = null } = message;
     const { reactions } = this.state;
 
     const messageOwner = child && shareDataOwner ? shareDataOwner : sender;
@@ -449,7 +449,7 @@ class ChatMessage extends Component {
                       className={MessageTextClass}
                     />
                   )}
-                  {content[0].sharedData && !sharedProfile && this.renderBodyMessage(content[0].sharedData, true)}
+                  {content[0].type === 'sharedData' && appData && this.renderBodyMessage(appData.dataforShare, true)}
                   <div className={classNames(ownMessage ? 'message__inverted_order' : '')}>
                     <PreviewAttachments attachments={attachments} onLoadImage={onLoadMessage} />
                   </div>
@@ -497,7 +497,7 @@ class ChatMessage extends Component {
   render() {
     const { message, grouped, hide, unread } = this.props;
     const { showEditInput, showReplyInput } = this.state;
-    const { children, conversationId, replyTo } = message;
+    const { children, conversationId, replyTo, appData = null } = message;
     const { content } = message;
     if (isEmpty(content)) return null;
 
@@ -549,7 +549,7 @@ class ChatMessage extends Component {
           <ShareModal
             visible={this.state.shareModalVisible}
             showShareModal={this.showShareModal}
-            dataforShare={content[0].sharedData ? content[0].sharedData : message}
+            dataforShare={content[0].type === 'sharedData' ? appData.dataforShare : message}
             sharePT={this.state.sharePT}
           />
         )}
