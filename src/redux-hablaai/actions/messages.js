@@ -98,9 +98,10 @@ export const createMessage = ({
 
     const data = { content, userId, replyTo: replyTo ? replyTo.id : undefined };
     if (dataforShare && dataforShare.content[0].type === 'userId') {
-      content.push(dataforShare.content[0]);
+      content.push({ text: 'User Profile card', type: 'userId' });
+      data.appData = { userId: dataforShare.content[0].text };
     } else if (dataforShare) {
-      content.push({ text: 'dataforShare', type: 'sharedData' });
+      content.push({ text: 'New forwarded Message', type: 'sharedData' });
       data.appData = { dataforShare };
     }
 

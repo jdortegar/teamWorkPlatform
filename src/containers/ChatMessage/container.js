@@ -14,11 +14,11 @@ import {
 
 const mapStateToProps = (state, props) => {
   const currentUser = getCurrentUser(state);
-  const { id, createdBy, content } = props.message;
+  const { id, createdBy, content, appData } = props.message;
   const [mainContent = {}] = content;
   const bookmarked = isBookmarked(state, id);
   const ownMessage = currentUser.userId === createdBy;
-  const sharedProfileId = mainContent && mainContent.type === 'userId' ? mainContent.text : null;
+  const sharedProfileId = mainContent && appData && mainContent.type === 'userId' ? appData.userId : null;
   const shareDataOwnerId =
     mainContent && mainContent.type === 'sharedData' && mainContent.sharedData
       ? mainContent.sharedData.createdBy

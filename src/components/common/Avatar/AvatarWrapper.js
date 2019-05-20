@@ -182,7 +182,11 @@ class AvatarWrapper extends React.Component {
 
     const fullName = String.t('fullName', { firstName, lastName });
     const initials = getInitials(fullName);
-    const dataforShare = { content: [{ text: user.userId, type: 'userId' }], level: 0 };
+    const dataforShare = {
+      content: [{ text: user.userId, type: 'userId' }],
+      level: 0,
+      appData: { userId: user.userId }
+    };
 
     return (
       <div className={topClass}>
