@@ -12,7 +12,6 @@ import './styles/style.css';
 
 const propTypes = {
   form: formShape.isRequired,
-  org: PropTypes.object.isRequired,
   visible: PropTypes.bool.isRequired,
   showShareModal: PropTypes.func.isRequired,
   cancelButton: PropTypes.bool,
@@ -24,7 +23,7 @@ const propTypes = {
   createMessage: PropTypes.func.isRequired,
   teams: PropTypes.array,
   sharePT: PropTypes.bool,
-  fetchConversations: PropTypes.func.isRequired
+  conversationIdsByMember: PropTypes.object
 };
 
 const defaultProps = {
@@ -32,7 +31,8 @@ const defaultProps = {
   dataforShare: {},
   teams: [],
   sharePT: false,
-  user: false
+  user: false,
+  conversationIdsByMember: {}
 };
 
 class ShareModal extends React.Component {
@@ -65,24 +65,28 @@ class ShareModal extends React.Component {
   }
 
   getConversationId = async userId => {
-    const { org, user } = this.props;
-    const { data = {} } = await this.props.createConversation({
-      orgId: org.subscriberOrgId,
-      members: [user.userId, userId]
+    const { user, subscribers, conversationIdsByMember } = this.props;
+
+    if (conversationIdsByMember[userId]) return conversationIdsByMember[userId];
+
+    const member = subscribers.find(userEl => userEl.userId === userId);
+    const data = await this.props.createConversation({
+      members: [user.userId, member.userId],
+      title: `${user.firstName}, ${member.firstName}`,
+      description: `Conversation between ${user.firstName} and ${member.firstName}`
     });
-    return data.conversationId;
+
+    return data.id;
   };
 
   getTeamConversationId = async teamId => {
-    const { data = {} } = await this.props.fetchConversations(teamId);
-    return data.conversations[0].conversationId;
+    const { teams } = this.props;
+    const team = teams.find(teamEl => teamEl.teamId === teamId);
+    return team.conversationId;
   };
 
   createMessage = async conversationId => {
-    let { dataforShare } = this.props;
-    if (dataforShare.content[0].type !== 'userId') {
-      dataforShare = { content: [{ sharedData: dataforShare, type: 'sharedData' }] };
-    }
+    const { dataforShare } = this.props;
     try {
       await this.props.createMessage({
         conversationId,
