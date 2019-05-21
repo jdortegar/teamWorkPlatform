@@ -14,16 +14,18 @@ class Onboarding extends Component {
   state = { currentStep: 0 };
 
   componentDidMount() {
-    if (this.props.team) this.setFirstStep();
+    if (this.props.team) this.setFirstStep(this.props.isAdmin);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.props.team && nextProps.team) this.setFirstStep();
+    const { team, isAdmin } = this.props;
+    if ((!team && nextProps.team) || isAdmin !== nextProps.isAdmin) {
+      this.setFirstStep(nextProps.isAdmin);
+    }
   }
 
-  setFirstStep = () => {
-    const currentStep = this.props.userRoles.admin ? PERSONALIZE_TEAM : ADD_INTEGRATIONS;
-    this.setState({ currentStep });
+  setFirstStep = (isAdmin = false) => {
+    this.setState({ currentStep: isAdmin ? PERSONALIZE_TEAM : ADD_INTEGRATIONS });
   };
 
   handleModalSkip = () => {
@@ -55,7 +57,7 @@ class Onboarding extends Component {
 Onboarding.propTypes = {
   team: PropTypes.object,
   user: PropTypes.object.isRequired,
-  userRoles: PropTypes.object.isRequired, // eslint-disable-line react/no-unused-prop-types
+  isAdmin: PropTypes.bool.isRequired,
   updateUser: PropTypes.func.isRequired
 };
 
