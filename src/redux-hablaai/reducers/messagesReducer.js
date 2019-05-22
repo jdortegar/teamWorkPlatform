@@ -8,6 +8,7 @@ import {
   MESSAGE_DELETE_SUCCESS,
   MESSAGES_READ_SUCCESS,
   MESSAGE_RECEIVE,
+  MESSAGE_DELETED,
   BOOKMARKS_FETCH_SUCCESS
 } from 'src/actions';
 
@@ -23,6 +24,7 @@ const byId = (state = {}, action) => {
       const { message } = action.payload;
       return { ...state, [message.id]: message };
     }
+    case MESSAGE_DELETED:
     case MESSAGE_DELETE_SUCCESS: {
       const { message } = action.payload;
       return omit(state, message.id);
@@ -67,6 +69,7 @@ const idsByConversation = (state = {}, action) => {
       const { message } = action.payload;
       return { ...state, [message.conversationId]: union(state[message.conversationId], [message.id]) };
     }
+    case MESSAGE_DELETED:
     case MESSAGE_DELETE_SUCCESS: {
       const { message } = action.payload;
       return { ...state, [message.conversationId]: state[message.conversationId].filter(item => item !== message.id) };

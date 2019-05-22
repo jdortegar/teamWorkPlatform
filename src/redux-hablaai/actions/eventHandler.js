@@ -9,7 +9,7 @@ import { receiveTeamMember } from './teamMemberReceive';
 import { receiveInvitation } from './invitationReceive';
 import { declinedInvitation } from './invitationDeclined';
 import { receiveConversations } from './conversationsReceive';
-import { receiveMessage } from './messageReceive';
+import { receiveMessage, receiveMessageDeleted } from './messageReceive';
 import { receiveTyping } from './typing';
 import { receiveCall, receiveCallAnswer, receiveTeamCall, receiveTeamCallAnswer } from './callings';
 import { updateIntegrations } from './integrations';
@@ -80,25 +80,15 @@ export const eventHandler = dispatch => (eventType, event) => {
       break;
     }
     case EventTypes.conversationCreated:
+    case EventTypes.conversationUpdated:
       dispatch(receiveConversations([event]));
       break;
-    case EventTypes.conversationUpdated:
-      dispatch(receiveConversations([event])); // Same as conversationCreated.
-      break;
-
     case EventTypes.messageCreated:
-      dispatch(receiveMessage(event, event.conversationId));
-      break;
-    case EventTypes.messageRead:
-      break;
     case EventTypes.messageUpdated:
-      dispatch(receiveMessage(event, event.conversationId));
+      dispatch(receiveMessage(event));
       break;
     case EventTypes.messageDeleted:
-    case EventTypes.messageLiked:
-    case EventTypes.messageDisliked:
-    case EventTypes.messageFlagged:
-      dispatch(receiveMessage(event, event.conversationId));
+      dispatch(receiveMessageDeleted(event));
       break;
     case EventTypes.typing:
       dispatch(receiveTyping(event));
