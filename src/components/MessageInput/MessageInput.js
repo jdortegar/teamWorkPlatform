@@ -23,6 +23,7 @@ const propTypes = {
   conversationId: PropTypes.string.isRequired,
   form: formShape.isRequired,
   files: PropTypes.array,
+  smartChatEnabled: PropTypes.bool,
   sendTyping: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
   createScheduleMessage: PropTypes.func.isRequired,
@@ -50,6 +51,7 @@ const defaultProps = {
   addBase: null,
   updateFileList: null,
   isDraggingOver: null,
+  smartChatEnabled: true,
   clearFileList: () => {},
   handleEditMessage: () => {},
   handleReplyMessage: () => {},
@@ -325,7 +327,7 @@ class MessageInput extends React.Component {
   };
 
   render() {
-    const { user, messageToEdit, team, currentConversationUserFullName, form } = this.props;
+    const { user, messageToEdit, team, currentConversationUserFullName, form, smartChatEnabled } = this.props;
     const { fileProgress, textToEdit } = this.state;
     const { message } = form.getFieldsValue();
 
@@ -351,9 +353,9 @@ class MessageInput extends React.Component {
                 <InlineSuggest
                   navigate
                   form={form}
-                  suggestions={suggestions}
+                  suggestions={smartChatEnabled ? suggestions : []}
                   initialValue={textToEdit}
-                  shouldRenderSuggestion={val => size(val) >= 2}
+                  shouldRenderSuggestion={val => smartChatEnabled && size(val) >= 2}
                   onInputKeyDown={this.handleKeyDown}
                   onInputFocus={this.handleTyping}
                   inputClassName="team-room__chat-input-textfield"

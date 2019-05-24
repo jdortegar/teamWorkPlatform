@@ -1,22 +1,17 @@
 import { connect } from 'react-redux';
-import { getCurrentUser, getUserByUserId } from 'src/selectors';
-import { toggleSideBar, updateUser } from 'src/actions';
+import { getCurrentUser, getUserById } from 'src/selectors';
+import { updateUser } from 'src/actions';
 import { EditUserPage } from 'src/pages';
 
-function mapStateToProps(state) {
-  return {
-    sideBarIsHidden: state.sideBar.hidden,
-    currentUser: getCurrentUser(state),
-    users: getUserByUserId(state)
-  };
-}
+const mapStateToProps = (state, props) => {
+  const { userId } = props.match.params;
+  const user = getUserById(state, userId);
+  const currentUser = getCurrentUser(state);
 
-function mapDispatchToProps(dispatch) {
-  return {
-    toggleSideBar: () => dispatch(toggleSideBar()),
-    updateUser: data => dispatch(updateUser(data))
-  };
-}
+  return { user: user || currentUser };
+};
+
+const mapDispatchToProps = { updateUser };
 
 export default connect(
   mapStateToProps,

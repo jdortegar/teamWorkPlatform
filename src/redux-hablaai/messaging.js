@@ -195,27 +195,27 @@ class Messaging {
   }
 
   sendTyping({ conversationId, userId, isTyping }) {
-    this.socket.send(EventTypes.typing, { conversationId, userId, isTyping });
+    if (this.socket) this.socket.send(EventTypes.typing, { conversationId, userId, isTyping });
   }
 
   makePersonalCall(callerId, receiverId) {
-    this.socket.send(EventTypes.makePersonalCall, { callerId, receiverId });
+    if (this.socket) this.socket.send(EventTypes.makePersonalCall, { callerId, receiverId });
   }
 
   answerCall(callerId, status) {
-    this.socket.send(EventTypes.answerCall, { callerId, status });
+    if (this.socket) this.socket.send(EventTypes.answerCall, { callerId, status });
   }
 
   makeTeamCall(callerId, receiverTeamId) {
-    this.socket.send(EventTypes.makeTeamCall, { callerId, receiverTeamId });
+    if (this.socket) this.socket.send(EventTypes.makeTeamCall, { callerId, receiverTeamId });
   }
 
   answerTeamCall(receiverId, receiverTeamId, status) {
-    this.socket.send(EventTypes.answerTeamCall, { receiverId, receiverTeamId, status });
+    if (this.socket) this.socket.send(EventTypes.answerTeamCall, { receiverId, receiverTeamId, status });
   }
 
   location(lat, lon, alt = undefined, accuracy = undefined) {
-    this.socket.send(EventTypes.location, { lat, lon, alt, accuracy });
+    if (this.socket) this.socket.send(EventTypes.location, { lat, lon, alt, accuracy });
   }
 
   close() {

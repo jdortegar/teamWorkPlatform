@@ -52,9 +52,8 @@ const propTypes = {
   requests: PropTypes.array,
   declinedInvitations: PropTypes.object,
   responseRequest: PropTypes.object,
-  pushMessage: PropTypes.array,
+  pushMessage: PropTypes.object,
   users: PropTypes.object.isRequired,
-  currentUserId: PropTypes.string.isRequired,
   notifyMessage: PropTypes.func.isRequired,
   updateInvitationDeclined: PropTypes.func.isRequired,
   updateRequestResponse: PropTypes.func.isRequired,
@@ -62,7 +61,10 @@ const propTypes = {
   subscriberOrgs: PropTypes.object.isRequired,
   fetchTeamsBySubscriberOrgId: PropTypes.func.isRequired,
   fetchPublicTeams: PropTypes.func.isRequired,
-  user: PropTypes.object
+  user: PropTypes.object,
+  history: PropTypes.shape({
+    push: PropTypes.func
+  }).isRequired
 };
 
 const defaultProps = {
@@ -88,27 +90,11 @@ class MainContent extends Component {
   };
 
   componentDidMount() {
-    const { subscriberOrgs } = this.props;
+    const { subscriberOrgs, pushMessage } = this.props;
     const { currentSubscriberOrgId } = subscriberOrgs;
     const { muteNotifications } = this.props.user.preferences;
-    if (this.props.pushMessage && this.props.pushMessage.length > 0) {
-      const text = this.props.pushMessage[0].content.reduce(
-        (prevVal, content) => (prevVal || content.type === 'text/plain' ? content.text : undefined),
-        undefined
-      );
-      const args = {
-        message: String.t('MainContent.newMessage'),
-        description: text,
-        duration: 3,
-        onClose: () => {
-          this.props.notifyMessage();
-        }
-      };
-      notification.open(args);
-      if (moment().diff(muteNotifications || 0, 'minutes') > 0) {
-        soundNotificationPT.play();
-      }
-    }
+
+    this.displayPushMessage(pushMessage, muteNotifications);
 
     this.props.fetchTeamsBySubscriberOrgId().then(() => {
       this.props.fetchPublicTeams(currentSubscriberOrgId);
@@ -165,35 +151,7 @@ class MainContent extends Component {
       notification.open(args);
     }
 
-    if (nextProps.pushMessage && nextProps.pushMessage.length > 0) {
-      if (this.props.pushMessage) {
-        notification.destroy();
-      }
-      const msg = nextProps.pushMessage[0];
-      const { createdBy, content } = msg;
-      if (msg.createdBy !== this.props.currentUserId) {
-        const user = this.props.users[createdBy];
-        if (user) {
-          const args = {
-            icon: (
-              <div className="notification-edition">
-                <img src={notificationIcon} className="notification__Image" />
-              </div>
-            ),
-            message: String.t('MainContent.newMessageFrom', user),
-            description: content[0] && content[0].text,
-            duration: 3,
-            onClose: () => {
-              this.props.notifyMessage();
-            }
-          };
-          notification.open(args);
-          if (moment().diff(muteNotifications || 0, 'minutes') > 0) {
-            soundNotificationPT.play();
-          }
-        }
-      }
-    }
+    this.displayPushMessage(nextProps.pushMessage, muteNotifications, this.props.pushMessage);
   }
 
   getValidInvites() {
@@ -227,6 +185,29 @@ class MainContent extends Component {
     }
     return invitation;
   }
+
+  displayPushMessage = (pushMessage, muteNotifications, priorMessage = null) => {
+    // avoid rendering the same notification
+    if (!pushMessage || (priorMessage && priorMessage.key === pushMessage.key)) return;
+
+    const config = {
+      key: pushMessage.key, // key prevents duplicated messages
+      icon: (
+        <div className="notification-edition">
+          <img src={notificationIcon} className="notification__Image" />
+        </div>
+      ),
+      message: String.t('MainContent.newMessageFrom', pushMessage.user),
+      description: pushMessage.description || String.t('MainContent.newMessage'),
+      duration: 3,
+      onClose: () => this.props.notifyMessage(),
+      onClick: () => this.props.history.push(pushMessage.link)
+    };
+    notification.open(config);
+    if (moment().diff(muteNotifications || 0, 'minutes') > 0) {
+      soundNotificationPT.play();
+    }
+  };
 
   render() {
     const invitation = this.getValidInvites();

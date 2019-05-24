@@ -28,6 +28,12 @@ class PersonalizeTeamModal extends Component {
         const { updateTeam, team, orgId, onCancel } = this.props;
         this.setState({ submitting: true });
 
+        if (team.name.trim() === values.name.trim()) {
+          this.setState({ submitting: false });
+          onCancel();
+          return;
+        }
+
         updateTeam(orgId, team.teamId, values)
           .then(() => {
             this.setState({ submitting: false });

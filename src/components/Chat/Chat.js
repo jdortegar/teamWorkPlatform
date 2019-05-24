@@ -92,7 +92,7 @@ class Chat extends React.Component {
 
     this.updateMembers({ conversation, users, usersPresences });
 
-    this.props.fetchMessages(conversation.id);
+    this.props.fetchMessages(conversation.id).then(this.scrollToUnread);
     this.props.fetchBookmarks();
   }
 
@@ -109,7 +109,7 @@ class Chat extends React.Component {
     if ((!this.props.conversation && conversation) || this.props.conversation.id !== conversation.id) {
       this.updateMembers({ conversation, users, usersPresences });
 
-      this.props.fetchMessages(conversation.id);
+      this.props.fetchMessages(conversation.id).then(this.scrollToUnread);
       this.props.fetchBookmarks();
     }
   }

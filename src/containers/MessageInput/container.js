@@ -22,7 +22,8 @@ import {
   getResourcesUrl,
   getMembersTyping,
   getConversation,
-  getUserFullName
+  getUserFullName,
+  isSmartChatEnabled
 } from 'src/selectors';
 
 const mapStateToProps = (state, props) => {
@@ -44,7 +45,8 @@ const mapStateToProps = (state, props) => {
     users: getUserByUserId(state),
     usersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
     resourcesUrl: getResourcesUrl(state),
-    membersTyping: getMembersTyping(state, conversationId)
+    membersTyping: getMembersTyping(state, conversationId),
+    smartChatEnabled: isSmartChatEnabled(state)
   };
 };
 
