@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { getTypingByUserIdsByConversationId } from './state';
 import { getMessages, getMessagesByConversation } from './messages';
+import { getCurrentUserId } from './auth';
 
 export { getTypingByConversationIdsByUserId, getTypingByUserIdsByConversationId } from './state';
 
@@ -40,6 +41,20 @@ export const getTeamConversation = createSelector(
 export const getPersonalConversation = createSelector(
   [getConversationIdsByMember, getConversationsById, (state, userId) => ({ state, userId })],
   (idsByMember, conversations, { state, userId }) => buildConversation(idsByMember[userId], conversations, state)
+);
+
+export const getConversationLink = createSelector(
+  [getConversationsById, getCurrentUserId, (state, conversationId) => conversationId],
+  (conversations, currentUserId, conversationId) => {
+    const conversation = conversations[conversationId];
+    if (!conversation) return '';
+    const { appData = {}, members = [] } = conversation;
+
+    if (appData.teamId) return `/app/team/${appData.teamId}`;
+
+    const userId = members.find(u => u.userId !== currentUserId);
+    return `/app/chat/${userId}`;
+  }
 );
 
 export const getMembersTyping = createSelector(

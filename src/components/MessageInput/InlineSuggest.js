@@ -172,6 +172,7 @@ class InlineSuggest extends React.Component {
       <div className={classNames('InlineSuggest', this.props.className)}>
         {getFieldDecorator('message', { initialValue })(
           <Input
+            type="text"
             className={classNames('InlineSuggest__input', inputClassName)}
             onChange={this.handleOnChange}
             onBlur={this.handleOnBlur}

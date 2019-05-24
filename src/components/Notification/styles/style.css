@@ -23,6 +23,9 @@
   padding: 12px 10px;
   height: auto;
 }
+.ant-notification {
+  cursor: pointer;
+}
 .ant-notification-notice-description {
   font-size: 14px;
   white-space: nowrap;
