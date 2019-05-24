@@ -88,6 +88,7 @@ export const createMessage = ({
       const uploadedFile = await dispatch(uploadFile(file, conversationId, onFileUploadProgress));
       content.push({
         type: file.type,
+        text: 'File attached',
         meta: {
           fileUrl: uploadedFile.data.fileUrl,
           fileName: uploadedFile.data.fileName,
