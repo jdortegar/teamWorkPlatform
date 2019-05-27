@@ -140,7 +140,12 @@ class Main extends React.Component {
           </Layout>
           <SurveyModal />
           <Onboarding />
-          <SubscriptionModal visible={modalVisible} showModal={this.showModal} cancelButton={cancelButton} />
+          <SubscriptionModal
+            visible={modalVisible}
+            showModal={this.showModal}
+            showHablaModal={this.showHablaModal}
+            cancelButton={cancelButton}
+          />
           <HablaModal
             visible={hablaModalVisible}
             cancelButton={false}

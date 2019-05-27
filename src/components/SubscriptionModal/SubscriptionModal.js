@@ -14,6 +14,7 @@ import './styles/style.css';
 const propTypes = {
   visible: PropTypes.bool.isRequired,
   showModal: PropTypes.func.isRequired,
+  showHablaModal: PropTypes.func.isRequired,
   form: formShape.isRequired,
   subscriberOrg: PropTypes.object.isRequired,
   subscription: PropTypes.object,
@@ -26,7 +27,8 @@ const propTypes = {
   paypalSubscription: PropTypes.object,
   cancelPaypalSubscription: PropTypes.func.isRequired,
   fetchPaypalSubscription: PropTypes.func.isRequired,
-  fetchSubscriberOrgs: PropTypes.func.isRequired
+  fetchSubscriberOrgs: PropTypes.func.isRequired,
+  currentUser: PropTypes.object.isRequired
 };
 
 const FormItem = Form.Item;
@@ -168,6 +170,7 @@ class SubscriptionModal extends React.Component {
     const { paypalSubscription } = this.props;
     if (!hidePaymentModal) {
       this.props.showModal();
+      this.props.showHablaModal();
     }
     this.setState({
       paymentModalVisible: !this.state.paymentModalVisible
@@ -406,7 +409,7 @@ class SubscriptionModal extends React.Component {
   };
 
   render() {
-    const { visible, subscription, cancelButton, paypalSubscription } = this.props;
+    const { visible, subscription, cancelButton, paypalSubscription, currentUser } = this.props;
     const { getFieldDecorator } = this.props.form;
     const {
       subscriptionPlanAmount,
@@ -524,15 +527,6 @@ class SubscriptionModal extends React.Component {
                       {String.t('subscriptionModal.back')}
                     </Button>
                   )}
-                  {/* {subscription.cancel_at_period_end && (
-                    <Button
-                      className="Confirm_button"
-                      onClick={this.reactivateSubscription}
-                      loading={this.state.loading}
-                    >
-                      {String.t('subscriptionModal.reactivateSubscription')}
-                    </Button>
-                  )} */}
                   {subscription.status === 'trialing' || subscription.status === 'past_due' ? (
                     <Button className="Confirm_button" onClick={this.showPaymentModal}>
                       {String.t('subscriptionModal.paySubscription', {
@@ -562,6 +556,7 @@ class SubscriptionModal extends React.Component {
           </div>
         </Modal>
         <PaymentModal
+          currentUser={currentUser}
           visible={this.state.paymentModalVisible}
           showModal={this.showModal}
           showPaymentModal={this.showPaymentModal}

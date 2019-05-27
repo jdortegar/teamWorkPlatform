@@ -15,13 +15,15 @@ const propTypes = {
   visible: PropTypes.bool.isRequired,
   showModal: PropTypes.func.isRequired,
   showPaymentModal: PropTypes.func.isRequired,
-  paymentData: PropTypes.object.isRequired
+  paymentData: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired
 };
 
 const PaymentModal = props => (
   <StripeProvider apiKey={config.stripe}>
     <Elements>
       <StripeForm
+        subscriptionEmail={props.currentUser.email}
         form={props.form}
         paymentData={props.paymentData}
         showModal={props.showModal}

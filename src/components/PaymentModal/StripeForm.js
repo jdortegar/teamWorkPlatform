@@ -18,11 +18,13 @@ const propTypes = {
   showModal: PropTypes.func.isRequired,
   showPaymentModal: PropTypes.func.isRequired,
   paymentData: PropTypes.object.isRequired,
-  updateSubscription: PropTypes.func.isRequired
+  updateSubscription: PropTypes.func.isRequired,
+  subscriptionEmail: PropTypes.string
 };
 
 const defaultProps = {
-  stripe: null
+  stripe: null,
+  subscriptionEmail: null
 };
 
 const FormItem = Form.Item;
@@ -98,7 +100,7 @@ class StripeForm extends React.Component {
   render() {
     const { visible } = this.props;
     const { getFieldDecorator } = this.props.form;
-    const { paymentData } = this.props;
+    const { paymentData, subscriptionEmail } = this.props;
 
     return (
       <div>
@@ -116,9 +118,9 @@ class StripeForm extends React.Component {
                   <div className="label">{String.t('paymentModal.informationTitle')}</div>
 
                   <FormItem>
-                    {getFieldDecorator('email', {
-                      rules: [{ required: true }]
-                    })(<Input placeholder={String.t('paymentModal.email')} />)}
+                    {getFieldDecorator('email', { initialValue: subscriptionEmail, rules: [{ required: true }] })(
+                      <Input placeholder={String.t('paymentModal.email')} />
+                    )}
                   </FormItem>
 
                   <FormItem>
