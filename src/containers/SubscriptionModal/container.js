@@ -10,14 +10,21 @@ import {
   fetchPaypalSubscription,
   fetchSubscriberOrgs
 } from 'src/actions';
-import { getCurrentSubscriberOrg, getSubscription, getSubscriptionCoupons, getPaypalSubscription } from 'src/selectors';
+import {
+  getCurrentSubscriberOrg,
+  getSubscription,
+  getSubscriptionCoupons,
+  getPaypalSubscription,
+  getCurrentUser
+} from 'src/selectors';
 import { SubscriptionModal } from 'src/components';
 
 const mapStateToProps = state => ({
   subscriberOrg: getCurrentSubscriberOrg(state),
   subscription: getSubscription(state),
   subscriptionCoupons: getSubscriptionCoupons(state),
-  paypalSubscription: getPaypalSubscription(state)
+  paypalSubscription: getPaypalSubscription(state),
+  currentUser: getCurrentUser(state)
 });
 
 const mapDispatchToProps = {
