@@ -80,15 +80,9 @@ class Sidebar extends Component {
 
     this.orgsOpen = {};
 
-    const { teams, currentSubscriberOrgId, user, teamMembers } = this.props;
+    const { teams, currentSubscriberOrgId } = this.props;
 
-    const teamsActive = teams.filter(
-      team =>
-        team.subscriberOrgId === currentSubscriberOrgId &&
-        team.active &&
-        teamMembers[team.teamId] &&
-        teamMembers[team.teamId].includes(user.userId)
-    );
+    const teamsActive = teams.filter(team => team.subscriberOrgId === currentSubscriberOrgId && team.active);
 
     this.teamsActive = teamsActive;
 
@@ -295,11 +289,12 @@ class Sidebar extends Component {
   };
 
   renderTeams(teamsActive) {
-    const { user, history } = this.props;
+    const { user, history, teamMembers } = this.props;
     const { pathname } = history.location;
 
     if (_.isEmpty(teamsActive)) return null;
-    const teams = _.compact(teamsActive.sort(sortByName));
+    let teams = _.compact(teamsActive.sort(sortByName));
+    teams = teams.filter(team => teamMembers[team.teamId] && teamMembers[team.teamId].includes(user.userId));
 
     return primaryAtTop(teams).map(team => {
       let isAdmin = false;

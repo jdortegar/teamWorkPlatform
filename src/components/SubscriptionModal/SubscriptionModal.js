@@ -14,7 +14,7 @@ import './styles/style.css';
 const propTypes = {
   visible: PropTypes.bool.isRequired,
   showModal: PropTypes.func.isRequired,
-  showHablaModal: PropTypes.func.isRequired,
+  showHablaModal: PropTypes.func,
   form: formShape.isRequired,
   subscriberOrg: PropTypes.object.isRequired,
   subscription: PropTypes.object,
@@ -39,7 +39,8 @@ const defaultProps = {
   subscription: {},
   paypalSubscription: {},
   subscriptionCoupons: {},
-  cancelButton: true
+  cancelButton: true,
+  showHablaModal: () => {}
 };
 
 const PRICES = {
