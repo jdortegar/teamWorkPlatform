@@ -20,7 +20,8 @@ const propTypes = {
   caseSensitive: PropTypes.bool,
   loading: PropTypes.bool,
   highlightSearch: PropTypes.bool,
-  createMessage: PropTypes.func.isRequired
+  createMessage: PropTypes.func.isRequired,
+  attachedFilesMode: PropTypes.bool
 };
 
 const defaultProps = {
@@ -29,7 +30,8 @@ const defaultProps = {
   owners: [],
   caseSensitive: false,
   loading: false,
-  highlightSearch: true
+  highlightSearch: true,
+  attachedFilesMode: false
 };
 
 const formatTime = date =>
@@ -137,6 +139,73 @@ const getColumns = (keywords, caseSensitive, owners, highlightSearch, createMess
   }
 ];
 
+const getAttachedFilesColumns = (keywords, caseSensitive, owners, highlightSearch, createMessage) => [
+  {
+    title: 'File Name',
+    dataIndex: 'fileName',
+    key: 'fileName',
+    sorter: (a, b) => a.fileName.localeCompare(b.fileName),
+    render: (text, file) => (
+      <FileDnD
+        keywords={keywords}
+        text={text}
+        file={file}
+        highlightSearch={highlightSearch}
+        caseSensitive={caseSensitive}
+        showCopyIcon
+        createMessage={createMessage}
+      />
+    )
+  },
+  // {
+  //   title: 'File Size',
+  //   dataIndex: 'fileSize',
+  //   key: 'fileSize',
+  //   className: 'widthMax20',
+  //   sorter: (a, b) => a.fileSize - b.fileSize,
+  //   render: x => formatSize(x)
+  // },
+  {
+    title: 'File Type',
+    dataIndex: 'fileType',
+    key: 'fileType',
+    className: 'widthMax20',
+    sorter: (a, b) => {
+      if (a && a.fileType) {
+        return a.fileType.localeCompare(b.fileType);
+      }
+      return null;
+    },
+    render: text => <span className="FileListView__results__fileType">{text}</span>
+  },
+  {
+    title: 'Created Time',
+    dataIndex: 'fileCreatedAt',
+    key: 'fileCreatedAt',
+    sorter: (a, b) => moment(a.fileCreatedAt) - moment(b.fileCreatedAt),
+    render: x => formatTime(x)
+  },
+  {
+    title: 'Habla AI User',
+    dataIndex: 'fileOwnerId',
+    key: 'fileOwnerId',
+    sorter: (a, b) => {
+      const nameA = findUserByFile(owners, a).fullName;
+      const nameB = findUserByFile(owners, b).fullName;
+      return nameA.localeCompare(nameB);
+    },
+    render: (text, file) => {
+      const user = findUserByFile(owners, file);
+      return (
+        <div>
+          <AvatarWrapper user={user} size="small" hideStatusTooltip />
+          <span className="FileListView__results__fileOwnerName">{user.fullName}</span>
+        </div>
+      );
+    }
+  }
+];
+
 class FileListView extends Component {
   state = { page: 1 };
 
@@ -161,7 +230,16 @@ class FileListView extends Component {
   };
 
   render() {
-    const { files, keywords, caseSensitive, owners, loading, highlightSearch, createMessage } = this.props;
+    const {
+      files,
+      keywords,
+      caseSensitive,
+      owners,
+      loading,
+      highlightSearch,
+      createMessage,
+      attachedFilesMode
+    } = this.props;
     const { page } = this.state;
     const paginationVisible = !loading && files.length > PAGE_SIZE;
 
@@ -183,7 +261,11 @@ class FileListView extends Component {
           )}
 
           <ResultsList
-            columns={getColumns(keywords, caseSensitive, owners, highlightSearch, createMessage)}
+            columns={
+              attachedFilesMode
+                ? getAttachedFilesColumns(keywords, caseSensitive, owners, highlightSearch, createMessage)
+                : getColumns(keywords, caseSensitive, owners, highlightSearch, createMessage)
+            }
             dataSource={files}
             loading={loading}
             rowKey="fileKey"

@@ -9,6 +9,8 @@ export * from './messages';
 export * from './requests';
 export * from './schedules';
 export * from './search';
+export * from './searchedChatMessages';
+export * from './searchedAttachedFiles';
 export * from './sharingSettings';
 export * from './subscriberOrgs';
 export * from './subscribers';

@@ -4,6 +4,11 @@ import {
   SEARCH_FAILURE,
   SEARCH_CLEAR,
   SEARCH_STALE,
+  GLOBAL_SEARCH_REQUEST,
+  GLOBAL_SEARCH_SUCCESS,
+  GLOBAL_SEARCH_FAILURE,
+  GLOBAL_SEARCH_CLEAR,
+  GLOBAL_SEARCH_STALE,
   TOGGLE_CASE_SENSITIVE,
   TOGGLE_EXACT_MATCH,
   SUBSCRIBERORG_SETCURRENT
@@ -21,8 +26,10 @@ const INITIAL_STATE = {
 
 const searchReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case GLOBAL_SEARCH_CLEAR:
     case SEARCH_CLEAR:
       return { ...state, query: INITIAL_STATE.query };
+    case GLOBAL_SEARCH_REQUEST:
     case SEARCH_REQUEST:
       return {
         ...state,
@@ -32,12 +39,14 @@ const searchReducer = (state = INITIAL_STATE, action) => {
         keywords: action.payload.keywords,
         resultsCount: INITIAL_STATE.resultsCount
       };
+    case GLOBAL_SEARCH_SUCCESS:
     case SEARCH_SUCCESS:
       return {
         ...state,
         loading: false,
-        resultsCount: action.payload.files.length
+        resultsCount: action.payload.files ? action.payload.files.length : action.payload.items.length
       };
+    case GLOBAL_SEARCH_FAILURE:
     case SEARCH_FAILURE:
       return {
         ...INITIAL_STATE,
@@ -45,6 +54,7 @@ const searchReducer = (state = INITIAL_STATE, action) => {
         query: action.payload.query,
         keywords: action.payload.keywords
       };
+    case GLOBAL_SEARCH_STALE:
     case SEARCH_STALE:
       return { ...state, loading: false };
     case TOGGLE_CASE_SENSITIVE:

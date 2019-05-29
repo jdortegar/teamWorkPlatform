@@ -10,8 +10,6 @@ export const SEARCH_REQUEST = 'search/request';
 export const SEARCH_SUCCESS = 'search/success';
 export const SEARCH_FAILURE = 'search/failure';
 export const SEARCH_STALE = 'search/stale';
-export const TOGGLE_CASE_SENSITIVE = 'search/toggleCaseSensitive';
-export const TOGGLE_EXACT_MATCH = 'search/toggleExactMatch';
 
 export const search = (rawQuery = undefined, { teamId, caseSensitive = false, exactMatch = false } = {}) => (
   dispatch,
@@ -70,18 +68,4 @@ export const search = (rawQuery = undefined, { teamId, caseSensitive = false, ex
   );
 
   return thunk;
-};
-
-export const toggleCaseSensitive = caseSensitive => dispatch => {
-  dispatch({
-    type: TOGGLE_CASE_SENSITIVE,
-    payload: { caseSensitive }
-  });
-};
-
-export const toggleExactMatch = exactMatch => dispatch => {
-  dispatch({
-    type: TOGGLE_EXACT_MATCH,
-    payload: { exactMatch }
-  });
 };

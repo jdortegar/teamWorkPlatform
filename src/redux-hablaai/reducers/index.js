@@ -10,6 +10,8 @@ import presences from './presencesReducer';
 import schedules from './schedulesReducer';
 import requests from './requestsReducer';
 import search from './searchReducer';
+import searchedChatMessages from './searchedChatMessagesReducer';
+import searchedAttachedFiles from './searchedAttachedFilesReducer';
 import sentInvitations from './sentInvitationsReducer';
 import sharingSettings from './sharingSettingsReducer';
 import subscriberOrgs from './subscriberOrgsReducer';
@@ -37,6 +39,8 @@ const reducers = {
   requests,
   schedules,
   search,
+  searchedChatMessages,
+  searchedAttachedFiles,
   sentInvitations,
   sharingSettings,
   subscriberOrgs,
