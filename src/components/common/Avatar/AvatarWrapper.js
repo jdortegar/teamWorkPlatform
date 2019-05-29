@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 
 import { Popover, Menu, Divider } from 'antd';
 import { VideoCallModal, ShareModal } from 'src/containers';
@@ -78,6 +79,7 @@ class AvatarWrapper extends React.Component {
   renderContent = () => {
     const { currentUser, user, orgLength } = this.props;
     const { userId, online } = user;
+
     return (
       <div>
         <div className="Subscriber__Tooltip_Header">
@@ -170,7 +172,7 @@ class AvatarWrapper extends React.Component {
 
   render() {
     const { className, hidePresence, user, showDetails } = this.props;
-    if (!user) return null;
+    if (!user || isEmpty(user)) return null;
 
     const { presenceStatus, online, firstName, lastName, userId, preferences = {}, icon } = user;
     let topClass = (className || '').concat(' habla-top-menu-subitem');
