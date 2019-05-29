@@ -84,7 +84,10 @@ class Sidebar extends Component {
 
     const teamsActive = teams.filter(
       team =>
-        team.subscriberOrgId === currentSubscriberOrgId && team.active && teamMembers[team.teamId].includes(user.userId)
+        team.subscriberOrgId === currentSubscriberOrgId &&
+        team.active &&
+        teamMembers[team.teamId] &&
+        teamMembers[team.teamId].includes(user.userId)
     );
 
     this.teamsActive = teamsActive;
