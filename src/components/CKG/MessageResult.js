@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Autolinker from 'autolinker';
-import { find, filter, includes } from 'lodash';
+import { find, filter } from 'lodash';
 
 import String from 'src/translations';
 import { AvatarWrapper } from 'src/containers';
@@ -13,15 +13,17 @@ const propTypes = {
   message: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   team: PropTypes.object,
-  sender: PropTypes.object
+  sender: PropTypes.object,
+  link: PropTypes.String
 };
 
 const defaultProps = {
   sender: {},
-  team: null
+  team: null,
+  link: null
 };
 
-const MessageResult = ({ message, sender, team, history }) => {
+const MessageResult = ({ message, sender, team, history, link }) => {
   const { content, created } = message;
   const { firstName, lastName } = sender;
 
@@ -30,15 +32,8 @@ const MessageResult = ({ message, sender, team, history }) => {
   const { text = '' } = find(content, { type: 'text/plain' }) || {};
   const formattedText = Autolinker.link(text, { className: 'MessageResult__link', stripPrefix: false });
 
-  const goToTeamPage = event => {
-    // prevent redirect when clicking on message content links
-    if (team && !includes(event.target.className, 'MessageResult__link')) {
-      history.push(`/app/team/${team.teamId}`);
-    }
-  };
-
   return (
-    <div className="MessageResult" onClick={goToTeamPage}>
+    <div className="MessageResult" onClick={() => history.push(link)}>
       <AvatarWrapper user={sender} />
       <div className="MessageResult__content">
         <p className="MessageResult__sender">

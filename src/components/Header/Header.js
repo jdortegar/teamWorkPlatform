@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 
 import String from 'src/translations';
+import { CKG_VIEWS } from 'src/actions';
 import { AvatarWrapper } from 'src/containers';
 import { paths } from 'src/routes';
 import { hablaBlackLogo, hablaBlackLogoIcon } from 'src/img';
@@ -18,7 +19,9 @@ const propTypes = {
   toggleCaseSensitive: PropTypes.func.isRequired,
   toggleExactMatch: PropTypes.func.isRequired,
   search: PropTypes.func.isRequired,
+  globalSearch: PropTypes.func.isRequired,
   clearSearch: PropTypes.func.isRequired,
+  changeCKGView: PropTypes.func.isRequired,
   user: PropTypes.object,
   teamId: PropTypes.string,
   query: PropTypes.string,
@@ -110,6 +113,8 @@ class Header extends Component {
 
     this.props.clearSearch();
     this.props.search();
+    this.props.globalSearch();
+    this.props.changeCKGView(CKG_VIEWS.FILE_LIST);
   };
 
   handleSearchChange = event => {
@@ -118,8 +123,9 @@ class Header extends Component {
 
   handleSearchSubmit = event => {
     event.preventDefault();
-    const { teamId, caseSensitive, exactMatch, history, search } = this.props;
+    const { teamId, caseSensitive, exactMatch, history, search, globalSearch } = this.props;
     search(this.state.query, { teamId, caseSensitive, exactMatch });
+    globalSearch(this.state.query, { teamId, caseSensitive, exactMatch });
     history.push(paths.ckg);
   };
 

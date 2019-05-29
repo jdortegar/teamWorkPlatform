@@ -46,6 +46,7 @@ export * from './messageRead';
 
 export * from './teamFilesFetch';
 export * from './filters';
+export * from './globalSearch';
 export * from './search';
 export * from './searchClear';
 

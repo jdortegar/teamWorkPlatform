@@ -20,15 +20,17 @@ const propTypes = {
   teamId: PropTypes.string,
   team: PropTypes.object,
   search: PropTypes.func.isRequired,
+  globalSearch: PropTypes.func.isRequired,
   toggleOwnerFilter: PropTypes.func.isRequired,
   toggleIntegrationFilter: PropTypes.func.isRequired,
   toggleFileTypeFilter: PropTypes.func.isRequired,
   setStartDateFilter: PropTypes.func.isRequired,
   setEndDateFilter: PropTypes.func.isRequired,
   changeCKGView: PropTypes.func.isRequired,
-  messages: PropTypes.array,
   teams: PropTypes.array,
   files: PropTypes.array,
+  searchedChatMessages: PropTypes.array,
+  searchedAttachedFiles: PropTypes.array,
   owners: PropTypes.array,
   integrations: PropTypes.array,
   fileTypes: PropTypes.array,
@@ -50,7 +52,8 @@ const propTypes = {
 const defaultProps = {
   teamId: null,
   team: null,
-  messages: [],
+  searchedChatMessages: [],
+  searchedAttachedFiles: [],
   teams: [],
   files: [],
   owners: [],
@@ -73,26 +76,42 @@ const defaultProps = {
 
 class CKG extends Component {
   componentDidMount() {
-    const { ignoreSearch, teamId, activeView, changeCKGView, search, query, caseSensitive, exactMatch } = this.props;
+    const {
+      ignoreSearch,
+      teamId,
+      activeView,
+      changeCKGView,
+      search,
+      globalSearch,
+      query,
+      caseSensitive,
+      exactMatch
+    } = this.props;
 
     this.changeViewFromHash(this.props);
 
-    if (teamId && activeView === CKG_VIEWS.MESSAGES) {
+    if (teamId && (activeView === CKG_VIEWS.MESSAGES || activeView === CKG_VIEWS.FILE_ATTACHMENTS)) {
       changeCKGView(CKG_VIEWS.FILE_LIST);
     }
 
     if (!ignoreSearch) {
       search(query, { teamId, caseSensitive, exactMatch });
+      globalSearch(query, { caseSensitive, exactMatch });
+    }
+
+    if (teamId) {
+      globalSearch();
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { ignoreSearch, teamId, search, query, caseSensitive, exactMatch } = nextProps;
+    const { ignoreSearch, teamId, search, globalSearch, query, caseSensitive, exactMatch } = nextProps;
 
     this.changeViewFromHash(nextProps);
 
     if (!ignoreSearch && this.props.teamId !== teamId) {
       search(query, { teamId, caseSensitive, exactMatch });
+      globalSearch(query, { caseSensitive, exactMatch });
     }
   }
 
@@ -140,7 +159,7 @@ class CKG extends Component {
     if (team) {
       return { routes: [{ title: team.name, url: `/app/team/${team.teamId}` }, currentPage] };
     }
-    if (query) {
+    if (query.length > 0) {
       return { routes: [{ title: String.t('ckg.searchPageTitle') }, currentPage] };
     }
 
@@ -161,13 +180,13 @@ class CKG extends Component {
   };
 
   renderViewSelector = () => {
-    const { changeCKGView, activeView, ignoreSearch, query } = this.props;
+    const { changeCKGView, activeView, query } = this.props;
     return (
       <ViewSelector
         activeView={activeView}
         onChange={changeCKGView}
-        hideMessages={ignoreSearch || !query}
-        hideFileAttachments={!ignoreSearch && !query}
+        hideMessages={query.length === 0}
+        hideFileAttachments={query.length === 0}
       />
     );
   };
@@ -252,7 +271,8 @@ class CKG extends Component {
   render() {
     const {
       loading,
-      messages,
+      searchedChatMessages,
+      searchedAttachedFiles,
       files,
       query,
       integrations,
@@ -263,21 +283,54 @@ class CKG extends Component {
     } = this.props;
     const { startDate, endDate } = excludeFilters;
 
-    const filesFiltered = files.filter(file => {
-      const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
-      const key = integrationKeyFromFile(file);
+    // CONFIG PER VIEW
 
-      const validDate =
-        (startDate ? moment(file.fileCreatedAt).isSameOrAfter(moment(startDate).startOf('day')) : true) &&
-        (endDate ? moment(file.fileCreatedAt).isSameOrBefore(moment(endDate).endOf('day')) : true);
+    let itemLength = 0;
+    let filesFiltered = [];
+    let chatMessagesFiltered = [];
+    let attachedFilesFiltered = [];
 
-      return (
-        validDate &&
-        !excludeFilters.fileTypes[label] &&
-        !excludeFilters.integrations[key] &&
-        !excludeFilters.owners[file.fileOwnerId]
-      );
-    });
+    if (activeView === CKG_VIEWS.FILE_LIST || activeView === CKG_VIEWS.TIME_ACTIVITY) {
+      // Filter function for integration files
+      filesFiltered = files.filter(file => {
+        const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
+        const key = integrationKeyFromFile(file);
+
+        const validDate =
+          (startDate ? moment(file.fileCreatedAt).isSameOrAfter(moment(startDate).startOf('day')) : true) &&
+          (endDate ? moment(file.fileCreatedAt).isSameOrBefore(moment(endDate).endOf('day')) : true);
+
+        return (
+          validDate &&
+          !excludeFilters.fileTypes[label] &&
+          !excludeFilters.integrations[key] &&
+          !excludeFilters.owners[file.fileOwnerId]
+        );
+      });
+      itemLength = filesFiltered.length;
+    } else if (activeView === CKG_VIEWS.MESSAGES) {
+      // Filter function for chat messages
+      chatMessagesFiltered = searchedChatMessages.filter(file => {
+        const validDate =
+          (startDate ? moment(file.created).isSameOrAfter(moment(startDate).startOf('day')) : true) &&
+          (endDate ? moment(file.created).isSameOrBefore(moment(endDate).endOf('day')) : true);
+
+        return validDate && !excludeFilters.owners[file.createdBy];
+      });
+      itemLength = chatMessagesFiltered.length;
+    } else if (activeView === CKG_VIEWS.FILE_ATTACHMENTS) {
+      // Filter function for attached Files
+      attachedFilesFiltered = searchedAttachedFiles.filter(file => {
+        const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
+
+        const validDate =
+          (startDate ? moment(file.fileCreatedAt).isSameOrAfter(moment(startDate).startOf('day')) : true) &&
+          (endDate ? moment(file.fileCreatedAt).isSameOrBefore(moment(endDate).endOf('day')) : true);
+
+        return validDate && !excludeFilters.fileTypes[label] && !excludeFilters.owners[file.fileOwnerId];
+      });
+      itemLength = attachedFilesFiltered.length;
+    }
 
     return (
       <div className="CKG">
@@ -288,7 +341,7 @@ class CKG extends Component {
           menuPageHeader={menuOptions}
           badgeOptions={{
             enabled: true,
-            count: filesFiltered.length
+            count: itemLength
           }}
         >
           {this.renderViewSelector()}
@@ -306,17 +359,24 @@ class CKG extends Component {
           </div>
         )}
 
-        {activeView === CKG_VIEWS.MESSAGES && <ChatMessagesView messages={messages} />}
+        {activeView === CKG_VIEWS.MESSAGES && <ChatMessagesView messages={chatMessagesFiltered} />}
         {activeView === CKG_VIEWS.FILE_LIST && (
           <FileListView files={filesFiltered} loading={loading} highlightSearch={!ignoreSearch} />
         )}
         {activeView === CKG_VIEWS.TIME_ACTIVITY && <TimeActivityView files={filesFiltered} loading={loading} />}
         {activeView === CKG_VIEWS.FILE_ATTACHMENTS && (
-          <h1 className="CKG__fake-page">File attachments... (not implemented yet)</h1>
+          <FileListView
+            files={attachedFilesFiltered}
+            loading={loading}
+            highlightSearch={!ignoreSearch}
+            attachedFilesMode
+          />
         )}
 
         <div className="bottomBar">
-          {!ignoreSearch && this.renderSelectors()}
+          {!ignoreSearch &&
+            (activeView === CKG_VIEWS.TIME_ACTIVITY || activeView === CKG_VIEWS.FILE_LIST) &&
+            this.renderSelectors()}
           {!loading && this.renderFilesFilter()}
           <div className="Chat_videoCall_container">
             <TeamCallButton />

@@ -9,7 +9,16 @@ import {
   isSearchCaseSensitive,
   isSearchExactMatch
 } from 'src/selectors';
-import { logoutUser, updateUser, search, clearSearch, toggleCaseSensitive, toggleExactMatch } from 'src/actions';
+import {
+  logoutUser,
+  updateUser,
+  search,
+  clearSearch,
+  toggleCaseSensitive,
+  toggleExactMatch,
+  globalSearch,
+  changeCKGView
+} from 'src/actions';
 
 const mapStateToProps = state => ({
   user: getCurrentUser(state),
@@ -26,7 +35,9 @@ const mapDispatchToProps = {
   search,
   clearSearch,
   toggleCaseSensitive,
-  toggleExactMatch
+  toggleExactMatch,
+  globalSearch,
+  changeCKGView
 };
 
 export default withRouter(

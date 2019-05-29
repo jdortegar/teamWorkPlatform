@@ -107,7 +107,7 @@ class FilesFilters extends React.Component {
       onFileTypeFilterDoubleClick
     } = this.props;
 
-    if (fileTypes.length === 0 || integrations.length === 0 || owners.length === 0) {
+    if (fileTypes.length === 0 && owners.length === 0) {
       return <div className={classNames('FilesFilters', className)}>{this.renderEmptyMessage()}</div>;
     }
 
@@ -158,95 +158,99 @@ class FilesFilters extends React.Component {
               )}
             </div>
           )}
-          <div className="FilesFilters__group">
-            <div className="FilesFilters__dataTypes habla-label">
-              <span className="FilesFilters__dataTypes__badge">{integrations.length}</span>
-            </div>
-            {integrations.slice(0, 5).map(({ key, count }) => (
-              <IntegrationFilter
-                key={key}
-                integrationKey={key}
-                count={count}
-                active={!excludeIntegrationsFilter[key]}
-                onClick={() => onIntegrationFilterClick(key)}
-              />
-            ))}
-            {integrations.length > 5 && (
-              <div className="Filter_Popover">
-                <Popover
-                  placement="topLeft"
-                  content={
-                    <div className="Popover_container">
-                      {integrations.map(({ key, count }) => (
-                        <IntegrationFilter
-                          key={key}
-                          integrationKey={key}
-                          count={count}
-                          active={!excludeIntegrationsFilter[key]}
-                          onClick={() => onIntegrationFilterClick(key)}
-                        />
-                      ))}
-                    </div>
-                  }
-                  title={String.t('ckgPage.dataIntegration', { count: integrations.length })}
-                  trigger="click"
-                  visible={this.state.integrationVisible}
-                  onVisibleChange={this.handleIntegrationsVisibleChange}
-                >
-                  <div className="Filters_ellipsis_icon">
-                    <i className="fa fa-ellipsis-h" />
-                  </div>
-                </Popover>
+          {integrations.length > 0 && (
+            <div className="FilesFilters__group">
+              <div className="FilesFilters__dataTypes habla-label">
+                <span className="FilesFilters__dataTypes__badge">{integrations.length}</span>
               </div>
-            )}
-          </div>
-          <div className="FilesFilters__group">
-            <div className="FilesFilters__dataTypes habla-label">
-              <span className="FilesFilters__dataTypes__badge">{fileTypes.length}</span>
-            </div>
-            {fileTypes.slice(0, 5).map(({ key, count, label, fileExtension }) => (
-              <FileTypeFilter
-                key={key}
-                count={count}
-                label={label}
-                fileExtension={fileExtension}
-                active={!excludeTypesFilter[key]}
-                onClick={() => onFileTypeFilterClick(key)}
-                onDoubleClick={onFileTypeFilterDoubleClick}
-              />
-            ))}
-            {fileTypes.length > 5 && (
-              <div className="Filter_Popover">
-                <Popover
-                  placement="topLeft"
-                  content={
-                    <div className="Popover_container">
-                      {fileTypes.map(({ key, count, label, fileExtension }) => (
-                        <FileTypeFilter
-                          key={key}
-                          count={count}
-                          label={label}
-                          fileExtension={fileExtension}
-                          active={!excludeTypesFilter[key]}
-                          onClick={() => onFileTypeFilterClick(key)}
-                          onDoubleClick={onFileTypeFilterDoubleClick}
-                          showLabel
-                        />
-                      ))}
+              {integrations.slice(0, 5).map(({ key, count }) => (
+                <IntegrationFilter
+                  key={key}
+                  integrationKey={key}
+                  count={count}
+                  active={!excludeIntegrationsFilter[key]}
+                  onClick={() => onIntegrationFilterClick(key)}
+                />
+              ))}
+              {integrations.length > 5 && (
+                <div className="Filter_Popover">
+                  <Popover
+                    placement="topLeft"
+                    content={
+                      <div className="Popover_container">
+                        {integrations.map(({ key, count }) => (
+                          <IntegrationFilter
+                            key={key}
+                            integrationKey={key}
+                            count={count}
+                            active={!excludeIntegrationsFilter[key]}
+                            onClick={() => onIntegrationFilterClick(key)}
+                          />
+                        ))}
+                      </div>
+                    }
+                    title={String.t('ckgPage.dataIntegration', { count: integrations.length })}
+                    trigger="click"
+                    visible={this.state.integrationVisible}
+                    onVisibleChange={this.handleIntegrationsVisibleChange}
+                  >
+                    <div className="Filters_ellipsis_icon">
+                      <i className="fa fa-ellipsis-h" />
                     </div>
-                  }
-                  title={String.t('ckgPage.fileTypes', { count: fileTypes.length })}
-                  trigger="click"
-                  visible={this.state.filesVisible}
-                  onVisibleChange={this.handleFilesVisibleChange}
-                >
-                  <div className="Filters_ellipsis_icon">
-                    <i className="fa fa-ellipsis-h" />
-                  </div>
-                </Popover>
+                  </Popover>
+                </div>
+              )}
+            </div>
+          )}
+          {fileTypes.length > 0 && (
+            <div className="FilesFilters__group">
+              <div className="FilesFilters__dataTypes habla-label">
+                <span className="FilesFilters__dataTypes__badge">{fileTypes.length}</span>
               </div>
-            )}
-          </div>
+              {fileTypes.slice(0, 5).map(({ key, count, label, fileExtension }) => (
+                <FileTypeFilter
+                  key={key}
+                  count={count}
+                  label={label}
+                  fileExtension={fileExtension}
+                  active={!excludeTypesFilter[key]}
+                  onClick={() => onFileTypeFilterClick(key)}
+                  onDoubleClick={onFileTypeFilterDoubleClick}
+                />
+              ))}
+              {fileTypes.length > 5 && (
+                <div className="Filter_Popover">
+                  <Popover
+                    placement="topLeft"
+                    content={
+                      <div className="Popover_container">
+                        {fileTypes.map(({ key, count, label, fileExtension }) => (
+                          <FileTypeFilter
+                            key={key}
+                            count={count}
+                            label={label}
+                            fileExtension={fileExtension}
+                            active={!excludeTypesFilter[key]}
+                            onClick={() => onFileTypeFilterClick(key)}
+                            onDoubleClick={onFileTypeFilterDoubleClick}
+                            showLabel
+                          />
+                        ))}
+                      </div>
+                    }
+                    title={String.t('ckgPage.fileTypes', { count: fileTypes.length })}
+                    trigger="click"
+                    visible={this.state.filesVisible}
+                    onVisibleChange={this.handleFilesVisibleChange}
+                  >
+                    <div className="Filters_ellipsis_icon">
+                      <i className="fa fa-ellipsis-h" />
+                    </div>
+                  </Popover>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     );
