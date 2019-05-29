@@ -30,7 +30,8 @@ const propTypes = {
   fetchSubscription: PropTypes.func.isRequired,
   fetchPaypalSubscription: PropTypes.func.isRequired,
   paypalSubscription: PropTypes.object,
-  paypalSubscriptionId: PropTypes.string
+  paypalSubscriptionId: PropTypes.string,
+  teamMembersByTeamId: PropTypes.object.isRequired
 };
 
 const defaultProps = {
@@ -150,7 +151,8 @@ class OrganizationPage extends Component {
       user,
       orgId,
       subscription,
-      paypalSubscription
+      paypalSubscription,
+      teamMembersByTeamId
     } = this.props;
     if (
       subscribers &&
@@ -275,6 +277,7 @@ class OrganizationPage extends Component {
             orgId={orgId}
             teams={teams}
             user={user}
+            teamMembersByTeamId={teamMembersByTeamId}
           />
           <div className="app-version-container">
             <div className="app-version">

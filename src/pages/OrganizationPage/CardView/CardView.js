@@ -6,10 +6,9 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
 import String from 'src/translations';
-import getInitials from 'src/utils/helpers';
 import { integrationLabelFromKey, integrationImageFromKey } from 'src/utils/dataIntegrations';
 import { SimpleCardContainer, SimpleHeader } from 'src/components';
-import { AvatarWrapper } from 'src/containers';
+import { AvatarWrapper, TeamAvatarWrapper } from 'src/containers';
 import Avatar from 'src/components/common/Avatar';
 import './styles/style.css';
 
@@ -21,11 +20,12 @@ const propTypes = {
   subscribers: PropTypes.array.isRequired,
   subscribersPresences: PropTypes.object.isRequired,
   orgId: PropTypes.string.isRequired,
-  teams: PropTypes.array.isRequired
+  teams: PropTypes.array.isRequired,
+  teamMembersByTeamId: PropTypes.object.isRequired
 };
 
 function CardView(props) {
-  const { integrations, subscribers, orgId, teams, user, subscribersPresences } = props;
+  const { integrations, subscribers, orgId, teams, user, subscribersPresences, teamMembersByTeamId } = props;
   const subscriberByMyUser = subscribers.find(subscriber => subscriber.userId === user.userId);
 
   const teamShouldRender = (isOrgAdmin, team) => {
@@ -45,27 +45,23 @@ function CardView(props) {
   const renderTeams = isOrgAdmin =>
     props.teams.map(team => {
       const teamRender = teamShouldRender(isOrgAdmin, team);
-      const initials = getInitials(team.name);
       if (teamRender) {
-        const className = classNames({ 'opacity-low': !team.active });
+        const teamMembers = teamMembersByTeamId[team.teamId];
+        const isMember = teamMembers && teamMembers.some(teamMemberId => teamMemberId === user.userId);
+
         return (
           <div key={team.teamId} className="mr-1 mb-2">
-            <Tooltip placement="top" title={team.name}>
+            {isMember ? (
               <Link to={`/app/team/${team.teamId}`}>
-                {team.preferences.avatarBase64 ? (
-                  <Avatar
-                    size="large"
-                    src={`data:image/jpeg;base64, ${team.preferences.avatarBase64}`}
-                    className={className}
-                  />
-                ) : (
-                  <Avatar size="large" color={team.preferences.iconColor} className={className}>
-                    {initials}
-                  </Avatar>
-                )}
+                <TeamAvatarWrapper team={team} size="large" />
+                <div className="habla-label align-center-class card-label">{team.name}</div>
               </Link>
-              <div className="habla-label align-center-class card-label">{team.name}</div>
-            </Tooltip>
+            ) : (
+              <span>
+                <TeamAvatarWrapper team={team} size="large" />
+                <div className="habla-label align-center-class card-label">{team.name}</div>
+              </span>
+            )}
           </div>
         );
       }

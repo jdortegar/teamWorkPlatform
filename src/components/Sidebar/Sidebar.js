@@ -38,7 +38,8 @@ const propTypes = {
   teamId: PropTypes.string,
   callingData: PropTypes.object,
   finishCall: PropTypes.func.isRequired,
-  fetchTeamMembers: PropTypes.func.isRequired
+  fetchTeamMembers: PropTypes.func.isRequired,
+  teamMembers: PropTypes.object.isRequired
 };
 
 const defaultProps = {
@@ -78,8 +79,13 @@ class Sidebar extends Component {
     super(props);
 
     this.orgsOpen = {};
-    const { teams, currentSubscriberOrgId } = this.props;
-    const teamsActive = teams.filter(team => team.subscriberOrgId === currentSubscriberOrgId && team.active);
+
+    const { teams, currentSubscriberOrgId, user, teamMembers } = this.props;
+
+    const teamsActive = teams.filter(
+      team =>
+        team.subscriberOrgId === currentSubscriberOrgId && team.active && teamMembers[team.teamId].includes(user.userId)
+    );
 
     this.teamsActive = teamsActive;
 

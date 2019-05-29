@@ -16,7 +16,8 @@ const propTypes = {
   requestJoinToTeam: PropTypes.func,
   makeTeamCall: PropTypes.func,
   showDetails: PropTypes.bool,
-  teamAdminName: PropTypes.string
+  teamAdminName: PropTypes.string,
+  size: PropTypes.string
 };
 
 const defaultProps = {
@@ -26,23 +27,24 @@ const defaultProps = {
   teamAdminName: null,
   fetchPublicTeamMembers: () => {},
   requestJoinToTeam: () => {},
-  makeTeamCall: () => {}
+  makeTeamCall: () => {},
+  size: 'default'
 };
 
-function renderAvatar(item, enabled) {
+function renderAvatar(item, enabled, size = 'default') {
   const { preferences } = item;
   const className = classNames({
     'opacity-low': !enabled
   });
   if (preferences.logo) {
-    return <Avatar src={preferences.logo} color="#FFF" className={className} />;
+    return <Avatar src={preferences.logo} color="#FFF" className={className} size={size} />;
   }
   if (preferences.avatarBase64) {
-    return <Avatar src={`data:image/jpeg;base64, ${preferences.avatarBase64}`} className={className} />;
+    return <Avatar src={`data:image/jpeg;base64, ${preferences.avatarBase64}`} className={className} size={size} />;
   }
   const nameInitial = getInitials(item.name);
   return (
-    <Avatar color={preferences.iconColor} className={className}>
+    <Avatar color={preferences.iconColor} className={className} size={size}>
       {nameInitial}
     </Avatar>
   );
@@ -151,17 +153,16 @@ class TeamAvatarWrapper extends React.Component {
   };
 
   render() {
-    const { team, showDetails, currentUser } = this.props;
+    const { team, showDetails, currentUser, size } = this.props;
     if (!team) return null;
-
     return (
       <div>
         {showDetails ? (
           <Popover key={team.teamId} placement="topLeft" content={this.renderContent()} trigger="hover">
-            <div>{renderAvatar(team, team.active)}</div>
+            <div>{renderAvatar(team, team.active, size)}</div>
           </Popover>
         ) : (
-          <div>{renderAvatar(team, team.active)}</div>
+          <div>{renderAvatar(team, team.active, size)}</div>
         )}
         {this.state.previewMessageModalVisible && (
           <PreviewMessageModal

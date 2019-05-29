@@ -15,7 +15,10 @@ import {
   getCurrentUserTeams,
   getOrgIntegrationsObj,
   getSubscription,
-  getPaypalSubscription
+  getPaypalSubscription,
+  getUserRoles,
+  getTeams,
+  getUserIdsByTeamId
 } from 'src/selectors';
 import { OrganizationPage } from 'src/pages';
 
@@ -23,17 +26,26 @@ const mapStateToProps = (state, props) => {
   const orgId = getCurrentSubscriberOrgId(state);
   const subscriberOrg = state.subscriberOrgs.subscriberOrgById[orgId];
   const { paypalSubscriptionId } = props.match.params;
+
+  const userRoles = getUserRoles(state);
+
+  let teams = getCurrentUserTeams(state);
+
+  if (userRoles && userRoles.admin) {
+    teams = getTeams(state);
+  }
   return {
     subscriberOrg,
     user: getCurrentUser(state),
     subscribers: Object.values(getUserByUserId(state)),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
-    teams: getCurrentUserTeams(state),
     integrations: getOrgIntegrationsObj(state, orgId),
     orgId,
+    teams,
     subscription: getSubscription(state),
     paypalSubscription: getPaypalSubscription(state),
-    paypalSubscriptionId
+    paypalSubscriptionId,
+    teamMembersByTeamId: getUserIdsByTeamId(state)
   };
 };
 
