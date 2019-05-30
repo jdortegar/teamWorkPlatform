@@ -58,6 +58,7 @@ const propTypes = {
   updateInvitationDeclined: PropTypes.func.isRequired,
   updateRequestResponse: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
+  teamMembersByTeamId: PropTypes.object.isRequired,
   subscriberOrgs: PropTypes.object.isRequired,
   fetchTeamsBySubscriberOrgId: PropTypes.func.isRequired,
   fetchPublicTeams: PropTypes.func.isRequired,
@@ -155,7 +156,7 @@ class MainContent extends Component {
   }
 
   getValidInvites() {
-    const { teams, subscriberOrgs } = this.props;
+    const { subscriberOrgs, teamMembersByTeamId, user } = this.props;
     const { currentSubscriberOrgId, subscriberOrgById } = subscriberOrgs;
     if (!subscriberOrgById[currentSubscriberOrgId]) {
       // data not available yet
@@ -167,7 +168,7 @@ class MainContent extends Component {
       invitation = invitation.sort(sortByLastCreatedFirst).filter(inv => {
         // if already a member of the org or team, don't include the invite
         const { teamId } = inv;
-        if (teamId && teams[teamId] && !teams[teamId].preferences.public) {
+        if (teamMembersByTeamId[teamId] && teamMembersByTeamId[teamId].includes(user.userId)) {
           return false;
         }
 

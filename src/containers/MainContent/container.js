@@ -17,7 +17,8 @@ import {
   getUserByUserId,
   getTeamsById,
   getCurrentUser,
-  getConversationLink
+  getConversationLink,
+  getUserIdsByTeamId
 } from 'src/selectors';
 import { MainContent } from 'src/components';
 
@@ -48,6 +49,7 @@ const mapStateToProps = state => {
     requests: getRequests(state),
     subscriberOrgs: state.subscriberOrgs,
     teams: getTeamsById(state),
+    teamMembersByTeamId: getUserIdsByTeamId(state),
     user: getCurrentUser(state),
     users,
     pushMessage
