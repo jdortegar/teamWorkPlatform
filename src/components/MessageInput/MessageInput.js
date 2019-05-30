@@ -332,7 +332,7 @@ class MessageInput extends React.Component {
   };
 
   render() {
-    const { user, messageToEdit, team, currentConversationUserFullName, form, smartChatEnabled } = this.props;
+    const { user, messageToEdit, team, currentConversationUserFullName, form, smartChatEnabled, replyTo } = this.props;
     const { fileProgress, textToEdit } = this.state;
     const { message } = form.getFieldsValue();
 
@@ -388,39 +388,43 @@ class MessageInput extends React.Component {
                 <Picker onClick={this.addEmoji} />
               </div>
             )}
-            <a
-              className="team-room__icons"
-              role="button"
-              tabIndex={0}
-              disabled={this.isSubmitInvalid()}
-              onClick={this.showScheduleMessageModal}
-            >
-              <i className="far fa-clock" />
-            </a>
-            {this.state.scheduleModalVisible && (
-              <ScheduleMessageModal
-                subtitle={team ? team.name : currentConversationUserFullName}
-                text={message}
-                visible={this.state.scheduleModalVisible}
-                showScheduleMessageModal={this.showScheduleMessageModal}
-                onConfirmed={this.handleScheduleMessage}
-                loading={this.state.loadingScheduleConfirm}
-              />
+            {!(messageToEdit || replyTo) && (
+              <span style={{ display: 'flex' }}>
+                <a
+                  className="team-room__icons"
+                  role="button"
+                  tabIndex={0}
+                  disabled={this.isSubmitInvalid()}
+                  onClick={this.showScheduleMessageModal}
+                >
+                  <i className="far fa-clock" />
+                </a>
+                {this.state.scheduleModalVisible && (
+                  <ScheduleMessageModal
+                    subtitle={team ? team.name : currentConversationUserFullName}
+                    text={message}
+                    visible={this.state.scheduleModalVisible}
+                    showScheduleMessageModal={this.showScheduleMessageModal}
+                    onConfirmed={this.handleScheduleMessage}
+                    loading={this.state.loadingScheduleConfirm}
+                  />
+                )}
+                <div>
+                  <input
+                    id="fileupload"
+                    className="team-room__file-upload-input"
+                    type="file"
+                    onChange={this.onFileChange}
+                    multiple
+                  />
+                  <label htmlFor="fileupload" className="team-room__icons">
+                    <Tooltip placement="top" title={Str.t('chat.tooltipAttachments')} arrowPointAtCenter>
+                      <i className="fa fa-paperclip" />
+                    </Tooltip>
+                  </label>
+                </div>
+              </span>
             )}
-            <div>
-              <input
-                id="fileupload"
-                className="team-room__file-upload-input"
-                type="file"
-                onChange={this.onFileChange}
-                multiple
-              />
-              <label htmlFor="fileupload" className="team-room__icons">
-                <Tooltip placement="top" title={Str.t('chat.tooltipAttachments')} arrowPointAtCenter>
-                  <i className="fa fa-paperclip" />
-                </Tooltip>
-              </label>
-            </div>
             <a
               className="team-room__icons"
               role="button"
