@@ -51,6 +51,7 @@
   "fileSizeInKBytes": "{{sizeInKBytes}} KB",
   "fileSizeInMB": "{{sizeInMB}} MB",
   "durationSeparator": ":",
+  "altNotification": "Habla Notification",
 
   "updateProfileTitle": "Your Profile",
   "updateProfileExplain": "Your profile is viewable by Team Members of your Project Team.",

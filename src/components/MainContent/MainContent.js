@@ -1,10 +1,10 @@
-/* eslint-disable jsx-a11y/alt-text */
 import React, { Component } from 'react';
 import { Layout, notification } from 'antd';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import moment from 'moment';
+
 import { paths } from 'src/routes';
 import { soundNotificationPTAudio, soundNotificationInvitationAudio } from 'src/sounds';
 import { notificationIcon } from 'src/img';
@@ -143,6 +143,11 @@ class MainContent extends Component {
       const text = String.t('MainContent.responseRequest', { fullName, response, teamName: name });
 
       const args = {
+        icon: (
+          <div className="notification-edition">
+            <img src={notificationIcon} className="notification__Image" alt={String.t('altNotification')} />
+          </div>
+        ),
         message: text,
         duration: 5,
         onClose: () => {
@@ -195,7 +200,7 @@ class MainContent extends Component {
       key: pushMessage.key, // key prevents duplicated messages
       icon: (
         <div className="notification-edition">
-          <img src={notificationIcon} className="notification__Image" />
+          <img src={notificationIcon} className="notification__Image" alt={String.t('altNotification')} />
         </div>
       ),
       message: String.t('MainContent.newMessageFrom', pushMessage.user),

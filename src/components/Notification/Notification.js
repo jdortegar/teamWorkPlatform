@@ -3,6 +3,7 @@ import { notification } from 'antd';
 import PropTypes from 'prop-types';
 
 import { Button } from 'src/components';
+import { notificationIcon } from 'src/img';
 import { soundNotificationInvitationAudio } from 'src/sounds';
 import String from 'src/translations';
 import './styles/style.css';
@@ -60,6 +61,11 @@ class Notification extends Component {
         this.props.updateInvitation(this.props.options);
         if (selection) {
           const args = {
+            icon: (
+              <div className="notification-edition">
+                <img src={notificationIcon} className="notification__Image" alt={String.t('altNotification')} />
+              </div>
+            ),
             message: String.t('invitationAcceptedToast', { name }),
             duration: 4
           };
