@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Form, Tooltip, message as msg } from 'antd';
 import { isEmpty, last, size } from 'lodash';
 import classNames from 'classnames';
+import uuid from 'uuid/v4';
 
 import Str from 'src/translations';
 import { Picker } from 'emoji-mart';
@@ -286,20 +287,24 @@ class MessageInput extends React.Component {
 
         try {
           const { conversationId, replyTo, createScheduleMessage } = this.props;
+          const appData = { type: 'scheduleMessage' };
 
           if (isEmpty(files)) {
-            createScheduleMessage({ text, conversationId, replyTo, date });
+            appData.sortId = uuid();
+            createScheduleMessage({ text, conversationId, replyTo, date, appData });
           } else {
-            const requests = files.map((file, index) =>
-              createScheduleMessage({
+            const requests = files.map((file, index) => {
+              appData.sortId = uuid();
+              return createScheduleMessage({
                 text: index === 0 ? text : undefined, // add text to first message only
                 conversationId,
                 replyTo,
                 file,
                 onFileUploadProgress: this.handleFileUploadProgress,
-                date
-              })
-            );
+                date,
+                appData
+              });
+            });
 
             await Promise.all(requests);
           }

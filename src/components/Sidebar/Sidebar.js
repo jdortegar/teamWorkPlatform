@@ -38,8 +38,7 @@ const propTypes = {
   teamId: PropTypes.string,
   callingData: PropTypes.object,
   finishCall: PropTypes.func.isRequired,
-  fetchTeamMembers: PropTypes.func.isRequired,
-  teamMembers: PropTypes.object.isRequired
+  fetchTeamMembers: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -289,12 +288,11 @@ class Sidebar extends Component {
   };
 
   renderTeams(teamsActive) {
-    const { user, history, teamMembers } = this.props;
+    const { user, history } = this.props;
     const { pathname } = history.location;
 
     if (_.isEmpty(teamsActive)) return null;
-    let teams = _.compact(teamsActive.sort(sortByName));
-    teams = teams.filter(team => teamMembers[team.teamId] && teamMembers[team.teamId].includes(user.userId));
+    const teams = _.compact(teamsActive.sort(sortByName));
 
     return primaryAtTop(teams).map(team => {
       let isAdmin = false;
@@ -382,7 +380,14 @@ class Sidebar extends Component {
       userRoles,
       user
     } = this.props;
-    if (!currentSubscriberOrgId || !teams || subscriberOrgs.length === 0 || !subscribers || !subscribersPresences) {
+    if (
+      !currentSubscriberOrgId ||
+      !teams ||
+      subscriberOrgs.length === 0 ||
+      !subscribers ||
+      !subscribersPresences ||
+      !user
+    ) {
       return null;
     }
     const sideClass = classNames({

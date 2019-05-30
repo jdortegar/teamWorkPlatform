@@ -137,7 +137,9 @@ class ScheduleMessageModal extends React.Component {
         const text = editMessage;
         const date = scheduleDate;
         const appData = {
-          globalScheduleId: uuid()
+          globalScheduleId: uuid(),
+          sortId: uuid(),
+          type: 'scheduleMessage'
         };
 
         try {

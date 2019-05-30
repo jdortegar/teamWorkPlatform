@@ -26,7 +26,8 @@ const propTypes = {
   makePersonalCall: PropTypes.func,
   history: PropTypes.object,
   showDetails: PropTypes.bool,
-  orgLength: PropTypes.number
+  orgLength: PropTypes.number,
+  wrapMention: PropTypes.bool
 };
 
 const defaultProps = {
@@ -37,7 +38,8 @@ const defaultProps = {
   showDetails: true,
   makePersonalCall: null,
   orgLength: 1,
-  currentUser: null
+  currentUser: null,
+  wrapMention: false
 };
 
 class AvatarWrapper extends React.Component {
@@ -171,7 +173,7 @@ class AvatarWrapper extends React.Component {
   }
 
   render() {
-    const { className, hidePresence, user, showDetails } = this.props;
+    const { className, hidePresence, user, showDetails, wrapMention } = this.props;
     if (!user || isEmpty(user)) return null;
 
     const { presenceStatus, online, firstName, lastName, userId, preferences = {}, icon } = user;
@@ -192,32 +194,40 @@ class AvatarWrapper extends React.Component {
 
     return (
       <div className={topClass}>
-        {!hidePresence && !lowOpacity && this.renderUserStatus(presenceStatus)}
-        <div>
-          {showDetails ? (
-            <Popover key={userId} placement="topLeft" content={this.renderContent()} trigger="hover">
-              <span>
-                {icon ? (
-                  <Avatar size={this.props.size} src={`data:image/jpeg;base64, ${icon}`} />
-                ) : (
-                  <Avatar size={this.props.size} key={userId} color={preferences.iconColor}>
-                    {initials}
-                  </Avatar>
-                )}
-              </span>
-            </Popover>
-          ) : (
-            <span>
-              {icon ? (
-                <Avatar size={this.props.size} src={`data:image/jpeg;base64, ${icon}`} />
+        {wrapMention ? (
+          <Popover key={userId} placement="topLeft" content={this.renderContent()} trigger="hover">
+            <span className="Mention__UserFullName">{`@${fullName}`}</span>
+          </Popover>
+        ) : (
+          <div>
+            {!hidePresence && !lowOpacity && this.renderUserStatus(presenceStatus)}
+            <div>
+              {showDetails ? (
+                <Popover key={userId} placement="topLeft" content={this.renderContent()} trigger="hover">
+                  <span>
+                    {icon ? (
+                      <Avatar size={this.props.size} src={`data:image/jpeg;base64, ${icon}`} />
+                    ) : (
+                      <Avatar size={this.props.size} key={userId} color={preferences.iconColor}>
+                        {initials}
+                      </Avatar>
+                    )}
+                  </span>
+                </Popover>
               ) : (
-                <Avatar size={this.props.size} key={userId} color={preferences.iconColor}>
-                  {initials}
-                </Avatar>
+                <span>
+                  {icon ? (
+                    <Avatar size={this.props.size} src={`data:image/jpeg;base64, ${icon}`} />
+                  ) : (
+                    <Avatar size={this.props.size} key={userId} color={preferences.iconColor}>
+                      {initials}
+                    </Avatar>
+                  )}
+                </span>
               )}
-            </span>
-          )}
-        </div>
+            </div>
+          </div>
+        )}
         {this.state.videoCallModalVisible && (
           <VideoCallModal visible={this.state.videoCallModalVisible} showModal={this.showVideoCallModal} user={user} />
         )}

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Divider, message as mssg, Tooltip } from 'antd';
-import { find, includes, isEmpty, forEach } from 'lodash';
+import { find, includes, isEmpty, forEach, isArray } from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
 import Autolinker from 'autolinker';
@@ -22,6 +22,7 @@ import Metadata from './Metadata';
 import './styles/style.css';
 
 const URL_VALIDATION = /(http(s)?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-;,./?%&=!]*)?/gm;
+const TAG_VALIDATION = /\[id\].*?\[\/id\]/gm;
 
 const propTypes = {
   message: PropTypes.object.isRequired,
@@ -407,7 +408,8 @@ class ChatMessage extends Component {
       conversationDisabled,
       shareDataOwner,
       showMetadata,
-      userRoles
+      userRoles,
+      users
     } = this.props;
     if (!message) return false;
     const { content = [], created, children, appData = null } = message;
@@ -416,13 +418,35 @@ class ChatMessage extends Component {
     const messageOwner = child && shareDataOwner ? shareDataOwner : sender;
     const { firstName, lastName, userId } = messageOwner;
     const replies = children && children.filter(msg => !msg.deleted && msg.content[0].type !== 'emojiReaction');
-    const { text = '' } = find(content, { type: 'text/plain' }) || {};
+    let { text = '' } = find(content, { type: 'text/plain' }) || {};
+
     const MessageTextClass = classNames('message__body-text', { onlyemoji: !text.match(/(\w+)/g) });
     const matchUrl = text && text.indexOf('@') < 0 ? text.match(URL_VALIDATION) : null;
     const attachments = content.filter(
       resource => resource.type !== 'text/plain' && resource.type !== 'userId' && resource.type !== 'sharedData'
     );
     const name = Str.t('message.sentByName', { firstName, lastName });
+    // If exist tagged user, replace
+    const taggedUsers = text.match(TAG_VALIDATION);
+    if (taggedUsers) {
+      taggedUsers.forEach(tag => {
+        const tagId = tag.replace(/\[id\]|\[\/id\]/gm, '');
+        const tagUser = Object.values(users).find(userEl => userEl.userId === tagId);
+
+        if (tagUser) {
+          const textArray = text.split(':');
+          text = textArray.map(str => {
+            if (str === tag) {
+              // eslint-disable-next-line react/react-in-jsx-scope
+              return <AvatarWrapper user={tagUser} key={str} wrapMention />;
+            }
+            return (
+              <span key={str} dangerouslySetInnerHTML={{ __html: Autolinker.link(str, { stripPrefix: false }) }} />
+            );
+          });
+        }
+      });
+    }
 
     return (
       <div className={classNames(child ? 'Message__text_wrapper' : '')}>
@@ -442,7 +466,9 @@ class ChatMessage extends Component {
               <div>
                 <div className="Message__text_content">
                   <p className="message__body-name">{name}</p>
-                  {text && (
+                  {text && isArray(text) ? (
+                    <span className={MessageTextClass}>{text}</span>
+                  ) : (
                     // eslint-disable-next-line react/no-danger
                     <p
                       dangerouslySetInnerHTML={{ __html: Autolinker.link(text, { stripPrefix: false }) }}

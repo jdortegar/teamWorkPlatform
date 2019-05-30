@@ -94,7 +94,10 @@ class NotificationsPage extends Component {
     let globalScheduleIds = [];
     const { org } = this.props;
     const scheduleMessagesOrdered = sortBy(Object.values(scheduleMessages), el => el.schedule);
-    return scheduleMessagesOrdered.map(message => {
+    const scheduleMessagesFiltered = scheduleMessagesOrdered.filter(message =>
+      moment(message.schedule).isAfter(moment())
+    );
+    return scheduleMessagesFiltered.map(message => {
       const globalSchedule = globalScheduleIds.some(id => id === message.appData.globalScheduleId);
       if (globalSchedule) return;
 

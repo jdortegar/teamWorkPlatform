@@ -5,7 +5,8 @@ import {
   MESSAGE_SCHEDULE_CREATE_SUCCESS,
   MESSAGE_SCHEDULE_DELETE_SUCCESS,
   MESSAGE_SCHEDULE_UPDATE_SUCCESS,
-  MESSAGES_SCHEDULE_FETCH_SUCCESS
+  MESSAGES_SCHEDULE_FETCH_SUCCESS,
+  MESSAGE_SCHEDULE_RECEIVED
 } from 'src/actions';
 
 const byId = (state = {}, action) => {
@@ -13,14 +14,12 @@ const byId = (state = {}, action) => {
     case MESSAGES_SCHEDULE_FETCH_SUCCESS: {
       const { messages = [] } = action.payload;
 
-      if (messages.length === 0) return state;
-
       return {
         ...state,
         ...messages.reduce(
           (acc, message) => ({
             ...acc,
-            [message.id]: message
+            [message.appData.sortId]: message
           }),
           state
         )
@@ -29,11 +28,12 @@ const byId = (state = {}, action) => {
     case MESSAGE_SCHEDULE_UPDATE_SUCCESS:
     case MESSAGE_SCHEDULE_CREATE_SUCCESS: {
       const { message } = action.payload;
-      return { ...state, [message.id]: message };
+      return { ...state, [message.appData.sortId]: message };
     }
+    case MESSAGE_SCHEDULE_RECEIVED:
     case MESSAGE_SCHEDULE_DELETE_SUCCESS: {
       const { message } = action.payload;
-      const scheduleId = message.id;
+      const scheduleId = message.appData.sortId;
       return omit(state, scheduleId);
     }
     default:
@@ -48,16 +48,17 @@ const allMessageIds = (state = [], action) => {
 
       if (messages.length === 0) return state;
 
-      return compact(union(state, messages.map(message => message.id)));
+      return compact(union(state, messages.map(message => message.appData.sortId)));
     }
     case MESSAGE_SCHEDULE_UPDATE_SUCCESS:
     case MESSAGE_SCHEDULE_CREATE_SUCCESS: {
       const { message } = action.payload;
-      return union(state, [message.id]);
+      return union(state, [message.appData.sortId]);
     }
+    case MESSAGE_SCHEDULE_RECEIVED:
     case MESSAGE_SCHEDULE_DELETE_SUCCESS: {
       const { message } = action.payload;
-      const scheduleId = message.id;
+      const scheduleId = message.appData.sortId;
       return state.filter(item => item !== scheduleId);
     }
     default:
@@ -74,8 +75,10 @@ const allGlobalMessageIds = (state = {}, action) => {
       const globalMessagesByConversationId = {};
       messages
         .filter(message => message.appData && message.appData.globalScheduleId)
-        // eslint-disable-next-line no-return-assign
-        .forEach(message => (globalMessagesByConversationId[message.appData.globalScheduleId] = [message.id]));
+        .forEach(
+          // eslint-disable-next-line no-return-assign
+          message => (globalMessagesByConversationId[message.appData.globalScheduleId] = [message.appData.sortId])
+        );
 
       // eslint-disable-next-line consistent-return
       return mergeWith(state, globalMessagesByConversationId, (objValue, srcValue) => {
@@ -89,14 +92,14 @@ const allGlobalMessageIds = (state = {}, action) => {
       const { message } = action.payload;
       if (!(message.appData && message.appData.globalScheduleId)) return state;
       const scheduledIds = state[message.appData.globalScheduleId] || [];
-      scheduledIds.push(message.id);
+      scheduledIds.push(message.appData.sortId);
 
       return {
         ...state,
         [message.appData.globalScheduleId]: scheduledIds
       };
     }
-
+    case MESSAGE_SCHEDULE_RECEIVED:
     case MESSAGE_SCHEDULE_DELETE_SUCCESS: {
       const { message } = action.payload;
       return omit(state, message.appData.globalScheduleId);

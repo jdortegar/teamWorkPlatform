@@ -55,7 +55,7 @@ const defaultProps = {
 };
 
 class InlineSuggest extends React.Component {
-  state = { keyword: null, activeIndex: -1 };
+  state = { keyword: null, activeIndex: -1, top: null, left: null, showSuggestor: false };
 
   memoizedFilterSuggestions = memoize(filterSuggestions);
 
@@ -72,6 +72,11 @@ class InlineSuggest extends React.Component {
     const { suggestions, form } = this.props;
 
     form.setFieldsValue({ message: value });
+
+    const atChar = value.slice(-1);
+    if (atChar === '@') {
+      // console.log('arroba');
+    }
 
     const { keyword, suggestionsFound } = this.memoizedFilterSuggestions(
       value,
@@ -182,6 +187,20 @@ class InlineSuggest extends React.Component {
             {...inputProps}
           />
         )}
+        <div
+          id="dropdown"
+          style={{
+            position: 'absolute',
+            width: '200px',
+            borderRadius: '6px',
+            background: 'white',
+            boxShadow: 'rgba(0, 0, 0, 0.4) 0px 1px 4px',
+
+            display: this.state.showSuggestor ? 'block' : 'none',
+            top: this.state.top,
+            left: this.state.left
+          }}
+        />
         <Suggestion value={this.getValue()} needle={this.getNeedle()} shouldRenderSuggestion={shouldRenderSuggestion} />
       </div>
     );
