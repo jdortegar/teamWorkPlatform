@@ -114,6 +114,7 @@ class Sidebar extends Component {
       this.teamsActive = teamsActive;
       this.setState({ teamsActive });
     }
+    // If called user cancel Video Call
     if (callingData.callerId && callingData.status !== 'cancelled') {
       const videoCallUser = Object.values(subscribers).find(subscriber => subscriber.userId === callingData.callerId);
       this.setState({
@@ -122,6 +123,7 @@ class Sidebar extends Component {
         videoCallReceived: true
       });
     }
+    // If called user accept Video Call
     if (callingData.status === 'accepted') {
       const { callerId, teamId } = this.props.callingData;
       let userUrl;
@@ -415,9 +417,6 @@ class Sidebar extends Component {
     const activeBookmarks = classNames({
       active: currenthPath.indexOf(paths.bookmarks.split('app/')[1].split('/')[0]) > 1
     });
-    // const activeChat = classNames({
-    //   active: currenthPath.indexOf(paths.chat.split('app/')[1].split('/')[0]) > 1
-    // });
     const activeEditOrganization = classNames({
       active: currenthPath.indexOf(paths.editOrganization.split('app/')[1].split('/')[0]) > 1
     });

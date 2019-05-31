@@ -91,6 +91,12 @@ class VideoCallModal extends Component {
     }
   }
 
+  componentWillUnmount() {
+    // Stop call sound
+    soundNotificationVideoCall.pause();
+    soundNotificationVideoCall.currentTime = 0;
+  }
+
   handleClose = () => {
     this.props.finishCall();
     this.props.showModal(true);
