@@ -14,7 +14,7 @@ const propTypes = {
   history: PropTypes.object.isRequired,
   team: PropTypes.object,
   sender: PropTypes.object,
-  link: PropTypes.String
+  link: PropTypes.string
 };
 
 const defaultProps = {

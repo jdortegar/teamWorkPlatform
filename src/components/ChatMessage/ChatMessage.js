@@ -327,7 +327,7 @@ class ChatMessage extends Component {
       this.props
         .createMessage({
           text: emojiPic,
-          emojiReaction: e.colons,
+          emojiReaction: e.colons ? e.colons : e,
           conversationId,
           replyTo
         })

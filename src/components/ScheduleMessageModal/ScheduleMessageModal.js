@@ -223,6 +223,7 @@ class ScheduleMessageModal extends React.Component {
                 onOk={this.onOk}
                 className="ScheduleMessage__DatePicker"
                 format="DD MMM YYYY HH:mm"
+                showToday={false}
                 disabled={action === 'cancel' || null}
                 defaultValue={message ? moment(message.schedule) : null}
                 disabledDate={current => {

@@ -5,7 +5,8 @@ import {
   fetchIntegrations,
   setCurrentSubscriberOrgId,
   fetchSubscription,
-  fetchPaypalSubscription
+  fetchPaypalSubscription,
+  fetchPublicAndPrivateTeams
 } from 'src/actions';
 import {
   getCurrentUser,
@@ -28,7 +29,6 @@ const mapStateToProps = (state, props) => {
   const { paypalSubscriptionId } = props.match.params;
 
   const userRoles = getUserRoles(state);
-
   let teams = getCurrentUserTeams(state);
 
   if (userRoles && userRoles.admin) {
@@ -36,6 +36,7 @@ const mapStateToProps = (state, props) => {
   }
   return {
     subscriberOrg,
+    isOrgAdmin: userRoles.admin,
     user: getCurrentUser(state),
     subscribers: Object.values(getUserByUserId(state)),
     subscribersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
@@ -54,7 +55,8 @@ const mapDispatchToProps = {
   fetchIntegrations,
   setCurrentSubscriberOrgId,
   fetchSubscription,
-  fetchPaypalSubscription
+  fetchPaypalSubscription,
+  fetchPublicAndPrivateTeams
 };
 
 export default withRouter(

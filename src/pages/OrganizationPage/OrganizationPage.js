@@ -31,7 +31,9 @@ const propTypes = {
   fetchPaypalSubscription: PropTypes.func.isRequired,
   paypalSubscription: PropTypes.object,
   paypalSubscriptionId: PropTypes.string,
-  teamMembersByTeamId: PropTypes.object.isRequired
+  teamMembersByTeamId: PropTypes.object.isRequired,
+  fetchPublicAndPrivateTeams: PropTypes.func.isRequired,
+  isOrgAdmin: PropTypes.bool.isRequired
 };
 
 const defaultProps = {
@@ -72,7 +74,15 @@ class OrganizationPage extends Component {
   };
 
   componentDidMount() {
-    const { orgId, history, fetchSubscribersBySubscriberOrgId, fetchIntegrations, paypalSubscriptionId } = this.props;
+    const {
+      orgId,
+      history,
+      fetchSubscribersBySubscriberOrgId,
+      fetchIntegrations,
+      paypalSubscriptionId,
+      fetchPublicAndPrivateTeams,
+      isOrgAdmin
+    } = this.props;
 
     if (!orgId) {
       history.replace('/app');
@@ -83,6 +93,9 @@ class OrganizationPage extends Component {
       message.success(String.t('subscriptionModal.planUpdated'));
     }
 
+    if (isOrgAdmin) {
+      fetchPublicAndPrivateTeams();
+    }
     fetchSubscribersBySubscriberOrgId(orgId).then(() => this.setState({ subscribersLoaded: true }));
     fetchIntegrations().then(() => this.setState({ integrationsLoaded: true }));
 

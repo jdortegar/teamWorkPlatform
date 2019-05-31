@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { Layout, Menu, Tooltip, Dropdown, Input, Icon, message, Collapse } from 'antd';
 import { sortByName, primaryAtTop } from 'src/redux-hablaai/selectors/helpers';
-import { AvatarWrapper, VideoCallModal, PublicTeams, TeamItem } from 'src/containers';
+import { VideoCallModal, PublicTeams, TeamItem } from 'src/containers';
 import getInitials from 'src/utils/helpers';
 import { paths } from 'src/routes';
 import String from 'src/translations';
@@ -237,57 +237,6 @@ class Sidebar extends Component {
     this.props.setCurrentSubscriberOrgId(orgId);
     this.props.history.push(`/app/organization/${orgId}`);
   }
-
-  renderTeamMembers = teamId => {
-    const { subscribers, subscribersPresences, userRoles } = this.props;
-
-    const teamMembers = [];
-
-    _.forEach(subscribers, subscriber => {
-      if (Object.keys(subscriber.teams).some(team => team === teamId)) {
-        teamMembers.push({
-          ...subscriber,
-          online: _.some(_.values(subscribersPresences[subscriber.userId]), { presenceStatus: 'online' })
-        });
-      }
-    });
-
-    return (
-      <div className="sidebar-team-members">
-        <div className="sidebar-block-label">
-          <span className="habla-label">
-            {String.t('teamsMembers')}
-            <span className="sidebar-label-number-badge">{teamMembers.length}</span>
-          </span>
-        </div>
-        <div className="sidebar-direct-messages-content">
-          {teamMembers.map(subscriber => (
-            <AvatarWrapper
-              size="default"
-              user={subscriber}
-              key={subscriber.userId}
-              className="mr-05 mb-05"
-              hideStatusTooltip
-            />
-          ))}
-          {userRoles && userRoles.teamOwner.includes(teamId) && (
-            <Tooltip placement="topLeft" title={String.t('sideBar.invitetoTeam')} arrowPointAtCenter>
-              <a>
-                <Avatar
-                  className="mr-1"
-                  onClick={() => {
-                    this.props.history.push(`/app/inviteToTeam/${teamId}`);
-                  }}
-                >
-                  +
-                </Avatar>
-              </a>
-            </Tooltip>
-          )}
-        </div>
-      </div>
-    );
-  };
 
   renderTeams(teamsActive) {
     const { user, history } = this.props;

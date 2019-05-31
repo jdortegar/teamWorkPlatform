@@ -6,12 +6,14 @@ import {
   TEAM_PUBLIC_RECEIVE,
   UPDATED_TEAM_SUCCESS,
   CREATE_TEAM_SUCCESS,
-  PUBLIC_TEAMS_FETCH_SUCCESS
+  PUBLIC_TEAMS_FETCH_SUCCESS,
+  PUBLIC_PRIVATE_TEAMS_FETCH_SUCCESS
 } from 'src/actions';
 
 const byId = (state = {}, action) => {
   switch (action.type) {
     case PUBLIC_TEAMS_FETCH_SUCCESS:
+    case PUBLIC_PRIVATE_TEAMS_FETCH_SUCCESS:
     case TEAMS_FETCH_SUCCESS: {
       const { teams = [] } = action.payload;
       return {
@@ -59,6 +61,7 @@ const byId = (state = {}, action) => {
 const allIds = (state = [], action) => {
   switch (action.type) {
     case PUBLIC_TEAMS_FETCH_SUCCESS:
+    case PUBLIC_PRIVATE_TEAMS_FETCH_SUCCESS:
     case TEAMS_FETCH_SUCCESS: {
       const { teams = [] } = action.payload;
       return _.union(state, teams.map(team => team.teamId));
@@ -91,6 +94,7 @@ const myIds = (state = [], action) => {
 const idsByOrg = (state = {}, action) => {
   switch (action.type) {
     case PUBLIC_TEAMS_FETCH_SUCCESS:
+    case PUBLIC_PRIVATE_TEAMS_FETCH_SUCCESS:
     case TEAMS_FETCH_SUCCESS: {
       const { teams = [] } = action.payload;
       return {
