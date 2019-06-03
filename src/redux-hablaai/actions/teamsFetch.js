@@ -81,7 +81,7 @@ export const fetchPublicAndPrivateTeamsBySubscriberOrgId = subscriberOrgId => (d
 
   thunk.then(response => {
     if (response.data && response.data !== RESPONSE_STALE) {
-      const { teams } = response.data;
+      const teams = response.data;
       dispatch({
         type: PUBLIC_PRIVATE_TEAMS_FETCH_SUCCESS,
         payload: { subscriberOrgId, teams }
