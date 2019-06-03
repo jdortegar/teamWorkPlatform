@@ -60,13 +60,14 @@ class Notification extends Component {
       .then(() => {
         this.props.updateInvitation(this.props.options);
         if (selection) {
+          const message = String.t('invitationAcceptedToast', { name });
           const args = {
             icon: (
-              <div className="notification-edition">
+              <div className={`notification-edition ${message.length > 35 ? '' : 'translate-10'}`}>
                 <img src={notificationIcon} className="notification__Image" alt={String.t('altNotification')} />
               </div>
             ),
-            message: String.t('invitationAcceptedToast', { name }),
+            message,
             duration: 4
           };
           notification.open(args);

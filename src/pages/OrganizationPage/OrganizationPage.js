@@ -33,13 +33,14 @@ const propTypes = {
   paypalSubscriptionId: PropTypes.string,
   teamMembersByTeamId: PropTypes.object.isRequired,
   fetchPublicAndPrivateTeams: PropTypes.func.isRequired,
-  isOrgAdmin: PropTypes.bool.isRequired
+  isOrgAdmin: PropTypes.bool
 };
 
 const defaultProps = {
   subscription: {},
   paypalSubscription: null,
-  paypalSubscriptionId: null
+  paypalSubscriptionId: null,
+  isOrgAdmin: false
 };
 
 // Get subscriber avatar or Initials

@@ -125,6 +125,11 @@ class MainContent extends Component {
         });
       }
       const args = {
+        icon: (
+          <div className={`notification-edition ${text.length > 35 ? '' : 'translate-10'}`}>
+            <img src={notificationIcon} className="notification__Image" alt={String.t('altNotification')} />
+          </div>
+        ),
         message: text,
         duration: 3,
         onClose: () => {
@@ -135,7 +140,7 @@ class MainContent extends Component {
     }
 
     if (nextProps.responseRequest) {
-      // Notification for declined request to join Team.
+      // Notification for accept/decline request to join Team.
       const request = nextProps.responseRequest;
       const response = request.accepted ? 'accepted' : 'declined';
       const { fullName } = this.props.users[request.teamAdminId];
@@ -144,7 +149,7 @@ class MainContent extends Component {
 
       const args = {
         icon: (
-          <div className="notification-edition">
+          <div className={`notification-edition ${text.length > 35 ? '' : 'translate-10'}`}>
             <img src={notificationIcon} className="notification__Image" alt={String.t('altNotification')} />
           </div>
         ),

@@ -34,7 +34,7 @@
   width: 295px;
 }
 .ant-notification-notice {
-  min-height: 65px;
+  min-height: 50px;
   position: relative;
   margin-bottom: 16px;
   padding: 10px 10px;
@@ -101,4 +101,8 @@
   color: rgba(0, 0, 0, 0.85);
   font-size: 16px;
   line-height: 22px;
+}
+
+.translate-10 {
+  transform: translateY(-10px);
 }
