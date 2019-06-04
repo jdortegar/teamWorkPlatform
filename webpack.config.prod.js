@@ -34,6 +34,7 @@ module.exports = {
         HABLAAPI_BASE_URI: JSON.stringify(process.env.HABLAAPI_BASE_URI),
         HABLAAPI_ENV: JSON.stringify(process.env.HABLAAPI_ENV),
         HABLAAPI_KNOWLEDGE_URI: JSON.stringify(process.env.HABLAAPI_KNOWLEDGE_URI),
+        CHAT_ROOT: JSON.stringify(process.env.HABLAAPI_CHAT_URI),
         STRIPE: JSON.stringify(process.env.STRIPE),
         PUBLIC_WEBSITE_URL: JSON.stringify(process.env.PUBLIC_WEBSITE_URL)
       }
