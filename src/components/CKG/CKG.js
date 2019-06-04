@@ -16,62 +16,62 @@ import ViewSelector from './ViewSelector';
 import './styles/style.css';
 
 const propTypes = {
-  orgId: PropTypes.string.isRequired,
-  teamId: PropTypes.string,
-  team: PropTypes.object,
-  search: PropTypes.func.isRequired,
-  globalSearch: PropTypes.func.isRequired,
-  toggleOwnerFilter: PropTypes.func.isRequired,
-  toggleIntegrationFilter: PropTypes.func.isRequired,
-  toggleFileTypeFilter: PropTypes.func.isRequired,
-  setStartDateFilter: PropTypes.func.isRequired,
-  setEndDateFilter: PropTypes.func.isRequired,
-  changeCKGView: PropTypes.func.isRequired,
-  teams: PropTypes.array,
-  files: PropTypes.array,
-  searchedChatMessages: PropTypes.array,
-  searchedAttachedFiles: PropTypes.array,
-  owners: PropTypes.array,
-  integrations: PropTypes.array,
-  fileTypes: PropTypes.array,
-  excludeFilters: PropTypes.object,
-  query: PropTypes.string,
-  keywords: PropTypes.array,
-  searchTeamId: PropTypes.string,
+  activeView: PropTypes.string,
   caseSensitive: PropTypes.bool,
+  changeCKGView: PropTypes.func.isRequired,
+  chatVisible: PropTypes.bool,
   exactMatch: PropTypes.bool,
+  excludeFilters: PropTypes.object,
+  files: PropTypes.array,
+  fileTypes: PropTypes.array,
+  globalSearch: PropTypes.func.isRequired,
+  ignoreSearch: PropTypes.bool,
+  integrations: PropTypes.array,
+  keywords: PropTypes.array,
   loading: PropTypes.bool,
   menuOptions: PropTypes.array,
-  activeView: PropTypes.string,
+  orgId: PropTypes.string.isRequired,
+  owners: PropTypes.array,
+  query: PropTypes.string,
+  search: PropTypes.func.isRequired,
+  searchedAttachedFiles: PropTypes.array,
+  searchedChatMessages: PropTypes.array,
+  searchTeamId: PropTypes.string,
+  setEndDateFilter: PropTypes.func.isRequired,
+  setStartDateFilter: PropTypes.func.isRequired,
   showChat: PropTypes.func,
   showCKG: PropTypes.func,
-  chatVisible: PropTypes.bool,
-  ignoreSearch: PropTypes.bool
+  team: PropTypes.object,
+  teamId: PropTypes.string,
+  teams: PropTypes.array,
+  toggleFileTypeFilter: PropTypes.func.isRequired,
+  toggleIntegrationFilter: PropTypes.func.isRequired,
+  toggleOwnerFilter: PropTypes.func.isRequired
 };
 
 const defaultProps = {
-  teamId: null,
-  team: null,
-  searchedChatMessages: [],
-  searchedAttachedFiles: [],
-  teams: [],
-  files: [],
-  owners: [],
-  integrations: [],
-  fileTypes: [],
-  excludeFilters: {},
-  query: '',
-  keywords: [],
-  searchTeamId: null,
+  activeView: CKG_VIEWS.FILE_LIST,
   caseSensitive: false,
+  chatVisible: true,
   exactMatch: false,
+  excludeFilters: {},
+  files: [],
+  fileTypes: [],
+  ignoreSearch: false,
+  integrations: [],
+  keywords: [],
   loading: false,
   menuOptions: [],
-  activeView: CKG_VIEWS.FILE_LIST,
+  owners: [],
+  query: '',
+  searchedAttachedFiles: [],
+  searchedChatMessages: [],
+  searchTeamId: null,
   showChat: null,
   showCKG: null,
-  chatVisible: true,
-  ignoreSearch: false
+  team: null,
+  teamId: null,
+  teams: []
 };
 
 class CKG extends Component {
@@ -184,9 +184,14 @@ class CKG extends Component {
   };
 
   renderViewSelector = () => {
-    const { changeCKGView, activeView, query } = this.props;
+    const { changeCKGView, activeView, query, searchedChatMessages, searchedAttachedFiles, files } = this.props;
+
     return (
       <ViewSelector
+        query={query}
+        searchedChatMessages={searchedChatMessages.length}
+        searchedAttachedFiles={searchedAttachedFiles.length}
+        files={files.length}
         activeView={activeView}
         onChange={changeCKGView}
         hideMessages={query.length === 0}
@@ -283,7 +288,8 @@ class CKG extends Component {
       excludeFilters,
       menuOptions,
       activeView,
-      ignoreSearch
+      ignoreSearch,
+      changeCKGView
     } = this.props;
     const { startDate, endDate } = excludeFilters;
 
@@ -294,7 +300,35 @@ class CKG extends Component {
     let chatMessagesFiltered = [];
     let attachedFilesFiltered = [];
 
-    if (activeView === CKG_VIEWS.FILE_LIST || activeView === CKG_VIEWS.TIME_ACTIVITY) {
+    if (activeView === CKG_VIEWS.FILE_ATTACHMENTS) {
+      // Filter function for attached Files
+      if (searchedAttachedFiles.length === 0) {
+        changeCKGView(CKG_VIEWS.FILE_LIST);
+      }
+      attachedFilesFiltered = searchedAttachedFiles.filter(file => {
+        const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
+
+        const validDate =
+          (startDate ? moment(file.fileCreatedAt).isSameOrAfter(moment(startDate).startOf('day')) : true) &&
+          (endDate ? moment(file.fileCreatedAt).isSameOrBefore(moment(endDate).endOf('day')) : true);
+
+        return validDate && !excludeFilters.fileTypes[label] && !excludeFilters.owners[file.fileOwnerId];
+      });
+      itemLength = attachedFilesFiltered.length;
+    } else if (activeView === CKG_VIEWS.MESSAGES) {
+      // Filter function for chat messages
+      if (searchedChatMessages.length === 0) {
+        changeCKGView(CKG_VIEWS.FILE_LIST);
+      }
+      chatMessagesFiltered = searchedChatMessages.filter(file => {
+        const validDate =
+          (startDate ? moment(file.created).isSameOrAfter(moment(startDate).startOf('day')) : true) &&
+          (endDate ? moment(file.created).isSameOrBefore(moment(endDate).endOf('day')) : true);
+
+        return validDate && !excludeFilters.owners[file.createdBy];
+      });
+      itemLength = chatMessagesFiltered.length;
+    } else if (activeView === CKG_VIEWS.FILE_LIST || activeView === CKG_VIEWS.TIME_ACTIVITY) {
       // Filter function for integration files
       filesFiltered = files.filter(file => {
         const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
@@ -312,28 +346,6 @@ class CKG extends Component {
         );
       });
       itemLength = filesFiltered.length;
-    } else if (activeView === CKG_VIEWS.MESSAGES) {
-      // Filter function for chat messages
-      chatMessagesFiltered = searchedChatMessages.filter(file => {
-        const validDate =
-          (startDate ? moment(file.created).isSameOrAfter(moment(startDate).startOf('day')) : true) &&
-          (endDate ? moment(file.created).isSameOrBefore(moment(endDate).endOf('day')) : true);
-
-        return validDate && !excludeFilters.owners[file.createdBy];
-      });
-      itemLength = chatMessagesFiltered.length;
-    } else if (activeView === CKG_VIEWS.FILE_ATTACHMENTS) {
-      // Filter function for attached Files
-      attachedFilesFiltered = searchedAttachedFiles.filter(file => {
-        const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
-
-        const validDate =
-          (startDate ? moment(file.fileCreatedAt).isSameOrAfter(moment(startDate).startOf('day')) : true) &&
-          (endDate ? moment(file.fileCreatedAt).isSameOrBefore(moment(endDate).endOf('day')) : true);
-
-        return validDate && !excludeFilters.fileTypes[label] && !excludeFilters.owners[file.fileOwnerId];
-      });
-      itemLength = attachedFilesFiltered.length;
     }
 
     return (

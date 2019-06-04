@@ -9,7 +9,9 @@ const propTypes = {
   onChange: PropTypes.func.isRequired,
   activeView: PropTypes.string,
   hideMessages: PropTypes.bool,
-  hideFileAttachments: PropTypes.bool
+  hideFileAttachments: PropTypes.bool,
+  searchedAttachedFiles: PropTypes.number.isRequired,
+  searchedChatMessages: PropTypes.number.isRequired
 };
 
 const defaultProps = {
@@ -18,13 +20,20 @@ const defaultProps = {
   hideFileAttachments: false
 };
 
-const ViewSelector = ({ activeView, onChange, hideMessages, hideFileAttachments }) => {
+const ViewSelector = ({
+  activeView,
+  onChange,
+  hideMessages,
+  hideFileAttachments,
+  searchedChatMessages,
+  searchedAttachedFiles
+}) => {
   return (
     <span className="CKG__view-selector">
       <Radio.Group value={activeView} onChange={e => onChange(e.target.value)} buttonStyle="solid">
         {!hideMessages && (
           <Tooltip title={String.t(`ckg.${CKG_VIEWS.MESSAGES}`)}>
-            <Radio.Button value={CKG_VIEWS.MESSAGES}>
+            <Radio.Button value={CKG_VIEWS.MESSAGES} disabled={searchedChatMessages === 0}>
               <i className="far fa-comment-dots" title={String.t(`ckg.${CKG_VIEWS.MESSAGES}`)} />
             </Radio.Button>
           </Tooltip>
@@ -41,7 +50,7 @@ const ViewSelector = ({ activeView, onChange, hideMessages, hideFileAttachments 
         </Tooltip>
         {!hideFileAttachments && (
           <Tooltip title={String.t(`ckg.${CKG_VIEWS.FILE_ATTACHMENTS}`)}>
-            <Radio.Button value={CKG_VIEWS.FILE_ATTACHMENTS}>
+            <Radio.Button value={CKG_VIEWS.FILE_ATTACHMENTS} disabled={searchedAttachedFiles === 0}>
               <i className="fa fa-paperclip" title={String.t(`ckg.${CKG_VIEWS.FILE_ATTACHMENTS}`)} />
             </Radio.Button>
           </Tooltip>
