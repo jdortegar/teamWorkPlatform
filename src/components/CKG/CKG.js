@@ -135,9 +135,13 @@ class CKG extends Component {
   };
 
   handleRemoveKeywordClick = keyword => {
-    const { search, keywords, searchTeamId, caseSensitive, exactMatch } = this.props;
+    const { search, globalSearch, keywords, searchTeamId, caseSensitive, exactMatch, changeCKGView } = this.props;
     const query = without(keywords, keyword).join(' ');
     search(query, { teamId: searchTeamId, caseSensitive, exactMatch });
+    globalSearch(query, { caseSensitive, exactMatch });
+    if (query.length === 0) {
+      changeCKGView(CKG_VIEWS.FILE_LIST);
+    }
   };
 
   handleIntegrationFilterClick = key => {
