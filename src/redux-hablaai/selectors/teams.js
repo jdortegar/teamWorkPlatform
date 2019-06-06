@@ -36,7 +36,7 @@ export const getOrgPublicTeams = createSelector(
       }
       return false;
     });
-    return primaryAtTop(teams.sort(sortByName));
+    return primaryAtTop(teams.filter(Boolean).sort(sortByName));
   }
 );
 
