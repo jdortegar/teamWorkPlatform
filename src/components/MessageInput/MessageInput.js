@@ -18,47 +18,51 @@ import './styles/style.css';
 import suggestions from './suggestions.json';
 
 const propTypes = {
-  user: PropTypes.object.isRequired,
-  currentConversationUserFullName: PropTypes.string,
-  team: PropTypes.object,
-  conversationId: PropTypes.string.isRequired,
-  form: formShape.isRequired,
-  files: PropTypes.array,
-  smartChatEnabled: PropTypes.bool,
-  sendTyping: PropTypes.func.isRequired,
-  createMessage: PropTypes.func.isRequired,
-  createScheduleMessage: PropTypes.func.isRequired,
-  updateMessage: PropTypes.func.isRequired,
-  removeFileFromList: PropTypes.func,
   addBase: PropTypes.func,
   clearFileList: PropTypes.func,
-  updateFileList: PropTypes.func,
-  setLastSubmittedMessage: PropTypes.func,
-  isDraggingOver: PropTypes.bool,
-  replyTo: PropTypes.object,
-  messageToEdit: PropTypes.object,
+  conversationId: PropTypes.string.isRequired,
+  createMessage: PropTypes.func.isRequired,
+  createScheduleMessage: PropTypes.func.isRequired,
+  currentConversationUserFullName: PropTypes.string,
+  files: PropTypes.array,
+  form: formShape.isRequired,
+  handleEditingAction: PropTypes.func,
   handleEditMessage: PropTypes.func,
   handleReplyMessage: PropTypes.func,
-  handleEditingAction: PropTypes.func
+  isDraggingOver: PropTypes.bool,
+  messageToEdit: PropTypes.object,
+  removeFileFromList: PropTypes.func,
+  replyTo: PropTypes.object,
+  sendTyping: PropTypes.func.isRequired,
+  setLastSubmittedMessage: PropTypes.func,
+  smartChatEnabled: PropTypes.bool,
+  team: PropTypes.object,
+  updateFileList: PropTypes.func,
+  updateMessage: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  users: PropTypes.array
 };
 
 const defaultProps = {
-  team: null,
+  addBase: null,
+  clearFileList: () => {},
   currentConversationUserFullName: null,
   files: [],
-  replyTo: null,
-  messageToEdit: null,
-  removeFileFromList: null,
-  addBase: null,
-  updateFileList: null,
-  isDraggingOver: null,
-  smartChatEnabled: true,
-  clearFileList: () => {},
+  handleEditingAction: () => {},
   handleEditMessage: () => {},
   handleReplyMessage: () => {},
+  isDraggingOver: null,
+  messageToEdit: null,
+  removeFileFromList: null,
+  replyTo: null,
   setLastSubmittedMessage: () => {},
-  handleEditingAction: () => {}
+  smartChatEnabled: true,
+  team: null,
+  updateFileList: null,
+  users: []
 };
+
+const MENTION_VALIDATION = /[@][\w]+\s+[\w]+/gm;
 
 class MessageInput extends React.Component {
   constructor(props) {
@@ -182,8 +186,19 @@ class MessageInput extends React.Component {
     this.setState({ fileProgress });
   };
 
-  createMessages = async text => {
-    const { conversationId, replyTo, files, createMessage } = this.props;
+  createMessages = async plainText => {
+    const { conversationId, replyTo, files, createMessage, users } = this.props;
+    let text = plainText;
+
+    // If exists mentions replace fullName by userId
+    const taggedUsers = text.match(MENTION_VALIDATION);
+    if (taggedUsers) {
+      taggedUsers.forEach(tag => {
+        const userData = users.find(user => user.fullName.indexOf(tag.replace('@', '')) >= 0) || {};
+        const idReplace = userData ? `:[id]${userData.userId}[/id]:` : tag;
+        text = text.replace(`@${userData.fullName}`, idReplace);
+      });
+    }
 
     if (isEmpty(files)) {
       return createMessage({ text, conversationId, replyTo });
@@ -332,7 +347,16 @@ class MessageInput extends React.Component {
   };
 
   render() {
-    const { user, messageToEdit, team, currentConversationUserFullName, form, smartChatEnabled, replyTo } = this.props;
+    const {
+      user,
+      messageToEdit,
+      team,
+      currentConversationUserFullName,
+      form,
+      smartChatEnabled,
+      replyTo,
+      users
+    } = this.props;
     const { fileProgress, textToEdit } = this.state;
     const { message } = form.getFieldsValue();
 
@@ -358,6 +382,7 @@ class MessageInput extends React.Component {
                 <InlineSuggest
                   navigate
                   form={form}
+                  users={users}
                   suggestions={smartChatEnabled ? suggestions : []}
                   initialValue={textToEdit}
                   shouldRenderSuggestion={val => smartChatEnabled && size(val) >= 2}

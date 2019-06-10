@@ -18,46 +18,62 @@ const KeyEnum = {
   ENTER: 13,
   RIGHT_ARROW: 39,
   DOWN_ARROW: 40,
-  UP_ARROW: 38
+  UP_ARROW: 38,
+  ESC: 27
 };
 
 const propTypes = {
-  form: formShape.isRequired,
-  initialValue: PropTypes.string,
-  suggestions: PropTypes.array,
   className: PropTypes.string,
+  form: formShape.isRequired,
+  getSuggestionValue: PropTypes.func,
+  initialValue: PropTypes.string,
   inputClassName: PropTypes.string,
   inputProps: PropTypes.object,
   navigate: PropTypes.bool,
-  shouldRenderSuggestion: PropTypes.func,
-  getSuggestionValue: PropTypes.func,
-  onInputFocus: PropTypes.func,
   onInputBlur: PropTypes.func,
   onInputChange: PropTypes.func,
+  onInputFocus: PropTypes.func,
   onInputKeyDown: PropTypes.func,
-  onMatch: PropTypes.func
+  onMatch: PropTypes.func,
+  shouldRenderSuggestion: PropTypes.func,
+  suggestions: PropTypes.array,
+  users: PropTypes.array
 };
 
 const defaultProps = {
-  initialValue: null,
-  suggestions: [],
-  navigate: false,
   className: '',
+  getSuggestionValue: null,
+  initialValue: null,
   inputClassName: '',
   inputProps: {},
-  getSuggestionValue: null,
-  shouldRenderSuggestion: null,
+  navigate: false,
   onInputBlur: null,
-  onInputFocus: null,
   onInputChange: null,
+  onInputFocus: null,
   onInputKeyDown: null,
-  onMatch: null
+  onMatch: null,
+  shouldRenderSuggestion: null,
+  suggestions: [],
+  users: []
 };
 
 class InlineSuggest extends React.Component {
-  state = { keyword: null, activeIndex: -1, top: null, left: null, showSuggestor: false };
-
   memoizedFilterSuggestions = memoize(filterSuggestions);
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      keyword: null,
+      activeIndex: -1,
+      top: null,
+      left: null,
+      showMentionSuggestor: false,
+      filteredUsers: [],
+      currentMentionSelection: props.users.length - 1,
+      currentText: null
+    };
+  }
 
   noSuggestions = () => this.state.activeIndex === -1;
 
@@ -67,17 +83,35 @@ class InlineSuggest extends React.Component {
     }
   };
 
+  renderMentions = value => {
+    const { users } = this.props;
+    const filteredUsers = users.filter(el => el.fullName.toLowerCase().includes(value.toLowerCase().trim()));
+    this.setState({ filteredUsers, currentMentionSelection: filteredUsers.length - 1 });
+  };
+
   handleOnChange = e => {
     const { value } = e.currentTarget;
     const { suggestions, form } = this.props;
+    const { showMentionSuggestor } = this.state;
 
     form.setFieldsValue({ message: value });
 
-    const atChar = value.slice(-1);
-    if (atChar === '@') {
-      // console.log('arroba');
+    // Mention Function
+    const lastChar = value.slice(-1);
+    if (lastChar === '@') {
+      if (!showMentionSuggestor) {
+        this.setState({
+          currentText: value,
+          showMentionSuggestor: true
+        });
+      }
+    } else if (lastChar === ':') {
+      // eslint-disable-next-line no-console
+      console.log('emoji');
     }
+    this.renderMentions(value.split('@').pop());
 
+    // Autocomplete Function
     const { keyword, suggestionsFound } = this.memoizedFilterSuggestions(
       value,
       suggestions,
@@ -89,12 +123,54 @@ class InlineSuggest extends React.Component {
   };
 
   handleOnBlur = () => {
+    if (this.state.showMentionSuggestor) {
+      this.setState({
+        showMentionSuggestor: false
+      });
+    }
     if (this.props.onInputBlur) {
       this.props.onInputBlur(this.getValue());
     }
   };
 
   handleOnKeyDown = e => {
+    const { keyCode } = e;
+    const { navigate } = this.props;
+    const { showMentionSuggestor, currentMentionSelection, filteredUsers } = this.state;
+
+    // Mention function
+    if (showMentionSuggestor && keyCode === KeyEnum.DOWN_ARROW) {
+      e.preventDefault();
+
+      this.setState({
+        currentMentionSelection:
+          currentMentionSelection < filteredUsers.length - 1 ? currentMentionSelection + 1 : filteredUsers.length - 1
+      });
+    }
+
+    if (showMentionSuggestor && keyCode === KeyEnum.ESC) {
+      this.setState({
+        showMentionSuggestor: false
+      });
+      e.target.focus();
+    }
+
+    if (showMentionSuggestor && keyCode === KeyEnum.ENTER) {
+      e.preventDefault();
+
+      const { currentText } = this.state;
+      const user = filteredUsers[currentMentionSelection];
+
+      this.props.form.setFieldsValue({ message: `${currentText}${user.fullName}` });
+      this.setState({
+        currentMentionSelection: null,
+        currentText: null,
+        showMentionSuggestor: false
+      });
+    }
+
+    // Autocomplete function
+
     if (this.props.onInputKeyDown) {
       this.props.onInputKeyDown(e);
     }
@@ -102,9 +178,6 @@ class InlineSuggest extends React.Component {
     if (this.state.activeIndex === -1) {
       return;
     }
-
-    const { keyCode } = e;
-    const { navigate } = this.props;
 
     const allowedKeyCodes = [KeyEnum.TAB, KeyEnum.UP_ARROW, KeyEnum.DOWN_ARROW];
 
@@ -125,9 +198,18 @@ class InlineSuggest extends React.Component {
 
   handleOnKeyUp = e => {
     const { form } = this.props;
+    const { showMentionSuggestor, currentMentionSelection } = this.state;
     const { keyCode } = e;
 
-    if (this.state.activeIndex >= 0 && (keyCode === KeyEnum.TAB || keyCode === KeyEnum.RIGHT_ARROW)) {
+    // Mention function
+    if (showMentionSuggestor && keyCode === KeyEnum.UP_ARROW) {
+      e.preventDefault();
+
+      this.setState({
+        currentMentionSelection: currentMentionSelection > 1 ? currentMentionSelection - 1 : 0
+      });
+    } else if (this.state.activeIndex >= 0 && (keyCode === KeyEnum.TAB || keyCode === KeyEnum.RIGHT_ARROW)) {
+      // Autocomplete function
       const message = `${this.getValue()}${this.getNeedle()}`;
 
       form.setFieldsValue({ message });
@@ -187,20 +269,28 @@ class InlineSuggest extends React.Component {
             {...inputProps}
           />
         )}
-        <div
-          id="dropdown"
-          style={{
-            position: 'absolute',
-            width: '200px',
-            borderRadius: '6px',
-            background: 'white',
-            boxShadow: 'rgba(0, 0, 0, 0.4) 0px 1px 4px',
-
-            display: this.state.showSuggestor ? 'block' : 'none',
-            top: this.state.top,
-            left: this.state.left
-          }}
-        />
+        {this.state.showMentionSuggestor && (
+          <div
+            id="dropdown"
+            className="InlineSuggest__mention-dropdown"
+            style={{
+              top: this.state.top,
+              left: this.state.left
+            }}
+          >
+            {this.state.filteredUsers.map((user, index) => (
+              <div
+                className="InlineSuggest__mention-user"
+                style={{
+                  background: index === this.state.currentMentionSelection ? '#eee' : ''
+                }}
+                key={user.userId}
+              >
+                {user.fullName}
+              </div>
+            ))}
+          </div>
+        )}
         <Suggestion value={this.getValue()} needle={this.getNeedle()} shouldRenderSuggestion={shouldRenderSuggestion} />
       </div>
     );

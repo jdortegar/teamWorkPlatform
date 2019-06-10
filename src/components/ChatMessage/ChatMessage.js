@@ -22,7 +22,7 @@ import Metadata from './Metadata';
 import './styles/style.css';
 
 const URL_VALIDATION = /(http(s)?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-;,./?%&=!]*)?/gm;
-const TAG_VALIDATION = /\[id\].*?\[\/id\]/gm;
+const MENTION_VALIDATION = /\[id\].*?\[\/id\]/gm;
 
 const propTypes = {
   message: PropTypes.object.isRequired,
@@ -411,30 +411,28 @@ class ChatMessage extends Component {
     let { text = '' } = find(content, { type: 'text/plain' }) || {};
 
     const MessageTextClass = classNames('message__body-text', { onlyemoji: !text.match(/(\w+)/g) });
-    const matchUrl = text && text.indexOf('@') < 0 ? text.match(URL_VALIDATION) : null;
+    let matchUrl = text && text.indexOf('@') < 0 ? text.match(URL_VALIDATION) : null;
     const attachments = content.filter(
       resource => resource.type !== 'text/plain' && resource.type !== 'userId' && resource.type !== 'sharedData'
     );
     const name = Str.t('message.sentByName', { firstName, lastName });
     // If exist tagged user, replace
-    const taggedUsers = text.match(TAG_VALIDATION);
+    const taggedUsers = text.match(MENTION_VALIDATION);
     if (taggedUsers) {
-      taggedUsers.forEach(tag => {
-        const tagId = tag.replace(/\[id\]|\[\/id\]/gm, '');
-        const tagUser = Object.values(users).find(userEl => userEl.userId === tagId);
-
-        if (tagUser) {
-          const textArray = text.split(':');
-          text = textArray.map(str => {
-            if (str === tag) {
-              // eslint-disable-next-line react/react-in-jsx-scope
-              return <AvatarWrapper user={tagUser} key={str} wrapMention />;
-            }
-            return (
-              <span key={str} dangerouslySetInnerHTML={{ __html: Autolinker.link(str, { stripPrefix: false }) }} />
-            );
-          });
+      const textArray = isArray(text) ? text : text.split(':');
+      text = textArray.map(str => {
+        if (str.match(MENTION_VALIDATION)) {
+          const tagId = str.replace(/\[id\]|\[\/id\]/gm, '');
+          const tagUser = Object.values(users).find(userEl => userEl.userId === tagId);
+          return <AvatarWrapper key={tagId} user={tagUser} wrapMention />;
         }
+        matchUrl = str.match(URL_VALIDATION);
+        return (
+          <span
+            key={Math.random()}
+            dangerouslySetInnerHTML={{ __html: Autolinker.link(str, { stripPrefix: false }) }}
+          />
+        );
       });
     }
 

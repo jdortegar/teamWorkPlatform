@@ -42,7 +42,7 @@ const mapStateToProps = (state, props) => {
     currentConversationUserFullName,
     team: getTeam(state, teamId),
     teamMembers: getTeamMembersOfTeamId(state, teamId),
-    users: getUserByUserId(state),
+    users: Object.values(getUserByUserId(state)),
     usersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
     resourcesUrl: getResourcesUrl(state),
     membersTyping: getMembersTyping(state, conversationId),
