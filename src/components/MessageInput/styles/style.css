@@ -43,12 +43,12 @@
 }
 
 .InlineSuggest__mention-dropdown {
-  position: absolute;
-  width: 100%;
+  position: fixed;
+  width: 50%;
   border-radius: 6px;
   background: white;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 4px;
-  bottom: 40px;
+  bottom: 85px;
   z-index: 999;
   display: block;
 }

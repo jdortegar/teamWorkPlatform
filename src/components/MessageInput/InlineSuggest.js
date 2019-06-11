@@ -5,6 +5,7 @@ import { Input } from 'antd';
 import classNames from 'classnames';
 
 import { formShape } from 'src/propTypes';
+import { AvatarWrapper } from 'src/containers';
 import {
   filterSuggestions,
   getNeedleFromString,
@@ -295,7 +296,7 @@ class InlineSuggest extends React.Component {
                 key={user.userId}
                 onClick={() => this.handleUser(user)}
               >
-                {user.fullName}
+                <AvatarWrapper size="default" user={user} showDetails={false} /> {user.fullName}
               </div>
             ))}
           </div>
