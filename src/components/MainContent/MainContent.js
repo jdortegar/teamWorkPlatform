@@ -85,6 +85,8 @@ function invitationKey(inv) {
   return teamId ? `team-${teamId}` : `org-${subscriberOrgId}`;
 }
 
+const MENTION_VALIDATION = /\[id\].*?\[\/id\]/gm;
+
 class MainContent extends Component {
   state = {
     teamsLoaded: null
@@ -201,6 +203,37 @@ class MainContent extends Component {
     // avoid rendering the same notification
     if (!pushMessage || (priorMessage && priorMessage.key === pushMessage.key)) return;
 
+    let textMessage = pushMessage.description;
+
+    const taggedUsers = textMessage.match(MENTION_VALIDATION);
+    if (taggedUsers) {
+      const textArray = _.isArray(textMessage) ? textMessage : textMessage.split(':');
+      textMessage = textArray.map(str => {
+        if (str.match(MENTION_VALIDATION)) {
+          const tagId = str.replace(/\[id\]|\[\/id\]/gm, '');
+          const tagUser = Object.values(this.props.users).find(userEl => userEl.userId === tagId);
+
+          // Notification if user has been tagged
+          if (tagId === this.props.user.userId) {
+            const taggedconfig = {
+              icon: (
+                <div className="notification-edition translate-10">
+                  <img src={notificationIcon} className="notification__Image" alt={String.t('altNotification')} />
+                </div>
+              ),
+              message: String.t('userTagged'),
+              duration: 3,
+              onClose: () => this.props.notifyMessage(),
+              onClick: () => this.props.history.push(pushMessage.link)
+            };
+            notification.open(taggedconfig);
+          }
+          return `@${tagUser.fullName}`;
+        }
+        return str;
+      });
+    }
+
     const config = {
       key: pushMessage.key, // key prevents duplicated messages
       icon: (
@@ -209,7 +242,7 @@ class MainContent extends Component {
         </div>
       ),
       message: String.t('MainContent.newMessageFrom', pushMessage.user),
-      description: pushMessage.description || String.t('MainContent.newMessage'),
+      description: textMessage || String.t('MainContent.newMessage'),
       duration: 3,
       onClose: () => this.props.notifyMessage(),
       onClick: () => this.props.history.push(pushMessage.link)

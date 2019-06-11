@@ -33,7 +33,6 @@
   "private": "Private",
   "on": "On",
   "off": "Off",
-
   "enterMsgPostPlaceholder": "What do you want to tell the Team?",
   "enterMsgReplyPlaceholder": "Leave a Message ...",
   "appSplashSigningIn": "Signing In...",
@@ -52,7 +51,7 @@
   "fileSizeInMB": "{{sizeInMB}} MB",
   "durationSeparator": ":",
   "altNotification": "Habla Notification",
-
+  "userTagged": "You have been tagged",
   "updateProfileTitle": "Your Profile",
   "updateProfileExplain": "Your profile is viewable by Team Members of your Project Team.",
   "updateProfileUpdateAccountButtonLabel": "Update Account",
@@ -729,7 +728,6 @@
     "noSentBookmarks": "You currently have no bookmarks for sent messages.",
     "noReceivedBookmarks": "You currently have no bookmarks for received messages."
   },
-
   "validationError": {
     "usernameNotEndsWithPeriod": "Organization Name cannot end with a period.",
     "usernameTooShort": "Organization Name must be at least 3 characters long.",
