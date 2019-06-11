@@ -16,10 +16,12 @@ import Suggestion from './Suggestion';
 const KeyEnum = {
   TAB: 9,
   ENTER: 13,
+  LEFT_ARROW: 37,
   RIGHT_ARROW: 39,
   DOWN_ARROW: 40,
   UP_ARROW: 38,
-  ESC: 27
+  ESC: 27,
+  DELETE: 8
 };
 
 const propTypes = {
@@ -97,8 +99,8 @@ class InlineSuggest extends React.Component {
     form.setFieldsValue({ message: value });
 
     // Mention Function
-    const lastChar = value.slice(-1);
-    if (lastChar === '@') {
+    const lastChar = value.slice(-2);
+    if (lastChar === ' @' || lastChar.indexOf('@') === 0) {
       if (!showMentionSuggestor) {
         this.setState({
           currentText: value,
@@ -133,6 +135,19 @@ class InlineSuggest extends React.Component {
     }
   };
 
+  handleUser = userSelected => {
+    const { currentText, filteredUsers, currentMentionSelection } = this.state;
+
+    const user = userSelected || filteredUsers[currentMentionSelection];
+
+    this.props.form.setFieldsValue({ message: `${currentText}${user.fullName}` });
+    this.setState({
+      currentMentionSelection: null,
+      currentText: null,
+      showMentionSuggestor: false
+    });
+  };
+
   handleOnKeyDown = e => {
     const { keyCode } = e;
     const { navigate } = this.props;
@@ -148,7 +163,9 @@ class InlineSuggest extends React.Component {
       });
     }
 
-    if (showMentionSuggestor && keyCode === KeyEnum.ESC) {
+    const removeMentionCodes = [KeyEnum.ESC, KeyEnum.DELETE, KeyEnum.LEFT_ARROW];
+
+    if (showMentionSuggestor && removeMentionCodes.includes(keyCode)) {
       this.setState({
         showMentionSuggestor: false
       });
@@ -157,16 +174,7 @@ class InlineSuggest extends React.Component {
 
     if (showMentionSuggestor && keyCode === KeyEnum.ENTER) {
       e.preventDefault();
-
-      const { currentText } = this.state;
-      const user = filteredUsers[currentMentionSelection];
-
-      this.props.form.setFieldsValue({ message: `${currentText}${user.fullName}` });
-      this.setState({
-        currentMentionSelection: null,
-        currentText: null,
-        showMentionSuggestor: false
-      });
+      this.handleUser();
     }
 
     // Autocomplete function
@@ -285,6 +293,7 @@ class InlineSuggest extends React.Component {
                   background: index === this.state.currentMentionSelection ? '#eee' : ''
                 }}
                 key={user.userId}
+                onClick={() => this.handleUser(user)}
               >
                 {user.fullName}
               </div>
