@@ -101,7 +101,7 @@ class InlineSuggest extends React.Component {
 
     // Mention Function
     const lastChar = value.slice(-2);
-    if (lastChar === ' @' || lastChar.indexOf('@') === 0) {
+    if (lastChar === ' @' || (lastChar.length === 1 && lastChar.indexOf('@') === 0)) {
       if (!showMentionSuggestor) {
         this.setState({
           currentText: value,
@@ -126,11 +126,6 @@ class InlineSuggest extends React.Component {
   };
 
   handleOnBlur = () => {
-    if (this.state.showMentionSuggestor) {
-      this.setState({
-        showMentionSuggestor: false
-      });
-    }
     if (this.props.onInputBlur) {
       this.props.onInputBlur(this.getValue());
     }
