@@ -14,7 +14,8 @@ const propTypes = {
   titleText: PropTypes.string,
   bodyText: PropTypes.node,
   buttonText: PropTypes.string,
-  cancelButton: PropTypes.bool
+  cancelButton: PropTypes.bool,
+  acceptButton: PropTypes.bool
 };
 
 const defaultProps = {
@@ -22,11 +23,12 @@ const defaultProps = {
   bodyText:
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   buttonText: 'Ok',
-  cancelButton: true
+  cancelButton: true,
+  acceptButton: true
 };
 
 const HablaModal = props => {
-  const { visible, titleText, bodyText, buttonText, cancelButton } = props;
+  const { visible, titleText, bodyText, buttonText, cancelButton, acceptButton } = props;
 
   return (
     <div>
@@ -50,9 +52,11 @@ const HablaModal = props => {
                   {String.t('subscriptionModal.close')}
                 </Button>
               )}
-              <Button className="Confirm_button" onClick={props.showModal}>
-                {buttonText}
-              </Button>
+              {acceptButton && (
+                <Button className="Confirm_button" onClick={props.showModal}>
+                  {buttonText}
+                </Button>
+              )}
             </div>
           </div>
         </div>

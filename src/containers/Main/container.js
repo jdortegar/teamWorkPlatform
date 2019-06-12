@@ -9,7 +9,7 @@ import {
   fetchSubscriberOrgs,
   fetchSubscription
 } from 'src/actions';
-import { getCurrentSubscriberOrgId, getSubscription } from 'src/selectors';
+import { getCurrentSubscriberOrgId, getSubscription, getUserRoles } from 'src/selectors';
 
 const mapStateToProps = state => {
   const orgId = getCurrentSubscriberOrgId(state);
@@ -17,7 +17,8 @@ const mapStateToProps = state => {
   return {
     subscriberOrg,
     subscriberOrgs: state.subscriberOrgs,
-    subscription: getSubscription(state)
+    subscription: getSubscription(state),
+    userRoles: getUserRoles(state)
   };
 };
 

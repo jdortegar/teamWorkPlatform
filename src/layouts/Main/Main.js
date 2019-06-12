@@ -9,21 +9,23 @@ import './styles/main.css';
 import String from 'src/translations';
 
 const propTypes = {
-  initMessaging: PropTypes.func.isRequired,
   closeMessaging: PropTypes.func.isRequired,
   fetchGlobalState: PropTypes.func.isRequired,
   fetchInvitations: PropTypes.func.isRequired,
   fetchRequests: PropTypes.func.isRequired,
-  subscriberOrgs: PropTypes.object.isRequired,
-  subscriberOrg: PropTypes.object,
-  subscription: PropTypes.object,
+  fetchSubscriberOrgs: PropTypes.func.isRequired,
   fetchSubscription: PropTypes.func.isRequired,
-  fetchSubscriberOrgs: PropTypes.func.isRequired
+  initMessaging: PropTypes.func.isRequired,
+  subscriberOrg: PropTypes.object,
+  subscriberOrgs: PropTypes.object.isRequired,
+  subscription: PropTypes.object,
+  userRoles: PropTypes.object
 };
 
 const defaultProps = {
+  subscriberOrg: {},
   subscription: {},
-  subscriberOrg: {}
+  userRoles: {}
 };
 
 class Main extends React.Component {
@@ -121,6 +123,8 @@ class Main extends React.Component {
       return <Spinner />;
     }
 
+    const admin = this.props.userRoles.admin || null;
+
     const {
       modalVisible,
       cancelButton,
@@ -148,7 +152,8 @@ class Main extends React.Component {
           />
           <HablaModal
             visible={hablaModalVisible}
-            cancelButton={false}
+            cancelButton={cancelButton}
+            acceptButton={admin}
             showHablaModal={this.showHablaModal}
             showModal={this.showModal}
             titleText={hablaModalTitle}
