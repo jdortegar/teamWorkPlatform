@@ -15,14 +15,14 @@ const propTypes = {
   hidePresence: PropTypes.bool,
   currentUser: PropTypes.object,
   user: PropTypes.shape({
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
-    userId: PropTypes.string.isRequired,
-    preferences: PropTypes.object.isRequired,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    userId: PropTypes.string,
+    preferences: PropTypes.object,
     icon: PropTypes.string,
     presenceStatus: PropTypes.string,
     online: PropTypes.bool
-  }).isRequired,
+  }),
   makePersonalCall: PropTypes.func,
   history: PropTypes.object,
   showDetails: PropTypes.bool,
@@ -39,7 +39,16 @@ const defaultProps = {
   makePersonalCall: null,
   orgLength: 1,
   currentUser: null,
-  wrapMention: false
+  wrapMention: false,
+  user: {
+    firstName: 'Unknown',
+    lastName: 'User',
+    userId: null,
+    preferences: null,
+    icon: null,
+    presenceStatus: null,
+    online: null
+  }
 };
 
 class AvatarWrapper extends React.Component {
@@ -174,7 +183,7 @@ class AvatarWrapper extends React.Component {
 
   render() {
     const { className, hidePresence, user, showDetails, wrapMention } = this.props;
-    if (!user || isEmpty(user)) return null;
+    if (!user || !user.userId || isEmpty(user)) return null;
 
     const { presenceStatus, online, firstName, lastName, userId, preferences = {}, icon } = user;
     let topClass = (className || '').concat(' habla-top-menu-subitem');

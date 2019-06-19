@@ -113,7 +113,6 @@ class Header extends Component {
 
     this.props.clearSearch();
     this.props.search();
-    this.props.globalSearch();
     this.props.changeCKGView(CKG_VIEWS.FILE_LIST);
   };
 
@@ -124,8 +123,11 @@ class Header extends Component {
   handleSearchSubmit = event => {
     event.preventDefault();
     const { teamId, caseSensitive, exactMatch, history, search, globalSearch } = this.props;
-    search(this.state.query, { teamId, caseSensitive, exactMatch });
-    globalSearch(this.state.query, { teamId, caseSensitive, exactMatch });
+    const { query } = this.state;
+    search(query, { teamId, caseSensitive, exactMatch });
+    if (query.length > 0) {
+      globalSearch(query, { all: true, caseSensitive, exactMatch });
+    }
     history.push(paths.ckg);
   };
 

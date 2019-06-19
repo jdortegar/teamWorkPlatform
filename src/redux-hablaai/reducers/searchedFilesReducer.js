@@ -4,6 +4,7 @@ import { getOwnersFromFiles, getFileTypesFromFiles, getIntegrationsFromFiles } f
 import {
   GLOBAL_SEARCH_SUCCESS,
   TOGGLE_OWNER_FILTER,
+  TOGGLE_INTEGRATION_FILTER,
   TOGGLE_FILETYPE_FILTER,
   SET_START_DATE_FILTER,
   SET_END_DATE_FILTER,
@@ -32,22 +33,10 @@ const updateFiles = (files = []) => ({
   integrations: getIntegrationsFromFiles(files)
 });
 
-const searchedAttachedFiles = (state = INITIAL_STATE, action) => {
+const searchedFiles = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GLOBAL_SEARCH_SUCCESS: {
-      const attachedFiles = action.payload.items.data
-        .filter(file => file.dataType === '2')
-        .map(file => ({
-          content: file.content,
-          cid: file.cid,
-          fileCreatedAt: file.dataCreatedAt,
-          fileName: file.fileName,
-          fileOwnerId: file.hablaUserId,
-          fileSize: file.fileSize,
-          fileType: file.fileType,
-          fileExtension: file.fileType,
-          resourceUri: file.resourceUri
-        }));
+      const attachedFiles = action.payload.items.files.filter(file => file.dataType === '3');
 
       return {
         ...state,
@@ -63,6 +52,19 @@ const searchedAttachedFiles = (state = INITIAL_STATE, action) => {
           owners: {
             ...state.excludeFilters.owners,
             [key]: state.excludeFilters.owners[key] ? null : true
+          }
+        }
+      };
+    }
+    case TOGGLE_INTEGRATION_FILTER: {
+      const { key } = action.payload;
+      return {
+        ...state,
+        excludeFilters: {
+          ...state.excludeFilters,
+          integrations: {
+            ...state.excludeFilters.integrations,
+            [key]: state.excludeFilters.integrations[key] ? null : true
           }
         }
       };
@@ -109,4 +111,4 @@ const searchedAttachedFiles = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default searchedAttachedFiles;
+export default searchedFiles;

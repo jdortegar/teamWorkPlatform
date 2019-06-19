@@ -21,7 +21,8 @@ const INITIAL_STATE = {
   caseSensitive: false,
   exactMatch: false,
   resultsCount: 0,
-  teamId: null
+  teamId: null,
+  allSelector: false
 };
 
 const searchReducer = (state = INITIAL_STATE, action) => {
@@ -37,7 +38,8 @@ const searchReducer = (state = INITIAL_STATE, action) => {
         teamId: action.payload.teamId,
         query: action.payload.query,
         keywords: action.payload.keywords,
-        resultsCount: INITIAL_STATE.resultsCount
+        resultsCount: INITIAL_STATE.resultsCount,
+        allSelector: action.payload.all
       };
     case GLOBAL_SEARCH_SUCCESS:
     case SEARCH_SUCCESS:

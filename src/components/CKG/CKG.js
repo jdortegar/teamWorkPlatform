@@ -34,8 +34,10 @@ const propTypes = {
   owners: PropTypes.array,
   query: PropTypes.string,
   search: PropTypes.func.isRequired,
+  searchAll: PropTypes.bool,
   searchedAttachedFiles: PropTypes.array,
   searchedChatMessages: PropTypes.array,
+  searchedFiles: PropTypes.array,
   searchTeamId: PropTypes.string,
   setEndDateFilter: PropTypes.func.isRequired,
   setStartDateFilter: PropTypes.func.isRequired,
@@ -64,8 +66,10 @@ const defaultProps = {
   menuOptions: [],
   owners: [],
   query: '',
+  searchAll: false,
   searchedAttachedFiles: [],
   searchedChatMessages: [],
+  searchedFiles: [],
   searchTeamId: null,
   showChat: null,
   showCKG: null,
@@ -85,7 +89,8 @@ class CKG extends Component {
       globalSearch,
       query,
       caseSensitive,
-      exactMatch
+      exactMatch,
+      searchAll
     } = this.props;
 
     this.changeViewFromHash(this.props);
@@ -96,22 +101,24 @@ class CKG extends Component {
 
     if (!ignoreSearch) {
       search(query, { teamId, caseSensitive, exactMatch });
-      globalSearch(query, { caseSensitive, exactMatch });
     }
 
-    if (teamId) {
-      globalSearch();
+    if (query) {
+      globalSearch(query, { searchAll, caseSensitive, exactMatch });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { ignoreSearch, teamId, search, globalSearch, query, caseSensitive, exactMatch } = nextProps;
+    const { ignoreSearch, teamId, search, globalSearch, query, caseSensitive, exactMatch, searchAll } = nextProps;
 
     this.changeViewFromHash(nextProps);
 
     if (!ignoreSearch && this.props.teamId !== teamId) {
       search(query, { teamId, caseSensitive, exactMatch });
-      globalSearch(query, { caseSensitive, exactMatch });
+    }
+
+    if (query.length > 0 && query !== this.props.query) {
+      globalSearch(query, { searchAll, caseSensitive, exactMatch });
     }
   }
 
@@ -129,17 +136,31 @@ class CKG extends Component {
   };
 
   handleSelectTeam = value => {
-    const teamId = value !== 'org' ? value : null;
-    const { search, query, caseSensitive, exactMatch } = this.props;
-    search(query, { teamId, caseSensitive, exactMatch });
+    const { search, query, caseSensitive, exactMatch, globalSearch } = this.props;
+    if (value === 'all') {
+      globalSearch(query, { all: true, caseSensitive, exactMatch });
+    } else {
+      const teamId = value !== 'org' ? value : null;
+      search(query, { teamId, caseSensitive, exactMatch });
+    }
   };
 
   handleRemoveKeywordClick = keyword => {
-    const { search, globalSearch, keywords, searchTeamId, caseSensitive, exactMatch, changeCKGView } = this.props;
+    const {
+      search,
+      globalSearch,
+      keywords,
+      searchTeamId,
+      caseSensitive,
+      exactMatch,
+      changeCKGView,
+      searchAll
+    } = this.props;
     const query = without(keywords, keyword).join(' ');
     search(query, { teamId: searchTeamId, caseSensitive, exactMatch });
-    globalSearch(query, { caseSensitive, exactMatch });
-    if (query.length === 0) {
+    if (query.length > 0) {
+      globalSearch(query, { searchAll, caseSensitive, exactMatch });
+    } else {
       changeCKGView(CKG_VIEWS.FILE_LIST);
     }
   };
@@ -244,12 +265,12 @@ class CKG extends Component {
   };
 
   renderSelectors = () => {
-    const { teams } = this.props;
+    const { teams, searchAll } = this.props;
 
     return (
       <div className="bottomBar-selectors">
         <div className="bottomBar-selectors-content padding-class-a">
-          <TeamPicker teams={teams} onSelect={this.handleSelectTeam} />
+          <TeamPicker teams={teams} onSelect={this.handleSelectTeam} searchAll={searchAll} />
           <div className="clear" />
         </div>
       </div>
@@ -279,21 +300,25 @@ class CKG extends Component {
 
   render() {
     const {
-      loading,
-      searchedChatMessages,
-      searchedAttachedFiles,
-      files,
-      query,
-      integrations,
-      excludeFilters,
-      menuOptions,
       activeView,
+      changeCKGView,
+      excludeFilters,
+      files,
       ignoreSearch,
-      changeCKGView
+      integrations,
+      loading,
+      menuOptions,
+      query,
+      searchAll,
+      searchedAttachedFiles,
+      searchedChatMessages,
+      searchedFiles
     } = this.props;
     const { startDate, endDate } = excludeFilters;
 
     // CONFIG PER VIEW
+
+    console.log('searchAll', searchAll);
 
     let itemLength = 0;
     let filesFiltered = [];
@@ -330,7 +355,8 @@ class CKG extends Component {
       itemLength = chatMessagesFiltered.length;
     } else if (activeView === CKG_VIEWS.FILE_LIST || activeView === CKG_VIEWS.TIME_ACTIVITY) {
       // Filter function for integration files
-      filesFiltered = files.filter(file => {
+      const selectedFiles = searchAll ? searchedFiles : files;
+      filesFiltered = selectedFiles.filter(file => {
         const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
         const key = integrationKeyFromFile(file);
 
@@ -377,7 +403,12 @@ class CKG extends Component {
 
         {activeView === CKG_VIEWS.MESSAGES && <ChatMessagesView messages={chatMessagesFiltered} />}
         {activeView === CKG_VIEWS.FILE_LIST && (
-          <FileListView files={filesFiltered} loading={loading} highlightSearch={!ignoreSearch} />
+          <FileListView
+            files={filesFiltered}
+            loading={loading}
+            highlightSearch={!ignoreSearch}
+            globalSearch={searchAll}
+          />
         )}
         {activeView === CKG_VIEWS.TIME_ACTIVITY && <TimeActivityView files={filesFiltered} loading={loading} />}
         {activeView === CKG_VIEWS.FILE_ATTACHMENTS && (

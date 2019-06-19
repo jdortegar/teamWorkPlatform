@@ -28,7 +28,7 @@ const updateFiles = (files = []) => ({
 const searchedChatMessages = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GLOBAL_SEARCH_SUCCESS: {
-      const chatMessages = action.payload.items
+      const chatMessages = action.payload.items.data
         .filter(item => item.dataType === '1')
         .map(item => ({
           appData: {},

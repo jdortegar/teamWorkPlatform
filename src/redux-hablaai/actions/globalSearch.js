@@ -1,7 +1,4 @@
-import queryString from 'querystring';
-import { pickBy } from 'lodash';
-
-import { buildChatUrl } from 'src/lib/api';
+import { buildApiUrl } from 'src/lib/api';
 import { extractKeywords } from 'src/lib/keywords';
 import { getCurrentUserId } from 'src/selectors';
 import { doAuthenticatedRequest, RESPONSE_STALE } from './urlRequest';
@@ -13,28 +10,25 @@ export const GLOBAL_SEARCH_STALE = 'search/global/stale';
 export const TOGGLE_CASE_SENSITIVE = 'search/toggleCaseSensitive';
 export const TOGGLE_EXACT_MATCH = 'search/toggleExactMatch';
 
-export const globalSearch = (rawQuery = undefined, { caseSensitive = false, exactMatch = false } = {}) => (
+export const globalSearch = (rawQuery = undefined, { all = false, caseSensitive = false, exactMatch = false } = {}) => (
   dispatch,
   getState
 ) => {
   const currentUserId = getCurrentUserId(getState());
   const keywords = extractKeywords(rawQuery, 6);
   const query = keywords.join(' ');
-  const params = queryString.stringify(
-    pickBy({
-      search: query,
-      caseSensitive: caseSensitive ? 1 : 0,
-      andOperator: exactMatch ? 1 : 0,
-      pageSize: 200
-    })
+
+  const requestUrl = buildApiUrl(
+    `datak/getDataFilesBySearchTerm/${currentUserId}/${query}/${caseSensitive ? 0 : 1}/${exactMatch ? 1 : 0}`,
+    'v2'
   );
 
-  let requestUrl = buildChatUrl(`users/${currentUserId}/messages`);
-  if (query) requestUrl += `?${params}`;
+  console.log('action', all);
 
   dispatch({
     type: GLOBAL_SEARCH_REQUEST,
     payload: {
+      all,
       query,
       keywords
     }
@@ -55,7 +49,7 @@ export const globalSearch = (rawQuery = undefined, { caseSensitive = false, exac
       if (response.data !== RESPONSE_STALE) {
         dispatch({
           type: GLOBAL_SEARCH_SUCCESS,
-          payload: { items: response.data.items }
+          payload: { items: response.data.message }
         });
       }
       if (response.data === RESPONSE_STALE) {
