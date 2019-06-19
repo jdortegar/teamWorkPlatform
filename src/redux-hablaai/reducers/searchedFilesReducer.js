@@ -1,9 +1,11 @@
 import uuid from 'uuid/v4';
-import { getOwnersFromMessages } from 'src/lib/files';
+import { getOwnersFromFiles, getFileTypesFromFiles, getIntegrationsFromFiles } from 'src/lib/files';
 
 import {
   GLOBAL_SEARCH_SUCCESS,
   TOGGLE_OWNER_FILTER,
+  TOGGLE_INTEGRATION_FILTER,
+  TOGGLE_FILETYPE_FILTER,
   SET_START_DATE_FILTER,
   SET_END_DATE_FILTER,
   SUBSCRIBERORG_SETCURRENT
@@ -13,8 +15,12 @@ const INITIAL_STATE = {
   teamLoading: {},
   items: [],
   owners: [],
+  fileTypes: [],
+  integrations: [],
   excludeFilters: {
     owners: {},
+    fileTypes: {},
+    integrations: {},
     startDate: null,
     endDate: null
   }
@@ -22,31 +28,19 @@ const INITIAL_STATE = {
 
 const updateFiles = (files = []) => ({
   items: files.map(file => ({ ...file, fileKey: uuid() })),
-  owners: getOwnersFromMessages(files)
+  owners: getOwnersFromFiles(files),
+  fileTypes: getFileTypesFromFiles(files),
+  integrations: getIntegrationsFromFiles(files)
 });
 
-const searchedChatMessages = (state = INITIAL_STATE, action) => {
+const searchedFiles = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GLOBAL_SEARCH_SUCCESS: {
-      const chatMessages = action.payload.items.data
-        .filter(item => item.dataType === '1')
-        .map(item => ({
-          appData: {},
-          content: [
-            {
-              text: item.content,
-              type: item.fileType
-            }
-          ],
-          created: item.dataCreatedAt,
-          createdBy: item.hablaUserId,
-          id: item.messageId,
-          conversationId: item.cid
-        }));
+      const attachedFiles = action.payload.items.files.filter(file => file.dataType === '3');
 
       return {
         ...state,
-        ...updateFiles(chatMessages)
+        ...updateFiles(attachedFiles)
       };
     }
     case TOGGLE_OWNER_FILTER: {
@@ -58,6 +52,32 @@ const searchedChatMessages = (state = INITIAL_STATE, action) => {
           owners: {
             ...state.excludeFilters.owners,
             [key]: state.excludeFilters.owners[key] ? null : true
+          }
+        }
+      };
+    }
+    case TOGGLE_INTEGRATION_FILTER: {
+      const { key } = action.payload;
+      return {
+        ...state,
+        excludeFilters: {
+          ...state.excludeFilters,
+          integrations: {
+            ...state.excludeFilters.integrations,
+            [key]: state.excludeFilters.integrations[key] ? null : true
+          }
+        }
+      };
+    }
+    case TOGGLE_FILETYPE_FILTER: {
+      const { key } = action.payload;
+      return {
+        ...state,
+        excludeFilters: {
+          ...state.excludeFilters,
+          fileTypes: {
+            ...state.excludeFilters.fileTypes,
+            [key]: state.excludeFilters.fileTypes[key] ? null : true
           }
         }
       };
@@ -91,4 +111,4 @@ const searchedChatMessages = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default searchedChatMessages;
+export default searchedFiles;

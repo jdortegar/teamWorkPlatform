@@ -6,3 +6,4 @@ export const getSearchTeamId = state => state.search.teamId;
 export const isSearchLoading = state => state.search.loading;
 export const isSearchCaseSensitive = state => state.search.caseSensitive;
 export const isSearchExactMatch = state => state.search.exactMatch;
+export const isSearchAll = state => state.search.allSelector;

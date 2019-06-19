@@ -5,7 +5,9 @@ import {
   getSearchKeywords,
   isSearchCaseSensitive,
   isSearchLoading,
-  getAttachedFilesOwners
+  getAttachedFilesOwners,
+  getCurrentUserTeams,
+  getCurrentSubscriberOrgName
 } from 'src/selectors';
 import { createMessage } from 'src/actions';
 
@@ -17,7 +19,9 @@ const mapStateToProps = (state, props) => {
     owners,
     keywords: getSearchKeywords(state),
     caseSensitive: isSearchCaseSensitive(state),
-    loading: props.loading !== undefined ? props.loading : isSearchLoading(state)
+    loading: props.loading !== undefined ? props.loading : isSearchLoading(state),
+    teams: getCurrentUserTeams(state),
+    orgName: getCurrentSubscriberOrgName(state)
   };
 };
 

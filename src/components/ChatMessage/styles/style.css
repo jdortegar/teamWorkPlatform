@@ -181,6 +181,7 @@
 
 .User_MainInfo {
   position: relative;
+  display: flex;
 }
 
 .User_MainInfo .User_action-buttons {

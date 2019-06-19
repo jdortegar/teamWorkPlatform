@@ -11,6 +11,7 @@ export * from './schedules';
 export * from './search';
 export * from './searchedChatMessages';
 export * from './searchedAttachedFiles';
+export * from './searchedFiles';
 export * from './sharingSettings';
 export * from './subscriberOrgs';
 export * from './subscribers';

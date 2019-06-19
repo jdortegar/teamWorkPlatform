@@ -24,7 +24,12 @@ import {
   getSearchedAttachedExcludeFilters,
   getChatMessagesOwners,
   getAttachedFilesOwners,
-  getSearchedChatMessagesExcludeFilters
+  getSearchedChatMessagesExcludeFilters,
+  getSearchedFiles,
+  isSearchAll,
+  getAllFilesOwners,
+  getSearchedExcludeFilters,
+  getSearchedFileTypes
 } from 'src/selectors';
 import {
   toggleOwnerFilter,
@@ -44,11 +49,18 @@ const mapStateToProps = (state, props) => {
   const team = getTeam(state, teamId);
   const activeView = getCKGActiveView(state);
 
+  const searchAll = isSearchAll(state);
+
   let fileTypes = getFileTypes(state);
   let excludeFilters = getExcludeFilters(state);
   let owners = getOwners(state);
   let integrations = getFileIntegrations(state);
-  if (activeView === CKG_VIEWS.FILE_ATTACHMENTS) {
+  if (activeView === CKG_VIEWS.FILE_LIST && searchAll) {
+    owners = getAllFilesOwners(state);
+    excludeFilters = getSearchedExcludeFilters(state);
+    integrations = [];
+    fileTypes = getSearchedFileTypes(state);
+  } else if (activeView === CKG_VIEWS.FILE_ATTACHMENTS) {
     owners = getAttachedFilesOwners(state);
     excludeFilters = getSearchedAttachedExcludeFilters(state);
     integrations = [];
@@ -78,7 +90,9 @@ const mapStateToProps = (state, props) => {
     loading: loading !== undefined ? loading : isSearchLoading(state),
     activeView,
     searchedChatMessages: getSearchedChatMessages(state),
-    searchedAttachedFiles: getSearchedAttachedFiles(state)
+    searchedAttachedFiles: getSearchedAttachedFiles(state),
+    searchedFiles: getSearchedFiles(state),
+    searchAll
   };
 };
 

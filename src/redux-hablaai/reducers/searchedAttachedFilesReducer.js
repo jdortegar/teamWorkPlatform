@@ -35,19 +35,26 @@ const updateFiles = (files = []) => ({
 const searchedAttachedFiles = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GLOBAL_SEARCH_SUCCESS: {
-      const attachedFiles = action.payload.items
+      const attachedFiles = action.payload.items.data
         .filter(file => file.dataType === '2')
-        .map(file => ({
-          content: file.content,
-          cid: file.cid,
-          fileCreatedAt: file.dataCreatedAt,
-          fileName: file.fileName,
-          fileOwnerId: file.hablaUserId,
-          fileSize: file.fileSize,
-          fileType: file.fileType,
-          fileExtension: file.fileType,
-          resourceUri: file.resourceUri
-        }));
+        .map(file => {
+          if (file.fileName !== 'None') {
+            const splited = file.fileName.split('.');
+            // eslint-disable-next-line no-param-reassign
+            file.fileType = splited[splited.length - 1];
+          }
+          return {
+            content: file.content,
+            cid: file.cid,
+            fileCreatedAt: file.dataCreatedAt,
+            fileName: file.fileName,
+            fileOwnerId: file.hablaUserId,
+            fileSize: file.fileSize,
+            fileType: file.fileType,
+            fileExtension: file.fileType,
+            resourceUri: file.resourceUri
+          };
+        });
 
       return {
         ...state,
