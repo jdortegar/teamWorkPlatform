@@ -23,7 +23,6 @@ const propTypes = {
   clearSearch: PropTypes.func.isRequired,
   changeCKGView: PropTypes.func.isRequired,
   user: PropTypes.object,
-  teamId: PropTypes.string,
   query: PropTypes.string,
   caseSensitive: PropTypes.bool,
   exactMatch: PropTypes.bool,
@@ -36,8 +35,7 @@ const defaultProps = {
   query: '',
   caseSensitive: false,
   exactMatch: false,
-  user: null,
-  teamId: null
+  user: null
 };
 
 const AntdHeader = Layout.Header;
@@ -122,9 +120,8 @@ class Header extends Component {
 
   handleSearchSubmit = event => {
     event.preventDefault();
-    const { teamId, caseSensitive, exactMatch, history, search, globalSearch } = this.props;
+    const { caseSensitive, exactMatch, history, globalSearch } = this.props;
     const { query } = this.state;
-    search(query, { teamId, caseSensitive, exactMatch });
     if (query.length > 0) {
       globalSearch(query, { all: true, caseSensitive, exactMatch });
     }

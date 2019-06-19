@@ -79,6 +79,10 @@ const defaultProps = {
 };
 
 class CKG extends Component {
+  state = {
+    elementSelected: 'org'
+  };
+
   componentDidMount() {
     const {
       ignoreSearch,
@@ -101,24 +105,28 @@ class CKG extends Component {
 
     if (!ignoreSearch) {
       search(query, { teamId, caseSensitive, exactMatch });
+      this.setState({ elementSelected: 'org' });
     }
 
-    if (query) {
+    if (!ignoreSearch && query.length > 0) {
       globalSearch(query, { searchAll, caseSensitive, exactMatch });
+      this.setState({ elementSelected: 'all' });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { ignoreSearch, teamId, search, globalSearch, query, caseSensitive, exactMatch, searchAll } = nextProps;
+    const { ignoreSearch, teamId, search, globalSearch, query, caseSensitive, exactMatch } = nextProps;
 
     this.changeViewFromHash(nextProps);
 
     if (!ignoreSearch && this.props.teamId !== teamId) {
       search(query, { teamId, caseSensitive, exactMatch });
+      this.setState({ elementSelected: 'org' });
     }
 
     if (query.length > 0 && query !== this.props.query) {
-      globalSearch(query, { searchAll, caseSensitive, exactMatch });
+      globalSearch(query, { caseSensitive, exactMatch });
+      this.setState({ elementSelected: 'all' });
     }
   }
 
@@ -137,6 +145,7 @@ class CKG extends Component {
 
   handleSelectTeam = value => {
     const { search, query, caseSensitive, exactMatch, globalSearch } = this.props;
+    this.setState({ elementSelected: value });
     if (value === 'all') {
       globalSearch(query, { all: true, caseSensitive, exactMatch });
     } else {
@@ -265,12 +274,20 @@ class CKG extends Component {
   };
 
   renderSelectors = () => {
-    const { teams, searchAll } = this.props;
+    const { teams, query, searchAll } = this.props;
+    let { elementSelected } = this.state;
+
+    if (elementSelected.length < 10 && query.length > 0 && searchAll) {
+      elementSelected = 'all';
+    }
+    if (query.length === 0 && !searchAll) {
+      elementSelected = 'org';
+    }
 
     return (
       <div className="bottomBar-selectors">
         <div className="bottomBar-selectors-content padding-class-a">
-          <TeamPicker teams={teams} onSelect={this.handleSelectTeam} searchAll={searchAll} />
+          <TeamPicker teams={teams} onSelect={this.handleSelectTeam} query={query} elementSelected={elementSelected} />
           <div className="clear" />
         </div>
       </div>
@@ -318,8 +335,6 @@ class CKG extends Component {
 
     // CONFIG PER VIEW
 
-    console.log('searchAll', searchAll);
-
     let itemLength = 0;
     let filesFiltered = [];
     let chatMessagesFiltered = [];
@@ -355,7 +370,7 @@ class CKG extends Component {
       itemLength = chatMessagesFiltered.length;
     } else if (activeView === CKG_VIEWS.FILE_LIST || activeView === CKG_VIEWS.TIME_ACTIVITY) {
       // Filter function for integration files
-      const selectedFiles = searchAll ? searchedFiles : files;
+      const selectedFiles = searchAll && !ignoreSearch ? searchedFiles : files;
       filesFiltered = selectedFiles.filter(file => {
         const label = file.fileExtension || String.t('ckgPage.filterTypeOther');
         const key = integrationKeyFromFile(file);
@@ -407,7 +422,7 @@ class CKG extends Component {
             files={filesFiltered}
             loading={loading}
             highlightSearch={!ignoreSearch}
-            globalSearch={searchAll}
+            globalSearch={searchAll && !ignoreSearch}
           />
         )}
         {activeView === CKG_VIEWS.TIME_ACTIVITY && <TimeActivityView files={filesFiltered} loading={loading} />}

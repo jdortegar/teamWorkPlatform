@@ -16,29 +16,35 @@ const propTypes = {
     })
   ),
   onSelect: PropTypes.func,
-  searchAll: PropTypes.bool
+  query: PropTypes.string,
+  elementSelected: PropTypes.string.isRequired
 };
 
 const defaultProps = {
   teams: [],
   onSelect: null,
-  searchAll: false
+  query: ''
 };
 
 // eslint-disable-next-line react/prefer-stateless-function
 class TeamPicker extends React.Component {
   render() {
-    const { searchAll, onSelect, teams } = this.props;
+    const { query, onSelect, teams, elementSelected } = this.props;
     return (
       <div className="team-select-container">
-        <Select defaultValue={searchAll ? 'all' : 'org'} className="team-select" onChange={onSelect}>
-          <Option value="all" style={{ display: searchAll ? 'block' : 'none' }}>
+        <Select
+          defaultValue={query.length > 0 ? 'all' : 'org'}
+          value={elementSelected}
+          className="team-select"
+          onChange={onSelect}
+        >
+          <Option value="all" style={{ display: query.length > 0 ? 'block' : 'none' }}>
             {String.t('selectAll')}
           </Option>
           <Option value="org">Organization CKG</Option>
-          {teams.map(({ teamId, name }) => (
-            <Option key={teamId} value={teamId}>
-              {name}
+          {teams.map(team => (
+            <Option key={team.teamId} value={team.teamId}>
+              {team.name}
             </Option>
           ))}
         </Select>

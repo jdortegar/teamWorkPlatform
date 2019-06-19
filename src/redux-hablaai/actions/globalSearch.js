@@ -10,7 +10,7 @@ export const GLOBAL_SEARCH_STALE = 'search/global/stale';
 export const TOGGLE_CASE_SENSITIVE = 'search/toggleCaseSensitive';
 export const TOGGLE_EXACT_MATCH = 'search/toggleExactMatch';
 
-export const globalSearch = (rawQuery = undefined, { all = false, caseSensitive = false, exactMatch = false } = {}) => (
+export const globalSearch = (rawQuery = undefined, { all = true, caseSensitive = false, exactMatch = false } = {}) => (
   dispatch,
   getState
 ) => {
@@ -22,8 +22,6 @@ export const globalSearch = (rawQuery = undefined, { all = false, caseSensitive 
     `datak/getDataFilesBySearchTerm/${currentUserId}/${query}/${caseSensitive ? 0 : 1}/${exactMatch ? 1 : 0}`,
     'v2'
   );
-
-  console.log('action', all);
 
   dispatch({
     type: GLOBAL_SEARCH_REQUEST,
