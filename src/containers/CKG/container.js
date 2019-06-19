@@ -55,7 +55,7 @@ const mapStateToProps = (state, props) => {
   let excludeFilters = getExcludeFilters(state);
   let owners = getOwners(state);
   let integrations = getFileIntegrations(state);
-  if (searchAll) {
+  if (activeView === CKG_VIEWS.FILE_LIST && searchAll) {
     owners = getAllFilesOwners(state);
     excludeFilters = getSearchedExcludeFilters(state);
     integrations = [];

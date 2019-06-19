@@ -39,7 +39,7 @@ class TeamPicker extends React.Component {
           onChange={onSelect}
         >
           <Option value="all" style={{ display: query.length > 0 ? 'block' : 'none' }}>
-            {String.t('selectAll')}
+            {String.t('allTeamData')}
           </Option>
           <Option value="org">Organization CKG</Option>
           {teams.map(team => (

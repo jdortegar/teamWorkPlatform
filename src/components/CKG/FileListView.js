@@ -163,13 +163,13 @@ const getGlobalSearchColumns = (keywords, caseSensitive, owners, highlightSearch
     )
   },
   {
-    title: 'Team Name',
+    title: 'Project Team',
     dataIndex: 'teamId',
     key: 'teamId',
     sorter: (a, b) => a.fileSize - b.fileSize,
     render: teamId => {
       const teamData = teams.find(team => team.teamId === teamId);
-      return <span>{teamData ? teamData.name : orgName}</span>;
+      return <span>{teamData ? teamData.name : `${orgName} - Org`}</span>;
     }
   },
   {
