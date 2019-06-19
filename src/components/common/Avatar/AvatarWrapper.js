@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
+import { isEmpty, some, values } from 'lodash';
 
 import { Popover, Menu, Divider } from 'antd';
 import { VideoCallModal, ShareModal } from 'src/containers';
@@ -27,7 +27,8 @@ const propTypes = {
   history: PropTypes.object,
   showDetails: PropTypes.bool,
   orgLength: PropTypes.number,
-  wrapMention: PropTypes.bool
+  wrapMention: PropTypes.bool,
+  usersPresences: PropTypes.object
 };
 
 const defaultProps = {
@@ -48,15 +49,39 @@ const defaultProps = {
     icon: null,
     presenceStatus: null,
     online: null
-  }
+  },
+  usersPresences: {}
 };
 
 class AvatarWrapper extends React.Component {
-  state = {
-    videoCallModalVisible: false,
-    shareModalVisible: false,
-    sharePT: false
-  };
+  constructor(props) {
+    super(props);
+
+    const { user, usersPresences } = props;
+
+    this.state = {
+      videoCallModalVisible: false,
+      shareModalVisible: false,
+      sharePT: false,
+      userData: {
+        ...user,
+        online: some(values(usersPresences[user.userId]), { presenceStatus: 'online' })
+      }
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { user, usersPresences } = nextProps;
+    // Update org Users if change some property
+    if (usersPresences !== this.props.usersPresences || user !== this.props.user) {
+      this.setState({
+        userData: {
+          ...user,
+          online: some(values(usersPresences[user.userId]), { presenceStatus: 'online' })
+        }
+      });
+    }
+  }
 
   showVideoCallModal = hide => {
     if (hide) {
@@ -88,49 +113,50 @@ class AvatarWrapper extends React.Component {
   };
 
   renderContent = () => {
-    const { currentUser, user, orgLength } = this.props;
-    const { userId, online } = user;
+    const { currentUser, orgLength } = this.props;
+    const { userData } = this.state;
+    const { userId, online } = userData;
 
     return (
       <div>
         <div className="Subscriber__Tooltip_Header">
           <div className="Subscriber__Tooltip_MainInfo">
-            <AvatarWrapper size="default" user={user} hideStatusTooltip showDetails={false} />
+            <AvatarWrapper size="default" user={userData} hideStatusTooltip showDetails={false} />
             <div className="Subscriber__Tooltip_Text">
-              <span className="Subscriber__Tooltip_Name">{user.fullName}</span>
+              <span className="Subscriber__Tooltip_Name">{userData.fullName}</span>
               <span className="Subscriber__Tooltip_Status habla-soft-grey">
-                {user.preferences.customPresenceStatusMessage}
+                {userData.preferences.customPresenceStatusMessage}
               </span>
             </div>
           </div>
           <Divider style={{ margin: '10px auto 5px', background: '#7d7d7d' }} />
           <div className="Subscriber__Tooltip_ExtraInfo">
-            <span className="Subscriber__Tooltip_DisplayName habla-soft-grey">{user.displayName}</span>
+            <span className="Subscriber__Tooltip_DisplayName habla-soft-grey">{userData.displayName}</span>
             <span className="Subscriber__Tooltip_TimeZone habla-soft-grey">
               {moment()
-                .tz(user.timeZone)
+                .tz(userData.timeZone)
                 .format('HH:mm')}{' '}
               {String.t('sideBar.localTime')}
             </span>
             <span className="Subscriber__Tooltip_EMail habla-soft-grey">
-              <a target="_blank" rel="noopener noreferrer" href={`mailto:${user.email}`}>
-                {user.email}
+              <a target="_blank" rel="noopener noreferrer" href={`mailto:${userData.email}`}>
+                {userData.email}
               </a>
             </span>
           </div>
         </div>
 
         <Menu mode="vertical" className="pageHeaderMenu">
-          {userId !== user.userId && (
-            <Menu.Item key={`${user.userId}-chat`}>
+          {userId !== userData.userId && (
+            <Menu.Item key={`${userData.userId}-chat`}>
               <span onClick={() => this.props.history.push(`/app/chat/${userId}`)}>
                 <i className="fas fa-comment" /> {String.t('sideBar.directMessage')}
               </span>
             </Menu.Item>
           )}
-          {userId !== currentUser.userId && online && user.presenceStatus !== 'busy' && (
-            <Menu.Item key={user.userId}>
-              <span onClick={e => this.handleVideoCall(e, currentUser.userId, user.userId)}>
+          {userId !== currentUser.userId && online && userData.presenceStatus !== 'busy' && (
+            <Menu.Item key={userData.userId}>
+              <span onClick={e => this.handleVideoCall(e, currentUser.userId, userData.userId)}>
                 <i className="fa fa-phone" /> {String.t('sideBar.videoCall')}
               </span>
             </Menu.Item>
@@ -160,9 +186,11 @@ class AvatarWrapper extends React.Component {
   };
 
   renderUserStatus() {
-    const { user, size } = this.props;
-    const { presenceStatus } = user;
+    const { size } = this.props;
+    const { userData } = this.state;
+    const { presenceStatus, online } = userData;
     let className = `habla-top-navigation-avatar-signal habla-avatar-signal-${size}`;
+    if (!online) return false;
     switch (presenceStatus) {
       case 'online':
       case null:
@@ -182,10 +210,11 @@ class AvatarWrapper extends React.Component {
   }
 
   render() {
-    const { className, hidePresence, user, showDetails, wrapMention } = this.props;
-    if (!user || !user.userId || isEmpty(user)) return null;
+    const { className, hidePresence, showDetails, wrapMention } = this.props;
+    const { userData } = this.state;
+    if (!userData || !userData.userId || isEmpty(userData)) return null;
 
-    const { presenceStatus, online, firstName, lastName, userId, preferences = {}, icon } = user;
+    const { presenceStatus, online, firstName, lastName, userId, preferences = {}, icon } = userData;
     let topClass = (className || '').concat(' habla-top-menu-subitem');
     let lowOpacity = false;
     if (online !== undefined && !online) {
@@ -196,9 +225,9 @@ class AvatarWrapper extends React.Component {
     const fullName = String.t('fullName', { firstName, lastName });
     const initials = getInitials(fullName);
     const dataforShare = {
-      content: [{ text: user.userId, type: 'userId' }],
+      content: [{ text: userData.userId, type: 'userId' }],
       level: 0,
-      appData: { userId: user.userId }
+      appData: { userId: userData.userId }
     };
 
     return (
@@ -238,7 +267,11 @@ class AvatarWrapper extends React.Component {
           </div>
         )}
         {this.state.videoCallModalVisible && (
-          <VideoCallModal visible={this.state.videoCallModalVisible} showModal={this.showVideoCallModal} user={user} />
+          <VideoCallModal
+            visible={this.state.videoCallModalVisible}
+            showModal={this.showVideoCallModal}
+            user={userData}
+          />
         )}
         {this.state.shareModalVisible && (
           <ShareModal
