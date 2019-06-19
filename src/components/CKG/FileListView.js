@@ -23,7 +23,8 @@ const propTypes = {
   createMessage: PropTypes.func.isRequired,
   attachedFilesMode: PropTypes.bool,
   globalSearch: PropTypes.bool,
-  teams: PropTypes.array
+  teams: PropTypes.array,
+  orgName: PropTypes.string.isRequired
 };
 
 const defaultProps = {
@@ -143,7 +144,7 @@ const getColumns = (keywords, caseSensitive, owners, highlightSearch, createMess
   }
 ];
 
-const getGlobalSearchColumns = (keywords, caseSensitive, owners, highlightSearch, createMessage, teams) => [
+const getGlobalSearchColumns = (keywords, caseSensitive, owners, highlightSearch, createMessage, teams, orgName) => [
   {
     title: 'File Name',
     dataIndex: 'fileName',
@@ -168,7 +169,7 @@ const getGlobalSearchColumns = (keywords, caseSensitive, owners, highlightSearch
     sorter: (a, b) => a.fileSize - b.fileSize,
     render: teamId => {
       const teamData = teams.find(team => team.teamId === teamId);
-      return <span>{teamData.name}</span>;
+      return <span>{teamData ? teamData.name : orgName}</span>;
     }
   },
   {
@@ -343,7 +344,8 @@ class FileListView extends Component {
       createMessage,
       attachedFilesMode,
       globalSearch,
-      teams
+      teams,
+      orgName
     } = this.props;
     const { page } = this.state;
     const paginationVisible = !loading && files.length > PAGE_SIZE;
@@ -353,7 +355,7 @@ class FileListView extends Component {
     if (attachedFilesMode) {
       columns = getAttachedFilesColumns(keywords, caseSensitive, owners, highlightSearch, createMessage);
     } else if (globalSearch) {
-      columns = getGlobalSearchColumns(keywords, caseSensitive, owners, highlightSearch, createMessage, teams);
+      columns = getGlobalSearchColumns(keywords, caseSensitive, owners, highlightSearch, createMessage, teams, orgName);
     }
 
     return (

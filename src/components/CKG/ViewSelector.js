@@ -11,7 +11,8 @@ const propTypes = {
   hideMessages: PropTypes.bool,
   hideFileAttachments: PropTypes.bool,
   searchedAttachedFiles: PropTypes.number.isRequired,
-  searchedChatMessages: PropTypes.number.isRequired
+  searchedChatMessages: PropTypes.number.isRequired,
+  searchedFiles: PropTypes.number.isRequired
 };
 
 const defaultProps = {
@@ -26,7 +27,8 @@ const ViewSelector = ({
   hideMessages,
   hideFileAttachments,
   searchedChatMessages,
-  searchedAttachedFiles
+  searchedAttachedFiles,
+  searchedFiles
 }) => {
   return (
     <span className="CKG__view-selector">
@@ -39,12 +41,12 @@ const ViewSelector = ({
           </Tooltip>
         )}
         <Tooltip title={String.t(`ckg.${CKG_VIEWS.FILE_LIST}`)}>
-          <Radio.Button value={CKG_VIEWS.FILE_LIST}>
+          <Radio.Button value={CKG_VIEWS.FILE_LIST} disabled={searchedFiles === 0}>
             <i className="fa fa-list-ul" title={String.t(`ckg.${CKG_VIEWS.FILE_LIST}`)} />
           </Radio.Button>
         </Tooltip>
         <Tooltip title={String.t(`ckg.${CKG_VIEWS.TIME_ACTIVITY}`)}>
-          <Radio.Button value={CKG_VIEWS.TIME_ACTIVITY}>
+          <Radio.Button value={CKG_VIEWS.TIME_ACTIVITY} disabled={searchedFiles === 0}>
             <i className="fa fa-chart-area" title={String.t(`ckg.${CKG_VIEWS.TIME_ACTIVITY}`)} />
           </Radio.Button>
         </Tooltip>
