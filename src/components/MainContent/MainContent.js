@@ -203,7 +203,7 @@ class MainContent extends Component {
     // avoid rendering the same notification
     if (!pushMessage || (priorMessage && priorMessage.key === pushMessage.key)) return;
 
-    let textMessage = pushMessage.description;
+    let textMessage = pushMessage.description || '';
 
     const taggedUsers = textMessage.match(MENTION_VALIDATION);
     if (taggedUsers) {
