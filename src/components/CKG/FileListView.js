@@ -8,7 +8,7 @@ import String from 'src/translations';
 import formatSize from 'src/lib/formatSize';
 import { integrationKeyFromFile, integrationLabelFromKey, integrationImageFromKey } from 'src/utils/dataIntegrations';
 import { ResultsList } from 'src/components';
-import { AvatarWrapper } from 'src/containers';
+import { AvatarWrapper, TeamAvatarWrapper } from 'src/containers';
 import FileDnD from './FileDnD';
 
 const PAGE_SIZE = 16;
@@ -24,7 +24,10 @@ const propTypes = {
   attachedFilesMode: PropTypes.bool,
   globalSearch: PropTypes.bool,
   teams: PropTypes.array,
-  orgName: PropTypes.string.isRequired
+  users: PropTypes.array,
+  user: PropTypes.object.isRequired,
+  orgName: PropTypes.string.isRequired,
+  conversationsById: PropTypes.object
 };
 
 const defaultProps = {
@@ -36,7 +39,9 @@ const defaultProps = {
   highlightSearch: true,
   attachedFilesMode: false,
   globalSearch: false,
-  teams: []
+  teams: [],
+  users: [],
+  conversationsById: {}
 };
 
 const formatTime = date =>
@@ -46,6 +51,20 @@ const formatTime = date =>
   });
 
 const findUserByFile = (users, file) => users.find(({ userId }) => userId === file.fileOwnerId) || {};
+
+const getChatName = (cid, conversationsById, teams, users, user) => {
+  const conversationData = conversationsById[cid];
+  if (conversationData.appData.teamId) {
+    const team = teams.find(teamEl => teamEl.teamId === conversationData.appData.teamId);
+    return team;
+  }
+
+  const { members } = conversationsById[cid];
+  const userId = members.find(member => member !== user.userId);
+  const userData = users.find(userEl => userEl.userId === userId);
+
+  return userData;
+};
 
 const getColumns = (keywords, caseSensitive, owners, highlightSearch, createMessage) => [
   {
@@ -251,7 +270,17 @@ const getGlobalSearchColumns = (keywords, caseSensitive, owners, highlightSearch
   }
 ];
 
-const getAttachedFilesColumns = (keywords, caseSensitive, owners, highlightSearch, createMessage) => [
+const getAttachedFilesColumns = (
+  keywords,
+  caseSensitive,
+  owners,
+  highlightSearch,
+  createMessage,
+  conversationsById,
+  teams,
+  users,
+  user
+) => [
   {
     title: 'File Name',
     dataIndex: 'fileName',
@@ -268,6 +297,39 @@ const getAttachedFilesColumns = (keywords, caseSensitive, owners, highlightSearc
         createMessage={createMessage}
       />
     )
+  },
+  {
+    title: 'Chat ID',
+    dataIndex: 'cid',
+    key: 'cid',
+    sorter: (a, b) => {
+      const nameA =
+        getChatName(a.cid, conversationsById, teams, users, user).name ||
+        getChatName(a.cid, conversationsById, teams, users, user).fullName;
+      const nameB =
+        getChatName(b.cid, conversationsById, teams, users, user).name ||
+        getChatName(b.cid, conversationsById, teams, users, user).fullName;
+      return nameA.localeCompare(nameB);
+    },
+    render: cid => {
+      const dataEl = getChatName(cid, conversationsById, teams, users, user);
+
+      if (dataEl.name) {
+        return (
+          <span className="FileListView__results__fileType">
+            <TeamAvatarWrapper team={dataEl} size="small" />
+            <span style={{ marginLeft: '7px' }}>{dataEl.name}</span>
+          </span>
+        );
+      }
+
+      return (
+        <span className="FileListView__results__fileType">
+          <AvatarWrapper size="small" user={dataEl} />
+          <span style={{ marginLeft: '7px' }}>{dataEl.fullName}</span>
+        </span>
+      );
+    }
   },
   {
     title: 'File Type',
@@ -299,11 +361,11 @@ const getAttachedFilesColumns = (keywords, caseSensitive, owners, highlightSearc
       return nameA.localeCompare(nameB);
     },
     render: (text, file) => {
-      const user = findUserByFile(owners, file);
+      const userEl = findUserByFile(owners, file);
       return (
         <div>
-          <AvatarWrapper user={user} size="small" hideStatusTooltip />
-          <span className="FileListView__results__fileOwnerName">{user.fullName}</span>
+          <AvatarWrapper user={userEl} size="small" hideStatusTooltip />
+          <span className="FileListView__results__fileOwnerName">{userEl.fullName}</span>
         </div>
       );
     }
@@ -345,7 +407,10 @@ class FileListView extends Component {
       attachedFilesMode,
       globalSearch,
       teams,
-      orgName
+      orgName,
+      conversationsById,
+      user,
+      users
     } = this.props;
     const { page } = this.state;
     const paginationVisible = !loading && files.length > PAGE_SIZE;
@@ -353,7 +418,17 @@ class FileListView extends Component {
     let columns = getColumns(keywords, caseSensitive, owners, highlightSearch, createMessage);
 
     if (attachedFilesMode) {
-      columns = getAttachedFilesColumns(keywords, caseSensitive, owners, highlightSearch, createMessage);
+      columns = getAttachedFilesColumns(
+        keywords,
+        caseSensitive,
+        owners,
+        highlightSearch,
+        createMessage,
+        conversationsById,
+        teams,
+        users,
+        user
+      );
     } else if (globalSearch) {
       columns = getGlobalSearchColumns(keywords, caseSensitive, owners, highlightSearch, createMessage, teams, orgName);
     }

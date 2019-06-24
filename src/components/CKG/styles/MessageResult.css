@@ -1,11 +1,20 @@
 .MessageResult {
-  display: flex;
   background-color: white;
   border: solid 1px #ccc;
   border-radius: 5px;
   margin: 5px;
-  padding: 10px;
+  padding: 5px 10px 10px;
   cursor: pointer;
+}
+
+.Message__container {
+  display: flex;
+}
+
+.Message__title {
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 15px;
 }
 
 .MessageResult:hover {

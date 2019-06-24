@@ -14,16 +14,18 @@ const propTypes = {
   history: PropTypes.object.isRequired,
   team: PropTypes.object,
   sender: PropTypes.object,
-  link: PropTypes.string
+  link: PropTypes.string,
+  conversationDescription: PropTypes.string
 };
 
 const defaultProps = {
   sender: {},
   team: null,
-  link: null
+  link: null,
+  conversationDescription: null
 };
 
-const MessageResult = ({ message, sender, team, history, link }) => {
+const MessageResult = ({ message, sender, team, history, link, conversationDescription }) => {
   const { content, created } = message;
   const { firstName, lastName } = sender;
 
@@ -34,17 +36,20 @@ const MessageResult = ({ message, sender, team, history, link }) => {
 
   return (
     <div className="MessageResult" onClick={() => history.push(link)}>
-      <AvatarWrapper user={sender} />
-      <div className="MessageResult__content">
-        <p className="MessageResult__sender">
-          {team && `#${team.name} - `}
-          {name} - {moment(created).format('YYYY-MM-DD HH:mm')}
-        </p>
-        <p className="MessageResult__text">
-          {<span dangerouslySetInnerHTML={{ __html: formattedText }} /> /* eslint-disable-line react/no-danger */}
-        </p>
-        <div onClick={e => e.stopPropagation()}>
-          <PreviewAttachments attachments={attachments} />
+      <span className="Message__title">{conversationDescription}</span>
+      <div className="Message__container">
+        <AvatarWrapper user={sender} />
+        <div className="MessageResult__content">
+          <p className="MessageResult__sender">
+            {team && `#${team.name} - `}
+            {name} - {moment(created).format('YYYY-MM-DD HH:mm')}
+          </p>
+          <p className="MessageResult__text">
+            {<span dangerouslySetInnerHTML={{ __html: formattedText }} /> /* eslint-disable-line react/no-danger */}
+          </p>
+          <div onClick={e => e.stopPropagation()}>
+            <PreviewAttachments attachments={attachments} />
+          </div>
         </div>
       </div>
     </div>

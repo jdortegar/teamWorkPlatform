@@ -116,7 +116,9 @@ function PageHeader({
             {hasMenu && (
               <Popover placement="bottomLeft" title={String.t(menuName)} content={buttonMenu} trigger="click">
                 <a>
-                  <i className="fas fa-bars fa-2x" />
+                  <span style={{ padding: 0, marginRight: '5px' }}>
+                    <i className="fas fa-cog fa-2x" />
+                  </span>
                   <i className="fas fa-chevron-down" />
                 </a>
               </Popover>

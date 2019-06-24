@@ -10,6 +10,7 @@ import Avatar from './Avatar';
 
 const propTypes = {
   currentUser: PropTypes.object,
+  className: PropTypes.string,
   team: PropTypes.object.isRequired,
   teamMembers: PropTypes.array,
   fetchPublicTeamMembers: PropTypes.func,
@@ -21,6 +22,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  className: '',
   showDetails: true,
   currentUser: null,
   teamMembers: [],
@@ -153,10 +155,11 @@ class TeamAvatarWrapper extends React.Component {
   };
 
   render() {
-    const { team, showDetails, currentUser, size } = this.props;
+    const { className, team, showDetails, currentUser, size } = this.props;
     if (!team) return null;
+    const topClass = (className || '').concat(' habla-top-menu-subitem');
     return (
-      <div>
+      <div className={topClass}>
         {showDetails ? (
           <Popover key={team.teamId} placement="topLeft" content={this.renderContent()} trigger="hover">
             <div>{renderAvatar(team, team.active, size)}</div>

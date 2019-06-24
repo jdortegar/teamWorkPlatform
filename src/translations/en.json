@@ -185,7 +185,7 @@
     "addNewMember": "Add New Organization Team Member",
     "addNewIntegration": "Add New Organization Data Integration",
     "integrationsHeader": "Organization Data Connectors ({{count}})",
-    "membersHeader": "Team Members ({{count}})",
+    "membersHeader": "Members ({{count}})",
     "teamsHeader": "My Project Teams ({{count}})",
     "integrationsCount": {
       "one": "1 Organization Data Integration",
