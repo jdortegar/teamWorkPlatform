@@ -10,7 +10,8 @@ import {
   getCurrentSubscriberOrgName,
   getConversationsById,
   getCurrentUser,
-  getOrgSubscribers
+  getOrgSubscribers,
+  getMessagesById
 } from 'src/selectors';
 import { createMessage } from 'src/actions';
 
@@ -27,7 +28,8 @@ const mapStateToProps = (state, props) => {
     loading: props.loading !== undefined ? props.loading : isSearchLoading(state),
     teams: getCurrentUserTeams(state),
     orgName: getCurrentSubscriberOrgName(state),
-    conversationsById: getConversationsById(state)
+    conversationsById: getConversationsById(state),
+    messages: getMessagesById(state)
   };
 };
 

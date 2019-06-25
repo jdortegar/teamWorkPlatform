@@ -29,6 +29,7 @@ export Main from './Main';
 export MainContent from './MainContent';
 export MessageInput from './MessageInput';
 export MessageResult from './MessageResult';
+export MessageText from './MessageText';
 export NewTeamPage from './NewTeamPage';
 export Notification from './Notification';
 export NotificationsPage from './NotificationsPage';

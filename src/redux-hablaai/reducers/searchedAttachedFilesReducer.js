@@ -52,6 +52,7 @@ const searchedAttachedFiles = (state = INITIAL_STATE, action) => {
             fileSize: file.fileSize,
             fileType: file.fileType,
             fileExtension: file.fileType,
+            messageId: file.messageId,
             resourceUri: file.resourceUri
           };
         });

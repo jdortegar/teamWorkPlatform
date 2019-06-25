@@ -33,6 +33,7 @@ export IntegrationsList from './IntegrationsList';
 export LambWestonReports from './LambWestonReports';
 export MainContent from './MainContent';
 export MessageInput from './MessageInput';
+export MessageText from './MessageText';
 export NewSubpageHeader from './NewSubpageHeader';
 export Notification from './Notification';
 export RequestNotification from './RequestNotification';

@@ -8,7 +8,7 @@ import String from 'src/translations';
 import formatSize from 'src/lib/formatSize';
 import { integrationKeyFromFile, integrationLabelFromKey, integrationImageFromKey } from 'src/utils/dataIntegrations';
 import { ResultsList } from 'src/components';
-import { AvatarWrapper } from 'src/containers';
+import { AvatarWrapper, MessageText } from 'src/containers';
 import FileDnD from './FileDnD';
 
 const PAGE_SIZE = 16;
@@ -25,9 +25,9 @@ const propTypes = {
   globalSearch: PropTypes.bool,
   teams: PropTypes.array,
   users: PropTypes.array,
-  user: PropTypes.object.isRequired,
   orgName: PropTypes.string.isRequired,
-  conversationsById: PropTypes.object
+  conversationsById: PropTypes.object,
+  messages: PropTypes.object
 };
 
 const defaultProps = {
@@ -41,7 +41,8 @@ const defaultProps = {
   globalSearch: false,
   teams: [],
   users: [],
-  conversationsById: {}
+  conversationsById: {},
+  messages: {}
 };
 
 const formatTime = date =>
@@ -264,7 +265,8 @@ const getAttachedFilesColumns = (
   createMessage,
   conversationsById,
   teams,
-  users
+  users,
+  messages
 ) => [
   {
     title: 'File Name',
@@ -303,7 +305,9 @@ const getAttachedFilesColumns = (
               <span className="AttachedFile__owner">
                 {fileOwner.fullName} - {moment(file.fileCreatedAt).format('YYYY-MM-DD HH:mm')}
               </span>
-              <span className="AttachedFile__excerpt">{file.content}</span>
+              <span className="AttachedFile__excerpt">
+                {messages[file.messageId] ? <MessageText text={messages[file.messageId].content[0].text} /> : ''}
+              </span>
             </div>
           </div>
         </div>
@@ -388,8 +392,8 @@ class FileListView extends Component {
       teams,
       orgName,
       conversationsById,
-      user,
-      users
+      users,
+      messages
     } = this.props;
     const { page } = this.state;
     const paginationVisible = !loading && files.length > PAGE_SIZE;
@@ -406,7 +410,7 @@ class FileListView extends Component {
         conversationsById,
         teams,
         users,
-        user
+        messages
       );
     } else if (globalSearch) {
       columns = getGlobalSearchColumns(keywords, caseSensitive, owners, highlightSearch, createMessage, teams, orgName);
