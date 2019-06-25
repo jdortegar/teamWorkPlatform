@@ -719,7 +719,7 @@ p {
 }
 .habla_subscription_tag_bronze:hover,
 .button:focus {
-  border: 1px solid ##d99f0c;
+  border: 1px solid #d99f0c;
   background: #ffdc11;
   background: -webkit-gradient(linear, left top, left bottom, from(#ffdc11), to(#b6850a));
   background: -moz-linear-gradient(top, #ffdc11, #b6850a);
@@ -1290,6 +1290,14 @@ tr.ant-table-row:hover {
 .editOrgPage-main .table-container .ant-table-thead tr th:hover,
 .editOrgPage-main .ant-table-column-has-actions tr th:hover {
   background: #fafafa !important;
+}
+
+.ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-sorters:hover {
+  background: #6288c6;
+}
+
+.ant-table-thead > tr {
+  background: #6288c6;
 }
 
 /* RESPONSIVE ELEMENTS AND STYLES ---------- */

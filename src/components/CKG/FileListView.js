@@ -8,7 +8,7 @@ import String from 'src/translations';
 import formatSize from 'src/lib/formatSize';
 import { integrationKeyFromFile, integrationLabelFromKey, integrationImageFromKey } from 'src/utils/dataIntegrations';
 import { ResultsList } from 'src/components';
-import { AvatarWrapper, TeamAvatarWrapper } from 'src/containers';
+import { AvatarWrapper } from 'src/containers';
 import FileDnD from './FileDnD';
 
 const PAGE_SIZE = 16;
@@ -51,20 +51,6 @@ const formatTime = date =>
   });
 
 const findUserByFile = (users, file) => users.find(({ userId }) => userId === file.fileOwnerId) || {};
-
-const getChatName = (cid, conversationsById, teams, users, user) => {
-  const conversationData = conversationsById[cid];
-  if (conversationData.appData.teamId) {
-    const team = teams.find(teamEl => teamEl.teamId === conversationData.appData.teamId);
-    return team;
-  }
-
-  const { members } = conversationsById[cid];
-  const userId = members.find(member => member !== user.userId);
-  const userData = users.find(userEl => userEl.userId === userId);
-
-  return userData;
-};
 
 const getColumns = (keywords, caseSensitive, owners, highlightSearch, createMessage) => [
   {
@@ -278,8 +264,7 @@ const getAttachedFilesColumns = (
   createMessage,
   conversationsById,
   teams,
-  users,
-  user
+  users
 ) => [
   {
     title: 'File Name',
@@ -303,31 +288,25 @@ const getAttachedFilesColumns = (
     dataIndex: 'cid',
     key: 'cid',
     sorter: (a, b) => {
-      const nameA =
-        getChatName(a.cid, conversationsById, teams, users, user).name ||
-        getChatName(a.cid, conversationsById, teams, users, user).fullName;
-      const nameB =
-        getChatName(b.cid, conversationsById, teams, users, user).name ||
-        getChatName(b.cid, conversationsById, teams, users, user).fullName;
+      const nameA = users.find(userEl => userEl.userId === a.fileOwnerId).fullName;
+      const nameB = users.find(userEl => userEl.userId === b.fileOwnerId).fullName;
       return nameA.localeCompare(nameB);
     },
-    render: cid => {
-      const dataEl = getChatName(cid, conversationsById, teams, users, user);
-
-      if (dataEl.name) {
-        return (
-          <span className="FileListView__results__fileType">
-            <TeamAvatarWrapper team={dataEl} size="small" />
-            <span style={{ marginLeft: '7px' }}>{dataEl.name}</span>
-          </span>
-        );
-      }
-
+    render: (cid, file) => {
+      const fileOwner = users.find(userEl => userEl.userId === file.fileOwnerId);
       return (
-        <span className="FileListView__results__fileType">
-          <AvatarWrapper size="small" user={dataEl} />
-          <span style={{ marginLeft: '7px' }}>{dataEl.fullName}</span>
-        </span>
+        <div>
+          <span className="AttachedFile__title">{conversationsById[cid].description}</span>
+          <div className="AttachedFile__content">
+            <AvatarWrapper size="small" user={fileOwner} />
+            <div className="AttachedFile__body">
+              <span className="AttachedFile__owner">
+                {fileOwner.fullName} - {moment(file.fileCreatedAt).format('YYYY-MM-DD HH:mm')}
+              </span>
+              <span className="AttachedFile__excerpt">{file.content}</span>
+            </div>
+          </div>
+        </div>
       );
     }
   },
