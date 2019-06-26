@@ -42,12 +42,18 @@ const ViewSelector = ({
             </Radio.Button>
           </Tooltip>
         )}
-        <Tooltip title={searchedFiles !== 0 ? String.t(`ckg.${CKG_VIEWS.FILE_LIST}`) : String.t('noResults')}>
+        <Tooltip
+          title={searchedFiles !== 0 || files !== 0 ? String.t(`ckg.${CKG_VIEWS.FILE_LIST}`) : String.t('noResults')}
+        >
           <Radio.Button value={CKG_VIEWS.FILE_LIST} disabled={searchedFiles === 0 && files === 0}>
             <i className="fa fa-list-ul" title={String.t(`ckg.${CKG_VIEWS.FILE_LIST}`)} />
           </Radio.Button>
         </Tooltip>
-        <Tooltip title={searchedFiles !== 0 ? String.t(`ckg.${CKG_VIEWS.TIME_ACTIVITY}`) : String.t('noResults')}>
+        <Tooltip
+          title={
+            searchedFiles !== 0 || files !== 0 ? String.t(`ckg.${CKG_VIEWS.TIME_ACTIVITY}`) : String.t('noResults')
+          }
+        >
           <Radio.Button value={CKG_VIEWS.TIME_ACTIVITY} disabled={searchedFiles === 0 && files === 0}>
             <i className="fa fa-chart-area" title={String.t(`ckg.${CKG_VIEWS.TIME_ACTIVITY}`)} />
           </Radio.Button>
