@@ -20,6 +20,7 @@ const propTypes = {
   caseSensitive: PropTypes.bool,
   changeCKGView: PropTypes.func.isRequired,
   chatVisible: PropTypes.bool,
+  clearSearch: PropTypes.func.isRequired,
   exactMatch: PropTypes.bool,
   excludeFilters: PropTypes.object,
   files: PropTypes.array,
@@ -85,6 +86,7 @@ class CKG extends Component {
 
   componentDidMount() {
     const {
+      clearSearch,
       ignoreSearch,
       teamId,
       activeView,
@@ -101,6 +103,10 @@ class CKG extends Component {
 
     if (teamId && (activeView === CKG_VIEWS.MESSAGES || activeView === CKG_VIEWS.FILE_ATTACHMENTS)) {
       changeCKGView(CKG_VIEWS.FILE_LIST);
+    }
+
+    if (ignoreSearch) {
+      clearSearch();
     }
 
     if (!ignoreSearch) {

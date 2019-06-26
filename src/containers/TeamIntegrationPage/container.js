@@ -24,7 +24,7 @@ import {
 const mapStateToProps = (state, props) => {
   const { teamId, source, status } = props.match.params;
   const subscriberUserId = getCurrentSubscriberUserId(state);
-  const { folders, files, sites, saved, submitting } = getTeamSharingSettings(state, { source, teamId });
+  const { folders, files, sites, submitting } = getTeamSharingSettings(state, { source, teamId });
   const subscriberUsers = Object.values(getUserByUserId(state));
   const integration = getTeamIntegration(state, { source, teamId });
   const userEmail = (subscriberUsers.find(member => integration && integration.userId === member.userId) || {}).email;
@@ -37,7 +37,7 @@ const mapStateToProps = (state, props) => {
     contentError: getContentError(state),
     selectedSettings: { folders, files, sites },
     isSubmittingSharingSettings: submitting,
-    isSavedSharingSettings: saved,
+    isSavedSharingSettings: false, // before was used saved property from getTeamSharingSettings
     subscriberUserId,
     userEmail,
     source,

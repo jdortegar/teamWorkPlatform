@@ -40,11 +40,13 @@ import {
   changeCKGView,
   search,
   globalSearch,
-  CKG_VIEWS
+  CKG_VIEWS,
+  clearSearch
 } from 'src/actions';
 
 const mapStateToProps = (state, props) => {
   const { teamId, loading } = props;
+  const query = getSearchQuery(state);
   const orgId = getCurrentSubscriberOrgId(state);
   const team = getTeam(state, teamId);
   const activeView = getCKGActiveView(state);
@@ -55,7 +57,7 @@ const mapStateToProps = (state, props) => {
   let excludeFilters = getExcludeFilters(state);
   let owners = getOwners(state);
   let integrations = getFileIntegrations(state);
-  if (activeView === CKG_VIEWS.FILE_LIST && searchAll) {
+  if (activeView === CKG_VIEWS.FILE_LIST && searchAll && query.length > 0) {
     owners = getAllFilesOwners(state);
     excludeFilters = getSearchedExcludeFilters(state);
     integrations = [];
@@ -83,7 +85,7 @@ const mapStateToProps = (state, props) => {
     excludeFilters,
     searchTeamId: getSearchTeamId(state),
     teams: getCurrentUserTeams(state, orgId),
-    query: getSearchQuery(state),
+    query,
     keywords: getSearchKeywords(state),
     caseSensitive: isSearchCaseSensitive(state),
     exactMatch: isSearchExactMatch(state),
@@ -97,6 +99,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
+  clearSearch,
   search,
   globalSearch,
   toggleOwnerFilter,
