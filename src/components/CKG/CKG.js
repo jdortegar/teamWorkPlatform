@@ -227,13 +227,13 @@ class CKG extends Component {
       searchedChatMessages,
       searchedAttachedFiles,
       searchedFiles,
-      ignoreSearch
+      files
     } = this.props;
 
     return (
       <ViewSelector
         query={query}
-        ignoreSearch={ignoreSearch}
+        files={files.length}
         searchedChatMessages={searchedChatMessages.length}
         searchedAttachedFiles={searchedAttachedFiles.length}
         searchedFiles={searchedFiles.length}
