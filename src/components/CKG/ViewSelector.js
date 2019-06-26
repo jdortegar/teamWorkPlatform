@@ -12,7 +12,8 @@ const propTypes = {
   hideFileAttachments: PropTypes.bool,
   searchedAttachedFiles: PropTypes.number.isRequired,
   searchedChatMessages: PropTypes.number.isRequired,
-  searchedFiles: PropTypes.number.isRequired
+  searchedFiles: PropTypes.number.isRequired,
+  ignoreSearch: PropTypes.bool.isRequired
 };
 
 const defaultProps = {
@@ -26,6 +27,7 @@ const ViewSelector = ({
   onChange,
   hideMessages,
   hideFileAttachments,
+  ignoreSearch,
   searchedChatMessages,
   searchedAttachedFiles,
   searchedFiles
@@ -41,12 +43,12 @@ const ViewSelector = ({
           </Tooltip>
         )}
         <Tooltip title={searchedFiles !== 0 ? String.t(`ckg.${CKG_VIEWS.FILE_LIST}`) : String.t('noResults')}>
-          <Radio.Button value={CKG_VIEWS.FILE_LIST} disabled={searchedFiles === 0}>
+          <Radio.Button value={CKG_VIEWS.FILE_LIST} disabled={searchedFiles === 0 && !ignoreSearch}>
             <i className="fa fa-list-ul" title={String.t(`ckg.${CKG_VIEWS.FILE_LIST}`)} />
           </Radio.Button>
         </Tooltip>
         <Tooltip title={searchedFiles !== 0 ? String.t(`ckg.${CKG_VIEWS.TIME_ACTIVITY}`) : String.t('noResults')}>
-          <Radio.Button value={CKG_VIEWS.TIME_ACTIVITY} disabled={searchedFiles === 0}>
+          <Radio.Button value={CKG_VIEWS.TIME_ACTIVITY} disabled={searchedFiles === 0 && !ignoreSearch}>
             <i className="fa fa-chart-area" title={String.t(`ckg.${CKG_VIEWS.TIME_ACTIVITY}`)} />
           </Radio.Button>
         </Tooltip>

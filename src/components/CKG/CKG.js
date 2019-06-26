@@ -220,11 +220,20 @@ class CKG extends Component {
   };
 
   renderViewSelector = () => {
-    const { changeCKGView, activeView, query, searchedChatMessages, searchedAttachedFiles, searchedFiles } = this.props;
+    const {
+      changeCKGView,
+      activeView,
+      query,
+      searchedChatMessages,
+      searchedAttachedFiles,
+      searchedFiles,
+      ignoreSearch
+    } = this.props;
 
     return (
       <ViewSelector
         query={query}
+        ignoreSearch={ignoreSearch}
         searchedChatMessages={searchedChatMessages.length}
         searchedAttachedFiles={searchedAttachedFiles.length}
         searchedFiles={searchedFiles.length}
