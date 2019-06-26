@@ -62,7 +62,7 @@ const defaultProps = {
   users: []
 };
 
-const MENTION_VALIDATION = /[@][\w]+\s+[\w]+/gm;
+const MENTION_VALIDATION = /[@][\S]+\s+[\S]+/gm;
 
 class MessageInput extends React.Component {
   constructor(props) {
@@ -189,7 +189,6 @@ class MessageInput extends React.Component {
   createMessages = async plainText => {
     const { conversationId, replyTo, files, createMessage, users } = this.props;
     let text = plainText;
-
     // If exists mentions replace fullName by userId
     const taggedUsers = text.match(MENTION_VALIDATION);
     if (taggedUsers) {
