@@ -20,9 +20,9 @@ const defaultProps = {
 const Bookmark = ({ message, sender, teamId, memberId, onMessageAction, history }) => {
   const handleClick = () => {
     if (teamId) {
-      history.push(`/app/team/${teamId}`);
+      history.push({ pathname: `/app/team/${teamId}`, state: { messageId: message.id } });
     } else if (memberId) {
-      history.push(`/app/chat/${memberId}`);
+      history.push({ pathname: `/app/chat/${memberId}`, state: { messageId: message.id } });
     }
   };
 

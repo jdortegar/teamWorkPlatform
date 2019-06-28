@@ -29,6 +29,7 @@ const propTypes = {
   handleEditingAction: PropTypes.func,
   handleEditMessage: PropTypes.func,
   handleReplyMessage: PropTypes.func,
+  history: PropTypes.object.isRequired,
   isDraggingOver: PropTypes.bool,
   messageToEdit: PropTypes.object,
   removeFileFromList: PropTypes.func,
@@ -256,6 +257,7 @@ class MessageInput extends React.Component {
         const { form, messageToEdit } = this.props;
         const text = values.message ? values.message.trim() : '';
 
+        this.props.history.replace({ ...this.props.history.location.pathname, state: {} });
         this.stopTyping();
         this.clearTypingTimer();
 

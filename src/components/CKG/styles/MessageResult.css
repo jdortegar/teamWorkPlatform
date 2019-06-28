@@ -7,6 +7,17 @@
   cursor: pointer;
 }
 
+.MessageResult__NoBackground {
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.MessageResult__NoBackground .MessageResult__text {
+  color: #fff;
+}
+
 .Message__container {
   display: flex;
 }
@@ -21,8 +32,16 @@
   background-color: #eee;
 }
 
+.MessageResult__NoBackground:hover {
+  background-color: transparent;
+}
+
 .MessageResult:hover .MessageResult__sender {
   color: #5b7eba;
+}
+
+.MessageResult__NoBackground:hover .MessageResult__sender {
+  color: #fff;
 }
 
 .MessageResult__content {
@@ -38,32 +57,6 @@
   color: black;
 }
 
-.AttachedFile__title {
-  font-size: 12px;
-  font-weight: bold;
-  line-height: 15px;
-}
-
-.AttachedFile__content {
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-}
-
-.AttachedFile__body {
-  display: flex;
-  flex-direction: column;
-  margin-left: 10px;
-}
-
-.AttachedFile__owner {
-  font-size: 12px;
-  color: #bbcde8;
-}
-
-.AttachedFile__excerpt {
-  max-width: 300px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.MessageResult__link.MessageResult__link-url {
+  color: #004dcc;
 }

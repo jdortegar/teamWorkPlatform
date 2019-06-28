@@ -52,7 +52,7 @@ export const getConversationLink = createSelector(
 
     if (appData.teamId) return `/app/team/${appData.teamId}`;
 
-    const userId = members.find(u => u.userId !== currentUserId);
+    const userId = members.find(u => u !== currentUserId);
     return `/app/chat/${userId}`;
   }
 );

@@ -52,7 +52,8 @@ const propTypes = {
   showTeamMembers: PropTypes.bool,
   showChat: PropTypes.func,
   menuOptions: PropTypes.array,
-  connectDropTarget: PropTypes.func.isRequired
+  connectDropTarget: PropTypes.func.isRequired,
+  scrollToMessageId: PropTypes.string
 };
 
 const defaultProps = {
@@ -63,7 +64,8 @@ const defaultProps = {
   showTeamMembers: false,
   showChat: null,
   menuOptions: [],
-  team: {}
+  team: {},
+  scrollToMessageId: null
 };
 
 const BOTTOM_SCROLL_LIMIT = 200;
@@ -171,7 +173,11 @@ class Chat extends React.Component {
     const [messagesContainer] = document.getElementsByClassName('team__messages');
     if (!messagesContainer) return;
 
-    const [unreadMark] = messagesContainer.getElementsByClassName('message__unread_mark') || null;
+    const { scrollToMessageId } = this.props;
+    let [unreadMark] = messagesContainer.getElementsByClassName('message__unread_mark') || null;
+    if (scrollToMessageId) {
+      [unreadMark] = messagesContainer.getElementsByClassName(scrollToMessageId);
+    }
 
     const { clientHeight, scrollHeight } = messagesContainer;
     if (clientHeight < scrollHeight) {
@@ -228,6 +234,8 @@ class Chat extends React.Component {
     let previousSenderId = null;
     const currentPath = lastSubmittedMessage ? lastSubmittedMessage.path : null;
 
+    // console.log('conversation', conversation);
+
     return conversation.messages.map(message => {
       if (message.deleted) return null;
 
@@ -246,22 +254,24 @@ class Chat extends React.Component {
       }
 
       return (
-        <ChatMessage
-          key={message.id}
-          message={message}
-          teamId={team.teamId}
-          conversationId={conversation.id}
-          currentPath={currentPath}
-          teamMembers={membersFiltered}
-          unread={unread}
-          grouped={grouped}
-          onLoadMessage={this.scrollToUnread}
-          onMessageAction={this.onMessageAction}
-          sharedData={message.sharedData}
-          showMetadata
-          handleStateOnParent={this.handleStateOnParent}
-          userIsEditing={userIsEditing}
-        />
+        <div className={message.id} key={message.id}>
+          <ChatMessage
+            message={message}
+            teamId={team.teamId}
+            conversationId={conversation.id}
+            currentPath={currentPath}
+            teamMembers={membersFiltered}
+            unread={unread}
+            grouped={grouped}
+            onLoadMessage={this.scrollToUnread}
+            onMessageAction={this.onMessageAction}
+            sharedData={message.sharedData}
+            showMetadata
+            handleStateOnParent={this.handleStateOnParent}
+            userIsEditing={userIsEditing}
+            scrollToSpecificMessage={this.scrollToSpecificMessage}
+          />
+        </div>
       );
     });
   }

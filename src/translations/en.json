@@ -341,7 +341,9 @@
     "deleteSubtitle": "Are you sure you want to delete this message? Once done it's gone forever.",
     "reactedWith": "reacted with",
     "messageDeleted": "The message has been deleted",
-    "tooltipDownloadFile": "Download File"
+    "tooltipDownloadFile": "Download File",
+    "messageTitle": "Conversation betweeen {{member1}} and {{member2}}",
+    "messageTitleTeam": "Conversation in {{team}}"
   },
   "previewBar": {
     "name": "{{firstName}} {{lastName}}",

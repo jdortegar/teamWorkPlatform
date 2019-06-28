@@ -8,7 +8,7 @@ import String from 'src/translations';
 import formatSize from 'src/lib/formatSize';
 import { integrationKeyFromFile, integrationLabelFromKey, integrationImageFromKey } from 'src/utils/dataIntegrations';
 import { ResultsList } from 'src/components';
-import { AvatarWrapper, MessageText } from 'src/containers';
+import { AvatarWrapper, MessageResult } from 'src/containers';
 import FileDnD from './FileDnD';
 
 const PAGE_SIZE = 16;
@@ -295,22 +295,10 @@ const getAttachedFilesColumns = (
       return nameA.localeCompare(nameB);
     },
     render: (cid, file) => {
-      const fileOwner = users.find(userEl => userEl.userId === file.fileOwnerId);
+      const message = messages[file.messageId];
+      if (!message) return false;
       return (
-        <div>
-          <span className="AttachedFile__title">{conversationsById[cid].description}</span>
-          <div className="AttachedFile__content">
-            <AvatarWrapper size="small" user={fileOwner} />
-            <div className="AttachedFile__body">
-              <span className="AttachedFile__owner">
-                {fileOwner.fullName} - {moment(file.fileCreatedAt).format('YYYY-MM-DD HH:mm')}
-              </span>
-              <span className="AttachedFile__excerpt">
-                {messages[file.messageId] ? <MessageText text={messages[file.messageId].content[0].text} /> : ''}
-              </span>
-            </div>
-          </div>
-        </div>
+        <MessageResult message={message} style={{ background: false, avatarSize: 'small', imagePreview: false }} />
       );
     }
   },

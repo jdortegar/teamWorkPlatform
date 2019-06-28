@@ -36,7 +36,8 @@ const mapStateToProps = (state, props) => {
     users: getUserByUserId(state),
     usersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
     resourcesUrl: getResourcesUrl(state),
-    membersTyping: getMembersTyping(state, conversationId)
+    membersTyping: getMembersTyping(state, conversationId),
+    scrollToMessageId: props.location.state ? props.location.state.messageId : null
   };
 };
 
