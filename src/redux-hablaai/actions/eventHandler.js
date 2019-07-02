@@ -7,6 +7,7 @@ import { receiveSubscriber } from './subscriberReceive';
 import { receiveTeam, receivePublicTeam } from './teamReceive';
 import { receiveTeamMember } from './teamMemberReceive';
 import { receiveInvitation } from './invitationReceive';
+import { acceptedInvitation } from './invitationAccepted';
 import { declinedInvitation } from './invitationDeclined';
 import { receiveConversations } from './conversationsReceive';
 import { receiveMessage, receiveMessageDeleted } from './messageReceive';
@@ -40,7 +41,7 @@ export const eventHandler = dispatch => (eventType, event) => {
       });
       break;
     case EventTypes.userInvitationAccepted:
-      // TODO:
+      dispatch(acceptedInvitation(event));
       break;
     case EventTypes.userInvitationDeclined:
       dispatch(declinedInvitation(event));

@@ -51,11 +51,13 @@ const propTypes = {
   invitation: PropTypes.array,
   requests: PropTypes.array,
   declinedInvitations: PropTypes.object,
+  acceptedInvitations: PropTypes.object,
   responseRequest: PropTypes.object,
   pushMessage: PropTypes.object,
   users: PropTypes.object.isRequired,
   notifyMessage: PropTypes.func.isRequired,
   updateInvitationDeclined: PropTypes.func.isRequired,
+  updateInvitationAccepted: PropTypes.func.isRequired,
   updateRequestResponse: PropTypes.func.isRequired,
   teams: PropTypes.object.isRequired,
   teamMembersByTeamId: PropTypes.object.isRequired,
@@ -71,6 +73,7 @@ const propTypes = {
 const defaultProps = {
   pushMessage: null,
   declinedInvitations: null,
+  acceptedInvitations: null,
   responseRequest: null,
   invitation: [],
   requests: [],
@@ -139,6 +142,35 @@ class MainContent extends Component {
         }
       };
       notification.open(args);
+      this.props.updateInvitationDeclined();
+    }
+
+    if (nextProps.acceptedInvitations) {
+      let text = '';
+      const invitation = nextProps.acceptedInvitations;
+      if (invitation.teamName) {
+        const { firstName, lastName } = this.props.users[invitation.inviteeUserIdOrEmail];
+        text = String.t('MainContent.acceptedTeam', { firstName, lastName, teamName: invitation.teamName });
+      } else {
+        text = String.t('MainContent.acceptedOrg', {
+          inviteeUserIdOrEmail: invitation.inviteeUserIdOrEmail,
+          subscriberOrgName: invitation.subscriberOrgName
+        });
+      }
+      const args = {
+        icon: (
+          <div className={`notification-edition ${text.length > 35 ? '' : 'translate-10'}`}>
+            <img src={notificationIcon} className="notification__Image" alt={String.t('altNotification')} />
+          </div>
+        ),
+        message: text,
+        duration: 3,
+        onClose: () => {
+          this.props.updateInvitationAccepted();
+        }
+      };
+      notification.open(args);
+      this.props.updateInvitationAccepted();
     }
 
     if (nextProps.responseRequest) {
@@ -162,6 +194,7 @@ class MainContent extends Component {
         }
       };
       notification.open(args);
+      this.props.updateRequestResponse();
     }
 
     this.displayPushMessage(nextProps.pushMessage, muteNotifications, this.props.pushMessage);

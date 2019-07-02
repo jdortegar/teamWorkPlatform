@@ -14,6 +14,7 @@ export const getUserIdsByTeamId = state => state.teamMembers.byTeam;
 
 export const getInvitations = state => state.invitations.invitations;
 export const getDeclinedInvitations = state => state.invitations.declinedInvitations;
+export const getAcceptedInvitations = state => state.invitations.acceptedInvitations;
 
 export const getRequests = state => state.requests.requests;
 export const getResponseRequests = state => state.requests.responseRequests;

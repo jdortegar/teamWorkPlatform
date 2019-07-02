@@ -314,7 +314,9 @@
     "newMessage": "New Message",
     "newMessageFrom": "Message from {{firstName}} {{lastName}}",
     "declinedOrg": "{{inviteeUserIdOrEmail}} declined your invitation to join the {{subscriberOrgName}} organization.",
+    "acceptedOrg": "{{inviteeUserIdOrEmail}} accepted your invitation to join the {{subscriberOrgName}} organization.",
     "declinedTeam": "{{firstName}} {{lastName}} declined your invitation to join the {{teamName}} Project Team.",
+    "acceptedTeam": "{{firstName}} {{lastName}} accepted your invitation to join the {{teamName}} Project Team.",
     "responseRequest": "{{fullName}} {{response}} your request to join the {{teamName}} Project Team."
   },
   "message": {

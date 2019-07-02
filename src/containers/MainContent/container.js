@@ -3,6 +3,7 @@ import { withRouter } from 'react-router';
 import {
   notifyMessage,
   updateInvitationDeclined,
+  updateInvitationAccepted,
   updateRequestResponse,
   fetchTeamsBySubscriberOrgId,
   fetchSubscriberOrgs,
@@ -18,7 +19,8 @@ import {
   getTeamsById,
   getCurrentUser,
   getConversationLink,
-  getUserIdsByTeamId
+  getUserIdsByTeamId,
+  getAcceptedInvitations
 } from 'src/selectors';
 import { MainContent } from 'src/components';
 
@@ -44,6 +46,7 @@ const mapStateToProps = state => {
 
   return {
     declinedInvitations: getDeclinedInvitations(state),
+    acceptedInvitations: getAcceptedInvitations(state),
     responseRequest: getResponseRequests(state),
     invitation: getInvitations(state),
     requests: getRequests(state),
@@ -59,6 +62,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   notifyMessage,
   updateInvitationDeclined,
+  updateInvitationAccepted,
   updateRequestResponse,
   fetchTeamsBySubscriberOrgId,
   fetchSubscriberOrgs,

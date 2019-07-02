@@ -1,1 +1,1 @@
-export { getInvitations, getDeclinedInvitations } from './state';
+export { getInvitations, getDeclinedInvitations, getAcceptedInvitations } from './state';

@@ -27,10 +27,12 @@ export * from './teamMemberReceive';
 export * from './invitationsInvite';
 export * from './invitationReceive';
 export * from './invitationDeclined';
+export * from './invitationAccepted';
 export * from './invitationUpdate';
 export * from './invitationResponse';
 export * from './invitationsFetch';
 export * from './invitationDeclinedUpdate';
+export * from './invitationAcceptedUpdate';
 
 export * from './requests';
 export * from './requestToAdmin';
