@@ -14,7 +14,7 @@ class Onboarding extends Component {
   state = { currentStep: 0 };
 
   componentDidMount() {
-    if (this.props.team) this.setFirstStep(this.props.isAdmin);
+    this.setFirstStep(this.props.isAdmin);
   }
 
   componentWillReceiveProps(nextProps) {

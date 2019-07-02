@@ -3,11 +3,16 @@ import PropTypes from 'prop-types';
 import { Modal } from 'antd';
 
 import String from 'src/translations';
-import { Button, IntegrationsList } from 'src/components';
+import { Button } from 'src/components';
+import { IntegrationsList } from 'src/containers';
 
 const propTypes = {
-  team: PropTypes.object.isRequired,
+  team: PropTypes.object,
   onCancel: PropTypes.func.isRequired
+};
+
+const defaultProps = {
+  team: {}
 };
 
 const AddTeamIntegrationModal = ({ team, onCancel }) => {
@@ -32,5 +37,6 @@ const AddTeamIntegrationModal = ({ team, onCancel }) => {
 };
 
 AddTeamIntegrationModal.propTypes = propTypes;
+AddTeamIntegrationModal.defaultProps = defaultProps;
 
 export default AddTeamIntegrationModal;

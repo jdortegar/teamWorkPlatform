@@ -68,6 +68,6 @@ export const getTeam = createSelector(
 );
 
 export const getPrimaryTeam = createSelector(
-  getActiveTeams,
+  getCurrentUserTeams,
   activeTeams => activeTeams.find(team => team.primary)
 );
