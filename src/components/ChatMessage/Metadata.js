@@ -5,23 +5,21 @@ import './styles/style.css';
 const propTypes = {
   url: PropTypes.string.isRequired,
   fetchMetadata: PropTypes.func.isRequired,
-  onLoadImage: PropTypes.func,
-  messageId: PropTypes.string
-};
-
-const defaultProps = {
-  onLoadImage: () => {},
-  messageId: null
+  onLoadImage: PropTypes.func.isRequired
 };
 
 class Metadata extends Component {
   state = {
     urlMetadata: null,
-    loadingMetadata: true
+    loadingMetadata: false
   };
 
   componentDidMount() {
     const { url } = this.props;
+
+    this.setState({
+      loadingMetadata: true
+    });
 
     this.props
       .fetchMetadata(url)
@@ -51,7 +49,7 @@ class Metadata extends Component {
     }
 
     return (
-      <div className="message__meta_url" onLoad={this.props.onLoadImage('metadata', this.props.messageId)}>
+      <div className="message__meta_url" onLoad={this.props.onLoadImage}>
         <a href={urlMetadata.url} target="blank">
           {urlMetadata.title}
         </a>
@@ -63,6 +61,5 @@ class Metadata extends Component {
 }
 
 Metadata.propTypes = propTypes;
-Metadata.defaultProps = defaultProps;
 
 export default Metadata;

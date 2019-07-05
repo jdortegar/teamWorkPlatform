@@ -100,6 +100,7 @@ class ChatMessage extends Component {
   componentWillMount() {
     const { message } = this.props;
     this.buildReactions(message.children);
+    this.props.onLoadMessage();
   }
 
   componentWillReceiveProps({ currentPath, message }) {
@@ -260,17 +261,10 @@ class ChatMessage extends Component {
     this.props.makePersonalCall(callerId, calledId);
   };
 
-  renderMedatada = (matchUrl, messageId) => {
-    return matchUrl.map(url => (
-      <Metadata
-        key={url}
-        url={url}
-        messageId={messageId}
-        fetchMetadata={this.props.fetchMetadata}
-        onLoadImage={this.props.onLoadMessage}
-      />
+  renderMedatada = matchUrl =>
+    matchUrl.map(url => (
+      <Metadata key={url} url={url} fetchMetadata={this.props.fetchMetadata} onLoadImage={this.props.onLoadMessage} />
     ));
-  };
 
   renderUnreadMark = () => (
     <div className="message__unread_mark border-top-red">
@@ -470,18 +464,13 @@ class ChatMessage extends Component {
                     />
                   )}
                   {content[0].type === 'sharedData' && appData && this.renderBodyMessage(appData.dataforShare, true)}
-                  {attachments.length > 0 && (
-                    <div className={classNames(ownMessage ? 'message__inverted_order' : '')}>
-                      <PreviewAttachments
-                        attachments={attachments}
-                        onLoadImage={onLoadMessage('attachement', message.id)}
-                      />
-                    </div>
-                  )}
+                  <div className={classNames(ownMessage ? 'message__inverted_order' : '')}>
+                    <PreviewAttachments attachments={attachments} onLoadImage={onLoadMessage} />
+                  </div>
                   {sharedProfile && this.renderUserProfile(sharedProfile)}
                   <span className="message__body-text-date"> ({moment(created).fromNow()})</span>
                 </div>
-                {showMetadata && matchUrl && this.renderMedatada(matchUrl, message.id)}
+                {showMetadata && matchUrl && this.renderMedatada(matchUrl)}
               </div>
             </div>
             {this.state.showEmojiPicker && !child && (
