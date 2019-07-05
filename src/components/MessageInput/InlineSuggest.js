@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import memoize from 'lodash.memoize';
 import { Input } from 'antd';
 import classNames from 'classnames';
+import { debounce } from 'lodash';
 
 import { formShape } from 'src/propTypes';
 import { AvatarWrapper } from 'src/containers';
@@ -52,7 +53,7 @@ const defaultProps = {
   navigate: false,
   onInputBlur: null,
   onInputChange: null,
-  onInputFocus: null,
+  onInputFocus: () => {},
   onInputKeyDown: null,
   onMatch: null,
   shouldRenderSuggestion: null,
@@ -97,6 +98,10 @@ class InlineSuggest extends React.Component {
     const { value } = e.currentTarget;
     const { suggestions, form } = this.props;
     const { showMentionSuggestor } = this.state;
+
+    // Handle Typing
+    const debounceTyping = debounce(() => this.props.onInputFocus(), 500, { leading: true, trailing: false });
+    debounceTyping();
 
     form.setFieldsValue({ message: value });
 
@@ -271,7 +276,7 @@ class InlineSuggest extends React.Component {
   };
 
   render() {
-    const { form, initialValue, shouldRenderSuggestion, inputClassName, inputProps, onInputFocus } = this.props;
+    const { form, initialValue, shouldRenderSuggestion, inputClassName, inputProps } = this.props;
     const { hideSuggestion } = this.state;
     const { getFieldDecorator } = form;
 
@@ -285,7 +290,6 @@ class InlineSuggest extends React.Component {
             onBlur={this.handleOnBlur}
             onKeyDown={this.handleOnKeyDown}
             onKeyUp={this.handleOnKeyUp}
-            onFocus={onInputFocus}
             {...inputProps}
           />
         )}
