@@ -4,6 +4,7 @@
 
 .InlineSuggest {
   position: relative;
+  overflow: hidden;
 }
 
 .InlineSuggest__input,

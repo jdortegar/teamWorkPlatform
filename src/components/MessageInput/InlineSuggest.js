@@ -74,7 +74,8 @@ class InlineSuggest extends React.Component {
       showMentionSuggestor: false,
       filteredUsers: [],
       currentMentionSelection: props.users.length - 1,
-      currentText: null
+      currentText: null,
+      hideSuggestion: false
     };
   }
 
@@ -98,6 +99,13 @@ class InlineSuggest extends React.Component {
     const { showMentionSuggestor } = this.state;
 
     form.setFieldsValue({ message: value });
+
+    // Hide suggestion if input is full
+    const [inputContainer] = document.getElementsByClassName('InlineSuggest__input');
+    if (inputContainer) {
+      const hideSuggestion = inputContainer.clientWidth - inputContainer.scrollWidth < 0;
+      this.setState({ hideSuggestion });
+    }
 
     // Mention Function
     const lastChar = value.slice(-2);
@@ -148,6 +156,13 @@ class InlineSuggest extends React.Component {
     const { keyCode } = e;
     const { navigate } = this.props;
     const { showMentionSuggestor, currentMentionSelection, filteredUsers } = this.state;
+
+    // Hide suggestion if input is full
+    const [inputContainer] = document.getElementsByClassName('InlineSuggest__input');
+    if (inputContainer) {
+      const hideSuggestion = inputContainer.clientWidth - inputContainer.scrollWidth < 0;
+      this.setState({ hideSuggestion });
+    }
 
     // Mention function
     if (showMentionSuggestor && keyCode === KeyEnum.DOWN_ARROW) {
@@ -257,6 +272,7 @@ class InlineSuggest extends React.Component {
 
   render() {
     const { form, initialValue, shouldRenderSuggestion, inputClassName, inputProps, onInputFocus } = this.props;
+    const { hideSuggestion } = this.state;
     const { getFieldDecorator } = form;
 
     return (
@@ -296,7 +312,13 @@ class InlineSuggest extends React.Component {
             ))}
           </div>
         )}
-        <Suggestion value={this.getValue()} needle={this.getNeedle()} shouldRenderSuggestion={shouldRenderSuggestion} />
+        {!hideSuggestion && (
+          <Suggestion
+            value={this.getValue()}
+            needle={this.getNeedle()}
+            shouldRenderSuggestion={shouldRenderSuggestion}
+          />
+        )}
       </div>
     );
   }
