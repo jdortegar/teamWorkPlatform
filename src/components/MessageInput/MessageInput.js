@@ -91,6 +91,14 @@ class MessageInput extends React.Component {
     if (nextProps.isDraggingOver && !this.state.showPreviewBox) {
       this.setState({ showPreviewBox: true });
     }
+
+    if (this.props.conversationId !== nextProps.conversationId) {
+      this.stopTyping();
+    }
+  }
+
+  componentWillUnmount() {
+    this.stopTyping();
   }
 
   onFileChange = event => {
