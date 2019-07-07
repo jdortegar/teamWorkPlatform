@@ -75,7 +75,8 @@ class MessageInput extends React.Component {
       fileProgress: null,
       scheduleModalVisible: false,
       textToEdit: null,
-      loadingScheduleConfirm: null
+      loadingScheduleConfirm: null,
+      userTyping: false
     };
   }
 
@@ -121,12 +122,16 @@ class MessageInput extends React.Component {
     const { conversationId } = this.props;
     this.clearTypingTimer();
     this.typingTimer = setTimeout(this.stopTyping, 5000);
-    this.props.sendTyping(conversationId, true);
+    if (!this.state.userTyping) {
+      this.props.sendTyping(conversationId, true);
+      this.setState({ userTyping: true });
+    }
   };
 
   stopTyping = () => {
     const { conversationId } = this.props;
     this.props.sendTyping(conversationId, false);
+    this.setState({ userTyping: false });
   };
 
   clearTypingTimer = () => {

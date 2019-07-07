@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import memoize from 'lodash.memoize';
 import { Input } from 'antd';
 import classNames from 'classnames';
-import { debounce } from 'lodash';
 
 import { formShape } from 'src/propTypes';
 import { AvatarWrapper } from 'src/containers';
@@ -100,8 +99,7 @@ class InlineSuggest extends React.Component {
     const { showMentionSuggestor } = this.state;
 
     // Handle Typing
-    const debounceTyping = debounce(() => this.props.onInputFocus(), 500, { leading: true, trailing: false });
-    debounceTyping();
+    this.props.onInputFocus();
 
     form.setFieldsValue({ message: value });
 
