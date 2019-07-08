@@ -40,9 +40,11 @@ const defaultProps = {
 
 class TeamIntegrationPage extends Component {
   componentDidMount() {
-    const { team, source, subscriberUserId } = this.props;
+    const { team, source, subscriberUserId, integration } = this.props;
     this.props.fetchTeamIntegrations(team.teamId);
-    this.props.fetchIntegrationContent(source, subscriberUserId, team.teamId);
+    if (getIntegrationStatus(integration) === 'Active') {
+      this.props.fetchIntegrationContent(source, subscriberUserId, team.teamId);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
