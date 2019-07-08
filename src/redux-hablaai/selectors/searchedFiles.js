@@ -5,6 +5,7 @@ import { getUserById } from './users';
 export const getSearchedFiles = state => state.searchedFiles.items;
 export const getSearchedFilesOwners = state => state.searchedFiles.owners;
 export const getSearchedFileTypes = state => state.searchedFiles.fileTypes;
+export const getSearchedFileIntegrations = state => state.searchedFiles.integrations;
 export const getSearchedExcludeFilters = state => state.searchedFiles.excludeFilters;
 
 export const getAllFilesOwners = createSelector(

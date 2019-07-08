@@ -29,7 +29,8 @@ import {
   isSearchAll,
   getAllFilesOwners,
   getSearchedExcludeFilters,
-  getSearchedFileTypes
+  getSearchedFileTypes,
+  getSearchedFileIntegrations
 } from 'src/selectors';
 import {
   toggleOwnerFilter,
@@ -60,7 +61,7 @@ const mapStateToProps = (state, props) => {
   if (activeView === CKG_VIEWS.FILE_LIST && searchAll && query.length > 0) {
     owners = getAllFilesOwners(state);
     excludeFilters = getSearchedExcludeFilters(state);
-    integrations = [];
+    integrations = getSearchedFileIntegrations(state);
     fileTypes = getSearchedFileTypes(state);
   } else if (activeView === CKG_VIEWS.FILE_ATTACHMENTS) {
     owners = getAttachedFilesOwners(state);
