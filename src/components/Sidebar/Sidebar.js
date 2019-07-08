@@ -401,7 +401,7 @@ class Sidebar extends Component {
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconNotificationsTooltip')} arrowPointAtCenter>
             <Link to="/app/notifications" className={`habla-top-menu-notifications ${activeNotification}`}>
-              <i className="fa fa-globe fa-2x" />
+              <i className="fa fa-bell fa-2x" />
             </Link>
           </Tooltip>
           <Tooltip placement="topLeft" title={String.t('sideBar.iconBookmarksTooltip')} arrowPointAtCenter>

@@ -64,7 +64,8 @@
   text-align: left;
   display: inline-block;
   margin-right: 5px;
-  word-wrap: break-all;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .message__body-text a {
