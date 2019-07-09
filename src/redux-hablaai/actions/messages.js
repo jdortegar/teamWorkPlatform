@@ -70,7 +70,8 @@ export const createMessage = ({
   file,
   emojiReaction,
   dataforShare,
-  onFileUploadProgress
+  onFileUploadProgress,
+  appData
 }) => async (dispatch, getState) => {
   const requestUrl = buildChatUrl(`conversations/${conversationId}/messages`);
   const userId = getCurrentUserId(getState());
@@ -98,12 +99,19 @@ export const createMessage = ({
     }
 
     const data = { content, userId, replyTo: replyTo ? replyTo.id : undefined };
-    if (dataforShare && dataforShare.content[0].type === 'userId') {
+    if (dataforShare && dataforShare.content && dataforShare.content[0].type === 'userId') {
       content.push({ text: 'User Profile card', type: 'userId' });
       data.appData = { userId: dataforShare.content[0].text };
     } else if (dataforShare) {
       content.push({ text: 'New forwarded Message', type: 'sharedData' });
       data.appData = { dataforShare };
+    }
+
+    if (appData) {
+      data.appData = {
+        ...data.appData,
+        ...appData
+      };
     }
 
     const { data: message } = await dispatch(doAuthenticatedRequest({ requestUrl, method: 'post', data }, data));

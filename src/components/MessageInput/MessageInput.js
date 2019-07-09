@@ -201,7 +201,8 @@ class MessageInput extends React.Component {
   };
 
   createMessages = async plainText => {
-    const { conversationId, replyTo, files, createMessage, users } = this.props;
+    const { conversationId, replyTo, files, createMessage, users, team } = this.props;
+    const teamId = team ? team.teamId : null;
     let text = plainText;
     // If exists mentions replace fullName by userId
     const taggedUsers = text.match(MENTION_VALIDATION);
@@ -214,7 +215,7 @@ class MessageInput extends React.Component {
     }
 
     if (isEmpty(files)) {
-      return createMessage({ text, conversationId, replyTo });
+      return createMessage({ text, conversationId, replyTo, appData: teamId ? { teamId } : {} });
     }
 
     const requests = files.map((file, index) =>
@@ -223,7 +224,8 @@ class MessageInput extends React.Component {
         conversationId,
         replyTo,
         file,
-        onFileUploadProgress: this.handleFileUploadProgress
+        onFileUploadProgress: this.handleFileUploadProgress,
+        appData: teamId ? { teamId } : {}
       })
     );
     const messages = await Promise.all(requests);
