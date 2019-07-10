@@ -8,6 +8,8 @@ export const INTEGRATIONS_UPDATE = 'integrations/update';
 export const INTEGRATIONS_CONTENT_FETCH_REQUEST = 'integrations/fetchContent/request';
 export const INTEGRATIONS_CONTENT_FETCH_SUCCESS = 'integrations/fetchContent/success';
 export const INTEGRATIONS_CONTENT_FETCH_FAILURE = 'integrations/fetchContent/failure';
+export const TEAM_SHARING_SETTINGS_TOGGLE = 'teamSharingSettings/toggle';
+export const SHARING_SETTINGS_TOGGLE = 'sharingSettings/toggle';
 
 export const updateIntegrations = (userId, subscriberOrgId, integrations) => ({
   type: INTEGRATIONS_UPDATE,
@@ -30,6 +32,17 @@ export const fetchIntegrationContent = (source, subscriberUserId, teamId) => dis
           type: INTEGRATIONS_CONTENT_FETCH_SUCCESS,
           payload: { content, source, subscriberUserId, teamId }
         });
+        if (teamId) {
+          dispatch({
+            type: TEAM_SHARING_SETTINGS_TOGGLE,
+            payload: { subscriberUserId, teamId, source, ...response.data.body.selected }
+          });
+        } else {
+          dispatch({
+            type: SHARING_SETTINGS_TOGGLE,
+            payload: { subscriberUserId, source, ...response.data.body.selected }
+          });
+        }
       } else {
         dispatch({
           type: INTEGRATIONS_CONTENT_FETCH_FAILURE,
