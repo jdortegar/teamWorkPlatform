@@ -100,7 +100,6 @@ class ChatMessage extends Component {
   componentWillMount() {
     const { message } = this.props;
     this.buildReactions(message.children);
-    this.props.onLoadMessage();
   }
 
   componentWillReceiveProps({ currentPath, message }) {
@@ -263,7 +262,7 @@ class ChatMessage extends Component {
 
   renderMedatada = matchUrl =>
     matchUrl.map(url => (
-      <Metadata key={url} url={url} fetchMetadata={this.props.fetchMetadata} onLoadImage={this.props.onLoadMessage} />
+      <Metadata key={url} url={url} fetchMetadata={this.props.fetchMetadata} onLoadImage={() => {}} />
     ));
 
   renderUnreadMark = () => (
@@ -392,7 +391,6 @@ class ChatMessage extends Component {
       sender,
       sharedProfile,
       ownMessage,
-      onLoadMessage,
       grouped,
       bookmarked,
       conversationDisabled,
@@ -465,7 +463,7 @@ class ChatMessage extends Component {
                   )}
                   {content[0].type === 'sharedData' && appData && this.renderBodyMessage(appData.dataforShare, true)}
                   <div className={classNames(ownMessage ? 'message__inverted_order' : '')}>
-                    <PreviewAttachments attachments={attachments} onLoadImage={onLoadMessage} />
+                    <PreviewAttachments attachments={attachments} onLoadImage={() => {}} />
                   </div>
                   {sharedProfile && this.renderUserProfile(sharedProfile)}
                   <span className="message__body-text-date"> ({moment(created).fromNow()})</span>

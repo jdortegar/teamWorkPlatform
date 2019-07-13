@@ -19,8 +19,9 @@ export const MESSAGE_SCHEDULE_UPDATE_FAILURE = 'messages/schedule/update/failure
 export const MESSAGES_SCHEDULE_FETCH_SUCCESS = 'messages/schedule/fetch/success';
 export const MESSAGES_SCHEDULE_FETCH_FAILURE = 'messages/schedule/fetch/failure';
 
-export const fetchMessages = conversationId => async (dispatch, getState) => {
-  const requestUrl = buildChatUrl(`conversations/${conversationId}/messages`);
+export const fetchMessages = (conversationId, nextPage = null) => async (dispatch, getState) => {
+  let requestUrl = buildChatUrl(`conversations/${conversationId}/messages`);
+  if (nextPage) requestUrl = nextPage;
   const currentUserId = getCurrentUserId(getState());
 
   try {

@@ -3,6 +3,7 @@ import { union, omit } from 'lodash';
 
 import {
   MESSAGES_FETCH_SUCCESS,
+  MESSAGES_FETCH_FAILURE,
   MESSAGE_CREATE_SUCCESS,
   MESSAGE_UPDATE_SUCCESS,
   MESSAGE_DELETE_SUCCESS,
@@ -12,11 +13,30 @@ import {
   BOOKMARKS_FETCH_SUCCESS
 } from 'src/actions';
 
+const paginationByConversationId = (state = {}, action) => {
+  switch (action.type) {
+    case MESSAGES_FETCH_SUCCESS: {
+      const { pagination = {}, conversationId } = action.payload;
+
+      return {
+        ...state,
+        [conversationId]: { ...pagination }
+      };
+    }
+    case MESSAGES_FETCH_FAILURE: {
+      const { conversationId } = action.payload;
+      return { ...state, [conversationId]: {} };
+    }
+    default:
+      return state;
+  }
+};
+
 const byId = (state = {}, action) => {
   switch (action.type) {
     case MESSAGES_FETCH_SUCCESS: {
       const { messages = [] } = action.payload;
-      return messages.reduce((acc, message) => ({ ...acc, [message.id]: message }), state);
+      return messages.reduce((acc, message) => ({ ...acc, [message.id]: message }), {});
     }
     case MESSAGE_RECEIVE:
     case MESSAGE_CREATE_SUCCESS:
@@ -89,6 +109,6 @@ const idsByConversation = (state = {}, action) => {
   }
 };
 
-const messagesReducer = combineReducers({ byId, idsByConversation });
+const messagesReducer = combineReducers({ paginationByConversationId, byId, idsByConversation });
 
 export default messagesReducer;

@@ -21,7 +21,8 @@ import {
   getPresencesOfSubscribersOfOrgId,
   getConversationWithMessages,
   getResourcesUrl,
-  getMembersTyping
+  getMembersTyping,
+  getCurrentPagination
 } from 'src/selectors';
 
 const mapStateToProps = (state, props) => {
@@ -37,7 +38,8 @@ const mapStateToProps = (state, props) => {
     usersPresences: getPresencesOfSubscribersOfOrgId(state, orgId),
     resourcesUrl: getResourcesUrl(state),
     membersTyping: getMembersTyping(state, conversationId),
-    scrollToMessageId: props.location.state ? props.location.state.messageId : null
+    scrollToMessageId: props.location.state ? props.location.state.messageId : null,
+    currentPagination: getCurrentPagination(state, conversationId)
   };
 };
 

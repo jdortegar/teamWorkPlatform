@@ -86,6 +86,8 @@ class MessageInput extends React.Component {
       const attachments = messageToEdit.content.find(el => el.type === 'text/plain');
       this.setState({ textToEdit: attachments ? attachments.text : null });
     }
+
+    this.textInput.current.focus();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -95,6 +97,7 @@ class MessageInput extends React.Component {
 
     if (this.props.conversationId !== nextProps.conversationId) {
       this.stopTyping();
+      this.textInput.current.focus();
     }
   }
 
