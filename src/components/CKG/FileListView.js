@@ -296,9 +296,12 @@ const getAttachedFilesColumns = (
     },
     render: (cid, file) => {
       const message = messages[file.messageId];
-      if (!message) return false;
       return (
-        <MessageResult message={message} style={{ background: false, avatarSize: 'small', imagePreview: false }} />
+        <MessageResult
+          message={message}
+          messageData={{ messageId: file.messageId, conversationId: cid }}
+          style={{ background: false, avatarSize: 'small', imagePreview: false }}
+        />
       );
     }
   },

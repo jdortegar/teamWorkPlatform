@@ -249,3 +249,18 @@ export const fetchScheduleMessages = conversationId => async (dispatch, getState
     throw new Error(e);
   }
 };
+
+export const fetchMessage = (conversationId, messageId) => async dispatch => {
+  const requestUrl = buildChatUrl(`conversations/${conversationId}/messages/${messageId}/context`);
+
+  try {
+    const { data = {} } = await dispatch(doAuthenticatedRequest({ requestUrl, method: 'get' }));
+    const message = data.items[data.pagination.messageIndex];
+    dispatch({ type: MESSAGE_CREATE_SUCCESS, payload: { message, conversationId } });
+    return message;
+  } catch (e) {
+    const error = e.response ? { ...e.response.data } : e;
+    dispatch({ type: MESSAGE_CREATE_FAILURE, payload: { error } });
+    throw new Error(e);
+  }
+};
