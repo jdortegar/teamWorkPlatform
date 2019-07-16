@@ -37,6 +37,7 @@ class PreviewAttachments extends Component {
   };
 
   renderPreview = file => {
+    if (file.type === 'userId') return false;
     const { fileName, fileUrl } = file.meta;
     const [fileType] = file.type.split('/');
     const isImage = fileType === 'image';

@@ -5,18 +5,21 @@ import { MessageResult } from 'src/containers';
 import './styles/ChatMessagesView.css';
 
 const propTypes = {
-  messages: PropTypes.array
+  messages: PropTypes.array,
+  loading: PropTypes.bool
 };
 
 const defaultProps = {
-  messages: []
+  messages: [],
+  loading: false
 };
 
-const ChatMessagesView = ({ messages }) => (
+const ChatMessagesView = ({ messages, loading }) => (
   <div className="ChatMessagesView">
-    {messages.map(message => (
-      <MessageResult key={message.id} message={message} style={{ background: true, imagePreview: true }} />
-    ))}
+    {!loading &&
+      messages.map(message => (
+        <MessageResult key={message.id} message={message} style={{ background: true, imagePreview: true }} />
+      ))}
   </div>
 );
 

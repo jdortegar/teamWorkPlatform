@@ -55,7 +55,8 @@ const propTypes = {
   menuOptions: PropTypes.array,
   connectDropTarget: PropTypes.func.isRequired,
   scrollToMessageId: PropTypes.string,
-  currentPagination: PropTypes.object
+  fetchMessage: PropTypes.func.isRequired,
+  lastMessage: PropTypes.object
 };
 
 const defaultProps = {
@@ -68,7 +69,7 @@ const defaultProps = {
   menuOptions: [],
   team: {},
   scrollToMessageId: null,
-  currentPagination: {}
+  lastMessage: null
 };
 
 // When is near to bottom
@@ -83,20 +84,27 @@ class Chat extends React.Component {
   // if is neccesary scroll to bottom
   static scrollAtBottom = true;
 
-  state = {
-    members: [],
-    replyTo: null,
-    lastSubmittedMessage: null,
-    membersFiltered: [],
-    userIsEditing: false,
-    loadingOldMessages: false,
-    loadingConversation: false,
-    chatHistory: [],
-    bottomScrollSensor: false
-  };
+  constructor(props) {
+    super();
+
+    this.state = {
+      members: [],
+      replyTo: null,
+      lastSubmittedMessage: null,
+      membersFiltered: [],
+      userIsEditing: false,
+      loadingOldMessages: false,
+      loadingConversation: true,
+      chatHistory: [],
+      bottomScrollSensor: false,
+      scrollToMessage: props.scrollToMessageId,
+      nextPagination: null,
+      prevPagination: null
+    };
+  }
 
   componentDidMount() {
-    const { conversation, users, usersPresences } = this.props;
+    const { conversation, users, usersPresences, scrollToMessageId } = this.props;
 
     // if conversation doesn't exist in the app state
     if (!conversation) {
@@ -104,13 +112,22 @@ class Chat extends React.Component {
       return;
     }
 
-    this.setState({ loadingConversation: true });
-
-    // Fetch conversation and save in local state
-    this.props.fetchMessages(conversation.id).then(() => {
-      this.setState({ loadingConversation: false });
-      this.scrollToUnread();
-    });
+    if (this.state.scrollToMessage) {
+      this.props.fetchMessage(conversation.id, scrollToMessageId).then(pagination => {
+        this.setState({ loadingConversation: false, nextPagination: pagination, prevPagination: pagination });
+        this.scrollToUnread();
+      });
+    } else {
+      // Fetch conversation and save in local state
+      this.props.fetchMessages(conversation.id).then(pagination => {
+        this.setState({
+          loadingConversation: false,
+          nextPagination: pagination,
+          prevPagination: pagination
+        });
+        this.scrollToUnread();
+      });
+    }
     this.updateMembers({ conversation, users, usersPresences });
     this.props.fetchBookmarks();
     this.setState({ chatHistory: conversation.messages });
@@ -122,7 +139,7 @@ class Chat extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { conversation, users, usersPresences, currentPagination } = nextProps;
+    const { conversation, users, usersPresences } = nextProps;
 
     // conversation doesn't exist in the app state
     if (!conversation) {
@@ -133,26 +150,28 @@ class Chat extends React.Component {
     // If pagination change
     if (
       conversation.id === this.props.conversation.id &&
-      !_.isEqual(conversation.messages, this.props.conversation.messages) &&
-      currentPagination.page !== this.props.currentPagination.page
-    ) {
-      // Add messages to state if scrollTop
-      const chatHistoryArray = [...conversation.messages, ...this.state.chatHistory];
-      this.setState({
-        chatHistory: _.sortBy(this.removeDuplicates(chatHistoryArray, 'id'), 'create')
-      });
-    } else if (
-      // if conversation change, reply messages or reactions
-      conversation.id === this.props.conversation.id &&
       !_.isEqual(conversation.messages, this.props.conversation.messages)
     ) {
-      // Add messages if change conversation
-      this.setState({ chatHistory: conversation.messages });
+      // Add messages to state if scroll
+      const chatHistoryArray = [...this.state.chatHistory, ...conversation.messages];
+      this.setState({
+        chatHistory: _.sortBy(this.removeDuplicates(chatHistoryArray, 'id'), 'created')
+      });
 
       // If is near bottom scroll
-      if (this.isNearBottom()) {
+      if (this.isNearBottom() || !this.lastMessageEqual) {
         this.scrollToUnread();
       }
+    }
+
+    this.lastMessageEqual = _.isEqual(nextProps.lastMessage, this.props.lastMessage);
+
+    if (!this.lastMessageEqual) {
+      this.setState({ loadingOldMessages: true });
+      this.props.fetchMessages(conversation.id).then(pagination => {
+        this.setState({ loadingOldMessages: false, nextPagination: pagination });
+        this.scrollToUnread();
+      });
     }
 
     // it's a new conversation or navigating between conversations
@@ -180,21 +199,20 @@ class Chat extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     // Chat history change and last message change
     this.historyChanged = nextState.chatHistory.length !== this.state.chatHistory.length;
-    this.lastMessageEqual = _.isEqual(_.last(nextState.chatHistory), _.last(this.state.chatHistory));
 
     // Set container container
     const [messagesContainer] = document.getElementsByClassName('team__messages');
     if (!messagesContainer) return true;
 
     // If scroll are in the bottom
+    const scrollPos = messagesContainer.scrollTop;
     if (this.historyChanged) {
-      const scrollPos = messagesContainer.scrollTop;
       const scrollBottom = messagesContainer.scrollHeight - messagesContainer.clientHeight;
       this.scrollAtBottom = scrollBottom <= 0 || scrollPos === scrollBottom;
     }
 
     // If not are in the bottom save scroll position
-    if (!this.scrollAtBottom) {
+    if (!this.scrollAtBottom && scrollPos === 0) {
       const numMessages = messagesContainer.childNodes[1].childNodes.length;
       this.topMessage = numMessages === 0 ? null : messagesContainer.childNodes[1].childNodes[0];
     }
@@ -203,24 +221,27 @@ class Chat extends React.Component {
     return (
       !_.isEqual(nextState.chatHistory, this.state.chatHistory) ||
       nextState.loadingOldMessages !== this.state.loadingOldMessages ||
-      nextState.loadingConversation !== this.state.loadingConversation
+      nextState.loadingConversation !== this.state.loadingConversation ||
+      nextState.membersFiltered !== this.state.membersFiltered ||
+      this.props.team !== nextProps.team ||
+      this.props.membersTyping !== nextProps.membersTyping
     );
   }
 
   componentDidUpdate(prevProps) {
     // If chat history changed
     if (this.historyChanged) {
-      const lastMessage = _.last(this.state.chatHistory) || [];
-      const ownMessage = lastMessage.createdBy === this.props.currentUser.userId;
+      const ownMessage = this.props.lastMessage && this.props.lastMessage.createdBy === this.props.currentUser.userId;
       // If last message is not equal and it's own message scroll
+
       if (!this.lastMessageEqual && ownMessage) {
         this.scrollToUnread();
       }
-
       // if top position is saved and the last message is equal, pagination happen
       if (this.topMessage && this.lastMessageEqual) {
         // eslint-disable-next-line react/no-find-dom-node
         ReactDOM.findDOMNode(this.topMessage).scrollIntoView();
+        this.topMessage = false;
       }
     }
 
@@ -241,7 +262,8 @@ class Chat extends React.Component {
   }
 
   componentWillUnmount() {
-    // When Unmount component remove scroll event
+    this.setState({ chatHistory: [] });
+    // When Unmount component remove scroll even
     const [messagesContainer] = document.getElementsByClassName('team__messages');
     if (!messagesContainer) return false;
     return messagesContainer.removeEventListener('scroll', this.onScroll);
@@ -262,13 +284,35 @@ class Chat extends React.Component {
     if (!messagesContainer) return false;
 
     const { scrollTop } = messagesContainer;
-    const { conversation, currentPagination } = this.props;
+    const { conversation } = this.props;
+    const { nextPagination, prevPagination, bottomScrollSensor, loadingOldMessages, loadingConversation } = this.state;
     // if next page exist and scroll touch Top
-    if (scrollTop === 0 && currentPagination.nextPage !== null && this.state.bottomScrollSensor) {
+    if (
+      scrollTop < 200 &&
+      nextPagination.nextPage !== null &&
+      bottomScrollSensor &&
+      !loadingOldMessages &&
+      !loadingConversation
+    ) {
       this.setState({ loadingOldMessages: true });
       // call API to get older Messages
-      this.props.fetchMessages(conversation.id, currentPagination.nextPage).then(() => {
-        this.setState({ loadingOldMessages: false });
+      this.props.fetchMessages(conversation.id, nextPagination.nextPage).then(pagination => {
+        this.setState({ loadingOldMessages: false, nextPagination: pagination });
+      });
+    }
+
+    // if prev page exist and scroll touch bottom
+    if (
+      this.isNearBottom() &&
+      prevPagination.prevPage !== null &&
+      bottomScrollSensor &&
+      !loadingOldMessages &&
+      !loadingConversation
+    ) {
+      this.setState({ loadingOldMessages: true });
+      // call API to get older Messages
+      this.props.fetchMessages(conversation.id, prevPagination.prevPage).then(pagination => {
+        this.setState({ loadingOldMessages: false, prevPagination: pagination });
       });
     }
 
@@ -317,12 +361,12 @@ class Chat extends React.Component {
   scrollToUnread = () => {
     // scroll to unread if exist or scroll bottom
     const [messagesContainer] = document.getElementsByClassName('team__messages');
-    if (!messagesContainer) return;
+    if (!messagesContainer && !this.state.loadingConversation) return;
     let [unreadMark] = messagesContainer.getElementsByClassName('message__unread_mark') || null;
     // If scrollToMessageId exists set as unread mark
-    const { scrollToMessageId } = this.props;
-    if (scrollToMessageId) {
-      [unreadMark] = messagesContainer.getElementsByClassName(scrollToMessageId);
+
+    if (this.state.scrollToMessage) {
+      [unreadMark] = messagesContainer.getElementsByClassName(this.state.scrollToMessage);
     }
 
     const { clientHeight, scrollHeight } = messagesContainer;
@@ -330,6 +374,7 @@ class Chat extends React.Component {
     // Scroll to unreadMark or scroll to bottom
     if (unreadMark) {
       messagesContainer.scrollTop = unreadMark.offsetTop - 50;
+      this.setState({ scrollToMessage: false });
     } else {
       messagesContainer.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
     }

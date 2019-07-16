@@ -431,7 +431,7 @@ class CKG extends Component {
           </div>
         )}
 
-        {activeView === CKG_VIEWS.MESSAGES && <ChatMessagesView messages={chatMessagesFiltered} />}
+        {activeView === CKG_VIEWS.MESSAGES && <ChatMessagesView messages={chatMessagesFiltered} loading={loading} />}
         {activeView === CKG_VIEWS.FILE_LIST && (
           <FileListView
             files={filesFiltered}

@@ -28,7 +28,7 @@ export const fetchMessages = (conversationId, nextPage = null) => async (dispatc
     const { data = {} } = await dispatch(doAuthenticatedRequest({ requestUrl, method: 'get' }));
     const { items: messages, pagination } = data;
     dispatch({ type: MESSAGES_FETCH_SUCCESS, payload: { messages, pagination, conversationId, currentUserId } });
-    return messages;
+    return pagination;
   } catch (e) {
     const error = e.response ? { ...e.response.data } : e;
     dispatch({ type: MESSAGES_FETCH_FAILURE, payload: { error } });
@@ -250,14 +250,21 @@ export const fetchScheduleMessages = conversationId => async (dispatch, getState
   }
 };
 
-export const fetchMessage = (conversationId, messageId) => async dispatch => {
+export const fetchMessage = (conversationId, messageId, context = false) => async (dispatch, getState) => {
   const requestUrl = buildChatUrl(`conversations/${conversationId}/messages/${messageId}/context`);
 
   try {
     const { data = {} } = await dispatch(doAuthenticatedRequest({ requestUrl, method: 'get' }));
-    const message = data.items[data.pagination.messageIndex];
-    dispatch({ type: MESSAGE_CREATE_SUCCESS, payload: { message, conversationId } });
-    return message;
+    if (context) {
+      const message = data.items[data.pagination.messageIndex];
+      dispatch({ type: MESSAGE_CREATE_SUCCESS, payload: { message, conversationId } });
+      return message;
+    }
+
+    const currentUserId = getCurrentUserId(getState());
+    const { items: messages, pagination } = data;
+    dispatch({ type: MESSAGES_FETCH_SUCCESS, payload: { messages, pagination, conversationId, currentUserId } });
+    return pagination;
   } catch (e) {
     const error = e.response ? { ...e.response.data } : e;
     dispatch({ type: MESSAGE_CREATE_FAILURE, payload: { error } });

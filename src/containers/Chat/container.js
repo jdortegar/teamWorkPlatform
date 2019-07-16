@@ -10,7 +10,8 @@ import {
   deleteMessage,
   fetchBookmarks,
   sendTyping,
-  readMessages
+  readMessages,
+  fetchMessage
 } from 'src/actions';
 import {
   getTeam,
@@ -22,7 +23,8 @@ import {
   getConversationWithMessages,
   getResourcesUrl,
   getMembersTyping,
-  getCurrentPagination
+  getCurrentPagination,
+  getLastMessage
 } from 'src/selectors';
 
 const mapStateToProps = (state, props) => {
@@ -39,7 +41,8 @@ const mapStateToProps = (state, props) => {
     resourcesUrl: getResourcesUrl(state),
     membersTyping: getMembersTyping(state, conversationId),
     scrollToMessageId: props.location.state ? props.location.state.messageId : null,
-    currentPagination: getCurrentPagination(state, conversationId)
+    currentPagination: getCurrentPagination(state, conversationId),
+    lastMessage: getLastMessage(state, conversationId)
   };
 };
 
@@ -51,7 +54,8 @@ const mapDispatchToProps = {
   deleteMessage,
   fetchBookmarks,
   sendTyping,
-  readMessages
+  readMessages,
+  fetchMessage
 };
 
 export default withRouter(

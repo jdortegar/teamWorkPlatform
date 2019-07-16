@@ -39,7 +39,7 @@ class MessageResult extends React.Component {
   componentDidMount() {
     const { messageData, message } = this.props;
     if (messageData && !message) {
-      this.props.fetchMessage(messageData.conversationId, messageData.messageId);
+      this.props.fetchMessage(messageData.conversationId, messageData.messageId, true);
     }
   }
 

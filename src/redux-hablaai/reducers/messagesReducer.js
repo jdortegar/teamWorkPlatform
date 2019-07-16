@@ -19,13 +19,24 @@ const paginationByConversationId = (state = {}, action) => {
       const { pagination = {}, conversationId } = action.payload;
 
       return {
-        ...state,
         [conversationId]: { ...pagination }
       };
     }
     case MESSAGES_FETCH_FAILURE: {
       const { conversationId } = action.payload;
       return { ...state, [conversationId]: {} };
+    }
+    default:
+      return state;
+  }
+};
+
+const lastMessagebyConversationId = (state = {}, action) => {
+  switch (action.type) {
+    case MESSAGE_RECEIVE:
+    case MESSAGE_CREATE_SUCCESS: {
+      const { message } = action.payload;
+      return { ...state, [message.conversationId]: message };
     }
     default:
       return state;
@@ -109,6 +120,11 @@ const idsByConversation = (state = {}, action) => {
   }
 };
 
-const messagesReducer = combineReducers({ paginationByConversationId, byId, idsByConversation });
+const messagesReducer = combineReducers({
+  lastMessagebyConversationId,
+  paginationByConversationId,
+  byId,
+  idsByConversation
+});
 
 export default messagesReducer;
