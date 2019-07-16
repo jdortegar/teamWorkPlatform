@@ -94,12 +94,13 @@ class Chat extends React.Component {
       membersFiltered: [],
       userIsEditing: false,
       loadingOldMessages: false,
+      loadingNewMessages: false,
       loadingConversation: true,
       chatHistory: [],
       bottomScrollSensor: false,
       scrollToMessage: props.scrollToMessageId,
-      nextPagination: null,
-      prevPagination: null
+      nextPagination: {},
+      prevPagination: {}
     };
   }
 
@@ -166,10 +167,13 @@ class Chat extends React.Component {
 
     this.lastMessageEqual = _.isEqual(nextProps.lastMessage, this.props.lastMessage);
 
-    if (!this.lastMessageEqual) {
-      this.setState({ loadingOldMessages: true });
+    if (!this.lastMessageEqual && this.state.prevPagination.prevPage) {
+      this.setState({ loadingNewMessages: true });
       this.props.fetchMessages(conversation.id).then(pagination => {
-        this.setState({ loadingOldMessages: false, nextPagination: pagination });
+        this.setState({
+          prevPagination: pagination,
+          loadingNewMessages: false
+        });
         this.scrollToUnread();
       });
     }
@@ -224,7 +228,9 @@ class Chat extends React.Component {
       nextState.loadingConversation !== this.state.loadingConversation ||
       nextState.membersFiltered !== this.state.membersFiltered ||
       this.props.team !== nextProps.team ||
-      this.props.membersTyping !== nextProps.membersTyping
+      this.props.membersTyping !== nextProps.membersTyping ||
+      nextState.loadingNewMessages !== this.state.loadingNewMessages ||
+      this.props.isDraggingOver !== nextProps.isDraggingOver
     );
   }
 
@@ -285,7 +291,16 @@ class Chat extends React.Component {
 
     const { scrollTop } = messagesContainer;
     const { conversation } = this.props;
-    const { nextPagination, prevPagination, bottomScrollSensor, loadingOldMessages, loadingConversation } = this.state;
+    const {
+      nextPagination,
+      prevPagination,
+      bottomScrollSensor,
+      loadingOldMessages,
+      loadingConversation,
+      loadingNewMessages
+    } = this.state;
+
+    if (loadingConversation) return false;
     // if next page exist and scroll touch Top
     if (
       scrollTop < 200 &&
@@ -307,7 +322,8 @@ class Chat extends React.Component {
       prevPagination.prevPage !== null &&
       bottomScrollSensor &&
       !loadingOldMessages &&
-      !loadingConversation
+      !loadingConversation &&
+      !loadingNewMessages
     ) {
       this.setState({ loadingOldMessages: true });
       // call API to get older Messages
@@ -424,15 +440,23 @@ class Chat extends React.Component {
 
   renderMessages() {
     const { conversation, currentUser, team } = this.props;
-    const { membersFiltered, lastSubmittedMessage, userIsEditing, chatHistory } = this.state;
+    const { membersFiltered, lastSubmittedMessage, userIsEditing, chatHistory, loadingNewMessages } = this.state;
 
     if (!membersFiltered) return null;
     let unreadExists = false;
     let previousSenderId = null;
     const currentPath = lastSubmittedMessage ? lastSubmittedMessage.path : null;
 
-    return chatHistory.map(message => {
+    return chatHistory.map((message, index) => {
       if (message.deleted) return null;
+
+      if (loadingNewMessages && index === chatHistory.length - 2) {
+        return (
+          <div style={{ padding: '10px' }}>
+            <Skeleton loading active avatar />
+          </div>
+        );
+      }
 
       // group messages from the same user
       const sender = membersFiltered.find(member => member.userId === message.createdBy);

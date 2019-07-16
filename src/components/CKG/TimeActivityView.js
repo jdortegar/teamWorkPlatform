@@ -7,6 +7,7 @@ import { TimeActivityGraph, GraphZoomActions } from 'src/components';
 
 const buildDataObject = file => ({
   ...file,
+  fileSize: file.fileSize !== 'None' ? file.fileSize : 1,
   lastModified: moment(file.lastModified),
   fileCreatedAt: moment(file.fileCreatedAt)
 });

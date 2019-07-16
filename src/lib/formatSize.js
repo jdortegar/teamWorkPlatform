@@ -3,7 +3,7 @@ import String from 'src/translations';
 const formatSize = sizeInBytesStr => {
   const sizeInBytes = Number.parseInt(sizeInBytesStr, 10);
   if (!sizeInBytes) {
-    return null;
+    return '1 bytes';
   } else if (sizeInBytes < 1024) {
     return String.t('fileSizeInBytes', { sizeInBytes });
   } else if (sizeInBytes < 1024 * 1024) {
