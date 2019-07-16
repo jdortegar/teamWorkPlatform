@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { difference } from 'lodash';
+import { difference, sortBy } from 'lodash';
 import { sortByName, primaryAtTop } from './helpers';
 import { getCurrentSubscriberOrgId } from './state';
 
@@ -70,4 +70,12 @@ export const getTeam = createSelector(
 export const getPrimaryTeam = createSelector(
   getCurrentUserTeams,
   activeTeams => activeTeams.find(team => team.primary)
+);
+
+export const getFirstTeam = createSelector(
+  getCurrentUserTeams,
+  activeTeams => {
+    const teamSorted = sortBy(activeTeams, 'created');
+    return teamSorted[0];
+  }
 );

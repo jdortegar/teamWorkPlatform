@@ -11,27 +11,14 @@ const INVITE_MEMBERS = 2;
 const ADD_INTEGRATIONS = 3;
 
 class Onboarding extends Component {
-  state = { currentStep: 0 };
-
-  componentDidMount() {
-    this.setFirstStep(this.props.isAdmin);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { team, isAdmin } = this.props;
-    if ((!team && nextProps.team) || isAdmin !== nextProps.isAdmin) {
-      this.setFirstStep(nextProps.isAdmin);
-    }
-  }
-
-  setFirstStep = (isAdmin = false) => {
-    this.setState({ currentStep: isAdmin ? PERSONALIZE_TEAM : ADD_INTEGRATIONS });
-  };
+  state = { currentStep: 1 };
 
   handleModalSkip = () => {
-    const { user, updateUser } = this.props;
+    const { user, updateUser, isAdmin } = this.props;
 
-    this.setState({ currentStep: this.state.currentStep + 1 }, () => {
+    const currentStep = isAdmin ? this.state.currentStep + 1 : this.state.currentStep + 2;
+
+    this.setState({ currentStep }, () => {
       if (this.state.currentStep > TOTAL_STEPS) {
         updateUser({ onboarding: false }, user.userId);
       }
@@ -55,14 +42,9 @@ class Onboarding extends Component {
 }
 
 Onboarding.propTypes = {
-  team: PropTypes.object,
   user: PropTypes.object.isRequired,
   isAdmin: PropTypes.bool.isRequired,
   updateUser: PropTypes.func.isRequired
-};
-
-Onboarding.defaultProps = {
-  team: null
 };
 
 export default Onboarding;
