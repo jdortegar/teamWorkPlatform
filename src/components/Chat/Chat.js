@@ -140,7 +140,7 @@ class Chat extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { conversation, users, usersPresences } = nextProps;
+    const { conversation, users, usersPresences, readMessages } = nextProps;
 
     // conversation doesn't exist in the app state
     if (!conversation) {
@@ -154,7 +154,7 @@ class Chat extends React.Component {
       !_.isEqual(conversation.messages, this.props.conversation.messages)
     ) {
       // Add messages to state if scroll
-      const chatHistoryArray = [...this.state.chatHistory, ...conversation.messages];
+      const chatHistoryArray = [...conversation.messages, ...this.state.chatHistory];
       this.setState({
         chatHistory: _.sortBy(this.removeDuplicates(chatHistoryArray, 'id'), 'created')
       });
@@ -175,6 +175,7 @@ class Chat extends React.Component {
           loadingNewMessages: false
         });
         this.scrollToUnread();
+        readMessages(conversation.id);
       });
     }
 
