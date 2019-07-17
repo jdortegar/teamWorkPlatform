@@ -68,9 +68,9 @@ class OrgIntegrationPage extends Component {
   };
 
   refreshIntegration = () => {
-    const { source, integration, refreshIntegration } = this.props;
+    const { refreshIntegration, content } = this.props;
     this.setState({ isUpdating: true });
-    refreshIntegration(source, integration.teamId, integration.userId)
+    refreshIntegration(content.source, content.teamId, content.hablaUserId)
       .then(response => {
         this.setState({ isUpdating: false });
         if (response.status_code === 200) {
