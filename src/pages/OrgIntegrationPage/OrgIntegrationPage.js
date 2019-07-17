@@ -65,12 +65,10 @@ class OrgIntegrationPage extends Component {
   refreshIntegration = () => {
     const { source, integrateOrgIntegration, revokeOrgIntegration } = this.props;
     revokeOrgIntegration(source)
-      .then(() =>
-        integrateOrgIntegration(source)
-          .then(res => displayRevokeMessage(res.status, source))
-          .catch(error => message.error(error.message))
-      )
-      .catch(error => message.error(error.message));
+      .then(() => integrateOrgIntegration(source).catch(error => message.error(error.message)))
+      .catch(error => {
+        message.error(error.message);
+      });
   };
 
   saveSharingSettings = () => {

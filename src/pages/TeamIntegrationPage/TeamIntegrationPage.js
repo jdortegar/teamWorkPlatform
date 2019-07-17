@@ -66,12 +66,10 @@ class TeamIntegrationPage extends Component {
   refreshIntegration = () => {
     const { source, team, integration, integrateTeamIntegration, revokeTeamIntegration } = this.props;
     revokeTeamIntegration(source, integration.teamId, integration.userId)
-      .then(
-        integrateTeamIntegration(source, team.teamId)
-          .then(res => displayRevokeMessage(res.status, source))
-          .catch(error => message.error(error.message))
-      )
-      .catch(error => message.error(error.message));
+      .then(integrateTeamIntegration(source, team.teamId).catch(error => message.error(error.message)))
+      .catch(error => {
+        message.error(error.message);
+      });
   };
 
   saveSharingSettings = () => {
