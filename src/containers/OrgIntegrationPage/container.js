@@ -18,7 +18,8 @@ import {
   toggleOrgSharingSettings,
   toggleAllOrgSharingSettings,
   integrateOrgIntegration,
-  revokeOrgIntegration
+  revokeOrgIntegration,
+  refreshIntegration
 } from 'src/actions';
 
 const mapStateToProps = (state, props) => {
@@ -50,7 +51,8 @@ const mapDispatchToProps = {
   toggleOrgSharingSettings,
   toggleAllOrgSharingSettings,
   integrateOrgIntegration,
-  revokeOrgIntegration
+  revokeOrgIntegration,
+  refreshIntegration
 };
 
 export default connect(

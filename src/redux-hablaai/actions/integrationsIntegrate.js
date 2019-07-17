@@ -1,5 +1,5 @@
 import queryString from 'querystring';
-import { buildApiUrl } from 'src/lib/api';
+import { buildApiUrl, buildKnowledgeApiUrl } from 'src/lib/api';
 import { getCurrentSubscriberOrgId } from 'src/selectors';
 import { doAuthenticatedRequest } from './urlRequest';
 import { INTEGRATION_ERROR, INTEGRATION_ERROR_NOT_FOUND } from './integrations';
@@ -54,4 +54,24 @@ export const integrateTeamIntegration = (source, teamId, params) => dispatch => 
   if (params) requestUrl += `&${queryString.stringify(params)}`;
 
   return integrate(requestUrl, { source, teamId, params, teamLevel: true })(dispatch);
+};
+
+export const refreshIntegration = (source, teamId, userId) => async (dispatch, getState) => {
+  const requestUrl = buildKnowledgeApiUrl('refresh');
+  const orgId = getCurrentSubscriberOrgId(getState());
+
+  const integrationData = {
+    service: source,
+    subscriber_org_id: orgId,
+    habla_user_id: userId,
+    team_id: teamId
+  };
+
+  try {
+    const { data } = await dispatch(doAuthenticatedRequest({ requestUrl, method: 'post', data: integrationData }));
+    return data;
+  } catch (e) {
+    const error = { ...e.response.data };
+    return error;
+  }
 };

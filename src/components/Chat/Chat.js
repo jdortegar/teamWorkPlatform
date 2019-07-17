@@ -231,7 +231,8 @@ class Chat extends React.Component {
       this.props.team !== nextProps.team ||
       this.props.membersTyping !== nextProps.membersTyping ||
       nextState.loadingNewMessages !== this.state.loadingNewMessages ||
-      this.props.isDraggingOver !== nextProps.isDraggingOver
+      this.props.isDraggingOver !== nextProps.isDraggingOver ||
+      this.props.showPageHeader !== nextProps.showPageHeader
     );
   }
 

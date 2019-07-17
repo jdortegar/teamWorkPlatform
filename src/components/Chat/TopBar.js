@@ -11,7 +11,6 @@ import FilterUserMessages from './FilterUserMessages';
 import './styles/style.css';
 
 const propTypes = {
-  conversation: PropTypes.object,
   menuOptions: PropTypes.array,
   showPageHeader: PropTypes.bool,
   showTeamMembers: PropTypes.bool,
@@ -24,7 +23,6 @@ const propTypes = {
 };
 
 const defaultProps = {
-  conversation: {},
   menuOptions: [],
   showPageHeader: false,
   showTeamMembers: false,
@@ -32,18 +30,6 @@ const defaultProps = {
 };
 
 class TopBar extends React.Component {
-  messagesCounter() {
-    const { conversation, membersFiltered } = this.props;
-    if (!membersFiltered) return 0;
-    const messages = conversation.messages.map(message => {
-      if (message.deleted) return null;
-      const createdBy = membersFiltered.find(member => member.userId === message.createdBy);
-      if (!createdBy) return null;
-      return message;
-    });
-    return messages.filter(mes => mes).length;
-  }
-
   renderTeamMembers() {
     const { user, members } = this.props;
 
@@ -77,11 +63,6 @@ class TopBar extends React.Component {
                 },
                 { title: String.t('chat.title') }
               ]
-            }}
-            badgeOptions={{
-              enabled: true,
-              count: this.messagesCounter(),
-              style: { backgroundColor: '#32a953' }
             }}
             hasMenu
             menuName="settings"

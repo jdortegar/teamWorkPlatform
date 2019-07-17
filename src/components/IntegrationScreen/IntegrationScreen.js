@@ -29,7 +29,8 @@ const propTypes = {
   selectedSettings: PropTypes.object,
   isFetchingContent: PropTypes.bool,
   isSubmittingSharingSettings: PropTypes.bool,
-  isSavedSharingSettings: PropTypes.bool
+  isSavedSharingSettings: PropTypes.bool,
+  isUpdating: PropTypes.bool
 };
 
 const defaultProps = {
@@ -42,7 +43,8 @@ const defaultProps = {
   selectedSettings: {},
   isFetchingContent: false,
   isSubmittingSharingSettings: false,
-  isSavedSharingSettings: false
+  isSavedSharingSettings: false,
+  isUpdating: false
 };
 
 const IntegrationScreen = ({
@@ -61,7 +63,8 @@ const IntegrationScreen = ({
   team,
   orgId,
   orgName,
-  userEmail
+  userEmail,
+  isUpdating
 }) => {
   if (!source || (!orgId && !team)) return <Spinner />;
 
@@ -97,7 +100,13 @@ const IntegrationScreen = ({
         optionalButtons={{
           enabled: true,
           content: isActive ? (
-            <Button type="main" fitText className="Integration__button-refresh" onClick={onRefreshIntegration}>
+            <Button
+              type="main"
+              fitText
+              className="Integration__button-refresh"
+              onClick={onRefreshIntegration}
+              loading={isUpdating}
+            >
               {String.t('integrationPage.refreshList')}
             </Button>
           ) : null

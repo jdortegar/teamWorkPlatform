@@ -24,7 +24,8 @@ const propTypes = {
   selectedSettings: PropTypes.object,
   isFetchingContent: PropTypes.bool,
   isSubmittingSharingSettings: PropTypes.bool,
-  isSavedSharingSettings: PropTypes.bool
+  isSavedSharingSettings: PropTypes.bool,
+  refreshIntegration: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -38,6 +39,10 @@ const defaultProps = {
 };
 
 class OrgIntegrationPage extends Component {
+  state = {
+    isUpdating: false
+  };
+
   componentDidMount() {
     const { subscriberUserId, source } = this.props;
     this.props.fetchIntegrations();
@@ -63,9 +68,16 @@ class OrgIntegrationPage extends Component {
   };
 
   refreshIntegration = () => {
-    const { source, integrateOrgIntegration, revokeOrgIntegration } = this.props;
-    revokeOrgIntegration(source)
-      .then(() => integrateOrgIntegration(source).catch(error => message.error(error.message)))
+    const { source, integration, refreshIntegration } = this.props;
+    this.setState({ isUpdating: true });
+    refreshIntegration(source, integration.teamId, integration.userId)
+      .then(response => {
+        this.setState({ isUpdating: false });
+        if (response.status_code === 200) {
+          return message.success(String.t('integrationPage.message.updatedDescription'));
+        }
+        return message.error(String.t('integrationPage.message.contentError'));
+      })
       .catch(error => {
         message.error(error.message);
       });
@@ -117,6 +129,7 @@ class OrgIntegrationPage extends Component {
         onToggleAllSettings={this.toggleAllSharingSettings}
         orgId={orgId}
         orgName={orgName}
+        isUpdating={this.state.isUpdating}
       />
     );
   }
