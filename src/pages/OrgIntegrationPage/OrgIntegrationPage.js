@@ -24,8 +24,7 @@ const propTypes = {
   selectedSettings: PropTypes.object,
   isFetchingContent: PropTypes.bool,
   isSubmittingSharingSettings: PropTypes.bool,
-  isSavedSharingSettings: PropTypes.bool,
-  refreshIntegration: PropTypes.func.isRequired
+  isSavedSharingSettings: PropTypes.bool
 };
 
 const defaultProps = {
@@ -68,16 +67,9 @@ class OrgIntegrationPage extends Component {
   };
 
   refreshIntegration = () => {
-    const { refreshIntegration, content } = this.props;
-    this.setState({ isUpdating: true });
-    refreshIntegration(content.source, content.teamId, content.hablaUserId)
-      .then(response => {
-        this.setState({ isUpdating: false });
-        if (response.status_code === 200) {
-          return message.success(String.t('integrationPage.message.updatedDescription'));
-        }
-        return message.error(String.t('integrationPage.message.contentError'));
-      })
+    const { source, integrateOrgIntegration, revokeOrgIntegration } = this.props;
+    revokeOrgIntegration(source)
+      .then(() => integrateOrgIntegration(source).catch(error => message.error(error.message)))
       .catch(error => {
         message.error(error.message);
       });

@@ -526,8 +526,7 @@
       "notFoundDescription": "We’re sorry, but something must’ve gone terribly wrong.",
       "configUpdated": "Your {{name}} integration configuration has been updated.",
       "sharingSettingsSaved": "The selected files have been ingested successfully.",
-      "contentError": "We're sorry, the integration content couldn't be fetched.",
-      "updatedDescription": "Your integration is updated and is good to go!"
+      "contentError": "We're sorry, the integration content couldn't be fetched."
     },
     "integrations": "Data Integration Settings",
     "saveButtonLabel": "Save Changes",
