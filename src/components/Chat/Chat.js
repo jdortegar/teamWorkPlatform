@@ -232,7 +232,8 @@ class Chat extends React.Component {
       this.props.membersTyping !== nextProps.membersTyping ||
       nextState.loadingNewMessages !== this.state.loadingNewMessages ||
       this.props.isDraggingOver !== nextProps.isDraggingOver ||
-      this.props.showPageHeader !== nextProps.showPageHeader
+      this.props.showPageHeader !== nextProps.showPageHeader ||
+      this.props.files !== nextProps.files
     );
   }
 
