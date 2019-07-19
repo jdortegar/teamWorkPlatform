@@ -97,6 +97,8 @@ class MessageInput extends React.Component {
 
     if (this.props.conversationId !== nextProps.conversationId) {
       this.stopTyping();
+      this.props.clearFileList();
+      this.props.form.resetFields();
       this.textInput.current.focus();
     }
   }
