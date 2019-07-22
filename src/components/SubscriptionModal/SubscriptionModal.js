@@ -296,15 +296,17 @@ class SubscriptionModal extends React.Component {
 
     this.setState({ paypalLoading: true });
 
-    this.props
-      .updateSubscription({
-        subscriptionId: subscriberOrg.stripeSubscriptionId,
-        subscriberOrgId: subscriberOrg.subscriberOrgId,
-        cancel_at_period_end: true
-      })
-      .catch(error => {
-        message.error(error.message);
-      });
+    if (subscriberOrg.stripeSubscriptionId) {
+      this.props
+        .updateSubscription({
+          subscriptionId: subscriberOrg.stripeSubscriptionId,
+          subscriberOrgId: subscriberOrg.subscriberOrgId,
+          cancel_at_period_end: true
+        })
+        .catch(error => {
+          message.error(error.message);
+        });
+    }
 
     if (paypalSubscription && paypalSubscription.state === 'Active') {
       this.props.cancelPaypalSubscription(paypalSubscription.id);
