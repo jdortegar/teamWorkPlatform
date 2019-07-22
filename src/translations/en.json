@@ -28,7 +28,7 @@
   "no": "No",
   "noResults": "No Results",
   "shareUser": "Share with Users",
-  "sharePT": "Share with Project Teams",
+  "sharePT": "Share with Teams",
   "deleteButton": "Delete",
   "privacy": "Privacy",
   "public": "Public",
@@ -42,7 +42,7 @@
   "errAppDeepLinkInvalid": "The specified link is invalid.",
   "errAppDeepLinkUnknownError": "An error occurred. Please try again later.",
   "msgAppInvitationWhileLoggedOut": "Please log in to reply to the invitation.",
-  "msgInvitationToTeam": "{{byUserFirstName}} {{byUserLastName}} invited you to join the \"{{teamName}}\" Project Team of the \"{{subscriberOrgName}}\" Organization.",
+  "msgInvitationToTeam": "{{byUserFirstName}} {{byUserLastName}} invited you to join the \"{{teamName}}\" Team of the \"{{subscriberOrgName}}\" Organization.",
   "msgInvitationToOrg": "{{byUserFirstName}} {{byUserLastName}} invited you to join the \"{{subscriberOrgName}}\" Organization.",
   "invitationAcceptedToast": "You have joined {{name}}.",
   "invalidInvitation": "The invitation has expired or is invalid.",
@@ -55,7 +55,7 @@
   "altNotification": "Habla Notification",
   "userTagged": "You have been tagged",
   "updateProfileTitle": "Your Profile",
-  "updateProfileExplain": "Your profile is viewable by Team Members of your Project Team.",
+  "updateProfileExplain": "Your profile is viewable by Team Members of your Team.",
   "updateProfileUpdateAccountButtonLabel": "Update Account",
   "profileClearPhotoOption": "Change Profile Photo",
   "profilePhotoPlaceholder": "Set Your Profile Photo",
@@ -91,8 +91,8 @@
   "labelCountryPlaceholder": "",
   "labelTimeZone": "Time Zone",
   "labelSelectTimeZoneOption": "Select Time Zone",
-  "labelTeamName": "Project Team Name",
-  "labelActivateTeam": "Make Project Team Active",
+  "labelTeamName": "Team Name",
+  "labelActivateTeam": "Make Team Active",
   "inviteMembersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
   "inviteMembersSendInvitesButton": {
     "one": "Send 1 Invite",
@@ -114,7 +114,7 @@
   "logOutConfirmationButton": "Yes, Log Out",
   "organization": "Organization",
   "organizations": "Organizations",
-  "teams": "Project Teams",
+  "teams": "Teams",
   "directMessages": "Direct Messages",
   "fullName": "{{firstName}} {{lastName}}",
   "memberPopupName": "Name: {{firstName}} {{lastName}}",
@@ -123,7 +123,7 @@
   "awaitingVerificationChangeEmailLink": "Change Email Address",
   "awaitingVerificationResendLink": "Please Resend Verification",
   "awaitingVerificationExplanation": "It might take a few seconds to arrive. If you still don't see it after a few minutes, please check your spam folder.",
-  "errTeamNameMissing": "Please enter a Project Team Name.",
+  "errTeamNameMissing": "Please enter a Team Name.",
   "updateOrgHeaderLabel": "Your Organization",
   "updateOrgNameLabel": "Organization Name",
   "updateOrgWebAddressLabel": "Web Address",
@@ -134,9 +134,9 @@
   "errOrganizationWebsite": "Please enter the Organization web address.",
   "errOrgImageReadFile": "An error occurred trying to read the image.",
   "errOrgImageResize": "An error occurred trying to use the image.",
-  "updateTeamSaveButtonLabel": "Save Project Team Changes",
-  "editTeamTitle": "Edit Project Team",
-  "editTeamExplain": "Modify the details of your Project Team.",
+  "updateTeamSaveButtonLabel": "Save Team Changes",
+  "editTeamTitle": "Edit Team",
+  "editTeamExplain": "Modify the details of your Team.",
   "errEmailMissing": "Please enter an email address.",
   "errMustAgreeToTermsOfUse": "You must agree to the Terms of Use Agreement and Privacy Policy to continue.",
   "errEmailNotValid": "Please enter a valid email address.",
@@ -157,14 +157,14 @@
   "alertFileAlreadyAttachedTitle": "Attachment Used",
   "alertFileAlreadyAttachedMessage": "The selected file is already attached.",
   "errNoOrgsForUser": "There are no subscribed organizations for this user.",
-  "errNoTeamsForUser": "There are no Project Teams found for this user for the {{orgName}} Organization.",
-  "errNoTeamsForUserStatus500": "There are no Project Teams found for this user for the {{orgName}} Organization. (Status 500)",
-  "errNoTeamMembers": "No Team Members found for the {teamName} Project Team.",
+  "errNoTeamsForUser": "There are no Teams found for this user for the {{orgName}} Organization.",
+  "errNoTeamsForUserStatus500": "There are no Teams found for this user for the {{orgName}} Organization. (Status 500)",
+  "errNoTeamMembers": "No Team Members found for the {teamName} Team.",
   "toastExpandedAllMessages": "Expanded All Messages",
   "toastCollapsedAllMessages": "Collapsed All Messages",
   "searchPlaceholder": "Search",
   "inviteTeamMembersTitle": "Invite Team Members",
-  "inviteTeamMembersExplain": "{{teamName}} Project Team",
+  "inviteTeamMembersExplain": "{{teamName}} Team",
   "manageMembersListItem": "{{firstName}} {{lastName}}  ({{displayName}})",
   "manageMembersSaveChangesButtonLabel": "Save Changes",
   "timeActivityGraphTitle": "CKG Time / Activity",
@@ -181,12 +181,12 @@
     "editSection": "Edit Organization",
     "newButtonLabel": "New",
     "boxIntegrationLabel": "Box",
-    "addNewTeam": "Add New Project Team",
+    "addNewTeam": "Add New Team",
     "addNewMember": "Add New Organization Team Member",
     "addNewIntegration": "Add New Organization Data Integration",
     "integrationsHeader": "Organization Data Connectors ({{count}})",
     "membersHeader": "Members ({{count}})",
-    "teamsHeader": "My Project Teams ({{count}})",
+    "teamsHeader": "My Teams ({{count}})",
     "integrationsCount": {
       "one": "1 Organization Data Integration",
       "other": "{{count}} Organization Data Connectors",
@@ -198,7 +198,7 @@
     },
     "occupiedSpace": "{{occupied}}GB of {{remain}}GB",
     "filesShared": "{{count}} Files Shared",
-    "manageTeams": "Manage Project Teams",
+    "manageTeams": "Manage Teams",
     "manageTeamMembers": "Manage Team Members",
     "manageDataIntegrations": "Manage Data Connectors",
     "subscriptionSettings": "Subscription Settings",
@@ -206,15 +206,15 @@
   },
   "TeamPage": {
     "activeStatus": "Active",
-    "addDataIntegration": "Add a Data Connector to this Project Team",
-    "teamSettings": "Project Team Settings",
-    "manageTeam": "Manage Project Team",
-    "editTeam": "Edit Project Team",
-    "inviteNewMember": "Invite Team Members to this Project Team",
+    "addDataIntegration": "Add a Data Connector to this Team",
+    "teamSettings": "Team Settings",
+    "manageTeam": "Manage Team",
+    "editTeam": "Edit Team",
+    "inviteNewMember": "Invite Team Members to this Team",
     "teamCreated": "Created on {{date}} by {{teamAdminName}}",
     "integrationsHeader": "Data Connectors ({{count}})",
-    "addNewIntegration": "Add New Project Team Data Integration",
-    "startVideoCall": "Start a Project Team Video Call",
+    "addNewIntegration": "Add New Team Data Integration",
+    "startVideoCall": "Start a Team Video Call",
     "membersHeader": {
       "one": "1 Team Member",
       "other": "{{count}} Team Members",
@@ -315,9 +315,9 @@
     "newMessageFrom": "Message from {{firstName}} {{lastName}}",
     "declinedOrg": "{{inviteeUserIdOrEmail}} declined your invitation to join the {{subscriberOrgName}} organization.",
     "acceptedOrg": "{{inviteeUserIdOrEmail}} accepted your invitation to join the {{subscriberOrgName}} organization.",
-    "declinedTeam": "{{firstName}} {{lastName}} declined your invitation to join the {{teamName}} Project Team.",
-    "acceptedTeam": "{{firstName}} {{lastName}} accepted your invitation to join the {{teamName}} Project Team.",
-    "responseRequest": "{{fullName}} {{response}} your request to join the {{teamName}} Project Team."
+    "declinedTeam": "{{firstName}} {{lastName}} declined your invitation to join the {{teamName}} Team.",
+    "acceptedTeam": "{{firstName}} {{lastName}} accepted your invitation to join the {{teamName}} Team.",
+    "responseRequest": "{{fullName}} {{response}} your request to join the {{teamName}} Team."
   },
   "message": {
     "sentByName": "{{firstName}} {{lastName}}",
@@ -357,7 +357,7 @@
     "badgeTopLimit": "99+",
     "addNewLabel": "Add New",
     "addNewTeamMember": "Team Member",
-    "addNewTeam": "Project Team",
+    "addNewTeam": "Team",
     "sortByLabel": "Sort by",
     "sortByAlphabetical": "Alphabetical Order",
     "sortByNewest": "Newest First",
@@ -370,15 +370,15 @@
     "iconNotificationsTooltip": "Notifications",
     "iconBookmarksTooltip": "Bookmarks",
     "iconSettingsTooltipAdmin": "Manage Organization",
-    "iconSettingsTooltipTeamOwner": "Manage Project Teams",
+    "iconSettingsTooltipTeamOwner": "Manage Teams",
     "iconSettingsTooltipUser": "Manage Organization",
-    "invitetoTeam": "Invite Member to this Project Team",
+    "invitetoTeam": "Invite Member to this Team",
     "directMessage": "Send Direct Message",
     "avatarPopoverTitle": "Select an Option",
     "videoCall": "Start 1:1 Video Call",
     "userProfile": "View User Profile",
     "shareProfileUsers": "Share User Profile with Users",
-    "shareProfilePT": "Share User Profile with Project Teams",
+    "shareProfilePT": "Share User Profile with Teams",
     "allowPopUp": "Please allow popup window in your browser settings",
     "directMessages": "Direct Messages",
     "localTime": "local time",
@@ -415,10 +415,10 @@
     "errorNameAlreadyTaken": "The Organization Name is already being used. Please enter a different name."
   },
   "addTeamDialog": {
-    "title": "Add Project Team",
+    "title": "Add Team",
     "addButtonLabel": "Add",
-    "namePlaceholder": "Project Team Name",
-    "errorNameAlreadyTaken": "The Project Team Name is already being used. Please enter a different name."
+    "namePlaceholder": "Team Name",
+    "errorNameAlreadyTaken": "The Team Name is already being used. Please enter a different name."
   },
   "login": {
     "rememberMeCheckboxLabel": "Remember Me",
@@ -465,10 +465,10 @@
     "errorNameAlreadyTaken": "The Organization Name is already being used. Please enter a different name."
   },
   "editTeamPage": {
-    "teamUpdated": "Your Project Team changes have been saved.",
-    "errorNameAlreadyTaken": "The Project Team Name is already being used. Please enter a different name.",
+    "teamUpdated": "Your Team changes have been saved.",
+    "errorNameAlreadyTaken": "The Team Name is already being used. Please enter a different name.",
     "changeAvatarText": "Change Avatar",
-    "teamName": "Project Team Name",
+    "teamName": "Team Name",
     "saveButtonLabel": "Save",
     "setActive": "Set Active",
     "setInactive": "Set Inactive",
@@ -601,10 +601,10 @@
   },
   "newTeamPage": {
     "createNewTeamButtonLabel": "Create",
-    "chooseTeamName": "Project Team Name",
+    "chooseTeamName": "Team Name",
     "uploadAvatar": "Upload Avatar",
-    "breadcrumb": "Add New Project Team",
-    "teamAddedToast": "Your Project Team has been created.",
+    "breadcrumb": "Add New Team",
+    "teamAddedToast": "Your Team has been created.",
     "makePrivate": "Make Private"
   },
   "cardView": {
@@ -682,7 +682,7 @@
     "fileTypes": "File Types ({{count}})",
     "dataIntegration": "Data Connectors ({{count}})",
     "teamMembers": "Team Members ({{count}})",
-    "VideoCallTooltip": "Start a Project Team Video Call"
+    "VideoCallTooltip": "Start a Team Video Call"
   },
   "ckg": {
     "searchPageTitle": "Global Smart Search",
@@ -792,7 +792,7 @@
     "pageTitle": "Default Page"
   },
   "OrganizationManageTeams": {
-    "title": "Manage Project Teams",
+    "title": "Manage Teams",
     "activeState": "ON",
     "inactiveState": "OFF",
     "setActive": "Set Active",
@@ -835,18 +835,18 @@
     "setInactive": "Set Inactive",
     "addNew": "Add New",
     "teamMembers": "Team Members",
-    "projectTeams": "Project Teams",
+    "projectTeams": "Teams",
     "dataIntegrations": "Data Connectors (Coming Soon...)",
     "filesShared": "{{count}} Files Shared",
     "noMembers": "No Members",
     "oneMember": "{{count}} Team Member",
     "manyMembers": "{{count}} Team Members",
     "enableIntegrationMessage": "Only Integration Owner could activate this",
-    "manageTeams": "Manage Organization Project Teams",
+    "manageTeams": "Manage Organization Teams",
     "manageTeamMembers": "Add or Manage Organization Team Members",
     "manageIntegrations": "Manage Organization Data Connectors",
     "editOrganization": "Edit Organization",
-    "teamsUpdated": "Project Teams status saved",
+    "teamsUpdated": "Teams status saved",
     "teamMembersUpdated": "Teams Members status saved",
     "teamMemberUpdated": "Team Member status saved"
   },
@@ -895,7 +895,7 @@
     "deleteTeamMember": "Delete Team Member"
   },
   "chat": {
-    "title": "Project Team Messages",
+    "title": "Team Messages",
     "membersHeader": "Organization Team Members ({{count}})",
     "addTeamMember": "Add Team Members",
     "markAllAsRead": "Mark All as Read",
@@ -910,15 +910,15 @@
     "subscriptionPlan": "Subscription Plan",
     "availableSeat": "Licenses Used: ",
     "of": "of",
-    "projectTeams": "Project Teams",
+    "projectTeams": "Teams",
     "filesShared": "Files Shared",
     "daysLeft": "{{count}} Days Left",
     "trialOverTitle": "Your 14 Day Free Trial has Ended",
     "subscriptionOverTitle": "Your Subscription has Ended",
-    "trialOverBody": "Please subscribe and keep your digital workplace and project teams in place and really productive! We’ll keep your data for 30 days if you don’t buy now, but change your mind later.<br><br>If you have any questions, please don’t hesitate to visit to our Help Center and ask us @ <a href='https://helpcenter.habla.ai/hc/en-us' target='_blank'>Habla AI Help Center</a><br><br>Thank you and here’s to data democracy for project teams!",
+    "trialOverBody": "Please subscribe and keep your digital workplace and teams in place and really productive! We’ll keep your data for 30 days if you don’t buy now, but change your mind later.<br><br>If you have any questions, please don’t hesitate to visit to our Help Center and ask us @ <a href='https://helpcenter.habla.ai/hc/en-us' target='_blank'>Habla AI Help Center</a><br><br>Thank you and here’s to data democracy for teams!",
     "trialOverButton": "Buy Now",
     "3daysTitle": "Hello Hablamos!",
-    "3daysBody": "Thanks again for trying Habla AI - <strong>only 3 Days Left!</strong><br><br>Just a reminder that your free trial is almost up. We hope you’re enjoying all the benefits of your digital workplace with project team data, files, and collaboration at your fingertips.<br><br>Please take a moment to Buy Now - it’s only $15 per month per User - just 3 trips to your favorite cafe for cappuccinos. Imagine what you can accomplish with Habla AI today!<br><br>If you have any questions, please don’t hesitate to visit to our Help Center and ask us @ <a href='https://helpcenter.habla.ai/hc/en-us' target='_blank'>Habla AI Help Center</a><br><br>Thank you and here’s to data democracy for project teams!"
+    "3daysBody": "Thanks again for trying Habla AI - <strong>only 3 Days Left!</strong><br><br>Just a reminder that your free trial is almost up. We hope you’re enjoying all the benefits of your digital workplace with team data, files, and collaboration at your fingertips.<br><br>Please take a moment to Buy Now - it’s only $15 per month per User - just 3 trips to your favorite cafe for cappuccinos. Imagine what you can accomplish with Habla AI today!<br><br>If you have any questions, please don’t hesitate to visit to our Help Center and ask us @ <a href='https://helpcenter.habla.ai/hc/en-us' target='_blank'>Habla AI Help Center</a><br><br>Thank you and here’s to data democracy for teams!"
   },
   "paymentModal": {
     "title": "Subscription Payment Form",
@@ -943,7 +943,7 @@
   "videoCallModal": {
     "called": "Incoming Call from {{user}}",
     "calling": "Calling {{user}}",
-    "teamCall": "{{team}} Project Team Call",
+    "teamCall": "{{team}} Team Call",
     "close": "Close",
     "cancel": "Cancel",
     "answer": "Answer",
@@ -958,9 +958,9 @@
     "removeButton": "Remove",
     "sendInvitationsButton": "Send Invitations",
     "userEmailLabel": "User Email",
-    "personalizeTeamModalTitle": "Personalize your Project Team",
+    "personalizeTeamModalTitle": "Personalize your Team",
     "inviteTeamMembersModalTitle": "Invite Team Members",
-    "inviteTeamMembersModalDescription": "Invite Team Members to your Organization. Then you will be able to distribute them in different Project Teams.",
+    "inviteTeamMembersModalDescription": "Invite Team Members to your Organization. Then you will be able to distribute them in different Teams.",
     "addTeamIntegrationModalTitle": "Add a Data Connector"
   },
   "directMessagesPage": {
@@ -985,14 +985,14 @@
     "scheduleEdited": "Your schedule message was edited properly"
   },
   "teamAvatarWrapper": {
-    "request": "Request Invite to Project Team",
+    "request": "Request Invite to Team",
     "videoCall": "Start Team Video Call",
     "teamMember": "1 Team Member",
     "teamMembers": "{{teamMembers}} Team Members",
     "teamAdminName": "Admin: {{teamAdminName}}"
   },
   "requestNotification": {
-    "requestToJoin": "\"{{userFullName}}\" request to Join \"{{teamName}}\" Project Team"
+    "requestToJoin": "\"{{userFullName}}\" request to Join \"{{teamName}}\" Team"
   },
   "scheduleSystemPage": {
     "menuTitle": "Schedule System-wide Message"

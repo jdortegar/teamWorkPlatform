@@ -43,7 +43,7 @@ const EventTypes = Object.freeze({
   answerCall: 'answerCall',
   answerTeamCall: 'answerTeamCall',
 
-  // Request to Join Project Team
+  // Request to Join Team
 
   requestToAdmin: 'requestToAdmin',
   requestResponse: 'requestResponse',

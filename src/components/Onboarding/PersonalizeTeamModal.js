@@ -82,7 +82,7 @@ class PersonalizeTeamModal extends Component {
         </div>
         <div className="Onboarding__content">
           <Form onSubmit={this.handleSubmit} hideRequiredMark>
-            <TextField form={form} label="Project Team Name" componentKey="name" initialValue={team.name} required />
+            <TextField form={form} label="Team Name" componentKey="name" initialValue={team.name} required />
           </Form>
         </div>
       </Modal>

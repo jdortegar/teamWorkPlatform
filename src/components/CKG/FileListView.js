@@ -169,7 +169,7 @@ const getGlobalSearchColumns = (keywords, caseSensitive, owners, highlightSearch
     )
   },
   {
-    title: 'Project Team',
+    title: 'Team',
     dataIndex: 'teamId',
     key: 'teamId',
     sorter: (a, b) => a.fileSize - b.fileSize,
