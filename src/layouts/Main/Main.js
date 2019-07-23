@@ -18,13 +18,11 @@ const propTypes = {
   initMessaging: PropTypes.func.isRequired,
   subscriberOrg: PropTypes.object,
   subscriberOrgs: PropTypes.object.isRequired,
-  subscription: PropTypes.object,
   userRoles: PropTypes.object
 };
 
 const defaultProps = {
   subscriberOrg: {},
-  subscription: {},
   userRoles: {}
 };
 
@@ -49,9 +47,9 @@ class Main extends React.Component {
     this.props.fetchSubscriberOrgs().then(() => {
       setTimeout(this.setState({ orgLoaded: true }), 5000);
       const { stripeSubscriptionId } = this.props.subscriberOrg || {};
-      const { subscription } = this.props;
-      if (subscription && stripeSubscriptionId) {
-        this.props.fetchSubscription(stripeSubscriptionId).then(() => {
+      if (stripeSubscriptionId) {
+        this.props.fetchSubscription(stripeSubscriptionId).then(response => {
+          const subscription = response.data;
           if (
             (subscription.status === 'trialing' && moment(subscription.trial_end * 1000).diff(moment(), 'days') <= 0) ||
             subscription.status === 'canceled' ||
