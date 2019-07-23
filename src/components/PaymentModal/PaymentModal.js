@@ -16,7 +16,13 @@ const propTypes = {
   showModal: PropTypes.func.isRequired,
   showPaymentModal: PropTypes.func.isRequired,
   paymentData: PropTypes.object.isRequired,
-  currentUser: PropTypes.object.isRequired
+  currentUser: PropTypes.object.isRequired,
+  paypalSubscription: PropTypes.object,
+  cancelPaypalSubscription: PropTypes.func.isRequired
+};
+
+const defaultProps = {
+  paypalSubscription: {}
 };
 
 const PaymentModal = props => (
@@ -30,11 +36,14 @@ const PaymentModal = props => (
         updateSubscription={props.updateSubscription}
         showPaymentModal={props.showPaymentModal}
         visible={props.visible}
+        cancelPaypalSubscription={props.cancelPaypalSubscription}
+        paypalSubscription={props.paypalSubscription}
       />
     </Elements>
   </StripeProvider>
 );
 
 PaymentModal.propTypes = propTypes;
+PaymentModal.defaultProps = defaultProps;
 
 export default Form.create()(PaymentModal);

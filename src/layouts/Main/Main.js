@@ -23,6 +23,7 @@ const propTypes = {
 
 const defaultProps = {
   subscriberOrg: {},
+  subscription: null,
   userRoles: {}
 };
 
@@ -47,51 +48,50 @@ class Main extends React.Component {
     this.props.fetchSubscriberOrgs().then(() => {
       setTimeout(this.setState({ orgLoaded: true }), 5000);
       const { stripeSubscriptionId } = this.props.subscriberOrg || {};
-      if (stripeSubscriptionId) {
-        this.props.fetchSubscription(stripeSubscriptionId).then(response => {
-          const subscription = response.data;
-          if (
-            (subscription.status === 'trialing' && moment(subscription.trial_end * 1000).diff(moment(), 'days') <= 0) ||
-            subscription.status === 'canceled' ||
-            subscription.status === 'past_due'
-          ) {
-            this.setState({
-              hablaModalVisible: true,
-              hablaModalTitle:
-                subscription.status === 'canceled' || subscription.status === 'past_due'
-                  ? String.t('organizationSummaryPage.subscriptionOverTitle')
-                  : String.t('organizationSummaryPage.trialOverTitle'),
-              hablaModalBody: (
-                // eslint-disable-next-line react/no-danger
-                <div dangerouslySetInnerHTML={{ __html: String.t('organizationSummaryPage.trialOverBody') }} />
-              ),
-              hablaModalButton: String.t('organizationSummaryPage.trialOverButton'),
-              cancelButton: false
-            });
-          }
-          if (
-            subscription.status === 'trialing' &&
-            moment(subscription.trial_end * 1000).diff(moment(), 'days') === 3
-          ) {
-            this.setState({
-              hablaModalVisible: true,
-              hablaModalTitle: String.t('organizationSummaryPage.3daysTitle'),
-              hablaModalBody: (
-                // eslint-disable-next-line react/no-danger
-                <div dangerouslySetInnerHTML={{ __html: String.t('organizationSummaryPage.3daysBody') }} />
-              ),
-              hablaModalButton: String.t('organizationSummaryPage.trialOverButton'),
-              cancelButton: true
-            });
-          }
-        });
-      }
+      this.props.fetchSubscription(stripeSubscriptionId);
     });
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.subscriberOrgs.currentSubscriberOrgId !== nextProps.subscriberOrgs.currentSubscriberOrgId) {
       this.props.fetchGlobalState();
+    }
+
+    if (this.props.subscription !== nextProps.subscription) {
+      const { subscription } = nextProps;
+      if (subscription) {
+        if (
+          (subscription.status === 'trialing' && moment(subscription.trial_end * 1000).diff(moment(), 'days') <= 0) ||
+          subscription.status === 'canceled' ||
+          subscription.status === 'past_due'
+        ) {
+          this.setState({
+            hablaModalVisible: true,
+            hablaModalTitle:
+              subscription.status === 'canceled' || subscription.status === 'past_due'
+                ? String.t('organizationSummaryPage.subscriptionOverTitle')
+                : String.t('organizationSummaryPage.trialOverTitle'),
+            hablaModalBody: (
+              // eslint-disable-next-line react/no-danger
+              <div dangerouslySetInnerHTML={{ __html: String.t('organizationSummaryPage.trialOverBody') }} />
+            ),
+            hablaModalButton: String.t('organizationSummaryPage.trialOverButton'),
+            cancelButton: false
+          });
+        }
+        if (subscription.status === 'trialing' && moment(subscription.trial_end * 1000).diff(moment(), 'days') === 3) {
+          this.setState({
+            hablaModalVisible: true,
+            hablaModalTitle: String.t('organizationSummaryPage.3daysTitle'),
+            hablaModalBody: (
+              // eslint-disable-next-line react/no-danger
+              <div dangerouslySetInnerHTML={{ __html: String.t('organizationSummaryPage.3daysBody') }} />
+            ),
+            hablaModalButton: String.t('organizationSummaryPage.trialOverButton'),
+            cancelButton: true
+          });
+        }
+      }
     }
   }
 

@@ -14,7 +14,6 @@ import './styles/style.css';
 const propTypes = {
   visible: PropTypes.bool.isRequired,
   showModal: PropTypes.func.isRequired,
-  showHablaModal: PropTypes.func,
   form: formShape.isRequired,
   subscriberOrg: PropTypes.object.isRequired,
   subscription: PropTypes.object,
@@ -39,8 +38,7 @@ const defaultProps = {
   subscription: {},
   paypalSubscription: {},
   subscriptionCoupons: {},
-  cancelButton: true,
-  showHablaModal: () => {}
+  cancelButton: true
 };
 
 const PRICES = {
@@ -167,20 +165,10 @@ class SubscriptionModal extends React.Component {
     }
   };
 
-  showPaymentModal = hidePaymentModal => {
-    const { paypalSubscription } = this.props;
-    if (!hidePaymentModal) {
-      this.props.showModal();
-      this.props.showHablaModal();
-    }
+  showPaymentModal = () => {
     this.setState({
       paymentModalVisible: !this.state.paymentModalVisible
     });
-    if (paypalSubscription && paypalSubscription.state !== 'suspended') {
-      this.props.cancelPaypalSubscription(paypalSubscription.id).catch(error => {
-        message.error(error.message);
-      });
-    }
   };
 
   cancelSubscription = () => {
@@ -567,6 +555,8 @@ class SubscriptionModal extends React.Component {
           form={this.props.form}
           updateSubscription={this.props.updateSubscription}
           amount={amount}
+          cancelPaypalSubscription={this.props.cancelPaypalSubscription}
+          paypalSubscription={this.props.paypalSubscription}
         />
       </div>
     );

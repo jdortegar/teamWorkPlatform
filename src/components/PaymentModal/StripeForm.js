@@ -19,12 +19,15 @@ const propTypes = {
   showPaymentModal: PropTypes.func.isRequired,
   paymentData: PropTypes.object.isRequired,
   updateSubscription: PropTypes.func.isRequired,
-  subscriptionEmail: PropTypes.string
+  subscriptionEmail: PropTypes.string,
+  paypalSubscription: PropTypes.object,
+  cancelPaypalSubscription: PropTypes.func.isRequired
 };
 
 const defaultProps = {
   stripe: null,
-  subscriptionEmail: null
+  subscriptionEmail: null,
+  paypalSubscription: {}
 };
 
 const FormItem = Form.Item;
@@ -56,7 +59,7 @@ class StripeForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        const { paymentData } = this.props;
+        const { paymentData, paypalSubscription } = this.props;
         this.setState({ loading: true });
 
         const { token } = await this.props.stripe.createToken({
@@ -87,6 +90,11 @@ class StripeForm extends React.Component {
           .then(() => {
             this.setState({ loading: false });
             this.props.showPaymentModal(false);
+            if (paypalSubscription && paypalSubscription.state !== 'suspended') {
+              this.props.cancelPaypalSubscription(paypalSubscription.id).catch(error => {
+                message.error(error.message);
+              });
+            }
             message.success(String.t('paymentModal.subscriptionPaid'));
           })
           .catch(error => {
