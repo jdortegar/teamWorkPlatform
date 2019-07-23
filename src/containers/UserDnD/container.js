@@ -8,7 +8,8 @@ const mapStateToProps = (state, props) => {
   const { userId } = props.user;
   const conversation = getPersonalConversation(state, userId) || {};
   return {
-    conversationId: conversation.id
+    conversationId: conversation.id,
+    unreadMessageId: conversation.firstUnreadMessage
   };
 };
 

@@ -206,11 +206,6 @@ class Sidebar extends Component {
     }
   }
 
-  goToTeamPage(e, team) {
-    this.props.history.push(`/app/team/${team.teamId}`);
-    this.cancelClickEvent(e);
-  }
-
   toogleOrgs(orgId) {
     const teamIds = this.getTeamsIds(orgId);
 
@@ -256,10 +251,7 @@ class Sidebar extends Component {
       }
 
       const text = (
-        <div
-          className={classNames({ Team_active: pathname.includes(team.teamId) })}
-          onClick={e => this.goToTeamPage(e, team)}
-        >
+        <div className={classNames({ Team_active: pathname.includes(team.teamId) })}>
           <TeamItem team={team} />
         </div>
       );

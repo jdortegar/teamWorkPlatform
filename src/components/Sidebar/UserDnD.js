@@ -8,22 +8,27 @@ const propTypes = {
   user: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
-  conversationId: PropTypes.string
+  conversationId: PropTypes.string,
+  unreadMessageId: PropTypes.string
 };
 
 const defaultProps = {
-  conversationId: null
+  conversationId: null,
+  unreadMessageId: null
 };
 
 export const ItemTypes = {
   FILE: 'file'
 };
 
-const UserDnD = ({ connectDropTarget, user, history, conversationId }) => {
+const UserDnD = ({ connectDropTarget, user, history, conversationId, unreadMessageId }) => {
   return (
     <div ref={connectDropTarget} key={conversationId} className="habla-left-navigation-team-list-subitem">
       <AvatarWrapper size="default" user={user} />
-      <div className="Link__Wrapper" onClick={() => history.push(`/app/chat/${user.userId}`)}>
+      <div
+        className="Link__Wrapper"
+        onClick={() => history.push({ pathname: `/app/chat/${user.userId}`, state: { messageId: unreadMessageId } })}
+      >
         <span className="habla-left-navigation-item-label">{user.fullName}</span>
       </div>
     </div>

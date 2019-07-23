@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import { getUnreadMessages, getTeamConversation } from 'src/selectors';
 import { TeamItem } from 'src/components';
@@ -8,8 +9,9 @@ const mapStateToProps = (state, props) => {
   const conversation = getTeamConversation(state, teamId) || {};
 
   return {
-    unreadMessages: getUnreadMessages(state, conversation.id)
+    unreadMessages: getUnreadMessages(state, conversation.id),
+    unreadMessageId: conversation.firstUnreadMessage
   };
 };
 
-export default connect(mapStateToProps)(TeamItem);
+export default withRouter(connect(mapStateToProps)(TeamItem));

@@ -140,7 +140,7 @@ class Chat extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { conversation, users, usersPresences, readMessages } = nextProps;
+    const { conversation, users, usersPresences, readMessages, scrollToMessageId } = nextProps;
 
     // conversation doesn't exist in the app state
     if (!conversation) {
@@ -184,11 +184,23 @@ class Chat extends React.Component {
       this.setState({ loadingConversation: true });
       this.updateMembers({ conversation, users, usersPresences });
 
-      // Fetch new conversation messages and scroll
-      this.props.fetchMessages(conversation.id).then(() => {
-        this.setState({ loadingConversation: false });
-        this.scrollToUnread();
-      });
+      if (scrollToMessageId && this.props.scrollToMessageId !== scrollToMessageId) {
+        this.props.fetchMessage(conversation.id, scrollToMessageId).then(pagination => {
+          this.setState({ loadingConversation: false, nextPagination: pagination, prevPagination: pagination });
+          this.scrollToUnread();
+        });
+      } else {
+        // Fetch conversation and save in local state
+        this.props.fetchMessages(conversation.id).then(pagination => {
+          this.setState({
+            loadingConversation: false,
+            nextPagination: pagination,
+            prevPagination: pagination
+          });
+          this.scrollToUnread();
+        });
+      }
+
       this.props.fetchBookmarks();
 
       this.setState({ chatHistory: conversation.messages });
@@ -220,6 +232,10 @@ class Chat extends React.Component {
     if (!this.scrollAtBottom && scrollPos === 0) {
       const numMessages = messagesContainer.childNodes[1].childNodes.length;
       this.topMessage = numMessages === 0 ? null : messagesContainer.childNodes[1].childNodes[0];
+    }
+
+    if (this.state.lastSubmittedMessage !== nextState.lastSubmittedMessage) {
+      this.setState({ scrollToMessage: false });
     }
 
     // Update if chatHistory, pagination or conversation changed
@@ -381,17 +397,19 @@ class Chat extends React.Component {
     // scroll to unread if exist or scroll bottom
     const [messagesContainer] = document.getElementsByClassName('team__messages');
     if (!messagesContainer && !this.state.loadingConversation) return;
-    let [unreadMark] = messagesContainer.getElementsByClassName('message__unread_mark') || null;
+    let unreadMark = null;
     // If scrollToMessageId exists set as unread mark
 
     if (this.state.scrollToMessage) {
       [unreadMark] = messagesContainer.getElementsByClassName(this.state.scrollToMessage);
+    } else {
+      [unreadMark] = messagesContainer.getElementsByClassName('message__unread_mark');
     }
 
     const { clientHeight, scrollHeight } = messagesContainer;
     const maxScrollTop = scrollHeight - clientHeight;
     // Scroll to unreadMark or scroll to bottom
-    if (unreadMark) {
+    if (unreadMark && !this.isNearBottom()) {
       messagesContainer.scrollTop = unreadMark.offsetTop - 50;
       this.setState({ scrollToMessage: false });
     } else {
