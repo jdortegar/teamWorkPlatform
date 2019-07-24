@@ -18,7 +18,8 @@ const propTypes = {
   initMessaging: PropTypes.func.isRequired,
   subscriberOrg: PropTypes.object,
   subscriberOrgs: PropTypes.object.isRequired,
-  userRoles: PropTypes.object
+  userRoles: PropTypes.object,
+  subscription: PropTypes.object
 };
 
 const defaultProps = {
@@ -29,7 +30,7 @@ const defaultProps = {
 
 class Main extends React.Component {
   state = {
-    modalVisible: false,
+    subscriptionModalVisible: false,
     hablaModalVisible: false,
     hablaModalTitle: '',
     hablaModalBody: '',
@@ -103,16 +104,16 @@ class Main extends React.Component {
     this.props.closeMessaging();
   };
 
-  showModal = () => {
+  showSubscriptionModal = option => {
     this.setState({
-      modalVisible: !this.state.modalVisible,
-      hablaModalVisible: !this.state.cancelButton
+      subscriptionModalVisible: option,
+      hablaModalVisible: option === false ? option : this.state.hablaModalVisible
     });
   };
 
-  showHablaModal = () => {
+  showHablaModal = option => {
     this.setState({
-      hablaModalVisible: !this.state.hablaModalVisible
+      hablaModalVisible: option
     });
   };
 
@@ -124,7 +125,7 @@ class Main extends React.Component {
     const admin = this.props.userRoles.admin || null;
 
     const {
-      modalVisible,
+      subscriptionModalVisible,
       cancelButton,
       hablaModalVisible,
       hablaModalTitle,
@@ -143,8 +144,8 @@ class Main extends React.Component {
           <SurveyModal />
           <Onboarding />
           <SubscriptionModal
-            visible={modalVisible}
-            showModal={this.showModal}
+            visible={subscriptionModalVisible}
+            showSubscriptionModal={this.showSubscriptionModal}
             showHablaModal={this.showHablaModal}
             cancelButton={cancelButton}
           />
@@ -153,7 +154,7 @@ class Main extends React.Component {
             cancelButton={cancelButton}
             acceptButton={admin}
             showHablaModal={this.showHablaModal}
-            showModal={this.showModal}
+            acceptFunction={this.showSubscriptionModal}
             titleText={hablaModalTitle}
             bodyText={hablaModalBody}
             buttonText={hablaModalButton}

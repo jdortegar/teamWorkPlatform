@@ -300,7 +300,7 @@ class OrganizationPage extends Component {
               {config.hablaWebAppVersion}
             </div>
           </div>
-          <SubscriptionModal visible={this.state.modalVisible} showModal={this.showModal} />
+          <SubscriptionModal visible={this.state.modalVisible} showSubscriptionModal={this.showModal} />
           {this.state.scheduleModalVisible && (
             <ScheduleMessageModal
               subtitle={subscriberOrg.name}

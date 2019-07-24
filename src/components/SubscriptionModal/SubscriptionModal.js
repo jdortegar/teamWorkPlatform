@@ -13,7 +13,7 @@ import './styles/style.css';
 
 const propTypes = {
   visible: PropTypes.bool.isRequired,
-  showModal: PropTypes.func.isRequired,
+  showSubscriptionModal: PropTypes.func.isRequired,
   form: formShape.isRequired,
   subscriberOrg: PropTypes.object.isRequired,
   subscription: PropTypes.object,
@@ -75,7 +75,7 @@ class SubscriptionModal extends React.Component {
           (!this.props.paypalSubscription.state || this.props.paypalSubscription.state === 'Suspended')
         ) {
           const subscriptionBilling = subscription.plan.interval === 'year' ? 'annually' : 'monthly';
-          const subscriptionPlanAmount = subscription.plan.amount / (subscriptionBilling === 'annually' ? 12 : 1);
+          const subscriptionPlanAmount = subscription.plan.interval === 'year' ? PRICES.ANNUALLY : PRICES.MONTHLY;
           this.setState({
             subscriptionLoaded: true,
             subscriptionUsers: userLimit,
@@ -159,15 +159,15 @@ class SubscriptionModal extends React.Component {
     }
   };
 
-  showModal = () => {
+  showModal = option => {
     if (!this.state.loading) {
-      this.props.showModal();
+      this.props.showSubscriptionModal(option);
     }
   };
 
-  showPaymentModal = () => {
+  showPaymentModal = option => {
     this.setState({
-      paymentModalVisible: !this.state.paymentModalVisible
+      paymentModalVisible: option
     });
   };
 
@@ -277,12 +277,20 @@ class SubscriptionModal extends React.Component {
 
   handlePaypalSubscription = () => {
     const { subscriptionPlanAmount, subscriptionUsers, discountApplied } = this.state;
-    const { subscriberOrg, paypalSubscription } = this.props;
+    const { subscriberOrg, paypalSubscription, subscription } = this.props;
     const amount = ((subscriptionPlanAmount * subscriptionUsers * discountApplied) / 100).toFixed(2);
     const payAmount = subscriptionPlanAmount === PRICES.ANNUALLY ? amount * 12 : amount;
     const frequency = subscriptionPlanAmount === PRICES.ANNUALLY ? 'year' : 'month';
 
+    const interval = subscription.plan && subscription.plan.interval === 'year' ? 'year' : 'month';
+
     this.setState({ paypalLoading: true });
+
+    if (subscriptionUsers === subscription.quantity && frequency === interval) {
+      this.setState({ paypalLoading: false });
+      message.success(String.t('subscriptionModal.planChanges'));
+      return;
+    }
 
     if (subscriberOrg.stripeSubscriptionId) {
       this.props
@@ -367,7 +375,7 @@ class SubscriptionModal extends React.Component {
       .updateSubscription(valuesToSend)
       .then(() => {
         this.setState({ loading: false });
-        this.props.showModal();
+        this.props.showSubscriptionModal(false);
         message.success(String.t('subscriptionModal.planUpdated'));
         this.props.fetchSubscriberOrgs();
       })
@@ -510,11 +518,11 @@ class SubscriptionModal extends React.Component {
                 </div>
                 <div className="Action_buttons">
                   {cancelButton ? (
-                    <Button className="Cancel_button" onClick={this.showModal}>
+                    <Button className="Cancel_button" onClick={() => this.showModal(false)}>
                       {String.t('subscriptionModal.close')}
                     </Button>
                   ) : (
-                    <Button className="Cancel_button" onClick={this.showModal}>
+                    <Button className="Cancel_button" onClick={() => this.showModal(false)}>
                       {String.t('subscriptionModal.back')}
                     </Button>
                   )}

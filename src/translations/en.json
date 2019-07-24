@@ -996,5 +996,10 @@
   },
   "scheduleSystemPage": {
     "menuTitle": "Schedule System-wide Message"
+  },
+  "errors": {
+    "subscription": {
+      "couponExpired": "The Promo Code is Expired or Invalid"
+    }
   }
 }

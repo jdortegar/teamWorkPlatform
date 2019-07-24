@@ -9,7 +9,7 @@ import './styles/style.css';
 
 const propTypes = {
   visible: PropTypes.bool.isRequired,
-  showModal: PropTypes.func.isRequired,
+  acceptFunction: PropTypes.func.isRequired,
   showHablaModal: PropTypes.func.isRequired,
   titleText: PropTypes.string,
   bodyText: PropTypes.node,
@@ -48,12 +48,12 @@ const HablaModal = props => {
           <div className="Modal_footer">
             <div className="Action_buttons">
               {cancelButton && (
-                <Button className="Cancel_button" onClick={props.showHablaModal}>
+                <Button className="Cancel_button" onClick={() => props.showHablaModal(false)}>
                   {String.t('subscriptionModal.close')}
                 </Button>
               )}
               {acceptButton && (
-                <Button className="Confirm_button" onClick={props.showModal}>
+                <Button className="Confirm_button" onClick={() => props.acceptFunction(true)}>
                   {buttonText}
                 </Button>
               )}

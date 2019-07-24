@@ -51,7 +51,7 @@ class StripeForm extends React.Component {
   }
 
   handleCancel = () => {
-    this.props.showModal();
+    this.props.showModal(false);
     this.props.showPaymentModal(false);
   };
 
@@ -90,6 +90,7 @@ class StripeForm extends React.Component {
           .then(() => {
             this.setState({ loading: false });
             this.props.showPaymentModal(false);
+            this.props.showModal(false);
             if (paypalSubscription && paypalSubscription.state !== 'suspended') {
               this.props.cancelPaypalSubscription(paypalSubscription.id).catch(error => {
                 message.error(error.message);
@@ -99,7 +100,11 @@ class StripeForm extends React.Component {
           })
           .catch(error => {
             this.setState({ loading: false });
-            message.error(error.message);
+            if (error.response && error.response.status === 400) {
+              message.error(String.t('errors.subscription.couponExpired'));
+            } else {
+              message.error(error.message);
+            }
           });
       }
     });
