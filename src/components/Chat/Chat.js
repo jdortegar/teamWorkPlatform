@@ -409,33 +409,15 @@ class Chat extends React.Component {
     const { clientHeight, scrollHeight } = messagesContainer;
     const maxScrollTop = scrollHeight - clientHeight;
     // Scroll to unreadMark or scroll to bottom
-    if (unreadMark && !this.isNearBottom()) {
+    if (unreadMark) {
       messagesContainer.scrollTop = unreadMark.offsetTop - 50;
+      this.props.readMessages(this.props.conversation.id);
       this.setState({ scrollToMessage: false });
     } else {
       messagesContainer.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
     }
     // Scroll is not at top
     this.setState({ bottomScrollSensor: true });
-  };
-
-  setScrollEvent = () => {
-    // Set scroll event
-    const [messagesContainer] = document.getElementsByClassName('team__messages');
-    if (!messagesContainer) return;
-    messagesContainer.addEventListener('scroll', this.handleScroll);
-  };
-
-  handleScroll = () => {
-    const [messagesContainer] = document.getElementsByClassName('team__messages');
-    if (!messagesContainer) return;
-
-    const { conversation, readMessages } = this.props;
-    // If user scroll to bottom and read unread Mesages, fie readMessages function
-    if (messagesContainer.scrollHeight === messagesContainer.scrollTop + messagesContainer.clientHeight) {
-      messagesContainer.removeEventListener('scroll', this.handleScroll);
-      readMessages(conversation.id);
-    }
   };
 
   handleStateOnParent = obj => {
@@ -490,7 +472,6 @@ class Chat extends React.Component {
 
       if (unread) {
         unreadExists = true;
-        this.setScrollEvent();
       }
 
       return (
