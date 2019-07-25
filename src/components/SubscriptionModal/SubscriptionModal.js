@@ -565,6 +565,7 @@ class SubscriptionModal extends React.Component {
           amount={amount}
           cancelPaypalSubscription={this.props.cancelPaypalSubscription}
           paypalSubscription={this.props.paypalSubscription}
+          fetchSubscriberOrgs={this.props.fetchSubscriberOrgs}
         />
       </div>
     );

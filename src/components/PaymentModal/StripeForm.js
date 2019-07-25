@@ -21,7 +21,8 @@ const propTypes = {
   updateSubscription: PropTypes.func.isRequired,
   subscriptionEmail: PropTypes.string,
   paypalSubscription: PropTypes.object,
-  cancelPaypalSubscription: PropTypes.func.isRequired
+  cancelPaypalSubscription: PropTypes.func.isRequired,
+  fetchSubscriberOrgs: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -91,6 +92,7 @@ class StripeForm extends React.Component {
             this.setState({ loading: false });
             this.props.showPaymentModal(false);
             this.props.showModal(false);
+            this.props.fetchSubscriberOrgs();
             if (paypalSubscription && paypalSubscription.state !== 'suspended') {
               this.props.cancelPaypalSubscription(paypalSubscription.id).catch(error => {
                 message.error(error.message);

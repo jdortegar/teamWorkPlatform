@@ -18,7 +18,8 @@ const propTypes = {
   paymentData: PropTypes.object.isRequired,
   currentUser: PropTypes.object.isRequired,
   paypalSubscription: PropTypes.object,
-  cancelPaypalSubscription: PropTypes.func.isRequired
+  cancelPaypalSubscription: PropTypes.func.isRequired,
+  fetchSubscriberOrgs: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -38,6 +39,7 @@ const PaymentModal = props => (
         visible={props.visible}
         cancelPaypalSubscription={props.cancelPaypalSubscription}
         paypalSubscription={props.paypalSubscription}
+        fetchSubscriberOrgs={props.fetchSubscriberOrgs}
       />
     </Elements>
   </StripeProvider>
