@@ -49,7 +49,8 @@ const propTypes = {
   teams: PropTypes.array,
   toggleFileTypeFilter: PropTypes.func.isRequired,
   toggleIntegrationFilter: PropTypes.func.isRequired,
-  toggleOwnerFilter: PropTypes.func.isRequired
+  toggleOwnerFilter: PropTypes.func.isRequired,
+  conversationsByTeamId: PropTypes.object
 };
 
 const defaultProps = {
@@ -76,12 +77,15 @@ const defaultProps = {
   showCKG: null,
   team: null,
   teamId: null,
-  teams: []
+  teams: [],
+  conversationsByTeamId: {}
 };
 
 class CKG extends Component {
   state = {
-    elementSelected: 'org'
+    elementSelected: 'org',
+    teamSelected: 'all',
+    conversationSelected: null
   };
 
   componentDidMount() {
@@ -309,6 +313,31 @@ class CKG extends Component {
     );
   };
 
+  renderTeamSelector = () => {
+    const { teams } = this.props;
+    const { teamSelected } = this.state;
+
+    return (
+      <div className="bottomBar-selectors">
+        <div className="bottomBar-selectors-content padding-class-a">
+          <TeamPicker
+            teams={teams}
+            onSelect={this.hanldeFilterMessagesByTeam}
+            queryOption={false}
+            elementSelected={teamSelected}
+          />
+          <div className="clear" />
+        </div>
+      </div>
+    );
+  };
+
+  hanldeFilterMessagesByTeam = value => {
+    const { conversationsByTeamId } = this.props;
+    const conversationSelected = conversationsByTeamId[value];
+    this.setState({ teamSelected: value, conversationSelected });
+  };
+
   renderFilesFilter() {
     const { excludeFilters, fileTypes, integrations, owners, team, orgId } = this.props;
 
@@ -380,7 +409,13 @@ class CKG extends Component {
           (startDate ? moment(file.created).isSameOrAfter(moment(startDate).startOf('day')) : true) &&
           (endDate ? moment(file.created).isSameOrBefore(moment(endDate).endOf('day')) : true);
 
-        return validDate && !excludeFilters.owners[file.createdBy];
+        let isTeamConversation = true;
+
+        if (this.state.conversationSelected) {
+          isTeamConversation = this.state.conversationSelected === file.conversationId;
+        }
+
+        return validDate && !excludeFilters.owners[file.createdBy] && isTeamConversation;
       });
       itemLength = chatMessagesFiltered.length;
     } else if (activeView === CKG_VIEWS.FILE_LIST || activeView === CKG_VIEWS.TIME_ACTIVITY) {
@@ -454,6 +489,7 @@ class CKG extends Component {
           {!ignoreSearch &&
             (activeView === CKG_VIEWS.TIME_ACTIVITY || activeView === CKG_VIEWS.FILE_LIST) &&
             this.renderSelectors()}
+          {activeView === CKG_VIEWS.MESSAGES && this.renderTeamSelector()}
           {!loading && this.renderFilesFilter()}
           <div className="Chat_videoCall_container">
             <TeamCallButton />

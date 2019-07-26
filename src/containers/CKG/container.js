@@ -30,7 +30,8 @@ import {
   getAllFilesOwners,
   getSearchedExcludeFilters,
   getSearchedFileTypes,
-  getSearchedFileIntegrations
+  getSearchedFileIntegrations,
+  getConversationIdsByTeam
 } from 'src/selectors';
 import {
   toggleOwnerFilter,
@@ -95,7 +96,8 @@ const mapStateToProps = (state, props) => {
     searchedChatMessages: getSearchedChatMessages(state),
     searchedAttachedFiles: getSearchedAttachedFiles(state),
     searchedFiles: getSearchedFiles(state),
-    searchAll
+    searchAll,
+    conversationsByTeamId: getConversationIdsByTeam(state)
   };
 };
 
