@@ -161,6 +161,7 @@ class Chat extends React.Component {
 
       // If is near bottom scroll
       if (this.isNearBottom() || !this.lastMessageEqual) {
+        this.props.readMessages(this.props.conversation.id);
         this.scrollToUnread();
       }
     }
