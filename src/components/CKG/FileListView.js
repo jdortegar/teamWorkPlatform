@@ -107,7 +107,7 @@ const getColumns = (keywords, caseSensitive, owners, highlightSearch, createMess
     render: x => formatTime(x)
   },
   {
-    title: 'Habla AI User',
+    title: 'Habla User',
     dataIndex: 'fileOwnerId',
     key: 'fileOwnerId',
     sorter: (a, b) => {
@@ -214,7 +214,7 @@ const getGlobalSearchColumns = (keywords, caseSensitive, owners, highlightSearch
     render: x => formatTime(x)
   },
   {
-    title: 'Habla AI User',
+    title: 'Habla User',
     dataIndex: 'fileOwnerId',
     key: 'fileOwnerId',
     sorter: (a, b) => {
@@ -326,7 +326,7 @@ const getAttachedFilesColumns = (
     render: x => formatTime(x)
   },
   {
-    title: 'Habla AI User',
+    title: 'Habla User',
     dataIndex: 'fileOwnerId',
     key: 'fileOwnerId',
     sorter: (a, b) => {
