@@ -1,6 +1,6 @@
 {
   "name": "webapp",
-  "description": "Habla AI App",
+  "description": "Habla App",
   "version": "1.4.0",
   "private": true,
   "main": "index.js",

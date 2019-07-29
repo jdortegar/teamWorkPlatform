@@ -170,9 +170,9 @@ class NotificationsPage extends Component {
                 <img src={hablaLogoAvatar} alt={String.t('Header.logoAlt')} className="homePage__activity-avatar" />
               </div>
               <div className="homePage__activity-content-container">
-                <div className="homePage__activity-content-header">Habla AI Bot</div>
+                <div className="homePage__activity-content-header">Habla Bot</div>
                 <div className="homePage__activity-content-message">
-                  Welcome to Habla AI. To start using our tool as is best, please{' '}
+                  Welcome to Habla. To start using our tool as is best, please{' '}
                   <a onClick={() => history.push(`/app/integrations/${org.subscriberOrgId}`)}> add a data connector </a>
                   to see your files on the time activity view on the CKG.{' '}
                   <a onClick={() => history.push(`/app/organization/${org.subscriberOrgId}`)}>Invite people</a> to your

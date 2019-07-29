@@ -140,10 +140,10 @@
   "errEmailMissing": "Please enter an email address.",
   "errMustAgreeToTermsOfUse": "You must agree to the Terms of Use Agreement and Privacy Policy to continue.",
   "errEmailNotValid": "Please enter a valid email address.",
-  "privacyPolicyModalTitle": "Habla AI Privacy Policy",
-  "termsOfUseModalTitle": "Habla AI Terms of Use",
+  "privacyPolicyModalTitle": "Habla Privacy Policy",
+  "termsOfUseModalTitle": "Habla Terms of Use",
   "incompleteProfileHeader": "Hello!\nHola!\n今日は",
-  "incompleteProfileExplain": "Welcome to Habla AI. You're well on your way to a more efficient, productive work day. As we work together we'll learn how we can best help you and the rest of the team.",
+  "incompleteProfileExplain": "Welcome to Habla. You're well on your way to a more efficient, productive work day. As we work together we'll learn how we can best help you and the rest of the team.",
   "incompleteProfileContinue": "OK, Let's Go",
   "inviteToOrgTitle": "Invite to Join Organization",
   "inviteToOrgExplain": "Enter email addresses for all people to invite.",
@@ -229,7 +229,7 @@
     "forgotYourPassword": "Forgot your Password?",
     "emailSent": "Email Sent! ",
     "checkEmail": "Check your email",
-    "infoParagraph": "Please enter the email address that you use in your Habla AI account and we will send you an email with the instructions to reset your password.",
+    "infoParagraph": "Please enter the email address that you use in your Habla account and we will send you an email with the instructions to reset your password.",
     "infoParagraphAfterSentImage": "Please check your email to continue the process to recover your password."
   },
   "EditButtonLabel": "Edit",
@@ -240,7 +240,7 @@
     "login": "Log In",
     "back": "Back",
     "changeEmail": "Use another Email",
-    "createAccount": "Create your Habla AI Account",
+    "createAccount": "Create your Habla Account",
     "save": "Save"
   },
   "PreviewCard": {
@@ -264,8 +264,8 @@
   "Header": {
     "accountSettings": "Account Settings",
     "logOutMenu": "Log Out",
-    "logoAlt": "Habla AI",
-    "iconAlt": "Habla AI",
+    "logoAlt": "Habla",
+    "iconAlt": "Habla",
     "searchLink": "Search",
     "noticationsLink": "Notifications",
     "ckgLink": "CKG",
@@ -521,8 +521,8 @@
     },
     "message": {
       "createdDescription": "Your {{name}} integration is good to go!",
-      "successDescription": "Habla AI no longer has access to your account.",
-      "goneDescription": "Your integration to {{name}} has been revoked and Habla AI no longer has access to it. Please go to the {{name}} web site to complete the revocation.",
+      "successDescription": "Habla no longer has access to your account.",
+      "goneDescription": "Your integration to {{name}} has been revoked and Habla no longer has access to it. Please go to the {{name}} web site to complete the revocation.",
       "notFoundDescription": "We’re sorry, but something must’ve gone terribly wrong.",
       "configUpdated": "Your {{name}} integration configuration has been updated.",
       "sharingSettingsSaved": "The selected files have been ingested successfully.",
@@ -534,7 +534,7 @@
     "off": "OFF",
     "activate": "Activate",
     "deactivate": "Revoke Access",
-    "FORBIDDEN": "You didn’t seem to allow Habla AI to access your documents",
+    "FORBIDDEN": "You didn’t seem to allow Habla to access your documents",
     "NOT_FOUND": "We’re sorry, but something must’ve gone terribly wrong",
     "INTERNAL_SERVER_ERROR": "We’re sorry, but something must’ve gone terribly wrong",
     "sharing": {
@@ -571,7 +571,7 @@
     "title": "Add New Organization Team Members",
     "userEmail": "User Email",
     "addEmail": "Add another Email",
-    "errorUserhasOtherOrg": "The invitation can not be sent. The user already has an organization created in Habla AI.",
+    "errorUserhasOtherOrg": "The invitation can not be sent. The user already has an organization created in Habla.",
     "errorUserLimit": "The invitation can not be sent. You have reached the maximum number of users.",
     "sendInvitationsButtonLabel": {
       "zero": "Send Invitation",
@@ -631,7 +631,7 @@
     },
     "unReadNotifications": "UNREAD NOTIFICATIONS",
     "markAllAsRead": "Mark all as read",
-    "scheduleBotMessage": "Habla AI Bot - Scheduled Message for {{recipient}} to be send on {{date}}"
+    "scheduleBotMessage": "Habla Bot - Scheduled Message for {{recipient}} to be send on {{date}}"
   },
   "graphActivityMenu": {
     "activityLabel": "Select Activity",
@@ -857,7 +857,7 @@
     "trial": "Bronze Plan Free Trial"
   },
   "subscriptionModal": {
-    "changePlanTitle": "Change your Habla AI Plan",
+    "changePlanTitle": "Change your Habla Plan",
     "canceledPlanTitle": "Subscription Canceled",
     "SubscriptionDate": "Activated on {{startDate}} and active until {{renewalDate}}",
     "formTitle": "Change your current Plan Settings",
@@ -875,12 +875,12 @@
     "discountApplied": "(Discount Applied)",
     "planUpdated": "Your Subscription Plan has been modified and the charges applied to your associated Payment Method.",
     "cancelSubscriptionStart": "You are about to ",
-    "cancelSubscriptionMiddle": "cancel your Subscription to Habla AI. ",
+    "cancelSubscriptionMiddle": "cancel your Subscription to Habla. ",
     "cancelSubscriptionEnd": "All your data will be lost when your current plan ends on {{endDate}}",
-    "cancelMessage": "Are you sure you want to cancel your Subscription to Habla AI?",
-    "reactivateMessage": "Are you sure you want to reactivate your Subscription to Habla AI?",
+    "cancelMessage": "Are you sure you want to cancel your Subscription to Habla?",
+    "reactivateMessage": "Are you sure you want to reactivate your Subscription to Habla?",
     "reactivateSubscription": "Reactivate",
-    "confirmCancel": "Your Subscription Plan has been canceled. You won't be charged anymore and you can still use Habla AI for {{daysLeft}} more days until your current Plan ends.",
+    "confirmCancel": "Your Subscription Plan has been canceled. You won't be charged anymore and you can still use Habla for {{daysLeft}} more days until your current Plan ends.",
     "confirmReactivate": "Your Subscription Plan has been reactivated.",
     "planChanges": "Your plan doesn't have changes",
     "paySubscription": "Pay USD ${{amount}}",
@@ -915,10 +915,10 @@
     "daysLeft": "{{count}} Days Left",
     "trialOverTitle": "Your 14 Day Free Trial has Ended",
     "subscriptionOverTitle": "Your Subscription has Ended",
-    "trialOverBody": "Please subscribe and keep your digital workplace and teams in place and really productive! We’ll keep your data for 30 days if you don’t buy now, but change your mind later.<br><br>If you have any questions, please don’t hesitate to visit to our Help Center and ask us @ <a href='https://helpcenter.habla.ai/hc/en-us' target='_blank'>Habla AI Help Center</a><br><br>Thank you and here’s to data democracy for teams!",
+    "trialOverBody": "Please subscribe and keep your digital workplace and teams in place and really productive! We’ll keep your data for 30 days if you don’t buy now, but change your mind later.<br><br>If you have any questions, please don’t hesitate to visit to our Help Center and ask us @ <a href='https://helpcenter.habla.ai/hc/en-us' target='_blank'>Habla Help Center</a><br><br>Thank you and here’s to data democracy for teams!",
     "trialOverButton": "Buy Now",
     "3daysTitle": "Hello Hablamos!",
-    "3daysBody": "Thanks again for trying Habla AI - <strong>only 3 Days Left!</strong><br><br>Just a reminder that your free trial is almost up. We hope you’re enjoying all the benefits of your digital workplace with team data, files, and collaboration at your fingertips.<br><br>Please take a moment to Buy Now - it’s only $15 per month per User - just 3 trips to your favorite cafe for cappuccinos. Imagine what you can accomplish with Habla AI today!<br><br>If you have any questions, please don’t hesitate to visit to our Help Center and ask us @ <a href='https://helpcenter.habla.ai/hc/en-us' target='_blank'>Habla AI Help Center</a><br><br>Thank you and here’s to data democracy for teams!"
+    "3daysBody": "Thanks again for trying Habla - <strong>only 3 Days Left!</strong><br><br>Just a reminder that your free trial is almost up. We hope you’re enjoying all the benefits of your digital workplace with team data, files, and collaboration at your fingertips.<br><br>Please take a moment to Buy Now - it’s only $15 per month per User - just 3 trips to your favorite cafe for cappuccinos. Imagine what you can accomplish with Habla today!<br><br>If you have any questions, please don’t hesitate to visit to our Help Center and ask us @ <a href='https://helpcenter.habla.ai/hc/en-us' target='_blank'>Habla Help Center</a><br><br>Thank you and here’s to data democracy for teams!"
   },
   "paymentModal": {
     "title": "Subscription Payment Form",
@@ -938,7 +938,7 @@
     "terms": "User Terms of Service.",
     "back": "Back",
     "payButton": "Pay USD ${{amount}}",
-    "subscriptionPaid": "your subscription to Habla AI has been paid successfully"
+    "subscriptionPaid": "your subscription to Habla has been paid successfully"
   },
   "videoCallModal": {
     "called": "Incoming Call from {{user}}",

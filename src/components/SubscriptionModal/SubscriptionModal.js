@@ -311,7 +311,7 @@ class SubscriptionModal extends React.Component {
     const paypalPaymentObject = {
       userLimit: subscriptionUsers,
       billingPlanAttributes: {
-        name: 'Habla AI Bronze Subscription',
+        name: 'Habla Bronze Subscription',
         description: `$${payAmount} USD ${frequency}ly subscription`,
         merchant_preferences: {
           auto_bill_amount: 'yes',
