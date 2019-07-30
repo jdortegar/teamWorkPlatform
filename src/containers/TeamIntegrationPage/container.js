@@ -18,7 +18,8 @@ import {
   toggleTeamSharingSettings,
   toggleAllTeamSharingSettings,
   integrateTeamIntegration,
-  revokeTeamIntegration
+  revokeTeamIntegration,
+  refreshIntegration
 } from 'src/actions';
 
 const mapStateToProps = (state, props) => {
@@ -52,7 +53,8 @@ const mapDispatchToProps = {
   toggleTeamSharingSettings,
   toggleAllTeamSharingSettings,
   integrateTeamIntegration,
-  revokeTeamIntegration
+  revokeTeamIntegration,
+  refreshIntegration
 };
 
 export default connect(

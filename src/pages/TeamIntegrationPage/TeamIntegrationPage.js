@@ -24,7 +24,8 @@ const propTypes = {
   isFetchingContent: PropTypes.bool,
   isSubmittingSharingSettings: PropTypes.bool,
   isSavedSharingSettings: PropTypes.bool,
-  userEmail: PropTypes.string
+  userEmail: PropTypes.string,
+  refreshIntegration: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -68,9 +69,16 @@ class TeamIntegrationPage extends Component {
   };
 
   refreshIntegration = () => {
-    const { source, team, integration, integrateTeamIntegration, revokeTeamIntegration } = this.props;
-    revokeTeamIntegration(source, integration.teamId, integration.userId)
-      .then(integrateTeamIntegration(source, team.teamId).catch(error => message.error(error.message)))
+    const { refreshIntegration, content } = this.props;
+    this.setState({ isUpdating: true });
+    refreshIntegration(content.source, content.teamId)
+      .then(status => {
+        this.setState({ isUpdating: false });
+        if (status === 202) {
+          return message.success(String.t('integrationPage.message.updatedDescription'));
+        }
+        return message.error(String.t('integrationPage.message.contentError'));
+      })
       .catch(error => {
         message.error(error.message);
       });
