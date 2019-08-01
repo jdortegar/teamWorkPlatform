@@ -262,7 +262,7 @@ class ChatMessage extends Component {
 
   renderMedatada = matchUrl =>
     matchUrl.map(url => (
-      <Metadata key={url} url={url} fetchMetadata={this.props.fetchMetadata} onLoadImage={() => {}} />
+      <Metadata key={url} url={url} fetchMetadata={this.props.fetchMetadata} onLoadImage={this.props.onLoadMessage} />
     ));
 
   renderUnreadMark = () => (

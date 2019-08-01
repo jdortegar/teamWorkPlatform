@@ -262,7 +262,7 @@
     "alt": "Set Avatar"
   },
   "Header": {
-    "accountSettings": "Account Settings",
+    "accountSettings": "Profile Settings",
     "logOutMenu": "Log Out",
     "logoAlt": "Habla",
     "iconAlt": "Habla",
@@ -290,7 +290,7 @@
     "adminMode": "Admin Mode",
     "helpCenter": "Help Center",
     "statusUpdated": "Your status has been saved.",
-    "supportTitle": "HABLA AI SUPPORT",
+    "supportTitle": "HABLA SUPPORT",
     "instantSupport": "Open Instant Support",
     "submitTicket": "Submit a Help Ticket",
     "goHelpCenter": "Go To Help Center",
@@ -478,7 +478,7 @@
     "makePrivate": "Make Private"
   },
   "editUserPage": {
-    "title": "Account Settings",
+    "title": "Profile Settings",
     "userUpdated": "Your user profile changes have been saved.",
     "saveButtonLabel": "Save",
     "profileSettings": "Profile Settings",

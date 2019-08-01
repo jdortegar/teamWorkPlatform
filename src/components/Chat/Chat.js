@@ -150,6 +150,8 @@ class Chat extends React.Component {
       return;
     }
 
+    this.lastMessageEqual = _.isEqual(nextProps.lastMessage, this.props.lastMessage);
+
     // If pagination change
     if (
       conversation.id === this.props.conversation.id &&
@@ -168,9 +170,6 @@ class Chat extends React.Component {
       }
     }
 
-    this.lastMessageEqual = _.isEqual(nextProps.lastMessage, this.props.lastMessage);
-
-    // if users send a message and last messages are not loaded
     if (!this.lastMessageEqual && this.state.prevPagination.prevPage) {
       this.setState({ loadingNewMessages: true });
       this.props.fetchMessages(conversation.id).then(pagination => {
@@ -395,7 +394,7 @@ class Chat extends React.Component {
   scrollToUnread = () => {
     // scroll to unread if exist or scroll bottom
     const [messagesContainer] = document.getElementsByClassName('team__messages');
-    if (!messagesContainer && !this.state.loadingConversation) return;
+    if (!messagesContainer || this.state.loadingConversation) return;
     let unreadMark = null;
     // If scrollToMessageId exists set as unread mark
 
