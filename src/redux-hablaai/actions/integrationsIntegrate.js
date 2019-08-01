@@ -55,3 +55,21 @@ export const integrateTeamIntegration = (source, teamId, params) => dispatch => 
 
   return integrate(requestUrl, { source, teamId, params, teamLevel: true })(dispatch);
 };
+
+export const refreshIntegration = (source, teamId) => async (dispatch, getState) => {
+  const orgId = getCurrentSubscriberOrgId(getState());
+  let requestUrl = buildApiUrl(`organization/${orgId}/integrations/${source}/refresh`, 'v2');
+  if (teamId) requestUrl += `?teamLevel=1&teamId=${teamId}`;
+
+  try {
+    const response = await dispatch(doAuthenticatedRequest({ requestUrl, method: 'get' }));
+    if (response.status === 202) {
+      // Redirect ourselves to target OAuth approval.
+      window.location.href = response.data.location;
+    }
+    return response.status;
+  } catch (e) {
+    const error = { ...e.response.data };
+    return error;
+  }
+};
