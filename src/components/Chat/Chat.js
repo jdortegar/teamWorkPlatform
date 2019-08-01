@@ -100,7 +100,8 @@ class Chat extends React.Component {
       bottomScrollSensor: false,
       scrollToMessage: props.scrollToMessageId,
       nextPagination: {},
-      prevPagination: {}
+      prevPagination: {},
+      lastMessagesPagination: {}
     };
   }
 
@@ -124,7 +125,8 @@ class Chat extends React.Component {
         this.setState({
           loadingConversation: false,
           nextPagination: pagination,
-          prevPagination: pagination
+          prevPagination: pagination,
+          lastMessagesPagination: pagination
         });
         this.scrollToUnread();
       });
@@ -168,11 +170,13 @@ class Chat extends React.Component {
 
     this.lastMessageEqual = _.isEqual(nextProps.lastMessage, this.props.lastMessage);
 
+    // if users send a message and last messages are not loaded
     if (!this.lastMessageEqual && this.state.prevPagination.prevPage) {
       this.setState({ loadingNewMessages: true });
       this.props.fetchMessages(conversation.id).then(pagination => {
         this.setState({
           prevPagination: pagination,
+          lastMessagesPagination: pagination,
           loadingNewMessages: false
         });
         this.scrollToUnread();
@@ -257,12 +261,6 @@ class Chat extends React.Component {
   componentDidUpdate(prevProps) {
     // If chat history changed
     if (this.historyChanged) {
-      const ownMessage = this.props.lastMessage && this.props.lastMessage.createdBy === this.props.currentUser.userId;
-      // If last message is not equal and it's own message scroll
-
-      if (!this.lastMessageEqual && ownMessage) {
-        this.scrollToUnread();
-      }
       // if top position is saved and the last message is equal, pagination happen
       if (this.topMessage && this.lastMessageEqual) {
         // eslint-disable-next-line react/no-find-dom-node
@@ -435,7 +433,14 @@ class Chat extends React.Component {
   };
 
   setLastSubmittedMessage = message => {
-    this.setState({ lastSubmittedMessage: message });
+    const { chatHistory, lastMessagesPagination } = this.state;
+
+    this.setState({
+      lastSubmittedMessage: message,
+      chatHistory: chatHistory.slice(-20),
+      nextPagination: lastMessagesPagination
+    });
+    this.scrollToUnread();
   };
 
   resetReplyTo = () => {
