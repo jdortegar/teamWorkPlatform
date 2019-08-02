@@ -1,5 +1,5 @@
 export { default as hablaWhiteLogo } from './Regular_Logo_black.png';
-export { default as hablaBlackLogo } from './Regular_Logo_white.png';
+export { default as hablaBlackLogo } from './Regular_Logo_black.png';
 export { default as hablaBlackLogoIcon } from './HABLA-logo-icon.png';
 export { default as hablaFullBlackLogoIcon } from './HABLA-logo-icon-black-transparent.png';
 export { default as hablaGrayLogo } from './HABLA-logo-small.png';

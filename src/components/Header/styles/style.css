@@ -1,7 +1,7 @@
 /* TOP MENU ---------- */
 
 .habla-top-menu {
-  background: #000;
+  background: #ffffff;
   height: 56px;
   font-size: 14px;
 }
@@ -24,7 +24,6 @@
   height: 55px;
 }
 .habla-top-menu-item {
-  border-left: 1px solid #262626;
   padding: 12.5px 13px;
   float: left;
 }
@@ -61,6 +60,7 @@
 }
 .habla-top-menu-items .svg-inline--fa {
   font-size: 18px;
+  color: #333c4c;
 }
 .habla-top-menu-notifications {
   position: relative;
@@ -93,7 +93,7 @@ a.habla-top-menu-active {
   position: relative;
   top: 2px;
   cursor: pointer;
-  color: #fff;
+  color: #333c4c;
 }
 .habla-top-menu-items .user-icon__main-container {
   margin: 0;
@@ -115,7 +115,8 @@ a.habla-top-menu-active {
 }
 .habla-top-menu-search-input input {
   border-radius: 15px;
-  border: none;
+  border-color: #333c4c;
+  /* border: none; */
   height: 30px;
   padding: 0 60px 0 10px;
   outline: none;
@@ -145,12 +146,13 @@ a.habla-top-menu-active {
 
 .habla-top-menu-notification-sounds .svg-inline--fa {
   margin-top: 6px;
+  color: #333c4c;
 }
 .habla-top-menu-help-center .svg-inline--fa,
 .habla-top-menu-notification-sounds .svg-inline--fa {
   margin-top: 6px;
   font-size: 20px;
-  color: #fff;
+  color: #333c4c;
   font-weight: 700;
 }
 
@@ -159,7 +161,7 @@ a.habla-top-menu-active {
   font-size: 10px;
   top: -2px;
   margin-left: 5px;
-  color: #fff;
+  color: #333c4c;
 }
 .submitTicketContainer .fa-ticket-alt {
   transform: rotatez(-45deg);
@@ -177,7 +179,7 @@ a.habla-top-menu-active {
 .userMenu__dropdown-icon {
   top: 2px;
   margin-left: 5px;
-  color: #fff;
+  color: #333c4c;
   position: relative;
 }
 

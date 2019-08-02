@@ -246,8 +246,8 @@ ul.ant-menu-sub {
 .sidebar-teams,
 .sidebar-members {
   background: #fff;
-  margin-top: 10px;
-  border-radius: 5px 5px 5px 5px;
+  margin-top: 7px;
+  border-radius: 4px 4px 4px 4px;
   padding-bottom: 17px;
 }
 .sidebar-direct-messages {
