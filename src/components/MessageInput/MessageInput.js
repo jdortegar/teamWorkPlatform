@@ -393,7 +393,7 @@ class MessageInput extends React.Component {
             removeFileFromList={this.props.removeFileFromList}
           />
         )}
-        <div className={classNames('Chat__message_input', { Chat__message_edit_input: messageToEdit })}>
+        <div className={classNames('Chat__message_input', { Chat__message_edit_input: messageToEdit || replyTo })}>
           <div className="team-room__chat-input__image-wrapper">
             <AvatarWrapper size="default" user={user} showDetails={false} />
           </div>

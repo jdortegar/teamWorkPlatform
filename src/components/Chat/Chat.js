@@ -248,6 +248,7 @@ class Chat extends React.Component {
       nextState.loadingOldMessages !== this.state.loadingOldMessages ||
       nextState.loadingConversation !== this.state.loadingConversation ||
       nextState.membersFiltered !== this.state.membersFiltered ||
+      nextState.userIsEditing !== this.state.userIsEditing ||
       this.props.team !== nextProps.team ||
       this.props.membersTyping !== nextProps.membersTyping ||
       nextState.loadingNewMessages !== this.state.loadingNewMessages ||
@@ -372,7 +373,10 @@ class Chat extends React.Component {
       case messageAction.delete:
         this.props
           .deleteMessage(message)
-          .then(() => msg.success(String.t('message.messageDeleted')))
+          .then(() => {
+            this.setState({ chatHistory: this.state.chatHistory.filter(msgEl => msgEl.id !== message.id) });
+            msg.success(String.t('message.messageDeleted'));
+          })
           .catch(error => msg.error(error.message));
         break;
       default:
