@@ -67,7 +67,7 @@
     "@storybook/react": "^4.1.4",
     "acorn": "^6.0.4",
     "antd": "^3.11.6",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "babel-loader": "^8.0.4",
     "babel-plugin-import": "^1.11.0",
     "classnames": "^2.2.6",
